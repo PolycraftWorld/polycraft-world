@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
+  "modid": "polycraft",
+  "name": "Polycraft",
+  "description": "Polycraft",
+  "version": "1.0",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authors": ["Jim McAndrew, Walter Voit"],
+  "credits": "UTD, Redshift Development",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
