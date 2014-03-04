@@ -1,0 +1,15 @@
+/build
+/gradle
+/.metadata
+/.settings
+/.gradle
+/bin
+/eclipse
+/build.gradle
+/gradlew
+/gradlew.bat
+/LICENSE-fml.txt
+/README.txt
+/MinecraftForge-Credits.txt
+/MinecraftForge-License.txt
+/CREDITS-fml.txt
