@@ -1,0 +1,4 @@
+fluid.oil=Oil
+item.bucketOil.name=Oil Bucket
+tile.blockOil.name=Oil
+tile.spring.oil.name=Oil Spring
