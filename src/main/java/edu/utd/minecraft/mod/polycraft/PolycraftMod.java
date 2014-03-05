@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,6 +19,8 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
+import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
+import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod
@@ -27,6 +30,15 @@ public class PolycraftMod
     
     @SidedProxy(clientSide="edu.utd.minecraft.mod.polycraft.proxy.CombinedClientProxy", serverSide="edu.utd.minecraft.mod.polycraft.proxy.DedicatedServerProxy")
     public static CommonProxy proxy;
+    
+    public static int oilWellScalar = 100; //large values mean more oil will spawn
+    
+	public static BiomeGenOilDesert biomeOilDesert;
+	public static BiomeGenOilOcean biomeOilOcean;
+    public static Block blockOil;
+    public static Item bucketOil;
+    public static Item plasticHandle;
+    public static Item plasticHandleWoodPickaxe;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)

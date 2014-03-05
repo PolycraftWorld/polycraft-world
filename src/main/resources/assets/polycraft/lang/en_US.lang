@@ -1,4 +1,7 @@
 fluid.oil=Oil
+
 item.bucketOil.name=Oil Bucket
+item.plasticHandle.name=Plastic Handle
+item.plasticHandleWoodPickaxe.name=Wooden Axe with Plastic Handle
+
 tile.blockOil.name=Oil
-tile.spring.oil.name=Oil Spring
