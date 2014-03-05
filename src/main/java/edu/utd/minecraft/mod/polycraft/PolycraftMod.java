@@ -31,7 +31,7 @@ public class PolycraftMod
     @SidedProxy(clientSide="edu.utd.minecraft.mod.polycraft.proxy.CombinedClientProxy", serverSide="edu.utd.minecraft.mod.polycraft.proxy.DedicatedServerProxy")
     public static CommonProxy proxy;
     
-    public static int oilWellScalar = 100; //large values mean more oil will spawn
+    public static int oilWellScalar = 1000; //large values mean more oil will spawn
     
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
@@ -39,6 +39,7 @@ public class PolycraftMod
     public static Item bucketOil;
     public static Item plasticHandle;
     public static Item plasticHandleWoodPickaxe;
+    public static Item plasticHandleStonePickaxe;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)

@@ -78,8 +78,11 @@ public class CommonProxy
 		PolycraftMod.plasticHandle = new Item().setUnlocalizedName("plasticHandle").setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.MODID + ":plastic_handle");
 		GameRegistry.registerItem(PolycraftMod.plasticHandle, "plasticHandle");
 
-		Item plasticHandleWoodPickaxe = new ItemPickaxePlasticHandle(ToolMaterial.WOOD).setUnlocalizedName("plasticHandleWoodPickaxe").setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.MODID + ":plastic_handle_wood_pickaxe");
-		GameRegistry.registerItem(plasticHandleWoodPickaxe, "plasticHandleWoodPickaxe");
+		PolycraftMod.plasticHandleWoodPickaxe = new ItemPickaxePlasticHandle(ToolMaterial.WOOD).setUnlocalizedName("plasticHandleWoodPickaxe").setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.MODID + ":plastic_handle_wood_pickaxe");
+		GameRegistry.registerItem(PolycraftMod.plasticHandleWoodPickaxe, "plasticHandleWoodPickaxe");
+		
+		PolycraftMod.plasticHandleStonePickaxe = new ItemPickaxePlasticHandle(ToolMaterial.STONE).setUnlocalizedName("plasticHandleStonePickaxe").setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.MODID + ":plastic_handle_stone_pickaxe");
+		GameRegistry.registerItem(PolycraftMod.plasticHandleStonePickaxe, "plasticHandleStonePickaxe");
 	}
 	
 	public void init()
@@ -87,12 +90,15 @@ public class CommonProxy
         ItemStack dirtStack = new ItemStack(Blocks.dirt);
         ItemStack oilBucketStack = new ItemStack(PolycraftMod.bucketOil);
         ItemStack plasticHandleStack = new ItemStack(PolycraftMod.plasticHandle);
-        ItemStack woodPickaxeStack = new ItemStack(Items.wooden_axe);
+        ItemStack woodPickaxeStack = new ItemStack(Items.wooden_pickaxe);
+        ItemStack stonePickaxeStack = new ItemStack(Items.stone_pickaxe);
         ItemStack plasticHandleWoodPickaxeStack = new ItemStack(PolycraftMod.plasticHandleWoodPickaxe);
+        ItemStack plasticHandleStonePickaxeStack = new ItemStack(PolycraftMod.plasticHandleStonePickaxe);
         
 		GameRegistry.addShapelessRecipe(oilBucketStack, dirtStack);
 		GameRegistry.addShapelessRecipe(plasticHandleStack, oilBucketStack);
 		GameRegistry.addShapelessRecipe(plasticHandleWoodPickaxeStack, plasticHandleStack, woodPickaxeStack);
+		GameRegistry.addShapelessRecipe(plasticHandleStonePickaxeStack, plasticHandleStack, stonePickaxeStack);
 	}
 	
 	public void postInit()
