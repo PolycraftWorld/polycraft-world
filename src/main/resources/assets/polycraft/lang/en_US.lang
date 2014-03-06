@@ -1,8 +1,15 @@
-fluid.oil=Oil
+fluid.oil=Crude Oil
 
-item.bucketOil.name=Oil Bucket
-item.plasticHandle.name=Plastic Handle
-item.plasticHandleWoodPickaxe.name=Wooden Pickaxe with Plastic Handle
-item.plasticHandleStonePickaxe.name=Stone Pickaxe with Plastic Handle
+item.bucket_oil.name=Crude Oil Bucket
+item.grip.name=Grip
+item.gripped_wood_pickaxe.name=Gripped Wooden Pickaxe
+item.gripped_stone_pickaxe.name=Gripped Stone Pickaxe
 
-tile.blockOil.name=Oil
+tile.block_oil.name=Crude Oil
+tile.block_plastic_pet.name=Plastic 01: Polyethylene terephthalate (PET)
+tile.block_plastic_pehd.name=Plastic 02: High-density polyethylene (PE-HD)
+tile.block_plastic_pvc.name=Plastic 03: Polyvinyl chloride (PVC)
+tile.block_plastic_peld.name=Plastic 04: Low-density polyethylene (PELD)
+tile.block_plastic_pp.name=Plastic 05: Polypropylene (PP)
+tile.block_plastic_ps.name=Plastic 06: Polystyrene (PS)
+tile.block_plastic_o.name=Plastic 07: Other (polycarbonate)

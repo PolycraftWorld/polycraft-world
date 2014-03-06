@@ -41,7 +41,7 @@ public class BlockFluid extends BlockFluidClassic {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.theIcon = new IIcon[] { iconRegister.registerIcon(PolycraftMod.MODID + ":" + fluidName + "_still"), iconRegister.registerIcon(PolycraftMod.MODID + ":" + fluidName + "_flow") };
+		this.theIcon = new IIcon[] { iconRegister.registerIcon(PolycraftMod.getTextureName(fluidName + "_still")), iconRegister.registerIcon(PolycraftMod.getTextureName(fluidName + "_flow")) };
 	}
 
 	@Override

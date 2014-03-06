@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,6 +19,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockPlastic;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -35,11 +37,20 @@ public class PolycraftMod
     
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
+	
     public static Block blockOil;
+    public static BlockPlastic blockPlastic1PET;
+    public static BlockPlastic blockPlastic2PEHD;
+    public static BlockPlastic blockPlastic3PVC;
+    public static BlockPlastic blockPlastic4PELD;
+    public static BlockPlastic blockPlastic5PP;
+    public static BlockPlastic blockPlastic6PS;
+    public static BlockPlastic blockPlastic7O;
+    
     public static Item bucketOil;
-    public static Item plasticHandle;
-    public static Item plasticHandleWoodPickaxe;
-    public static Item plasticHandleStonePickaxe;
+    public static Item grip;
+    public static Item grippedWoodPickaxe;
+    public static Item grippedStonePickaxe;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -57,5 +68,10 @@ public class PolycraftMod
     public void postInit(FMLPostInitializationEvent event)
     {
     	proxy.postInit();
+    }
+    
+    public static String getTextureName(String name)
+    {
+    	return PolycraftMod.MODID + ":" + name;
     }
 }
