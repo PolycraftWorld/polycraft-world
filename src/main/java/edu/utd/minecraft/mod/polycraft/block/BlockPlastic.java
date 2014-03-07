@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.Plastic;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -17,35 +18,18 @@ public class BlockPlastic extends Block
     @SideOnly(Side.CLIENT)
     private IIcon LabelTexture;
 
-	private String type = "";
-	private double durability = 1;
+	public final Plastic plastic;
 	
-	public BlockPlastic()
+	public BlockPlastic(Plastic plastic)
 	{
 		super(Material.cloth);
+		this.plastic = plastic;
         setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	public BlockPlastic setDurability(double durability)
 	{
-		this.durability = durability;
 		return this;
-	}
-	
-	public double getDurability()
-	{
-		return durability;
-	}
-
-	public BlockPlastic setType(String type)
-	{
-		this.type = type;
-		return this;
-	}
-	
-	public String getType()
-	{
-		return type;
 	}
 
     @SideOnly(Side.CLIENT)
@@ -65,6 +49,6 @@ public class BlockPlastic extends Block
     public void registerBlockIcons(IIconRegister p_149651_1_)
     {
         this.PlainTexture = p_149651_1_.registerIcon(PolycraftMod.MODID + ":plastic"); 
-        this.LabelTexture = p_149651_1_.registerIcon(PolycraftMod.MODID + ":plastic_label_" + type);
+        this.LabelTexture = p_149651_1_.registerIcon(PolycraftMod.MODID + ":" + plastic.gameName + "_label");
     }
 }

@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map.Entry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.MapColor;
@@ -23,11 +27,17 @@ import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import edu.utd.minecraft.mod.polycraft.Plastic;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockPlastic;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.item.ItemAxeGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemHoeGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemPickaxeGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemShovelGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemSwordGripped;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
@@ -81,91 +91,73 @@ public class CommonProxy
 	
 	private void createBlocks()
 	{
-		Fluid fluidOil = new Fluid("oil").setDensity(800).setViscosity(1500);
+		Fluid fluidOil = new Fluid("oil").setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
 
-		PolycraftMod.blockOil = registerBlock(new BlockFluid(fluidOil, Material.water).setFlammable(true).setFlammability(5).setParticleColor(0.7F, 0.7F, 0.0F), "block_oil");
-		fluidOil.setBlock(PolycraftMod.blockOil);		
+		PolycraftMod.blockOil = PolycraftMod.registerBlock("oil", new BlockFluid(fluidOil, Material.water).setFlammable(true).setFlammability(PolycraftMod.oilBlockFlammability).setParticleColor(0.7F, 0.7F, 0.0F));
+		fluidOil.setBlock(PolycraftMod.blockOil);
 		
-		PolycraftMod.blockPlastic1PET = registerBlockPlastic("pet", .1);
-		PolycraftMod.blockPlastic2PEHD = registerBlockPlastic("pehd", 1);
-		PolycraftMod.blockPlastic3PVC = registerBlockPlastic("pvc", .2);
-		PolycraftMod.blockPlastic4PELD = registerBlockPlastic("peld", .05);
-		PolycraftMod.blockPlastic5PP = registerBlockPlastic("pp", .4);
-		PolycraftMod.blockPlastic6PS = registerBlockPlastic("ps", .3);
-		PolycraftMod.blockPlastic7O = registerBlockPlastic("o", 2);
-	}
-	
-	private Block registerBlock(Block block, String name)
-	{
-		block.setBlockName(name);
-		GameRegistry.registerBlock(block, name);
-		return block;
-	}
-	
-	private BlockPlastic registerBlockPlastic(String type, double durability)
-	{
-		BlockPlastic blockPlastic = new BlockPlastic().setDurability(durability).setType(type);
-		String name = "block_plastic_" + type;
-		blockPlastic.setBlockName(name);
-		GameRegistry.registerBlock(blockPlastic, name);
-		return blockPlastic;
+		for (Plastic plastic : Plastic.plastics)
+			PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic));
 	}
 	
 	private void createItems()
 	{
-		PolycraftMod.bucketOil = registerItem(new ItemBucket(PolycraftMod.blockOil).setContainerItem(Items.bucket), "bucket_oil");
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("oil", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(PolycraftMod.bucketOil), new ItemStack(Items.bucket));
-		BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.bucketOil);
+		PolycraftMod.registerItem("bucket_oil", new ItemBucket(PolycraftMod.blockOil).setContainerItem(Items.bucket).setTextureName(PolycraftMod.getTextureName("bucket_oil")));
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("oil", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(PolycraftMod.items.get("bucket_oil")), new ItemStack(Items.bucket));
+		BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.items.get("bucket_oil"));
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+
+		for (Plastic plastic : Plastic.plastics)
+		{
+			PolycraftMod.registerItem(plastic.gameName + "_pellet", new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.gameName + "_pellet")));
+			PolycraftMod.registerItem(plastic.gameName + "_grip", new Item().setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.getTextureName("plastic_grip")));
+		}
 		
-		PolycraftMod.grip = registerItem(new Item().setCreativeTab(CreativeTabs.tabTools), "grip");
-		PolycraftMod.grippedWoodPickaxe = registerItem(new ItemPickaxeGripped(ToolMaterial.WOOD).setCreativeTab(CreativeTabs.tabTools), "gripped_wood_pickaxe");
-		PolycraftMod.grippedStonePickaxe = registerItem(new ItemPickaxeGripped(ToolMaterial.STONE).setCreativeTab(CreativeTabs.tabTools), "gripped_stone_pickaxe");
-	}
-	
-	private Item registerItem(Item item, String name)
-	{
-		item.setUnlocalizedName(name);
-		item.setTextureName(PolycraftMod.getTextureName(name));
-		GameRegistry.registerItem(item, name);
-		return item;
+		for (Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet())
+		{
+			String materialName = materialEntry.getKey();
+			ToolMaterial material = materialEntry.getValue();
+			for (Plastic plastic : Plastic.plastics)
+			{
+				String prefix = ItemGripped.getNamePrefix(plastic, materialName);
+				PolycraftMod.registerItem(prefix + "_shovel", new ItemShovelGripped(materialName, material, plastic.itemDurabilityBonus));
+				PolycraftMod.registerItem(prefix + "_axe", new ItemAxeGripped(materialName, material, plastic.itemDurabilityBonus));
+				PolycraftMod.registerItem(prefix + "_pickaxe", new ItemPickaxeGripped(materialName, material, plastic.itemDurabilityBonus));
+				PolycraftMod.registerItem(prefix + "_hoe", new ItemHoeGripped(materialName, material, plastic.itemDurabilityBonus));
+				PolycraftMod.registerItem(prefix + "_sword", new ItemSwordGripped(materialName, material, plastic.itemDurabilityBonus));
+			}
+		}
 	}
 
 	private void createRecipes()
 	{
         ItemStack dirtStack = new ItemStack(Blocks.dirt);
-        ItemStack oilBucketStack = new ItemStack(PolycraftMod.bucketOil);
-        ItemStack plastic1PETStack = new ItemStack(PolycraftMod.blockPlastic1PET);
-        ItemStack plastic2PEHDStack = new ItemStack(PolycraftMod.blockPlastic2PEHD);
-        ItemStack plastic3PVCStack = new ItemStack(PolycraftMod.blockPlastic3PVC);
-        ItemStack plastic4PELDStack = new ItemStack(PolycraftMod.blockPlastic4PELD);
-        ItemStack plastic5PPStack = new ItemStack(PolycraftMod.blockPlastic5PP);
-        ItemStack plastic6PSStack = new ItemStack(PolycraftMod.blockPlastic6PS);
-        ItemStack plastic7OStack = new ItemStack(PolycraftMod.blockPlastic7O);
-        ItemStack gripStack = new ItemStack(PolycraftMod.grip);
-        ItemStack woodPickaxeStack = new ItemStack(Items.wooden_pickaxe);
-        ItemStack stonePickaxeStack = new ItemStack(Items.stone_pickaxe);
-        ItemStack grippedWoodPickaxeStack = new ItemStack(PolycraftMod.grippedWoodPickaxe);
-        ItemStack grippedStonePickaxeStack = new ItemStack(PolycraftMod.grippedStonePickaxe);
-        
-        
+        ItemStack oilBucketStack = new ItemStack(PolycraftMod.items.get("bucket_oil"));
 		GameRegistry.addShapelessRecipe(oilBucketStack, dirtStack);
-		GameRegistry.addShapelessRecipe(plastic1PETStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(plastic2PEHDStack, oilBucketStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(plastic3PVCStack, oilBucketStack, oilBucketStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(plastic4PELDStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(plastic5PPStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(plastic6PSStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(plastic7OStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack, oilBucketStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic1PETStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic2PEHDStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic3PVCStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic4PELDStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic5PPStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic6PSStack);
-		GameRegistry.addShapelessRecipe(gripStack, plastic7OStack);
-		GameRegistry.addShapelessRecipe(grippedWoodPickaxeStack, gripStack, woodPickaxeStack);
-		GameRegistry.addShapelessRecipe(grippedStonePickaxeStack, gripStack, stonePickaxeStack);
+
+		Collection<ItemStack> inputs = new ArrayList<ItemStack>();
+		for (Plastic plastic : Plastic.plastics)
+		{
+			inputs.add(oilBucketStack);
+			
+			Block plasticBlock = PolycraftMod.blocks.get(plastic.gameName);
+			Item plasticPellet = PolycraftMod.items.get(plastic.gameName + "_pellet");
+			Item plasticGrip = PolycraftMod.items.get(plastic.gameName + "_grip");
+			
+			GameRegistry.addShapelessRecipe(new ItemStack(plasticBlock), inputs.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(plasticPellet, plastic.pelletsPerBlock), new ItemStack(plasticBlock));
+			GameRegistry.addShapelessRecipe(new ItemStack(plasticGrip), new ItemStack(plasticPellet));
+			
+			for (String material : ItemGripped.allowedMaterials.keySet())
+			{
+				String prefix = ItemGripped.getNamePrefix(plastic, material);
+				for (String itemName : ItemGripped.allowedItems)
+					GameRegistry.addShapelessRecipe(
+							new ItemStack(PolycraftMod.items.get(prefix + "_" + itemName)),
+							new ItemStack((Item)Item.itemRegistry.getObject(material + "_" + itemName)),
+							new ItemStack(plasticGrip));
+			}
+		}
 	}
 }
