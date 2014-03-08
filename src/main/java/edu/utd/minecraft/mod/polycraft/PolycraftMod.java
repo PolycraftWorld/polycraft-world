@@ -32,8 +32,12 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockMoreOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPlastic;
 import edu.utd.minecraft.mod.polycraft.item.ItemAxeGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
+import edu.utd.minecraft.mod.polycraft.item.ItemChemicalGas;
+import edu.utd.minecraft.mod.polycraft.item.ItemChemicalLiquid;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHoeGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemPickaxeGripped;
@@ -73,6 +77,81 @@ public class PolycraftMod
 	//special blocks for fast access
 	public static Block blockOil;
 	
+	
+	//Blocks Added by Walter 3.6.14
+    public static BlockMoreOre platinumOre;
+    public static BlockMoreOre titaniumOre;
+    public static BlockMoreOre palladiumOre;
+    public static BlockMoreOre cobaltOre;
+    public static BlockMoreOre manganeseOre;
+    public static BlockMoreOre magnesiumOre;
+    public static BlockMoreOre antimonyOre;
+    public static BlockMoreOre bauxite;
+    public static BlockMoreOre copperOre;
+    public static BlockMoreOre bitumen;
+    
+    public static Item platinum;
+    public static Item titanium;
+    public static Item palladium;
+    public static Item cobalt;
+    public static Item manganese;
+    public static Item magnesium;
+    public static Item antimony;
+    public static Item aluminum;
+    public static Item copper;   
+    
+   
+    public static ItemCatalyst platinumCatalyst;
+    public static ItemCatalyst titaniumCatalyst;
+    public static ItemCatalyst cobaltCatalyst;
+    public static ItemCatalyst manganeseCatalyst;
+    public static ItemCatalyst magnesiumOxideBaseCatalyst;
+    public static ItemCatalyst antimonyTrioxideBaseCatalyst;
+    public static ItemCatalyst copperIIChlorideCatalyst;
+    public static ItemCatalyst ironIIIChlorideCatalyst;
+    public static ItemCatalyst ironIIIOxideCatalyst;
+    public static ItemCatalyst zieglerNattaCatalyst;
+    public static ItemCatalyst cobaltManganeseBromideCatalyst;
+    
+
+    public static ItemChemicalGas emptyCylinder;
+    public static ItemChemicalGas HCLCylinder;
+    public static ItemChemicalGas naturalGasCylinder;    
+    public static ItemChemicalGas methaneCylinder;
+    public static ItemChemicalGas ethaneCylinder;
+    public static ItemChemicalGas propaneCylinder;
+    public static ItemChemicalGas butaneCylinder;
+    
+    public static ItemChemicalLiquid emptyBottle;
+    public static ItemChemicalLiquid crudeOilBottle;
+    public static ItemChemicalLiquid waterBottle;
+    public static ItemChemicalLiquid bromineBottle;
+    public static ItemChemicalLiquid chlorineBottle;
+    public static ItemChemicalLiquid naphthaBottle;
+    public static ItemChemicalLiquid dieselBottle;
+    public static ItemChemicalLiquid kerosineBottle;
+    public static ItemChemicalLiquid ethyleneBottle;
+    public static ItemChemicalLiquid propyleneBottle;
+    public static ItemChemicalLiquid butadieneBottle;
+    public static ItemChemicalLiquid olefinBottle;
+    public static ItemChemicalLiquid paraffinBottle;
+    public static ItemChemicalLiquid ethyleneOxideBottle;
+    public static ItemChemicalLiquid ethyleneGlycolBottle;
+    public static ItemChemicalLiquid BTXBottle;
+    public static ItemChemicalLiquid terephthalicAcidBottle;
+    public static ItemChemicalLiquid methanolBottle;
+    public static ItemChemicalLiquid dimethylTerephthalateBottle;
+    public static ItemChemicalLiquid EDCBottle;
+    public static ItemChemicalLiquid vinylChlorideBottle;
+    public static ItemChemicalLiquid acetyleneBottle;
+    public static ItemChemicalLiquid sulfuricAcidBottle;
+    public static ItemChemicalLiquid benzeneBottle;
+    public static ItemChemicalLiquid ethylBenzeneBottle;
+    public static ItemChemicalLiquid styreneBottle;    
+
+	
+	
+	
 	public static final Map<String, Item> items = new HashMap<String, Item>();
     
     @EventHandler
@@ -105,6 +184,14 @@ public class PolycraftMod
 		blocks.put(name, block);
 		return block;
     }
+    
+    public static Item registerItem(Item item, String name)
+	{
+    	return registerItem(name, item);
+	}
+    
+
+
 	
     public static Item registerItem(String name, Item item)
 	{

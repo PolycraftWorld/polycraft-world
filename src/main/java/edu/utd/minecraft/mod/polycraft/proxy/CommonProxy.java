@@ -30,6 +30,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import edu.utd.minecraft.mod.polycraft.Plastic;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
+import edu.utd.minecraft.mod.polycraft.block.BlockMoreOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPlastic;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemAxeGripped;
@@ -42,6 +43,11 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
+import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
+import edu.utd.minecraft.mod.polycraft.item.ItemChemicalGas;
+import edu.utd.minecraft.mod.polycraft.item.ItemChemicalLiquid;
+import edu.utd.minecraft.mod.polycraft.item.ItemPickaxeGripped;
+
 
 public class CommonProxy
 {
@@ -89,6 +95,15 @@ public class CommonProxy
 		}
 	}
 	
+	private BlockMoreOre registerBlockMoreOre(String type)
+	{
+		BlockMoreOre blockMoreOre = new BlockMoreOre().setType(type);
+		String name = "block_ore_" + type;
+		blockMoreOre.setBlockName(name);
+		GameRegistry.registerBlock(blockMoreOre, name);
+		return blockMoreOre;
+	}
+	
 	private void createBlocks()
 	{
 		Fluid fluidOil = new Fluid("oil").setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
@@ -99,6 +114,19 @@ public class CommonProxy
 		
 		for (Plastic plastic : Plastic.plastics)
 			PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic));
+		
+		PolycraftMod.platinumOre = registerBlockMoreOre("platinum");
+		PolycraftMod.titaniumOre = registerBlockMoreOre("titanium");
+		PolycraftMod.palladiumOre = registerBlockMoreOre("palladium");
+		PolycraftMod.cobaltOre = registerBlockMoreOre("cobalt");
+		PolycraftMod.manganeseOre = registerBlockMoreOre("manganese");
+		PolycraftMod.magnesiumOre = registerBlockMoreOre("magnesium");
+		PolycraftMod.antimonyOre = registerBlockMoreOre("antimony");
+		PolycraftMod.bauxite = registerBlockMoreOre("bauxite");
+		PolycraftMod.copperOre = registerBlockMoreOre("copper");
+		PolycraftMod.bitumen = registerBlockMoreOre("bitumen");
+		
+
 	}
 	
 	private void createItems()
@@ -128,6 +156,71 @@ public class CommonProxy
 				PolycraftMod.registerItem(prefix + "_sword", new ItemSwordGripped(materialName, material, plastic.itemDurabilityBonus));
 			}
 		}
+		
+		
+		PolycraftMod.platinum = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "platinum");
+		PolycraftMod.titanium= PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "titanium");
+		PolycraftMod.palladium = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "palladium");
+		PolycraftMod.cobalt = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "cobalt");
+		PolycraftMod.manganese = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "manganese");
+		PolycraftMod.magnesium = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "magnesium");
+		PolycraftMod.antimony = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "antimony");
+		PolycraftMod.aluminum = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "aluminum");
+		PolycraftMod.copper = PolycraftMod.registerItem(new Item().setCreativeTab(CreativeTabs.tabMaterials), "copper");
+		
+		
+	    PolycraftMod.platinumCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "platinum_catalyst");
+	    PolycraftMod.titaniumCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "titanium_catalyst");
+	    PolycraftMod.cobaltCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "cobalt_catalyst");
+	    PolycraftMod.manganeseCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "manganese_catalyst");
+	    PolycraftMod.magnesiumOxideBaseCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "magnesium_oxide_base_catalyst");
+	    PolycraftMod.antimonyTrioxideBaseCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "antimony_trioxide_base_catalyst");
+	    PolycraftMod.copperIIChlorideCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "copperII_chloride_catalyst");
+	    PolycraftMod.ironIIIChlorideCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "ironIII_chloride_catalyst");
+	    PolycraftMod.ironIIIOxideCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "ironIII_oxide_catalyst");
+	    PolycraftMod.zieglerNattaCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "Ziegler-Natta_catalyst");
+	    PolycraftMod.cobaltManganeseBromideCatalyst = (ItemCatalyst) PolycraftMod.registerItem(new ItemCatalyst(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "cobalt-manganese-bromide_catalyst");
+	    
+
+	    PolycraftMod.emptyCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "empty_cylinder");
+	    PolycraftMod.HCLCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "hcl_cylinder");
+	    PolycraftMod.naturalGasCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.rock).setCreativeTab(CreativeTabs.tabBrewing), "natural_gas_cylinder");
+	    
+	    PolycraftMod.methaneCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.air).setCreativeTab(CreativeTabs.tabBrewing), "methane_cylinder");
+	    PolycraftMod.ethaneCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.air).setCreativeTab(CreativeTabs.tabBrewing), "ethane_cylinder");
+	    PolycraftMod.propaneCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.air).setCreativeTab(CreativeTabs.tabBrewing), "propane_cylinder");
+	    PolycraftMod.butaneCylinder = (ItemChemicalGas) PolycraftMod.registerItem(new ItemChemicalGas(Material.air).setCreativeTab(CreativeTabs.tabBrewing), "butane_cylinder");
+	    
+	    PolycraftMod.emptyBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "empty_bottle");
+	    PolycraftMod.crudeOilBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "crude_oil");
+	    PolycraftMod.waterBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "water_bottle");
+	    PolycraftMod.bromineBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "bromine_bottle");
+	    PolycraftMod.chlorineBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "chlorine_bottle");
+	    PolycraftMod.naphthaBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "naphtha_bottle");
+	    PolycraftMod.dieselBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "diesel_bottle");
+	    PolycraftMod.kerosineBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "kerosine_bottle");
+	    PolycraftMod.ethyleneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "ethylene_bottle");
+	    PolycraftMod.propyleneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "propylene_bottle");
+	    PolycraftMod.butadieneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "butadiene_bottle");
+	    PolycraftMod.olefinBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "olefin_bottle");
+	    PolycraftMod.paraffinBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "paraffin_bottle");
+	    PolycraftMod.ethyleneOxideBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "ethylene_oxide_bottle");
+	    PolycraftMod.ethyleneGlycolBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "ethylene_glycol_bottle");
+	    PolycraftMod.BTXBottle =(ItemChemicalLiquid)  PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "btx_bottle");
+	    PolycraftMod.terephthalicAcidBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "terephthalic_acid_bottle");
+	    PolycraftMod.methanolBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "methanolBottle");
+	    PolycraftMod.dimethylTerephthalateBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "dimethyl_terephthalate_bottle");
+	    PolycraftMod.EDCBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "edc_bottle");
+	    PolycraftMod.vinylChlorideBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "vinyl_chloride_bottle");
+	    PolycraftMod.acetyleneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "acetylene_bottle");
+	    PolycraftMod.sulfuricAcidBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "sulfuric_acid_bottle");
+	    PolycraftMod.benzeneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "benzene_bottle");
+	    PolycraftMod.ethylBenzeneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "ethyl_benzene_bottle");
+	    PolycraftMod.styreneBottle = (ItemChemicalLiquid) PolycraftMod.registerItem(new ItemChemicalLiquid(Material.water).setCreativeTab(CreativeTabs.tabBrewing), "styrene_bottle");  
+
+		
+		
+		
 	}
 
 	private void createRecipes()

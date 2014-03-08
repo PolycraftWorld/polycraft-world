@@ -2,6 +2,70 @@ fluid.oil=Crude Oil
 tile.oil.name=Crude Oil
 item.bucket_oil.name=Crude Oil Bucket
 
+tile.block_ore_platinum.name=Platinum Ore
+tile.block_ore_titanium.name=Titanium Ore
+tile.block_ore_palladium.name=Palladium Ore
+tile.block_ore_cobalt.name=Cobalt Ore
+tile.block_ore_manganese.name=Manganese Ore
+tile.block_ore_magnesium.name=Magnesium Ore
+tile.block_ore_antimony.name=Antimony Ore
+tile.block_ore_bauxite.name=Bauxite
+tile.block_ore_copper.name=Copper Ore
+tile.block_ore_bitumen.name=Bitumen
+
+       
+item.platinum_catalyst.name=Platinum Catalyst
+item.titanium_catalyst.name=Titanium Catalyst
+item.cobalt_catalyst.name=Cobalt Catalyst
+item.manganese_catalyst.name=Manganese Catalyst
+item.magnesium_oxide_base_catalyst.name=Magnesium Oxide Base Catalyst
+item.antimony_trioxide_base_catalyst.name=Antimony Trioxide Base Catalyst
+item.copperII_chloride_catalyst.name=CopperII Chloride Catalyst
+item.ironIII_chloride_catalyst.name=IronIII Chloride Catalyst
+item.ironIII_oxide_catalyst.name=IronIII Oxide Catalyst
+item.Ziegler-Natta_catalyst.name=Ziegler-Natta Catalyst
+item.cobalt-manganese-bromide_catalyst.name=cobalt-manganese-bromide_catalyst
+
+
+item.empty_cylinder.name=empty_cylinder
+item.hcl_cylinder.name=hcl_cylinder
+item.natural_gas_cylinder.name=natural_gas_cylinder
+
+item.methane_cylinder.name=methane_cylinder
+item.ethane_cylinder.name=ethane_cylinder
+item.propane_cylinder.name=propane_cylinder
+item.butane_cylinder.name=butane_cylinder
+
+item.empty_bottle.name=empty_bottle
+item.crude_oil.name=crude_oil
+item.water_bottle.name=water_bottle
+item.bromine_bottle.name=bromine_bottle
+item.chlorine_bottle.name=chlorine_bottle
+item.naphtha_bottle.name=naphtha_bottle
+item.diesel_bottle.name=diesel_bottle
+item.kerosine_bottle.name=kerosine_bottle
+item.ethylene_bottle.name=ethylene_bottle
+item.propylene_bottle.name=propylene_bottle
+item.butadiene_bottle.name=butadiene_bottle
+item.olefin_bottle.name=olefin_bottle
+item.paraffin_bottle.name=paraffin_bottle
+item.ethylene_oxide_bottle.name=ethylene_oxide_bottle
+item.ethylene_glycol_bottle.name=ethylene_glycol_bottle
+item.btx_bottle.name=btx_bottle
+item.terephthalic_acid_bottle.name=terephthalic_acid_bottle
+item.methanolBottle.name=methanolBottle
+item.dimethyl_terephthalate_bottle.name=dimethyl_terephthalate_bottle
+item.edc_bottle.name=edc_bottle
+item.vinyl_chloride_bottle.name=vinyl_chloride_bottle
+item.acetylene_bottle.name=acetylene_bottle
+item.sulfuric_acid_bottle.name=sulfuric_acid_bottle
+item.benzene_bottle.name=benzene_bottle
+item.ethyl_benzene_bottle.name=ethyl_benzene_bottle
+item.styrene_bottle.name=styrene_bottle
+
+
+# Autogeneratred below this line --------
+
 tile.plastic1.name=Plastic (01 PET: Polyethylene terephthalate)
 tile.plastic2.name=Plastic (02 PE-HD: High-density polyethylene)
 tile.plastic3.name=Plastic (03 PVC: Polyvinyl chloride)
