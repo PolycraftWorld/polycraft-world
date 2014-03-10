@@ -1,14 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.render;
 
-import net.minecraft.client.particle.*;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.IFluidBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityDropParticleFX extends EntityFX {
@@ -22,18 +21,18 @@ public class EntityDropParticleFX extends EntityFX {
 		super(world, x, y, z, 0.0D, 0.0D, 0.0D);
 		this.motionX = this.motionY = this.motionZ = 0.0D;
 
-//        if (par8Material == Material.water)
-//        {
-//            this.particleRed = 0.0F;
-//            this.particleGreen = 0.0F;
-//            this.particleBlue = 1.0F;
-//        }
-//        else
-//        {
-//            this.particleRed = 1.0F;
-//            this.particleGreen = 0.0F;
-//            this.particleBlue = 0.0F;
-//        }
+		// if (par8Material == Material.water)
+		// {
+		// this.particleRed = 0.0F;
+		// this.particleGreen = 0.0F;
+		// this.particleBlue = 1.0F;
+		// }
+		// else
+		// {
+		// this.particleRed = 1.0F;
+		// this.particleGreen = 0.0F;
+		// this.particleBlue = 0.0F;
+		// }
 		this.particleRed = particleRed;
 		this.particleGreen = particleGreen;
 		this.particleBlue = particleBlue;
@@ -86,7 +85,7 @@ public class EntityDropParticleFX extends EntityFX {
 		int y = MathHelper.floor_double(this.posY);
 		int z = MathHelper.floor_double(this.posZ);
 		Block block = worldObj.getBlock(x, y, z);
-		
+
 		Material material = block.getMaterial();
 
 		if ((material.isLiquid() || material.isSolid()) && block instanceof IFluidBlock) {

@@ -1,13 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import java.util.Random;
 
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.render.EntityDropParticleFX;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityFX;
@@ -18,6 +12,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.render.EntityDropParticleFX;
 
 public class BlockFluid extends BlockFluidClassic {
 
@@ -28,6 +27,7 @@ public class BlockFluid extends BlockFluidClassic {
 	public BlockFluid(Fluid fluid, Material material) {
 		super(fluid, material);
 	}
+
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] theIcon;
 	protected boolean flammable;
@@ -98,7 +98,7 @@ public class BlockFluid extends BlockFluidClassic {
 		if (rand.nextInt(10) == 0
 				&& World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)
 				&& !world.getBlock(x, y - 2, z).getMaterial().blocksMovement()) {
-			
+
 			double px = (double) ((float) x + rand.nextFloat());
 			double py = (double) y - 1.05D;
 			double pz = (double) ((float) z + rand.nextFloat());

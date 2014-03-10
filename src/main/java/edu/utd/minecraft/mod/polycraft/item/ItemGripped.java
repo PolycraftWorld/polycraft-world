@@ -1,43 +1,53 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import edu.utd.minecraft.mod.polycraft.Plastic;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.Item.ToolMaterial;
 
 public class ItemGripped
 {
-	public static final Collection<String> allowedItems = new ArrayList<String>();
+	public static final Map<String, Class> allowedTypes = new HashMap<String, Class>();
 	public static final Map<String, ToolMaterial> allowedMaterials = new HashMap<String, ToolMaterial>();
 	static
 	{
-		allowedItems.add("shovel");
-		allowedItems.add("axe");
-		allowedItems.add("pickaxe");
-		allowedItems.add("hoe");
-		allowedItems.add("sword");
-		
+		allowedTypes.put("shovel", ItemShovelGripped.class);
+		allowedTypes.put("axe", ItemAxeGripped.class);
+		allowedTypes.put("pickaxe", ItemPickaxeGripped.class);
+		allowedTypes.put("hoe", ItemHoeGripped.class);
+		allowedTypes.put("sword", ItemSwordGripped.class);
+
 		allowedMaterials.put("wooden", ToolMaterial.WOOD);
 		allowedMaterials.put("stone", ToolMaterial.STONE);
 		allowedMaterials.put("iron", ToolMaterial.IRON);
-		allowedMaterials.put("gold", ToolMaterial.GOLD);
+		allowedMaterials.put("golden", ToolMaterial.GOLD);
 		allowedMaterials.put("diamond", ToolMaterial.EMERALD);
 	}
-	
-	public static String getNamePrefix(Plastic plastic, String materialName)
+
+	public static Item create(String type, String materialName, ToolMaterial material, double durabilityBonus)
 	{
-		return plastic.gameName + "_gripped_" + materialName;
+		Item itemGripped = null;
+		try {
+			itemGripped = (Item) allowedTypes.get(type).getConstructor(ToolMaterial.class).newInstance(material);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		itemGripped.setTextureName(PolycraftMod.getTextureName("gripped_" + getNameBase(materialName, type)));
+		itemGripped.setMaxDamage((int) ((itemGripped.getMaxDamage() * (1 + durabilityBonus)) + 1));
+		return itemGripped;
 	}
-	
-	public static void applyDurabilityBonus(Item item, double durabilityBonus)
+
+	public static String getName(Plastic plastic, String materialName, String type)
 	{
-		item.setMaxDamage((int) ((item.getMaxDamage() * (1 + durabilityBonus)) + 1));
+		return plastic.gameName + "_gripped_" + getNameBase(materialName, type);
+	}
+
+	public static String getNameBase(String materialName, String type)
+	{
+		return materialName + "_" + type;
 	}
 }
