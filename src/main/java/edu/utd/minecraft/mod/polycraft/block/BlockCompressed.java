@@ -1,24 +1,24 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
+import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 
-public class BlockPlastic extends Block {
+public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 
-	public final Plastic plastic;
+	public final CompressedBlock compressedBlock;
 	private final LabelTexture labelTexture;
 
-	public BlockPlastic(final Plastic plastic) {
-		super(Material.cloth);
-		this.plastic = plastic;
-		this.labelTexture = new LabelTexture(plastic.gameName, 1);
-		setCreativeTab(CreativeTabs.tabBlock);
+	public BlockCompressed(final CompressedBlock compressedBlock) {
+		super(compressedBlock.color);
+		this.compressedBlock = compressedBlock;
+		this.labelTexture = new LabelTexture(compressedBlock.gameName, 1);
+		this.setHardness(compressedBlock.hardness);
+		this.setResistance(compressedBlock.resistance);
+		this.setStepSound(Block.soundTypeMetal);
 	}
 
 	@Override

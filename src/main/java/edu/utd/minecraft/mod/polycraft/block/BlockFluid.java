@@ -24,7 +24,7 @@ public class BlockFluid extends BlockFluidClassic {
 	protected float particleGreen;
 	protected float particleBlue;
 
-	public BlockFluid(Fluid fluid, Material material) {
+	public BlockFluid(final Fluid fluid, final Material material) {
 		super(fluid, material);
 	}
 
@@ -95,13 +95,11 @@ public class BlockFluid extends BlockFluidClassic {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 
-		if (rand.nextInt(10) == 0
-				&& World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)
-				&& !world.getBlock(x, y - 2, z).getMaterial().blocksMovement()) {
+		if (rand.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !world.getBlock(x, y - 2, z).getMaterial().blocksMovement()) {
 
-			double px = (double) ((float) x + rand.nextFloat());
-			double py = (double) y - 1.05D;
-			double pz = (double) ((float) z + rand.nextFloat());
+			double px = x + rand.nextFloat();
+			double py = y - 1.05D;
+			double pz = z + rand.nextFloat();
 
 			EntityFX fx = new EntityDropParticleFX(world, px, py, pz, particleRed, particleGreen, particleBlue);
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);

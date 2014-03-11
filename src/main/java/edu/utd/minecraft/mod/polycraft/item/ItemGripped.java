@@ -5,8 +5,8 @@ import java.util.Map;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import edu.utd.minecraft.mod.polycraft.Plastic;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Plastic;
 
 public class ItemGripped
 {

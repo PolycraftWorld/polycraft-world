@@ -7,10 +7,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
-import edu.utd.minecraft.mod.polycraft.Element;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Ore;
 
-public class ElementOreWorldGenerator implements IWorldGenerator {
+public class OreWorldGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
@@ -31,14 +31,13 @@ public class ElementOreWorldGenerator implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random random, int i, int j) {
-		for (Element element : Element.elements)
-		{
-			Block oreBlock = PolycraftMod.blocks.get(element.blockNameOre);
-			for (int k = 0; k < element.oreVeinsPerChunk; k++) {
+		for (Ore ore : Ore.ores.values()) {
+			Block oreBlock = PolycraftMod.blocks.get(ore.gameName);
+			for (int k = 0; k < ore.generationVeinsPerChunk; k++) {
 				int firstBlockXCoord = i + random.nextInt(16);
-				int firstBlockYCoord = element.oreStartYMin + random.nextInt(element.oreStartYMax - element.oreStartYMin);
+				int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin);
 				int firstBlockZCoord = j + random.nextInt(16);
-				(new WorldGenMinable(oreBlock, element.oreBlocksPerVein)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+				(new WorldGenMinable(oreBlock, ore.generationBlocksPerVein)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
 			}
 		}
 	}
