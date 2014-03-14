@@ -1,23 +1,20 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
+import edu.utd.minecraft.mod.polycraft.config.Compound;
 
-public class BlockPlastic extends Block {
+public class BlockCompound extends net.minecraft.block.BlockOre {
 
-	public final Plastic plastic;
+	public final Compound compound;
 	private final LabelTexture labelTexture;
 
-	public BlockPlastic(final Plastic plastic) {
-		super(Material.cloth);
-		this.plastic = plastic;
-		this.labelTexture = new LabelTexture(plastic.gameName, 1);
+	public BlockCompound(final Compound compound) {
+		this.compound = compound;
+		this.labelTexture = new LabelTexture(compound.gameName, 1);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 

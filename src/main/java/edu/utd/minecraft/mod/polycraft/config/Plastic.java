@@ -1,25 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Plastic extends Entity {
 
-	public static final Map<String, Plastic> plastics = new HashMap<String, Plastic>();
-
-	private static final Plastic registerPlastic(final Plastic plastic) {
-		plastics.put(plastic.gameName, plastic);
-		return plastic;
-	}
+	public static final EntityRegistry<Plastic> registry = new EntityRegistry<Plastic>();
 
 	static {
-		registerPlastic(new Plastic(1, "Polyethylene terephthalate", "PET", .1, 64));
-		registerPlastic(new Plastic(2, "High-density polyethylene", "PE-HD", 1, 32));
-		registerPlastic(new Plastic(3, "Polyvinyl chloride", "PVC", .2, 16));
-		registerPlastic(new Plastic(4, "Low-density polyethylene", "PELD", .05, 8));
-		registerPlastic(new Plastic(5, "Polypropylene", "PP", .4, 4));
-		registerPlastic(new Plastic(6, "Polystyrene", "PS", .3, 2));
-		registerPlastic(new Plastic(7, "Other polycarbonate", "O", 2, 1));
+		registry.register(new Plastic(1, "Polyethylene terephthalate", "PET", .1, 64));
+		registry.register(new Plastic(2, "High-density polyethylene", "PE-HD", 1, 32));
+		registry.register(new Plastic(3, "Polyvinyl chloride", "PVC", .2, 16));
+		registry.register(new Plastic(4, "Low-density polyethylene", "PELD", .05, 8));
+		registry.register(new Plastic(5, "Polypropylene", "PP", .4, 4));
+		registry.register(new Plastic(6, "Polystyrene", "PS", .3, 2));
+		registry.register(new Plastic(7, "Other polycarbonate", "O", 2, 1));
 	}
 
 	public final String itemNamePellet;

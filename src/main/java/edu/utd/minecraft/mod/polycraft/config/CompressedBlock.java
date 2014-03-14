@@ -1,22 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.block.material.MapColor;
 
 public class CompressedBlock extends Entity {
 
-	public static final Map<String, CompressedBlock> compressedBlocks = new HashMap<String, CompressedBlock>();
-
-	private static final CompressedBlock registerCompressedBlock(final CompressedBlock compressedBlock) {
-		compressedBlocks.put(compressedBlock.gameName, compressedBlock);
-		return compressedBlock;
-	}
+	public static final EntityRegistry<CompressedBlock> registry = new EntityRegistry<CompressedBlock>();
 
 	static {
-		for (Ingot ingot : Ingot.ingots.values())
-			registerCompressedBlock(new CompressedBlock(ingot, MapColor.ironColor, 3, 7, 9));
+		for (Ingot ingot : Ingot.registry.values())
+			registry.register(new CompressedBlock(ingot, MapColor.ironColor, 3, 7, 9));
 	}
 
 	public final Entity type;

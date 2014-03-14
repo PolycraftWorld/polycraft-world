@@ -18,17 +18,27 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockCompound;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPlastic;
+import edu.utd.minecraft.mod.polycraft.config.Catalyst;
+import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Plastic;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.fracker.BlockFracker;
+import edu.utd.minecraft.mod.polycraft.inventory.fracker.FrackerRecipes;
+import edu.utd.minecraft.mod.polycraft.inventory.fracker.RenderFracker;
+import edu.utd.minecraft.mod.polycraft.inventory.fracker.TileEntityFracker;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -44,13 +54,18 @@ public class CommonProxy {
 		createOres();
 		createIngots();
 		createCompressedBlocks();
+		createCatalysts();
 		createPlastics();
+		createCompounds();
 		createTools();
+		createInventories();
 	}
 
 	public void init() {
 		createRecipes();
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
+		RenderingRegistry.registerBlockHandler(PolycraftMod.renderFrackerID, RenderFracker.INSTANCE);
+		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 	}
 
 	public void postInit() {
@@ -91,78 +106,119 @@ public class CommonProxy {
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("oil", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(PolycraftMod.items.get("bucket_oil")), new ItemStack(Items.bucket));
 		BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.items.get("bucket_oil"));
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+
+		PolycraftMod.registerItem("fluid_container", new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName("fluid_container")));
+		PolycraftMod.registerItem("fluid_container_nozzle", new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName("fluid_container_nozzle")));
 	}
 
 	private void createOres() {
-		for (final Ore ore : Ore.ores.values())
+		for (final Ore ore : Ore.registry.values())
 			PolycraftMod.registerBlock(ore.gameName, new BlockOre(ore));
 	}
 
 	private void createIngots() {
-		for (final Ingot ingot : Ingot.ingots.values())
+		for (final Ingot ingot : Ingot.registry.values())
 			PolycraftMod.registerItem(ingot.gameName, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(ingot.gameName)));
 	}
 
 	private void createCompressedBlocks() {
-		for (final CompressedBlock compressedBlock : CompressedBlock.compressedBlocks.values())
+		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
 			PolycraftMod.registerBlock(compressedBlock.gameName, new BlockCompressed(compressedBlock));
 	}
 
+	private void createCatalysts() {
+		for (final Catalyst catalyst : Catalyst.registry.values())
+			PolycraftMod.registerItem(catalyst.gameName, new Item().setCreativeTab(CreativeTabs.tabBrewing).setTextureName(PolycraftMod.getTextureName(catalyst.gameName)));
+	}
+
 	private void createPlastics() {
-		for (final Plastic plastic : Plastic.plastics.values()) {
+		for (final Plastic plastic : Plastic.registry.values()) {
 			PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic));
 			PolycraftMod.registerItem(plastic.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNamePellet)));
 			PolycraftMod.registerItem(plastic.itemNameGrip, new Item().setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.getTextureName("plastic_grip")));
 		}
 	}
 
+	private void createCompounds() {
+		for (final Compound compound : Compound.registry.values())
+			if (compound.fluid)
+				PolycraftMod.registerItem(compound.gameName + "_fluid_container", new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName("fluid_container")));
+			else
+				PolycraftMod.registerBlock(compound.gameName, new BlockCompound(compound));
+	}
+
 	private void createTools() {
 		for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
 			final String materialName = materialEntry.getKey();
 			final ToolMaterial material = materialEntry.getValue();
-			for (final Plastic plastic : Plastic.plastics.values())
+			for (final Plastic plastic : Plastic.registry.values())
 				for (final String type : ItemGripped.allowedTypes.keySet())
 					PolycraftMod.registerItem(ItemGripped.getName(plastic, materialName, type), ItemGripped.create(type, materialName, material, plastic.itemDurabilityBonus));
 		}
 	}
 
+	private void createInventories() {
+		PolycraftMod.blockFracker = PolycraftMod.registerBlock("fracker", new BlockFracker(false));
+		PolycraftMod.blockFrackerActive = PolycraftMod.registerBlock("fracker_active", new BlockFracker(true));
+		GameRegistry.registerTileEntity(TileEntityFracker.class, "tile_entity_fracker");
+	}
+
 	private void createRecipes() {
 
-		for (final Ore ore : Ore.ores.values())
-			if (ore.smeltingIngot != null)
-				GameRegistry.addSmelting(PolycraftMod.blocks.get(ore.gameName), new ItemStack(PolycraftMod.items.get(ore.smeltingIngot.gameName), ore.smeltingIngotsPerBlock), ore.smeltingExperience);
+		for (final Ore ore : Ore.registry.values())
+			if (ore.smeltingEntity != null)
+				GameRegistry.addSmelting(PolycraftMod.blocks.get(ore.gameName),
+						ore.smeltingEntityIsItem ? new ItemStack(PolycraftMod.items.get(ore.smeltingEntity.gameName), ore.smeltingEntitiesPerBlock) : new ItemStack(PolycraftMod.blocks.get(ore.smeltingEntity.gameName),
+								ore.smeltingEntitiesPerBlock), ore.smeltingExperience);
 
-		for (final CompressedBlock compressedBlock : CompressedBlock.compressedBlocks.values()) {
-			ItemStack blockCompressed = new ItemStack(PolycraftMod.blocks.get(compressedBlock.gameName));
-			Item compressedItem = PolycraftMod.items.get(compressedBlock.type.gameName);
-			Object[] compressedItems = new ItemStack[compressedBlock.itemsPerBlock];
+		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
+			final ItemStack blockCompressed = new ItemStack(PolycraftMod.blocks.get(compressedBlock.gameName));
+			final Item compressedItem = PolycraftMod.items.get(compressedBlock.type.gameName);
+			final Object[] compressedItems = new ItemStack[compressedBlock.itemsPerBlock];
 			for (int i = 0; i < compressedItems.length; i++)
 				compressedItems[i] = new ItemStack(compressedItem);
 			GameRegistry.addShapelessRecipe(blockCompressed, compressedItems);
 			GameRegistry.addShapelessRecipe(new ItemStack(compressedItem, compressedBlock.itemsPerBlock), blockCompressed);
 		}
 
-		for (Plastic plastic : Plastic.plastics.values()) {
-			Block plasticBlock = PolycraftMod.blocks.get(plastic.gameName);
-			Item plasticPellet = PolycraftMod.items.get(plastic.itemNamePellet);
-			Item plasticGrip = PolycraftMod.items.get(plastic.itemNameGrip);
+		final Catalyst platinumCatalyst = Catalyst.registry.get("catalyst_element_platinum");
+		GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName), platinumCatalyst.craftingAmount), new ItemStack(PolycraftMod.items.get("ingot_element_platinum")));
+
+		for (final Plastic plastic : Plastic.registry.values()) {
+			final Block plasticBlock = PolycraftMod.blocks.get(plastic.gameName);
+			final Item plasticPellet = PolycraftMod.items.get(plastic.itemNamePellet);
+			final Item plasticGrip = PolycraftMod.items.get(plastic.itemNameGrip);
 
 			GameRegistry.addShapelessRecipe(new ItemStack(plasticPellet, plastic.craftingPelletsPerBlock), new ItemStack(plasticBlock));
-			GameRegistry.addShapelessRecipe(new ItemStack(plasticGrip), new ItemStack(plasticPellet));
+			GameRegistry.addRecipe(new ItemStack(plasticGrip), "x x", "x x", "xxx", 'x', new ItemStack(plasticPellet));
 
-			for (String materialName : ItemGripped.allowedMaterials.keySet())
-				for (String type : ItemGripped.allowedTypes.keySet())
+			for (final String materialName : ItemGripped.allowedMaterials.keySet())
+				for (final String type : ItemGripped.allowedTypes.keySet())
 					GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get(ItemGripped.getName(plastic, materialName, type))), new ItemStack((Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type))),
 							new ItemStack(plasticGrip));
 		}
+
+		final Block fracker = PolycraftMod.blocks.get("fracker");
+		GameRegistry.addRecipe(new ItemStack(fracker), "xxx", "x x", "xxx", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_titanium")));
+		FrackerRecipes.addRecipe(new ItemStack(PolycraftMod.blocks.get("ore_mineral_shale")), new ItemStack(PolycraftMod.items.get("compound_natural_gas_fluid_container")), .7f);
+
+		final Item fluidContainerNozzle = PolycraftMod.items.get("fluid_container_nozzle");
+		GameRegistry.addRecipe(new ItemStack(fluidContainerNozzle), "yxx", "yx ", " x ", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_copper")), 'y',
+				new ItemStack(PolycraftMod.items.get(Plastic.registry.get("plastic1").itemNamePellet)));
+
+		final Item fluidContainer = PolycraftMod.items.get("fluid_container");
+		GameRegistry.addRecipe(new ItemStack(fluidContainer), "xyx", "x x", "xxx", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_aluminum")), 'y', new ItemStack(fluidContainerNozzle));
 
 		if (PolycraftMod.cheatRecipesEnabled) {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.torch, 64), new ItemStack(Blocks.cobblestone));
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.furnace), new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.cobblestone));
 			GameRegistry.addShapelessRecipe(new ItemStack(Items.coal, 64), new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.cobblestone));
 
-			ItemStack dirtStack = new ItemStack(Blocks.dirt);
-			Collection<ItemStack> dirtStacks = new ArrayList<ItemStack>();
+			final ItemStack dirtStack = new ItemStack(Blocks.dirt);
+			final Collection<ItemStack> dirtStacks = new ArrayList<ItemStack>();
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get("fracker")), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
@@ -171,15 +227,19 @@ public class CommonProxy {
 			GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_pickaxe), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
-			ItemStack oilBucketStack = new ItemStack(PolycraftMod.items.get("bucket_oil"));
+			GameRegistry.addShapelessRecipe(new ItemStack(Items.glass_bottle), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			final ItemStack oilBucketStack = new ItemStack(PolycraftMod.items.get("bucket_oil"));
 			GameRegistry.addShapelessRecipe(oilBucketStack, dirtStacks.toArray());
 
-			Collection<ItemStack> oilBuckets = new ArrayList<ItemStack>();
-			for (Plastic plastic : Plastic.plastics.values()) {
+			final Collection<ItemStack> oilBuckets = new ArrayList<ItemStack>();
+			for (final Plastic plastic : Plastic.registry.values()) {
 				oilBuckets.add(oilBucketStack);
-				Block plasticBlock = PolycraftMod.blocks.get(plastic.gameName);
-				GameRegistry.addShapelessRecipe(new ItemStack(plasticBlock), oilBuckets.toArray());
+				GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(plastic.gameName)), oilBuckets.toArray());
 			}
+
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(Plastic.registry.get("plastic1").gameName)), oilBucketStack, new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)));
 		}
 	}
 }
