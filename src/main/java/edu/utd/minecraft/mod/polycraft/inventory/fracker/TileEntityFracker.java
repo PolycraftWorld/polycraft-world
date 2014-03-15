@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class TileEntityFracker extends TileEntity implements ISidedInventory {
 	private static final int[] slotsTop = new int[] { 0 };
@@ -264,7 +265,7 @@ public class TileEntityFracker extends TileEntity implements ISidedInventory {
 	 * Returns true if the fracker can frack an item, i.e. has a source item, destination stack isn't full, etc.
 	 */
 	private boolean canFrack() {
-		if (this.frackerItemStacks[0] == null || this.frackerItemStacks[1] == null) {
+		if (this.frackerItemStacks[0] == null || this.frackerItemStacks[1] == null || this.frackerItemStacks[1].getItem() != PolycraftMod.items.get("fluid_container")) {
 			return false;
 		} else {
 			ItemStack itemstack = FrackerRecipes.getFrackingResult(this.frackerItemStacks[0]);

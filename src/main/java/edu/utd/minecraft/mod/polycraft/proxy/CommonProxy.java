@@ -63,6 +63,7 @@ public class CommonProxy {
 
 	public void init() {
 		createRecipes();
+		createCheatRecipes();
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		RenderingRegistry.registerBlockHandler(PolycraftMod.renderFrackerID, RenderFracker.INSTANCE);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
@@ -208,7 +209,9 @@ public class CommonProxy {
 
 		final Item fluidContainer = PolycraftMod.items.get("fluid_container");
 		GameRegistry.addRecipe(new ItemStack(fluidContainer), "xyx", "x x", "xxx", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_aluminum")), 'y', new ItemStack(fluidContainerNozzle));
+	}
 
+	private void createCheatRecipes() {
 		if (PolycraftMod.cheatRecipesEnabled) {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.torch, 64), new ItemStack(Blocks.cobblestone));
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.furnace), new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.cobblestone));
@@ -239,6 +242,7 @@ public class CommonProxy {
 				GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(plastic.gameName)), oilBuckets.toArray());
 			}
 
+			final Catalyst platinumCatalyst = Catalyst.registry.get("catalyst_element_platinum");
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(Plastic.registry.get("plastic1").gameName)), oilBucketStack, new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)));
 		}
 	}
