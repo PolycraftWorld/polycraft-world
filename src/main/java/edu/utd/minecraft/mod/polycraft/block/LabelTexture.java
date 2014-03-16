@@ -18,14 +18,20 @@ public class LabelTexture {
 	
 	private final String textureName;
 	private final int textureMode;
+	private final int color;
 
 	public LabelTexture(final String textureName) {
 		this(textureName, -1);
 	}
 
 	public LabelTexture(final String textureName, final int textureMode) {
+		this(textureName, textureMode, -1);
+	}
+	
+	public LabelTexture(final String textureName, final int textureMode, final int color) {
 		this.textureName = textureName;
 		this.textureMode = textureMode;
+		this.color = color;
 	}
 
 	public IIcon getIcon(int side, int p_149691_2_) {
@@ -97,11 +103,19 @@ public class LabelTexture {
 			frontTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_front"));
 			backTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_back"));
 		}
-		else if (this.textureMode == 2 || this.textureMode == 5)
+		else if (this.textureMode == 5 )
+		{
+			//removes the numbers from the textureName so we only need one top color PNG for plastics in general
+			topTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName.replaceAll("_[0-9]", "")+ "_top"));
+			bottomTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName+ "_bottom"));
+			
+			
+			
+		}
+		else if (this.textureMode == 2)
 		{
 			topTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName));
 			bottomTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName+ "_bottom"));
-			
 			
 		}
 		else
@@ -123,4 +137,37 @@ public class LabelTexture {
 		
 		
 	}
+	
+//	public void registerBlockIcons(IIconRegister p_149651_1_, String color) {
+//		if (this.textureMode == 6)
+//		{
+//			topTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_" + color));
+//			bottomTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_bottom"+ "_" + color));
+//			leftTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_left"+ "_" + color));
+//			rightTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_right"+ "_" + color));
+//			frontTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_front"+ "_" + color));
+//			backTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName + "_back"+ "_" + color));
+//		}
+//		else if (this.textureMode == 5 )
+//		{
+//			//all plastics looks the same on the top block
+//			topTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName("plastic_top"+ "_" + color));
+//			bottomTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName+ "_bottom"+ "_" + color));
+//			
+//			
+//		}
+//		else if (this.textureMode == 2)
+//		{
+//			topTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName+ "_" + color));
+//			bottomTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName+ "_bottom"+ "_" + color));
+//			
+//		}
+//		else
+//		{
+//			topTexture = p_149651_1_.registerIcon(PolycraftMod.getTextureName(textureName+ "_" + color));
+//			
+//		}
+			
+	
+//	}
 }

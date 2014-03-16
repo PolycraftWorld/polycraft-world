@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -40,6 +41,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.fracker.FrackerRecipes;
 import edu.utd.minecraft.mod.polycraft.inventory.fracker.RenderFracker;
 import edu.utd.minecraft.mod.polycraft.inventory.fracker.TileEntityFracker;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemWorn;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
@@ -59,6 +61,7 @@ public class CommonProxy {
 		createCompounds();
 		createTools();
 		createInventories();
+		createClothes(); //TODO fix the Clothes Class
 	}
 
 	public void init() {
@@ -135,8 +138,15 @@ public class CommonProxy {
 	private void createPlastics() {
 		for (final Plastic plastic : Plastic.registry.values()) {
 			PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic));
-			PolycraftMod.registerItem(plastic.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNamePellet)));
-			PolycraftMod.registerItem(plastic.itemNameGrip, new Item().setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.getTextureName("plastic_grip")));
+			PolycraftMod.registerItem(plastic.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNamePellet.replaceAll("_[0-9]", ""))));
+			PolycraftMod.registerItem(plastic.itemNameFiber, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNameFiber.replaceAll("_[0-9]", ""))));
+			
+			
+			//this makes only one grip object for each type of plastic: red was chosen at random
+			if (plastic.color.startsWith("red"))
+			{
+				PolycraftMod.registerItem(plastic.itemNameGrip, new Item().setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.getTextureName("plastic_grip")));
+			}
 		}
 	}
 
@@ -154,7 +164,29 @@ public class CommonProxy {
 			final ToolMaterial material = materialEntry.getValue();
 			for (final Plastic plastic : Plastic.registry.values())
 				for (final String type : ItemGripped.allowedTypes.keySet())
-					PolycraftMod.registerItem(ItemGripped.getName(plastic, materialName, type), ItemGripped.create(type, materialName, material, plastic.itemDurabilityBonus));
+				{
+					if (plastic.color.startsWith("red")) //this only iterates once per color
+					{
+						PolycraftMod.registerItem(ItemGripped.getName(plastic, materialName, type), ItemGripped.create(type, materialName, material, plastic.itemDurabilityBonus));
+					}
+				}
+		}
+	}
+	
+	private void createClothes() {
+		for (final Entry<String, ArmorMaterial> materialEntry : ItemWorn.allowedMaterials.entrySet()) {
+			final String materialName = materialEntry.getKey();
+			final ArmorMaterial material = materialEntry.getValue();
+			for (final Plastic plastic : Plastic.registry.values())
+				for (final String type : ItemWorn.allowedTypes.keySet())
+				{
+									
+					for (int bodyLocation=0; bodyLocation<3; bodyLocation++)
+					{
+						PolycraftMod.registerItem(ItemWorn.getName(plastic, materialName, type, bodyLocation), ItemWorn.create(type, materialName, material, plastic.itemDurabilityBonus, bodyLocation));
+					}
+					
+				}
 		}
 	}
 
@@ -185,14 +217,38 @@ public class CommonProxy {
 		final Catalyst platinumCatalyst = Catalyst.registry.get("catalyst_element_platinum");
 		GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName), platinumCatalyst.craftingAmount), new ItemStack(PolycraftMod.items.get("ingot_element_platinum")));
 
+		final Item fluidContainerNozzle = PolycraftMod.items.get("fluid_container_nozzle");
+		
+		
+		//anything you put in here will be able to be crafted with all plastics of all colors
 		for (final Plastic plastic : Plastic.registry.values()) {
+			
+			//there is plastic block corresponding to each type and each color of plastic
 			final Block plasticBlock = PolycraftMod.blocks.get(plastic.gameName);
+			
+			//there are plastic pellets and fibers corresponding to each type and each color of plastic
 			final Item plasticPellet = PolycraftMod.items.get(plastic.itemNamePellet);
+			final Item plasticFiber = PolycraftMod.items.get(plastic.itemNameFiber);
+			
+			//there are plastic grips corresponding to each type and each color of plastic
+
 			final Item plasticGrip = PolycraftMod.items.get(plastic.itemNameGrip);
+	
+			//three diagonal pellets give you a fiber	
+			GameRegistry.addRecipe(new ItemStack(plasticFiber), "x  ", " x ", "  x", 'x', new ItemStack(plasticPellet));
+			
+			//a fiber can be back converted into pellets
+			GameRegistry.addShapelessRecipe(new ItemStack(plasticPellet), new ItemStack(plasticFiber));
 
 			GameRegistry.addShapelessRecipe(new ItemStack(plasticPellet, plastic.craftingPelletsPerBlock), new ItemStack(plasticBlock));
 			GameRegistry.addRecipe(new ItemStack(plasticGrip), "x x", "x x", "xxx", 'x', new ItemStack(plasticPellet));
-
+			
+			//this allows you to build a nozzle out of any plastic
+			GameRegistry.addRecipe(new ItemStack(fluidContainerNozzle), "yxx", "yx ", " x ", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_copper")), 'y',
+					new ItemStack(plasticPellet));
+			
+			
+			//this only builds new tools for each type of plastic, not each color...
 			for (final String materialName : ItemGripped.allowedMaterials.keySet())
 				for (final String type : ItemGripped.allowedTypes.keySet())
 					GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get(ItemGripped.getName(plastic, materialName, type))), new ItemStack((Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type))),
@@ -203,9 +259,8 @@ public class CommonProxy {
 		GameRegistry.addRecipe(new ItemStack(fracker), "xxx", "x x", "xxx", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_titanium")));
 		FrackerRecipes.addRecipe(new ItemStack(PolycraftMod.blocks.get("ore_mineral_shale")), new ItemStack(PolycraftMod.items.get("compound_natural_gas_fluid_container")), .7f);
 
-		final Item fluidContainerNozzle = PolycraftMod.items.get("fluid_container_nozzle");
-		GameRegistry.addRecipe(new ItemStack(fluidContainerNozzle), "yxx", "yx ", " x ", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_copper")), 'y',
-				new ItemStack(PolycraftMod.items.get(Plastic.registry.get("plastic1").itemNamePellet)));
+		
+		
 
 		final Item fluidContainer = PolycraftMod.items.get("fluid_container");
 		GameRegistry.addRecipe(new ItemStack(fluidContainer), "xyx", "x x", "xxx", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_aluminum")), 'y', new ItemStack(fluidContainerNozzle));
@@ -243,7 +298,7 @@ public class CommonProxy {
 			}
 
 			final Catalyst platinumCatalyst = Catalyst.registry.get("catalyst_element_platinum");
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(Plastic.registry.get("plastic1").gameName)), oilBucketStack, new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)));
+			//GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(Plastic.registry.get("plastic1").gameName)), oilBucketStack, new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)));
 		}
 	}
 }

@@ -43,7 +43,7 @@ public class ItemGripped
 
 	public static String getName(Plastic plastic, String materialName, String type)
 	{
-		return plastic.gameName + "_gripped_" + getNameBase(materialName, type);
+		return "plastic_" + plastic.type + "_gripped_" + getNameBase(materialName, type);
 	}
 
 	public static String getNameBase(String materialName, String type)

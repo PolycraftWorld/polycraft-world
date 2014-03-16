@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -25,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Plastic;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemWorn;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -43,6 +46,10 @@ public class PolycraftMod {
 	public static final int guiFrackerID = 0;
 	public static final int renderFrackerID = 2000;
 
+	// public static final String[] color_names = new String[] {
+	// "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray",
+	// "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
+
 	public static void main(final String... args) throws FileNotFoundException, UnsupportedEncodingException {
 		int arg = 0;
 		final PrintWriter writer = new PrintWriter(args[arg++], "UTF-8");
@@ -55,6 +62,7 @@ public class PolycraftMod {
 		translations.put("Plastic", args[arg++]);
 		translations.put("Grip", args[arg++]);
 		translations.put("Pellet", args[arg++]);
+		translations.put("Fiber", args[arg++]);
 		translations.put("Container of", args[arg++]);
 
 		for (final String langEntry : getLangEntries(translations))
@@ -134,6 +142,8 @@ public class PolycraftMod {
 			langEntries.add(String.format("tile.%s.name=%s (%02d %s: %s)", plastic.gameName, translations.get("Plastic"), plastic.type, plastic.abbreviation, plastic.name));
 			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameGrip, translations.get("Plastic"), translations.get("Grip"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNamePellet, translations.get("Plastic"), translations.get("Pellet"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameFiber, translations.get("Plastic"), translations.get("Fiber"), plastic.type, plastic.abbreviation));
+
 		}
 
 		for (final String materialName : ItemGripped.allowedMaterials.keySet()) {
@@ -142,6 +152,20 @@ public class PolycraftMod {
 				for (final String type : ItemGripped.allowedTypes.keySet())
 					langEntries.add(String.format("item.%s.name=Plastic Gripped %s %s (%02d %s)", ItemGripped.getName(plastic, materialName, type), materialNameUpper, Character.toUpperCase(type.charAt(0)) + type.substring(1), plastic.type,
 							plastic.abbreviation));
+		}
+
+		for (final Entry<String, ArmorMaterial> materialEntry : ItemWorn.allowedMaterials.entrySet()) {
+			final String materialName = materialEntry.getKey();
+			final ArmorMaterial material = materialEntry.getValue();
+			final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
+			for (final Plastic plastic : Plastic.registry.values())
+				for (final String type : ItemWorn.allowedTypes.keySet()) {
+
+					for (int bodyLocation = 0; bodyLocation < 3; bodyLocation++) {
+						langEntries.add(String.format("item.%s.name=Plastic Worn %s %s (%02d %s)", ItemWorn.getName(plastic, materialName, type, bodyLocation), materialNameUpper, Character.toUpperCase(type.charAt(0)) + type.substring(1),
+								plastic.type, plastic.abbreviation));
+					}
+				}
 		}
 
 		for (final Compound compound : Compound.registry.values())
