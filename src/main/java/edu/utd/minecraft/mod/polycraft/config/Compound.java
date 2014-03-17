@@ -15,6 +15,7 @@ public class Compound extends Entity {
 		registry.register(new Compound("Butadiene", true));
 		registry.register(new Compound("Methane", true));
 		registry.register(new Compound("Naphtha", true));
+		registry.register(new Compound("Gas Oil", true));
 		registry.register(new Compound("BTX", true));
 		registry.register(new Compound("Ethylene", true));
 		registry.register(new Compound("Olefins ", true));

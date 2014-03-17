@@ -7,7 +7,7 @@ public class CompressedBlock extends Entity {
 	public static final EntityRegistry<CompressedBlock> registry = new EntityRegistry<CompressedBlock>();
 
 	static {
-		for (Ingot ingot : Ingot.registry.values())
+		for (final Ingot ingot : Ingot.registry.values())
 			registry.register(new CompressedBlock(ingot, MapColor.ironColor, 3, 7, 9));
 	}
 

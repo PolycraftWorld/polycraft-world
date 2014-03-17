@@ -22,6 +22,14 @@ public class Plastic extends Entity {
 		}
 	}
 
+	private static String getGameName(final int type, final String color) {
+		return "plastic_" + type + "_" + color;
+	}
+
+	public static Plastic getDefaultForType(final int type) {
+		return registry.get(getGameName(type, getDefaultColor()));
+	}
+
 	public final String itemNamePellet;
 	public final String itemNameFiber;
 	public final String itemNameGrip;
@@ -32,7 +40,7 @@ public class Plastic extends Entity {
 	public final int craftingPelletsPerBlock;
 
 	public Plastic(final int type, final String name, final String abbrevation, final String color, final double itemDurabilityBonus, final int craftingPelletsPerBlock) {
-		super("plastic_" + type + "_" + color, name);
+		super(getGameName(type, color), name);
 		this.itemNamePellet = gameName + "_pellet"; // this makes pellets of different colors
 		this.itemNameFiber = gameName + "_fiber"; // this makes fibers of different colors
 		this.itemNameGrip = "plastic_" + type + "_grip"; // this makes only one color of grip

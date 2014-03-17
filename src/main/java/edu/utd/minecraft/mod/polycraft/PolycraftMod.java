@@ -25,9 +25,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
+import edu.utd.minecraft.mod.polycraft.config.Element;
+import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Plastic;
+import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemWorn;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
@@ -47,6 +50,8 @@ public class PolycraftMod {
 	public static final int oreWorldGeneratorWeight = 100;
 	public static final int guiFrackerID = 0;
 	public static final int renderFrackerID = 2000;
+	public static final int guiChemicalProcessorID = 1;
+	public static final int renderChemicalProcessorID = 2001;
 
 	public static void main(final String... args) throws IOException {
 		int arg = 0;
@@ -78,8 +83,14 @@ public class PolycraftMod {
 	public static Block blockOil;
 	public static Block blockFracker;
 	public static Block blockFrackerActive;
+	public static Block blockChemicalProcessor;
+	public static Block blockChemicalProcessorActive;
 
+	public static final String itemFluidContainerName = "fluid_container";
 	public static final Map<String, Item> items = new HashMap<String, Item>();
+	// special items for fast access
+	public static Item itemBucketOil;
+	public static Item itemFluidContainer;
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
@@ -112,6 +123,10 @@ public class PolycraftMod {
 		GameRegistry.registerItem(item, name);
 		items.put(name, item);
 		return item;
+	}
+
+	public static Item getItemFluidContainer(final Entity entity) {
+		return items.get(ItemFluidContainer.getGameName(entity));
 	}
 
 	public static Collection<String> getLangEntries(final Properties translations) {
@@ -160,9 +175,13 @@ public class PolycraftMod {
 				}
 		}
 
+		for (final Element element : Element.registry.values())
+			if (element.fluid)
+				langEntries.add(String.format("item.%s_%s.name=%s %s", element.gameName, itemFluidContainerName, translations.getProperty("containerof"), element.name));
+
 		for (final Compound compound : Compound.registry.values())
 			if (compound.fluid)
-				langEntries.add(String.format("item.%s_fluid_container.name=%s %s", compound.gameName, translations.getProperty("containerof"), compound.name));
+				langEntries.add(String.format("item.%s_%s.name=%s %s", compound.gameName, itemFluidContainerName, translations.getProperty("containerof"), compound.name));
 			else
 				langEntries.add(String.format("tile.%s.name=%s", compound.gameName, compound.name));
 
