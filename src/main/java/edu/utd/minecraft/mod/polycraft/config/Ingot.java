@@ -7,6 +7,8 @@ public class Ingot extends Entity {
 	static {
 		for (final Element element : Element.registry.values())
 			registry.register(new Ingot(element));
+		for (final Alloy alloy : Alloy.registry.values())
+			registry.register(new Ingot(alloy));
 	}
 
 	public final Entity type;

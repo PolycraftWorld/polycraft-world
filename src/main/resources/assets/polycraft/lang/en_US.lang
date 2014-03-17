@@ -8,8 +8,8 @@ item.fluid_container_nozzle.name=Fluid Container Nozzle
 item.natural_gas_gas_container.name=Container of Natural Gas
 
 # Autogeneratred below this line --------
-
 tile.ore_element_palladium.name=Palladium Ore
+tile.ore_mineral_graphite.name=Graphite Ore
 tile.ore_mineral_bauxite.name=Bauxite Ore
 tile.ore_element_magnesium.name=Magnesium Ore
 tile.ore_element_titanium.name=Titanium Ore
@@ -22,6 +22,8 @@ tile.ore_element_manganese.name=Manganese Ore
 tile.ore_mineral_tar_sand.name=Tar Sand Ore
 item.ingot_element_manganese.name=Manganese Ingot
 item.ingot_element_copper.name=Copper Ingot
+item.ingot_element_carbon.name=Carbon Ingot
+item.ingot_alloy_steel.name=Steel Ingot
 item.ingot_element_palladium.name=Palladium Ingot
 item.ingot_element_magnesium.name=Magnesium Ingot
 item.ingot_element_antimony.name=Antimony Ingot
@@ -31,11 +33,13 @@ item.ingot_element_platinum.name=Platinum Ingot
 item.ingot_element_titanium.name=Titanium Ingot
 tile.compressed_ingot_element_palladium.name=Block of Palladium
 tile.compressed_ingot_element_aluminum.name=Block of Aluminum
+tile.compressed_ingot_alloy_steel.name=Block of Steel
 tile.compressed_ingot_element_titanium.name=Block of Titanium
 tile.compressed_ingot_element_cobalt.name=Block of Cobalt
 tile.compressed_ingot_element_platinum.name=Block of Platinum
 tile.compressed_ingot_element_copper.name=Block of Copper
 tile.compressed_ingot_element_magnesium.name=Block of Magnesium
+tile.compressed_ingot_element_carbon.name=Block of Carbon
 tile.compressed_ingot_element_antimony.name=Block of Antimony
 tile.compressed_ingot_element_manganese.name=Block of Manganese
 item.catalyst_element_platinum.name=Platinum Catalyst
@@ -3638,3 +3642,4 @@ item.compound_btx_fluid_container.name=Container of BTX
 item.compound_butadiene_fluid_container.name=Container of Butadiene
 item.compound_kerosene_fluid_container.name=Container of Kerosene
 item.compound_paraffin_fluid_container.name=Container of Paraffin
+

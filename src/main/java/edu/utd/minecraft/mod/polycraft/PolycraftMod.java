@@ -1,13 +1,15 @@
 package edu.utd.minecraft.mod.polycraft;
 
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -46,25 +48,14 @@ public class PolycraftMod {
 	public static final int guiFrackerID = 0;
 	public static final int renderFrackerID = 2000;
 
-	// public static final String[] color_names = new String[] {
-	// "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray",
-	// "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
-
-	public static void main(final String... args) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void main(final String... args) throws IOException {
 		int arg = 0;
+		final Properties translations = new Properties();
+		final InputStream translationsInput = new FileInputStream(args[arg++]);
+		translations.load(translationsInput);
+		translationsInput.close();
+
 		final PrintWriter writer = new PrintWriter(args[arg++], "UTF-8");
-
-		final Map<String, String> translations = new HashMap<String, String>();
-		translations.put("Ingot", args[arg++]);
-		translations.put("Ore", args[arg++]);
-		translations.put("Block of", args[arg++]);
-		translations.put("Catalyst", args[arg++]);
-		translations.put("Plastic", args[arg++]);
-		translations.put("Grip", args[arg++]);
-		translations.put("Pellet", args[arg++]);
-		translations.put("Fiber", args[arg++]);
-		translations.put("Container of", args[arg++]);
-
 		for (final String langEntry : getLangEntries(translations))
 			writer.println(langEntry);
 		writer.close();
@@ -123,26 +114,27 @@ public class PolycraftMod {
 		return item;
 	}
 
-	public static Collection<String> getLangEntries(final Map<String, String> translations) {
+	public static Collection<String> getLangEntries(final Properties translations) {
 		final Collection<String> langEntries = new ArrayList<String>();
 
 		for (final Ore ore : Ore.registry.values())
-			langEntries.add(String.format("tile.%s.name=%s %s", ore.gameName, ore.name, translations.get("Ore")));
+			langEntries.add(String.format("tile.%s.name=%s %s", ore.gameName, ore.name, translations.getProperty("ore")));
 
 		for (final Ingot ingot : Ingot.registry.values())
-			langEntries.add(String.format("item.%s.name=%s %s", ingot.gameName, ingot.name, translations.get("Ingot")));
+			langEntries.add(String.format("item.%s.name=%s %s", ingot.gameName, ingot.name, translations.getProperty("ingot")));
 
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-			langEntries.add(String.format("tile.%s.name=%s %s", compressedBlock.gameName, translations.get("Block of"), compressedBlock.name));
+			langEntries.add(String.format("tile.%s.name=%s %s", compressedBlock.gameName, translations.getProperty("blockof"), compressedBlock.name));
 
 		for (final Catalyst catalyst : Catalyst.registry.values())
-			langEntries.add(String.format("item.%s.name=%s %s", catalyst.gameName, catalyst.name, translations.get("Catalyst")));
+			langEntries.add(String.format("item.%s.name=%s %s", catalyst.gameName, catalyst.name, translations.getProperty("catalyst")));
 
 		for (final Plastic plastic : Plastic.registry.values()) {
-			langEntries.add(String.format("tile.%s.name=%s (%02d %s: %s)", plastic.gameName, translations.get("Plastic"), plastic.type, plastic.abbreviation, plastic.name));
-			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameGrip, translations.get("Plastic"), translations.get("Grip"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNamePellet, translations.get("Plastic"), translations.get("Pellet"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameFiber, translations.get("Plastic"), translations.get("Fiber"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("tile.%s.name=%s (%02d %s: %s)", plastic.gameName, translations.getProperty("plastic"), plastic.type, plastic.abbreviation, plastic.name));
+			if (plastic.isDefaultColor())
+				langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameGrip, translations.getProperty("plastic"), translations.getProperty("grip"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNamePellet, translations.getProperty("plastic"), translations.getProperty("pellet"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameFiber, translations.getProperty("plastic"), translations.getProperty("fiber"), plastic.type, plastic.abbreviation));
 
 		}
 
@@ -150,8 +142,8 @@ public class PolycraftMod {
 			final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
 			for (final Plastic plastic : Plastic.registry.values())
 				for (final String type : ItemGripped.allowedTypes.keySet())
-					langEntries.add(String.format("item.%s.name=Plastic Gripped %s %s (%02d %s)", ItemGripped.getName(plastic, materialName, type), materialNameUpper, Character.toUpperCase(type.charAt(0)) + type.substring(1), plastic.type,
-							plastic.abbreviation));
+					langEntries.add(String.format("item.%s.name=%s %s %s %s (%02d %s)", ItemGripped.getName(plastic, materialName, type), translations.getProperty("plastic"), translations.getProperty("gripped"), materialNameUpper,
+							Character.toUpperCase(type.charAt(0)) + type.substring(1), plastic.type, plastic.abbreviation));
 		}
 
 		for (final Entry<String, ArmorMaterial> materialEntry : ItemWorn.allowedMaterials.entrySet()) {
@@ -162,15 +154,15 @@ public class PolycraftMod {
 				for (final String type : ItemWorn.allowedTypes.keySet()) {
 
 					for (int bodyLocation = 0; bodyLocation < 3; bodyLocation++) {
-						langEntries.add(String.format("item.%s.name=Plastic Worn %s %s (%02d %s)", ItemWorn.getName(plastic, materialName, type, bodyLocation), materialNameUpper, Character.toUpperCase(type.charAt(0)) + type.substring(1),
-								plastic.type, plastic.abbreviation));
+						langEntries.add(String.format("item.%s.name=%s Worn %s %s (%02d %s)", ItemWorn.getName(plastic, materialName, type, bodyLocation), translations.getProperty("plastic"), materialNameUpper,
+								Character.toUpperCase(type.charAt(0)) + type.substring(1), plastic.type, plastic.abbreviation));
 					}
 				}
 		}
 
 		for (final Compound compound : Compound.registry.values())
 			if (compound.fluid)
-				langEntries.add(String.format("item.%s_fluid_container.name=%s %s", compound.gameName, translations.get("Container of"), compound.name));
+				langEntries.add(String.format("item.%s_fluid_container.name=%s %s", compound.gameName, translations.getProperty("containerof"), compound.name));
 			else
 				langEntries.add(String.format("tile.%s.name=%s", compound.gameName, compound.name));
 

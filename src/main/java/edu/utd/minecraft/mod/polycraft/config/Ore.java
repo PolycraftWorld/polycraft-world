@@ -19,6 +19,7 @@ public class Ore extends Entity {
 		registry.register(new Ore(Mineral.registry.get("mineral_bauxite"), 3, 5, 2, 5, 10, 30, 10, 10, Ingot.registry.get("ingot_element_aluminum"), 1, .1f));
 		registry.register(new Ore(Mineral.registry.get("mineral_tar_sand"), 3, 5, 2, 5, 0, 30, 10, 20, Compound.registry.get("compound_bitumen"), 1, .1f));
 		registry.register(new Ore(Mineral.registry.get("mineral_shale"), 3, 5, 2, 5, 0, 30, 10, 20));
+		registry.register(new Ore(Mineral.registry.get("mineral_graphite"), 3, 5, 2, 5, 10, 30, 10, 10, Ingot.registry.get("ingot_element_carbon"), 1, .1f));
 	}
 
 	public final Entity type;

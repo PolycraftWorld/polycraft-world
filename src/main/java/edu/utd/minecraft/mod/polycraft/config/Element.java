@@ -5,6 +5,7 @@ public class Element extends Entity {
 	public static final EntityRegistry<Element> registry = new EntityRegistry<Element>();
 
 	static {
+		registry.register(new Element("Carbon", "C", 6));
 		registry.register(new Element("Magnesium", "Mg", 12));
 		registry.register(new Element("Aluminum", "Al", 13));
 		registry.register(new Element("Titanium", "Ta", 22));
