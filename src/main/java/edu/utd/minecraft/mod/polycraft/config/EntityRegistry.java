@@ -1,8 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-public class EntityRegistry<V extends Entity> extends HashMap<String, V> {
+public class EntityRegistry<V extends Entity> extends LinkedHashMap<String, V> {
 
 	public V register(final V entity) {
 		put(entity.gameName, entity);

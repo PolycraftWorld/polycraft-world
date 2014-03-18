@@ -28,12 +28,10 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPlastic;
-import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Element;
-import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Plastic;
@@ -41,11 +39,8 @@ import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.BlockChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.ChemicalProcessorRecipe;
+import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.RenderChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.TileEntityChemicalProcessor;
-import edu.utd.minecraft.mod.polycraft.inventory.fracker.BlockFracker;
-import edu.utd.minecraft.mod.polycraft.inventory.fracker.FrackerRecipes;
-import edu.utd.minecraft.mod.polycraft.inventory.fracker.RenderFracker;
-import edu.utd.minecraft.mod.polycraft.inventory.fracker.TileEntityFracker;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemWorn;
@@ -72,11 +67,15 @@ public class CommonProxy {
 	}
 
 	public void init() {
-		createRecipes();
+		createOreRecipes();
+		createCompressedBlockRecipes();
+		createPlasticRecipes();
+		createFluidRecipes();
+		createChemicalProcessorRecipes();
 		createCheatRecipes();
+
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
-		RenderingRegistry.registerBlockHandler(PolycraftMod.renderFrackerID, RenderFracker.INSTANCE);
-		RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderFracker.INSTANCE);
+		RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 	}
 
@@ -153,7 +152,7 @@ public class CommonProxy {
 
 	private void createCatalysts() {
 		for (final Catalyst catalyst : Catalyst.registry.values())
-			PolycraftMod.registerItem(catalyst.gameName, new Item().setCreativeTab(CreativeTabs.tabBrewing).setTextureName(PolycraftMod.getTextureName(catalyst.gameName)));
+			PolycraftMod.registerItem(catalyst.gameName, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(catalyst.gameName)));
 	}
 
 	private void createPlastics() {
@@ -197,24 +196,20 @@ public class CommonProxy {
 	}
 
 	private void createInventories() {
-		// TODO remove fracker as chemical processor subsumes it
-		PolycraftMod.blockFracker = PolycraftMod.registerBlock("fracker", new BlockFracker(false));
-		PolycraftMod.blockFrackerActive = PolycraftMod.registerBlock("fracker_active", new BlockFracker(true));
-		GameRegistry.registerTileEntity(TileEntityFracker.class, "tile_entity_fracker");
-
 		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock("chemical_processor", new BlockChemicalProcessor(false));
 		PolycraftMod.blockChemicalProcessorActive = PolycraftMod.registerBlock("chemical_processor_active", new BlockChemicalProcessor(true));
 		GameRegistry.registerTileEntity(TileEntityChemicalProcessor.class, "tile_entity_chemical_processor");
 	}
 
-	private void createRecipes() {
-
+	private void createOreRecipes() {
 		for (final Ore ore : Ore.registry.values())
 			if (ore.smeltingEntity != null)
 				GameRegistry.addSmelting(PolycraftMod.blocks.get(ore.gameName),
 						ore.smeltingEntityIsItem ? new ItemStack(PolycraftMod.items.get(ore.smeltingEntity.gameName), ore.smeltingEntitiesPerBlock) : new ItemStack(PolycraftMod.blocks.get(ore.smeltingEntity.gameName),
 								ore.smeltingEntitiesPerBlock), ore.smeltingExperience);
+	}
 
+	private void createCompressedBlockRecipes() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			final ItemStack blockCompressed = new ItemStack(PolycraftMod.blocks.get(compressedBlock.gameName));
 			final Item compressedItem = PolycraftMod.items.get(compressedBlock.type.gameName);
@@ -224,7 +219,9 @@ public class CommonProxy {
 			GameRegistry.addShapelessRecipe(blockCompressed, compressedItems);
 			GameRegistry.addShapelessRecipe(new ItemStack(compressedItem, compressedBlock.itemsPerBlock), blockCompressed);
 		}
+	}
 
+	private void createPlasticRecipes() {
 		// anything you put in here will be able to be crafted with all plastics of all colors
 		for (final Plastic plastic : Plastic.registry.values()) {
 
@@ -254,60 +251,404 @@ public class CommonProxy {
 						GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get(ItemGripped.getName(plastic, materialName, type))),
 								new ItemStack((Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type))), new ItemStack(plasticGrip));
 		}
+	}
 
-		for (final Alloy alloy : Alloy.registry.values()) {
-			final ItemStack[] materials = new ItemStack[alloy.processingInputMaterials.size()];
-			int i = 0;
-			for (Entry<Object, Integer> materialEntry : alloy.processingInputMaterials.entrySet()) {
-				final Object material = materialEntry.getKey();
-				if (material instanceof Entity)
-					materials[i++] = new ItemStack(PolycraftMod.items.get(((Entity) material).gameName), materialEntry.getValue());
-				else
-					materials[i++] = new ItemStack((Block) material, materialEntry.getValue());
-			}
-			ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(materials, new ItemStack[] { new ItemStack(PolycraftMod.blocks.get("compressed_" + Ingot.registry.get("ingot_" + alloy.gameName).gameName),
-					alloy.processingOutputBlocks) }));
-		}
+	private void createFluidRecipes() {
 		final Item fluidContainerNozzle = PolycraftMod.items.get(PolycraftMod.itemFluidContainerName + "_nozzle");
-		GameRegistry.addRecipe(new ItemStack(fluidContainerNozzle), "xxx", " x ", " x ", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_copper")));
+		GameRegistry.addRecipe(new ItemStack(fluidContainerNozzle),
+				"xxx", " x ", " x ",
+				'x', new ItemStack(PolycraftMod.items.get(Ingot.copper.gameName)));
 
-		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemFluidContainer), " y ", "x x", " x ", 'x', new ItemStack(PolycraftMod.items.get("ingot_alloy_steel")), 'y', new ItemStack(fluidContainerNozzle));
+		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemFluidContainer),
+				" y ", "x x", " x ",
+				'x', new ItemStack(PolycraftMod.items.get(Ingot.steel.gameName)),
+				'y', new ItemStack(fluidContainerNozzle));
+	}
 
-		final Catalyst platinumCatalyst = Catalyst.registry.get("catalyst_element_platinum");
-		GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName), platinumCatalyst.craftingAmount), new ItemStack(PolycraftMod.items.get("ingot_element_platinum")));
+	private void createChemicalProcessorRecipes() {
+		GameRegistry.addRecipe(new ItemStack(PolycraftMod.blockChemicalProcessor),
+				"xxx", "xzx", "xyx",
+				'x', new ItemStack(PolycraftMod.items.get(Ingot.steel.gameName)),
+				'y', new ItemStack(Blocks.furnace),
+				'z', new ItemStack(Blocks.glass_pane));
 
-		final Block fracker = PolycraftMod.blocks.get("fracker");
-		GameRegistry.addRecipe(new ItemStack(fracker), "xxx", "xyx", "xxx", 'x', new ItemStack(PolycraftMod.items.get("ingot_element_titanium")), 'y', new ItemStack(Blocks.furnace));
-		FrackerRecipes.addRecipe(new ItemStack(PolycraftMod.blocks.get("ore_mineral_shale")), new ItemStack(PolycraftMod.items.get("compound_natural_gas_" + PolycraftMod.itemFluidContainerName)), .7f);
+		createAlloyRecipes();
+		createCatalystRecipes();
+		createWaterRecipes();
+		createMineralRecipes();
+		createCompoundRecipes();
+	}
 
-		final Block chemicalProcessor = PolycraftMod.blocks.get("chemical_processor");
-		GameRegistry.addRecipe(new ItemStack(chemicalProcessor), "xxx", "xzx", "xyx", 'x', new ItemStack(PolycraftMod.items.get("ingot_alloy_steel")), 'y', new ItemStack(Blocks.furnace), 'z', new ItemStack(Blocks.glass_pane));
+	private void createAlloyRecipes() {
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(Blocks.iron_block, 9),
+						new ItemStack(PolycraftMod.items.get(Ingot.carbon.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(CompressedBlock.steel.gameName), 9)
+				}));
+	}
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(Items.water_bucket) }, new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Element.registry.get("element_chlorine")), 10),
-				new ItemStack(PolycraftMod.getItemFluidContainer(Element.registry.get("element_bromine"))), new ItemStack(Items.bucket) }));
+	private void createCatalystRecipes() {
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.platinum.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.platinum.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.blocks.get("ore_mineral_shale")) }, new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry
-				.get("compound_natural_gas"))) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.titanium.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.titanium.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_natural_gas"))) }, new ItemStack[] {
-				new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_ethane"))), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_propane"))),
-				new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_butane"))), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_methane"))) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.palladium.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.palladium.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.itemBucketOil) }, new ItemStack[] {
-				new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_naphtha"))), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_gas_oil"))),
-				new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_btx"))), new ItemStack(PolycraftMod.blocks.get(Compound.registry.get("compound_bitumen").gameName)), new ItemStack(Items.bucket) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.cobalt.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.cobalt.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_ethane"))),
-				new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)) }, new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_ethylene")), 2) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.manganese.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.manganese.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_propane"))),
-				new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)) }, new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_propylene")), 2) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.magnesium.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.magnesiumOxide.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_butane"))),
-				new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)) }, new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_butadiene")), 2) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Ingot.antimony.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.antimonyTrioxide.gameName), 16) }));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.registry.get("compound_ethylene"))) }, new ItemStack[] { new ItemStack(PolycraftMod.blocks
-				.get(Plastic.getDefaultForType(4).gameName), 16) }));
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.chlorine)),
+						new ItemStack(PolycraftMod.items.get(Ingot.copper.gameName))
+				},
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.copperIIChloride.gameName), 16) }));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.chlorine)),
+						new ItemStack(Items.iron_ingot)
+				},
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.ironIIIChloride.gameName), 16) }));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(Items.iron_ingot) },
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.ironIIIOxide.gameName), 16) }));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.items.get(Catalyst.titanium.gameName)),
+						new ItemStack(PolycraftMod.items.get(Ingot.aluminum.gameName)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.olefins))
+				},
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.zieglerNatta.gameName), 16) }));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.items.get(Catalyst.cobalt.gameName)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.manganese.gameName)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.bromine))
+				},
+				new ItemStack[] { new ItemStack(PolycraftMod.items.get(Catalyst.cobaltManganeseBromide.gameName), 16) }));
+	}
+
+	private void createWaterRecipes() {
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(Items.water_bucket)
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o), 4),
+						new ItemStack(Items.bucket)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.chlorine), 10),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.bromine)),
+						new ItemStack(Items.bucket)
+				}));
+	}
+
+	private void createMineralRecipes() {
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] { new ItemStack(PolycraftMod.blocks.get(Ore.shale.gameName)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.naturalGas)) }));
+	}
+
+	private void createCompoundRecipes() {
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.naturalGas))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethane)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.propane)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.butane)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.methane))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.itemBucketOil) },
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.naphtha)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.gasOil)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.btx)),
+						new ItemStack(PolycraftMod.blocks.get(Compound.bitumen.gameName)),
+						new ItemStack(Items.bucket)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethane)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.platinum.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene), 2)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.propane)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.platinum.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.propylene), 2)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.butane)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.platinum.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.butadiene), 2)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.zieglerNatta.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(Plastic.getDefaultForType(2).gameName), 16)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(Plastic.getDefaultForType(4).gameName), 16)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.palladium.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneOxide))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneOxide)),
+						new ItemStack(Items.water_bucket)
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneGlycol))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.naphtha)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.platinum.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.olefins)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.paraffin))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.gasOil)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.platinum.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.diesel)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.kerosene))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.btx)),
+						new ItemStack(PolycraftMod.items.get(Catalyst.cobaltManganeseBromide.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.terephthalicAcid))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.terephthalicAcid)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.methanol))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.dimethylTerephthalate), 2)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.dimethylTerephthalate)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneGlycol), 2),
+						new ItemStack(PolycraftMod.items.get(Catalyst.magnesiumOxide.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(Plastic.getDefaultForType(4).gameName), 16),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.methanol), 2),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneGlycol))
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.dimethylTerephthalate)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneGlycol), 2),
+						new ItemStack(PolycraftMod.items.get(Catalyst.antimonyTrioxide.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(Plastic.getDefaultForType(4).gameName), 16),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.methanol), 2),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethyleneGlycol))
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.chlorine)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene), 2),
+						new ItemStack(PolycraftMod.items.get(Catalyst.copperIIChloride.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.edc), 2)
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.chlorine)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene), 2),
+						new ItemStack(PolycraftMod.items.get(Catalyst.ironIIIChloride.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.edc), 2)
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.edc))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.vinylChloride)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.hcl))
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.acetylene)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.hcl))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.vinylChloride))
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.methane))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.acetylene))
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.chlorine), 16)
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.cl2))
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.cl2))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.hcl), 16)
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.vinylChloride)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o), 3)
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(Plastic.getDefaultForType(3).gameName), 16),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o), 3)
+
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(Items.iron_ingot),
+						new ItemStack(Items.lava_bucket)
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.sulfuricAcid), 32),
+						new ItemStack(Items.bucket)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylene)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.benzene)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.sulfuricAcid))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylbenzene), 2)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.ethylbenzene)),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o), 10),
+						new ItemStack(Items.coal),
+						new ItemStack(PolycraftMod.items.get(Catalyst.ironIIIOxide.gameName))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.styrene))
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.styrene))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.blocks.get(Plastic.getDefaultForType(6).gameName), 16)
+				}));
 	}
 
 	private void createCheatRecipes() {
@@ -320,10 +661,7 @@ public class CommonProxy {
 			final Collection<ItemStack> dirtStacks = new ArrayList<ItemStack>();
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get("fracker")), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get("chemical_processor")), dirtStacks.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blockChemicalProcessor), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
@@ -343,9 +681,6 @@ public class CommonProxy {
 				oilBuckets.add(oilBucketStack);
 				GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(plastic.gameName)), oilBuckets.toArray());
 			}
-
-			final Catalyst platinumCatalyst = Catalyst.registry.get("catalyst_element_platinum");
-			// GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blocks.get(Plastic.registry.get("plastic1").gameName)), oilBucketStack, new ItemStack(PolycraftMod.items.get(platinumCatalyst.gameName)));
 		}
 	}
 }

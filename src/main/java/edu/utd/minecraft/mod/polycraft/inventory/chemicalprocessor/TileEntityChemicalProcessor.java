@@ -24,7 +24,7 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	/**
 	 * The ItemStacks that hold the items currently being used in the chemical processor
 	 */
-	private ItemStack[] chemicalProcessorItemStacks = new ItemStack[14];
+	private ItemStack[] chemicalProcessorItemStacks = new ItemStack[2 + ChemicalProcessorRecipe.maxMaterials + ChemicalProcessorRecipe.maxResults];
 
 	/**
 	 * The number of ticks that the chemical processor will keep burning

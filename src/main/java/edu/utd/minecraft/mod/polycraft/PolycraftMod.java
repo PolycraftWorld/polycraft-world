@@ -49,10 +49,8 @@ public class PolycraftMod {
 	public static final int oilFluidViscosity = 1500;
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
-	public static final int guiFrackerID = 0;
-	public static final int renderFrackerID = 2000;
-	public static final int guiChemicalProcessorID = 1;
-	public static final int renderChemicalProcessorID = 2001;
+	public static final int guiChemicalProcessorID = 0;
+	public static final int renderChemicalProcessorID = 2000;
 
 	public static void main(final String... args) throws IOException {
 		int arg = 0;
@@ -82,8 +80,6 @@ public class PolycraftMod {
 	public static final Map<String, Block> blocks = new HashMap<String, Block>();
 	// special blocks for fast access
 	public static Block blockOil;
-	public static Block blockFracker;
-	public static Block blockFrackerActive;
 	public static Block blockChemicalProcessor;
 	public static Block blockChemicalProcessorActive;
 

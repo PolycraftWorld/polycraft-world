@@ -4,14 +4,20 @@ public class Catalyst extends Entity {
 
 	public static final EntityRegistry<Catalyst> registry = new EntityRegistry<Catalyst>();
 
-	static {
-		registry.register(new Catalyst(Element.registry.get("element_platinum"), 16));
-	}
+	public static final Catalyst platinum = registry.register(new Catalyst(Element.platinum.name));
+	public static final Catalyst titanium = registry.register(new Catalyst(Element.titanium.name));
+	public static final Catalyst palladium = registry.register(new Catalyst(Element.palladium.name));
+	public static final Catalyst cobalt = registry.register(new Catalyst(Element.cobalt.name));
+	public static final Catalyst manganese = registry.register(new Catalyst(Element.manganese.name));
+	public static final Catalyst magnesiumOxide = registry.register(new Catalyst(Element.magnesium.name + " Oxide"));
+	public static final Catalyst antimonyTrioxide = registry.register(new Catalyst(Element.antimony.name + " Trioxide"));
+	public static final Catalyst copperIIChloride = registry.register(new Catalyst(Element.copper.name + " II Chloride"));
+	public static final Catalyst ironIIIChloride = registry.register(new Catalyst("Iron III Chloride"));
+	public static final Catalyst ironIIIOxide = registry.register(new Catalyst("Iron III Oxide"));
+	public static final Catalyst zieglerNatta = registry.register(new Catalyst("Ziegler-Natta"));
+	public static final Catalyst cobaltManganeseBromide = registry.register(new Catalyst(Element.cobalt.name + "-" + Element.manganese.name + "-Bromide"));
 
-	public final int craftingAmount;
-
-	public Catalyst(final Entity type, final int craftingAmount) {
-		super("catalyst_" + type.gameName, type.name);
-		this.craftingAmount = craftingAmount;
+	public Catalyst(final String name) {
+		super("catalyst_" + name.toLowerCase().replaceAll(" ", "_").replaceAll("-", "_"), name);
 	}
 }

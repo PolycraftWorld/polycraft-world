@@ -24,9 +24,12 @@ public class ContainerChemicalProcessor extends Container {
 	public ContainerChemicalProcessor(InventoryPlayer par1InventoryPlayer, TileEntityChemicalProcessor par2TileEntityChemicalProcessor) {
 		this.tileChemicalProcessor = par2TileEntityChemicalProcessor;
 		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFuel, 26, 54)); // fuel
-		for (int i = 0; i < ChemicalProcessorRecipe.maxMaterials; i++)
-			this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFirstMaterial + i, 8 + (i * 18), 18));
-		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFluidContainer, 71, 36));
+		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFirstMaterial, 8, 18));
+		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFirstMaterial + 1, 8 + 18, 18));
+		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFirstMaterial + 2, 8 + 36, 18));
+		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFirstMaterial + 3, 8, 36));
+		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFirstMaterial + 4, 8 + 36, 36));
+		this.addSlotToContainer(new Slot(par2TileEntityChemicalProcessor, slotIndexFluidContainer, 71, 54));
 		// outputs
 		int slot = slotIndexFirstResult;
 		for (int j = 0; j < 3; ++j) {

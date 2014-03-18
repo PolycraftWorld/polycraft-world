@@ -10,7 +10,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 
 public class ChemicalProcessorRecipe {
 
-	public static final int maxMaterials = 3;
+	public static final int maxMaterials = 5;
 	public static final int maxResults = 9;
 
 	public static final Collection<ChemicalProcessorRecipe> recipes = new LinkedList<ChemicalProcessorRecipe>();

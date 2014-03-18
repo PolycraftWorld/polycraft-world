@@ -4,12 +4,10 @@ public class Mineral extends Entity {
 
 	public static final EntityRegistry<Mineral> registry = new EntityRegistry<Mineral>();
 
-	static {
-		registry.register(new Mineral("Graphite"));
-		registry.register(new Mineral("Bauxite"));
-		registry.register(new Mineral("Tar Sand"));
-		registry.register(new Mineral("Shale"));
-	}
+	public static final Mineral graphite = registry.register(new Mineral("Graphite"));
+	public static final Mineral bauxite = registry.register(new Mineral("Bauxite"));
+	public static final Mineral tarSand = registry.register(new Mineral("Tar Sand"));
+	public static final Mineral shale = registry.register(new Mineral("Shale"));
 
 	public Mineral(final String name) {
 		super("mineral_" + name.toLowerCase().replaceAll(" ", "_"), name);
