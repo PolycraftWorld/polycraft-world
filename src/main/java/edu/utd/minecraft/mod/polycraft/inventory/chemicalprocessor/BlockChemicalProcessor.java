@@ -89,8 +89,15 @@ public class BlockChemicalProcessor extends BlockContainer {
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-		return p_149691_1_ == 1 ? this.chemicalProcessorIconTop : (p_149691_1_ == 0 ? this.chemicalProcessorIconTop : (p_149691_1_ != p_149691_2_ ? this.blockIcon : this.chemicalProcessorIconFront));
+	public IIcon getIcon(int side, int front) {
+		// if the front is the top, it must be in the player inventory, so just render the front as side 3 (like furnace)
+		if (front == 0 && side == 3)
+			return this.chemicalProcessorIconFront;
+		if (side == 0 || side == 1)
+			return this.chemicalProcessorIconTop;
+		if (side != front)
+			return this.blockIcon;
+		return this.chemicalProcessorIconFront;
 	}
 
 	@Override
