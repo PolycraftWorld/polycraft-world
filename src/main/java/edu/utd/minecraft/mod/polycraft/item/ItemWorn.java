@@ -20,7 +20,7 @@ public class ItemWorn
 
 	}
 
-	public static Item create(String type, String materialName, ArmorMaterial material, double durabilityBonus, int locationOnBody)
+	public static Item create(String type, String materialName, ArmorMaterial material, double durabilityBuff, int locationOnBody)
 	{
 		Item itemWorn = null;
 		try {
@@ -31,13 +31,13 @@ public class ItemWorn
 		}
 		itemWorn.setTextureName(PolycraftMod.getTextureName("worn_" + getNameBase(materialName, type)));
 		String temp = "worn_" + getNameBase(materialName, type);
-		itemWorn.setMaxDamage((int) ((itemWorn.getMaxDamage() * (1 + durabilityBonus)) + 1));
+		itemWorn.setMaxDamage((int) ((itemWorn.getMaxDamage() * (1 + durabilityBuff)) + 1));
 		return itemWorn;
 	}
 
 	public static String getName(Plastic plastic, String materialName, String type, int locationOnBody)
 	{
-		return plastic.gameName + "_worn_" +locationOnBody + "_" + getNameBase(materialName, type);
+		return plastic.gameName + "_worn_" + locationOnBody + "_" + getNameBase(materialName, type);
 	}
 
 	public static String getNameBase(String materialName, String type)

@@ -1,0 +1,3 @@
+{
+	"jetpack.fly": { "category": "master", "sounds": [ { "name": "jetpack_fly", "stream": false } ] }
+}

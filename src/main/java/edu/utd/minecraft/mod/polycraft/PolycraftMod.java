@@ -145,6 +145,9 @@ public class PolycraftMod {
 			langEntries.add(String.format("tile.%s.name=%s (%02d %s: %s)", plastic.gameName, translations.getProperty("plastic"), plastic.type, plastic.abbreviation, plastic.name));
 			if (plastic.isDefaultColor())
 				langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameGrip, translations.getProperty("plastic"), translations.getProperty("grip"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameKevlarVest, translations.getProperty("kevlarvest"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameRunningShoes, translations.getProperty("runningshoes"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameJetPack, translations.getProperty("jetpack"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNamePellet, translations.getProperty("plastic"), translations.getProperty("pellet"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameFiber, translations.getProperty("plastic"), translations.getProperty("fiber"), plastic.type, plastic.abbreviation));
 

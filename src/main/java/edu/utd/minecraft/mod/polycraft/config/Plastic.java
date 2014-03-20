@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
+
 public class Plastic extends Entity {
 
 	public static final String[] colors = new String[] { "white", "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange" };
@@ -12,13 +16,13 @@ public class Plastic extends Entity {
 
 	static {
 		for (int i = 0; i < colors.length; i++) {
-			registry.register(new Plastic(1, "Polyethylene terephthalate", "PET", colors[i], .1, 64));
-			registry.register(new Plastic(2, "High-density polyethylene", "PE-HD", colors[i], 1, 32));
-			registry.register(new Plastic(3, "Polyvinyl chloride", "PVC", colors[i], .2, 16));
-			registry.register(new Plastic(4, "Low-density polyethylene", "PELD", colors[i], .05, 8));
-			registry.register(new Plastic(5, "Polypropylene", "PP", colors[i], .4, 4));
-			registry.register(new Plastic(6, "Polystyrene", "PS", colors[i], .3, 2));
-			registry.register(new Plastic(7, "Other polycarbonate", "O", colors[i], 2, 1));
+			registry.register(new Plastic(1, "Polyethylene terephthalate", "PET", colors[i], 64, 1, .1f, 1f, .1f, .1f));
+			registry.register(new Plastic(2, "High-density polyethylene", "PE-HD", colors[i], 32, 1, .2f, 2f, .2f, .2f));
+			registry.register(new Plastic(3, "Polyvinyl chloride", "PVC", colors[i], 16, 1, .3f, 3f, .3f, .3f));
+			registry.register(new Plastic(4, "Low-density polyethylene", "PELD", colors[i], 8, 1, .4f, 4f, .4f, .4f));
+			registry.register(new Plastic(5, "Polypropylene", "PP", colors[i], 4, 1, .5f, 5f, .5f, .5f));
+			registry.register(new Plastic(6, "Polystyrene", "PS", colors[i], 2, 1, .6f, 6f, .6f, .6f));
+			registry.register(new Plastic(7, "Other polycarbonate", "O", colors[i], 1, 1, .7f, 7f, .7f, .7f));
 		}
 	}
 
@@ -33,22 +37,40 @@ public class Plastic extends Entity {
 	public final String itemNamePellet;
 	public final String itemNameFiber;
 	public final String itemNameGrip;
+	public final String itemNameRunningShoes;
+	public final String itemNameJetPack;
+	public final String itemNameKevlarVest;
 	public final int type;
 	public final String abbreviation;
 	public final String color;
-	public final double itemDurabilityBonus;
 	public final int craftingPelletsPerBlock;
+	public final int craftingFibersPerPellet;
+	public final float gripDurabilityBuff;
+	public final ArmorMaterial kevlarArmorType;
+	public final float runningShoesWalkSpeedBuff;
+	public final float jetPackFlySpeedBuff;
 
-	public Plastic(final int type, final String name, final String abbrevation, final String color, final double itemDurabilityBonus, final int craftingPelletsPerBlock) {
+	public Plastic(final int type, final String name, final String abbrevation, final String color, final int craftingPelletsPerBlock, final int craftingFibersPerPellet,
+			final float itemDurabilityBonus, final float kevlarArmorBuff, final float runningShoesWalkSpeedBuff, final float jetPackFlySpeedBuff) {
 		super(getGameName(type, color), name);
 		this.itemNamePellet = gameName + "_pellet"; // this makes pellets of different colors
 		this.itemNameFiber = gameName + "_fiber"; // this makes fibers of different colors
+		this.itemNameKevlarVest = gameName + "_kevlar_vest"; // this makes vests of different colors
+		this.itemNameRunningShoes = gameName + "_running_shoes"; // this makes shoes of different colors
+		this.itemNameJetPack = gameName + "_jet_pack"; // this makes jet pack of different colors
 		this.itemNameGrip = "plastic_" + type + "_grip"; // this makes only one color of grip
 		this.type = type;
 		this.abbreviation = abbrevation;
 		this.color = color;
-		this.itemDurabilityBonus = itemDurabilityBonus;
 		this.craftingPelletsPerBlock = craftingPelletsPerBlock;
+		this.craftingFibersPerPellet = craftingFibersPerPellet;
+		this.gripDurabilityBuff = itemDurabilityBonus;
+		// kevlar is buffed off of the DIAMOND values
+		final float kevlarArmorBuffPercent = (1 + kevlarArmorBuff);
+		final int[] reductionAmounts = new int[] { (int) (3 * kevlarArmorBuffPercent), (int) (8 * kevlarArmorBuffPercent), (int) (6 * kevlarArmorBuffPercent), (int) (3 * kevlarArmorBuffPercent) };
+		this.kevlarArmorType = EnumHelper.addArmorMaterial(gameName + "_kevlar", (int) (33 * kevlarArmorBuffPercent), reductionAmounts, (int) (ItemArmor.ArmorMaterial.DIAMOND.getEnchantability() * kevlarArmorBuffPercent));
+		this.runningShoesWalkSpeedBuff = runningShoesWalkSpeedBuff;
+		this.jetPackFlySpeedBuff = jetPackFlySpeedBuff;
 	}
 
 	public boolean isDefaultColor() {
