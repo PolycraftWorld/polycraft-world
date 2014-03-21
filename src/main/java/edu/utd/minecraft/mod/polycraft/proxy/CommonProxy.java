@@ -46,7 +46,11 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
+import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaFlippers;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWorn;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -167,9 +171,14 @@ public class CommonProxy {
 			PolycraftMod.registerItem(plastic.itemNameFiber, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNameFiber.replaceAll("_[0-9]", ""))));
 
 			// TODO need to create textures for all colors
+			// TODO change these to use products refined from plastics (like kevlar, nylon, etc)
 			PolycraftMod.registerItem(plastic.itemNameKevlarVest, new ItemKevlarVest(plastic).setTextureName(PolycraftMod.getTextureName("kevlar_vest")));
 			PolycraftMod.registerItem(plastic.itemNameRunningShoes, new ItemRunningShoes(plastic).setTextureName(PolycraftMod.getTextureName("running_shoes")));
-			PolycraftMod.registerItem(plastic.itemNameJetPack, new ItemJetPack(plastic, 10).setTextureName(PolycraftMod.getTextureName("jet_pack")));
+			PolycraftMod.registerItem(plastic.itemNameJetPack, new ItemJetPack(plastic, 5000, 1).setTextureName(PolycraftMod.getTextureName("jet_pack")));
+			PolycraftMod.registerItem(plastic.itemNameParachute, new ItemParachute(plastic).setTextureName(PolycraftMod.getTextureName("parachute")));
+			PolycraftMod.registerItem(plastic.itemNameScubaMask, new ItemScubaMask(plastic).setTextureName(PolycraftMod.getTextureName("scuba_mask")));
+			PolycraftMod.registerItem(plastic.itemNameScubaTank, new ItemScubaTank(plastic, 5000, 1).setTextureName(PolycraftMod.getTextureName("scuba_tank")));
+			PolycraftMod.registerItem(plastic.itemNameScubaFlippers, new ItemScubaFlippers(plastic).setTextureName(PolycraftMod.getTextureName("scuba_flippers")));
 
 			// this makes only one grip object for each type of plastic color
 			if (plastic.isDefaultColor())
@@ -245,6 +254,10 @@ public class CommonProxy {
 			final Item kevlarVest = PolycraftMod.items.get(plastic.itemNameKevlarVest);
 			final Item runningShoes = PolycraftMod.items.get(plastic.itemNameRunningShoes);
 			final Item jetPack = PolycraftMod.items.get(plastic.itemNameJetPack);
+			final Item parachute = PolycraftMod.items.get(plastic.itemNameParachute);
+			final Item scubaMask = PolycraftMod.items.get(plastic.itemNameScubaMask);
+			final Item scubaTank = PolycraftMod.items.get(plastic.itemNameScubaTank);
+			final Item scubaFlippers = PolycraftMod.items.get(plastic.itemNameScubaFlippers);
 
 			// three diagonal pellets give you a fiber
 			GameRegistry.addRecipe(new ItemStack(plasticFiber, plastic.craftingFibersPerPellet), "x  ", " x ", "  x", 'x', new ItemStack(plasticPellet));
@@ -256,12 +269,32 @@ public class CommonProxy {
 			GameRegistry.addRecipe(new ItemStack(plasticGrip), "x x", "x x", "xxx", 'x', new ItemStack(plasticPellet));
 			GameRegistry.addRecipe(new ItemStack(kevlarVest), "x x", "xxx", "xxx", 'x', new ItemStack(plasticFiber, 4));
 			GameRegistry.addRecipe(new ItemStack(runningShoes), "   ", "x x", "x x", 'x', new ItemStack(plasticFiber, 2));
-			// TODO need to allow refilling tanks (like repairing an item on an anvil?)
 			GameRegistry.addRecipe(new ItemStack(jetPack),
 					"xzx", "yxy", "xzx",
 					'x', new ItemStack(plasticFiber, 8),
-					'y', new ItemStack(PolycraftMod.getItemFluidContainer(Compound.kerosene), 2),
+					'y', new ItemStack(PolycraftMod.getItemFluidContainer(Element.hydrogen), 2),
 					'z', new ItemStack(PolycraftMod.items.get(Ingot.aluminum.gameName), 8));
+			// allow refilling tanks
+			ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+					new ItemStack[] {
+							new ItemStack(jetPack),
+							new ItemStack(PolycraftMod.getItemFluidContainer(Element.hydrogen), 4)
+					},
+					new ItemStack[] { new ItemStack(jetPack) }));
+			GameRegistry.addRecipe(new ItemStack(parachute), "xxx", "x x", " x ", 'x', new ItemStack(plasticFiber, 8));
+			GameRegistry.addRecipe(new ItemStack(scubaMask), "xxx", "xyx", "xxx", 'x', new ItemStack(plasticFiber), 'y', new ItemStack(Blocks.glass_pane));
+			GameRegistry.addRecipe(new ItemStack(scubaTank),
+					"xzx", "yxy", "x x",
+					'x', new ItemStack(plasticFiber, 8),
+					'y', new ItemStack(PolycraftMod.getItemFluidContainer(Element.oxygen)));
+			// allow refilling tanks
+			ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+					new ItemStack[] {
+							new ItemStack(scubaTank),
+							new ItemStack(PolycraftMod.getItemFluidContainer(Element.oxygen), 2)
+					},
+					new ItemStack[] { new ItemStack(scubaTank) }));
+			GameRegistry.addRecipe(new ItemStack(scubaFlippers), "x x", "x x", "x x", 'x', new ItemStack(plasticFiber));
 
 			// this only builds new tools for each type of plastic, not each color...
 			if (plastic.isDefaultColor())
@@ -379,8 +412,18 @@ public class CommonProxy {
 						new ItemStack(Items.water_bucket)
 				},
 				new ItemStack[] {
-						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o), 4),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.hydrogen), 2),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.oxygen)),
 						new ItemStack(Items.bucket)
+				}));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.hydrogen), 2),
+						new ItemStack(PolycraftMod.getItemFluidContainer(Element.oxygen))
+				},
+				new ItemStack[] {
+						new ItemStack(PolycraftMod.getItemFluidContainer(Compound.h2o), 1)
 				}));
 
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
@@ -680,29 +723,41 @@ public class CommonProxy {
 			final Collection<ItemStack> dirtStacks = new ArrayList<ItemStack>();
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blockChemicalProcessor), dirtStacks.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_jet_pack")), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.getItemFluidContainer(Compound.kerosene), 64), dirtStacks.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_running_shoes")), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_parachute")), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_scuba_tank")), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_scuba_flippers")), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_scuba_mask")), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			final ItemStack oilBucketStack = new ItemStack(PolycraftMod.itemBucketOil);
+			GameRegistry.addShapelessRecipe(oilBucketStack, dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blockChemicalProcessor), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Items.coal, 64), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_jet_pack")), dirtStacks.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemFluidContainer, 64), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_kevlar_vest")), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_running_shoes")), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
-			final ItemStack oilBucketStack = new ItemStack(PolycraftMod.itemBucketOil);
-			GameRegistry.addShapelessRecipe(oilBucketStack, dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_pickaxe), dirtStacks.toArray());

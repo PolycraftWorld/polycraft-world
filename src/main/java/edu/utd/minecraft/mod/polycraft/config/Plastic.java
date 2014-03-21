@@ -22,7 +22,7 @@ public class Plastic extends Entity {
 			registry.register(new Plastic(4, "Low-density polyethylene", "PELD", colors[i], 8, 1, .4f, 4f, .4f, .4f));
 			registry.register(new Plastic(5, "Polypropylene", "PP", colors[i], 4, 1, .5f, 5f, .5f, .5f));
 			registry.register(new Plastic(6, "Polystyrene", "PS", colors[i], 2, 1, .6f, 6f, .6f, .6f));
-			registry.register(new Plastic(7, "Other polycarbonate", "O", colors[i], 1, 1, .7f, 7f, .7f, .7f));
+			registry.register(new Plastic(7, "Other polycarbonate", "O", colors[i], 1, 1, .7f, 7f, .7f, 2f));
 		}
 	}
 
@@ -37,9 +37,13 @@ public class Plastic extends Entity {
 	public final String itemNamePellet;
 	public final String itemNameFiber;
 	public final String itemNameGrip;
+	public final String itemNameKevlarVest;
 	public final String itemNameRunningShoes;
 	public final String itemNameJetPack;
-	public final String itemNameKevlarVest;
+	public final String itemNameParachute;
+	public final String itemNameScubaMask;
+	public final String itemNameScubaTank;
+	public final String itemNameScubaFlippers;
 	public final int type;
 	public final String abbreviation;
 	public final String color;
@@ -55,10 +59,14 @@ public class Plastic extends Entity {
 		super(getGameName(type, color), name);
 		this.itemNamePellet = gameName + "_pellet"; // this makes pellets of different colors
 		this.itemNameFiber = gameName + "_fiber"; // this makes fibers of different colors
+		this.itemNameGrip = "plastic_" + type + "_grip"; // this makes only one color of grip
 		this.itemNameKevlarVest = gameName + "_kevlar_vest"; // this makes vests of different colors
 		this.itemNameRunningShoes = gameName + "_running_shoes"; // this makes shoes of different colors
-		this.itemNameJetPack = gameName + "_jet_pack"; // this makes jet pack of different colors
-		this.itemNameGrip = "plastic_" + type + "_grip"; // this makes only one color of grip
+		this.itemNameJetPack = gameName + "_jet_pack"; // this makes jet packs of different colors
+		this.itemNameParachute = gameName + "_parachute"; // this makes parachutes of different colors
+		this.itemNameScubaMask = gameName + "_scuba_mask"; // this makes scuba masks of different colors
+		this.itemNameScubaTank = gameName + "_scuba_tank"; // this makes scuba tanks of different colors
+		this.itemNameScubaFlippers = gameName + "_scuba_flippers"; // this makes scuba flippers of different colors
 		this.type = type;
 		this.abbreviation = abbrevation;
 		this.color = color;

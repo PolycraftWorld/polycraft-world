@@ -4,7 +4,9 @@ public class Element extends Entity {
 
 	public static final EntityRegistry<Element> registry = new EntityRegistry<Element>();
 
+	public static final Element hydrogen = registry.register(new Element("Hydrogen", "H", 1, true));
 	public static final Element carbon = registry.register(new Element("Carbon", "C", 6));
+	public static final Element oxygen = registry.register(new Element("Oxygen", "O", 8, true));
 	public static final Element magnesium = registry.register(new Element("Magnesium", "Mg", 12));
 	public static final Element aluminum = registry.register(new Element("Aluminum", "Al", 13));
 	public static final Element chlorine = registry.register(new Element("Chlorine", "Cl", 17, true));

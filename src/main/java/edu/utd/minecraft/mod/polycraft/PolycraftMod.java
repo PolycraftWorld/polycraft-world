@@ -148,6 +148,10 @@ public class PolycraftMod {
 			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameKevlarVest, translations.getProperty("kevlarvest"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameRunningShoes, translations.getProperty("runningshoes"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameJetPack, translations.getProperty("jetpack"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameParachute, translations.getProperty("parachute"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameScubaMask, translations.getProperty("scubamask"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameScubaTank, translations.getProperty("scubatank"), plastic.type, plastic.abbreviation));
+			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameScubaFlippers, translations.getProperty("scubaflippers"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNamePellet, translations.getProperty("plastic"), translations.getProperty("pellet"), plastic.type, plastic.abbreviation));
 			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameFiber, translations.getProperty("plastic"), translations.getProperty("fiber"), plastic.type, plastic.abbreviation));
 
