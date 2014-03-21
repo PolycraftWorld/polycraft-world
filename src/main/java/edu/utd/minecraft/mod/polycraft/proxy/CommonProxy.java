@@ -723,6 +723,12 @@ public class CommonProxy {
 			final Collection<ItemStack> dirtStacks = new ArrayList<ItemStack>();
 
 			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.dirt, 64), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_jet_pack")), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
@@ -752,9 +758,6 @@ public class CommonProxy {
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemFluidContainer, 64), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.items.get("plastic_7_white_kevlar_vest")), dirtStacks.toArray());

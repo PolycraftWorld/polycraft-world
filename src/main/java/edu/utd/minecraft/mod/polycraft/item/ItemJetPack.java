@@ -41,7 +41,9 @@ public class ItemJetPack extends ItemArmor {
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List par3List, final boolean par4) {
 		createTagCompound(itemStack);
-		par3List.add(getFuelRemainingPercent(itemStack) + "% fuel remaining");
+		int fuel = getFuelRemainingPercent(itemStack);
+		if (fuel > 0)
+			par3List.add(fuel + "% fuel remaining");
 	}
 
 	public float getFlySpeedBuff() {

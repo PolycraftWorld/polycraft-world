@@ -41,7 +41,9 @@ public class ItemScubaTank extends ItemArmor {
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List par3List, final boolean par4) {
 		createTagCompound(itemStack);
-		par3List.add(getAirRemainingPercent(itemStack) + "% air remaining");
+		int air = getAirRemainingPercent(itemStack);
+		if (air > 0)
+			par3List.add(air + "% air remaining");
 	}
 
 	public float getFlySpeedBuff() {

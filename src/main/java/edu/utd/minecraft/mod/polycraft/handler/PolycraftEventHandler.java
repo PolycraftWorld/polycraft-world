@@ -162,10 +162,10 @@ public class PolycraftEventHandler {
 			if (scubaTankItemStack != null && scubaTankItemStack.getItem() instanceof ItemScubaTank) {
 				final ItemScubaTank scubaTankItem = (ItemScubaTank) scubaTankItemStack.getItem();
 				if (scubaTankItem.consumeAir(scubaTankItemStack)) {
+					player.setAir(300);
 					final int airRemainingPercent = scubaTankItem.getAirRemainingPercent(scubaTankItemStack);
 					if (scubaTankPreviousAirRemainingPercent != airRemainingPercent) {
 						player.addChatMessage(new ChatComponentText(airRemainingPercent + "% air remaining"));
-						player.setAir(300);
 						event.entity.worldObj.spawnParticle("bubble", player.posX, player.posY - 8, player.posZ, -player.motionX, -player.motionY, -player.motionZ);
 					}
 					scubaTankPreviousAirRemainingPercent = airRemainingPercent;
