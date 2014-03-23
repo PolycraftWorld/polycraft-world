@@ -5,14 +5,14 @@ public class Ore extends Entity {
 	public static final EntityRegistry<Ore> registry = new EntityRegistry<Ore>();
 
 	// element ores
-	public static final Ore magnesium = registry.register(new Ore(Element.magnesium, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.magnesium, 1, .1f));
-	public static final Ore titanium = registry.register(new Ore(Element.titanium, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.titanium, 1, .1f));
-	public static final Ore manganese = registry.register(new Ore(Element.manganese, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.manganese, 1, .1f));
-	public static final Ore cobalt = registry.register(new Ore(Element.cobalt, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.cobalt, 1, .1f));
-	public static final Ore copper = registry.register(new Ore(Element.copper, 3, 5, 3, 7, 0, 30, 10, 10, Ingot.copper, 1, .1f));
-	public static final Ore palladium = registry.register(new Ore(Element.palladium, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.palladium, 1, .1f));
-	public static final Ore antimony = registry.register(new Ore(Element.antimony, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.antimony, 1, .1f));
-	public static final Ore platinum = registry.register(new Ore(Element.platinum, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.platinum, 1, .1f));
+	public static final Ore magnesium = registry.register(new Ore(Element.Magnesium, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.magnesium, 1, .1f));
+	public static final Ore titanium = registry.register(new Ore(Element.Titanium, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.titanium, 1, .1f));
+	public static final Ore manganese = registry.register(new Ore(Element.Manganese, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.manganese, 1, .1f));
+	public static final Ore cobalt = registry.register(new Ore(Element.Cobalt, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.cobalt, 1, .1f));
+	public static final Ore copper = registry.register(new Ore(Element.Copper, 3, 5, 3, 7, 0, 30, 10, 10, Ingot.copper, 1, .1f));
+	public static final Ore palladium = registry.register(new Ore(Element.Palladium, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.palladium, 1, .1f));
+	public static final Ore antimony = registry.register(new Ore(Element.Antimony, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.antimony, 1, .1f));
+	public static final Ore platinum = registry.register(new Ore(Element.Platinum, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.platinum, 1, .1f));
 	// mineral ores
 	public static final Ore bauxite = registry.register(new Ore(Mineral.bauxite, 3, 5, 2, 5, 10, 30, 10, 10, Ingot.aluminum, 1, .1f));
 	public static final Ore tarSand = registry.register(new Ore(Mineral.tarSand, 3, 5, 2, 5, 0, 30, 10, 20, Compound.bitumen, 1, .1f));

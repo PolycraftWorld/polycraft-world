@@ -7,6 +7,7 @@ import net.minecraftforge.common.util.EnumHelper;
 public class Plastic extends Entity {
 
 	public static final String[] colors = new String[] { "white", "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange" };
+	public static final String[] classesOfPlastic = new String[] { "polyolefin", "polyaldehyde", "cellulosic", "polyamide", "polyester", "polyaramid", "polycarbonate", "polyether" };
 
 	public static final String getDefaultColor() {
 		return colors[0];
@@ -16,13 +17,22 @@ public class Plastic extends Entity {
 
 	static {
 		for (int i = 0; i < colors.length; i++) {
-			registry.register(new Plastic(1, "Polyethylene terephthalate", "PET", colors[i], 64, 1, .1f, 1f, .1f, .1f));
-			registry.register(new Plastic(2, "High-density polyethylene", "PE-HD", colors[i], 32, 1, .2f, 2f, .2f, .2f));
-			registry.register(new Plastic(3, "Polyvinyl chloride", "PVC", colors[i], 16, 1, .3f, 3f, .3f, .3f));
-			registry.register(new Plastic(4, "Low-density polyethylene", "PELD", colors[i], 8, 1, .4f, 4f, .4f, .4f));
-			registry.register(new Plastic(5, "Polypropylene", "PP", colors[i], 4, 1, .5f, 5f, .5f, .5f));
-			registry.register(new Plastic(6, "Polystyrene", "PS", colors[i], 2, 1, .6f, 6f, .6f, .6f));
-			registry.register(new Plastic(7, "Other polycarbonate", "O", colors[i], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(1, "Polyethylene terephthalate", "PET", colors[i], classesOfPlastic[4], 64, 1, .1f, 1f, .1f, .1f));
+			registry.register(new Plastic(2, "High-density polyethylene", "PE-HD", colors[i], classesOfPlastic[0], 32, 1, .2f, 2f, .2f, .2f));
+			registry.register(new Plastic(3, "Polyvinyl chloride", "PVC", colors[i], classesOfPlastic[0], 16, 1, .3f, 3f, .3f, .3f));
+			registry.register(new Plastic(4, "Low-density polyethylene", "PELD", colors[i], classesOfPlastic[0], 8, 1, .4f, 4f, .4f, .4f));
+			registry.register(new Plastic(5, "Polypropylene", "PP", colors[i], classesOfPlastic[0], 4, 1, .5f, 5f, .5f, .5f));
+			registry.register(new Plastic(6, "Polystyrene", "PS", colors[i], classesOfPlastic[0], 2, 1, .6f, 6f, .6f, .6f));
+			registry.register(new Plastic(7, "Other polycarbonate", "O", colors[i], classesOfPlastic[6], 1, 1, .7f, 7f, .7f, 2f));
+
+			registry.register(new Plastic(8, "Polyolefin", "O", colors[i], classesOfPlastic[0], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(9, "Polyaldehyde", "O", colors[i], classesOfPlastic[1], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(10, "Cellulosic", "O", colors[i], classesOfPlastic[2], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(11, "Polyamide", "O", colors[i], classesOfPlastic[3], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(12, "Polyester", "O", colors[i], classesOfPlastic[4], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(13, "Polyaramid", "O", colors[i], classesOfPlastic[5], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(13, "Polycarbonate", "O", colors[i], classesOfPlastic[6], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(13, "Polyether", "O", colors[i], classesOfPlastic[7], 1, 1, .7f, 7f, .7f, 2f));
 		}
 	}
 
@@ -45,6 +55,7 @@ public class Plastic extends Entity {
 	public final String itemNameScubaTank;
 	public final String itemNameScubaFlippers;
 	public final int type;
+	public final String classOfPlastic;
 	public final String abbreviation;
 	public final String color;
 	public final int craftingPelletsPerBlock;
@@ -54,8 +65,8 @@ public class Plastic extends Entity {
 	public final float runningShoesWalkSpeedBuff;
 	public final float jetPackFlySpeedBuff;
 
-	public Plastic(final int type, final String name, final String abbrevation, final String color, final int craftingPelletsPerBlock, final int craftingFibersPerPellet,
-			final float itemDurabilityBonus, final float kevlarArmorBuff, final float runningShoesWalkSpeedBuff, final float jetPackFlySpeedBuff) {
+	public Plastic(final int type, final String name, final String abbrevation, final String color, final String classOfPlastic, final int craftingPelletsPerBlock, final int craftingFibersPerPellet, final float itemDurabilityBonus,
+			final float kevlarArmorBuff, final float runningShoesWalkSpeedBuff, final float jetPackFlySpeedBuff) {
 		super(getGameName(type, color), name);
 		this.itemNamePellet = gameName + "_pellet"; // this makes pellets of different colors
 		this.itemNameFiber = gameName + "_fiber"; // this makes fibers of different colors
@@ -68,6 +79,7 @@ public class Plastic extends Entity {
 		this.itemNameScubaTank = gameName + "_scuba_tank"; // this makes scuba tanks of different colors
 		this.itemNameScubaFlippers = gameName + "_scuba_flippers"; // this makes scuba flippers of different colors
 		this.type = type;
+		this.classOfPlastic = classOfPlastic;
 		this.abbreviation = abbrevation;
 		this.color = color;
 		this.craftingPelletsPerBlock = craftingPelletsPerBlock;
