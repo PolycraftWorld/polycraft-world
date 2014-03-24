@@ -178,7 +178,7 @@ public class CommonProxy {
 			// TODO change these to use products refined from plastics (like kevlar, nylon, etc)
 			PolycraftMod.registerItem(plastic.itemNameKevlarVest, new ItemKevlarVest(plastic).setTextureName(PolycraftMod.getTextureName("kevlar_vest")));
 			PolycraftMod.registerItem(plastic.itemNameRunningShoes, new ItemRunningShoes(plastic).setTextureName(PolycraftMod.getTextureName("running_shoes")));
-			PolycraftMod.registerItem(plastic.itemNameJetPack, new ItemJetPack(plastic, 500, 1).setTextureName(PolycraftMod.getTextureName("jet_pack")));
+			PolycraftMod.registerItem(plastic.itemNameJetPack, new ItemJetPack(plastic, 5000, 1).setTextureName(PolycraftMod.getTextureName("jet_pack")));
 			PolycraftMod.registerItem(plastic.itemNameParachute, new ItemParachute(plastic).setTextureName(PolycraftMod.getTextureName("parachute")));
 			PolycraftMod.registerItem(plastic.itemNameScubaMask, new ItemScubaMask(plastic).setTextureName(PolycraftMod.getTextureName("scuba_mask")));
 			PolycraftMod.registerItem(plastic.itemNameScubaTank, new ItemScubaTank(plastic, 5000, 1).setTextureName(PolycraftMod.getTextureName("scuba_tank")));
