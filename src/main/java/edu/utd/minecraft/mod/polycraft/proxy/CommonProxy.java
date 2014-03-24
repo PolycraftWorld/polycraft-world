@@ -166,9 +166,13 @@ public class CommonProxy {
 
 	private void createPlastics() {
 		for (final Plastic plastic : Plastic.registry.values()) {
-			PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic));
-			PolycraftMod.registerItem(plastic.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNamePellet.replaceAll("_[0-9]", ""))));
-			PolycraftMod.registerItem(plastic.itemNameFiber, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNameFiber.replaceAll("_[0-9]", ""))));
+			if (plastic.type <= 7)
+				PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic)); // this puts a bottom on the recycled plastics
+			else
+				PolycraftMod.registerBlock(plastic.gameName, new BlockPlastic(plastic, 1)); // this uses the same texture for the others
+
+			PolycraftMod.registerItem(plastic.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNamePellet.replaceAll("_[0-9][0-9]", "").replaceAll("_[0-9]", ""))));
+			PolycraftMod.registerItem(plastic.itemNameFiber, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(plastic.itemNameFiber.replaceAll("_[0-9][0-9]", "").replaceAll("_[0-9]", ""))));
 
 			// TODO need to create textures for all colors
 			// TODO change these to use products refined from plastics (like kevlar, nylon, etc)
@@ -436,13 +440,13 @@ public class CommonProxy {
 
 		}));
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.acetylene)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.hcl)) },
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.Acetylene)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.hcl)) },
 				new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.vinylChloride))
 
 				}));
 
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.methane)) }, new ItemStack[] { new ItemStack(PolycraftMod
-				.getItemFluidContainer(Compound.acetylene))
+				.getItemFluidContainer(Compound.Acetylene))
 
 		}));
 
@@ -483,6 +487,16 @@ public class CommonProxy {
 
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.xylene)) }, new ItemStack[] {
 				new ItemStack(PolycraftMod.getItemFluidContainer(Compound.metaXylene)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.paraXylene)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.orthoXylene)) }));
+
+		// TODO: fix this so that if the inputs are containers and block, the correct amount of empty containers are on the right side.
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(Items.coal) }, new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.coke)),
+				new ItemStack(PolycraftMod.getItemFluidContainer(Compound.naphtha)), new ItemStack(PolycraftMod.blocks.get(Compound.bitumen.gameName)) }));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.calcium_oxide)), new ItemStack(PolycraftMod.blocks.get(Compound.coke.gameName), 3) },
+				new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.calcium_carbide)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.carbon_monoxide)) }));
+
+		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.calcium_carbide)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.water)) },
+				new ItemStack[] { new ItemStack(PolycraftMod.getItemFluidContainer(Compound.Acetylene)), new ItemStack(PolycraftMod.getItemFluidContainer(Compound.calcium_hydroxide)) }));
 
 	}
 

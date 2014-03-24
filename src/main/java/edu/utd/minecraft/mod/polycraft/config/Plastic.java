@@ -7,7 +7,7 @@ import net.minecraftforge.common.util.EnumHelper;
 public class Plastic extends Entity {
 
 	public static final String[] colors = new String[] { "white", "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange" };
-	public static final String[] classesOfPlastic = new String[] { "polyolefin", "polyaldehyde", "cellulosic", "polyamide", "polyester", "polyaramid", "polycarbonate", "polyether" };
+	public static final String[] classesOfPlastic = new String[] { "polyolefin", "polyaldehyde", "cellulosic", "polyamide", "polyester", "polyaramid", "polycarbonate", "polyether", "polyphenol" };
 
 	public static final String getDefaultColor() {
 		return colors[0];
@@ -31,8 +31,9 @@ public class Plastic extends Entity {
 			registry.register(new Plastic(11, "Polyamide", "O", colors[i], classesOfPlastic[3], 1, 1, .7f, 7f, .7f, 2f));
 			registry.register(new Plastic(12, "Polyester", "O", colors[i], classesOfPlastic[4], 1, 1, .7f, 7f, .7f, 2f));
 			registry.register(new Plastic(13, "Polyaramid", "O", colors[i], classesOfPlastic[5], 1, 1, .7f, 7f, .7f, 2f));
-			registry.register(new Plastic(13, "Polycarbonate", "O", colors[i], classesOfPlastic[6], 1, 1, .7f, 7f, .7f, 2f));
-			registry.register(new Plastic(13, "Polyether", "O", colors[i], classesOfPlastic[7], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(14, "Polycarbonate", "O", colors[i], classesOfPlastic[6], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(15, "Polyether", "O", colors[i], classesOfPlastic[7], 1, 1, .7f, 7f, .7f, 2f));
+			registry.register(new Plastic(16, "Polyphenol", "O", colors[i], classesOfPlastic[7], 1, 1, .7f, 7f, .7f, 2f));
 		}
 	}
 
