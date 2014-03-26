@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.handler;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -23,18 +23,16 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 public class PolycraftEventHandler {
 
 	private static final Random random = new Random();
+
 	private static final float baseWalkSpeed = 0.1f;
 	private static final float baseJumpMovementFactor = 0.02F;
 	private static final float baseFlySpeed = 0.05f;
-	private static final float parachuteDescendSpeed = -.3f;
-	private static boolean previousAllowRunning = false;
+
 	private static boolean jetPackFailsafeEnabled = false;
 	private static final int jetPackExhaustParticlesPerTick = 5;
-	private static final double jetPackExhaustPlumeOffset = .1;
-	private static final double jetPackExhaustDownwardVelocity = -.5;
-	private int jetPackCurrentFlightTicks = 0;
-	private int jetPackPreviousFuelRemainingPercent = 0;
-	private static final Map<Integer, String> jetPackLandingWarnings = new HashMap<Integer, String>();
+	private static final double jetPackExhaustPlumeOffset = .05;
+	private static final double jetPackExhaustDownwardVelocity = -.8;
+	private static final Map<Integer, String> jetPackLandingWarnings = new LinkedHashMap<Integer, String>();
 	static
 	{
 		jetPackLandingWarnings.put(30, "might want to start thinking about landing...");
@@ -43,7 +41,11 @@ public class PolycraftEventHandler {
 		jetPackLandingWarnings.put(5, "vapor lock!!");
 		jetPackLandingWarnings.put(1, "EJECT EJECT EJECT!!!");
 	}
-	private static boolean previousWet = false;
+
+	private int jetPackCurrentFlightTicks = 0;
+	private int jetPackPreviousFuelRemainingPercent = 0;
+	private boolean previousAllowRunning = false;
+	private boolean previousWet = false;
 	private int scubaTankPreviousAirRemainingPercent = 0;
 
 	@SubscribeEvent
@@ -71,7 +73,7 @@ public class PolycraftEventHandler {
 		final boolean allowRunning = runningShoesItemStack != null && runningShoesItemStack.getItem() instanceof ItemRunningShoes;
 		if (allowRunning != previousAllowRunning) {
 			if (allowRunning) {
-				final float walkSpeedBuff = ((ItemRunningShoes) runningShoesItemStack.getItem()).getWalkSpeedBuff();
+				final float walkSpeedBuff = ((ItemRunningShoes) runningShoesItemStack.getItem()).walkSpeedBuff;
 				player.capabilities.setPlayerWalkSpeed(baseWalkSpeed * (1 + walkSpeedBuff));
 				player.jumpMovementFactor = baseJumpMovementFactor * (1 + walkSpeedBuff);
 			}
@@ -90,10 +92,10 @@ public class PolycraftEventHandler {
 		if (player.capabilities.allowFlying != allowFlying)
 		{
 			if (allowFlying)
-				player.capabilities.setFlySpeed(baseFlySpeed * (1 + ((ItemJetPack) jetPackItemStack.getItem()).getFlySpeedBuff()));
+				player.capabilities.setFlySpeed(baseFlySpeed * (1 + ((ItemJetPack) jetPackItemStack.getItem()).flySpeedBuff));
 			else {
 				player.capabilities.setFlySpeed(baseFlySpeed);
-				player.capabilities.isFlying = false; // TODO doesn't hurt player if falling from max item damage (does if the player un-equips the item...)
+				player.capabilities.isFlying = false;
 			}
 			jetPackCurrentFlightTicks = 0;
 			jetPackPreviousFuelRemainingPercent = -1;
@@ -115,12 +117,18 @@ public class PolycraftEventHandler {
 						player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% fuel remaining" + (warning == null ? "" : ", " + warning)));
 					}
 					jetPackPreviousFuelRemainingPercent = fuelRemainingPercent;
+
+					// cause an unstable motion to simulate the unpredictability of the exhaust direction
+					player.setPosition(
+							player.posX + ((random.nextDouble() / 5) - .1),
+							player.posY + ((random.nextDouble() / 5) - .1),
+							player.posZ + ((random.nextDouble() / 5) - .1));
 				}
 				else
 					player.addChatMessage(new ChatComponentText("Out of fuel, hope you packed a parachute..."));
 
-				spawnJetpackExhaust(player, -.3);
-				spawnJetpackExhaust(player, .3);
+				spawnJetpackExhaust(player, -.25);
+				spawnJetpackExhaust(player, .25);
 
 				if (jetPackCurrentFlightTicks == 1 || jetPackCurrentFlightTicks % 100 == 0)
 					event.entity.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
@@ -128,30 +136,37 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void spawnJetpackExhaust(final EntityPlayer player, final double xOffset)
-	{
+	private void spawnJetpackExhaust(final EntityPlayer player, final double offset) {
+		double playerRotationRadians = Math.toRadians(player.rotationYaw);
+		double playerRotationSin = Math.sin(playerRotationRadians);
+		double playerRotationCos = Math.cos(playerRotationRadians);
+		double centerX = player.posX + (offset * playerRotationCos);
+		double centerY = player.posY - 1;
+		double centerZ = player.posZ + (offset * playerRotationSin);
+		double offsetX = playerRotationCos * jetPackExhaustPlumeOffset;
+		double offsetZ = playerRotationSin * jetPackExhaustPlumeOffset;
 		for (int i = 0; i < jetPackExhaustParticlesPerTick; i++) {
-			double x = player.posX + xOffset;
-			double y = player.posY - (i * .02) - 1;
-			player.worldObj.spawnParticle("flame", x, y, player.posZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("flame", x - jetPackExhaustPlumeOffset, y, player.posZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("flame", x + jetPackExhaustPlumeOffset, y, player.posZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("flame", x, y, player.posZ - jetPackExhaustPlumeOffset, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("flame", x, y, player.posZ + jetPackExhaustPlumeOffset, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			double y = centerY - (i * .02);
+			player.worldObj.spawnParticle("flame", centerX, y, centerZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("flame", centerX - offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("flame", centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("flame", centerX - offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("flame", centerX + offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 
-			player.worldObj.spawnParticle("smoke", x, y, player.posZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("smoke", x - jetPackExhaustPlumeOffset, y, player.posZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("smoke", x + jetPackExhaustPlumeOffset, y, player.posZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("smoke", x, y, player.posZ - jetPackExhaustPlumeOffset, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
-			player.worldObj.spawnParticle("smoke", x, y, player.posZ + jetPackExhaustPlumeOffset, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("smoke", centerX, y, centerZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("smoke", centerX - offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("smoke", centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("smoke", centerX - offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+			player.worldObj.spawnParticle("smoke", centerX + offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 		}
 	}
 
 	private void handleParachute(final LivingUpdateEvent event, final EntityPlayer player) {
-		if (player.motionY < parachuteDescendSpeed) {
-			final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
-			if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
-				player.setVelocity(player.motionX * .99, parachuteDescendSpeed, player.motionZ * .99);
+		final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
+		if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
+			final float descendVelocity = ((ItemParachute) parachuteItemStack.getItem()).descendVelocity;
+			if (player.motionY < descendVelocity) {
+				player.setVelocity(player.motionX * .99, descendVelocity, player.motionZ * .99);
 				player.fallDistance = 0;
 			}
 		}
@@ -168,7 +183,7 @@ public class PolycraftEventHandler {
 				final ItemStack scubaFlippersItemStack = player.getCurrentArmor(0);
 				if (scubaFlippersItemStack != null && scubaFlippersItemStack.getItem() instanceof ItemScubaFlippers) {
 					// TODO make this buff configurable, also, doesn't work?
-					player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseWalkSpeed * 6);
+					player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseWalkSpeed * (1 + ((ItemScubaFlippers) scubaFlippersItemStack.getItem()).swimSpeedBuff));
 				}
 			}
 			else {

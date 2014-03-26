@@ -7,6 +7,6 @@ public class Alloy extends Entity {
 	public static final Alloy steel = registry.register(new Alloy("Steel"));
 
 	public Alloy(final String name) {
-		super("alloy_" + name.toLowerCase().replaceAll(" ", "_"), name);
+		super("alloy_" + getSafeName(name), name);
 	}
 }

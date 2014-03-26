@@ -10,6 +10,6 @@ public class Mineral extends Entity {
 	public static final Mineral shale = registry.register(new Mineral("Shale"));
 
 	public Mineral(final String name) {
-		super("mineral_" + name.toLowerCase().replaceAll(" ", "_"), name);
+		super("mineral_" + getSafeName(name), name);
 	}
 }

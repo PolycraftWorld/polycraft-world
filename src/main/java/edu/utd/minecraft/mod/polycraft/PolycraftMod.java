@@ -6,14 +6,14 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -29,10 +29,9 @@ import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
+import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
-import edu.utd.minecraft.mod.polycraft.item.ItemWorn;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -41,7 +40,11 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
 
+	public static final String MODID = "polycraft";
+	public static final String VERSION = "1.0";
+
 	public static final boolean cheatRecipesEnabled = true;
+	public static final int worldTemperatureKelvin = 298;
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;
 	public static final int oilWellScalar = 1000; // large values mean more oil will spawn
@@ -51,6 +54,16 @@ public class PolycraftMod {
 	public static final int oreWorldGeneratorWeight = 100;
 	public static final int guiChemicalProcessorID = 0;
 	public static final int renderChemicalProcessorID = 2000;
+	public static final float itemGrippedToolDurabilityBuff = 2f;
+	public static final float itemRunningShoesWalkSpeedBuff = 2f;
+	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
+	public static final int itemJetPackFuelUnitsFull = 5000;
+	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
+	public static final float itemJetPackFlySpeedBuff = 2;
+	public static final float itemParachuteDescendVelocity = -.3f;
+	public static final int itemScubaTankAirUnitsFull = 5000;
+	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
+	public static final float itemScubaFlippersSwimSpeedBuff = 6f;
 
 	public static void main(final String... args) throws IOException {
 		int arg = 0;
@@ -65,29 +78,36 @@ public class PolycraftMod {
 		writer.close();
 	}
 
-	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.0";
-
 	@Instance(value = MODID)
 	public static PolycraftMod instance;
 
 	@SidedProxy(clientSide = "edu.utd.minecraft.mod.polycraft.proxy.CombinedClientProxy", serverSide = "edu.utd.minecraft.mod.polycraft.proxy.DedicatedServerProxy")
 	public static CommonProxy proxy;
 
+	public static final ArmorMaterial armorMaterialNone = EnumHelper.addArmorMaterial("none", 0, new int[] { 0, 0, 0, 0 }, 0);
+
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
 
-	public static final Map<String, Block> blocks = new HashMap<String, Block>();
+	public static final Map<String, Block> blocks = new LinkedHashMap<String, Block>();
 	// special blocks for fast access
 	public static Block blockOil;
 	public static Block blockChemicalProcessor;
 	public static Block blockChemicalProcessorActive;
 
-	public static final String itemFluidContainerName = "fluid_container";
-	public static final Map<String, Item> items = new HashMap<String, Item>();
+	public static final String itemNameFluidContainer = "fluid_container";
+	public static final Map<String, Item> items = new LinkedHashMap<String, Item>();
 	// special items for fast access
 	public static Item itemBucketOil;
 	public static Item itemFluidContainer;
+	public static Item itemFluidContainerNozzle;
+	public static Item itemKevlarVest;
+	public static Item itemRunningShoes;
+	public static Item itemJetPack;
+	public static Item itemParachute;
+	public static Item itemScubaMask;
+	public static Item itemScubaTank;
+	public static Item itemScubaFlippers;
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
@@ -108,11 +128,19 @@ public class PolycraftMod {
 		return PolycraftMod.MODID + ":" + name;
 	}
 
+	public static Block registerBlock(final Entity entity, final Block block) {
+		return registerBlock(entity.gameName, block);
+	}
+
 	public static Block registerBlock(final String name, final Block block) {
 		block.setBlockName(name);
 		GameRegistry.registerBlock(block, name);
 		blocks.put(name, block);
 		return block;
+	}
+
+	public static Item registerItem(final Entity entity, final Item item) {
+		return registerItem(entity.gameName, item);
 	}
 
 	public static Item registerItem(final String name, final Item item) {
@@ -122,12 +150,24 @@ public class PolycraftMod {
 		return item;
 	}
 
-	public static Item getItemFluidContainer(final Entity entity) {
-		return items.get(ItemFluidContainer.getGameName(entity));
-	}
-
 	public static Collection<String> getLangEntries(final Properties translations) {
 		final Collection<String> langEntries = new ArrayList<String>();
+
+		for (final Element element : Element.registry.values())
+			if (element.fluid)
+				langEntries.add(String.format("item.%s.name=%s %s", ItemFluidContainer.getGameName(element), translations.getProperty("containerof"), element.name));
+
+		for (final Compound compound : Compound.registry.values())
+			if (compound.fluid)
+				langEntries.add(String.format("item.%s.name=%s %s", ItemFluidContainer.getGameName(compound), translations.getProperty("containerof"), compound.name));
+			else
+				langEntries.add(String.format("tile.%s.name=%s", compound.gameName, compound.name));
+
+		for (final Polymer polymer : Polymer.registry.values()) {
+			langEntries.add(String.format("tile.%s.name=%s", polymer.gameName, polymer.name));
+			langEntries.add(String.format("item.%s.name=%s %s", polymer.itemNamePellet, polymer.name, translations.getProperty("pellet")));
+			langEntries.add(String.format("item.%s.name=%s %s", polymer.itemNameFiber, polymer.name, translations.getProperty("fiber")));
+		}
 
 		for (final Ore ore : Ore.registry.values())
 			langEntries.add(String.format("tile.%s.name=%s %s", ore.gameName, ore.name, translations.getProperty("ore")));
@@ -141,53 +181,15 @@ public class PolycraftMod {
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format("item.%s.name=%s %s", catalyst.gameName, catalyst.name, translations.getProperty("catalyst")));
 
-		for (final Plastic plastic : Plastic.registry.values()) {
-			langEntries.add(String.format("tile.%s.name=%s (%02d %s: %s)", plastic.gameName, translations.getProperty("plastic"), plastic.type, plastic.abbreviation, plastic.name));
-			if (plastic.isDefaultColor())
-				langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameGrip, translations.getProperty("plastic"), translations.getProperty("grip"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameKevlarVest, translations.getProperty("kevlarvest"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameRunningShoes, translations.getProperty("runningshoes"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameJetPack, translations.getProperty("jetpack"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameParachute, translations.getProperty("parachute"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameScubaMask, translations.getProperty("scubamask"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameScubaTank, translations.getProperty("scubatank"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s (%02d %s)", plastic.itemNameScubaFlippers, translations.getProperty("scubaflippers"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNamePellet, translations.getProperty("plastic"), translations.getProperty("pellet"), plastic.type, plastic.abbreviation));
-			langEntries.add(String.format("item.%s.name=%s %s (%02d %s)", plastic.itemNameFiber, translations.getProperty("plastic"), translations.getProperty("fiber"), plastic.type, plastic.abbreviation));
-
-		}
-
-		for (final String materialName : ItemGripped.allowedMaterials.keySet()) {
-			final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
-			for (final Plastic plastic : Plastic.registry.values())
+		for (final Polymer polymer : ItemGripped.allowedPolymers) {
+			for (final String materialName : ItemGripped.allowedMaterials.keySet()) {
+				final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
 				for (final String type : ItemGripped.allowedTypes.keySet())
-					langEntries.add(String.format("item.%s.name=%s %s %s %s (%02d %s)", ItemGripped.getName(plastic, materialName, type), translations.getProperty("plastic"), translations.getProperty("gripped"), materialNameUpper,
-							Character.toUpperCase(type.charAt(0)) + type.substring(1), plastic.type, plastic.abbreviation));
+					langEntries.add(String.format("item.%s.name=%s %s %s (%s)", ItemGripped.getName(polymer, materialName, type),
+							translations.getProperty("gripped"), materialNameUpper,
+							Character.toUpperCase(type.charAt(0)) + type.substring(1), polymer.name));
+			}
 		}
-
-		for (final Entry<String, ArmorMaterial> materialEntry : ItemWorn.allowedMaterials.entrySet()) {
-			final String materialName = materialEntry.getKey();
-			final ArmorMaterial material = materialEntry.getValue();
-			final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
-			for (final Plastic plastic : Plastic.registry.values())
-				for (final String type : ItemWorn.allowedTypes.keySet()) {
-
-					for (int bodyLocation = 0; bodyLocation < 3; bodyLocation++) {
-						langEntries.add(String.format("item.%s.name=%s Worn %s %s (%02d %s)", ItemWorn.getName(plastic, materialName, type, bodyLocation), translations.getProperty("plastic"), materialNameUpper,
-								Character.toUpperCase(type.charAt(0)) + type.substring(1), plastic.type, plastic.abbreviation));
-					}
-				}
-		}
-
-		for (final Element element : Element.registry.values())
-			if (element.fluid)
-				langEntries.add(String.format("item.%s_%s.name=%s %s", element.gameName, itemFluidContainerName, translations.getProperty("containerof"), element.name));
-
-		for (final Compound compound : Compound.registry.values())
-			if (compound.fluid)
-				langEntries.add(String.format("item.%s_%s.name=%s %s", compound.gameName, itemFluidContainerName, translations.getProperty("containerof"), compound.name));
-			else
-				langEntries.add(String.format("tile.%s.name=%s", compound.gameName, compound.name));
 
 		return langEntries;
 	}

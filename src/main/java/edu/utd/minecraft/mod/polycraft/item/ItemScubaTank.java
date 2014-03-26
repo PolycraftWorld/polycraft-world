@@ -8,21 +8,16 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
 
 public class ItemScubaTank extends ItemArmor {
 
-	private static final ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("scuba_tank", 0, new int[] { 0, 0, 0, 0 }, 0);
+	public final int airUnitsFull;
+	public final int airUnitsConsumePerTick;
 
-	private final Plastic plastic;
-	private final int airUnitsFull;
-	private final int airUnitsConsumePerTick;
-
-	public ItemScubaTank(final Plastic plastic, final int airUnitsFull, final int airUnitsConsumePerTick) {
-		super(armorMaterial, 1, 1);
-		this.plastic = plastic;
+	public ItemScubaTank(final int airUnitsFull, final int airUnitsConsumePerTick) {
+		super(PolycraftMod.armorMaterialNone, 1, 1);
+		this.setTextureName(PolycraftMod.getTextureName("scuba_tank"));
 		this.airUnitsFull = airUnitsFull;
 		this.airUnitsConsumePerTick = airUnitsConsumePerTick;
 	}
@@ -44,10 +39,6 @@ public class ItemScubaTank extends ItemArmor {
 		int air = getAirRemainingPercent(itemStack);
 		if (air > 0)
 			par3List.add(air + "% air remaining");
-	}
-
-	public float getFlySpeedBuff() {
-		return plastic.jetPackFlySpeedBuff;
 	}
 
 	public static void setAirUnitsRemaining(final ItemStack itemStack, int airUnitsRemaining) {

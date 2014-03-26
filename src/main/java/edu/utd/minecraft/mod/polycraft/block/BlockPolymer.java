@@ -7,28 +7,21 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
+import edu.utd.minecraft.mod.polycraft.config.Polymer;
 
-public class BlockPlastic extends Block {
+public class BlockPolymer extends Block {
 
-	public final Plastic plastic;
+	public final Polymer polymer;
 	private final LabelTexture labelTexture;
 
 	// private static final IIcon[] colorIconList = new IIcon[16];
 	// public static final String[] colorNames = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
 	// public static final String[] color_names = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
 
-	public BlockPlastic(final Plastic plastic) {
+	public BlockPolymer(final Polymer polymer) {
 		super(Material.cloth);
-		this.plastic = plastic;
-		this.labelTexture = new LabelTexture(plastic.gameName, 5);
-		this.setCreativeTab(CreativeTabs.tabBlock);
-	}
-
-	public BlockPlastic(final Plastic plastic, final int sides) {
-		super(Material.cloth);
-		this.plastic = plastic;
-		this.labelTexture = new LabelTexture(plastic.gameName, sides);
+		this.polymer = polymer;
+		this.labelTexture = new LabelTexture(polymer.gameName, polymer.resinCode.recyclingNumber > 0 ? 5 : 1);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 

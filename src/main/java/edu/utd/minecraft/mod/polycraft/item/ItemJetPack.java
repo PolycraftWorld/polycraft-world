@@ -8,23 +8,20 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
 
 public class ItemJetPack extends ItemArmor {
 
-	private static final ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("jet_pack", 0, new int[] { 0, 0, 0, 0 }, 0);
+	public final int fuelUnitsFull;
+	public final int fuelUnitsBurnPerTick;
+	public final float flySpeedBuff;
 
-	private final Plastic plastic;
-	private final int fuelUnitsFull;
-	private final int fuelUnitsBurnPerTick;
-
-	public ItemJetPack(final Plastic plastic, final int fuelUnitsFull, final int fuelUnitsBurnPerTick) {
-		super(armorMaterial, 1, 1);
-		this.plastic = plastic;
+	public ItemJetPack(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final float flySpeedBuff) {
+		super(PolycraftMod.armorMaterialNone, 1, 1);
+		this.setTextureName(PolycraftMod.getTextureName("jet_pack"));
 		this.fuelUnitsFull = fuelUnitsFull;
 		this.fuelUnitsBurnPerTick = fuelUnitsBurnPerTick;
+		this.flySpeedBuff = flySpeedBuff;
 	}
 
 	private void createTagCompound(final ItemStack itemStack) {
@@ -44,10 +41,6 @@ public class ItemJetPack extends ItemArmor {
 		int fuel = getFuelRemainingPercent(itemStack);
 		if (fuel > 0)
 			par3List.add(fuel + "% fuel remaining");
-	}
-
-	public float getFlySpeedBuff() {
-		return plastic.jetPackFlySpeedBuff;
 	}
 
 	public static void setFuelUnitsRemaining(final ItemStack itemStack, int fuelUnitsRemaining) {

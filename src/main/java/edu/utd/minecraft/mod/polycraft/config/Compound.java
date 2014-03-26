@@ -25,7 +25,6 @@ public class Compound extends Entity {
 	public static final Compound ethyleneOxide = registry.register(new Compound("Ethylene Oxide", true));
 	public static final Compound gasOil = registry.register(new Compound("Gas Oil", true));
 	public static final Compound h2 = registry.register(new Compound("H2", true));
-	public static final Compound h2o = registry.register(new Compound("H2O", true));
 	public static final Compound hcl = registry.register(new Compound("HCL", true));
 	public static final Compound isophthalicAcid = registry.register(new Compound("Isophthalic Acid", true));
 	// public static final Compound kerosene = registry.register(new Compound("Kerosene", true));
@@ -34,7 +33,7 @@ public class Compound extends Entity {
 	// public static final Compound methanol = registry.register(new Compound("Methanol", true));
 	public static final Compound naphtha = registry.register(new Compound("Naphtha", true));
 	public static final Compound naturalGas = registry.register(new Compound("Natural Gas", true));
-	public static final Compound olefins = registry.register(new Compound("Olefins ", true));
+	public static final Compound olefins = registry.register(new Compound("Olefins", true));
 	public static final Compound orthoXylene = registry.register(new Compound("Ortho-Xylene", true));
 	// public static final Compound paraffin = registry.register(new Compound("Paraffin", true));
 	public static final Compound paraXylene = registry.register(new Compound("Para-Xylene", true));
@@ -42,11 +41,11 @@ public class Compound extends Entity {
 	// public static final Compound propane = registry.register(new Compound("Propane", true));
 	public static final Compound propylene = registry.register(new Compound("Propylene", true));
 	public static final Compound styrene = registry.register(new Compound("Styrene", true));
-	public static final Compound sulfuricAcid = registry.register(new Compound("Sulfuric Acid ", true));
+	public static final Compound sulfuricAcid = registry.register(new Compound("Sulfuric Acid", true));
 	public static final Compound terephthalicAcid = registry.register(new Compound("Terephthalic Acid", true));
 	// public static final Compound toluene = registry.register(new Compound("Toluene", true));
 	public static final Compound tolueneDiisocyanate = registry.register(new Compound("Toluene Diisocyanate", true));
-	public static final Compound vinylChloride = registry.register(new Compound("Vinyl Chloride ", true));
+	public static final Compound vinylChloride = registry.register(new Compound("Vinyl Chloride", true));
 	// public static final Compound xylene = registry.register(new Compound("Xylene", true));
 
 	// necessary for polymers - must find ways to craft
@@ -540,23 +539,19 @@ public class Compound extends Entity {
 	public static final Compound carbon_monoxide = registry.register(new Compound("Carbon Monoxide", true));
 
 	public final boolean fluid;
-	public final Plastic plastic;
-
-	public Compound(final String name, final Plastic _plastic) {
-		super("compound_" + name.toLowerCase().replaceAll(" ", "_"), name);
-		this.plastic = _plastic;
-		this.fluid = false;
-	}
+	public final String formula;
+	public final String uses;
+	public final String sources;
 
 	public Compound(final String name, final boolean fluid) {
-		super("compound_" + name.toLowerCase().replaceAll(" ", "_"), name);
-		this.fluid = fluid;
-		this.plastic = null;
+		this(name, fluid, "", "", "");
 	}
 
 	public Compound(final String name, final boolean fluid, final String formula, final String uses, final String sources) {
-		super("compound_" + name.toLowerCase().replaceAll(" ", "_"), name);
+		super("compound_" + getSafeName(name), name);
 		this.fluid = fluid;
-		this.plastic = null;
+		this.formula = formula;
+		this.uses = uses;
+		this.sources = sources;
 	}
 }

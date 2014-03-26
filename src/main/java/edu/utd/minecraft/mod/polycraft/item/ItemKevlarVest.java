@@ -3,16 +3,19 @@ package edu.utd.minecraft.mod.polycraft.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.EnumHelper;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
 
 public class ItemKevlarVest extends ItemArmor {
 
-	private final Plastic plastic;
+	private static final float kevlarArmorBuffPercent = 1 + PolycraftMod.itemKevlarArmorBuff;
+	public static final int[] kevlarArmorReductionAmounts = new int[] { (int) (3 * kevlarArmorBuffPercent), (int) (8 * kevlarArmorBuffPercent), (int) (6 * kevlarArmorBuffPercent), (int) (3 * kevlarArmorBuffPercent) };
+	public static final ArmorMaterial kevlarArmorType = EnumHelper.addArmorMaterial(
+			"kevlar", (int) (33 * kevlarArmorBuffPercent), kevlarArmorReductionAmounts, (int) (ItemArmor.ArmorMaterial.DIAMOND.getEnchantability() * kevlarArmorBuffPercent));
 
-	public ItemKevlarVest(final Plastic plastic) {
-		super(plastic.kevlarArmorType, 1, 1);
-		this.plastic = plastic;
+	public ItemKevlarVest() {
+		super(kevlarArmorType, 1, 1);
+		this.setTextureName(PolycraftMod.getTextureName("kevlar_vest"));
 	}
 
 	@Override

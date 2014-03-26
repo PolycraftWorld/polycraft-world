@@ -3,23 +3,16 @@ package edu.utd.minecraft.mod.polycraft.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.EnumHelper;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Plastic;
 
 public class ItemRunningShoes extends ItemArmor {
 
-	private static final ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("running_shoes", 0, new int[] { 0, 0, 0, 0 }, 0);
+	public final float walkSpeedBuff;
 
-	private final Plastic plastic;
-
-	public ItemRunningShoes(final Plastic plastic) {
-		super(armorMaterial, 1, 3);
-		this.plastic = plastic;
-	}
-
-	public float getWalkSpeedBuff() {
-		return plastic.runningShoesWalkSpeedBuff;
+	public ItemRunningShoes(final float walkSpeedBuff) {
+		super(PolycraftMod.armorMaterialNone, 1, 3);
+		this.setTextureName(PolycraftMod.getTextureName("running_shoes"));
+		this.walkSpeedBuff = walkSpeedBuff;
 	}
 
 	@Override

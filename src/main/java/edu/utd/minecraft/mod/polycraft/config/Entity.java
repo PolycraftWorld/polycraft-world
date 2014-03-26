@@ -2,6 +2,11 @@ package edu.utd.minecraft.mod.polycraft.config;
 
 public abstract class Entity {
 
+	protected static final String getSafeName(final String name)
+	{
+		return name.replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
+	}
+
 	public final String gameName;
 	public final String name;
 

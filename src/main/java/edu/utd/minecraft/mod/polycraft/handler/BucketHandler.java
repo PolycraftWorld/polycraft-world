@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.handler;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
@@ -15,7 +15,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class BucketHandler {
 
 	public static BucketHandler INSTANCE = new BucketHandler();
-	public Map<Block, Item> buckets = new HashMap<Block, Item>();
+	public Map<Block, Item> buckets = new LinkedHashMap<Block, Item>();
 
 	private BucketHandler() {
 	}
