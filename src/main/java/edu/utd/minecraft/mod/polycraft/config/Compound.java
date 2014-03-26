@@ -554,4 +554,10 @@ public class Compound extends Entity {
 		this.uses = uses;
 		this.sources = sources;
 	}
+
+	@Override
+	public String export(final String delimiter) {
+		return String.format("%2$s%1$s%3$b%1$s%4$s%1$s%5$s%1$s%6$s",
+				delimiter, super.export(delimiter), fluid, formula, uses, sources);
+	}
 }

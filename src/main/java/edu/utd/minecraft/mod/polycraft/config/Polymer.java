@@ -2,6 +2,8 @@ package edu.utd.minecraft.mod.polycraft.config;
 
 public class Polymer extends Compound {
 
+	public static final String[] colors = new String[] { "black", "blue", "brown", "cyan", "gray", "green", "light_blue", "lime", "magenta", "orange", "pink", "purple", "red", "silver", "yellow" };
+
 	public enum Category {
 		None,
 		Polyolefin,
@@ -79,6 +81,7 @@ public class Polymer extends Compound {
 	/*******************************************************************************************************************************************
 	 * Polyolefins - Plastic #8
 	 *********************************************************************************************************************************************/
+
 	// ETHYLENE-PROPYLENE COPOLYMERS - USES: automobile parts, impact modifier for PP, flexible seals, wire and cable insulation, weather stripping, tire sidewalls, hoses, roofing film
 	public static final Polymer EPM = registry.register(new Polymer("ethylene-propylene monomer (EPM)", Category.Polyolefin));
 	public static final Polymer EPDM = registry.register(new Polymer("ethylene-propylene-diene monomer (EPM)", Category.Polyolefin));
@@ -432,5 +435,11 @@ public class Polymer extends Compound {
 		this.craftingPelletsPerBlock = craftingPelletsPerBlock;
 		this.itemNamePellet = gameName + "_pellet";
 		this.itemNameFiber = gameName + "_fiber";
+	}
+
+	@Override
+	public String export(final String delimiter) {
+		return String.format("%2$s%1$s%3$s%1$s%4$s",
+				delimiter, super.export(delimiter), (category == Category.None) ? "" : Category.class.getSimpleName() + "." + category.name(), (resinCode == ResinCode.NONE) ? "" : ResinCode.class.getSimpleName() + "." + resinCode.name());
 	}
 }

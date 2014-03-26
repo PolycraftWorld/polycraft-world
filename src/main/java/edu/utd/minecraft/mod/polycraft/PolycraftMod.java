@@ -4,9 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,12 +22,14 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
+import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
@@ -47,7 +49,7 @@ public class PolycraftMod {
 	public static final int worldTemperatureKelvin = 298;
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;
-	public static final int oilWellScalar = 1000; // large values mean more oil will spawn
+	public static final int oilWellScalar = 100; // large values mean more oil will spawn
 	public static final int oilFluidDensity = 800;
 	public static final int oilFluidViscosity = 1500;
 	public static final int oilBlockFlammability = 5;
@@ -66,15 +68,24 @@ public class PolycraftMod {
 	public static final float itemScubaFlippersSwimSpeedBuff = 6f;
 
 	public static void main(final String... args) throws IOException {
-		int arg = 0;
-		final Properties translations = new Properties();
-		final InputStream translationsInput = new FileInputStream(args[arg++]);
-		translations.load(translationsInput);
-		translationsInput.close();
 
-		final PrintWriter writer = new PrintWriter(args[arg++], "UTF-8");
-		for (final String langEntry : getLangEntries(translations))
-			writer.println(langEntry);
+		Collection<String> lines = null;
+		int arg = 0;
+		final String program = args[arg++];
+		if ("conf".equals(program)) {
+			lines = getConfigs(args[arg++]);
+		}
+		else if ("lang".equals(program)) {
+			final Properties translations = new Properties();
+			final InputStream translationsInput = new FileInputStream(args[arg++]);
+			translations.load(translationsInput);
+			translationsInput.close();
+			lines = getLangEntries(translations);
+		}
+
+		final PrintWriter writer = new PrintWriter(args[arg++]);
+		for (final String line : lines)
+			writer.println(line);
 		writer.close();
 	}
 
@@ -150,8 +161,57 @@ public class PolycraftMod {
 		return item;
 	}
 
+	public static Collection<String> getConfigs(final String delimeter) {
+		final Collection<String> configs = new LinkedList<String>();
+
+		configs.add(Element.class.getSimpleName());
+		for (final Element element : Element.registry.values())
+			configs.add(element.export(delimeter));
+
+		configs.add("");
+		configs.add(Compound.class.getSimpleName());
+		for (final Compound compound : Compound.registry.values())
+			configs.add(compound.export(delimeter));
+
+		configs.add("");
+		configs.add(Polymer.class.getSimpleName());
+		for (final Polymer polymer : Polymer.registry.values())
+			configs.add(polymer.export(delimeter));
+
+		configs.add(Alloy.class.getSimpleName());
+		for (final Alloy alloy : Alloy.registry.values())
+			configs.add(alloy.name);
+
+		configs.add("");
+		configs.add(Mineral.class.getSimpleName());
+		for (final Mineral mineral : Mineral.registry.values())
+			configs.add(mineral.export(delimeter));
+
+		configs.add("");
+		configs.add(Ore.class.getSimpleName());
+		for (final Ore ore : Ore.registry.values())
+			configs.add(ore.export(delimeter));
+
+		configs.add("");
+		configs.add(Ingot.class.getSimpleName());
+		for (final Ingot ingot : Ingot.registry.values())
+			configs.add(ingot.export(delimeter));
+
+		configs.add("");
+		configs.add(CompressedBlock.class.getSimpleName());
+		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
+			configs.add(compressedBlock.export(delimeter));
+
+		configs.add("");
+		configs.add(Catalyst.class.getSimpleName());
+		for (final Catalyst catalyst : Catalyst.registry.values())
+			configs.add(catalyst.export(delimeter));
+
+		return configs;
+	}
+
 	public static Collection<String> getLangEntries(final Properties translations) {
-		final Collection<String> langEntries = new ArrayList<String>();
+		final Collection<String> langEntries = new LinkedList<String>();
 
 		for (final Element element : Element.registry.values())
 			if (element.fluid)

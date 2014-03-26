@@ -17,7 +17,7 @@ public class Catalyst extends Compound {
 	public static final Catalyst zieglerNatta = registry.register(new Catalyst("Ziegler-Natta"));
 	public static final Catalyst cobaltManganeseBromide = registry.register(new Catalyst(Element.cobalt.name + "-" + Element.manganese.name + "-Bromide"));
 	public static final Catalyst rhodium = registry.register(new Catalyst(Element.rhodium.name));
-	public static final Catalyst potassiumHydroxide = registry.register(new Catalyst(Element.potassium.name + "Hydroxide"));
+	public static final Catalyst potassiumHydroxide = registry.register(new Catalyst(Element.potassium.name + " Hydroxide"));
 
 	public Catalyst(final String name) {
 		super(name, false);

@@ -18,7 +18,7 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 
 	public BlockOre(final Ore ore) {
 		this.ore = ore;
-		this.labelTexture = new LabelTexture(ore.gameName, 2);
+		this.labelTexture = new LabelTexture(ore.gameName, ore.gameName + "_flip");
 		this.setHardness(ore.hardness);
 		this.setResistance(ore.resistance);
 		this.setStepSound(Block.soundTypePiston);

@@ -14,7 +14,7 @@ public class Ore extends Entity {
 	public static final Ore antimony = registry.register(new Ore(Element.antimony, 3, 5, 2, 5, 0, 30, 10, 10, Ingot.antimony, 1, .1f));
 	public static final Ore platinum = registry.register(new Ore(Element.platinum, 3, 5, 1, 4, 0, 30, 10, 10, Ingot.platinum, 1, .1f));
 	// mineral ores
-	public static final Ore bauxite = registry.register(new Ore(Mineral.bauxite, 3, 5, 2, 5, 10, 30, 10, 10, Ingot.aluminum, 1, .1f));
+	public static final Ore bauxite = registry.register(new Ore(Mineral.bauxite, 3, 5, 2, 5, 10, 30, 10, 10, Ingot.aluminium, 1, .1f));
 	public static final Ore tarSand = registry.register(new Ore(Mineral.tarSand, 3, 5, 2, 5, 0, 30, 10, 20, Compound.bitumen, 1, .1f));
 	public static final Ore shale = registry.register(new Ore(Mineral.shale, 3, 5, 2, 5, 0, 30, 10, 20));
 	public static final Ore graphite = registry.register(new Ore(Mineral.graphite, 3, 5, 2, 5, 10, 30, 10, 10, Ingot.carbon, 1, .1f));
@@ -54,5 +54,16 @@ public class Ore extends Entity {
 		this.smeltingEntityIsItem = smeltingEntity instanceof Ingot;
 		this.smeltingEntitiesPerBlock = smeltingEntitiesPerBlock;
 		this.smeltingExperience = smeltingExperience;
+	}
+
+	@Override
+	public String export(final String delimiter) {
+		final String export = String.format("%2$s%1$s%3$s.%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s%1$s%11$s%1$s%12$s",
+				delimiter, super.export(delimiter), type.getClass().getSimpleName(), type.name.toLowerCase(), hardness, resistance,
+				dropExperienceMin, dropExperienceMax, generationStartYMin, generationStartYMax, generationVeinsPerChunk, generationBlocksPerVein);
+		if (smeltingEntity != null)
+			return String.format("%2$s%1$s%3$s.%4$s%1$s%5$s%1$s%6$s", delimiter, export,
+					smeltingEntity.getClass().getSimpleName(), smeltingEntity.name.toLowerCase(), smeltingEntitiesPerBlock, smeltingExperience);
+		return export;
 	}
 }

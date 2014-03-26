@@ -156,4 +156,10 @@ public class Element extends Entity {
 		this.electronegativity = electronegativity;
 		this.abundance = abundance;
 	}
+
+	@Override
+	public String export(final String delimiter) {
+		return String.format("%2$s%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s%1$s%11$s%1$s%12$s%1$s%13$s",
+				delimiter, super.export(delimiter), symbol, atomicNumber, group, period, weight, density, melt, boil, heat, electronegativity, abundance);
+	}
 }

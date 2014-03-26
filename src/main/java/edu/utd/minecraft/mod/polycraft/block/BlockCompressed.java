@@ -15,7 +15,7 @@ public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 	public BlockCompressed(final CompressedBlock compressedBlock) {
 		super(compressedBlock.color);
 		this.compressedBlock = compressedBlock;
-		this.labelTexture = new LabelTexture(compressedBlock.gameName, 1);
+		this.labelTexture = new LabelTexture(compressedBlock.gameName, compressedBlock.gameName + "_flip");
 		this.setHardness(compressedBlock.hardness);
 		this.setResistance(compressedBlock.resistance);
 		this.setStepSound(Block.soundTypeMetal);

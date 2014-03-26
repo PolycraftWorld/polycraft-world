@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.Polymer.ResinCode;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
@@ -89,6 +90,19 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new PolycraftEventHandler());
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeInitializer());
+	}
+
+	private ItemStack createItemStack(final Entity entity) {
+		return createItemStack(entity, 1);
+	}
+
+	private ItemStack createItemStack(final Entity entity, int size) {
+		if ((entity instanceof Element && ((Element) entity).fluid) ||
+				(entity instanceof Compound && ((Compound) entity).fluid))
+			return new ItemStack(PolycraftMod.items.get(ItemFluidContainer.getGameName(entity)), size);
+		if (entity instanceof Ingot || entity instanceof Catalyst)
+			return new ItemStack(PolycraftMod.items.get(entity.gameName), size);
+		return new ItemStack(PolycraftMod.blocks.get(entity.gameName), size);
 	}
 
 	private void createBiomes() {
@@ -165,15 +179,17 @@ public class CommonProxy {
 
 	private void createPolymers() {
 		for (final Polymer polymer : Polymer.registry.values()) {
-			PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
-			PolycraftMod.registerItem(polymer.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(polymer.itemNamePellet)));
-			PolycraftMod.registerItem(polymer.itemNameFiber, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(polymer.itemNameFiber)));
+			//TODO remove this check when forge fixes their bug for EntityEnderMan.carriableBlocks array index out of bounds exception (cannot make blocks with ids bigger than 255!)
+			if (polymer.resinCode != ResinCode.NONE)
+				PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
+			PolycraftMod.registerItem(polymer.itemNamePellet, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName("polymer_pellet")));
+			PolycraftMod.registerItem(polymer.itemNameFiber, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName("polymer_fiber")));
 		}
 	}
 
 	private void createCatalysts() {
 		for (final Catalyst catalyst : Catalyst.registry.values())
-			PolycraftMod.registerItem(catalyst, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName(catalyst.gameName)));
+			PolycraftMod.registerItem(catalyst, new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName(PolycraftMod.getTextureName("catalyst")));
 	}
 
 	private void createOres() {
@@ -212,7 +228,7 @@ public class CommonProxy {
 		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemJetPack), "xzx", "yxy", "xzx",
 				'x', new ItemStack(PolycraftMod.items.get(Polymer.HDPE.itemNameFiber), 8),
 				'y', createItemStack(Element.hydrogen, 2),
-				'z', createItemStack(Ingot.aluminum, 8));
+				'z', createItemStack(Ingot.aluminium, 8));
 		// allow refilling tanks
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
 				new ItemStack[] { new ItemStack(PolycraftMod.itemJetPack), createItemStack(Element.hydrogen, 4) },
@@ -296,19 +312,6 @@ public class CommonProxy {
 		createCompoundRecipes();
 	}
 
-	private ItemStack createItemStack(final Entity entity) {
-		return createItemStack(entity, 1);
-	}
-
-	private ItemStack createItemStack(final Entity entity, int size) {
-		if ((entity instanceof Element && ((Element) entity).fluid) ||
-				(entity instanceof Compound && ((Compound) entity).fluid))
-			return new ItemStack(PolycraftMod.items.get(ItemFluidContainer.getGameName(entity)), size);
-		if (entity instanceof Ingot || entity instanceof Catalyst)
-			return new ItemStack(PolycraftMod.items.get(entity.gameName), size);
-		return new ItemStack(PolycraftMod.blocks.get(entity.gameName), size);
-	}
-
 	private void createAlloyRecipes() {
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
 				new ItemStack[] { new ItemStack(Blocks.iron_block, 9), createItemStack(Ingot.carbon) },
@@ -357,7 +360,7 @@ public class CommonProxy {
 				new ItemStack[] { createItemStack(Catalyst.ironIIIOxide, 16) }));
 
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
-				new ItemStack[] { createItemStack(Catalyst.titanium), createItemStack(Ingot.aluminum), createItemStack(Compound.olefins) },
+				new ItemStack[] { createItemStack(Catalyst.titanium), createItemStack(Ingot.aluminium), createItemStack(Compound.olefins) },
 				new ItemStack[] { createItemStack(Catalyst.zieglerNatta, 16) }));
 
 		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(

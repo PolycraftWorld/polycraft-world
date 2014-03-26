@@ -6,7 +6,7 @@ public class Ingot extends Entity {
 
 	public static final Ingot carbon = registry.register(new Ingot(Element.carbon));
 	public static final Ingot magnesium = registry.register(new Ingot(Element.magnesium));
-	public static final Ingot aluminum = registry.register(new Ingot(Element.aluminium));
+	public static final Ingot aluminium = registry.register(new Ingot(Element.aluminium));
 	public static final Ingot titanium = registry.register(new Ingot(Element.titanium));
 	public static final Ingot manganese = registry.register(new Ingot(Element.manganese));
 	public static final Ingot cobalt = registry.register(new Ingot(Element.cobalt));
@@ -21,5 +21,11 @@ public class Ingot extends Entity {
 	public Ingot(final Entity type) {
 		super("ingot_" + type.gameName, type.name);
 		this.type = type;
+	}
+
+	@Override
+	public String export(final String delimiter) {
+		return String.format("%2$s%1$s%3$s.%4$s",
+				delimiter, super.export(delimiter), type.getClass().getSimpleName(), type.name.toLowerCase());
 	}
 }
