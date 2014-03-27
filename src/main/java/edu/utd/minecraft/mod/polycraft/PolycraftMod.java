@@ -65,28 +65,31 @@ public class PolycraftMod {
 	public static final float itemParachuteDescendVelocity = -.3f;
 	public static final int itemScubaTankAirUnitsFull = 5000;
 	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
-	public static final float itemScubaFlippersSwimSpeedBuff = 6f;
+	public static final float itemScubaFinsSwimSpeedBuff = 6f;
 
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;
 		int arg = 0;
-		final String program = args[arg++];
-		if ("conf".equals(program)) {
-			lines = getConfigs(args[arg++]);
-		}
-		else if ("lang".equals(program)) {
-			final Properties translations = new Properties();
-			final InputStream translationsInput = new FileInputStream(args[arg++]);
-			translations.load(translationsInput);
-			translationsInput.close();
-			lines = getLangEntries(translations);
-		}
+		if(args.length != 0) {
+			final String program = args[arg++];
+			if ("conf".equals(program)) {
+				lines = getConfigs(args[arg++]);
+			}
+			else if ("lang".equals(program)) {
+				final Properties translations = new Properties();
+				final InputStream translationsInput = new FileInputStream(args[arg++]);
+				translations.load(translationsInput);
+				translationsInput.close();
+				lines = getLangEntries(translations);
+			}
 
-		final PrintWriter writer = new PrintWriter(args[arg++]);
-		for (final String line : lines)
-			writer.println(line);
-		writer.close();
+			final PrintWriter writer = new PrintWriter(args[arg++]);
+			for (final String line : lines) {
+				writer.println(line);
+			}
+			writer.close();			
+		}
 	}
 
 	@Instance(value = MODID)
@@ -118,7 +121,7 @@ public class PolycraftMod {
 	public static Item itemParachute;
 	public static Item itemScubaMask;
 	public static Item itemScubaTank;
-	public static Item itemScubaFlippers;
+	public static Item itemScubaFins;
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {

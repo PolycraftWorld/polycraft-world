@@ -48,7 +48,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaFlippers;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
@@ -152,7 +152,7 @@ public class CommonProxy {
 		PolycraftMod.itemParachute = PolycraftMod.registerItem("parachute", new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
 		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask());
 		PolycraftMod.itemScubaTank = PolycraftMod.registerItem("scuba_tank", new ItemScubaTank(PolycraftMod.itemScubaTankAirUnitsFull, PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
-		PolycraftMod.itemScubaFlippers = PolycraftMod.registerItem("scuba_flippers", new ItemScubaFlippers(PolycraftMod.itemScubaFlippersSwimSpeedBuff));
+		PolycraftMod.itemScubaFins = PolycraftMod.registerItem("scuba_fins", new ItemScubaFins(PolycraftMod.itemScubaFinsSwimSpeedBuff));
 
 		for (final Polymer polymer : ItemGripped.allowedPolymers) {
 			PolycraftMod.registerItem(polymer.gameName + "_grip", new Item().setCreativeTab(CreativeTabs.tabTools).setTextureName(PolycraftMod.getTextureName("polymer_grip")));
@@ -249,7 +249,7 @@ public class CommonProxy {
 				new ItemStack[] { new ItemStack(PolycraftMod.itemScubaTank), createItemStack(Element.oxygen, 2) },
 				new ItemStack[] { new ItemStack(PolycraftMod.itemScubaTank) }));
 
-		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemScubaFlippers), "x x", "x x", "x x",
+		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemScubaFins), "x x", "x x", "x x",
 				'x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNameFiber)));
 
 		for (final Polymer polymer : ItemGripped.allowedPolymers) {
@@ -549,7 +549,7 @@ public class CommonProxy {
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemScubaTank), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemScubaFlippers), dirtStacks.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemScubaFins), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemScubaMask), dirtStacks.toArray());

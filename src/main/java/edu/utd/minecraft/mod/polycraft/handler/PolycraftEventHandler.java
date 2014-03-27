@@ -16,7 +16,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaFlippers;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
@@ -180,10 +180,10 @@ public class PolycraftEventHandler {
 				if (scubaMaskItemStack != null && scubaMaskItemStack.getItem() instanceof ItemScubaMask) {
 				}
 
-				final ItemStack scubaFlippersItemStack = player.getCurrentArmor(0);
-				if (scubaFlippersItemStack != null && scubaFlippersItemStack.getItem() instanceof ItemScubaFlippers) {
+				final ItemStack scubaFinsItemStack = player.getCurrentArmor(0);
+				if (scubaFinsItemStack != null && scubaFinsItemStack.getItem() instanceof ItemScubaFins) {
 					// TODO make this buff configurable, also, doesn't work?
-					player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseWalkSpeed * (1 + ((ItemScubaFlippers) scubaFlippersItemStack.getItem()).swimSpeedBuff));
+					player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseWalkSpeed * (1 + ((ItemScubaFins) scubaFinsItemStack.getItem()).swimSpeedBuff));
 				}
 			}
 			else {
