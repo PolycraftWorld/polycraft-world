@@ -38,4 +38,9 @@ public class CompressedBlock extends Entity {
 		return String.format("%2$s%1$s%3$s.%4$s%1$s%5$s%1$s%6$s%1$s%7$d",
 				delimiter, super.export(delimiter), type.getClass().getSimpleName(), type.name.toLowerCase(), hardness, resistance, itemsPerBlock);
 	}
+
+	public static String generate(final String[] entity) {
+		final String[] params = new String[] { entity[1], "MapColor.ironColor", entity[2] + "f", entity[3] + "f", entity[4] };
+		return Entity.generate(CompressedBlock.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

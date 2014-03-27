@@ -162,4 +162,13 @@ public class Element extends Entity {
 		return String.format("%2$s%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s%1$s%11$s%1$s%12$s%1$s%13$s",
 				delimiter, super.export(delimiter), symbol, atomicNumber, group, period, weight, density, melt, boil, heat, electronegativity, abundance);
 	}
+
+	public static String generate(final String[] entity) {
+		final String[] params = new String[] {
+				"\"" + entity[0] + "\"",
+				"\"" + entity[1] + "\"",
+				entity[2], entity[3], entity[4], entity[5], entity[6], entity[7], entity[8], entity[9], entity[10], entity[11]
+		};
+		return Entity.generate(Element.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

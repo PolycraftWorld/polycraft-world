@@ -22,4 +22,9 @@ public class Catalyst extends Compound {
 	public Catalyst(final String name) {
 		super(name, false);
 	}
+
+	public static String generate(final String[] entity) {
+		final String[] params = new String[] { "\"" + entity[0] + "\"" };
+		return Entity.generate(Catalyst.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

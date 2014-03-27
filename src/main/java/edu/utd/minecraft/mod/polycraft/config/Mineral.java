@@ -12,4 +12,9 @@ public class Mineral extends Entity {
 	public Mineral(final String name) {
 		super("mineral_" + getSafeName(name), name);
 	}
+
+	public static String generate(final String[] entity) {
+		final String[] params = new String[] { "\"" + entity[0] + "\"" };
+		return Entity.generate(Mineral.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

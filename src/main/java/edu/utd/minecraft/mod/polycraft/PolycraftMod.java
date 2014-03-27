@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -14,6 +17,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
+
+import com.google.common.base.Charsets;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -57,23 +63,27 @@ public class PolycraftMod {
 	public static final int guiChemicalProcessorID = 0;
 	public static final int renderChemicalProcessorID = 2000;
 	public static final float itemGrippedToolDurabilityBuff = 2f;
-	public static final float itemRunningShoesWalkSpeedBuff = 2f;
+	public static final float itemRunningShoesWalkSpeedBuff = 1f;
 	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
 	public static final int itemJetPackFuelUnitsFull = 5000;
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
-	public static final float itemJetPackFlySpeedBuff = 2;
+	public static final float itemJetPackFlySpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
 	public static final int itemScubaTankAirUnitsFull = 5000;
 	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
-	public static final float itemScubaFlippersSwimSpeedBuff = 6f;
+	public static final float itemScubaFlippersSwimSpeedBuff = 2f;
+	public static final float itemScubaFlippersWalkSpeedBuff = -.5f;
 
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;
 		int arg = 0;
 		final String program = args[arg++];
-		if ("conf".equals(program)) {
-			lines = getConfigs(args[arg++]);
+		if ("confexp".equals(program)) {
+			lines = exportConfigs(args[arg++]);
+		}
+		if ("confgen".equals(program)) {
+			lines = generateConfigs(args[arg++], Files.readAllLines(Paths.get(args[arg++]), Charsets.ISO_8859_1));
 		}
 		else if ("lang".equals(program)) {
 			final Properties translations = new Properties();
@@ -161,7 +171,7 @@ public class PolycraftMod {
 		return item;
 	}
 
-	public static Collection<String> getConfigs(final String delimeter) {
+	public static Collection<String> exportConfigs(final String delimeter) {
 		final Collection<String> configs = new LinkedList<String>();
 
 		configs.add(Element.class.getSimpleName());
@@ -178,6 +188,7 @@ public class PolycraftMod {
 		for (final Polymer polymer : Polymer.registry.values())
 			configs.add(polymer.export(delimeter));
 
+		configs.add("");
 		configs.add(Alloy.class.getSimpleName());
 		for (final Alloy alloy : Alloy.registry.values())
 			configs.add(alloy.name);
@@ -206,6 +217,45 @@ public class PolycraftMod {
 		configs.add(Catalyst.class.getSimpleName());
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			configs.add(catalyst.export(delimeter));
+
+		return configs;
+	}
+
+	public static Collection<String> generateConfigs(final String delimeter, final List<String> exported) {
+		final Collection<String> configs = new LinkedList<String>();
+		String mode = null;
+		for (final String export : exported) {
+			if (export.length() > 0) {
+				if (mode == null) {
+					mode = export;
+					configs.add("");
+					configs.add(mode);
+				}
+				else {
+					final String[] exportSplit = export.split(delimeter);
+					if (mode.equals(Element.class.getSimpleName()))
+						configs.add(Element.generate(exportSplit));
+					else if (mode.equals(Compound.class.getSimpleName()))
+						configs.add(Compound.generate(exportSplit));
+					else if (mode.equals(Polymer.class.getSimpleName()))
+						configs.add(Polymer.generate(exportSplit));
+					else if (mode.equals(Alloy.class.getSimpleName()))
+						configs.add(Alloy.generate(exportSplit));
+					else if (mode.equals(Mineral.class.getSimpleName()))
+						configs.add(Mineral.generate(exportSplit));
+					else if (mode.equals(Ore.class.getSimpleName()))
+						configs.add(Ore.generate(exportSplit));
+					else if (mode.equals(Ingot.class.getSimpleName()))
+						configs.add(Ingot.generate(exportSplit));
+					else if (mode.equals(CompressedBlock.class.getSimpleName()))
+						configs.add(CompressedBlock.generate(exportSplit));
+					else if (mode.equals(Catalyst.class.getSimpleName()))
+						configs.add(Catalyst.generate(exportSplit));
+				}
+			}
+			else
+				mode = null;
+		}
 
 		return configs;
 	}

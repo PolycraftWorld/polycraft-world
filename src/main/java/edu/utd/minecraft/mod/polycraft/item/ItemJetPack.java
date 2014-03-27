@@ -31,6 +31,7 @@ public class ItemJetPack extends ItemArmor {
 
 	@Override
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer) {
+		//TODO this doesn't work when a player shift clicks a recipe to create multiple jet packs at once
 		createTagCompound(itemStack);
 		setFuelUnitsRemaining(itemStack, fuelUnitsFull);
 	}
