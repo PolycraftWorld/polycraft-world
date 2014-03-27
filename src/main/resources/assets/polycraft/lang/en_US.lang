@@ -11,7 +11,7 @@ item.jet_pack.name=Jet Pack
 item.parachute.name=Parachute
 item.scuba_mask.name=Scuba Mask
 item.scuba_tank.name=Scuba Tank
-item.scuba_flippers.name=Scuba Flippers
+item.scuba_fins.name=Scuba Fins
 
 # Autogeneratred below this line --------
 item.element_hydrogen_fluid_container.name=Container of Hydrogen

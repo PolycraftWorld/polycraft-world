@@ -71,13 +71,14 @@ public class PolycraftMod {
 	public static final float itemParachuteDescendVelocity = -.3f;
 	public static final int itemScubaTankAirUnitsFull = 5000;
 	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
-	public static final float itemScubaFlippersSwimSpeedBuff = 2f;
-	public static final float itemScubaFlippersWalkSpeedBuff = -.5f;
+	public static final float itemScubaFinsSwimSpeedBuff = 2f;
+	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
 
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;
 		int arg = 0;
+
 		final String program = args[arg++];
 		if ("confexp".equals(program)) {
 			lines = exportConfigs(args[arg++]);
@@ -94,8 +95,9 @@ public class PolycraftMod {
 		}
 
 		final PrintWriter writer = new PrintWriter(args[arg++]);
-		for (final String line : lines)
+		for (final String line : lines) {
 			writer.println(line);
+		}
 		writer.close();
 	}
 
@@ -128,7 +130,7 @@ public class PolycraftMod {
 	public static Item itemParachute;
 	public static Item itemScubaMask;
 	public static Item itemScubaTank;
-	public static Item itemScubaFlippers;
+	public static Item itemScubaFins;
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {

@@ -16,7 +16,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaFlippers;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
 public class PolycraftEventHandler {
@@ -72,12 +72,12 @@ public class PolycraftEventHandler {
 		float movementSpeedBaseValue = baseMovementSpeed;
 		final ItemStack bootsItemStack = player.getCurrentArmor(0);
 		if (player.isInWater()) {
-			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFlippers)
-				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFlippers) bootsItemStack.getItem()).swimSpeedBuff);
+			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins)
+				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
 		}
 		else {
-			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFlippers)
-				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFlippers) bootsItemStack.getItem()).walkSpeedBuff);
+			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins)
+				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
 			else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes)
 				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
 		}
