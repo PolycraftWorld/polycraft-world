@@ -4,11 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -53,9 +56,11 @@ public class PolycraftEventHandler {
 	public synchronized void onLivingUpdateEvent(final LivingUpdateEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
-			handleMovementSpeed(event, player);
-			handleFlight(event, player);
-			handleBreathing(event, player);
+			if (!player.capabilities.isCreativeMode) {
+				handleMovementSpeed(event, player);
+				handleFlight(event, player);
+				handleBreathing(event, player);
+			}
 		}
 	}
 
@@ -151,16 +156,16 @@ public class PolycraftEventHandler {
 	}
 
 	private void spawnJetpackExhaust(final EntityPlayer player, final double offset) {
-		double playerRotationRadians = Math.toRadians(player.rotationYaw);
-		double playerRotationSin = Math.sin(playerRotationRadians);
-		double playerRotationCos = Math.cos(playerRotationRadians);
-		double centerX = player.posX + (offset * playerRotationCos);
-		double centerY = player.posY - 1;
-		double centerZ = player.posZ + (offset * playerRotationSin);
-		double offsetX = playerRotationCos * jetPackExhaustPlumeOffset;
-		double offsetZ = playerRotationSin * jetPackExhaustPlumeOffset;
+		final double playerRotationRadians = Math.toRadians(player.rotationYaw);
+		final double playerRotationSin = Math.sin(playerRotationRadians);
+		final double playerRotationCos = Math.cos(playerRotationRadians);
+		final double centerX = player.posX + (offset * playerRotationCos);
+		final double centerY = player.posY - 1;
+		final double centerZ = player.posZ + (offset * playerRotationSin);
+		final double offsetX = playerRotationCos * jetPackExhaustPlumeOffset;
+		final double offsetZ = playerRotationSin * jetPackExhaustPlumeOffset;
 		for (int i = 0; i < jetPackExhaustParticlesPerTick; i++) {
-			double y = centerY - (i * .02);
+			final double y = centerY - (i * .02);
 			player.worldObj.spawnParticle("flame", centerX, y, centerZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 			player.worldObj.spawnParticle("flame", centerX - offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 			player.worldObj.spawnParticle("flame", centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
@@ -172,6 +177,17 @@ public class PolycraftEventHandler {
 			player.worldObj.spawnParticle("smoke", centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 			player.worldObj.spawnParticle("smoke", centerX - offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 			player.worldObj.spawnParticle("smoke", centerX + offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
+		}
+
+		//light blocks on fire in the exhaust plume
+		for (int i = 0; i < 5; i++) {
+			final int x = (int) player.posX;
+			final int y = (int) player.posY - i - 2;
+			final int z = (int) player.posZ - 1;
+			final Block burnBlock = player.worldObj.getBlock(x, y, z);
+			if (burnBlock != null && burnBlock.isFlammable(player.worldObj, x, y, z, ForgeDirection.UP)) {
+				player.worldObj.setBlock(x, y, z, Blocks.fire);
+			}
 		}
 	}
 
