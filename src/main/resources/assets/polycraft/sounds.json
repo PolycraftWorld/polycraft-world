@@ -1,3 +1,4 @@
 {
-	"jetpack.fly": { "category": "master", "sounds": [ { "name": "jetpack_fly", "stream": false } ] }
+	"jetpack.fly": { "category": "master", "sounds": [ { "name": "jetpack_fly", "stream": false } ] },
+    "scubatank.breathe": { "category": "master", "sounds": [ { "name": "scubatank_breath", "stream": false } ] }
 }

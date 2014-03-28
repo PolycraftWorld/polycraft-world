@@ -8,11 +8,13 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 public class ItemScubaFins extends ItemArmor {
 
 	public final float swimSpeedBuff;
+	public final float walkSpeedBuff;
 
-	public ItemScubaFins(final float swimSpeedBuff) {
+	public ItemScubaFins(final float swimSpeedBuff, final float walkSpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, 1, 3);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_fins"));
 		this.swimSpeedBuff = swimSpeedBuff;
+		this.walkSpeedBuff = walkSpeedBuff;
 	}
 
 	@Override

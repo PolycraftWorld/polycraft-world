@@ -59,11 +59,20 @@ public class Ore extends Entity {
 	@Override
 	public String export(final String delimiter) {
 		final String export = String.format("%2$s%1$s%3$s.%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s%1$s%11$s%1$s%12$s",
-				delimiter, super.export(delimiter), type.getClass().getSimpleName(), type.name.toLowerCase(), hardness, resistance,
+				delimiter, super.export(delimiter), type.getClass().getSimpleName(), Entity.getVariableName(type.name), hardness, resistance,
 				dropExperienceMin, dropExperienceMax, generationStartYMin, generationStartYMax, generationVeinsPerChunk, generationBlocksPerVein);
 		if (smeltingEntity != null)
 			return String.format("%2$s%1$s%3$s.%4$s%1$s%5$s%1$s%6$s", delimiter, export,
 					smeltingEntity.getClass().getSimpleName(), smeltingEntity.name.toLowerCase(), smeltingEntitiesPerBlock, smeltingExperience);
 		return export;
+	}
+
+	public static String generate(final String[] entity) {
+		String[] params = null;
+		if (entity.length == 10)
+			params = new String[] { entity[1], entity[2] + "f", entity[3] + "f", entity[4], entity[5], entity[6], entity[7], entity[8], entity[9] };
+		else
+			params = new String[] { entity[1], entity[2] + "f", entity[3] + "f", entity[4], entity[5], entity[6], entity[7], entity[8], entity[9], entity[10], entity[11], entity[12] + "f" };
+		return Entity.generate(Ore.class.getSimpleName(), getVariableName(entity[0]), params);
 	}
 }

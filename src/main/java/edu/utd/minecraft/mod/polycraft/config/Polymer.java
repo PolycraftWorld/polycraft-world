@@ -442,4 +442,15 @@ public class Polymer extends Compound {
 		return String.format("%2$s%1$s%3$s%1$s%4$s",
 				delimiter, super.export(delimiter), (category == Category.None) ? "" : Category.class.getSimpleName() + "." + category.name(), (resinCode == ResinCode.NONE) ? "" : ResinCode.class.getSimpleName() + "." + resinCode.name());
 	}
+
+	public static String generate(final String[] entity) {
+		String[] params = null;
+		if (entity.length == 2)
+			params = new String[] { "\"" + entity[0] + "\"" };
+		else if (entity.length == 6)
+			params = new String[] { "\"" + entity[0] + "\"", entity[5] };
+		else if (entity.length == 7)
+			params = new String[] { "\"" + entity[0] + "\"", entity[5], entity[6] };
+		return Entity.generate(Polymer.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

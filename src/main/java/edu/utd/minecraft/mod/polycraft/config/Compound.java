@@ -560,4 +560,13 @@ public class Compound extends Entity {
 		return String.format("%2$s%1$s%3$b%1$s%4$s%1$s%5$s%1$s%6$s",
 				delimiter, super.export(delimiter), fluid, formula, uses, sources);
 	}
+
+	public static String generate(final String[] entity) {
+		String[] params = null;
+		if (entity.length == 5)
+			params = new String[] { "\"" + entity[0] + "\"", entity[1], "\"" + entity[2] + "\"", "\"" + entity[3] + "\"", "\"" + entity[4] + "\"" };
+		else
+			params = new String[] { "\"" + entity[0] + "\"", entity[1] };
+		return Entity.generate(Compound.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

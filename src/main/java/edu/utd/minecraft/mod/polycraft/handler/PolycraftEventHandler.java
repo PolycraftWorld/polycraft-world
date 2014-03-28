@@ -17,21 +17,21 @@ import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
 public class PolycraftEventHandler {
 
 	private static final Random random = new Random();
 
-	private static final float baseWalkSpeed = 0.1f;
-	private static final float baseJumpMovementFactor = 0.02F;
+	private static final float baseMovementSpeed = 0.1f;
 	private static final float baseFlySpeed = 0.05f;
+	private static final int baseFullAir = 300;
 
 	private static boolean jetPackFailsafeEnabled = false;
 	private static final int jetPackExhaustParticlesPerTick = 5;
 	private static final double jetPackExhaustPlumeOffset = .05;
 	private static final double jetPackExhaustDownwardVelocity = -.8;
+	private static final long jetPackSoundIntervalMillis = 850;
 	private static final Map<Integer, String> jetPackLandingWarnings = new LinkedHashMap<Integer, String>();
 	static
 	{
@@ -41,21 +41,21 @@ public class PolycraftEventHandler {
 		jetPackLandingWarnings.put(5, "vapor lock!!");
 		jetPackLandingWarnings.put(1, "EJECT EJECT EJECT!!!");
 	}
+	private static final long scubaTankSoundIntervalMillis = 2000;
 
-	private int jetPackCurrentFlightTicks = 0;
-	private int jetPackPreviousFuelRemainingPercent = 0;
-	private boolean previousAllowRunning = false;
-	private boolean previousWet = false;
-	private int scubaTankPreviousAirRemainingPercent = 0;
+	private float previousMovementSpeedBaseValue = 0;
+	private long jetPackLastSoundMillis = 0;
+	private long scubaTankLastSoundMillis = 0;
+	private int jetPackLastFuelDisplayPercent = 0;
+	private int scubaTankLastAirDisplayPercent = 0;
 
 	@SubscribeEvent
-	public void onLivingUpdateEvent(final LivingUpdateEvent event) {
+	public synchronized void onLivingUpdateEvent(final LivingUpdateEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
-			handleRunningShoes(event, player);
-			handleJetPack(event, player);
-			handleParachute(event, player);
-			handleScuba(event, player);
+			handleMovementSpeed(event, player);
+			handleFlight(event, player);
+			handleBreathing(event, player);
 		}
 	}
 
@@ -68,24 +68,27 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleRunningShoes(final LivingUpdateEvent event, final EntityPlayer player) {
-		final ItemStack runningShoesItemStack = player.getCurrentArmor(0);
-		final boolean allowRunning = runningShoesItemStack != null && runningShoesItemStack.getItem() instanceof ItemRunningShoes;
-		if (allowRunning != previousAllowRunning) {
-			if (allowRunning) {
-				final float walkSpeedBuff = ((ItemRunningShoes) runningShoesItemStack.getItem()).walkSpeedBuff;
-				player.capabilities.setPlayerWalkSpeed(baseWalkSpeed * (1 + walkSpeedBuff));
-				player.jumpMovementFactor = baseJumpMovementFactor * (1 + walkSpeedBuff);
-			}
-			else {
-				player.capabilities.setPlayerWalkSpeed(baseWalkSpeed);
-				player.jumpMovementFactor = baseJumpMovementFactor;
-			}
-			previousAllowRunning = allowRunning;
+	private void handleMovementSpeed(final LivingUpdateEvent event, final EntityPlayer player) {
+		float movementSpeedBaseValue = baseMovementSpeed;
+		final ItemStack bootsItemStack = player.getCurrentArmor(0);
+		if (player.isInWater()) {
+			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins)
+				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
+		}
+		else {
+			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins)
+				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
+			else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes)
+				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
+		}
+
+		if (previousMovementSpeedBaseValue != movementSpeedBaseValue) {
+			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(movementSpeedBaseValue);
+			previousMovementSpeedBaseValue = movementSpeedBaseValue;
 		}
 	}
 
-	private void handleJetPack(final LivingUpdateEvent event, final EntityPlayer player) {
+	private void handleFlight(final LivingUpdateEvent event, final EntityPlayer player) {
 		final ItemStack jetPackItemStack = player.getCurrentArmor(2);
 		final ItemJetPack jetPackItem = jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack ? (ItemJetPack) jetPackItemStack.getItem() : null;
 		final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack);
@@ -97,8 +100,6 @@ public class PolycraftEventHandler {
 				player.capabilities.setFlySpeed(baseFlySpeed);
 				player.capabilities.isFlying = false;
 			}
-			jetPackCurrentFlightTicks = 0;
-			jetPackPreviousFuelRemainingPercent = -1;
 			player.capabilities.allowFlying = allowFlying;
 		}
 
@@ -108,15 +109,14 @@ public class PolycraftEventHandler {
 				player.capabilities.isFlying = true; // force jet packs to turn on to break falls
 
 			if (player.capabilities.isFlying) {
-				jetPackCurrentFlightTicks++;
 				if (jetPackItem.burnFuel(jetPackItemStack)) {
 					player.fallDistance = 0;
 					final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(jetPackItemStack);
-					if (jetPackPreviousFuelRemainingPercent != fuelRemainingPercent) {
+					if (jetPackLastFuelDisplayPercent != fuelRemainingPercent) {
 						final String warning = jetPackLandingWarnings.get(fuelRemainingPercent);
 						player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% fuel remaining" + (warning == null ? "" : ", " + warning)));
+						jetPackLastFuelDisplayPercent = fuelRemainingPercent;
 					}
-					jetPackPreviousFuelRemainingPercent = fuelRemainingPercent;
 
 					// cause an unstable motion to simulate the unpredictability of the exhaust direction
 					player.setPosition(
@@ -124,14 +124,28 @@ public class PolycraftEventHandler {
 							player.posY + ((random.nextDouble() / 5) - .1),
 							player.posZ + ((random.nextDouble() / 5) - .1));
 				}
-				else
+				else if (jetPackLastFuelDisplayPercent != -1) {
 					player.addChatMessage(new ChatComponentText("Out of fuel, hope you packed a parachute..."));
+					jetPackLastFuelDisplayPercent = -1;
+				}
 
 				spawnJetpackExhaust(player, -.25);
 				spawnJetpackExhaust(player, .25);
 
-				if (jetPackCurrentFlightTicks == 1 || jetPackCurrentFlightTicks % 100 == 0)
-					event.entity.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
+				final long currentMillis = System.currentTimeMillis();
+				if (jetPackSoundIntervalMillis < currentMillis - jetPackLastSoundMillis) {
+					jetPackLastSoundMillis = currentMillis;
+					player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
+				}
+			}
+		}
+
+		final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
+		if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
+			final float descendVelocity = ((ItemParachute) parachuteItemStack.getItem()).descendVelocity;
+			if (player.motionY < descendVelocity) {
+				player.setVelocity(player.motionX * .99, descendVelocity, player.motionZ * .99);
+				player.fallDistance = 0;
 			}
 		}
 	}
@@ -161,50 +175,26 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleParachute(final LivingUpdateEvent event, final EntityPlayer player) {
-		final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
-		if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
-			final float descendVelocity = ((ItemParachute) parachuteItemStack.getItem()).descendVelocity;
-			if (player.motionY < descendVelocity) {
-				player.setVelocity(player.motionX * .99, descendVelocity, player.motionZ * .99);
-				player.fallDistance = 0;
-			}
-		}
-	}
-
-	private void handleScuba(final LivingUpdateEvent event, final EntityPlayer player) {
-		if (previousWet != player.isWet()) {
-			if (player.isWet()) {
-				// TODO add clarity if wearing mask
-				final ItemStack scubaMaskItemStack = player.getCurrentArmor(3);
-				if (scubaMaskItemStack != null && scubaMaskItemStack.getItem() instanceof ItemScubaMask) {
-				}
-
-				final ItemStack scubaFinsItemStack = player.getCurrentArmor(0);
-				if (scubaFinsItemStack != null && scubaFinsItemStack.getItem() instanceof ItemScubaFins) {
-					// TODO make this buff configurable, also, doesn't work?
-					player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseWalkSpeed * (1 + ((ItemScubaFins) scubaFinsItemStack.getItem()).swimSpeedBuff));
-				}
-			}
-			else {
-				player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseWalkSpeed);
-			}
-			scubaTankPreviousAirRemainingPercent = 0;
-		}
-		previousWet = player.isWet();
-
-		if (player.isWet()) {
+	private void handleBreathing(final LivingUpdateEvent event, final EntityPlayer player) {
+		if (player.isInWater() && player.getAir() < baseFullAir) {
 			final ItemStack scubaTankItemStack = player.getCurrentArmor(2);
 			if (scubaTankItemStack != null && scubaTankItemStack.getItem() instanceof ItemScubaTank) {
 				final ItemScubaTank scubaTankItem = (ItemScubaTank) scubaTankItemStack.getItem();
 				if (scubaTankItem.consumeAir(scubaTankItemStack)) {
-					player.setAir(300);
+					player.setAir(baseFullAir);
 					final int airRemainingPercent = scubaTankItem.getAirRemainingPercent(scubaTankItemStack);
-					if (scubaTankPreviousAirRemainingPercent != airRemainingPercent) {
+					if (scubaTankLastAirDisplayPercent != airRemainingPercent) {
 						player.addChatMessage(new ChatComponentText(airRemainingPercent + "% air remaining"));
-						event.entity.worldObj.spawnParticle("bubble", player.posX, player.posY - 8, player.posZ, -player.motionX, -player.motionY, -player.motionZ);
+						for (int i = 0; i < 5; i++)
+							event.entity.worldObj.spawnParticle("bubble", player.posX, player.posY + .5, player.posZ, 0, .5, 0);
+						scubaTankLastAirDisplayPercent = airRemainingPercent;
 					}
-					scubaTankPreviousAirRemainingPercent = airRemainingPercent;
+
+					final long currentMillis = System.currentTimeMillis();
+					if (scubaTankSoundIntervalMillis < currentMillis - scubaTankLastSoundMillis) {
+						scubaTankLastSoundMillis = currentMillis;
+						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":scubatank.breathe", 1f, 1f);
+					}
 				}
 			}
 		}

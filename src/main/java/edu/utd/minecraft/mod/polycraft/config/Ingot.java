@@ -28,4 +28,9 @@ public class Ingot extends Entity {
 		return String.format("%2$s%1$s%3$s.%4$s",
 				delimiter, super.export(delimiter), type.getClass().getSimpleName(), type.name.toLowerCase());
 	}
+
+	public static String generate(final String[] entity) {
+		final String[] params = new String[] { entity[1] };
+		return Entity.generate(Ingot.class.getSimpleName(), getVariableName(entity[0]), params);
+	}
 }

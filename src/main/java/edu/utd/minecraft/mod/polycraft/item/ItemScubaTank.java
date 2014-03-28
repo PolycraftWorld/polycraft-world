@@ -29,6 +29,7 @@ public class ItemScubaTank extends ItemArmor {
 
 	@Override
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer) {
+		//TODO this doesn't work when a player shift clicks a recipe to create multiple scuba tanks at once
 		createTagCompound(itemStack);
 		setAirUnitsRemaining(itemStack, airUnitsFull);
 	}
