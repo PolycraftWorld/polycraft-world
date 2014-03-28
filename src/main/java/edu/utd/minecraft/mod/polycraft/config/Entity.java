@@ -1,7 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public abstract class Entity {
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
+public abstract class Entity {
+	private static Logger logger = LogManager.getLogger();
+	
 	protected static final String getSafeName(final String name) {
 		return name.replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
 	}
@@ -10,6 +14,12 @@ public abstract class Entity {
 	public final String name;
 
 	public Entity(final String gameName, final String name) {
+		if (name == null || name.length() == 0) {
+			throw new IllegalArgumentException("name");
+		}
+		if (Character.isLowerCase(name.charAt(0))) {
+			logger.warn("Warning: Entity name doesn't match naming convention: " + name);			
+		}
 		this.gameName = gameName;
 		this.name = name;
 	}
