@@ -10,13 +10,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemScubaTank extends ItemArmor {
+public class ItemScubaTank extends PolycraftArmorChest {
 
 	public final int airUnitsFull;
 	public final int airUnitsConsumePerTick;
 
 	public ItemScubaTank(final int airUnitsFull, final int airUnitsConsumePerTick) {
-		super(PolycraftMod.armorMaterialNone, 1, 1);
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_tank"));
 		this.airUnitsFull = airUnitsFull;
 		this.airUnitsConsumePerTick = airUnitsConsumePerTick;

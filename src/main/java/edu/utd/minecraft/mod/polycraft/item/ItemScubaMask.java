@@ -5,10 +5,10 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemScubaMask extends ItemArmor {
+public class ItemScubaMask extends PolycraftArmorHeadgear {
 
 	public ItemScubaMask() {
-		super(PolycraftMod.armorMaterialNone, 1, 0);
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER); 
 		this.setTextureName(PolycraftMod.getTextureName("scuba_mask"));
 	}
 

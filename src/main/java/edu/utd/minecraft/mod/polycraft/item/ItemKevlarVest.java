@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemKevlarVest extends ItemArmor {
+public class ItemKevlarVest extends PolycraftArmorChest {
 
 	private static final float kevlarArmorBuffPercent = 1 + PolycraftMod.itemKevlarArmorBuff;
 	public static final int[] kevlarArmorReductionAmounts = new int[] { (int) (3 * kevlarArmorBuffPercent), (int) (8 * kevlarArmorBuffPercent), (int) (6 * kevlarArmorBuffPercent), (int) (3 * kevlarArmorBuffPercent) };
@@ -14,7 +14,7 @@ public class ItemKevlarVest extends ItemArmor {
 			"kevlar", (int) (33 * kevlarArmorBuffPercent), kevlarArmorReductionAmounts, (int) (ItemArmor.ArmorMaterial.DIAMOND.getEnchantability() * kevlarArmorBuffPercent));
 
 	public ItemKevlarVest() {
-		super(kevlarArmorType, 1, 1);
+		super(kevlarArmorType, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("kevlar_vest"));
 	}
 

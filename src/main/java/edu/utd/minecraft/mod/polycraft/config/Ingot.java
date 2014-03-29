@@ -1,7 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
 public class Ingot extends Entity {
-
 	public static final EntityRegistry<Ingot> registry = new EntityRegistry<Ingot>();
 
 	public static final Ingot carbon = registry.register(new Ingot(Element.carbon));

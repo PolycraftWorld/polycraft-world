@@ -5,13 +5,13 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemScubaFins extends ItemArmor {
+public class ItemScubaFins extends PolycraftArmorFeet {
 
 	public final float swimSpeedBuff;
 	public final float walkSpeedBuff;
 
 	public ItemScubaFins(final float swimSpeedBuff, final float walkSpeedBuff) {
-		super(PolycraftMod.armorMaterialNone, 1, 3);
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_fins"));
 		this.swimSpeedBuff = swimSpeedBuff;
 		this.walkSpeedBuff = walkSpeedBuff;

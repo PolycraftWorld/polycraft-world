@@ -5,12 +5,11 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemRunningShoes extends ItemArmor {
-
+public class ItemRunningShoes extends PolycraftArmorFeet {
 	public final float walkSpeedBuff;
 
 	public ItemRunningShoes(final float walkSpeedBuff) {
-		super(PolycraftMod.armorMaterialNone, 1, 3);
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
 		this.setTextureName(PolycraftMod.getTextureName("running_shoes"));
 		this.walkSpeedBuff = walkSpeedBuff;
 	}

@@ -7,7 +7,7 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": ["Jim McAndrew, Walter Voit"],
+  "authors": ["Jim McAndrew, Walter Voit", "Chris Wahlen"],
   "credits": "UTD, Redshift Development",
   "logoFile": "",
   "screenshots": [],

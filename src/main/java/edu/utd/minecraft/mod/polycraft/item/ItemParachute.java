@@ -3,7 +3,7 @@ package edu.utd.minecraft.mod.polycraft.item;
 import net.minecraft.item.Item;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemParachute extends Item {
+public class ItemParachute extends PolycraftUtilityItem {
 
 	public final float descendVelocity;
 

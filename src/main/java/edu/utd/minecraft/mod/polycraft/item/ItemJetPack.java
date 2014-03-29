@@ -10,14 +10,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemJetPack extends ItemArmor {
+public class ItemJetPack extends PolycraftArmorChest {
 
 	public final int fuelUnitsFull;
 	public final int fuelUnitsBurnPerTick;
 	public final float flySpeedBuff;
 
 	public ItemJetPack(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final float flySpeedBuff) {
-		super(PolycraftMod.armorMaterialNone, 1, 1);
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("jet_pack"));
 		this.fuelUnitsFull = fuelUnitsFull;
 		this.fuelUnitsBurnPerTick = fuelUnitsBurnPerTick;

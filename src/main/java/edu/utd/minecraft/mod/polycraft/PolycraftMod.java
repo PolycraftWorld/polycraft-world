@@ -40,7 +40,9 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
+import edu.utd.minecraft.mod.polycraft.proxy.PolycraftModWikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
@@ -51,6 +53,9 @@ public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String VERSION = "1.0";
 
+	// Set to true to enable wiki extraction/creation
+	public static boolean enableWikiCreation = false;
+	
 	public static final boolean cheatRecipesEnabled = true;
 	public static final int worldTemperatureKelvin = 298;
 	public static final int oilDesertBiomeId = 215;
@@ -135,11 +140,20 @@ public class PolycraftMod {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		proxy.preInit();
+		// If "wikiOutputFile" is specified in the environment (e.g. -DwikiOutputFile /tmp/output.txt
+		// in VM Args under Run Configuration/Arguments), then a text file is generated that can be
+		// used to update the Polycraft wiki (and the program exits).  Hint: adding "nogui" to the program
+		// arguments on the same page saves some time!
+		if (System.getProperty("wikiOutputFile") != null) {
+			PolycraftModWikiMaker.createWikiData(System.getProperty("wikiOutputFile"));
+			System.exit(0);
+		}
 	}
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
 		proxy.init();
+		
 	}
 
 	@EventHandler
@@ -167,6 +181,9 @@ public class PolycraftMod {
 	}
 
 	public static Item registerItem(final String name, final Item item) {
+		if (!(item instanceof PolycraftItem)) {
+			throw new IllegalArgumentException("Item " + name + "/" + item.getUnlocalizedName() + " must implement PolycraftItem (" + item.toString() + ")");
+		}
 		item.setUnlocalizedName(name);
 		GameRegistry.registerItem(item, name);
 		items.put(name, item);
