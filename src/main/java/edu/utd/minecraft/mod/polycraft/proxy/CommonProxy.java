@@ -225,7 +225,8 @@ public class CommonProxy {
 
 	private void createPolymers() {
 		for (final Polymer polymer : Polymer.registry.values()) {
-			//TODO remove this check when forge fixes their bug for EntityEnderMan.carriableBlocks array index out of bounds exception (cannot make blocks with ids bigger than 255!)
+			//TODO remove this check when forge fixes their bug for EntityEnderMan.carriableBlocks
+			// array index out of bounds exception (cannot make blocks with ids bigger than 255!)
 			if (polymer.resinCode != ResinCode.NONE)
 				PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
 			PolycraftMod.registerItem(

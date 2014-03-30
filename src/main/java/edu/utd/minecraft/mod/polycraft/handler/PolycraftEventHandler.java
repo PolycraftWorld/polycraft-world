@@ -4,6 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +19,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
@@ -23,7 +27,8 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
 public class PolycraftEventHandler {
-
+	private Logger logger = LogManager.getLogger();
+	
 	private static final Random random = new Random();
 
 	private static final float baseMovementSpeed = 0.1f;
@@ -36,8 +41,7 @@ public class PolycraftEventHandler {
 	private static final double jetPackExhaustDownwardVelocity = -.8;
 	private static final long jetPackSoundIntervalMillis = 850;
 	private static final Map<Integer, String> jetPackLandingWarnings = new LinkedHashMap<Integer, String>();
-	static
-	{
+	static {
 		jetPackLandingWarnings.put(30, "might want to start thinking about landing...");
 		jetPackLandingWarnings.put(20, "daredevil are we?");
 		jetPackLandingWarnings.put(10, "we are way low on fuel Mav!");
@@ -68,23 +72,27 @@ public class PolycraftEventHandler {
 	public void onPlayerFlyableFallEvent(final PlayerFlyableFallEvent event) {
 		if (!jetPackFailsafeEnabled) {
 			float fallDamage = event.distance - 3.0f;
-			if (fallDamage > 0)
+			if (fallDamage > 0) {
 				event.entityPlayer.attackEntityFrom(DamageSource.fall, fallDamage);
+			}
 		}
 	}
 
 	private void handleMovementSpeed(final LivingUpdateEvent event, final EntityPlayer player) {
 		float movementSpeedBaseValue = baseMovementSpeed;
-		final ItemStack bootsItemStack = player.getCurrentArmor(0);
+		final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
 		if (player.isInWater()) {
-			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins)
+			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
 				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
+			}
 		}
 		else {
-			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins)
+			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
 				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
-			else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes)
+			}
+			else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes) {
 				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
+			}
 		}
 
 		if (previousMovementSpeedBaseValue != movementSpeedBaseValue) {
@@ -93,15 +101,17 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleFlight(final LivingUpdateEvent event, final EntityPlayer player) {
-		final ItemStack jetPackItemStack = player.getCurrentArmor(2);
-		final ItemJetPack jetPackItem = jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack ? (ItemJetPack) jetPackItemStack.getItem() : null;
+	private void handleFlight(final LivingUpdateEvent event, final EntityPlayer player) {		
+		final ItemStack jetPackItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());		
+		final ItemJetPack jetPackItem =
+				(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
+				? (ItemJetPack) jetPackItemStack.getItem() : null;
 		final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack);
-		if (player.capabilities.allowFlying != allowFlying)
-		{
-			if (allowFlying)
+		
+		if (player.capabilities.allowFlying != allowFlying) {
+			if (allowFlying) {
 				player.capabilities.setFlySpeed(baseFlySpeed * (1 + ((ItemJetPack) jetPackItemStack.getItem()).flySpeedBuff));
-			else {
+			} else {
 				player.capabilities.setFlySpeed(baseFlySpeed);
 				player.capabilities.isFlying = false;
 			}
@@ -110,9 +120,10 @@ public class PolycraftEventHandler {
 
 		if (allowFlying && !player.onGround) {
 
-			if (jetPackFailsafeEnabled && player.motionY < -1)
+			if (jetPackFailsafeEnabled && player.motionY < -1) {
 				player.capabilities.isFlying = true; // force jet packs to turn on to break falls
-
+			}
+			
 			if (player.capabilities.isFlying) {
 				if (jetPackItem.burnFuel(jetPackItemStack)) {
 					player.fallDistance = 0;

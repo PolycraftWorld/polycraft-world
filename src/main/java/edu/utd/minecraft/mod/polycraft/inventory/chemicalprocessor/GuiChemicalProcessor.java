@@ -13,7 +13,9 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 @SideOnly(Side.CLIENT)
 public class GuiChemicalProcessor extends GuiContainer {
-	private static final ResourceLocation chemicalProcessorGuiTextures = new ResourceLocation(PolycraftMod.getTextureName("textures/gui/container/chemical_processor.png"));
+	private static final String TEXTURE_NAME = "textures/gui/container/chemical_processor.png";
+	private static final ResourceLocation chemicalProcessorGuiTextures
+		= new ResourceLocation(PolycraftMod.getTextureName(TEXTURE_NAME));
 	private final TileEntityChemicalProcessor tileChemicalProcessor;
 
 	public GuiChemicalProcessor(InventoryPlayer par1InventoryPlayer, TileEntityChemicalProcessor par2TileEntityChemicalProcessor) {
@@ -26,7 +28,9 @@ public class GuiChemicalProcessor extends GuiContainer {
 	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
-		String s = this.tileChemicalProcessor.hasCustomInventoryName() ? this.tileChemicalProcessor.getInventoryName() : I18n.format(this.tileChemicalProcessor.getInventoryName(), new Object[0]);
+		String s = this.tileChemicalProcessor.hasCustomInventoryName()
+				? this.tileChemicalProcessor.getInventoryName()
+			    : I18n.format(this.tileChemicalProcessor.getInventoryName(), new Object[0]);
 		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 	}

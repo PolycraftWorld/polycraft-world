@@ -13,7 +13,7 @@ public class ContainerChemicalProcessor extends Container {
 
 	public static final int slotIndexFuel = 0;
 	public static final int slotIndexFirstMaterial = slotIndexFuel + 1;
-	public static final int slotIndexFluidContainer = slotIndexFirstMaterial + ChemicalProcessorRecipe.maxMaterials;
+	public static final int slotIndexFluidContainer = slotIndexFirstMaterial + ChemicalProcessorRecipe.MAX_INPUTS;
 	public static final int slotIndexFirstResult = slotIndexFluidContainer + 1;
 
 	private final TileEntityChemicalProcessor tileChemicalProcessor;
@@ -118,7 +118,7 @@ public class ContainerChemicalProcessor extends Container {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (!this.mergeItemStack(itemstack1, 2 + ChemicalProcessorRecipe.maxMaterials + ChemicalProcessorRecipe.maxResults, 39, false)) {
+			if (!this.mergeItemStack(itemstack1, 2 + ChemicalProcessorRecipe.MAX_INPUTS + ChemicalProcessorRecipe.MAX_OUTPUTS, 39, false)) {
 				return null;
 			}
 
