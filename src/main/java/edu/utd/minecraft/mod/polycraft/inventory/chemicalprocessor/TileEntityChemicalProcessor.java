@@ -1,5 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,8 +22,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRecipe;
 
 public class TileEntityChemicalProcessor extends TileEntity implements ISidedInventory {
+	private Logger logger = LogManager.getLogger();
+	
 	/**
 	 * The ItemStacks that hold the items currently being used in the chemical processor
 	 */
@@ -145,7 +151,7 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 
 		this.chemicalProcessorBurnTime = p_145839_1_.getShort("BurnTime");
 		this.chemicalProcessorCookTime = p_145839_1_.getShort("CookTime");
-		this.currentItemBurnTime = getItemBurnTime(this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel]);
+		this.currentItemBurnTime = getItemBurnTime(this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL]);
 
 		if (p_145839_1_.hasKey("CustomName", 8)) {
 			this.inventoryName = p_145839_1_.getString("CustomName");
@@ -221,17 +227,17 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 
 		if (!this.worldObj.isRemote) {
 			if (this.chemicalProcessorBurnTime == 0 && this.canProcess()) {
-				this.currentItemBurnTime = this.chemicalProcessorBurnTime = getItemBurnTime(this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel]);
+				this.currentItemBurnTime = this.chemicalProcessorBurnTime = getItemBurnTime(this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL]);
 
 				if (this.chemicalProcessorBurnTime > 0) {
 					flag1 = true;
 
-					if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel] != null) {
-						--this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel].stackSize;
+					if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL] != null) {
+						--this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL].stackSize;
 
-						if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel].stackSize == 0) {
-							this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel] = chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel].getItem().getContainerItem(
-									chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel]);
+						if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL].stackSize == 0) {
+							this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL] = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL].getItem().getContainerItem(
+									chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL]);
 						}
 					}
 				}
@@ -262,11 +268,12 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 
 	private ItemStack[] getMaterials() {
 		int i = 0;
-		for (i = 0; i < ChemicalProcessorRecipe.MAX_INPUTS && chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial + i] != null; i++)
+		for (i = 0; i < ChemicalProcessorRecipe.MAX_INPUTS && chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i] != null; i++)
 			;
 		ItemStack[] materials = new ItemStack[i];
-		for (i = 0; i < materials.length; i++)
-			materials[i] = chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial + i];
+		for (i = 0; i < materials.length; i++) {
+			materials[i] = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i];
+		}
 		return materials;
 	}
 
@@ -274,34 +281,50 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	 * Returns true if the chemical processor can process an item, i.e. has a source item, destination stack isn't full, etc.
 	 */
 	private boolean canProcess() {
-		if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFuel] == null || this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial] == null)
+		if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL] == null) {
+			//logger.info("No fuel!");
 			return false;
+		}
+		if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL] == null) {
+			//logger.info("No first material!");
+			return false;			
+		}
 
-		final ChemicalProcessorRecipe recipe = ChemicalProcessorRecipe.findRecipe(getMaterials());
-		if (recipe == null)
+		final ChemicalProcessorRecipe recipe = PolycraftRecipe.findRecipe(ChemicalProcessorRecipe.class, getMaterials());
+		if (recipe == null) {
+			logger.info("No valid recipe!");
 			return false;
+		}
 
-		if (recipe.fluidContainersRequired > 0) {
-			final ItemStack fluidContainer = chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFluidContainer];
-			if (fluidContainer == null || fluidContainer.getItem() != PolycraftMod.itemFluidContainer || recipe.fluidContainersRequired > fluidContainer.stackSize)
+		if (recipe.fluidContainersOutput > 0) {
+			final ItemStack fluidContainer = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER];
+			if (fluidContainer == null || fluidContainer.getItem() != PolycraftMod.itemFluidContainer || recipe.fluidContainersOutput > fluidContainer.stackSize) {
+				logger.info("Fluid problem!");
 				return false;
+			}
 		}
 
 		for (int i = 0; i < recipe.materials.length; i++) {
-			final ItemStack material = chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial + i];
-			if (material == null || material.stackSize < recipe.materials[i].stackSize)
+			final ItemStack material = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i];
+			if (material == null || material.stackSize < recipe.materials[i].stackSize) {
+				logger.info("Stack size problem!");
 				return false;
+			}
 		}
 
 		for (int i = 0; i < recipe.results.length; i++) {
 			final ItemStack desiredResult = recipe.results[i];
-			final ItemStack currentResult = chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstResult + i];
+			final ItemStack currentResult = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i];
 			if (currentResult != null) {
-				if (!currentResult.isItemEqual(desiredResult))
+				if (!currentResult.isItemEqual(desiredResult)) {
+					logger.info("currentResult problem!");
 					return false;
+				}
 				int newTotal = currentResult.stackSize + desiredResult.stackSize;
-				if (newTotal > getInventoryStackLimit() || newTotal > desiredResult.getMaxStackSize())
+				if (newTotal > getInventoryStackLimit() || newTotal > desiredResult.getMaxStackSize()) {
+					logger.info("Inventory problem!");
 					return false;
+				}
 			}
 		}
 
@@ -313,27 +336,28 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	 */
 	public void processItem() {
 		if (this.canProcess()) {
-			final ChemicalProcessorRecipe recipe = ChemicalProcessorRecipe.findRecipe(getMaterials());
+			final ChemicalProcessorRecipe recipe = PolycraftRecipe.findRecipe(
+					ChemicalProcessorRecipe.class, getMaterials());
 
 			for (int i = 0; i < recipe.results.length; i++) {
-				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstResult + i] == null) {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstResult + i] = recipe.results[i].copy();
+				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i] == null) {
+					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i] = recipe.results[i].copy();
 				} else {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstResult + i].stackSize += recipe.results[i].stackSize; // Forge BugFix: Results may have multiple items
+					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i].stackSize += recipe.results[i].stackSize; // Forge BugFix: Results may have multiple items
 				}
 			}
 
 			for (int i = 0; i < recipe.materials.length; i++) {
-				this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial + i].stackSize -= recipe.materials[i].stackSize;
-				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial + i].stackSize <= 0) {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFirstMaterial + i] = null;
+				this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i].stackSize -= recipe.materials[i].stackSize;
+				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i].stackSize <= 0) {
+					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i] = null;
 				}
 			}
 
-			if (recipe.fluidContainersRequired > 0) {
-				this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFluidContainer].stackSize -= recipe.fluidContainersRequired;
-				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFluidContainer].stackSize <= 0) {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.slotIndexFluidContainer] = null;
+			if (recipe.fluidContainersOutput > 0) {
+				this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER].stackSize -= recipe.fluidContainersOutput;
+				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER].stackSize <= 0) {
+					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER] = null;
 				}
 			}
 		}
@@ -348,6 +372,7 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 		} else {
 			Item item = p_145952_0_.getItem();
 
+			// TODO: This should be a map
 			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air) {
 				Block block = Block.getBlockFromItem(item);
 
@@ -364,22 +389,31 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 				}
 			}
 
-			if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD"))
+			if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD")) {
 				return 200;
-			if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD"))
+			}
+			if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD")) {
 				return 200;
-			if (item instanceof ItemHoe && ((ItemHoe) item).getToolMaterialName().equals("WOOD"))
+			}
+			if (item instanceof ItemHoe && ((ItemHoe) item).getToolMaterialName().equals("WOOD")) {
 				return 200;
-			if (item == Items.stick)
+			}
+			if (item == Items.stick) {
 				return 100;
-			if (item == Items.coal)
+			}
+			if (item == Items.coal) {
 				return 1600;
-			if (item == Items.lava_bucket)
+			}
+			if (item == Items.lava_bucket) {
 				return 20000;
-			if (item == Item.getItemFromBlock(Blocks.sapling))
+			}
+			if (item == Item.getItemFromBlock(Blocks.sapling)) {
 				return 100;
-			if (item == Items.blaze_rod)
+			}
+			if (item == Items.blaze_rod) {
 				return 2400;
+			}
+			
 			return GameRegistry.getFuelValue(p_145952_0_);
 		}
 	}

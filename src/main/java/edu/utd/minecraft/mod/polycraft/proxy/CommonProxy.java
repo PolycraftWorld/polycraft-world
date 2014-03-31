@@ -298,9 +298,9 @@ public class CommonProxy {
 				'y', createItemStack(Element.hydrogen, 2),
 				'z', createItemStack(Ingot.aluminium, 8));
 		// allow refilling tanks
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(PolycraftMod.itemJetPack), createItemStack(Element.hydrogen, 4) },
-				new ItemStack[] { new ItemStack(PolycraftMod.itemJetPack) }));
+				new ItemStack[] { new ItemStack(PolycraftMod.itemJetPack) });
 
 		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemParachute), "xxx", "x x", " x ",
 				'x', new ItemStack(PolycraftMod.items.get(Polymer.nylon11.itemNameFiber), 8));
@@ -313,9 +313,9 @@ public class CommonProxy {
 				'x', new ItemStack(PolycraftMod.items.get(Polymer.HDPE.itemNameFiber), 8),
 				'y', createItemStack(Element.oxygen));
 		// allow refilling tanks
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(PolycraftMod.itemScubaTank), createItemStack(Element.oxygen, 2) },
-				new ItemStack[] { new ItemStack(PolycraftMod.itemScubaTank) }));
+				new ItemStack[] { new ItemStack(PolycraftMod.itemScubaTank) });
 
 		GameRegistry.addRecipe(
 				new ItemStack(PolycraftMod.itemScubaFins),
@@ -386,214 +386,214 @@ public class CommonProxy {
 	}
 
 	private void createAlloyRecipes() {
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(Blocks.iron_block, 9), createItemStack(Ingot.carbon) },
-				new ItemStack[] { createItemStack(CompressedBlock.steel, 9) }));
+				new ItemStack[] { createItemStack(CompressedBlock.steel, 9) });
 	}
 
 	private void createCatalystRecipes() {
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.platinum) },
-				new ItemStack[] { createItemStack(Catalyst.platinum, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.platinum, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.titanium) },
-				new ItemStack[] { createItemStack(Catalyst.titanium, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.titanium, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.palladium) },
-				new ItemStack[] { createItemStack(Catalyst.palladium, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.palladium, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.cobalt) },
-				new ItemStack[] { createItemStack(Catalyst.cobalt, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.cobalt, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.manganese) },
-				new ItemStack[] { createItemStack(Catalyst.manganese, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.manganese, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.magnesium) },
-				new ItemStack[] { createItemStack(Catalyst.magnesiumOxide, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.magnesiumOxide, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ingot.antimony) },
-				new ItemStack[] { createItemStack(Catalyst.antimonyTrioxide, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.antimonyTrioxide, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Element.chlorine), createItemStack(Ingot.copper) },
-				new ItemStack[] { createItemStack(Catalyst.copperIIChloride, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.copperIIChloride, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Element.chlorine), new ItemStack(Items.iron_ingot) },
-				new ItemStack[] { createItemStack(Catalyst.ironIIIChloride, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.ironIIIChloride, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(Items.iron_ingot) },
-				new ItemStack[] { createItemStack(Catalyst.ironIIIOxide, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.ironIIIOxide, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Catalyst.titanium), createItemStack(Ingot.aluminium), createItemStack(Compound.olefins) },
-				new ItemStack[] { createItemStack(Catalyst.zieglerNatta, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.zieglerNatta, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Catalyst.cobalt), createItemStack(Catalyst.manganese), createItemStack(Element.bromine) },
-				new ItemStack[] { createItemStack(Catalyst.cobaltManganeseBromide, 16) }));
+				new ItemStack[] { createItemStack(Catalyst.cobaltManganeseBromide, 16) });
 	}
 
 	private void createMineralRecipes() {
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Ore.shale) },
-				new ItemStack[] { createItemStack(Compound.naturalGas) }));
+				new ItemStack[] { createItemStack(Compound.naturalGas) });
 	}
 
 	private void createElementRecipes() {
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(Items.water_bucket) },
-				new ItemStack[] { createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen), new ItemStack(Items.bucket) }));
+				new ItemStack[] { createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen), new ItemStack(Items.bucket) });
 	}
 
 	private void createCompoundRecipes() {
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen) },
-				new ItemStack[] { createItemStack(Compound.water) }));
+				new ItemStack[] { createItemStack(Compound.water) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.water) },
-				new ItemStack[] { createItemStack(Element.chlorine, 10), createItemStack(Element.bromine), new ItemStack(Items.bucket) }));
+				new ItemStack[] { createItemStack(Element.chlorine, 10), createItemStack(Element.bromine), new ItemStack(Items.bucket) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.naturalGas) },
-				new ItemStack[] { createItemStack(Compound.ethane), createItemStack(Compound.propane), createItemStack(Compound.butane), createItemStack(Compound.methane) }));
+				new ItemStack[] { createItemStack(Compound.ethane), createItemStack(Compound.propane), createItemStack(Compound.butane), createItemStack(Compound.methane) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(PolycraftMod.itemBucketOil) },
-				new ItemStack[] { createItemStack(Compound.naphtha), createItemStack(Compound.gasOil), createItemStack(Compound.btx), createItemStack(Compound.bitumen), new ItemStack(Items.bucket) }));
+				new ItemStack[] { createItemStack(Compound.naphtha), createItemStack(Compound.gasOil), createItemStack(Compound.btx), createItemStack(Compound.bitumen), new ItemStack(Items.bucket) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethane), createItemStack(Catalyst.platinum) },
-				new ItemStack[] { createItemStack(Compound.ethylene, 2) }));
+				new ItemStack[] { createItemStack(Compound.ethylene, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.propane), createItemStack(Catalyst.platinum) },
-				new ItemStack[] { createItemStack(Compound.propylene, 2) }));
+				new ItemStack[] { createItemStack(Compound.propylene, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.butane), createItemStack(Catalyst.platinum) },
-				new ItemStack[] { createItemStack(Compound.butadiene, 2) }));
+				new ItemStack[] { createItemStack(Compound.butadiene, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethylene), createItemStack(Catalyst.zieglerNatta) },
-				new ItemStack[] { createItemStack(Polymer.HDPE, 16) }));
+				new ItemStack[] { createItemStack(Polymer.HDPE, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethylene) },
-				new ItemStack[] { createItemStack(Polymer.LDPE, 16) }));
+				new ItemStack[] { createItemStack(Polymer.LDPE, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethylene), createItemStack(Catalyst.palladium) },
-				new ItemStack[] { createItemStack(Compound.ethyleneOxide) }));
+				new ItemStack[] { createItemStack(Compound.ethyleneOxide) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethyleneOxide), createItemStack(Compound.water) },
-				new ItemStack[] { createItemStack(Compound.ethyleneGlycol) }));
+				new ItemStack[] { createItemStack(Compound.ethyleneGlycol) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.naphtha), createItemStack(Catalyst.platinum) },
-				new ItemStack[] { createItemStack(Compound.olefins), createItemStack(Compound.paraffin) }));
+				new ItemStack[] { createItemStack(Compound.olefins), createItemStack(Compound.paraffin) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.gasOil), createItemStack(Catalyst.platinum) },
-				new ItemStack[] { createItemStack(Compound.diesel), createItemStack(Compound.kerosene) }));
+				new ItemStack[] { createItemStack(Compound.diesel), createItemStack(Compound.kerosene) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.btx), createItemStack(Catalyst.cobaltManganeseBromide) },
-				new ItemStack[] { createItemStack(Compound.terephthalicAcid) }));
+				new ItemStack[] { createItemStack(Compound.terephthalicAcid) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.terephthalicAcid), createItemStack(Compound.methanol) },
-				new ItemStack[] { createItemStack(Compound.dimethylTerephthalate, 2) }));
+				new ItemStack[] { createItemStack(Compound.dimethylTerephthalate, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.dimethylTerephthalate), createItemStack(Compound.ethyleneGlycol, 2), createItemStack(Catalyst.magnesiumOxide) },
-				new ItemStack[] { createItemStack(Polymer.LDPE, 16), createItemStack(Compound.methanol, 2), createItemStack(Compound.ethyleneGlycol) }));
+				new ItemStack[] { createItemStack(Polymer.LDPE, 16), createItemStack(Compound.methanol, 2), createItemStack(Compound.ethyleneGlycol) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.dimethylTerephthalate), createItemStack(Compound.ethyleneGlycol, 2), createItemStack(Catalyst.antimonyTrioxide) },
-				new ItemStack[] { createItemStack(Polymer.LDPE, 16), createItemStack(Compound.methanol, 2), createItemStack(Compound.ethyleneGlycol) }));
+				new ItemStack[] { createItemStack(Polymer.LDPE, 16), createItemStack(Compound.methanol, 2), createItemStack(Compound.ethyleneGlycol) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Element.chlorine), createItemStack(Compound.ethylene, 2), createItemStack(Catalyst.copperIIChloride) },
-				new ItemStack[] { createItemStack(Compound.edc, 2) }));
+				new ItemStack[] { createItemStack(Compound.edc, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Element.chlorine), createItemStack(Compound.ethylene, 2), createItemStack(Catalyst.ironIIIChloride) },
-				new ItemStack[] { createItemStack(Compound.edc, 2) }));
+				new ItemStack[] { createItemStack(Compound.edc, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.edc) },
-				new ItemStack[] { createItemStack(Compound.vinylChloride), createItemStack(Compound.hcl) }));
+				new ItemStack[] { createItemStack(Compound.vinylChloride), createItemStack(Compound.hcl) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.Acetylene), createItemStack(Compound.hcl) },
-				new ItemStack[] { createItemStack(Compound.vinylChloride) }));
+				new ItemStack[] { createItemStack(Compound.vinylChloride) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.methane) },
-				new ItemStack[] { createItemStack(Compound.Acetylene) }));
+				new ItemStack[] { createItemStack(Compound.Acetylene) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Element.chlorine, 16) },
-				new ItemStack[] { createItemStack(Compound.cl2) }));
+				new ItemStack[] { createItemStack(Compound.cl2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.h2), createItemStack(Compound.cl2) },
-				new ItemStack[] { createItemStack(Compound.hcl, 16) }));
+				new ItemStack[] { createItemStack(Compound.hcl, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.vinylChloride), createItemStack(Compound.water, 3) },
-				new ItemStack[] { createItemStack(Polymer.PVC, 16), createItemStack(Compound.water, 3) }));
+				new ItemStack[] { createItemStack(Polymer.PVC, 16), createItemStack(Compound.water, 3) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.lava_bucket) },
-				new ItemStack[] { createItemStack(Compound.sulfuricAcid, 32), new ItemStack(Items.bucket) }));
+				new ItemStack[] { createItemStack(Compound.sulfuricAcid, 32), new ItemStack(Items.bucket) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethylene), createItemStack(Compound.benzene), createItemStack(Compound.sulfuricAcid) },
-				new ItemStack[] { createItemStack(Compound.ethylbenzene, 2) }));
+				new ItemStack[] { createItemStack(Compound.ethylbenzene, 2) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.ethylbenzene), createItemStack(Compound.water, 10), new ItemStack(Items.coal), createItemStack(Catalyst.ironIIIOxide) },
-				new ItemStack[] { createItemStack(Compound.styrene) }));
+				new ItemStack[] { createItemStack(Compound.styrene) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.styrene) },
-				new ItemStack[] { createItemStack(Polymer.PS, 16) }));
+				new ItemStack[] { createItemStack(Polymer.PS, 16) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.btx) },
-				new ItemStack[] { createItemStack(Compound.benzene), createItemStack(Compound.toluene), createItemStack(Compound.xylene), createItemStack(Compound.methane) }));
+				new ItemStack[] { createItemStack(Compound.benzene), createItemStack(Compound.toluene), createItemStack(Compound.xylene), createItemStack(Compound.methane) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.xylene) },
-				new ItemStack[] { createItemStack(Compound.metaXylene), createItemStack(Compound.paraXylene), createItemStack(Compound.orthoXylene) }));
+				new ItemStack[] { createItemStack(Compound.metaXylene), createItemStack(Compound.paraXylene), createItemStack(Compound.orthoXylene) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.xylene) },
-				new ItemStack[] { createItemStack(Compound.metaXylene), createItemStack(Compound.paraXylene), createItemStack(Compound.orthoXylene) }));
+				new ItemStack[] { createItemStack(Compound.metaXylene), createItemStack(Compound.paraXylene), createItemStack(Compound.orthoXylene) });
 
 		// TODO: fix this so that if the inputs are containers and block, the correct amount of empty containers are on the right side.
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { new ItemStack(Items.coal) },
-				new ItemStack[] { createItemStack(Compound.coke), createItemStack(Compound.naphtha), createItemStack(Compound.bitumen) }));
+				new ItemStack[] { createItemStack(Compound.coke), createItemStack(Compound.naphtha), createItemStack(Compound.bitumen) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.calcium_oxide), createItemStack(Compound.coke, 3) },
-				new ItemStack[] { createItemStack(Compound.calcium_carbide), createItemStack(Compound.carbon_monoxide) }));
+				new ItemStack[] { createItemStack(Compound.calcium_carbide), createItemStack(Compound.carbon_monoxide) });
 
-		ChemicalProcessorRecipe.addRecipe(new ChemicalProcessorRecipe(
+		ChemicalProcessorRecipe.createWithCorrectContainerOutput(
 				new ItemStack[] { createItemStack(Compound.calcium_carbide), createItemStack(Compound.water) },
-				new ItemStack[] { createItemStack(Compound.Acetylene), createItemStack(Compound.calcium_hydroxide) }));
+				new ItemStack[] { createItemStack(Compound.Acetylene), createItemStack(Compound.calcium_hydroxide) });
 
 	}
 

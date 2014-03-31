@@ -38,6 +38,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
@@ -76,6 +77,8 @@ public class PolycraftMod {
 	public static final float itemScubaFinsSwimSpeedBuff = 2f;
 	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
 
+	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
+	
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;
