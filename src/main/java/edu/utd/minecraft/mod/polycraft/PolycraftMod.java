@@ -71,6 +71,7 @@ public class PolycraftMod {
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
+	public static final int itemFlashlightLuminosity = 15;
 	public static final int itemScubaTankAirUnitsFull = 5000;
 	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
 	public static final float itemScubaFinsSwimSpeedBuff = 2f;
@@ -130,6 +131,7 @@ public class PolycraftMod {
 	public static Item itemRunningShoes;
 	public static Item itemJetPack;
 	public static Item itemParachute;
+	public static Item itemFlashlight;
 	public static Item itemScubaMask;
 	public static Item itemScubaTank;
 	public static Item itemScubaFins;
@@ -150,7 +152,6 @@ public class PolycraftMod {
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
 		proxy.init();
-		
 	}
 
 	@EventHandler
