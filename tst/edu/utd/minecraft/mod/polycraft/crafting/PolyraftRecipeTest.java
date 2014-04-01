@@ -1,7 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,7 +17,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 public class PolyraftRecipeTest {
-
+	private Item Coal = new Item().setUnlocalizedName("coal");
+	private Item Charcoal = new Item().setUnlocalizedName("charcoal");
+	private Item ScubaTank = new Item().setUnlocalizedName("scuba_tank");
+	private Item FilledScubaTank = new Item().setUnlocalizedName("filled_scuba_tank");
+	private Item AirCanister = new Item().setUnlocalizedName("air_canister");
+	private Item NitroxCanister = new Item().setUnlocalizedName("nitrox_canister");
+	private Item EmptyAirCanister = new Item().setUnlocalizedName("empty_air_canister");
+	
 	private Item TestInputItem1 = new Item().setUnlocalizedName("item1");
 	private Item TestInputItem2 = new Item().setUnlocalizedName("item2");
 	private Item TestInputItem3 = new Item().setUnlocalizedName("item3");
@@ -32,7 +42,7 @@ public class PolyraftRecipeTest {
 				ImmutableList.of(
 						RecipeInput.shapelessInput(new ItemStack(TestInputItem1, 2)),
 						RecipeInput.shapelessInput(new ItemStack(TestInputItem2, 3))),
-				ImmutableList.of(new ItemStack(TestOutputItem1)));
+				ImmutableList.of(new SingleRecipeInput(10, new ItemStack(TestOutputItem1))));
 		Collection<Set<SingleRecipeInput>> recipeCombos = recipe.getShapelessCombinations();
 		assertSame(1, recipeCombos.size());
 		assertSame(0, recipe.getShapedCombinations().size());
@@ -47,7 +57,7 @@ public class PolyraftRecipeTest {
 						RecipeInput.shapelessAnyOneOf(ImmutableList.of(new ItemStack(TestInputItem3, 2), new ItemStack(TestInputItem4, 2))),
 						RecipeInput.shapelessAnyOneOf(ImmutableList.of(new ItemStack(TestInputItem1, 2), new ItemStack(TestInputItem2, 2)))
 				),
-				ImmutableList.of(new ItemStack(TestOutputItem1)));
+				ImmutableList.of(new SingleRecipeInput(10, new ItemStack(TestOutputItem1))));
 		Collection<Set<SingleRecipeInput>> recipeCombos = recipe.getShapelessCombinations();
 		assertSame(4, recipeCombos.size());
 	}
@@ -63,7 +73,7 @@ public class PolyraftRecipeTest {
 						RecipeInput.shapelessAnyOneOf(ImmutableList.of(new ItemStack(TestInputItem3, 1), new ItemStack(TestInputItem4, 3))),
 						RecipeInput.shapelessAnyOneOf(ImmutableList.of(new ItemStack(TestInputItem1, 2), new ItemStack(TestInputItem2, 4)))
 				),
-				ImmutableList.of(new ItemStack(TestOutputItem1)));
+				ImmutableList.of(new SingleRecipeInput(10, new ItemStack(TestOutputItem1))));
 		Collection<Set<SingleRecipeInput>> shapeless = recipe.getShapelessCombinations();
 		assertSame(4, shapeless.size());
 		assertTrue(shapeless.contains(
@@ -91,4 +101,74 @@ public class PolyraftRecipeTest {
 		assertSame(4, shapeless.size());
 	}
 
+	// Test that recipes with inputs in the same slot throw an exception
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithInputsInSameSlots() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				ImmutableList.of(
+						RecipeInput.shapedInput(new RecipeSlot(1), new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapedInput(new RecipeSlot(1), new ItemStack(FilledScubaTank, 1))
+				),
+				ImmutableList.of(new SingleRecipeInput(1, new ItemStack(EmptyAirCanister, 1))));
+	}
+
+	// Test that recipes with duplicate shapeless inputs throws an exception
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithDuplicateShapelessInputs() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				ImmutableList.of(
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1))
+				),
+				ImmutableList.of(new SingleRecipeInput(1, new ItemStack(EmptyAirCanister, 1))));
+	}
+
+	// Test that recipes with duplicate shaped and shapeless inputs throws an exception (ordering 1)
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithDuplicateShapelessAndShapedInputs1() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				ImmutableList.of(
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapedInput(new RecipeSlot(1), new ItemStack(ScubaTank, 1))
+				),
+				ImmutableList.of(new SingleRecipeInput(1, new ItemStack(EmptyAirCanister, 1))));
+	}
+
+	// Test that recipes with duplicate shaped and shapeless inputs throws an exception (ordering 2)
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithDuplicateShapelessAndShapedInputs2() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				ImmutableList.of(
+						RecipeInput.shapedInput(new RecipeSlot(1), new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1))
+				),
+				ImmutableList.of(new SingleRecipeInput(1, new ItemStack(EmptyAirCanister, 1))));
+	}
+
+	// Test that recipes with outputs in the same slot throw an exception
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithOutputsInSameSlots() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				ImmutableList.of(RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1))),
+				ImmutableList.of(
+						// Two outputs in the same slot
+						new SingleRecipeInput(1, new ItemStack(FilledScubaTank, 1)),
+						new SingleRecipeInput(1, new ItemStack(EmptyAirCanister, 1))));
+	}
+
+	// Test that recipes with no inputs throw an exception
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithNoInputs() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				new ArrayList<RecipeInput>(),
+				ImmutableList.of(new SingleRecipeInput(1, new ItemStack(FilledScubaTank, 1))));
+	}	
+		
+	// Test that recipes with no inputs throw an exception
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecipesWithNoOutputs() {
+		PolycraftRecipe recipe = new PolycraftRecipe<PolycraftCraftingContainer>(
+				ImmutableList.of(RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1))),
+				new ArrayList<SingleRecipeInput>());
+	}
 }

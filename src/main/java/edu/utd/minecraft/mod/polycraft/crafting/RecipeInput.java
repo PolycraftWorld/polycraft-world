@@ -33,19 +33,39 @@ public final class RecipeInput {
 		}
 	}
 
-	// Returns true if the single input is valid for the RecipeInput.
-	public boolean contains(final SingleRecipeInput input) {
+	// Returns the itemstack referenced by the SingleRecipeInput
+	public ItemStack get(final SingleRecipeInput input) {
 		if (!slot.equals(RecipeSlot.ANY) && !slot.equals(input.slot)){
-			return false;
+			return null;
 		}
 		
 		for (final ItemStack stack : inputs) {
 			// TODO: is unlocalized name the right comparison, or can be items be used?
 			if (stack.getItem().getUnlocalizedName().equals(input.itemStack.getItem().getUnlocalizedName())) {
+				return stack;
+			}
+		}
+		return null;
+	}
+	
+	// Returns true if the itemstack is contained by the RecipeInput
+	public boolean contains(final ItemStack itemStack) {
+		for (final ItemStack stack : inputs) {
+			// TODO: is unlocalized name the right comparison, or can be items be used?
+			if (stack.getItem().getUnlocalizedName().equals(
+					itemStack.getItem().getUnlocalizedName())) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	// Returns true if the single input is valid for the RecipeInput.
+	public boolean contains(final SingleRecipeInput input) {
+		if (!slot.equals(RecipeSlot.ANY) && !slot.equals(input.slot)){
+			return false;
+		}		
+		return contains(input.itemStack);
 	}
 	
 	// Create a new recipe input that requires the item stack placed at any slot.

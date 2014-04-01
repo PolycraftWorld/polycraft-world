@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -19,7 +20,7 @@ public class SetMap<K extends Comparable<K>, V> {
 	
 	// Adds the set and value to the map.
 	public void add(final Set<K> set, final V value) {
-		fullSet.add(value);		
+		fullSet.add(value);
 		for (final K item : set) {
 			Set<V> itemSet = (Set<V>) values.get(item);
 			if (itemSet == null) {
@@ -32,7 +33,7 @@ public class SetMap<K extends Comparable<K>, V> {
 	
 	// Returns true if the map contains the exact specified set.
 	public boolean contains(final Set<K> set) {
-		return get(set) != null;
+		return get(set).size() != 0;
 	}
 	
 	private Set<V> mergeSet(final Set<V> set, final Set<V> set2) {
@@ -49,15 +50,13 @@ public class SetMap<K extends Comparable<K>, V> {
 	
 	// Returns the set of values stored by the exact specified set.
 	public Set<V> get(final Set<K> set) {
-		if (set.size() == 0) {
-			return fullSet;
-		}
-		
-		Set<V> result = null;
+		Set<V> result = fullSet;
 		for (final K key : set) {
-			result = mergeSet(result, values.get(key));
-			if (result.size() == 0) {
-				return result;
+			Set<V> set2 = values.get(key);
+			if (set2 != null) {
+				result.retainAll(set2);
+			} else {
+				return Collections.EMPTY_SET;
 			}
 		}
 		return result;

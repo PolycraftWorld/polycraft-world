@@ -11,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
@@ -81,6 +80,8 @@ public class CommonProxy {
 	}
 
 	public void init() {
+		ChemicalProcessorRecipe.InitializeChemicalProcessorRecipe();
+
 		createCustomItemRecipes();
 		createOreRecipes();
 		createCompressedBlockRecipes();
@@ -104,12 +105,27 @@ public class CommonProxy {
 	}
 
 	private ItemStack createItemStack(final Entity entity, int size) {
+		Item item = null;
 		if ((entity instanceof Element && ((Element) entity).fluid) ||
-				(entity instanceof Compound && ((Compound) entity).fluid))
-			return new ItemStack(PolycraftMod.items.get(ItemFluidContainer.getGameName(entity)), size);
-		if (entity instanceof Ingot || entity instanceof Catalyst)
-			return new ItemStack(PolycraftMod.items.get(entity.gameName), size);
-		return new ItemStack(PolycraftMod.blocks.get(entity.gameName), size);
+				(entity instanceof Compound && ((Compound) entity).fluid)) {
+			item = PolycraftMod.items.get(ItemFluidContainer.getGameName(entity));
+			if (item == null) {
+				throw new IllegalArgumentException("No fluid container item for " + entity.name);
+			}
+			return new ItemStack(item, size);
+		} else if (entity instanceof Ingot || entity instanceof Catalyst) {
+			item = PolycraftMod.items.get(entity.gameName);
+			if (item == null) {
+				throw new IllegalArgumentException("No ingot/catalyst item for " + entity.name);
+			}
+			return new ItemStack(item, size);
+		}
+		
+		Block block = PolycraftMod.blocks.get(entity.gameName);
+		if (block == null) {
+			throw new IllegalArgumentException("No block for " + entity.name);
+		}
+		return new ItemStack(block, size);
 	}
 
 	private void createBiomes() {
@@ -372,7 +388,7 @@ public class CommonProxy {
 		}
 	}
 
-	private void createChemicalProcessorRecipes() {
+	private void createChemicalProcessorRecipes() {		
 		GameRegistry.addRecipe(new ItemStack(PolycraftMod.blockChemicalProcessor), "xxx", "xzx", "xyx",
 				'x', createItemStack(Ingot.steel),
 				'y', new ItemStack(Blocks.furnace),

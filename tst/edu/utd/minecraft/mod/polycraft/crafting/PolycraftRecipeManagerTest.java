@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.junit.Test;
+import org.junit.experimental.theories.Theory;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -25,7 +27,7 @@ public class PolycraftRecipeManagerTest {
 	private Item AirCanister = new Item().setUnlocalizedName("air_canister");
 	private Item NitroxCanister = new Item().setUnlocalizedName("nitrox_canister");
 	private Item EmptyAirCanister = new Item().setUnlocalizedName("empty_air_canister");
-	/*
+	
 	// Test recipes that have multiple things in common
 	@Test
 	public void testCommonRecipes() {
@@ -34,39 +36,43 @@ public class PolycraftRecipeManagerTest {
 						// Scuba tank can go anywhere
 						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
 						// Air canister can go anywhere
-						RecipeInput.shapelessInput(new ItemStack(AirCanister, 3)),
+						RecipeInput.shapelessInput(new ItemStack(AirCanister, 1)),
 						// Fuel can either be coal or charcoal
-						RecipeInput.anyOneOf(new RecipeSlot(9), ImmutableList.of(
-								new ItemStack(Coal, 1), new ItemStack(Charcoal, 2)))),
+						RecipeInput.shapedAnyOneOf(new RecipeSlot(9), ImmutableList.of(
+								new ItemStack(Coal, 1), new ItemStack(Charcoal, 1)))),
 				// Recipe returns a filled scuba tank and an empty air canister
-				ImmutableList.of(new ItemStack(FilledScubaTank), new ItemStack(EmptyAirCanister, 1)));
-		manager.addRecipe(ContainerType.CHEMICAL_PROCESSOR, air_tank);
+				ImmutableList.of(
+						new SingleRecipeInput(1, new ItemStack(FilledScubaTank, 1)),
+						new SingleRecipeInput(2, new ItemStack(EmptyAirCanister, 1))));
+		manager.addRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, air_tank);
 
 		PolycraftRecipe nitrox_tank = new PolycraftRecipe<PolycraftCraftingContainer>(
 				ImmutableList.of(
 						// Scuba tank can go anywhere
 						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
 						// Air canister can go anywhere
-						RecipeInput.shapelessInput(new ItemStack(NitroxCanister, 3)),
+						RecipeInput.shapelessInput(new ItemStack(NitroxCanister, 1)),
 						// Fuel can either be coal or charcoal
-						RecipeInput.anyOneOf(new RecipeSlot(9), ImmutableList.of(
-								new ItemStack(Coal, 1), new ItemStack(Charcoal, 2)))),
+						RecipeInput.shapedAnyOneOf(new RecipeSlot(9), ImmutableList.of(
+								new ItemStack(Coal, 1), new ItemStack(Charcoal, 1)))),
 				// Recipe returns a filled scuba tank and an empty air canister
-				ImmutableList.of(new ItemStack(FilledScubaTank), new ItemStack(EmptyAirCanister, 1)));
-		manager.addRecipe(ContainerType.CHEMICAL_PROCESSOR, nitrox_tank);
+				ImmutableList.of(
+						new SingleRecipeInput(1, new ItemStack(FilledScubaTank, 1)),
+						new SingleRecipeInput(2, new ItemStack(EmptyAirCanister, 1))));
+		manager.addRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, nitrox_tank);
 		
 		// Test a valid recipe input
-		assertEquals(air_tank, manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertEquals(air_tank, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, ScubaTank, 1), new SingleRecipeInput(2, AirCanister, 1),
 				new SingleRecipeInput(9, Coal, 1))));
 
 		// Test another valid recipe input
-		assertEquals(nitrox_tank, manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertEquals(nitrox_tank, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, ScubaTank, 1), new SingleRecipeInput(2, NitroxCanister, 1),
 				new SingleRecipeInput(9, Coal, 1))));
 
 		// Test an invalid combination of the two
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, ScubaTank, 1),
 				new SingleRecipeInput(2, NitroxCanister, 1), new SingleRecipeInput(3, AirCanister, 1),
 				new SingleRecipeInput(9, Coal, 1))));
@@ -80,57 +86,59 @@ public class PolycraftRecipeManagerTest {
 						// Scuba tank can go anywhere
 						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
 						// Air canister can go anywhere
-						RecipeInput.shapelessInput(new ItemStack(AirCanister, 3)),
+						RecipeInput.shapelessInput(new ItemStack(AirCanister, 1)),
 						// Fuel can either be coal or charcoal
-						RecipeInput.anyOneOf(new RecipeSlot(9), ImmutableList.of(
-								new ItemStack(Coal, 1), new ItemStack(Charcoal, 2)))),
+						RecipeInput.shapedAnyOneOf(new RecipeSlot(9), ImmutableList.of(
+								new ItemStack(Coal, 1), new ItemStack(Charcoal, 1)))),
 				// Recipe returns a filled scuba tank and an empty air canister
-				ImmutableList.of(new ItemStack(FilledScubaTank), new ItemStack(EmptyAirCanister, 1)));
-		manager.addRecipe(ContainerType.CHEMICAL_PROCESSOR, recipe);
+				ImmutableList.of(
+						new SingleRecipeInput(1, new ItemStack(FilledScubaTank, 1)),
+						new SingleRecipeInput(2, new ItemStack(EmptyAirCanister, 1))));
+		manager.addRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, recipe);
 		
 		// Test a valid recipe input
-		assertEquals(recipe, manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, ScubaTank, 1), new SingleRecipeInput(2, AirCanister, 1),
 				new SingleRecipeInput(9, Coal, 1))));
 
 		// Test another valid recipe
-		assertEquals(recipe, manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(2, ScubaTank, 1),
 				new SingleRecipeInput(9, Coal, 1))));		
 		
 		// Test another valid recipe
-		assertEquals(recipe, manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(10, AirCanister, 1), new SingleRecipeInput(11, ScubaTank, 1),
 				new SingleRecipeInput(9, Coal, 1))));		
 
 		// Test with the coal moved around
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(2, ScubaTank, 1),
 				new SingleRecipeInput(3, Coal, 1))));		
 		
 		// Test with the coal moved around
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(2, ScubaTank, 1),
 				new SingleRecipeInput(10, Coal, 1))));		
 		
 		// Test with no coal
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(2, ScubaTank, 1))));		
 		
 		// Test with missing shapeless items
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, ScubaTank, 1), new SingleRecipeInput(3, Coal, 1))));		
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(3, Coal, 1))));		
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(3, ScubaTank, 1))));
 		
 		// Test with too many items
-		assertNull(manager.findRecipe(ContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
+		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new SingleRecipeInput(1, AirCanister, 1), new SingleRecipeInput(2, ScubaTank, 1),
 				new SingleRecipeInput(3, AirCanister, 1), new SingleRecipeInput(9, Coal, 1))));		
 	}
-	*/
+	
 	// Test shaped configurations with multiple placements of the same item
 	@Test
 	public void testShapedWithDuplicatedItems() {
@@ -141,7 +149,7 @@ public class PolycraftRecipeManagerTest {
 						// AirCanister at slot 2
 						RecipeInput.shapedInput(new RecipeSlot(2), new ItemStack(AirCanister, 1))),
 				// Who knew that air can be recycled into coal
-				ImmutableList.of(new ItemStack(Coal, 1)));
+				ImmutableList.of(new SingleRecipeInput(1, new ItemStack(Coal, 1))));
 		manager.addRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, recipe);
 		
 		// Test a valid recipe input
@@ -158,4 +166,5 @@ public class PolycraftRecipeManagerTest {
 				new SingleRecipeInput(3, AirCanister, 1))));
 		
 	}
+
 }

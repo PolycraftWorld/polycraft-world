@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -27,6 +29,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -140,20 +143,20 @@ public class PolycraftMod {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		proxy.preInit();
+		
 		// If "wikiOutputFile" is specified in the environment (e.g. -DwikiOutputFile /tmp/output.txt
 		// in VM Args under Run Configuration/Arguments), then a text file is generated that can be
 		// used to update the Polycraft wiki (and the program exits).  Hint: adding "nogui" to the program
 		// arguments on the same page saves some time!
 		if (System.getProperty("wikiOutputFile") != null) {
 			PolycraftModWikiMaker.createWikiData(System.getProperty("wikiOutputFile"));
-			System.exit(0);
+			//System.exit(0);
 		}
 	}
-
+	
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		proxy.init();
-		
+		proxy.init();	
 	}
 
 	@EventHandler

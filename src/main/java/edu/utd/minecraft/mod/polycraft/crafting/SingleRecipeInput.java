@@ -1,5 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -18,6 +20,9 @@ public class SingleRecipeInput implements Comparable<SingleRecipeInput> {
 	}
 	
 	public SingleRecipeInput(ContainerSlot slot, ItemStack stack) {
+		Preconditions.checkNotNull(slot);
+		Preconditions.checkNotNull(stack);
+		Preconditions.checkNotNull(stack.getItem());
 		this.itemStack = stack;
 		this.slot = slot;
 	}

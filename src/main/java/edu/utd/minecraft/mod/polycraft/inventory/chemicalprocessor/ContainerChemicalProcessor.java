@@ -8,9 +8,12 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeSlot;
 
 public class ContainerChemicalProcessor extends Container {
 
+	public static final RecipeSlot SLOT_FUEL = new RecipeSlot(0);
+	
 	public static final int SLOT_INDEX_FUEL = 0;
 	public static final int SLOT_INDEX_FIRST_MATERIAL = SLOT_INDEX_FUEL + 1;
 	public static final int SLOT_INDEX_FLUID_CONTAINER = SLOT_INDEX_FIRST_MATERIAL + ChemicalProcessorRecipe.MAX_INPUTS;

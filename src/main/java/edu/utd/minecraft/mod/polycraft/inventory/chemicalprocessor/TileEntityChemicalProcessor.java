@@ -1,7 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,7 +29,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.SingleRecipeInput;
 
 public class TileEntityChemicalProcessor extends TileEntity implements ISidedInventory {
 	private Logger logger = LogManager.getLogger();
@@ -30,7 +39,8 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	/**
 	 * The ItemStacks that hold the items currently being used in the chemical processor
 	 */
-	private ItemStack[] chemicalProcessorItemStacks = new ItemStack[2 + ChemicalProcessorRecipe.MAX_INPUTS + ChemicalProcessorRecipe.MAX_OUTPUTS];
+	private ItemStack[] chemicalProcessorItemStacks =
+			new ItemStack[2 + ChemicalProcessorRecipe.MAX_INPUTS + ChemicalProcessorRecipe.MAX_OUTPUTS];
 
 	/**
 	 * The number of ticks that the chemical processor will keep burning
@@ -89,7 +99,8 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	}
 
 	/**
-	 * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem - like when you close a workbench GUI.
+	 * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
+	 * like when you close a workbench GUI.
 	 */
 	@Override
 	public ItemStack getStackInSlotOnClosing(int par1) {
@@ -266,14 +277,15 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 		}
 	}
 
-	private ItemStack[] getMaterials() {
+	private Set<SingleRecipeInput> getMaterials() {
+		Set<SingleRecipeInput> materials = Sets.newHashSet();
+		
 		int i = 0;
-		for (i = 0; i < ChemicalProcessorRecipe.MAX_INPUTS && chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i] != null; i++)
-			;
-		ItemStack[] materials = new ItemStack[i];
-		for (i = 0; i < materials.length; i++) {
-			materials[i] = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i];
-		}
+		for (i = 0; i < ChemicalProcessorRecipe.MAX_INPUTS; i++) {
+			if (chemicalProcessorItemStacks[i] != null) {
+				materials.add(new SingleRecipeInput(i, chemicalProcessorItemStacks[i]));
+			}
+		}		
 		return materials;
 	}
 
@@ -282,52 +294,37 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	 */
 	private boolean canProcess() {
 		if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FUEL] == null) {
-			//logger.info("No fuel!");
 			return false;
 		}
-		if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL] == null) {
-			//logger.info("No first material!");
-			return false;			
-		}
 
-		final ChemicalProcessorRecipe recipe = PolycraftRecipe.findRecipe(ChemicalProcessorRecipe.class, getMaterials());
+		// Check that the inputs are valid
+		Set<SingleRecipeInput> materials = getMaterials();
+		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(
+				PolycraftContainerType.CHEMICAL_PROCESSOR, materials);
 		if (recipe == null) {
-			logger.info("No valid recipe!");
+			return false;
+		}		
+		if (!recipe.areInputsValid(materials)) {
 			return false;
 		}
-
-		if (recipe.fluidContainersOutput > 0) {
-			final ItemStack fluidContainer = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER];
-			if (fluidContainer == null || fluidContainer.getItem() != PolycraftMod.itemFluidContainer || recipe.fluidContainersOutput > fluidContainer.stackSize) {
-				logger.info("Fluid problem!");
-				return false;
-			}
-		}
-
-		for (int i = 0; i < recipe.materials.length; i++) {
-			final ItemStack material = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i];
-			if (material == null || material.stackSize < recipe.materials[i].stackSize) {
-				logger.info("Stack size problem!");
-				return false;
-			}
-		}
-
-		for (int i = 0; i < recipe.results.length; i++) {
-			final ItemStack desiredResult = recipe.results[i];
-			final ItemStack currentResult = chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i];
+		
+		// TODO: abstract this logic - should be the same for any container.
+		for (SingleRecipeInput output : (Collection<SingleRecipeInput>)recipe.getOutputs()) {
+			final ItemStack desiredResult = output.itemStack;
+			final ItemStack currentResult = chemicalProcessorItemStacks[output.slot.getSlotIndex()];
 			if (currentResult != null) {
 				if (!currentResult.isItemEqual(desiredResult)) {
-					logger.info("currentResult problem!");
+					// Result is blocked by a different item
 					return false;
 				}
 				int newTotal = currentResult.stackSize + desiredResult.stackSize;
 				if (newTotal > getInventoryStackLimit() || newTotal > desiredResult.getMaxStackSize()) {
-					logger.info("Inventory problem!");
+					// Can't add anymore here
 					return false;
 				}
 			}
 		}
-
+		
 		return true;
 	}
 
@@ -335,32 +332,12 @@ public class TileEntityChemicalProcessor extends TileEntity implements ISidedInv
 	 * Turn one item from the chemical processor source stack into the appropriate processed item in the chemical processor result stack
 	 */
 	public void processItem() {
-		if (this.canProcess()) {
-			final ChemicalProcessorRecipe recipe = PolycraftRecipe.findRecipe(
-					ChemicalProcessorRecipe.class, getMaterials());
-
-			for (int i = 0; i < recipe.results.length; i++) {
-				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i] == null) {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i] = recipe.results[i].copy();
-				} else {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_RESULT + i].stackSize += recipe.results[i].stackSize; // Forge BugFix: Results may have multiple items
-				}
-			}
-
-			for (int i = 0; i < recipe.materials.length; i++) {
-				this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i].stackSize -= recipe.materials[i].stackSize;
-				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i].stackSize <= 0) {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FIRST_MATERIAL + i] = null;
-				}
-			}
-
-			if (recipe.fluidContainersOutput > 0) {
-				this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER].stackSize -= recipe.fluidContainersOutput;
-				if (this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER].stackSize <= 0) {
-					this.chemicalProcessorItemStacks[ContainerChemicalProcessor.SLOT_INDEX_FLUID_CONTAINER] = null;
-				}
-			}
-		}
+		Set<SingleRecipeInput> inputs = getMaterials();
+		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(
+				PolycraftContainerType.CHEMICAL_PROCESSOR, inputs);
+		if (recipe != null) {
+			recipe.process(inputs, this.chemicalProcessorItemStacks);
+		}		
 	}
 
 	/**
