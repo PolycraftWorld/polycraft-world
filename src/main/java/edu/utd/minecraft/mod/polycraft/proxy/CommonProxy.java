@@ -181,7 +181,11 @@ public class CommonProxy {
 				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
 		PolycraftMod.itemFlashlight = PolycraftMod.registerItem(
 				"flashlight",
-				new ItemFlashlight(PolycraftMod.itemFlashlightLuminosity));
+				new ItemFlashlight(
+						PolycraftMod.itemFlashlightLuminosity,
+						PolycraftMod.itemFlashlightRange,
+						PolycraftMod.itemFlashlightLuminosityDecreaseByRange,
+						PolycraftMod.itemFlashlightViewingConeAngle));
 		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask());
 		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(
 				"scuba_tank",

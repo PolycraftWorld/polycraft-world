@@ -1,8 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.handler;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -12,6 +17,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
@@ -63,12 +70,10 @@ public class PolycraftEventHandler {
 	public synchronized void onLivingUpdateEvent(final LivingUpdateEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
-			if (!player.capabilities.isCreativeMode) {
-				handleMovementSpeed(event, player);
-				handleFlight(event, player);
-				handleBreathing(event, player);
-				handleVision(event, player);
-			}
+			handleMovementSpeed(event, player);
+			handleFlight(event, player);
+			handleBreathing(event, player);
+			handleVision(event, player);
 		}
 	}
 
@@ -112,66 +117,68 @@ public class PolycraftEventHandler {
 	}
 
 	private void handleFlight(final LivingUpdateEvent event, final EntityPlayer player) {
-		final ItemStack jetPackItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
-		final ItemJetPack jetPackItem =
-				(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
-						? (ItemJetPack) jetPackItemStack.getItem() : null;
-		final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack);
+		if (!player.capabilities.isCreativeMode) {
+			final ItemStack jetPackItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
+			final ItemJetPack jetPackItem =
+					(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
+							? (ItemJetPack) jetPackItemStack.getItem() : null;
+			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack);
 
-		if (player.capabilities.allowFlying != allowFlying) {
-			if (allowFlying) {
-				player.capabilities.setFlySpeed(baseFlySpeed * (1 + ((ItemJetPack) jetPackItemStack.getItem()).flySpeedBuff));
-			} else {
-				player.capabilities.setFlySpeed(baseFlySpeed);
-				player.capabilities.isFlying = false;
-			}
-			player.capabilities.allowFlying = allowFlying;
-		}
-
-		if (allowFlying && !player.onGround) {
-
-			if (jetPackFailsafeEnabled && player.motionY < -1) {
-				player.capabilities.isFlying = true; // force jet packs to turn on to break falls
+			if (player.capabilities.allowFlying != allowFlying) {
+				if (allowFlying) {
+					player.capabilities.setFlySpeed(baseFlySpeed * (1 + ((ItemJetPack) jetPackItemStack.getItem()).flySpeedBuff));
+				} else {
+					player.capabilities.setFlySpeed(baseFlySpeed);
+					player.capabilities.isFlying = false;
+				}
+				player.capabilities.allowFlying = allowFlying;
 			}
 
-			if (player.capabilities.isFlying) {
-				if (jetPackItem.burnFuel(jetPackItemStack)) {
-					player.fallDistance = 0;
-					final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(jetPackItemStack);
-					if (jetPackLastFuelDisplayPercent != fuelRemainingPercent) {
-						final String warning = jetPackLandingWarnings.get(fuelRemainingPercent);
-						player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% fuel remaining" + (warning == null ? "" : ", " + warning)));
-						jetPackLastFuelDisplayPercent = fuelRemainingPercent;
+			if (allowFlying && !player.onGround) {
+
+				if (jetPackFailsafeEnabled && player.motionY < -1) {
+					player.capabilities.isFlying = true; // force jet packs to turn on to break falls
+				}
+
+				if (player.capabilities.isFlying) {
+					if (jetPackItem.burnFuel(jetPackItemStack)) {
+						player.fallDistance = 0;
+						final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(jetPackItemStack);
+						if (jetPackLastFuelDisplayPercent != fuelRemainingPercent) {
+							final String warning = jetPackLandingWarnings.get(fuelRemainingPercent);
+							player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% fuel remaining" + (warning == null ? "" : ", " + warning)));
+							jetPackLastFuelDisplayPercent = fuelRemainingPercent;
+						}
+
+						// cause an unstable motion to simulate the unpredictability of the exhaust direction
+						player.setPosition(
+								player.posX + ((random.nextDouble() / 5) - .1),
+								player.posY + ((random.nextDouble() / 5) - .1),
+								player.posZ + ((random.nextDouble() / 5) - .1));
+					}
+					else if (jetPackLastFuelDisplayPercent != -1) {
+						player.addChatMessage(new ChatComponentText("Out of fuel, hope you packed a parachute..."));
+						jetPackLastFuelDisplayPercent = -1;
 					}
 
-					// cause an unstable motion to simulate the unpredictability of the exhaust direction
-					player.setPosition(
-							player.posX + ((random.nextDouble() / 5) - .1),
-							player.posY + ((random.nextDouble() / 5) - .1),
-							player.posZ + ((random.nextDouble() / 5) - .1));
-				}
-				else if (jetPackLastFuelDisplayPercent != -1) {
-					player.addChatMessage(new ChatComponentText("Out of fuel, hope you packed a parachute..."));
-					jetPackLastFuelDisplayPercent = -1;
-				}
+					spawnJetpackExhaust(player, -.25);
+					spawnJetpackExhaust(player, .25);
 
-				spawnJetpackExhaust(player, -.25);
-				spawnJetpackExhaust(player, .25);
-
-				final long currentMillis = System.currentTimeMillis();
-				if (jetPackSoundIntervalMillis < currentMillis - jetPackLastSoundMillis) {
-					jetPackLastSoundMillis = currentMillis;
-					player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
+					final long currentMillis = System.currentTimeMillis();
+					if (jetPackSoundIntervalMillis < currentMillis - jetPackLastSoundMillis) {
+						jetPackLastSoundMillis = currentMillis;
+						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
+					}
 				}
 			}
-		}
 
-		final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
-		if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
-			final float descendVelocity = ((ItemParachute) parachuteItemStack.getItem()).descendVelocity;
-			if (player.motionY < descendVelocity) {
-				player.setVelocity(player.motionX * .99, descendVelocity, player.motionZ * .99);
-				player.fallDistance = 0;
+			final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
+			if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
+				final float descendVelocity = ((ItemParachute) parachuteItemStack.getItem()).descendVelocity;
+				if (player.motionY < descendVelocity) {
+					player.setVelocity(player.motionX * .99, descendVelocity, player.motionZ * .99);
+					player.fallDistance = 0;
+				}
 			}
 		}
 	}
@@ -237,11 +244,69 @@ public class PolycraftEventHandler {
 		}
 	}
 
+	private final Map<Point3d, Integer> litPointsOriginalPrevious = new HashMap<Point3d, Integer>();
+	private final Map<Point3d, Integer> litPointsOriginalNext = new HashMap<Point3d, Integer>();
+	private final Map<Point3d, Integer> litPointsActualPrevious = new HashMap<Point3d, Integer>();
+	private final Map<Point3d, Integer> litPointsActualNext = new HashMap<Point3d, Integer>();
+
 	private void handleVision(final LivingUpdateEvent event, final EntityPlayer player) {
 		final ItemStack flashlightItemStack = player.getCurrentEquippedItem();
+
 		if (flashlightItemStack != null && flashlightItemStack.getItem() instanceof ItemFlashlight) {
-			//TODO set light values
-			//player.worldObj.setLightValue(EnumSkyBlock.Block, x, y, z, lightLevel);
+			final ItemFlashlight flashlightItem = (ItemFlashlight) flashlightItemStack.getItem();
+
+			//compute the vector that represents the players view
+			final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+			final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+			final Vector3d playerViewVector = new Vector3d(
+					flashlightItem.range * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians),
+					flashlightItem.range * Math.cos(playerRotationPitchRadians),
+					flashlightItem.range * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+			final int playerPosX = (int) Math.round(player.posX);
+			final int playerPosY = (int) Math.round(player.posY);
+			final int playerPosZ = (int) Math.round(player.posZ);
+
+			if (PolycraftMod.itemFlashlightRayTraceWithFire)
+				player.worldObj.spawnParticle("flame", playerPosX + playerViewVector.x, playerPosY - playerViewVector.y, playerPosZ + playerViewVector.z, 0, 0, 0);
+
+			//find the points that fall inside the flashlight viewing angle cone (with respect to the players view vector)
+			final double viewingConeAngleRadians = Math.toRadians(flashlightItem.viewingConeAngle);
+			for (final Entry<Vector3d, Integer> lightVectorEntry : getLightVectorsForRange(flashlightItem.range).entrySet()) {
+				final Vector3d lightVector = lightVectorEntry.getKey();
+				if (playerViewVector.angle(lightVector) <= viewingConeAngleRadians) {
+					final Point3d litPoint = new Point3d(playerPosX + lightVector.x, playerPosY - lightVector.y, playerPosZ + lightVector.z);
+					if (!player.worldObj.isAirBlock((int) litPoint.x, (int) litPoint.y, (int) litPoint.z)) {
+						final Integer originalLookup = litPointsOriginalPrevious.remove(litPoint);
+						final int originalLightValue = (originalLookup == null) ? player.worldObj.getBlockLightValue((int) litPoint.x, (int) litPoint.y, (int) litPoint.z) : originalLookup;
+						litPointsOriginalNext.put(litPoint, originalLightValue);
+						final int currentLightValue = Math.min(15, originalLightValue + (flashlightItem.luminosity - (flashlightItem.luminosityDecreaseByRange * lightVectorEntry.getValue())));
+						litPointsActualNext.put(litPoint, currentLightValue);
+					}
+					if (PolycraftMod.itemFlashlightRayTraceWithFire)
+						player.worldObj.spawnParticle("flame", litPoint.x, litPoint.y, litPoint.z, 0, 0, 0);
+				}
+			}
+
+			//any lit points with original values still in this map need to be restored as they are no longer lit
+			setLitPoints(player.worldObj, litPointsOriginalPrevious, true);
+			litPointsOriginalPrevious.putAll(litPointsOriginalNext);
+			litPointsOriginalNext.clear();
+
+			for (final Entry<Point3d, Integer> litPointsEntry : litPointsActualNext.entrySet()) {
+				final Point3d litPointNext = litPointsEntry.getKey();
+				final int litPointNextValue = litPointsEntry.getValue();
+				final Integer litPointPrevValue = litPointsActualPrevious.remove(litPointNext);
+				if (litPointPrevValue == null || litPointPrevValue.intValue() != litPointNextValue) {
+					player.worldObj.setLightValue(EnumSkyBlock.Block, (int) litPointNext.x, (int) litPointNext.y, (int) litPointNext.z, litPointNextValue);
+				}
+			}
+			litPointsActualPrevious.clear();
+			litPointsActualPrevious.putAll(litPointsActualNext);
+			litPointsActualNext.clear();
+		}
+		else {
+			//flashlight is off, so return all previously lit points to the original light levels
+			setLitPoints(player.worldObj, litPointsOriginalPrevious, true);
 		}
 
 		if (player.isInWater()) {
@@ -249,6 +314,38 @@ public class PolycraftEventHandler {
 			if (scubaMaskItemStack != null && scubaMaskItemStack.getItem() instanceof ItemScubaMask) {
 				//TODO remove water fog
 			}
+		}
+	}
+
+	private final Map<Integer, Map<Vector3d, Integer>> lightVectorsByRange = new HashMap<Integer, Map<Vector3d, Integer>>();
+
+	private final Map<Vector3d, Integer> getLightVectorsForRange(final int range) {
+		Map<Vector3d, Integer> lightVectors = lightVectorsByRange.get(range);
+		if (lightVectors == null) {
+			lightVectors = new LinkedHashMap<Vector3d, Integer>();
+			lightVectorsByRange.put(range, lightVectors);
+			for (int x = -range; x <= range; x++) {
+				for (int y = -range; y <= range; y++) {
+					for (int z = -range; z <= range; z++) {
+						final Vector3d lightVector = new Vector3d(x, y, z);
+						final int lightVectorLength = (int) Math.round(lightVector.length());
+						if (lightVectorLength <= range)
+							lightVectors.put(lightVector, lightVectorLength);
+					}
+				}
+			}
+		}
+		return lightVectors;
+	}
+
+	private void setLitPoints(final World world, final Map<Point3d, Integer> litPoints, final boolean clear) {
+		if (litPoints.size() > 0) {
+			for (final Entry<Point3d, Integer> litPointsOriginalEntry : litPoints.entrySet()) {
+				final Point3d litPoint = litPointsOriginalEntry.getKey();
+				world.setLightValue(EnumSkyBlock.Block, (int) litPoint.x, (int) litPoint.y, (int) litPoint.z, 0);
+			}
+			if (clear)
+				litPoints.clear();
 		}
 	}
 }

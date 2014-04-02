@@ -2,9 +2,9 @@ package edu.utd.minecraft.mod.polycraft.item;
 
 import java.util.List;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -18,6 +18,7 @@ public class ItemScubaTank extends PolycraftArmorChest {
 	public ItemScubaTank(final int airUnitsFull, final int airUnitsConsumePerTick) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_tank"));
+		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.airUnitsFull = airUnitsFull;
 		this.airUnitsConsumePerTick = airUnitsConsumePerTick;
 	}

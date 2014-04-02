@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.creativetab.CreativeTabs;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemParachute extends PolycraftUtilityItem {
@@ -9,6 +9,7 @@ public class ItemParachute extends PolycraftUtilityItem {
 
 	public ItemParachute(final float descendVelocity) {
 		this.setTextureName(PolycraftMod.getTextureName("parachute"));
+		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.descendVelocity = descendVelocity;
 	}
 }
