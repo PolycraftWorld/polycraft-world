@@ -71,11 +71,9 @@ public class PolycraftMod {
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
-	public static final int itemFlashlightLuminosity = 10;
-	public static final int itemFlashlightRange = 9;
-	public static final int itemFlashlightLuminosityDecreaseByRange = 1;
+	public static final int itemFlashlightMaxLightLevel = 15;
+	public static final float itemFlashlightLightLevelDecreaseByDistance = .5f;
 	public static final int itemFlashlightViewingConeAngle = 15;
-	public static final boolean itemFlashlightRayTraceWithFire = false;
 	public static final int itemScubaTankAirUnitsFull = 5000;
 	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
 	public static final float itemScubaFinsSwimSpeedBuff = 2f;
@@ -188,6 +186,7 @@ public class PolycraftMod {
 		}
 		item.setUnlocalizedName(name);
 		GameRegistry.registerItem(item, name);
+
 		items.put(name, item);
 		return item;
 	}

@@ -94,7 +94,8 @@ public class CommonProxy {
 	}
 
 	public void postInit() {
-		MinecraftForge.EVENT_BUS.register(new PolycraftEventHandler());
+		final PolycraftEventHandler eventHandler = new PolycraftEventHandler();
+		MinecraftForge.EVENT_BUS.register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeInitializer());
 	}
@@ -182,9 +183,8 @@ public class CommonProxy {
 		PolycraftMod.itemFlashlight = PolycraftMod.registerItem(
 				"flashlight",
 				new ItemFlashlight(
-						PolycraftMod.itemFlashlightLuminosity,
-						PolycraftMod.itemFlashlightRange,
-						PolycraftMod.itemFlashlightLuminosityDecreaseByRange,
+						PolycraftMod.itemFlashlightMaxLightLevel,
+						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
 						PolycraftMod.itemFlashlightViewingConeAngle));
 		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask());
 		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(

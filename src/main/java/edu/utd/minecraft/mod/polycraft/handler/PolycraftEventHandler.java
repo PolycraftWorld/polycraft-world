@@ -1,13 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.handler;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -17,9 +12,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
@@ -29,7 +24,6 @@ import org.apache.logging.log4j.Logger;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
-import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
@@ -67,6 +61,13 @@ public class PolycraftEventHandler {
 	private int scubaTankLastAirDisplayPercent = 0;
 
 	@SubscribeEvent
+	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
+		if (event.entityLiving instanceof EntityPlayer) {
+			final EntityPlayer player = (EntityPlayer) event.entity;
+		}
+	}
+
+	@SubscribeEvent
 	public synchronized void onLivingUpdateEvent(final LivingUpdateEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
@@ -87,37 +88,39 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleMovementSpeed(final LivingUpdateEvent event, final EntityPlayer player) {
-		float movementSpeedBaseValue = baseMovementSpeed;
-		final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
-		if (player.isInWater()) {
-			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
-				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
-				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward)) {
-					final double playerRotationRadians = Math.toRadians(player.rotationYaw + 90);
-					player.setVelocity(
-							movementSpeedBaseValue * Math.cos(playerRotationRadians),
-							player.motionY,
-							movementSpeedBaseValue * Math.sin(playerRotationRadians));
+	private void handleMovementSpeed(final LivingEvent event, final EntityPlayer player) {
+		if (player.isEntityAlive()) {
+			float movementSpeedBaseValue = baseMovementSpeed;
+			final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
+			if (player.isInWater()) {
+				if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
+					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
+					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward)) {
+						final double playerRotationRadians = Math.toRadians(player.rotationYaw + 90);
+						player.setVelocity(
+								movementSpeedBaseValue * Math.cos(playerRotationRadians),
+								player.motionY,
+								movementSpeedBaseValue * Math.sin(playerRotationRadians));
+					}
 				}
 			}
-		}
-		else {
-			if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
-				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
+			else {
+				if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
+					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
+				}
+				else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes) {
+					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
+				}
 			}
-			else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes) {
-				movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
-			}
-		}
 
-		if (player.capabilities.getWalkSpeed() != movementSpeedBaseValue) {
-			player.capabilities.setPlayerWalkSpeed(movementSpeedBaseValue);
+			if (player.capabilities.getWalkSpeed() != movementSpeedBaseValue) {
+				player.capabilities.setPlayerWalkSpeed(movementSpeedBaseValue);
+			}
 		}
 	}
 
-	private void handleFlight(final LivingUpdateEvent event, final EntityPlayer player) {
-		if (!player.capabilities.isCreativeMode) {
+	private void handleFlight(final LivingEvent event, final EntityPlayer player) {
+		if (player.isEntityAlive() && !player.capabilities.isCreativeMode) {
 			final ItemStack jetPackItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
 			final ItemJetPack jetPackItem =
 					(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
@@ -219,8 +222,8 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleBreathing(final LivingUpdateEvent event, final EntityPlayer player) {
-		if (player.isInWater() && player.getAir() < baseFullAir) {
+	private void handleBreathing(final LivingEvent event, final EntityPlayer player) {
+		if (player.isEntityAlive() && player.isInWater() && player.getAir() < baseFullAir) {
 			final ItemStack scubaTankItemStack = player.getCurrentArmor(2);
 			if (scubaTankItemStack != null && scubaTankItemStack.getItem() instanceof ItemScubaTank) {
 				final ItemScubaTank scubaTankItem = (ItemScubaTank) scubaTankItemStack.getItem();
@@ -244,108 +247,13 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private final Map<Point3d, Integer> litPointsOriginalPrevious = new HashMap<Point3d, Integer>();
-	private final Map<Point3d, Integer> litPointsOriginalNext = new HashMap<Point3d, Integer>();
-	private final Map<Point3d, Integer> litPointsActualPrevious = new HashMap<Point3d, Integer>();
-	private final Map<Point3d, Integer> litPointsActualNext = new HashMap<Point3d, Integer>();
-
-	private void handleVision(final LivingUpdateEvent event, final EntityPlayer player) {
+	private void handleVision(final LivingEvent event, final EntityPlayer player) {
 		final ItemStack flashlightItemStack = player.getCurrentEquippedItem();
-
-		if (flashlightItemStack != null && flashlightItemStack.getItem() instanceof ItemFlashlight) {
-			final ItemFlashlight flashlightItem = (ItemFlashlight) flashlightItemStack.getItem();
-
-			//compute the vector that represents the players view
-			final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
-			final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
-			final Vector3d playerViewVector = new Vector3d(
-					flashlightItem.range * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians),
-					flashlightItem.range * Math.cos(playerRotationPitchRadians),
-					flashlightItem.range * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
-			final int playerPosX = (int) Math.round(player.posX);
-			final int playerPosY = (int) Math.round(player.posY);
-			final int playerPosZ = (int) Math.round(player.posZ);
-
-			if (PolycraftMod.itemFlashlightRayTraceWithFire)
-				player.worldObj.spawnParticle("flame", playerPosX + playerViewVector.x, playerPosY - playerViewVector.y, playerPosZ + playerViewVector.z, 0, 0, 0);
-
-			//find the points that fall inside the flashlight viewing angle cone (with respect to the players view vector)
-			final double viewingConeAngleRadians = Math.toRadians(flashlightItem.viewingConeAngle);
-			for (final Entry<Vector3d, Integer> lightVectorEntry : getLightVectorsForRange(flashlightItem.range).entrySet()) {
-				final Vector3d lightVector = lightVectorEntry.getKey();
-				if (playerViewVector.angle(lightVector) <= viewingConeAngleRadians) {
-					final Point3d litPoint = new Point3d(playerPosX + lightVector.x, playerPosY - lightVector.y, playerPosZ + lightVector.z);
-					if (!player.worldObj.isAirBlock((int) litPoint.x, (int) litPoint.y, (int) litPoint.z)) {
-						final Integer originalLookup = litPointsOriginalPrevious.remove(litPoint);
-						final int originalLightValue = (originalLookup == null) ? player.worldObj.getBlockLightValue((int) litPoint.x, (int) litPoint.y, (int) litPoint.z) : originalLookup;
-						litPointsOriginalNext.put(litPoint, originalLightValue);
-						final int currentLightValue = Math.min(15, originalLightValue + (flashlightItem.luminosity - (flashlightItem.luminosityDecreaseByRange * lightVectorEntry.getValue())));
-						litPointsActualNext.put(litPoint, currentLightValue);
-					}
-					if (PolycraftMod.itemFlashlightRayTraceWithFire)
-						player.worldObj.spawnParticle("flame", litPoint.x, litPoint.y, litPoint.z, 0, 0, 0);
-				}
-			}
-
-			//any lit points with original values still in this map need to be restored as they are no longer lit
-			setLitPoints(player.worldObj, litPointsOriginalPrevious, true);
-			litPointsOriginalPrevious.putAll(litPointsOriginalNext);
-			litPointsOriginalNext.clear();
-
-			for (final Entry<Point3d, Integer> litPointsEntry : litPointsActualNext.entrySet()) {
-				final Point3d litPointNext = litPointsEntry.getKey();
-				final int litPointNextValue = litPointsEntry.getValue();
-				final Integer litPointPrevValue = litPointsActualPrevious.remove(litPointNext);
-				if (litPointPrevValue == null || litPointPrevValue.intValue() != litPointNextValue) {
-					player.worldObj.setLightValue(EnumSkyBlock.Block, (int) litPointNext.x, (int) litPointNext.y, (int) litPointNext.z, litPointNextValue);
-				}
-			}
-			litPointsActualPrevious.clear();
-			litPointsActualPrevious.putAll(litPointsActualNext);
-			litPointsActualNext.clear();
-		}
-		else {
-			//flashlight is off, so return all previously lit points to the original light levels
-			setLitPoints(player.worldObj, litPointsOriginalPrevious, true);
-		}
-
-		if (player.isInWater()) {
+		if (player.isEntityAlive() && player.isInWater()) {
 			final ItemStack scubaMaskItemStack = player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot());
 			if (scubaMaskItemStack != null && scubaMaskItemStack.getItem() instanceof ItemScubaMask) {
 				//TODO remove water fog
 			}
-		}
-	}
-
-	private final Map<Integer, Map<Vector3d, Integer>> lightVectorsByRange = new HashMap<Integer, Map<Vector3d, Integer>>();
-
-	private final Map<Vector3d, Integer> getLightVectorsForRange(final int range) {
-		Map<Vector3d, Integer> lightVectors = lightVectorsByRange.get(range);
-		if (lightVectors == null) {
-			lightVectors = new LinkedHashMap<Vector3d, Integer>();
-			lightVectorsByRange.put(range, lightVectors);
-			for (int x = -range; x <= range; x++) {
-				for (int y = -range; y <= range; y++) {
-					for (int z = -range; z <= range; z++) {
-						final Vector3d lightVector = new Vector3d(x, y, z);
-						final int lightVectorLength = (int) Math.round(lightVector.length());
-						if (lightVectorLength <= range)
-							lightVectors.put(lightVector, lightVectorLength);
-					}
-				}
-			}
-		}
-		return lightVectors;
-	}
-
-	private void setLitPoints(final World world, final Map<Point3d, Integer> litPoints, final boolean clear) {
-		if (litPoints.size() > 0) {
-			for (final Entry<Point3d, Integer> litPointsOriginalEntry : litPoints.entrySet()) {
-				final Point3d litPoint = litPointsOriginalEntry.getKey();
-				world.setLightValue(EnumSkyBlock.Block, (int) litPoint.x, (int) litPoint.y, (int) litPoint.z, 0);
-			}
-			if (clear)
-				litPoints.clear();
 		}
 	}
 }

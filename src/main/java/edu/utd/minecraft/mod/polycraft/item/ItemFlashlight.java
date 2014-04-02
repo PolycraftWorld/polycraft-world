@@ -5,17 +5,15 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemFlashlight extends PolycraftUtilityItem {
 
-	public final int luminosity;
-	public final int range;
-	public final int luminosityDecreaseByRange;
+	public final int maxLightLevel;
+	public final float lightLevelDecreaseByDistance;
 	public final int viewingConeAngle;
 
-	public ItemFlashlight(final int luminosity, final int range, final int luminosityDecreaseByRange, final int viewingConeAngle) {
+	public ItemFlashlight(final int maxLightLevel, final float lightLevelDecreaseByDistance, final int viewingConeAngle) {
 		this.setTextureName(PolycraftMod.getTextureName("flashlight"));
 		this.setCreativeTab(CreativeTabs.tabTools);
-		this.luminosity = luminosity;
-		this.range = range;
-		this.luminosityDecreaseByRange = luminosityDecreaseByRange;
+		this.maxLightLevel = maxLightLevel;
+		this.lightLevelDecreaseByDistance = lightLevelDecreaseByDistance;
 		this.viewingConeAngle = viewingConeAngle;
 	}
 }
