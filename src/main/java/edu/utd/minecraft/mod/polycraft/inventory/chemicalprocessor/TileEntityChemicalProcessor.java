@@ -36,6 +36,11 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 
+/**
+ * Handles processing of the chemical processor container.  Any inputs that use a
+ * fluid container automatically generate empty fluid containers on output (they do
+ * not need to be, and should not be specified as outputs of the recipe).
+ */
 public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer implements ISidedInventory {
 	private static final Logger logger = LogManager.getLogger();
 	
@@ -110,8 +115,9 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 			for (final RecipeComponent input : inputs) {
 				ItemStack item = input.itemStack;
 				if (item.getItem() instanceof ItemFluidContainer) {
-					if (((ItemFluidContainer)item.getItem()).fluidEntity == null) {
+					if (((ItemFluidContainer)item.getItem()).fluidEntity != null) {
 						fluidContainersRequired += item.stackSize;
+						
 					}
 				}
 			}
