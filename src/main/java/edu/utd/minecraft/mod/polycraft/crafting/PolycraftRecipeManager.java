@@ -229,7 +229,7 @@ public class PolycraftRecipeManager {
 			final Map<Character, ItemStack> itemStackMap) {
 		return addShapedRecipe(containerType, resultItem, inputShape, itemStackMap, 0);
 	}
-	
+
 	/**
 	 * Adds a shaped recipe from the inputs, in a similar format to the Forge API.  If the crafting
 	 * recipe container type is a generic or smelting recipe, it will be added to Forge
