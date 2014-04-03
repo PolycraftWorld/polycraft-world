@@ -31,7 +31,6 @@ import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
-import edu.utd.minecraft.mod.polycraft.config.Polymer.ResinCode;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
@@ -63,7 +62,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 
 public class CommonProxy {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	public void preInit() {
 		createBiomes();
 		createFluids();
@@ -215,8 +214,8 @@ public class CommonProxy {
 		for (final Polymer polymer : Polymer.registry.values()) {
 			//TODO remove this check when forge fixes their bug for EntityEnderMan.carriableBlocks
 			// array index out of bounds exception (cannot make blocks with ids bigger than 255!)
-			if (polymer.resinCode != ResinCode.NONE)
-				PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
+			//if (polymer.resinCode != ResinCode.NONE)
+			PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
 			PolycraftMod.registerItem(
 					polymer.itemNamePellet,
 					new ItemPellet()
