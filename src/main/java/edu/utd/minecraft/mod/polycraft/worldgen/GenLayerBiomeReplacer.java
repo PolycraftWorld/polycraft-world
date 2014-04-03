@@ -47,7 +47,6 @@ public abstract class GenLayerBiomeReplacer extends GenLayer {
 				final int currentBiomeId = inputBiomeIDs[xIter + 1 + (zIter + 1) * (width + 2)];
 				if (canReplaceBiome(currentBiomeId) && SimplexNoise.noise((xIter + x + xOffset) * noiseScale, (zIter + z + zOffset) * noiseScale) > noiseThreshold) {
 					outputBiomeIDs[xIter + zIter * width] = newBiomeId;
-//					System.out.printf("Replaced Biome at %d, %d\n", xIter + x, zIter + z);
 				} else {
 					outputBiomeIDs[xIter + zIter * width] = currentBiomeId;
 				}

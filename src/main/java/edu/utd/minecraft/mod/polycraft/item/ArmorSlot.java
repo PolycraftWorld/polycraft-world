@@ -1,6 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-// Enumeration of armor slots and IDs.
+/**
+ * Enumeration of armor slots and IDs.
+ */
 public enum ArmorSlot {
 	HEAD("Head", 0, 3),
 	CHEST("Chest", 1, 2),
@@ -11,17 +13,23 @@ public enum ArmorSlot {
 	private final int inventoryArmorSlot;
 	private final String name;
 	
-	// Gets the minecraft integer value of the armor slot.
+	/**
+	 * @return the minecraft integer value of the armor slot.
+	 */
 	public int getValue() {
 		return this.value;
 	}
 	
-	// Returns the corresponding spot in the inventory for the armor item.
+	/**
+	 * @return the corresponding spot in the inventory for the armor item.
+	 */
 	public int getInventoryArmorSlot() {
 		return this.inventoryArmorSlot;
 	}
 	
-	// Gets the friendly name of the armor slot.
+	/**
+	 * @return the friendly name of the armor slot.
+	 */
 	public String getName() {
 		return this.name;
 	}

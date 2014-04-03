@@ -8,7 +8,7 @@ import edu.utd.minecraft.mod.polycraft.config.Entity;
 public class ItemFluidContainer extends Item implements PolycraftItem {
 	public final Entity fluidEntity;
 	
-	public ItemFluidContainer(Entity entity) {
+	public ItemFluidContainer(final Entity entity) {
 		fluidEntity = entity;
 		this.setCreativeTab(CreativeTabs.tabMaterials);
 		this.setTextureName(PolycraftMod.getTextureName(PolycraftMod.itemNameFluidContainer));

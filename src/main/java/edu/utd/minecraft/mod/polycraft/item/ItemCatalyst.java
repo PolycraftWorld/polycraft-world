@@ -9,7 +9,7 @@ import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 public class ItemCatalyst extends Item implements PolycraftItem {
 	public final Catalyst catalyst;
 	
-	public ItemCatalyst(Catalyst catalyst) {
+	public ItemCatalyst(final Catalyst catalyst) {
 		Preconditions.checkNotNull(catalyst);
 		this.catalyst = catalyst;
 	}

@@ -22,6 +22,7 @@ public class BiomeInitializer {
 			event.newBiomeGens[2] = new GenLayerAddOilOcean(event.seed, 1500L, event.newBiomeGens[2]);
 		}
 
+		// TODO: Delete comments
 //		int range = GenLayerBiomeReplacer.OFFSET_RANGE;
 //		Random rand = new Random(event.seed);
 //		double xOffset = rand.nextInt(range) - (range / 2);
