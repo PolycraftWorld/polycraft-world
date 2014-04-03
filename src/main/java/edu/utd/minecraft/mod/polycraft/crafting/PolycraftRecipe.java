@@ -5,45 +5,75 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.item.ItemStack;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.item.ItemStack;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.ContainerChemicalProcessor;
-
-// Implementation of a Polycraft recipe.  Recipes can consist of shaped or
-// shapeless inputs, with any combination of both.
-public class PolycraftRecipe<T extends PolycraftCraftingContainer> {
+/**
+ * Recipes for Polycraft Mod.  Recipes can consist of shaped inputs, shapeless
+ * inputs, or both.
+ */
+public class PolycraftRecipe {
 	private static Logger logger = LogManager.getLogger();
 	
-	// Collection of collections that are shapeless.  Recipe creation requires at
-	// least one item from every RecipeInput, and each of those items can be any
-	// one of the items specified within the RecipeInput's ItemStack values.
+	/**
+	 * Collection of collections that are shapeless.  Recipe creation requires at
+	 * least one item from every RecipeInput, and each of those items can be any
+	 * one of the items specified within the RecipeInput's ItemStack values.
+	 */
 	private final Collection<RecipeInput> shapelessInputs = Lists.newArrayList();
 	
-	// Map of fixed recipe inputs.
+	/**
+	 * Map of fixed recipe inputs.
+	 */
 	private final Map<ContainerSlot, RecipeInput> shapedInputs = Maps.newHashMap();
 	
-	// Collection of item outputs and their quantities.
-	private final Set<SingleRecipeInput> outputs;
+	/**
+	 * Collection of item outputs and their quantities.
+	 */
+	private final Set<RecipeComponent> outputs;
 	
-	// Create a new recipe with the specified inputs and outputs.
-	public PolycraftRecipe(final Iterable<RecipeInput> inputs, final Iterable<SingleRecipeInput> outputs) {
+	/**
+	 * Container type required by this recipe.
+	 */
+	private final PolycraftContainerType containerType;
+	
+	/**
+	 * The amount of experience given for crafting the recipe.
+	 */
+	private final double experience;
+
+	/**
+	 * Create a new recipe with the specified inputs and outputs.
+	 */
+	public PolycraftRecipe(final PolycraftContainerType containerType, final Iterable<RecipeInput> inputs,
+			final Iterable<RecipeComponent> outputs) {
+		this(containerType, inputs, outputs, 0);
+	}
+	
+	/**
+	 * Create a new recipe with the specified inputs, outputs, and experience.
+	 */
+	public PolycraftRecipe(final PolycraftContainerType containerType, final Iterable<RecipeInput> inputs,
+			final Iterable<RecipeComponent> outputs, final double experience) {
+		Preconditions.checkArgument(experience >= 0, "Recipe crafting experience cannot be less than zero.");
+		
+		this.containerType = containerType;
+		this.experience = experience;
 		Preconditions.checkNotNull(inputs);
 		Preconditions.checkNotNull(outputs);
 		
 		// Validate the outputs
 		Set<ContainerSlot> slotMap = Sets.newHashSet();
-		for (SingleRecipeInput output : outputs) {
+		for (final RecipeComponent output : outputs) {
 			// Outputs cannot be assigned to "any" slot
 			Preconditions.checkArgument(!output.slot.equals(RecipeSlot.ANY));
 			// Cannot have two outputs in the same slot
@@ -56,32 +86,19 @@ public class PolycraftRecipe<T extends PolycraftCraftingContainer> {
 		for (final RecipeInput input : inputs) {
 			if (input.slot.equals(RecipeSlot.ANY)) {
 				// Input can go into any of the slots
-				for (RecipeInput existingInput : shapelessInputs) {
+				for (final RecipeInput existingInput : shapelessInputs) {
 					// Can't have a similar input to any other shapeless item
-					for (ItemStack inputStack : input.inputs) {
-						Preconditions.checkArgument(!existingInput.contains(inputStack));
+					for (final ItemStack inputStack : input.inputs) {
+						// TODO : Remove!
+						//Preconditions.checkArgument(!existingInput.contains(inputStack));
 					}
-				}
-				for (RecipeInput existingInput : shapedInputs.values()) {
-					// Can't have a similar input to any other shad item
-					for (ItemStack inputStack : input.inputs) {
-						Preconditions.checkArgument(!existingInput.contains(inputStack));
-					}
-				}
+				}				
 				shapelessInputs.add(RecipeInput.shapelessAnyOneOf(input.inputs));
 			} else {
 				// Fixed input position
 				if (shapedInputs.containsKey(input.slot)) {
 					throw new IllegalArgumentException("A recipe item already exists at container slot " + input.slot);
-				}
-				
-				// Can't be the same as any existing shaped input.
-				for (RecipeInput existingInput : shapelessInputs) {
-					// Can't have a similar input to any other shapeless item
-					for (ItemStack inputStack : input.inputs) {
-						Preconditions.checkArgument(!existingInput.contains(inputStack));
-					}
-				}
+				}				
 				shapedInputs.put(input.slot, input);
 			}
 		}
@@ -90,29 +107,47 @@ public class PolycraftRecipe<T extends PolycraftCraftingContainer> {
 		Preconditions.checkArgument(this.shapedInputs.size() + this.shapelessInputs.size() != 0);
 	}
 	
-	// Gets the list of outputs
-	public Collection<SingleRecipeInput> getOutputs() {
-		return this.outputs;
+	/**
+	 * @return the container type required by this recipe.
+	 */
+	public PolycraftContainerType getContainerType() {
+		return this.containerType;
 	}
 	
-	// Creates a set of every possible combination of shaped recipes.
-	public Collection<Set<SingleRecipeInput>> getShapedCombinations() {
-		final List<Set<SingleRecipeInput>> shapedCombos = Lists.newArrayList();
+	/**
+	 * @return outputs generated by the recipe.
+	 */
+	public Collection<RecipeComponent> getOutputs() {
+		return this.outputs;
+	}
+
+	/**
+	 * @return The number of inputs required by this recipe.
+	 */
+	public int getInputCount() {
+		return this.shapedInputs.size() + this.shapelessInputs.size();
+	}
+	
+	/**
+	 * Creates a set of every possible combination of shaped recipes.
+	 */
+	public Collection<Set<RecipeComponent>> getShapedCombinations() {
+		final List<Set<RecipeComponent>> shapedCombos = Lists.newArrayList();
 		
 		// Add combinations of the "one of any" in fixed slot positions
 		for (final ContainerSlot slot : shapedInputs.keySet()) {
 			if (shapedCombos.size() == 0) {
 				// Initial set entry
 				for (final ItemStack stack : shapedInputs.get(slot).inputs) {
-					shapedCombos.add(ImmutableSet.of(new SingleRecipeInput(slot, stack)));
+					shapedCombos.add(ImmutableSet.of(new RecipeComponent(slot, stack)));
 				}
 			} else {
-				List<Set<SingleRecipeInput>> newList = Lists.newArrayList();
+				List<Set<RecipeComponent>> newList = Lists.newArrayList();
 				for (final ItemStack stack : shapedInputs.get(slot).inputs) {
 					String key = "_" + Integer.toString(slot.getSlotIndex()) + "-" + stack.getItem().getUnlocalizedName();
-					for (Set<SingleRecipeInput> existing : shapedCombos) {
-						Set<SingleRecipeInput> newSet = Sets.newHashSet(existing);
-						newSet.add(new SingleRecipeInput(slot, stack));
+					for (Set<RecipeComponent> existing : shapedCombos) {
+						Set<RecipeComponent> newSet = Sets.newHashSet(existing);
+						newSet.add(new RecipeComponent(slot, stack));
 						newList.add(newSet);
 					}
 				}
@@ -124,23 +159,25 @@ public class PolycraftRecipe<T extends PolycraftCraftingContainer> {
 		return shapedCombos;
 	}
 	
-	// Creates a set of every combination of shapeless recipes.
-	public Collection<Set<SingleRecipeInput>> getShapelessCombinations() {
-		List<Set<SingleRecipeInput>> shapelessCombos = Lists.newArrayList();
+	/**
+	 * Creates a set of every combination of shapeless recipes.
+	 */
+	public Collection<Set<RecipeComponent>> getShapelessCombinations() {
+		List<Set<RecipeComponent>> shapelessCombos = Lists.newArrayList();
 		
 		// Add combinations for the shapeless inputs
 		for (final RecipeInput input : shapelessInputs) {
 			if (shapelessCombos.size() == 0) {
 				// For the first element, create the initial array
 				for (final ItemStack stack : input.inputs) {				
-					shapelessCombos.add(ImmutableSet.of(new SingleRecipeInput(input.slot, stack)));
+					shapelessCombos.add(ImmutableSet.of(new RecipeComponent(input.slot, stack)));
 				}				
 			} else {
-				final List<Set<SingleRecipeInput>> newListList = Lists.newArrayList();
+				final List<Set<RecipeComponent>> newListList = Lists.newArrayList();
 				for (final ItemStack stack : input.inputs) {
-					for (final Set<SingleRecipeInput> oldList : shapelessCombos) {
-						Set<SingleRecipeInput> newList = Sets.newHashSet(oldList);
-						newList.add(new SingleRecipeInput(input.slot, stack));
+					for (final Set<RecipeComponent> oldList : shapelessCombos) {
+						Set<RecipeComponent> newList = Sets.newHashSet(oldList);
+						newList.add(new RecipeComponent(input.slot, stack));
 						newListList.add(newList);
 					}
 				}
@@ -151,40 +188,53 @@ public class PolycraftRecipe<T extends PolycraftCraftingContainer> {
 		return shapelessCombos;
 	}
 	
-	private ItemStack getItemstackForInput(SingleRecipeInput input) {
+	private ItemStack getItemstackForInput(final RecipeComponent input, final Set<RecipeInput> usedInputs) {
 		for (final RecipeInput recipeInput : shapedInputs.values()) {
+			if (usedInputs != null && usedInputs.contains(recipeInput)) {
+				continue;
+			}
 			ItemStack recipeStack = recipeInput.get(input);
 			if (recipeStack != null && input.itemStack.stackSize >= recipeStack.stackSize) {
+				usedInputs.add(recipeInput);
 				return recipeStack;
 			}
 		}
 		for (final RecipeInput recipeInput : shapelessInputs) {
 			ItemStack recipeStack = recipeInput.get(input);
 			if (recipeStack != null && input.itemStack.stackSize >= recipeStack.stackSize) {
+				if (usedInputs != null && usedInputs.contains(recipeInput)) {
+					continue;
+				}
+				usedInputs.add(recipeInput);
 				return recipeStack;
 			}
 		}
 		return null;
 	}
 	
-	// Returns true if the inputs and stack sizes are valid for this recipe.
-	public boolean areInputsValid(final Set<SingleRecipeInput> inputs) {
+	/**
+	 * @return true if the inputs and stack sizes are valid for this recipe.
+	 */
+	public boolean areInputsValid(final Set<RecipeComponent> inputs) {
 		if (inputs.size() != (shapelessInputs.size() + shapedInputs.size())) {
 			return false;
 		}
 				
-		for (final SingleRecipeInput input : inputs) {
+		Set<RecipeInput> usedSlots = Sets.newHashSet();
+		for (final RecipeComponent input : inputs) {
 			// Iterate over the shaped inputs looking for a match
-			if (getItemstackForInput(input) == null) {
+			if (getItemstackForInput(input, usedSlots) == null) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	// Processes the inputs against the recipe, adding the results
-	// to the container's output and subtracting from the inputs.
-	public void process(Set<SingleRecipeInput> inputs, ItemStack[] containerStacks) {
+	/**
+	 * Processes the inputs against the recipe, adding the results
+	 * to the container's output and subtracting from the inputs. 
+	 */
+	public void process(final Set<RecipeComponent> inputs, PolycraftTileEntityContainer container) {
 		if (inputs == null) {
 			logger.warn("Invalid processing input for recipe " + this.toString());
 			return;
@@ -195,24 +245,33 @@ public class PolycraftRecipe<T extends PolycraftCraftingContainer> {
 		}
 		
 		// Create the outputs.
-		for (SingleRecipeInput output : this.outputs) {
-			int slot = output.slot.getSlotIndex();
-			if (containerStacks[slot] == null) {
-				containerStacks[slot] = output.itemStack.copy();
+		for (final RecipeComponent output : this.outputs) {
+			if (container.getStackInSlot(output.slot) == null) {
+				container.setStackInSlot(output.slot, output.itemStack.copy());
 			} else {
-				containerStacks[slot].stackSize += output.itemStack.stackSize; 
+				container.getStackInSlot(output.slot).stackSize += output.itemStack.stackSize; 
 			}				
 		}
 		
 		// Remove from the inputs.
-		for (SingleRecipeInput input : inputs) {
-			int slot = input.slot.getSlotIndex();
-			ItemStack itemStack = getItemstackForInput(input);
-			
-			containerStacks[slot].stackSize -= input.itemStack.stackSize;
-			if (containerStacks[slot].stackSize <= 0) {
-				containerStacks[slot] = null;
+		Set<RecipeInput> usedInputs = Sets.newHashSet();
+		for (final RecipeComponent input : ImmutableList.copyOf(inputs)) {
+			ItemStack itemStack = getItemstackForInput(input, usedInputs);
+			if (itemStack != null) {
+				container.getStackInSlot(input.slot).stackSize -= itemStack.stackSize;
+				if (container.getStackInSlot(input.slot).stackSize <= 0) {				
+					container.clearSlotContents(input.slot);
+				}
+			} else {
+				logger.error("Missing item stack for input " + input);
 			}
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "PolycraftRecipe [shapelessInputs=" + shapelessInputs
+				+ ", shapedInputs=" + shapedInputs + ", outputs=" + outputs
+				+ "]";
 	}
 }

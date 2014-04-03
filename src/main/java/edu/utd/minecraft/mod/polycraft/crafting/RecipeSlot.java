@@ -2,11 +2,15 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import com.google.common.base.Preconditions;
 
-import net.minecraft.item.ItemStack;
-
+/**
+ * A slot for materials in a recipe.
+ */
 public class RecipeSlot implements ContainerSlot {
 	private static final int ANY_RECIPE_SLOT_INDEX = -1;
 	
+	/**
+	 * A RecipeSlot representing any possible position in the inputs or outputs.
+	 */
 	public static final RecipeSlot ANY = new RecipeSlot();
 	
 	public final int slotIndex;
@@ -15,7 +19,7 @@ public class RecipeSlot implements ContainerSlot {
 		slotIndex = ANY_RECIPE_SLOT_INDEX;
 	}
 	
-	public RecipeSlot(int slotIndex) {
+	public RecipeSlot(final int slotIndex) {
 		Preconditions.checkArgument(slotIndex >= 0);
 		this.slotIndex = slotIndex;
 	}
@@ -24,8 +28,8 @@ public class RecipeSlot implements ContainerSlot {
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
-		}
-		return this.slotIndex == ((RecipeSlot)obj).slotIndex;
+		}	
+		return this.slotIndex == ((ContainerSlot)obj).getSlotIndex();
 	}
 	
 	@Override
@@ -40,5 +44,21 @@ public class RecipeSlot implements ContainerSlot {
 	
 	public String toString() {
 		return "Slot=" + this.slotIndex;
+	}
+
+	@Override
+	public SlotType getSlotType() {
+		// Recipe slots have no slot type
+		return null;
+	}
+
+	@Override
+	public int getRelativeX() {
+		return -1;
+	}
+
+	@Override
+	public int getRelativeY() {
+		return -1;
 	}
 }

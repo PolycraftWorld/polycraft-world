@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 
+// TODO: Rename to ChemicalProcessorGUISlot to avoid confusion with ChemicalProcessorSlot?
 public class SlotChemicalProcessor extends Slot {
 	/**
 	 * The player that is using the GUI where this slot resides.

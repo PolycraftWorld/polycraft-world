@@ -1,25 +1,27 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-// A RecipeInput with only a single entry.  Used for searching for and
-// finding recipes.
-public class SingleRecipeInput implements Comparable<SingleRecipeInput> {
+import com.google.common.base.Preconditions;
+
+/**
+ * A recipe component consisting of an item stack and the container
+ * slot it exists in.
+ */
+public class RecipeComponent implements Comparable<RecipeComponent> {
 	public final ItemStack itemStack;
 	public final ContainerSlot slot;
 	
-	public SingleRecipeInput(int slotIndex, Item item, int stackCount) {
+	public RecipeComponent(final int slotIndex, final Item item, final int stackCount) {
 		this(new RecipeSlot(slotIndex), new ItemStack(item, stackCount));
 	}
 	
-	public SingleRecipeInput(int slotIndex, ItemStack stack) {
+	public RecipeComponent(final int slotIndex, final ItemStack stack) {
 		this(new RecipeSlot(slotIndex), stack);
 	}
 	
-	public SingleRecipeInput(ContainerSlot slot, ItemStack stack) {
+	public RecipeComponent(final ContainerSlot slot, final ItemStack stack) {
 		Preconditions.checkNotNull(slot);
 		Preconditions.checkNotNull(stack);
 		Preconditions.checkNotNull(stack.getItem());
@@ -47,16 +49,20 @@ public class SingleRecipeInput implements Comparable<SingleRecipeInput> {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		SingleRecipeInput other = (SingleRecipeInput) obj;
+		RecipeComponent other = (RecipeComponent) obj;
 		if (!other.itemStack.getItem().getUnlocalizedName().equals(
 				this.itemStack.getItem().getUnlocalizedName())) {
 			return false;
 		}
-		return this.slot.equals(other.slot);
+		
+		if (this.slot.getSlotIndex() != -1 && other.slot.getSlotIndex() != -1) {
+			return this.slot.getSlotIndex() == other.slot.getSlotIndex();
+		}
+		return true;
 	}
 
 	@Override
-	public int compareTo(SingleRecipeInput o) {
+	public int compareTo(RecipeComponent o) {
 		if (slot.getSlotIndex() == o.slot.getSlotIndex()) {
 			return this.itemStack.getItem().getUnlocalizedName().compareTo(
 					o.itemStack.getItem().getUnlocalizedName());

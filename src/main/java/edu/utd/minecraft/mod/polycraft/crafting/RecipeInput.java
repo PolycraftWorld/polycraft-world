@@ -2,15 +2,17 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
 
+import net.minecraft.item.ItemStack;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.item.ItemStack;
-
-// An input to a recipe.  The position may or may not be fixed (use RecipeSlot.ANY to indicate
-// that the input can occur anywhere).  The inputs represent a "one-of" item; the recipe must
-// have exactly one of the items specified in the input.  This is useful for example with
-// fuel inputs, where coal, charcoal, etc. are all valid, but only one of them is needed.
+/**
+ * An input to a recipe.  The position may or may not be fixed (use RecipeSlot.ANY to indicate
+ * that the input can occur anywhere).  The inputs represent a "one-of" item; the recipe must
+ * have exactly one of the items specified in the input.  This is useful for example with
+ * fuel inputs, where coal, charcoal, etc. are all valid, but only one of them is needed.
+ */
 public final class RecipeInput {
 	public final Collection<ItemStack> inputs;
 	public final ContainerSlot slot;
@@ -33,9 +35,11 @@ public final class RecipeInput {
 		}
 	}
 
-	// Returns the itemstack referenced by the SingleRecipeInput
-	public ItemStack get(final SingleRecipeInput input) {
-		if (!slot.equals(RecipeSlot.ANY) && !slot.equals(input.slot)){
+	/**
+	 * Returns the itemstack referenced by the RecipeComponent
+	 */
+	public ItemStack get(final RecipeComponent input) {
+		if (!slot.equals(RecipeSlot.ANY) && slot.getSlotIndex() != input.slot.getSlotIndex()){
 			return null;
 		}
 		
@@ -48,7 +52,9 @@ public final class RecipeInput {
 		return null;
 	}
 	
-	// Returns true if the itemstack is contained by the RecipeInput
+	/**
+	 * @return true if the itemstack is contained by the RecipeInput
+	 */
 	public boolean contains(final ItemStack itemStack) {
 		for (final ItemStack stack : inputs) {
 			// TODO: is unlocalized name the right comparison, or can be items be used?
@@ -60,33 +66,43 @@ public final class RecipeInput {
 		return false;
 	}
 	
-	// Returns true if the single input is valid for the RecipeInput.
-	public boolean contains(final SingleRecipeInput input) {
-		if (!slot.equals(RecipeSlot.ANY) && !slot.equals(input.slot)){
+	/**
+	 * @return true if the single input is valid for the RecipeInput.
+	 */
+	public boolean contains(final RecipeComponent input) {
+		if (!slot.equals(RecipeSlot.ANY) && slot.getSlotIndex() != input.slot.getSlotIndex()){
 			return false;
 		}		
 		return contains(input.itemStack);
 	}
 	
-	// Create a new recipe input that requires the item stack placed at any slot.
-	public static RecipeInput shapelessInput(ItemStack item) {		
+	/**
+	 * Creates a new recipe input that requires the item stack placed at any slot.
+	 */
+	public static RecipeInput shapelessInput(final ItemStack item) {		
 		return new RecipeInput(RecipeSlot.ANY, ImmutableList.of(item));
 	}
 	
-	// Create a new recipe input that requires the item stack at the specified slot.
-	public static RecipeInput shapedInput(ContainerSlot slot, ItemStack item) {		
+	/**
+	 * Creates a new recipe input that requires the item stack at the specified slot.
+	 */
+	public static RecipeInput shapedInput(final ContainerSlot slot, final ItemStack item) {		
 		return new RecipeInput(slot, ImmutableList.of(item));
 	}
 	
-	// Create a new shapeless recipe input that is valid for any one of the items in the
-	// iterable list.
-	public static RecipeInput shapelessAnyOneOf(Iterable<ItemStack> items) {
+	/**
+	 * Create a new shapeless recipe input that is valid for any one of the items in the
+	 * iterable list
+	 */
+	public static RecipeInput shapelessAnyOneOf(final Iterable<ItemStack> items) {
 		return new RecipeInput(RecipeSlot.ANY, items);
 	}
 	
-	// Create a new recipe input at the specified slot that is valid for any of the one
-	// items in the iterable list.
-	public static RecipeInput shapedAnyOneOf(ContainerSlot slot, Iterable<ItemStack> items) {
+	/**
+	 *  Create a new recipe input at the specified slot that is valid for any of the one
+	 * items in the iterable list.
+	 */
+	public static RecipeInput shapedAnyOneOf(final ContainerSlot slot, final Iterable<ItemStack> items) {
 		return new RecipeInput(slot, items);
 	}
 
