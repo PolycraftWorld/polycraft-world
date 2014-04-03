@@ -108,12 +108,17 @@ public class RecipeGenerator {
 				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack), createItemStack(Element.hydrogen, 4)),
 				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack)));
 
+
 		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemParachute), "xxx", "x x", " x ",
 				'x', new ItemStack(PolycraftMod.items.get(Polymer.nylon11.itemNameFiber), 8));
 
-		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemScubaMask), "xxx", "xyx", "xxx",
-				'x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNameFiber)),
-				'y', new ItemStack(Blocks.glass_pane));
+		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemParachute), "xyx", "xzx", "xxx",
+				'x', new ItemStack(PolycraftMod.items.get(Polymer.nylon11.itemNameFiber), 8));
+
+		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemFlashlight), "xxx", "xyx", "xxx",
+				'x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNamePellet)),
+				'y', new ItemStack(Blocks.glass_pane),
+				'z', new ItemStack(Blocks.redstone_lamp));
 
 		GameRegistry.addRecipe(new ItemStack(PolycraftMod.itemScubaTank), "xzx", "yxy", "x x",
 				'x', new ItemStack(PolycraftMod.items.get(Polymer.HDPE.itemNameFiber), 8),
@@ -429,6 +434,9 @@ public class RecipeGenerator {
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemFlashlight), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemRunningShoes), dirtStacks.toArray());

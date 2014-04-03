@@ -1,0 +1,2 @@
+Manifest-Version: 1.0
+FMLCorePlugin: edu.utd.minecraft.mod.polycraft.dynamiclights.DLFMLCorePlugin

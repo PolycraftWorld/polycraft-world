@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -16,6 +17,7 @@ public class ItemKevlarVest extends PolycraftArmorChest {
 	public ItemKevlarVest() {
 		super(kevlarArmorType, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("kevlar_vest"));
+		this.setCreativeTab(CreativeTabs.tabCombat);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
@@ -11,6 +11,7 @@ public class ItemRunningShoes extends PolycraftArmorFeet {
 	public ItemRunningShoes(final float walkSpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
 		this.setTextureName(PolycraftMod.getTextureName("running_shoes"));
+		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.walkSpeedBuff = walkSpeedBuff;
 	}
 

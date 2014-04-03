@@ -1,15 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemScubaMask extends PolycraftArmorHeadgear {
 
 	public ItemScubaMask() {
-		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER); 
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_mask"));
+		this.setCreativeTab(CreativeTabs.tabTransport);
 	}
 
 	@Override

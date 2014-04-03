@@ -2,9 +2,9 @@ package edu.utd.minecraft.mod.polycraft.item;
 
 import java.util.List;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -19,6 +19,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 	public ItemJetPack(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final float flySpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("jet_pack"));
+		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.fuelUnitsFull = fuelUnitsFull;
 		this.fuelUnitsBurnPerTick = fuelUnitsBurnPerTick;
 		this.flySpeedBuff = flySpeedBuff;

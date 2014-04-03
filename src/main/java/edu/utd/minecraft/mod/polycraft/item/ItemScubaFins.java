@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
@@ -13,6 +13,7 @@ public class ItemScubaFins extends PolycraftArmorFeet {
 	public ItemScubaFins(final float swimSpeedBuff, final float walkSpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_fins"));
+		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.swimSpeedBuff = swimSpeedBuff;
 		this.walkSpeedBuff = walkSpeedBuff;
 	}

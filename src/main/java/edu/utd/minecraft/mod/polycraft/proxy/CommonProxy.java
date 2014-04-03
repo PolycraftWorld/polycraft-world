@@ -40,6 +40,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.RenderChemica
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.TileEntityChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainerNozzle;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
@@ -87,7 +88,8 @@ public class CommonProxy {
 	}
 
 	public void postInit() {
-		MinecraftForge.EVENT_BUS.register(new PolycraftEventHandler());
+		final PolycraftEventHandler eventHandler = new PolycraftEventHandler();
+		MinecraftForge.EVENT_BUS.register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeInitializer());
 	}
@@ -144,8 +146,8 @@ public class CommonProxy {
 		PolycraftMod.itemFluidContainerNozzle = PolycraftMod.registerItem(
 				PolycraftMod.itemNameFluidContainer + "_nozzle",
 				new ItemFluidContainerNozzle()
-					.setCreativeTab(CreativeTabs.tabMaterials)
-					.setTextureName(PolycraftMod.getTextureName(PolycraftMod.itemNameFluidContainer + "_nozzle")));
+						.setCreativeTab(CreativeTabs.tabMaterials)
+						.setTextureName(PolycraftMod.getTextureName(PolycraftMod.itemNameFluidContainer + "_nozzle")));
 
 		PolycraftMod.itemRunningShoes = PolycraftMod.registerItem(
 				"running_shoes",
@@ -154,11 +156,17 @@ public class CommonProxy {
 		PolycraftMod.itemJetPack = PolycraftMod.registerItem(
 				"jet_pack",
 				new ItemJetPack(PolycraftMod.itemJetPackFuelUnitsFull,
-								PolycraftMod.itemJetPackFuelUnitsBurnPerTick,
-								PolycraftMod.itemJetPackFlySpeedBuff));
+						PolycraftMod.itemJetPackFuelUnitsBurnPerTick,
+						PolycraftMod.itemJetPackFlySpeedBuff));
 		PolycraftMod.itemParachute = PolycraftMod.registerItem(
 				"parachute",
 				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
+		PolycraftMod.itemFlashlight = PolycraftMod.registerItem(
+				"flashlight",
+				new ItemFlashlight(
+						PolycraftMod.itemFlashlightMaxLightLevel,
+						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
+						PolycraftMod.itemFlashlightViewingConeAngle));
 		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask());
 		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(
 				"scuba_tank",
@@ -171,8 +179,8 @@ public class CommonProxy {
 			PolycraftMod.registerItem(
 					polymer.gameName + "_grip",
 					new ItemPolymerGrip()
-						.setCreativeTab(CreativeTabs.tabTools)
-						.setTextureName(PolycraftMod.getTextureName("polymer_grip")));
+							.setCreativeTab(CreativeTabs.tabTools)
+							.setTextureName(PolycraftMod.getTextureName("polymer_grip")));
 			for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
 				final String materialName = materialEntry.getKey();
 				final ToolMaterial material = materialEntry.getValue();
@@ -212,13 +220,13 @@ public class CommonProxy {
 			PolycraftMod.registerItem(
 					polymer.itemNamePellet,
 					new ItemPellet()
-						.setCreativeTab(CreativeTabs.tabMaterials)
-						.setTextureName(PolycraftMod.getTextureName("polymer_pellet")));
+							.setCreativeTab(CreativeTabs.tabMaterials)
+							.setTextureName(PolycraftMod.getTextureName("polymer_pellet")));
 			PolycraftMod.registerItem(
 					polymer.itemNameFiber,
 					new ItemFiber()
-						.setCreativeTab(CreativeTabs.tabMaterials)
-						.setTextureName(PolycraftMod.getTextureName("polymer_fiber")));
+							.setCreativeTab(CreativeTabs.tabMaterials)
+							.setTextureName(PolycraftMod.getTextureName("polymer_fiber")));
 		}
 	}
 
@@ -226,23 +234,23 @@ public class CommonProxy {
 		for (final Catalyst catalyst : Catalyst.registry.values()) {
 			PolycraftMod.registerItem(catalyst,
 					new ItemCatalyst(catalyst)
-						.setCreativeTab(CreativeTabs.tabMaterials)
-						.setTextureName(PolycraftMod.getTextureName("catalyst")));
+							.setCreativeTab(CreativeTabs.tabMaterials)
+							.setTextureName(PolycraftMod.getTextureName("catalyst")));
 		}
 	}
 
 	private void createOres() {
 		for (final Ore ore : Ore.registry.values()) {
 			PolycraftMod.registerBlock(ore, new BlockOre(ore));
-		}			
+		}
 	}
 
 	private void createIngots() {
 		for (final Ingot ingot : Ingot.registry.values()) {
 			PolycraftMod.registerItem(ingot,
 					new ItemIngot()
-						.setCreativeTab(CreativeTabs.tabMaterials)
-						.setTextureName(PolycraftMod.getTextureName(ingot.gameName)));
+							.setCreativeTab(CreativeTabs.tabMaterials)
+							.setTextureName(PolycraftMod.getTextureName(ingot.gameName)));
 		}
 	}
 
@@ -260,5 +268,4 @@ public class CommonProxy {
 						"chemical_processor_active", new BlockChemicalProcessor(true));
 		GameRegistry.registerTileEntity(TileEntityChemicalProcessor.class, "tile_entity_chemical_processor");
 	}
-
 }
