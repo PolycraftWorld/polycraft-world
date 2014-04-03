@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemJetPack extends PolycraftArmorChest {
-
 	public final int fuelUnitsFull;
 	public final int fuelUnitsBurnPerTick;
 	public final float flySpeedBuff;

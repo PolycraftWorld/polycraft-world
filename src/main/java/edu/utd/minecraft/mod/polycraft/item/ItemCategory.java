@@ -32,12 +32,12 @@ public enum ItemCategory {
 		return this.name;
 	}
 	
-	private ItemCategory(String name) {
+	private ItemCategory(final String name) {
 		// Item category names must be valid (start with an upper case character) for consistency
 		Preconditions.checkNotNull(name);
 		Preconditions.checkState(!Strings.isNullOrEmpty(name));
 		String [] split = name.split("/");
-		for (String entry : split) {
+		for (final String entry : split) {
 			Preconditions.checkState(!Strings.isNullOrEmpty(entry));
 			Preconditions.checkState(Character.isUpperCase(entry.charAt(0)));
 		}

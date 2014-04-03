@@ -6,7 +6,7 @@ import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeGenOilDesert extends BiomeGenDesert {
 
-	protected static final BiomeGenBase.Height height_OilDesert = new BiomeGenBase.Height(0.1F, 0.2F);
+	protected static final BiomeGenBase.Height HEIGHT_OIL_DESERT = new BiomeGenBase.Height(0.1F, 0.2F);
 	
 	public static BiomeGenOilDesert makeBiome(int id) {
 		BiomeGenOilDesert biome = new BiomeGenOilDesert(id);
@@ -22,6 +22,6 @@ public class BiomeGenOilDesert extends BiomeGenDesert {
 		setBiomeName("Desert Oil Field");
 		setDisableRain();
 		setTemperatureRainfall(2.0F, 0.0F);
-		setHeight(height_OilDesert);
+		setHeight(HEIGHT_OIL_DESERT);
 	}
 }

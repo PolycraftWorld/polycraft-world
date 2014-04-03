@@ -1,10 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.item.ItemHoe;
 
 public abstract class PolycraftHoe extends ItemHoe implements PolycraftItem {
 	public PolycraftHoe(ToolMaterial toolMaterial) {
 		super(toolMaterial);
+		Preconditions.checkNotNull(toolMaterial);
 	}
 
 	@Override

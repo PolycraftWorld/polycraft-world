@@ -1,6 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-// Enumeration of armor appearances.
+/**
+ * Enumeration of armor appearances.
+ */
 public enum ArmorAppearance {
 	LEATHER("Leather", 0),
 	CHAIN("Chain", 1),
@@ -11,12 +13,16 @@ public enum ArmorAppearance {
 	private final int value;
 	private final String name;
 	
-	// Gets the minecraft integer value of the armor render index.
+	/**
+	 * @return the minecraft integer value of the armor render index.
+	 */
 	public int getValue() {
 		return this.value;
 	}
 	
-	// Gets the friendly name of the armor render index.
+	/**
+	 * @return the friendly name of the armor render index.
+	 */
 	public String getName() {
 		return this.name;
 	}

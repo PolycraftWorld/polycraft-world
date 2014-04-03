@@ -6,7 +6,7 @@ import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeGenOilOcean extends BiomeGenOcean {
 
-	protected static final BiomeGenBase.Height height_OilOcean = new BiomeGenBase.Height(0.1F, 0.2F);
+	protected static final BiomeGenBase.Height HEIGHT_OIL_OCEAN = new BiomeGenBase.Height(0.1F, 0.2F);
 	
 	public static BiomeGenOilOcean makeBiome(int id) {
 		BiomeGenOilOcean biome = new BiomeGenOilOcean(id);

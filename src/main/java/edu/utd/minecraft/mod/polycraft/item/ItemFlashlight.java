@@ -4,7 +4,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemFlashlight extends PolycraftUtilityItem {
-
 	public final int maxLightLevel;
 	public final float lightLevelDecreaseByDistance;
 	public final int viewingConeAngle;
