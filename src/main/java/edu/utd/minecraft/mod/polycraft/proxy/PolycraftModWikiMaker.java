@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import java.util.jar.JarInputStream;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.StatCollector;
 
@@ -34,6 +36,10 @@ import org.omg.CORBA.Environment;
 import cpw.mods.fml.common.SidedProxy;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.*;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.item.*;
 
 public class PolycraftModWikiMaker {
@@ -47,6 +53,7 @@ public class PolycraftModWikiMaker {
 	private static String indent = "";
 	private static void WriteLine(String str) {
 		System.out.println(indent + str);
+		wikiJson.append(indent);
 		wikiJson.append(str);
 		wikiJson.append("\n");
 	}
@@ -109,7 +116,7 @@ public class PolycraftModWikiMaker {
 			return;
 		}
 		
-		WriteLine("items [");
+		WriteLine("'items' [");
 		Indent();
 		for (String itemName : PolycraftMod.items.keySet()) {
 			Item item = PolycraftMod.items.get(itemName);
@@ -161,13 +168,53 @@ public class PolycraftModWikiMaker {
 		WriteLine("],");		
 	}
 	
-	private static void createRecipes() {
+	private static void createRecipes(PolycraftRecipeManager recipeManager) {
+		WriteLine("'recipes': [");
+		Indent();
 		
+		Collection<PolycraftRecipe> allRecipes = recipeManager.getAllRecipies();
+		for (PolycraftRecipe recipe : allRecipes) {
+			WriteString("container", recipe.getContainerType().name());
+			
+			WriteLine("'inputs': [");
+			Indent();
+			
+			for (RecipeInput input : recipe.getInputs()) {
+				WriteLine("'item': [");
+				Indent();
+				
+				for (ItemStack stack : input.inputs){
+					WriteLine("{ 'item': '" + stack.getItem().getUnlocalizedName() + "', 'count': " + stack.stackSize + "  },");
+				}
+				
+				WriteInteger("slot", input.slot.getSlotIndex());
+				
+				Unindent();
+				WriteLine("],");
+			}
+			Unindent();
+			WriteLine("],");
+			
+			WriteLine("'outputs': [");
+			Indent();
+			
+			for (RecipeComponent output : recipe.getOutputs()) {
+				WriteString("item", output.itemStack.getUnlocalizedName());
+				WriteInteger("count", output.itemStack.stackSize);
+			}
+			
+			Unindent();
+			WriteLine("],");
+			
+		}
+		
+		Unindent();
+		WriteLine("],");
 	}
 	
 	public static void createWikiData(String outputFile) {
 		createItems();
-		createRecipes();
+		createRecipes(PolycraftMod.recipeManager);
 		
 		WriteJson(outputFile);
 	}

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +32,17 @@ public class PolycraftRecipeManager {
 	
 	private Map<PolycraftContainerType, SetMap<RecipeComponent, PolycraftRecipe>> shapedRecipesByContainer = Maps.newHashMap();
 	private Map<PolycraftContainerType, SetMap<String, PolycraftRecipe>> shapelessRecipesByContainer = Maps.newHashMap();
+	
+	/**
+	 * @return All recipes known to the Recipe manager.
+	 */
+	public Collection<PolycraftRecipe> getAllRecipies() {
+		List<PolycraftRecipe> recipes = Lists.newArrayList();		
+		for (PolycraftContainerType container : recipesByContainer.keySet()) {
+			recipes.addAll(recipesByContainer.get(container));
+		}
+		return recipes;
+	}
 	
 	/**
 	 * Add a recipe to the manager to be indexed for searching.

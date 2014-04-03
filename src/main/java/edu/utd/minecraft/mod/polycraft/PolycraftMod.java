@@ -147,15 +147,6 @@ public class PolycraftMod {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		proxy.preInit();
-		
-		// If "wikiOutputFile" is specified in the environment (e.g. -DwikiOutputFile /tmp/output.txt
-		// in VM Args under Run Configuration/Arguments), then a text file is generated that can be
-		// used to update the Polycraft wiki (and the program exits).  Hint: adding "nogui" to the program
-		// arguments on the same page saves some time!
-		if (System.getProperty("wikiOutputFile") != null) {
-			PolycraftModWikiMaker.createWikiData(System.getProperty("wikiOutputFile"));
-			//System.exit(0);
-		}
 	}
 	
 	@EventHandler
@@ -166,6 +157,15 @@ public class PolycraftMod {
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
 		proxy.postInit();
+		
+		// If "wikiOutputFile" is specified in the environment (e.g. -DwikiOutputFile /tmp/output.txt
+		// in VM Args under Run Configuration/Arguments), then a text file is generated that can be
+		// used to update the Polycraft wiki (and the program exits).  Hint: adding "nogui" to the program
+		// arguments on the same page saves some time!
+		if (System.getProperty("wikiOutputFile") != null) {
+			PolycraftModWikiMaker.createWikiData(System.getProperty("wikiOutputFile"));
+			System.exit(0);
+		}
 	}
 
 	public static String getTextureName(final String name) {
