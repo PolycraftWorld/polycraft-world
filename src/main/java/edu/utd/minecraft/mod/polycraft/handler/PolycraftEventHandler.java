@@ -28,7 +28,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
 public class PolycraftEventHandler {
@@ -62,9 +61,9 @@ public class PolycraftEventHandler {
 
 	@SubscribeEvent
 	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
-		if (event.entityLiving instanceof EntityPlayer) {
-			final EntityPlayer player = (EntityPlayer) event.entity;
-		}
+		//if (event.entityLiving instanceof EntityPlayer) {
+		//	final EntityPlayer player = (EntityPlayer) event.entity;
+		//}
 	}
 
 	@SubscribeEvent
@@ -74,7 +73,6 @@ public class PolycraftEventHandler {
 			handleMovementSpeed(event, player);
 			handleFlight(event, player);
 			handleBreathing(event, player);
-			handleVision(event, player);
 		}
 	}
 
@@ -125,7 +123,7 @@ public class PolycraftEventHandler {
 			final ItemJetPack jetPackItem =
 					(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
 							? (ItemJetPack) jetPackItemStack.getItem() : null;
-			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack);
+			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack) && !player.isInWater();
 
 			if (player.capabilities.allowFlying != allowFlying) {
 				if (allowFlying) {
@@ -243,16 +241,6 @@ public class PolycraftEventHandler {
 						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":scubatank.breathe", 1f, 1f);
 					}
 				}
-			}
-		}
-	}
-
-	private void handleVision(final LivingEvent event, final EntityPlayer player) {
-		final ItemStack flashlightItemStack = player.getCurrentEquippedItem();
-		if (player.isEntityAlive() && player.isInWater()) {
-			final ItemStack scubaMaskItemStack = player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot());
-			if (scubaMaskItemStack != null && scubaMaskItemStack.getItem() instanceof ItemScubaMask) {
-				//TODO remove water fog
 			}
 		}
 	}

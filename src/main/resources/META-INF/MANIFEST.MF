@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
-FMLCorePlugin: edu.utd.minecraft.mod.polycraft.dynamiclights.DLFMLCorePlugin
+FMLCorePlugin: edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin
+FMLCorePluginContainsFMLMod: ulovebreakingstuffcpwdontcha

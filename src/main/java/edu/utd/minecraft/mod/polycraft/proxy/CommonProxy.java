@@ -186,7 +186,7 @@ public class CommonProxy {
 						PolycraftMod.itemFlashlightMaxLightLevel,
 						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
 						PolycraftMod.itemFlashlightViewingConeAngle));
-		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask());
+		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask(PolycraftMod.itemScubaMaskFogDensity));
 		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(
 				"scuba_tank",
 				new ItemScubaTank(PolycraftMod.itemScubaTankAirUnitsFull, PolycraftMod.itemScubaTankAirUnitsConsumePerTick));

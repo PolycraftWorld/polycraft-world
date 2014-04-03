@@ -7,10 +7,13 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemScubaMask extends PolycraftArmorHeadgear {
 
-	public ItemScubaMask() {
+	public final float fogDensity;
+
+	public ItemScubaMask(final float fogDensity) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
 		this.setTextureName(PolycraftMod.getTextureName("scuba_mask"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.fogDensity = fogDensity;
 	}
 
 	@Override

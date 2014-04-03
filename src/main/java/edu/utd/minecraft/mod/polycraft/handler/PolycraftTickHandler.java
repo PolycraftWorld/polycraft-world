@@ -26,6 +26,18 @@ public class PolycraftTickHandler
 	private final Collection<PolycraftLightSource> dynamicLights = new LinkedList<PolycraftLightSource>();
 	private final float[][] dynamicLightConeTransforms = new float[][] {
 			new float[] { 0, 0 },
+			new float[] { .25f, .25f },
+			new float[] { .25f, -.25f },
+			new float[] { -.25f, .25f },
+			new float[] { -.25f, -.25f },
+			new float[] { .5f, .5f },
+			new float[] { .5f, -.5f },
+			new float[] { -.5f, .5f },
+			new float[] { -.5f, -.5f },
+			new float[] { .75f, .75f },
+			new float[] { .75f, -.75f },
+			new float[] { -.75f, .75f },
+			new float[] { -.75f, -.75f },
 			new float[] { 1, 1 },
 			new float[] { 1, -1 },
 			new float[] { -1, 1 },

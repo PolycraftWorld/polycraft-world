@@ -23,7 +23,7 @@ import org.objectweb.asm.tree.VarInsnNode;
  * Magic happens in here. MAGIC. Obfuscated names will have to be updated with each Obfuscation change.
  * 
  */
-public class DLTransformer implements IClassTransformer
+public class Transformer implements IClassTransformer
 {
 	private final String classNameWorld = "afn";
 	private String blockAccessJava = "afx";
