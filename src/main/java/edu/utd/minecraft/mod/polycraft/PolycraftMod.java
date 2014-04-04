@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -20,7 +19,6 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -29,7 +27,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -71,6 +68,11 @@ public class PolycraftMod {
 	public static final float itemGrippedToolDurabilityBuff = 2f;
 	public static final float itemRunningShoesWalkSpeedBuff = 1f;
 	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
+	public static final int itemFlameThrowerFuelUnitsFull = 1000;
+	public static final int itemFlameThrowerFuelUnitsBurnPerTick = 1;
+	public static final int itemFlameThrowerRange = 10; // how many blocks ahead to search for entities
+	public static final int itemFlameThrowerSpread = 2; // how many blocks to search around the flame path for entities
+	public static final int itemFlameThrowerFireDuration = 5; // how many seconds and entity will burn when hit
 	public static final int itemJetPackFuelUnitsFull = 5000;
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
@@ -85,7 +87,7 @@ public class PolycraftMod {
 	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
-	
+
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;
@@ -138,6 +140,7 @@ public class PolycraftMod {
 	public static Item itemFluidContainerNozzle;
 	public static Item itemKevlarVest;
 	public static Item itemRunningShoes;
+	public static Item itemFlameThrower;
 	public static Item itemJetPack;
 	public static Item itemParachute;
 	public static Item itemFlashlight;
@@ -149,16 +152,16 @@ public class PolycraftMod {
 	public void preInit(final FMLPreInitializationEvent event) {
 		proxy.preInit();
 	}
-	
+
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		proxy.init();	
+		proxy.init();
 	}
 
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
 		proxy.postInit();
-		
+
 		// If "wikiOutputFile" is specified in the environment (e.g. -DwikiOutputFile /tmp/output.txt
 		// in VM Args under Run Configuration/Arguments), then a text file is generated that can be
 		// used to update the Polycraft wiki (and the program exits).  Hint: adding "nogui" to the program

@@ -7,6 +7,7 @@ item.fluid_container.name=Fluid Container
 item.fluid_container_nozzle.name=Fluid Container Nozzle
 item.kevlar_vest.name=Kevlar Vest
 item.running_shoes.name=Running Shoes
+item.flame_thrower.name=Flame Thrower
 item.jet_pack.name=Jet Pack
 item.parachute.name=Parachute
 item.flashlight.name=Flashlight
