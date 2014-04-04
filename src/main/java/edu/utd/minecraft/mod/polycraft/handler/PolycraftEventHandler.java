@@ -1,15 +1,20 @@
 package edu.utd.minecraft.mod.polycraft.handler;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -23,12 +28,13 @@ import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
+import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
 public class PolycraftEventHandler {
@@ -41,9 +47,11 @@ public class PolycraftEventHandler {
 	private static final int baseFullAir = 300;
 
 	private static boolean jetPackFailsafeEnabled = false;
+	private static final int jetPackExhaustRangeY = 5;
 	private static final int jetPackExhaustParticlesPerTick = 5;
 	private static final double jetPackExhaustPlumeOffset = .05;
 	private static final double jetPackExhaustDownwardVelocity = -.8;
+	private final Collection<PointLightSource> jetPackExhaustDynamicLights = new LinkedList<PointLightSource>();
 	private static final long jetPackSoundIntervalMillis = 850;
 	private static final Map<Integer, String> jetPackLandingWarnings = new LinkedHashMap<Integer, String>();
 	static {
@@ -59,12 +67,13 @@ public class PolycraftEventHandler {
 	private long scubaTankLastSoundMillis = 0;
 	private int jetPackLastFuelDisplayPercent = 0;
 	private int scubaTankLastAirDisplayPercent = 0;
+	private boolean jetPackLightsEnabled = false;
 
 	@SubscribeEvent
 	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
-		if (event.entityLiving instanceof EntityPlayer) {
-			final EntityPlayer player = (EntityPlayer) event.entity;
-		}
+		//if (event.entityLiving instanceof EntityPlayer) {
+		//	final EntityPlayer player = (EntityPlayer) event.entity;
+		//}
 	}
 
 	@SubscribeEvent
@@ -74,7 +83,6 @@ public class PolycraftEventHandler {
 			handleMovementSpeed(event, player);
 			handleFlight(event, player);
 			handleBreathing(event, player);
-			handleVision(event, player);
 		}
 	}
 
@@ -125,7 +133,7 @@ public class PolycraftEventHandler {
 			final ItemJetPack jetPackItem =
 					(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
 							? (ItemJetPack) jetPackItemStack.getItem() : null;
-			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack);
+			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack) && !player.isInWater();
 
 			if (player.capabilities.allowFlying != allowFlying) {
 				if (allowFlying) {
@@ -164,6 +172,7 @@ public class PolycraftEventHandler {
 						jetPackLastFuelDisplayPercent = -1;
 					}
 
+					updateJetpackExhaustLight(player, true);
 					spawnJetpackExhaust(player, -.25);
 					spawnJetpackExhaust(player, .25);
 
@@ -173,6 +182,9 @@ public class PolycraftEventHandler {
 						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
 					}
 				}
+			}
+			else {
+				updateJetpackExhaustLight(player, false);
 			}
 
 			final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
@@ -186,7 +198,28 @@ public class PolycraftEventHandler {
 		}
 	}
 
+	private void updateJetpackExhaustLight(final EntityPlayer player, final boolean enabled) {
+		if (jetPackExhaustDynamicLights.size() == 0)
+			for (int i = 0; i < jetPackExhaustRangeY; i++)
+				jetPackExhaustDynamicLights.add(new PointLightSource(player.worldObj));
+		if (enabled) {
+			int i = 0;
+			for (final PointLightSource source : jetPackExhaustDynamicLights)
+				source.update(15, player.posX, player.posY - (i++), player.posZ);
+		}
+
+		if (jetPackLightsEnabled != enabled) {
+			jetPackLightsEnabled = enabled;
+			for (final PointLightSource source : jetPackExhaustDynamicLights)
+				if (enabled)
+					DynamicLights.addLightSource(source);
+				else
+					DynamicLights.removeLightSource(source);
+		}
+	}
+
 	private void spawnJetpackExhaust(final EntityPlayer player, final double offset) {
+
 		final double playerRotationRadians = Math.toRadians(player.rotationYaw);
 		final double playerRotationSin = Math.sin(playerRotationRadians);
 		final double playerRotationCos = Math.cos(playerRotationRadians);
@@ -211,7 +244,7 @@ public class PolycraftEventHandler {
 		}
 
 		//light blocks on fire in the exhaust plume
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < jetPackExhaustRangeY; i++) {
 			final int x = (int) player.posX;
 			final int y = (int) player.posY - i - 2;
 			final int z = (int) player.posZ - 1;
@@ -220,6 +253,14 @@ public class PolycraftEventHandler {
 				player.worldObj.setBlock(x, y, z, Blocks.fire);
 			}
 		}
+
+		//light entities on fire in the exhaust plume
+		final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
+				AxisAlignedBB.getAABBPool().getAABB(player.posX - 1, player.posY - jetPackExhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
+		if (closeEntities != null && closeEntities.size() > 0)
+			for (final Entity entity : closeEntities)
+				if (!entity.equals(player) && !entity.isBurning())
+					entity.setFire(Math.max(jetPackExhaustRangeY - (int) Math.round(player.posY - entity.posY), 1));
 	}
 
 	private void handleBreathing(final LivingEvent event, final EntityPlayer player) {
@@ -243,16 +284,6 @@ public class PolycraftEventHandler {
 						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":scubatank.breathe", 1f, 1f);
 					}
 				}
-			}
-		}
-	}
-
-	private void handleVision(final LivingEvent event, final EntityPlayer player) {
-		final ItemStack flashlightItemStack = player.getCurrentEquippedItem();
-		if (player.isEntityAlive() && player.isInWater()) {
-			final ItemStack scubaMaskItemStack = player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot());
-			if (scubaMaskItemStack != null && scubaMaskItemStack.getItem() instanceof ItemScubaMask) {
-				//TODO remove water fog
 			}
 		}
 	}

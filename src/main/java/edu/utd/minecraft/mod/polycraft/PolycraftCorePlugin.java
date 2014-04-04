@@ -1,16 +1,18 @@
-package edu.utd.minecraft.mod.polycraft.dynamiclights;
+package edu.utd.minecraft.mod.polycraft;
 
 import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-public class DLFMLCorePlugin implements IFMLLoadingPlugin
-{
+public class PolycraftCorePlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public String[] getASMTransformerClass()
 	{
-		return new String[] { "edu.utd.minecraft.mod.polycraft.dynamiclights.DLTransformer" };
+		return new String[] {
+				"edu.utd.minecraft.mod.polycraft.dynamiclights.Transformer",
+				"edu.utd.minecraft.mod.polycraft.fogclarity.Transformer"
+		};
 	}
 
 	@Override
@@ -35,5 +37,4 @@ public class DLFMLCorePlugin implements IFMLLoadingPlugin
 	{
 		return null;
 	}
-
 }

@@ -80,6 +80,7 @@ public class PolycraftMod {
 	public static final int itemFlashlightViewingConeAngle = 15;
 	public static final int itemScubaTankAirUnitsFull = 5000;
 	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
+	public static final float itemScubaMaskFogDensity = .01f;
 	public static final float itemScubaFinsSwimSpeedBuff = 2f;
 	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
 
