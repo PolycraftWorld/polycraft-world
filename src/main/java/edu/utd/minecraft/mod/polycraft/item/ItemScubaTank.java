@@ -6,12 +6,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemScubaTank extends PolycraftArmorChest {
-
+	private final static String AIR_UNITS_REMAINING = "airUnitsRemaining";
+	
 	public final int airUnitsFull;
 	public final int airUnitsConsumePerTick;
 
@@ -23,32 +23,28 @@ public class ItemScubaTank extends PolycraftArmorChest {
 		this.airUnitsConsumePerTick = airUnitsConsumePerTick;
 	}
 
-	private void createTagCompound(final ItemStack itemStack) {
-		if (itemStack.stackTagCompound == null)
-			itemStack.setTagCompound(new NBTTagCompound());
-	}
-
 	@Override
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer) {
 		//TODO this doesn't work when a player shift clicks a recipe to create multiple scuba tanks at once
-		createTagCompound(itemStack);
+		PolycraftItemHelper.createTagCompound(itemStack);
 		setAirUnitsRemaining(itemStack, airUnitsFull);
 	}
 
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List par3List, final boolean par4) {
-		createTagCompound(itemStack);
+		PolycraftItemHelper.createTagCompound(itemStack);
 		int air = getAirRemainingPercent(itemStack);
-		if (air > 0)
+		if (air > 0) {
 			par3List.add(air + "% air remaining");
+		}
 	}
 
 	public static void setAirUnitsRemaining(final ItemStack itemStack, int airUnitsRemaining) {
-		itemStack.stackTagCompound.setInteger("airUnitsRemaining", airUnitsRemaining);
+		PolycraftItemHelper.setInteger(itemStack, AIR_UNITS_REMAINING, airUnitsRemaining);
 	}
 
 	public static int getAirUnitsRemaining(final ItemStack itemStack) {
-		return itemStack.stackTagCompound.getInteger("airUnitsRemaining");
+		return itemStack.stackTagCompound.getInteger(AIR_UNITS_REMAINING);
 	}
 
 	public static boolean hasAirRemaining(final ItemStack itemStack) {
@@ -56,14 +52,15 @@ public class ItemScubaTank extends PolycraftArmorChest {
 	}
 
 	public boolean consumeAir(final ItemStack itemStack) {
-		int airUnitsRemaining = getAirUnitsRemaining(itemStack) - airUnitsConsumePerTick;
-		if (airUnitsRemaining < 0)
-			airUnitsRemaining = 0;
+		int airUnitsRemaining = Math.max(0, getAirUnitsRemaining(itemStack) - airUnitsConsumePerTick);
 		setAirUnitsRemaining(itemStack, airUnitsRemaining);
 		return airUnitsRemaining > 0;
 	}
 
 	public int getAirRemainingPercent(final ItemStack itemStack) {
+		if (airUnitsFull == 0) {
+			return 0;
+		}
 		return (int) (((double) getAirUnitsRemaining(itemStack) / airUnitsFull) * 100);
 	}
 

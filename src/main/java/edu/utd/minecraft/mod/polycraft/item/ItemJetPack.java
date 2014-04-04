@@ -6,11 +6,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemJetPack extends PolycraftArmorChest {
+	private static final String FUEL_UNITS_REMAINING = "fuelUnitsRemaining";
+	
 	public final int fuelUnitsFull;
 	public final int fuelUnitsBurnPerTick;
 	public final float flySpeedBuff;
@@ -24,32 +25,28 @@ public class ItemJetPack extends PolycraftArmorChest {
 		this.flySpeedBuff = flySpeedBuff;
 	}
 
-	private void createTagCompound(final ItemStack itemStack) {
-		if (itemStack.stackTagCompound == null)
-			itemStack.setTagCompound(new NBTTagCompound());
-	}
-
 	@Override
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer) {
-		//TODO this doesn't work when a player shift clicks a recipe to create multiple jet packs at once
-		createTagCompound(itemStack);
+		// TODO: this doesn't work when a player shift clicks a recipe to create multiple jet packs at once
+		PolycraftItemHelper.createTagCompound(itemStack);
 		setFuelUnitsRemaining(itemStack, fuelUnitsFull);
 	}
 
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List par3List, final boolean par4) {
-		createTagCompound(itemStack);
+		PolycraftItemHelper.createTagCompound(itemStack);
 		int fuel = getFuelRemainingPercent(itemStack);
-		if (fuel > 0)
+		if (fuel > 0) {
 			par3List.add(fuel + "% fuel remaining");
+		}
 	}
 
 	public static void setFuelUnitsRemaining(final ItemStack itemStack, int fuelUnitsRemaining) {
-		itemStack.stackTagCompound.setInteger("fuelUnitsRemaining", fuelUnitsRemaining);
+		PolycraftItemHelper.setInteger(itemStack, FUEL_UNITS_REMAINING, fuelUnitsRemaining);
 	}
 
 	public static int getFuelUnitsRemaining(final ItemStack itemStack) {
-		return itemStack.stackTagCompound.getInteger("fuelUnitsRemaining");
+		return PolycraftItemHelper.getIntegerOrDefault(itemStack, FUEL_UNITS_REMAINING, 0);
 	}
 
 	public static boolean hasFuelRemaining(final ItemStack itemStack) {
@@ -65,7 +62,10 @@ public class ItemJetPack extends PolycraftArmorChest {
 	}
 
 	public int getFuelRemainingPercent(final ItemStack itemStack) {
-		return (int) (((double) getFuelUnitsRemaining(itemStack) / fuelUnitsFull) * 100);
+		if (fuelUnitsFull != 0) {
+			return (int) (((double) getFuelUnitsRemaining(itemStack) / fuelUnitsFull) * 100);
+		}
+		return 0;
 	}
 
 	@Override
