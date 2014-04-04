@@ -55,6 +55,10 @@ public class PolycraftRecipeManager {
 			shapelessRecipesByContainer.put(containerType, new SetMap());
 		}
 		
+		Preconditions.checkArgument(
+				!recipesByContainer.get(containerType).contains(recipe),
+				"Recipe already exists!");
+					
 		recipesByContainer.get(containerType).add(recipe);
 		
 		// Add shapeless recipes to the SetMap.  If there are no shapeless inputs,
@@ -84,6 +88,86 @@ public class PolycraftRecipeManager {
 		}
 	}
 	
+
+	/**
+	 * Shifts the shaped inputs the amounts specified.  Does not check if shifting is possible.
+	 */
+	private Set<RecipeComponent> shiftInputs(final PolycraftContainerType containerType,
+			final Set<RecipeComponent> inputs, final int dX, final int dY) {
+		Set<RecipeComponent> newInputs = Sets.newHashSet();
+		for (RecipeComponent inputComponent : inputs) {			
+			// Make sure the container slot is from the container itself, so relative x and y are right
+			ContainerSlot usedSlot = containerType.getContainerSlotByIndex(inputComponent.slot);
+			ContainerSlot inputSlot = containerType.getRelativeContainerSlot(SlotType.INPUT,
+					usedSlot.getRelativeX() - dX, usedSlot.getRelativeY() - dY);
+			newInputs.add(new RecipeComponent(inputSlot, inputComponent.itemStack));
+		}
+		return newInputs;
+	}
+	
+	private boolean canShiftInputs(final PolycraftContainerType containerType,
+			final Set<RecipeComponent> inputs, final int dX, final int dY) {
+		if (inputs.size() == 0) {
+			return false;
+		}
+
+		for (RecipeComponent inputComponent : inputs) {
+			// Make sure the container slot is from the container itself, so relative x and y are right
+			ContainerSlot usedSlot = containerType.getContainerSlotByIndex(inputComponent.slot);
+			ContainerSlot inputSlot = containerType.getRelativeContainerSlot(SlotType.INPUT,
+					usedSlot.getRelativeX() - dX, usedSlot.getRelativeY() - dY);
+			if (inputSlot == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private PolycraftRecipe findShapedRecipe(final PolycraftContainerType container, final Set<RecipeComponent> inputs) {
+		if (!recipesByContainer.containsKey(container)) {
+			return null;
+		}
+
+		boolean isShifted = false;
+		// Shift positions of inputs if possible, to ensure shaped recipes always match.
+		Set<RecipeComponent> inputsToCompare = inputs;
+		while (canShiftInputs(container, inputsToCompare, 1, 0)) {
+			isShifted = true;
+			inputsToCompare = shiftInputs(container, inputsToCompare, 1, 0);
+		}
+		while (canShiftInputs(container, inputsToCompare, 0, 1)) {
+			isShifted = true;
+			inputsToCompare = shiftInputs(container, inputsToCompare, 0, 1);			
+		}
+		
+		// Check shaped recipe in initial positions
+		final Set<PolycraftRecipe> shapedSet = shapedRecipesByContainer.get(container).getAnySubset(inputsToCompare);		
+		for (final PolycraftRecipe recipe : shapedSet) {
+			if (recipe.isShapedOnly() && recipe.areInputsValid(inputsToCompare)) {
+				return recipe;
+			}
+		}
+		
+		return null;
+	}
+	
+	private PolycraftRecipe findShapelessRecipe(final PolycraftContainerType container, final Set<RecipeComponent> inputs) {
+		if (!recipesByContainer.containsKey(container)) {
+			return null;
+		}
+		Set<String> itemSet = Sets.newHashSet();
+		for (final RecipeComponent input : inputs) {
+			itemSet.add(input.itemStack.getItem().toString());
+		}
+		final Set<PolycraftRecipe> shapelessSet = shapelessRecipesByContainer.get(container).getAnySubset(itemSet);
+		for (final PolycraftRecipe recipe : shapelessSet) {
+			if (recipe.areInputsValid(inputs)) {
+				return recipe;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Searches the recipes available to the container type for the given set of recipe inputs.
 	 */
@@ -94,24 +178,13 @@ public class PolycraftRecipeManager {
 
 		// Look in shaped recipes by ingredient first.  This ensures that when a shaped
 		// recipe and a shapeless recipe look similar, the shaped ones take precedence
-		final Set<PolycraftRecipe> shapedSet = shapedRecipesByContainer.get(container).getAnySubset(inputs);		
-		for (final PolycraftRecipe recipe : shapedSet) {
-			if (recipe.areInputsValid(inputs)) {
-				return recipe;
-			}
+		PolycraftRecipe shapedRecipe = findShapedRecipe(container, inputs);
+		if (shapedRecipe != null) {
+			return shapedRecipe;
 		}
 		
-		Set<String> itemSet = Sets.newHashSet();
-		for (final RecipeComponent input : inputs) {
-			itemSet.add(input.itemStack.getItem().toString());
-		}
-		final Set<PolycraftRecipe> shapelessSet = shapelessRecipesByContainer.get(container).getAnySubset(itemSet);
-		for (final PolycraftRecipe recipe : shapelessSet) {
-			if (recipe.areInputsValid(inputs)) {
-				return recipe;
-			}
-		}		
-		return null;
+		// Look at shapeless recipes next.		
+		return findShapelessRecipe(container, inputs);
 	}
 
 	/**
@@ -148,23 +221,6 @@ public class PolycraftRecipeManager {
 		return newRecipe;
 	}
 
-	private ContainerSlot [][] createInputGrid(final PolycraftContainerType containerType) {
-		Collection<ContainerSlot> slots = containerType.getSlots(SlotType.INPUT);
-		int maxX = 0;
-		int maxY = 0;
-		for (final ContainerSlot slot : slots) {
-			maxX = Math.max(maxX, slot.getRelativeX());
-			maxY = Math.max(maxY, slot.getRelativeY());
-		}
-		maxX++;
-		maxY++;
-		ContainerSlot[][] grid = new ContainerSlot[maxX][maxY];
-		for (final ContainerSlot slot : slots) {
-			grid[slot.getRelativeX()][slot.getRelativeY()] = slot;
-		}
-		return grid;
-	}
-	
 	/**
 	 * Generates arguments to call Forge's recipe APIs for shaped recipes.
 	 */
@@ -264,7 +320,7 @@ public class PolycraftRecipeManager {
 		
 		// Map letters to items and place them in a map
 		Set<RecipeInput> recipeInputs = Sets.newHashSet();
-		ContainerSlot[][] inputGrid = createInputGrid(containerType);
+		ContainerSlot[][] inputGrid = containerType.getContainerSlotGrid(SlotType.INPUT);
 		Preconditions.checkArgument(inputGrid.length != 0, "Input Container type has not slots defined!");
 		for (int y = 0; y < inputShape.length; ++y) {
 			final String shapeRow = inputShape[y];

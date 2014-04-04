@@ -58,6 +58,64 @@ public class PolycraftRecipe {
 			final Iterable<RecipeComponent> outputs) {
 		this(containerType, inputs, outputs, 0);
 	}
+
+	/**
+	 * Shifts the shaped inputs the amounts specified.  Does not check if shifting is possible.
+	 */
+	private void shiftInputs(final int dX, final int dY) {
+		Map<ContainerSlot, RecipeInput> newInputs = Maps.newHashMap();
+		for (ContainerSlot usedSlot : this.shapedInputs.keySet()) {
+			// Make sure the container slot is from the container itself, so relative x and y are right
+			ContainerSlot containerUsedSlot = containerType.getContainerSlotByIndex(usedSlot);
+			ContainerSlot inputSlot = containerType.getRelativeContainerSlot(SlotType.INPUT,
+					containerUsedSlot.getRelativeX() - dX, containerUsedSlot.getRelativeY() - dY);
+			newInputs.put(inputSlot, RecipeInput.shapedAnyOneOf(inputSlot, this.shapedInputs.get(usedSlot).inputs));
+		}				
+		this.shapedInputs.clear();
+		this.shapedInputs.putAll(newInputs);
+	}
+	
+	private boolean canShiftInputs(final int dX, final int dY) {
+		if (this.shapedInputs.size() == 0) {
+			return false;
+		}
+		
+		for (ContainerSlot usedSlot : this.shapedInputs.keySet()) {
+			// Make sure the container slot is from the container itself, so relative x and y are right
+			ContainerSlot containerUsedSlot = containerType.getContainerSlotByIndex(usedSlot);
+			ContainerSlot inputSlot = containerType.getRelativeContainerSlot(SlotType.INPUT,
+					containerUsedSlot.getRelativeX() - dX, containerUsedSlot.getRelativeY() - dY);
+			if (inputSlot == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * @return true if the recipe consist only of shaped inputs.
+	 */
+	public boolean isShapedOnly() {
+		return shapelessInputs.size() == 0;
+	}
+	
+	/**
+	 * Translates purely shaped recipes to the top-left; this makes it easier to
+	 * find shaped recipes created anywhere within the input grid.
+	 */
+	private void adjustShapedRecipe() {
+		if (!isShapedOnly()) {
+			// Not applicable to recipes with shapeless inputs
+			return;
+		}
+		
+		while (canShiftInputs(1, 0)) {
+			shiftInputs(1, 0);
+		}
+		while (canShiftInputs(0, 1)) {
+			shiftInputs(0, 1);
+		}
+	}
 	
 	/**
 	 * Create a new recipe with the specified inputs, outputs, and experience.
@@ -102,9 +160,11 @@ public class PolycraftRecipe {
 				shapedInputs.put(input.slot, input);
 			}
 		}
-		
+				
 		// Must have at least 1 fixed input or 1 shapeless inputs
 		Preconditions.checkArgument(this.shapedInputs.size() + this.shapelessInputs.size() != 0);
+		
+		adjustShapedRecipe();
 	}
 	
 	/**
@@ -284,4 +344,42 @@ public class PolycraftRecipe {
 				+ ", shapedInputs=" + shapedInputs + ", outputs=" + outputs
 				+ "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((containerType == null) ? 0 : containerType.hashCode());
+		result = prime * result
+				+ ((shapedInputs == null) ? 0 : shapedInputs.hashCode());
+		result = prime * result
+				+ ((shapelessInputs == null) ? 0 : shapelessInputs.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PolycraftRecipe other = (PolycraftRecipe) obj;
+		if (containerType != other.containerType)
+			return false;
+		if (shapedInputs == null) {
+			if (other.shapedInputs != null)
+				return false;
+		} else if (!shapedInputs.equals(other.shapedInputs))
+			return false;
+		if (shapelessInputs == null) {
+			if (other.shapelessInputs != null)
+				return false;
+		} else if (!shapelessInputs.equals(other.shapelessInputs))
+			return false;
+		return true;
+	}
+	
 }

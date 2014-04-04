@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.base.Preconditions;
@@ -14,6 +15,9 @@ import com.google.common.collect.ImmutableList;
  * fuel inputs, where coal, charcoal, etc. are all valid, but only one of them is needed.
  */
 public final class RecipeInput {
+	// TODO: Probably should get rid of being able to have multiple inputs here.
+	// better to just create a new recipe for each input; and it only complicates
+	// identifying duplicate recipes.
 	public final Collection<ItemStack> inputs;
 	public final ContainerSlot slot;
 	
@@ -110,11 +114,25 @@ public final class RecipeInput {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((inputs == null) ? 0 : inputs.hashCode());
+		result = prime * result + ((inputs == null) ? 0 : inputs.iterator().next().getItem().getUnlocalizedName().hashCode());
+		result = prime * result + ((inputs == null) ? 0 : inputs.iterator().next().stackSize);
 		result = prime * result + ((slot == null) ? 0 : slot.hashCode());
 		return result;
 	}
 
+	private boolean compareItemStacksTo(RecipeInput other) {
+		ItemStack item1 = this.inputs.iterator().next();
+		ItemStack item2 = other.inputs.iterator().next();
+		
+		if (!item1.getItem().getUnlocalizedName().equals(item2.getItem().getUnlocalizedName())) {
+			return false;
+		}
+		if (!(item1.stackSize == item2.stackSize)) {
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -131,7 +149,7 @@ public final class RecipeInput {
 			if (other.inputs != null) {
 				return false;
 			}
-		} else if (!inputs.equals(other.inputs)) {
+		} else if (!compareItemStacksTo(other)) {
 			return false;
 		}
 		if (slot == null) {
