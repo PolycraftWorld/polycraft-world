@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.Polymer.ResinCode;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
@@ -39,6 +40,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.RenderChemica
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.TileEntityChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainerNozzle;
@@ -152,6 +154,13 @@ public class CommonProxy {
 				"running_shoes",
 				new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
 		PolycraftMod.itemKevlarVest = PolycraftMod.registerItem("kevlar_vest", new ItemKevlarVest());
+		PolycraftMod.itemFlameThrower = PolycraftMod.registerItem(
+				"flame_thrower",
+				new ItemFlameThrower(PolycraftMod.itemFlameThrowerFuelUnitsFull,
+						PolycraftMod.itemFlameThrowerFuelUnitsBurnPerTick,
+						PolycraftMod.itemFlameThrowerRange,
+						PolycraftMod.itemFlameThrowerSpread,
+						PolycraftMod.itemFlameThrowerFireDuration));
 		PolycraftMod.itemJetPack = PolycraftMod.registerItem(
 				"jet_pack",
 				new ItemJetPack(PolycraftMod.itemJetPackFuelUnitsFull,
@@ -214,8 +223,8 @@ public class CommonProxy {
 		for (final Polymer polymer : Polymer.registry.values()) {
 			//TODO remove this check when forge fixes their bug for EntityEnderMan.carriableBlocks
 			// array index out of bounds exception (cannot make blocks with ids bigger than 255!)
-			//if (polymer.resinCode != ResinCode.NONE)
-			PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
+			if (polymer.resinCode != ResinCode.NONE)
+				PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
 			PolycraftMod.registerItem(
 					polymer.itemNamePellet,
 					new ItemPellet()

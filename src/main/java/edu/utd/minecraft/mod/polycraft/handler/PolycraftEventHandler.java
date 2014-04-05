@@ -10,6 +10,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -17,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -25,12 +28,14 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
@@ -46,13 +51,16 @@ public class PolycraftEventHandler {
 	private static final float baseFlySpeed = 0.05f;
 	private static final int baseFullAir = 300;
 
-	private static boolean jetPackFailsafeEnabled = false;
+	private static final float flameThrowerVelocity = .5f;
+	private static final int flameThrowerParticlesPerTick = 20;
+	private static final double flameThrowerParticlesOffsetY = -.15;
+	private static boolean jetPackFailsafeEnabled = true;
 	private static final int jetPackExhaustRangeY = 5;
 	private static final int jetPackExhaustParticlesPerTick = 5;
 	private static final double jetPackExhaustPlumeOffset = .05;
 	private static final double jetPackExhaustDownwardVelocity = -.8;
 	private final Collection<PointLightSource> jetPackExhaustDynamicLights = new LinkedList<PointLightSource>();
-	private static final long jetPackSoundIntervalMillis = 850;
+	private static final long jetPackSoundIntervalMillis = 100;
 	private static final Map<Integer, String> jetPackLandingWarnings = new LinkedHashMap<Integer, String>();
 	static {
 		jetPackLandingWarnings.put(30, "might want to start thinking about landing...");
@@ -63,11 +71,19 @@ public class PolycraftEventHandler {
 	}
 	private static final long scubaTankSoundIntervalMillis = 2000;
 
+	private final Collection<PointLightSource> flameThrowerDynamicLights = new LinkedList<PointLightSource>();
+	private boolean flameThrowerLightsEnabled = false;
+	private final KeyBinding flameThrowerToggleButton;
 	private long jetPackLastSoundMillis = 0;
 	private long scubaTankLastSoundMillis = 0;
+	private int flameThrowerLastFuelDisplayPercent = 0;
 	private int jetPackLastFuelDisplayPercent = 0;
 	private int scubaTankLastAirDisplayPercent = 0;
 	private boolean jetPackLightsEnabled = false;
+
+	public PolycraftEventHandler() {
+		flameThrowerToggleButton = new KeyBinding("Flame Thrower Ignite", Keyboard.KEY_F, "key.categories.gameplay");
+	}
 
 	@SubscribeEvent
 	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
@@ -80,6 +96,7 @@ public class PolycraftEventHandler {
 	public synchronized void onLivingUpdateEvent(final LivingUpdateEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
+			handleWeapons(event, player);
 			handleMovementSpeed(event, player);
 			handleFlight(event, player);
 			handleBreathing(event, player);
@@ -93,6 +110,111 @@ public class PolycraftEventHandler {
 			if (fallDamage > 0) {
 				event.entityPlayer.attackEntityFrom(DamageSource.fall, fallDamage);
 			}
+		}
+	}
+
+	private void handleWeapons(final LivingUpdateEvent event, final EntityPlayer player) {
+		boolean flameThrowerLightsEnabled = false;
+		int flameThrowerRange = 0;
+		final ItemStack currentEquippedItemStack = player.getCurrentEquippedItem();
+		if (currentEquippedItemStack != null) {
+			if (currentEquippedItemStack.getItem() instanceof ItemFlameThrower) {
+				ItemFlameThrower flameThrowerItem = (ItemFlameThrower) currentEquippedItemStack.getItem();
+				final boolean ignited = ItemFlameThrower.getIgnited(currentEquippedItemStack);
+				if (ignited && flameThrowerItem.hasFuelRemaining(currentEquippedItemStack) && !player.isInWater()) {
+					flameThrowerLightsEnabled = true;
+					flameThrowerRange = flameThrowerItem.range;
+
+					//burn the fuel
+					flameThrowerItem.burnFuel(currentEquippedItemStack);
+					final int fuelRemainingPercent = flameThrowerItem.getFuelRemainingPercent(currentEquippedItemStack);
+					if (flameThrowerLastFuelDisplayPercent != fuelRemainingPercent) {
+						player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% flame thrower fuel remaining"));
+						flameThrowerLastFuelDisplayPercent = fuelRemainingPercent;
+					}
+
+					//make the pretties
+					player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":flamethrower.ignite", 1f, 1f);
+					spawnFlamethrowerParticles(player);
+
+					//light blocks on fire
+					final Vec3 pos = player.getPosition(1.0f);
+					Vec3 look = player.getLook(1.0f);
+					look = pos.addVector(look.xCoord * flameThrowerRange, look.yCoord * flameThrowerRange, look.zCoord * flameThrowerRange);
+					final MovingObjectPosition mop = player.worldObj.rayTraceBlocks(pos, look);
+					if (mop != null) {
+						final int dist = (int) Math.round(player.getDistance(mop.blockX + 0.5d, mop.blockY + 0.5d, mop.blockZ + 0.5d));
+						if (dist >= 1 && dist <= flameThrowerRange) {
+							final Block burnBlock = player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+							if (burnBlock != null && burnBlock.isFlammable(player.worldObj, mop.blockX, mop.blockY, mop.blockZ, ForgeDirection.UP)) {
+								player.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, Blocks.fire);
+							}
+						}
+					}
+
+					//light entities on fire
+					final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
+							AxisAlignedBB.getAABBPool().getAABB(
+									player.posX - flameThrowerRange, player.posY - flameThrowerRange, player.posZ - flameThrowerRange,
+									player.posX + flameThrowerRange, player.posY + flameThrowerRange, player.posZ + flameThrowerRange));
+					if (closeEntities != null && closeEntities.size() > 0) {
+						final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+						final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+						for (int i = 1; i < flameThrowerRange; i++) {
+							double pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
+							double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
+							double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+							for (final Entity entity : closeEntities)
+								if (!entity.equals(player) && !entity.isBurning() && Math.abs(entity.posX - pathX) < flameThrowerItem.spread && Math.abs(entity.posY - pathY) < flameThrowerItem.spread
+										&& Math.abs(entity.posZ - pathZ) < flameThrowerItem.spread)
+									entity.setFire(flameThrowerItem.fireDuration);
+						}
+					}
+				}
+				else if (ignited)
+					ItemFlameThrower.setIgnited(currentEquippedItemStack, false);
+			}
+		}
+		updateFlameThrowerLights(player, flameThrowerLightsEnabled, flameThrowerRange);
+	}
+
+	private void spawnFlamethrowerParticles(final EntityPlayer player) {
+		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+		final double originX = player.posX;
+		final double originY = player.posY + flameThrowerParticlesOffsetY;
+		final double originZ = player.posZ;
+		for (int a = 0; a < flameThrowerParticlesPerTick; a++)
+			player.worldObj.spawnParticle("flame", originX, originY, originZ,
+					player.motionX + (1 - (random.nextDouble() - .5) / 2) * flameThrowerVelocity * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians),
+					player.motionY + (1 - (random.nextDouble() - .5) / 2) * -flameThrowerVelocity * Math.cos(playerRotationPitchRadians),
+					player.motionZ + (1 - (random.nextDouble() - .5) / 2) * flameThrowerVelocity * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+	}
+
+	private void updateFlameThrowerLights(final EntityPlayer player, final boolean enabled, final int range) {
+		if (flameThrowerDynamicLights.size() == 0)
+			for (int i = 0; i < range; i++)
+				flameThrowerDynamicLights.add(new PointLightSource(player.worldObj));
+		if (enabled) {
+			final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+			final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+			int i = 1;
+			for (final PointLightSource source : flameThrowerDynamicLights) {
+				source.update(15,
+						player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians)),
+						player.posY + (-i * Math.cos(playerRotationPitchRadians)),
+						player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians)));
+				i++;
+			}
+		}
+
+		if (flameThrowerLightsEnabled != enabled) {
+			flameThrowerLightsEnabled = enabled;
+			for (final PointLightSource source : flameThrowerDynamicLights)
+				if (enabled)
+					DynamicLights.addLightSource(source);
+				else
+					DynamicLights.removeLightSource(source);
 		}
 	}
 
@@ -157,7 +279,7 @@ public class PolycraftEventHandler {
 						final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(jetPackItemStack);
 						if (jetPackLastFuelDisplayPercent != fuelRemainingPercent) {
 							final String warning = jetPackLandingWarnings.get(fuelRemainingPercent);
-							player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% fuel remaining" + (warning == null ? "" : ", " + warning)));
+							player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% jet pack fuel remaining" + (warning == null ? "" : ", " + warning)));
 							jetPackLastFuelDisplayPercent = fuelRemainingPercent;
 						}
 
@@ -219,7 +341,6 @@ public class PolycraftEventHandler {
 	}
 
 	private void spawnJetpackExhaust(final EntityPlayer player, final double offset) {
-
 		final double playerRotationRadians = Math.toRadians(player.rotationYaw);
 		final double playerRotationSin = Math.sin(playerRotationRadians);
 		final double playerRotationCos = Math.cos(playerRotationRadians);

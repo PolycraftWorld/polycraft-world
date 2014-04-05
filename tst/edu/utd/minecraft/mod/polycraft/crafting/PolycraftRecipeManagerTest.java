@@ -286,11 +286,9 @@ public class PolycraftRecipeManagerTest {
 				),
 				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
 		manager.addRecipe(recipe);
-		
 		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CRAFTING_TABLE, ImmutableSet.of(
 				new RecipeComponent(GenericCraftingSlot.INPUT_TOP_LEFT.getSlotIndex(), ScubaTank, 1),
 				new RecipeComponent(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE.getSlotIndex(), ScubaTank, 1))));
-				
 		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CRAFTING_TABLE, ImmutableSet.of(
 				new RecipeComponent(GenericCraftingSlot.INPUT_TOP_MIDDLE.getSlotIndex(), ScubaTank, 1),
 				new RecipeComponent(GenericCraftingSlot.INPUT_MIDDLE_RIGHT.getSlotIndex(), ScubaTank, 1))));
@@ -324,6 +322,29 @@ public class PolycraftRecipeManagerTest {
 	 */
 	@Test(expected=Exception.class)
 	public void testRecipeManagerIdentifiesShapelessDuplicates() {
+		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				ImmutableList.of(
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapelessInput(new ItemStack(AirCanister, 1))
+				),
+				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
+		manager.addRecipe(recipe);
+		PolycraftRecipe duplicateRecipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				ImmutableList.of(
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE, new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_BOTTOM_RIGHT, new ItemStack(ScubaTank, 1))
+				),
+				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));
+		assertTrue(recipe.equals(duplicateRecipe));
+		manager.addRecipe(duplicateRecipe);		
+	}
+	
+
+	/**
+	 * Test that the recipe manager throws an exception if duplicate recipes are entered
+	 */
+	@Test(expected=Exception.class)
+	public void testRecipeManagerIdentifiesShapelessDuplicates2() {
 		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
 				ImmutableList.of(
 						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),

@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.base.Preconditions;
