@@ -1,18 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -23,17 +14,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
-import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
-import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 
 /**
@@ -41,9 +30,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
  * fluid container automatically generate empty fluid containers on output (they do
  * not need to be, and should not be specified as outputs of the recipe).
  */
-public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer implements ISidedInventory {
-	private static final Logger logger = LogManager.getLogger();
-	
+public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer<ChemicalProcessorSlot> implements ISidedInventory {
 	public TileEntityChemicalProcessor() {
 		super(ChemicalProcessorSlot.class);
 	}
@@ -92,7 +79,6 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 		if (this.currentItemBurnTime == 0) {
 			this.currentItemBurnTime = 200;
 		}
-
 		return this.chemicalProcessorBurnTime * scale / this.currentItemBurnTime;
 	}
 
@@ -112,12 +98,11 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 		if (recipe != null) {
 			// Recipe is valid			
 			int fluidContainersRequired = 0;
-			for (final RecipeComponent input : inputs) {
-				ItemStack item = input.itemStack;
+			for (final RecipeInput input : recipe.getInputs()) {
+				ItemStack item = input.inputs.iterator().next();
 				if (item.getItem() instanceof ItemFluidContainer) {
 					if (((ItemFluidContainer)item.getItem()).fluidEntity != null) {
-						fluidContainersRequired += item.stackSize;
-						
+						fluidContainersRequired += item.stackSize;						
 					}
 				}
 			}
@@ -147,7 +132,6 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 
 		if (!this.worldObj.isRemote) {
 			if (this.chemicalProcessorBurnTime == 0 && this.canProcess() && getStackInSlot(ChemicalProcessorSlot.INPUT_FUEL) != null) {
-				int fuelSlot = ChemicalProcessorSlot.INPUT_FUEL.getSlotIndex();
 				ItemStack fuelStack = getStackInSlot(ChemicalProcessorSlot.INPUT_FUEL);
 				this.currentItemBurnTime = this.chemicalProcessorBurnTime = getItemBurnTime(fuelStack);
 				if (this.chemicalProcessorBurnTime > 0) {
