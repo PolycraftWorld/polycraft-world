@@ -38,22 +38,11 @@ public class SetMap<K extends Comparable<K>, V> {
 		return get(set).size() != 0;
 	}
 	
-	private Set<V> mergeSet(final Set<V> set, final Set<V> set2) {
-		Set<V> resultSet = set;
-		if (resultSet == null) {
-			resultSet = Sets.newHashSet();
-		}
-		if (set2 == null) {
-			return resultSet;
-		}
-		resultSet.retainAll(set2);		
-		return resultSet;
-	}
-	
 	// Returns the set of values stored by the exact specified set.
 	/**
 	 * Returns the set of values stored by exactly the specified set.
 	 */
+	@SuppressWarnings("unchecked")
 	public Set<V> get(final Set<K> set) {
 		Set<V> result = fullSet;
 		for (final K key : set) {

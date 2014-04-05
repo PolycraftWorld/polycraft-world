@@ -1,17 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
-
-import net.minecraft.entity.player.EntityPlayer;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theory;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -196,7 +191,7 @@ public class PolycraftRecipeManagerTest {
 		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new RecipeComponent(1, ScubaTank, 1), new RecipeComponent(2, ScubaTank, 1))));
 		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
-				new RecipeComponent(1, ScubaTank, 1), new RecipeComponent(10, ScubaTank, 1))));
+				new RecipeComponent(1, ScubaTank, 1), new RecipeComponent(6, ScubaTank, 1))));
 		
 		// Incorrect ordering
 		assertNull(manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
@@ -280,16 +275,69 @@ public class PolycraftRecipeManagerTest {
 				new RecipeComponent(0, ScubaTank, 1))));
 	}
 	
-	// Tests that recipe shapes can be positioned relatively.
+	// Tests that shaped recipes can be positioned anywhere
 	@Test
 	public void testRecipeShapeIsRelative() {
-		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
+		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
 				ImmutableList.of(
-						RecipeInput.shapedInput(new RecipeSlot(1), new ItemStack(ScubaTank, 1)),
-						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1))
+						// Start recipe offset to test that the manager translates it appropriately when adding it
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE, new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_BOTTOM_RIGHT, new ItemStack(ScubaTank, 1))
 				),
 				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
 		manager.addRecipe(recipe);
-		// TODO
+		
+		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CRAFTING_TABLE, ImmutableSet.of(
+				new RecipeComponent(GenericCraftingSlot.INPUT_TOP_LEFT.getSlotIndex(), ScubaTank, 1),
+				new RecipeComponent(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE.getSlotIndex(), ScubaTank, 1))));
+				
+		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CRAFTING_TABLE, ImmutableSet.of(
+				new RecipeComponent(GenericCraftingSlot.INPUT_TOP_MIDDLE.getSlotIndex(), ScubaTank, 1),
+				new RecipeComponent(GenericCraftingSlot.INPUT_MIDDLE_RIGHT.getSlotIndex(), ScubaTank, 1))));
+	}
+	
+	/**
+	 * Test that the recipe manager throws an exception if duplicate recipes are entered
+	 */
+	@Test(expected=Exception.class)
+	public void testRecipeManagerIdentifiesExplicitDuplicates() {
+		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				ImmutableList.of(
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE, new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_BOTTOM_RIGHT, new ItemStack(ScubaTank, 1))
+				),
+				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
+		manager.addRecipe(recipe);
+		PolycraftRecipe duplicateRecipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				ImmutableList.of(
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE, new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_BOTTOM_RIGHT, new ItemStack(ScubaTank, 1))
+				),
+				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));
+		assertTrue(recipe.equals(duplicateRecipe));
+		manager.addRecipe(duplicateRecipe);		
+	}
+	
+
+	/**
+	 * Test that the recipe manager throws an exception if duplicate recipes are entered
+	 */
+	@Test(expected=Exception.class)
+	public void testRecipeManagerIdentifiesShapelessDuplicates() {
+		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				ImmutableList.of(
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapelessInput(new ItemStack(AirCanister, 1))
+				),
+				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
+		manager.addRecipe(recipe);
+		PolycraftRecipe duplicateRecipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				ImmutableList.of(
+						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
+						RecipeInput.shapelessInput(new ItemStack(AirCanister, 1))
+				),
+				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
+		assertTrue(recipe.equals(duplicateRecipe));
+		manager.addRecipe(duplicateRecipe);		
 	}
 }

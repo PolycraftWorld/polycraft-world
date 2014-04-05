@@ -42,6 +42,7 @@ public class RecipeSlot implements ContainerSlot {
 		return this.slotIndex;
 	}
 	
+	@Override
 	public String toString() {
 		return "Slot=" + this.slotIndex;
 	}

@@ -19,7 +19,7 @@ import com.google.common.collect.Sets;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
-public abstract class PolycraftBasicTileEntityContainer<T extends Enum & GuiContainerSlot> extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
+public abstract class PolycraftBasicTileEntityContainer<T extends Enum<?> & GuiContainerSlot> extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
 	private final Collection<T> inputSlots;
 	private final Collection<T> outputSlots;
 	private final Collection<T> miscSlots;
@@ -56,20 +56,25 @@ public abstract class PolycraftBasicTileEntityContainer<T extends Enum & GuiCont
 	/**
 	 * Gets the input slots available to this container.
 	 */
+	@Override
+	@SuppressWarnings("unchecked")
 	public Collection<ContainerSlot> getInputSlots() {
-		return (Collection<ContainerSlot>) ImmutableSet.copyOf(inputSlots);
+		return (Collection<ContainerSlot>)(Object)ImmutableSet.copyOf(inputSlots);
 	}
 		
 	/**
 	 * Gets the output slots available to this container.
 	 */
+	@Override
+	@SuppressWarnings("unchecked")
 	public Collection<ContainerSlot> getOutputSlots() {
-		return (Collection<ContainerSlot>) ImmutableSet.copyOf(outputSlots);
+		return (Collection<ContainerSlot>)(Object)ImmutableSet.copyOf(outputSlots);
 	}
 
 	/**
 	 * Get the material set currently inside the container.
 	 */
+	@Override
 	public Set<RecipeComponent> getMaterials() {
 		return inputMaterialSet;
 	}
@@ -131,6 +136,7 @@ public abstract class PolycraftBasicTileEntityContainer<T extends Enum & GuiCont
 	 * Gets the itemstack at the specified slot, or null if no item
 	 * is in the specified slot.
 	 */
+	@Override
 	public ItemStack getStackInSlot(final ContainerSlot slot) {
 		return getStackInSlot(slot.getSlotIndex());
 	}
@@ -145,6 +151,7 @@ public abstract class PolycraftBasicTileEntityContainer<T extends Enum & GuiCont
 	/**
 	 * Clears the itemstack in the specified slot.  Item is destroyed.
 	 */
+	@Override
 	public void clearSlotContents(final ContainerSlot slot) {
 		setInventorySlotContents(slot.getSlotIndex(), null);
 	}
@@ -152,6 +159,7 @@ public abstract class PolycraftBasicTileEntityContainer<T extends Enum & GuiCont
 	/**
 	 * Sets the itemstack in the specified slot.  Previous item is destroyed.
 	 */
+	@Override
 	public void setStackInSlot(final ContainerSlot slot, final ItemStack stack) {
 		setInventorySlotContents(slot.getSlotIndex(), stack);		
 	}

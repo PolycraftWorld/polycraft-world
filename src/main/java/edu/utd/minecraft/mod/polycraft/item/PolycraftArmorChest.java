@@ -1,6 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 
 public abstract class PolycraftArmorChest extends PolycraftArmor {
 	public PolycraftArmorChest(ArmorMaterial armorMaterial, ArmorAppearance armorAppearance) {

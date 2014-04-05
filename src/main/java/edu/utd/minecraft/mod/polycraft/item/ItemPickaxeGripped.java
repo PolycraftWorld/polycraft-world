@@ -1,9 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemPickaxe;
+
+import com.google.common.base.Preconditions;
 
 public class ItemPickaxeGripped extends PolycraftPickaxe
 {

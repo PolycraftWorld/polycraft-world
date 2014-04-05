@@ -5,6 +5,5 @@ package edu.utd.minecraft.mod.polycraft.crafting;
  */
 public interface GuiContainerSlot extends ContainerSlot {
 	public int getDisplayX();	
-	public int getDisplayY();	
-	SlotType getSlotType();
+	public int getDisplayY();
 }

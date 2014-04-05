@@ -35,6 +35,7 @@ public enum SlotType {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T extends Enum & ContainerSlot> Collection<T>getAll(final Class<T> clazz) {
 		List<T> list = Lists.newArrayList();
 		for (final Object slotObj : EnumSet.allOf(clazz)) {

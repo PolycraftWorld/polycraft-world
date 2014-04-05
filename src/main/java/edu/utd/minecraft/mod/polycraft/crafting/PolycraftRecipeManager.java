@@ -47,6 +47,7 @@ public class PolycraftRecipeManager {
 	/**
 	 * Add a recipe to the manager to be indexed for searching.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addRecipe(final PolycraftRecipe recipe) {
 		PolycraftContainerType containerType = recipe.getContainerType();
 		if (!recipesByContainer.containsKey(containerType)) {
@@ -148,7 +149,7 @@ public class PolycraftRecipeManager {
 		return newRecipe;
 	}
 
-	private ContainerSlot [][] createInputGrid(final PolycraftContainerType containerType) {
+	private static ContainerSlot [][] createInputGrid(final PolycraftContainerType containerType) {
 		Collection<ContainerSlot> slots = containerType.getSlots(SlotType.INPUT);
 		int maxX = 0;
 		int maxY = 0;
@@ -168,7 +169,7 @@ public class PolycraftRecipeManager {
 	/**
 	 * Generates arguments to call Forge's recipe APIs for shaped recipes.
 	 */
-	private Object [] generateForgeShapedRecipeArgs(final String [] inputShape, final Map<Character, ItemStack> itemStackMap) {		
+	private static Object [] generateForgeShapedRecipeArgs(final String [] inputShape, final Map<Character, ItemStack> itemStackMap) {		
 		List<Object> list = Lists.newArrayList();
 		for (String input : inputShape) {
 			list.add(input);
@@ -221,6 +222,7 @@ public class PolycraftRecipeManager {
 			ItemStack singleInput = inputItems.iterator().next();
 			GameRegistry.addSmelting(singleInput, resultItem, (float)experience);
 		}
+		this.addRecipe(newRecipe);
 		return newRecipe;
 	}
 

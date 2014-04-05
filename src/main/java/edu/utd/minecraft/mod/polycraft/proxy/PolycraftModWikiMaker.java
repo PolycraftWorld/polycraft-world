@@ -1,27 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -31,16 +16,14 @@ import net.minecraft.util.StatCollector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.omg.CORBA.Environment;
 
-import cpw.mods.fml.common.SidedProxy;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.*;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
-import edu.utd.minecraft.mod.polycraft.item.*;
+import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 
 public class PolycraftModWikiMaker {
 	private static Logger logger = LogManager.getLogger();
