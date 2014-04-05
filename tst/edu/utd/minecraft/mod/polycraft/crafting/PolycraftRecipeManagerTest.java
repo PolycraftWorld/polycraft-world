@@ -316,30 +316,6 @@ public class PolycraftRecipeManagerTest {
 		manager.addRecipe(duplicateRecipe);		
 	}
 	
-
-	/**
-	 * Test that the recipe manager throws an exception if duplicate recipes are entered
-	 */
-	@Test(expected=Exception.class)
-	public void testRecipeManagerIdentifiesShapelessDuplicates() {
-		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
-				ImmutableList.of(
-						RecipeInput.shapelessInput(new ItemStack(ScubaTank, 1)),
-						RecipeInput.shapelessInput(new ItemStack(AirCanister, 1))
-				),
-				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));		
-		manager.addRecipe(recipe);
-		PolycraftRecipe duplicateRecipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
-				ImmutableList.of(
-						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_MIDDLE_MIDDLE, new ItemStack(ScubaTank, 1)),
-						RecipeInput.shapedInput(GenericCraftingSlot.INPUT_BOTTOM_RIGHT, new ItemStack(ScubaTank, 1))
-				),
-				ImmutableList.of(new RecipeComponent(1, new ItemStack(EmptyAirCanister, 1))));
-		assertTrue(recipe.equals(duplicateRecipe));
-		manager.addRecipe(duplicateRecipe);		
-	}
-	
-
 	/**
 	 * Test that the recipe manager throws an exception if duplicate recipes are entered
 	 */
