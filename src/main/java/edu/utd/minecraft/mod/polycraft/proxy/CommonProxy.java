@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 import java.util.Map.Entry;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item.ToolMaterial;
@@ -56,6 +57,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
+import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
@@ -66,6 +68,9 @@ public class CommonProxy {
 	private static final Logger logger = LogManager.getLogger();
 
 	public void preInit() {
+		// TODO: Only enable on debug mode
+		DynamicValue.start();
+		
 		createBiomes();
 		createFluids();
 		createCustomItems();
