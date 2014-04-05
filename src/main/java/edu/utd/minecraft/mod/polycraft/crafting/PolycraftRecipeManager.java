@@ -9,9 +9,6 @@ import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -26,8 +23,6 @@ import edu.utd.minecraft.mod.polycraft.util.SetMap;
  * both shaped and shapeless recipes.
  */
 public class PolycraftRecipeManager {
-	private static final Logger logger = LogManager.getLogger();
-	
 	private Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainer = Maps.newHashMap();
 	
 	private Map<PolycraftContainerType, SetMap<RecipeComponent, PolycraftRecipe>> shapedRecipesByContainer = Maps.newHashMap();
@@ -129,15 +124,12 @@ public class PolycraftRecipeManager {
 			return null;
 		}
 
-		boolean isShifted = false;
 		// Shift positions of inputs if possible, to ensure shaped recipes always match.
 		Set<RecipeComponent> inputsToCompare = inputs;
 		while (canShiftInputs(container, inputsToCompare, 1, 0)) {
-			isShifted = true;
 			inputsToCompare = shiftInputs(container, inputsToCompare, 1, 0);
 		}
 		while (canShiftInputs(container, inputsToCompare, 0, 1)) {
-			isShifted = true;
 			inputsToCompare = shiftInputs(container, inputsToCompare, 0, 1);			
 		}
 		
@@ -222,23 +214,6 @@ public class PolycraftRecipeManager {
 		return newRecipe;
 	}
 
-	private static ContainerSlot [][] createInputGrid(final PolycraftContainerType containerType) {
-		Collection<ContainerSlot> slots = containerType.getSlots(SlotType.INPUT);
-		int maxX = 0;
-		int maxY = 0;
-		for (final ContainerSlot slot : slots) {
-			maxX = Math.max(maxX, slot.getRelativeX());
-			maxY = Math.max(maxY, slot.getRelativeY());
-		}
-		maxX++;
-		maxY++;
-		ContainerSlot[][] grid = new ContainerSlot[maxX][maxY];
-		for (final ContainerSlot slot : slots) {
-			grid[slot.getRelativeX()][slot.getRelativeY()] = slot;
-		}
-		return grid;
-	}
-	
 	/**
 	 * Generates arguments to call Forge's recipe APIs for shaped recipes.
 	 */

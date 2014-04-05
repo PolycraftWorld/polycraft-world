@@ -76,7 +76,7 @@ public class RecipeGenerator {
 		return new ItemStack(block, size);
 	}
 
-	private static void createCustomItemRecipes() {
+	private void createCustomItemRecipes() {
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemFluidContainerNozzle),
@@ -188,7 +188,7 @@ public class RecipeGenerator {
 		}
 	}
 
-	private static void createOreRecipes() {
+	private void createOreRecipes() {
 		for (final Ore ore : Ore.registry.values()) {
 			if (ore.smeltingEntity != null) {
 				try {
@@ -204,7 +204,7 @@ public class RecipeGenerator {
 		}
 	}
 
-	private static void createCompressedBlockRecipes() {
+	private void createCompressedBlockRecipes() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			final ItemStack blockCompressed = createItemStack(compressedBlock);
 			final Item compressedItem = PolycraftMod.items.get(compressedBlock.type.gameName);
@@ -222,7 +222,7 @@ public class RecipeGenerator {
 		}
 	}
 
-	private static void createPolymerRecipes() {
+	private void createPolymerRecipes() {
 		for (final Polymer polymer : Polymer.registry.values()) {
 			final Block polymerBlock = PolycraftMod.blocks.get(polymer.gameName);
 			final Item polymerPellet = PolycraftMod.items.get(polymer.itemNamePellet);
@@ -252,7 +252,7 @@ public class RecipeGenerator {
 		}
 	}
 
-	private static void createChemicalProcessorRecipes() {
+	private void createChemicalProcessorRecipes() {
 		PolycraftMod.recipeManager.addShapedRecipe(PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.blockChemicalProcessor),
 				new String[] { "xxx", "xzx", "xyx" },
@@ -268,13 +268,13 @@ public class RecipeGenerator {
 		createCompoundRecipes();
 	}
 
-	private static void createAlloyRecipes() {
+	private void createAlloyRecipes() {
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
 				ImmutableList.of(new ItemStack(Blocks.iron_block, 9), createItemStack(Ingot.carbon)),
 				ImmutableList.of(createItemStack(CompressedBlock.steel, 9)));
 	}
 
-	private static void createCatalystRecipes() {
+	private void createCatalystRecipes() {
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
 				ImmutableList.of(createItemStack(Ingot.platinum)),
 				ImmutableList.of(createItemStack(Catalyst.platinum, 16)));
@@ -324,19 +324,19 @@ public class RecipeGenerator {
 				ImmutableList.of(createItemStack(Catalyst.cobaltManganeseBromide, 16)));
 	}
 
-	private static void createMineralRecipes() {
+	private void createMineralRecipes() {
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
 				ImmutableList.of(createItemStack(Ore.shale)),
 				ImmutableList.of(createItemStack(Compound.naturalGas)));
 	}
 
-	private static void createElementRecipes() {
+	private void createElementRecipes() {
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
 				ImmutableList.of(new ItemStack(Items.water_bucket)),
 				ImmutableList.of(createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen), new ItemStack(Items.bucket)));
 	}
 
-	private static void createCompoundRecipes() {
+	private void createCompoundRecipes() {
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
 				ImmutableList.of(createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen)),
 				ImmutableList.of(createItemStack(Compound.water)));
@@ -482,7 +482,7 @@ public class RecipeGenerator {
 		 */
 	}
 
-	private static void createCheatRecipes() {
+	private void createCheatRecipes() {
 		if (PolycraftMod.cheatRecipesEnabled) {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.torch, 64), new ItemStack(Blocks.cobblestone));
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.furnace), new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.cobblestone));

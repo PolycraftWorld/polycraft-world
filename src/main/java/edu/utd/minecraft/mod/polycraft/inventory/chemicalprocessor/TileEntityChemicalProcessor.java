@@ -30,7 +30,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
  * fluid container automatically generate empty fluid containers on output (they do
  * not need to be, and should not be specified as outputs of the recipe).
  */
-public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer<ChemicalProcessorSlot> implements ISidedInventory {
+public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer implements ISidedInventory {
 	public TileEntityChemicalProcessor() {
 		super(PolycraftContainerType.CHEMICAL_PROCESSOR);
 	}

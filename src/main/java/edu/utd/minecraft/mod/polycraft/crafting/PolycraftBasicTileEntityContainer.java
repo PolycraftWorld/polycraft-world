@@ -1,6 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -13,14 +12,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
-public abstract class PolycraftBasicTileEntityContainer<T> extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
+public abstract class PolycraftBasicTileEntityContainer extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
 	private final Collection<ContainerSlot> inputSlots;
 	private final Collection<ContainerSlot> outputSlots;
 	private final Collection<ContainerSlot> miscSlots;

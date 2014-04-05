@@ -1,10 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor;
 
-import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 
-public enum ChemicalProcessorSlot implements ContainerSlot, GuiContainerSlot {
+public enum ChemicalProcessorSlot implements GuiContainerSlot {
 	INPUT_FUEL			(0,  SlotType.MISC, new GuiCoordinates(26, 54, -1, -1)),	
 	
 	INPUT_TOP_LEFT		(1,  SlotType.INPUT, GuiCoordinates.Input(0, 0)),

@@ -4,12 +4,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public abstract class PolycraftCraftingContainer extends Container {
-	private static final Logger logger = LogManager.getLogger();
-
 	/**
 	 * @return the enumerated container type
 	 */

@@ -65,8 +65,6 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 
 public class CommonProxy {
-	private static final Logger logger = LogManager.getLogger();
-
 	public void preInit() {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();

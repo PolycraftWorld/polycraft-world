@@ -116,7 +116,7 @@ public class BlockChemicalProcessor extends BlockContainer {
 		if (world.isRemote) {
 			return true;
 		} else if (!player.isSneaking()) {
-			TileEntityChemicalProcessor tileentitychemicalprocessor = (TileEntityChemicalProcessor) world.getTileEntity(x, y, z);
+			TileEntityChemicalProcessor tileentitychemicalprocessor = (TileEntityChemicalProcessor)world.getTileEntity(x, y, z);
 			if (tileentitychemicalprocessor != null) {
 				player.openGui(PolycraftMod.instance, PolycraftMod.guiChemicalProcessorID, world, x, y, z);
 			}

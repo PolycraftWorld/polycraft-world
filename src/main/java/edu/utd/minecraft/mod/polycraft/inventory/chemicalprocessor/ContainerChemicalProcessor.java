@@ -7,10 +7,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -18,8 +14,6 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 
 public class ContainerChemicalProcessor extends PolycraftCraftingContainer {
-	private static final Logger logger = LogManager.getLogger();
-	
 	private final TileEntityChemicalProcessor tileChemicalProcessor;
 	private int lastCookTime;
 	private int lastBurnTime;

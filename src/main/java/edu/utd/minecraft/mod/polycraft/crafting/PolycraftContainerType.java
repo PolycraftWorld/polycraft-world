@@ -1,13 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -33,8 +29,6 @@ public enum PolycraftContainerType {
 	 */
 	CHEMICAL_PROCESSOR("Chemical Processor");//, EnumSet.allOf(ChemicalProcessorSlot.class));
 	
-	private static final Logger logger = LogManager.getLogger();
-
 	private final String friendlyName;
 
 	private Map<SlotType, Collection<ContainerSlot>> slotsByType = Maps.newHashMap();
@@ -63,13 +57,12 @@ public enum PolycraftContainerType {
 	}
 		
 	static {
-		logger.info("INITIALIZING PolycraftContainerType!!");
 		CRAFTING_TABLE.initialize(EnumSet.allOf(GenericCraftingSlot.class));
 		FURNANCE.initialize(EnumSet.allOf(SmeltingCraftingSlot.class));
 		CHEMICAL_PROCESSOR.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
 	}
 	
-	private void initialize(EnumSet slots) {
+	private void initialize(EnumSet<?> slots) {
 		for (SlotType slotType : EnumSet.allOf(SlotType.class)) {
 			List<ContainerSlot> slotList = Lists.newArrayList();
 			for (Object slotObj : slots) {
