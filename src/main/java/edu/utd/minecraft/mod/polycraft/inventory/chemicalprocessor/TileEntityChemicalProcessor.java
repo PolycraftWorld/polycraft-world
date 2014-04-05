@@ -32,7 +32,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
  */
 public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer<ChemicalProcessorSlot> implements ISidedInventory {
 	public TileEntityChemicalProcessor() {
-		super(ChemicalProcessorSlot.class);
+		super(PolycraftContainerType.CHEMICAL_PROCESSOR);
 	}
 
 	/**

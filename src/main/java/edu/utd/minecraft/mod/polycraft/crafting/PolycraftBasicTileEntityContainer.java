@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -19,13 +20,13 @@ import com.google.common.collect.Sets;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
-public abstract class PolycraftBasicTileEntityContainer<T extends Enum<?> & GuiContainerSlot> extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
-	private final Collection<T> inputSlots;
-	private final Collection<T> outputSlots;
-	private final Collection<T> miscSlots;
+public abstract class PolycraftBasicTileEntityContainer<T> extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
+	private final Collection<ContainerSlot> inputSlots;
+	private final Collection<ContainerSlot> outputSlots;
+	private final Collection<ContainerSlot> miscSlots;
 	private final int totalSlots;
 	
-	private final Map<Integer, T> slotToIndexMap = Maps.newHashMap();
+	private final Map<Integer, ContainerSlot> slotToIndexMap = Maps.newHashMap();
 	// Maintain the current set of inputs so it doesn't need to be recomputed every frame.
 	private final Set<RecipeComponent> inputMaterialSet = Sets.newHashSet();
 	private final Set<Integer> inputSlotSet = Sets.newHashSet();
@@ -33,19 +34,19 @@ public abstract class PolycraftBasicTileEntityContainer<T extends Enum<?> & GuiC
 	
 	private String inventoryName;
 	
-	public PolycraftBasicTileEntityContainer(final Class<T> clazz) {
-		inputSlots = (Collection<T>)ImmutableList.copyOf(SlotType.INPUT.getAll(clazz));
-		outputSlots = (Collection<T>)ImmutableList.copyOf(SlotType.OUTPUT.getAll(clazz));
-		miscSlots = (Collection<T>)ImmutableList.copyOf(SlotType.MISC.getAll(clazz));		
+	public PolycraftBasicTileEntityContainer(PolycraftContainerType containerType) {
+		inputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
+		outputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
+		miscSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
 		
-		for (final T input : inputSlots) {
+		for (final ContainerSlot input : inputSlots) {
 			slotToIndexMap.put(input.getSlotIndex(), input);
 			inputSlotSet.add(input.getSlotIndex());
 		}
-		for (final T output : outputSlots) {
+		for (final ContainerSlot output : outputSlots) {
 			slotToIndexMap.put(output.getSlotIndex(), output);
 		}
-		for (final T misc : miscSlots) {
+		for (final ContainerSlot misc : miscSlots) {
 			slotToIndexMap.put(misc.getSlotIndex(), misc);
 		}
 		
@@ -57,18 +58,16 @@ public abstract class PolycraftBasicTileEntityContainer<T extends Enum<?> & GuiC
 	 * Gets the input slots available to this container.
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	public Collection<ContainerSlot> getInputSlots() {
-		return (Collection<ContainerSlot>)(Object)ImmutableSet.copyOf(inputSlots);
+	public Collection<ContainerSlot> getInputSlots() {		
+		return this.inputSlots;
 	}
 		
 	/**
 	 * Gets the output slots available to this container.
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public Collection<ContainerSlot> getOutputSlots() {
-		return (Collection<ContainerSlot>)(Object)ImmutableSet.copyOf(outputSlots);
+		return this.outputSlots;
 	}
 
 	/**

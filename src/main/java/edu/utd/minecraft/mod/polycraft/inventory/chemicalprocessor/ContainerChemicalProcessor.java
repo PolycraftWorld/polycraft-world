@@ -117,8 +117,8 @@ public class ContainerChemicalProcessor extends PolycraftCraftingContainer {
 			itemstack = itemstack1.copy();
 
 			if (!this.mergeItemStack(itemstack1,
-					2 + SlotType.INPUT.getAll(ChemicalProcessorSlot.class).size()
-					+ SlotType.OUTPUT.getAll(ChemicalProcessorSlot.class).size(),
+					2 + PolycraftContainerType.CHEMICAL_PROCESSOR.getSlots(SlotType.INPUT).size()
+					+ PolycraftContainerType.CHEMICAL_PROCESSOR.getSlots(SlotType.INPUT).size(),
 					39, false)) {
 				return null;
 			}

@@ -28,25 +28,7 @@ public enum SlotType {
 	 * used to interact with recipes and containers.
 	 */
 	MISC();
-	 
-	/**
-	 * Gets all of the slots for the specified type.  e.g.:
-	 * allInputs = SlotType.INPUT.getAll(ChemicalProcessorSlot.class);
-	 * @param clazz
-	 * @return
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T extends Enum & ContainerSlot> Collection<T>getAll(final Class<T> clazz) {
-		List<T> list = Lists.newArrayList();
-		for (final Object slotObj : EnumSet.allOf(clazz)) {
-			T slot = (T)slotObj;
-			if (slot.getSlotType() != null && slot.getSlotType().equals(this)) {
-				list.add(slot);
-			}
-		}
-		return list;
-	}
-	
+	 	
 	private SlotType() {		
 	}
 }

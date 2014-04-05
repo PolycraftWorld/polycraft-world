@@ -2,9 +2,11 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.ChemicalProcessorSlot;
@@ -18,15 +20,15 @@ public enum PolycraftContainerType {
 	 * Crafting table container, or for recipes needing less than
 	 * a 4x4 space, inventory container.
 	 */
-	CRAFTING_TABLE("Crafting Table", GenericCraftingSlot.class),
+	CRAFTING_TABLE("Crafting Table", EnumSet.allOf(GenericCraftingSlot.class)),
 	/**
 	 * Minecraft furnace.
 	 */
-	FURNANCE("Furnance", SmeltingCraftingSlot.class),
+	FURNANCE("Furnance", EnumSet.allOf(SmeltingCraftingSlot.class)),
 	/**
 	 * Chemical processor container
 	 */
-	CHEMICAL_PROCESSOR("Chemical Processor", ChemicalProcessorSlot.class);
+	CHEMICAL_PROCESSOR("Chemical Processor", EnumSet.allOf(ChemicalProcessorSlot.class));
 	
 	private final String friendlyName;
 
@@ -54,17 +56,23 @@ public enum PolycraftContainerType {
 		}
 		slotGridsByType.put(slotType, grid);
 	}
-	
-	private <T extends Enum<?> & ContainerSlot> PolycraftContainerType(final String friendlyName, final Class<T> slotEnum) {
+		
+	private <T> PolycraftContainerType(final String friendlyName, @SuppressWarnings("rawtypes") final Collection slots) {
 		Preconditions.checkNotNull(friendlyName);
 		this.friendlyName = friendlyName;		
 		for (SlotType slotType : EnumSet.allOf(SlotType.class)) {
-			@SuppressWarnings("unchecked")
-			Collection<ContainerSlot> allSlots = (Collection<ContainerSlot>)(Object)slotType.getAll(slotEnum);
-			for (ContainerSlot slot : allSlots) {
+			List<ContainerSlot> slotList = Lists.newArrayList();
+			for (Object slotObj : slots) {
+				ContainerSlot slot = (ContainerSlot)slotObj;
+				if (slot.getSlotType().equals(slotType)) {
+					slotList.add(slot);
+				}
+			}
+			
+			for (ContainerSlot slot : slotList) {
 				slotsByIndex.put(slot.getSlotIndex(), slot);
 			}
-			slotsByType.put(slotType, allSlots);
+			slotsByType.put(slotType, slotList);
 			generateContainerSlotGrid(slotType);
 		}
 	}
