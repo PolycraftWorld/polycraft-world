@@ -1,35 +1,40 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.ChemicalProcessorSlot;
-import edu.utd.minecraft.mod.polycraft.util.ArrayUtil;
 
 /**
  * Enumeration of Polycraft container types.
  */
-public enum PolycraftContainerType {
+public enum PolycraftContainerType {	
 	/**
 	 * Crafting table container, or for recipes needing less than
 	 * a 4x4 space, inventory container.
 	 */
-	CRAFTING_TABLE("Crafting Table", EnumSet.allOf(GenericCraftingSlot.class)),
+	CRAFTING_TABLE("Crafting Table"),//, EnumSet.allOf(GenericCraftingSlot.class)),
 	/**
 	 * Minecraft furnace.
 	 */
-	FURNANCE("Furnance", EnumSet.allOf(SmeltingCraftingSlot.class)),
+	FURNANCE("Furnance"),//, EnumSet.allOf(SmeltingCraftingSlot.class)),
 	/**
 	 * Chemical processor container
 	 */
-	CHEMICAL_PROCESSOR("Chemical Processor", EnumSet.allOf(ChemicalProcessorSlot.class));
+	CHEMICAL_PROCESSOR("Chemical Processor");//, EnumSet.allOf(ChemicalProcessorSlot.class));
 	
+	private static final Logger logger = LogManager.getLogger();
+
 	private final String friendlyName;
 
 	private Map<SlotType, Collection<ContainerSlot>> slotsByType = Maps.newHashMap();
@@ -57,9 +62,14 @@ public enum PolycraftContainerType {
 		slotGridsByType.put(slotType, grid);
 	}
 		
-	private <T> PolycraftContainerType(final String friendlyName, @SuppressWarnings("rawtypes") final Collection slots) {
-		Preconditions.checkNotNull(friendlyName);
-		this.friendlyName = friendlyName;		
+	static {
+		logger.info("INITIALIZING PolycraftContainerType!!");
+		CRAFTING_TABLE.initialize(EnumSet.allOf(GenericCraftingSlot.class));
+		FURNANCE.initialize(EnumSet.allOf(SmeltingCraftingSlot.class));
+		CHEMICAL_PROCESSOR.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
+	}
+	
+	private void initialize(EnumSet slots) {
 		for (SlotType slotType : EnumSet.allOf(SlotType.class)) {
 			List<ContainerSlot> slotList = Lists.newArrayList();
 			for (Object slotObj : slots) {
@@ -74,7 +84,12 @@ public enum PolycraftContainerType {
 			}
 			slotsByType.put(slotType, slotList);
 			generateContainerSlotGrid(slotType);
-		}
+		}		
+	}
+		
+	private PolycraftContainerType(final String friendlyName) {
+		Preconditions.checkNotNull(friendlyName);
+		this.friendlyName = friendlyName;				
 	}
 	
 	/**
@@ -113,7 +128,7 @@ public enum PolycraftContainerType {
 	 * item can be in that slot.
 	 */
 	public ContainerSlot[][] getContainerSlotGrid(final SlotType slotType) {
-		return ArrayUtil.clone(slotGridsByType.get(slotType));
+		return slotGridsByType.get(slotType);
 	}
 		
 	/**
