@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 import java.util.Map.Entry;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item.ToolMaterial;
@@ -13,10 +12,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -68,7 +63,7 @@ public class CommonProxy {
 	public void preInit() {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
-		
+
 		createBiomes();
 		createFluids();
 		createCustomItems();
@@ -163,7 +158,8 @@ public class CommonProxy {
 						PolycraftMod.itemFlameThrowerFuelUnitsBurnPerTick,
 						PolycraftMod.itemFlameThrowerRange,
 						PolycraftMod.itemFlameThrowerSpread,
-						PolycraftMod.itemFlameThrowerFireDuration));
+						PolycraftMod.itemFlameThrowerFireDuration,
+						PolycraftMod.itemFlameThrowerDamage));
 		PolycraftMod.itemJetPack = PolycraftMod.registerItem(
 				"jet_pack",
 				new ItemJetPack(PolycraftMod.itemJetPackFuelUnitsFull,

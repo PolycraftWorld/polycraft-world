@@ -4,9 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -16,14 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Charsets;
 
@@ -80,6 +78,7 @@ public class PolycraftMod {
 	public static final int itemFlameThrowerRange = 10; // how many blocks ahead to search for entities
 	public static final int itemFlameThrowerSpread = 2; // how many blocks to search around the flame path for entities
 	public static final int itemFlameThrowerFireDuration = 5; // how many seconds and entity will burn when hit
+	public static final int itemFlameThrowerDamage = 3; // how much damage the flames do on top of burning
 	public static final int itemJetPackFuelUnitsFull = 5000;
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
@@ -96,7 +95,7 @@ public class PolycraftMod {
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	// TODO: Remove this if they ever fix enderman bug...
 	void fixEnderman() {
 		// Look for static fields on enderman
@@ -110,8 +109,8 @@ public class PolycraftMod {
 					field.setAccessible(true);
 					try {
 						// Copy old array into new array and set it
-						boolean [] oldArray = (boolean[])field.get(null);
-						boolean [] newArray = new boolean[4096];
+						boolean[] oldArray = (boolean[]) field.get(null);
+						boolean[] newArray = new boolean[4096];
 						for (int i = 0; i < oldArray.length; ++i) {
 							newArray[i] = oldArray[i];
 						}
@@ -127,11 +126,11 @@ public class PolycraftMod {
 					}
 				}
 			}
-			
+
 		}
 		logger.info("Unable to find enderman carriable blocks field.");
 	}
-	
+
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;

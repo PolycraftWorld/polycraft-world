@@ -18,8 +18,9 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	public final int range;
 	public final int spread;
 	public final int fireDuration;
+	public final int damage;
 
-	public ItemFlameThrower(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final int range, final int spread, final int fireDuration) {
+	public ItemFlameThrower(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final int range, final int spread, final int fireDuration, final int damage) {
 		this.setTextureName(PolycraftMod.getTextureName("flame_thrower"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
@@ -28,6 +29,7 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		this.range = range;
 		this.spread = spread;
 		this.fireDuration = fireDuration;
+		this.damage = damage;
 	}
 
 	@Override

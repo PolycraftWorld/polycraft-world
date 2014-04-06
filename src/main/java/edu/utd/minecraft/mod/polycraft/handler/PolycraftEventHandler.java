@@ -10,7 +10,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,9 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -28,7 +24,6 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -73,17 +68,12 @@ public class PolycraftEventHandler {
 
 	private final Collection<PointLightSource> flameThrowerDynamicLights = new LinkedList<PointLightSource>();
 	private boolean flameThrowerLightsEnabled = false;
-	private final KeyBinding flameThrowerToggleButton;
 	private long jetPackLastSoundMillis = 0;
 	private long scubaTankLastSoundMillis = 0;
 	private int flameThrowerLastFuelDisplayPercent = 0;
 	private int jetPackLastFuelDisplayPercent = 0;
 	private int scubaTankLastAirDisplayPercent = 0;
 	private boolean jetPackLightsEnabled = false;
-
-	public PolycraftEventHandler() {
-		flameThrowerToggleButton = new KeyBinding("Flame Thrower Ignite", Keyboard.KEY_F, "key.categories.gameplay");
-	}
 
 	@SubscribeEvent
 	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
@@ -120,7 +110,7 @@ public class PolycraftEventHandler {
 		if (currentEquippedItemStack != null) {
 			if (currentEquippedItemStack.getItem() instanceof ItemFlameThrower) {
 				ItemFlameThrower flameThrowerItem = (ItemFlameThrower) currentEquippedItemStack.getItem();
-				final boolean ignited = ItemFlameThrower.getIgnited(currentEquippedItemStack);
+				final boolean ignited = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem);//ItemFlameThrower.getIgnited(currentEquippedItemStack);
 				if (ignited && flameThrowerItem.hasFuelRemaining(currentEquippedItemStack) && !player.isInWater()) {
 					flameThrowerLightsEnabled = true;
 					flameThrowerRange = flameThrowerItem.range;
@@ -137,37 +127,32 @@ public class PolycraftEventHandler {
 					player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":flamethrower.ignite", 1f, 1f);
 					spawnFlamethrowerParticles(player);
 
-					//light blocks on fire
-					final Vec3 pos = player.getPosition(1.0f);
-					Vec3 look = player.getLook(1.0f);
-					look = pos.addVector(look.xCoord * flameThrowerRange, look.yCoord * flameThrowerRange, look.zCoord * flameThrowerRange);
-					final MovingObjectPosition mop = player.worldObj.rayTraceBlocks(pos, look);
-					if (mop != null) {
-						final int dist = (int) Math.round(player.getDistance(mop.blockX + 0.5d, mop.blockY + 0.5d, mop.blockZ + 0.5d));
-						if (dist >= 1 && dist <= flameThrowerRange) {
-							final Block burnBlock = player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-							if (burnBlock != null && burnBlock.isFlammable(player.worldObj, mop.blockX, mop.blockY, mop.blockZ, ForgeDirection.UP)) {
-								player.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, Blocks.fire);
-							}
-						}
-					}
-
-					//light entities on fire
+					//light blocks and entities on fire
 					final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
 							AxisAlignedBB.getAABBPool().getAABB(
 									player.posX - flameThrowerRange, player.posY - flameThrowerRange, player.posZ - flameThrowerRange,
 									player.posX + flameThrowerRange, player.posY + flameThrowerRange, player.posZ + flameThrowerRange));
-					if (closeEntities != null && closeEntities.size() > 0) {
-						final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
-						final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
-						for (int i = 1; i < flameThrowerRange; i++) {
-							double pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
-							double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
-							double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+
+					final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+					final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+					for (int i = 1; i < flameThrowerRange; i++) {
+						double pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
+						double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
+						double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+
+						final Block burnBlock = player.worldObj.getBlock((int) pathX, (int) pathY, (int) pathZ);
+						if (burnBlock != null && burnBlock.isAir(player.worldObj, (int) pathX, (int) pathY, (int) pathZ)) {
+							player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
+						}
+
+						if (closeEntities != null && closeEntities.size() > 0) {
 							for (final Entity entity : closeEntities)
-								if (!entity.equals(player) && !entity.isBurning() && Math.abs(entity.posX - pathX) < flameThrowerItem.spread && Math.abs(entity.posY - pathY) < flameThrowerItem.spread
-										&& Math.abs(entity.posZ - pathZ) < flameThrowerItem.spread)
-									entity.setFire(flameThrowerItem.fireDuration);
+								if (!entity.equals(player) && Math.abs(entity.posX - pathX) < flameThrowerItem.spread && Math.abs(entity.posY - pathY) < flameThrowerItem.spread
+										&& Math.abs(entity.posZ - pathZ) < flameThrowerItem.spread) {
+									if (!entity.isBurning())
+										entity.setFire(flameThrowerItem.fireDuration);
+									entity.attackEntityFrom(DamageSource.onFire, flameThrowerItem.damage);
+								}
 						}
 					}
 				}
@@ -225,13 +210,27 @@ public class PolycraftEventHandler {
 			if (player.isInWater()) {
 				if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
 					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
+					boolean setVelocity = false;
+					double motionX = 0;
+					double motionY = player.motionY;
+					double motionZ = 0;
 					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward)) {
+						setVelocity = true;
 						final double playerRotationRadians = Math.toRadians(player.rotationYaw + 90);
-						player.setVelocity(
-								movementSpeedBaseValue * Math.cos(playerRotationRadians),
-								player.motionY,
-								movementSpeedBaseValue * Math.sin(playerRotationRadians));
+						motionX = movementSpeedBaseValue * Math.cos(playerRotationRadians);
+						motionZ = movementSpeedBaseValue * Math.sin(playerRotationRadians);
 					}
+					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump)) {
+						setVelocity = true;
+						motionY = movementSpeedBaseValue;
+					}
+					else if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak)) {
+						setVelocity = true;
+						motionY = -movementSpeedBaseValue;
+					}
+
+					if (setVelocity)
+						player.setVelocity(motionX, motionY, motionZ);
 				}
 			}
 			else {
@@ -365,12 +364,12 @@ public class PolycraftEventHandler {
 		}
 
 		//light blocks on fire in the exhaust plume
-		for (int i = 0; i < jetPackExhaustRangeY; i++) {
+		for (int i = 1; i <= jetPackExhaustRangeY; i++) {
 			final int x = (int) player.posX;
 			final int y = (int) player.posY - i - 2;
 			final int z = (int) player.posZ - 1;
 			final Block burnBlock = player.worldObj.getBlock(x, y, z);
-			if (burnBlock != null && burnBlock.isFlammable(player.worldObj, x, y, z, ForgeDirection.UP)) {
+			if (burnBlock != null && burnBlock.isAir(player.worldObj, x, y, z)) {
 				player.worldObj.setBlock(x, y, z, Blocks.fire);
 			}
 		}
