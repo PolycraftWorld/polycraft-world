@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
 FMLCorePlugin: edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin
-FMLCorePluginContainsFMLMod: ulovebreakingstuffcpwdontcha
+FMLCorePluginContainsFMLMod: true
