@@ -10,7 +10,6 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemFlameThrower extends PolycraftUtilityItem {
 
-	private static final String IGNITED = "ignited";
 	private static final String FUEL_UNITS_REMAINING = "fuelUnitsRemaining";
 
 	public final int fuelUnitsFull;
@@ -33,12 +32,6 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player) {
-		setIgnited(par1ItemStack, !getIgnited(par1ItemStack));
-		return par1ItemStack;
-	}
-
-	@Override
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer) {
 		// TODO: this doesn't work when a player shift clicks a recipe to create multiple flame throwers at once
 		PolycraftItemHelper.createTagCompound(itemStack);
@@ -52,14 +45,6 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		if (fuel > 0) {
 			par3List.add(fuel + "% fuel remaining");
 		}
-	}
-
-	public static void setIgnited(final ItemStack itemStack, final boolean ignited) {
-		PolycraftItemHelper.setInteger(itemStack, IGNITED, ignited ? 1 : 0);
-	}
-
-	public static boolean getIgnited(final ItemStack itemStack) {
-		return PolycraftItemHelper.getIntegerOrDefault(itemStack, IGNITED, 0) == 1;
 	}
 
 	public static void setFuelUnitsRemaining(final ItemStack itemStack, int fuelUnitsRemaining) {

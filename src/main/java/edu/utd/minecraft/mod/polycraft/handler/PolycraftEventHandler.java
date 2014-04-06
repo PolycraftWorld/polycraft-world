@@ -110,8 +110,7 @@ public class PolycraftEventHandler {
 		if (currentEquippedItemStack != null) {
 			if (currentEquippedItemStack.getItem() instanceof ItemFlameThrower) {
 				ItemFlameThrower flameThrowerItem = (ItemFlameThrower) currentEquippedItemStack.getItem();
-				final boolean ignited = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem);//ItemFlameThrower.getIgnited(currentEquippedItemStack);
-				if (ignited && flameThrowerItem.hasFuelRemaining(currentEquippedItemStack) && !player.isInWater()) {
+				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && flameThrowerItem.hasFuelRemaining(currentEquippedItemStack) && !player.isInWater() && Minecraft.getMinecraft().currentScreen == null) {
 					flameThrowerLightsEnabled = true;
 					flameThrowerRange = flameThrowerItem.range;
 
@@ -156,8 +155,6 @@ public class PolycraftEventHandler {
 						}
 					}
 				}
-				else if (ignited)
-					ItemFlameThrower.setIgnited(currentEquippedItemStack, false);
 			}
 		}
 		updateFlameThrowerLights(player, flameThrowerLightsEnabled, flameThrowerRange);
