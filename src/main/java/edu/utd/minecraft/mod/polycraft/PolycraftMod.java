@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -13,7 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -88,6 +95,43 @@ public class PolycraftMod {
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
+	private static final Logger logger = LogManager.getLogger();
+	
+	// TODO: Remove this if they ever fix enderman bug...
+	void fixEnderman() {
+		// Look for static fields on enderman
+		Field[] declaredFields = EntityEnderman.class.getDeclaredFields();
+		for (Field field : declaredFields) {
+			int modifiers = field.getModifiers();
+			if (java.lang.reflect.Modifier.isStatic(modifiers)) {
+				// Look for arrays
+				Class<?> c = field.getType();
+				if (c.isArray()) {
+					field.setAccessible(true);
+					try {
+						// Copy old array into new array and set it
+						boolean [] oldArray = (boolean[])field.get(null);
+						boolean [] newArray = new boolean[4096];
+						for (int i = 0; i < oldArray.length; ++i) {
+							newArray[i] = oldArray[i];
+						}
+						field.set(null, newArray);
+						logger.info("Set enderman carriable blocks to a reasonable value.");
+						return;
+					} catch (IllegalArgumentException e) {
+						logger.warn("Unable to set enderman carriable blocks: ", e);
+						return;
+					} catch (IllegalAccessException e) {
+						logger.warn("Unable to set enderman carriable blocks: ", e);
+						return;
+					}
+				}
+			}
+			
+		}
+		logger.info("Unable to find enderman carriable blocks field.");
+	}
+	
 	public static void main(final String... args) throws IOException {
 
 		Collection<String> lines = null;
@@ -150,6 +194,7 @@ public class PolycraftMod {
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
+		fixEnderman();
 		proxy.preInit();
 	}
 
