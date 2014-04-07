@@ -26,6 +26,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
@@ -83,12 +85,23 @@ public class PolycraftEventHandler {
 	}
 
 	@SubscribeEvent
-	public synchronized void onLivingUpdateEvent(final LivingUpdateEvent event) {
+	@SideOnly(Side.SERVER)
+	public synchronized void onLivingUpdateEventServer(final LivingUpdateEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
-			handleWeapons(event, player);
-			handleMovementSpeed(event, player);
-			handleFlight(event, player);
+			handleFlightServer(event, player);
+			handleBreathing(event, player);
+		}
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public synchronized void onLivingUpdateEventClient(final LivingUpdateEvent event) {
+		if (event.entityLiving instanceof EntityPlayer) {
+			final EntityPlayer player = (EntityPlayer) event.entity;
+			handleWeaponsClient(event, player);
+			handleMovementSpeedClient(event, player);
+			handleFlightClient(event, player);
 			handleBreathing(event, player);
 		}
 	}
@@ -103,7 +116,9 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleWeapons(final LivingUpdateEvent event, final EntityPlayer player) {
+	@SideOnly(Side.CLIENT)
+	//TODO this doesn't propogate changes in multiplayer!
+	private void handleWeaponsClient(final LivingUpdateEvent event, final EntityPlayer player) {
 		boolean flameThrowerLightsEnabled = false;
 		int flameThrowerRange = 0;
 		final ItemStack currentEquippedItemStack = player.getCurrentEquippedItem();
@@ -134,14 +149,16 @@ public class PolycraftEventHandler {
 
 					final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
 					final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
-					for (int i = 1; i < flameThrowerRange; i++) {
+					for (int i = 0; i <= flameThrowerRange; i++) {
 						double pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
 						double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
 						double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
 
-						final Block burnBlock = player.worldObj.getBlock((int) pathX, (int) pathY, (int) pathZ);
-						if (burnBlock != null && burnBlock.isAir(player.worldObj, (int) pathX, (int) pathY, (int) pathZ)) {
-							player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
+						if (i > 1) {
+							final Block burnBlock = player.worldObj.getBlock((int) pathX, (int) pathY, (int) pathZ);
+							if (burnBlock != null && burnBlock.isAir(player.worldObj, (int) pathX, (int) pathY, (int) pathZ)) {
+								player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
+							}
 						}
 
 						if (closeEntities != null && closeEntities.size() > 0) {
@@ -160,6 +177,7 @@ public class PolycraftEventHandler {
 		updateFlameThrowerLights(player, flameThrowerLightsEnabled, flameThrowerRange);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void spawnFlamethrowerParticles(final EntityPlayer player) {
 		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
 		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
@@ -173,6 +191,7 @@ public class PolycraftEventHandler {
 					player.motionZ + (1 - (random.nextDouble() - .5) / 2) * flameThrowerVelocity * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void updateFlameThrowerLights(final EntityPlayer player, final boolean enabled, final int range) {
 		if (flameThrowerDynamicLights.size() == 0)
 			for (int i = 0; i < range; i++)
@@ -200,7 +219,8 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleMovementSpeed(final LivingEvent event, final EntityPlayer player) {
+	@SideOnly(Side.CLIENT)
+	private void handleMovementSpeedClient(final LivingEvent event, final EntityPlayer player) {
 		if (player.isEntityAlive()) {
 			float movementSpeedBaseValue = baseMovementSpeed;
 			final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
@@ -245,21 +265,29 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	private void handleFlight(final LivingEvent event, final EntityPlayer player) {
+	@SideOnly(Side.SERVER)
+	private void handleFlightServer(final LivingEvent event, final EntityPlayer player) {
+		handleFlight(event, player);
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void handleFlightClient(final LivingEvent event, final EntityPlayer player) {
+		if (handleFlight(event, player))
+			player.capabilities.setFlySpeed(player.capabilities.allowFlying ? baseFlySpeed * (1 + ((ItemJetPack) player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot()).getItem()).flySpeedBuff) : baseFlySpeed);
+	}
+
+	private boolean handleFlight(final LivingEvent event, final EntityPlayer player) {
+		boolean allowFlyingChanged = false;
 		if (player.isEntityAlive() && !player.capabilities.isCreativeMode) {
 			final ItemStack jetPackItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
 			final ItemJetPack jetPackItem =
 					(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack)
 							? (ItemJetPack) jetPackItemStack.getItem() : null;
 			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack) && !player.isInWater();
-
-			if (player.capabilities.allowFlying != allowFlying) {
-				if (allowFlying) {
-					player.capabilities.setFlySpeed(baseFlySpeed * (1 + ((ItemJetPack) jetPackItemStack.getItem()).flySpeedBuff));
-				} else {
-					player.capabilities.setFlySpeed(baseFlySpeed);
+			allowFlyingChanged = player.capabilities.allowFlying != allowFlying;
+			if (allowFlyingChanged) {
+				if (!allowFlying)
 					player.capabilities.isFlying = false;
-				}
 				player.capabilities.allowFlying = allowFlying;
 			}
 
@@ -314,6 +342,7 @@ public class PolycraftEventHandler {
 				}
 			}
 		}
+		return allowFlyingChanged;
 	}
 
 	private void updateJetpackExhaustLight(final EntityPlayer player, final boolean enabled) {
@@ -347,6 +376,7 @@ public class PolycraftEventHandler {
 		final double offsetZ = playerRotationSin * jetPackExhaustPlumeOffset;
 		for (int i = 0; i < jetPackExhaustParticlesPerTick; i++) {
 			final double y = centerY - (i * .02);
+			//TODO these don't spawn in multiplayer for other clients
 			player.worldObj.spawnParticle("flame", centerX, y, centerZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 			player.worldObj.spawnParticle("flame", centerX - offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
 			player.worldObj.spawnParticle("flame", centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + jetPackExhaustDownwardVelocity, -player.motionZ);
@@ -361,7 +391,7 @@ public class PolycraftEventHandler {
 		}
 
 		//light blocks on fire in the exhaust plume
-		for (int i = 1; i <= jetPackExhaustRangeY; i++) {
+		for (int i = 0; i < jetPackExhaustRangeY; i++) {
 			final int x = (int) player.posX;
 			final int y = (int) player.posY - i - 2;
 			final int z = (int) player.posZ - 1;

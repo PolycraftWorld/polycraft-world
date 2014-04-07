@@ -49,6 +49,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.PolycraftModWikiMaker;
+import edu.utd.minecraft.mod.polycraft.util.Base62;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
@@ -224,9 +225,18 @@ public class PolycraftMod {
 		return registerBlock(entity.gameName, block);
 	}
 
+	//register blocks and items with the shortest names possible so as to stay under the 32k limit when connecting to servers
+	//see java.lang.IllegalArgumentException: Payload may not be larger than 32767 bytes on client login to server
+	private static long nextRegisterName = 0;
+
+	private static String getNextRegisterName(final String name) {
+		//TODO maybe change this to a hash algo?
+		return Base62.encode(nextRegisterName++);
+	}
+
 	public static Block registerBlock(final String name, final Block block) {
 		block.setBlockName(name);
-		GameRegistry.registerBlock(block, name);
+		GameRegistry.registerBlock(block, getNextRegisterName(name));
 		blocks.put(name, block);
 		return block;
 	}
@@ -235,12 +245,14 @@ public class PolycraftMod {
 		return registerItem(entity.gameName, item);
 	}
 
+	private static long nextItemName = 0;
+
 	public static Item registerItem(final String name, final Item item) {
 		if (!(item instanceof PolycraftItem)) {
 			throw new IllegalArgumentException("Item " + name + "/" + item.getUnlocalizedName() + " must implement PolycraftItem (" + item.toString() + ")");
 		}
 		item.setUnlocalizedName(name);
-		GameRegistry.registerItem(item, name);
+		GameRegistry.registerItem(item, getNextRegisterName(name));
 
 		items.put(name, item);
 		return item;

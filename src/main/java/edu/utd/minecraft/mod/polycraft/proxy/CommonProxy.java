@@ -80,6 +80,7 @@ public class CommonProxy {
 	public void init() {
 		RecipeGenerator recipeGenerator = new RecipeGenerator();
 		recipeGenerator.generateRecipes();
+		recipeGenerator.generateCheatRecipes();
 
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);

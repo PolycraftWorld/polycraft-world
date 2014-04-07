@@ -45,7 +45,6 @@ public class RecipeGenerator {
 		createCompressedBlockRecipes();
 		createPolymerRecipes();
 		createChemicalProcessorRecipes();
-		createCheatRecipes();
 	}
 
 	private static ItemStack createItemStack(final Entity entity) {
@@ -116,7 +115,7 @@ public class RecipeGenerator {
 		// allow refilling tanks
 		ItemStack jetPackFilled = new ItemStack(PolycraftMod.itemJetPack);
 		PolycraftItemHelper.createTagCompound(jetPackFilled);
-		ItemJetPack.setFuelUnitsRemaining(jetPackFilled, PolycraftMod.itemJetPackFuelUnitsFull);				
+		ItemJetPack.setFuelUnitsRemaining(jetPackFilled, PolycraftMod.itemJetPackFuelUnitsFull);
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
 				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack), createItemStack(Element.hydrogen, 4)),
 				ImmutableList.of(jetPackFilled));
@@ -145,7 +144,6 @@ public class RecipeGenerator {
 						'y', createItemStack(Element.oxygen)));
 			
 		*/
-
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE, new ItemStack(PolycraftMod.itemFlashlight),
@@ -482,7 +480,7 @@ public class RecipeGenerator {
 		 */
 	}
 
-	private void createCheatRecipes() {
+	public void generateCheatRecipes() {
 		if (PolycraftMod.cheatRecipesEnabled) {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.torch, 64), new ItemStack(Blocks.cobblestone));
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.furnace), new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.cobblestone));
