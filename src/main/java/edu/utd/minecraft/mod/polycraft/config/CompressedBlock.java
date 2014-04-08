@@ -18,14 +18,14 @@ public class CompressedBlock extends Entity {
 	public static final CompressedBlock platinum = registry.register(new CompressedBlock(Ingot.platinum, MapColor.ironColor, 3, 7, 9));
 	public static final CompressedBlock steel = registry.register(new CompressedBlock(Ingot.steel, MapColor.ironColor, 3, 7, 9));
 
-	public final Entity type;
+	public final Ingot type;
 	public final MapColor color;
 	public final float hardness;
 	public final float resistance;
 	public final int itemsPerBlock;
 
-	public CompressedBlock(final Entity type, final MapColor color, final float hardness, final float resistance, final int itemsPerBlock) {
-		super("compressed_" + type.gameName, type.name);
+	public CompressedBlock(final Ingot type, final MapColor color, final float hardness, final float resistance, final int itemsPerBlock) {
+		super(type.name);
 		this.type = type;
 		this.color = color;
 		this.hardness = hardness;

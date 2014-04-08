@@ -7,7 +7,7 @@ public class Alloy extends Entity {
 	public static final Alloy steel = registry.register(new Alloy("Steel"));
 
 	public Alloy(final String name) {
-		super("alloy_" + getSafeName(name), name);
+		super(name);
 	}
 
 	public static String generate(final String[] entity) {

@@ -12,7 +12,7 @@ public class ItemScubaFins extends PolycraftArmorFeet {
 
 	public ItemScubaFins(final float swimSpeedBuff, final float walkSpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getTextureName("scuba_fins"));
+		this.setTextureName(PolycraftMod.getAssetName("scuba_fins"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.swimSpeedBuff = swimSpeedBuff;
 		this.walkSpeedBuff = walkSpeedBuff;
@@ -20,6 +20,6 @@ public class ItemScubaFins extends PolycraftArmorFeet {
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getTextureName("textures/models/armor/scuba_layer_1.png");
+		return PolycraftMod.getAssetName("textures/models/armor/scuba_layer_1.png");
 	}
 }

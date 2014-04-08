@@ -7,19 +7,23 @@ import edu.utd.minecraft.mod.polycraft.config.Entity;
 
 public class ItemFluidContainer extends Item implements PolycraftItem {
 	public final Entity fluidEntity;
-	
+
+	public ItemFluidContainer() {
+		this(null);
+	}
+
 	public ItemFluidContainer(final Entity entity) {
 		fluidEntity = entity;
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getTextureName(PolycraftMod.itemNameFluidContainer));
+		this.setTextureName(PolycraftMod.getAssetName("fluid_container"));
 	}
 
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MATERIALS_FLUID;
 	}
-	
-	public static String getGameName(final Entity entity) {
-		return entity.gameName + "_" + PolycraftMod.itemNameFluidContainer;
+
+	public static String getItemName(final Entity entity) {
+		return entity.name + " " + PolycraftMod.itemNameFluidContainer;
 	}
 }

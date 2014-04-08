@@ -20,7 +20,7 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	public final int damage;
 
 	public ItemFlameThrower(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final int range, final int spread, final int fireDuration, final int damage) {
-		this.setTextureName(PolycraftMod.getTextureName("flame_thrower"));
+		this.setTextureName(PolycraftMod.getAssetName("flame_thrower"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
 		this.fuelUnitsFull = fuelUnitsFull;

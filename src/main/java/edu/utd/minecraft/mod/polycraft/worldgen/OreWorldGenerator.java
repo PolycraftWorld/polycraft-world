@@ -32,7 +32,7 @@ public class OreWorldGenerator implements IWorldGenerator {
 
 	private void generateSurface(World world, Random random, int i, int j) {
 		for (Ore ore : Ore.registry.values()) {
-			Block oreBlock = PolycraftMod.blocks.get(ore.gameName);
+			Block oreBlock = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Ore, ore);
 			for (int k = 0; k < ore.generationVeinsPerChunk; k++) {
 				int firstBlockXCoord = i + random.nextInt(16);
 				int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin);

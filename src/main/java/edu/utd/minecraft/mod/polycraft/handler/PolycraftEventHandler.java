@@ -138,7 +138,7 @@ public class PolycraftEventHandler {
 					}
 
 					//make the pretties
-					player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":flamethrower.ignite", 1f, 1f);
+					player.worldObj.playSoundAtEntity(player, PolycraftMod.getAssetName("flamethrower.ignite"), 1f, 1f);
 					spawnFlamethrowerParticles(player);
 
 					//light blocks and entities on fire
@@ -325,7 +325,7 @@ public class PolycraftEventHandler {
 					final long currentMillis = System.currentTimeMillis();
 					if (jetPackSoundIntervalMillis < currentMillis - jetPackLastSoundMillis) {
 						jetPackLastSoundMillis = currentMillis;
-						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":jetpack.fly", 1f, 1f);
+						player.worldObj.playSoundAtEntity(player, PolycraftMod.getAssetName("jetpack.fly"), 1f, 1f);
 					}
 				}
 			}
@@ -428,7 +428,7 @@ public class PolycraftEventHandler {
 					final long currentMillis = System.currentTimeMillis();
 					if (scubaTankSoundIntervalMillis < currentMillis - scubaTankLastSoundMillis) {
 						scubaTankLastSoundMillis = currentMillis;
-						player.worldObj.playSoundAtEntity(player, PolycraftMod.MODID + ":scubatank.breathe", 1f, 1f);
+						player.worldObj.playSoundAtEntity(player, PolycraftMod.getAssetName("scubatank.breathe"), 1f, 1f);
 					}
 				}
 			}

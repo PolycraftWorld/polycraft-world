@@ -18,7 +18,7 @@ public class Ingot extends Entity {
 	public final Entity type;
 
 	public Ingot(final Entity type) {
-		super("ingot_" + type.gameName, type.name);
+		super(type.name);
 		this.type = type;
 	}
 

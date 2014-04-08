@@ -40,7 +40,7 @@ public class Ore extends Entity {
 
 	public Ore(final Entity type, final float hardness, final float resistance, final int dropExperienceMin, final int dropExperienceMax, final int generationStartYMin, final int generationStartYMax, final int generationVeinsPerChunk,
 			final int generationBlocksPerVein, final Entity smeltingEntity, final int smeltingEntitiesPerBlock, final float smeltingExperience) {
-		super("ore_" + type.gameName, type.name);
+		super(type.name);
 		this.type = type;
 		this.hardness = hardness;
 		this.resistance = resistance;

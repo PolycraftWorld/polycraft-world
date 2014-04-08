@@ -415,6 +415,7 @@ public class Polymer extends Compound {
 	public final int craftingPelletsPerBlock;
 	public final String itemNamePellet;
 	public final String itemNameFiber;
+	public final String itemNameGrip;
 
 	public Polymer(final String name) {
 		this(name, Category.None);
@@ -433,8 +434,9 @@ public class Polymer extends Compound {
 		this.category = category;
 		this.resinCode = resinCode;
 		this.craftingPelletsPerBlock = craftingPelletsPerBlock;
-		this.itemNamePellet = gameName + "_pellet";
-		this.itemNameFiber = gameName + "_fiber";
+		this.itemNamePellet = name + " Pellet";
+		this.itemNameFiber = name + " Fiber";
+		this.itemNameGrip = name + " Grip";
 	}
 
 	@Override

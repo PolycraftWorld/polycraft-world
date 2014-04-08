@@ -11,13 +11,13 @@ public class ItemScubaMask extends PolycraftArmorHeadgear {
 
 	public ItemScubaMask(final float fogDensity) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getTextureName("scuba_mask"));
+		this.setTextureName(PolycraftMod.getAssetName("scuba_mask"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.fogDensity = fogDensity;
 	}
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getTextureName("textures/models/armor/scuba_layer_1.png");
+		return PolycraftMod.getAssetName("textures/models/armor/scuba_layer_1.png");
 	}
 }

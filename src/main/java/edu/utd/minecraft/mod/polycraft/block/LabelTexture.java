@@ -36,11 +36,11 @@ public class LabelTexture {
 	}
 
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		icons[0] = p_149651_1_.registerIcon(PolycraftMod.getTextureName(bottomTextureName));
-		icons[1] = p_149651_1_.registerIcon(PolycraftMod.getTextureName(topTextureName));
-		icons[2] = p_149651_1_.registerIcon(PolycraftMod.getTextureName(mainFlippedTextureName)); // back
-		icons[3] = p_149651_1_.registerIcon(PolycraftMod.getTextureName(mainTextureName)); // front
-		icons[4] = p_149651_1_.registerIcon(PolycraftMod.getTextureName(mainTextureName)); // left
-		icons[5] = p_149651_1_.registerIcon(PolycraftMod.getTextureName(mainFlippedTextureName)); // right
+		icons[0] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(bottomTextureName));
+		icons[1] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(topTextureName));
+		icons[2] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName)); // back
+		icons[3] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName)); // front
+		icons[4] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName)); // left
+		icons[5] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName)); // right
 	}
 }

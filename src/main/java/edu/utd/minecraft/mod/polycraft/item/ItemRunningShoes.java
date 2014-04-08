@@ -10,13 +10,13 @@ public class ItemRunningShoes extends PolycraftArmorFeet {
 
 	public ItemRunningShoes(final float walkSpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getTextureName("running_shoes"));
+		this.setTextureName(PolycraftMod.getAssetName("running_shoes"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.walkSpeedBuff = walkSpeedBuff;
 	}
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getTextureName("textures/models/armor/track_suit_layer_1.png");
+		return PolycraftMod.getAssetName("textures/models/armor/track_suit_layer_1.png");
 	}
 }

@@ -142,7 +142,7 @@ public class Element extends Entity {
 			final int group, final int period, final double weight, final double density,
 			final double melt, final double boil, final double heat,
 			final double electronegativity, final double abundance) {
-		super("element_" + getSafeName(name), name);
+		super(name);
 		this.symbol = symbol;
 		this.atomicNumber = atomicNumber;
 		this.fluid = PolycraftMod.worldTemperatureKelvin >= melt;

@@ -18,7 +18,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 
 	public ItemJetPack(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final float flySpeedBuff) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getTextureName("jet_pack"));
+		this.setTextureName(PolycraftMod.getAssetName("jet_pack"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.fuelUnitsFull = fuelUnitsFull;
 		this.fuelUnitsBurnPerTick = fuelUnitsBurnPerTick;
@@ -70,6 +70,6 @@ public class ItemJetPack extends PolycraftArmorChest {
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getTextureName("textures/models/armor/jet_pack_layer_1.png");
+		return PolycraftMod.getAssetName("textures/models/armor/jet_pack_layer_1.png");
 	}
 }

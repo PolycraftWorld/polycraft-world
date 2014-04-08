@@ -52,27 +52,51 @@ public class RecipeGenerator {
 	}
 
 	private static ItemStack createItemStack(final Entity entity, int size) {
-		Item item = null;
 		if ((entity instanceof Element && ((Element) entity).fluid) ||
 				(entity instanceof Compound && ((Compound) entity).fluid)) {
-			item = PolycraftMod.items.get(ItemFluidContainer.getGameName(entity));
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.FluidContainer, ItemFluidContainer.getItemName(entity));
 			if (item == null) {
 				throw new IllegalArgumentException("No fluid container item for " + entity.name);
 			}
 			return new ItemStack(item, size);
-		} else if (entity instanceof Ingot || entity instanceof Catalyst) {
-			item = PolycraftMod.items.get(entity.gameName);
+		}
+		if (entity instanceof Ingot) {
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Ingot, entity);
 			if (item == null) {
-				throw new IllegalArgumentException("No ingot/catalyst item for " + entity.name);
+				throw new IllegalArgumentException("No ingot item for " + entity.name);
 			}
 			return new ItemStack(item, size);
 		}
-
-		Block block = PolycraftMod.blocks.get(entity.gameName);
-		if (block == null) {
-			throw new IllegalArgumentException("Can't create an item stack: No block exists for " + entity.name);
+		if (entity instanceof Catalyst) {
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Catalyst, entity);
+			if (item == null) {
+				throw new IllegalArgumentException("No catalyst item for " + entity.name);
+			}
+			return new ItemStack(item, size);
 		}
-		return new ItemStack(block, size);
+		if (entity instanceof Polymer) {
+			Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, entity);
+			if (block == null) {
+				throw new IllegalArgumentException("No polymer block for " + entity.name);
+			}
+			return new ItemStack(block, size);
+		}
+		if (entity instanceof Ore) {
+			Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Ore, entity);
+			if (block == null) {
+				throw new IllegalArgumentException("No ore block for " + entity.name);
+			}
+			return new ItemStack(block, size);
+		}
+		if (entity instanceof CompressedBlock) {
+			Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.CompressedBlock, entity);
+			if (block == null) {
+				throw new IllegalArgumentException("No compressed block for " + entity.name);
+			}
+			return new ItemStack(block, size);
+		}
+
+		throw new IllegalArgumentException("No block or item for entity type " + entity.getClass().getSimpleName());
 	}
 
 	private void createCustomItemRecipes() {
@@ -93,20 +117,20 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemKevlarVest),
 				new String[] { "x x", "xxx", "xxx" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.kevlar.itemNameFiber), 4)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.kevlar.itemNameFiber), 4)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemRunningShoes),
 				new String[] { "   ", "x x", "x x" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNameFiber), 2)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.LDPE.itemNameFiber), 2)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemJetPack),
 				new String[] { "xzx", "yxy", "xzx", },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.items.get(Polymer.HDPE.itemNameFiber), 8),
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.HDPE.itemNameFiber), 8),
 						'y', createItemStack(Element.hydrogen, 2),
 						'z', createItemStack(Ingot.aluminium, 8)));
 
@@ -124,7 +148,7 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemParachute),
 				new String[] { "xxx", "x x", " x " },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.nylon11.itemNameFiber), 8)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.nylon11.itemNameFiber), 8)));
 
 		/* TODO(jim-mcandrew): Fix ?
 		 		PolycraftMod.recipeManager.addShapedRecipe(
@@ -149,7 +173,7 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE, new ItemStack(PolycraftMod.itemFlashlight),
 				new String[] { "xxx", "xyx", "xxx" },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNamePellet)),
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.LDPE.itemNamePellet)),
 						'y', new ItemStack(Blocks.glass_pane),
 						'z', new ItemStack(Blocks.redstone_lamp)));
 
@@ -162,24 +186,24 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemScubaFins),
 				new String[] { "x x", "x x", "x x" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNameFiber))));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.LDPE.itemNameFiber))));
 
 		for (final Polymer polymer : ItemGripped.allowedPolymers) {
-			final Item polymerGrip = PolycraftMod.items.get(polymer.gameName + "_grip");
+			final Item polymerGrip = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Tool, polymer.itemNameGrip);
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					new ItemStack(polymerGrip),
 					new String[] { "x x", "x x", "xxx" },
-					ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(polymer.itemNamePellet))));
+					ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNamePellet))));
 
 			for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
 				final String materialName = materialEntry.getKey();
 				for (final String type : ItemGripped.allowedTypes.keySet()) {
-					Item grippedItem = (Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type));
+					Item itemToGrip = (Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type));
 					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-							new ItemStack(PolycraftMod.items.get(ItemGripped.getName(polymer, materialName, type))),
+							new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Tool, ItemGripped.getName(polymer, materialName, type))),
 							ImmutableList.of(
-									new ItemStack(grippedItem),
+									new ItemStack(itemToGrip),
 									new ItemStack(polymerGrip)));
 				}
 			}
@@ -191,7 +215,7 @@ public class RecipeGenerator {
 			if (ore.smeltingEntity != null) {
 				try {
 					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNANCE,
-							new ItemStack(Item.getItemFromBlock(PolycraftMod.blocks.get(ore.gameName))),
+							new ItemStack(Item.getItemFromBlock(PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Ore, ore))),
 							ImmutableList.of(createItemStack(ore.smeltingEntity, ore.smeltingEntitiesPerBlock)),
 							ore.smeltingExperience);
 				} catch (IllegalArgumentException illegalEx) {
@@ -204,27 +228,27 @@ public class RecipeGenerator {
 
 	private void createCompressedBlockRecipes() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
-			final ItemStack blockCompressed = createItemStack(compressedBlock);
-			final Item compressedItem = PolycraftMod.items.get(compressedBlock.type.gameName);
+			final ItemStack compressedBlockItemStack = createItemStack(compressedBlock);
+			final Block compressedBlockBlock = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.CompressedBlock, compressedBlock);
 
 			final ItemStack[] compressedItems = new ItemStack[compressedBlock.itemsPerBlock];
 			for (int i = 0; i < compressedItems.length; i++) {
-				compressedItems[i] = new ItemStack(compressedItem);
+				compressedItems[i] = new ItemStack(compressedBlockBlock);
 			}
 
 			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-					blockCompressed, ImmutableList.copyOf(compressedItems));
+					compressedBlockItemStack, ImmutableList.copyOf(compressedItems));
 			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-					new ItemStack(compressedItem, compressedBlock.itemsPerBlock),
-					ImmutableList.of(blockCompressed));
+					new ItemStack(compressedBlockBlock, compressedBlock.itemsPerBlock),
+					ImmutableList.of(compressedBlockItemStack));
 		}
 	}
 
 	private void createPolymerRecipes() {
 		for (final Polymer polymer : Polymer.registry.values()) {
-			final Block polymerBlock = PolycraftMod.blocks.get(polymer.gameName);
-			final Item polymerPellet = PolycraftMod.items.get(polymer.itemNamePellet);
-			final Item polymerFiber = PolycraftMod.items.get(polymer.itemNameFiber);
+			final Block polymerBlock = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, polymer);
+			final Item polymerPellet = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNamePellet);
+			final Item polymerFiber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNameFiber);
 			try {
 				// convert between blocks and pellets
 				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,

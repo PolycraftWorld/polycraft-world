@@ -15,7 +15,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 public class GuiChemicalProcessor extends GuiContainer {
 	private static final String TEXTURE_NAME = "textures/gui/container/chemical_processor.png";
 	private static final ResourceLocation chemicalProcessorGuiTextures
-		= new ResourceLocation(PolycraftMod.getTextureName(TEXTURE_NAME));
+		= new ResourceLocation(PolycraftMod.getAssetName(TEXTURE_NAME));
 	private final TileEntityChemicalProcessor tileChemicalProcessor;
 
 	public GuiChemicalProcessor(InventoryPlayer par1InventoryPlayer, TileEntityChemicalProcessor par2TileEntityChemicalProcessor) {

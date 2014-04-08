@@ -548,7 +548,7 @@ public class Compound extends Entity {
 	}
 
 	public Compound(final String name, final boolean fluid, final String formula, final String uses, final String sources) {
-		super("compound_" + getSafeName(name), name);
+		super(name);
 		this.fluid = fluid;
 		this.formula = formula;
 		this.uses = uses;
