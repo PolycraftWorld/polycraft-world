@@ -39,6 +39,17 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	}
 
 	@Override
+	public ItemStack onItemRightClick(final ItemStack par1ItemStack, final World par2World, final EntityPlayer par3EntityPlayer) {
+		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+		return par1ItemStack;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(final ItemStack par1ItemStack) {
+		return 10;
+	}
+
+	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List par3List, final boolean par4) {
 		PolycraftItemHelper.createTagCompound(itemStack);
 		int fuel = getFuelRemainingPercent(itemStack);
