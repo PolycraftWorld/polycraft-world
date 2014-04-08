@@ -194,6 +194,9 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 */
 	@Override
 	public ItemStack getStackInSlot(int slotIndex) {
+		if (slotIndex >= inputArray.length) {
+			return null;
+		}
 		if (inputArray[slotIndex] == null) {
 			return null;
 		}
