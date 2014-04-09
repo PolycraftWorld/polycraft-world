@@ -249,11 +249,12 @@ public class PolycraftMod {
 		None,
 		Inventory,
 		Fluid,
-		FluidContainer,
 		Tool,
 		Armor,
 		Weapon,
 		Utility,
+		Element,
+		Compound,
 		Polymer,
 		Catalyst,
 		Ore,
@@ -446,11 +447,13 @@ public class PolycraftMod {
 
 		for (final Element element : Element.registry.values())
 			if (element.fluid)
-				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.FluidContainer, ItemFluidContainer.getItemName(element)), translations.getProperty("container_of"), element.name));
+				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Element, ItemFluidContainer.getItemName(element)), translations.getProperty("container_of"), element.name));
 
 		for (final Compound compound : Compound.registry.values())
 			if (compound.fluid)
-				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.FluidContainer, ItemFluidContainer.getItemName(compound)), translations.getProperty("container_of"), compound.name));
+				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Compound, ItemFluidContainer.getItemName(compound)), translations.getProperty("container_of"), compound.name));
+			else
+				langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Compound, compound), compound.name));
 
 		for (final Polymer polymer : Polymer.registry.values()) {
 			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymer), polymer.name));

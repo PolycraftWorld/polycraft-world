@@ -52,9 +52,8 @@ public class RecipeGenerator {
 	}
 
 	private static ItemStack createItemStack(final Entity entity, int size) {
-		if ((entity instanceof Element && ((Element) entity).fluid) ||
-				(entity instanceof Compound && ((Compound) entity).fluid)) {
-			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.FluidContainer, ItemFluidContainer.getItemName(entity));
+		if ((entity instanceof Element && ((Element) entity).fluid)) {
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Element, ItemFluidContainer.getItemName(entity));
 			if (item == null) {
 				throw new IllegalArgumentException("No fluid container item for " + entity.name);
 			}
@@ -94,6 +93,22 @@ public class RecipeGenerator {
 				throw new IllegalArgumentException("No compressed block for " + entity.name);
 			}
 			return new ItemStack(block, size);
+		}
+		if (entity instanceof Compound) {
+			if (((Compound) entity).fluid) {
+				Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Compound, ItemFluidContainer.getItemName(entity));
+				if (item == null) {
+					throw new IllegalArgumentException("No fluid container item for " + entity.name);
+				}
+				return new ItemStack(item, size);
+			}
+			else {
+				Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Compound, entity);
+				if (block == null) {
+					throw new IllegalArgumentException("No compound block for " + entity.name);
+				}
+				return new ItemStack(block, size);
+			}
 		}
 
 		throw new IllegalArgumentException("No block or item for entity type " + entity.getClass().getSimpleName());

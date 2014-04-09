@@ -15,6 +15,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockCompound;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
@@ -212,7 +213,7 @@ public class CommonProxy {
 	private void createElements() {
 		for (final Element element : Element.registry.values()) {
 			if (element.fluid) {
-				PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.FluidContainer,
+				PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Element,
 						ItemFluidContainer.getItemName(element), new ItemFluidContainer(element));
 			}
 		}
@@ -221,9 +222,11 @@ public class CommonProxy {
 	private void createCompounds() {
 		for (final Compound compound : Compound.registry.values()) {
 			if (compound.fluid) {
-				PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.FluidContainer,
+				PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Compound,
 						ItemFluidContainer.getItemName(compound), new ItemFluidContainer(compound));
 			}
+			else
+				PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Compound, compound, new BlockCompound(compound));
 		}
 	}
 
