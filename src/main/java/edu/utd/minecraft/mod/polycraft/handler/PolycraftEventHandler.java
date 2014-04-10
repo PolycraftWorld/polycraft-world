@@ -2,7 +2,6 @@ package edu.utd.minecraft.mod.polycraft.handler;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -58,14 +56,6 @@ public class PolycraftEventHandler {
 	private static final double jetPackExhaustDownwardVelocity = -.8;
 	private final Collection<PointLightSource> jetPackExhaustDynamicLights = new LinkedList<PointLightSource>();
 	private static final long jetPackSoundIntervalMillis = 100;
-	private static final Map<Integer, String> jetPackLandingWarnings = new LinkedHashMap<Integer, String>();
-	static {
-		jetPackLandingWarnings.put(30, "might want to start thinking about landing...");
-		jetPackLandingWarnings.put(20, "daredevil are we?");
-		jetPackLandingWarnings.put(10, "we are way low on fuel Mav!");
-		jetPackLandingWarnings.put(5, "vapor lock!!");
-		jetPackLandingWarnings.put(1, "EJECT EJECT EJECT!!!");
-	}
 	private static final long scubaTankSoundIntervalMillis = 2000;
 
 	private class PlayerState {
@@ -73,9 +63,6 @@ public class PolycraftEventHandler {
 		private boolean flameThrowerLightsEnabled = false;
 		private long jetPackLastSoundMillis = 0;
 		private long scubaTankLastSoundMillis = 0;
-		private int flameThrowerLastFuelDisplayPercent = 0;
-		private int jetPackLastFuelDisplayPercent = 0;
-		private int scubaTankLastAirDisplayPercent = 0;
 		private boolean jetPackLightsEnabled = false;
 	}
 
@@ -106,7 +93,7 @@ public class PolycraftEventHandler {
 			final PlayerState playerState = getPlayerState(player);
 			handleWeapons(event, player, playerState);
 			handleFlightServer(event, player, playerState);
-			handleBreathingServer(event, player, playerState);
+			handleBreathing(event, player, playerState);
 		}
 	}
 
@@ -119,6 +106,7 @@ public class PolycraftEventHandler {
 			handleWeapons(event, player, playerState);
 			handleMovementSpeedClient(event, player, playerState);
 			handleFlightClient(event, player, playerState);
+			handleBreathing(event, player, playerState);
 		}
 	}
 
@@ -168,11 +156,6 @@ public class PolycraftEventHandler {
 
 			//burn the fuel
 			flameThrowerItem.burnFuel(itemStack);
-			final int fuelRemainingPercent = flameThrowerItem.getFuelRemainingPercent(itemStack);
-			if (playerState.flameThrowerLastFuelDisplayPercent != fuelRemainingPercent) {
-				player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% flame thrower fuel remaining"));
-				playerState.flameThrowerLastFuelDisplayPercent = fuelRemainingPercent;
-			}
 
 			//light blocks and entities on fire
 			final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
@@ -327,22 +310,11 @@ public class PolycraftEventHandler {
 					if (!player.worldObj.isRemote) {
 						if (jetPackItem.burnFuel(jetPackItemStack)) {
 							player.fallDistance = 0;
-							final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(jetPackItemStack);
-							if (playerState.jetPackLastFuelDisplayPercent != fuelRemainingPercent) {
-								final String warning = jetPackLandingWarnings.get(fuelRemainingPercent);
-								player.addChatMessage(new ChatComponentText(fuelRemainingPercent + "% jet pack fuel remaining" + (warning == null ? "" : ", " + warning)));
-								playerState.jetPackLastFuelDisplayPercent = fuelRemainingPercent;
-							}
-
 							// cause an unstable motion to simulate the unpredictability of the exhaust direction
 							player.setPosition(
 									player.posX + ((random.nextDouble() / 5) - .1),
 									player.posY + ((random.nextDouble() / 5) - .1),
 									player.posZ + ((random.nextDouble() / 5) - .1));
-						}
-						else if (playerState.jetPackLastFuelDisplayPercent != -1) {
-							player.addChatMessage(new ChatComponentText("Out of fuel, hope you packed a parachute..."));
-							playerState.jetPackLastFuelDisplayPercent = -1;
 						}
 
 						final long currentMillis = System.currentTimeMillis();
@@ -436,26 +408,22 @@ public class PolycraftEventHandler {
 		}
 	}
 
-	@SideOnly(Side.SERVER)
-	private void handleBreathingServer(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
+	private void handleBreathing(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
 		if (player.isEntityAlive() && player.isInWater() && player.getAir() < baseFullAir) {
-			final ItemStack scubaTankItemStack = player.getCurrentArmor(2);
+			final ItemStack scubaTankItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
 			if (scubaTankItemStack != null && scubaTankItemStack.getItem() instanceof ItemScubaTank) {
 				final ItemScubaTank scubaTankItem = (ItemScubaTank) scubaTankItemStack.getItem();
-
-				if (scubaTankItem.consumeAir(scubaTankItemStack)) {
-					player.setAir(baseFullAir);
-					final int airRemainingPercent = scubaTankItem.getAirRemainingPercent(scubaTankItemStack);
-					if (playerState.scubaTankLastAirDisplayPercent != airRemainingPercent) {
-						player.addChatMessage(new ChatComponentText(airRemainingPercent + "% air remaining"));
-						playerState.scubaTankLastAirDisplayPercent = airRemainingPercent;
+				if (player.worldObj.isRemote) {
+					if (scubaTankItem.consumeAir(scubaTankItemStack)) {
+						player.setAir(baseFullAir);
 					}
 				}
-
-				final long currentMillis = System.currentTimeMillis();
-				if (scubaTankSoundIntervalMillis < currentMillis - playerState.scubaTankLastSoundMillis) {
-					playerState.scubaTankLastSoundMillis = currentMillis;
-					player.worldObj.playSoundAtEntity(player, PolycraftMod.getAssetName("scubatank.breathe"), 1f, 1f);
+				else {
+					final long currentMillis = System.currentTimeMillis();
+					if (scubaTankSoundIntervalMillis < currentMillis - playerState.scubaTankLastSoundMillis) {
+						playerState.scubaTankLastSoundMillis = currentMillis;
+						player.worldObj.playSoundAtEntity(player, PolycraftMod.getAssetName("scubatank.breathe"), 1f, 1f);
+					}
 				}
 			}
 		}
