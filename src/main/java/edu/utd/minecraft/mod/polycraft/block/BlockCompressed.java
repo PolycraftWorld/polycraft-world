@@ -18,7 +18,7 @@ public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 		super(MapColor.ironColor);
 		this.compressedBlock = compressedBlock;
 		final String texture = PolycraftMod.getFileSafeName(
-				"compressed_" + compressedBlock.type.getClass().getSimpleName() + "_" + compressedBlock.type.type.getClass().getSimpleName() + "_" + compressedBlock.name);
+				"compressed_" + compressedBlock.type.getClass().getSimpleName() + "_" + compressedBlock.type.type.getClass().getSimpleName());
 		this.labelTexture = new LabelTexture(texture, texture + "_flip");
 		this.setStepSound(Block.soundTypeMetal);
 	}
