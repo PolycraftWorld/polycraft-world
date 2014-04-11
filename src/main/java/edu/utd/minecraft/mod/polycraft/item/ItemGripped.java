@@ -1,8 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import net.minecraft.item.Item;
@@ -19,13 +17,10 @@ import edu.utd.minecraft.mod.polycraft.config.Polymer;
 public class ItemGripped {
 	private static final Logger logger = LogManager.getLogger();
 
-	public static final Collection<Polymer> allowedPolymers = new LinkedList<Polymer>();
 	public static final Map<String, Class> allowedTypes = new LinkedHashMap<String, Class>();
 	public static final Map<String, ToolMaterial> allowedMaterials = new LinkedHashMap<String, ToolMaterial>();
 
 	static {
-		allowedPolymers.add(Polymer.LDPE);
-
 		allowedTypes.put("shovel", ItemShovelGripped.class);
 		allowedTypes.put("axe", ItemAxeGripped.class);
 		allowedTypes.put("pickaxe", ItemPickaxeGripped.class);

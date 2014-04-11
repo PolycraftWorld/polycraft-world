@@ -1,16 +1,15 @@
 package edu.utd.minecraft.mod.polycraft;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -23,8 +22,6 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.base.Charsets;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -33,14 +30,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
-import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
@@ -105,6 +100,7 @@ public class PolycraftMod {
 	public static final String itemNameOilBucket = "bucket_" + fluidNameOil;
 	public static final String itemNameFluidContainer = "fluid_container";
 	public static final String itemNameFluidContainerNozzle = itemNameFluidContainer + "_nozzle";
+	public static final String itemNameGrip = "grip";
 	public static final String itemNameFlashlight = "flashlight";
 	public static final String itemNameParachute = "parachute";
 	public static final String itemNameFlameThrower = "flame_thrower";
@@ -135,6 +131,7 @@ public class PolycraftMod {
 	public static Item itemFlameThrower;
 	public static Item itemJetPack;
 	public static Item itemParachute;
+	public static Item itemGrip;
 	public static Item itemFlashlight;
 	public static Item itemScubaMask;
 	public static Item itemScubaTank;
@@ -143,26 +140,6 @@ public class PolycraftMod {
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
 	private static final Logger logger = LogManager.getLogger();
-
-	public static void main(final String... args) throws IOException {
-
-		Collection<String> lines = null;
-		int arg = 0;
-
-		final String program = args[arg++];
-		if ("confexp".equals(program)) {
-			lines = exportConfigs(args[arg++]);
-		}
-		else if ("confgen".equals(program)) {
-			lines = generateConfigs(args[arg++], Files.readAllLines(Paths.get(args[arg++]), Charsets.ISO_8859_1));
-		}
-
-		final PrintWriter writer = new PrintWriter(args[arg++]);
-		for (final String line : lines) {
-			writer.println(line);
-		}
-		writer.close();
-	}
 
 	public final static String getFileSafeName(final String name) {
 		return name.replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
@@ -201,6 +178,22 @@ public class PolycraftMod {
 
 		}
 		logger.info("Unable to find enderman carriable blocks field.");
+	}
+
+	public static Collection<String[]> readConfig(final String name) {
+		Collection<String[]> config = new LinkedList<String[]>();
+		final BufferedReader br = new BufferedReader(new InputStreamReader(PolycraftMod.class.getClassLoader().getResourceAsStream("config/" + name + ".tsv")));
+		try {
+			br.readLine();//skip the first line (headers)
+			for (String line; (line = br.readLine()) != null;) {
+				config.add(line.split("\t"));
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		return config;
 	}
 
 	@EventHandler
@@ -331,95 +324,6 @@ public class PolycraftMod {
 		return items.get(getRegistryName(namespace, name));
 	}
 
-	public static Collection<String> exportConfigs(final String delimeter) {
-		final Collection<String> configs = new LinkedList<String>();
-
-		configs.add(Element.class.getSimpleName());
-		for (final Element element : Element.registry.values())
-			configs.add(element.export(delimeter));
-
-		configs.add("");
-		configs.add(Compound.class.getSimpleName());
-		for (final Compound compound : Compound.registry.values())
-			configs.add(compound.export(delimeter));
-
-		configs.add("");
-		configs.add(Polymer.class.getSimpleName());
-		for (final Polymer polymer : Polymer.registry.values())
-			configs.add(polymer.export(delimeter));
-
-		configs.add("");
-		configs.add(Alloy.class.getSimpleName());
-		for (final Alloy alloy : Alloy.registry.values())
-			configs.add(alloy.name);
-
-		configs.add("");
-		configs.add(Mineral.class.getSimpleName());
-		for (final Mineral mineral : Mineral.registry.values())
-			configs.add(mineral.export(delimeter));
-
-		configs.add("");
-		configs.add(Ore.class.getSimpleName());
-		for (final Ore ore : Ore.registry.values())
-			configs.add(ore.export(delimeter));
-
-		configs.add("");
-		configs.add(Ingot.class.getSimpleName());
-		for (final Ingot ingot : Ingot.registry.values())
-			configs.add(ingot.export(delimeter));
-
-		configs.add("");
-		configs.add(CompressedBlock.class.getSimpleName());
-		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-			configs.add(compressedBlock.export(delimeter));
-
-		configs.add("");
-		configs.add(Catalyst.class.getSimpleName());
-		for (final Catalyst catalyst : Catalyst.registry.values())
-			configs.add(catalyst.export(delimeter));
-
-		return configs;
-	}
-
-	public static Collection<String> generateConfigs(final String delimeter, final List<String> exported) {
-		final Collection<String> configs = new LinkedList<String>();
-		String mode = null;
-		for (final String export : exported) {
-			if (export.length() > 0) {
-				if (mode == null) {
-					mode = export;
-					configs.add("");
-					configs.add(mode);
-				}
-				else {
-					final String[] exportSplit = export.split(delimeter);
-					if (mode.equals(Element.class.getSimpleName()))
-						configs.add(Element.generate(exportSplit));
-					else if (mode.equals(Compound.class.getSimpleName()))
-						configs.add(Compound.generate(exportSplit));
-					else if (mode.equals(Polymer.class.getSimpleName()))
-						configs.add(Polymer.generate(exportSplit));
-					else if (mode.equals(Alloy.class.getSimpleName()))
-						configs.add(Alloy.generate(exportSplit));
-					else if (mode.equals(Mineral.class.getSimpleName()))
-						configs.add(Mineral.generate(exportSplit));
-					else if (mode.equals(Ore.class.getSimpleName()))
-						configs.add(Ore.generate(exportSplit));
-					else if (mode.equals(Ingot.class.getSimpleName()))
-						configs.add(Ingot.generate(exportSplit));
-					else if (mode.equals(CompressedBlock.class.getSimpleName()))
-						configs.add(CompressedBlock.generate(exportSplit));
-					else if (mode.equals(Catalyst.class.getSimpleName()))
-						configs.add(Catalyst.generate(exportSplit));
-				}
-			}
-			else
-				mode = null;
-		}
-
-		return configs;
-	}
-
 	public void exportLangEntries(final String translationFile, final String exportFile) throws IOException {
 		final Properties translations = new Properties();
 		final InputStream translationsInput = new FileInputStream(translationFile);
@@ -442,6 +346,7 @@ public class PolycraftMod {
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Weapon, itemNameFlameThrower), translations.getProperty("flame_thrower")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFluidContainer), translations.getProperty("fluid_container")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFluidContainerNozzle), translations.getProperty("fluid_container_nozzle")));
+		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Tool, itemNameGrip), translations.getProperty("grip")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFlashlight), translations.getProperty("flashlight")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameParachute), translations.getProperty("parachute")));
 
@@ -457,8 +362,8 @@ public class PolycraftMod {
 
 		for (final Polymer polymer : Polymer.registry.values()) {
 			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymer), polymer.name));
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNamePellet), polymer.name, translations.getProperty("pellet")));
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameFiber), polymer.name, translations.getProperty("fiber")));
+			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.pelletName), polymer.name, translations.getProperty("pellet")));
+			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.fiberName), polymer.name, translations.getProperty("fiber")));
 		}
 
 		for (final Ore ore : Ore.registry.values())
@@ -473,14 +378,12 @@ public class PolycraftMod {
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Catalyst, catalyst), catalyst.name, translations.getProperty("catalyst")));
 
-		for (final Polymer polymer : ItemGripped.allowedPolymers) {
-			for (final String materialName : ItemGripped.allowedMaterials.keySet()) {
-				final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
-				for (final String type : ItemGripped.allowedTypes.keySet())
-					langEntries.add(String.format("item.%s.name=%s %s %s (%s)", getRegistryName(RegistryNamespace.Tool, ItemGripped.getName(polymer, materialName, type)),
-							translations.getProperty("gripped"), materialNameUpper,
-							Character.toUpperCase(type.charAt(0)) + type.substring(1), polymer.name));
-			}
+		for (final String materialName : ItemGripped.allowedMaterials.keySet()) {
+			final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
+			for (final String type : ItemGripped.allowedTypes.keySet())
+				langEntries.add(String.format("item.%s.name=%s %s %s (%s)", getRegistryName(RegistryNamespace.Tool, ItemGripped.getName(Polymer.registry.get("PolyOxymethylene"), materialName, type)),
+						translations.getProperty("gripped"), materialNameUpper,
+						Character.toUpperCase(type.charAt(0)) + type.substring(1), Polymer.registry.get("PolyOxymethylene").name));
 		}
 
 		final PrintWriter writer = new PrintWriter(exportFile);

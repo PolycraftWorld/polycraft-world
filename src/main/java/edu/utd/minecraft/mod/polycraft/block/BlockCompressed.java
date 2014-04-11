@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
@@ -14,13 +15,11 @@ public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 	private final LabelTexture labelTexture;
 
 	public BlockCompressed(final CompressedBlock compressedBlock) {
-		super(compressedBlock.color);
+		super(MapColor.ironColor);
 		this.compressedBlock = compressedBlock;
 		final String texture = PolycraftMod.getFileSafeName(
 				"compressed_" + compressedBlock.type.getClass().getSimpleName() + "_" + compressedBlock.type.type.getClass().getSimpleName() + "_" + compressedBlock.name);
 		this.labelTexture = new LabelTexture(texture, texture + "_flip");
-		this.setHardness(compressedBlock.hardness);
-		this.setResistance(compressedBlock.resistance);
 		this.setStepSound(Block.soundTypeMetal);
 	}
 
