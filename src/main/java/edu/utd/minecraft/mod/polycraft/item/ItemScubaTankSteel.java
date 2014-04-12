@@ -6,6 +6,6 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 public class ItemScubaTankSteel extends ItemScubaTank {
 	public ItemScubaTankSteel(final int airUnitsFull, final int airUnitsConsumePerTick) {
 		super(airUnitsFull, airUnitsConsumePerTick);		
-		this.setTextureName(PolycraftMod.getTextureName("scuba_tank_steel"));
+		this.setTextureName(PolycraftMod.getAssetName("scuba_tank_steel"));
 	}
 }

@@ -52,27 +52,66 @@ public class RecipeGenerator {
 	}
 
 	private static ItemStack createItemStack(final Entity entity, int size) {
-		Item item = null;
-		if ((entity instanceof Element && ((Element) entity).fluid) ||
-				(entity instanceof Compound && ((Compound) entity).fluid)) {
-			item = PolycraftMod.items.get(ItemFluidContainer.getGameName(entity));
+		if ((entity instanceof Element && ((Element) entity).fluid)) {
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Element, ItemFluidContainer.getItemName(entity));
 			if (item == null) {
 				throw new IllegalArgumentException("No fluid container item for " + entity.name);
 			}
 			return new ItemStack(item, size);
-		} else if (entity instanceof Ingot || entity instanceof Catalyst) {
-			item = PolycraftMod.items.get(entity.gameName);
+		}
+		if (entity instanceof Ingot) {
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Ingot, entity);
 			if (item == null) {
-				throw new IllegalArgumentException("No ingot/catalyst item for " + entity.name);
+				throw new IllegalArgumentException("No ingot item for " + entity.name);
 			}
 			return new ItemStack(item, size);
 		}
-
-		Block block = PolycraftMod.blocks.get(entity.gameName);
-		if (block == null) {
-			throw new IllegalArgumentException("Can't create an item stack: No block exists for " + entity.name);
+		if (entity instanceof Catalyst) {
+			Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Catalyst, entity);
+			if (item == null) {
+				throw new IllegalArgumentException("No catalyst item for " + entity.name);
+			}
+			return new ItemStack(item, size);
 		}
-		return new ItemStack(block, size);
+		if (entity instanceof Polymer) {
+			Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, entity);
+			if (block == null) {
+				throw new IllegalArgumentException("No polymer block for " + entity.name);
+			}
+			return new ItemStack(block, size);
+		}
+		if (entity instanceof Ore) {
+			Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Ore, entity);
+			if (block == null) {
+				throw new IllegalArgumentException("No ore block for " + entity.name);
+			}
+			return new ItemStack(block, size);
+		}
+		if (entity instanceof CompressedBlock) {
+			Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.CompressedBlock, entity);
+			if (block == null) {
+				throw new IllegalArgumentException("No compressed block for " + entity.name);
+			}
+			return new ItemStack(block, size);
+		}
+		if (entity instanceof Compound) {
+			if (((Compound) entity).fluid) {
+				Item item = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Compound, ItemFluidContainer.getItemName(entity));
+				if (item == null) {
+					throw new IllegalArgumentException("No fluid container item for " + entity.name);
+				}
+				return new ItemStack(item, size);
+			}
+			else {
+				Block block = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Compound, entity);
+				if (block == null) {
+					throw new IllegalArgumentException("No compound block for " + entity.name);
+				}
+				return new ItemStack(block, size);
+			}
+		}
+
+		throw new IllegalArgumentException("No block or item for entity type " + entity.getClass().getSimpleName());
 	}
 
 	private void createCustomItemRecipes() {
@@ -80,35 +119,35 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemFluidContainerNozzle),
 				new String[] { "xxx", " x ", " x " },
-				ImmutableMap.of('x', createItemStack(Ingot.copper)));
+				ImmutableMap.of('x', createItemStack(Ingot.registry.get("Copper"))));
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemFluidContainer),
 				new String[] { " y ", "x x", " x " },
 				ImmutableMap.of(
-						'x', createItemStack(Ingot.steel),
+						'x', createItemStack(Ingot.registry.get("Steel")),
 						'y', new ItemStack(PolycraftMod.itemFluidContainerNozzle)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemKevlarVest),
 				new String[] { "x x", "xxx", "xxx" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.kevlar.itemNameFiber), 4)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Kevlar-Epoxy Matrix Composite").fiberName), 4)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemRunningShoes),
 				new String[] { "   ", "x x", "x x" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNameFiber), 2)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").fiberName), 2)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemJetPack),
 				new String[] { "xzx", "yxy", "xzx", },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.items.get(Polymer.HDPE.itemNameFiber), 8),
-						'y', createItemStack(Element.hydrogen, 2),
-						'z', createItemStack(Ingot.aluminium, 8)));
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("High-Density PolyEthylene").fiberName), 8),
+						'y', createItemStack(Compound.registry.get("Hydrogen Gas"), 2),
+						'z', createItemStack(Ingot.registry.get("Aluminum"), 8)));
 
 		//TODO add a recipe for PolycraftMod.itemFlameThrower
 
@@ -117,14 +156,14 @@ public class RecipeGenerator {
 		PolycraftItemHelper.createTagCompound(jetPackFilled);
 		ItemJetPack.setFuelUnitsRemaining(jetPackFilled, PolycraftMod.itemJetPackFuelUnitsFull);
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack), createItemStack(Element.hydrogen, 4)),
+				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack), createItemStack(Compound.registry.get("Hydrogen Gas"), 4)),
 				ImmutableList.of(jetPackFilled));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemParachute),
 				new String[] { "xxx", "x x", " x " },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.nylon11.itemNameFiber), 8)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Nylon").fiberName), 8)));
 
 		/* TODO(jim-mcandrew): Fix ?
 		 		PolycraftMod.recipeManager.addShapedRecipe(
@@ -149,39 +188,36 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE, new ItemStack(PolycraftMod.itemFlashlight),
 				new String[] { "xxx", "xyx", "xxx" },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNamePellet)),
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").fiberName)),
 						'y', new ItemStack(Blocks.glass_pane),
 						'z', new ItemStack(Blocks.redstone_lamp)));
 
 		// allow refilling tanks
 		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(PolycraftMod.itemScubaTank), createItemStack(Element.oxygen, 2)),
+				ImmutableList.of(new ItemStack(PolycraftMod.itemScubaTank), createItemStack(Compound.registry.get("Oxygen Gas"), 2)),
 				ImmutableList.of(new ItemStack(PolycraftMod.itemScubaTank)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemScubaFins),
 				new String[] { "x x", "x x", "x x" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(Polymer.LDPE.itemNameFiber))));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").fiberName))));
 
-		for (final Polymer polymer : ItemGripped.allowedPolymers) {
-			final Item polymerGrip = PolycraftMod.items.get(polymer.gameName + "_grip");
-			PolycraftMod.recipeManager.addShapedRecipe(
-					PolycraftContainerType.CRAFTING_TABLE,
-					new ItemStack(polymerGrip),
-					new String[] { "x x", "x x", "xxx" },
-					ImmutableMap.of('x', new ItemStack(PolycraftMod.items.get(polymer.itemNamePellet))));
+		PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftContainerType.CRAFTING_TABLE,
+				new ItemStack(PolycraftMod.itemGrip),
+				new String[] { "x x", "x x", "xxx" },
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("PolyOxymethylene").pelletName))));
 
-			for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
-				final String materialName = materialEntry.getKey();
-				for (final String type : ItemGripped.allowedTypes.keySet()) {
-					Item grippedItem = (Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type));
-					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-							new ItemStack(PolycraftMod.items.get(ItemGripped.getName(polymer, materialName, type))),
-							ImmutableList.of(
-									new ItemStack(grippedItem),
-									new ItemStack(polymerGrip)));
-				}
+		for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
+			final String materialName = materialEntry.getKey();
+			for (final String type : ItemGripped.allowedTypes.keySet()) {
+				Item itemToGrip = (Item) Item.itemRegistry.getObject(ItemGripped.getNameBase(materialName, type));
+				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
+						new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Tool, ItemGripped.getName(Polymer.registry.get("PolyOxymethylene"), materialName, type))),
+						ImmutableList.of(
+								new ItemStack(itemToGrip),
+								new ItemStack(PolycraftMod.itemGrip)));
 			}
 		}
 	}
@@ -191,7 +227,7 @@ public class RecipeGenerator {
 			if (ore.smeltingEntity != null) {
 				try {
 					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNANCE,
-							new ItemStack(Item.getItemFromBlock(PolycraftMod.blocks.get(ore.gameName))),
+							new ItemStack(Item.getItemFromBlock(PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Ore, ore))),
 							ImmutableList.of(createItemStack(ore.smeltingEntity, ore.smeltingEntitiesPerBlock)),
 							ore.smeltingExperience);
 				} catch (IllegalArgumentException illegalEx) {
@@ -204,27 +240,27 @@ public class RecipeGenerator {
 
 	private void createCompressedBlockRecipes() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
-			final ItemStack blockCompressed = createItemStack(compressedBlock);
-			final Item compressedItem = PolycraftMod.items.get(compressedBlock.type.gameName);
+			final ItemStack compressedBlockItemStack = createItemStack(compressedBlock);
+			final Block compressedBlockBlock = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.CompressedBlock, compressedBlock);
 
 			final ItemStack[] compressedItems = new ItemStack[compressedBlock.itemsPerBlock];
 			for (int i = 0; i < compressedItems.length; i++) {
-				compressedItems[i] = new ItemStack(compressedItem);
+				compressedItems[i] = new ItemStack(compressedBlockBlock);
 			}
 
 			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-					blockCompressed, ImmutableList.copyOf(compressedItems));
+					compressedBlockItemStack, ImmutableList.copyOf(compressedItems));
 			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-					new ItemStack(compressedItem, compressedBlock.itemsPerBlock),
-					ImmutableList.of(blockCompressed));
+					new ItemStack(compressedBlockBlock, compressedBlock.itemsPerBlock),
+					ImmutableList.of(compressedBlockItemStack));
 		}
 	}
 
 	private void createPolymerRecipes() {
 		for (final Polymer polymer : Polymer.registry.values()) {
-			final Block polymerBlock = PolycraftMod.blocks.get(polymer.gameName);
-			final Item polymerPellet = PolycraftMod.items.get(polymer.itemNamePellet);
-			final Item polymerFiber = PolycraftMod.items.get(polymer.itemNameFiber);
+			final Block polymerBlock = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, polymer);
+			final Item polymerPellet = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.pelletName);
+			final Item polymerFiber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.fiberName);
 			try {
 				// convert between blocks and pellets
 				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
@@ -255,229 +291,9 @@ public class RecipeGenerator {
 				new ItemStack(PolycraftMod.blockChemicalProcessor),
 				new String[] { "xxx", "xzx", "xyx" },
 				ImmutableMap.of(
-						'x', createItemStack(Ingot.steel),
+						'x', createItemStack(Ingot.registry.get("Steel")),
 						'y', new ItemStack(Blocks.furnace),
 						'z', new ItemStack(Blocks.glass_pane)));
-
-		createAlloyRecipes();
-		createCatalystRecipes();
-		createMineralRecipes();
-		createElementRecipes();
-		createCompoundRecipes();
-	}
-
-	private void createAlloyRecipes() {
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(Blocks.iron_block, 9), createItemStack(Ingot.carbon)),
-				ImmutableList.of(createItemStack(CompressedBlock.steel, 9)));
-	}
-
-	private void createCatalystRecipes() {
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.platinum)),
-				ImmutableList.of(createItemStack(Catalyst.platinum, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.titanium)),
-				ImmutableList.of(createItemStack(Catalyst.titanium, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.palladium)),
-				ImmutableList.of(createItemStack(Catalyst.palladium, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.cobalt)),
-				ImmutableList.of(createItemStack(Catalyst.cobalt, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.manganese)),
-				ImmutableList.of(createItemStack(Catalyst.manganese, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.magnesium)),
-				ImmutableList.of(createItemStack(Catalyst.magnesiumOxide, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ingot.antimony)),
-				ImmutableList.of(createItemStack(Catalyst.antimonyTrioxide, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Element.chlorine), createItemStack(Ingot.copper)),
-				ImmutableList.of(createItemStack(Catalyst.copperIIChloride, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Element.chlorine), new ItemStack(Items.iron_ingot)),
-				ImmutableList.of(createItemStack(Catalyst.ironIIIChloride, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(Items.iron_ingot)),
-				ImmutableList.of(createItemStack(Catalyst.ironIIIOxide, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Catalyst.titanium), createItemStack(Ingot.aluminium), createItemStack(Compound.olefins)),
-				ImmutableList.of(createItemStack(Catalyst.zieglerNatta, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Catalyst.cobalt), createItemStack(Catalyst.manganese), createItemStack(Element.bromine)),
-				ImmutableList.of(createItemStack(Catalyst.cobaltManganeseBromide, 16)));
-	}
-
-	private void createMineralRecipes() {
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Ore.shale)),
-				ImmutableList.of(createItemStack(Compound.naturalGas)));
-	}
-
-	private void createElementRecipes() {
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(Items.water_bucket)),
-				ImmutableList.of(createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen), new ItemStack(Items.bucket)));
-	}
-
-	private void createCompoundRecipes() {
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Element.hydrogen, 2), createItemStack(Element.oxygen)),
-				ImmutableList.of(createItemStack(Compound.water)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.water)),
-				ImmutableList.of(createItemStack(Element.chlorine, 10), createItemStack(Element.bromine), new ItemStack(Items.bucket)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.naturalGas)),
-				ImmutableList.of(createItemStack(Compound.ethane), createItemStack(Compound.propane), createItemStack(Compound.butane), createItemStack(Compound.methane)));
-
-		/*
-		 * TODO: Fix Bitumen
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(PolycraftMod.itemBucketOil)),
-				ImmutableList.of(createItemStack(Compound.naphtha), createItemStack(Compound.gasOil), createItemStack(Compound.btx), createItemStack(Compound.bitumen), new ItemStack(Items.bucket)));
-		 */
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethane), createItemStack(Catalyst.platinum)),
-				ImmutableList.of(createItemStack(Compound.ethylene, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.propane), createItemStack(Catalyst.platinum)),
-				ImmutableList.of(createItemStack(Compound.propylene, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.butane), createItemStack(Catalyst.platinum)),
-				ImmutableList.of(createItemStack(Compound.butadiene, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethylene), createItemStack(Catalyst.zieglerNatta)),
-				ImmutableList.of(createItemStack(Polymer.HDPE, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethylene)),
-				ImmutableList.of(createItemStack(Polymer.LDPE, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethylene), createItemStack(Catalyst.palladium)),
-				ImmutableList.of(createItemStack(Compound.ethyleneOxide)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethyleneOxide), createItemStack(Compound.water)),
-				ImmutableList.of(createItemStack(Compound.ethyleneGlycol)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.naphtha), createItemStack(Catalyst.platinum)),
-				ImmutableList.of(createItemStack(Compound.olefins), createItemStack(Compound.paraffin)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.gasOil), createItemStack(Catalyst.platinum)),
-				ImmutableList.of(createItemStack(Compound.diesel), createItemStack(Compound.kerosene)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.btx), createItemStack(Catalyst.cobaltManganeseBromide)),
-				ImmutableList.of(createItemStack(Compound.terephthalicAcid)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.terephthalicAcid), createItemStack(Compound.methanol)),
-				ImmutableList.of(createItemStack(Compound.dimethylTerephthalate, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.dimethylTerephthalate), createItemStack(Compound.ethyleneGlycol, 2), createItemStack(Catalyst.magnesiumOxide)),
-				ImmutableList.of(createItemStack(Polymer.LDPE, 16), createItemStack(Compound.methanol, 2), createItemStack(Compound.ethyleneGlycol)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.dimethylTerephthalate), createItemStack(Compound.ethyleneGlycol, 2), createItemStack(Catalyst.antimonyTrioxide)),
-				ImmutableList.of(createItemStack(Polymer.LDPE, 16), createItemStack(Compound.methanol, 2), createItemStack(Compound.ethyleneGlycol)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Element.chlorine), createItemStack(Compound.ethylene, 2), createItemStack(Catalyst.copperIIChloride)),
-				ImmutableList.of(createItemStack(Compound.edc, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Element.chlorine), createItemStack(Compound.ethylene, 2), createItemStack(Catalyst.ironIIIChloride)),
-				ImmutableList.of(createItemStack(Compound.edc, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.edc)),
-				ImmutableList.of(createItemStack(Compound.vinylChloride), createItemStack(Compound.hcl)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.Acetylene), createItemStack(Compound.hcl)),
-				ImmutableList.of(createItemStack(Compound.vinylChloride)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.methane)),
-				ImmutableList.of(createItemStack(Compound.Acetylene)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Element.chlorine, 16)),
-				ImmutableList.of(createItemStack(Compound.cl2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.h2), createItemStack(Compound.cl2)),
-				ImmutableList.of(createItemStack(Compound.hcl, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.vinylChloride), createItemStack(Compound.water, 3)),
-				ImmutableList.of(createItemStack(Polymer.PVC, 16), createItemStack(Compound.water, 3)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(Items.iron_ingot), new ItemStack(Items.lava_bucket)),
-				ImmutableList.of(createItemStack(Compound.sulfuricAcid, 32), new ItemStack(Items.bucket)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethylene), createItemStack(Compound.benzene), createItemStack(Compound.sulfuricAcid)),
-				ImmutableList.of(createItemStack(Compound.ethylbenzene, 2)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.ethylbenzene), createItemStack(Compound.water, 10), new ItemStack(Items.coal), createItemStack(Catalyst.ironIIIOxide)),
-				ImmutableList.of(createItemStack(Compound.styrene)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.styrene)),
-				ImmutableList.of(createItemStack(Polymer.PS, 16)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.btx)),
-				ImmutableList.of(createItemStack(Compound.benzene), createItemStack(Compound.toluene), createItemStack(Compound.xylene), createItemStack(Compound.methane)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.xylene)),
-				ImmutableList.of(createItemStack(Compound.metaXylene), createItemStack(Compound.paraXylene), createItemStack(Compound.orthoXylene)));
-
-		// TODO: fix this so that if the inputs are containers and block, the correct amount of empty containers are on the right side.
-
-		/*
-		 * TODO: Fix coke
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(new ItemStack(Items.coal)),
-				ImmutableList.of(createItemStack(Compound.coke), createItemStack(Compound.naphtha), createItemStack(Compound.bitumen)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.calcium_oxide), createItemStack(Compound.coke, 3)),
-				ImmutableList.of(createItemStack(Compound.calcium_carbide), createItemStack(Compound.carbon_monoxide)));
-
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR,
-				ImmutableList.of(createItemStack(Compound.calcium_carbide), createItemStack(Compound.water)),
-				ImmutableList.of(createItemStack(Compound.Acetylene), createItemStack(Compound.calcium_hydroxide)));
-		 */
 	}
 
 	public void generateCheatRecipes() {

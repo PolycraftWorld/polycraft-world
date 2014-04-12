@@ -1,0 +1,20 @@
+Base	Ore	Source Type	Source	hardness	resistance	dropExpMin	dropExpMax	depthMin	depthMax	veinsPerChunk	blocksPerVein	smelting type	smelting entity	itemsFromSmelt	expFromSmelt	Block	Red	Green	Blue	hex code	Uses
+Magnesium	Magnesium Ore	Element	Magnesium	3	5	2	5	0	30	10	10	Ingot	Magnesium	1	0.1	Magnesium Block	168	199	168	A8C7A8	Sold in solid blocks as a fire starter in many camping and outdoor stores. Also used in the construction of metal bodied pencil sharpeners made by the company KUM of Germany.
+Titanium	Titanium Ore	Element	Titanium	3	5	1	4	0	30	10	10	Ingot	Titanium	1	0.1	Titanium Block	185	213	217	B9D5D9	
+Manganese	Manganese Ore	Element	Manganese	3	5	2	5	0	30	10	10	Ingot	Manganese	1	0.1	Manganese Block	170	170	170	AAAAAA	
+Cobalt	Cobalt Ore	Element	Cobalt	3	5	2	5	0	30	10	10	Ingot	Cobalt	1	0.1	Cobalt Block	110	110	110	6E6E6E	
+Copper	Copper Ore	Element	Copper	3	5	3	7	0	30	10	10	Ingot	Copper	1	0.1	Copper Block	200	100	20	C86414	Electrical wire, copper pipe, and copper sheeting are available at hardware stores and are almost 100% pure copper. American pennies (minted 1944–1946, 1962–1982) are 95% copper and 5% zinc. Pennies minted after 1982 are only copper clad.
+Palladium	Palladium Ore	Element	Palladium	3	5	1	4	0	30	10	10	Ingot	Palladium	1	0.1	Palladium Block	165	184	225	A5B8E1	
+Antimony	Antimony Ore	Element	Antimony	3	5	2	5	0	30	10	10	Ingot	Antimony	1	0.1	Antimony Block	180	200	210	B4C8D2	
+Platinum	Platinum Ore	Element	Platinum	3	5	1	4	0	30	10	10	Ingot	Platinum	1	0.1	Platinum Block	215	220	220	D7DCDC	
+Bauxite	Bauxite	Mineral	Bauxite	3	5	2	5	10	30	10	10	Ingot	Bauxite	1	0.1	Bauxite Block					
+Tar Sand	Tar Sand	Mineral	Tar Sand	3	5	2	5	0	30	10	20	Mineral	Bitumen	1	0.1	Tar Sand Block					
+Shale	Shale	Mineral	Shale	3	5	2	5	0	30	10	20										
+Graphite	Graphite	Mineral	Graphite	3	5	2	5	10	30	10	10	Ingot	Graphite	1	0.1	Graphite Block					
+Chromite	Chromite	Mineral	Chromite	3	5	2	5	10	30	10	10	Ingot	Chromite	1	0.1	Chromite Block	215	190	200	D7BEC8	
+Lead	Lead Ore	Element	Lead	3	5	2	5	10	30	10	10	Ingot	Lead	1	0.1	Lead Block					
+Nickel	Nickel Ore	Element	Nickel	3	5	2	5	10	30	10	10	Ingot	Nickel	1	0.1	Nickel Block					Pre-1985 Canadian nickels are made of nickel. Note: American nickels are composed of 25% nickel and 75% copper. Nickel is often used as a welding filler material, and 1/16–1/8 Ni wire is often available at welding supply stores. Silver center of Euro coins is pure Nickel.
+Silver	Silver Ore	Element	Silver	3	5	2	5	10	30	10	10	Ingot	Silver	1	0.1	Silver Block					Older non-clad American dimes, quarters, half dollars and silver dollars are 90% silver and 10% copper. Pure silver coins and bullion can be obtained from local coin shops, often at bullion value.
+Tungsten	Tungsten Ore	Element	Tungsten	3	5	2	5	10	30	10	10	Ingot	Tungsten	1	0.1	Tungsten Block					The filament in incandescent light bulbs is made of tungsten. Also, small tungsten rods are available at welding supply stores. They are sold as TIG electrodes, and they commonly come in 1/16, 3/32, and 1/8 diameters. Request pure tungsten, as they also come alloyed with 2% Thorium,Lanthanum and other elements. Lead free fishing sinkers are sometimes tungsten.
+Zinc	Zinc Ore	Element	Zinc	3	5	2	5	10	30	10	10	Ingot	Zinc	1	0.1	Zinc Block					Recent American pennies are 95% zinc with a 5% copper coating Cent (United States coin). Galvanized coating on steel. Inside of carbon-zinc batteries. Found in some hardware stores as moss strip for rooftop. The case of carbon-zinc batteries is zinc. Galvanizing paint contains powdered Zinc in paint, separate with paint thinner.
+Bismuth	Bismuth Ore	Element	Bismuth	3	5	2	5	10	30	10	10	Ingot	Bismuth	1	0.1	Bismuth Block					Available as a non-toxic lead replacement for bullets, shot, and fishing sinkers. Unfortunately, not as inexpensive as lead. Also, when sold as a lead replacement it is generally alloyed with tin. Note that to make bismuth crystals you will need very pure bismuth metal.

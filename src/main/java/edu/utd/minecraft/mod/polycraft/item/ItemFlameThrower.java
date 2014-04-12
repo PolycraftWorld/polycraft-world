@@ -20,7 +20,7 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	public final int damage;
 
 	public ItemFlameThrower(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final int range, final int spread, final int fireDuration, final int damage) {
-		this.setTextureName(PolycraftMod.getTextureName("flame_thrower"));
+		this.setTextureName(PolycraftMod.getAssetName("flame_thrower"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
 		this.fuelUnitsFull = fuelUnitsFull;
@@ -36,6 +36,17 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		// TODO: this doesn't work when a player shift clicks a recipe to create multiple flame throwers at once
 		PolycraftItemHelper.createTagCompound(itemStack);
 		setFuelUnitsRemaining(itemStack, fuelUnitsFull);
+	}
+
+	@Override
+	public ItemStack onItemRightClick(final ItemStack par1ItemStack, final World par2World, final EntityPlayer par3EntityPlayer) {
+		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+		return par1ItemStack;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(final ItemStack par1ItemStack) {
+		return 10;
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 import java.util.Map.Entry;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
@@ -16,18 +15,21 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockCompound;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
+import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Element;
+import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
+import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
-import edu.utd.minecraft.mod.polycraft.config.Polymer.ResinCode;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
@@ -60,20 +62,26 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 
 public class CommonProxy {
+
 	public void preInit() {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
 
 		createBiomes();
+
+		//create blocks and items (order matters for backwards compatibility between mod releases!)
 		createFluids();
-		createCustomItems();
 		createElements();
 		createCompounds();
 		createPolymers();
-		createOres();
-		createIngots();
-		createCompressedBlocks();
 		createCatalysts();
+		createAlloys();
+		createMinerals();
+		createOres();
+		createTools();
+		createArmor();
+		createWeapons();
+		createUtilities();
 		createInventories();
 	}
 
@@ -117,22 +125,23 @@ public class CommonProxy {
 	}
 
 	private void createFluids() {
-		final Fluid fluidOil = new Fluid("oil").setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
+		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Fluid;
+
+		final Fluid fluidOil = new Fluid(PolycraftMod.fluidNameOil).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
 
-		PolycraftMod.blockOil = PolycraftMod.registerBlock("oil",
+		PolycraftMod.blockOil = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameOil,
 				new BlockFluid(fluidOil, Material.water)
 						.setFlammable(true)
 						.setFlammability(PolycraftMod.oilBlockFlammability)
 						.setParticleColor(0.7F, 0.7F, 0.0F));
 		fluidOil.setBlock(PolycraftMod.blockOil);
 
-		PolycraftMod.itemBucketOil = PolycraftMod.registerItem("bucket_oil",
+		PolycraftMod.itemBucketOil = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameOilBucket,
 				new PolycraftBucket(PolycraftMod.blockOil)
-						.setContainerItem(Items.bucket)
-						.setTextureName(PolycraftMod.getTextureName("bucket_oil")));
+						.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
 		FluidContainerRegistry.registerFluidContainer(
-				FluidRegistry.getFluidStack("oil", FluidContainerRegistry.BUCKET_VOLUME),
+				FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(PolycraftMod.itemBucketOil),
 				new ItemStack(Items.bucket));
 		BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.itemBucketOil);
@@ -140,140 +149,215 @@ public class CommonProxy {
 
 	}
 
-	private void createCustomItems() {
-		PolycraftMod.itemFluidContainer = PolycraftMod.registerItem(
-				PolycraftMod.itemNameFluidContainer, new ItemFluidContainer(null));
-		PolycraftMod.itemFluidContainerNozzle = PolycraftMod.registerItem(
-				PolycraftMod.itemNameFluidContainer + "_nozzle",
-				new ItemFluidContainerNozzle()
-						.setCreativeTab(CreativeTabs.tabMaterials)
-						.setTextureName(PolycraftMod.getTextureName(PolycraftMod.itemNameFluidContainer + "_nozzle")));
+	private void createElements() {
+		for (final String[] line : PolycraftMod.readConfig("elements")) {
+			final Element element = Element.registry.register(new Element(
+					line[0], //name
+					line[1], //symbol
+					Integer.parseInt(line[2]), //atomicNumber
+					Integer.parseInt(line[3]), //group
+					Integer.parseInt(line[4]), //period
+					Double.parseDouble(line[5]), //weight
+					Double.parseDouble(line[6]), //density
+					Double.parseDouble(line[7]), //melt
+					Double.parseDouble(line[8]), //boil
+					Double.parseDouble(line[9]), //heat
+					Double.parseDouble(line[10]), //electronegativity
+					Double.parseDouble(line[11]) //abundance
+					));
+			if (element.fluid) {
+				PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Element,
+						ItemFluidContainer.getItemName(element), new ItemFluidContainer(element));
+			}
+		}
+	}
 
-		PolycraftMod.itemRunningShoes = PolycraftMod.registerItem(
-				"running_shoes",
+	private void createCompounds() {
+		for (final String[] line : PolycraftMod.readConfig("compounds")) {
+			if (line.length > 0) {
+				final Compound compound = Compound.registry.register(new Compound(
+						line[0], //name
+						true, //fluid TODO need to add fluid boolean to config
+						line.length > 1 ? line[1] : "", //formula
+						line.length > 2 ? line[2] : "", //uses
+						line.length > 3 ? line[3] : "" //sources
+				));
+				if (compound.fluid) {
+					PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Compound,
+							ItemFluidContainer.getItemName(compound), new ItemFluidContainer(compound));
+				}
+				else
+					PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Compound, compound, new BlockCompound(compound));
+			}
+		}
+	}
+
+	private void createPolymers() {
+		for (final String[] line : PolycraftMod.readConfig("polymers")) {
+			int resinCodeValue = Integer.parseInt(line[0]);
+			if (resinCodeValue > 7)
+				resinCodeValue = 0;
+
+			final Polymer polymer = Polymer.registry.register(new Polymer(
+					line[1], //name
+					line[2], //shortName
+					line[5], //pelletName
+					line[4], //fiberName
+					Boolean.parseBoolean(line[7]), //degradable
+					Polymer.Category.valueOf(line[3].replaceAll(" ", "").trim()), //category
+					Polymer.ResinCode.values()[resinCodeValue], //resinCode
+					8 //craftingPelletsPerBlock
+					));
+
+			PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Polymer, polymer, new BlockPolymer(polymer));
+			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Polymer, polymer.pelletName, new ItemPellet());
+			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Polymer, polymer.fiberName, new ItemFiber());
+		}
+	}
+
+	private void createCatalysts() {
+		for (final String[] line : PolycraftMod.readConfig("catalysts")) {
+			final Catalyst catalyst = Catalyst.registry.register(new Catalyst(
+					line[0], //name
+					line[1] //formula
+					));
+			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Catalyst, catalyst, new ItemCatalyst(catalyst));
+		}
+	}
+
+	private void createAlloys() {
+		for (final String[] line : PolycraftMod.readConfig("alloys")) {
+			createIngot(Alloy.registry.register(new Alloy(line[0])));
+		}
+	}
+
+	private void createMinerals() {
+		for (final String[] line : PolycraftMod.readConfig("minerals")) {
+			Mineral.registry.register(new Mineral(line[0]));
+		}
+	}
+
+	private void createOres() {
+		for (final String[] line : PolycraftMod.readConfig("ores")) {
+
+			Entity type = null;
+			if (line[2].equals(Element.class.getSimpleName())) {
+				type = Element.registry.get(line[3]);
+				createIngot(type);
+			}
+			else {
+				type = Mineral.registry.get(line[3]);
+				if (type.name.equals("Bauxite")) { //TODO figure out how to deal with this in the config
+					createIngot(Element.registry.get("Aluminum"));
+				}
+			}
+
+			Entity smeltingEntity = null;
+			int smeltingEntitiesPerBlock = 0;
+			float smeltingExperience = 0;
+			if (line.length > 12 && !line[12].isEmpty()) {
+
+				if (line[2].equals(Element.class.getSimpleName())) {
+					smeltingEntity = Ingot.registry.get(line[13]);
+				}
+				else
+					smeltingEntity = Mineral.registry.get(line[13]);
+			}
+
+			final Ore ore = Ore.registry.register(new Ore(
+					type, //type
+					Float.parseFloat(line[4]), //hardness
+					Float.parseFloat(line[5]), //resistance
+					Integer.parseInt(line[6]), //dropExperienceMin
+					Integer.parseInt(line[7]), //dropExperienceMax
+					Integer.parseInt(line[8]), //generationStartYMin
+					Integer.parseInt(line[9]), //generationStartYMax
+					Integer.parseInt(line[10]), //generationVeinsPerChunk
+					Integer.parseInt(line[11]), //generationBlocksPerVein
+					smeltingEntity,//smeltingEntity
+					smeltingEntitiesPerBlock,
+					smeltingExperience));
+			PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Ore, ore, new BlockOre(ore));
+		}
+	}
+
+	private void createIngot(final Entity type) {
+		final Ingot ingot = Ingot.registry.register(new Ingot(type));
+		final CompressedBlock compressedBlock = CompressedBlock.registry.register(new CompressedBlock(ingot));
+		PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Ingot, ingot, new ItemIngot(ingot));
+		PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.CompressedBlock, compressedBlock, new BlockCompressed(compressedBlock));
+	}
+
+	private void createTools() {
+		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Tool;
+
+		for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
+			final String materialName = materialEntry.getKey();
+			final ToolMaterial material = materialEntry.getValue();
+			for (final String type : ItemGripped.allowedTypes.keySet()) {
+				PolycraftMod.registerItem(namespace, ItemGripped.getName(Polymer.registry.get("PolyOxymethylene"), materialName, type),
+						ItemGripped.create(type, materialName, material, PolycraftMod.itemGrippedToolDurabilityBuff));
+			}
+		}
+	}
+
+	private void createArmor() {
+		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Armor;
+
+		PolycraftMod.itemRunningShoes = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameRunningShoes,
 				new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
-		PolycraftMod.itemKevlarVest = PolycraftMod.registerItem("kevlar_vest", new ItemKevlarVest());
+		PolycraftMod.itemKevlarVest = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameKevlarVest,
+				new ItemKevlarVest());
+		PolycraftMod.itemJetPack = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameJetPack,
+				new ItemJetPack(PolycraftMod.itemJetPackFuelUnitsFull, PolycraftMod.itemJetPackFuelUnitsBurnPerTick, PolycraftMod.itemJetPackFlySpeedBuff));
+		PolycraftMod.itemScubaMask = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaMask,
+				new ItemScubaMask(PolycraftMod.itemScubaMaskFogDensity));
+		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaTank,
+				new ItemScubaTank(PolycraftMod.itemScubaTankAirUnitsFull, PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
+		PolycraftMod.itemScubaFins = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaFins,
+				new ItemScubaFins(PolycraftMod.itemScubaFinsSwimSpeedBuff, PolycraftMod.itemScubaFinsWalkSpeedBuff));
+	}
+
+	private void createWeapons() {
+		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Weapon;
+
 		PolycraftMod.itemFlameThrower = PolycraftMod.registerItem(
-				"flame_thrower",
+				namespace, PolycraftMod.itemNameFlameThrower,
 				new ItemFlameThrower(PolycraftMod.itemFlameThrowerFuelUnitsFull,
 						PolycraftMod.itemFlameThrowerFuelUnitsBurnPerTick,
 						PolycraftMod.itemFlameThrowerRange,
 						PolycraftMod.itemFlameThrowerSpread,
 						PolycraftMod.itemFlameThrowerFireDuration,
 						PolycraftMod.itemFlameThrowerDamage));
-		PolycraftMod.itemJetPack = PolycraftMod.registerItem(
-				"jet_pack",
-				new ItemJetPack(PolycraftMod.itemJetPackFuelUnitsFull,
-						PolycraftMod.itemJetPackFuelUnitsBurnPerTick,
-						PolycraftMod.itemJetPackFlySpeedBuff));
-		PolycraftMod.itemParachute = PolycraftMod.registerItem(
-				"parachute",
-				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
-		PolycraftMod.itemFlashlight = PolycraftMod.registerItem(
-				"flashlight",
+
+	}
+
+	private void createUtilities() {
+		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Utility;
+
+		PolycraftMod.itemFluidContainer = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameFluidContainer,
+				new ItemFluidContainer());
+		PolycraftMod.itemFluidContainerNozzle = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameFluidContainerNozzle,
+				new ItemFluidContainerNozzle());
+
+		PolycraftMod.itemGrip = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameGrip,
+				new ItemPolymerGrip());
+
+		PolycraftMod.itemFlashlight = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameFlashlight,
 				new ItemFlashlight(
 						PolycraftMod.itemFlashlightMaxLightLevel,
 						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
 						PolycraftMod.itemFlashlightViewingConeAngle));
-		PolycraftMod.itemScubaMask = PolycraftMod.registerItem("scuba_mask", new ItemScubaMask(PolycraftMod.itemScubaMaskFogDensity));
-		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(
-				"scuba_tank",
-				new ItemScubaTank(PolycraftMod.itemScubaTankAirUnitsFull, PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
-		PolycraftMod.itemScubaFins = PolycraftMod.registerItem(
-				"scuba_fins",
-				new ItemScubaFins(PolycraftMod.itemScubaFinsSwimSpeedBuff, PolycraftMod.itemScubaFinsWalkSpeedBuff));
 
-		for (final Polymer polymer : ItemGripped.allowedPolymers) {
-			PolycraftMod.registerItem(
-					polymer.gameName + "_grip",
-					new ItemPolymerGrip()
-							.setCreativeTab(CreativeTabs.tabTools)
-							.setTextureName(PolycraftMod.getTextureName("polymer_grip")));
-			for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
-				final String materialName = materialEntry.getKey();
-				final ToolMaterial material = materialEntry.getValue();
-				for (final String type : ItemGripped.allowedTypes.keySet()) {
-					PolycraftMod.registerItem(
-							ItemGripped.getName(polymer, materialName, type),
-							ItemGripped.create(type, materialName, material, PolycraftMod.itemGrippedToolDurabilityBuff));
-				}
-			}
-		}
-	}
-
-	private void createElements() {
-		for (final Element element : Element.registry.values()) {
-			if (element.fluid) {
-				PolycraftMod.registerItem(
-						ItemFluidContainer.getGameName(element), new ItemFluidContainer(element));
-			}
-		}
-	}
-
-	private void createCompounds() {
-		for (final Compound compound : Compound.registry.values()) {
-			if (compound.fluid) {
-				PolycraftMod.registerItem(
-						ItemFluidContainer.getGameName(compound), new ItemFluidContainer(compound));
-			}
-		}
-	}
-
-	private void createPolymers() {
-		for (final Polymer polymer : Polymer.registry.values()) {
-			//TODO remove this check when forge fixes their bug for EntityEnderMan.carriableBlocks
-			// array index out of bounds exception (cannot make blocks with ids bigger than 255!)
-			if (polymer.resinCode != ResinCode.NONE)
-				PolycraftMod.registerBlock(polymer, new BlockPolymer(polymer));
-			PolycraftMod.registerItem(
-					polymer.itemNamePellet,
-					new ItemPellet()
-							.setCreativeTab(CreativeTabs.tabMaterials)
-							.setTextureName(PolycraftMod.getTextureName("polymer_pellet")));
-			PolycraftMod.registerItem(
-					polymer.itemNameFiber,
-					new ItemFiber()
-							.setCreativeTab(CreativeTabs.tabMaterials)
-							.setTextureName(PolycraftMod.getTextureName("polymer_fiber")));
-		}
-	}
-
-	private void createCatalysts() {
-		for (final Catalyst catalyst : Catalyst.registry.values()) {
-			PolycraftMod.registerItem(catalyst,
-					new ItemCatalyst(catalyst)
-							.setCreativeTab(CreativeTabs.tabMaterials)
-							.setTextureName(PolycraftMod.getTextureName("catalyst")));
-		}
-	}
-
-	private void createOres() {
-		for (final Ore ore : Ore.registry.values()) {
-			PolycraftMod.registerBlock(ore, new BlockOre(ore));
-		}
-	}
-
-	private void createIngots() {
-		for (final Ingot ingot : Ingot.registry.values()) {
-			PolycraftMod.registerItem(ingot,
-					new ItemIngot()
-							.setCreativeTab(CreativeTabs.tabMaterials)
-							.setTextureName(PolycraftMod.getTextureName(ingot.gameName)));
-		}
-	}
-
-	private void createCompressedBlocks() {
-		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
-			PolycraftMod.registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
-		}
+		PolycraftMod.itemParachute = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameParachute,
+				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
 	}
 
 	private void createInventories() {
-		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock(
-				"chemical_processor", new BlockChemicalProcessor(false));
-		PolycraftMod.blockChemicalProcessorActive =
-				PolycraftMod.registerBlock(
-						"chemical_processor_active", new BlockChemicalProcessor(true));
+		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Inventory;
+
+		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameChemicalProcessor, new BlockChemicalProcessor(false));
+		PolycraftMod.blockChemicalProcessorActive = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameChemicalProcessorActive, new BlockChemicalProcessor(true));
 		GameRegistry.registerTileEntity(TileEntityChemicalProcessor.class, "tile_entity_chemical_processor");
 	}
 }

@@ -25,12 +25,12 @@ public class ItemKevlarVest extends PolycraftArmorChest {
 
 	public ItemKevlarVest() {
 		super(kevlarArmorType, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getTextureName("kevlar_vest"));
+		this.setTextureName(PolycraftMod.getAssetName("kevlar_vest"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 	}
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getTextureName("textures/models/armor/kevlar_layer_1.png");
+		return PolycraftMod.getAssetName("textures/models/armor/kevlar_layer_1.png");
 	}
 }

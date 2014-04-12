@@ -17,7 +17,7 @@ public class ItemScubaTank extends PolycraftArmorChest {
 
 	public ItemScubaTank(final int airUnitsFull, final int airUnitsConsumePerTick) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getTextureName("scuba_tank"));
+		this.setTextureName(PolycraftMod.getAssetName("scuba_tank"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.airUnitsFull = airUnitsFull;
 		this.airUnitsConsumePerTick = airUnitsConsumePerTick;
@@ -66,6 +66,6 @@ public class ItemScubaTank extends PolycraftArmorChest {
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getTextureName("textures/models/armor/scuba_layer_1.png");
+		return PolycraftMod.getAssetName("textures/models/armor/scuba_layer_1.png");
 	}
 }

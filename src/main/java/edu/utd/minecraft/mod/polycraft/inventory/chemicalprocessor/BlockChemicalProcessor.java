@@ -103,9 +103,9 @@ public class BlockChemicalProcessor extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getTextureName("chemical_processor_side"));
-		this.chemicalProcessorIconFront = p_149651_1_.registerIcon(PolycraftMod.getTextureName(this.isActive ? "chemical_processor_front_on" : "chemical_processor_front_off"));
-		this.chemicalProcessorIconTop = p_149651_1_.registerIcon(PolycraftMod.getTextureName("chemical_processor_top"));
+		this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName("chemical_processor_side"));
+		this.chemicalProcessorIconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(this.isActive ? "chemical_processor_front_on" : "chemical_processor_front_off"));
+		this.chemicalProcessorIconTop = p_149651_1_.registerIcon(PolycraftMod.getAssetName("chemical_processor_top"));
 	}
 
 	/**

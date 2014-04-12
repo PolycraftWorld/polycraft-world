@@ -1,30 +1,26 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 
 public class ItemGripped {
 	private static final Logger logger = LogManager.getLogger();
 
-	public static final Collection<Polymer> allowedPolymers = new LinkedList<Polymer>();
 	public static final Map<String, Class> allowedTypes = new LinkedHashMap<String, Class>();
 	public static final Map<String, ToolMaterial> allowedMaterials = new LinkedHashMap<String, ToolMaterial>();
-	
-	static {
-		allowedPolymers.add(Polymer.LDPE);
 
+	static {
 		allowedTypes.put("shovel", ItemShovelGripped.class);
 		allowedTypes.put("axe", ItemAxeGripped.class);
 		allowedTypes.put("pickaxe", ItemPickaxeGripped.class);
@@ -48,13 +44,13 @@ public class ItemGripped {
 			logger.fatal("Error creating gripped item", e);
 			throw new IllegalStateException("Unable to create gripped item.", e);
 		}
-		itemGripped.setTextureName(PolycraftMod.getTextureName("gripped_" + getNameBase(materialName, type)));
+		itemGripped.setTextureName(PolycraftMod.getAssetName("gripped_" + PolycraftMod.getFileSafeName(getNameBase(materialName, type))));
 		itemGripped.setMaxDamage((int) ((itemGripped.getMaxDamage() * (1 + durabilityBonus)) + 1));
 		return itemGripped;
 	}
 
 	public static String getName(final Polymer polymer, final String materialName, final String type) {
-		return polymer.gameName + "_gripped_" + getNameBase(materialName, type);
+		return polymer.name + " Gripped " + getNameBase(materialName, type);
 	}
 
 	public static String getNameBase(final String materialName, final String type) {

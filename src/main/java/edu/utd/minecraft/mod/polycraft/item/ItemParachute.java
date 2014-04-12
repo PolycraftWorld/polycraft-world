@@ -8,7 +8,7 @@ public class ItemParachute extends PolycraftUtilityItem {
 	public final float descendVelocity;
 
 	public ItemParachute(final float descendVelocity) {
-		this.setTextureName(PolycraftMod.getTextureName("parachute"));
+		this.setTextureName(PolycraftMod.getAssetName("parachute"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.descendVelocity = descendVelocity;
 	}

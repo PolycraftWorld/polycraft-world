@@ -9,6 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 
 public class BlockOre extends net.minecraft.block.BlockOre {
@@ -18,7 +19,8 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 
 	public BlockOre(final Ore ore) {
 		this.ore = ore;
-		this.labelTexture = new LabelTexture(ore.gameName, ore.gameName + "_flip");
+		final String texture = PolycraftMod.getFileSafeName(Ore.class.getSimpleName() + "_" + ore.type.getClass().getSimpleName() + "_" + ore.name);
+		this.labelTexture = new LabelTexture(texture, texture + "_flip");
 		this.setHardness(ore.hardness);
 		this.setResistance(ore.resistance);
 		this.setStepSound(Block.soundTypePiston);

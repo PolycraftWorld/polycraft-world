@@ -9,7 +9,7 @@ public class ItemFlashlight extends PolycraftUtilityItem {
 	public final int viewingConeAngle;
 
 	public ItemFlashlight(final int maxLightLevel, final float lightLevelDecreaseByDistance, final int viewingConeAngle) {
-		this.setTextureName(PolycraftMod.getTextureName("flashlight"));
+		this.setTextureName(PolycraftMod.getAssetName("flashlight"));
 		this.setCreativeTab(CreativeTabs.tabTools);
 		this.maxLightLevel = maxLightLevel;
 		this.lightLevelDecreaseByDistance = lightLevelDecreaseByDistance;

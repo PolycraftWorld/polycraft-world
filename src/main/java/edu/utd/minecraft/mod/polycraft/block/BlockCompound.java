@@ -1,26 +1,26 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
+import edu.utd.minecraft.mod.polycraft.config.Compound;
 
-public class BlockCompressed extends net.minecraft.block.BlockCompressed {
+public class BlockCompound extends Block {
 
-	public final CompressedBlock compressedBlock;
+	public final Compound compound;
 	private final LabelTexture labelTexture;
 
-	public BlockCompressed(final CompressedBlock compressedBlock) {
-		super(MapColor.ironColor);
-		this.compressedBlock = compressedBlock;
-		final String texture = PolycraftMod.getFileSafeName(
-				"compressed_" + compressedBlock.type.getClass().getSimpleName() + "_" + compressedBlock.type.type.getClass().getSimpleName());
+	public BlockCompound(final Compound compound) {
+		super(Material.rock);
+		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.compound = compound;
+		final String texture = PolycraftMod.getFileSafeName(Compound.class.getSimpleName() + "_" + compound.name);
 		this.labelTexture = new LabelTexture(texture, texture + "_flip");
-		this.setStepSound(Block.soundTypeMetal);
 	}
 
 	@Override
