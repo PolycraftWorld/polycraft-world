@@ -107,7 +107,6 @@ public class DynamicValue implements Runnable {
 						if (split[0].isEmpty() || split[1].isEmpty()) {
 							continue;
 						}
-						logger.info("Read " + split[0] + " = " + split[1]);
 						newMap.put(split[0], split[1]);
 					}
 					values = newMap;
