@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 
 import org.apache.logging.log4j.LogManager;
@@ -297,12 +299,8 @@ public class PolycraftRecipe {
 	 * to the container's output and subtracting from the inputs. 
 	 */
 	public void process(final Set<RecipeComponent> inputs, PolycraftTileEntityContainer container) {
-		if (inputs == null) {
-			logger.warn("Invalid processing input for recipe " + this.toString());
-			return;
-		}
-		
-		if (!areInputsValid(inputs)) {
+		if (inputs == null || !areInputsValid(inputs)) {
+			logger.error("Invalid processing input for recipe " + this.toString());
 			return;
 		}
 		
@@ -324,6 +322,29 @@ public class PolycraftRecipe {
 				if (container.getStackInSlot(input.slot).stackSize <= 0) {				
 					container.clearSlotContents(input.slot);
 				}
+			} else {
+				logger.error("Missing item stack for input " + input);
+			}
+		}
+	}
+
+	/**
+	 * Process a generic minecraft crafting recipe which allows recipes to require
+	 * itemstacks with any stackSize.  The generic crafting recipes only remove a single
+	 * item for each recipe item, so the rest may need to be removed.
+	 */
+	public void processGenericCrafting(final Set<RecipeComponent> inputs, IInventory container) {
+		if (inputs == null || !areInputsValid(inputs)) {
+			logger.error("Invalid processing input for recipe " + this.toString());
+			return;
+		}
+		
+		Set<RecipeInput> usedInputs = Sets.newHashSet();
+		for (final RecipeComponent input : ImmutableList.copyOf(inputs)) {
+			ItemStack itemStack = getItemstackForInput(input, usedInputs);
+			if (itemStack != null) {
+				// Remove all but one; the regular minecraft engine will remove the rest.
+				container.decrStackSize(input.slot.getSlotIndex(), itemStack.stackSize - 1);
 			} else {
 				logger.error("Missing item stack for input " + input);
 			}

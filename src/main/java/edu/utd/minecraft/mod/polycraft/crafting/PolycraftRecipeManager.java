@@ -7,7 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.World;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -15,7 +23,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.util.SetMap;
 
 /**
@@ -23,10 +36,85 @@ import edu.utd.minecraft.mod.polycraft.util.SetMap;
  * both shaped and shapeless recipes.
  */
 public class PolycraftRecipeManager {
+	private static Logger logger = LogManager.getLogger();
+
+	// IRecipe implementation to process Polycraft recipes as generic crafting recipes, giving
+	// the generic crafting recipes the benefits of the PolycraftRecipeManager.
+	public static class CustomGenericCraftingRecipe implements IRecipe {
+		private final PolycraftRecipeManager recipeManager;
+		
+		public CustomGenericCraftingRecipe(final PolycraftRecipeManager recipeManager) {
+			this.recipeManager = recipeManager;
+		}
+
+		public static Set<RecipeComponent> getComponentsFromInventory(IInventory inventory) {
+			Set<RecipeComponent> inputs = Sets.newHashSet();
+			for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+				ItemStack itemStack = inventory.getStackInSlot(i);
+				if (itemStack != null) {
+					inputs.add(new RecipeComponent(i, itemStack));
+				}
+			}
+			return inputs;
+		}
+		
+		@Override
+		public boolean matches(InventoryCrafting inventory, World world) {
+			return recipeManager.findRecipe(PolycraftContainerType.CRAFTING_TABLE,
+					getComponentsFromInventory(inventory)) != null;
+		}
+
+		@Override
+		public ItemStack getCraftingResult(InventoryCrafting inventory) {
+			Set<RecipeComponent> inputs = getComponentsFromInventory(inventory);
+			PolycraftRecipe recipe = recipeManager.findRecipe(PolycraftContainerType.CRAFTING_TABLE, inputs);			
+			if (recipe != null) {
+				Collection<RecipeComponent> outputs = recipe.getOutputs();
+				
+				if (outputs.size() > 1) {
+					logger.warn("Generic crafting result is returning more than one output! Only the first will be returned ("
+							+ outputs.iterator().next().itemStack.getItem().getUnlocalizedName() + ")");
+				}
+				
+				// Flag this result item as being processed by the PolycraftRecipeManager.  This way the
+				// onItemCraftedEventServer callback can recognize it.
+				ItemStack item = outputs.iterator().next().itemStack.copy();
+				if (item.stackTagCompound == null) {
+					PolycraftItemHelper.createTagCompound(item);
+				}
+				item.stackTagCompound.setByte("is-recipe", (byte)1);
+				return item;
+			}
+			return null;
+		}
+
+		@Override
+		public int getRecipeSize() {
+			// not implemented
+			return 0;
+		}
+
+		@Override
+		public ItemStack getRecipeOutput() {
+			// not implemented
+			return null;
+		}
+		
+	}
+	
 	private Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainer = Maps.newHashMap();
 	
 	private Map<PolycraftContainerType, SetMap<RecipeComponent, PolycraftRecipe>> shapedRecipesByContainer = Maps.newHashMap();
 	private Map<PolycraftContainerType, SetMap<String, PolycraftRecipe>> shapelessRecipesByContainer = Maps.newHashMap();
+	
+	@SuppressWarnings("unchecked")
+	public PolycraftRecipeManager() {
+		CraftingManager.getInstance().getRecipeList().add(
+				new CustomGenericCraftingRecipe(this));
+		
+		// For onCraftedItem callback
+		FMLCommonHandler.instance().bus().register(this);
+	}
 	
 	/**
 	 * @return All recipes known to the Recipe manager.
@@ -215,21 +303,6 @@ public class PolycraftRecipeManager {
 	}
 
 	/**
-	 * Generates arguments to call Forge's recipe APIs for shaped recipes.
-	 */
-	private static Object [] generateForgeShapedRecipeArgs(final String [] inputShape, final Map<Character, ItemStack> itemStackMap) {		
-		List<Object> list = Lists.newArrayList();
-		for (String input : inputShape) {
-			list.add(input);
-		}
-		for (Character key : itemStackMap.keySet()) {
-			list.add(key);
-			list.add(itemStackMap.get(key));
-		}
-		return list.toArray();
-	}
-
-	/**
 	 * Creates and adds a shapeless recipe.  If the crafting recipe type is a generic
 	 * or smelting recipe, it is added to Forge via the GameRegistry API.
 	 */
@@ -259,13 +332,8 @@ public class PolycraftRecipeManager {
 		ContainerSlot firstOutput = containerType.getSlots(SlotType.OUTPUT).iterator().next();
 		PolycraftRecipe newRecipe = new PolycraftRecipe(containerType, recipeInputs, 
 				ImmutableList.of(new RecipeComponent(firstOutput, resultItem)), experience);
-		if (containerType.equals(PolycraftContainerType.CRAFTING_TABLE)) {
-			List<Object> args = Lists.newArrayList();
-			for (ItemStack item : inputItems) {
-				args.add(item);
-			}
-			GameRegistry.addShapelessRecipe(resultItem, args.toArray());
-		} else if(containerType.equals(PolycraftContainerType.FURNANCE)) {
+		
+		if(containerType.equals(PolycraftContainerType.FURNANCE)) {			
 			Preconditions.checkArgument(newRecipe.getInputCount() == 1, "Furnace recipes may only have one input!");
 			ItemStack singleInput = inputItems.iterator().next();
 			GameRegistry.addSmelting(singleInput, resultItem, (float)experience);
@@ -336,10 +404,7 @@ public class PolycraftRecipeManager {
 		this.addRecipe(newRecipe);
 		
 		// Add to Forge's GameRegistry if necessary
-		if (containerType.equals(PolycraftContainerType.CRAFTING_TABLE)) {
-			Object [] args = generateForgeShapedRecipeArgs(inputShape, itemStackMap);
-			GameRegistry.addShapedRecipe(resultItem, args);
-		} else if(containerType.equals(PolycraftContainerType.FURNANCE)) {
+		if(containerType.equals(PolycraftContainerType.FURNANCE)) {
 			Preconditions.checkArgument(newRecipe.getInputCount() == 1, "Furnace recipes may only have one input!");
 			ItemStack singleInput = itemStackMap.values().iterator().next();
 			GameRegistry.addSmelting(singleInput, resultItem, (float)experience);		
@@ -347,4 +412,23 @@ public class PolycraftRecipeManager {
 		
 		return newRecipe;
 	}
-}
+	
+	@SubscribeEvent(priority=EventPriority.HIGHEST)
+	public void onItemCraftedEventServer(final PlayerEvent.ItemCraftedEvent event) {
+		ItemStack craftedItem = event.crafting;
+		if (craftedItem.stackTagCompound != null) {
+			// Item has been marked as being a Polycraft recipe, which allows recipes to require
+			// itemstacks with any stackSize.  The generic crafting recipes only remove a single
+			// item for each recipe item, so the rest may need to be removed.
+			if (craftedItem.stackTagCompound.hasKey("is-recipe")) {
+				craftedItem.stackTagCompound.removeTag("is-recipe");
+				Set<RecipeComponent> inputs = CustomGenericCraftingRecipe.getComponentsFromInventory(event.craftMatrix);
+				PolycraftRecipe recipe = findRecipe(PolycraftContainerType.CRAFTING_TABLE, inputs);
+				if (recipe == null) {
+					logger.warn("Couldn't find that recipe");
+				} else {
+					recipe.processGenericCrafting(inputs, event.craftMatrix);						
+				}
+			}
+		}
+	}}

@@ -1,10 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 /**
  * A SlotType describes the usage of a ContainerSlot.

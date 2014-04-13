@@ -2,7 +2,6 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.base.Preconditions;
@@ -15,9 +14,6 @@ import com.google.common.collect.ImmutableList;
  * fuel inputs, where coal, charcoal, etc. are all valid, but only one of them is needed.
  */
 public final class RecipeInput {
-	// TODO: Probably should get rid of being able to have multiple inputs here.
-	// better to just create a new recipe for each input; and it only complicates
-	// identifying duplicate recipes.
 	public final Collection<ItemStack> inputs;
 	public final ContainerSlot slot;
 	
