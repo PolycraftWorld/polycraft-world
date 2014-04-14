@@ -117,6 +117,13 @@ public class RecipeGenerator {
 	private void createCustomItemRecipes() {
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
+				new ItemStack(PolycraftMod.blockTreeTap),
+				new String[] { "x x", "xyx", " x " },
+				ImmutableMap.of(
+						'x', new ItemStack(Blocks.planks),
+						'y', new ItemStack(Blocks.chest)));
+		PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemFluidContainerNozzle),
 				new String[] { "xxx", " x ", " x " },
 				ImmutableMap.of('x', createItemStack(Ingot.registry.get("Copper"))));

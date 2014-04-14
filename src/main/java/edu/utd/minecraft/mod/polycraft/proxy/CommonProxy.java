@@ -36,6 +36,9 @@ import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.BlockChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.RenderChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.TileEntityChemicalProcessor;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.RenderTreeTap;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.TileEntityTreeTap;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -91,7 +94,10 @@ public class CommonProxy {
 		recipeGenerator.generateCheatRecipes();
 
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
+
+		RenderingRegistry.registerBlockHandler(PolycraftMod.renderTreeTapID, RenderTreeTap.INSTANCE);
 		RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);
+
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 	}
 
@@ -355,6 +361,9 @@ public class CommonProxy {
 
 	private void createInventories() {
 		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Inventory;
+
+		PolycraftMod.blockTreeTap = (BlockTreeTap) PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameTreeTap, new BlockTreeTap());
+		GameRegistry.registerTileEntity(TileEntityTreeTap.class, "tile_entity_tree_tap");
 
 		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameChemicalProcessor, new BlockChemicalProcessor(false));
 		PolycraftMod.blockChemicalProcessorActive = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameChemicalProcessorActive, new BlockChemicalProcessor(true));

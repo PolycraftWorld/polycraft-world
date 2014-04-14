@@ -39,6 +39,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
@@ -66,12 +67,15 @@ public class PolycraftMod {
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;
 	public static final int oilWellScalar = 100; // large values mean more oil will spawn
+	public static final int treeTapSpawnRateNaturalRubber = 1000; //in ticks
 	public static final int oilFluidDensity = 800;
 	public static final int oilFluidViscosity = 1500;
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
-	public static final int guiChemicalProcessorID = 0;
-	public static final int renderChemicalProcessorID = 2000;
+	public static final int guiTreeTapID = 0;
+	public static final int guiChemicalProcessorID = 1;
+	public static final int renderTreeTapID = 2000;
+	public static final int renderChemicalProcessorID = 2001;
 	public static final float itemGrippedToolDurabilityBuff = 2f;
 	public static final float itemRunningShoesWalkSpeedBuff = 1f;
 	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
@@ -95,6 +99,7 @@ public class PolycraftMod {
 	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
 	public static final String fluidNameOil = "oil";
 	public static final String blockNameOil = "oil";
+	public static final String blockNameTreeTap = "tree_tap";
 	public static final String blockNameChemicalProcessor = "chemical_processor";
 	public static final String blockNameChemicalProcessorActive = "chemical_processor_active";
 	public static final String itemNameOilBucket = "bucket_" + fluidNameOil;
@@ -118,6 +123,7 @@ public class PolycraftMod {
 	public static final Map<String, Block> blocks = new HashMap<String, Block>();
 	// special blocks for fast access
 	public static Block blockOil;
+	public static BlockTreeTap blockTreeTap;
 	public static Block blockChemicalProcessor;
 	public static Block blockChemicalProcessorActive;
 
@@ -277,7 +283,7 @@ public class PolycraftMod {
 		return getRegistryName(namespace, entity.name);
 	}
 
-	private static String getRegistryName(final RegistryNamespace namespace, final String name) {
+	public static String getRegistryName(final RegistryNamespace namespace, final String name) {
 		return namesByRegistryNames.get(namespace).get(name);
 	}
 
@@ -334,6 +340,8 @@ public class PolycraftMod {
 
 		langEntries.add(String.format("fluid.%s=%s", getRegistryName(RegistryNamespace.Fluid, fluidNameOil), translations.getProperty("crudeoil")));
 		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Fluid, blockNameOil), translations.getProperty("crudeoil")));
+		langEntries.add(String.format("container.%s=%s", getRegistryName(RegistryNamespace.Inventory, blockNameTreeTap), translations.getProperty("tree_tap")));
+		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Inventory, blockNameTreeTap), translations.getProperty("tree_tap")));
 		langEntries.add(String.format("container.%s=%s", getRegistryName(RegistryNamespace.Inventory, blockNameChemicalProcessor), translations.getProperty("chemical_processor")));
 		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Inventory, blockNameChemicalProcessor), translations.getProperty("chemical_processor")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Fluid, itemNameOilBucket), translations.getProperty("crudeoil"), translations.getProperty("bucket")));
