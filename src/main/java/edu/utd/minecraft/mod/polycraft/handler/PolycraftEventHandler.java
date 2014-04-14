@@ -33,6 +33,7 @@ import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
+import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -42,6 +43,7 @@ public class PolycraftEventHandler {
 
 	private static final Random random = new Random();
 
+	private static final float baseJumpMovementFactor = 0.02F;
 	private static final float baseMovementSpeed = 0.1f;
 	private static final float baseFlySpeed = 0.05f;
 	private static final int baseFullAir = 300;
@@ -105,6 +107,7 @@ public class PolycraftEventHandler {
 			final PlayerState playerState = getPlayerState(player);
 			handleWeapons(event, player, playerState);
 			handleMovementSpeedClient(event, player, playerState);
+			handleJumpingClient(event, player, playerState);
 			handleFlightClient(event, player, playerState);
 			handleBreathing(event, player, playerState);
 		}
@@ -265,6 +268,23 @@ public class PolycraftEventHandler {
 			if (player.capabilities.getWalkSpeed() != movementSpeedBaseValue) {
 				player.capabilities.setPlayerWalkSpeed(movementSpeedBaseValue);
 			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void handleJumpingClient(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
+		if (player.isEntityAlive()) {
+			float jumpMovementFactor = baseJumpMovementFactor;
+			final ItemStack currentItemStack = player.getCurrentEquippedItem();
+			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick) {
+				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
+				jumpMovementFactor *= pogoStick.jumpMovementFactorBuff;
+				if (player.onGround)
+					player.motionY = pogoStick.jumpMotionY;
+			}
+
+			if (player.jumpMovementFactor != jumpMovementFactor)
+				player.jumpMovementFactor = jumpMovementFactor;
 		}
 	}
 

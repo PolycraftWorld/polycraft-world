@@ -51,6 +51,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellet;
+import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerGrip;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
@@ -357,6 +358,9 @@ public class CommonProxy {
 
 		PolycraftMod.itemParachute = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameParachute,
 				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
+
+		PolycraftMod.itemPogoStick = PolycraftMod.registerItem(namespace, PolycraftMod.itemNamePogoStick,
+				new ItemPogoStick(PolycraftMod.itemPogoStickJumpMotionY, PolycraftMod.itemPogoStickJumpMovementFactorBuff));
 	}
 
 	private void createInventories() {

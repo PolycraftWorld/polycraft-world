@@ -89,6 +89,8 @@ public class PolycraftMod {
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
+	public static final float itemPogoStickJumpMotionY = .8f;
+	public static final float itemPogoStickJumpMovementFactorBuff = 2f;
 	public static final int itemFlashlightMaxLightLevel = 15;
 	public static final float itemFlashlightLightLevelDecreaseByDistance = .5f;
 	public static final int itemFlashlightViewingConeAngle = 15;
@@ -108,6 +110,7 @@ public class PolycraftMod {
 	public static final String itemNameGrip = "grip";
 	public static final String itemNameFlashlight = "flashlight";
 	public static final String itemNameParachute = "parachute";
+	public static final String itemNamePogoStick = "pogo_stick";
 	public static final String itemNameFlameThrower = "flame_thrower";
 	public static final String itemNameRunningShoes = "running_shoes";
 	public static final String itemNameKevlarVest = "kevlar_vest";
@@ -137,6 +140,7 @@ public class PolycraftMod {
 	public static Item itemFlameThrower;
 	public static Item itemJetPack;
 	public static Item itemParachute;
+	public static Item itemPogoStick;
 	public static Item itemGrip;
 	public static Item itemFlashlight;
 	public static Item itemScubaMask;
@@ -357,6 +361,7 @@ public class PolycraftMod {
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Tool, itemNameGrip), translations.getProperty("grip")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFlashlight), translations.getProperty("flashlight")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameParachute), translations.getProperty("parachute")));
+		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNamePogoStick), translations.getProperty("pogo_stick")));
 
 		for (final Element element : Element.registry.values())
 			if (element.fluid)

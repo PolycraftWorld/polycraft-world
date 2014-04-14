@@ -172,6 +172,14 @@ public class RecipeGenerator {
 				new String[] { "xxx", "x x", " x " },
 				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Nylon").fiberName), 8)));
 
+		PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftContainerType.CRAFTING_TABLE,
+				new ItemStack(PolycraftMod.itemPogoStick),
+				new String[] { "yxy", " x ", "yxy" },
+				ImmutableMap.of(
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").pelletName)),
+						'y', new ItemStack(Items.iron_ingot)));
+
 		/* TODO(jim-mcandrew): Fix ?
 		 		PolycraftMod.recipeManager.addShapedRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
@@ -341,6 +349,9 @@ public class RecipeGenerator {
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemParachute), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemPogoStick), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemKevlarVest), dirtStacks.toArray());
