@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockOldLog;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -356,8 +356,11 @@ public class TileEntityTreeTap extends TileEntity implements ITreeTap
 		if (spawnAttemptsNaturalRubber++ >= PolycraftMod.treeTapSpawnRateNaturalRubber) {
 			spawnAttemptsNaturalRubber = 0;
 			for (final int[] tappedCoordOffset : tappedCoordOffsets) {
-				Block treeBlock = getWorldObj().getBlock(xCoord + tappedCoordOffset[0], yCoord, zCoord + tappedCoordOffset[1]);
-				if (treeBlock != null && treeBlock instanceof BlockLog) {
+				final int x = xCoord + tappedCoordOffset[0];
+				final int z = zCoord + tappedCoordOffset[1];
+				Block treeBlock = getWorldObj().getBlock(x, yCoord, z);
+				//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
+				if (treeBlock != null && treeBlock instanceof BlockOldLog && getWorldObj().getBlockMetadata(x, yCoord, z) == 3) {
 					if (itemPolymerPelletNaturalRubber == null)
 						itemPolymerPelletNaturalRubber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").pelletName);
 					return new ItemStack(itemPolymerPelletNaturalRubber);
