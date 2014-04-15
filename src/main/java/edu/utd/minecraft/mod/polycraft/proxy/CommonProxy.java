@@ -213,7 +213,7 @@ public class CommonProxy {
 					Boolean.parseBoolean(line[7]), //degradable
 					Polymer.Category.valueOf(line[3].replaceAll(" ", "").trim()), //category
 					Polymer.ResinCode.values()[resinCodeValue], //resinCode
-					8 //craftingPelletsPerBlock
+					9 //craftingPelletsPerBlock
 					));
 
 			PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Polymer, polymer, new BlockPolymer(polymer));

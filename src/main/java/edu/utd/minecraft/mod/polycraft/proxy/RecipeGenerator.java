@@ -278,8 +278,13 @@ public class RecipeGenerator {
 			final Item polymerFiber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.fiberName);
 			try {
 				// convert between blocks and pellets
+				final ItemStack pelletItem = new ItemStack(polymerPellet);
+				final ItemStack[] pelletItems = new ItemStack[polymer.craftingPelletsPerBlock];
+				for (int i = 0; i < pelletItems.length; i++) {
+					pelletItems[i] = pelletItem;
+				}
 				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-						new ItemStack(polymerPellet, polymer.craftingPelletsPerBlock),
+						ImmutableList.copyOf(pelletItems),
 						ImmutableList.of(new ItemStack(polymerBlock)));
 				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
 						new ItemStack(polymerBlock),
@@ -324,6 +329,9 @@ public class RecipeGenerator {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.dirt, 64), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemPogoStick), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
@@ -349,9 +357,6 @@ public class RecipeGenerator {
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemParachute), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemPogoStick), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemKevlarVest), dirtStacks.toArray());
