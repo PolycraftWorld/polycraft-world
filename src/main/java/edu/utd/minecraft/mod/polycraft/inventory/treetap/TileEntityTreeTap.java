@@ -310,6 +310,10 @@ public class TileEntityTreeTap extends TileEntity implements ITreeTap
 
 	public static boolean func_145891_a(TileEntityTreeTap p_145891_0_)
 	{
+		ItemStack nextTappedItemStack = p_145891_0_.getNextTappedItem();
+		if (nextTappedItemStack != null)
+			func_145889_a(p_145891_0_, nextTappedItemStack, -1);
+
 		IInventory iinventory = func_145884_b(p_145891_0_);
 
 		if (iinventory != null)
@@ -341,12 +345,6 @@ public class TileEntityTreeTap extends TileEntity implements ITreeTap
 					}
 				}
 			}
-		}
-		else
-		{
-			ItemStack nextTappedItemStack = p_145891_0_.getNextTappedItem();
-			if (nextTappedItemStack != null)
-				func_145889_a(p_145891_0_, nextTappedItemStack, -1);
 		}
 
 		return false;
