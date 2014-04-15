@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.logging.log4j.LogManager;
@@ -304,6 +305,21 @@ public class PolycraftMod {
 		return block;
 	}
 
+	public static Block registerBlockAndItem(final RegistryNamespace namespace, final String blockName, final Block block,
+			final String itemBlockName, final Class<? extends ItemBlock> itemBlockClass, Object... itemCtorArgs) {
+		final String registryNameBlock = getNextRegistryName(namespace, blockName);
+		block.setBlockName(registryNameBlock);
+		GameRegistry.registerBlock(block, itemBlockClass, registryNameBlock, null, itemCtorArgs);
+		blocks.put(registryNameBlock, block);
+
+		final Item itemBlock = Item.getItemFromBlock(block);
+		final String registryNameItem = getNextRegistryName(namespace, itemBlockName);
+		itemBlock.setUnlocalizedName(registryNameItem);
+		items.put(registryNameItem, itemBlock);
+
+		return block;
+	}
+
 	public static Block getBlock(final RegistryNamespace namespace, final Entity entity) {
 		return getBlock(namespace, entity.name);
 	}
@@ -359,7 +375,7 @@ public class PolycraftMod {
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Weapon, itemNameFlameThrower), translations.getProperty("flame_thrower")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFluidContainer), translations.getProperty("fluid_container")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFluidContainerNozzle), translations.getProperty("fluid_container_nozzle")));
-		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Tool, itemNameGrip), translations.getProperty("grip")));
+		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameGrip), translations.getProperty("grip")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFlashlight), translations.getProperty("flashlight")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameParachute), translations.getProperty("parachute")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNamePogoStick), translations.getProperty("pogo_stick")));
@@ -376,8 +392,14 @@ public class PolycraftMod {
 
 		for (final Polymer polymer : Polymer.registry.values()) {
 			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymer), polymer.name));
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.pelletName), polymer.name, translations.getProperty("pellet")));
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.fiberName), polymer.name, translations.getProperty("fiber")));
+			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNamePellet), polymer.name, translations.getProperty("pellet")));
+			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameFiber), polymer.name, translations.getProperty("fiber")));
+			if (polymer.slabable) {
+				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameSlab), polymer.name, translations.getProperty("slab")));
+				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameDoubleSlab), polymer.name, translations.getProperty("double_slab")));
+				langEntries.add(String.format("%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.blockNameSlab), polymer.name, translations.getProperty("slab")));
+				langEntries.add(String.format("%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.blockNameDoubleSlab), polymer.name, translations.getProperty("double_slab")));
+			}
 		}
 
 		for (final Ore ore : Ore.registry.values())

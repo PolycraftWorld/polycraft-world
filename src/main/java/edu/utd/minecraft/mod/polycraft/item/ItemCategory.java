@@ -10,6 +10,8 @@ public enum ItemCategory {
 	ARMOR_HEADGEAR("Armor/Headgear"),
 	ARMOR_LEGGINGS("Armor/Leggings"),
 	COMPONENTS("Components"),
+	BLOCKS("Blocks"),
+	BLOCKS_BUILDING("Blocks/Building"),
 	ITEMS("Items"),
 	ITEMS_UTILITY("Items/Utility"),
 	MATERIALS("Materials"),
@@ -25,18 +27,18 @@ public enum ItemCategory {
 	TOOLS_PICKAXES("Tools/Pickaxes"),
 	TOOLS_SPADES("Tools/Spades"),
 	TOOLS_SWORDS("Tools/Swords");
-	
+
 	private final String name;
-	
+
 	public String getValue() {
 		return this.name;
 	}
-	
+
 	private ItemCategory(final String name) {
 		// Item category names must be valid (start with an upper case character) for consistency
 		Preconditions.checkNotNull(name);
 		Preconditions.checkState(!Strings.isNullOrEmpty(name));
-		String [] split = name.split("/");
+		String[] split = name.split("/");
 		for (final String entry : split) {
 			Preconditions.checkState(!Strings.isNullOrEmpty(entry));
 			Preconditions.checkState(Character.isUpperCase(entry.charAt(0)));

@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 
 import java.util.Map.Entry;
 
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item.ToolMaterial;
@@ -20,6 +21,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
@@ -53,6 +55,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellet;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerGrip;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
@@ -200,6 +203,7 @@ public class CommonProxy {
 	}
 
 	private void createPolymers() {
+		int i = 0;
 		for (final String[] line : PolycraftMod.readConfig("polymers")) {
 			int resinCodeValue = Integer.parseInt(line[0]);
 			if (resinCodeValue > 7)
@@ -213,12 +217,20 @@ public class CommonProxy {
 					Boolean.parseBoolean(line[7]), //degradable
 					Polymer.Category.valueOf(line[3].replaceAll(" ", "").trim()), //category
 					Polymer.ResinCode.values()[resinCodeValue], //resinCode
-					9 //craftingPelletsPerBlock
+					9, //craftingPelletsPerBlock
+					true //TODO add to config slabable
 					));
 
 			PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Polymer, polymer, new BlockPolymer(polymer));
-			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Polymer, polymer.pelletName, new ItemPellet());
-			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Polymer, polymer.fiberName, new ItemFiber());
+			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNamePellet, new ItemPellet());
+			PolycraftMod.registerItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNameFiber, new ItemFiber());
+
+			if (polymer.slabable) {
+				final BlockSlab slab = new BlockPolymerSlab(polymer, false);
+				final BlockSlab doubleSlab = new BlockPolymerSlab(polymer, true);
+				PolycraftMod.registerBlockAndItem(PolycraftMod.RegistryNamespace.Polymer, polymer.blockNameDoubleSlab, slab, polymer.itemNameSlab, ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
+				PolycraftMod.registerBlockAndItem(PolycraftMod.RegistryNamespace.Polymer, polymer.blockNameSlab, doubleSlab, polymer.itemNameDoubleSlab, ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
+			}
 		}
 	}
 

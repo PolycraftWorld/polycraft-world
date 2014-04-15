@@ -139,20 +139,20 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemKevlarVest),
 				new String[] { "x x", "xxx", "xxx" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Kevlar-Epoxy Matrix Composite").fiberName), 4)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Kevlar-Epoxy Matrix Composite").itemNameFiber), 4)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemRunningShoes),
 				new String[] { "   ", "x x", "x x" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").fiberName), 2)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").itemNameFiber), 2)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemJetPack),
 				new String[] { "xzx", "yxy", "xzx", },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("High-Density PolyEthylene").fiberName), 8),
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("High-Density PolyEthylene").itemNameFiber), 8),
 						'y', createItemStack(Compound.registry.get("Hydrogen Gas"), 2),
 						'z', createItemStack(Ingot.registry.get("Aluminum"), 8)));
 
@@ -170,14 +170,14 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemParachute),
 				new String[] { "xxx", "x x", " x " },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Nylon").fiberName), 8)));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Nylon").itemNameFiber), 8)));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemPogoStick),
 				new String[] { "yxy", " x ", "yxy" },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").pelletName)),
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").itemNamePellet)),
 						'y', new ItemStack(Items.iron_ingot)));
 
 		/* TODO(jim-mcandrew): Fix ?
@@ -203,7 +203,7 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE, new ItemStack(PolycraftMod.itemFlashlight),
 				new String[] { "xxx", "xyx", "xxx" },
 				ImmutableMap.of(
-						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").fiberName)),
+						'x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").itemNameFiber)),
 						'y', new ItemStack(Blocks.glass_pane),
 						'z', new ItemStack(Blocks.redstone_lamp)));
 
@@ -216,13 +216,13 @@ public class RecipeGenerator {
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemScubaFins),
 				new String[] { "x x", "x x", "x x" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").fiberName))));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Low-Density PolyEthylene").itemNameFiber))));
 
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemGrip),
 				new String[] { "x x", "x x", "xxx" },
-				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("PolyOxymethylene").pelletName))));
+				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("PolyOxymethylene").itemNamePellet))));
 
 		for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
 			final String materialName = materialEntry.getKey();
@@ -274,8 +274,8 @@ public class RecipeGenerator {
 	private void createPolymerRecipes() {
 		for (final Polymer polymer : Polymer.registry.values()) {
 			final Block polymerBlock = PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, polymer);
-			final Item polymerPellet = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.pelletName);
-			final Item polymerFiber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.fiberName);
+			final Item polymerPellet = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNamePellet);
+			final Item polymerFiber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNameFiber);
 			try {
 				// convert between blocks and pellets
 				final ItemStack pelletItem = new ItemStack(polymerPellet);
@@ -298,6 +298,18 @@ public class RecipeGenerator {
 				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
 						new ItemStack(polymerPellet, 3),
 						ImmutableList.of(new ItemStack(polymerFiber)));
+
+				if (polymer.slabable) {
+					//convert between blocks and slabs
+					PolycraftMod.recipeManager.addShapedRecipe(PolycraftContainerType.CRAFTING_TABLE,
+							new ItemStack(PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, polymer.blockNameSlab)),
+							new String[] { "   ", "xxx", "   " },
+							ImmutableMap.of('x', new ItemStack(polymerBlock)));
+					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
+							new ItemStack(polymerBlock, 3),
+							ImmutableList.of(new ItemStack(PolycraftMod.getBlock(PolycraftMod.RegistryNamespace.Polymer, polymer.blockNameSlab))));
+				}
+
 			} catch (Exception ex) {
 				// TODO: Fix these recipes - should not ignore this exception!  Most of these
 				// polymer blocks are null and cause NullPointerException

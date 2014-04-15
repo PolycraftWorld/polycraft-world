@@ -360,7 +360,7 @@ public class TileEntityTreeTap extends TileEntity implements ITreeTap
 				//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
 				if (treeBlock != null && treeBlock instanceof BlockOldLog && getWorldObj().getBlockMetadata(x, yCoord, z) == 3) {
 					if (itemPolymerPelletNaturalRubber == null)
-						itemPolymerPelletNaturalRubber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").pelletName);
+						itemPolymerPelletNaturalRubber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").itemNamePellet);
 					return new ItemStack(itemPolymerPelletNaturalRubber);
 				}
 			}

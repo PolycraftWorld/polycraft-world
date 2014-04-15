@@ -43,22 +43,33 @@ public class Polymer extends Compound {
 	public static final EntityRegistry<Polymer> registry = new EntityRegistry<Polymer>();
 
 	public final String shortName;
-	public final String pelletName;
-	public final String fiberName;
+	public final String itemNamePellet;
+	public final String itemNameFiber;
+	public final String itemNameSlab;
+	public final String itemNameDoubleSlab;
+	public final String blockNameSlab;
+	public final String blockNameDoubleSlab;
 	public final boolean degradable;
 	public final Category category;
 	public final ResinCode resinCode;
 	public final int craftingPelletsPerBlock;
+	public final boolean slabable;
 
 	public Polymer(final String name, final String shortName, final String pelletName, final String fiberName,
-			final boolean degradable, final Category category, final ResinCode resinCode, final int craftingPelletsPerBlock) {
+			final boolean degradable, final Category category, final ResinCode resinCode, final int craftingPelletsPerBlock,
+			final boolean slabable) {
 		super(name, false);
 		this.shortName = shortName;
-		this.pelletName = pelletName;
-		this.fiberName = fiberName;
+		this.itemNamePellet = pelletName;
+		this.itemNameFiber = fiberName;
+		this.blockNameSlab = name + "_slab";
+		this.blockNameDoubleSlab = "double_" + blockNameSlab;
+		this.itemNameSlab = blockNameSlab + "_item";
+		this.itemNameDoubleSlab = blockNameDoubleSlab + "_item";
 		this.degradable = degradable;
 		this.category = category;
 		this.resinCode = resinCode;
 		this.craftingPelletsPerBlock = craftingPelletsPerBlock;
+		this.slabable = slabable;
 	}
 }
