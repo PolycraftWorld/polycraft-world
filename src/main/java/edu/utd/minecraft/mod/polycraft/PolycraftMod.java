@@ -89,6 +89,7 @@ public class PolycraftMod {
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
+	public static final int itemPogoStickMaxFallProtection = 10;
 	public static final float itemPogoStickJumpMotionY = .8f;
 	public static final float itemPogoStickJumpMovementFactorBuff = 2f;
 	public static final int itemFlashlightMaxLightLevel = 15;

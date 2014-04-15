@@ -360,7 +360,10 @@ public class CommonProxy {
 				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
 
 		PolycraftMod.itemPogoStick = PolycraftMod.registerItem(namespace, PolycraftMod.itemNamePogoStick,
-				new ItemPogoStick(PolycraftMod.itemPogoStickJumpMotionY, PolycraftMod.itemPogoStickJumpMovementFactorBuff));
+				new ItemPogoStick(
+						PolycraftMod.itemPogoStickMaxFallProtection,
+						PolycraftMod.itemPogoStickJumpMotionY,
+						PolycraftMod.itemPogoStickJumpMovementFactorBuff));
 	}
 
 	private void createInventories() {

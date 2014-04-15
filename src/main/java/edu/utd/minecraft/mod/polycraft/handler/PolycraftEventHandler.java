@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 import org.apache.logging.log4j.LogManager;
@@ -114,7 +115,19 @@ public class PolycraftEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerFlyableFallEvent(final PlayerFlyableFallEvent event) {
+	public synchronized void onLivingFlyableFallEvent(final LivingFallEvent event) {
+		if (event.entityLiving instanceof EntityPlayer) {
+			final EntityPlayer player = (EntityPlayer) event.entity;
+			final ItemStack currentItemStack = player.getCurrentEquippedItem();
+			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick) {
+				if (event.distance < ((ItemPogoStick) currentItemStack.getItem()).maxFallProtection)
+					event.distance = 0;
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public synchronized void onPlayerFlyableFallEvent(final PlayerFlyableFallEvent event) {
 		if (!jetPackFailsafeEnabled) {
 			float fallDamage = event.distance - 3.0f;
 			if (fallDamage > 0) {
@@ -276,7 +289,7 @@ public class PolycraftEventHandler {
 		if (player.isEntityAlive()) {
 			float jumpMovementFactor = baseJumpMovementFactor;
 			final ItemStack currentItemStack = player.getCurrentEquippedItem();
-			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick) {
+			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem)) {
 				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
 				jumpMovementFactor *= pogoStick.jumpMovementFactorBuff;
 				if (player.onGround)
