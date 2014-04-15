@@ -1,10 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.worldgen;
 
-import static net.minecraftforge.common.BiomeDictionary.Type.DESERT;
-import static net.minecraftforge.common.BiomeDictionary.Type.FOREST;
-import static net.minecraftforge.common.BiomeDictionary.Type.FROZEN;
-import static net.minecraftforge.common.BiomeDictionary.Type.WASTELAND;
-
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -16,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
@@ -37,6 +31,7 @@ public class OilPopulate {
 	public final Set<Integer> excessiveBiomes = new HashSet<Integer>();
 	public final Set<Integer> surfaceDepositBiomes = new HashSet<Integer>();
 	public final Set<Integer> excludedBiomes = new HashSet<Integer>();
+	public final Set<Integer> aboveGroundBiomes = new HashSet<Integer>();
 
 	private enum GenType {
 
@@ -44,9 +39,11 @@ public class OilPopulate {
 	};
 
 	private OilPopulate() {
-//		BuildCraftCore.debugMode = true;
+		aboveGroundBiomes.add(BiomeGenBase.ocean.biomeID);
+		aboveGroundBiomes.add(BiomeGenBase.desert.biomeID);
+		aboveGroundBiomes.add(BiomeGenBase.icePlains.biomeID);
+
 		surfaceDepositBiomes.add(BiomeGenBase.desert.biomeID);
-		surfaceDepositBiomes.add(BiomeGenBase.taiga.biomeID);
 
 		excludedBiomes.add(BiomeGenBase.sky.biomeID);
 		excludedBiomes.add(BiomeGenBase.hell.biomeID);
@@ -77,12 +74,9 @@ public class OilPopulate {
 			return;
 		}
 
-		boolean oilBiome = surfaceDepositBiomes.contains(biome.biomeID)
-				|| BiomeDictionary.isBiomeOfType(biome, DESERT)
-				|| (BiomeDictionary.isBiomeOfType(biome, WASTELAND) && !BiomeDictionary.isBiomeOfType(biome, FROZEN))
-				|| (BiomeDictionary.isBiomeOfType(biome, FOREST) && BiomeDictionary.isBiomeOfType(biome, FROZEN));
+		boolean surfaceDepositBiome = surfaceDepositBiomes.contains(biome.biomeID);
 
-		double bonus = oilBiome ? 3.0 : 1.0;
+		double bonus = surfaceDepositBiome ? 3.0 : 1.0;
 		bonus *= PolycraftMod.oilWellScalar;
 		if (excessiveBiomes.contains(biome.biomeID)) {
 			bonus *= 30.0;
@@ -92,14 +86,13 @@ public class OilPopulate {
 			type = GenType.LARGE;
 		} else if (rand.nextDouble() <= 0.001 * bonus) {// 0.1%
 			type = GenType.MEDIUM;
-		} else if (oilBiome && rand.nextDouble() <= 0.02 * bonus) {// 2%
+		} else if (surfaceDepositBiome && rand.nextDouble() <= 0.02 * bonus) {// 2%
 			type = GenType.LAKE;
 		}
 
 		if (type == GenType.NONE) {
 			return;
 		}
-
 
 		// Find ground level
 		int groundLevel = getTopBlock(world, x, z);
@@ -121,7 +114,7 @@ public class OilPopulate {
 			if (type == GenType.LARGE) {
 				wellHeight = LARGE_WELL_HEIGHT;
 			}
-			int maxHeight = groundLevel + wellHeight;
+			int maxHeight = aboveGroundBiomes.contains(biome.biomeID) ? groundLevel + wellHeight : groundLevel - 5;
 			if (maxHeight >= world.getActualHeight() - 1) {
 				return;
 			}
@@ -154,9 +147,9 @@ public class OilPopulate {
 			int lakeRadius;
 			if (type == GenType.LARGE) {
 				lakeRadius = 25 + rand.nextInt(20);
-//				if (BuildCraftCore.debugMode) {
-//					lakeRadius += 40;
-//				}
+				//				if (BuildCraftCore.debugMode) {
+				//					lakeRadius += 40;
+				//				}
 			} else {
 				lakeRadius = 5 + rand.nextInt(10);
 			}
