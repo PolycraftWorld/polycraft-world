@@ -67,6 +67,8 @@ public class PolycraftEventHandler {
 		private long jetPackLastSoundMillis = 0;
 		private long scubaTankLastSoundMillis = 0;
 		private boolean jetPackLightsEnabled = false;
+		private int pogoStickPreviousContinuousActiveBounces = 0;
+		public float pogoStickLastFallDistance = 0;
 	}
 
 	private final Map<EntityPlayer, PlayerState> playerStates = new HashMap<EntityPlayer, PlayerState>();
@@ -106,21 +108,27 @@ public class PolycraftEventHandler {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			final PlayerState playerState = getPlayerState(player);
+			handleJumpingClient(event, player, playerState);
 			handleWeapons(event, player, playerState);
 			handleMovementSpeedClient(event, player, playerState);
-			handleJumpingClient(event, player, playerState);
 			handleFlightClient(event, player, playerState);
 			handleBreathing(event, player, playerState);
 		}
 	}
 
 	@SubscribeEvent
-	public synchronized void onLivingFlyableFallEvent(final LivingFallEvent event) {
+	public synchronized void onLivingFallEvent(final LivingFallEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
+			final PlayerState playerState = getPlayerState(player);
 			final ItemStack currentItemStack = player.getCurrentEquippedItem();
-			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick) {
-				if (event.distance < ((ItemPogoStick) currentItemStack.getItem()).maxFallProtection)
+			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick && currentItemStack.getItemDamage() < currentItemStack.getMaxDamage()) {
+				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
+				currentItemStack.attemptDamageItem(1, random);
+				playerState.pogoStickLastFallDistance = event.distance;
+				if (event.distance > pogoStick.settings.maxFallNoDamageHeight)
+					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
+				else
 					event.distance = 0;
 			}
 		}
@@ -134,6 +142,33 @@ public class PolycraftEventHandler {
 				event.entityPlayer.attackEntityFrom(DamageSource.fall, fallDamage);
 			}
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void handleJumpingClient(final LivingUpdateEvent event, final EntityPlayer player, final PlayerState playerState) {
+		float jumpMovementFactor = baseJumpMovementFactor;
+		final ItemStack currentItemStack = player.getCurrentEquippedItem();
+		if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick
+				&& currentItemStack.getItemDamage() < currentItemStack.getMaxDamage()) {
+			final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
+			jumpMovementFactor *= pogoStick.settings.jumpMovementFactorBuff;
+			if (player.onGround) {
+				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && Minecraft.getMinecraft().currentScreen == null;
+				final double motionY = pogoStick.settings.getMotionY(playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
+				if (motionY > 0)
+					player.motionY = motionY;
+				if (playerActivelyBouncing)
+					playerState.pogoStickPreviousContinuousActiveBounces++;
+				else
+					playerState.pogoStickPreviousContinuousActiveBounces = 0;
+			}
+		}
+		else
+			playerState.pogoStickPreviousContinuousActiveBounces = 0;
+		playerState.pogoStickLastFallDistance = 0;
+
+		if (player.jumpMovementFactor != jumpMovementFactor)
+			player.jumpMovementFactor = jumpMovementFactor;
 	}
 
 	private void handleWeapons(final LivingUpdateEvent event, final EntityPlayer player, final PlayerState playerState) {
@@ -281,23 +316,6 @@ public class PolycraftEventHandler {
 			if (player.capabilities.getWalkSpeed() != movementSpeedBaseValue) {
 				player.capabilities.setPlayerWalkSpeed(movementSpeedBaseValue);
 			}
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	private void handleJumpingClient(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
-		if (player.isEntityAlive()) {
-			float jumpMovementFactor = baseJumpMovementFactor;
-			final ItemStack currentItemStack = player.getCurrentEquippedItem();
-			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem)) {
-				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
-				jumpMovementFactor *= pogoStick.jumpMovementFactorBuff;
-				if (player.onGround)
-					player.motionY = pogoStick.jumpMotionY;
-			}
-
-			if (player.jumpMovementFactor != jumpMovementFactor)
-				player.jumpMovementFactor = jumpMovementFactor;
 		}
 	}
 

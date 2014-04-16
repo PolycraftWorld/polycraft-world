@@ -16,6 +16,7 @@ import java.util.Properties;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.util.EnumHelper;
@@ -43,6 +44,8 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick.Settings;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.PolycraftModWikiMaker;
@@ -90,9 +93,6 @@ public class PolycraftMod {
 	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
 	public static final float itemJetPackFlySpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
-	public static final int itemPogoStickMaxFallProtection = 10;
-	public static final float itemPogoStickJumpMotionY = .8f;
-	public static final float itemPogoStickJumpMovementFactorBuff = 2f;
 	public static final int itemFlashlightMaxLightLevel = 15;
 	public static final float itemFlashlightLightLevelDecreaseByDistance = .5f;
 	public static final int itemFlashlightViewingConeAngle = 15;
@@ -121,6 +121,17 @@ public class PolycraftMod {
 	public static final String itemNameScubaTank = "scuba_tank";
 	public static final String itemNameScubaFins = "scuba_fins";
 	public static final ArmorMaterial armorMaterialNone = EnumHelper.addArmorMaterial("none", 0, new int[] { 0, 0, 0, 0 }, 0);
+	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
+	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
+	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
+	public static final Collection<ItemPogoStick.Settings> itemPogoStickSettings = new LinkedList<ItemPogoStick.Settings>();
+	static {
+		itemPogoStickSettings.add(new ItemPogoStick.Settings("wooden", ToolMaterial.WOOD, 20, 3, 1.5f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings("stone", ToolMaterial.STONE, 100, 4, 1.75f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings("iron", ToolMaterial.IRON, 500, 5, 2f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings("golden", ToolMaterial.GOLD, 500, 6, 2.5f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings("diamond", ToolMaterial.EMERALD, 2500, 10, 3f));
+	}
 
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
@@ -142,7 +153,6 @@ public class PolycraftMod {
 	public static Item itemFlameThrower;
 	public static Item itemJetPack;
 	public static Item itemParachute;
-	public static Item itemPogoStick;
 	public static Item itemGrip;
 	public static Item itemFlashlight;
 	public static Item itemScubaMask;
@@ -378,7 +388,10 @@ public class PolycraftMod {
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameGrip), translations.getProperty("grip")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFlashlight), translations.getProperty("flashlight")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameParachute), translations.getProperty("parachute")));
-		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNamePogoStick), translations.getProperty("pogo_stick")));
+		for (final Settings settings : itemPogoStickSettings) {
+			final String materialNameUpper = Character.toUpperCase(settings.materialName.charAt(0)) + settings.materialName.substring(1);
+			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Utility, settings.itemName), materialNameUpper, translations.getProperty("pogo_stick")));
+		}
 
 		for (final Element element : Element.registry.values())
 			if (element.fluid)

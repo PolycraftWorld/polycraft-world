@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick.Settings;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 
 public class RecipeGenerator {
@@ -172,6 +173,8 @@ public class RecipeGenerator {
 				new String[] { "xxx", "x x", " x " },
 				ImmutableMap.of('x', new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Nylon").itemNameFiber), 8)));
 
+		//TODO pogo sticks
+		/*
 		PolycraftMod.recipeManager.addShapedRecipe(
 				PolycraftContainerType.CRAFTING_TABLE,
 				new ItemStack(PolycraftMod.itemPogoStick),
@@ -341,10 +344,12 @@ public class RecipeGenerator {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.dirt, 64), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemPogoStick), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
+
+			for (final Settings settings : PolycraftMod.itemPogoStickSettings) {
+				dirtStacks.add(dirtStack);
+				GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Utility, settings.itemName)), dirtStacks.toArray());
+			}
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemFlameThrower), dirtStacks.toArray());
