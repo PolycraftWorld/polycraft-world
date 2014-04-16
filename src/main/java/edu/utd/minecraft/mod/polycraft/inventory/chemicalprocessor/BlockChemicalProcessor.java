@@ -28,9 +28,9 @@ public class BlockChemicalProcessor extends BlockContainer {
 	private final boolean isActive;
 	private static boolean keepChemicalProcessorInventory;
 	@SideOnly(Side.CLIENT)
-	private IIcon chemicalProcessorIconTop;
+	private IIcon iconTop;
 	@SideOnly(Side.CLIENT)
-	private IIcon chemicalProcessorIconFront;
+	private IIcon iconFront;
 
 	public BlockChemicalProcessor(boolean isActive) {
 		super(Material.rock);
@@ -92,20 +92,20 @@ public class BlockChemicalProcessor extends BlockContainer {
 	public IIcon getIcon(int side, int front) {
 		// if the front is the top, it must be in the player inventory, so just render the front as side 3 (like furnace)
 		if (front == 0 && side == 3)
-			return this.chemicalProcessorIconFront;
+			return this.iconFront;
 		if (side == 0 || side == 1)
-			return this.chemicalProcessorIconTop;
+			return this.iconTop;
 		if (side != front)
 			return this.blockIcon;
-		return this.chemicalProcessorIconFront;
+		return this.iconFront;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
 		this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName("chemical_processor_side"));
-		this.chemicalProcessorIconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(this.isActive ? "chemical_processor_front_on" : "chemical_processor_front_off"));
-		this.chemicalProcessorIconTop = p_149651_1_.registerIcon(PolycraftMod.getAssetName("chemical_processor_top"));
+		this.iconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(this.isActive ? "chemical_processor_front_on" : "chemical_processor_front_off"));
+		this.iconTop = p_149651_1_.registerIcon(PolycraftMod.getAssetName("chemical_processor_top"));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class BlockChemicalProcessor extends BlockContainer {
 		if (world.isRemote) {
 			return true;
 		} else if (!player.isSneaking()) {
-			TileEntityChemicalProcessor tileentitychemicalprocessor = (TileEntityChemicalProcessor)world.getTileEntity(x, y, z);
+			TileEntityChemicalProcessor tileentitychemicalprocessor = (TileEntityChemicalProcessor) world.getTileEntity(x, y, z);
 			if (tileentitychemicalprocessor != null) {
 				player.openGui(PolycraftMod.instance, PolycraftMod.guiChemicalProcessorID, world, x, y, z);
 			}

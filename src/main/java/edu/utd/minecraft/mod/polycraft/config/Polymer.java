@@ -52,11 +52,11 @@ public class Polymer extends Compound {
 	public final boolean degradable;
 	public final Category category;
 	public final ResinCode resinCode;
-	public final int craftingPelletsPerBlock;
+	public final int pelletsPerBlock;
 	public final boolean slabable;
 
 	public Polymer(final String name, final String shortName, final String pelletName, final String fiberName,
-			final boolean degradable, final Category category, final ResinCode resinCode, final int craftingPelletsPerBlock,
+			final boolean degradable, final Category category, final ResinCode resinCode, final int pelletsPerBlock,
 			final boolean slabable) {
 		super(name, false);
 		this.shortName = shortName;
@@ -69,7 +69,7 @@ public class Polymer extends Compound {
 		this.degradable = degradable;
 		this.category = category;
 		this.resinCode = resinCode;
-		this.craftingPelletsPerBlock = craftingPelletsPerBlock;
+		this.pelletsPerBlock = pelletsPerBlock;
 		this.slabable = slabable;
 	}
 }

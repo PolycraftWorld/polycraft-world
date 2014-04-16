@@ -26,13 +26,11 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 
 /**
- * Handles processing of the chemical processor container.  Any inputs that use a
- * fluid container automatically generate empty fluid containers on output (they do
- * not need to be, and should not be specified as outputs of the recipe).
+ * Handles processing of the chemical processor container. Any inputs that use a fluid container automatically generate empty fluid containers on output (they do not need to be, and should not be specified as outputs of the recipe).
  */
 public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer implements ISidedInventory {
 	public TileEntityChemicalProcessor() {
-		super(PolycraftContainerType.CHEMICAL_PROCESSOR);
+		super(PolycraftContainerType.CHEMICAL_PROCESSOR, PolycraftMod.blockNameChemicalProcessor);
 	}
 
 	/**
@@ -101,12 +99,12 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 			for (final RecipeInput input : recipe.getInputs()) {
 				ItemStack item = input.inputs.iterator().next();
 				if (item.getItem() instanceof ItemFluidContainer) {
-					if (((ItemFluidContainer)item.getItem()).fluidEntity != null) {
-						fluidContainersRequired += item.stackSize;						
+					if (((ItemFluidContainer) item.getItem()).fluidEntity != null) {
+						fluidContainersRequired += item.stackSize;
 					}
 				}
 			}
-			
+
 			// Add fluid containers to output
 			if (getStackInSlot(ChemicalProcessorSlot.OUTPUT_EMPTY_BOTTLE) != null) {
 				// TODO: Validate this is a fluid bottle
@@ -120,7 +118,7 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 					new ItemStack(PolycraftMod.itemFluidContainer, fluidContainersRequired));
 		}
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		boolean flag = this.chemicalProcessorBurnTime > 0;
@@ -153,7 +151,7 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 				if (this.chemicalProcessorCookTime == 200) {
 					this.chemicalProcessorCookTime = 0;
 					generateFluidContainerOutput();
-					this.craftItems();	
+					this.craftItems();
 					isDirty = true;
 				}
 			} else {
@@ -219,7 +217,7 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 			}
 			if (item == Items.blaze_rod) {
 				return 2400;
-			}			
+			}
 			return GameRegistry.getFuelValue(itemStack);
 		}
 	}

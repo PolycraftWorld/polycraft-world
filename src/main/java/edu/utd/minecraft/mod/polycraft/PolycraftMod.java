@@ -77,9 +77,11 @@ public class PolycraftMod {
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
 	public static final int guiTreeTapID = 0;
-	public static final int guiChemicalProcessorID = 1;
+	public static final int guiMachiningMillID = 1;
+	public static final int guiChemicalProcessorID = 2;
 	public static final int renderTreeTapID = 2000;
-	public static final int renderChemicalProcessorID = 2001;
+	public static final int renderMachiningMillID = 2001;
+	public static final int renderChemicalProcessorID = 2002;
 	public static final float itemGrippedToolDurabilityBuff = 2f;
 	public static final float itemRunningShoesWalkSpeedBuff = 1f;
 	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
@@ -104,6 +106,7 @@ public class PolycraftMod {
 	public static final String fluidNameOil = "oil";
 	public static final String blockNameOil = "oil";
 	public static final String blockNameTreeTap = "tree_tap";
+	public static final String blockNameMachiningMill = "machining_mill";
 	public static final String blockNameChemicalProcessor = "chemical_processor";
 	public static final String blockNameChemicalProcessorActive = "chemical_processor_active";
 	public static final String itemNameOilBucket = "bucket_" + fluidNameOil;
@@ -140,6 +143,7 @@ public class PolycraftMod {
 	// special blocks for fast access
 	public static Block blockOil;
 	public static BlockTreeTap blockTreeTap;
+	public static Block blockMachiningMill;
 	public static Block blockChemicalProcessor;
 	public static Block blockChemicalProcessorActive;
 
@@ -373,6 +377,8 @@ public class PolycraftMod {
 		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Fluid, blockNameOil), translations.getProperty("crudeoil")));
 		langEntries.add(String.format("container.%s=%s", getRegistryName(RegistryNamespace.Inventory, blockNameTreeTap), translations.getProperty("tree_tap")));
 		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Inventory, blockNameTreeTap), translations.getProperty("tree_tap")));
+		langEntries.add(String.format("container.%s=%s", getRegistryName(RegistryNamespace.Inventory, blockNameMachiningMill), translations.getProperty("machining_mill")));
+		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Inventory, blockNameMachiningMill), translations.getProperty("machining_mill")));
 		langEntries.add(String.format("container.%s=%s", getRegistryName(RegistryNamespace.Inventory, blockNameChemicalProcessor), translations.getProperty("chemical_processor")));
 		langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Inventory, blockNameChemicalProcessor), translations.getProperty("chemical_processor")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Fluid, itemNameOilBucket), translations.getProperty("crudeoil"), translations.getProperty("bucket")));

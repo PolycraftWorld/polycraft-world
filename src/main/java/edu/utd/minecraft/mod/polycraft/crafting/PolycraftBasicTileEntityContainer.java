@@ -23,20 +23,24 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	private final Collection<ContainerSlot> outputSlots;
 	private final Collection<ContainerSlot> miscSlots;
 	private final int totalSlots;
-	
+
 	private final Map<Integer, ContainerSlot> slotToIndexMap = Maps.newHashMap();
 	// Maintain the current set of inputs so it doesn't need to be recomputed every frame.
 	private final Set<RecipeComponent> inputMaterialSet = Sets.newHashSet();
 	private final Set<Integer> inputSlotSet = Sets.newHashSet();
-	private final RecipeComponent [] inputArray;
-	
+	private final RecipeComponent[] inputArray;
+
 	private String inventoryName;
-	
-	public PolycraftBasicTileEntityContainer(PolycraftContainerType containerType) {
+	private final PolycraftContainerType containerType;
+	private final String containerName;
+
+	public PolycraftBasicTileEntityContainer(PolycraftContainerType containerType, String containerName) {
+		this.containerType = containerType;
+		this.containerName = containerName;
 		inputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
 		outputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
 		miscSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
-		
+
 		for (final ContainerSlot input : inputSlots) {
 			slotToIndexMap.put(input.getSlotIndex(), input);
 			inputSlotSet.add(input.getSlotIndex());
@@ -47,19 +51,27 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		for (final ContainerSlot misc : miscSlots) {
 			slotToIndexMap.put(misc.getSlotIndex(), misc);
 		}
-		
+
 		totalSlots = inputSlots.size() + outputSlots.size() + miscSlots.size();
 		inputArray = new RecipeComponent[totalSlots];
+	}
+
+	/**
+	 * @return the name of the inventory.
+	 */
+	@Override
+	public String getInventoryName() {
+		return this.hasCustomInventoryName() ? this.inventoryName : "container." + PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Inventory, containerName);
 	}
 
 	/**
 	 * Gets the input slots available to this container.
 	 */
 	@Override
-	public Collection<ContainerSlot> getInputSlots() {		
+	public Collection<ContainerSlot> getInputSlots() {
 		return this.inputSlots;
 	}
-		
+
 	/**
 	 * Gets the output slots available to this container.
 	 */
@@ -77,7 +89,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	}
 
 	/**
-	 * Clears the container of all items.  Items are destroyed.
+	 * Clears the container of all items. Items are destroyed.
 	 */
 	public void clear() {
 		for (int i = 0; i < totalSlots; i++) {
@@ -87,13 +99,11 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	}
 
 	/**
-	 * Turn one item from the container source stack into the appropriate processed items
-	 * in the result stack.
+	 * Turn one item from the container source stack into the appropriate processed items in the result stack.
 	 */
 	public void craftItems() {
 		Set<RecipeComponent> inputs = getMaterials();
-		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(
-				PolycraftContainerType.CHEMICAL_PROCESSOR, inputs);
+		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, inputs);
 		if (recipe != null) {
 			recipe.process(inputs, this);
 		}
@@ -105,13 +115,12 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	protected boolean canProcess() {
 		// Check that the inputs are valid
 		Set<RecipeComponent> materials = getMaterials();
-		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(
-				PolycraftContainerType.CHEMICAL_PROCESSOR, materials);
+		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, materials);
 		if (recipe == null) {
 			return false;
-		}		
-		
-		for (final RecipeComponent output : (Collection<RecipeComponent>)recipe.getOutputs()) {
+		}
+
+		for (final RecipeComponent output : recipe.getOutputs()) {
 			final ItemStack desiredResult = output.itemStack;
 			final ItemStack currentResult = getStackInSlot(output.slot);
 			if (currentResult != null) {
@@ -130,8 +139,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	}
 
 	/**
-	 * Gets the itemstack at the specified slot, or null if no item
-	 * is in the specified slot.
+	 * Gets the itemstack at the specified slot, or null if no item is in the specified slot.
 	 */
 	@Override
 	public ItemStack getStackInSlot(final ContainerSlot slot) {
@@ -144,29 +152,21 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	public boolean slotHasItem(final ContainerSlot slot) {
 		return getStackInSlot(slot.getSlotIndex()) != null;
 	}
-	
+
 	/**
-	 * Clears the itemstack in the specified slot.  Item is destroyed.
+	 * Clears the itemstack in the specified slot. Item is destroyed.
 	 */
 	@Override
 	public void clearSlotContents(final ContainerSlot slot) {
 		setInventorySlotContents(slot.getSlotIndex(), null);
 	}
-	
+
 	/**
-	 * Sets the itemstack in the specified slot.  Previous item is destroyed.
+	 * Sets the itemstack in the specified slot. Previous item is destroyed.
 	 */
 	@Override
 	public void setStackInSlot(final ContainerSlot slot, final ItemStack stack) {
-		setInventorySlotContents(slot.getSlotIndex(), stack);		
-	}
-
-	/**
-	 * @return the name of the inventory.
-	 */
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.inventoryName : "container.chemical_processor";
+		setInventorySlotContents(slot.getSlotIndex(), stack);
 	}
 
 	/**
@@ -202,14 +202,14 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		}
 		return inputArray[slotIndex].itemStack;
 	}
-	
+
 	@Override
 	public void setInventorySlotContents(int slotIndex, ItemStack stack) {
 		if (slotIndex < 0 || slotIndex >= totalSlots) {
 			return;
 		}
-		
-		boolean isInput = inputSlotSet.contains(slotIndex); 
+
+		boolean isInput = inputSlotSet.contains(slotIndex);
 		if (isInput) {
 			// If setting an input element, update the set of inputs
 			RecipeComponent oldInput = inputArray[slotIndex];
@@ -217,7 +217,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 				inputMaterialSet.remove(oldInput);
 			}
 		}
-		
+
 		if (stack == null) {
 			inputArray[slotIndex] = null;
 		} else {
@@ -228,7 +228,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 			}
 		}
 	}
-	
+
 	/**
 	 * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a new stack.
 	 */
@@ -238,12 +238,12 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		if (stack == null) {
 			return null;
 		}
-		
+
 		if (count >= stack.stackSize) {
 			setInventorySlotContents(slot, null);
 			return stack;
 		}
-		
+
 		stack = stack.splitStack(count);
 		return stack;
 	}
@@ -297,8 +297,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	}
 
 	/**
-	 * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
-	 * like when you close a workbench GUI.
+	 * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem - like when you close a workbench GUI.
 	 */
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
@@ -306,7 +305,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 			ItemStack itemstack = this.inputArray[slot].itemStack;
 			setInventorySlotContents(slot, null);
 			return itemstack;
-		}		
+		}
 		return null;
 	}
 
@@ -319,7 +318,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte b0 = nbttagcompound1.getByte("Slot");
-			setInventorySlotContents((int)b0, ItemStack.loadItemStackFromNBT(nbttagcompound1));			
+			setInventorySlotContents(b0, ItemStack.loadItemStackFromNBT(nbttagcompound1));
 		}
 		if (tag.hasKey("CustomName", 8)) {
 			this.inventoryName = tag.getString("CustomName");

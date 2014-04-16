@@ -21,26 +21,8 @@ public class ContainerChemicalProcessor extends PolycraftCraftingContainer {
 
 	public ContainerChemicalProcessor(InventoryPlayer playerInventory, TileEntityChemicalProcessor tileEntityChemicalProcessor) {
 		super(EnumSet.allOf(ChemicalProcessorSlot.class), tileEntityChemicalProcessor);
+		addPlayerInventorySlots(playerInventory, 84);
 		this.tileChemicalProcessor = tileEntityChemicalProcessor;
-		
-		// TODO: Make utility methods for adding inventory slots in PolycraftCraftingContainer
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(playerInventory, i, 8 + i * 18, 142));
-		}
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(playerInventory, i, 8 + i * 18, 142));
-		}
-		
 	}
 
 	@Override
@@ -81,15 +63,15 @@ public class ContainerChemicalProcessor extends PolycraftCraftingContainer {
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int which, int amount) {
 		switch (which) {
-			case 0:
-				this.tileChemicalProcessor.chemicalProcessorCookTime = amount;
-				break;
-			case 1:
-				this.tileChemicalProcessor.chemicalProcessorBurnTime = amount;
-				break;
-			case 2:
-				this.tileChemicalProcessor.currentItemBurnTime = amount;
-				break;
+		case 0:
+			this.tileChemicalProcessor.chemicalProcessorCookTime = amount;
+			break;
+		case 1:
+			this.tileChemicalProcessor.chemicalProcessorBurnTime = amount;
+			break;
+		case 2:
+			this.tileChemicalProcessor.currentItemBurnTime = amount;
+			break;
 		}
 	}
 
@@ -112,7 +94,7 @@ public class ContainerChemicalProcessor extends PolycraftCraftingContainer {
 
 			if (!this.mergeItemStack(itemstack1,
 					2 + PolycraftContainerType.CHEMICAL_PROCESSOR.getSlots(SlotType.INPUT).size()
-					+ PolycraftContainerType.CHEMICAL_PROCESSOR.getSlots(SlotType.INPUT).size(),
+							+ PolycraftContainerType.CHEMICAL_PROCESSOR.getSlots(SlotType.INPUT).size(),
 					39, false)) {
 				return null;
 			}

@@ -280,27 +280,12 @@ public class RecipeGenerator {
 			final Item polymerPellet = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNamePellet);
 			final Item polymerFiber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNameFiber);
 			try {
-				// convert between blocks and pellets
-				final ItemStack pelletItem = new ItemStack(polymerPellet);
-				final ItemStack[] pelletItems = new ItemStack[polymer.craftingPelletsPerBlock];
-				for (int i = 0; i < pelletItems.length; i++) {
-					pelletItems[i] = pelletItem;
-				}
-				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-						ImmutableList.copyOf(pelletItems),
-						ImmutableList.of(new ItemStack(polymerBlock)));
-				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
+				// convert pellets to blocks
+				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNANCE,
 						new ItemStack(polymerBlock),
-						ImmutableList.of(new ItemStack(polymerPellet, polymer.craftingPelletsPerBlock)));
+						ImmutableList.of(new ItemStack(polymerPellet, polymer.pelletsPerBlock)));
 
-				// convert between pellets and fibers
-				PolycraftMod.recipeManager.addShapedRecipe(PolycraftContainerType.CRAFTING_TABLE,
-						new ItemStack(polymerFiber),
-						new String[] { "x  ", " x ", "  x" },
-						ImmutableMap.of('x', new ItemStack(polymerPellet)));
-				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
-						new ItemStack(polymerPellet, 3),
-						ImmutableList.of(new ItemStack(polymerFiber)));
+				//TODO fibers
 
 				if (polymer.slabable) {
 					//convert between blocks and slabs
@@ -345,6 +330,9 @@ public class RecipeGenerator {
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blockMachiningMill), dirtStacks.toArray());
 
 			for (final Settings settings : PolycraftMod.itemPogoStickSettings) {
 				dirtStacks.add(dirtStack);

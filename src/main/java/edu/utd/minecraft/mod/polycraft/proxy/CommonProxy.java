@@ -38,6 +38,9 @@ import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.BlockChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.RenderChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.TileEntityChemicalProcessor;
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.BlockMachiningMill;
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.RenderMachiningMill;
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.TileEntityMachiningMill;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.RenderTreeTap;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TileEntityTreeTap;
@@ -101,6 +104,7 @@ public class CommonProxy {
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 
 		RenderingRegistry.registerBlockHandler(PolycraftMod.renderTreeTapID, RenderTreeTap.INSTANCE);
+		RenderingRegistry.registerBlockHandler(PolycraftMod.renderMachiningMillID, RenderMachiningMill.INSTANCE);
 		RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
@@ -380,10 +384,13 @@ public class CommonProxy {
 		final PolycraftMod.RegistryNamespace namespace = PolycraftMod.RegistryNamespace.Inventory;
 
 		PolycraftMod.blockTreeTap = (BlockTreeTap) PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameTreeTap, new BlockTreeTap());
-		GameRegistry.registerTileEntity(TileEntityTreeTap.class, "tile_entity_tree_tap");
+		GameRegistry.registerTileEntity(TileEntityTreeTap.class, "tile_entity_" + PolycraftMod.blockNameTreeTap);
+
+		PolycraftMod.blockMachiningMill = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameMachiningMill, new BlockMachiningMill());
+		GameRegistry.registerTileEntity(TileEntityMachiningMill.class, "tile_entity_" + PolycraftMod.blockNameMachiningMill);
 
 		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameChemicalProcessor, new BlockChemicalProcessor(false));
 		PolycraftMod.blockChemicalProcessorActive = PolycraftMod.registerBlock(namespace, PolycraftMod.blockNameChemicalProcessorActive, new BlockChemicalProcessor(true));
-		GameRegistry.registerTileEntity(TileEntityChemicalProcessor.class, "tile_entity_chemical_processor");
+		GameRegistry.registerTileEntity(TileEntityChemicalProcessor.class, "tile_entity_" + PolycraftMod.blockNameChemicalProcessor);
 	}
 }
