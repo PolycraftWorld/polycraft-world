@@ -129,11 +129,20 @@ public class PolycraftMod {
 	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
 	public static final Collection<ItemPogoStick.Settings> itemPogoStickSettings = new LinkedList<ItemPogoStick.Settings>();
 	static {
-		itemPogoStickSettings.add(new ItemPogoStick.Settings("wooden", ToolMaterial.WOOD, 20, 3, 1.5f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings("stone", ToolMaterial.STONE, 100, 4, 1.75f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings("iron", ToolMaterial.IRON, 500, 5, 2f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings("golden", ToolMaterial.GOLD, 500, 6, 2.5f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings("diamond", ToolMaterial.EMERALD, 2500, 10, 3f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "wooden", ToolMaterial.WOOD, 25, 3, 1.5f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "wooden", ToolMaterial.WOOD, 250, 3, 1.5f));
+
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "stone", ToolMaterial.STONE, 50, 4, 1.75f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "stone", ToolMaterial.STONE, 500, 4, 1.75f));
+
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "iron", ToolMaterial.IRON, 100, 5, 2f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "iron", ToolMaterial.IRON, 1000, 5, 2f));
+
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "golden", ToolMaterial.GOLD, 100, 6, 2.5f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "golden", ToolMaterial.GOLD, 1000, 6, 2.5f));
+
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "diamond", ToolMaterial.EMERALD, 250, 10, 3f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "diamond", ToolMaterial.EMERALD, 2500, 10, 3f));
 	}
 
 	public static BiomeGenOilDesert biomeOilDesert;
@@ -396,7 +405,8 @@ public class PolycraftMod {
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameParachute), translations.getProperty("parachute")));
 		for (final Settings settings : itemPogoStickSettings) {
 			final String materialNameUpper = Character.toUpperCase(settings.materialName.charAt(0)) + settings.materialName.substring(1);
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Utility, settings.itemName), materialNameUpper, translations.getProperty("pogo_stick")));
+			langEntries.add(String.format("item.%s.name=%s%s %s", getRegistryName(RegistryNamespace.Utility, settings.itemName),
+					(settings.gripped ? translations.getProperty("gripped") + " " : ""), materialNameUpper, translations.getProperty("pogo_stick")));
 		}
 
 		for (final Element element : Element.registry.values())

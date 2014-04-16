@@ -7,6 +7,7 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 
 	public static class Settings {
 		public final String itemName;
+		public final boolean gripped;
 		public final String materialName;
 		public final ToolMaterial material;
 		public final int maxBounces;
@@ -14,8 +15,9 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 		public final float maxFallNoDamageHeight;
 		public final float jumpMovementFactorBuff;
 
-		public Settings(final String materialName, final ToolMaterial material, final int maxBounces, final float stableBounceHeight, final float jumpMovementFactorBuff) {
-			itemName = materialName + "_" + PolycraftMod.itemNamePogoStick;
+		public Settings(final boolean gripped, final String materialName, final ToolMaterial material, final int maxBounces, final float stableBounceHeight, final float jumpMovementFactorBuff) {
+			itemName = (gripped ? "gripped_" : "") + materialName + "_" + PolycraftMod.itemNamePogoStick;
+			this.gripped = gripped;
 			this.materialName = materialName;
 			this.material = material;
 			this.maxBounces = maxBounces;
