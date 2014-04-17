@@ -223,7 +223,8 @@ public class CommonProxy {
 					Polymer.Category.valueOf(line[3].replaceAll(" ", "").trim()), //category
 					Polymer.ResinCode.values()[resinCodeValue], //resinCode
 					9, //craftingPelletsPerBlock
-					true //TODO add to config slabable
+					true, //TODO add to config slabable
+					10 //TODO add to config slabBounceHeight
 					));
 
 			PolycraftMod.registerBlock(PolycraftMod.RegistryNamespace.Polymer, polymer, new BlockPolymer(polymer));
