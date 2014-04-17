@@ -18,7 +18,7 @@ import edu.utd.minecraft.mod.polycraft.config.Polymer;
 
 public class BlockPolymerSlab extends BlockSlab
 {
-	private final Polymer polymer;
+	public final Polymer polymer;
 	private final boolean isDouble;
 
 	private final LabelTexture labelTexture;

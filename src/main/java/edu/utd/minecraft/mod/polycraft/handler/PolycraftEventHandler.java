@@ -28,6 +28,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -69,6 +70,7 @@ public class PolycraftEventHandler {
 		private boolean jetPackLightsEnabled = false;
 		private int pogoStickPreviousContinuousActiveBounces = 0;
 		public float pogoStickLastFallDistance = 0;
+		public float polymerSlabLastFallDistance = 0;
 	}
 
 	private final Map<EntityPlayer, PlayerState> playerStates = new HashMap<EntityPlayer, PlayerState>();
@@ -108,7 +110,7 @@ public class PolycraftEventHandler {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			final PlayerState playerState = getPlayerState(player);
-			handleJumpingClient(event, player, playerState);
+			handleBouncingClient(event, player, playerState);
 			handleWeapons(event, player, playerState);
 			handleMovementSpeedClient(event, player, playerState);
 			handleFlightClient(event, player, playerState);
@@ -121,15 +123,22 @@ public class PolycraftEventHandler {
 		if (event.entityLiving instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			final PlayerState playerState = getPlayerState(player);
+			final boolean onPolymerSlab = player.worldObj.getBlock((int) Math.floor(player.posX), (int) Math.floor(player.posY - player.getYOffset()) - 1, (int) Math.floor(player.posZ)) instanceof BlockPolymerSlab;
 			final ItemStack currentItemStack = player.getCurrentEquippedItem();
 			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick && currentItemStack.getItemDamage() < currentItemStack.getMaxDamage()) {
 				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
 				currentItemStack.attemptDamageItem(1, random);
 				playerState.pogoStickLastFallDistance = event.distance;
-				if (event.distance > pogoStick.settings.maxFallNoDamageHeight)
+				if (event.distance > pogoStick.settings.maxFallNoDamageHeight && !onPolymerSlab)
 					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
 				else
 					event.distance = 0;
+			}
+			else {
+				if (onPolymerSlab) {
+					playerState.polymerSlabLastFallDistance = event.distance;
+					event.distance = 0;
+				}
 			}
 		}
 	}
@@ -145,7 +154,7 @@ public class PolycraftEventHandler {
 	}
 
 	@SideOnly(Side.CLIENT)
-	private void handleJumpingClient(final LivingUpdateEvent event, final EntityPlayer player, final PlayerState playerState) {
+	private void handleBouncingClient(final LivingUpdateEvent event, final EntityPlayer player, final PlayerState playerState) {
 		float jumpMovementFactor = baseJumpMovementFactor;
 		final ItemStack currentItemStack = player.getCurrentEquippedItem();
 		if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick
@@ -163,8 +172,15 @@ public class PolycraftEventHandler {
 					playerState.pogoStickPreviousContinuousActiveBounces = 0;
 			}
 		}
-		else
+		else {
+			if (playerState.polymerSlabLastFallDistance > 0) {
+				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.polymerSlabLastFallDistance * .8);
+				if (motionY > .1)
+					player.motionY = motionY;
+				playerState.polymerSlabLastFallDistance = 0;
+			}
 			playerState.pogoStickPreviousContinuousActiveBounces = 0;
+		}
 		playerState.pogoStickLastFallDistance = 0;
 
 		if (player.jumpMovementFactor != jumpMovementFactor)

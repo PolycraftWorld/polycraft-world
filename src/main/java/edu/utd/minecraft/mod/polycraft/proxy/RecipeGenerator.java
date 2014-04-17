@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -285,6 +286,10 @@ public class RecipeGenerator {
 						new ItemStack(polymerBlock),
 						ImmutableList.of(new ItemStack(polymerPellet, polymer.pelletsPerBlock)));
 
+				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE,
+						new ItemStack(polymerPellet, polymer.pelletsPerBlock),
+						ImmutableList.of(new ItemStack(polymerBlock)));
+
 				//TODO fibers
 
 				if (polymer.slabable) {
@@ -332,12 +337,18 @@ public class RecipeGenerator {
 			GameRegistry.addShapelessRecipe(new ItemStack(Blocks.crafting_table), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blockMachiningMill), dirtStacks.toArray());
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemJetPack), dirtStacks.toArray());
 
-			for (final Settings settings : PolycraftMod.itemPogoStickSettings) {
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, Polymer.registry.get("Natural Rubber").itemNameSlab)), dirtStacks.toArray());
+
+			for (final Settings settings : Lists.reverse(PolycraftMod.itemPogoStickSettings)) {
 				dirtStacks.add(dirtStack);
 				GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Utility, settings.itemName)), dirtStacks.toArray());
 			}
+
+			dirtStacks.add(dirtStack);
+			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.blockMachiningMill), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemFlameThrower), dirtStacks.toArray());
@@ -356,9 +367,6 @@ public class RecipeGenerator {
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemScubaMask), dirtStacks.toArray());
-
-			dirtStacks.add(dirtStack);
-			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemJetPack), dirtStacks.toArray());
 
 			dirtStacks.add(dirtStack);
 			GameRegistry.addShapelessRecipe(new ItemStack(PolycraftMod.itemParachute), dirtStacks.toArray());

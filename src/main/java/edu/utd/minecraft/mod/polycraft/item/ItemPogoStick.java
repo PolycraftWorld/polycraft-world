@@ -26,8 +26,6 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 			this.jumpMovementFactorBuff = jumpMovementFactorBuff;
 		}
 
-		private static final float acceleration = .08f;
-
 		public double getMotionY(final float fallDistance, final int previousContinuousActiveBounces, final boolean playerActivelyBouncing) {
 			if (playerActivelyBouncing) {
 				double height = stableBounceHeight;
@@ -37,9 +35,9 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 				else if (previousContinuousActiveBounces < PolycraftMod.itemPogoStickBouncesUntilStable) {
 					height = stableBounceHeight * ((double) (previousContinuousActiveBounces + 1) / PolycraftMod.itemPogoStickBouncesUntilStable);
 				}
-				return Math.sqrt(2 * acceleration * height);
+				return PolycraftMod.getVelocityRequiredToReachHeight(height);
 			}
-			double motion = Math.sqrt(2 * acceleration * fallDistance) * .5;
+			double motion = PolycraftMod.getVelocityRequiredToReachHeight(fallDistance * .5);
 			if (motion < .2)
 				return 0;
 			return motion;

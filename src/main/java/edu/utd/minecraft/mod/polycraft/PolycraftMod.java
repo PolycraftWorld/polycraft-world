@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -127,7 +128,7 @@ public class PolycraftMod {
 	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
 	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
 	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
-	public static final Collection<ItemPogoStick.Settings> itemPogoStickSettings = new LinkedList<ItemPogoStick.Settings>();
+	public static final List<ItemPogoStick.Settings> itemPogoStickSettings = new LinkedList<ItemPogoStick.Settings>();
 	static {
 		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "wooden", ToolMaterial.WOOD, 25, 3, 1.5f));
 		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "wooden", ToolMaterial.WOOD, 250, 3, 1.5f));
@@ -143,6 +144,8 @@ public class PolycraftMod {
 
 		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "diamond", ToolMaterial.EMERALD, 250, 10, 3f));
 		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "diamond", ToolMaterial.EMERALD, 2500, 10, 3f));
+
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "magic", ToolMaterial.EMERALD, 100000, 100, 10f));
 	}
 
 	public static BiomeGenOilDesert biomeOilDesert;
@@ -178,6 +181,12 @@ public class PolycraftMod {
 
 	public final static String getFileSafeName(final String name) {
 		return name.replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
+	}
+
+	private static final float minecraftPlayerGravity = .08f;
+
+	public static double getVelocityRequiredToReachHeight(double height) {
+		return Math.sqrt(2 * minecraftPlayerGravity * height);
 	}
 
 	// TODO: Remove this if they ever fix enderman bug...
