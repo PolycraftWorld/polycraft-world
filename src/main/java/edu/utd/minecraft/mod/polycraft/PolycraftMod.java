@@ -130,22 +130,22 @@ public class PolycraftMod {
 	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
 	public static final List<ItemPogoStick.Settings> itemPogoStickSettings = new LinkedList<ItemPogoStick.Settings>();
 	static {
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "wooden", ToolMaterial.WOOD, 25, 3, 1.5f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "wooden", ToolMaterial.WOOD, 250, 3, 1.5f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "wooden", ToolMaterial.WOOD, 25, 3, 1.5f, true));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "wooden", ToolMaterial.WOOD, 250, 3, 1.5f, true));
 
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "stone", ToolMaterial.STONE, 50, 4, 1.75f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "stone", ToolMaterial.STONE, 500, 4, 1.75f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "stone", ToolMaterial.STONE, 50, 4, 1.75f, true));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "stone", ToolMaterial.STONE, 500, 4, 1.75f, true));
 
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "iron", ToolMaterial.IRON, 100, 5, 2f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "iron", ToolMaterial.IRON, 1000, 5, 2f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "iron", ToolMaterial.IRON, 100, 5, 2f, true));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "iron", ToolMaterial.IRON, 1000, 5, 2f, true));
 
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "golden", ToolMaterial.GOLD, 100, 6, 2.5f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "golden", ToolMaterial.GOLD, 1000, 6, 2.5f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "golden", ToolMaterial.GOLD, 100, 6, 2.5f, true));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "golden", ToolMaterial.GOLD, 1000, 6, 2.5f, true));
 
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "diamond", ToolMaterial.EMERALD, 250, 10, 3f));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "diamond", ToolMaterial.EMERALD, 2500, 10, 3f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "diamond", ToolMaterial.EMERALD, 250, 10, 3f, true));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "diamond", ToolMaterial.EMERALD, 2500, 10, 3f, true));
 
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "magic", ToolMaterial.EMERALD, 100000, 100, 10f));
+		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "magic", ToolMaterial.EMERALD, 100000, 100, 10f, false));
 	}
 
 	public static BiomeGenOilDesert biomeOilDesert;

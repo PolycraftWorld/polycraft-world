@@ -167,7 +167,7 @@ public class PolycraftEventHandler {
 				&& currentItemStack.getItemDamage() < currentItemStack.getMaxDamage()) {
 			final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
 			jumpMovementFactor *= pogoStick.settings.jumpMovementFactorBuff;
-			if (player.onGround) {
+			if (!pogoStick.settings.restrictJumpToGround || player.onGround) {
 				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && Minecraft.getMinecraft().currentScreen == null;
 				final double motionY = pogoStick.settings.getMotionY(playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
 				if (motionY > 0)
