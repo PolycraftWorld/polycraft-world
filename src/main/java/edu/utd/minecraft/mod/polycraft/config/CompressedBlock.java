@@ -1,19 +1,18 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class CompressedBlock extends Entity {
+public class CompressedBlock extends SourcedEntity {
 
 	public static final EntityRegistry<CompressedBlock> registry = new EntityRegistry<CompressedBlock>();
 
-	public final Ingot type;
-	public final int itemsPerBlock;
-
-	public CompressedBlock(final Ingot type) {
-		this(type, 9);
+	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : readConfig(directory, CompressedBlock.class.getSimpleName().toLowerCase(), extension, delimeter))
+			registry.register(new CompressedBlock(
+					line[0],
+					Entity.find(line[1], line[2]) //source
+			));
 	}
 
-	public CompressedBlock(final Ingot type, final int itemsPerBlock) {
-		super(type.name);
-		this.type = type;
-		this.itemsPerBlock = itemsPerBlock;
+	public CompressedBlock(final String name, final Entity source) {
+		super(name, source);
 	}
 }

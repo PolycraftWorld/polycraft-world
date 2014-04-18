@@ -1,0 +1,115 @@
+Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class 1	Polymer Class 2	Polymer Class 3	Major Item 1	Major Item 2	Major Item 3	Major Item 4
+Acrylic-Formaldehyde	af resin			FALSE		polyacrylate	polyaldehyde					
+Acrylonitrile-Butadiene-Styrene	ABS			FALSE		synthetic rubber						
+Alkyd Resin	alkyd resin			FALSE		polyester						
+Amorphous PolyEthylene Terephthalate	A-PET			FALSE		polyester						
+Bromine Isobutylene-Isoprene Rubber	BIIR			FALSE		natural rubber						
+Cellulose Diacetate	CDAP			FALSE		polysaccharide						
+Cellulose Triacetate	CTAP			FALSE		polysaccharide						
+Cellulosic	cellulose			TRUE		polysaccharide						
+Chitin	chitin			FALSE		polysaccharide						
+Chlorine Isobutylene-Isoprene Rubber	CIIR			FALSE		natural rubber						
+Epoxy Resin	epoxy resin			FALSE		polyepoxide						
+Ethoxylates	NRE			TRUE		polyol						
+Ethylene-Propylene Monomer	EPM			FALSE		polyolefin						
+Ethylene-Propylene-Diene Monomer	EPM			FALSE		polyolefin						
+Ethylene-Vinyl Acetate	EVA			FALSE		polyolefin	polyvinyl					
+High Density PolyEthylene	HDPE			FALSE		polyolefin						
+Hydrogenated Nitrile-Butadiene Rubber	HNBR			FALSE		synthetic rubber						
+Isobutylene-Isoprene Rubber	IIR			FALSE		natural rubber						
+Lignin	lignin			FALSE		polysaccharide						
+Linear Low-Density PolyEthylene	LLDPE			FALSE		polyolefin						
+Liquid Crystal Polymer	LCP		0	FALSE		polyester						
+Low Density PolyEthylene	LDPE			FALSE		polyolefin						
+Medium Densty PolyEthylene	MDPE			FALSE		polyolefin						
+Melamine-Formaldehyde Polymers	MFP			FALSE		polyaldehyde	polyamide					
+Metaldehyde	MALD			FALSE		polyaldehyde						
+Nitrile-Butadiene Rubber	NBR			FALSE		synthetic rubber						
+Paraformaldehyde	PFA			FALSE		polyaldehyde						
+Paraledhyde	PALD			FALSE		polyaldehyde						
+Phenolic Resin	phenol formaldehydes			FALSE		polyaldehyde						
+Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	PHBV			TRUE		polyester	polyester					
+Poly1-Butene	P1B			FALSE		polyolefin						
+"Poly2,6-Dimethyl-1,4-Phenylene Ether"	PDPE			FALSE		polyphenyl ethers						
+Poly-2-Hydroxy Butyrate	PHB			FALSE		polyester						
+Poly2-Hydroxyethyl Methacrylate	PHEMA			FALSE		polyacrylate						
+PolyAcrylate Elastomer	PAE			FALSE		polyacrylate						
+PolyAcrylonitrile	PAN			FALSE		polyolefin						
+PolyButadiene	PBD			FALSE		synthetic rubber						
+PolyButadiene Rubber	PBR			FALSE		synthetic rubber						
+PolyButylene Succinate	PBS			TRUE		polyester						
+PolyButylene Terephthalate	PBT			FALSE		polyester						
+PolyButylene Terephthalate	PBT			FALSE		polyester						
+PolyCaprolactone	PCL			TRUE		polyester						
+PolyCarbonate	PC			FALSE		polycarbonate						
+PolyChloroPrene	PCHL			FALSE		synthetic rubber						
+PolyChlorotrifluoroethylene	PCTFE			FALSE		synthetic rubber						
+PolyDiMethylSiloxane	PDMS			FALSE		silicone						
+PolyEther Ether Ketone	PEEK			FALSE		polyamide						
+PolyEtherImide	PEI			FALSE		polyimide						
+PolyEthyl Acrylate	PEA			FALSE		polyacrylate						
+PolyEthylene Adipate	PEA			TRUE		polyester						
+PolyEthylene Glycol	PEG			FALSE	Water	polyether						
+PolyEthylene Hexamethylene Dicarbamate	PEHD			FALSE		polyurethane						
+PolyEthylene Naphthalate	PEN			FALSE		polyester						
+PolyEthylene Oxide	PEO			FALSE	Water	polyether						
+PolyEthylene Sulphide	PES			FALSE		polyalkene sulfide						
+PolyEthylene Terephthalate	PET			FALSE		polyester						
+PolyEthylene Terephthalate Glycol-Modified	PETG			FALSE		polyester						
+PolyGlycolic Acid	PGA			TRUE		polyester						
+PolyHexamethylene Adipamide	"Nylon 6,7"			FALSE		polyamide						
+PolyHexamethylene Sebacamide	"Nylon 6,11"			FALSE		polyamide						
+PolyHydroxyalkanoate	PHA			TRUE		polyester						
+PolyHydroxybutyrate-Co-Hydroxyvalerate	PHBV			TRUE		polyester						
+PolyImide	PI			FALSE		polyamide						
+PolyIsoBorynl Acrylate	PIBOA			FALSE		polyacrylate						
+PolyIsoButyl Acrylate	PIBA			FALSE		polyacrylate						
+PolyIsoButylene	PIB			FALSE		polyolefin						
+PolyIsoPrene	NR	1		FALSE		natural rubber						
+PolyLactic Acid	PLA			TRUE		polyester						
+PolyLactic-Co-Glycolic Acid	PLGA			TRUE		polyester						
+PolyMethyl Acrylate	PMA			FALSE		polyacrylate						
+PolyMethyl Cyanoacrylate	PMCA			FALSE		polyacrylate						
+PolyMethyl Methacrylate	PMMA			FALSE		polyacrylate						
+PolyM-Methyl Styrene	PMMS			FALSE		polyolefin						
+PolyM-Phenylene Isophthalamide	PMIA			FALSE		polyphenol						
+PolyN-Butyl Acrylate	PNBA			FALSE		polyacrylate						
+PolyOxymethylene	POM			FALSE		polyether						
+PolyPentamethylene Hexamethylene Dicarbamate	PPHD			FALSE		polyurethane						
+PolyPhenol	polyphenol			FALSE		polyphenol						
+PolyPhenylene Oxide	PPO			FALSE		polyphenol						
+PolyPhosphazene	PPPHAZ			FALSE		inorganic-organic polymer						
+PolyP-Methyl Styrene	PPMS			FALSE		polyolefin						
+PolyP-Phenylene Sulphide	PPS			FALSE		polyphenol						
+PolyP-Phenylene Terephthalamide	PPTA			FALSE		polyphenol						
+PolyPropylene	PP			FALSE		polyolefin						
+PolyPropylene Glycol	PPG			FALSE		polyether						
+PolyPropylene Oxide	PPOX			FALSE		polyether						
+PolyStyrene	PS			FALSE		polyolefin						
+PolyTert-Butyl Acrylate	PTBA			FALSE		polyacrylate						
+PolyTetraFluoroEthylene	PTFE			FALSE		fluoropolymer						
+PolyTetramethylene Ether Glycol	PTMEG			FALSE		polyether						
+PolyTetramethylene Glycol	PTMG			FALSE		polyether						
+PolyThiazyl	PTA			FALSE		inorganic polymer						
+PolyTrimethylene Terephthalate	PTT			FALSE		polyester						
+PolyUrethane	PU			FALSE		polyurethane						
+PolyVinyl Acetate	PVAC			FALSE		polyvinyl ester						
+PolyVinyl Alcohol	PVA			TRUE		polyvinyl						
+PolyVinyl Butyral	PVB			FALSE		polyvinyl						
+PolyVinyl Chloride	PVC			FALSE		polyolefin						
+PolyVinyl Chloride Acetate	PVCA			FALSE		polyvinyl ester						
+PolyVinyl Fluoride	PVF			FALSE		fluoropolymer						
+PolyVinyl Formal	PVFO			FALSE		polyvinyl						
+PolyVinyl Methyl Ether	PVME			FALSE		polyvinyl						
+PolyVinylidene Dichloride	PVDC			FALSE		polyvinyl						
+PolyVinylidene Fluoride	PVDF			FALSE		fluoropolymer						
+PolyVinylidene Fluoride-Trifluoroethylene	PVDF-TRFE			FALSE		fluoropolymer						
+Styrene-Acrylonitrile	SAN			FALSE		synthetic rubber						
+Styrene-Butadiene Rubber	SBR			FALSE		synthetic rubber						
+Styrene-Butadiene-Styrene	SBS			FALSE		synthetic rubber						
+Styrene-Isoprene-Styrene	SIS			FALSE		synthetic rubber						
+Styrene-Maleic Anhydride Copolymer	SMAC			FALSE		synthetic rubber						
+Ultra-High-Molecular-Weight PolyEthylene	UHMWPE			FALSE		polyolefin						
+Urea-Formaldehyde Polymers	UFP			FALSE		polyaldehyde	polyamide					
+Very-Low-Density PolyEthylene	VLDPE			FALSE		polyolefin						
+Vinyl Acetate-Acrylic Acid	VA/AA			FALSE		polyacrylate	polyvinyl					

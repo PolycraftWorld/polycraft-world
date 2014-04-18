@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.base.Preconditions;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Polymer;
 
 public class ItemGripped {
 	private static final Logger logger = LogManager.getLogger();
@@ -49,8 +48,8 @@ public class ItemGripped {
 		return itemGripped;
 	}
 
-	public static String getName(final Polymer polymer, final String materialName, final String type) {
-		return polymer.name + " Gripped " + getNameBase(materialName, type);
+	public static String getName(final String materialName, final String type) {
+		return "Gripped " + getNameBase(materialName, type);
 	}
 
 	public static String getNameBase(final String materialName, final String type) {

@@ -1,10 +1,25 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Ore extends Entity {
+public class Ore extends SourcedEntity {
 
 	public static final EntityRegistry<Ore> registry = new EntityRegistry<Ore>();
 
-	public final Entity type;
+	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : readConfig(directory, Ore.class.getSimpleName().toLowerCase(), extension, delimeter))
+			registry.register(new Ore(
+					line[0],
+					Entity.find(line[1], line[2]), //source
+					Float.parseFloat(line[3]), //hardness
+					Float.parseFloat(line[4]), //resistance
+					Integer.parseInt(line[5]), //dropExperienceMin
+					Integer.parseInt(line[6]), //dropExperienceMax
+					Integer.parseInt(line[7]), //generationVeinsPerChunk
+					Integer.parseInt(line[8]), //generationBlocksPerVein
+					Integer.parseInt(line[9]), //generationStartYMin
+					Integer.parseInt(line[10]) //generationStartYMax
+			));
+	}
+
 	public final float hardness;
 	public final float resistance;
 	public final int dropExperienceMin;
@@ -13,15 +28,10 @@ public class Ore extends Entity {
 	public final int generationStartYMax;
 	public final int generationVeinsPerChunk;
 	public final int generationBlocksPerVein;
-	public final boolean smeltingEntityIsItem;
-	public final Entity smeltingEntity;
-	public final int smeltingEntitiesPerBlock;
-	public final float smeltingExperience;
 
-	public Ore(final Entity type, final float hardness, final float resistance, final int dropExperienceMin, final int dropExperienceMax, final int generationStartYMin, final int generationStartYMax, final int generationVeinsPerChunk,
-			final int generationBlocksPerVein, final Entity smeltingEntity, final int smeltingEntitiesPerBlock, final float smeltingExperience) {
-		super(type.name);
-		this.type = type;
+	public Ore(final String name, final Entity source, final float hardness, final float resistance, final int dropExperienceMin, final int dropExperienceMax,
+			final int generationVeinsPerChunk, final int generationBlocksPerVein, final int generationStartYMin, final int generationStartYMax) {
+		super(name, source);
 		this.hardness = hardness;
 		this.resistance = resistance;
 		this.dropExperienceMin = dropExperienceMin;
@@ -30,9 +40,5 @@ public class Ore extends Entity {
 		this.generationStartYMax = generationStartYMax;
 		this.generationVeinsPerChunk = generationVeinsPerChunk;
 		this.generationBlocksPerVein = generationBlocksPerVein;
-		this.smeltingEntity = smeltingEntity;
-		this.smeltingEntityIsItem = smeltingEntity != null && smeltingEntity instanceof Ingot;
-		this.smeltingEntitiesPerBlock = smeltingEntitiesPerBlock;
-		this.smeltingExperience = smeltingExperience;
 	}
 }

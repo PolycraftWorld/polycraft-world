@@ -9,7 +9,7 @@ public class ItemIngot extends Item implements PolycraftItem {
 
 	public ItemIngot(final Ingot ingot) {
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Ingot.class.getSimpleName() + "_" + ingot.type.getClass().getSimpleName())));
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Ingot.class.getSimpleName() + "_" + ingot.source.getClass().getSimpleName())));
 	}
 
 	@Override

@@ -11,14 +11,12 @@ import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 
 public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 
-	public final CompressedBlock compressedBlock;
 	private final LabelTexture labelTexture;
 
 	public BlockCompressed(final CompressedBlock compressedBlock) {
 		super(MapColor.ironColor);
-		this.compressedBlock = compressedBlock;
 		final String texture = PolycraftMod.getFileSafeName(
-				"compressed_" + compressedBlock.type.getClass().getSimpleName() + "_" + compressedBlock.type.type.getClass().getSimpleName());
+				"compressed_" + compressedBlock.source.getClass().getSimpleName());
 		this.labelTexture = new LabelTexture(texture, texture + "_flip");
 		this.setStepSound(Block.soundTypeMetal);
 	}

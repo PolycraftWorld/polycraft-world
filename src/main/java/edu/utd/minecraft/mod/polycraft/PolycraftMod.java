@@ -1,10 +1,8 @@
 package edu.utd.minecraft.mod.polycraft;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -34,29 +32,31 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
-import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
-import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Entity;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
+import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
-import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick.Settings;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
-import edu.utd.minecraft.mod.polycraft.proxy.PolycraftModWikiMaker;
 import edu.utd.minecraft.mod.polycraft.util.Base62;
+import edu.utd.minecraft.mod.polycraft.util.PolycraftModWikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
 // The ultimate minecraft mod.
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
+
+	private static final Logger logger = LogManager.getLogger();
 
 	public static final String MODID = "polycraft";
 	public static final String VERSION = "1.0";
@@ -67,7 +67,6 @@ public class PolycraftMod {
 	@SidedProxy(clientSide = "edu.utd.minecraft.mod.polycraft.proxy.CombinedClientProxy", serverSide = "edu.utd.minecraft.mod.polycraft.proxy.DedicatedServerProxy")
 	public static CommonProxy proxy;
 
-	public static final boolean cheatRecipesEnabled = true;
 	public static final int worldTemperatureKelvin = 298;
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;
@@ -177,8 +176,6 @@ public class PolycraftMod {
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
-	private static final Logger logger = LogManager.getLogger();
-
 	public final static String getFileSafeName(final String name) {
 		return name.replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
 	}
@@ -189,60 +186,10 @@ public class PolycraftMod {
 		return Math.sqrt(2 * minecraftPlayerGravity * height);
 	}
 
-	// TODO: Remove this if they ever fix enderman bug...
-	private void fixEnderman() {
-		// Look for static fields on enderman
-		Field[] declaredFields = EntityEnderman.class.getDeclaredFields();
-		for (Field field : declaredFields) {
-			int modifiers = field.getModifiers();
-			if (java.lang.reflect.Modifier.isStatic(modifiers)) {
-				// Look for arrays
-				Class<?> c = field.getType();
-				if (c.isArray()) {
-					field.setAccessible(true);
-					try {
-						// Copy old array into new array and set it
-						boolean[] oldArray = (boolean[]) field.get(null);
-						boolean[] newArray = new boolean[4096];
-						for (int i = 0; i < oldArray.length; ++i) {
-							newArray[i] = oldArray[i];
-						}
-						field.set(null, newArray);
-						logger.info("Set enderman carriable blocks to a reasonable value.");
-						return;
-					} catch (IllegalArgumentException e) {
-						logger.warn("Unable to set enderman carriable blocks: ", e);
-						return;
-					} catch (IllegalAccessException e) {
-						logger.warn("Unable to set enderman carriable blocks: ", e);
-						return;
-					}
-				}
-			}
-
-		}
-		logger.info("Unable to find enderman carriable blocks field.");
-	}
-
-	public static Collection<String[]> readConfig(final String name) {
-		Collection<String[]> config = new LinkedList<String[]>();
-		final BufferedReader br = new BufferedReader(new InputStreamReader(PolycraftMod.class.getClassLoader().getResourceAsStream("config/" + name + ".tsv")));
-		try {
-			br.readLine();//skip the first line (headers)
-			for (String line; (line = br.readLine()) != null;) {
-				config.add(line.split("\t"));
-			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-		return config;
-	}
-
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		fixEnderman();
+		Entity.registerFromConfigs("config", "tsv", "\t");
 		proxy.preInit();
 	}
 
@@ -383,7 +330,7 @@ public class PolycraftMod {
 		return items.get(getRegistryName(namespace, name));
 	}
 
-	public void exportLangEntries(final String translationFile, final String exportFile) throws IOException {
+	private void exportLangEntries(final String translationFile, final String exportFile) throws IOException {
 		final Properties translations = new Properties();
 		final InputStream translationsInput = new FileInputStream(translationFile);
 		translations.load(translationsInput);
@@ -418,46 +365,41 @@ public class PolycraftMod {
 					(settings.gripped ? translations.getProperty("gripped") + " " : ""), materialNameUpper, translations.getProperty("pogo_stick")));
 		}
 
-		for (final Element element : Element.registry.values())
-			if (element.fluid)
-				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Element, ItemFluidContainer.getItemName(element)), translations.getProperty("container_of"), element.name));
-
-		for (final Compound compound : Compound.registry.values())
-			if (compound.fluid)
-				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Compound, ItemFluidContainer.getItemName(compound)), translations.getProperty("container_of"), compound.name));
-			else
-				langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Compound, compound), compound.name));
-
-		for (final Polymer polymer : Polymer.registry.values()) {
-			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymer), polymer.name));
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNamePellet), polymer.name, translations.getProperty("pellet")));
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameFiber), polymer.name, translations.getProperty("fiber")));
-			if (polymer.slabable) {
-				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameSlab), polymer.name, translations.getProperty("slab")));
-				langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.itemNameDoubleSlab), polymer.name, translations.getProperty("double_slab")));
-				langEntries.add(String.format("%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.blockNameSlab), polymer.name, translations.getProperty("slab")));
-				langEntries.add(String.format("%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymer.blockNameDoubleSlab), polymer.name, translations.getProperty("double_slab")));
-			}
-		}
-
 		for (final Ore ore : Ore.registry.values())
-			langEntries.add(String.format("tile.%s.name=%s %s", getRegistryName(RegistryNamespace.Ore, ore), ore.name, translations.getProperty("ore")));
+			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Ore, ore), ore.name));
 
 		for (final Ingot ingot : Ingot.registry.values())
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Ingot, ingot), ingot.name, translations.getProperty("ingot")));
+			langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Ingot, ingot), ingot.name));
 
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-			langEntries.add(String.format("tile.%s.name=%s %s", getRegistryName(RegistryNamespace.CompressedBlock, compressedBlock), translations.getProperty("block_of"), compressedBlock.name));
+			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.CompressedBlock, compressedBlock), compressedBlock.name));
 
 		for (final Catalyst catalyst : Catalyst.registry.values())
-			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Catalyst, catalyst), catalyst.name, translations.getProperty("catalyst")));
+			langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Catalyst, catalyst), catalyst.name));
+
+		//TODO Vessels
+
+		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
+			langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymerPellets), polymerPellets.name));
+
+		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
+			langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymerFibers), polymerFibers.name));
+
+		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
+			langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymerSlab.itemNameSlab), polymerSlab.name));
+			langEntries.add(String.format("item.%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymerSlab.itemNameDoubleSlab), polymerSlab.name, translations.getProperty("double")));
+			langEntries.add(String.format("%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymerSlab.blockNameSlab), polymerSlab.name));
+			langEntries.add(String.format("%s.name=%s %s", getRegistryName(RegistryNamespace.Polymer, polymerSlab.blockNameDoubleSlab), polymerSlab.name, translations.getProperty("double")));
+		}
+
+		for (final Polymer polymer : Polymer.registry.values())
+			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Polymer, polymer), polymer.name));
 
 		for (final String materialName : ItemGripped.allowedMaterials.keySet()) {
 			final String materialNameUpper = Character.toUpperCase(materialName.charAt(0)) + materialName.substring(1);
 			for (final String type : ItemGripped.allowedTypes.keySet())
-				langEntries.add(String.format("item.%s.name=%s %s %s (%s)", getRegistryName(RegistryNamespace.Tool, ItemGripped.getName(Polymer.registry.get("PolyOxymethylene"), materialName, type)),
-						translations.getProperty("gripped"), materialNameUpper,
-						Character.toUpperCase(type.charAt(0)) + type.substring(1), Polymer.registry.get("PolyOxymethylene").name));
+				langEntries.add(String.format("item.%s.name=%s %s %s", getRegistryName(RegistryNamespace.Tool, ItemGripped.getName(materialName, type)),
+						translations.getProperty("gripped"), materialNameUpper, Character.toUpperCase(type.charAt(0)) + type.substring(1)));
 		}
 
 		final PrintWriter writer = new PrintWriter(exportFile);
@@ -465,5 +407,40 @@ public class PolycraftMod {
 			writer.println(line);
 		}
 		writer.close();
+	}
+
+	// TODO: Remove this if they ever fix enderman bug...
+	private void fixEnderman() {
+		// Look for static fields on enderman
+		Field[] declaredFields = EntityEnderman.class.getDeclaredFields();
+		for (Field field : declaredFields) {
+			int modifiers = field.getModifiers();
+			if (java.lang.reflect.Modifier.isStatic(modifiers)) {
+				// Look for arrays
+				Class<?> c = field.getType();
+				if (c.isArray()) {
+					field.setAccessible(true);
+					try {
+						// Copy old array into new array and set it
+						boolean[] oldArray = (boolean[]) field.get(null);
+						boolean[] newArray = new boolean[4096];
+						for (int i = 0; i < oldArray.length; ++i) {
+							newArray[i] = oldArray[i];
+						}
+						field.set(null, newArray);
+						logger.info("Set enderman carriable blocks to a reasonable value.");
+						return;
+					} catch (IllegalArgumentException e) {
+						logger.warn("Unable to set enderman carriable blocks: ", e);
+						return;
+					} catch (IllegalAccessException e) {
+						logger.warn("Unable to set enderman carriable blocks: ", e);
+						return;
+					}
+				}
+			}
+
+		}
+		logger.info("Unable to find enderman carriable blocks field.");
 	}
 }

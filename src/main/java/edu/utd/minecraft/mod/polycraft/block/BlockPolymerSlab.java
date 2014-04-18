@@ -14,22 +14,22 @@ import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 
 public class BlockPolymerSlab extends BlockSlab
 {
-	public final Polymer polymer;
+	public final PolymerSlab polymerSlab;
 	private final boolean isDouble;
 
 	private final LabelTexture labelTexture;
 
-	public BlockPolymerSlab(final Polymer polymer, boolean isDouble)
+	public BlockPolymerSlab(final PolymerSlab polymerSlab, boolean isDouble)
 	{
 		super(isDouble, Material.rock);
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		this.polymer = polymer;
-		this.labelTexture = polymer.resinCode.recyclingNumber >= 1 && polymer.resinCode.recyclingNumber <= 7
-				? new LabelTexture("polymer", null, "polymer_" + polymer.resinCode.recyclingNumber + "_bottom")
+		this.polymerSlab = polymerSlab;
+		this.labelTexture = polymerSlab.source.resinCode.recyclingNumber >= 1 && polymerSlab.source.resinCode.recyclingNumber <= 7
+				? new LabelTexture("polymer", null, "polymer_" + polymerSlab.source.resinCode.recyclingNumber + "_bottom")
 				: new LabelTexture("polymer", null, "polymer_bottom");
 		this.isDouble = isDouble;
 	}
@@ -54,7 +54,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	{
-		return PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.itemNameSlab);
+		return PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymerSlab.itemNameSlab);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@Override
 	public String func_150002_b(int p_150002_1_)
 	{
-		return PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Polymer, polymer.blockNameSlab);
+		return PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Polymer, polymerSlab.blockNameSlab);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_)
 	{
-		if (p_149666_1_ != PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymer.blockNameDoubleSlab))
+		if (p_149666_1_ != PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymerSlab.blockNameDoubleSlab))
 		{
 			for (int i = 0; i <= 7; ++i)
 			{

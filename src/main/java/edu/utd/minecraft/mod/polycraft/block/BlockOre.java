@@ -19,7 +19,7 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 
 	public BlockOre(final Ore ore) {
 		this.ore = ore;
-		final String texture = PolycraftMod.getFileSafeName(Ore.class.getSimpleName() + "_" + ore.type.getClass().getSimpleName() + "_" + ore.name);
+		final String texture = PolycraftMod.getFileSafeName(Ore.class.getSimpleName() + "_" + ore.source.getClass().getSimpleName());
 		this.labelTexture = new LabelTexture(texture, texture + "_flip");
 		this.setHardness(ore.hardness);
 		this.setResistance(ore.resistance);

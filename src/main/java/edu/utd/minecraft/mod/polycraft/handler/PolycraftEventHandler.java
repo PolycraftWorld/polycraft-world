@@ -195,8 +195,9 @@ public class PolycraftEventHandler {
 				else {
 					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) && Minecraft.getMinecraft().currentScreen == null && player.onGround) {
 						final Block blockUnderPlayer = getBlockUnderPlayer(player);
+						//TODO bounce on PolyrmerBlocks as well
 						if (blockUnderPlayer instanceof BlockPolymerSlab)
-							playerState.polymerSlabBounceHeight = ((BlockPolymerSlab) blockUnderPlayer).polymer.slabBounceHeight;
+							playerState.polymerSlabBounceHeight = ((BlockPolymerSlab) blockUnderPlayer).polymerSlab.bounceHeight;
 					}
 				}
 			}

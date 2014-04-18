@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Polymer extends Compound {
+public class Polymer extends Entity {
 
 	public enum Category {
 		None,
@@ -42,36 +42,34 @@ public class Polymer extends Compound {
 
 	public static final EntityRegistry<Polymer> registry = new EntityRegistry<Polymer>();
 
+	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : readConfig(directory, Polymer.class.getSimpleName().toLowerCase(), extension, delimeter)) {
+			int resinCodeValue = 0;
+			if (line[3].length() > 0) {
+				resinCodeValue = Integer.parseInt(line[3]);
+				if (resinCodeValue > 7)
+					resinCodeValue = 0;
+			}
+			registry.register(new Polymer(
+					line[0], //name
+					line[1], //shortName
+					Polymer.ResinCode.values()[resinCodeValue], //resinCode
+					Boolean.parseBoolean(line[4]), //degradable
+					Polymer.Category.valueOf(line[6].replaceAll(" ", "").trim()) //category
+			));
+		}
+	}
+
 	public final String shortName;
-	public final String itemNamePellet;
-	public final String itemNameFiber;
-	public final String itemNameSlab;
-	public final String itemNameDoubleSlab;
-	public final String blockNameSlab;
-	public final String blockNameDoubleSlab;
 	public final boolean degradable;
 	public final Category category;
 	public final ResinCode resinCode;
-	public final int pelletsPerBlock;
-	public final boolean slabable;
-	public final int slabBounceHeight;
 
-	public Polymer(final String name, final String shortName, final String pelletName, final String fiberName,
-			final boolean degradable, final Category category, final ResinCode resinCode, final int pelletsPerBlock,
-			final boolean slabable, final int slabBounceHeight) {
-		super(name, false);
+	public Polymer(final String name, final String shortName, final ResinCode resinCode, final boolean degradable, final Category category) {
+		super(name);
 		this.shortName = shortName;
-		this.itemNamePellet = pelletName;
-		this.itemNameFiber = fiberName;
-		this.blockNameSlab = name + "_slab";
-		this.blockNameDoubleSlab = "double_" + blockNameSlab;
-		this.itemNameSlab = blockNameSlab + "_item";
-		this.itemNameDoubleSlab = blockNameDoubleSlab + "_item";
+		this.resinCode = resinCode;
 		this.degradable = degradable;
 		this.category = category;
-		this.resinCode = resinCode;
-		this.pelletsPerBlock = pelletsPerBlock;
-		this.slabable = slabable;
-		this.slabBounceHeight = slabBounceHeight;
 	}
 }
