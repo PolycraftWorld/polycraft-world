@@ -1,25 +1,28 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Element extends Entity {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<Element> registry = new EntityRegistry<Element>();
+public class Element extends Config {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, Element.class.getSimpleName().toLowerCase(), extension, delimeter))
-			registry.register(new Element(
-					line[0], //name
-					line[1], //symbol
-					Integer.parseInt(line[2]), //atomicNumber
-					Integer.parseInt(line[3]), //group
-					Integer.parseInt(line[4]), //period
-					Double.parseDouble(line[5]), //weight
-					Double.parseDouble(line[6]), //density
-					Double.parseDouble(line[7]), //melt
-					Double.parseDouble(line[8]), //boil
-					Double.parseDouble(line[9]), //heat
-					Double.parseDouble(line[10]), //electronegativity
-					Double.parseDouble(line[11]) //abundance
-			));
+	public static final ConfigRegistry<Element> registry = new ConfigRegistry<Element>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Element.class.getSimpleName().toLowerCase(), extension, delimeter))
+			if (line.length > 0)
+				registry.register(new Element(
+						line[0], //name
+						line[1], //symbol
+						Integer.parseInt(line[2]), //atomicNumber
+						Integer.parseInt(line[3]), //group
+						Integer.parseInt(line[4]), //period
+						Double.parseDouble(line[5]), //weight
+						Double.parseDouble(line[6]), //density
+						Double.parseDouble(line[7]), //melt
+						Double.parseDouble(line[8]), //boil
+						Double.parseDouble(line[9]), //heat
+						Double.parseDouble(line[10]), //electronegativity
+						Double.parseDouble(line[11]) //abundance
+				));
 	}
 
 	public final String symbol;

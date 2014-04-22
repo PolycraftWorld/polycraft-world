@@ -1,18 +1,22 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class PolymerFibers extends SourcedEntity<Polymer> {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<PolymerFibers> registry = new EntityRegistry<PolymerFibers>();
+public class PolymerFibers extends SourcedConfig<Polymer> {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, PolymerFibers.class.getSimpleName().toLowerCase(), extension, delimeter))
-			registry.register(new PolymerFibers(
-					line[0],
-					(Polymer) Entity.find(line[1], line[2]) //source
-			));
+	public static final ConfigRegistry<PolymerFibers> registry = new ConfigRegistry<PolymerFibers>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerFibers.class.getSimpleName().toLowerCase(), extension, delimeter))
+			if (line.length > 0)
+				registry.register(new PolymerFibers(
+						line[0], //gameID
+						line[1], //name
+						(Polymer) Config.find(line[2], line[3]) //source
+				));
 	}
 
-	public PolymerFibers(final String name, final Polymer source) {
-		super(name, source);
+	public PolymerFibers(final String gameID, final String name, final Polymer source) {
+		super(gameID, name, source);
 	}
 }

@@ -288,7 +288,8 @@ public class BlockTreeTap extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public static IIcon getTreeTapIcon(String p_149916_0_)
 	{
-		return p_149916_0_.equals("tree_tap_outside") ? PolycraftMod.blockTreeTap.field_149921_b : (p_149916_0_.equals("tree_tap_inside") ? PolycraftMod.blockTreeTap.field_149924_N : null);
+		final BlockTreeTap treeTap = (BlockTreeTap) PolycraftMod.getBlock("Tree Tap");
+		return p_149916_0_.equals("tree_tap_outside") ? treeTap.field_149921_b : (p_149916_0_.equals("tree_tap_inside") ? treeTap.field_149924_N : null);
 	}
 
 	public static TileEntityTreeTap func_149920_e(IBlockAccess p_149920_0_, int p_149920_1_, int p_149920_2_, int p_149920_3_)

@@ -35,7 +35,7 @@ public class BlockMachiningMill extends BlockContainer {
 
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Item.getItemFromBlock(PolycraftMod.blockMachiningMill);
+		return Item.getItemFromBlock(PolycraftMod.getBlock("Machining Mill"));
 	}
 
 	/**
@@ -120,6 +120,6 @@ public class BlockMachiningMill extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
-		return Item.getItemFromBlock(PolycraftMod.blockMachiningMill);
+		return Item.getItemFromBlock(PolycraftMod.getBlock("Machining Mill"));
 	}
 }

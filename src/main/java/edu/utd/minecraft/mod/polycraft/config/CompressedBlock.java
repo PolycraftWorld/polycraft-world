@@ -1,18 +1,22 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class CompressedBlock extends SourcedEntity {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<CompressedBlock> registry = new EntityRegistry<CompressedBlock>();
+public class CompressedBlock extends SourcedConfig {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, CompressedBlock.class.getSimpleName().toLowerCase(), extension, delimeter))
-			registry.register(new CompressedBlock(
-					line[0],
-					Entity.find(line[1], line[2]) //source
-			));
+	public static final ConfigRegistry<CompressedBlock> registry = new ConfigRegistry<CompressedBlock>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, CompressedBlock.class.getSimpleName().toLowerCase(), extension, delimeter))
+			if (line.length > 0)
+				registry.register(new CompressedBlock(
+						line[0], //gameID
+						line[1], //name
+						Config.find(line[2], line[3]) //source
+				));
 	}
 
-	public CompressedBlock(final String name, final Entity source) {
-		super(name, source);
+	public CompressedBlock(final String gameID, final String name, final Config source) {
+		super(gameID, name, source);
 	}
 }

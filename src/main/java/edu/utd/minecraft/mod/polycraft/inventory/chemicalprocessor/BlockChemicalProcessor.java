@@ -44,7 +44,7 @@ public class BlockChemicalProcessor extends BlockContainer {
 
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Item.getItemFromBlock(PolycraftMod.blockChemicalProcessor);
+		return Item.getItemFromBlock(PolycraftMod.getBlock("Chemical Processor"));
 	}
 
 	/**
@@ -135,9 +135,9 @@ public class BlockChemicalProcessor extends BlockContainer {
 		keepChemicalProcessorInventory = true;
 
 		if (p_149931_0_) {
-			p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, PolycraftMod.blockChemicalProcessorActive);
+			p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, PolycraftMod.getBlock("Chemical Processor Active"));
 		} else {
-			p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, PolycraftMod.blockChemicalProcessor);
+			p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, PolycraftMod.getBlock("Chemical Processor"));
 		}
 
 		keepChemicalProcessorInventory = false;
@@ -281,6 +281,6 @@ public class BlockChemicalProcessor extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
-		return Item.getItemFromBlock(PolycraftMod.blockChemicalProcessor);
+		return Item.getItemFromBlock(PolycraftMod.getBlock("Chemical Processor"));
 	}
 }

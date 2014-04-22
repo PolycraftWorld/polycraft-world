@@ -7,22 +7,22 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 
 public class BlockPolymer extends Block {
 
-	public final Polymer polymer;
+	public final PolymerBlock polymerBlock;
 	private final LabelTexture labelTexture;
 
 	// private static final IIcon[] colorIconList = new IIcon[16];
 	// public static final String[] colorNames = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
 	// public static final String[] color_names = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
 
-	public BlockPolymer(final Polymer polymer) {
+	public BlockPolymer(final PolymerBlock polymerBlock) {
 		super(Material.cloth);
-		this.polymer = polymer;
-		this.labelTexture = polymer.resinCode.recyclingNumber >= 1 && polymer.resinCode.recyclingNumber <= 7
-				? new LabelTexture("polymer", null, "polymer_" + polymer.resinCode.recyclingNumber + "_bottom")
+		this.polymerBlock = polymerBlock;
+		this.labelTexture = polymerBlock.source.resinCode.recyclingNumber >= 1 && polymerBlock.source.resinCode.recyclingNumber <= 7
+				? new LabelTexture("polymer", null, "polymer_" + polymerBlock.source.resinCode.recyclingNumber + "_bottom")
 				: new LabelTexture("polymer", null, "polymer_bottom");
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}

@@ -2,14 +2,14 @@ package edu.utd.minecraft.mod.polycraft.inventory.machiningmill;
 
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 
 public class TileEntityMachiningMill extends PolycraftBasicTileEntityContainer implements ISidedInventory {
 
 	public TileEntityMachiningMill() {
-		super(PolycraftContainerType.MACHINING_MILL, PolycraftMod.blockNameMachiningMill);
+		super(PolycraftContainerType.MACHINING_MILL, CustomObject.registry.get("Machining Mill").gameID);
 	}
 
 	@Override

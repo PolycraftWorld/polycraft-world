@@ -1,5 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class Base62 {
 
 	private static final String baseDigits = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -52,5 +55,18 @@ public class Base62 {
 			throw new IllegalArgumentException("Unknow character for Base62: " + s);
 		}
 		return index;
+	}
+
+	public static void export(final long start, final long finish, final String file) {
+		PrintWriter out;
+		try {
+			out = new PrintWriter(file);
+			for (long i = start; i <= finish; i++) {
+				out.write(Base62.encode(i) + "\n");
+			}
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

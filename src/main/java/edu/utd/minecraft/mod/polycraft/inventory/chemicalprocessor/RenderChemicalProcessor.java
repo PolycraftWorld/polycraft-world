@@ -16,7 +16,7 @@ public class RenderChemicalProcessor implements ISimpleBlockRenderingHandler {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 		int meta = 3;
-		if (Block.getIdFromBlock(block) == Block.getIdFromBlock(PolycraftMod.blockChemicalProcessorActive))
+		if (Block.getIdFromBlock(block) == Block.getIdFromBlock(PolycraftMod.getBlock("Chemical Processor Active")))
 			meta = 1;
 		Tessellator tessellator = Tessellator.instance;
 		block.setBlockBoundsForItemRender();

@@ -22,24 +22,25 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
-import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 
 public class PolycraftModWikiMaker {
 	private static Logger logger = LogManager.getLogger();
-	
+
 	private static final String ITEM_IMAGE_PATH = "../src/main/resources/assets/polycraft/textures/items";
-	
+
 	private static Map<String, String> images = new HashMap<String, String>();
-	
+
 	private static StringBuilder wikiJson = new StringBuilder();
 	private static String indent = "";
+
 	private static void WriteLine(String str) {
 		System.out.println(indent + str);
 		wikiJson.append(indent);
 		wikiJson.append(str);
 		wikiJson.append("\n");
 	}
+
 	private static void WriteJson(String outputFile) {
 		File file = new File(outputFile);
 		PrintWriter pw = null;
@@ -52,21 +53,27 @@ public class PolycraftModWikiMaker {
 		pw.print(wikiJson.toString());
 		pw.close();
 	}
+
 	private static void Indent() {
 		indent += "\t";
 	}
+
 	private static void Unindent() {
 		indent = indent.substring(1);
 	}
+
 	private static void WriteInteger(String key, int val) {
 		WriteLine("\"" + key + "\": " + val + ",");
 	}
+
 	private static void WriteFloat(String key, float val) {
 		WriteLine("\"" + key + "\": " + val + ",");
 	}
+
 	private static void WriteString(String key, String val) {
 		WriteLine("\"" + key + "\": \"" + val + "\",");
 	}
+
 	private static void WriteBool(String key, boolean bool) {
 		String val = bool ? "true" : "false";
 		WriteLine("\"" + key + "\": \"" + val + "\",");
@@ -84,7 +91,7 @@ public class PolycraftModWikiMaker {
 		}
 		return defaultValue;
 	}
-	
+
 	private static void createItems() {
 		Field iconStringField = null;
 		Field damageVsEntityField = null;
@@ -98,7 +105,7 @@ public class PolycraftModWikiMaker {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		WriteLine("'items' [");
 		Indent();
 		for (String itemName : PolycraftMod.items.keySet()) {
@@ -106,99 +113,95 @@ public class PolycraftModWikiMaker {
 			String key = item.getUnlocalizedName() + ".name";
 			String iconName = null;
 			try {
-				iconName = (String)iconStringField.get(item);
+				iconName = (String) iconStringField.get(item);
 			} catch (IllegalAccessException e) {
-			} catch (IllegalArgumentException e) { }
-			
+			} catch (IllegalArgumentException e) {
+			}
+
 			iconName = iconName.replaceAll("polycraft:", "");
 			File iconFile = new File(ITEM_IMAGE_PATH, iconName + ".png");
 			images.put(iconName, iconFile.getAbsolutePath());
-			
+
 			WriteLine("{");
 			Indent();
-			
+
 			WriteString("name", StatCollector.translateToLocal(key));
 			WriteString("icon", iconName);
 			WriteBool("isRepairable", item.isRepairable());
 			WriteBool("isDamagable", item.isDamageable());
 			WriteInteger("durability", item.getMaxDamage());
-			
+
 			//System.out.println("ITEM: " + StatCollector.translateToLocal(key) + " => " + iconName + " (" + iconFile.exists() + ")");
 			if (item instanceof PolycraftItem) {
-				WriteString("type", ((PolycraftItem)item).getCategory().getValue());
+				WriteString("type", ((PolycraftItem) item).getCategory().getValue());
 			}
-			
-			if (item instanceof ItemFluidContainer) {
-				ItemFluidContainer fluidContainer = (ItemFluidContainer)item;
-				if (fluidContainer.fluidEntity != null) {
-					WriteString("entity", fluidContainer.fluidEntity.name);
-				}				
-			} else if (item instanceof ItemArmor) {
-				ItemArmor armor = (ItemArmor)item;
+
+			if (item instanceof ItemArmor) {
+				ItemArmor armor = (ItemArmor) item;
 				WriteInteger("armorType", armor.armorType);
 				WriteInteger("damageReduction", armor.damageReduceAmount);
 				WriteInteger("enchantability", armor.getItemEnchantability());
-			} else if(item instanceof ItemTool) {
-				ItemTool tool = (ItemTool)item;
-				WriteInteger("enchantability", tool.getItemEnchantability());	
-				WriteFloat("damageVsEntity", (Float)getFieldOrDefault(damageVsEntityField, tool, -1.0f));
+			} else if (item instanceof ItemTool) {
+				ItemTool tool = (ItemTool) item;
+				WriteInteger("enchantability", tool.getItemEnchantability());
+				WriteFloat("damageVsEntity", (Float) getFieldOrDefault(damageVsEntityField, tool, -1.0f));
 			}
-			
+
 			Unindent();
 			WriteLine("},");
 		}
 		Unindent();
-		WriteLine("],");		
+		WriteLine("],");
 	}
-	
+
 	private static void createRecipes(PolycraftRecipeManager recipeManager) {
 		WriteLine("'recipes': [");
 		Indent();
-		
+
 		Collection<PolycraftRecipe> allRecipes = recipeManager.getAllRecipies();
 		for (PolycraftRecipe recipe : allRecipes) {
 			WriteString("container", recipe.getContainerType().name());
-			
+
 			WriteLine("'inputs': [");
 			Indent();
-			
+
 			for (RecipeInput input : recipe.getInputs()) {
 				WriteLine("'item': [");
 				Indent();
-				
-				for (ItemStack stack : input.inputs){
+
+				for (ItemStack stack : input.inputs) {
 					WriteLine("{ 'item': '" + stack.getItem().getUnlocalizedName() + "', 'count': " + stack.stackSize + "  },");
 				}
-				
+
 				WriteInteger("slot", input.slot.getSlotIndex());
-				
+
 				Unindent();
 				WriteLine("],");
 			}
 			Unindent();
 			WriteLine("],");
-			
+
 			WriteLine("'outputs': [");
 			Indent();
-			
+
 			for (RecipeComponent output : recipe.getOutputs()) {
 				WriteString("item", output.itemStack.getUnlocalizedName());
 				WriteInteger("count", output.itemStack.stackSize);
 			}
-			
+
 			Unindent();
 			WriteLine("],");
-			
+
 		}
-		
+
 		Unindent();
 		WriteLine("],");
 	}
-	
+
 	public static void createWikiData(String outputFile) {
 		createItems();
 		createRecipes(PolycraftMod.recipeManager);
-		
+
 		WriteJson(outputFile);
 	}
 }

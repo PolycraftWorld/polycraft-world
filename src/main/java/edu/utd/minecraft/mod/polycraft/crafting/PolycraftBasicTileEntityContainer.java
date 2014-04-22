@@ -61,7 +61,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 */
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.inventoryName : "container." + PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Inventory, containerName);
+		return this.hasCustomInventoryName() ? this.inventoryName : "container." + containerName;
 	}
 
 	/**

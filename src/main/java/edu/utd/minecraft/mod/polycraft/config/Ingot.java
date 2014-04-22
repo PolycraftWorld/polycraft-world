@@ -1,18 +1,22 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Ingot extends SourcedEntity {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<Ingot> registry = new EntityRegistry<Ingot>();
+public class Ingot extends SourcedConfig {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, Ingot.class.getSimpleName().toLowerCase(), extension, delimeter))
-			registry.register(new Ingot(
-					line[0],
-					Entity.find(line[1], line[2]) //source
-			));
+	public static final ConfigRegistry<Ingot> registry = new ConfigRegistry<Ingot>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Ingot.class.getSimpleName().toLowerCase(), extension, delimeter))
+			if (line.length > 0)
+				registry.register(new Ingot(
+						line[0], //gameID
+						line[1], //name
+						Config.find(line[2], line[3]) //source
+				));
 	}
 
-	public Ingot(final String name, final Entity source) {
-		super(name, source);
+	public Ingot(final String gameID, final String name, final Config source) {
+		super(gameID, name, source);
 	}
 }

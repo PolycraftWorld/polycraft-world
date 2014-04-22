@@ -1,12 +1,15 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Mineral extends Entity {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<Mineral> registry = new EntityRegistry<Mineral>();
+public class Mineral extends Config {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, Mineral.class.getSimpleName().toLowerCase(), extension, delimeter))
-			registry.register(new Mineral(line[0]));
+	public static final ConfigRegistry<Mineral> registry = new ConfigRegistry<Mineral>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Mineral.class.getSimpleName().toLowerCase(), extension, delimeter))
+			if (line.length > 0)
+				registry.register(new Mineral(line[0]));
 	}
 
 	public Mineral(final String name) {

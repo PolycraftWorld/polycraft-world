@@ -1,24 +1,37 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Polymer extends Entity {
+import java.util.Collection;
+import java.util.LinkedList;
+
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+
+public class Polymer extends Config {
 
 	public enum Category {
-		None,
-		Cellulosic,
-		Fluoropolymer,
-		Polyacrylate,
-		Polyamide,
-		Polyaryletherketone,
-		Polycarbonate,
-		Polyester,
-		Polyether,
-		Polyimide,
-		Polyurethane,
-		PolymerComposite,
-		Polyol,
-		Polyolefin,
-		Polyoxazole,
-		Rubber,
+		none,
+		fluoropolymer,
+		inorganicpolymer,
+		inorganicorganicpolymer,
+		naturalrubber,
+		polyacrylate,
+		polyaldehyde,
+		polyalkenesulfide,
+		polyamide,
+		polycarbonate,
+		polyepoxide,
+		polyester,
+		polyether,
+		polyimide,
+		polyol,
+		polyolefin,
+		polyphenylethers,
+		polyphenol,
+		polysaccharide,
+		polyurethane,
+		polyvinyl,
+		polyvinylester,
+		silicone,
+		syntheticrubber,
 	}
 
 	public enum ResinCode {
@@ -40,36 +53,50 @@ public class Polymer extends Entity {
 		}
 	}
 
-	public static final EntityRegistry<Polymer> registry = new EntityRegistry<Polymer>();
+	public static final ConfigRegistry<Polymer> registry = new ConfigRegistry<Polymer>();
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, Polymer.class.getSimpleName().toLowerCase(), extension, delimeter)) {
-			int resinCodeValue = 0;
-			if (line[3].length() > 0) {
-				resinCodeValue = Integer.parseInt(line[3]);
-				if (resinCodeValue > 7)
-					resinCodeValue = 0;
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Polymer.class.getSimpleName().toLowerCase(), extension, delimeter)) {
+			if (line.length > 0) {
+				int resinCodeValue = 0;
+				if (line[3].length() > 0) {
+					resinCodeValue = Integer.parseInt(line[3]);
+					if (resinCodeValue > 7)
+						resinCodeValue = 0;
+				}
+
+				Collection<Category> categories = null;
+				for (int i = 6; i <= 8 && line.length > i; i++) {
+
+					final String category = line[i].trim();
+					if (!category.isEmpty()) {
+						if (categories == null)
+							categories = new LinkedList<Category>();
+						categories.add(Polymer.Category.valueOf(line[6].replaceAll("[^A-Za-z0-9]", "").toLowerCase()));
+					}
+				}
+
+				registry.register(new Polymer(
+						line[0], //name
+						line[1], //shortName
+						Polymer.ResinCode.values()[resinCodeValue], //resinCode
+						Boolean.parseBoolean(line[4]), //degradable
+						categories //categories
+				));
 			}
-			registry.register(new Polymer(
-					line[0], //name
-					line[1], //shortName
-					Polymer.ResinCode.values()[resinCodeValue], //resinCode
-					Boolean.parseBoolean(line[4]), //degradable
-					Polymer.Category.valueOf(line[6].replaceAll(" ", "").trim()) //category
-			));
 		}
 	}
 
 	public final String shortName;
 	public final boolean degradable;
-	public final Category category;
+	public final Collection<Category> categories;
 	public final ResinCode resinCode;
 
-	public Polymer(final String name, final String shortName, final ResinCode resinCode, final boolean degradable, final Category category) {
+	public Polymer(final String name, final String shortName, final ResinCode resinCode, final boolean degradable, final Collection<Category> categories) {
 		super(name);
 		this.shortName = shortName;
 		this.resinCode = resinCode;
 		this.degradable = degradable;
-		this.category = category;
+		this.categories = categories;
 	}
 }

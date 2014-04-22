@@ -1,18 +1,22 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Catalyst extends SourcedEntity {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<Catalyst> registry = new EntityRegistry<Catalyst>();
+public class Catalyst extends SourcedConfig {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, Catalyst.class.getSimpleName().toLowerCase(), extension, delimeter))
-			registry.register(new Catalyst(
-					line[0],
-					Entity.find(line[1], line[2]) //source
-			));
+	public static final ConfigRegistry<Catalyst> registry = new ConfigRegistry<Catalyst>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Catalyst.class.getSimpleName().toLowerCase(), extension, delimeter))
+			if (line.length > 0)
+				registry.register(new Catalyst(
+						line[0], //gameID
+						line[1], //name
+						Config.find(line[2], line[3]) //source
+				));
 	}
 
-	public Catalyst(final String name, final Entity source) {
-		super(name, source);
+	public Catalyst(final String gameID, final String name, final Config source) {
+		super(gameID, name, source);
 	}
 }

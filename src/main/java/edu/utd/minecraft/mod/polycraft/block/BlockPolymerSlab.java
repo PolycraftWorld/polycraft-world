@@ -54,7 +54,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	{
-		return PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymerSlab.itemNameSlab);
+		return PolycraftMod.getItem(polymerSlab.itemSlabName);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@Override
 	public String func_150002_b(int p_150002_1_)
 	{
-		return PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Polymer, polymerSlab.blockNameSlab);
+		return polymerSlab.blockSlabGameID;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_)
 	{
-		if (p_149666_1_ != PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, polymerSlab.blockNameDoubleSlab))
+		if (p_149666_1_ != PolycraftMod.getItem(polymerSlab.blockDoubleSlabName))
 		{
 			for (int i = 0; i <= 7; ++i)
 			{

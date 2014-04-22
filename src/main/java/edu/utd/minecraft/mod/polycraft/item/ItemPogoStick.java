@@ -17,7 +17,7 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 		public final boolean restrictJumpToGround;
 
 		public Settings(final boolean gripped, final String materialName, final ToolMaterial material, final int maxBounces, final float stableBounceHeight, final float jumpMovementFactorBuff, final boolean restrictJumpToGround) {
-			itemName = (gripped ? "gripped_" : "") + materialName + "_" + PolycraftMod.itemNamePogoStick;
+			itemName = (gripped ? "Gripped " : "") + materialName + " Pogo Stick";
 			this.gripped = gripped;
 			this.materialName = materialName;
 			this.material = material;
@@ -49,7 +49,7 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 	public final Settings settings;
 
 	public ItemPogoStick(final Settings settings) {
-		this.setTextureName(PolycraftMod.getAssetName(settings.itemName));
+		this.setTextureName(PolycraftMod.getAssetName(settings.itemName.replaceAll(" ", "_").toLowerCase()));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.setMaxDamage(settings.maxBounces);
 		this.settings = settings;

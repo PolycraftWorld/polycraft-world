@@ -21,7 +21,6 @@ import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 
 public class TileEntityTreeTap extends TileEntity implements ITreeTap
 {
@@ -185,7 +184,7 @@ public class TileEntityTreeTap extends TileEntity implements ITreeTap
 	@Override
 	public String getInventoryName()
 	{
-		return this.hasCustomInventoryName() ? this.customInventoryName : "container." + PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Inventory, PolycraftMod.blockNameTreeTap);
+		return this.hasCustomInventoryName() ? this.customInventoryName : "container." + PolycraftMod.registryNames.get("Tree Tap");
 	}
 
 	/**
@@ -360,7 +359,7 @@ public class TileEntityTreeTap extends TileEntity implements ITreeTap
 				//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
 				if (treeBlock != null && treeBlock instanceof BlockOldLog && getWorldObj().getBlockMetadata(x, yCoord, z) == 3) {
 					if (itemPolymerPelletNaturalRubber == null)
-						itemPolymerPelletNaturalRubber = PolycraftMod.getItem(PolycraftMod.RegistryNamespace.Polymer, PolymerPellets.registry.get("Pellets (PolyIsoPrene)"));
+						itemPolymerPelletNaturalRubber = PolycraftMod.getItem("Pellets (PolyIsoPrene)");
 					return new ItemStack(itemPolymerPelletNaturalRubber);
 				}
 			}

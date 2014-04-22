@@ -18,19 +18,19 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
-import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 
 /**
  * Handles processing of the chemical processor container. Any inputs that use a fluid container automatically generate empty fluid containers on output (they do not need to be, and should not be specified as outputs of the recipe).
  */
 public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer implements ISidedInventory {
 	public TileEntityChemicalProcessor() {
-		super(PolycraftContainerType.CHEMICAL_PROCESSOR, PolycraftMod.blockNameChemicalProcessor);
+		super(PolycraftContainerType.CHEMICAL_PROCESSOR, CustomObject.registry.get("Chemical Processor").gameID);
 	}
 
 	/**
@@ -98,11 +98,14 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 			int fluidContainersRequired = 0;
 			for (final RecipeInput input : recipe.getInputs()) {
 				ItemStack item = input.inputs.iterator().next();
+				//TODO not using fluid containers anymore
+				/*
 				if (item.getItem() instanceof ItemFluidContainer) {
 					if (((ItemFluidContainer) item.getItem()).fluidEntity != null) {
 						fluidContainersRequired += item.stackSize;
 					}
 				}
+				*/
 			}
 
 			// Add fluid containers to output
@@ -114,8 +117,9 @@ public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContain
 			if (fluidContainersRequired > 64) {
 				fluidContainersRequired = 64;
 			}
-			setStackInSlot(ChemicalProcessorSlot.OUTPUT_EMPTY_BOTTLE,
-					new ItemStack(PolycraftMod.itemFluidContainer, fluidContainersRequired));
+			//TODO no longer using fluid containers
+			//setStackInSlot(ChemicalProcessorSlot.OUTPUT_EMPTY_BOTTLE,
+			//		new ItemStack(PolycraftMod.itemFluidContainer, fluidContainersRequired));
 		}
 	}
 

@@ -1,11 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class Compound extends Entity {
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-	public static final EntityRegistry<Compound> registry = new EntityRegistry<Compound>();
+public class Compound extends Config {
 
-	public static void registerFromConfig(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : readConfig(directory, Compound.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static final ConfigRegistry<Compound> registry = new ConfigRegistry<Compound>();
+
+	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Compound.class.getSimpleName().toLowerCase(), extension, delimeter))
 			if (line.length > 0)
 				registry.register(new Compound(
 						line[0], //name
