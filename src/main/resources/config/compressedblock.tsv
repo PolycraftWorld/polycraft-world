@@ -1,20 +1,21 @@
-Compressed Block	Source Type	Source Name	
-Block of Magnesium	Ingot	Magnesium Ingot	
-Block of Titanium	Ingot	Titanium Ingot	
-Block of Manganese	Ingot	Manganese Ingot	
-Block of Cobalt	Ingot	Cobalt Ingot	
-Block of Nickel	Ingot	Nickel Ingot	
-Block of Copper	Ingot	Copper Ingot	
-Block of Zinc	Ingot	Zinc Ingot	
-Block of Palladium	Ingot	Palladium Ingot	
-Block of Silver	Ingot	Silver Ingot	
-Block of Antimony	Ingot	Antimony Ingot	
-Block of Tungsten	Ingot	Tungsten Ingot	
-Block of Platinum	Ingot	Platinum Ingot	
-Block of Lead	Ingot	Lead Ingot	
-Block of Bismuth	Ingot	Bismuth Ingot	
-Block of Aluminum	Ingot	Aluminum Ingot	
-Block of Steel	Ingot	Steel Ingot	
-Block of Stainless Steel	Ingot	Stainless Steel Ingot	
-Block of Brass	Ingot	Brass Ingot	
-Block of Bronze	Ingot	Bronze Ingot	
+Game ID	Compressed Block	Source Type	Source Name	
+O	Block of Magnesium	Ingot	Magnesium Ingot	
+P	Block of Titanium	Ingot	Titanium Ingot	
+Q	Block of Manganese	Ingot	Manganese Ingot	
+R	Block of Cobalt	Ingot	Cobalt Ingot	
+S	Block of Nickel	Ingot	Nickel Ingot	
+T	Block of Copper	Ingot	Copper Ingot	
+U	Block of Zinc	Ingot	Zinc Ingot	
+V	Block of Palladium	Ingot	Palladium Ingot	
+W	Block of Silver	Ingot	Silver Ingot	
+X	Block of Antimony	Ingot	Antimony Ingot	
+Y	Block of Tungsten	Ingot	Tungsten Ingot	
+Z	Block of Platinum	Ingot	Platinum Ingot	
+10	Block of Lead	Ingot	Lead Ingot	
+11	Block of Bismuth	Ingot	Bismuth Ingot	
+12	Block of Aluminum	Ingot	Aluminum Ingot	
+13	Block of Steel	Ingot	Steel Ingot	
+14	Block of Stainless Steel	Ingot	Stainless Steel Ingot	
+15	Block of Brass	Ingot	Brass Ingot	
+16	Block of Bronze	Ingot	Bronze Ingot	
+17	Block of Bitumen	Ore	Bitumen	

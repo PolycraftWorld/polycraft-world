@@ -33,7 +33,7 @@ Poly1-Butene	P1B			FALSE		polyolefin
 "Poly2,6-Dimethyl-1,4-Phenylene Ether"	PDPE			FALSE		polyphenyl ethers						
 Poly-2-Hydroxy Butyrate	PHB			FALSE		polyester						
 Poly2-Hydroxyethyl Methacrylate	PHEMA			FALSE		polyacrylate						
-PolyAcrylate Elastomer	PAE			FALSE		polyacrylate						
+#NAME?	PAE			FALSE		polyacrylate						
 PolyAcrylonitrile	PAN			FALSE		polyolefin						
 PolyButadiene	PBD			FALSE		synthetic rubber						
 PolyButadiene Rubber	PBR			FALSE		synthetic rubber						
