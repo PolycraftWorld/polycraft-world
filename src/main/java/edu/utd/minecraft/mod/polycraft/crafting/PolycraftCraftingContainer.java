@@ -18,6 +18,16 @@ public abstract class PolycraftCraftingContainer extends Container {
 		}
 	}
 
+	public PolycraftCraftingContainer(PolycraftContainerType containerType, final IInventory inventory) {
+		for (final ContainerSlot slot : containerType.getSlots()) {
+			if (slot instanceof GuiContainerSlot) {
+				GuiContainerSlot guiSlot = (GuiContainerSlot)slot;
+				Slot newSlot = new Slot(inventory, slot.getSlotIndex(), guiSlot.getDisplayX(), guiSlot.getDisplayY());
+				this.addSlotToContainer(newSlot);
+			}
+		}
+	}
+
 	protected void addPlayerInventorySlots(InventoryPlayer playerInventory, int offset) {
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {

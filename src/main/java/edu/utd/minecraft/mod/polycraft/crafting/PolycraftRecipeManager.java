@@ -253,10 +253,10 @@ public class PolycraftRecipeManager {
 	 * Searches the recipes available to the container type for the given set of recipe inputs.
 	 */
 	public PolycraftRecipe findRecipe(final PolycraftContainerType container, final Set<RecipeComponent> inputs) {
-		if (!recipesByContainer.containsKey(container)) {
+		if (inputs.size() == 0 || !recipesByContainer.containsKey(container)) {
 			return null;
 		}
-
+		
 		// Look in shaped recipes by ingredient first.  This ensures that when a shaped
 		// recipe and a shapeless recipe look similar, the shaped ones take precedence
 		PolycraftRecipe shapedRecipe = findShapedRecipe(container, inputs);

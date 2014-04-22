@@ -19,19 +19,23 @@ public enum PolycraftContainerType {
 	/**
 	 * Crafting table container, or for recipes needing less than a 4x4 space, inventory container.
 	 */
-	CRAFTING_TABLE("Crafting Table"), //, EnumSet.allOf(GenericCraftingSlot.class)),
+	CRAFTING_TABLE("Crafting Table"),
 	/**
 	 * Minecraft furnace.
 	 */
-	FURNANCE("Furnance"), //, EnumSet.allOf(SmeltingCraftingSlot.class)),
+	FURNANCE("Furnance"),
 	/**
 	 * Machining mill container
 	 */
-	MACHINING_MILL("Machining Mill"), //, EnumSet.allOf(MachiningMillSlot.class));
+	MACHINING_MILL("Machining Mill"),
 	/**
 	 * Chemical processor container
 	 */
-	CHEMICAL_PROCESSOR("Chemical Processor");//, EnumSet.allOf(ChemicalProcessorSlot.class));
+	CHEMICAL_PROCESSOR("Chemical Processor"),
+	
+	TEST_INVENTORY("Sample Inventory"),
+	
+	TEST_FURNACE("Sample Furnace");
 
 	private final String friendlyName;
 
@@ -65,6 +69,9 @@ public enum PolycraftContainerType {
 		FURNANCE.initialize(EnumSet.allOf(SmeltingCraftingSlot.class));
 		MACHINING_MILL.initialize(EnumSet.allOf(MachiningMillSlot.class));
 		CHEMICAL_PROCESSOR.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
+		
+		TEST_INVENTORY.initialize(EnumSet.allOf(MachiningMillSlot.class));
+		TEST_FURNACE.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
 	}
 
 	private void initialize(EnumSet<?> slots) {
@@ -135,6 +142,14 @@ public enum PolycraftContainerType {
 		return slotsByType.get(type);
 	}
 
+	public Collection<ContainerSlot> getSlots() {
+		Collection<ContainerSlot> slots = Lists.newArrayList();
+		for (SlotType slotType : EnumSet.allOf(SlotType.class)) {
+			slots.addAll(getSlots(slotType));
+		}
+		return slots;
+	}
+	
 	@Override
 	public String toString() {
 		return this.friendlyName;

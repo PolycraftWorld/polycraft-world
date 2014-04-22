@@ -34,9 +34,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
-import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.RenderChemicalProcessor;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.BlockMachiningMill;
-import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.RenderMachiningMill;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.TileEntityMachiningMill;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.RenderTreeTap;
@@ -80,8 +78,8 @@ public class CommonProxy {
 		RecipeGenerator.generateRecipes();
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		RenderingRegistry.registerBlockHandler(PolycraftMod.renderTreeTapID, RenderTreeTap.INSTANCE);
-		RenderingRegistry.registerBlockHandler(PolycraftMod.renderMachiningMillID, RenderMachiningMill.INSTANCE);
-		RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);
+		//RenderingRegistry.registerBlockHandler(PolycraftMod.renderMachiningMillID, RenderMachiningMill.INSTANCE);
+		//RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 	}
 
@@ -257,6 +255,11 @@ public class CommonProxy {
 				new ItemScubaTank(PolycraftMod.itemScubaTankAirUnitsFull, PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
 		PolycraftMod.itemScubaFins = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaFins,
 				new ItemScubaFins(PolycraftMod.itemScubaFinsSwimSpeedBuff, PolycraftMod.itemScubaFinsWalkSpeedBuff));
+		
+		// Register some sample recipes.  TODO: Remove
+		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.TEST_INVENTORY,
+			    ImmutableList.of(new ItemStack(Blocks.dirt, 1)),
+				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack, 1)));
 	}
 
 	private void registerWeapons() {
