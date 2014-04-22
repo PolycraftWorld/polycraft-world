@@ -61,7 +61,9 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 */
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.inventoryName : "container." + PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Inventory, containerName);
+		return this.hasCustomInventoryName()
+				? this.inventoryName
+			    : "container." + PolycraftMod.getRegistryName(PolycraftMod.RegistryNamespace.Inventory, containerName);
 	}
 
 	/**
@@ -112,7 +114,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	/**
 	 * Returns true if an item can be processed based on the item at the inputs.
 	 */
-	protected boolean canProcess() {
+	public boolean canProcess() {
 		// Check that the inputs are valid
 		Set<RecipeComponent> materials = getMaterials();
 		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, materials);
@@ -261,7 +263,9 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 */
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this
+				? false
+			    : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
 	}
 
 	@Override

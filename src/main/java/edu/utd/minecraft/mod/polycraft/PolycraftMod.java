@@ -20,8 +20,12 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.util.EnumHelper;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -109,6 +113,7 @@ public class PolycraftMod {
 	public static final String blockNameMachiningMill = "machining_mill";
 	public static final String blockNameChemicalProcessor = "chemical_processor";
 	public static final String blockNameChemicalProcessorActive = "chemical_processor_active";
+	public static final String blockNameTestInventory = "test_inventory";
 	public static final String itemNameOilBucket = "bucket_" + fluidNameOil;
 	public static final String itemNameFluidContainer = "fluid_container";
 	public static final String itemNameFluidContainerNozzle = itemNameFluidContainer + "_nozzle";
@@ -330,6 +335,11 @@ public class PolycraftMod {
 		return items.get(getRegistryName(namespace, name));
 	}
 
+	private static List<Pair<String, String>> containerRegistryNames = Lists.newArrayList();
+	public static void addRegistryName(RegistryNamespace namespace, String name, String translationPropertyName) {
+		containerRegistryNames.add(Pair.of(getRegistryName(RegistryNamespace.Fluid, fluidNameOil), translationPropertyName));
+	}
+	
 	private void exportLangEntries(final String translationFile, final String exportFile) throws IOException {
 		final Properties translations = new Properties();
 		final InputStream translationsInput = new FileInputStream(translationFile);
@@ -359,6 +369,16 @@ public class PolycraftMod {
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameGrip), translations.getProperty("grip")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameFlashlight), translations.getProperty("flashlight")));
 		langEntries.add(String.format("item.%s.name=%s", getRegistryName(RegistryNamespace.Utility, itemNameParachute), translations.getProperty("parachute")));
+
+		for(Pair<String, String> p : containerRegistryNames) {
+			String translation = translations.getProperty(p.getRight());
+			if (Strings.isNullOrEmpty(translation)) {
+				logger.warn("Warning: No translation for container " + p.getLeft() + ", " + p.getRight());;
+			}
+			langEntries.add(String.format("container.%s=%s", getRegistryName(RegistryNamespace.Inventory, p.getLeft()), translation));
+			langEntries.add(String.format("tile.%s.name=%s", getRegistryName(RegistryNamespace.Inventory, p.getLeft()), translation));			
+		}
+
 		for (final Settings settings : itemPogoStickSettings) {
 			final String materialNameUpper = Character.toUpperCase(settings.materialName.charAt(0)) + settings.materialName.substring(1);
 			langEntries.add(String.format("item.%s.name=%s%s %s", getRegistryName(RegistryNamespace.Utility, settings.itemName),

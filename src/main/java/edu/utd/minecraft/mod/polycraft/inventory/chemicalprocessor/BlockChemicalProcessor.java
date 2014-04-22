@@ -27,19 +27,23 @@ public class BlockChemicalProcessor extends BlockContainer {
 	private final Random chemicalProcessorRand = new Random();
 	private final boolean isActive;
 	private static boolean keepChemicalProcessorInventory;
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
 
 	public BlockChemicalProcessor(boolean isActive) {
 		super(Material.rock);
+		
 		this.isActive = isActive;
 		this.setHardness(2.0F);
 		this.setResistance(5.0F);
 		this.setStepSound(Block.soundTypeStone);
-		if (!isActive)
+		if (!isActive) {
 			setCreativeTab(CreativeTabs.tabDecorations);
+		}
 	}
 
 	@Override
@@ -56,6 +60,7 @@ public class BlockChemicalProcessor extends BlockContainer {
 		this.func_149930_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
 	}
 
+	// TODO: The heck does this do?
 	private void func_149930_e(World p_149930_1_, int p_149930_2_, int p_149930_3_, int p_149930_4_) {
 		if (!p_149930_1_.isRemote) {
 			Block block = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ - 1);

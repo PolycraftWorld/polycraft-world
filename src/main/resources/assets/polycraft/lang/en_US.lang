@@ -1,5 +1,9 @@
 fluid.20=Crude Oil
 tile.20.name=Crude Oil
+tile.14.name=Test Inventory
+container.14=Test Inventory
+tile.15.name=Test Furnace
+container.15=Test Furnace
 container.10=Tree Tap
 tile.10.name=Tree Tap
 container.11=Machining Mill

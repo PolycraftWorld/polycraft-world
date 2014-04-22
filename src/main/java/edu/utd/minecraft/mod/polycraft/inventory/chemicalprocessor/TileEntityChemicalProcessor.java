@@ -26,7 +26,9 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluidContainer;
 
 /**
- * Handles processing of the chemical processor container. Any inputs that use a fluid container automatically generate empty fluid containers on output (they do not need to be, and should not be specified as outputs of the recipe).
+ * Handles processing of the chemical processor container. Any inputs that use a fluid container
+ * automatically generate empty fluid containers on output (they do not need to be, and should
+ * not be specified as outputs of the recipe).
  */
 public class TileEntityChemicalProcessor extends PolycraftBasicTileEntityContainer implements ISidedInventory {
 	public TileEntityChemicalProcessor() {
