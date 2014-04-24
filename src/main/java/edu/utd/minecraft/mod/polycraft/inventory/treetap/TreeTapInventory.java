@@ -1,6 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.inventory.treetap;
 
-import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -20,7 +19,7 @@ import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -34,16 +33,10 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
 public class TreeTapInventory extends PolycraftInventory {
 
-	public static Collection<GuiContainerSlot> getGuiSlots() {
-		final int displayXOffset = 44;
-		final int displayYOffset = 2;
-		return ImmutableList.of(
-				GuiContainerSlot.createInput(0, 0, 0, displayXOffset, displayYOffset),
-				GuiContainerSlot.createInput(1, 1, 0, displayXOffset, displayYOffset),
-				GuiContainerSlot.createInput(2, 2, 0, displayXOffset, displayYOffset),
-				GuiContainerSlot.createInput(3, 3, 0, displayXOffset, displayYOffset),
-				GuiContainerSlot.createInput(4, 4, 0, displayXOffset, displayYOffset)
-				);
+	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
+	static {
+		for (int i = 0; i < 5; i++)
+			guiSlots.add(GuiContainerSlot.createInput(i, i, 0, 44, 2));
 	}
 
 	private static Inventory config;

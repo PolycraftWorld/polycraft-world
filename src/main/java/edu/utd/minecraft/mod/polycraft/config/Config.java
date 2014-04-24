@@ -23,27 +23,27 @@ public abstract class Config {
 		this.name = name;
 	}
 
-	public static void registerFromResources(final String directory, final String extension, final String delimeter) {
-		Element.registerFromResource(directory, extension, delimeter);
-		Mineral.registerFromResource(directory, extension, delimeter);
-		Alloy.registerFromResource(directory, extension, delimeter);
-		Compound.registerFromResource(directory, extension, delimeter);
-		Polymer.registerFromResource(directory, extension, delimeter);
+	public static void registerFromResources(final String directory) {
+		Element.registerFromResource(directory);
+		Mineral.registerFromResource(directory);
+		Alloy.registerFromResource(directory);
+		Compound.registerFromResource(directory);
+		Polymer.registerFromResource(directory);
 
-		Ore.registerFromResource(directory, extension, delimeter);
-		Ingot.registerFromResource(directory, extension, delimeter);
-		CompressedBlock.registerFromResource(directory, extension, delimeter);
-		Catalyst.registerFromResource(directory, extension, delimeter);
-		Vessel.registerFromResource(directory, extension, delimeter);
-		PolymerPellets.registerFromResource(directory, extension, delimeter);
-		PolymerFibers.registerFromResource(directory, extension, delimeter);
-		PolymerBlock.registerFromResource(directory, extension, delimeter);
-		PolymerSlab.registerFromResource(directory, extension, delimeter);
-		Mold.registerFromResource(directory, extension, delimeter);
-		MoldedItem.registerFromResource(directory, extension, delimeter);
-		Inventory.registerFromResource(directory, extension, delimeter);
-		CustomObject.registerFromResource(directory, extension, delimeter);
-		InternalObject.registerFromResource(directory, extension, delimeter);
+		Ore.registerFromResource(directory);
+		Ingot.registerFromResource(directory);
+		CompressedBlock.registerFromResource(directory);
+		Catalyst.registerFromResource(directory);
+		Vessel.registerFromResource(directory);
+		PolymerPellets.registerFromResource(directory);
+		PolymerFibers.registerFromResource(directory);
+		PolymerBlock.registerFromResource(directory);
+		PolymerSlab.registerFromResource(directory);
+		Mold.registerFromResource(directory);
+		MoldedItem.registerFromResource(directory);
+		Inventory.registerFromResource(directory);
+		CustomObject.registerFromResource(directory);
+		InternalObject.registerFromResource(directory);
 	}
 
 	private static Map<String, ConfigRegistry<? extends Config>> registriesByType = new HashMap<String, ConfigRegistry<? extends Config>>();

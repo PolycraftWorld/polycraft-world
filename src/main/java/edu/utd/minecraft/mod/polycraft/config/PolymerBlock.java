@@ -7,8 +7,8 @@ public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 
 	public static final ConfigRegistry<PolymerBlock> registry = new ConfigRegistry<PolymerBlock>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerBlock.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerBlock.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerBlock(
 						line[0], //gameID

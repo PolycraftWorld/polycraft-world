@@ -149,7 +149,7 @@ public class PolycraftMod {
 	public void preInit(final FMLPreInitializationEvent event) {
 		registerMinecraftBlocksAndItemsByName();
 		fixEnderman();
-		Config.registerFromResources("config", "tsv", "\t");
+		Config.registerFromResources("config");
 		proxy.preInit();
 	}
 
@@ -359,6 +359,10 @@ public class PolycraftMod {
 
 		}
 		logger.info("Unable to find enderman carriable blocks field.");
+	}
+
+	public static Collection<String[]> readResourceFileDelimeted(final String directory, final String name) {
+		return readResourceFileDelimeted(directory, name, "tsv", "\t");
 	}
 
 	public static Collection<String[]> readResourceFileDelimeted(final String directory, final String name, final String extension, final String delimeter) {

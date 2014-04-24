@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -24,7 +25,8 @@ public enum PolycraftContainerType {
 	 * Minecraft furnace.
 	 */
 	FURNANCE("Furnance"),
-	TREE_TAP("Tree Tap");
+	TREE_TAP("Tree Tap"),
+	MACHINING_MILL("Machining Mill");
 
 	private final String friendlyName;
 
@@ -84,12 +86,8 @@ public enum PolycraftContainerType {
 				new GuiContainerSlot(1, SlotType.INPUT, 0, 1), //FUEL
 				new GuiContainerSlot(1, SlotType.OUTPUT, 1, 0) //OUTPUT
 				));
-		TREE_TAP.initialize(TreeTapInventory.getGuiSlots());
-		//MACHINING_MILL.initialize(EnumSet.allOf(MachiningMillSlot.class));
-		//CHEMICAL_PROCESSOR.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
-
-		//TEST_INVENTORY.initialize(EnumSet.allOf(MachiningMillSlot.class));
-		//TEST_FURNACE.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
+		TREE_TAP.initialize(TreeTapInventory.guiSlots);
+		MACHINING_MILL.initialize(MachiningMillInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

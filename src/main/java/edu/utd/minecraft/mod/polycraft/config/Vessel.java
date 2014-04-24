@@ -7,8 +7,8 @@ public class Vessel extends SourcedConfig<Compound> {
 
 	public static final ConfigRegistry<Vessel> registry = new ConfigRegistry<Vessel>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Vessel.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Vessel.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new Vessel(
 						line[0], //gameID

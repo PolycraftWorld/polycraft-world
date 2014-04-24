@@ -6,8 +6,8 @@ public class Compound extends Config {
 
 	public static final ConfigRegistry<Compound> registry = new ConfigRegistry<Compound>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Compound.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Compound.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new Compound(
 						line[0], //name

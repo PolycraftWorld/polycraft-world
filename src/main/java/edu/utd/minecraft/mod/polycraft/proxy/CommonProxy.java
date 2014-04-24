@@ -36,6 +36,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
@@ -215,6 +216,7 @@ public class CommonProxy {
 
 	private void registerInventories() {
 		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
+		MachiningMillInventory.register(Inventory.registry.get("Machining Mill"));
 
 		//PolycraftMod.registerBlock(Inventory.registry.get("Machining Mill"), new BlockMachiningMill());
 		//GameRegistry.registerTileEntity(TileEntityMachiningMill.class, InternalObject.registry.get("Machining Mill Tile Entity").gameID);

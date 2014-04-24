@@ -7,8 +7,8 @@ public class PolymerSlab extends Config {
 
 	public static final ConfigRegistry<PolymerSlab> registry = new ConfigRegistry<PolymerSlab>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerSlab.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerSlab.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerSlab(
 						line[0], //itemSlabGameID

@@ -159,11 +159,11 @@ public class PolycraftInventoryBlock extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
 		if (config.inventoryAsset != null)
-			this.inventoryIcon = register.registerIcon(config.inventoryAsset);
+			this.inventoryIcon = register.registerIcon(PolycraftMod.getAssetName(config.inventoryAsset));
 		for (BlockFace face : EnumSet.allOf(BlockFace.class)) {
 			String asset = config.blockFaceAssets.get(face);
 			if (asset != null)
-				blockFaceIcons.put(face, register.registerIcon(asset));
+				blockFaceIcons.put(face, register.registerIcon(PolycraftMod.getAssetName(asset)));
 		}
 	}
 

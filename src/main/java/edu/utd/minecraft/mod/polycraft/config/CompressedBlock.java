@@ -7,8 +7,8 @@ public class CompressedBlock extends SourcedConfig<GameIdentifiedConfig> {
 
 	public static final ConfigRegistry<CompressedBlock> registry = new ConfigRegistry<CompressedBlock>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, CompressedBlock.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, CompressedBlock.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new CompressedBlock(
 						line[0], //gameID

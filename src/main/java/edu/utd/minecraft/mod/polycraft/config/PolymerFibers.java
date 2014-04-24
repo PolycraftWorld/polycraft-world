@@ -7,8 +7,8 @@ public class PolymerFibers extends SourcedConfig<Polymer> {
 
 	public static final ConfigRegistry<PolymerFibers> registry = new ConfigRegistry<PolymerFibers>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerFibers.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerFibers.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerFibers(
 						line[0], //gameID

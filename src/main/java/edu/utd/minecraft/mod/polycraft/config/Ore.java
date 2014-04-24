@@ -7,8 +7,8 @@ public class Ore extends SourcedConfig {
 
 	public static final ConfigRegistry<Ore> registry = new ConfigRegistry<Ore>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Ore.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Ore.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new Ore(
 						line[0], //gameID

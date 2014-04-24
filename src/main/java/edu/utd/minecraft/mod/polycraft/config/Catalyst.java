@@ -7,8 +7,8 @@ public class Catalyst extends SourcedConfig {
 
 	public static final ConfigRegistry<Catalyst> registry = new ConfigRegistry<Catalyst>();
 
-	public static void registerFromResource(final String directory, final String extension, final String delimeter) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Catalyst.class.getSimpleName().toLowerCase(), extension, delimeter))
+	public static void registerFromResource(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Catalyst.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new Catalyst(
 						line[0], //gameID
