@@ -8,7 +8,7 @@ public class ItemPellet extends Item implements PolycraftItem {
 
 	public ItemPellet() {
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName("polymer_pellet"));
+		this.setTextureName(PolycraftMod.getAssetName("polymer_pellets"));
 	}
 
 	@Override

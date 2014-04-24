@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class PolymerPellets extends SourcedConfig<Polymer> {
@@ -18,5 +19,10 @@ public class PolymerPellets extends SourcedConfig<Polymer> {
 
 	public PolymerPellets(final String gameID, final String name, final Polymer source) {
 		super(gameID, name, source);
+	}
+
+	@Override
+	public ItemStack getItemStack(int size) {
+		return new ItemStack(PolycraftMod.getItem(this), size);
 	}
 }

@@ -1,2 +1,2 @@
-Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game ID	Double Slab Block Game ID	Polymer Slab	Source Type	Source Name	Bounce Height
-20	1A	1B	1C	Slab (PolyIsoPrene)	Polymer	PolyIsoPrene	6
+Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game ID	Double Slab Block Game ID	Polymer Slab	Polymer Block	Polymer	Bounce Height
+20	1A	1B	1C	Slab (PolyIsoPrene)	Block (PolyIsoPrene)	PolyIsoPrene	6

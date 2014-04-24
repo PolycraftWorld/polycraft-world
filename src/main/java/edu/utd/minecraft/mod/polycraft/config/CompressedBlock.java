@@ -1,8 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class CompressedBlock extends SourcedConfig {
+public class CompressedBlock extends SourcedConfig<GameIdentifiedConfig> {
 
 	public static final ConfigRegistry<CompressedBlock> registry = new ConfigRegistry<CompressedBlock>();
 
@@ -12,11 +13,16 @@ public class CompressedBlock extends SourcedConfig {
 				registry.register(new CompressedBlock(
 						line[0], //gameID
 						line[1], //name
-						Config.find(line[2], line[3]) //source
+						(GameIdentifiedConfig) Config.find(line[2], line[3]) //source
 				));
 	}
 
-	public CompressedBlock(final String gameID, final String name, final Config source) {
+	public CompressedBlock(final String gameID, final String name, final GameIdentifiedConfig source) {
 		super(gameID, name, source);
+	}
+
+	@Override
+	public ItemStack getItemStack(int size) {
+		return new ItemStack(PolycraftMod.getBlock(this), size);
 	}
 }

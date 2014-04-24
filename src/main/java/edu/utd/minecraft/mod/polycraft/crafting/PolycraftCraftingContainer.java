@@ -6,6 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
 public abstract class PolycraftCraftingContainer extends Container {
+
 	/**
 	 * @return the enumerated container type
 	 */
@@ -13,29 +14,32 @@ public abstract class PolycraftCraftingContainer extends Container {
 
 	public PolycraftCraftingContainer(final Iterable<? extends GuiContainerSlot> slots, final IInventory inventory) {
 		for (final GuiContainerSlot slot : slots) {
-			Slot newSlot = new Slot(inventory, slot.getSlotIndex(), slot.getDisplayX(), slot.getDisplayY());
-			this.addSlotToContainer(newSlot);
+			addInventorySlot(inventory, slot);
 		}
 	}
 
 	public PolycraftCraftingContainer(PolycraftContainerType containerType, final IInventory inventory) {
 		for (final ContainerSlot slot : containerType.getSlots()) {
 			if (slot instanceof GuiContainerSlot) {
-				GuiContainerSlot guiSlot = (GuiContainerSlot)slot;
-				Slot newSlot = new Slot(inventory, slot.getSlotIndex(), guiSlot.getDisplayX(), guiSlot.getDisplayY());
-				this.addSlotToContainer(newSlot);
+				addInventorySlot(inventory, (GuiContainerSlot) slot);
 			}
 		}
 	}
 
+	private void addInventorySlot(final IInventory inventory, final GuiContainerSlot guiSlot) {
+		Slot newSlot = new Slot(inventory, guiSlot.getSlotIndex(), guiSlot.getDisplayX(), guiSlot.getDisplayY());
+		addSlotToContainer(newSlot);
+	}
+
 	protected void addPlayerInventorySlots(InventoryPlayer playerInventory, int offset) {
+		int nextPlayerSlotIndex = 0;
+		for (int i = 0; i < 9; ++i) {
+			addSlotToContainer(new Slot(playerInventory, nextPlayerSlotIndex++, 8 + i * 18, 58 + offset));
+		}
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, offset + i * 18));
+				addSlotToContainer(new Slot(playerInventory, nextPlayerSlotIndex++, 8 + j * 18, i * 18 + offset));
 			}
-		}
-		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(playerInventory, i, 8 + i * 18, offset + 58));
 		}
 	}
 }

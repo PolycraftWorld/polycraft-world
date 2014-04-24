@@ -1,13 +1,13 @@
-Game ID	Inventory
-3h	Tree Tap
-3i	Machining Mill
-3j	Extruder
-3k	Injection Molder
-3D	Steam Cracker
-3E	Distillation Column
-3F	Industrial Oven
-3J	Fracker
-3K	Oil Derrick
-3L	Plastic Chest
-3V	Small Gas Lamp
-3W	Large Gas Lamp
+Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon Down	Icon Up	Icon North	Icon South	Icon West	Icon East	Icon Default	Icon Front
+3h	1F	Tree Tap	0	2000									
+3i	1G	Machining Mill	1	2001									
+3j	1E	Extruder	2	2002									
+3k	1H	Injection Molder	3	2003									
+3D	1I	Steam Cracker	4	2004									
+3E	1J	Distillation Column	5	2005									
+3F	1K	Industrial Oven	6	2006									
+3J	1L	Fracker	7	2007									
+3K	3Y	Oil Derrick	8	2008									
+3L	3Z	Plastic Chest	9	2009									
+3V	40	Small Gas Lamp	10	2010									
+3W	41	Large Gas Lamp	11	2011									

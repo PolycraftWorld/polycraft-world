@@ -21,8 +21,8 @@ public class BlockPolymer extends Block {
 	public BlockPolymer(final PolymerBlock polymerBlock) {
 		super(Material.cloth);
 		this.polymerBlock = polymerBlock;
-		this.labelTexture = polymerBlock.source.resinCode.recyclingNumber >= 1 && polymerBlock.source.resinCode.recyclingNumber <= 7
-				? new LabelTexture("polymer", null, "polymer_" + polymerBlock.source.resinCode.recyclingNumber + "_bottom")
+		this.labelTexture = polymerBlock.source.source.resinCode.recyclingNumber >= 1 && polymerBlock.source.source.resinCode.recyclingNumber <= 7
+				? new LabelTexture("polymer", null, "polymer_" + polymerBlock.source.source.resinCode.recyclingNumber + "_bottom")
 				: new LabelTexture("polymer", null, "polymer_bottom");
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}

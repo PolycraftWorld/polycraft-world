@@ -46,6 +46,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
+import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
@@ -77,12 +78,6 @@ public class PolycraftMod {
 	public static final int oilFluidViscosity = 1500;
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
-	public static final int guiTreeTapID = 0;
-	public static final int guiMachiningMillID = 1;
-	public static final int guiChemicalProcessorID = 2;
-	public static final int renderTreeTapID = 2000;
-	public static final int renderMachiningMillID = 2001;
-	public static final int renderChemicalProcessorID = 2002;
 	public static final float itemGrippedToolDurabilityBuff = 2f;
 	public static final float itemRunningShoesWalkSpeedBuff = 1f;
 	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
@@ -138,10 +133,10 @@ public class PolycraftMod {
 	// special blocks for fast access
 	public static Block blockOil;
 
-	public static final PolycraftRecipeManager recipeManager = null;//new PolycraftRecipeManager();
+	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
 	public final static String getFileSafeName(final String name) {
-		return name.replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
+		return name.replaceAll("[()]", "").replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
 	}
 
 	private static final float minecraftPlayerGravity = .08f;
@@ -271,14 +266,17 @@ public class PolycraftMod {
 	}
 
 	private void exportLangEntries(final String exportFile) throws IOException {
-		final String blockFormat = "tile.%s.name=%s";
-		final String itemFormat = "item.%s.name=%s";
+		final String fluidFormat = "fluid.%s=%s";
+		final String containerFormat = "container.%s=%s";
+		final String baseFormat = "%s.name=%s";
+		final String blockFormat = "tile." + baseFormat;
+		final String itemFormat = "item." + baseFormat;
 
 		final Collection<String> langEntries = new LinkedList<String>();
 
 		final InternalObject oil = InternalObject.registry.get("Oil");
-		langEntries.add(String.format("fluid.%s=%s", oil.name.toLowerCase(), oil.name));
-		langEntries.add(String.format("tile.%s.name=%s", oil.gameID, oil.name));
+		langEntries.add(String.format(fluidFormat, oil.name.toLowerCase(), oil.name));
+		langEntries.add(String.format(blockFormat, oil.gameID, oil.name));
 
 		for (final Ore ore : Ore.registry.values())
 			langEntries.add(String.format(blockFormat, ore.gameID, ore.name));
@@ -292,7 +290,8 @@ public class PolycraftMod {
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format(itemFormat, catalyst.gameID, catalyst.name));
 
-		//TODO Vessels
+		for (final Vessel vessel : Vessel.registry.values())
+			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));
 
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
 			langEntries.add(String.format(itemFormat, polymerPellets.gameID, polymerPellets.name));
@@ -300,11 +299,11 @@ public class PolycraftMod {
 		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
 			langEntries.add(String.format(itemFormat, polymerFibers.gameID, polymerFibers.name));
 
-		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
-			langEntries.add(String.format(itemFormat, polymerSlab.itemSlabGameID, polymerSlab.name));
-
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
 			langEntries.add(String.format(blockFormat, polymerBlock.gameID, polymerBlock.name));
+
+		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
+			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
 
 		for (final Mold mold : Mold.registry.values())
 			langEntries.add(String.format(itemFormat, mold.gameID, mold.name));
@@ -313,7 +312,7 @@ public class PolycraftMod {
 			langEntries.add(String.format(itemFormat, moldedItem.gameID, moldedItem.name));
 
 		for (final Inventory inventory : Inventory.registry.values()) {
-			langEntries.add(String.format("container.%s=%s", inventory.gameID, inventory.name));
+			langEntries.add(String.format(containerFormat, inventory.gameID, inventory.name));
 			langEntries.add(String.format(blockFormat, inventory.gameID, inventory.name));
 		}
 

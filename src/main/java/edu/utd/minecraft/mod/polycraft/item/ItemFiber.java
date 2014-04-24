@@ -8,7 +8,7 @@ public class ItemFiber extends Item implements PolycraftItem {
 
 	public ItemFiber() {
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName("polymer_fiber"));
+		this.setTextureName(PolycraftMod.getAssetName("polymer_fibers"));
 	}
 
 	@Override

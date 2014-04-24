@@ -1,8 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class PolymerBlock extends SourcedConfig<Polymer> {
+public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 
 	public static final ConfigRegistry<PolymerBlock> registry = new ConfigRegistry<PolymerBlock>();
 
@@ -12,15 +13,20 @@ public class PolymerBlock extends SourcedConfig<Polymer> {
 				registry.register(new PolymerBlock(
 						line[0], //gameID
 						line[1], //name
-						(Polymer) Config.find(line[2], line[3]), //source
+						PolymerPellets.registry.get(line[2]), //polymerPellets
 						Integer.parseInt(line[4]) //bounceHeight
 				));
 	}
 
 	public final int bounceHeight;
 
-	public PolymerBlock(final String gameID, final String name, final Polymer source, final int bounceHeight) {
+	public PolymerBlock(final String gameID, final String name, final PolymerPellets source, final int bounceHeight) {
 		super(gameID, name, source);
 		this.bounceHeight = bounceHeight;
+	}
+
+	@Override
+	public ItemStack getItemStack(int size) {
+		return new ItemStack(PolycraftMod.getBlock(this), size);
 	}
 }

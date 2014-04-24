@@ -7,11 +7,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 
 public class PolycraftInventoryGui extends GuiContainer {
-	private final PolycraftInventory tileEntity;
+	private final PolycraftInventory inventory;
 
-	public PolycraftInventoryGui(InventoryPlayer playerInventory, PolycraftInventory tileEntity) {
-		super(new PolycraftCraftingContainerGeneric(playerInventory, tileEntity));
-		this.tileEntity = tileEntity;
+	public PolycraftInventoryGui(PolycraftInventory inventory, InventoryPlayer playerInventory) {
+		super(new PolycraftCraftingContainerGeneric(inventory, playerInventory));
+		this.inventory = inventory;
+	}
+
+	public PolycraftInventoryGui(PolycraftInventory inventory, InventoryPlayer playerInventory, boolean allowUserInput, int ySize) {
+		super(inventory.getCraftingContainer(playerInventory));
+		this.inventory = inventory;
+		this.allowUserInput = allowUserInput;
+		this.ySize = ySize;
 	}
 
 	/**
@@ -19,7 +26,7 @@ public class PolycraftInventoryGui extends GuiContainer {
 	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
-		String s = I18n.format(this.tileEntity.getInventoryName(), new Object[0]);
+		String s = I18n.format(inventory.getInventoryName(), new Object[0]);
 		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -27,7 +34,7 @@ public class PolycraftInventoryGui extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.getTextureManager().bindTexture(tileEntity.getGuiResourceLocation());
+		this.mc.getTextureManager().bindTexture(inventory.getGuiResourceLocation());
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);

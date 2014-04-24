@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,7 +18,7 @@ import com.google.common.collect.Sets;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
-public abstract class PolycraftBasicTileEntityContainer extends TileEntity implements PolycraftTileEntityContainer, ISidedInventory {
+public abstract class PolycraftBasicTileEntityContainer extends TileEntity implements PolycraftTileEntityContainer, IInventory {
 	private final Collection<ContainerSlot> inputSlots;
 	private final Collection<ContainerSlot> outputSlots;
 	private final Collection<ContainerSlot> miscSlots;
@@ -30,16 +30,16 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	private final Set<Integer> inputSlotSet = Sets.newHashSet();
 	private final RecipeComponent[] inputArray;
 
+	private final String containerName;
 	private String inventoryName;
 	private final PolycraftContainerType containerType;
-	private final String containerName;
 
-	public PolycraftBasicTileEntityContainer(PolycraftContainerType containerType, String containerName) {
+	public PolycraftBasicTileEntityContainer(final PolycraftContainerType containerType, final String containerName) {
 		this.containerType = containerType;
 		this.containerName = containerName;
 		inputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
-		outputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
-		miscSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.INPUT));
+		outputSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.OUTPUT));
+		miscSlots = ImmutableList.copyOf(containerType.getSlots(SlotType.MISC));
 
 		for (final ContainerSlot input : inputSlots) {
 			slotToIndexMap.put(input.getSlotIndex(), input);
@@ -272,30 +272,6 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 
 	@Override
 	public void closeInventory() {
-	}
-
-	/**
-	 * Returns an array containing the indices of the slots that can be accessed by automation on the given side of this block.
-	 */
-	@Override
-	public int[] getAccessibleSlotsFromSide(int par1) {
-		return null;
-	}
-
-	/**
-	 * Returns true if automation can insert the given item in the given slot from the given side. Args: Slot, item, side
-	 */
-	@Override
-	public boolean canInsertItem(int par1, ItemStack par2ItemStack, int par3) {
-		return this.isItemValidForSlot(par1, par2ItemStack);
-	}
-
-	/**
-	 * Returns true if automation can extract the given item in the given slot from the given side. Args: Slot, item, side
-	 */
-	@Override
-	public boolean canExtractItem(int par1, ItemStack par2ItemStack, int par3) {
-		return par3 != 0 || par1 != 1;
 	}
 
 	/**

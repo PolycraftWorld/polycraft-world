@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class CustomObject extends GameIdentifiedConfig {
@@ -17,5 +18,10 @@ public class CustomObject extends GameIdentifiedConfig {
 
 	public CustomObject(final String gameID, final String name) {
 		super(gameID, name);
+	}
+
+	@Override
+	public ItemStack getItemStack(int size) {
+		return new ItemStack(PolycraftMod.getItem(this), size);
 	}
 }

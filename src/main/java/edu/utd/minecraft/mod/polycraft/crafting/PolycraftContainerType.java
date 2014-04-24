@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import edu.utd.minecraft.mod.polycraft.inventory.chemicalprocessor.ChemicalProcessorSlot;
-import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillSlot;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
  * Enumeration of Polycraft container types.
@@ -24,18 +24,7 @@ public enum PolycraftContainerType {
 	 * Minecraft furnace.
 	 */
 	FURNANCE("Furnance"),
-	/**
-	 * Machining mill container
-	 */
-	MACHINING_MILL("Machining Mill"),
-	/**
-	 * Chemical processor container
-	 */
-	CHEMICAL_PROCESSOR("Chemical Processor"),
-	
-	TEST_INVENTORY("Sample Inventory"),
-	
-	TEST_FURNACE("Sample Furnace");
+	TREE_TAP("Tree Tap");
 
 	private final String friendlyName;
 
@@ -65,16 +54,45 @@ public enum PolycraftContainerType {
 	}
 
 	static {
-		CRAFTING_TABLE.initialize(EnumSet.allOf(GenericCraftingSlot.class));
-		FURNANCE.initialize(EnumSet.allOf(SmeltingCraftingSlot.class));
-		MACHINING_MILL.initialize(EnumSet.allOf(MachiningMillSlot.class));
-		CHEMICAL_PROCESSOR.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
-		
-		TEST_INVENTORY.initialize(EnumSet.allOf(MachiningMillSlot.class));
-		TEST_FURNACE.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
+		CRAFTING_TABLE.initialize(ImmutableList.of(
+				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), //INPUT_TOP_LEFT
+				new GuiContainerSlot(1, SlotType.INPUT, 1, 0), //INPUT_TOP_MIDDLE
+				new GuiContainerSlot(2, SlotType.INPUT, 2, 0), //INPUT_TOP_RIGHT
+
+				new GuiContainerSlot(3, SlotType.INPUT, 0, 1), //INPUT_MIDDLE_LEFT
+				new GuiContainerSlot(4, SlotType.INPUT, 1, 1), //INPUT_MIDDLE_MIDDLE
+				new GuiContainerSlot(5, SlotType.INPUT, 2, 1), //INPUT_MIDDLE_RIGHT
+
+				new GuiContainerSlot(6, SlotType.INPUT, 0, 2), //INPUT_BOTTOM_LEFT
+				new GuiContainerSlot(7, SlotType.INPUT, 1, 2), //INPUT_BOTTOM_MIDDLE
+				new GuiContainerSlot(8, SlotType.INPUT, 2, 2), //INPUT_BOTTOM_RIGHT
+
+				new GuiContainerSlot(9, SlotType.OUTPUT, 0, 0), //OUTPUT_TOP_LEFT
+				new GuiContainerSlot(10, SlotType.OUTPUT, 1, 0), //OUTPUT_TOP_MIDDLE
+				new GuiContainerSlot(11, SlotType.OUTPUT, 2, 0), //OUTPUT_TOP_RIGHT
+
+				new GuiContainerSlot(12, SlotType.OUTPUT, 0, 1), //OUTPUT_MIDDLE_LEFT
+				new GuiContainerSlot(13, SlotType.OUTPUT, 1, 1), //OUTPUT_MIDDLE_MIDDLE
+				new GuiContainerSlot(14, SlotType.OUTPUT, 2, 1), //OUTPUT_MIDDLE_RIGHT
+
+				new GuiContainerSlot(15, SlotType.OUTPUT, 0, 2), //OUTPUT_BOTTOM_LEFT
+				new GuiContainerSlot(16, SlotType.OUTPUT, 1, 2), //OUTPUT_BOTTOM_MIDDLE
+				new GuiContainerSlot(17, SlotType.OUTPUT, 2, 2) //OUTPUT_BOTTOM_RIGHT
+				));
+		FURNANCE.initialize(ImmutableList.of(
+				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), //INPUT
+				new GuiContainerSlot(1, SlotType.INPUT, 0, 1), //FUEL
+				new GuiContainerSlot(1, SlotType.OUTPUT, 1, 0) //OUTPUT
+				));
+		TREE_TAP.initialize(TreeTapInventory.getGuiSlots());
+		//MACHINING_MILL.initialize(EnumSet.allOf(MachiningMillSlot.class));
+		//CHEMICAL_PROCESSOR.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
+
+		//TEST_INVENTORY.initialize(EnumSet.allOf(MachiningMillSlot.class));
+		//TEST_FURNACE.initialize(EnumSet.allOf(ChemicalProcessorSlot.class));
 	}
 
-	private void initialize(EnumSet<?> slots) {
+	private void initialize(Collection<? extends ContainerSlot> slots) {
 		for (SlotType slotType : EnumSet.allOf(SlotType.class)) {
 			List<ContainerSlot> slotList = Lists.newArrayList();
 			for (Object slotObj : slots) {
@@ -149,7 +167,7 @@ public enum PolycraftContainerType {
 		}
 		return slots;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.friendlyName;

@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class SourcedConfig<S extends Config> extends GameIdentifiedConfig {
+public abstract class SourcedConfig<S extends Config> extends GameIdentifiedConfig {
 
 	public final S source;
 

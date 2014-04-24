@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class Ore extends SourcedConfig {
@@ -44,5 +45,10 @@ public class Ore extends SourcedConfig {
 		this.generationStartYMax = generationStartYMax;
 		this.generationVeinsPerChunk = generationVeinsPerChunk;
 		this.generationBlocksPerVein = generationBlocksPerVein;
+	}
+
+	@Override
+	public ItemStack getItemStack(int size) {
+		return new ItemStack(PolycraftMod.getBlock(this), size);
 	}
 }

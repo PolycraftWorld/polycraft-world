@@ -1,6 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-public class GameIdentifiedConfig<S extends Config> extends Config {
+import net.minecraft.item.ItemStack;
+
+public abstract class GameIdentifiedConfig<S extends Config> extends Config {
 
 	public final String gameID;
 
@@ -8,4 +10,10 @@ public class GameIdentifiedConfig<S extends Config> extends Config {
 		super(name);
 		this.gameID = gameID;
 	}
+
+	public ItemStack getItemStack() {
+		return getItemStack(1);
+	}
+
+	public abstract ItemStack getItemStack(final int size);
 }

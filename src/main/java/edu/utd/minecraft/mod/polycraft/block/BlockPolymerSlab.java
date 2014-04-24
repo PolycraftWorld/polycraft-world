@@ -7,7 +7,6 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -28,8 +27,8 @@ public class BlockPolymerSlab extends BlockSlab
 		super(isDouble, Material.rock);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.polymerSlab = polymerSlab;
-		this.labelTexture = polymerSlab.source.resinCode.recyclingNumber >= 1 && polymerSlab.source.resinCode.recyclingNumber <= 7
-				? new LabelTexture("polymer", null, "polymer_" + polymerSlab.source.resinCode.recyclingNumber + "_bottom")
+		this.labelTexture = polymerSlab.polymerBlock.source.source.resinCode.recyclingNumber >= 1 && polymerSlab.polymerBlock.source.source.resinCode.recyclingNumber <= 7
+				? new LabelTexture("polymer", null, "polymer_" + polymerSlab.polymerBlock.source.source.resinCode.recyclingNumber + "_bottom")
 				: new LabelTexture("polymer", null, "polymer_bottom");
 		this.isDouble = isDouble;
 	}
@@ -63,7 +62,7 @@ public class BlockPolymerSlab extends BlockSlab
 	@Override
 	protected ItemStack createStackedBlock(int p_149644_1_)
 	{
-		return new ItemStack(Item.getItemFromBlock(Blocks.stone_slab), 2, p_149644_1_ & 7);
+		return new ItemStack(PolycraftMod.getItem(polymerSlab.name), 2, p_149644_1_ & 7);
 	}
 
 	@Override

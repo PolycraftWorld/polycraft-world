@@ -1,0 +1,193 @@
+Item (MC)							
+Iron Shovel	iron shovel	iron shovel	iron_shovel	256	100	minecraft:iron_shovel	Iron Shovel D
+Iron Pickaxe	iron pickaxe	iron pickaxe	iron_pickaxe	257	101	minecraft:iron_pickaxe	Iron Pickaxe D
+Iron Axe	iron axe	iron axe	iron_axe	258	102	minecraft:iron_axe	Iron Axe D
+Flint And Steel	flint and steel	flint and_steel	flint_and_steel	259	103	minecraft:flint_and_steel	Flint and Steel D
+Apple	apple	apple	apple	260	104	minecraft:apple	Apple
+Bow	bow	bow	bow	261	105	minecraft:bow	Bow D
+Arrow	arrow	arrow	arrow	262	106	minecraft:arrow	Arrow
+Coal	coal	coal	coal	263	107	minecraft:coal	Coal B
+Diamond	diamond	diamond	diamond	264	108	minecraft:diamond	Diamond
+Iron Ingot	iron ingot	iron ingot	iron_ingot	265	109	minecraft:iron_ingot	Iron Ingot
+Gold Ingot	gold ingot	gold ingot	gold_ingot	266	10A	minecraft:gold_ingot	Gold Ingot
+Iron Sword	iron sword	iron sword	iron_sword	267	10B	minecraft:iron_sword	Iron Sword D
+Wooden Sword	wooden sword	wooden sword	wooden_sword	268	10C	minecraft:wooden_sword	Wooden Sword D
+Wooden Shovel	wooden shovel	wooden shovel	wooden_shovel	269	10D	minecraft:wooden_shovel	Wooden Shovel D
+Wooden Pickaxe	wooden pickaxe	wooden pickaxe	wooden_pickaxe	270	10E	minecraft:wooden_pickaxe	Wooden Pickaxe D
+Wooden Axe	wooden axe	wooden axe	wooden_axe	271	10F	minecraft:wooden_axe	Wooden Axe D
+Stone Sword	stone sword	stone sword	stone_sword	272	110	minecraft:stone_sword	Stone Sword D
+Stone Shovel	stone shovel	stone shovel	stone_shovel	273	111	minecraft:stone_shovel	Stone Shovel D
+Stone Pickaxe	stone pickaxe	stone pickaxe	stone_pickaxe	274	112	minecraft:stone_pickaxe	Stone Pickaxe D
+Stone Axe	stone axe	stone axe	stone_axe	275	113	minecraft:stone_axe	Stone Axe D
+Diamond Sword	diamond sword	diamond sword	diamond_sword	276	114	minecraft:diamond_sword	Diamond Sword D
+Diamond Shovel	diamond shovel	diamond shovel	diamond_shovel	277	115	minecraft:diamond_shovel	Diamond Shovel D
+Diamond Pickaxe	diamond pickaxe	diamond pickaxe	diamond_pickaxe	278	116	minecraft:diamond_pickaxe	Diamond Pickaxe D
+Diamond Axe	diamond axe	diamond axe	diamond_axe	279	117	minecraft:diamond_axe	Diamond Axe D
+Stick	stick	stick	stick	280	118	minecraft:stick	Stick
+Bowl	bowl	bowl	bowl	281	119	minecraft:bowl	Bowl
+Mushroom Stew	mushroom stew	mushroom stew	mushroom_stew	282	11A	minecraft:mushroom_stew	Mushroom Stew
+Golden Sword	golden sword	golden sword	golden_sword	283	11B	minecraft:golden_sword	Golden Sword D
+Golden Shovel	golden shovel	golden shovel	golden_shovel	284	11C	minecraft:golden_shovel	Golden Shovel D
+Golden Pickaxe	golden pickaxe	golden pickaxe	golden_pickaxe	285	11D	minecraft:golden_pickaxe	Golden Pickaxe D
+Golden Axe	golden axe	golden axe	golden_axe	286	11E	minecraft:golden_axe	Golden Axe D
+String	string	string	string	287	11F	minecraft:string	String
+Feather	feather	feather	feather	288	120	minecraft:feather	Feather
+Gunpowder	gunpowder	gunpowder	gunpowder	289	121	minecraft:gunpowder	Gunpowder
+Wooden Hoe	wooden hoe	wooden hoe	wooden_hoe	290	122	minecraft:wooden_hoe	Wooden Hoe D
+Stone Hoe	stone hoe	stone hoe	stone_hoe	291	123	minecraft:stone_hoe	Stone Hoe D
+Iron Hoe	iron hoe	iron hoe	iron_hoe	292	124	minecraft:iron_hoe	Iron Hoe D
+Diamond Hoe	diamond hoe	diamond hoe	diamond_hoe	293	125	minecraft:diamond_hoe	Diamond Hoe D
+Golden Hoe	golden hoe	golden hoe	golden_hoe	294	126	minecraft:golden_hoe	Gold Hoe D
+Wheat Seeds	wheat seeds	wheat seeds	wheat_seeds	295	127	minecraft:wheat_seeds	Seeds
+Wheat	wheat	wheat	wheat	296	128	minecraft:wheat	Wheat
+Bread	bread	bread	bread	297	129	minecraft:bread	Bread
+Leather Helmet	leather helmet	leather helmet	leather_helmet	298	12A	minecraft:leather_helmet	Leather Cap D
+Leather Chestplate	leather chestplate	leather chestplate	leather_chestplate	299	12B	minecraft:leather_chestplate	Leather Tunic D
+Leather Leggings	leather leggings	leather leggings	leather_leggings	300	12C	minecraft:leather_leggings	Leather Pants D
+Leather Boots	leather boots	leather boots	leather_boots	301	12D	minecraft:leather_boots	Leather Boots D
+Chainmail Helmet	chainmail helmet	chainmail helmet	chainmail_helmet	302	12E	minecraft:chainmail_helmet	Chain Helmet D
+Chainmail Chestplate	chainmail chestplate	chainmail chestplate	chainmail_chestplate	303	12F	minecraft:chainmail_chestplate	Chain Chestplate D
+Chainmail Leggings	chainmail leggings	chainmail leggings	chainmail_leggings	304	130	minecraft:chainmail_leggings	Chain Leggings D
+Chainmail Boots	chainmail boots	chainmail boots	chainmail_boots	305	131	minecraft:chainmail_boots	Chain Boots D
+Iron Helmet	iron helmet	iron helmet	iron_helmet	306	132	minecraft:iron_helmet	Iron Helmet D
+Iron Chestplate	iron chestplate	iron chestplate	iron_chestplate	307	133	minecraft:iron_chestplate	Iron Chestplate D
+Iron Leggings	iron leggings	iron leggings	iron_leggings	308	134	minecraft:iron_leggings	Iron Leggings D
+Iron Boots	iron boots	iron boots	iron_boots	309	135	minecraft:iron_boots	Iron Boots D
+Diamond Helmet	diamond helmet	diamond helmet	diamond_helmet	310	136	minecraft:diamond_helmet	Diamond Helmet D
+Diamond Chestplate	diamond chestplate	diamond chestplate	diamond_chestplate	311	137	minecraft:diamond_chestplate	Diamond Chestplate D
+Diamond Leggings	diamond leggings	diamond leggings	diamond_leggings	312	138	minecraft:diamond_leggings	Diamond Leggings D
+Diamond Boots	diamond boots	diamond boots	diamond_boots	313	139	minecraft:diamond_boots	Diamond Boots D
+Golden Helmet	golden helmet	golden helmet	golden_helmet	314	13A	minecraft:golden_helmet	Golden Helmet D
+Golden Chestplate	golden chestplate	golden chestplate	golden_chestplate	315	13B	minecraft:golden_chestplate	Golden Chestplate D
+Golden Leggings	golden leggings	golden leggings	golden_leggings	316	13C	minecraft:golden_leggings	Golden Leggings D
+Golden Boots	golden boots	golden boots	golden_boots	317	13D	minecraft:golden_boots	Golden Boots D
+Flint	flint	flint	flint	318	13E	minecraft:flint	Flint
+Porkchop	porkchop	porkchop	porkchop	319	13F	minecraft:porkchop	Raw Porkchop
+Cooked Porkchop	cooked porkchop	cooked porkchop	cooked_porkchop	320	140	minecraft:cooked_porkchop	Cooked Porkchop
+Painting	painting	painting	painting	321	141	minecraft:painting	Painting
+Golden Apple	golden apple	golden apple	golden_apple	322	142	minecraft:golden_apple	Golden Apple B
+Sign	sign	sign	sign	323	143	minecraft:sign	Sign
+Wooden Door	wooden door	wooden door	wooden_door	324	144	minecraft:wooden_door	Wooden Door
+Bucket	bucket	bucket	bucket	325	145	minecraft:bucket	Bucket
+Water Bucket	water bucket	water bucket	water_bucket	326	146	minecraft:water_bucket	Water Bucket
+Lava Bucket	lava bucket	lava bucket	lava_bucket	327	147	minecraft:lava_bucket	Lava Bucket
+Minecart	minecart	minecart	minecart	328	148	minecraft:minecart	Minecart
+Saddle	saddle	saddle	saddle	329	149	minecraft:saddle	Saddle
+Iron Door	iron door	iron door	iron_door	330	14A	minecraft:iron_door	Iron Door
+Redstone	redstone	redstone	redstone	331	14B	minecraft:redstone	Redstone
+Snowball	snowball	snowball	snowball	332	14C	minecraft:snowball	Snowball
+Boat	boat	boat	boat	333	14D	minecraft:boat	Boat
+Leather	leather	leather	leather	334	14E	minecraft:leather	Leather
+Milk Bucket	milk bucket	milk bucket	milk_bucket	335	14F	minecraft:milk_bucket	Milk
+Brick	brick	brick	brick	336	150	minecraft:brick	Brick
+Clay Ball	clay ball	clay ball	clay_ball	337	151	minecraft:clay_ball	Clay
+Reeds	reeds	reeds	reeds	338	152	minecraft:reeds	Sugar Canes
+Paper	paper	paper	paper	339	153	minecraft:paper	Paper
+Book	book	book	book	340	154	minecraft:book	Book
+Slime Ball	slime ball	slime ball	slime_ball	341	155	minecraft:slime_ball	Slimeball
+Chest Minecart	chest minecart	chest minecart	chest_minecart	342	156	minecraft:chest_minecart	Minecart with Chest
+Furnace Minecart	furnace minecart	furnace minecart	furnace_minecart	343	157	minecraft:furnace_minecart	Minecart with Furnace
+Egg	egg	egg	egg	344	158	minecraft:egg	Egg
+Compass	compass	compass	compass	345	159	minecraft:compass	Compass
+Fishing Rod	fishing rod	fishing rod	fishing_rod	346	15A	minecraft:fishing_rod	Fishing Rod D
+Clock	clock	clock	clock	347	15B	minecraft:clock	Clock
+Glowstone Dust	glowstone dust	glowstone dust	glowstone_dust	348	15C	minecraft:glowstone_dust	Glowstone Dust
+Fish	fish	fish	fish	349	15D	minecraft:fish	Raw Fish B
+Cooked Fish	cooked fish	cooked fish	cooked_fish	350	15E	minecraft:cooked_fish	Cooked Fish B
+Dye	dye	dye	dye	351	15F	minecraft:dye	Dye B
+Bone	bone	bone	bone	352	160	minecraft:bone	Bone
+Sugar	sugar	sugar	sugar	353	161	minecraft:sugar	Sugar
+Cake	cake	cake	cake	354	162	minecraft:cake	Cake
+Bed	bed	bed	bed	355	163	minecraft:bed	Bed
+Repeater	repeater	repeater	repeater	356	164	minecraft:repeater	Redstone Repeater
+Cookie	cookie	cookie	cookie	357	165	minecraft:cookie	Cookie
+Filled Map	filled map	filled map	filled_map	358	166	minecraft:filled_map	Map B
+Shears	shears	shears	shears	359	167	minecraft:shears	Shears D
+Melon	melon	melon	melon	360	168	minecraft:melon	Melon
+Pumpkin Seeds	pumpkin seeds	pumpkin seeds	pumpkin_seeds	361	169	minecraft:pumpkin_seeds	Pumpkin Seeds
+Melon Seeds	melon seeds	melon seeds	melon_seeds	362	16A	minecraft:melon_seeds	Melon Seeds
+Beef	beef	beef	beef	363	16B	minecraft:beef	Raw Beef
+Cooked Beef	cooked beef	cooked beef	cooked_beef	364	16C	minecraft:cooked_beef	Steak
+Chicken	chicken	chicken	chicken	365	16D	minecraft:chicken	Raw Chicken
+Cooked Chicken	cooked chicken	cooked chicken	cooked_chicken	366	16E	minecraft:cooked_chicken	Cooked Chicken
+Rotten Flesh	rotten flesh	rotten flesh	rotten_flesh	367	16F	minecraft:rotten_flesh	Rotten Flesh
+Ender Pearl	ender pearl	ender pearl	ender_pearl	368	170	minecraft:ender_pearl	Ender Pearl
+Blaze Rod	blaze rod	blaze rod	blaze_rod	369	171	minecraft:blaze_rod	Blaze Rod
+Ghast Tear	ghast tear	ghast tear	ghast_tear	370	172	minecraft:ghast_tear	Ghast Tear
+Gold Nugget	gold nugget	gold nugget	gold_nugget	371	173	minecraft:gold_nugget	Gold Nugget
+Nether Wart	nether wart	nether wart	nether_wart	372	174	minecraft:nether_wart	Nether Wart
+Potion	potion	potion	potion	373	175	minecraft:potion	Potions B
+Glass Bottle	glass bottle	glass bottle	glass_bottle	374	176	minecraft:glass_bottle	Glass Bottle
+Spider Eye	spider eye	spider eye	spider_eye	375	177	minecraft:spider_eye	Spider Eye
+Fermented Spider Eye	fermented spider eye	fermented spider_eye	fermented_spider_eye	376	178	minecraft:fermented_spider_eye	Fermented Spider Eye
+Blaze Powder	blaze powder	blaze powder	blaze_powder	377	179	minecraft:blaze_powder	Blaze Powder
+Magma Cream	magma cream	magma cream	magma_cream	378	17A	minecraft:magma_cream	Magma Cream
+Brewing Stand	brewing stand	brewing stand	brewing_stand	379	17B	minecraft:brewing_stand	Brewing Stand
+Cauldron	cauldron	cauldron	cauldron	380	17C	minecraft:cauldron	Cauldron
+Ender Eye	ender eye	ender eye	ender_eye	381	17D	minecraft:ender_eye	Eye of Ender
+Speckled Melon	speckled melon	speckled melon	speckled_melon	382	17E	minecraft:speckled_melon	Glistering Melon
+Spawn Egg	spawn egg	spawn egg	spawn_egg	383	17F	minecraft:spawn_egg	Spawn Egg B
+Experience Bottle	experience bottle	experience bottle	experience_bottle	384	180	minecraft:experience_bottle	Bottle o' Enchanting
+Fire Charge	fire charge	fire charge	fire_charge	385	181	minecraft:fire_charge	Fire Charge
+Writable Book	writable book	writable book	writable_book	386	182	minecraft:writable_book	Book and Quill
+Written Book	written book	written book	written_book	387	183	minecraft:written_book	Written Book
+Emerald	emerald	emerald	emerald	388	184	minecraft:emerald	Emerald
+Item Frame	item frame	item frame	item_frame	389	185	minecraft:item_frame	Item Frame
+Flower Pot	flower pot	flower pot	flower_pot	390	186	minecraft:flower_pot	Flower Pot
+Carrot	carrot	carrot	carrot	391	187	minecraft:carrot	Carrot
+Potato	potato	potato	potato	392	188	minecraft:potato	Potato
+Baked Potato	baked potato	baked potato	baked_potato	393	189	minecraft:baked_potato	Baked Potato
+Poisonous Potato	poisonous potato	poisonous potato	poisonous_potato	394	18A	minecraft:poisonous_potato	Poisonous Potato
+Map	map	map	map	395	18B	minecraft:map	Empty Map
+Golden Carrot	golden carrot	golden carrot	golden_carrot	396	18C	minecraft:golden_carrot	Golden Carrot
+Skull	skull	skull	skull	397	18D	minecraft:skull	Mob head B
+Carrot On A Stick	carrot on a_stick	carrot on_a_stick	carrot_on_a_stick	398	18E	minecraft:carrot_on_a_stick	Carrot on a Stick D
+Nether Star	nether star	nether star	nether_star	399	18F	minecraft:nether_star	Nether Star
+Pumpkin Pie	pumpkin pie	pumpkin pie	pumpkin_pie	400	190	minecraft:pumpkin_pie	Pumpkin Pie
+Fireworks	fireworks	fireworks	fireworks	401	191	minecraft:fireworks	Firework Rocket
+Firework Charge	firework charge	firework charge	firework_charge	402	192	minecraft:firework_charge	Firework Star
+Enchanted Book	enchanted book	enchanted book	enchanted_book	403	193	minecraft:enchanted_book	Enchanted Book
+Comparator	comparator	comparator	comparator	404	194	minecraft:comparator	Redstone Comparator
+Netherbrick	netherbrick	netherbrick	netherbrick	405	195	minecraft:netherbrick	Nether Brick
+Quartz	quartz	quartz	quartz	406	196	minecraft:quartz	Nether Quartz
+Tnt Minecart	tnt minecart	tnt minecart	tnt_minecart	407	197	minecraft:tnt_minecart	Minecart with TNT
+Hopper Minecart	hopper minecart	hopper minecart	hopper_minecart	408	198	minecraft:hopper_minecart	Minecart with Hopper
+0	0	0	0	409	199		(unused)
+0	0	0	0	410	19A		(unused)
+0	0	0	0	411	19B		(unused)
+0	0	0	0	412	19C		(unused)
+0	0	0	0	413	19D		(unused)
+0	0	0	0	414	19E		(unused)
+0	0	0	0	415	19F		(unused)
+0	0	0	0	416	1A0		(unused)
+Iron Horse Armor	iron horse armor	iron horse_armor	iron_horse_armor	417	1A1	minecraft:iron_horse_armor	Iron Horse Armor
+Golden Horse Armor	golden horse armor	golden horse_armor	golden_horse_armor	418	1A2	minecraft:golden_horse_armor	Gold Horse Armor
+Diamond Horse Armor	diamond horse armor	diamond horse_armor	diamond_horse_armor	419	1A3	minecraft:diamond_horse_armor	Diamond Horse Armor
+Lead	lead	lead	lead	420	1A4	minecraft:lead	Lead
+Name Tag	name tag	name tag	name_tag	421	1A5	minecraft:name_tag	Name Tag
+Command Block Minecart	command block minecart	command block_minecart	command_block_minecart	422	1A6	minecraft:command_block_minecart	Minecart with Command Block
+0	0	0	0	423	1A7		(unused)
+0	0	0	0	424	1A8		(unused)
+0	0	0	0	425	1A9		(unused)
+0	0	0	0	426	1AA		(unused)
+0	0	0	0	427	1AB		(unused)
+0	0	0	0	428	1AC		(unused)
+0	0	0	0	429	1AD		(unused)
+0	0	0	0	430	1AE		(unused)
+0	0	0	0	431	1AF		(unused)
+Record 13	record 13	record 13	record_13	2256	8D0	minecraft:record_13	13 Disc
+Record Cat	record cat	record cat	record_cat	2257	8D1	minecraft:record_cat	cat Disc
+Record Blocks	record blocks	record blocks	record_blocks	2258	8D2	minecraft:record_blocks	blocks Disc
+Record Chirp	record chirp	record chirp	record_chirp	2259	8D3	minecraft:record_chirp	chirp Disc
+Record Far	record far	record far	record_far	2260	8D4	minecraft:record_far	far Disc
+Record Mall	record mall	record mall	record_mall	2261	8D5	minecraft:record_mall	mall Disc
+Record Mellohi	record mellohi	record mellohi	record_mellohi	2262	8D6	minecraft:record_mellohi	mellohi Disc
+Record Stal	record stal	record stal	record_stal	2263	8D7	minecraft:record_stal	stal Disc
+Record Strad	record strad	record strad	record_strad	2264	8D8	minecraft:record_strad	strad Disc
+Record Ward	record ward	record ward	record_ward	2265	8D9	minecraft:record_ward	ward Disc
+Record 11	record 11	record 11	record_11	2266	8DA	minecraft:record_11	11 Disc
+Record Wait	record wait	record wait	record_wait	2267	8DB	minecraft:record_wait	wait Disc
+0	0	0	0	2268	8DC		(unused)
+0	0	0	0	2269	8DD		(unused)
+0	0	0	0	2270	8DE		(unused)
+0	0	0	0	2271	8DF		(unused)

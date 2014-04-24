@@ -10,7 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -25,27 +24,29 @@ import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.Mold;
+import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
+import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
-import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.BlockMachiningMill;
-import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.TileEntityMachiningMill;
-import edu.utd.minecraft.mod.polycraft.inventory.treetap.BlockTreeTap;
-import edu.utd.minecraft.mod.polycraft.inventory.treetap.RenderTreeTap;
-import edu.utd.minecraft.mod.polycraft.inventory.treetap.TileEntityTreeTap;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
+import edu.utd.minecraft.mod.polycraft.item.ItemMold;
+import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellet;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick.Settings;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
@@ -56,7 +57,6 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 
 public class CommonProxy {
 
-	//register blocks and items (order matters for backwards compatibility between mod releases!)
 	public void preInit() {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
@@ -77,15 +77,11 @@ public class CommonProxy {
 	public void init() {
 		RecipeGenerator.generateRecipes();
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
-		RenderingRegistry.registerBlockHandler(PolycraftMod.renderTreeTapID, RenderTreeTap.INSTANCE);
-		//RenderingRegistry.registerBlockHandler(PolycraftMod.renderMachiningMillID, RenderMachiningMill.INSTANCE);
-		//RenderingRegistry.registerBlockHandler(PolycraftMod.renderChemicalProcessorID, RenderChemicalProcessor.INSTANCE);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 	}
 
 	public void postInit() {
-		final PolycraftEventHandler eventHandler = new PolycraftEventHandler();
-		MinecraftForge.EVENT_BUS.register(eventHandler);
+		MinecraftForge.EVENT_BUS.register(new PolycraftEventHandler());
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeInitializer());
 	}
@@ -125,7 +121,6 @@ public class CommonProxy {
 	private void registerCompressedBlocks() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
 			PolycraftMod.registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
-
 	}
 
 	private void registerCatalysts() {
@@ -134,7 +129,8 @@ public class CommonProxy {
 	}
 
 	private void registerVessels() {
-		//TODO
+		for (final Vessel vessel : Vessel.registry.values())
+			PolycraftMod.registerItem(vessel, new ItemVessel(vessel));
 	}
 
 	private void registerPolymers() {
@@ -144,26 +140,27 @@ public class CommonProxy {
 		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
 			PolycraftMod.registerItem(polymerFibers, new ItemFiber());
 
+		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
+			PolycraftMod.registerBlock(polymerBlock, new BlockPolymer(polymerBlock));
+
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
 			final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
-			PolycraftMod.registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName, ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
-			PolycraftMod.registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName, ItemPolymerSlab.class, new Object[] { slab, doubleSlab,
-					true });
+			PolycraftMod.registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
+					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
+			PolycraftMod.registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
+					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
 		}
-
-		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
-			PolycraftMod.registerBlock(polymerBlock, new BlockPolymer(polymerBlock));
 	}
 
 	private void registerMolds() {
-		//for (final Mold mold : Mold.registry.values())
-		//	PolycraftMod.registerItem(mold, new Item()); //TODO
+		for (final Mold mold : Mold.registry.values())
+			PolycraftMod.registerItem(mold, new ItemMold(mold));
 	}
 
 	private void registerMoldedItems() {
-		//for (final MoldedItem moldedItem : MoldedItem.registry.values())
-		//	PolycraftMod.registerItem(moldedItem, new Item()); //TODO
+		for (final MoldedItem moldedItem : MoldedItem.registry.values())
+			PolycraftMod.registerItem(moldedItem, new ItemMoldedItem(moldedItem));
 	}
 
 	private void registerCustom() {
@@ -217,12 +214,12 @@ public class CommonProxy {
 	}
 
 	private void registerInventories() {
-		PolycraftMod.registerBlock(Inventory.registry.get("Tree Tap"), new BlockTreeTap());
-		GameRegistry.registerTileEntity(TileEntityTreeTap.class, InternalObject.registry.get("Tree Tap Tile Entity").gameID);
+		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
 
-		PolycraftMod.registerBlock(Inventory.registry.get("Machining Mill"), new BlockMachiningMill());
-		GameRegistry.registerTileEntity(TileEntityMachiningMill.class, InternalObject.registry.get("Machining Mill Tile Entity").gameID);
+		//PolycraftMod.registerBlock(Inventory.registry.get("Machining Mill"), new BlockMachiningMill());
+		//GameRegistry.registerTileEntity(TileEntityMachiningMill.class, InternalObject.registry.get("Machining Mill Tile Entity").gameID);
 
+		//TODO
 		/*
 		final CustomObject chemicalProcessor = CustomObject.registry.get("Chemical Processor");
 		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock(chemicalProcessor, new BlockChemicalProcessor(false));

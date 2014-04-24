@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class InternalObject extends GameIdentifiedConfig {
@@ -17,5 +18,10 @@ public class InternalObject extends GameIdentifiedConfig {
 
 	public InternalObject(final String gameID, final String name) {
 		super(gameID, name);
+	}
+
+	@Override
+	public ItemStack getItemStack(int size) {
+		throw new Error("Not implemented");
 	}
 }

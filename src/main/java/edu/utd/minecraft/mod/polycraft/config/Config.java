@@ -34,11 +34,11 @@ public abstract class Config {
 		Ingot.registerFromResource(directory, extension, delimeter);
 		CompressedBlock.registerFromResource(directory, extension, delimeter);
 		Catalyst.registerFromResource(directory, extension, delimeter);
-		//TODO Vessels
+		Vessel.registerFromResource(directory, extension, delimeter);
 		PolymerPellets.registerFromResource(directory, extension, delimeter);
 		PolymerFibers.registerFromResource(directory, extension, delimeter);
-		PolymerSlab.registerFromResource(directory, extension, delimeter);
 		PolymerBlock.registerFromResource(directory, extension, delimeter);
+		PolymerSlab.registerFromResource(directory, extension, delimeter);
 		Mold.registerFromResource(directory, extension, delimeter);
 		MoldedItem.registerFromResource(directory, extension, delimeter);
 		Inventory.registerFromResource(directory, extension, delimeter);
@@ -58,12 +58,12 @@ public abstract class Config {
 		registriesByType.put(Ore.class.getSimpleName(), Ore.registry);
 		registriesByType.put(Ingot.class.getSimpleName(), Ingot.registry);
 		registriesByType.put(Catalyst.class.getSimpleName(), Catalyst.registry);
-		//TODO Vessels
+		registriesByType.put(Vessel.class.getSimpleName(), Vessel.registry);
 		registriesByType.put(Catalyst.class.getSimpleName(), Catalyst.registry);
 		registriesByType.put(PolymerPellets.class.getSimpleName(), PolymerPellets.registry);
 		registriesByType.put(PolymerFibers.class.getSimpleName(), PolymerFibers.registry);
-		registriesByType.put(PolymerSlab.class.getSimpleName(), PolymerSlab.registry);
 		registriesByType.put(PolymerBlock.class.getSimpleName(), PolymerBlock.registry);
+		registriesByType.put(PolymerSlab.class.getSimpleName(), PolymerSlab.registry);
 		registriesByType.put(Mold.class.getSimpleName(), Mold.registry);
 		registriesByType.put(MoldedItem.class.getSimpleName(), MoldedItem.registry);
 		registriesByType.put(Inventory.class.getSimpleName(), Inventory.registry);
