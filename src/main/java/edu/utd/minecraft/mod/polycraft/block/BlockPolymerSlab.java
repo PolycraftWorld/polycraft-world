@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 
-public class BlockPolymerSlab extends BlockSlab
+public class BlockPolymerSlab extends BlockSlab implements BlockBouncy
 {
 	public final PolymerSlab polymerSlab;
 	private final boolean isDouble;
@@ -88,5 +88,15 @@ public class BlockPolymerSlab extends BlockSlab
 				}
 			}
 		}
+	}
+
+	@Override
+	public int getActiveBounceHeight() {
+		return polymerSlab.bounceHeight;
+	}
+
+	@Override
+	public float getMomentumReturnedOnPassiveFall() {
+		return isDouble ? .8f : 0;
 	}
 }

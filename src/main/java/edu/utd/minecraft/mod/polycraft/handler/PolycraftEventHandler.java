@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -21,15 +20,11 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -41,10 +36,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
-public class PolycraftEventHandler {
-	private final Logger logger = LogManager.getLogger();
-
-	private static final Random random = new Random();
+public class PolycraftEventHandler extends PolycraftHandler {
 
 	private static final float baseJumpMovementFactor = 0.02F;
 	private static final float baseMovementSpeed = 0.1f;
@@ -71,8 +63,7 @@ public class PolycraftEventHandler {
 		private boolean jetPackLightsEnabled = false;
 		private int pogoStickPreviousContinuousActiveBounces = 0;
 		public float pogoStickLastFallDistance = 0;
-		public float polymerSlabLastFallDistance = 0;
-		public int polymerSlabBounceHeight = 0;
+		public float bouncyBlockBounceHeight = 0;
 	}
 
 	private final Map<EntityPlayer, PlayerState> playerStates = new HashMap<EntityPlayer, PlayerState>();
@@ -88,7 +79,7 @@ public class PolycraftEventHandler {
 
 	@SubscribeEvent
 	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
-		if (event.entityLiving instanceof EntityPlayer) {
+		if (isPlayer(event)) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			playerStates.remove(player);
 		}
@@ -97,9 +88,10 @@ public class PolycraftEventHandler {
 	@SubscribeEvent
 	@SideOnly(Side.SERVER)
 	public synchronized void onLivingUpdateEventServer(final LivingUpdateEvent event) {
-		if (event.entityLiving instanceof EntityPlayer) {
+		if (isPlayer(event)) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			final PlayerState playerState = getPlayerState(player);
+
 			handleWeapons(event, player, playerState);
 			handleFlightServer(event, player, playerState);
 			handleBreathing(event, player, playerState);
@@ -109,43 +101,15 @@ public class PolycraftEventHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public synchronized void onLivingUpdateEventClient(final LivingUpdateEvent event) {
-		if (event.entityLiving instanceof EntityPlayer) {
+		if (isPlayer(event)) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			final PlayerState playerState = getPlayerState(player);
+
 			handleBouncingClient(event, player, playerState);
 			handleWeapons(event, player, playerState);
 			handleMovementSpeedClient(event, player, playerState);
 			handleFlightClient(event, player, playerState);
 			handleBreathing(event, player, playerState);
-		}
-	}
-
-	private Block getBlockUnderPlayer(final EntityPlayer player) {
-		return player.worldObj.getBlock((int) Math.floor(player.posX), (int) Math.floor(player.posY - player.getYOffset()) - 1, (int) Math.floor(player.posZ));
-	}
-
-	@SubscribeEvent
-	public synchronized void onLivingFallEvent(final LivingFallEvent event) {
-		if (event.entityLiving instanceof EntityPlayer) {
-			final EntityPlayer player = (EntityPlayer) event.entity;
-			final PlayerState playerState = getPlayerState(player);
-			final boolean onPolymerSlab = getBlockUnderPlayer(player) instanceof BlockPolymerSlab;
-			final ItemStack currentItemStack = player.getCurrentEquippedItem();
-			if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick && currentItemStack.getItemDamage() < currentItemStack.getMaxDamage()) {
-				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
-				currentItemStack.attemptDamageItem(1, random);
-				playerState.pogoStickLastFallDistance = event.distance;
-				if (event.distance > pogoStick.settings.maxFallNoDamageHeight && !onPolymerSlab)
-					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
-				else
-					event.distance = 0;
-			}
-			else {
-				if (onPolymerSlab) {
-					playerState.polymerSlabLastFallDistance = event.distance;
-					event.distance = 0;
-				}
-			}
 		}
 	}
 
@@ -159,16 +123,46 @@ public class PolycraftEventHandler {
 		}
 	}
 
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public synchronized void onLivingFallEvent(final LivingFallEvent event) {
+		if (isPlayer(event)) {
+			final EntityPlayer player = (EntityPlayer) event.entity;
+			final PlayerState playerState = getPlayerState(player);
+
+			final Block blockUnderPlayer = getBlockUnderPlayer(player);
+			final boolean onBouncyBlock = blockUnderPlayer instanceof BlockBouncy;
+			if (checkCurrentEquippedItem(player, ItemPogoStick.class, true)) {
+				final ItemStack currentItemStack = player.getCurrentEquippedItem();
+				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
+				currentItemStack.attemptDamageItem(1, random);
+				playerState.pogoStickLastFallDistance = event.distance;
+				if (event.distance > pogoStick.settings.maxFallNoDamageHeight && !onBouncyBlock)
+					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
+				else
+					event.distance = 0;
+			}
+			else if (onBouncyBlock) {
+				final BlockBouncy bouncyBlock = (BlockBouncy) blockUnderPlayer;
+				//if we are actively jumping
+				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) && noScreen())
+					playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+				//if we are supposed to return momentum while not actively jumping
+				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0)
+					playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				event.distance = 0;
+			}
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
 	private void handleBouncingClient(final LivingUpdateEvent event, final EntityPlayer player, final PlayerState playerState) {
 		float jumpMovementFactor = baseJumpMovementFactor;
-		final ItemStack currentItemStack = player.getCurrentEquippedItem();
-		if (currentItemStack != null && currentItemStack.getItem() instanceof ItemPogoStick
-				&& currentItemStack.getItemDamage() < currentItemStack.getMaxDamage()) {
-			final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
+		if (checkCurrentEquippedItem(player, ItemPogoStick.class, true)) {
+			final ItemPogoStick pogoStick = ((ItemPogoStick) player.getCurrentEquippedItem().getItem());
 			jumpMovementFactor *= pogoStick.settings.jumpMovementFactorBuff;
 			if (!pogoStick.settings.restrictJumpToGround || player.onGround) {
-				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && Minecraft.getMinecraft().currentScreen == null;
+				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && noScreen();
 				final double motionY = pogoStick.settings.getMotionY(playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
 				if (motionY > 0)
 					player.motionY = motionY;
@@ -177,31 +171,18 @@ public class PolycraftEventHandler {
 				else
 					playerState.pogoStickPreviousContinuousActiveBounces = 0;
 			}
-			playerState.polymerSlabLastFallDistance = 0;
-			playerState.polymerSlabBounceHeight = 0;
+			playerState.bouncyBlockBounceHeight = 0;
 		}
 		else {
-			if (playerState.polymerSlabLastFallDistance > 0) {
-				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.polymerSlabLastFallDistance * .8);
-				if (motionY > .1)
-					player.motionY = motionY;
-				playerState.polymerSlabLastFallDistance = 0;
-			}
-			else {
-				if (playerState.polymerSlabBounceHeight > 0) {
-					player.motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.polymerSlabBounceHeight);
-					playerState.polymerSlabBounceHeight = 0;
-				}
-				else {
-					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) && Minecraft.getMinecraft().currentScreen == null && player.onGround) {
-						final Block blockUnderPlayer = getBlockUnderPlayer(player);
-						//TODO bounce on PolyrmerBlocks as well
-						if (blockUnderPlayer instanceof BlockPolymerSlab)
-							playerState.polymerSlabBounceHeight = ((BlockPolymerSlab) blockUnderPlayer).polymerSlab.bounceHeight;
-					}
-				}
-			}
 			playerState.pogoStickPreviousContinuousActiveBounces = 0;
+			//if the player is on the ground and holding down jump, then wait for the jump to occur
+			//(if we try to set the y velocity before the game jumps, it will override our velocity)
+			if (playerState.bouncyBlockBounceHeight > 0 && !(player.onGround && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump))) {
+				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.bouncyBlockBounceHeight);
+				if (motionY > .2)
+					player.motionY = motionY;
+				playerState.bouncyBlockBounceHeight = 0;
+			}
 		}
 		playerState.pogoStickLastFallDistance = 0;
 
@@ -212,15 +193,13 @@ public class PolycraftEventHandler {
 	private void handleWeapons(final LivingUpdateEvent event, final EntityPlayer player, final PlayerState playerState) {
 		boolean flameThrowerLightsEnabled = false;
 		int flameThrowerRange = 0;
-		final ItemStack currentEquippedItemStack = player.getCurrentEquippedItem();
-		if (currentEquippedItemStack != null) {
-			if (currentEquippedItemStack.getItem() instanceof ItemFlameThrower) {
-				ItemFlameThrower flameThrowerItem = (ItemFlameThrower) currentEquippedItemStack.getItem();
-				if (player.isUsingItem() && flameThrowerItem.hasFuelRemaining(currentEquippedItemStack) && !player.isInWater()) {
-					flameThrowerLightsEnabled = true;
-					flameThrowerRange = flameThrowerItem.range;
-					fireFlamethrower(player, playerState, currentEquippedItemStack, flameThrowerItem);
-				}
+		if (checkCurrentEquippedItem(player, ItemFlameThrower.class)) {
+			final ItemStack currentEquippedItemStack = player.getCurrentEquippedItem();
+			ItemFlameThrower flameThrowerItem = (ItemFlameThrower) currentEquippedItemStack.getItem();
+			if (player.isUsingItem() && flameThrowerItem.hasFuelRemaining(currentEquippedItemStack) && !player.isInWater()) {
+				flameThrowerLightsEnabled = true;
+				flameThrowerRange = flameThrowerItem.range;
+				fireFlamethrower(player, playerState, currentEquippedItemStack, flameThrowerItem);
 			}
 		}
 		updateFlameThrowerLights(player, playerState, flameThrowerLightsEnabled, flameThrowerRange);
@@ -317,7 +296,7 @@ public class PolycraftEventHandler {
 			float movementSpeedBaseValue = baseMovementSpeed;
 			final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
 			if (player.isInWater()) {
-				if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
+				if (checkItem(bootsItemStack, ItemScubaFins.class)) {
 					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
 					boolean setVelocity = false;
 					double motionX = 0;
@@ -343,10 +322,10 @@ public class PolycraftEventHandler {
 				}
 			}
 			else {
-				if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemScubaFins) {
+				if (checkItem(bootsItemStack, ItemScubaFins.class)) {
 					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
 				}
-				else if (bootsItemStack != null && bootsItemStack.getItem() instanceof ItemRunningShoes) {
+				else if (checkItem(bootsItemStack, ItemRunningShoes.class)) {
 					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
 				}
 			}
@@ -373,8 +352,7 @@ public class PolycraftEventHandler {
 		boolean allowFlyingChanged = false;
 		if (player.isEntityAlive() && !player.capabilities.isCreativeMode) {
 			final ItemStack jetPackItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
-			final ItemJetPack jetPackItem =
-					(jetPackItemStack != null && jetPackItemStack.getItem() instanceof ItemJetPack) ? (ItemJetPack) jetPackItemStack.getItem() : null;
+			final ItemJetPack jetPackItem = checkItem(jetPackItemStack, ItemJetPack.class) ? (ItemJetPack) jetPackItemStack.getItem() : null;
 			final boolean allowFlying = jetPackItem != null && ItemJetPack.hasFuelRemaining(jetPackItemStack) && !player.isInWater();
 			allowFlyingChanged = player.capabilities.allowFlying != allowFlying;
 			if (allowFlyingChanged) {
@@ -415,9 +393,8 @@ public class PolycraftEventHandler {
 				}
 			}
 
-			final ItemStack parachuteItemStack = player.getCurrentEquippedItem();
-			if (parachuteItemStack != null && parachuteItemStack.getItem() instanceof ItemParachute) {
-				final float descendVelocity = ((ItemParachute) parachuteItemStack.getItem()).descendVelocity;
+			if (checkCurrentEquippedItem(player, ItemParachute.class)) {
+				final float descendVelocity = ((ItemParachute) player.getCurrentEquippedItem().getItem()).descendVelocity;
 				if (player.motionY < descendVelocity) {
 					player.setVelocity(player.motionX * .99, descendVelocity, player.motionZ * .99);
 					player.fallDistance = 0;
@@ -500,7 +477,7 @@ public class PolycraftEventHandler {
 	private void handleBreathing(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
 		if (player.isEntityAlive() && player.isInWater() && player.getAir() < baseFullAir) {
 			final ItemStack scubaTankItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
-			if (scubaTankItemStack != null && scubaTankItemStack.getItem() instanceof ItemScubaTank) {
+			if (checkItem(scubaTankItemStack, ItemScubaTank.class)) {
 				final ItemScubaTank scubaTankItem = (ItemScubaTank) scubaTankItemStack.getItem();
 				if (player.worldObj.isRemote) {
 					if (scubaTankItem.consumeAir(scubaTankItemStack)) {
@@ -516,5 +493,14 @@ public class PolycraftEventHandler {
 				}
 			}
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static boolean noScreen() {
+		return Minecraft.getMinecraft().currentScreen == null;
+	}
+
+	private static boolean isPlayer(final LivingEvent event) {
+		return event.entityLiving instanceof EntityPlayer;
 	}
 }

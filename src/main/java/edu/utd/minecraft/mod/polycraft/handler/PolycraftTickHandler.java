@@ -21,7 +21,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 
-public class PolycraftTickHandler
+public class PolycraftTickHandler extends PolycraftHandler
 {
 	private final Minecraft minecraft;
 	private boolean flashlightEnabled = false;

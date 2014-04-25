@@ -40,10 +40,7 @@ public class PolycraftInventoryBlock extends BlockContainer {
 	protected final Inventory config;
 	public final Class tileEntityClass;
 
-	@SideOnly(Side.CLIENT)
 	public final Map<BlockFace, IIcon> blockFaceIcons = Maps.newHashMap();
-
-	@SideOnly(Side.CLIENT)
 	private IIcon inventoryIcon;
 
 	public PolycraftInventoryBlock(final Inventory config, Class tileEntityClass) {

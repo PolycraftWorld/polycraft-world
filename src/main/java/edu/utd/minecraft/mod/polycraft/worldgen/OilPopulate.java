@@ -165,7 +165,7 @@ public class OilPopulate {
 				baseY = wellY;
 			}
 
-			//TODO
+			//TODO add springs back in at some point?
 			//if (makeSpring && world.getBlock(wellX, baseY, wellZ) == Blocks.bedrock) {
 			//	world.setBlock(wellX, baseY, wellZ, BuildCraftCore.springBlock, 1, 3);
 			//}

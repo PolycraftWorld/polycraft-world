@@ -16,8 +16,8 @@ import com.google.common.collect.ImmutableMap;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
-import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
@@ -26,9 +26,6 @@ import edu.utd.minecraft.mod.polycraft.config.Vessel;
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
 
-	/**
-	 * TODO: Actually generate recipes.
-	 */
 	public static void generateRecipes() {
 		generateAutoRecipes();
 		generateFileRecipes("recipes");
@@ -129,7 +126,14 @@ public class RecipeGenerator {
 		final ItemStack[] dirtOutputs = new ItemStack[] {
 				new ItemStack(Blocks.dirt, 64),
 				new ItemStack(Blocks.crafting_table),
-				Inventory.registry.get("Tree Tap").getItemStack(),
+				CustomObject.registry.get("Flamethrower").getItemStack(),
+				CustomObject.registry.get("JetPack").getItemStack(),
+				CustomObject.registry.get("Scuba Tank").getItemStack(),
+				CustomObject.registry.get("Flashlight").getItemStack(),
+				//PolymerSlab.registry.get("Slab (PolyIsoPrene)").getItemStack(),
+				//PolymerBlock.registry.get("Block (PolyIsoPrene)").getItemStack(),
+				//new ItemStack(PolycraftMod.getItem("Gripped Diamond Pogo Stick")),
+				//Inventory.registry.get("Tree Tap").getItemStack(),
 				new ItemStack(Blocks.furnace),
 				new ItemStack(Items.diamond_pickaxe),
 				new ItemStack(Blocks.torch, 64),

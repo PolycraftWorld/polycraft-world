@@ -40,13 +40,17 @@ import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInve
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
+import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellet;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick.Settings;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -164,33 +168,12 @@ public class CommonProxy {
 			PolycraftMod.registerItem(moldedItem, new ItemMoldedItem(moldedItem));
 	}
 
+	private void registerInventories() {
+		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
+		MachiningMillInventory.register(Inventory.registry.get("Machining Mill"));
+	}
+
 	private void registerCustom() {
-		registerFluids();
-		registerUtilities();
-		/*
-		registerTools();
-		registerArmor();
-		registerWeapons();
-		*/
-	}
-
-	private void registerUtilities() {
-		for (final Settings settings : PolycraftMod.itemPogoStickSettings)
-			PolycraftMod.registerItem(CustomObject.registry.get(settings.itemName), new ItemPogoStick(settings));
-
-		/*
-		PolycraftMod.itemFlashlight = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameFlashlight,
-				new ItemFlashlight(
-						PolycraftMod.itemFlashlightMaxLightLevel,
-						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
-						PolycraftMod.itemFlashlightViewingConeAngle));
-
-		PolycraftMod.itemParachute = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameParachute,
-				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
-				*/
-	}
-
-	private void registerFluids() {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
@@ -212,26 +195,54 @@ public class CommonProxy {
 		BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, itemBucketOil);
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-	}
+		for (final Settings settings : PolycraftMod.itemPogoStickSettings)
+			PolycraftMod.registerItem(CustomObject.registry.get(settings.itemName), new ItemPogoStick(settings));
 
-	private void registerInventories() {
-		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
-		MachiningMillInventory.register(Inventory.registry.get("Machining Mill"));
+		PolycraftMod.registerItem(CustomObject.registry.get("Flamethrower"),
+				new ItemFlameThrower(
+						PolycraftMod.itemFlameThrowerFuelUnitsFull,
+						PolycraftMod.itemFlameThrowerFuelUnitsBurnPerTick,
+						PolycraftMod.itemFlameThrowerRange,
+						PolycraftMod.itemFlameThrowerSpread,
+						PolycraftMod.itemFlameThrowerFireDuration,
+						PolycraftMod.itemFlameThrowerDamage));
 
-		//PolycraftMod.registerBlock(Inventory.registry.get("Machining Mill"), new BlockMachiningMill());
-		//GameRegistry.registerTileEntity(TileEntityMachiningMill.class, InternalObject.registry.get("Machining Mill Tile Entity").gameID);
+		PolycraftMod.registerItem(CustomObject.registry.get("Flashlight"),
+				new ItemFlashlight(
+						PolycraftMod.itemFlashlightMaxLightLevel,
+						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
+						PolycraftMod.itemFlashlightViewingConeAngle));
 
-		//TODO
+		//PolycraftMod.registerItem(CustomObject.registry.get("Parachute"),
+		//		new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
+
+		//PolycraftMod.registerItem(CustomObject.registry.get("Running Shoes"),
+		//		new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
+
+		//PolycraftMod.registerItem(CustomObject.registry.get("Kevlar Vest"),
+		//		new ItemKevlarVest());
+
+		PolycraftMod.registerItem(CustomObject.registry.get("JetPack"),
+				new ItemJetPack(
+						PolycraftMod.itemJetPackFuelUnitsFull,
+						PolycraftMod.itemJetPackFuelUnitsBurnPerTick,
+						PolycraftMod.itemJetPackFlySpeedBuff));
+
+		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Tank"),
+				new ItemScubaTank(
+						PolycraftMod.itemScubaTankAirUnitsFull,
+						PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
+
+		//PolycraftMod.registerItem(CustomObject.registry.get("Scuba Mask"),
+		//		new ItemScubaMask(
+		//				PolycraftMod.itemScubaMaskFogDensity));
+
+		//PolycraftMod.registerItem(CustomObject.registry.get("Scuba Fins"),
+		//		new ItemScubaFins(
+		//				PolycraftMod.itemScubaFinsSwimSpeedBuff,
+		//				PolycraftMod.itemScubaFinsWalkSpeedBuff));
+
 		/*
-		final CustomObject chemicalProcessor = CustomObject.registry.get("Chemical Processor");
-		PolycraftMod.blockChemicalProcessor = PolycraftMod.registerBlock(chemicalProcessor, new BlockChemicalProcessor(false));
-		PolycraftMod.blockChemicalProcessorActive = PolycraftMod.registerBlock(chemicalProcessor.gameID + "_active", chemicalProcessor.name + " Active", new BlockChemicalProcessor(true));
-		GameRegistry.registerTileEntity(TileEntityChemicalProcessor.class, "tile_entity_" + chemicalProcessor.gameID);
-		*/
-	}
-
-	/*
-	private void registerTools() {
 		for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
 			final String materialName = materialEntry.getKey();
 			final ToolMaterial material = materialEntry.getValue();
@@ -239,38 +250,6 @@ public class CommonProxy {
 				PolycraftMod.registerItem(namespace, ItemGripped.getName(materialName, type),
 						ItemGripped.create(type, materialName, material, PolycraftMod.itemGrippedToolDurabilityBuff));
 		}
+		*/
 	}
-
-	private void registerArmor() {
-		PolycraftMod.itemRunningShoes = PolycraftMod.registerItem(CustomObject.registry.get("Running Shoes"),
-				new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
-		PolycraftMod.itemKevlarVest = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameKevlarVest,
-				new ItemKevlarVest());
-		PolycraftMod.itemJetPack = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameJetPack,
-				new ItemJetPack(PolycraftMod.itemJetPackFuelUnitsFull, PolycraftMod.itemJetPackFuelUnitsBurnPerTick, PolycraftMod.itemJetPackFlySpeedBuff));
-		PolycraftMod.itemScubaMask = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaMask,
-				new ItemScubaMask(PolycraftMod.itemScubaMaskFogDensity));
-		PolycraftMod.itemScubaTank = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaTank,
-				new ItemScubaTank(PolycraftMod.itemScubaTankAirUnitsFull, PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
-		PolycraftMod.itemScubaFins = PolycraftMod.registerItem(namespace, PolycraftMod.itemNameScubaFins,
-				new ItemScubaFins(PolycraftMod.itemScubaFinsSwimSpeedBuff, PolycraftMod.itemScubaFinsWalkSpeedBuff));
-		
-		// Register some sample recipes.  TODO: Remove
-		PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.TEST_INVENTORY,
-			    ImmutableList.of(new ItemStack(Blocks.dirt, 1)),
-				ImmutableList.of(new ItemStack(PolycraftMod.itemJetPack, 1)));
-	}
-
-	private void registerWeapons() {
-		PolycraftMod.itemFlameThrower = PolycraftMod.registerItem(
-				namespace, PolycraftMod.itemNameFlameThrower,
-				new ItemFlameThrower(PolycraftMod.itemFlameThrowerFuelUnitsFull,
-						PolycraftMod.itemFlameThrowerFuelUnitsBurnPerTick,
-						PolycraftMod.itemFlameThrowerRange,
-						PolycraftMod.itemFlameThrowerSpread,
-						PolycraftMod.itemFlameThrowerFireDuration,
-						PolycraftMod.itemFlameThrowerDamage));
-
-	}
-	*/
 }

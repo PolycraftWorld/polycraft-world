@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 
-public class BlockPolymer extends Block {
+public class BlockPolymer extends Block implements BlockBouncy {
 
 	public final PolymerBlock polymerBlock;
 	private final LabelTexture labelTexture;
@@ -51,5 +51,15 @@ public class BlockPolymer extends Block {
 		// }
 
 		labelTexture.registerBlockIcons(p_149651_1_);
+	}
+
+	@Override
+	public int getActiveBounceHeight() {
+		return polymerBlock.bounceHeight;
+	}
+
+	@Override
+	public float getMomentumReturnedOnPassiveFall() {
+		return .8f;
 	}
 }
