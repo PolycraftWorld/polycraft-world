@@ -63,7 +63,7 @@ public class TreeTapInventory extends PolycraftInventory {
 
 	@Override
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, false, 133);
+		return new PolycraftInventoryGui(this, playerInventory, 133, false);
 	}
 
 	@Override

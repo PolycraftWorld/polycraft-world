@@ -12,23 +12,23 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 
-public class PolycraftCraftingContainerGeneric extends PolycraftCraftingContainer {
-	private final PolycraftInventory tileEntity;
+public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> extends PolycraftCraftingContainer {
+	protected final I inventory;
 	private static final Logger logger = LogManager.getLogger();
 
-	public PolycraftCraftingContainerGeneric(final PolycraftInventory tileEntity, final InventoryPlayer playerInventory) {
-		this(tileEntity, playerInventory, 121);
+	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory) {
+		this(inventory, playerInventory, 121);
 	}
 
-	public PolycraftCraftingContainerGeneric(final PolycraftInventory tileEntity, final InventoryPlayer playerInventory, final int playerInventoryOffset) {
-		super(tileEntity.getContainerType(), tileEntity);
+	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset) {
+		super(inventory, inventory.getContainerType());
 		addPlayerInventorySlots(playerInventory, playerInventoryOffset);
-		this.tileEntity = tileEntity;
+		this.inventory = inventory;
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return tileEntity.isUseableByPlayer(player);
+		return inventory.isUseableByPlayer(player);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class PolycraftCraftingContainerGeneric extends PolycraftCraftingContaine
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (!this.mergeItemStack(itemstack1, tileEntity.getContainerType().getSlots(SlotType.INPUT).size(), 39, false)) {
+			if (!this.mergeItemStack(itemstack1, inventory.getContainerType().getSlots(SlotType.INPUT).size(), 39, false)) {
 				return null;
 			}
 
@@ -64,6 +64,6 @@ public class PolycraftCraftingContainerGeneric extends PolycraftCraftingContaine
 
 	@Override
 	public PolycraftContainerType getContainerType() {
-		return tileEntity.getContainerType();
+		return inventory.getContainerType();
 	}
 }

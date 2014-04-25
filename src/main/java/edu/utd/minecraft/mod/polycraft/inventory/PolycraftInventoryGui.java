@@ -6,19 +6,23 @@ import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.opengl.GL11;
 
-public class PolycraftInventoryGui extends GuiContainer {
-	private final PolycraftInventory inventory;
+public class PolycraftInventoryGui<I extends PolycraftInventory> extends GuiContainer {
 
-	public PolycraftInventoryGui(PolycraftInventory inventory, InventoryPlayer playerInventory) {
-		super(new PolycraftCraftingContainerGeneric(inventory, playerInventory));
+	protected final I inventory;
+
+	public PolycraftInventoryGui(I inventory, InventoryPlayer playerInventory) {
+		super(inventory.getCraftingContainer(playerInventory));
 		this.inventory = inventory;
 	}
 
-	public PolycraftInventoryGui(PolycraftInventory inventory, InventoryPlayer playerInventory, boolean allowUserInput, int ySize) {
-		super(inventory.getCraftingContainer(playerInventory));
-		this.inventory = inventory;
-		this.allowUserInput = allowUserInput;
+	public PolycraftInventoryGui(I inventory, InventoryPlayer playerInventory, int ySize) {
+		this(inventory, playerInventory);
 		this.ySize = ySize;
+	}
+
+	public PolycraftInventoryGui(I inventory, InventoryPlayer playerInventory, int ySize, boolean allowUserInput) {
+		this(inventory, playerInventory, ySize);
+		this.allowUserInput = allowUserInput;
 	}
 
 	/**

@@ -2,7 +2,7 @@ Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon
 3h	1F	Tree Tap	0	2000									
 3i	1G	Machining Mill	1	2001	front		top					side	front
 3j	1E	Extruder	2	2002									
-3k	1H	Injection Molder	3	2003									
+3k	1H	Injection Molder	3	2003	front		top					side	front
 3D	1I	Steam Cracker	4	2004									
 3E	1J	Distillation Column	5	2005									
 3F	1K	Industrial Oven	6	2006									

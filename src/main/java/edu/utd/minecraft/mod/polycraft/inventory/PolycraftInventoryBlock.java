@@ -105,7 +105,7 @@ public class PolycraftInventoryBlock extends BlockContainer {
 	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
 		PolycraftInventory tileEntity = getInventory(world, x, y, z);
 		for (InventoryBehavior behavior : tileEntity.getBehaviors()) {
-			if (behavior.breakBlock(world, x, y, z, p_149749_5_, tileEntity)) {
+			if (behavior.breakBlock(tileEntity, world, x, y, z, p_149749_5_)) {
 				return;
 			}
 		}
@@ -123,7 +123,7 @@ public class PolycraftInventoryBlock extends BlockContainer {
 		PolycraftInventory tileEntity = getInventory(world, x, y, z);
 		if (tileEntity != null)
 			for (InventoryBehavior behavior : tileEntity.getBehaviors()) {
-				if (behavior.randomDisplayTick(world, x, y, z, random, tileEntity)) {
+				if (behavior.randomDisplayTick(tileEntity, world, x, y, z, random)) {
 					return;
 				}
 			}
@@ -171,7 +171,7 @@ public class PolycraftInventoryBlock extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
 		PolycraftInventory inventory = getInventory(world, x, y, z);
 		for (InventoryBehavior behavior : inventory.getBehaviors()) {
-			if (behavior.onBlockActivated(world, x, y, z, player, metadata, what, these, are, inventory)) {
+			if (behavior.onBlockActivated(inventory, world, x, y, z, player, metadata, what, these, are)) {
 				return true;
 			}
 		}

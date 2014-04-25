@@ -10,47 +10,42 @@ import net.minecraft.world.World;
 /**
  * Interface for defining custom behavior of crafting containers.
  */
-public abstract class InventoryBehavior {
+public abstract class InventoryBehavior<I extends PolycraftInventory> {
 	public InventoryBehavior() {
 	}
-	
+
 	/**
-	 * Called when the block is activated via right click.
-	 * Return true to end processing; false to propagate to other behaviors.
+	 * Called when the block is activated via right click. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are, PolycraftInventory inventory) {
+	public boolean onBlockActivated(I inventory, World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
 		return false;
 	}
-	
+
 	/**
-	 * Called when the block is broken.
-	 * Return true to end processing; false to propagate to other behaviors.
+	 * Called when the block is broken. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean breakBlock(World world, int x, int y, int z, Block block, PolycraftInventory inventory) {
+	public boolean breakBlock(I inventory, World world, int x, int y, int z, Block block) {
 		return false;
 	}
-	
+
 	/**
-	 * Called during display update.
-	 * Return true to end processing; false to propagate to other behaviors.
+	 * Called during display update. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean randomDisplayTick(World world, int x, int y, int z, Random random, PolycraftInventory inventory) {
+	public boolean randomDisplayTick(I inventory, World world, int x, int y, int z, Random random) {
 		return true;
 	}
-	
+
 	/**
-	 * Called during entity update.
-	 * Return true to end processing; false to propagate to other behaviors.
+	 * Called during entity update. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean updateEntity(PolycraftInventory inventory) {
+	public boolean updateEntity(I inventory, World world) {
 		return true;
 	}
-	
+
 	/**
-	 * Called to determine if an item is valid for the slot. Return true or false to end processing and return
-	 * that value; return null to propagate to other behaviors.
+	 * Called to determine if an item is valid for the slot. Return true or false to end processing and return that value; return null to propagate to other behaviors.
 	 */
-	public Boolean isItemValidForSlot(int slotIndex, ItemStack stack, PolycraftInventory inventory) {
+	public Boolean isItemValidForSlot(I inventory, int slotIndex, ItemStack stack) {
 		return null;
 	}
 }

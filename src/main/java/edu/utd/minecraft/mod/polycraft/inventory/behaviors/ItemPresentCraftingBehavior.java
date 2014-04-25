@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
@@ -22,7 +23,7 @@ public class ItemPresentCraftingBehavior extends CraftingBehavior {
 	}
 
 	@Override
-	public boolean updateEntity(final PolycraftInventory inventory) {
+	public boolean updateEntity(final PolycraftInventory inventory, World world) {
 		PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials());
 		if (recipe != null) {
 			for (Entry<ContainerSlot, Item> itemSlot : itemsBySlot.entrySet()) {

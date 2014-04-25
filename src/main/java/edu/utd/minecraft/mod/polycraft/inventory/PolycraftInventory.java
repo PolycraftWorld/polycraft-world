@@ -80,7 +80,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	@Override
 	public void updateEntity() {
 		for (InventoryBehavior behavior : this.getBehaviors()) {
-			Boolean result = behavior.updateEntity(this);
+			Boolean result = behavior.updateEntity(this, this.worldObj);
 			if (result != null) {
 				return;
 			}
@@ -90,7 +90,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	@Override
 	public boolean isItemValidForSlot(int var1, ItemStack var2) {
 		for (InventoryBehavior behavior : this.getBehaviors()) {
-			Boolean result = behavior.isItemValidForSlot(var1, var2, this);
+			Boolean result = behavior.isItemValidForSlot(this, var1, var2);
 			if (result != null) {
 				return result;
 			}

@@ -46,7 +46,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 	private static final float flameThrowerVelocity = .5f;
 	private static final int flameThrowerParticlesPerTick = 20;
 	private static final double flameThrowerParticlesOffsetY = -.15;
-	private static final boolean jetPackFailsafeEnabled = true;
+	private static final boolean jetPackFailsafeEnabled = false; //TODO enabling has an issue with pogo sticks
 	private static final int jetPackExhaustRangeY = 5;
 	private static final int jetPackExhaustParticlesPerTick = 5;
 	private static final double jetPackExhaustPlumeOffset = .05;

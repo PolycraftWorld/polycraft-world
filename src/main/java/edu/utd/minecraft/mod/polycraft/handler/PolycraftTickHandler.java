@@ -63,32 +63,28 @@ public class PolycraftTickHandler extends PolycraftHandler
 	public void onTick(final TickEvent.RenderTickEvent tick) {
 		if (tick.phase == Phase.END && minecraft.theWorld != null) {
 			final EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
-			handleDynamicLights(player);
-			handleItemStatus(player);
+			if (player != null && player.isEntityAlive()) {
+				handleDynamicLights(player);
+				handleItemStatus(player);
+			}
 		}
 	}
 
 	private void handleDynamicLights(final EntityPlayer player) {
 		boolean lightsEnabled = false;
-		if (player != null && player.isEntityAlive()) {
-			if (flashlightDynamicLights.size() == 0)
-				for (int i = 0; i < dynamicLightConeTransforms.length; i++)
-					flashlightDynamicLights.add(new PointLightSource(player.worldObj));
+		if (flashlightDynamicLights.size() == 0)
+			for (int i = 0; i < dynamicLightConeTransforms.length; i++)
+				flashlightDynamicLights.add(new PointLightSource(player.worldObj));
 
-			final ItemStack currentEquippedItemStack = player.getCurrentEquippedItem();
-			if (currentEquippedItemStack != null) {
-				if (currentEquippedItemStack.getItem() instanceof ItemFlashlight) {
-					final ItemFlashlight flashlightItem = (ItemFlashlight) currentEquippedItemStack.getItem();
-
-					int i = 0;
-					for (final PointLightSource source : flashlightDynamicLights) {
-						source.updateFromPlayerViewConePart(player, flashlightItem.maxLightLevel, flashlightItem.lightLevelDecreaseByDistance,
-								dynamicLightConeTransforms[i][0] * flashlightItem.viewingConeAngle, dynamicLightConeTransforms[i][1] * flashlightItem.viewingConeAngle);
-						i++;
-					}
-					lightsEnabled = true;
-				}
+		if (checkCurrentEquippedItem(player, ItemFlashlight.class)) {
+			final ItemFlashlight flashlightItem = (ItemFlashlight) player.getCurrentEquippedItem().getItem();
+			int i = 0;
+			for (final PointLightSource source : flashlightDynamicLights) {
+				source.updateFromPlayerViewConePart(player, flashlightItem.maxLightLevel, flashlightItem.lightLevelDecreaseByDistance,
+						dynamicLightConeTransforms[i][0] * flashlightItem.viewingConeAngle, dynamicLightConeTransforms[i][1] * flashlightItem.viewingConeAngle);
+				i++;
 			}
+			lightsEnabled = true;
 		}
 
 		if (this.flashlightEnabled != lightsEnabled) {
@@ -104,40 +100,35 @@ public class PolycraftTickHandler extends PolycraftHandler
 	}
 
 	private void handleItemStatus(final EntityPlayer player) {
-		if (player != null && player.isEntityAlive() && minecraft.currentScreen == null) {
+		if (minecraft.currentScreen == null) {
 			int vert = 10;
 			int x = 5;
 			int y = 5;
 
 			final ItemStack chestItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
-			if (chestItemStack != null) {
-				if (chestItemStack.getItem() instanceof ItemJetPack) {
-					ItemJetPack jetPackItem = (ItemJetPack) chestItemStack.getItem();
-					final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(chestItemStack);
-					String message = jetPackItem.getItemStackDisplayName(chestItemStack) + ": " + fuelRemainingPercent + "%";
-					for (Entry<Integer, String> warningEntry : jetPackLandingWarnings.entrySet()) {
-						if (fuelRemainingPercent <= warningEntry.getKey()) {
-							message += " " + warningEntry.getValue();
-							break;
-						}
+			if (checkItem(chestItemStack, ItemJetPack.class)) {
+				ItemJetPack jetPackItem = (ItemJetPack) chestItemStack.getItem();
+				final int fuelRemainingPercent = jetPackItem.getFuelRemainingPercent(chestItemStack);
+				String message = jetPackItem.getItemStackDisplayName(chestItemStack) + ": " + fuelRemainingPercent + "%";
+				for (Entry<Integer, String> warningEntry : jetPackLandingWarnings.entrySet()) {
+					if (fuelRemainingPercent <= warningEntry.getKey()) {
+						message += " " + warningEntry.getValue();
+						break;
 					}
-					minecraft.fontRenderer.drawStringWithShadow(message, x, y, 16777215);
-					y += vert;
 				}
-				else if (chestItemStack.getItem() instanceof ItemScubaTank) {
-					final ItemScubaTank scubaTankItem = (ItemScubaTank) chestItemStack.getItem();
-					minecraft.fontRenderer.drawStringWithShadow(scubaTankItem.getItemStackDisplayName(chestItemStack) + ": " + scubaTankItem.getAirRemainingPercent(chestItemStack) + "%", x, y, 16777215);
-					y += vert;
-				}
+				minecraft.fontRenderer.drawStringWithShadow(message, x, y, 16777215);
+				y += vert;
+			}
+			else if (checkItem(chestItemStack, ItemScubaTank.class)) {
+				final ItemScubaTank scubaTankItem = (ItemScubaTank) chestItemStack.getItem();
+				minecraft.fontRenderer.drawStringWithShadow(scubaTankItem.getItemStackDisplayName(chestItemStack) + ": " + scubaTankItem.getAirRemainingPercent(chestItemStack) + "%", x, y, 16777215);
+				y += vert;
 			}
 
-			final ItemStack currentEquippedItemStack = player.getCurrentEquippedItem();
-			if (currentEquippedItemStack != null) {
-				if (currentEquippedItemStack.getItem() instanceof ItemFlameThrower) {
-					ItemFlameThrower flameThrowerItem = (ItemFlameThrower) currentEquippedItemStack.getItem();
-					minecraft.fontRenderer.drawStringWithShadow(flameThrowerItem.getItemStackDisplayName(currentEquippedItemStack) + ": " + flameThrowerItem.getFuelRemainingPercent(currentEquippedItemStack) + "%", x, y, 16777215);
-					y += vert;
-				}
+			if (checkCurrentEquippedItem(player, ItemFlameThrower.class)) {
+				ItemFlameThrower flameThrowerItem = (ItemFlameThrower) player.getCurrentEquippedItem().getItem();
+				minecraft.fontRenderer.drawStringWithShadow(flameThrowerItem.getItemStackDisplayName(player.getCurrentEquippedItem()) + ": " + flameThrowerItem.getFuelRemainingPercent(player.getCurrentEquippedItem()) + "%", x, y, 16777215);
+				y += vert;
 			}
 		}
 	}

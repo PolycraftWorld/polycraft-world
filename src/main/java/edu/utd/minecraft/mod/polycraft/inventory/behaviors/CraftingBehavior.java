@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.inventory.behaviors;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
@@ -16,12 +17,12 @@ public class CraftingBehavior extends InventoryBehavior {
 	// TODO: This is probably wrong - should update with user interaction, and not
 	// on update tick?
 	@Override
-	public boolean updateEntity(PolycraftInventory inventory) {
+	public boolean updateEntity(PolycraftInventory inventory, World world) {
 		updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
 		return true;
 	}
 
-	protected void updateOutputsForRecipe(PolycraftInventory inventory, PolycraftRecipe recipe) {
+	protected void updateOutputsForRecipe(final PolycraftInventory inventory, final PolycraftRecipe recipe) {
 		if (recipe == null) {
 			for (ContainerSlot slot : inventory.getOutputSlots()) {
 				if (inventory.getStackInSlot(slot) != null) {

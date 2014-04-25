@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
@@ -26,7 +27,8 @@ public enum PolycraftContainerType {
 	 */
 	FURNANCE("Furnance"),
 	TREE_TAP("Tree Tap"),
-	MACHINING_MILL("Machining Mill");
+	MACHINING_MILL("Machining Mill"),
+	INJECTION_MOLDER("Injection Molder");
 
 	private final String friendlyName;
 
@@ -88,6 +90,7 @@ public enum PolycraftContainerType {
 				));
 		TREE_TAP.initialize(TreeTapInventory.guiSlots);
 		MACHINING_MILL.initialize(MachiningMillInventory.guiSlots);
+		INJECTION_MOLDER.initialize(InjectionMolderInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

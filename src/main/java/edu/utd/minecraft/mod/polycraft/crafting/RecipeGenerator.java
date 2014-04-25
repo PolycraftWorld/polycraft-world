@@ -19,7 +19,9 @@ import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
+import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.Vessel;
 
@@ -79,6 +81,17 @@ public class RecipeGenerator {
 							ImmutableList.of(smallerVessel.getItemStack(64)));
 				}
 			}
+		}
+
+		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.INJECTION_MOLDER,
+					moldedItem.getItemStack(),
+					new String[] { "y    ", "x" },
+					//TODO replace with polymer pellets from config
+					ImmutableMap.of(
+							'x', moldedItem.source.getItemStack(),
+							'y', PolymerPellets.registry.get("Pellets (PolyIsoPrene)").getItemStack(moldedItem.pellets)));
 		}
 	}
 

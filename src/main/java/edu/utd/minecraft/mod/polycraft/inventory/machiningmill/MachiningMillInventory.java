@@ -53,6 +53,6 @@ public class MachiningMillInventory extends PolycraftInventory {
 
 	@Override
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, true, 203);
+		return new PolycraftInventoryGui(this, playerInventory, 203);
 	}
 }

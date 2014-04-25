@@ -12,13 +12,13 @@ public abstract class PolycraftCraftingContainer extends Container {
 	 */
 	public abstract PolycraftContainerType getContainerType();
 
-	public PolycraftCraftingContainer(final Iterable<? extends GuiContainerSlot> slots, final IInventory inventory) {
+	public PolycraftCraftingContainer(final IInventory inventory, final Iterable<? extends GuiContainerSlot> slots) {
 		for (final GuiContainerSlot slot : slots) {
 			addInventorySlot(inventory, slot);
 		}
 	}
 
-	public PolycraftCraftingContainer(PolycraftContainerType containerType, final IInventory inventory) {
+	public PolycraftCraftingContainer(final IInventory inventory, final PolycraftContainerType containerType) {
 		for (final ContainerSlot slot : containerType.getSlots()) {
 			if (slot instanceof GuiContainerSlot) {
 				addInventorySlot(inventory, (GuiContainerSlot) slot);
