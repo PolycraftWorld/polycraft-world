@@ -1,0 +1,12 @@
+Game ID	Pogo Stick	Tool Material	Max Bounces	Stable Bounce Height	Jump Movement Buff	Restrict Jump to Ground	Pogo Stick Gripped From	Grip Molded Item	Level	First Release	Notes
+37	Wooden Pogo Stick	Wooden	25	3	1.5	TRUE			1	TRUE	
+36	Stone Pogo Stick	Stone	50	4	1.75	TRUE			1	TRUE	
+38	Iron Pogo Stick	Iron	100	5	2	TRUE			2	TRUE	
+39	Golden Pogo Stick	Golden	100	6	2.5	TRUE			2	TRUE	
+3a	Diamond Pogo Stick	Diamond	250	10	3	TRUE			2	TRUE	
+3O	Magic Pogo Stick	Magic	100000	100	10	FALSE			10	TRUE	
+3b	Gripped Wooden Pogo Stick	Wooden	250	3	1.5	TRUE	Wooden Pogo Stick	Grip (PolyIsoPrene)	3	TRUE	
+3c	Gripped Stone Pogo Stick	Stone	500	4	1.75	TRUE	Stone Pogo Stick	Grip (PolyIsoPrene)	3	TRUE	
+3d	Gripped Iron Pogo Stick	Iron	1000	5	2	TRUE	Iron Pogo Stick	Grip (PolyIsoPrene)	3	TRUE	
+3e	Gripped Golden Pogo Stick	Golden	1000	6	2	TRUE	Golden Pogo Stick	Grip (PolyIsoPrene)	3	TRUE	
+3f	Gripped Diamond Pogo Stick	Diamond	2500	10	3	TRUE	Diamond Pogo Stick	Grip (PolyIsoPrene)	3	TRUE	

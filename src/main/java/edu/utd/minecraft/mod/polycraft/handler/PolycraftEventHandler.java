@@ -137,7 +137,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
 				currentItemStack.attemptDamageItem(1, random);
 				playerState.pogoStickLastFallDistance = event.distance;
-				if (event.distance > pogoStick.settings.maxFallNoDamageHeight && !onBouncyBlock)
+				if (event.distance > pogoStick.config.maxFallNoDamageHeight && !onBouncyBlock)
 					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
 				else
 					event.distance = 0;
@@ -160,10 +160,10 @@ public class PolycraftEventHandler extends PolycraftHandler {
 		float jumpMovementFactor = baseJumpMovementFactor;
 		if (checkCurrentEquippedItem(player, ItemPogoStick.class, true)) {
 			final ItemPogoStick pogoStick = ((ItemPogoStick) player.getCurrentEquippedItem().getItem());
-			jumpMovementFactor *= pogoStick.settings.jumpMovementFactorBuff;
-			if (!pogoStick.settings.restrictJumpToGround || player.onGround) {
+			jumpMovementFactor *= pogoStick.config.jumpMovementFactorBuff;
+			if (!pogoStick.config.restrictJumpToGround || player.onGround) {
 				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && noScreen();
-				final double motionY = pogoStick.settings.getMotionY(playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
+				final double motionY = pogoStick.config.getMotionY(playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
 				if (motionY > 0)
 					player.motionY = motionY;
 				if (playerActivelyBouncing)

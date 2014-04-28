@@ -1,4 +1,5 @@
-Item (MC)							
+Item (MC)		
+0	0	0	0	409	199		(unused)					
 Iron Shovel	iron shovel	iron shovel	iron_shovel	256	100	minecraft:iron_shovel	Iron Shovel D
 Iron Pickaxe	iron pickaxe	iron pickaxe	iron_pickaxe	257	101	minecraft:iron_pickaxe	Iron Pickaxe D
 Iron Axe	iron axe	iron axe	iron_axe	258	102	minecraft:iron_axe	Iron Axe D
@@ -152,7 +153,6 @@ Netherbrick	netherbrick	netherbrick	netherbrick	405	195	minecraft:netherbrick	Ne
 Quartz	quartz	quartz	quartz	406	196	minecraft:quartz	Nether Quartz
 Tnt Minecart	tnt minecart	tnt minecart	tnt_minecart	407	197	minecraft:tnt_minecart	Minecart with TNT
 Hopper Minecart	hopper minecart	hopper minecart	hopper_minecart	408	198	minecraft:hopper_minecart	Minecart with Hopper
-0	0	0	0	409	199		(unused)
 0	0	0	0	410	19A		(unused)
 0	0	0	0	411	19B		(unused)
 0	0	0	0	412	19C		(unused)

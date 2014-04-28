@@ -8,15 +8,14 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.logging.log4j.LogManager;
@@ -29,26 +28,25 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
-import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
+import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
-import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
-import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.PolycraftModWikiMaker;
@@ -73,23 +71,24 @@ public class PolycraftMod {
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;
 	public static final int oilWellScalar = 100; // large values mean more oil will spawn
-	public static final int treeTapSpawnRateNaturalRubber = 1000; //in ticks
 	public static final int oilFluidDensity = 800;
 	public static final int oilFluidViscosity = 1500;
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
-	public static final float itemGrippedToolDurabilityBuff = 2f;
-	public static final float itemRunningShoesWalkSpeedBuff = 1f;
+	public static final int treeTapSpawnRateNaturalRubber = 1000; //in ticks
+	public static final String[] recipeCompressedBlockFromItems = new String[] { "xxx", "xxx", "xxx" };
+	public static final int recipeItemsPerCompressedBlock = 9;
+	public static final int recipePolymerPelletsPerBlock = 4;
+	public static final int recipeSmallerVesselsPerLargerVessel = 64;
+	public static final int recipeGripsPerTool = 1;
+	public static final int recipeGripsPerPogoStick = 2;
+	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
+	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
+	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
+
 	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
-	public static final int itemFlameThrowerFuelUnitsFull = 1000;
-	public static final int itemFlameThrowerFuelUnitsBurnPerTick = 1;
-	public static final int itemFlameThrowerRange = 10; // how many blocks ahead to search for entities
-	public static final int itemFlameThrowerSpread = 2; // how many blocks to search around the flame path for entities
-	public static final int itemFlameThrowerFireDuration = 5; // how many seconds and entity will burn when hit
-	public static final int itemFlameThrowerDamage = 3; // how much damage the flames do on top of burning
-	public static final int itemJetPackFuelUnitsFull = 5000;
-	public static final int itemJetPackFuelUnitsBurnPerTick = 1;
-	public static final float itemJetPackFlySpeedBuff = 1f;
+	/* TODO move to config files
+	public static final float itemRunningShoesWalkSpeedBuff = 1f;
 	public static final float itemParachuteDescendVelocity = -.3f;
 	public static final int itemFlashlightMaxLightLevel = 15;
 	public static final float itemFlashlightLightLevelDecreaseByDistance = .5f;
@@ -99,29 +98,8 @@ public class PolycraftMod {
 	public static final float itemScubaMaskFogDensity = .01f;
 	public static final float itemScubaFinsSwimSpeedBuff = 2f;
 	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
+	*/
 	public static final ArmorMaterial armorMaterialNone = EnumHelper.addArmorMaterial("none", 0, new int[] { 0, 0, 0, 0 }, 0);
-	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
-	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
-	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
-	public static final List<ItemPogoStick.Settings> itemPogoStickSettings = new LinkedList<ItemPogoStick.Settings>();
-	static {
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "Wooden", ToolMaterial.WOOD, 25, 3, 1.5f, true));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "Wooden", ToolMaterial.WOOD, 250, 3, 1.5f, true));
-
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "Stone", ToolMaterial.STONE, 50, 4, 1.75f, true));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "Stone", ToolMaterial.STONE, 500, 4, 1.75f, true));
-
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "Iron", ToolMaterial.IRON, 100, 5, 2f, true));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "Iron", ToolMaterial.IRON, 1000, 5, 2f, true));
-
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "Golden", ToolMaterial.GOLD, 100, 6, 2.5f, true));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "Golden", ToolMaterial.GOLD, 1000, 6, 2.5f, true));
-
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "Diamond", ToolMaterial.EMERALD, 250, 10, 3f, true));
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(true, "Diamond", ToolMaterial.EMERALD, 2500, 10, 3f, true));
-
-		itemPogoStickSettings.add(new ItemPogoStick.Settings(false, "Magic", ToolMaterial.EMERALD, 100000, 100, 10f, false));
-	}
 
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
@@ -135,6 +113,10 @@ public class PolycraftMod {
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
+	public final static int convertSecondsToGameTicks(final double seconds) {
+		return (int) Math.ceil(seconds * 8);
+	}
+
 	public final static String getFileSafeName(final String name) {
 		return name.replaceAll("[()]", "").replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
 	}
@@ -147,26 +129,8 @@ public class PolycraftMod {
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
-		registerMinecraftBlocksAndItemsByName();
 		fixEnderman();
-		Config.registerFromResources("config");
 		proxy.preInit();
-	}
-
-	private void registerMinecraftBlocksAndItemsByName() {
-		for (final String[] itemLine : PolycraftMod.readResourceFileDelimeted("data", "mcitems", "tsv", "\t")) {
-			final Item item = GameData.itemRegistry.get(Integer.parseInt(itemLine[4]));
-			logger.info("{} item: {}", (item == null) ? "Missing" : "Found", itemLine[0]);
-			if (item != null)
-				items.put(itemLine[0], item);
-		}
-
-		for (final String[] blockLine : PolycraftMod.readResourceFileDelimeted("data", "mcblocks", "tsv", "\t")) {
-			final Block block = GameData.blockRegistry.get(Integer.parseInt(blockLine[4]));
-			logger.info("{} item: {}", (block == null) ? "Missing" : "Found", blockLine[0]);
-			if (block != null)
-				blocks.put(blockLine[0], block);
-		}
 	}
 
 	@EventHandler
@@ -208,6 +172,16 @@ public class PolycraftMod {
 		if (registryNames.containsKey(registryName))
 			throw new Error("Registry name already used: " + registryName + " (" + name + ")");
 		registryNames.put(registryName, name);
+	}
+
+	public static ItemStack getItemStack(final String name, final int size) {
+		final Item item = getItem(name);
+		if (item != null)
+			return new ItemStack(item, size);
+		final Block block = getBlock(name);
+		if (block != null)
+			return new ItemStack(block, size);
+		return null;
 	}
 
 	public static Block getBlock(final GameIdentifiedConfig config) {
@@ -290,7 +264,7 @@ public class PolycraftMod {
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format(itemFormat, catalyst.gameID, catalyst.name));
 
-		for (final Vessel vessel : Vessel.registry.values())
+		for (final CompoundVessel vessel : CompoundVessel.registry.values())
 			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));
 
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
@@ -310,6 +284,12 @@ public class PolycraftMod {
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
 			langEntries.add(String.format(itemFormat, moldedItem.gameID, moldedItem.name));
+
+		for (final GrippedTool grippedTool : GrippedTool.registry.values())
+			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));
+
+		for (final PogoStick pogoStick : PogoStick.registry.values())
+			langEntries.add(String.format(itemFormat, pogoStick.gameID, pogoStick.name));
 
 		for (final Inventory inventory : Inventory.registry.values()) {
 			langEntries.add(String.format(containerFormat, inventory.gameID, inventory.name));

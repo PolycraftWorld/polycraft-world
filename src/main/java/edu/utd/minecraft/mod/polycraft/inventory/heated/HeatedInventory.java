@@ -1,13 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.inventory.heated;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
@@ -28,8 +28,8 @@ public abstract class HeatedInventory extends PolycraftInventory {
 	//The number of ticks that the current item has been processing
 	public int processingTime;
 
-	public HeatedInventory(final PolycraftContainerType containerType, final String containerName, final int heatSourceSlotIndex) {
-		super(containerType, containerName);
+	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int heatSourceSlotIndex) {
+		super(containerType, config);
 		this.heatSourceSlotIndex = heatSourceSlotIndex;
 	}
 
@@ -51,7 +51,7 @@ public abstract class HeatedInventory extends PolycraftInventory {
 		this.heatTime = tag.getShort("HeatTime");
 		this.heatIntensity = tag.getShort("HeatIntensity");
 		this.processingTime = tag.getShort("ProcessingTime");
-		this.currentItemHeatTime = getItemHeatTime(getStackInSlot(heatSourceSlotIndex));
+		this.currentItemHeatTime = getHeatDuration(getStackInSlot(heatSourceSlotIndex));
 	}
 
 	@Override
@@ -98,9 +98,9 @@ public abstract class HeatedInventory extends PolycraftInventory {
 			//TODO canProcess needs to take into account mold damage
 			if (heatTime == 0 && canProcess() && getStackInSlot(heatSourceSlotIndex) != null) {
 				ItemStack heatSourceStack = getStackInSlot(heatSourceSlotIndex);
-				currentItemHeatTime = heatTime = getItemHeatTime(heatSourceStack);
+				currentItemHeatTime = heatTime = getHeatDuration(heatSourceStack);
 				if (isHeated()) {
-					heatIntensity = getItemHeatIntensity(heatSourceStack);
+					heatIntensity = getHeatIntensity(heatSourceStack);
 					isDirty = true;
 					if (heatSourceStack != null) {
 						--heatSourceStack.stackSize;
@@ -131,27 +131,15 @@ public abstract class HeatedInventory extends PolycraftInventory {
 	/**
 	 * Returns the number of ticks that the supplied fuel item will keep the heat coming, or 0 if the item isn't fuel
 	 */
-	private static int getItemHeatTime(ItemStack itemStack) {
-		//TODO lookup from Fuel config
-		if (itemStack == null) {
+	private static int getHeatDuration(final ItemStack itemStack) {
+		if (itemStack == null)
 			return 0;
-		} else {
-			Item item = itemStack.getItem();
-			if (item == Items.coal) {
-				return 1600;
-			}
-			return GameRegistry.getFuelValue(itemStack);
-		}
+		return PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(itemStack.getItem()));
 	}
 
-	private static int getItemHeatIntensity(ItemStack itemStack) {
-		if (itemStack != null) {
-			Item item = itemStack.getItem();
-			if (item == Items.coal) {
-				return 1;
-			}
-			//TODO lookup from Fuel config
-		}
-		return 0;
+	private static int getHeatIntensity(ItemStack itemStack) {
+		if (itemStack == null)
+			return 0;
+		return Fuel.getHeatIntensity(itemStack.getItem());
 	}
 }

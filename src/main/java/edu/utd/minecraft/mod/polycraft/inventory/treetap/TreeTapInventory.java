@@ -53,7 +53,7 @@ public class TreeTapInventory extends PolycraftInventory {
 	private int spawnAttemptsNaturalRubber = -1;
 
 	public TreeTapInventory() {
-		super(PolycraftContainerType.TREE_TAP, config.gameID);
+		super(PolycraftContainerType.TREE_TAP, config);
 	}
 
 	@Override

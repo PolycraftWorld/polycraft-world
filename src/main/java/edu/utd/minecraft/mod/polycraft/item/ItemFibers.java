@@ -4,15 +4,15 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class ItemPellet extends Item implements PolycraftItem {
+public class ItemFibers extends Item implements PolycraftItem {
 
-	public ItemPellet() {
+	public ItemFibers() {
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName("polymer_pellets"));
+		this.setTextureName(PolycraftMod.getAssetName("polymer_fibers"));
 	}
 
 	@Override
 	public ItemCategory getCategory() {
-		return ItemCategory.MATERIALS_PELLET;
+		return ItemCategory.MATERIALS_FIBER;
 	}
 }

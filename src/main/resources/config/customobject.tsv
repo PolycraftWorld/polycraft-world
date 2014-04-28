@@ -1,33 +1,21 @@
-Game ID	Custom Object
-36	Stone Pogo Stick
-37	Wooden Pogo Stick
-38	Iron Pogo Stick
-39	Golden Pogo Stick
-3a	Diamond Pogo Stick
-3b	Gripped Wooden Pogo Stick
-3c	Gripped Stone Pogo Stick
-3d	Gripped Iron Pogo Stick
-3e	Gripped Golden Pogo Stick
-3f	Gripped Diamond Pogo Stick
-3g	Gripped Magic Pogo Stick
-3l	Metal Screw
-3m	Bucket (Crude Oil)
-3n	Flamethrower
-3o	Flashlight
-3p	JetPack
-3q	Laser
-3r	Phase Shifter
-3x	Scuba Tank
-3A	Wetsuit
-3C	Structural Truss
-3G	Barley
-3H	Grapes
-3I	Styrofoam
-3M	Metal Screw
-3O	Magic Pogo Stick
-3P	Lighter
-3Q	Rubber Mesh X
-3R	Rubber Mesh O
-3S	Trampoline Mesh
-3T	Trampoline
-3X	Gas Mantle
+Game ID	Custom Item	Type	Level	First Release	Notes	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
+3l	Metal Screw	PC Item	2	TRUE											
+3m	Bucket (Crude Oil)	PC Item	1	TRUE											
+3n	Flame Thrower	Weapon	7	TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
+3o	Flashlight	Utility		TRUE											
+3p	Jet Pack	Armor		TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, FlySpeedBuff	5000	1	1.5						
+3q	Laser	Tool		TRUE											
+3r	Phase Shifter	Tool	7	TRUE											
+3x	Scuba Tank	Armor		TRUE											
+3A	Wetsuit	Armor		TRUE											
+3C	Structural Truss	PC Block		TRUE											
+3G	Barley	Food		TRUE											
+3H	Grapes	Food		TRUE											
+3I	Copper Pipe	PC Block		TRUE											
+3M	Regulator	PC Item													
+3P	Lighter	Utility	4	TRUE											
+3Q	Rubber Mesh X	PC Item		TRUE											
+3R	Rubber Mesh O	PC Item		TRUE											
+3S	Trampoline Mesh	PC Item		TRUE											
+3T	Trampoline	PC Block		TRUE											
+3X	Gas Mantle	PC Item	4	TRUE											

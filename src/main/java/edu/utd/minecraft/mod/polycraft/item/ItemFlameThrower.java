@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 
 public class ItemFlameThrower extends PolycraftUtilityItem {
 
@@ -19,16 +20,16 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	public final int fireDuration;
 	public final int damage;
 
-	public ItemFlameThrower(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final int range, final int spread, final int fireDuration, final int damage) {
+	public ItemFlameThrower(final CustomObject config) {
 		this.setTextureName(PolycraftMod.getAssetName("flame_thrower"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
-		this.fuelUnitsFull = fuelUnitsFull;
-		this.fuelUnitsBurnPerTick = fuelUnitsBurnPerTick;
-		this.range = range;
-		this.spread = spread;
-		this.fireDuration = fireDuration;
-		this.damage = damage;
+		this.fuelUnitsFull = config.getParamInteger(0);
+		this.fuelUnitsBurnPerTick = config.getParamInteger(1);
+		this.range = config.getParamInteger(2);
+		this.spread = config.getParamInteger(3);
+		this.fireDuration = config.getParamInteger(4);
+		this.damage = config.getParamInteger(5);
 	}
 
 	@Override

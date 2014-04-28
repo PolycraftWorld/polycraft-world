@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
@@ -10,7 +11,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
@@ -19,19 +25,25 @@ import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
+import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
+import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
-import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
@@ -40,18 +52,17 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
-import edu.utd.minecraft.mod.polycraft.item.ItemFiber;
+import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
+import edu.utd.minecraft.mod.polycraft.item.ItemFibers;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
-import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
+import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
-import edu.utd.minecraft.mod.polycraft.item.ItemPellet;
+import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
-import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick.Settings;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
-import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -63,10 +74,16 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 
 public class CommonProxy {
 
+	private static final Logger logger = LogManager.getLogger();
+
 	public void preInit() {
+
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
 
+		Config.registerFromResources("config");
+		registerMinecraftItems();
+		registerMinecraftBlocks();
 		registerBiomes();
 		registerOres();
 		registerIngots();
@@ -76,8 +93,11 @@ public class CommonProxy {
 		registerPolymers();
 		registerMolds();
 		registerMoldedItems();
+		registerGrippedTools();
+		registerPogoSticks();
 		registerInventories();
 		registerCustom();
+		Fuel.registerQuantifiedFuels();
 	}
 
 	public void init() {
@@ -90,6 +110,30 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new PolycraftEventHandler());
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeInitializer());
+	}
+
+	private void registerMinecraftItems() {
+		for (final MinecraftItem minecraftItem : MinecraftItem.registry.values()) {
+			final Item item = GameData.itemRegistry.get(minecraftItem.id);
+			if (item == null)
+				logger.warn("Missing item: {}", minecraftItem.name);
+			else {
+				logger.debug("Found item: {}", minecraftItem.name);
+				PolycraftMod.items.put(minecraftItem.name, item);
+			}
+		}
+	}
+
+	private void registerMinecraftBlocks() {
+		for (final MinecraftBlock minecraftBlock : MinecraftBlock.registry.values()) {
+			final Block block = GameData.blockRegistry.get(minecraftBlock.id);
+			if (block == null)
+				logger.warn("Missing block: {}", minecraftBlock.name);
+			else {
+				logger.debug("Found block: {}", minecraftBlock.name);
+				PolycraftMod.blocks.put(minecraftBlock.name, block);
+			}
+		}
 	}
 
 	private void registerBiomes() {
@@ -135,16 +179,16 @@ public class CommonProxy {
 	}
 
 	private void registerVessels() {
-		for (final Vessel vessel : Vessel.registry.values())
+		for (final CompoundVessel vessel : CompoundVessel.registry.values())
 			PolycraftMod.registerItem(vessel, new ItemVessel(vessel));
 	}
 
 	private void registerPolymers() {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
-			PolycraftMod.registerItem(polymerPellets, new ItemPellet());
+			PolycraftMod.registerItem(polymerPellets, new ItemPellets(polymerPellets));
 
 		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
-			PolycraftMod.registerItem(polymerFibers, new ItemFiber());
+			PolycraftMod.registerItem(polymerFibers, new ItemFibers());
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
 			PolycraftMod.registerBlock(polymerBlock, new BlockPolymer(polymerBlock));
@@ -169,6 +213,16 @@ public class CommonProxy {
 			PolycraftMod.registerItem(moldedItem, new ItemMoldedItem(moldedItem));
 	}
 
+	private void registerGrippedTools() {
+		for (final GrippedTool grippedTool : GrippedTool.registry.values())
+			PolycraftMod.registerItem(grippedTool, ItemGripped.create(grippedTool));
+	}
+
+	private void registerPogoSticks() {
+		for (final PogoStick pogoStick : PogoStick.registry.values())
+			PolycraftMod.registerItem(pogoStick, new ItemPogoStick(pogoStick));
+	}
+
 	private void registerInventories() {
 		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
 		MachiningMillInventory.register(Inventory.registry.get("Machining Mill"));
@@ -187,71 +241,58 @@ public class CommonProxy {
 						.setParticleColor(0.7F, 0.7F, 0.0F));
 		fluidOil.setBlock(PolycraftMod.blockOil);
 
-		final Item itemBucketOil = PolycraftMod.registerItem(CustomObject.registry.get("Bucket (Crude Oil)"),
-				new PolycraftBucket(PolycraftMod.blockOil)
-						.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
-		FluidContainerRegistry.registerFluidContainer(
-				FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),
-				new ItemStack(itemBucketOil),
-				new ItemStack(Items.bucket));
-		BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, itemBucketOil);
-		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		for (final CustomObject customObject : CustomObject.registry.values()) {
+			if ("Bucket (Crude Oil)".equals(customObject)) {
+				final Item itemBucketOil = PolycraftMod.registerItem(customObject,
+						new PolycraftBucket(PolycraftMod.blockOil)
+								.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
+				FluidContainerRegistry.registerFluidContainer(
+						FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),
+						new ItemStack(itemBucketOil),
+						new ItemStack(Items.bucket));
+				BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, itemBucketOil);
+				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+			}
+			else if ("Flame Thrower".equals(customObject)) {
+				PolycraftMod.registerItem(customObject, new ItemFlameThrower(customObject));
+			}
+			else if ("Jet Pack".equals(customObject)) {
+				PolycraftMod.registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else
+				//TODO
+				PolycraftMod.registerItem(customObject, new ItemCustom(customObject));
+		}
 
-		for (final Settings settings : PolycraftMod.itemPogoStickSettings)
-			PolycraftMod.registerItem(CustomObject.registry.get(settings.itemName), new ItemPogoStick(settings));
-
-		PolycraftMod.registerItem(CustomObject.registry.get("Flamethrower"),
-				new ItemFlameThrower(
-						PolycraftMod.itemFlameThrowerFuelUnitsFull,
-						PolycraftMod.itemFlameThrowerFuelUnitsBurnPerTick,
-						PolycraftMod.itemFlameThrowerRange,
-						PolycraftMod.itemFlameThrowerSpread,
-						PolycraftMod.itemFlameThrowerFireDuration,
-						PolycraftMod.itemFlameThrowerDamage));
-
+		/*
 		PolycraftMod.registerItem(CustomObject.registry.get("Flashlight"),
 				new ItemFlashlight(
 						PolycraftMod.itemFlashlightMaxLightLevel,
 						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
 						PolycraftMod.itemFlashlightViewingConeAngle));
+						
+		PolycraftMod.registerItem(CustomObject.registry.get("Parachute"),
+				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
 
-		//PolycraftMod.registerItem(CustomObject.registry.get("Parachute"),
-		//		new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
+		PolycraftMod.registerItem(CustomObject.registry.get("Running Shoes"),
+				new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
 
-		//PolycraftMod.registerItem(CustomObject.registry.get("Running Shoes"),
-		//		new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
-
-		//PolycraftMod.registerItem(CustomObject.registry.get("Kevlar Vest"),
-		//		new ItemKevlarVest());
-
-		PolycraftMod.registerItem(CustomObject.registry.get("JetPack"),
-				new ItemJetPack(
-						PolycraftMod.itemJetPackFuelUnitsFull,
-						PolycraftMod.itemJetPackFuelUnitsBurnPerTick,
-						PolycraftMod.itemJetPackFlySpeedBuff));
+		PolycraftMod.registerItem(CustomObject.registry.get("Kevlar Vest"),
+				new ItemKevlarVest());
 
 		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Tank"),
 				new ItemScubaTank(
 						PolycraftMod.itemScubaTankAirUnitsFull,
 						PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
 
-		//PolycraftMod.registerItem(CustomObject.registry.get("Scuba Mask"),
-		//		new ItemScubaMask(
-		//				PolycraftMod.itemScubaMaskFogDensity));
+		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Mask"),
+				new ItemScubaMask(
+						PolycraftMod.itemScubaMaskFogDensity));
 
-		//PolycraftMod.registerItem(CustomObject.registry.get("Scuba Fins"),
-		//		new ItemScubaFins(
-		//				PolycraftMod.itemScubaFinsSwimSpeedBuff,
-		//				PolycraftMod.itemScubaFinsWalkSpeedBuff));
-
-		/*
-		for (final Entry<String, ToolMaterial> materialEntry : ItemGripped.allowedMaterials.entrySet()) {
-			final String materialName = materialEntry.getKey();
-			final ToolMaterial material = materialEntry.getValue();
-			for (final String type : ItemGripped.allowedTypes.keySet())
-				PolycraftMod.registerItem(namespace, ItemGripped.getName(materialName, type),
-						ItemGripped.create(type, materialName, material, PolycraftMod.itemGrippedToolDurabilityBuff));
-		}
+		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Fins"),
+				new ItemScubaFins(
+						PolycraftMod.itemScubaFinsSwimSpeedBuff,
+						PolycraftMod.itemScubaFinsWalkSpeedBuff));
 		*/
 	}
 }

@@ -13,19 +13,22 @@ public class MoldedItem extends SourcedConfig<Mold> {
 				registry.register(new MoldedItem(
 						line[0], //gameID
 						line[1], //name
-						Mold.registry.get(line[2]), //mold
-						Polymer.registry.get(line[3]), //polymer
-						Integer.parseInt(line[4]) //pellets
+						Mold.registry.get(line[2]), //source
+						PolymerPellets.registry.get(line[3]), //polymerPellets
+						Integer.parseInt(line[5]), //craftingPellets
+						Float.parseFloat(line[6]) //craftingDurationSeconds
 				));
 	}
 
-	public final Polymer polymer;
-	public final int pellets;
+	public final PolymerPellets polymerPellets;
+	public final int craftingPellets;
+	public final float craftingDurationSeconds;
 
-	public MoldedItem(final String gameID, final String name, final Mold mold, final Polymer polymer, final int pellets) {
-		super(gameID, name, mold);
-		this.polymer = polymer;
-		this.pellets = pellets;
+	public MoldedItem(final String gameID, final String name, final Mold source, final PolymerPellets polymerPellets, final int craftingPellets, final float craftingDurationSeconds) {
+		super(gameID, name, source);
+		this.polymerPellets = polymerPellets;
+		this.craftingPellets = craftingPellets;
+		this.craftingDurationSeconds = craftingDurationSeconds;
 	}
 
 	@Override

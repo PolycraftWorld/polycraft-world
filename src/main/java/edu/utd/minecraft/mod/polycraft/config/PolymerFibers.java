@@ -3,7 +3,7 @@ package edu.utd.minecraft.mod.polycraft.config;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
-public class PolymerFibers extends SourcedConfig<Polymer> {
+public class PolymerFibers extends SourcedConfig<PolymerPellets> {
 
 	public static final ConfigRegistry<PolymerFibers> registry = new ConfigRegistry<PolymerFibers>();
 
@@ -13,11 +13,11 @@ public class PolymerFibers extends SourcedConfig<Polymer> {
 				registry.register(new PolymerFibers(
 						line[0], //gameID
 						line[1], //name
-						(Polymer) Config.find(line[2], line[3]) //source
+						PolymerPellets.registry.get(line[2]) //source
 				));
 	}
 
-	public PolymerFibers(final String gameID, final String name, final Polymer source) {
+	public PolymerFibers(final String gameID, final String name, final PolymerPellets source) {
 		super(gameID, name, source);
 	}
 

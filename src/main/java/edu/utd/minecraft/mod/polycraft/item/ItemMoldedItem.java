@@ -14,7 +14,7 @@ public class ItemMoldedItem extends Item implements PolycraftItem {
 	public ItemMoldedItem(final MoldedItem moldedItem) {
 		Preconditions.checkNotNull(moldedItem);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + moldedItem.name)));
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + moldedItem.source.polymerObject.name)));
 		this.moldedItem = moldedItem;
 	}
 

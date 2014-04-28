@@ -1,2 +1,3 @@
-Game ID	Polymer Pellets	Source Type	Source Name	
-1Y	Pellets (PolyIsoPrene)	Polymer	PolyIsoPrene	
+Game ID	Pellets	Polymer	Vessel Type	MinHeat	MaxHeat
+1Y	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	Vial	1	10
+59	Vial (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	Vial	1	10

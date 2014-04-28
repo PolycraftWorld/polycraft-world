@@ -1,4 +1,4 @@
-Game ID	Mold	Type	Polymer Item	Max Damage
+Game ID	Mold	Mold Type	Polymer Object	Crafting Max Damage
 D	Mold (Grip)	Mold	Grip	8192
 E	Mold (Running Shoes)	Mold	Running Shoes	8192
 G	Mold (Scuba Fins)	Mold	Scuba Fins	8192
@@ -9,3 +9,4 @@ K	Metal Die (Fibers)	Metal Die	Fibers	8192
 L	Metal Die (Tether)	Metal Die	Tether	8192
 M	Metal Die (Cord)	Metal Die	Cord	8192
 N	Metal Die (Hose)	Metal Die	Hose	8192
+3g	Metal Die (Large Pipe)	Metal Die	Large Pipe	8192

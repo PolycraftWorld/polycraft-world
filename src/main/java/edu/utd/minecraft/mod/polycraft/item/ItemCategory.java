@@ -13,6 +13,7 @@ public enum ItemCategory {
 	BLOCKS("Blocks"),
 	BLOCKS_BUILDING("Blocks/Building"),
 	ITEMS("Items"),
+	ITEMS_CUSTOM("Items/Custom"),
 	ITEMS_MOLD("Items/Mold"),
 	ITEMS_MOLDED_ITEM("Items/MoldedItem"),
 	ITEMS_UTILITY("Items/Utility"),

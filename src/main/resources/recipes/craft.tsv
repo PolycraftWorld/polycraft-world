@@ -1,0 +1,24 @@
+Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Input 6	I6#	Input 7	I7#	Input 8	I8#	Input 9	I9#
+TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Vial (PolyIsoPrene Pellets)	1		
+TRUE	FALSE	1	Tree Tap	1	Planks	1	Stick	1	Planks	1	Planks	1			Planks	1			Planks	1		
+TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Sticky Piston	1	Redstone Block	1	Sticky Piston	1	Iron Block	1	Furnace	1	Iron Block	1
+TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1
+TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Metal Screw	1	Iron Block	1
+TRUE	FALSE	2	Metal Screw	1			Iron Block	1					Iron Ingot	1					Iron Ingot	1		
+TRUE	FALSE	2	Stone Pogo Stick	1	Stick	1	Stick	1	Stick	1	Cobblestone	1	Stick	1	Cobblestone	1			Vial (PolyIsoPrene Pellets)	1		
+TRUE	FALSE	2	Iron Pogo Stick	1	Stick	1	Stick	1	Stick	1	Iron Block	1	Stick	1	Iron Block	1			Vial (PolyIsoPrene Pellets)	1		
+TRUE	FALSE	2	Golden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Gold Block	1	Stick	1	Gold Block	1			Vial (PolyIsoPrene Pellets)	1		
+TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Vial (PolyIsoPrene Pellets)	1		
+TRUE	FALSE	3	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Vial (PolyIsoPrene Pellets)	1		
+TRUE	FALSE	3	Copper Pipe	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1		
+TRUE	FALSE	3	Regulator	1	Copper Pipe	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Redstone	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Copper Pipe	1
+TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1	0	1	Iron Block	1	Redstone Block	1	Iron Block	1	Iron Block	1	Furnace	1	Iron Block	1
+TRUE	FALSE	3	Rubber Mesh X	1	Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1
+TRUE	FALSE	3	Rubber Mesh O	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1		
+TRUE	FALSE	3	Trampoline Mesh	1	Rubber Mesh O	1	Rubber Mesh X	1	Rubber Mesh O	1	Rubber Mesh X	1	Rubber Mesh O	1	Rubber Mesh X	1	Rubber Mesh O	1	Rubber Mesh X	1	Rubber Mesh O	1
+TRUE	FALSE	3	Trampoline	1							Trampoline Mesh	1	Trampoline Mesh	1	Trampoline Mesh	1	Iron Ingot	1			Iron Ingot	1
+TRUE	TRUE	4	Lighter	1	Beaker (Light Naphtha)	1	Flint And Steel	1														
+TRUE	TRUE	4	Industrial Oven	1	Beaker (N-Pentane)	1	Beaker (Naphtha)	1	Beaker (N-Ethylidenecyclohexylamine)	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
+TRUE	FALSE	3	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1		
+TRUE	TRUE	4	Small Gas Lamp	1			Glass Pane				Glass Pane		Gas Mantle		Glass Pane		Chest	1	Copper Pipe	1		
+TRUE	FALSE	4	Large Gas Lamp	1	Glass Pane		Glass Pane		Glass Pane		Gas Mantle		Gas Mantle		Gas Mantle		Chest	1	Copper Pipe	1	Chest	1

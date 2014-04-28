@@ -13,6 +13,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -21,23 +22,22 @@ import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 
 public abstract class PolycraftInventory extends PolycraftBasicTileEntityContainer {
 
-	private static ResourceLocation guiTexture;
-
 	protected static final void register(final PolycraftInventoryBlock inventoryBlock, final ISimpleBlockRenderingHandler renderingHandler) {
 		PolycraftMod.registerBlock(inventoryBlock.config, inventoryBlock);
 		GameRegistry.registerTileEntity(inventoryBlock.tileEntityClass, inventoryBlock.config.tileEntityGameID);
 		RenderingRegistry.registerBlockHandler(renderingHandler.getRenderId(), renderingHandler);
-		guiTexture = new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png", PolycraftMod.getFileSafeName(inventoryBlock.config.name))));
 	}
 
+	private final ResourceLocation guiTexture;
 	private final PolycraftContainerType containerType;
 	private final List<InventoryBehavior> behaviors = Lists.newArrayList();
 
-	public PolycraftInventory(final PolycraftContainerType containerType, final String containerName) {
-		super(containerType, containerName);
+	public PolycraftInventory(final PolycraftContainerType containerType, final Inventory config) {
+		super(containerType, config.gameID);
 		Preconditions.checkNotNull(containerType);
-		Preconditions.checkNotNull(containerName);
+		Preconditions.checkNotNull(config);
 		this.containerType = containerType;
+		this.guiTexture = new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png", PolycraftMod.getFileSafeName(config.name))));
 	}
 
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {

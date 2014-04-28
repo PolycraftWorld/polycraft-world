@@ -42,7 +42,7 @@ public class InjectionMolderInventory extends HeatedInventory {
 	}
 
 	public InjectionMolderInventory() {
-		super(PolycraftContainerType.INJECTION_MOLDER, config.gameID, slotIndexHeatSource);
+		super(PolycraftContainerType.INJECTION_MOLDER, config, slotIndexHeatSource);
 		addBehavior(new ItemPresentCraftingBehavior(ImmutableMap.of((ContainerSlot) guiSlots.get(0), Items.water_bucket)));
 	}
 

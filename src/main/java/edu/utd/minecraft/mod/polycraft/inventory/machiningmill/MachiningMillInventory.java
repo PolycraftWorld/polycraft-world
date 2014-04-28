@@ -42,7 +42,7 @@ public class MachiningMillInventory extends PolycraftInventory {
 	}
 
 	public MachiningMillInventory() {
-		super(PolycraftContainerType.MACHINING_MILL, config.gameID);
+		super(PolycraftContainerType.MACHINING_MILL, config);
 		addBehavior(new ItemPresentCraftingBehavior(ImmutableMap.of((ContainerSlot) guiSlots.get(0), Items.water_bucket)));
 	}
 

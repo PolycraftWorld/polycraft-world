@@ -27,8 +27,8 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy
 		super(isDouble, Material.rock);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.polymerSlab = polymerSlab;
-		this.labelTexture = polymerSlab.polymerBlock.source.source.resinCode.recyclingNumber >= 1 && polymerSlab.polymerBlock.source.source.resinCode.recyclingNumber <= 7
-				? new LabelTexture("polymer", null, "polymer_" + polymerSlab.polymerBlock.source.source.resinCode.recyclingNumber + "_bottom")
+		this.labelTexture = polymerSlab.source.source.source.resinCode.recyclingNumber >= 1 && polymerSlab.source.source.source.resinCode.recyclingNumber <= 7
+				? new LabelTexture("polymer", null, "polymer_" + polymerSlab.source.source.source.resinCode.recyclingNumber + "_bottom")
 				: new LabelTexture("polymer", null, "polymer_bottom");
 		this.isDouble = isDouble;
 	}

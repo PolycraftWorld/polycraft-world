@@ -8,21 +8,22 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 
 public class ItemJetPack extends PolycraftArmorChest {
 	private static final String FUEL_UNITS_REMAINING = "fuelUnitsRemaining";
-	
+
 	public final int fuelUnitsFull;
 	public final int fuelUnitsBurnPerTick;
 	public final float flySpeedBuff;
 
-	public ItemJetPack(final int fuelUnitsFull, final int fuelUnitsBurnPerTick, final float flySpeedBuff) {
+	public ItemJetPack(final CustomObject config) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getAssetName("jet_pack"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
-		this.fuelUnitsFull = fuelUnitsFull;
-		this.fuelUnitsBurnPerTick = fuelUnitsBurnPerTick;
-		this.flySpeedBuff = flySpeedBuff;
+		this.fuelUnitsFull = config.getParamInteger(0);
+		this.fuelUnitsBurnPerTick = config.getParamInteger(1);
+		this.flySpeedBuff = config.getParamFloat(2);
 	}
 
 	@Override

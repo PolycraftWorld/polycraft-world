@@ -67,6 +67,7 @@ Bromthymol Blue	C27H28Br2O5S	Liquid		pH Test		Aquarium pH test kits often employ
 Butadiene	C4H6	Liquid				
 Butane Isomers	C4H10	Gas	TRUE	Butane		The lighter fluid in hand-held fire starters or cigarette lighters is usually liquid butane. Also available in sporting goods & camping stores as a stove fuel. Many similar fuels use propane, so be sure to read the labeling.
 Butanol		Liquid				
+Butylene isomers	C4H8	Liquid	TRUE			It is a colourless gas that is present in crude oil as a minor constituent in quantities that are too small for viable extraction
 Butyrolactone		Liquid				
 Cadmium Sulfide	CdS	Liquid		Cadmium Yellow		Fine art supply house. Available as a yellow powder. Sometimes pure, sometimes blended with zinc sulfide to create alternative hues.
 Caffeine	C8H10N4O2	Liquid		No-Doz		Grocery or drug store. Often in formulation with corn starch as a binder.
@@ -85,7 +86,7 @@ Calcium Sulfate,Hemihydrate	CaSO4·1/2H20	Liquid		Plaster of Paris		Hardware sto
 Camphor	C10H16O	Liquid		—		Can be found as a flavor additive at some Chinese grocery stores. Sometimes found in the drugstore as a cream or oral remedy. It feels cool like menthol on the skin.
 Caprolactone		Liquid				
 Caprolactum		Liquid				
-Carbon Dioxide	CO2	Liquid		—		Dry ice is available from party stores, supermarkets, refrigeration supply companies and ice cream companies. Nationally distributed by Airgas through Penguin Brand Dry Ice. Gaseous form available in small canisters at sporting goods stores. Used in air guns and in paintball.
+Carbon Dioxide	CO2	Gas	TRUE	—		Dry ice is available from party stores, supermarkets, refrigeration supply companies and ice cream companies. Nationally distributed by Airgas through Penguin Brand Dry Ice. Gaseous form available in small canisters at sporting goods stores. Used in air guns and in paintball.
 Carbon Monoxide		Liquid				
 Carbonic Acid	H2CO3	Liquid		—		Soda water is simply carbonated water, a dilute solution of carbonic acid. A Soda Club home soda maker is a good way to make your own carbonic acid in varying strengths.
 Carboxylates	M(RCOO)n	Liquid				Make with Sodium and Acrylic Acid?
@@ -149,7 +150,7 @@ Hexamine	C6H12N4	Liquid		Hexamethylenetetramine		Sold as solid fuel tablets in c
 Hexane Isomers	C6H14	Liquid	TRUE			
 Hydrochloric Acid	HCl	Liquid		Masonry Cleaner,Muriatic acid		Hardware store; used in swimming pool maintenance, as masonry cleaner and in silverware cleaner.
 Hydrofluoric Acid	HF	Liquid		Glass Etching Solution		Hardware store; Aluminum brightener & tire cleaner
-Hydrogen Gas	H2	Liquid		Hydrogen		Can be generated and captured from electrolysis of water and a wide variety of inorganic chemical reactions. Adding aluminium foil to a solution of Sodium Hydroxide will generate hydrogen gas. Highly flammable and explosive under pressure or in quantity.
+Hydrogen Gas	H2	Gas		Hydrogen		Can be generated and captured from electrolysis of water and a wide variety of inorganic chemical reactions. Adding aluminium foil to a solution of Sodium Hydroxide will generate hydrogen gas. Highly flammable and explosive under pressure or in quantity.
 Hydrogen Peroxide	H2O2	Liquid		Peroxide		Hydrogen peroxide antiseptic (3%)or even (6%) is available from the drug store. Clairoxide hair bleach by Clairol is much more concentrated (12%) and is available from beauty supply stores. Concentrations as high as 35% may be available at health food stores and natural medicine stores as a source of natural oxygen. Swimming pool and spa suppliers often carry concentrations as high as 27% but these usually contain preservatives/stabilizers. Note: Do not heat. Do not store in metal containers.
 Hydroquinone	C6H6O2	Liquid		—		Photography store catering to the at-home darkroom crowd.
 Hypochlorous Acid	HClO	Liquid		Laundry Bleach		Grocery store.
@@ -235,7 +236,7 @@ Potassium Phenoxide	KOC6H5	Liquid
 Potassium Sodium Tartrate	NaKC4H4O6 * 4H2O	Liquid		Rochelle salt		Drug store
 Propane	C3H8	Gas		—		Gas barbecue fuel is generally made of propane and is available at many gasoline stations or picnic supply stores.
 Propanol		Liquid				
-Propylene		Liquid				
+Propylene	C3H6	Liquid		Propene		Precursor for made modern polymers
 Silicon Carbide	SiC	Liquid		Carborundum		This hard, abrasive powder is often found sorted by particle size for use in sandblasting and industrial supply houses.
 Silicon Dioxide	SiO2	Liquid		Sand, silica		Quartz sand is relatively pure silicon dioxide and is available at many building supply stores and also aquarium shops. Often found sorted by particle size for use in sandblasting. Micrometre sized particles are used as a filler in rubbers, plastics, and mold making materials and may be available in hobby shops as Min-u-Sil brand.
 Sodium Acetate	NaC2H3O2	Liquid		Hand Warmer		Main ingredient in hand-warmers that are available at sporting goods stores. Can also be made through the reaction of baking soda and vinegar.
@@ -311,3 +312,13 @@ Aluminoxane	(Al(CH3)O)n	Liquid			Catalyst
 Sodium Hydroxide	NAOH	Liquid			Catalyst	
 Triethylaluminium	Al(C2H5)3	Liquid			Catalyst	
 Methyl Ethyl Ketone Peroxide	C8H16O4	Liquid			Catalyst	
+						
+Fruit Brandy		Liquid				
+Vodka		Liquid				
+Gin		Liquid				
+Tequila		Liquid				
+Rum		Liquid				
+Whiskey		Liquid				
+Carrot Wine		Liquid				
+Wine		Liquid				
+Beer		Liquid				

@@ -13,15 +13,18 @@ public class Mold extends GameIdentifiedConfig {
 				registry.register(new Mold(
 						line[0], //gameID
 						line[1], //name
-						Integer.parseInt(line[4]) //maxDamage
+						PolymerObject.registry.get(line[3]), //polymerObject
+						Integer.parseInt(line[4]) //craftingMaxDamage
 				));
 	}
 
-	public final int maxDamage;
+	public final PolymerObject polymerObject;
+	public final int craftingMaxDamage;
 
-	public Mold(final String gameID, final String name, final int maxDamage) {
+	public Mold(final String gameID, final String name, final PolymerObject polymerObject, final int craftingMaxDamage) {
 		super(gameID, name);
-		this.maxDamage = maxDamage;
+		this.polymerObject = polymerObject;
+		this.craftingMaxDamage = craftingMaxDamage;
 	}
 
 	@Override
