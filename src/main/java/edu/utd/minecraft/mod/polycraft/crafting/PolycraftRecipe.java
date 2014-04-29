@@ -247,7 +247,7 @@ public class PolycraftRecipe {
 		return shapelessCombos;
 	}
 
-	protected ItemStack getItemstackForInput(final RecipeComponent input, final Set<RecipeInput> usedInputs) {
+	public ItemStack getItemstackForInput(final RecipeComponent input, final Set<RecipeInput> usedInputs) {
 		for (final RecipeInput recipeInput : shapedInputs.values()) {
 			if (usedInputs != null && usedInputs.contains(recipeInput)) {
 				continue;

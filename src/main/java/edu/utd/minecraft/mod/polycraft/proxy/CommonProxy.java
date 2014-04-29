@@ -260,7 +260,7 @@ public class CommonProxy {
 				PolycraftMod.registerItem(customObject, new ItemJetPack(customObject));
 			}
 			else
-				//TODO
+				//TODO really should throw an exception if we don't have a true custom item (needed an implentation)
 				PolycraftMod.registerItem(customObject, new ItemCustom(customObject));
 		}
 

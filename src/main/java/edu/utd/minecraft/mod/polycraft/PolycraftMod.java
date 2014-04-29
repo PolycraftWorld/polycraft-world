@@ -85,20 +85,6 @@ public class PolycraftMod {
 	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
 	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
 	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
-
-	public static final float itemKevlarArmorBuff = .5f; // x% over diamond armor
-	/* TODO move to config files
-	public static final float itemRunningShoesWalkSpeedBuff = 1f;
-	public static final float itemParachuteDescendVelocity = -.3f;
-	public static final int itemFlashlightMaxLightLevel = 15;
-	public static final float itemFlashlightLightLevelDecreaseByDistance = .5f;
-	public static final int itemFlashlightViewingConeAngle = 15;
-	public static final int itemScubaTankAirUnitsFull = 5000;
-	public static final int itemScubaTankAirUnitsConsumePerTick = 1;
-	public static final float itemScubaMaskFogDensity = .01f;
-	public static final float itemScubaFinsSwimSpeedBuff = 2f;
-	public static final float itemScubaFinsWalkSpeedBuff = -.5f;
-	*/
 	public static final ArmorMaterial armorMaterialNone = EnumHelper.addArmorMaterial("none", 0, new int[] { 0, 0, 0, 0 }, 0);
 
 	public static BiomeGenOilDesert biomeOilDesert;

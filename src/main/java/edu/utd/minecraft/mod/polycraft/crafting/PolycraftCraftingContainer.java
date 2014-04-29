@@ -27,6 +27,7 @@ public abstract class PolycraftCraftingContainer extends Container {
 	}
 
 	private void addInventorySlot(final IInventory inventory, final GuiContainerSlot guiSlot) {
+		//TODO need to use SlotCrafting, or make our own to get crafting to work for real (the CraftingBehavior class doesn't work by itself)
 		Slot newSlot = new Slot(inventory, guiSlot.getSlotIndex(), guiSlot.getDisplayX(), guiSlot.getDisplayY());
 		addSlotToContainer(newSlot);
 	}

@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.inventory.heated;
 
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import net.minecraft.entity.player.InventoryPlayer;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
 public class HeatedGui<I extends HeatedInventory> extends PolycraftInventoryGui<I> {
 
@@ -39,7 +39,7 @@ public class HeatedGui<I extends HeatedInventory> extends PolycraftInventoryGui<
 		int l = (this.height - this.ySize) / 2;
 		int i1;
 		if (inventory.isHeated()) {
-			i1 = inventory.getHeatTimeRemainingScaled(12);
+			i1 = inventory.getHeatSourceTimeRemainingScaled(12);
 			this.drawTexturedModalRect(k + progressDisplayOffsets.heatX, l + progressDisplayOffsets.heatY - i1, 176, 12 - i1, 14, i1 + 2);
 		}
 

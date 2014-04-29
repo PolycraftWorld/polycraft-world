@@ -29,7 +29,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	}
 
 	private final ResourceLocation guiTexture;
-	private final PolycraftContainerType containerType;
+	protected final PolycraftContainerType containerType;
 	private final List<InventoryBehavior> behaviors = Lists.newArrayList();
 
 	public PolycraftInventory(final PolycraftContainerType containerType, final Inventory config) {
@@ -96,7 +96,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 			}
 		}
 		ContainerSlot containerSlotByIndex = this.getContainerType().getContainerSlotByIndex(var1);
-		if (containerSlotByIndex.getSlotType() == SlotType.INPUT) {
+		if (containerSlotByIndex.getSlotType() == SlotType.INPUT || containerSlotByIndex.getSlotType() == SlotType.MISC) {
 			return true;
 		}
 		return false;

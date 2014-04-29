@@ -110,10 +110,11 @@ public class RecipeGenerator {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.INJECTION_MOLDER,
 					moldedItem.getItemStack(),
-					new String[] { "y    ", "x" },
+					new String[] { "xyz" },
 					ImmutableMap.of(
-							'x', moldedItem.source.getItemStack(),
-							'y', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets)));
+							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
+							'y', moldedItem.source.getItemStack(),
+							'z', new ItemStack(Items.water_bucket)));
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			PolycraftMod.recipeManager.addShapelessRecipe(
@@ -130,15 +131,16 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipes(final String directory) {
-		generateFileRecipesCrafting(directory);
+		generateFileRecipesCraft(directory);
+		generateFileRecipesSmelt(directory);
 		generateFileRecipesMill(directory);
 	}
 
-	private static void generateFileRecipesCrafting(final String directory) {
+	private static void generateFileRecipesCraft(final String directory) {
 		final char[] shapedIdentifiers = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "craft")) {
 			if (line.length > 3) {
-				final boolean scalable = Boolean.parseBoolean(line[0]); //TODO need to use
+				final boolean scalable = Boolean.parseBoolean(line[0]); //TODO need to use? not sure how to not be scalable...
 				final boolean shapeless = Boolean.parseBoolean(line[1]);
 				final String outputItemName = line[3];
 				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, Integer.parseInt(line[4]));
@@ -192,6 +194,26 @@ public class RecipeGenerator {
 		}
 	}
 
+	private static void generateFileRecipesSmelt(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "smelt")) {
+			if (line.length > 2) {
+				final String outputItemName = line[0];
+				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, 1);
+				if (outputItemStack == null) {
+					logger.warn("Unable to find output item for smelting recipe: {}", outputItemName);
+					continue;
+				}
+				final String inputItemName = line[2];
+				final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, 1);
+				if (inputItemStack == null) {
+					logger.warn("Unable to find input item for smelting recipe ({}): {}", outputItemName, inputItemName);
+					continue;
+				}
+				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNANCE, outputItemStack, ImmutableList.of(inputItemStack));
+			}
+		}
+	}
+
 	private static void generateFileRecipesMill(final String directory) {
 		Mold currentMold = null;
 		char currentMoldShapeChar = 'x';
@@ -201,7 +223,7 @@ public class RecipeGenerator {
 			if (line.length > 0) {
 				if (currentMold == null || currentRow == 5) {
 					currentMold = Mold.registry.get(line[0]);
-					currentMoldShape = new String[5];
+					currentMoldShape = new String[6];
 					currentRow = 0;
 				}
 				if (currentMold != null) {
@@ -219,13 +241,19 @@ public class RecipeGenerator {
 					currentRow++;
 
 					if (currentRow == 5) {
-						for (final Ingot ingot : Ingot.registry.values())
-							if (ingot.moldDamagePerUse > 0)
+						currentMoldShape[currentMoldShape.length - 1] = "y";
+
+						for (final Ingot ingot : Ingot.registry.values()) {
+							if (ingot.moldDamagePerUse > 0) {
 								PolycraftMod.recipeManager.addShapedRecipe(
 										PolycraftContainerType.MACHINING_MILL,
-										currentMold.getItemStack(), //TODO need to use meta data to remember how much damage to do per use
+										currentMold.getItemStack(ingot),
 										currentMoldShape,
-										ImmutableMap.of(currentMoldShapeChar, ingot.getItemStack()));
+										ImmutableMap.of(
+												currentMoldShapeChar, ingot.getItemStack(),
+												'y', new ItemStack(Items.water_bucket)));
+							}
+						}
 					}
 				}
 			}
@@ -253,7 +281,6 @@ public class RecipeGenerator {
 		final Collection<ItemStack> inputs = new LinkedList<ItemStack>();
 		for (final ItemStack output : dirtOutputs) {
 			inputs.add(new ItemStack(Blocks.dirt));
-			//TODO call PolycraftMod.recipeManager.addShapelessRecipe when it supports player inventory crafting
 			GameRegistry.addShapelessRecipe(output, inputs.toArray());
 		}
 	}
