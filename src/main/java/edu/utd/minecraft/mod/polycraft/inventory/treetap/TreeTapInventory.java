@@ -21,6 +21,8 @@ import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
@@ -62,6 +64,7 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new PolycraftInventoryGui(this, playerInventory, 133, false);
 	}

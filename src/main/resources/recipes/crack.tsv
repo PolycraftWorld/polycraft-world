@@ -1,0 +1,13 @@
+ Chain	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Notes
+5	Heat 	Cracking	Flask (Butane Isomers)	64	Platinum Catalyst	1	Flask (Methane)	31	Beaker (Propylene)	31	Flask (Ethane)	24	Beaker (Ethylene)	24	Beaker (Butylene isomers)	9	Flask (Hydrogen Gas)	9	
+5	Heat 	Cracking	Cartridge (Butane Isomers)	64	Platinum Catalyst	4	Cartridge (Methane)	31	Pale (Propylene)	31	Cartridge (Ethane)	24	Pale (Ethylene)	24	Pale (Butylene isomers)	9	Cartridge (Hydrogen Gas)	9	
+5	Heat 	Cracking	Canister (Butane Isomers)	64	Platinum Catalyst	16	Canister (Methane)	31	Drum (Propylene)	31	Canister (Ethane)	24	Drum (Ethylene)	24	Drum (Butylene isomers)	9	Canister (Hydrogen Gas)	9	
+5	Heat 	Cracking	Flask (Propane)	64	Platinum Catalyst	1	Flask (Methane)	31	Beaker (Ethylene)	32	Beaker (Propylene)	31	Flask (Hydrogen Gas)	33	Flask (Ethane)	2			
+5	Heat 	Cracking	Cartridge (Propane)	64	Platinum Catalyst	4	Cartridge (Methane)	31	Pale (Ethylene)	32	Pale (Propylene)	31	Cartridge (Hydrogen Gas)	33	Cartridge (Ethane)	2			
+5	Heat 	Cracking	Canister (Propane)	64	Platinum Catalyst	16	Canister (Methane)	31	Drum (Ethylene)	32	Drum (Propylene)	31	Canister (Hydrogen Gas)	33	Canister (Ethane)	2			
+5	Heat 	Cracking	Flask (Ethane)	64	Platinum Catalyst	1	Flask (Methane)	24	Beaker (Ethylene)	52	Flask (Hydrogen Gas)	40							
+5	Heat 	Cracking	Cartridge (Ethane)	64	Platinum Catalyst	4	Cartridge (Methane)	24	Pale (Ethylene)	52	Cartridge (Hydrogen Gas)	40							
+5	Heat 	Cracking	Canister (Ethane)	64	Platinum Catalyst	16	Canister (Methane)	24	Drum (Ethylene)	52	Canister (Hydrogen Gas)	40							
+8	Heat 	Cracking	Flask (Methane)	64	Zeolite Catalyst	1	Flask (Hydrogen Gas)	64	Flask (Hydrogen Gas)	56	Flask (Carbon Dioxide)	64							
+8	Heat 	Cracking	Cartridge (Methane)	64	Zeolite Catalyst	4	Cartridge (Hydrogen Gas)	64	Cartridge (Hydrogen Gas)	56	Cartridge (Carbon Dioxide)	64							
+8	Heat 	Cracking	Canister (Methane)	64	Zeolite Catalyst	16	Canister (Hydrogen Gas)	64	Canister (Hydrogen Gas)	56	Canister (Carbon Dioxide)	64							

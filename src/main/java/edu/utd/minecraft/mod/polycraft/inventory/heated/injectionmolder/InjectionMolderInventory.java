@@ -12,6 +12,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
@@ -67,6 +69,7 @@ public class InjectionMolderInventory extends HeatedInventory {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	protected HeatedGui getGuiHeated(InventoryPlayer playerInventory) {
 		return new HeatedGui(this, playerInventory, new HeatedGui.ProgressDisplayOffsets(45, 85, 131, 55), 203);
 	}

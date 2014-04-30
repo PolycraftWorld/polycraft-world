@@ -12,6 +12,8 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
@@ -44,6 +46,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 		return new PolycraftCraftingContainerGeneric(this, playerInventory);
 	}
 
+	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new PolycraftInventoryGui(this, playerInventory);
 	}

@@ -48,6 +48,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
@@ -227,6 +228,7 @@ public class CommonProxy {
 		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
 		MachiningMillInventory.register(Inventory.registry.get("Machining Mill"));
 		InjectionMolderInventory.register(Inventory.registry.get("Injection Molder"));
+		DistillationColumnInventory.register(Inventory.registry.get("Distillation Column"));
 	}
 
 	private void registerCustom() {

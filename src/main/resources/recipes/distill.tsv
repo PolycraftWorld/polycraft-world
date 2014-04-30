@@ -1,0 +1,39 @@
+ Chain	Stackable	Source	Level	Input 1	I1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
+	TRUE	Heat	4	Beaker (Crude Oil)	1	Beaker (Naphthalene)	1	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1												
+	TRUE	Heat	4	Pale (Crude Oil)	1	Pale (Naphthalene)	1	Pale (Benzene-Toluene-Xylene)	1	Pale (Gas Oil)	1	Bitumen	1										
+	FALSE	Heat	8	Drum (Crude Oil)	1	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	64	Block of Bitumen	64	Block of Bitumen	64	Block of Bitumen	64	Block of Bitumen	64	Block of Bitumen	64
+	FALSE	Heat	4	Beaker (NeoPentane)	64	Flask (Methane)	64	Flask (Methane)	40	Flask (Ethane)	8	Flask (Propane)	4										
+	FALSE	Heat	4	Pale (NeoPentane)	64	Cartridge (Methane)	64	Cartridge (Methane)	40	Cartridge (Ethane)	8	Cartridge (Propane)	4	Flask (Butane Isomers)	2								
+	FALSE	Heat	8	Drum (NeoPentane)	64	Canister (Methane)	64	Canister (Methane)	40	Canister (Ethane)	8	Canister (Propane)	4	Cartridge (Butane Isomers)	2	Beaker (Peracetic Acid)	20	Beaker (Hexane Isomers)	2				
+	TRUE	Heat	4	Beaker (Naphthalene)	4	Beaker (Light Naphtha)	3	Beaker (Heavy Naphtha)	1														
+	TRUE	Heat	4	Pale (Naphthalene)	4	Pale (Light Naphtha)	3	Pale (Heavy Naphtha)	1														
+	TRUE	Heat	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1														
+	TRUE	Heat	4	Beaker (Light Naphtha)	3	Beaker (Light Parrafins)	1	Beaker (Light Naphthenes)	1	Beaker (Light Olefins)	1												
+	TRUE	Heat	4	Pale (Light Naphtha)	3	Pale (Light Parrafins)	1	Pale (Light Naphthenes)	1	Pale (Light Olefins)	1												
+	TRUE	Heat	4	Drum (Light Naphtha)	3	Drum (Light Parrafins)	1	Drum (Light Naphthenes)	1	Drum (Light Olefins)	1												
+	FALSE	Heat	4	Beaker (Light Parrafins)	64	Flask (Methane)	52	Flask (Ethane)	4	Flask (Propane)	2	Flask (Butane Isomers)	1										
+	FALSE	Heat	4	Pale (Light Parrafins)	64	Cartridge (Methane)	52	Cartridge (Ethane)	1	Cartridge (Propane)	1	Cartridge (Butane Isomers)	1										
+	FALSE	Heat	4	Drum (Light Parrafins)	64	Canister (Methane)	52	Canister (Ethane)	4	Canister (Propane)	2	Canister (Butane Isomers)	1	Beaker (Peracetic Acid)	10	Beaker (Hexane Isomers)	1						
+	TRUE	Heat	4	Flask (Butane Isomers)	3	Beaker (N-Ethylidenecyclohexylamine)	2	Beaker (IsoButane)	1														
+	TRUE	Heat	4	Cartridge (Butane Isomers)	3	Pale (N-Ethylidenecyclohexylamine)	2	Pale (IsoButane)	1														
+	TRUE	Heat	4	Canister (Butane Isomers)	3	Drum (N-Ethylidenecyclohexylamine)	2	Drum (IsoButane)	1														
+	FALSE	Heat	4	Beaker (Peracetic Acid)	64	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Flask (Nitrogen Gas)	1												
+	FALSE	Heat	4	Pale (Peracetic Acid)	64	Pale (Naphtha)	23	Pale (IsoPentane)	40	Cartridge (Nitrogen Gas)	1												
+	FALSE	Heat	4	Drum (Peracetic Acid)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen Gas)	1												
+	TRUE	Heat	4	Beaker (Hexane Isomers)	1	Beaker (N-Pentane)	17	Beaker (2-MethylPentane)	20	Beaker (3-MethylPentane)	11	Beaker (2,2-DiMethylButane)	3	Beaker (2,3-DiMethylButane)	12								
+	TRUE	Heat	4	Pale (Hexane Isomers)	1	Pale (N-Pentane)	17	Pale (2-MethylPentane)	20	Pale (3-MethylPentane)	11	Pale (2,2-DiMethylButane)	3	Pale (2,3-DiMethylButane)	12								
+	TRUE	Heat	4	Drum (Hexane Isomers)	1	Drum (N-Pentane)	17	Drum (2-MethylPentane)	20	Drum (3-MethylPentane)	11	Drum (2,2-DiMethylButane)	3	Drum (2,3-DiMethylButane)	12								
+	TRUE	Heat	4	Apple	1	Beaker (Fruit Brandy)	1																
+	TRUE	Heat	4	Apple	64	Pale (Fruit Brandy)	1																
+	TRUE	Heat	4	Potato	1	Beaker (Vodka)	1																
+	TRUE	Heat	4	Potato	64	Pale (Vodka)	1																
+	TRUE	Heat	4	Nether Wart	1	Beaker (Gin)	1																
+	TRUE	Heat	4	Nether Wart	64	Pale (Gin)	1																
+	TRUE	Heat	4	Cactus	1	Beaker (Tequila)	1																
+	TRUE	Heat	4	Cactus	64	Pale (Tequila)	1																
+	TRUE	Heat	4	Reeds	1	Beaker (Rum)	1																
+	TRUE	Heat	4	Reeds	64	Pale (Rum)	1																
+	TRUE	Heat	4	Wheat	1	Beaker (Whiskey)	1																
+	TRUE	Heat	4	Wheat	64	Pale (Whiskey)	1																
+	TRUE	Heat	4	Carrot	1	Beaker (Carrot Wine)	1																
+	TRUE	Heat	4	Carrot	64	Pale (Carrot Wine)	1																

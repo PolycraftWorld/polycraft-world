@@ -24,6 +24,7 @@ import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
@@ -128,12 +129,16 @@ public class RecipeGenerator {
 						PolycraftContainerType.CRAFTING_TABLE,
 						pogoStick.getItemStack(),
 						ImmutableList.of(new ItemStack(PolycraftMod.getItem(pogoStick.source.name)), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
+
+		//TODO extrude
 	}
 
 	private static void generateFileRecipes(final String directory) {
 		generateFileRecipesCraft(directory);
 		generateFileRecipesSmelt(directory);
 		generateFileRecipesMill(directory);
+		generateFileRecipesDistill(directory);
+		generateFileRecipesCrack(directory);
 	}
 
 	private static void generateFileRecipesCraft(final String directory) {
@@ -241,7 +246,8 @@ public class RecipeGenerator {
 					currentRow++;
 
 					if (currentRow == 5) {
-						currentMoldShape[currentMoldShape.length - 1] = "y";
+						char nextMoldShapeChar = (char) (currentMoldShapeChar + 1);
+						currentMoldShape[currentMoldShape.length - 1] = String.valueOf(nextMoldShapeChar);
 
 						for (final Ingot ingot : Ingot.registry.values()) {
 							if (ingot.moldDamagePerUse > 0) {
@@ -251,7 +257,7 @@ public class RecipeGenerator {
 										currentMoldShape,
 										ImmutableMap.of(
 												currentMoldShapeChar, ingot.getItemStack(),
-												'y', new ItemStack(Items.water_bucket)));
+												nextMoldShapeChar, new ItemStack(Items.water_bucket)));
 							}
 						}
 					}
@@ -260,10 +266,82 @@ public class RecipeGenerator {
 		}
 	}
 
+	private static void generateFileRecipesDistill(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "distill")) {
+			final boolean stackable = Boolean.parseBoolean(line[1]); //TODO need to use? not sure how to not be stackable...
+			final String inputItemName = line[4];
+			final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, Integer.parseInt(line[5]));
+			if (inputItemStack == null) {
+				logger.warn("Unable to find input item for distillation recipe: {}", inputItemName);
+				continue;
+			}
+
+			List<ItemStack> outputItems = Lists.newArrayList();
+			for (int i = 6; i < line.length; i += 2) {
+				final String outputItemName = line[i];
+				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+				if (outputItemStack == null) {
+					logger.warn("Unable to find output item for distillation recipe ({}): {}", inputItemName, outputItemName);
+					outputItems = null;
+					break;
+				}
+				else
+					outputItems.add(outputItemStack);
+			}
+
+			if (outputItems == null)
+				continue;
+
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.DISTILLATION_COLUMN,
+					outputItems.get(0), //TODO need multi-output option
+					new String[] { "xyz" },
+					ImmutableMap.of(
+							'x', inputItemStack,
+							'y', new ItemStack(Items.water_bucket),
+							'z', new ItemStack(Items.water_bucket)));
+		}
+	}
+
+	private static void generateFileRecipesCrack(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "crack")) {
+			final int chain = Integer.parseInt(line[0]); //TODO need to use? not sure how...
+			final String inputItemName = line[3];
+			final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, Integer.parseInt(line[4]));
+			if (inputItemStack == null) {
+				logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
+				continue;
+			}
+
+			List<ItemStack> outputItems = Lists.newArrayList();
+			for (int i = 5; i < line.length - 1; i += 2) {
+				final String outputItemName = line[i];
+				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+				if (outputItemStack == null) {
+					logger.warn("Unable to find output item for cracking recipe ({}): {}", inputItemName, outputItemName);
+					outputItems = null;
+					break;
+				}
+				else
+					outputItems.add(outputItemStack);
+			}
+
+			if (outputItems == null)
+				continue;
+
+			//PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.STEAM_CRACKER, ImmutableList.of(inputItemStack), outputItems);
+		}
+	}
+
 	private static void generateCheatRecipes() {
 		final ItemStack[] dirtOutputs = new ItemStack[] {
 				new ItemStack(Blocks.dirt, 64),
 				new ItemStack(Blocks.crafting_table),
+				Inventory.registry.get("Injection Molder").getItemStack(),
+				PolymerPellets.registry.get("Vial (PolyIsoPrene Pellets)").getItemStack(),
+				Mold.registry.get("Mold (Grip)").getItemStack(),
+				new ItemStack(Items.water_bucket),
+				new ItemStack(Items.coal, 64),
 				CustomObject.registry.get("Flame Thrower").getItemStack(),
 				CustomObject.registry.get("Jet Pack").getItemStack(),
 				CustomObject.registry.get("Scuba Tank").getItemStack(),
@@ -274,8 +352,7 @@ public class RecipeGenerator {
 				//Inventory.registry.get("Tree Tap").getItemStack(),
 				new ItemStack(Blocks.furnace),
 				new ItemStack(Items.diamond_pickaxe),
-				new ItemStack(Blocks.torch, 64),
-				new ItemStack(Items.coal, 64)
+				new ItemStack(Blocks.torch, 64)
 		};
 
 		final Collection<ItemStack> inputs = new LinkedList<ItemStack>();

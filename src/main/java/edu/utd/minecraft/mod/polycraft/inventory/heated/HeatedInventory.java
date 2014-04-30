@@ -30,10 +30,16 @@ public abstract class HeatedInventory extends PolycraftInventory {
 	private final Map<State, Integer> stateValues = Maps.newHashMap();
 
 	private final int heatSourceSlotIndex;
+	private final int playerInventoryOffset;
 
 	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int heatSourceSlotIndex) {
+		this(containerType, config, heatSourceSlotIndex, 0);
+	}
+
+	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int heatSourceSlotIndex, final int playerInventoryOffset) {
 		super(containerType, config);
 		this.heatSourceSlotIndex = heatSourceSlotIndex;
+		this.playerInventoryOffset = playerInventoryOffset;
 		for (final State state : State.values())
 			setState(state, 0);
 	}
@@ -51,10 +57,13 @@ public abstract class HeatedInventory extends PolycraftInventory {
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
+		if (playerInventoryOffset > 0)
+			return new HeatedContainer(this, playerInventory, playerInventoryOffset);
 		return new HeatedContainer(this, playerInventory);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return getGuiHeated(playerInventory);
 	}
@@ -134,7 +143,6 @@ public abstract class HeatedInventory extends PolycraftInventory {
 						setState(State.HeatSourceTicksRemaining, setState(State.HeatSourceTicksTotal,
 								PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()))));
 						setState(State.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
-						setState(State.ProcessingTicks, 0);
 						--heatSourceItemStack.stackSize;
 						if (heatSourceItemStack.stackSize == 0)
 							setInventorySlotContents(heatSourceSlotIndex, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));

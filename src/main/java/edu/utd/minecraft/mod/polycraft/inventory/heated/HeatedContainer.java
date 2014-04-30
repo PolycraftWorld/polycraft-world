@@ -23,6 +23,12 @@ public class HeatedContainer<I extends HeatedInventory> extends PolycraftCraftin
 			previousStateValues.put(state, 0);
 	}
 
+	public HeatedContainer(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset) {
+		super(inventory, playerInventory, playerInventoryOffset);
+		for (final State state : State.values())
+			previousStateValues.put(state, 0);
+	}
+
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
