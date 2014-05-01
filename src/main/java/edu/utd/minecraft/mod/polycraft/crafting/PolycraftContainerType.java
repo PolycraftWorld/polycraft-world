@@ -10,8 +10,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
@@ -96,8 +97,10 @@ public enum PolycraftContainerType {
 				));
 		TREE_TAP.initialize(TreeTapInventory.guiSlots);
 		MACHINING_MILL.initialize(MachiningMillInventory.guiSlots);
-		INJECTION_MOLDER.initialize(InjectionMolderInventory.guiSlots);
+		INJECTION_MOLDER.initialize(MolderInventory.guiSlots);
+		EXTRUDER.initialize(MolderInventory.guiSlots);
 		DISTILLATION_COLUMN.initialize(DistillationColumnInventory.guiSlots);
+		STEAM_CRACKER.initialize(SteamCrackerInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

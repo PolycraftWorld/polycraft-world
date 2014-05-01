@@ -8,19 +8,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 
 public class ItemScubaTank extends PolycraftArmorChest {
 	private final static String AIR_UNITS_REMAINING = "airUnitsRemaining";
-	
+
 	public final int airUnitsFull;
 	public final int airUnitsConsumePerTick;
 
-	public ItemScubaTank(final int airUnitsFull, final int airUnitsConsumePerTick) {
+	public ItemScubaTank(final CustomObject config) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getAssetName("scuba_tank"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
-		this.airUnitsFull = airUnitsFull;
-		this.airUnitsConsumePerTick = airUnitsConsumePerTick;
+		this.airUnitsFull = config.getParamInteger(0);
+		this.airUnitsConsumePerTick = config.getParamInteger(1);
 	}
 
 	@Override

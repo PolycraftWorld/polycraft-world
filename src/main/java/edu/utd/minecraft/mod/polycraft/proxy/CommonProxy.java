@@ -49,21 +49,30 @@ import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.PolycraftEventHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemFibers;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
+import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -210,8 +219,18 @@ public class CommonProxy {
 	}
 
 	private void registerMoldedItems() {
-		for (final MoldedItem moldedItem : MoldedItem.registry.values())
-			PolycraftMod.registerItem(moldedItem, new ItemMoldedItem(moldedItem));
+		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
+			Item item = null;
+			if ("E".equals(moldedItem.source.gameID))
+				item = new ItemRunningShoes(moldedItem);
+			else if ("G".equals(moldedItem.source.gameID))
+				item = new ItemScubaFins(moldedItem);
+			else if ("H".equals(moldedItem.source.gameID))
+				item = new ItemScubaMask(moldedItem);
+			else
+				item = new ItemMoldedItem(moldedItem);
+			PolycraftMod.registerItem(moldedItem, item);
+		}
 	}
 
 	private void registerGrippedTools() {
@@ -228,7 +247,9 @@ public class CommonProxy {
 		TreeTapInventory.register(Inventory.registry.get("Tree Tap"));
 		MachiningMillInventory.register(Inventory.registry.get("Machining Mill"));
 		InjectionMolderInventory.register(Inventory.registry.get("Injection Molder"));
+		ExtruderInventory.register(Inventory.registry.get("Extruder"));
 		DistillationColumnInventory.register(Inventory.registry.get("Distillation Column"));
+		SteamCrackerInventory.register(Inventory.registry.get("Steam Cracker"));
 	}
 
 	private void registerCustom() {
@@ -244,7 +265,7 @@ public class CommonProxy {
 		fluidOil.setBlock(PolycraftMod.blockOil);
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
-			if ("Bucket (Crude Oil)".equals(customObject)) {
+			if ("3m".equals(customObject.gameID)) {
 				final Item itemBucketOil = PolycraftMod.registerItem(customObject,
 						new PolycraftBucket(PolycraftMod.blockOil)
 								.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
@@ -255,46 +276,27 @@ public class CommonProxy {
 				BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, itemBucketOil);
 				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 			}
-			else if ("Flame Thrower".equals(customObject)) {
+			else if ("3n".equals(customObject.gameID)) {
 				PolycraftMod.registerItem(customObject, new ItemFlameThrower(customObject));
 			}
-			else if ("Jet Pack".equals(customObject)) {
+			else if ("3o".equals(customObject.gameID)) {
+				PolycraftMod.registerItem(customObject, new ItemFlashlight(customObject));
+			}
+			else if ("3p".equals(customObject.gameID)) {
 				PolycraftMod.registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if ("5a".equals(customObject.gameID)) {
+				PolycraftMod.registerItem(customObject, new ItemParachute(customObject));
+			}
+			else if ("3x".equals(customObject.gameID)) {
+				PolycraftMod.registerItem(customObject, new ItemScubaTank(customObject));
+			}
+			else if ("5b".equals(customObject.gameID)) {
+				PolycraftMod.registerItem(customObject, new ItemKevlarVest(customObject));
 			}
 			else
 				//TODO really should throw an exception if we don't have a true custom item (needed an implentation)
 				PolycraftMod.registerItem(customObject, new ItemCustom(customObject));
 		}
-
-		/*
-		PolycraftMod.registerItem(CustomObject.registry.get("Flashlight"),
-				new ItemFlashlight(
-						PolycraftMod.itemFlashlightMaxLightLevel,
-						PolycraftMod.itemFlashlightLightLevelDecreaseByDistance,
-						PolycraftMod.itemFlashlightViewingConeAngle));
-						
-		PolycraftMod.registerItem(CustomObject.registry.get("Parachute"),
-				new ItemParachute(PolycraftMod.itemParachuteDescendVelocity));
-
-		PolycraftMod.registerItem(CustomObject.registry.get("Running Shoes"),
-				new ItemRunningShoes(PolycraftMod.itemRunningShoesWalkSpeedBuff));
-
-		PolycraftMod.registerItem(CustomObject.registry.get("Kevlar Vest"),
-				new ItemKevlarVest());
-
-		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Tank"),
-				new ItemScubaTank(
-						PolycraftMod.itemScubaTankAirUnitsFull,
-						PolycraftMod.itemScubaTankAirUnitsConsumePerTick));
-
-		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Mask"),
-				new ItemScubaMask(
-						PolycraftMod.itemScubaMaskFogDensity));
-
-		PolycraftMod.registerItem(CustomObject.registry.get("Scuba Fins"),
-				new ItemScubaFins(
-						PolycraftMod.itemScubaFinsSwimSpeedBuff,
-						PolycraftMod.itemScubaFinsWalkSpeedBuff));
-		*/
 	}
 }

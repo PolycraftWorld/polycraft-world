@@ -8,7 +8,8 @@ import com.google.common.base.Preconditions;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 
-public class ItemMoldedItem extends Item implements PolycraftItem {
+public class ItemMoldedItem extends Item implements PolycraftItem, PolycraftMoldedItem {
+
 	public final MoldedItem moldedItem;
 
 	public ItemMoldedItem(final MoldedItem moldedItem) {
@@ -20,6 +21,11 @@ public class ItemMoldedItem extends Item implements PolycraftItem {
 
 	@Override
 	public ItemCategory getCategory() {
-		return ItemCategory.ITEMS_MOLD;
+		return ItemCategory.ITEMS_MOLDED_ITEM;
+	}
+
+	@Override
+	public MoldedItem getMoldedItem() {
+		return moldedItem;
 	}
 }

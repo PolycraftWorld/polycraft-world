@@ -1,12 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.inventory.heated;
 
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,6 +19,9 @@ import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
@@ -26,6 +33,8 @@ public abstract class HeatedInventory extends PolycraftInventory {
 		HeatSourceIntensity, //How intense the current heat source is
 		ProcessingTicks //The number of ticks the current recipe has been processed
 	}
+
+	protected static Random random = new Random();
 
 	private final Map<State, Integer> stateValues = Maps.newHashMap();
 
@@ -52,8 +61,6 @@ public abstract class HeatedInventory extends PolycraftInventory {
 	protected abstract int getProcessingHeatIntensityForCurrentInputs(final boolean min);
 
 	protected abstract int getTotalProcessingTicksForCurrentInputs();
-
-	protected abstract void finishProcessing();
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
@@ -167,4 +174,23 @@ public abstract class HeatedInventory extends PolycraftInventory {
 		if (isDirty)
 			markDirty();
 	}
+
+	protected void finishProcessing() {
+		Set<RecipeComponent> inputs = getMaterials();
+		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, inputs);
+		if (recipe != null) {
+			for (final RecipeComponent output : recipe.getOutputs()) {
+				if (getStackInSlot(output.slot) == null)
+					setStackInSlot(output.slot, output.itemStack.copy());
+				else
+					getStackInSlot(output.slot).stackSize += output.itemStack.stackSize;
+
+			}
+			final Set<RecipeInput> usedInputs = Sets.newHashSet();
+			for (final RecipeComponent input : ImmutableList.copyOf(inputs))
+				finishProcessingInput(input.slot.getSlotIndex(), getStackInSlot(input.slot), recipe.getItemstackForInput(input, usedInputs));
+		}
+	}
+
+	protected abstract void finishProcessingInput(final int slotIndex, final ItemStack actualInput, final ItemStack recipeInput);
 }

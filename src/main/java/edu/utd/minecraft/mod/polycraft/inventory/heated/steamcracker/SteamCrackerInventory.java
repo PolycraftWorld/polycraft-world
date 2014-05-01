@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn;
+package edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker;
 
 import java.util.List;
 import java.util.Random;
@@ -19,11 +19,12 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedGui;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 
-public class DistillationColumnInventory extends HeatedInventory {
+public class SteamCrackerInventory extends HeatedInventory {
 
 	private static Random random = new Random();
 
-	private static int slotIndexInput;
+	private static int slotIndexInput1;
+	private static int slotIndexInput2;
 	private static int slotIndexCoolingWater;
 	private static int slotIndexHeatingWater;
 	private static int slotIndexHeatSource;
@@ -31,9 +32,10 @@ public class DistillationColumnInventory extends HeatedInventory {
 	private static int slotIndexLastOutput;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 26, 0));
-		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.INPUT, 1, 0, 62, 18)); //cooling water
-		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.INPUT, 2, 0, 62, 54)); //heating water
+		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput1 = guiSlots.size(), 0, 0, 17, 0));
+		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput2 = guiSlots.size(), 1, 0, 17, 0));
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.INPUT, 2, 0, 62, 18)); //cooling water
+		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.INPUT, 3, 0, 62, 54)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 26, 54)); //heat source
 		slotIndexFirstOutput = guiSlots.size();
 		for (int y = 0; y < 3; y++)
@@ -45,12 +47,12 @@ public class DistillationColumnInventory extends HeatedInventory {
 	private static Inventory config;
 
 	public static final void register(final Inventory config) {
-		DistillationColumnInventory.config = config;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, DistillationColumnInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		SteamCrackerInventory.config = config;
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, SteamCrackerInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 
-	public DistillationColumnInventory() {
-		super(PolycraftContainerType.DISTILLATION_COLUMN, config, slotIndexHeatSource, 84);
+	public SteamCrackerInventory() {
+		super(PolycraftContainerType.STEAM_CRACKER, config, slotIndexHeatSource, 84);
 	}
 
 	@Override

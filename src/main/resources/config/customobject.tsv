@@ -2,11 +2,12 @@ Game ID	Custom Item	Type	Level	First Release	Notes	Parameter names 	P1	P2	P3	P4	
 3l	Metal Screw	PC Item	2	TRUE											
 3m	Bucket (Crude Oil)	PC Item	1	TRUE											
 3n	Flame Thrower	Weapon	7	TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
-3o	Flashlight	Utility		TRUE											
+3o	Flashlight	Utility		TRUE		MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
 3p	Jet Pack	Armor		TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, FlySpeedBuff	5000	1	1.5						
+5a	Parachute					DescendVelocity	-0.3								
 3q	Laser	Tool		TRUE											
 3r	Phase Shifter	Tool	7	TRUE											
-3x	Scuba Tank	Armor		TRUE											
+3x	Scuba Tank	Armor		TRUE		AirUnitsFull, AirUnitsConsumePerTick	5000	1							
 3A	Wetsuit	Armor		TRUE											
 3C	Structural Truss	PC Block		TRUE											
 3G	Barley	Food		TRUE											
@@ -19,3 +20,4 @@ Game ID	Custom Item	Type	Level	First Release	Notes	Parameter names 	P1	P2	P3	P4	
 3S	Trampoline Mesh	PC Item		TRUE											
 3T	Trampoline	PC Block		TRUE											
 3X	Gas Mantle	PC Item	4	TRUE											
+5b	Kevlar Vest					armorBuffOverDiamond	1.5								

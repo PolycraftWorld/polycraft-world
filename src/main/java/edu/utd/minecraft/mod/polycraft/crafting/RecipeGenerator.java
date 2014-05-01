@@ -106,10 +106,9 @@ public class RecipeGenerator {
 			}
 		}
 
-		//TODO need to register non generic versions for items that do things (like running shoes, scuba fins, etc)
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
 			PolycraftMod.recipeManager.addShapedRecipe(
-					PolycraftContainerType.INJECTION_MOLDER,
+					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 					moldedItem.getItemStack(),
 					new String[] { "xyz" },
 					ImmutableMap.of(
@@ -129,8 +128,6 @@ public class RecipeGenerator {
 						PolycraftContainerType.CRAFTING_TABLE,
 						pogoStick.getItemStack(),
 						ImmutableList.of(new ItemStack(PolycraftMod.getItem(pogoStick.source.name)), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
-
-		//TODO extrude
 	}
 
 	private static void generateFileRecipes(final String directory) {
@@ -306,19 +303,27 @@ public class RecipeGenerator {
 	private static void generateFileRecipesCrack(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "crack")) {
 			final int chain = Integer.parseInt(line[0]); //TODO need to use? not sure how...
-			final String inputItemName = line[3];
-			final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, Integer.parseInt(line[4]));
-			if (inputItemStack == null) {
-				logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
+
+			final String inputItemName1 = line[3];
+			final ItemStack inputItemStack1 = PolycraftMod.getItemStack(inputItemName1, Integer.parseInt(line[4]));
+			if (inputItemStack1 == null) {
+				logger.warn("Unable to find input item for cracking recipe: {}", inputItemName1);
+				continue;
+			}
+
+			final String inputItemName2 = line[5];
+			final ItemStack inputItemStack2 = PolycraftMod.getItemStack(inputItemName2, Integer.parseInt(line[6]));
+			if (inputItemStack2 == null) {
+				logger.warn("Unable to find input item for cracking recipe: {}", inputItemName2);
 				continue;
 			}
 
 			List<ItemStack> outputItems = Lists.newArrayList();
-			for (int i = 5; i < line.length - 1; i += 2) {
+			for (int i = 7; i < line.length - 1; i += 2) {
 				final String outputItemName = line[i];
 				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 				if (outputItemStack == null) {
-					logger.warn("Unable to find output item for cracking recipe ({}): {}", inputItemName, outputItemName);
+					logger.warn("Unable to find output item for cracking recipe ({}): {}", inputItemName1, outputItemName);
 					outputItems = null;
 					break;
 				}
@@ -329,7 +334,15 @@ public class RecipeGenerator {
 			if (outputItems == null)
 				continue;
 
-			//PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.STEAM_CRACKER, ImmutableList.of(inputItemStack), outputItems);
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.STEAM_CRACKER,
+					outputItems,
+					new String[] { "wxyz" },
+					ImmutableMap.of(
+							'w', inputItemStack1,
+							'x', inputItemStack2,
+							'y', new ItemStack(Items.water_bucket),
+							'z', new ItemStack(Items.water_bucket)));
 		}
 	}
 
@@ -337,15 +350,21 @@ public class RecipeGenerator {
 		final ItemStack[] dirtOutputs = new ItemStack[] {
 				new ItemStack(Blocks.dirt, 64),
 				new ItemStack(Blocks.crafting_table),
+				MoldedItem.registry.get("Running Shoes (PolyIsoPrene)").getItemStack(),
+				MoldedItem.registry.get("Running Shoes (Low Density PolyEthylene)").getItemStack(),
+				MoldedItem.registry.get("Scuba Fins (PolyIsoPrene)").getItemStack(),
+				MoldedItem.registry.get("Scuba Mask (PolyIsoPrene)").getItemStack(),
+				CustomObject.registry.get("Flame Thrower").getItemStack(),
+				CustomObject.registry.get("Jet Pack").getItemStack(),
+				CustomObject.registry.get("Scuba Tank").getItemStack(),
+				CustomObject.registry.get("Parachute").getItemStack(),
+				CustomObject.registry.get("Kevlar Vest").getItemStack(),
+				CustomObject.registry.get("Flashlight").getItemStack(),
 				Inventory.registry.get("Injection Molder").getItemStack(),
 				PolymerPellets.registry.get("Vial (PolyIsoPrene Pellets)").getItemStack(),
 				Mold.registry.get("Mold (Grip)").getItemStack(),
 				new ItemStack(Items.water_bucket),
 				new ItemStack(Items.coal, 64),
-				CustomObject.registry.get("Flame Thrower").getItemStack(),
-				CustomObject.registry.get("Jet Pack").getItemStack(),
-				CustomObject.registry.get("Scuba Tank").getItemStack(),
-				CustomObject.registry.get("Flashlight").getItemStack(),
 				//PolymerSlab.registry.get("Slab (PolyIsoPrene)").getItemStack(),
 				//PolymerBlock.registry.get("Block (PolyIsoPrene)").getItemStack(),
 				//new ItemStack(PolycraftMod.getItem("Gripped Diamond Pogo Stick")),
