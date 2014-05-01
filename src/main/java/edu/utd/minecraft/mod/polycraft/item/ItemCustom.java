@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 
 import com.google.common.base.Preconditions;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 
 public class ItemCustom extends Item implements PolycraftItem {
@@ -13,7 +14,7 @@ public class ItemCustom extends Item implements PolycraftItem {
 	public ItemCustom(final CustomObject config) {
 		Preconditions.checkNotNull(config);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		//TODO read from config this.setTextureName(PolycraftMod.getAssetName("custom"));
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
 		this.config = config;
 	}
 
