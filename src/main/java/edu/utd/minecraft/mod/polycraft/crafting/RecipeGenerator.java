@@ -294,7 +294,7 @@ public class RecipeGenerator {
 
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.DISTILLATION_COLUMN,
-					outputItems.get(0), //TODO need multi-output option
+					outputItems,
 					new String[] { "xyz" },
 					ImmutableMap.of(
 							'x', inputItemStack,

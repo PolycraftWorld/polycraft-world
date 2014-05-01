@@ -25,9 +25,9 @@ public class MachiningMillInventory extends PolycraftInventory {
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		//5x5 input grid
-		for (int row = 0; row < 5; row++)
-			for (int col = 0; col < 5; col++)
-				guiSlots.add(GuiContainerSlot.createInput(guiSlots.size(), row, col, 8, 0));
+		for (int y = 0; y < 5; y++)
+			for (int x = 0; x < 5; x++)
+				guiSlots.add(GuiContainerSlot.createInput(guiSlots.size(), x, y, 8, 0));
 		//cooling water
 		guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.INPUT, 0, 5, 116, 90));
 		//output

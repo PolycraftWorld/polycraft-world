@@ -43,8 +43,8 @@ public class DistillationColumnInventory extends HeatedInventory {
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.INPUT, 2, 0, 62, 54)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 26, 54)); //heat source
 		slotIndexFirstOutput = guiSlots.size();
-		for (int x = 0; x < 3; x++)
-			for (int y = 0; y < 3; y++)
+		for (int y = 0; y < 3; y++)
+			for (int x = 0; x < 3; x++)
 				guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.OUTPUT, x, y, 116 + x * 18, 18 + y * 18)); //output
 		slotIndexLastOutput = guiSlots.size() - 1;
 	}
