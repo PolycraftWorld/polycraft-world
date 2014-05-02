@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPhaseShifterBoundary;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -67,6 +68,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
+import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
@@ -257,6 +259,8 @@ public class CommonProxy {
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
 
+		PolycraftMod.registerBlock(InternalObject.registry.get("Phase Shifter Boundary"), new BlockPhaseShifterBoundary());
+
 		PolycraftMod.blockOil = PolycraftMod.registerBlock(oil,
 				new BlockFluid(fluidOil, Material.water)
 						.setFlammable(true)
@@ -287,6 +291,9 @@ public class CommonProxy {
 			}
 			else if ("5a".equals(customObject.gameID)) {
 				PolycraftMod.registerItem(customObject, new ItemParachute(customObject));
+			}
+			else if ("3r".equals(customObject.gameID)) {
+				PolycraftMod.registerItem(customObject, new ItemPhaseShifter(customObject));
 			}
 			else if ("3x".equals(customObject.gameID)) {
 				PolycraftMod.registerItem(customObject, new ItemScubaTank(customObject));

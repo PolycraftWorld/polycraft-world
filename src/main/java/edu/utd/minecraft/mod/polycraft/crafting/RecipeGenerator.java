@@ -350,6 +350,8 @@ public class RecipeGenerator {
 		final ItemStack[] dirtOutputs = new ItemStack[] {
 				new ItemStack(Blocks.dirt, 64),
 				new ItemStack(Blocks.crafting_table),
+				CustomObject.registry.get("Phase Shifter").getItemStack(),
+				MoldedItem.registry.get("Life Preserver (PolyIsoPrene)").getItemStack(),
 				MoldedItem.registry.get("Running Shoes (PolyIsoPrene)").getItemStack(),
 				MoldedItem.registry.get("Running Shoes (Low Density PolyEthylene)").getItemStack(),
 				MoldedItem.registry.get("Scuba Fins (PolyIsoPrene)").getItemStack(),

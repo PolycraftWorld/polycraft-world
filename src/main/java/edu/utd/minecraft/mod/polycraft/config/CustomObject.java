@@ -42,6 +42,10 @@ public class CustomObject extends GameIdentifiedConfig {
 		return new ItemStack(PolycraftMod.getItem(this), size);
 	}
 
+	public String getParamString(final int index) {
+		return params.get(index);
+	}
+
 	public int getParamInteger(final int index) {
 		return Integer.parseInt(params.get(index));
 	}
