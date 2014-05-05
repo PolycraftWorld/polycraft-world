@@ -40,6 +40,9 @@ public abstract class HeatedInventory extends PolycraftInventory {
 
 	private final int heatSourceSlotIndex;
 	private final int playerInventoryOffset;
+	private final int defaultProcessingTicks;
+	private final int defaultHeatIntensityMin;
+	private final int defaultHeatIntensityMax;
 
 	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int heatSourceSlotIndex) {
 		this(containerType, config, heatSourceSlotIndex, 0);
@@ -51,16 +54,20 @@ public abstract class HeatedInventory extends PolycraftInventory {
 		this.playerInventoryOffset = playerInventoryOffset;
 		for (final State state : State.values())
 			setState(state, 0);
+		this.defaultProcessingTicks = (config.params == null) ? 0 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(0));
+		this.defaultHeatIntensityMin = (config.params == null) ? 0 : config.params.getInt(1);
+		this.defaultHeatIntensityMax = (config.params == null) ? 0 : config.params.getInt(2);
 	}
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);
 
-	/*
-	 * min = true should return min, otherwise max
-	 */
-	protected abstract int getProcessingHeatIntensityForCurrentInputs(final boolean min);
+	protected int getTotalProcessingTicksForCurrentInputs() {
+		return defaultProcessingTicks;
+	}
 
-	protected abstract int getTotalProcessingTicksForCurrentInputs();
+	protected int getProcessingHeatIntensityForCurrentInputs(final boolean min) {
+		return min ? defaultHeatIntensityMin : defaultHeatIntensityMax;
+	}
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {

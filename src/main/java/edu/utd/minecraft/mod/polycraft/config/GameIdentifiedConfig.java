@@ -11,6 +11,11 @@ public abstract class GameIdentifiedConfig<S extends Config> extends Config {
 		this.gameID = gameID;
 	}
 
+	public GameIdentifiedConfig(final String gameID, final String name, final String[] params, final int paramsOffset) {
+		super(name, params, paramsOffset);
+		this.gameID = gameID;
+	}
+
 	public ItemStack getItemStack() {
 		return getItemStack(1);
 	}

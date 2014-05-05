@@ -21,9 +21,9 @@ public class ItemJetPack extends PolycraftArmorChest {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getAssetName("jet_pack"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
-		this.fuelUnitsFull = config.getParamInteger(0);
-		this.fuelUnitsBurnPerTick = config.getParamInteger(1);
-		this.flySpeedBuff = config.getParamFloat(2);
+		this.fuelUnitsFull = config.params.getInt(0);
+		this.fuelUnitsBurnPerTick = config.params.getInt(1);
+		this.flySpeedBuff = config.params.getFloat(2);
 	}
 
 	@Override

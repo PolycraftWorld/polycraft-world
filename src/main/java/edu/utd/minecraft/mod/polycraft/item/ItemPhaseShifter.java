@@ -15,8 +15,8 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 		this.setTextureName(PolycraftMod.getAssetName("phase_shifter"));
 		this.setCreativeTab(CreativeTabs.tabTools);
 
-		this.radius = config.getParamInteger(0);
-		this.flySpeedBuff = config.getParamFloat(1);
-		this.boundaryBlock = PolycraftMod.getBlock(config.getParamString(2));
+		this.radius = config.params.getInt(0);
+		this.flySpeedBuff = config.params.getFloat(1);
+		this.boundaryBlock = PolycraftMod.getBlock(config.params.get(2));
 	}
 }

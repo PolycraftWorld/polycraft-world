@@ -18,8 +18,8 @@ public class ItemScubaFins extends PolycraftArmorFeet implements PolycraftMolded
 		this.setTextureName(PolycraftMod.getAssetName("scuba_fins"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.moldedItem = moldedItem;
-		this.swimSpeedBuff = moldedItem.getParamFloat(0);
-		this.walkSpeedBuff = moldedItem.getParamFloat(1);
+		this.swimSpeedBuff = moldedItem.params.getFloat(0);
+		this.walkSpeedBuff = moldedItem.params.getFloat(1);
 	}
 
 	@Override

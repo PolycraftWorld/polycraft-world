@@ -12,8 +12,8 @@ public class ItemFlashlight extends PolycraftUtilityItem {
 	public ItemFlashlight(final CustomObject config) {
 		this.setTextureName(PolycraftMod.getAssetName("flashlight"));
 		this.setCreativeTab(CreativeTabs.tabTools);
-		this.maxLightLevel = config.getParamInteger(0);
-		this.lightLevelDecreaseByDistance = config.getParamFloat(1);
-		this.viewingConeAngle = config.getParamInteger(2);
+		this.maxLightLevel = config.params.getInt(0);
+		this.lightLevelDecreaseByDistance = config.params.getFloat(1);
+		this.viewingConeAngle = config.params.getInt(2);
 	}
 }

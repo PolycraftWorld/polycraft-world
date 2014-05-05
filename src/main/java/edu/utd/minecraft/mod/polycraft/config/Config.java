@@ -16,12 +16,18 @@ public abstract class Config {
 	}
 
 	public final String name;
+	public final ConfigParams params;
 
 	public Config(final String name) {
+		this(name, null, 0);
+	}
+
+	public Config(final String name, final String[] params, final int paramsOffset) {
 		if (name == null || name.length() == 0) {
 			throw new IllegalArgumentException("name");
 		}
 		this.name = name;
+		this.params = (params == null || params.length <= paramsOffset) ? null : new ConfigParams(params, paramsOffset);
 	}
 
 	public static void registerFromResources(final String directory) {

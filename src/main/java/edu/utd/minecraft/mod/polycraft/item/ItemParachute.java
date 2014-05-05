@@ -11,6 +11,6 @@ public class ItemParachute extends PolycraftUtilityItem {
 	public ItemParachute(final CustomObject config) {
 		this.setTextureName(PolycraftMod.getAssetName("parachute"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
-		this.descendVelocity = config.getParamFloat(0);
+		this.descendVelocity = config.params.getFloat(0);
 	}
 }

@@ -11,7 +11,7 @@ import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 public class ItemKevlarVest extends PolycraftArmorChest {
 
 	private static ArmorMaterial getArmorMaterial(final CustomObject config) {
-		final float kevlarArmorBuffPercent = config.getParamFloat(0);
+		final float kevlarArmorBuffPercent = config.params.getFloat(0);
 		final int[] kevlarArmorReductionAmounts = new int[] {
 				(int) (3 * kevlarArmorBuffPercent),
 				(int) (8 * kevlarArmorBuffPercent),

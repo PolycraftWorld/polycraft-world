@@ -75,16 +75,15 @@ public class PolycraftMod {
 	public static final int oilFluidViscosity = 1500;
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
-	public static final int treeTapSpawnRateNaturalRubber = 1000; //in ticks
 	public static final String[] recipeCompressedBlockFromItems = new String[] { "xxx", "xxx", "xxx" };
 	public static final int recipeItemsPerCompressedBlock = 9;
-	public static final int recipePolymerPelletsPerBlock = 4;
+	public static final int recipePolymerPelletsPerBlock = 1; //TODO change back to 4 after we fix the furnace
 	public static final int recipeSmallerVesselsPerLargerVessel = 64;
 	public static final int recipeGripsPerTool = 1;
 	public static final int recipeGripsPerPogoStick = 2;
 	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
 	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
-	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amound of damage the pogo stick will absorb if the max fall height is exceded
+	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amount of damage the pogo stick will absorb if the max fall height is exceded
 	public static final ArmorMaterial armorMaterialNone = EnumHelper.addArmorMaterial("none", 0, new int[] { 0, 0, 0, 0 }, 0);
 
 	public static BiomeGenOilDesert biomeOilDesert;

@@ -142,7 +142,6 @@ public class RecipeGenerator {
 		final char[] shapedIdentifiers = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "craft")) {
 			if (line.length > 3) {
-				final boolean scalable = Boolean.parseBoolean(line[0]); // TODO need to use? not sure how to not be scalable...
 				final boolean shapeless = Boolean.parseBoolean(line[1]);
 				final String outputItemName = line[3];
 				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, Integer.parseInt(line[4]));
@@ -223,15 +222,15 @@ public class RecipeGenerator {
 		int currentRow = 0;
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "mill")) {
 			if (line.length > 0) {
-				if (currentMold == null || currentRow == 5) {
-					currentMold = Mold.registry.get(line[0]);
+				if (currentMold == null || currentRow == 5 && line.length > 1) {
+					currentMold = Mold.registry.get(line[1]);
 					currentMoldShape = new String[6];
 					currentRow = 0;
 				}
 				if (currentMold != null) {
 					final StringBuffer currentMoldShapeRow = new StringBuffer();
 					for (int i = 0; i < 5; i++) {
-						final int index = 1 + i;
+						final int index = 2 + i;
 						char moldSlot = ' ';
 						if (line.length > index && !line[index].trim().isEmpty())
 							moldSlot = line[index].trim().charAt(0);
@@ -265,7 +264,6 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesDistill(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "distill")) {
-			final boolean stackable = Boolean.parseBoolean(line[1]); // TODO need to use? not sure how to not be stackable...
 			final String inputItemName = line[4];
 			final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, Integer.parseInt(line[5]));
 			if (inputItemStack == null) {
@@ -302,8 +300,6 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesCrack(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "crack")) {
-			final int chain = Integer.parseInt(line[0]); // TODO need to use? not sure how...
-
 			final String inputItemName1 = line[3];
 			final ItemStack inputItemStack1 = PolycraftMod.getItemStack(inputItemName1, Integer.parseInt(line[4]));
 			if (inputItemStack1 == null) {

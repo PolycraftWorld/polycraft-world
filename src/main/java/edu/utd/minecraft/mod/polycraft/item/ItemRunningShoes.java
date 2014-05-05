@@ -15,8 +15,9 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements PolycraftMol
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
 		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(moldedItem.source.polymerObject.name)));
 		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(moldedItem.params.getInt(1) * 60));
 		this.moldedItem = moldedItem;
-		this.walkSpeedBuff = moldedItem.getParamFloat(0);
+		this.walkSpeedBuff = moldedItem.params.getFloat(0);
 	}
 
 	@Override

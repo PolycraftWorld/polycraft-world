@@ -1,14 +1,8 @@
-Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon Down	Icon Up	Icon North	Icon South	Icon West	Icon East	Icon Default	Icon Front
-3h	1F	Tree Tap	0	2000									
-3i	1G	Machining Mill	1	2001	front		top					side	front
-3j	1E	Extruder	2	2002	front		top					side	front
-3k	1H	Injection Molder	3	2003	front		top					side	front
-3D	1I	Steam Cracker	4	2004	front		top					side	front
-3E	1J	Distillation Column	5	2005	front		top					side	front
-3F	1K	Industrial Oven	6	2006									
-3J	1L	Fracker	7	2007									
-3K	3Y	Oil Derrick	8	2008									
-3L	3Z	Plastic Chest	9	2009									
-3V	40	Small Gas Lamp	10	2010									
-3W	41	Large Gas Lamp	11	2011									
-4v	4w	Wine Press	12	2012									
+Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon Down	Icon Up	Icon North	Icon South	Icon West	Icon East	Icon Default	Icon Front	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
+3h	1F	Tree Tap	0	2000										PolymerToSpawn, AmountToSpawn, DefaultSpawnFreq (sec), JungleSpawnFreq (sec) 	Vial (PolyIsoPrene Pellets)	1	100	10					
+3i	1G	Machining Mill	1	2001	front		top					side	front										
+3j	1E	Extruder	2	2002	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax 	8	1	10						
+3k	1H	Injection Molder	3	2003	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax 	8	1	10						
+3D	1I	Steam Cracker	4	2004	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax 	8	1	10						
+3E	1J	Distillation Column	5	2005	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax 	8	1	10						
+3F	1K	Industrial Oven	6	2006																			

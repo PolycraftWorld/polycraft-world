@@ -49,13 +49,20 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	private static final int[][] tappedCoordOffsets = new int[][] { new int[] { 1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1 }, new int[] { -1, 0 } };
-	private static PolymerPellets polymerPellets = null;
 
 	private int transferCooldown = -1;
-	private int spawnAttemptsNaturalRubber = -1;
+	private int spawnAttempts = -1;
+	private final PolymerPellets polymerPelletsToSpawn;
+	private final int amountToSpawn;
+	private final int defaultSpawnFrequencyTicks;
+	private final int jungleSpawnFrequencyTicks;
 
 	public TreeTapInventory() {
 		super(PolycraftContainerType.TREE_TAP, config);
+		this.polymerPelletsToSpawn = PolymerPellets.registry.get(config.params.get(0));
+		this.amountToSpawn = config.params.getInt(1);
+		this.defaultSpawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(2));
+		this.jungleSpawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(3));
 	}
 
 	@Override
@@ -73,14 +80,14 @@ public class TreeTapInventory extends PolycraftInventory {
 	public void readFromNBT(NBTTagCompound p_145839_1_) {
 		super.readFromNBT(p_145839_1_);
 		this.transferCooldown = p_145839_1_.getInteger("TransferCooldown");
-		this.spawnAttemptsNaturalRubber = p_145839_1_.getInteger("SpawnAttemptsNaturalRubber");
+		this.spawnAttempts = p_145839_1_.getInteger("SpawnAttempts");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound p_145841_1_) {
 		super.writeToNBT(p_145841_1_);
 		p_145841_1_.setInteger("TransferCooldown", this.transferCooldown);
-		p_145841_1_.setInteger("SpawnAttemptsNaturalRubber", this.spawnAttemptsNaturalRubber);
+		p_145841_1_.setInteger("SpawnAttempts", this.spawnAttempts);
 	}
 
 	@Override
@@ -96,20 +103,20 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	private ItemStack getNextTappedItem() {
-		if (spawnAttemptsNaturalRubber++ >= PolycraftMod.treeTapSpawnRateNaturalRubber) {
-			spawnAttemptsNaturalRubber = 0;
-			for (final int[] tappedCoordOffset : tappedCoordOffsets) {
-				final int x = xCoord + tappedCoordOffset[0];
-				final int z = zCoord + tappedCoordOffset[1];
-				Block treeBlock = getWorldObj().getBlock(x, yCoord, z);
-				//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
-				if (treeBlock != null && treeBlock instanceof BlockOldLog && getWorldObj().getBlockMetadata(x, yCoord, z) == 3) {
-					if (polymerPellets == null)
-						polymerPellets = PolymerPellets.registry.get("Pellets (PolyIsoPrene)");
-					return polymerPellets.getItemStack();
+		for (final int[] tappedCoordOffset : tappedCoordOffsets) {
+			final int x = xCoord + tappedCoordOffset[0];
+			final int z = zCoord + tappedCoordOffset[1];
+			final Block treeBlock = getWorldObj().getBlock(x, yCoord, z);
+			//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
+			if (treeBlock != null && treeBlock instanceof BlockOldLog) {
+				if (spawnAttempts++ >= (getWorldObj().getBlockMetadata(x, yCoord, z) == 3 ? jungleSpawnFrequencyTicks : defaultSpawnFrequencyTicks)) {
+					spawnAttempts = 0;
+					return polymerPelletsToSpawn.getItemStack(amountToSpawn);
 				}
+				return null;
 			}
 		}
+		spawnAttempts = 0;
 		return null;
 	}
 

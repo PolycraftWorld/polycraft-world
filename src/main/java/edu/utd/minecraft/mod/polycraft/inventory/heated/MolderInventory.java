@@ -76,8 +76,6 @@ public abstract class MolderInventory extends HeatedInventory {
 
 	@Override
 	protected int getProcessingHeatIntensityForCurrentInputs(final boolean min) {
-		if (!canProcess())
-			return 0;
 		final PolymerPellets polymerPellets = ((ItemPellets) getStackInSlot(slotIndexInput).getItem()).polymerPellets;
 		return min ? polymerPellets.craftingMinHeatIntensity : polymerPellets.craftingMaxHeatIntensity;
 	}
@@ -89,6 +87,8 @@ public abstract class MolderInventory extends HeatedInventory {
 			if (slotIndex == slotIndexMold) {
 				//damage molds
 				actualInput.attemptDamageItem(ItemMold.getDamagePerUse(actualInput), random);
+				if (actualInput.getItemDamage() == actualInput.getMaxDamage())
+					setInventorySlotContents(slotIndex, null);
 			}
 			else {
 				//use up regular inputs (pellets)
