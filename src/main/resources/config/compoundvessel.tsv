@@ -1,18 +1,18 @@
 Game ID	Compound Vessel	Compound Name	Vessel Type
 1M	Beaker (Crude Oil)	Crude Oil	Beaker
-1N	Pale (Crude Oil)	Crude Oil	Pale
+1N	Pail (Crude Oil)	Crude Oil	Pail
 1O	Drum (Crude Oil)	Crude Oil	Drum
 1P	Beaker (Naphthalene)	Naphthalene	Beaker
-1Q	Pale (Naphthalene)	Naphthalene	Pale
+1Q	Pail (Naphthalene)	Naphthalene	Pail
 1R	Drum (Naphthalene)	Naphthalene	Drum
 1S	Beaker (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Beaker
-1T	Pale (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Pale
+1T	Pail (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Pail
 1U	Drum (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Drum
 1V	Beaker (Gas Oil)	Gas Oil	Beaker
-1W	Pale (Gas Oil)	Gas Oil	Pale
+1W	Pail (Gas Oil)	Gas Oil	Pail
 1X	Drum (Gas Oil)	Gas Oil	Drum
 22	Beaker (NeoPentane)	NeoPentane	Beaker
-23	Pale (NeoPentane)	NeoPentane	Pale
+23	Pail (NeoPentane)	NeoPentane	Pail
 24	Drum (NeoPentane)	NeoPentane	Drum
 25	Flask (Methane)	Methane	Flask
 26	Cartridge (Methane)	Methane	Cartridge
@@ -26,86 +26,86 @@ Game ID	Compound Vessel	Compound Name	Vessel Type
 2e	Flask (Butane Isomers)	Butane Isomers	Flask
 2f	Cartridge (Butane Isomers)	Butane Isomers	Cartridge
 2g	Canister (Butane Isomers)	Butane Isomers	Canister
-2h	Beaker (Peracetic Acid)	Peracetic Acid	Beaker
-2i	Pale (Peracetic Acid)	Peracetic Acid	Pale
-2j	Drum (Peracetic Acid)	Peracetic Acid	Drum
+2h	Beaker (Pentane Isomers)	Pentane Isomers	Beaker
+2i	Pail (Pentane Isomers)	Pentane Isomers	Pail
+2j	Drum (Pentane Isomers)	Pentane Isomers	Drum
 2k	Beaker (Hexane Isomers)	Hexane Isomers	Beaker
-2l	Pale (Hexane Isomers)	Hexane Isomers	Pale
+2l	Pail (Hexane Isomers)	Hexane Isomers	Pail
 2m	Drum (Hexane Isomers)	Hexane Isomers	Drum
 2n	Beaker (Light Naphtha)	Light Naphtha	Beaker
-2o	Pale (Light Naphtha)	Light Naphtha	Pale
+2o	Pail (Light Naphtha)	Light Naphtha	Pail
 2p	Drum (Light Naphtha)	Light Naphtha	Drum
 2q	Beaker (Heavy Naphtha)	Heavy Naphtha	Beaker
-2r	Pale (Heavy Naphtha)	Heavy Naphtha	Pale
+2r	Pail (Heavy Naphtha)	Heavy Naphtha	Pail
 2s	Drum (Heavy Naphtha)	Heavy Naphtha	Drum
 2t	Beaker (Light Naphthenes)	Light Naphthenes	Beaker
-2u	Pale (Light Naphthenes)	Light Naphthenes	Pale
+2u	Pail (Light Naphthenes)	Light Naphthenes	Pail
 2v	Drum (Light Naphthenes)	Light Naphthenes	Drum
 2w	Beaker (Light Olefins)	Light Olefins	Beaker
-2x	Pale (Light Olefins)	Light Olefins	Pale
+2x	Pail (Light Olefins)	Light Olefins	Pail
 2y	Drum (Light Olefins)	Light Olefins	Drum
 2z	Beaker (Light Parrafins)	Light Parrafins	Beaker
-2A	Pale (Light Parrafins)	Light Parrafins	Pale
+2A	Pail (Light Parrafins)	Light Parrafins	Pail
 2B	Drum (Light Parrafins)	Light Parrafins	Drum
 2C	Beaker (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Beaker
-2D	Pale (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Pale
+2D	Pail (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Pail
 2E	Drum (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Drum
 2F	Beaker (IsoButane)	IsoButane	Beaker
-2G	Pale (IsoButane)	IsoButane	Pale
+2G	Pail (IsoButane)	IsoButane	Pail
 2H	Drum (IsoButane)	IsoButane	Drum
 2I	Beaker (Naphtha)	Naphtha	Beaker
-2J	Pale (Naphtha)	Naphtha	Pale
+2J	Pail (Naphtha)	Naphtha	Pail
 2K	Drum (Naphtha)	Naphtha	Drum
 2L	Beaker (IsoPentane)	IsoPentane	Beaker
-2M	Pale (IsoPentane)	IsoPentane	Pale
+2M	Pail (IsoPentane)	IsoPentane	Pail
 2N	Drum (IsoPentane)	IsoPentane	Drum
 2O	Flask (Nitrogen Gas)	Nitrogen Gas	Flask
 2P	Cartridge (Nitrogen Gas)	Nitrogen Gas	Cartridge
 2Q	Canister (Nitrogen Gas)	Nitrogen Gas	Canister
 2R	Beaker (N-Pentane)	N-Pentane	Beaker
-2S	Pale (N-Pentane)	N-Pentane	Pale
+2S	Pail (N-Pentane)	N-Pentane	Pail
 2T	Drum (N-Pentane)	N-Pentane	Drum
 2U	Beaker (2-MethylPentane)	2-MethylPentane	Beaker
-2V	Pale (2-MethylPentane)	2-MethylPentane	Pale
+2V	Pail (2-MethylPentane)	2-MethylPentane	Pail
 2W	Drum (2-MethylPentane)	2-MethylPentane	Drum
 2X	Beaker (3-MethylPentane)	3-MethylPentane	Beaker
-2Y	Pale (3-MethylPentane)	3-MethylPentane	Pale
+2Y	Pail (3-MethylPentane)	3-MethylPentane	Pail
 2Z	Drum (3-MethylPentane)	3-MethylPentane	Drum
 30	Beaker (2,2-DiMethylButane)	2,2-DiMethylButane	Beaker
-31	Pale (2,2-DiMethylButane)	2,2-DiMethylButane	Pale
+31	Pail (2,2-DiMethylButane)	2,2-DiMethylButane	Pail
 32	Drum (2,2-DiMethylButane)	2,2-DiMethylButane	Drum
 33	Beaker (2,3-DiMethylButane)	2,3-DiMethylButane	Beaker
-34	Pale (2,3-DiMethylButane)	2,3-DiMethylButane	Pale
+34	Pail (2,3-DiMethylButane)	2,3-DiMethylButane	Pail
 35	Drum (2,3-DiMethylButane)	2,3-DiMethylButane	Drum
 4x	Beaker (Fruit Brandy)	Fruit Brandy	Beaker
-4y	Pale (Fruit Brandy)	Fruit Brandy	Pale
+4y	Pail (Fruit Brandy)	Fruit Brandy	Pail
 4z	Drum (Fruit Brandy)	Fruit Brandy	Drum
 4A	Beaker (Vodka)	Vodka	Beaker
-4B	Pale (Vodka)	Vodka	Pale
+4B	Pail (Vodka)	Vodka	Pail
 4C	Drum (Vodka)	Vodka	Drum
 4D	Beaker (Gin)	Gin	Beaker
-4E	Pale (Gin)	Gin	Pale
+4E	Pail (Gin)	Gin	Pail
 4F	Drum (Gin)	Gin	Drum
 4G	Beaker (Tequila)	Tequila	Beaker
-4H	Pale (Tequila)	Tequila	Pale
+4H	Pail (Tequila)	Tequila	Pail
 4I	Drum (Tequila)	Tequila	Drum
 4J	Beaker (Rum)	Rum	Beaker
-4K	Pale (Rum)	Rum	Pale
+4K	Pail (Rum)	Rum	Pail
 4L	Drum (Rum)	Rum	Drum
 4M	Beaker (Whiskey)	Whiskey	Beaker
-4N	Pale (Whiskey)	Whiskey	Pale
+4N	Pail (Whiskey)	Whiskey	Pail
 4O	Drum (Whiskey)	Whiskey	Drum
 4P	Beaker (Carrot Wine)	Carrot Wine	Beaker
-4Q	Pale (Carrot Wine)	Carrot Wine	Pale
+4Q	Pail (Carrot Wine)	Carrot Wine	Pail
 4R	Drum (Carrot Wine)	Carrot Wine	Drum
 43	Beaker (Propylene)	Propylene	Beaker
-44	Pale (Propylene)	Propylene	Pale
+44	Pail (Propylene)	Propylene	Pail
 45	Drum (Propylene)	Propylene	Drum
-46	Beaker (Ethylene)	Ethylene	Beaker
-47	Pale (Ethylene)	Ethylene	Pale
-48	Drum (Ethylene)	Ethylene	Drum
+46	Flask (Ethylene)	Ethylene	Flask
+47	Cartridge (Ethylene)	Ethylene	Cartridge
+48	Canister (Ethylene)	Ethylene	Canister
 49	Beaker (Butylene isomers)	Butylene isomers	Beaker
-4a	Pale (Butylene isomers)	Butylene isomers	Pale
+4a	Pail (Butylene isomers)	Butylene isomers	Pail
 4b	Drum (Butylene isomers)	Butylene isomers	Drum
 4c	Flask (Hydrogen Gas)	Hydrogen Gas	Flask
 4d	Cartridge (Hydrogen Gas)	Hydrogen Gas	Cartridge
@@ -113,3 +113,4 @@ Game ID	Compound Vessel	Compound Name	Vessel Type
 4f	Flask (Carbon Dioxide)	Carbon Dioxide	Flask
 4g	Cartridge (Carbon Dioxide)	Carbon Dioxide	Cartridge
 4h	Canister (Carbon Dioxide)	Carbon Dioxide	Canister
+5f	Beaker (Para-Xylene)	Para-Xylene	Beaker

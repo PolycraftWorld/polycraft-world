@@ -1,51 +1,66 @@
-Item (x5)					
-Mold (Running Shoes)	x	x	x	x	x
-	x	x	x	x	x
-	x		x	x	x
-	x				x
-	x	x	x	x	x
-Mold (Scuba Mask)	x	x	x	x	x
-	x		x	x	x
-	x				x
-	x				x
-	x	x	x	x	x
-Mold (Gasket)	x	x	x	x	x
-	x				x
-	x		x		x
-	x	x	x	x	x
-	x	x	x	x	x
-Mold (Life Preserver)	x	x	x	x	x
-	x				x
-	x		x		x
-	x				x
-	x	x	x	x	x
-Metal Die (Fibers)	x				x
-			x		
-		x	x	x	
-			x		
-	x				x
-Mold (Grip)	x		x		x
-	x		x		x
-	x		x		x
-	x				x
-	x	x	x	x	x
-Metal Die (Tether)	x	x	x	x	x
-	x	x	x	x	x
-	x	x		x	x
-	x	x	x	x	x
-	x	x	x	x	x
-Metal Die (Cord)	x	x	x	x	x
-	x			x	x
-	x			x	x
-	x	x	x	x	x
-	x	x	x	x	x
-Metal Die (Hose)	x	x	x	x	x
-	x				x
-	x				x
-	x				x
-	x	x	x	x	x
-Metal Die (Large Pipe)					
-		x	x	x	
-		x	x	x	
-		x	x	x	
-					
+Level	Item (x5)					
+3	Mold (Running Shoes)	x	x	x	x	x
+		x	x	x	x	x
+		x		x	x	x
+		x				x
+		x	x	x	x	x
+3	Mold (Scuba Fins)	x	x	x	x	x
+		x		x	x	x
+		x				x
+		x				x
+		x	x	x	x	x
+3	Mold (Scuba Mask)	x	x	x	x	x
+		x				x
+		x		x		x
+		x	x	x	x	x
+		x	x	x	x	x
+3	Mold (Gasket)	x	x	x	x	x
+		x				x
+		x		x		x
+		x				x
+		x	x	x	x	x
+3	Mold (Life Preserver)	x				x
+				x		
+			x	x	x	
+				x		
+		x				x
+3	Mold (Grip)	x		x		x
+		x		x		x
+		x		x		x
+		x				x
+		x	x	x	x	x
+3	Metal Die (Tether)	x	x	x	x	x
+		x	x	x	x	x
+		x	x		x	x
+		x	x	x	x	x
+		x	x	x	x	x
+3	Metal Die (Cord)	x	x	x	x	x
+		x			x	x
+		x			x	x
+		x	x	x	x	x
+		x	x	x	x	x
+3	Metal Die (Hose)	x	x	x	x	x
+		x				x
+		x				x
+		x				x
+		x	x	x	x	x
+3	Metal Die (Large Pipe)					
+			x	x	x	
+			x	x	x	
+			x	x	x	
+						
+3	Metal Die (Fibers)	x	x	x	x	x
+		x		x		x
+		x	x	x	x	x
+		x		x		x
+		x	x	x	x	x
+3	Heat Fins	x		x		x
+		x		x		x
+		x		x		x
+		x	x	x	x	x
+		x	x	x	x	x
+						
+						
+						
+						
+						

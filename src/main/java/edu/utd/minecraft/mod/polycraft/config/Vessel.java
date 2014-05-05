@@ -9,10 +9,10 @@ public class Vessel {
 		Beaker(Matter.State.Liquid),
 		Flask(Matter.State.Gas),
 		Jar(Matter.State.Solid, Vial),
-		Pale(Matter.State.Liquid, Beaker),
+		Pail(Matter.State.Liquid, Beaker),
 		Cartridge(Matter.State.Gas, Flask),
 		Gaylord(Matter.State.Solid, Jar),
-		Drum(Matter.State.Liquid, Pale),
+		Drum(Matter.State.Liquid, Pail),
 		Canister(Matter.State.Gas, Drum);
 
 		public final Matter.State matterState;

@@ -56,7 +56,7 @@ public class RecipeGenerator {
 		}
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
-			//TODO furnace only uses one of the stack?
+			// TODO furnace only uses one of the stack?
 			PolycraftMod.recipeManager.addShapelessRecipe(
 					PolycraftContainerType.FURNANCE,
 					polymerBlock.getItemStack(),
@@ -70,7 +70,7 @@ public class RecipeGenerator {
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
-					polymerSlab.getItemStack(),
+					polymerSlab.getItemStack(6),
 					new String[] { "xxx", "   ", "   " },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
 
@@ -142,7 +142,7 @@ public class RecipeGenerator {
 		final char[] shapedIdentifiers = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "craft")) {
 			if (line.length > 3) {
-				final boolean scalable = Boolean.parseBoolean(line[0]); //TODO need to use? not sure how to not be scalable...
+				final boolean scalable = Boolean.parseBoolean(line[0]); // TODO need to use? not sure how to not be scalable...
 				final boolean shapeless = Boolean.parseBoolean(line[1]);
 				final String outputItemName = line[3];
 				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, Integer.parseInt(line[4]));
@@ -198,14 +198,14 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesSmelt(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "smelt")) {
-			if (line.length > 2) {
-				final String outputItemName = line[0];
+			if (line.length > 3) {
+				final String outputItemName = line[1];
 				final ItemStack outputItemStack = PolycraftMod.getItemStack(outputItemName, 1);
 				if (outputItemStack == null) {
 					logger.warn("Unable to find output item for smelting recipe: {}", outputItemName);
 					continue;
 				}
-				final String inputItemName = line[2];
+				final String inputItemName = line[3];
 				final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, 1);
 				if (inputItemStack == null) {
 					logger.warn("Unable to find input item for smelting recipe ({}): {}", outputItemName, inputItemName);
@@ -265,7 +265,7 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesDistill(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "distill")) {
-			final boolean stackable = Boolean.parseBoolean(line[1]); //TODO need to use? not sure how to not be stackable...
+			final boolean stackable = Boolean.parseBoolean(line[1]); // TODO need to use? not sure how to not be stackable...
 			final String inputItemName = line[4];
 			final ItemStack inputItemStack = PolycraftMod.getItemStack(inputItemName, Integer.parseInt(line[5]));
 			if (inputItemStack == null) {
@@ -302,7 +302,7 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesCrack(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "crack")) {
-			final int chain = Integer.parseInt(line[0]); //TODO need to use? not sure how...
+			final int chain = Integer.parseInt(line[0]); // TODO need to use? not sure how...
 
 			final String inputItemName1 = line[3];
 			final ItemStack inputItemStack1 = PolycraftMod.getItemStack(inputItemName1, Integer.parseInt(line[4]));
@@ -343,6 +343,7 @@ public class RecipeGenerator {
 							'x', inputItemStack2,
 							'y', new ItemStack(Items.water_bucket),
 							'z', new ItemStack(Items.water_bucket)));
+
 		}
 	}
 
@@ -350,14 +351,17 @@ public class RecipeGenerator {
 		final ItemStack[] dirtOutputs = new ItemStack[] {
 				new ItemStack(Blocks.dirt, 64),
 				new ItemStack(Blocks.crafting_table),
+				CustomObject.registry.get("Flame Thrower").getItemStack(),
+				CustomObject.registry.get("Jet Pack").getItemStack(),
+				PolymerSlab.registry.get("Slab (PolyIsoPrene)").getItemStack(),
+				PolymerBlock.registry.get("Block (PolyIsoPrene)").getItemStack(),
 				CustomObject.registry.get("Phase Shifter").getItemStack(),
 				MoldedItem.registry.get("Life Preserver (PolyIsoPrene)").getItemStack(),
 				MoldedItem.registry.get("Running Shoes (PolyIsoPrene)").getItemStack(),
 				MoldedItem.registry.get("Running Shoes (Low Density PolyEthylene)").getItemStack(),
 				MoldedItem.registry.get("Scuba Fins (PolyIsoPrene)").getItemStack(),
 				MoldedItem.registry.get("Scuba Mask (PolyIsoPrene)").getItemStack(),
-				CustomObject.registry.get("Flame Thrower").getItemStack(),
-				CustomObject.registry.get("Jet Pack").getItemStack(),
+
 				CustomObject.registry.get("Scuba Tank").getItemStack(),
 				CustomObject.registry.get("Parachute").getItemStack(),
 				CustomObject.registry.get("Kevlar Vest").getItemStack(),
@@ -367,10 +371,10 @@ public class RecipeGenerator {
 				Mold.registry.get("Mold (Grip)").getItemStack(),
 				new ItemStack(Items.water_bucket),
 				new ItemStack(Items.coal, 64),
-				//PolymerSlab.registry.get("Slab (PolyIsoPrene)").getItemStack(),
-				//PolymerBlock.registry.get("Block (PolyIsoPrene)").getItemStack(),
-				//new ItemStack(PolycraftMod.getItem("Gripped Diamond Pogo Stick")),
-				//Inventory.registry.get("Tree Tap").getItemStack(),
+				// PolymerSlab.registry.get("Slab (PolyIsoPrene)").getItemStack(),
+				// PolymerBlock.registry.get("Block (PolyIsoPrene)").getItemStack(),
+				// new ItemStack(PolycraftMod.getItem("Gripped Diamond Pogo Stick")),
+				// Inventory.registry.get("Tree Tap").getItemStack(),
 				new ItemStack(Blocks.furnace),
 				new ItemStack(Items.diamond_pickaxe),
 				new ItemStack(Blocks.torch, 64)
