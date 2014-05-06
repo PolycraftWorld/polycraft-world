@@ -189,6 +189,24 @@ public class PolycraftRecipe {
 	}
 
 	/**
+	 * @return The maximum item stack size required by a given input in the recipe.
+	 */
+	public int getMaxInputStackSize() {
+		int maxSize = 0;
+		for (RecipeInput shapedInput : this.shapedInputs.values()) {
+			for (ItemStack possibleInput : shapedInput.inputs) {
+				maxSize = Math.max(maxSize, possibleInput.stackSize);
+			}
+		}
+		for (RecipeInput shapelessInput : this.shapelessInputs) {
+			for (ItemStack possibleInput : shapelessInput.inputs) {
+				maxSize = Math.max(maxSize, possibleInput.stackSize);
+			}
+		}
+		return maxSize;
+	}
+	
+	/**
 	 * Creates a set of every possible combination of shaped recipes.
 	 */
 	public Collection<Set<RecipeComponent>> getShapedCombinations() {
