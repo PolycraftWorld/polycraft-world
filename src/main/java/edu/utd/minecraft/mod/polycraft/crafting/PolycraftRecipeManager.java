@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -220,14 +221,24 @@ public class PolycraftRecipeManager {
 		}
 
 		// Check shaped recipe in initial positions
+		List<PolycraftRecipe> validRecipes = Lists.newArrayList();
 		final Set<PolycraftRecipe> shapedSet = shapedRecipesByContainer.get(container).getAnySubset(inputsToCompare);
 		for (final PolycraftRecipe recipe : shapedSet) {
 			if (recipe.isShapedOnly() && recipe.areInputsValid(inputsToCompare)) {
-				return recipe;
+				validRecipes.add(recipe);
 			}
 		}
-
-		return null;
+		
+		if (validRecipes.size() == 0) {
+			return null;
+		}
+		Collections.sort(validRecipes, new Comparator<PolycraftRecipe>() {
+			@Override
+			public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
+				return Integer.compare(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
+			}
+		});
+		return validRecipes.get(0);
 	}
 
 	private PolycraftRecipe findShapelessRecipe(final PolycraftContainerType container, final Set<RecipeComponent> inputs) {
@@ -238,13 +249,25 @@ public class PolycraftRecipeManager {
 		for (final RecipeComponent input : inputs) {
 			itemSet.add(input.itemStack.getItem().toString());
 		}
+		
+		List<PolycraftRecipe> validRecipes = Lists.newArrayList();
 		final Set<PolycraftRecipe> shapelessSet = shapelessRecipesByContainer.get(container).getAnySubset(itemSet);
 		for (final PolycraftRecipe recipe : shapelessSet) {
 			if (recipe.areInputsValid(inputs)) {
-				return recipe;
+				validRecipes.add(recipe);
 			}
 		}
-		return null;
+		
+		if (validRecipes.size() == 0) {
+			return null;
+		}
+		Collections.sort(validRecipes, new Comparator<PolycraftRecipe>() {
+			@Override
+			public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
+				return Integer.compare(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
+			}
+		});
+		return validRecipes.get(0);
 	}
 
 	/**
