@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.phaseshifter;
+package edu.utd.minecraft.mod.polycraft.transformer.phaseshifter;
 
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 

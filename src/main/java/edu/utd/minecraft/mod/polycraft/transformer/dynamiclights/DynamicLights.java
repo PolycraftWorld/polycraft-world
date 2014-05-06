@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.dynamiclights;
+package edu.utd.minecraft.mod.polycraft.transformer.dynamiclights;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

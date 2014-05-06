@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.dynamiclights;
+package edu.utd.minecraft.mod.polycraft.transformer.dynamiclights;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ASTORE;
@@ -7,6 +7,7 @@ import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.ISTORE;
 
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 
@@ -118,7 +119,7 @@ public class Transformer implements IClassTransformer
 				toInject.add(new VarInsnNode(ILOAD, 1));
 				toInject.add(new VarInsnNode(ILOAD, 2));
 				toInject.add(new VarInsnNode(ILOAD, 3));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "edu/utd/minecraft/mod/polycraft/dynamiclights/DynamicLights", "getLightValue", "(L" + classNameBlockAccess + ";L" + classNameBlock + ";III)I"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, DynamicLights.class.getCanonicalName().replaceAll(Pattern.quote("."), "/"), "getLightValue", "(L" + classNameBlockAccess + ";L" + classNameBlock + ";III)I"));
 				if (replacing)
 				{
 					toInject.add(new VarInsnNode(ISTORE, 6));

@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.dynamiclights;
+package edu.utd.minecraft.mod.polycraft.transformer.dynamiclights;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

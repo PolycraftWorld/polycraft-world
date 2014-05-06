@@ -31,8 +31,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
-import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
-import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -44,6 +42,8 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
+import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
+import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
 public class PolycraftEventHandler extends PolycraftHandler {
 

@@ -22,7 +22,6 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
-import edu.utd.minecraft.mod.polycraft.block.BlockPhaseShifterBoundary;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -258,8 +257,6 @@ public class CommonProxy {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
-
-		PolycraftMod.registerBlock(InternalObject.registry.get("Phase Shifter Boundary"), new BlockPhaseShifterBoundary());
 
 		PolycraftMod.blockOil = PolycraftMod.registerBlock(oil,
 				new BlockFluid(fluidOil, Material.water)

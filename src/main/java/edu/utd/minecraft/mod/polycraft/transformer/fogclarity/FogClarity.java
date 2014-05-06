@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.fogclarity;
+package edu.utd.minecraft.mod.polycraft.transformer.fogclarity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;

@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.fogclarity;
+package edu.utd.minecraft.mod.polycraft.transformer.fogclarity;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;

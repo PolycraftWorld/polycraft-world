@@ -13,13 +13,13 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import edu.utd.minecraft.mod.polycraft.dynamiclights.DynamicLights;
-import edu.utd.minecraft.mod.polycraft.dynamiclights.PointLightSource;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
+import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
 public class PolycraftTickHandler extends PolycraftHandler
 {

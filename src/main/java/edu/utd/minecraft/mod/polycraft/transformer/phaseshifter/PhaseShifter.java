@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.phaseshifter;
+package edu.utd.minecraft.mod.polycraft.transformer.phaseshifter;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

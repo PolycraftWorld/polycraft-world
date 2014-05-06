@@ -9,9 +9,9 @@ public class PolycraftCorePlugin implements IFMLLoadingPlugin {
 	@Override
 	public String[] getASMTransformerClass() {
 		return new String[] {
-				"edu.utd.minecraft.mod.polycraft.dynamiclights.Transformer",
-				"edu.utd.minecraft.mod.polycraft.fogclarity.Transformer",
-				"edu.utd.minecraft.mod.polycraft.phaseshifter.Transformer"
+				edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.Transformer.class.getCanonicalName(),
+				edu.utd.minecraft.mod.polycraft.transformer.fogclarity.Transformer.class.getCanonicalName(),
+				edu.utd.minecraft.mod.polycraft.transformer.phaseshifter.Transformer.class.getCanonicalName()
 		};
 	}
 
