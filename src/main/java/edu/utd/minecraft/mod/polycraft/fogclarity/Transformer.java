@@ -4,6 +4,7 @@ import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 
@@ -19,7 +20,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 public class Transformer implements IClassTransformer
 {
 	private final String classNameEntityRenderer = "bll";
-	private String entityLivingBaseJava = "rh";
+	private String classNameEntityLivingBase = "rh";
 	private String setupFogMethodName = "a";
 	private final String targetMethodDesc = "(IF)V";
 
@@ -34,7 +35,7 @@ public class Transformer implements IClassTransformer
 		else if (name.equals("net.minecraft.client.renderer.EntityRenderer")) // MCP testing
 		{
 			setupFogMethodName = "setupFog";
-			entityLivingBaseJava = "net/minecraft/entity/EntityLivingBase";
+			classNameEntityLivingBase = "net/minecraft/entity/EntityLivingBase";
 			return handleWorldTransform(bytes);
 		}
 
@@ -67,7 +68,7 @@ public class Transformer implements IClassTransformer
 				// make new instruction list
 				InsnList toInject = new InsnList();
 				toInject.add(new VarInsnNode(ALOAD, 3));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "edu/utd/minecraft/mod/polycraft/fogclarity/FogClarity", "getDensityWater", "(L" + entityLivingBaseJava + ";)F"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, FogClarity.class.getCanonicalName().replaceAll(Pattern.quote("."), "/"), "getDensityWater", "(L" + classNameEntityLivingBase + ";)F"));
 
 				// inject new instruction list into method instruction list
 				m.instructions.insertBefore(currentNode, toInject);

@@ -29,4 +29,12 @@ public abstract class PolycraftHandler {
 	protected static Block getBlockUnderPlayer(final EntityPlayer player) {
 		return player.worldObj.getBlock((int) Math.floor(player.posX), (int) Math.floor(player.posY - player.getYOffset()) - 1, (int) Math.floor(player.posZ));
 	}
+
+	protected static boolean isClient(final EntityPlayer player) {
+		return player.worldObj.isRemote;
+	}
+
+	protected static boolean isServer(final EntityPlayer player) {
+		return !player.worldObj.isRemote;
+	}
 }

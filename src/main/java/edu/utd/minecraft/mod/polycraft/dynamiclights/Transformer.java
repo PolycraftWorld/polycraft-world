@@ -26,7 +26,8 @@ import org.objectweb.asm.tree.VarInsnNode;
 public class Transformer implements IClassTransformer
 {
 	private final String classNameWorld = "afn";
-	private String blockAccessJava = "afx";
+	private String classNameBlockAccess = "afx";
+	private String classNameBlock = "ahu";
 	private String computeLightValueMethodName = "a";
 	private String targetMethodDesc = "(IIILafz;)I";
 
@@ -40,7 +41,8 @@ public class Transformer implements IClassTransformer
 		}
 		else if (name.equals("net.minecraft.world.World")) // MCP testing
 		{
-			blockAccessJava = "net/minecraft/world/IBlockAccess";
+			classNameBlockAccess = "net/minecraft/world/IBlockAccess";
+			classNameBlock = "net/minecraft/block/Block";
 			computeLightValueMethodName = "computeLightValue";
 			targetMethodDesc = "(IIILnet/minecraft/world/EnumSkyBlock;)I";
 			return handleWorldTransform(bytes);
@@ -116,7 +118,7 @@ public class Transformer implements IClassTransformer
 				toInject.add(new VarInsnNode(ILOAD, 1));
 				toInject.add(new VarInsnNode(ILOAD, 2));
 				toInject.add(new VarInsnNode(ILOAD, 3));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "edu/utd/minecraft/mod/polycraft/dynamiclights/DynamicLights", "getLightValue", "(L" + blockAccessJava + ";Lnet/minecraft/block/Block;III)I"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, "edu/utd/minecraft/mod/polycraft/dynamiclights/DynamicLights", "getLightValue", "(L" + classNameBlockAccess + ";L" + classNameBlock + ";III)I"));
 				if (replacing)
 				{
 					toInject.add(new VarInsnNode(ISTORE, 6));

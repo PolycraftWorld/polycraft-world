@@ -2,10 +2,8 @@ package edu.utd.minecraft.mod.polycraft.handler;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.vecmath.Point3d;
 
@@ -50,7 +48,7 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
 public class PolycraftEventHandler extends PolycraftHandler {
 
 	private static final float baseJumpMovementFactor = 0.02F;
-	private static final float baseMovementSpeed = 0.1f;
+	private static final float baseWalkSpeed = 0.1f;
 	private static final float baseFlySpeed = 0.05f;
 	private static final int baseFullAir = 300;
 
@@ -98,7 +96,6 @@ public class PolycraftEventHandler extends PolycraftHandler {
 		private int pogoStickPreviousContinuousActiveBounces = 0;
 		private float pogoStickLastFallDistance = 0;
 		private float bouncyBlockBounceHeight = 0;
-		private boolean phaseShifted = false;
 		private final Map<Point3d, Boolean> phaseShiftWorldPoints = Maps.newHashMap();
 		private final Map<Point3d, Block> phaseShiftedBlocks = Maps.newHashMap();
 	}
@@ -130,6 +127,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 			final PlayerState playerState = getPlayerState(player);
 
 			handleWeapons(event, player, playerState);
+			handleWalkSpeed(event, player);
 			handleFlightServer(event, player, playerState);
 			handleBreathing(event, player, playerState);
 		}
@@ -144,7 +142,8 @@ public class PolycraftEventHandler extends PolycraftHandler {
 
 			handleBouncingClient(event, player, playerState);
 			handleWeapons(event, player, playerState);
-			handleMovementSpeedClient(event, player, playerState);
+			handleWalkSpeed(event, player);
+			handleVecocityWaterClient(event, player, playerState);
 			handleFlightClient(event, player, playerState);
 			handleBreathing(event, player, playerState);
 			handleSwimmingClient(event, player, playerState);
@@ -175,19 +174,24 @@ public class PolycraftEventHandler extends PolycraftHandler {
 				final ItemStack currentItemStack = player.getCurrentEquippedItem();
 				final ItemPogoStick pogoStick = ((ItemPogoStick) currentItemStack.getItem());
 				currentItemStack.attemptDamageItem(1, random);
+				if (!checkCurrentEquippedItem(player, ItemPogoStick.class, true))
+					player.destroyCurrentEquippedItem();
 				playerState.pogoStickLastFallDistance = event.distance;
 				if (event.distance > pogoStick.config.maxFallNoDamageHeight && !onBouncyBlock)
 					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
 				else
 					event.distance = 0;
+
+				if (!checkCurrentEquippedItem(player, ItemPogoStick.class, true))
+					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			}
 			else if (onBouncyBlock) {
 				final BlockBouncy bouncyBlock = (BlockBouncy) blockUnderPlayer;
 				//if we are actively jumping
 				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) && noScreen())
 					playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-				//if we are supposed to return momentum while not actively jumping
-				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0)
+				//if we are supposed to return momentum while not actively jumping (or sneaking)
+				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak))
 					playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				event.distance = 0;
 			}
@@ -245,7 +249,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 	}
 
 	private void fireFlamethrower(final EntityPlayer player, final PlayerState playerState, final ItemStack itemStack, final ItemFlameThrower flameThrowerItem) {
-		if (player.worldObj.isRemote) {
+		if (isClient(player)) {
 			//make the pretties
 			final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
 			final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
@@ -301,7 +305,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 	}
 
 	private void updateFlameThrowerLights(final EntityPlayer player, final PlayerState playerState, final boolean enabled, final int range) {
-		if (player.worldObj.isRemote) {
+		if (isClient(player)) {
 			if (playerState.flameThrowerDynamicLights.size() < range)
 				for (int i = 0; i < range; i++)
 					playerState.flameThrowerDynamicLights.add(new PointLightSource(player.worldObj));
@@ -329,48 +333,54 @@ public class PolycraftEventHandler extends PolycraftHandler {
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
-	private void handleMovementSpeedClient(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
-		if (player.isEntityAlive()) {
-			float movementSpeedBaseValue = baseMovementSpeed;
+	private void handleWalkSpeed(final LivingEvent event, final EntityPlayer player) {
+		float walkSpeed = baseWalkSpeed;
+		if (!player.isInWater()) {
 			final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
-			if (player.isInWater()) {
-				if (checkItem(bootsItemStack, ItemScubaFins.class)) {
-					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
-					boolean setVelocity = false;
-					double motionX = 0;
-					double motionY = player.motionY;
-					double motionZ = 0;
-					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward)) {
-						setVelocity = true;
-						final double playerRotationRadians = Math.toRadians(player.rotationYaw + 90);
-						motionX = movementSpeedBaseValue * Math.cos(playerRotationRadians);
-						motionZ = movementSpeedBaseValue * Math.sin(playerRotationRadians);
-					}
-					if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump)) {
-						setVelocity = true;
-						motionY = movementSpeedBaseValue;
-					}
-					else if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak)) {
-						setVelocity = true;
-						motionY = -movementSpeedBaseValue;
-					}
-
-					if (setVelocity)
-						player.setVelocity(motionX, motionY, motionZ);
-				}
+			if (checkItem(bootsItemStack, ItemScubaFins.class)) {
+				walkSpeed = baseWalkSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
 			}
-			else {
-				if (checkItem(bootsItemStack, ItemScubaFins.class)) {
-					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).walkSpeedBuff);
+			if (checkItem(bootsItemStack, ItemRunningShoes.class, true)) {
+				final ItemRunningShoes runningShoes = (ItemRunningShoes) bootsItemStack.getItem();
+				if (isServer(player) && player.onGround && (player.posX != player.lastTickPosX || player.posZ != player.lastTickPosZ)) {
+					bootsItemStack.attemptDamageItem(1, random);
+					if (!checkItem(bootsItemStack, ItemRunningShoes.class, true))
+						player.setCurrentItemOrArmor(1 + ArmorSlot.FEET.getInventoryArmorSlot(), null);
 				}
-				else if (checkItem(bootsItemStack, ItemRunningShoes.class)) {
-					movementSpeedBaseValue = baseMovementSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
-				}
+				walkSpeed = baseWalkSpeed * (1 + ((ItemRunningShoes) bootsItemStack.getItem()).walkSpeedBuff);
 			}
+		}
+		if (player.capabilities.getWalkSpeed() != walkSpeed)
+			player.capabilities.setPlayerWalkSpeed(walkSpeed);
+	}
 
-			if (player.capabilities.getWalkSpeed() != movementSpeedBaseValue) {
-				player.capabilities.setPlayerWalkSpeed(movementSpeedBaseValue);
+	@SideOnly(Side.CLIENT)
+	private void handleVecocityWaterClient(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
+		if (player.isInWater()) {
+			final ItemStack bootsItemStack = player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot());
+			if (checkItem(bootsItemStack, ItemScubaFins.class)) {
+				float movementSpeed = baseWalkSpeed * (1 + ((ItemScubaFins) bootsItemStack.getItem()).swimSpeedBuff);
+				boolean setVelocity = false;
+				double motionX = 0;
+				double motionY = player.motionY;
+				double motionZ = 0;
+				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward)) {
+					setVelocity = true;
+					final double playerRotationRadians = Math.toRadians(player.rotationYaw + 90);
+					motionX = movementSpeed * Math.cos(playerRotationRadians);
+					motionZ = movementSpeed * Math.sin(playerRotationRadians);
+				}
+				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump)) {
+					setVelocity = true;
+					motionY = movementSpeed;
+				}
+				else if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak)) {
+					setVelocity = true;
+					motionY = -movementSpeed;
+				}
+
+				if (setVelocity)
+					player.setVelocity(motionX, motionY, motionZ);
 			}
 		}
 	}
@@ -413,7 +423,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 					spawnJetpackExhaust(player, -.25);
 					spawnJetpackExhaust(player, .25);
 
-					if (!player.worldObj.isRemote) {
+					if (isServer(player)) {
 						if (jetPackItem.burnFuel(jetPackItemStack)) {
 							player.fallDistance = 0;
 							// cause an unstable motion to simulate the unpredictability of the exhaust direction
@@ -446,7 +456,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 	}
 
 	private void spawnJetpackExhaust(final EntityPlayer player, final double offset) {
-		if (player.worldObj.isRemote) {
+		if (isClient(player)) {
 			final double playerRotationRadians = Math.toRadians(player.rotationYaw);
 			final double playerRotationSin = Math.sin(playerRotationRadians);
 			final double playerRotationCos = Math.cos(playerRotationRadians);
@@ -492,7 +502,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 	}
 
 	private void updateJetpackExhaustLights(final EntityPlayer player, final PlayerState playerState, final boolean enabled) {
-		if (player.worldObj.isRemote) {
+		if (isClient(player)) {
 			if (jetPackExhaustDynamicLights.size() == 0)
 				for (int i = 0; i < jetPackExhaustRangeY; i++)
 					jetPackExhaustDynamicLights.add(new PointLightSource(player.worldObj));
@@ -519,7 +529,7 @@ public class PolycraftEventHandler extends PolycraftHandler {
 				final ItemStack scubaTankItemStack = player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot());
 				if (checkItem(scubaTankItemStack, ItemScubaTank.class)) {
 					final ItemScubaTank scubaTankItem = (ItemScubaTank) scubaTankItemStack.getItem();
-					if (player.worldObj.isRemote) {
+					if (isClient(player)) {
 						if (scubaTankItem.consumeAir(scubaTankItemStack)) {
 							player.setAir(baseFullAir);
 						}
@@ -554,77 +564,23 @@ public class PolycraftEventHandler extends PolycraftHandler {
 	private void handlePhaseShifterClient(final LivingEvent event, final EntityPlayer player, final PlayerState playerState) {
 		if (player.isEntityAlive()) {
 			if (checkCurrentEquippedItem(player, ItemPhaseShifter.class)) {
-				final ItemPhaseShifter phaseShifter = (ItemPhaseShifter) player.getCurrentEquippedItem().getItem();
-				if (!player.capabilities.isFlying) {
-					if (!player.capabilities.isCreativeMode)
-						player.capabilities.allowFlying = true;
-					player.capabilities.isFlying = true;
-					player.capabilities.setFlySpeed(baseFlySpeed * phaseShifter.flySpeedBuff);
+				player.noClip = true;
+				if (!player.capabilities.isCreativeMode) {
 					player.capabilities.disableDamage = true;
-					playerState.phaseShifted = true;
+					player.capabilities.allowFlying = true;
 				}
-
-				if (!player.worldObj.isRemote) {
-					playerState.phaseShiftWorldPoints.clear();
-					for (final Entry<Point3d, Boolean> point : getPhaseShifterPointsForRadius(phaseShifter.radius).entrySet()) {
-						Point3d worldPoint = new Point3d(
-								(int) (Math.round(player.posX) + point.getKey().x),
-								(int) (Math.round(player.posY - player.getYOffset()) + point.getKey().y),
-								(int) (Math.round(player.posZ) + point.getKey().z));
-						playerState.phaseShiftWorldPoints.put(worldPoint, point.getValue());
-					}
-
-					final Iterator<Entry<Point3d, Block>> phaseShiftedBlocks = playerState.phaseShiftedBlocks.entrySet().iterator();
-					while (phaseShiftedBlocks.hasNext()) {
-						final Entry<Point3d, Block> psb = phaseShiftedBlocks.next();
-						final Point3d worldPoint = psb.getKey();
-						if (!playerState.phaseShiftWorldPoints.containsKey(worldPoint)) {
-							player.worldObj.setBlock((int) worldPoint.x, (int) worldPoint.y, (int) worldPoint.z, psb.getValue());
-							phaseShiftedBlocks.remove();
-						}
-					}
-
-					for (final Entry<Point3d, Boolean> worldPointEntry : playerState.phaseShiftWorldPoints.entrySet()) {
-						final Point3d worldPoint = worldPointEntry.getKey();
-						final Block block = player.worldObj.getBlock((int) worldPoint.x, (int) worldPoint.y, (int) worldPoint.z);
-						if (!playerState.phaseShiftedBlocks.containsKey(worldPoint))
-							playerState.phaseShiftedBlocks.put(worldPoint, block);
-						//edge
-						if (worldPointEntry.getValue()) {
-							if (!block.equals(phaseShifter.boundaryBlock))
-								player.worldObj.setBlock((int) worldPoint.x, (int) worldPoint.y, (int) worldPoint.z, phaseShifter.boundaryBlock);
-						}
-						//inner
-						else if (!block.equals(Blocks.air))
-							player.worldObj.setBlockToAir((int) worldPoint.x, (int) worldPoint.y, (int) worldPoint.z);
-					}
-					playerState.phaseShiftWorldPoints.clear();
-				}
+				player.capabilities.isFlying = true;
+				final ItemPhaseShifter phaseShifter = (ItemPhaseShifter) player.getCurrentEquippedItem().getItem();
+				player.capabilities.setFlySpeed(baseFlySpeed * phaseShifter.flySpeedBuff);
 			}
 			else {
-				if (playerState.phaseShifted) {
-					player.capabilities.disableDamage = false;
+				player.capabilities.setFlySpeed(baseFlySpeed);
+				if (!player.capabilities.isCreativeMode) {
 					player.capabilities.isFlying = false;
-					player.capabilities.setFlySpeed(baseFlySpeed);
-					if (!player.capabilities.isCreativeMode)
-						player.capabilities.allowFlying = false;
-					playerState.phaseShifted = false;
+					player.capabilities.disableDamage = false;
+					player.capabilities.allowFlying = false;
 				}
-
-				if (!player.worldObj.isRemote) {
-					if (playerState.phaseShiftedBlocks.size() > 0) {
-						int k;
-						for (k = 63; !player.worldObj.isAirBlock((int) player.posX, k + 1, (int) player.posZ); ++k)
-							;
-						player.posY = k;
-						player.motionY = 0;
-						for (final Entry<Point3d, Block> psb : playerState.phaseShiftedBlocks.entrySet()) {
-							final Point3d worldPoint = psb.getKey();
-							player.worldObj.setBlock((int) worldPoint.x, (int) worldPoint.y, (int) worldPoint.z, psb.getValue());
-						}
-						playerState.phaseShiftedBlocks.clear();
-					}
-				}
+				player.noClip = false;
 			}
 		}
 	}
