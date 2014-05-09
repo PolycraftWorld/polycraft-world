@@ -3,7 +3,7 @@ Game ID	Custom Item	Type	Level	First Release	Notes	Parameter names 	P1	P2	P3	P4	
 3m	Bucket (Crude Oil)	PC Item	1	TRUE											
 3n	Flame Thrower	Weapon	7	TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
 3o	Flashlight	Utility		TRUE		MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
-3p	Jet Pack	Armor		TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, FlySpeedBuff	5000	1	1.5						
+3p	Jet Pack	Armor		TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, FlySpeedBuff, InitialDamage	5000	1	1.5	5					
 5a	Parachute					DescendVelocity	-0.3								
 3q	Laser	Tool		TRUE											
 3r	Phase Shifter	Tool	7	TRUE		Radius, FlySpeedBuff, BoundaryBlock	3	2							
