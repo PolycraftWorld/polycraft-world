@@ -2,11 +2,22 @@ package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 
 public class ItemScubaMask extends PolycraftArmorHeadgear implements PolycraftMoldedItem {
+
+	private static final ArmorSlot armorSlot = ArmorSlot.HEAD;
+
+	public static boolean isEquipped(final EntityPlayer player) {
+		return PolycraftItemHelper.checkArmor(player, armorSlot, ItemScubaMask.class);
+	}
+
+	public static ItemScubaMask getEquippedItem(final EntityPlayer player) {
+		return PolycraftItemHelper.getArmorItem(player, armorSlot);
+	}
 
 	private final MoldedItem moldedItem;
 	public final float fogDensity;

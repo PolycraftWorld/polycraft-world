@@ -14,6 +14,10 @@ public class ConfigParams {
 		return params[offset + index];
 	}
 
+	public boolean hasParam(final int index) {
+		return params.length > offset + index;
+	}
+
 	public boolean getBoolean(final int index) {
 		return Boolean.parseBoolean(get(index));
 	}

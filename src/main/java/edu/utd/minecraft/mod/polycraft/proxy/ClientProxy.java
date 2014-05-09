@@ -26,6 +26,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
+import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
@@ -37,11 +38,6 @@ import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSourc
 
 public class ClientProxy extends CommonProxy {
 
-	private static final float baseJumpMovementFactor = 0.02F;
-	private static final float baseWalkSpeed = 0.1f;
-	private static final float baseSwimSpeed = 0.1f;
-	private static final float baseFlySpeed = 0.05f;
-	private static final int baseFullAir = 300;
 	private static final int statusOverlayStartX = 5;
 	private static final int statusOverlayStartY = 5;
 	private static final int statusOverlayDistanceBetweenY = 10;
@@ -63,6 +59,7 @@ public class ClientProxy extends CommonProxy {
 		private final Collection<PointLightSource> jetPackExhaustLightSources;
 		private int pogoStickPreviousContinuousActiveBounces = 0;
 		private float pogoStickLastFallDistance = 0;
+		private boolean phaseShifterEnabled = false;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -134,6 +131,9 @@ public class ClientProxy extends CommonProxy {
 				onClientTickScubaFins(player);
 				onClientTickGenericMoldedItem(player);
 				onClientTickPogoStick(player, playerState);
+				onClientTickBouncyBlock(player, playerState);
+				onClientTickFlameThrower(player, playerState);
+				onClientTickPhaseShifter(player, playerState);
 				if (playerState.isFlying != player.capabilities.isFlying) {
 					playerState.isFlying = player.capabilities.isFlying;
 					sendMessageToServerIsFlying(player.capabilities.isFlying);
@@ -305,8 +305,33 @@ public class ClientProxy extends CommonProxy {
 			player.jumpMovementFactor = jumpMovementFactor;
 	}
 
-	//TODO rubber blocks
-	//TODO flame thrower
-	//TODO phase shifter
-	//TODO scuba mask and tank
+	private void onClientTickBouncyBlock(final EntityPlayer player, final PlayerState playerState) {
+
+		//TODO rubber blocks
+	}
+
+	private void onClientTickFlameThrower(final EntityPlayer player, final PlayerState playerState) {
+
+		//TODO flame thrower
+	}
+
+	private void onClientTickPhaseShifter(final EntityPlayer player, final PlayerState playerState) {
+		final boolean phaseShifterEnabled = ItemPhaseShifter.isEquipped(player);
+		if (playerState.phaseShifterEnabled != phaseShifterEnabled) {
+			playerState.phaseShifterEnabled = phaseShifterEnabled;
+			player.noClip = phaseShifterEnabled;
+			if (!player.capabilities.isCreativeMode)
+				player.capabilities.allowFlying = phaseShifterEnabled;
+			player.capabilities.isFlying = phaseShifterEnabled;
+			player.capabilities.setFlySpeed(phaseShifterEnabled ? baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff : baseFlySpeed);
+		}
+
+		if (phaseShifterEnabled) {
+			player.capabilities.isFlying = true;
+			if (player.isInWater())
+				player.setAir(baseFullAir);
+			if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward))
+				setPlayerVelocityForward(player, baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff);
+		}
+	}
 }

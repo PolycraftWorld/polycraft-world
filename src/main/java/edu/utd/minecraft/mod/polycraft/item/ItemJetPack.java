@@ -36,7 +36,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 	}
 
 	public static boolean allowsFlying(final EntityPlayer player) {
-		return !player.isInWater() && isEquipped(player) && getEquippedItem(player).hasFuelRemaining(getEquippedItemStack(player));
+		return !ItemPhaseShifter.isEquipped(player) && !player.isInWater() && isEquipped(player) && getEquippedItem(player).hasFuelRemaining(getEquippedItemStack(player));
 	}
 
 	public static double getFuelRemainingPercent(final EntityPlayer player) {

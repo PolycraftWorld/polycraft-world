@@ -33,9 +33,11 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
+import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
@@ -43,8 +45,15 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 
 public abstract class CommonProxy {
 
+	protected static final float baseJumpMovementFactor = 0.02F;
+	protected static final float baseWalkSpeed = 0.1f;
+	protected static final float baseSwimSpeed = 0.05f;
+	protected static final float baseFlySpeed = 0.05f;
+	protected static final int baseFullAir = 300;
 	private static final String jetPackSoundName = PolycraftMod.getAssetName("jetpack.fly");
-	private static final long jetPackSoundIntervalMillis = 10;
+	private static final long jetPackSoundFrequencyTicks = 10;
+	private static final String scubaBreatheSoundName = PolycraftMod.getAssetName("scubatank.breathe");
+	private static final long scubaBreatheSoundFrequencyTicks = 30;
 	private static final String netChannelName = PolycraftMod.MODID;
 	private static final int netMessageTypeIsFlying = 0;
 
@@ -98,6 +107,8 @@ public abstract class CommonProxy {
 		private boolean isFlying = false;
 		private long jetPackLastSoundTicks = 0;
 		public boolean jetPackIsFlying = false;
+		private ItemPhaseShifter phaseShifterEquipped = null;
+		private long scubaBreatheLastSoundTicks = 0;
 	}
 
 	private final Map<EntityPlayer, PlayerState> playerStates = Maps.newHashMap();
@@ -173,6 +184,8 @@ public abstract class CommonProxy {
 				onPlayerTickServerJetPack(tick.player, playerState);
 				onPlayerTickServerRunningShoes(tick.player);
 				onPlayerTickServerScubaFins(tick.player);
+				onPlayerTickServerScubaTank(tick.player, playerState);
+				onPlayerTickServerPhaseShifter(tick.player, playerState);
 			}
 		}
 	}
@@ -180,7 +193,7 @@ public abstract class CommonProxy {
 	private void onPlayerTickServerJetPack(final EntityPlayer player, final PlayerState playerState) {
 		final boolean jetPackIsFlying = ItemJetPack.allowsFlying(player) && !player.onGround && playerState.isFlying;
 		if (jetPackIsFlying) {
-			if (playerState.jetPackLastSoundTicks++ > jetPackSoundIntervalMillis) {
+			if (playerState.jetPackLastSoundTicks++ > jetPackSoundFrequencyTicks) {
 				playerState.jetPackLastSoundTicks = 0;
 				player.worldObj.playSoundAtEntity(player, jetPackSoundName, 1f, 1f);
 			}
@@ -204,5 +217,28 @@ public abstract class CommonProxy {
 	private void onPlayerTickServerScubaFins(final EntityPlayer player) {
 		if (ItemScubaFins.allowsFastSwimming(player))
 			ItemScubaFins.damageIfMoving(player, random);
+	}
+
+	private void onPlayerTickServerScubaTank(final EntityPlayer player, final PlayerState playerState) {
+		if (ItemScubaTank.allowsWaterBreathing(player) && player.getAir() < baseFullAir) {
+			ItemScubaTank.consumeAir(player);
+			player.setAir(baseFullAir);
+			if (playerState.scubaBreatheLastSoundTicks++ > this.scubaBreatheSoundFrequencyTicks) {
+				player.worldObj.playSoundAtEntity(player, scubaBreatheSoundName, 1f, 1f);
+				playerState.scubaBreatheLastSoundTicks = 0;
+			}
+		}
+	}
+
+	private void onPlayerTickServerPhaseShifter(final EntityPlayer player, final PlayerState playerState) {
+		final boolean phaseShifterEnabled = ItemPhaseShifter.isEquipped(player);
+		if ((playerState.phaseShifterEquipped != null) != phaseShifterEnabled) {
+			player.noClip = phaseShifterEnabled;
+			player.capabilities.disableDamage = phaseShifterEnabled;
+			player.setInvisible(phaseShifterEnabled);
+			if (!phaseShifterEnabled)
+				ItemPhaseShifter.createBoundary(playerState.phaseShifterEquipped, player, player.worldObj);
+			playerState.phaseShifterEquipped = phaseShifterEnabled ? ItemPhaseShifter.getEquippedItem(player) : null;
+		}
 	}
 }

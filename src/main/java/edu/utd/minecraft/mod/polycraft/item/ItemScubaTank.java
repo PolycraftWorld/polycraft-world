@@ -25,8 +25,16 @@ public class ItemScubaTank extends PolycraftArmorChest {
 		return PolycraftItemHelper.getArmorItemStack(player, armorSlot);
 	}
 
+	public static boolean allowsWaterBreathing(final EntityPlayer player) {
+		return player.isInWater() && isEquipped(player) && getEquippedItem(player).hasAirRemaining(getEquippedItemStack(player));
+	}
+
 	public static double getAirRemainingPercent(final EntityPlayer player) {
 		return isEquipped(player) ? getEquippedItem(player).getAirRemainingPercent(getEquippedItemStack(player)) : 0;
+	}
+
+	public static void consumeAir(final EntityPlayer player) {
+		getEquippedItem(player).consumeAir(getEquippedItemStack(player));
 	}
 
 	public final int airUnitsFull;

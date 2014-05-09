@@ -6,7 +6,7 @@ Game ID	Custom Item	Type	Level	First Release	Notes	Parameter names 	P1	P2	P3	P4	
 3p	Jet Pack	Armor		TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, FlySpeedBuff, InitialDamage	5000	1	1.5	5					
 5a	Parachute					DescendVelocity	-0.3								
 3q	Laser	Tool		TRUE											
-3r	Phase Shifter	Tool	7	TRUE		Radius, FlySpeedBuff, BoundaryBlock	3	2							
+3r	Phase Shifter	Tool	7	TRUE		Radius, FlySpeedBuff, BoundaryBlock	2	3	Glass						
 3x	Scuba Tank	Armor		TRUE		AirUnitsFull, AirUnitsConsumePerTick	5000	1							
 3A	Wetsuit	Armor		TRUE											
 3C	Structural Truss	PC Block		TRUE											
