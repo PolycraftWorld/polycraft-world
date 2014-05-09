@@ -70,7 +70,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 	private static final String exhaustParticleSmoke = "smoke";
 	private static final String exhaustParticleFlame = "flame";
 
-	public static Collection<PointLightSource> createExhaustLightSources(final World world) {
+	public static Collection<PointLightSource> createLightSources(final World world) {
 		final Collection<PointLightSource> lightSources = Lists.newLinkedList();
 		for (int i = 0; i < exhaustRangeY; i++)
 			lightSources.add(new PointLightSource(world));

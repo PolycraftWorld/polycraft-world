@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -29,8 +30,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
@@ -52,8 +55,10 @@ public abstract class CommonProxy {
 	protected static final int baseFullAir = 300;
 	private static final String jetPackSoundName = PolycraftMod.getAssetName("jetpack.fly");
 	private static final long jetPackSoundFrequencyTicks = 10;
-	private static final String scubaBreatheSoundName = PolycraftMod.getAssetName("scubatank.breathe");
-	private static final long scubaBreatheSoundFrequencyTicks = 30;
+	private static final String scubaTankSoundName = PolycraftMod.getAssetName("scubatank.breathe");
+	private static final long scubaTankSoundFrequencyTicks = 30;
+	private static final String flameThrowerSoundName = PolycraftMod.getAssetName("flamethrower.ignite");
+	private static final long flameThrowerSoundFrequencyTicks = 10;
 	private static final String netChannelName = PolycraftMod.MODID;
 	private static final int netMessageTypeIsFlying = 0;
 
@@ -107,6 +112,7 @@ public abstract class CommonProxy {
 		private boolean isFlying = false;
 		private long jetPackLastSoundTicks = 0;
 		public boolean jetPackIsFlying = false;
+		private long flameThrowerLastSoundTicks = 0;
 		private ItemPhaseShifter phaseShifterEquipped = null;
 		private long scubaBreatheLastSoundTicks = 0;
 	}
@@ -132,6 +138,14 @@ public abstract class CommonProxy {
 
 	protected static boolean isEntityOnServer(final Entity entity) {
 		return !isEntityOnClient(entity);
+	}
+
+	protected static Block getBlockUnderEntity(final Entity entity) {
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+	}
+
+	protected static boolean isEntityOnBouncyBlock(final Entity entity) {
+		return getBlockUnderEntity(entity) instanceof BlockBouncy;
 	}
 
 	protected static void setPlayerVelocityForward(final EntityPlayer player, final float velocity) {
@@ -166,12 +180,18 @@ public abstract class CommonProxy {
 			if (ItemParachute.isEquipped(player)) {
 				event.distance = 0;
 			}
-			else if (ItemPogoStick.isEquipped(player)) {
-				if (event.distance > ItemPogoStick.getEquippedItem(player).config.maxFallNoDamageHeight)
-					event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
-				else
+			else {
+				final boolean entityOnBouncyBlock = isEntityOnBouncyBlock(player);
+				if (ItemPogoStick.isEquipped(player)) {
+					if (entityOnBouncyBlock || event.distance < ItemPogoStick.getEquippedItem(player).config.maxFallNoDamageHeight)
+						event.distance = 0;
+					else
+						event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
+					ItemPogoStick.damage(player, random);
+				}
+				else if (entityOnBouncyBlock) {
 					event.distance = 0;
-				ItemPogoStick.damage(player, random);
+				}
 			}
 		}
 	}
@@ -182,6 +202,7 @@ public abstract class CommonProxy {
 			if (tick.player.isEntityAlive()) {
 				final PlayerState playerState = getPlayerState(tick.player);
 				onPlayerTickServerJetPack(tick.player, playerState);
+				onPlayerTickServerFlameThrower(tick.player, playerState);
 				onPlayerTickServerRunningShoes(tick.player);
 				onPlayerTickServerScubaFins(tick.player);
 				onPlayerTickServerScubaTank(tick.player, playerState);
@@ -199,13 +220,24 @@ public abstract class CommonProxy {
 			}
 			ItemJetPack.burnFuel(player);
 			ItemJetPack.dealExhaustDamage(player, player.worldObj);
+			player.fallDistance = 0;
 		}
-		else
-			playerState.jetPackLastSoundTicks = 0;
 
 		if (playerState.jetPackIsFlying != jetPackIsFlying) {
 			playerState.jetPackIsFlying = jetPackIsFlying;
 			ItemJetPack.setIgnited(player, jetPackIsFlying);
+		}
+	}
+
+	private void onPlayerTickServerFlameThrower(final EntityPlayer player, final PlayerState playerState) {
+		final boolean flameThrowerFiring = ItemFlameThrower.isFiring(player);
+		if (flameThrowerFiring) {
+			if (playerState.flameThrowerLastSoundTicks++ > flameThrowerSoundFrequencyTicks) {
+				playerState.flameThrowerLastSoundTicks = 0;
+				player.worldObj.playSoundAtEntity(player, flameThrowerSoundName, 1f, 1f);
+			}
+			ItemFlameThrower.burnFuel(player);
+			ItemFlameThrower.dealFlameDamage(player, player.worldObj);
 		}
 	}
 
@@ -223,8 +255,8 @@ public abstract class CommonProxy {
 		if (ItemScubaTank.allowsWaterBreathing(player) && player.getAir() < baseFullAir) {
 			ItemScubaTank.consumeAir(player);
 			player.setAir(baseFullAir);
-			if (playerState.scubaBreatheLastSoundTicks++ > this.scubaBreatheSoundFrequencyTicks) {
-				player.worldObj.playSoundAtEntity(player, scubaBreatheSoundName, 1f, 1f);
+			if (playerState.scubaBreatheLastSoundTicks++ > this.scubaTankSoundFrequencyTicks) {
+				player.worldObj.playSoundAtEntity(player, scubaTankSoundName, 1f, 1f);
 				playerState.scubaBreatheLastSoundTicks = 0;
 			}
 		}
@@ -240,5 +272,7 @@ public abstract class CommonProxy {
 				ItemPhaseShifter.createBoundary(playerState.phaseShifterEquipped, player, player.worldObj);
 			playerState.phaseShifterEquipped = phaseShifterEnabled ? ItemPhaseShifter.getEquippedItem(player) : null;
 		}
+		if (phaseShifterEnabled)
+			player.fallDistance = 0;
 	}
 }

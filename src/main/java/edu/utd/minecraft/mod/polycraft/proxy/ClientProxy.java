@@ -20,6 +20,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
@@ -31,8 +32,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
-import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
-import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
@@ -55,15 +54,19 @@ public class ClientProxy extends CommonProxy {
 		private boolean flashlightEnabled = false;
 		private final Collection<PointLightSource> flashlightLightSources;
 		private boolean jetPackAllowFlying = false;
-		private boolean jetPackExhaustLightsEnabled = false;
-		private final Collection<PointLightSource> jetPackExhaustLightSources;
+		private boolean jetPackLightsEnabled = false;
+		private final Collection<PointLightSource> jetPackLightSources;
+		private boolean flameThrowerLightsEnabled = false;
+		private final Collection<PointLightSource> flameThrowerLightSources;
 		private int pogoStickPreviousContinuousActiveBounces = 0;
 		private float pogoStickLastFallDistance = 0;
 		private boolean phaseShifterEnabled = false;
+		private float bouncyBlockBounceHeight = 0;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
-			jetPackExhaustLightSources = ItemJetPack.createExhaustLightSources(world);
+			jetPackLightSources = ItemJetPack.createLightSources(world);
+			flameThrowerLightSources = ItemFlameThrower.createLightSources(world);
 		}
 
 		private void setFlashlightEnabled(final boolean enabled) {
@@ -73,10 +76,17 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 
-		private void setJetPackExhaustLightsEnabled(final boolean enabled) {
-			if (jetPackExhaustLightsEnabled != enabled) {
-				jetPackExhaustLightsEnabled = enabled;
-				DynamicLights.syncLightSources(jetPackExhaustLightSources, enabled);
+		private void setJetPackLightsEnabled(final boolean enabled) {
+			if (jetPackLightsEnabled != enabled) {
+				jetPackLightsEnabled = enabled;
+				DynamicLights.syncLightSources(jetPackLightSources, enabled);
+			}
+		}
+
+		private void setFlameThrowerLightsEnabled(final boolean enabled) {
+			if (flameThrowerLightsEnabled != enabled) {
+				flameThrowerLightsEnabled = enabled;
+				DynamicLights.syncLightSources(flameThrowerLightSources, enabled);
 			}
 		}
 	}
@@ -110,13 +120,22 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	@SubscribeEvent
 	public synchronized void onLivingFallEvent(final LivingFallEvent event) {
-		super.onLivingFallEvent(event);
-		if (isEntityOnClient(event.entity) && isPlayerEntity(event.entity)) {
+		if (isPlayerEntity(event.entity)) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			final PlayerState playerState = getPlayerState(player);
 			if (ItemPogoStick.isEquipped(player))
 				playerState.pogoStickLastFallDistance = event.distance;
+			else if (isEntityOnBouncyBlock(player)) {
+				final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
+				//if we are actively jumping
+				if (noScreenOverlay() && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump))
+					playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+				//if we are supposed to return momentum while not actively jumping (or sneaking)
+				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak))
+					playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+			}
 		}
+		super.onLivingFallEvent(event);
 	}
 
 	@SubscribeEvent
@@ -132,7 +151,6 @@ public class ClientProxy extends CommonProxy {
 				onClientTickGenericMoldedItem(player);
 				onClientTickPogoStick(player, playerState);
 				onClientTickBouncyBlock(player, playerState);
-				onClientTickFlameThrower(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
 				if (playerState.isFlying != player.capabilities.isFlying) {
 					playerState.isFlying = player.capabilities.isFlying;
@@ -152,6 +170,7 @@ public class ClientProxy extends CommonProxy {
 				if (tick.side == Side.CLIENT) {
 					onPlayerTickClientFlashlight(tick.player, playerState);
 					onPlayerTickClientJetPack(tick.player, playerState);
+					onPlayerTickClientFlameThrower(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
 				}
 			}
@@ -226,8 +245,15 @@ public class ClientProxy extends CommonProxy {
 	private void onPlayerTickClientJetPack(final EntityPlayer player, final PlayerState playerState) {
 		final boolean jetPackIgnited = ItemJetPack.getIgnited(player);
 		if (jetPackIgnited)
-			ItemJetPack.createExhaust(player, client.theWorld, playerState.jetPackExhaustLightSources);
-		playerState.setJetPackExhaustLightsEnabled(jetPackIgnited);
+			ItemJetPack.createExhaust(player, client.theWorld, playerState.jetPackLightSources);
+		playerState.setJetPackLightsEnabled(jetPackIgnited);
+	}
+
+	private void onPlayerTickClientFlameThrower(final EntityPlayer player, final PlayerState playerState) {
+		final boolean flameThrowerFiring = ItemFlameThrower.isFiring(player);
+		if (flameThrowerFiring)
+			ItemFlameThrower.createFlames(player, client.theWorld, random, playerState.flameThrowerLightSources);
+		playerState.setFlameThrowerLightsEnabled(flameThrowerFiring);
 	}
 
 	private void onClientTickParachute(final EntityPlayer player, final PlayerState playerState) {
@@ -269,8 +295,8 @@ public class ClientProxy extends CommonProxy {
 	private static String gameIDLifePreserver = "J";
 
 	private void onClientTickGenericMoldedItem(final EntityPlayer player) {
-		if (PolycraftItemHelper.checkCurrentEquippedItem(player, ItemMoldedItem.class)) {
-			final MoldedItem moldedItem = ((PolycraftMoldedItem) player.getCurrentEquippedItem().getItem()).getMoldedItem();
+		if (ItemMoldedItem.isEquipped(player)) {
+			final MoldedItem moldedItem = ItemMoldedItem.getEquippedItem(player).getMoldedItem();
 			if (gameIDLifePreserver.equals(moldedItem.source.gameID)) {
 				if (player.isInWater() && !GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) &&
 						!GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak))
@@ -282,7 +308,7 @@ public class ClientProxy extends CommonProxy {
 	private void onClientTickPogoStick(final EntityPlayer player, final PlayerState playerState) {
 		float jumpMovementFactor = baseJumpMovementFactor;
 		if (ItemPogoStick.isEquipped(player)) {
-			final ItemPogoStick pogoStick = ((ItemPogoStick) player.getCurrentEquippedItem().getItem());
+			final ItemPogoStick pogoStick = ItemPogoStick.getEquippedItem(player);
 			jumpMovementFactor *= pogoStick.config.jumpMovementFactorBuff;
 			if (!pogoStick.config.restrictJumpToGround || player.onGround) {
 				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && noScreenOverlay();
@@ -306,13 +332,16 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onClientTickBouncyBlock(final EntityPlayer player, final PlayerState playerState) {
-
-		//TODO rubber blocks
-	}
-
-	private void onClientTickFlameThrower(final EntityPlayer player, final PlayerState playerState) {
-
-		//TODO flame thrower
+		if (playerState.bouncyBlockBounceHeight > 0) {
+			//if the player is on the ground and holding down jump, then wait for the jump to occur
+			//(if we try to set the y velocity before the game jumps, it will override our velocity)
+			if (!(player.onGround && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump))) {
+				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.bouncyBlockBounceHeight);
+				if (motionY > .2)
+					player.motionY = motionY;
+				playerState.bouncyBlockBounceHeight = 0;
+			}
+		}
 	}
 
 	private void onClientTickPhaseShifter(final EntityPlayer player, final PlayerState playerState) {
@@ -323,6 +352,7 @@ public class ClientProxy extends CommonProxy {
 			if (!player.capabilities.isCreativeMode)
 				player.capabilities.allowFlying = phaseShifterEnabled;
 			player.capabilities.isFlying = phaseShifterEnabled;
+			//TODO does this work?
 			player.capabilities.setFlySpeed(phaseShifterEnabled ? baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff : baseFlySpeed);
 		}
 
@@ -330,8 +360,6 @@ public class ClientProxy extends CommonProxy {
 			player.capabilities.isFlying = true;
 			if (player.isInWater())
 				player.setAir(baseFullAir);
-			if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward))
-				setPlayerVelocityForward(player, baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff);
 		}
 	}
 }

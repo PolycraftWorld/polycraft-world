@@ -369,7 +369,7 @@ public class PolycraftRegistry {
 				PolycraftRegistry.registerItem(customObject, new ItemKevlarVest(customObject));
 			}
 			else
-				//TODO really should throw an exception if we don't have a true custom item (needed an implentation)
+				//TODO should we throw an exception if we don't have a true custom item (needed an implentation)
 				PolycraftRegistry.registerItem(customObject, new ItemCustom(customObject));
 		}
 	}

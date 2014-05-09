@@ -61,6 +61,8 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 			}
 			return PolycraftMod.getVelocityRequiredToReachHeight(height);
 		}
+		if (fallDistance == 0)
+			return 0;
 		double motion = PolycraftMod.getVelocityRequiredToReachHeight(fallDistance * .5);
 		if (motion < .2)
 			return 0;

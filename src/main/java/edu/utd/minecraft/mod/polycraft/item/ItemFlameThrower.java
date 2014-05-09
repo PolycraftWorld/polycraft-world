@@ -1,13 +1,24 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import com.google.common.collect.Lists;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
 public class ItemFlameThrower extends PolycraftUtilityItem {
 
@@ -25,8 +36,90 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		return player.getCurrentEquippedItem();
 	}
 
+	public static boolean isFiring(final EntityPlayer player) {
+		return player.isUsingItem() && !player.isInWater() && isEquipped(player) && getEquippedItem(player).hasFuelRemaining(getEquippedItemStack(player));
+	}
+
 	public static double getFuelRemainingPercent(final EntityPlayer player) {
 		return isEquipped(player) ? getEquippedItem(player).getFuelRemainingPercent(getEquippedItemStack(player)) : 0;
+	}
+
+	public static boolean burnFuel(final EntityPlayer player) {
+		return getEquippedItem(player).burnFuel(getEquippedItemStack(player));
+	}
+
+	private static final int flameLightSourcesMax = 15;
+	private static final int flameParticlesPerTick = 20;
+	private static final double flameParticlesOffsetY = -.25;
+	private static final float flameParticleVelocity = .5f;
+	private static final String flameParticleFlame = "flame";
+
+	public static Collection<PointLightSource> createLightSources(final World world) {
+		final Collection<PointLightSource> lightSources = Lists.newLinkedList();
+		for (int i = 0; i < flameLightSourcesMax; i++)
+			lightSources.add(new PointLightSource(world));
+		return lightSources;
+	}
+
+	public static void createFlames(final EntityPlayer player, final WorldClient world, final Random random, final Collection<PointLightSource> lightSources) {
+		//make the pretties
+		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+		final double unitVecX = Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians);
+		final double unitVecY = -Math.cos(playerRotationPitchRadians);
+		final double unitVecZ = Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians);
+		final double originX = player.posX + unitVecX;
+		final double originY = player.posY + unitVecY + flameParticlesOffsetY;
+		final double originZ = player.posZ + unitVecZ;
+		for (int a = 0; a < flameParticlesPerTick; a++)
+			world.spawnParticle(flameParticleFlame, originX, originY, originZ,
+					player.motionX + ((1 - (random.nextDouble() - .5) * .5) * flameParticleVelocity * unitVecX),
+					player.motionY + ((1 - (random.nextDouble() - .5) * .5) * flameParticleVelocity * unitVecY),
+					player.motionZ + ((1 - (random.nextDouble() - .5) * .5) * flameParticleVelocity * unitVecZ));
+
+		int i = 0;
+		for (final PointLightSource source : lightSources)
+			if (i++ > flameLightSourcesMax)
+				source.update(0, 0, 0, 0);
+			else
+				source.update(15, originX + (i * unitVecX), originY + (i * unitVecY), originZ + (i * unitVecZ));
+	}
+
+	public static void dealFlameDamage(final EntityPlayer player, final World world) {
+		//light blocks and entities on fire
+		final ItemFlameThrower flameThrowerItem = getEquippedItem(player);
+		final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
+				AxisAlignedBB.getAABBPool().getAABB(
+						player.posX - flameThrowerItem.range - flameThrowerItem.spread,
+						player.posY - flameThrowerItem.range - flameThrowerItem.spread,
+						player.posZ - flameThrowerItem.range - flameThrowerItem.spread,
+						player.posX + flameThrowerItem.range + flameThrowerItem.spread,
+						player.posY + flameThrowerItem.range + flameThrowerItem.spread,
+						player.posZ + flameThrowerItem.range + flameThrowerItem.spread));
+
+		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
+		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
+		for (int i = 0; i <= flameThrowerItem.range; i++) {
+			double pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
+			double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
+			double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+
+			if (i > 1) {
+				if (player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ)) {
+					player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
+				}
+			}
+
+			if (closeEntities != null && closeEntities.size() > 0) {
+				for (final Entity entity : closeEntities)
+					if (!entity.equals(player) && Math.abs(entity.posX - pathX) < flameThrowerItem.spread && Math.abs(entity.posY - pathY) < flameThrowerItem.spread
+							&& Math.abs(entity.posZ - pathZ) < flameThrowerItem.spread) {
+						if (!entity.isBurning())
+							entity.setFire(flameThrowerItem.fireDuration);
+						entity.attackEntityFrom(DamageSource.onFire, flameThrowerItem.damage);
+					}
+			}
+		}
 	}
 
 	public final int fuelUnitsFull;

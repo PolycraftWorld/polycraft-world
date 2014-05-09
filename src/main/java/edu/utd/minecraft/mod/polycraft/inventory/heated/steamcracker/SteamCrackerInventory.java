@@ -62,20 +62,6 @@ public class SteamCrackerInventory extends HeatedInventory {
 	}
 
 	@Override
-	protected int getTotalProcessingTicksForCurrentInputs() {
-		if (!canProcess())
-			return 0;
-		return 200; //TODO load dynamically from somewhere?
-	}
-
-	@Override
-	protected int getProcessingHeatIntensityForCurrentInputs(final boolean min) {
-		if (!canProcess())
-			return 0;
-		return 1; //TODO load dynamically from somewhere?
-	}
-
-	@Override
 	protected void finishProcessingInput(final int slotIndex, final ItemStack actualInput, final ItemStack recipeInput) {
 		//leave cooling and heating water intact
 		if (slotIndex != slotIndexCoolingWater && slotIndex != slotIndexHeatingWater) {

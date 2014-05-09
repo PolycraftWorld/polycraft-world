@@ -19,7 +19,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
 
-//TODO need to decrement inputs when output is taken...
 public class MachiningMillInventory extends PolycraftInventory {
 
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
