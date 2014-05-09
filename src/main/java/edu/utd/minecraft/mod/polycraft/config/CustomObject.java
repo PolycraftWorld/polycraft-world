@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
 public class CustomObject extends GameIdentifiedConfig {
 
@@ -23,6 +24,6 @@ public class CustomObject extends GameIdentifiedConfig {
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftMod.getItem(this), size);
+		return new ItemStack(PolycraftRegistry.getItem(this), size);
 	}
 }

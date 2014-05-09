@@ -228,7 +228,7 @@ public class PolycraftRecipeManager {
 				validRecipes.add(recipe);
 			}
 		}
-		
+
 		if (validRecipes.size() == 0) {
 			return null;
 		}
@@ -249,7 +249,7 @@ public class PolycraftRecipeManager {
 		for (final RecipeComponent input : inputs) {
 			itemSet.add(input.itemStack.getItem().toString());
 		}
-		
+
 		List<PolycraftRecipe> validRecipes = Lists.newArrayList();
 		final Set<PolycraftRecipe> shapelessSet = shapelessRecipesByContainer.get(container).getAnySubset(itemSet);
 		for (final PolycraftRecipe recipe : shapelessSet) {
@@ -257,7 +257,7 @@ public class PolycraftRecipeManager {
 				validRecipes.add(recipe);
 			}
 		}
-		
+
 		if (validRecipes.size() == 0) {
 			return null;
 		}

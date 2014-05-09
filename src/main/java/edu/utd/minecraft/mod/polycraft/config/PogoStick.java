@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
 public class PogoStick extends SourcedConfig<PogoStick> {
 
@@ -46,7 +47,7 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftMod.getItem(this), size);
+		return new ItemStack(PolycraftRegistry.getItem(this), size);
 	}
 
 	public double getMotionY(final float fallDistance, final int previousContinuousActiveBounces, final boolean playerActivelyBouncing) {

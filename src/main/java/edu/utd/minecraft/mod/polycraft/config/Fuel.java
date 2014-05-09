@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
 public class Fuel extends Config {
 
@@ -42,11 +43,11 @@ public class Fuel extends Config {
 	public static void registerQuantifiedFuels() {
 		for (final Fuel fuel : registry.values()) {
 			if (fuel.source instanceof MinecraftItem)
-				quantifiedFuelsByItem.put(PolycraftMod.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof Compound) {
 				for (final CompoundVessel compoundVessel : CompoundVessel.registry.values())
 					if (compoundVessel.source == fuel.source)
-						quantifiedFuelsByItem.put(PolycraftMod.getItem(compoundVessel.name), new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType()));
+						quantifiedFuelsByItem.put(PolycraftRegistry.getItem(compoundVessel.name), new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType()));
 			}
 		}
 	}

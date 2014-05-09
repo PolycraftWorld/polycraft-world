@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
 public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 
@@ -27,6 +28,6 @@ public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftMod.getBlock(this), size);
+		return new ItemStack(PolycraftRegistry.getBlock(this), size);
 	}
 }

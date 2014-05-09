@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 
 public class OreWorldGenerator implements IWorldGenerator {
@@ -33,7 +33,7 @@ public class OreWorldGenerator implements IWorldGenerator {
 	private void generateSurface(World world, Random random, int i, int j) {
 		for (final Ore ore : Ore.registry.values()) {
 			if (ore.generationBlocksPerVein > 0) {
-				final Block oreBlock = PolycraftMod.getBlock(ore);
+				final Block oreBlock = PolycraftRegistry.getBlock(ore);
 				for (int k = 0; k < ore.generationVeinsPerChunk; k++) {
 					int firstBlockXCoord = i + random.nextInt(16);
 					int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin);

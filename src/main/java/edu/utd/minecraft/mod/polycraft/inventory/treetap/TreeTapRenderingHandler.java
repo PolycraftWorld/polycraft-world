@@ -9,7 +9,7 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
@@ -108,7 +108,7 @@ public class TreeTapRenderingHandler extends PolycraftInventoryBlock.BasicRender
 			tessellator.setColorOpaque_F(f, f1, f2);
 		}
 
-		final TreeTapBlock treeTapBlock = (TreeTapBlock) PolycraftMod.getBlock(config);
+		final TreeTapBlock treeTapBlock = (TreeTapBlock) PolycraftRegistry.getBlock(config);
 		IIcon iicon = treeTapBlock.iconOutside;
 		IIcon iicon1 = treeTapBlock.iconInside;
 		f1 = 0.125F;

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.inventory.BlockFace;
 
 public class Inventory extends GameIdentifiedConfig {
@@ -52,6 +53,6 @@ public class Inventory extends GameIdentifiedConfig {
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftMod.getBlock(this), size);
+		return new ItemStack(PolycraftRegistry.getBlock(this), size);
 	}
 }

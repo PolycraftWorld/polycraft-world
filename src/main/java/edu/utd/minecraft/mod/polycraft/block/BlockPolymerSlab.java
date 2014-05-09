@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 
 public class BlockPolymerSlab extends BlockSlab implements BlockBouncy
@@ -53,7 +53,7 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	{
-		return PolycraftMod.getItem(polymerSlab.itemSlabName);
+		return PolycraftRegistry.getItem(polymerSlab.itemSlabName);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy
 	@Override
 	protected ItemStack createStackedBlock(int p_149644_1_)
 	{
-		return new ItemStack(PolycraftMod.getItem(polymerSlab.name), 2, p_149644_1_ & 7);
+		return new ItemStack(PolycraftRegistry.getItem(polymerSlab.name), 2, p_149644_1_ & 7);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_)
 	{
-		if (p_149666_1_ != PolycraftMod.getItem(polymerSlab.blockDoubleSlabName))
+		if (p_149666_1_ != PolycraftRegistry.getItem(polymerSlab.blockDoubleSlabName))
 		{
 			for (int i = 0; i <= 7; ++i)
 			{

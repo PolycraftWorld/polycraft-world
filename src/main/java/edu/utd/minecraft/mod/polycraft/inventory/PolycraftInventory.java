@@ -15,6 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
@@ -25,7 +26,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 public abstract class PolycraftInventory extends PolycraftBasicTileEntityContainer {
 
 	protected static final void register(final PolycraftInventoryBlock inventoryBlock, final ISimpleBlockRenderingHandler renderingHandler) {
-		PolycraftMod.registerBlock(inventoryBlock.config, inventoryBlock);
+		PolycraftRegistry.registerBlock(inventoryBlock.config, inventoryBlock);
 		GameRegistry.registerTileEntity(inventoryBlock.tileEntityClass, inventoryBlock.config.tileEntityGameID);
 		RenderingRegistry.registerBlockHandler(renderingHandler.getRenderId(), renderingHandler);
 	}

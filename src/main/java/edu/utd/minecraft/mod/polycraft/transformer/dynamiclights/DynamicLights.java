@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.transformer.dynamiclights;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -78,6 +79,15 @@ public class DynamicLights
 			}
 		}
 		return Math.max(vanillaValue, dynamicValue);
+	}
+
+	public static <S extends IDynamicLightSource> void syncLightSources(final Collection<S> lightSources, final boolean enabled) {
+		for (final IDynamicLightSource lightSource : lightSources) {
+			if (enabled)
+				addLightSource(lightSource);
+			else
+				removeLightSource(lightSource);
+		}
 	}
 
 	/**

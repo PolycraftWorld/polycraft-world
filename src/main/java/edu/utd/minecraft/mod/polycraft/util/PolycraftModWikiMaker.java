@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
@@ -108,8 +109,8 @@ public class PolycraftModWikiMaker {
 
 		WriteLine("'items' [");
 		Indent();
-		for (String itemName : PolycraftMod.items.keySet()) {
-			Item item = PolycraftMod.items.get(itemName);
+		for (String itemName : PolycraftRegistry.items.keySet()) {
+			Item item = PolycraftRegistry.items.get(itemName);
 			String key = item.getUnlocalizedName() + ".name";
 			String iconName = null;
 			try {
