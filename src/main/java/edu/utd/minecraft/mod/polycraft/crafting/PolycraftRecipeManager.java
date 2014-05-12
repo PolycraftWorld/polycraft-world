@@ -481,7 +481,7 @@ public class PolycraftRecipeManager {
 
 		return newRecipe;
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onItemCraftedEventServer(final PlayerEvent.ItemCraftedEvent event) {
 		ItemStack craftedItem = event.crafting;

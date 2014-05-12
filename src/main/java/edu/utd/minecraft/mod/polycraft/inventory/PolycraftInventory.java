@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -80,7 +81,30 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
+	// SlotCrafting methods
+	public void onPickupFromSlot(EntityPlayer player, ContainerSlot slot, ItemStack item) {
+        for (InventoryBehavior behavior : this.getBehaviors()) {
+			boolean result = behavior.onPickupFromSlot(this, player, slot, item);
+			if (result) {
+				return;
+			}
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////
 	// TileEntity Methods
+	@Override
+	public void setInventorySlotContents(int slotIndex, ItemStack stack) {
+		super.setInventorySlotContents(slotIndex, stack);
+		ContainerSlot slot = this.getContainerType().getContainerSlotByIndex(slotIndex);
+		for (InventoryBehavior behavior : this.getBehaviors()) {			
+			Boolean result = behavior.setInventorySlotContents(this, slot, stack);
+			if (result != null) {
+				return;
+			}
+		}
+	}
+	
 	@Override
 	public void updateEntity() {
 		for (InventoryBehavior behavior : this.getBehaviors()) {

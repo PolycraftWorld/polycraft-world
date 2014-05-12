@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 
 import java.util.Random;
 
+import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -47,5 +48,13 @@ public abstract class InventoryBehavior<I extends PolycraftInventory> {
 	 */
 	public Boolean isItemValidForSlot(I inventory, int slotIndex, ItemStack stack) {
 		return null;
+	}
+
+	public boolean setInventorySlotContents(PolycraftInventory inventory, ContainerSlot slot, ItemStack item) {
+		return false;
+	}
+	
+	public boolean onPickupFromSlot(PolycraftInventory inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
+		return false;
 	}
 }

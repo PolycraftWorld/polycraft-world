@@ -1,24 +1,51 @@
 package edu.utd.minecraft.mod.polycraft.inventory.behaviors;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
+import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import edu.utd.minecraft.mod.polycraft.util.LogUtil;
 
 /**
  * Crafting behavior that emulates the regular crafting style behavior.
  */
 public class CraftingBehavior extends InventoryBehavior {
-
-	// TODO: This is probably wrong - should update with user interaction, and not
-	// on update tick?
+	private boolean isUpdating = false;
+	
 	@Override
-	public boolean updateEntity(PolycraftInventory inventory, World world) {
+	public boolean setInventorySlotContents(PolycraftInventory inventory, ContainerSlot slot, ItemStack item) {
+		System.out.println("CraftingBehavior::setInventorySlotContents slot=" + slot + ", item=" + LogUtil.toString(item) + ", isUpdating=" + isUpdating + ", isRemote="
+					+ (inventory.hasWorldObj() ? inventory.getWorldObj().isRemote : "null"));
+		if (!isUpdating) {
+			if (slot.getSlotType().equals(SlotType.INPUT)){
+				updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean onPickupFromSlot(PolycraftInventory inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
+		if (item == null || item.getItem() == null) {
+			return true;
+		}
+		
+		try {	
+			if (slot.getSlotType().equals(SlotType.OUTPUT)) {
+				// Output slot -- clear / decrement the inputs
+				isUpdating = true;
+				inventory.craftItems(true);
+			}
+		} finally {
+			isUpdating = false;
+		}
 		updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
+
 		return true;
 	}
 

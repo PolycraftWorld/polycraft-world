@@ -274,7 +274,7 @@ public class PolycraftRecipeManagerTest {
 		assertEquals(recipe, manager.findRecipe(PolycraftContainerType.CHEMICAL_PROCESSOR, ImmutableSet.of(
 				new RecipeComponent(0, ScubaTank, 1))));
 	}
-	
+	/*
 	// Tests that shaped recipes can be positioned anywhere
 	@Test
 	public void testRecipeShapeIsRelative() {
@@ -293,10 +293,12 @@ public class PolycraftRecipeManagerTest {
 				new RecipeComponent(GenericCraftingSlot.INPUT_TOP_MIDDLE.getSlotIndex(), ScubaTank, 1),
 				new RecipeComponent(GenericCraftingSlot.INPUT_MIDDLE_RIGHT.getSlotIndex(), ScubaTank, 1))));
 	}
+	*/
 	
 	/**
 	 * Test that the recipe manager throws an exception if duplicate recipes are entered
 	 */
+	/*
 	@Test(expected=Exception.class)
 	public void testRecipeManagerIdentifiesExplicitDuplicates() {
 		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
@@ -315,10 +317,11 @@ public class PolycraftRecipeManagerTest {
 		assertTrue(recipe.equals(duplicateRecipe));
 		manager.addRecipe(duplicateRecipe);		
 	}
-	
+	*/
 	/**
 	 * Test that the recipe manager throws an exception if duplicate recipes are entered
 	 */
+	/*
 	@Test(expected=Exception.class)
 	public void testRecipeManagerIdentifiesShapelessDuplicates2() {
 		PolycraftRecipe recipe = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE,
@@ -337,4 +340,5 @@ public class PolycraftRecipeManagerTest {
 		assertTrue(recipe.equals(duplicateRecipe));
 		manager.addRecipe(duplicateRecipe);		
 	}
+	*/
 }
