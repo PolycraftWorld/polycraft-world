@@ -21,7 +21,7 @@ import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
 public class ItemFlameThrower extends PolycraftUtilityItem {
-
+	private static final String IGNITED = "ignited";
 	private static final String FUEL_UNITS_REMAINING = "fuelUnitsRemaining";
 
 	public static boolean isEquipped(final EntityPlayer player) {
@@ -36,12 +36,21 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		return player.getCurrentEquippedItem();
 	}
 
-	public static boolean isFiring(final EntityPlayer player) {
-		return player.isUsingItem() && !player.isInWater() && isEquipped(player) && getEquippedItem(player).hasFuelRemaining(getEquippedItemStack(player));
+	public static boolean allowsFiring(final EntityPlayer player) {
+		return !player.isInWater() && isEquipped(player) && getEquippedItem(player).hasFuelRemaining(getEquippedItemStack(player));
 	}
 
 	public static double getFuelRemainingPercent(final EntityPlayer player) {
 		return isEquipped(player) ? getEquippedItem(player).getFuelRemainingPercent(getEquippedItemStack(player)) : 0;
+	}
+
+	public static boolean getIgnited(final EntityPlayer player) {
+		return isEquipped(player) && PolycraftItemHelper.getBoolean(getEquippedItemStack(player), IGNITED, false);
+	}
+
+	public static void setIgnited(final EntityPlayer player, final boolean ignited) {
+		if (isEquipped(player))
+			PolycraftItemHelper.setBoolean(getEquippedItemStack(player), IGNITED, ignited);
 	}
 
 	public static boolean burnFuel(final EntityPlayer player) {
@@ -104,7 +113,7 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 			double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
 			double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
 
-			if (i > 1) {
+			if (i > 3) {
 				if (player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ)) {
 					player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
 				}

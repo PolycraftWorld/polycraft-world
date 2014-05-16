@@ -1,12 +1,21 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import java.util.Collection;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import com.google.common.collect.Lists;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
 public class ItemPhaseShifter extends PolycraftUtilityItem {
 
@@ -16,6 +25,21 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 
 	public static ItemPhaseShifter getEquippedItem(final EntityPlayer player) {
 		return PolycraftItemHelper.getCurrentEquippedItem(player);
+	}
+
+	public static boolean isGlowing(final EntityPlayer player) {
+		return isEquipped(player) && (player.isInsideOfMaterial(Material.air) || player.isInsideOfMaterial(Material.water));
+	}
+
+	public static Collection<PointLightSource> createLightSources(final World world) {
+		final Collection<PointLightSource> lightSources = Lists.newLinkedList();
+		lightSources.add(new PointLightSource(world));
+		return lightSources;
+	}
+
+	public static void createGlow(final EntityPlayer player, final WorldClient world, final Collection<PointLightSource> lightSources) {
+		for (final PointLightSource source : lightSources)
+			source.update(15, player.posX, player.posY, player.posZ);
 	}
 
 	public static void createBoundary(final ItemPhaseShifter phaseShifter, final EntityPlayer player, final World world) {
@@ -29,7 +53,7 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 				for (int z = -phaseShifter.radius; z <= phaseShifter.radius; z++) {
 					final boolean zBoundary = (Math.abs(z) == phaseShifter.radius);
 					final int blockX = playerX + x;
-					final int blockY = playerY + y;
+					final int blockY = playerY + y + 5;
 					final int blockZ = playerZ + z;
 					world.func_147480_a(blockX, blockY, blockZ, true);
 					if (phaseShifter.boundaryBlock != null && (xBoundary || yBoundary || zBoundary))
@@ -37,7 +61,6 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 				}
 			}
 		}
-		player.setPosition(playerX, playerY - phaseShifter.radius + 1, playerZ);
 	}
 
 	public final int radius;
@@ -51,5 +74,16 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 		this.radius = config.params.getInt(0);
 		this.flySpeedBuff = config.params.getFloat(1);
 		this.boundaryBlock = config.params.hasParam(2) ? PolycraftRegistry.getBlock(config.params.get(2)) : null;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(final ItemStack par1ItemStack, final World par2World, final EntityPlayer par3EntityPlayer) {
+		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+		return par1ItemStack;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(final ItemStack par1ItemStack) {
+		return 10;
 	}
 }

@@ -7,10 +7,13 @@ import java.util.Map.Entry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+
+import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Maps;
 
@@ -42,18 +45,21 @@ public class ClientProxy extends CommonProxy {
 	private static final int statusOverlayDistanceBetweenY = 10;
 
 	private Minecraft client;
+	private GameSettings gameSettings;
+	private KeyBinding keyBindingToggleArmor;
 
 	@Override
 	public void preInit() {
 		super.preInit();
 		client = FMLClientHandler.instance().getClient();
+		gameSettings = client.gameSettings;
+		keyBindingToggleArmor = new KeyBinding("key.toggle.armor", Keyboard.KEY_F, "key.categories.gameplay");
 	}
 
 	private class PlayerState {
-		private boolean isFlying = false;
 		private boolean flashlightEnabled = false;
 		private final Collection<PointLightSource> flashlightLightSources;
-		private boolean jetPackAllowFlying = false;
+		private boolean jetPackIsFlying = false;
 		private boolean jetPackLightsEnabled = false;
 		private final Collection<PointLightSource> jetPackLightSources;
 		private boolean flameThrowerLightsEnabled = false;
@@ -61,12 +67,15 @@ public class ClientProxy extends CommonProxy {
 		private int pogoStickPreviousContinuousActiveBounces = 0;
 		private float pogoStickLastFallDistance = 0;
 		private boolean phaseShifterEnabled = false;
+		private final Collection<PointLightSource> phaseShifterLightSources;
+		private boolean phaseShifterLightsEnabled = false;
 		private float bouncyBlockBounceHeight = 0;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
 			jetPackLightSources = ItemJetPack.createLightSources(world);
 			flameThrowerLightSources = ItemFlameThrower.createLightSources(world);
+			phaseShifterLightSources = ItemPhaseShifter.createLightSources(world);
 		}
 
 		private void setFlashlightEnabled(final boolean enabled) {
@@ -87,6 +96,13 @@ public class ClientProxy extends CommonProxy {
 			if (flameThrowerLightsEnabled != enabled) {
 				flameThrowerLightsEnabled = enabled;
 				DynamicLights.syncLightSources(flameThrowerLightSources, enabled);
+			}
+		}
+
+		private void setPhaseShifterLightsEnabled(final boolean enabled) {
+			if (phaseShifterLightsEnabled != enabled) {
+				phaseShifterLightsEnabled = enabled;
+				DynamicLights.syncLightSources(phaseShifterLightSources, enabled);
 			}
 		}
 	}
@@ -110,6 +126,38 @@ public class ClientProxy extends CommonProxy {
 		return tick.phase == Phase.END && client.theWorld != null;
 	}
 
+	private boolean isKeyDown(final KeyBinding keyBinding) {
+		return GameSettings.isKeyDown(keyBinding);
+	}
+
+	private void setPlayerVelocityFromInputXZ(final EntityPlayer player, final float velocity) {
+		double directionRadians = Math.toRadians(player.rotationYaw + 90);
+		final boolean forward = isKeyDown(gameSettings.keyBindForward);
+		final boolean back = isKeyDown(gameSettings.keyBindBack);
+		final boolean left = isKeyDown(gameSettings.keyBindLeft);
+		final boolean right = isKeyDown(gameSettings.keyBindRight);
+		if (back)
+			directionRadians += -Math.PI;
+		if (left)
+			directionRadians += Math.PI / (forward ? -4 : back ? 4 : -2);
+		if (right)
+			directionRadians += Math.PI / (forward ? 4 : back ? -4 : 2);
+
+		if (forward != back || left != right) {
+			player.motionX = velocity * Math.cos(directionRadians);
+			player.motionZ = velocity * Math.sin(directionRadians);
+		}
+	}
+
+	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
+		if (isKeyDown(gameSettings.keyBindJump))
+			player.motionY = velocity;
+		else if (isKeyDown(gameSettings.keyBindSneak))
+			player.motionY = -velocity;
+		else if (cancelGravity)
+			player.motionY = 0;
+	}
+
 	@Override
 	@SubscribeEvent
 	public synchronized void onEntityLivingDeath(final LivingDeathEvent event) {
@@ -128,10 +176,10 @@ public class ClientProxy extends CommonProxy {
 			else if (isEntityOnBouncyBlock(player)) {
 				final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
 				//if we are actively jumping
-				if (noScreenOverlay() && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump))
+				if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 					playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
 				//if we are supposed to return momentum while not actively jumping (or sneaking)
-				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak))
+				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 					playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 			}
 		}
@@ -152,10 +200,6 @@ public class ClientProxy extends CommonProxy {
 				onClientTickPogoStick(player, playerState);
 				onClientTickBouncyBlock(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
-				if (playerState.isFlying != player.capabilities.isFlying) {
-					playerState.isFlying = player.capabilities.isFlying;
-					sendMessageToServerIsFlying(player.capabilities.isFlying);
-				}
 			}
 		}
 	}
@@ -171,6 +215,7 @@ public class ClientProxy extends CommonProxy {
 					onPlayerTickClientFlashlight(tick.player, playerState);
 					onPlayerTickClientJetPack(tick.player, playerState);
 					onPlayerTickClientFlameThrower(tick.player, playerState);
+					onPlayerTickClientPhaseShifter(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
 				}
 			}
@@ -226,20 +271,27 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
-		final boolean jetPackAllowFlying = ItemJetPack.allowsFlying(player);
-		if (playerState.jetPackAllowFlying != jetPackAllowFlying) {
-			playerState.jetPackAllowFlying = jetPackAllowFlying;
-			if (!jetPackAllowFlying)
-				player.capabilities.isFlying = jetPackAllowFlying;
-			if (!player.capabilities.isCreativeMode)
-				player.capabilities.allowFlying = jetPackAllowFlying;
-			player.capabilities.setFlySpeed(jetPackAllowFlying ? baseFlySpeed * ItemJetPack.getEquippedItem(player).flySpeedBuff : baseFlySpeed);
+	private synchronized void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
+		boolean jetPackIsFlying = false;
+		if (ItemJetPack.allowsFlying(player)) {
+			jetPackIsFlying = playerState.jetPackIsFlying;
+			if (keyBindingToggleArmor.isPressed())
+				jetPackIsFlying = !jetPackIsFlying;
 		}
 
-		// cause an unstable motion to simulate the unpredictability of the exhaust direction
-		if (ItemJetPack.getIgnited(player))
+		if (playerState.jetPackIsFlying != jetPackIsFlying) {
+			playerState.jetPackIsFlying = jetPackIsFlying;
+			sendMessageToServerJetPackIsFlying(jetPackIsFlying);
+		}
+
+		if (playerState.jetPackIsFlying) {
+			final float flySpeed = baseFlySpeed * ItemJetPack.getEquippedItem(player).flySpeedBuff;
+			setPlayerVelocityFromInputXZ(player, flySpeed);
+			setPlayerVelocityFromInputY(player, flySpeed, true);
+
+			// cause an unstable motion to simulate the unpredictability of the exhaust direction
 			ItemJetPack.randomizePosition(player, random);
+		}
 	}
 
 	private void onPlayerTickClientJetPack(final EntityPlayer player, final PlayerState playerState) {
@@ -250,10 +302,17 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onPlayerTickClientFlameThrower(final EntityPlayer player, final PlayerState playerState) {
-		final boolean flameThrowerFiring = ItemFlameThrower.isFiring(player);
-		if (flameThrowerFiring)
+		final boolean flameThrowerIgnited = ItemFlameThrower.getIgnited(player);
+		if (flameThrowerIgnited)
 			ItemFlameThrower.createFlames(player, client.theWorld, random, playerState.flameThrowerLightSources);
-		playerState.setFlameThrowerLightsEnabled(flameThrowerFiring);
+		playerState.setFlameThrowerLightsEnabled(flameThrowerIgnited);
+	}
+
+	private void onPlayerTickClientPhaseShifter(final EntityPlayer player, final PlayerState playerState) {
+		final boolean isPhaseShifterGlowing = ItemPhaseShifter.isGlowing(player);
+		if (isPhaseShifterGlowing)
+			ItemPhaseShifter.createGlow(player, client.theWorld, playerState.phaseShifterLightSources);
+		playerState.setPhaseShifterLightsEnabled(isPhaseShifterGlowing);
 	}
 
 	private void onClientTickParachute(final EntityPlayer player, final PlayerState playerState) {
@@ -265,29 +324,20 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onClientTickRunningShoes(final EntityPlayer player) {
-		if (ItemRunningShoes.allowsRunning(player)) {
-			if (player.onGround && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward))
-				setPlayerVelocityForward(player, baseWalkSpeed * ItemRunningShoes.getEquippedItem(player).walkSpeedBuff);
-		}
+		if (ItemRunningShoes.allowsRunning(player))
+			if (player.onGround)
+				setPlayerVelocityFromInputXZ(player, baseWalkSpeed * ItemRunningShoes.getEquippedItem(player).walkSpeedBuff);
 	}
 
 	private void onClientTickScubaFins(final EntityPlayer player) {
 		if (ItemScubaFins.allowsFastSwimming(player)) {
 			if (player.isInWater()) {
 				final float swimSpeed = baseSwimSpeed * ItemScubaFins.getEquippedItem(player).swimSpeedBuff;
-				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward)) {
-					setPlayerVelocityForward(player, swimSpeed);
-				}
-				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump)) {
-					player.motionY = swimSpeed;
-				}
-				else if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak)) {
-					player.motionY = -swimSpeed;
-				}
+				setPlayerVelocityFromInputXZ(player, swimSpeed);
+				setPlayerVelocityFromInputY(player, swimSpeed, false);
 			}
 			else if (player.onGround) {
-				if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward))
-					setPlayerVelocityForward(player, baseWalkSpeed * ItemScubaFins.getEquippedItem(player).walkSpeedBuff);
+				setPlayerVelocityFromInputXZ(player, baseWalkSpeed * ItemScubaFins.getEquippedItem(player).walkSpeedBuff);
 			}
 		}
 	}
@@ -298,8 +348,7 @@ public class ClientProxy extends CommonProxy {
 		if (ItemMoldedItem.isEquipped(player)) {
 			final MoldedItem moldedItem = ItemMoldedItem.getEquippedItem(player).getMoldedItem();
 			if (gameIDLifePreserver.equals(moldedItem.source.gameID)) {
-				if (player.isInWater() && !GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) &&
-						!GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak))
+				if (player.isInWater() && !isKeyDown(gameSettings.keyBindJump) && !isKeyDown(gameSettings.keyBindSneak))
 					player.motionY = 0;
 			}
 		}
@@ -311,8 +360,8 @@ public class ClientProxy extends CommonProxy {
 			final ItemPogoStick pogoStick = ItemPogoStick.getEquippedItem(player);
 			jumpMovementFactor *= pogoStick.config.jumpMovementFactorBuff;
 			if (!pogoStick.config.restrictJumpToGround || player.onGround) {
-				final boolean playerActivelyBouncing = GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindUseItem) && noScreenOverlay();
-				final boolean playerActivelySupressing = !playerActivelyBouncing && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak) && noScreenOverlay();
+				final boolean playerActivelyBouncing = isKeyDown(gameSettings.keyBindUseItem) && noScreenOverlay();
+				final boolean playerActivelySupressing = !playerActivelyBouncing && isKeyDown(gameSettings.keyBindSneak) && noScreenOverlay();
 				final double motionY = pogoStick.config.getMotionY(playerActivelySupressing ? 0 : playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
 				if (motionY > 0)
 					player.motionY = motionY;
@@ -335,7 +384,7 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.bouncyBlockBounceHeight > 0) {
 			//if the player is on the ground and holding down jump, then wait for the jump to occur
 			//(if we try to set the y velocity before the game jumps, it will override our velocity)
-			if (!(player.onGround && GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump))) {
+			if (!(player.onGround && isKeyDown(gameSettings.keyBindJump))) {
 				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.bouncyBlockBounceHeight);
 				if (motionY > .2)
 					player.motionY = motionY;
@@ -349,15 +398,12 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.phaseShifterEnabled != phaseShifterEnabled) {
 			playerState.phaseShifterEnabled = phaseShifterEnabled;
 			player.noClip = phaseShifterEnabled;
-			if (!player.capabilities.isCreativeMode)
-				player.capabilities.allowFlying = phaseShifterEnabled;
-			player.capabilities.isFlying = phaseShifterEnabled;
-			//TODO does this work?
-			player.capabilities.setFlySpeed(phaseShifterEnabled ? baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff : baseFlySpeed);
 		}
 
 		if (phaseShifterEnabled) {
-			player.capabilities.isFlying = true;
+			final float flySpeed = baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff;
+			setPlayerVelocityFromInputXZ(player, flySpeed);
+			setPlayerVelocityFromInputY(player, flySpeed, true);
 			if (player.isInWater())
 				player.setAir(baseFullAir);
 		}

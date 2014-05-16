@@ -60,7 +60,7 @@ public abstract class CommonProxy {
 	private static final String flameThrowerSoundName = PolycraftMod.getAssetName("flamethrower.ignite");
 	private static final long flameThrowerSoundFrequencyTicks = 10;
 	private static final String netChannelName = PolycraftMod.MODID;
-	private static final int netMessageTypeIsFlying = 0;
+	private static final int netMessageTypeJetPackIsFlying = 0;
 
 	private FMLEventChannel netChannel;
 
@@ -85,8 +85,8 @@ public abstract class CommonProxy {
 		FMLCommonHandler.instance().bus().register(this);
 	}
 
-	protected void sendMessageToServerIsFlying(final boolean isFlying) {
-		sendMessageToServer(netMessageTypeIsFlying, isFlying ? 1 : 0);
+	protected void sendMessageToServerJetPackIsFlying(final boolean jetPackIsFlying) {
+		sendMessageToServer(netMessageTypeJetPackIsFlying, jetPackIsFlying ? 1 : 0);
 	}
 
 	private void sendMessageToServer(final int type, final int value) {
@@ -98,8 +98,8 @@ public abstract class CommonProxy {
 		final PlayerState playerState = getPlayerState(((NetHandlerPlayServer) event.handler).playerEntity);
 		final ByteBuf payload = event.packet.payload();
 		switch (payload.readInt()) {
-		case netMessageTypeIsFlying:
-			playerState.isFlying = (payload.readInt() == 1);
+		case netMessageTypeJetPackIsFlying:
+			playerState.jetPackIsFlying = (payload.readInt() == 1);
 			break;
 		default:
 			break;
@@ -109,9 +109,8 @@ public abstract class CommonProxy {
 	protected static final Random random = new Random();
 
 	private class PlayerState {
-		private boolean isFlying = false;
+		private boolean jetPackIsFlying = false;
 		private long jetPackLastSoundTicks = 0;
-		public boolean jetPackIsFlying = false;
 		private long flameThrowerLastSoundTicks = 0;
 		private ItemPhaseShifter phaseShifterEquipped = null;
 		private long scubaBreatheLastSoundTicks = 0;
@@ -146,12 +145,6 @@ public abstract class CommonProxy {
 
 	protected static boolean isEntityOnBouncyBlock(final Entity entity) {
 		return getBlockUnderEntity(entity) instanceof BlockBouncy;
-	}
-
-	protected static void setPlayerVelocityForward(final EntityPlayer player, final float velocity) {
-		final double playerRotationRadians = Math.toRadians(player.rotationYaw + 90);
-		player.motionX = velocity * Math.cos(playerRotationRadians);
-		player.motionZ = velocity * Math.sin(playerRotationRadians);
 	}
 
 	@SubscribeEvent
@@ -212,8 +205,8 @@ public abstract class CommonProxy {
 	}
 
 	private void onPlayerTickServerJetPack(final EntityPlayer player, final PlayerState playerState) {
-		final boolean jetPackIsFlying = ItemJetPack.allowsFlying(player) && !player.onGround && playerState.isFlying;
-		if (jetPackIsFlying) {
+		final boolean jetPackIgnited = ItemJetPack.allowsFlying(player) && !player.onGround && playerState.jetPackIsFlying;
+		if (jetPackIgnited) {
 			if (playerState.jetPackLastSoundTicks++ > jetPackSoundFrequencyTicks) {
 				playerState.jetPackLastSoundTicks = 0;
 				player.worldObj.playSoundAtEntity(player, jetPackSoundName, 1f, 1f);
@@ -223,15 +216,12 @@ public abstract class CommonProxy {
 			player.fallDistance = 0;
 		}
 
-		if (playerState.jetPackIsFlying != jetPackIsFlying) {
-			playerState.jetPackIsFlying = jetPackIsFlying;
-			ItemJetPack.setIgnited(player, jetPackIsFlying);
-		}
+		ItemJetPack.setIgnited(player, jetPackIgnited);
 	}
 
 	private void onPlayerTickServerFlameThrower(final EntityPlayer player, final PlayerState playerState) {
-		final boolean flameThrowerFiring = ItemFlameThrower.isFiring(player);
-		if (flameThrowerFiring) {
+		final boolean flameThrowerIgnited = ItemFlameThrower.allowsFiring(player) && player.isUsingItem();
+		if (flameThrowerIgnited) {
 			if (playerState.flameThrowerLastSoundTicks++ > flameThrowerSoundFrequencyTicks) {
 				playerState.flameThrowerLastSoundTicks = 0;
 				player.worldObj.playSoundAtEntity(player, flameThrowerSoundName, 1f, 1f);
@@ -239,6 +229,7 @@ public abstract class CommonProxy {
 			ItemFlameThrower.burnFuel(player);
 			ItemFlameThrower.dealFlameDamage(player, player.worldObj);
 		}
+		ItemFlameThrower.setIgnited(player, flameThrowerIgnited);
 	}
 
 	private void onPlayerTickServerRunningShoes(final EntityPlayer player) {
@@ -268,11 +259,12 @@ public abstract class CommonProxy {
 			player.noClip = phaseShifterEnabled;
 			player.capabilities.disableDamage = phaseShifterEnabled;
 			player.setInvisible(phaseShifterEnabled);
-			if (!phaseShifterEnabled)
-				ItemPhaseShifter.createBoundary(playerState.phaseShifterEquipped, player, player.worldObj);
 			playerState.phaseShifterEquipped = phaseShifterEnabled ? ItemPhaseShifter.getEquippedItem(player) : null;
 		}
-		if (phaseShifterEnabled)
+		if (phaseShifterEnabled) {
+			if (player.isUsingItem())
+				ItemPhaseShifter.createBoundary(playerState.phaseShifterEquipped, player, player.worldObj);
 			player.fallDistance = 0;
+		}
 	}
 }
