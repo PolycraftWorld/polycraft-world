@@ -1,9 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public abstract class PolycraftCraftingContainer extends Container {
 
@@ -25,10 +29,60 @@ public abstract class PolycraftCraftingContainer extends Container {
 			}
 		}
 	}
+	
+	public static class CraftingSlot extends Slot {
+		private PolycraftCraftingContainer container;
+		private PolycraftInventory inventory;
+		private GuiContainerSlot guiSlot;
+				
+		public CraftingSlot(PolycraftCraftingContainer container, IInventory par1iInventory, GuiContainerSlot guiSlot) {
+			super(par1iInventory, guiSlot.getSlotIndex(), guiSlot.getDisplayX(), guiSlot.getDisplayY());
+			this.container = container;
+			this.guiSlot = guiSlot;
+			
+			// If the inventory is a PolycraftInventory, set the property on the slot so we can pass events to the inventory behaviors.
+			if (par1iInventory instanceof PolycraftInventory) {
+				inventory = (PolycraftInventory)par1iInventory;
+			}
+		}
+		
+		private static String toString(ItemStack stack) {
+			if (stack == null) {
+				return "null";
+			}
+			if (stack.getItem() == null) {
+				return "null " + stack.stackSize;
+			}
+			return stack.getItem().getUnlocalizedName() + " : " + stack.stackSize;			
+		}
+		
+		@Override
+		public void onSlotChange(ItemStack par1ItemStack, ItemStack par2ItemStack) {
+			super.onSlotChange(par1ItemStack, par2ItemStack);
+		}
+		
+		@Override
+	    protected void onCrafting(ItemStack par1ItemStack, int par2) {
+	    	super.onCrafting(par1ItemStack, par2);
+	    }
+
+		@Override
+	    protected void onCrafting(ItemStack par1ItemStack) {
+			super.onCrafting(par1ItemStack);
+		}
+		
+		@Override
+	    public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack) {
+	        super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
+	        if (inventory != null) {
+	        	inventory.onPickupFromSlot(par1EntityPlayer, guiSlot, par2ItemStack);
+	        }
+	    }
+
+	}
 
 	private void addInventorySlot(final IInventory inventory, final GuiContainerSlot guiSlot) {
-		//TODO need to use SlotCrafting, or make our own to get crafting to work for real (the CraftingBehavior class doesn't work by itself)
-		Slot newSlot = new Slot(inventory, guiSlot.getSlotIndex(), guiSlot.getDisplayX(), guiSlot.getDisplayY());
+		Slot newSlot = new CraftingSlot(this, inventory, guiSlot);
 		addSlotToContainer(newSlot);
 	}
 

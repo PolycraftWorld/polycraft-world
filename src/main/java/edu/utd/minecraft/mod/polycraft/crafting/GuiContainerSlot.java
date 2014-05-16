@@ -57,4 +57,9 @@ public class GuiContainerSlot implements ContainerSlot {
 	public int getDisplayY() {
 		return displayY;
 	}
+	
+	@Override
+	public String toString() {
+		return getSlotType() + ", index=" + index + ", x=" + getRelativeX() + ", y=" + getRelativeY();
+	}
 }

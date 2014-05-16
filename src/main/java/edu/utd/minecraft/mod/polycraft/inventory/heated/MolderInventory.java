@@ -16,6 +16,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
@@ -60,7 +61,9 @@ public abstract class MolderInventory extends HeatedInventory {
 	public boolean canProcess() {
 		if (super.canProcess()) {
 			final ItemStack moldItemStack = getStackInSlot(slotIndexMold);
-			return moldItemStack.getItemDamage() < moldItemStack.getMaxDamage();
+			if (moldItemStack != null) {
+				return moldItemStack.getItemDamage() < moldItemStack.getMaxDamage();
+			}
 		}
 		return false;
 	}
@@ -68,10 +71,21 @@ public abstract class MolderInventory extends HeatedInventory {
 	@Override
 	protected int getTotalProcessingTicksForCurrentInputs() {
 		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, getMaterials());
-		if (recipe == null)
+		if (recipe == null) {
 			return 0;
-		final PolycraftMoldedItem moldedItem = (PolycraftMoldedItem) recipe.getOutputs().iterator().next().itemStack.getItem();
-		return PolycraftMod.convertSecondsToGameTicks(moldedItem.getMoldedItem().craftingDurationSeconds);
+		}
+		if (recipe.getOutputs().size() == 0) {
+			return 0;
+		}
+		RecipeComponent next = recipe.getOutputs().iterator().next();
+		if (next == null || next.itemStack == null || next.itemStack.getItem() == null) {
+			return 0;
+		}
+		if (next.itemStack.getItem() instanceof PolycraftMoldedItem) {		
+			final PolycraftMoldedItem moldedItem = (PolycraftMoldedItem) recipe.getOutputs().iterator().next().itemStack.getItem();
+			return PolycraftMod.convertSecondsToGameTicks(moldedItem.getMoldedItem().craftingDurationSeconds);
+		}
+		return 0;
 	}
 
 	@Override
@@ -102,26 +116,13 @@ public abstract class MolderInventory extends HeatedInventory {
 
 	//automatically moves inputs into the target (center) input
 	private class ConvergeInputsBehavior extends CraftingBehavior {
-		@Override
-		public boolean updateEntity(final PolycraftInventory inventory, final World world) {
-			if (!worldObj.isRemote) {
-				final ItemStack targetInputItemStack = getStackInSlot(slotIndexInput);
-				if (targetInputItemStack == null || targetInputItemStack.stackSize < targetInputItemStack.getMaxStackSize()) {
-					for (int i = slotIndexFirstStorage; i <= slotIndexLastStorage; i++) {
-						if (converge(inventory, i, targetInputItemStack))
-							return true;
-					}
-				}
-			}
-			return true;
-		}
-
+		// TODO: Move this where it should be?
 		private boolean converge(final PolycraftInventory inventory, int sourceIndex, final ItemStack targetInputItemStack) {
 			final ItemStack sourceInputItemStack = getStackInSlot(sourceIndex);
 			if (sourceInputItemStack != null) {
 				if (targetInputItemStack == null || sourceInputItemStack.isItemEqual(targetInputItemStack)) {
 					if (sourceInputItemStack.stackSize == 1)
-						setInventorySlotContents(sourceIndex, null);
+						inventory.setInventorySlotContents(sourceIndex, null);
 					else
 						sourceInputItemStack.stackSize--;
 					if (targetInputItemStack == null)

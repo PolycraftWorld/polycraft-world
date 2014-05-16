@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
+import edu.utd.minecraft.mod.polycraft.util.LogUtil;
+
 /**
  * An input to a recipe.  The position may or may not be fixed (use RecipeSlot.ANY to indicate
  * that the input can occur anywhere).  The inputs represent a "one-of" item; the recipe must
@@ -160,6 +162,6 @@ public final class RecipeInput {
 
 	@Override
 	public String toString() {
-		return this.slot.toString() + ", inputs=" + this.inputs.toString();
+		return this.slot.toString() + ", inputs=" + LogUtil.toStringItemStack(this.inputs);
 	}
 }

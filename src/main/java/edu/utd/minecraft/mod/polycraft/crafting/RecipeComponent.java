@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 
 import com.google.common.base.Preconditions;
 
+import edu.utd.minecraft.mod.polycraft.util.LogUtil;
+
 /**
  * A recipe component consisting of an item stack and the container
  * slot it exists in.
@@ -72,6 +74,6 @@ public class RecipeComponent implements Comparable<RecipeComponent> {
 
 	@Override
 	public String toString() {
-		return slot.toString() + ": " + itemStack.getItem().getUnlocalizedName() + " (" + itemStack.stackSize + ")";
+		return "slot=" + slot + ", itemStack=" + LogUtil.toString(itemStack);
 	}
 }

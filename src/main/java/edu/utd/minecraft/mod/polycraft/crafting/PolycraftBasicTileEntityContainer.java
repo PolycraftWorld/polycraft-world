@@ -101,11 +101,11 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	/**
 	 * Turn one item from the container source stack into the appropriate processed items in the result stack.
 	 */
-	public void craftItems() {
+	public void craftItems(boolean createOutputs) {
 		Set<RecipeComponent> inputs = getMaterials();
 		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, inputs);
 		if (recipe != null) {
-			recipe.process(inputs, this);
+			recipe.process(inputs, this, createOutputs);
 		}
 	}
 
@@ -193,7 +193,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 * Returns the stack in slot i
 	 */
 	@Override
-	public ItemStack getStackInSlot(int slotIndex) {
+	public ItemStack getStackInSlot(int slotIndex) {		
 		if (slotIndex >= inputArray.length) {
 			return null;
 		}
@@ -208,6 +208,9 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		if (slotIndex < 0 || slotIndex >= totalSlots) {
 			return;
 		}
+		
+		// TODO: Needed?
+		this.markDirty();
 
 		boolean isInput = inputSlotSet.contains(slotIndex);
 		if (isInput) {
@@ -219,6 +222,8 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		}
 
 		if (stack == null) {
+			inputArray[slotIndex] = null;
+		} else if(stack.stackSize == 0) {
 			inputArray[slotIndex] = null;
 		} else {
 			RecipeComponent newInput = new RecipeComponent(slotIndex, stack);

@@ -18,6 +18,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import edu.utd.minecraft.mod.polycraft.util.LogUtil;
+
 /**
  * Recipes for Polycraft Mod. Recipes can consist of shaped inputs, shapeless inputs, or both.
  */
@@ -310,22 +312,24 @@ public class PolycraftRecipe {
 	/**
 	 * Processes the inputs against the recipe, adding the results to the container's output and subtracting from the inputs.
 	 */
-	public void process(final Set<RecipeComponent> inputs, PolycraftTileEntityContainer container) {
+	public void process(final Set<RecipeComponent> inputs, PolycraftTileEntityContainer container, boolean processOutputs) {
 		if (inputs == null || !areInputsValid(inputs)) {
 			logger.error("Invalid processing input for recipe " + this.toString());
 			return;
 		}
 
-		// Create the outputs.
-		for (final RecipeComponent output : this.outputs) {
-			if (container.getStackInSlot(output.slot) == null) {
-				container.setStackInSlot(output.slot, output.itemStack.copy());
-			} else {
-				container.getStackInSlot(output.slot).stackSize += output.itemStack.stackSize;
+		if (processOutputs) {
+			// Create the outputs for recipes that generate them.
+			for (final RecipeComponent output : this.outputs) {
+				if (container.getStackInSlot(output.slot) == null) {
+					container.setStackInSlot(output.slot, output.itemStack.copy());
+				} else {
+					container.getStackInSlot(output.slot).stackSize += output.itemStack.stackSize;
+				}
 			}
 		}
-
-		// Remove from the inputs.
+		
+		// Remove from the inputs used by the recipe.
 		Set<RecipeInput> usedInputs = Sets.newHashSet();
 		for (final RecipeComponent input : ImmutableList.copyOf(inputs)) {
 			ItemStack itemStack = getItemstackForInput(input, usedInputs);
@@ -363,8 +367,8 @@ public class PolycraftRecipe {
 
 	@Override
 	public String toString() {
-		return "PolycraftRecipe [shapelessInputs=" + shapelessInputs
-				+ ", shapedInputs=" + shapedInputs + ", outputs=" + outputs
+		return "PolycraftRecipe [containerType=" + this.containerType + ", shapelessInputs=" + LogUtil.toStringRecipeInputs(shapelessInputs)
+				+ ", shapedInputs=" + shapedInputs + ", outputs=" + LogUtil.toStringRecipeComponents(outputs)
 				+ "]";
 	}
 
