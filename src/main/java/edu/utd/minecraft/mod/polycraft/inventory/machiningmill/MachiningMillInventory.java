@@ -17,10 +17,12 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGener
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
+import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
 
-public class MachiningMillInventory extends PolycraftInventory {
+public class MachiningMillInventory extends WateredInventory {
 
+	private static final int coolingWaterSlotIndex;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		//5x5 input grid
@@ -28,7 +30,7 @@ public class MachiningMillInventory extends PolycraftInventory {
 			for (int x = 0; x < 5; x++)
 				guiSlots.add(GuiContainerSlot.createInput(guiSlots.size(), x, y, 8, 0));
 		//cooling water
-		guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.INPUT, 0, 5, 116, 90));
+		guiSlots.add(new GuiContainerSlot(coolingWaterSlotIndex = guiSlots.size(), SlotType.MISC, -1, -1, 116, 90));
 		//output
 		guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.OUTPUT, -1, -1, 152, 54));
 	}
@@ -41,7 +43,7 @@ public class MachiningMillInventory extends PolycraftInventory {
 	}
 
 	public MachiningMillInventory() {
-		super(PolycraftContainerType.MACHINING_MILL, config);
+		super(PolycraftContainerType.MACHINING_MILL, config, coolingWaterSlotIndex, -1);
 		this.addBehavior(new CraftingBehavior());
 	}
 

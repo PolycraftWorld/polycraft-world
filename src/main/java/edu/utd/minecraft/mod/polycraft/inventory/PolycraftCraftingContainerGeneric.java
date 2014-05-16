@@ -10,11 +10,11 @@ import org.apache.logging.log4j.Logger;
 
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
-import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 
 public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> extends PolycraftCraftingContainer {
 	protected final I inventory;
 	private static final Logger logger = LogManager.getLogger();
+	private final int firstPlayerInventorySlot;
 
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory) {
 		this(inventory, playerInventory, 121);
@@ -22,7 +22,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset) {
 		super(inventory, inventory.getContainerType());
-		addPlayerInventorySlots(playerInventory, playerInventoryOffset);
+		this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);
 		this.inventory = inventory;
 	}
 
@@ -43,7 +43,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (!this.mergeItemStack(itemstack1, inventory.getContainerType().getSlots(SlotType.INPUT).size(), 39, false)) {
+			if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, firstPlayerInventorySlot + 36, false)) {
 				return null;
 			}
 

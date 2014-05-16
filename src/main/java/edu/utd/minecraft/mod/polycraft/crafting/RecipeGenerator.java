@@ -111,11 +111,10 @@ public class RecipeGenerator {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 					moldedItem.getItemStack(),
-					new String[] { "xyz" },
+					new String[] { "xy" },
 					ImmutableMap.of(
 							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
-							'y', moldedItem.source.getItemStack(),
-							'z', new ItemStack(Items.water_bucket)));
+							'y', moldedItem.source.getItemStack()));
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			PolycraftMod.recipeManager.addShapelessRecipe(
@@ -225,7 +224,7 @@ public class RecipeGenerator {
 			if (line.length > 0) {
 				if (currentMold == null || currentRow == 5 && line.length > 1) {
 					currentMold = Mold.registry.get(line[1]);
-					currentMoldShape = new String[6];
+					currentMoldShape = new String[5];
 					currentRow = 0;
 				}
 				if (currentMold != null) {
@@ -243,18 +242,13 @@ public class RecipeGenerator {
 					currentRow++;
 
 					if (currentRow == 5) {
-						char nextMoldShapeChar = (char) (currentMoldShapeChar + 1);
-						currentMoldShape[currentMoldShape.length - 1] = String.valueOf(nextMoldShapeChar);
-
 						for (final Ingot ingot : Ingot.registry.values()) {
 							if (ingot.moldDamagePerUse > 0) {
 								PolycraftMod.recipeManager.addShapedRecipe(
 										PolycraftContainerType.MACHINING_MILL,
 										currentMold.getItemStack(ingot),
 										currentMoldShape,
-										ImmutableMap.of(
-												currentMoldShapeChar, ingot.getItemStack(),
-												nextMoldShapeChar, new ItemStack(Items.water_bucket)));
+										ImmutableMap.of(currentMoldShapeChar, ingot.getItemStack()));
 							}
 						}
 					}
@@ -288,14 +282,7 @@ public class RecipeGenerator {
 			if (outputItems == null)
 				continue;
 
-			PolycraftMod.recipeManager.addShapedRecipe(
-					PolycraftContainerType.DISTILLATION_COLUMN,
-					outputItems,
-					new String[] { "xyz" },
-					ImmutableMap.of(
-							'x', inputItemStack,
-							'y', new ItemStack(Items.water_bucket),
-							'z', new ItemStack(Items.water_bucket)));
+			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.DISTILLATION_COLUMN, ImmutableList.of(inputItemStack), outputItems);
 		}
 	}
 
@@ -334,12 +321,10 @@ public class RecipeGenerator {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.STEAM_CRACKER,
 					outputItems,
-					new String[] { "wxyz" },
+					new String[] { "wx" },
 					ImmutableMap.of(
 							'w', inputItemStack1,
-							'x', inputItemStack2,
-							'y', new ItemStack(Items.water_bucket),
-							'z', new ItemStack(Items.water_bucket)));
+							'x', inputItemStack2));
 
 		}
 	}

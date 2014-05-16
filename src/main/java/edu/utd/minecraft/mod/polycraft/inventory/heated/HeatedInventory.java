@@ -22,10 +22,10 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
+import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 
-public abstract class HeatedInventory extends PolycraftInventory {
+public abstract class HeatedInventory extends WateredInventory {
 
 	public enum State {
 		HeatSourceTicksTotal, //The total number of ticks that the current heat source will keep this inventory heated
@@ -38,19 +38,19 @@ public abstract class HeatedInventory extends PolycraftInventory {
 
 	private final Map<State, Integer> stateValues = Maps.newHashMap();
 
-	private final int heatSourceSlotIndex;
+	private final int slotIndexHeatSource;
 	private final int playerInventoryOffset;
 	private final int defaultProcessingTicks;
 	private final int defaultHeatIntensityMin;
 	private final int defaultHeatIntensityMax;
 
-	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int heatSourceSlotIndex) {
-		this(containerType, config, heatSourceSlotIndex, 0);
+	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int slotIndexHeatSource, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
+		this(containerType, config, 0, slotIndexHeatSource, slotIndexCoolingWater, slotIndexHeatingWater);
 	}
 
-	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int heatSourceSlotIndex, final int playerInventoryOffset) {
-		super(containerType, config);
-		this.heatSourceSlotIndex = heatSourceSlotIndex;
+	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int playerInventoryOffset, final int slotIndexHeatSource, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
+		super(containerType, config, slotIndexCoolingWater, slotIndexHeatingWater);
+		this.slotIndexHeatSource = slotIndexHeatSource;
 		this.playerInventoryOffset = playerInventoryOffset;
 		for (final State state : State.values())
 			setState(state, 0);
@@ -152,14 +152,14 @@ public abstract class HeatedInventory extends PolycraftInventory {
 		if (!worldObj.isRemote) {
 			if (canProcess()) {
 				if (!isHeated()) {
-					final ItemStack heatSourceItemStack = getStackInSlot(heatSourceSlotIndex);
+					final ItemStack heatSourceItemStack = getStackInSlot(slotIndexHeatSource);
 					if (heatSourceItemStack != null) {
 						setState(State.HeatSourceTicksRemaining, setState(State.HeatSourceTicksTotal,
 								PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()))));
 						setState(State.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
 						--heatSourceItemStack.stackSize;
 						if (heatSourceItemStack.stackSize == 0)
-							setInventorySlotContents(heatSourceSlotIndex, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
+							setInventorySlotContents(slotIndexHeatSource, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
 						isDirty = true;
 					}
 				}

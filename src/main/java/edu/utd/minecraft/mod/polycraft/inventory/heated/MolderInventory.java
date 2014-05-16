@@ -18,8 +18,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
@@ -37,7 +36,7 @@ public abstract class MolderInventory extends HeatedInventory {
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 8, 0));
 		guiSlots.add(new GuiContainerSlot(slotIndexMold = guiSlots.size(), SlotType.INPUT, 1, 0, 90, 55)); //mold
-		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.INPUT, 2, 0, 110, 55)); //cooling water
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 110, 55)); //cooling water
 		slotIndexFirstStorage = guiSlots.size();
 		slotIndexLastStorage = slotIndexFirstStorage + 3;
 		for (int i = 0; i <= (slotIndexLastStorage - slotIndexFirstStorage); i++)
@@ -47,7 +46,7 @@ public abstract class MolderInventory extends HeatedInventory {
 	}
 
 	public MolderInventory(final PolycraftContainerType containerType, final Inventory config) {
-		super(containerType, config, slotIndexHeatSource);
+		super(containerType, config, slotIndexHeatSource, slotIndexCoolingWater, -1);
 		addBehavior(new ConvergeInputsBehavior());
 	}
 
@@ -81,7 +80,7 @@ public abstract class MolderInventory extends HeatedInventory {
 		if (next == null || next.itemStack == null || next.itemStack.getItem() == null) {
 			return 0;
 		}
-		if (next.itemStack.getItem() instanceof PolycraftMoldedItem) {		
+		if (next.itemStack.getItem() instanceof PolycraftMoldedItem) {
 			final PolycraftMoldedItem moldedItem = (PolycraftMoldedItem) recipe.getOutputs().iterator().next().itemStack.getItem();
 			return PolycraftMod.convertSecondsToGameTicks(moldedItem.getMoldedItem().craftingDurationSeconds);
 		}
@@ -114,12 +113,21 @@ public abstract class MolderInventory extends HeatedInventory {
 		}
 	}
 
-	//automatically moves inputs into the target (center) input
-	private class ConvergeInputsBehavior extends CraftingBehavior {
-		// TODO: Move this where it should be?
-		private boolean converge(final PolycraftInventory inventory, int sourceIndex, final ItemStack targetInputItemStack) {
+	//automatically moves storage slots into the input slot
+	private class ConvergeInputsBehavior extends InventoryBehavior<MolderInventory> {
+
+		@Override
+		public boolean updateEntity(final MolderInventory inventory, final World world) {
+			for (int sourceIndex = slotIndexFirstStorage; sourceIndex <= slotIndexLastStorage; sourceIndex++)
+				if (converge(inventory, sourceIndex, slotIndexInput))
+					break;
+			return true;
+		}
+
+		private boolean converge(final MolderInventory inventory, final int sourceIndex, final int targetIndex) {
 			final ItemStack sourceInputItemStack = getStackInSlot(sourceIndex);
 			if (sourceInputItemStack != null) {
+				final ItemStack targetInputItemStack = getStackInSlot(targetIndex);
 				if (targetInputItemStack == null || sourceInputItemStack.isItemEqual(targetInputItemStack)) {
 					if (sourceInputItemStack.stackSize == 1)
 						inventory.setInventorySlotContents(sourceIndex, null);

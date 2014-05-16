@@ -16,25 +16,28 @@ import edu.utd.minecraft.mod.polycraft.util.LogUtil;
  */
 public class CraftingBehavior extends InventoryBehavior {
 	private boolean isUpdating = false;
-	
+
 	@Override
 	public boolean setInventorySlotContents(PolycraftInventory inventory, ContainerSlot slot, ItemStack item) {
 		System.out.println("CraftingBehavior::setInventorySlotContents slot=" + slot + ", item=" + LogUtil.toString(item) + ", isUpdating=" + isUpdating + ", isRemote="
-					+ (inventory.hasWorldObj() ? inventory.getWorldObj().isRemote : "null"));
+				+ (inventory.hasWorldObj() ? inventory.getWorldObj().isRemote : "null"));
 		if (!isUpdating) {
-			if (slot.getSlotType().equals(SlotType.INPUT)){
+			if (!slot.getSlotType().equals(SlotType.OUTPUT)) {
 				updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean onPickupFromSlot(PolycraftInventory inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
+		System.out.println("CraftingBehavior::onPickupFromSlot slot=" + slot + ", item=" + LogUtil.toString(item) + ", isUpdating=" + isUpdating + ", isRemote="
+				+ (inventory.hasWorldObj() ? inventory.getWorldObj().isRemote : "null"));
+
 		if (item == null || item.getItem() == null) {
 			return true;
 		}
-		
+
 		try {	
 			if (slot.getSlotType().equals(SlotType.OUTPUT)) {
 				// Output slot -- clear / decrement the inputs
@@ -45,12 +48,11 @@ public class CraftingBehavior extends InventoryBehavior {
 			isUpdating = false;
 		}
 		updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
-
 		return true;
 	}
 
 	protected void updateOutputsForRecipe(final PolycraftInventory inventory, final PolycraftRecipe recipe) {
-		if (recipe == null) {
+		if (recipe == null || !inventory.canProcess()) {
 			for (ContainerSlot slot : inventory.getOutputSlots()) {
 				if (inventory.getStackInSlot(slot) != null) {
 					inventory.setStackInSlot(slot, null);

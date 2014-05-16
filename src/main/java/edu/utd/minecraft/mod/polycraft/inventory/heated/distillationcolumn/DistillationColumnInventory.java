@@ -32,8 +32,8 @@ public class DistillationColumnInventory extends HeatedInventory {
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 26, 0));
-		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.INPUT, 1, 0, 62, 18)); //cooling water
-		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.INPUT, 2, 0, 62, 54)); //heating water
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 18)); //cooling water
+		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 54)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 26, 54)); //heat source
 		slotIndexFirstOutput = guiSlots.size();
 		for (int y = 0; y < 3; y++)
@@ -50,7 +50,7 @@ public class DistillationColumnInventory extends HeatedInventory {
 	}
 
 	public DistillationColumnInventory() {
-		super(PolycraftContainerType.DISTILLATION_COLUMN, config, slotIndexHeatSource, 84);
+		super(PolycraftContainerType.DISTILLATION_COLUMN, config, 84, slotIndexHeatSource, slotIndexCoolingWater, slotIndexHeatingWater);
 	}
 
 	@Override

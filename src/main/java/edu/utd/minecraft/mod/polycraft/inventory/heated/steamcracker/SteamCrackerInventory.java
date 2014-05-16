@@ -34,8 +34,8 @@ public class SteamCrackerInventory extends HeatedInventory {
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput1 = guiSlots.size(), 0, 0, 17, 0));
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput2 = guiSlots.size(), 1, 0, 17, 0));
-		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.INPUT, 2, 0, 62, 18)); //cooling water
-		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.INPUT, 3, 0, 62, 54)); //heating water
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 18)); //cooling water
+		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 54)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 26, 54)); //heat source
 		slotIndexFirstOutput = guiSlots.size();
 		for (int y = 0; y < 3; y++)
@@ -52,7 +52,7 @@ public class SteamCrackerInventory extends HeatedInventory {
 	}
 
 	public SteamCrackerInventory() {
-		super(PolycraftContainerType.STEAM_CRACKER, config, slotIndexHeatSource, 84);
+		super(PolycraftContainerType.STEAM_CRACKER, config, 84, slotIndexHeatSource, slotIndexCoolingWater, slotIndexHeatingWater);
 	}
 
 	@Override

@@ -32,6 +32,6 @@ public class ItemMold extends Item implements PolycraftItem {
 	}
 
 	public static int getDamagePerUse(final ItemStack itemStack) {
-		return PolycraftItemHelper.getInteger(itemStack, "DamagePerUse", 0);
+		return PolycraftItemHelper.getInteger(itemStack, "DamagePerUse", 1);
 	}
 }
