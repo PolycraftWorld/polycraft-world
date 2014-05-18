@@ -68,6 +68,21 @@ public class RecipeGenerator {
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock),
 					ImmutableList.of(polymerBlock.getItemStack()));
+
+			int colorMetaDataIndex = 2;
+			// for (final String color : Polymer.colors)
+			// {
+
+			// TODO This implementation is broken - needs to push metaData to hashMap in PolycraftRecipe
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerBlock.getItemStack(8, colorMetaDataIndex),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', polymerBlock.getItemStack(),
+							'y', new ItemStack(Items.dye, 1, colorMetaDataIndex)));
+			colorMetaDataIndex++;
+			// }
 		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
@@ -136,14 +151,14 @@ public class RecipeGenerator {
 			PolycraftMod.recipeManager.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					grippedTool.getItemStack(),
-					ImmutableList.of(new ItemStack(PolycraftRegistry.getItem(grippedTool.source.name)), grippedTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
+					ImmutableList.of(grippedTool.source.getItemStack(), grippedTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
 
 		for (final PogoStick pogoStick : PogoStick.registry.values())
 			if (pogoStick.source != null && pogoStick.grip != null)
 				PolycraftMod.recipeManager.addShapelessRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
 						pogoStick.getItemStack(),
-						ImmutableList.of(new ItemStack(PolycraftRegistry.getItem(pogoStick.source.name)), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
+						ImmutableList.of(pogoStick.source.getItemStack(), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
 	}
 
 	private static void generateFileRecipes(final String directory) {

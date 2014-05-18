@@ -440,8 +440,8 @@ public class PolycraftRegistry {
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
 		{
-			langEntries.add(String.format(blockFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
-			langEntries.add(String.format(itemFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
+			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
+			// langEntries.add(String.format(itemFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
 		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values())

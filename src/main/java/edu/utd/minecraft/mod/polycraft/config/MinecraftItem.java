@@ -1,6 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
 public class MinecraftItem extends Config {
 
@@ -10,8 +12,8 @@ public class MinecraftItem extends Config {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, MinecraftItem.class.getSimpleName().toLowerCase()))
 			if (line.length > 4 && !"0".equals(line[0]))
 				registry.register(new MinecraftItem(
-						line[0], //name
-						Integer.parseInt(line[4]) //id
+						line[0], // name
+						Integer.parseInt(line[4]) // id
 				));
 	}
 
@@ -20,5 +22,10 @@ public class MinecraftItem extends Config {
 	public MinecraftItem(final String name, final int id) {
 		super(name);
 		this.id = id;
+	}
+
+	public ItemStack getItemStack() {
+		// TODO Auto-generated method stub
+		return new ItemStack(PolycraftRegistry.getItem(name));
 	}
 }
