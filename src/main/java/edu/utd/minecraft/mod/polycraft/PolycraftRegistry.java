@@ -9,6 +9,8 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -30,6 +32,8 @@ import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
@@ -51,6 +55,8 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
+import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
+import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
@@ -74,6 +80,8 @@ import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerStairs;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerWall;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
@@ -271,7 +279,23 @@ public class PolycraftRegistry {
 					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
 			PolycraftRegistry.registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
 					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
+			// slab.setCreativeTab(CreativeTabs.tabBlock);
 		}
+
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
+			final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 0);
+			PolycraftRegistry.registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
+					ItemPolymerStairs.class, new Object[] {});
+			// stairs.setCreativeTab(CreativeTabs.tabBlock);
+		}
+
+		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
+			final BlockWall wall = new BlockPolymerWall(polymerWall);
+			PolycraftRegistry.registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+					ItemPolymerWall.class, new Object[] {});
+			// wall.setCreativeTab(CreativeTabs.tabBlock);
+		}
+
 	}
 
 	private static void registerMolds() {
@@ -369,7 +393,7 @@ public class PolycraftRegistry {
 				PolycraftRegistry.registerItem(customObject, new ItemKevlarVest(customObject));
 			}
 			else
-				//TODO should we throw an exception if we don't have a true custom item (needed an implentation)
+				// TODO should we throw an exception if we don't have a true custom item (needed an implentation)
 				PolycraftRegistry.registerItem(customObject, new ItemCustom(customObject));
 		}
 	}
@@ -415,7 +439,22 @@ public class PolycraftRegistry {
 			langEntries.add(String.format(blockFormat, polymerBlock.gameID, polymerBlock.name));
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
-			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
+		{
+			langEntries.add(String.format(blockFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
+			langEntries.add(String.format(itemFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
+		}
+
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values())
+		{
+			langEntries.add(String.format(blockFormat, polymerStairs.blockStairsGameID, polymerStairs.name));
+			langEntries.add(String.format(itemFormat, polymerStairs.blockStairsGameID, polymerStairs.name));
+		}
+
+		for (final PolymerWall polymerWall : PolymerWall.registry.values())
+		{
+			langEntries.add(String.format(blockFormat, polymerWall.blockWallGameID, polymerWall.name));
+			langEntries.add(String.format(itemFormat, polymerWall.blockWallGameID, polymerWall.name));
+		}
 
 		for (final Mold mold : Mold.registry.values())
 			langEntries.add(String.format(itemFormat, mold.gameID, mold.name));

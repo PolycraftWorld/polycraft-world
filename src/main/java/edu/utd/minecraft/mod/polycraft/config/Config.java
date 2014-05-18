@@ -50,6 +50,8 @@ public abstract class Config {
 		PolymerFibers.registerFromResource(directory);
 		PolymerBlock.registerFromResource(directory);
 		PolymerSlab.registerFromResource(directory);
+		PolymerStairs.registerFromResource(directory);
+		PolymerWall.registerFromResource(directory);
 		Mold.registerFromResource(directory);
 		MoldedItem.registerFromResource(directory);
 		GrippedTool.registerFromResource(directory);
@@ -79,6 +81,8 @@ public abstract class Config {
 		registriesByType.put(PolymerFibers.class.getSimpleName(), PolymerFibers.registry);
 		registriesByType.put(PolymerBlock.class.getSimpleName(), PolymerBlock.registry);
 		registriesByType.put(PolymerSlab.class.getSimpleName(), PolymerSlab.registry);
+		registriesByType.put(PolymerStairs.class.getSimpleName(), PolymerStairs.registry);
+		registriesByType.put(PolymerWall.class.getSimpleName(), PolymerWall.registry);
 		registriesByType.put(Mold.class.getSimpleName(), Mold.registry);
 		registriesByType.put(MoldedItem.class.getSimpleName(), MoldedItem.registry);
 		registriesByType.put(GrippedTool.class.getSimpleName(), GrippedTool.registry);

@@ -11,7 +11,7 @@ public class Vessel {
 		Jar(Matter.State.Solid, Vial),
 		Pail(Matter.State.Liquid, Beaker),
 		Cartridge(Matter.State.Gas, Flask),
-		Gaylord(Matter.State.Solid, Jar),
+		PowderKeg(Matter.State.Solid, Jar),
 		Drum(Matter.State.Liquid, Pail),
 		Canister(Matter.State.Gas, Drum);
 

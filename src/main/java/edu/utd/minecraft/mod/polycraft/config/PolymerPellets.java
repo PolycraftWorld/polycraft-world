@@ -10,12 +10,12 @@ public class PolymerPellets extends SourcedVesselConfig<Polymer> {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerPellets.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerPellets(
-						line[0], //gameID
-						line[1], //name
-						Polymer.registry.get(line[2]), //source
-						Vessel.Type.valueOf(line[3]), //type
-						Integer.parseInt(line[4]), //craftingMinHeatIntensity
-						Integer.parseInt(line[5]) //craftingMaxHeatIntensity
+						line[0], // gameID
+						line[1], // name
+						Polymer.registry.get(line[2]), // source
+						Vessel.Type.valueOf(line[3].replaceAll(" ", "")), // type
+						Integer.parseInt(line[4]), // craftingMinHeatIntensity
+						Integer.parseInt(line[5]) // craftingMaxHeatIntensity
 				));
 	}
 

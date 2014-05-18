@@ -32,6 +32,8 @@ import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
+import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
+import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
@@ -74,6 +76,20 @@ public class RecipeGenerator {
 					polymerSlab.getItemStack(6),
 					new String[] { "xxx", "   ", "   " },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
+
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values())
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerStairs.getItemStack(6),
+					new String[] { "x ", "xx ", "xxx" },
+					ImmutableMap.of('x', polymerStairs.source.getItemStack()));
+
+		for (final PolymerWall polymerWall : PolymerWall.registry.values())
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerWall.getItemStack(6),
+					new String[] { "xxx", "xxx", "   " },
+					ImmutableMap.of('x', polymerWall.source.getItemStack()));
 
 		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
 			if (largerCompoundVessel.vesselType.smallerType != null) {

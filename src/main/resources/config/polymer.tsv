@@ -21,7 +21,7 @@ Lignin	lignin			FALSE		polysaccharide
 Linear Low-Density PolyEthylene	LLDPE			FALSE		polyolefin						
 Liquid Crystal Polymer	LCP		0	FALSE		polyester						
 Low Density PolyEthylene	LDPE			FALSE		polyolefin						
-Medium Densty PolyEthylene	MDPE			FALSE		polyolefin						
+Medium Density PolyEthylene	MDPE			FALSE		polyolefin						
 Melamine-Formaldehyde Polymers	MFP			FALSE		polyaldehyde	polyamide					
 Metaldehyde	MALD			FALSE		polyaldehyde						
 Nitrile-Butadiene Rubber	NBR			FALSE		synthetic rubber						
@@ -30,10 +30,10 @@ Paraledhyde	PALD			FALSE		polyaldehyde
 Phenolic Resin	phenol formaldehydes			FALSE		polyaldehyde						
 Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	PHBV			TRUE		polyester	polyester					
 Poly1-Butene	P1B			FALSE		polyolefin						
-"Poly2,6-Dimethyl-1,4-Phenylene Ether"	PDPE			FALSE		polyphenyl ethers						
+Poly2,6-Dimethyl-1,4-Phenylene Ether	PDPE			FALSE		polyphenyl ethers						
 Poly-2-Hydroxy Butyrate	PHB			FALSE		polyester						
 Poly2-Hydroxyethyl Methacrylate	PHEMA			FALSE		polyacrylate						
-#NAME?	PAE			FALSE		polyacrylate						
+PolyAcrylic Ester	PAE			FALSE		polyacrylate						
 PolyAcrylonitrile	PAN			FALSE		polyolefin						
 PolyButadiene	PBD			FALSE		synthetic rubber						
 PolyButadiene Rubber	PBR			FALSE		synthetic rubber						
@@ -57,8 +57,8 @@ PolyEthylene Sulphide	PES			FALSE		polyalkene sulfide
 PolyEthylene Terephthalate	PET			FALSE		polyester						
 PolyEthylene Terephthalate Glycol-Modified	PETG			FALSE		polyester						
 PolyGlycolic Acid	PGA			TRUE		polyester						
-PolyHexamethylene Adipamide	"Nylon 6,7"			FALSE		polyamide						
-PolyHexamethylene Sebacamide	"Nylon 6,11"			FALSE		polyamide						
+PolyHexamethylene Adipamide	Nylon 6,7			FALSE		polyamide						
+PolyHexamethylene Sebacamide	Nylon 6,11			FALSE		polyamide						
 PolyHydroxyalkanoate	PHA			TRUE		polyester						
 PolyHydroxybutyrate-Co-Hydroxyvalerate	PHBV			TRUE		polyester						
 PolyImide	PI			FALSE		polyamide						

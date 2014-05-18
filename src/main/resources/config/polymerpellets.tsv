@@ -1,3 +1,10 @@
-Game ID	Pellets	Polymer	Vessel Type	MinHeat	MaxHeat
-1Y	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	Vial	1	10
-59	Vial (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	Vial	1	10
+Game ID	Pellets	Polymer	Vessel Type	Crafting Min Heat Intensity	Crafting Max Heat Intensity
+5c	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	Vial	1	10
+5g	Jar (PolyIsoPrene Pellets)	PolyIsoPrene	Jar	1	10
+59	Powder Keg (PolyIsoPrene Pellets)	PolyIsoPrene	Powder Keg	1	10
+5h	Vial (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	Vial	1	10
+5i	Jar (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	Jar	1	10
+5j	Powder Keg (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	Powder Keg	1	10
+5k	Vial (PolyPropylene Pellets)	PolyPropylene	Vial	1	10
+5l	Jar (PolyPropylene Pellets)	PolyPropylene	Jar	1	10
+5m	Powder Keg (PolyPropylene Pellets)	PolyPropylene	Powder Keg	1	10
