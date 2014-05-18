@@ -31,8 +31,14 @@ public class LabelTexture {
 		this.topTextureName = topTextureName == null ? mainTextureName : topTextureName;
 	}
 
-	public IIcon getIcon(int side, int p_149691_2_) {
-		return icons[side];
+	public IIcon getIcon(int side, int metadata) {
+		switch (metadata)
+		{
+		case 0:
+			return icons[side];
+		default:
+			return icons[side];
+		}
 	}
 
 	public void registerBlockIcons(IIconRegister p_149651_1_) {

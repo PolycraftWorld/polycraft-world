@@ -12,25 +12,38 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 public class BlockPolymer extends Block implements BlockBouncy {
 
 	public final PolymerBlock polymerBlock;
-	private final LabelTexture labelTexture;
+	private static final LabelTexture[] labelTextures = new LabelTexture[16];
+	private final int colorIndex;
 
-	// private static final IIcon[] colorIconList = new IIcon[16];
-	// public static final String[] colorNames = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
-	// public static final String[] color_names = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
+	private static final IIcon[] colorIconList = new IIcon[16];
+	public static final String[] colors = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white" };
+	public static final String[] color_names = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white" };
+
+	static
+	{
+		for (int i = 0; i < labelTextures.length; i++)
+		{
+			labelTextures[i] = new LabelTexture("plastic_top_" + color_names[i]);
+		}
+
+	}
 
 	public BlockPolymer(final PolymerBlock polymerBlock) {
 		super(Material.cloth);
 		this.polymerBlock = polymerBlock;
-		this.labelTexture = polymerBlock.source.source.resinCode.recyclingNumber >= 1 && polymerBlock.source.source.resinCode.recyclingNumber <= 7
-				? new LabelTexture("polymer", null, "polymer_" + polymerBlock.source.source.resinCode.recyclingNumber + "_bottom")
-				: new LabelTexture("polymer", null, "polymer_bottom");
+		this.colorIndex = 0;
+		// this.labelTexture = polymerBlock.source.source.resinCode.recyclingNumber >= 1 && polymerBlock.source.source.resinCode.recyclingNumber <= 7
+		// ? new LabelTexture("polymer", null, "polymer_" + polymerBlock.source.source.resinCode.recyclingNumber + "_bottom")
+		// : new LabelTexture("polymer", null, "polymer_bottom");
+
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-		return labelTexture.getIcon(p_149691_1_, p_149691_2_);
+	public IIcon getIcon(int side, int colorIndex) {
+
+		return labelTextures[colorIndex].getIcon(side, colorIndex);
 		// return labelTexture.getIcon(colorIconList[p_149691_2_ % colorIconList.length];
 	}
 
@@ -46,11 +59,13 @@ public class BlockPolymer extends Block implements BlockBouncy {
 
 		// for (int i = 0; i < color_names.length; ++i)
 		// {
-		// //colorIconList[i] = p_149651_1_.registerIcon(this.getTextureName() + "_" + color_names[func_149997_b(i)]);
-		// //labelTexture.registerBlockIcons(p_149651_1_, color_names[func_149997_b(i)]);
+		// colorIconList[i] = p_149651_1_.registerIcon(this.getTextureName() + "_" + color_names[func_149997_b(i)]);
+		// labelTexture.registerBlockIcons(p_149651_1_, color_names[func_149997_b(i)]);
 		// }
-
-		labelTexture.registerBlockIcons(p_149651_1_);
+		for (LabelTexture lt : labelTextures)
+		{
+			lt.registerBlockIcons(p_149651_1_);
+		}
 	}
 
 	@Override
