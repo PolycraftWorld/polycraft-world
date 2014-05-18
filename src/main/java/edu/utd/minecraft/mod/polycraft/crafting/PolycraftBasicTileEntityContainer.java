@@ -120,7 +120,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 			return false;
 		}
 
-		for (final RecipeComponent output : recipe.getOutputs()) {
+		for (final RecipeComponent output : recipe.getOutputs(this)) {
 			final ItemStack desiredResult = output.itemStack;
 			final ItemStack currentResult = getStackInSlot(output.slot);
 			if (currentResult != null) {

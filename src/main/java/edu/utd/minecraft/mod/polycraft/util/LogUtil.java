@@ -91,7 +91,7 @@ public class LogUtil {
 		}
 		return itemStack.getItem().getUnlocalizedName() +
 				"(" + PolycraftRegistry.registryNames.get( itemStack.getItem().getUnlocalizedName().replaceAll("item.", "")) + ")" +
-				": " + itemStack.stackSize;
+				": " + itemStack.stackSize + ":" + itemStack.getItemDamage();
 	}
 	
 	/**

@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.inventory.heated;
 import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -73,15 +74,15 @@ public abstract class MolderInventory extends HeatedInventory {
 		if (recipe == null) {
 			return 0;
 		}
-		if (recipe.getOutputs().size() == 0) {
+		if (recipe.getOutputs(this).size() == 0) {
 			return 0;
 		}
-		RecipeComponent next = recipe.getOutputs().iterator().next();
+		RecipeComponent next = recipe.getOutputs(this).iterator().next();
 		if (next == null || next.itemStack == null || next.itemStack.getItem() == null) {
 			return 0;
 		}
 		if (next.itemStack.getItem() instanceof PolycraftMoldedItem) {
-			final PolycraftMoldedItem moldedItem = (PolycraftMoldedItem) recipe.getOutputs().iterator().next().itemStack.getItem();
+			final PolycraftMoldedItem moldedItem = (PolycraftMoldedItem) recipe.getOutputs(this).iterator().next().itemStack.getItem();
 			return PolycraftMod.convertSecondsToGameTicks(moldedItem.getMoldedItem().craftingDurationSeconds);
 		}
 		return 0;

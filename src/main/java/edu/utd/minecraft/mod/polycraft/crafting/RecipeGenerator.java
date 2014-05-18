@@ -46,6 +46,8 @@ public class RecipeGenerator {
 	}
 
 	private static void generateAutoRecipes() {
+		ColoringPolycraftRecipeFactory coloringFactory = new ColoringPolycraftRecipeFactory();
+		
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -75,13 +77,14 @@ public class RecipeGenerator {
 
 			// TODO This implementation is broken - needs to push metaData to hashMap in PolycraftRecipe
 			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
-					polymerBlock.getItemStack(8, colorMetaDataIndex),
+					ImmutableList.of(polymerBlock.getItemStack(8, colorMetaDataIndex)),
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', polymerBlock.getItemStack(),
-							'y', new ItemStack(Items.dye, 1, colorMetaDataIndex)));
-			colorMetaDataIndex++;
+							'y', new ItemStack(Items.dye, 1)), 0);
+			//colorMetaDataIndex++;
 			// }
 		}
 

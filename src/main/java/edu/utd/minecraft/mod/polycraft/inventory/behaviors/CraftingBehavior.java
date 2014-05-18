@@ -61,7 +61,7 @@ public class CraftingBehavior extends InventoryBehavior {
 			return;
 		}
 
-		for (final RecipeComponent output : recipe.getOutputs()) {
+		for (final RecipeComponent output : recipe.getOutputs(inventory)) {
 			final ItemStack desiredResult = output.itemStack;
 			final ItemStack currentResult = inventory.getStackInSlot(output.slot);
 			if (currentResult != null) {

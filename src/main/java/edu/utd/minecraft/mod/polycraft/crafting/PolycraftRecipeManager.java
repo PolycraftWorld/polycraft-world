@@ -38,6 +38,8 @@ import edu.utd.minecraft.mod.polycraft.util.SetMap;
 public class PolycraftRecipeManager {
 	private static Logger logger = LogManager.getLogger();
 
+	private static PolycraftRecipeFactory defaultRecipeFactory = new GenericPolycraftRecipeFactory();
+	
 	// IRecipe implementation to process Polycraft recipes as generic crafting recipes, giving
 	// the generic crafting recipes the benefits of the PolycraftRecipeManager.
 	public static class CustomGenericCraftingRecipe implements IRecipe {
@@ -69,7 +71,7 @@ public class PolycraftRecipeManager {
 			Set<RecipeComponent> inputs = getComponentsFromInventory(inventory);
 			PolycraftRecipe recipe = recipeManager.findRecipe(PolycraftContainerType.CRAFTING_TABLE, inputs);
 			if (recipe != null) {
-				Collection<RecipeComponent> outputs = recipe.getOutputs();
+				Collection<RecipeComponent> outputs = recipe.getOutputs(inventory);
 
 				if (outputs.size() > 1) {
 					logger.warn("Generic crafting result is returning more than one output! Only the first will be returned ("
@@ -415,6 +417,12 @@ public class PolycraftRecipeManager {
 			final Map<Character, ItemStack> itemStackMap) {
 		return addShapedRecipe(containerType, resultItems, inputShape, itemStackMap, 0);
 	}
+	
+	public PolycraftRecipe addShapedRecipe(final PolycraftContainerType containerType,
+			final Iterable<ItemStack> resultItems, final String[] inputShape,
+			final Map<Character, ItemStack> itemStackMap, double experience) {
+		return addShapedRecipe(defaultRecipeFactory, containerType, resultItems, inputShape, itemStackMap, experience);
+	}
 
 	/**
 	 * Adds a shaped recipe from the inputs, in a similar format to the Forge API. If the crafting recipe container type is a generic or smelting recipe, it will be added to Forge via the GameRegistry APi.
@@ -430,7 +438,8 @@ public class PolycraftRecipeManager {
 	 * @param experience
 	 *            The amount of experience yielded by crafting the recipe.
 	 */
-	public PolycraftRecipe addShapedRecipe(final PolycraftContainerType containerType,
+	public PolycraftRecipe addShapedRecipe(final PolycraftRecipeFactory recipeFactory,
+			final PolycraftContainerType containerType,
 			final Iterable<ItemStack> resultItems, final String[] inputShape,
 			final Map<Character, ItemStack> itemStackMap, double experience) {
 		Preconditions.checkNotNull(containerType);
@@ -469,7 +478,7 @@ public class PolycraftRecipeManager {
 			recipeOutputs.add(new RecipeComponent(outputSlots.get(index), stack));
 			index++;
 		}
-		PolycraftRecipe newRecipe = new PolycraftRecipe(containerType, recipeInputs, recipeOutputs);
+		PolycraftRecipe newRecipe = recipeFactory.createRecipe(containerType, recipeInputs, recipeOutputs, experience);
 		this.addRecipe(newRecipe);
 
 		// Add to Forge's GameRegistry if necessary

@@ -185,7 +185,7 @@ public class PolycraftModWikiMaker {
 			WriteLine("'outputs': [");
 			Indent();
 
-			for (RecipeComponent output : recipe.getOutputs()) {
+			for (RecipeComponent output : recipe.getOutputs(null)) {
 				WriteString("item", output.itemStack.getUnlocalizedName());
 				WriteInteger("count", output.itemStack.stackSize);
 			}

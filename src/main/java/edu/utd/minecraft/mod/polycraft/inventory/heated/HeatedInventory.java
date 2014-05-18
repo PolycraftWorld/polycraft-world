@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -186,7 +187,7 @@ public abstract class HeatedInventory extends WateredInventory {
 		Set<RecipeComponent> inputs = getMaterials();
 		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, inputs);
 		if (recipe != null) {
-			for (final RecipeComponent output : recipe.getOutputs()) {
+			for (final RecipeComponent output : recipe.getOutputs(this)) {
 				if (getStackInSlot(output.slot) == null)
 					setStackInSlot(output.slot, output.itemStack.copy());
 				else
