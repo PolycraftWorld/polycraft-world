@@ -154,7 +154,7 @@ public class ClientProxy extends CommonProxy {
 			player.motionY = velocity;
 		else if (isKeyDown(gameSettings.keyBindSneak))
 			player.motionY = -velocity;
-		else if (cancelGravity)
+		else if (cancelGravity && player.motionY < 0)
 			player.motionY = 0;
 	}
 
@@ -282,9 +282,11 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.jetPackIsFlying != jetPackIsFlying) {
 			playerState.jetPackIsFlying = jetPackIsFlying;
 			sendMessageToServerJetPackIsFlying(jetPackIsFlying);
+			if (jetPackIsFlying) {
+				player.motionY = 1; //takeoff
+			}
 		}
-
-		if (playerState.jetPackIsFlying) {
+		else if (playerState.jetPackIsFlying) {
 			final float flySpeed = baseFlySpeed * ItemJetPack.getEquippedItem(player).flySpeedBuff;
 			setPlayerVelocityFromInputXZ(player, flySpeed);
 			setPlayerVelocityFromInputY(player, flySpeed, true);

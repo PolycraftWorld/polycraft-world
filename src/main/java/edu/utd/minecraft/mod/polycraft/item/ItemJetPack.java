@@ -59,7 +59,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 	public static void randomizePosition(final EntityPlayer player, final Random random) {
 		player.setPosition(
 				player.posX + ((random.nextDouble() - .5) / 10),
-				player.posY + ((random.nextDouble() - .5) / 10),
+				player.posY,
 				player.posZ + ((random.nextDouble() - .5) / 10));
 	}
 
