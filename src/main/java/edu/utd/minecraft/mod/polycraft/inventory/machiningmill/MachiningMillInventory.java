@@ -49,7 +49,7 @@ public class MachiningMillInventory extends WateredInventory {
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		return new PolycraftCraftingContainerGeneric(this, playerInventory, 121);
+		return new PolycraftCraftingContainerGeneric(this, playerInventory, 121, true);
 	}
 
 	@Override

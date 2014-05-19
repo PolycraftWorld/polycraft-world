@@ -9,7 +9,6 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
-import edu.utd.minecraft.mod.polycraft.util.LogUtil;
 
 /**
  * Crafting behavior that emulates the regular crafting style behavior.
@@ -19,8 +18,6 @@ public class CraftingBehavior extends InventoryBehavior {
 
 	@Override
 	public boolean setInventorySlotContents(PolycraftInventory inventory, ContainerSlot slot, ItemStack item) {
-		System.out.println("CraftingBehavior::setInventorySlotContents slot=" + slot + ", item=" + LogUtil.toString(item) + ", isUpdating=" + isUpdating + ", isRemote="
-				+ (inventory.hasWorldObj() ? inventory.getWorldObj().isRemote : "null"));
 		if (!isUpdating) {
 			if (!slot.getSlotType().equals(SlotType.OUTPUT)) {
 				updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
@@ -31,18 +28,15 @@ public class CraftingBehavior extends InventoryBehavior {
 
 	@Override
 	public boolean onPickupFromSlot(PolycraftInventory inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
-		System.out.println("CraftingBehavior::onPickupFromSlot slot=" + slot + ", item=" + LogUtil.toString(item) + ", isUpdating=" + isUpdating + ", isRemote="
-				+ (inventory.hasWorldObj() ? inventory.getWorldObj().isRemote : "null"));
-
 		if (item == null || item.getItem() == null) {
 			return true;
 		}
 
-		try {	
+		try {
 			if (slot.getSlotType().equals(SlotType.OUTPUT)) {
 				// Output slot -- clear / decrement the inputs
 				isUpdating = true;
-				inventory.craftItems(true);
+				inventory.craftItems(false);
 			}
 		} finally {
 			isUpdating = false;
@@ -62,7 +56,7 @@ public class CraftingBehavior extends InventoryBehavior {
 		}
 
 		for (final RecipeComponent output : recipe.getOutputs(inventory)) {
-			final ItemStack desiredResult = output.itemStack;
+			final ItemStack desiredResult = output.itemStack.copy();
 			final ItemStack currentResult = inventory.getStackInSlot(output.slot);
 			if (currentResult != null) {
 				if (!currentResult.isItemEqual(desiredResult)) {

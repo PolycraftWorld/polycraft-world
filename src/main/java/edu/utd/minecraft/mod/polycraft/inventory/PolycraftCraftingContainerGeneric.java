@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 
@@ -15,6 +16,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 	protected final I inventory;
 	private static final Logger logger = LogManager.getLogger();
 	private final int firstPlayerInventorySlot;
+	private final boolean dropInputsOnClosing;
 
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory) {
 		this(inventory, playerInventory, 121);
@@ -24,6 +26,29 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 		super(inventory, inventory.getContainerType());
 		this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);
 		this.inventory = inventory;
+		this.dropInputsOnClosing = false;
+	}
+
+	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset, final boolean dropInputsOnClosing) {
+		super(inventory, inventory.getContainerType());
+		this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);
+		this.inventory = inventory;
+		this.dropInputsOnClosing = dropInputsOnClosing;
+	}
+
+	@Override
+	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
+		super.onContainerClosed(par1EntityPlayer);
+		if (dropInputsOnClosing) {
+			if (!par1EntityPlayer.worldObj.isRemote)
+			{
+				for (final ContainerSlot slot : inventory.getInputSlots()) {
+					ItemStack itemstack = inventory.getStackInSlotOnClosing(slot.getSlotIndex());
+					if (itemstack != null)
+						par1EntityPlayer.dropPlayerItemWithRandomChoice(itemstack, false);
+				}
+			}
+		}
 	}
 
 	@Override

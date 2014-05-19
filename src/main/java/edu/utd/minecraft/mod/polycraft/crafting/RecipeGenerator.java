@@ -1,7 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +15,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
@@ -47,7 +44,7 @@ public class RecipeGenerator {
 
 	private static void generateAutoRecipes() {
 		ColoringPolycraftRecipeFactory coloringFactory = new ColoringPolycraftRecipeFactory();
-		
+
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -386,19 +383,13 @@ public class RecipeGenerator {
 				Mold.registry.get("Mold (Grip)").getItemStack(),
 				new ItemStack(Items.water_bucket),
 				new ItemStack(Items.coal, 64),
-				// PolymerSlab.registry.get("Slab (PolyIsoPrene)").getItemStack(),
-				// PolymerBlock.registry.get("Block (PolyIsoPrene)").getItemStack(),
-				// new ItemStack(PolycraftMod.getItem("Gripped Diamond Pogo Stick")),
-				// Inventory.registry.get("Tree Tap").getItemStack(),
 				new ItemStack(Blocks.furnace),
 				new ItemStack(Items.diamond_pickaxe),
 				new ItemStack(Blocks.torch, 64)
 		};
 
-		final Collection<ItemStack> inputs = new LinkedList<ItemStack>();
-		for (final ItemStack output : recipeCheatDirtOutputs) {
-			inputs.add(new ItemStack(Blocks.dirt));
-			GameRegistry.addShapelessRecipe(output, inputs.toArray());
-		}
+		int intputs = 1;
+		for (final ItemStack output : recipeCheatDirtOutputs)
+			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE, output, ImmutableList.of(new ItemStack(Blocks.dirt, intputs++)));
 	}
 }

@@ -39,7 +39,7 @@ public class PolycraftRecipeManager {
 	private static Logger logger = LogManager.getLogger();
 
 	private static PolycraftRecipeFactory defaultRecipeFactory = new GenericPolycraftRecipeFactory();
-	
+
 	// IRecipe implementation to process Polycraft recipes as generic crafting recipes, giving
 	// the generic crafting recipes the benefits of the PolycraftRecipeManager.
 	public static class CustomGenericCraftingRecipe implements IRecipe {
@@ -79,7 +79,7 @@ public class PolycraftRecipeManager {
 				}
 
 				// Flag this result item as being processed by the PolycraftRecipeManager.  This way the
-				// onItemCraftedEventServer callback can recognize it.
+				// onItemCraftedEvent callback can recognize it.
 				ItemStack item = outputs.iterator().next().itemStack.copy();
 				if (item.stackTagCompound == null) {
 					PolycraftItemHelper.createTagCompound(item);
@@ -417,7 +417,7 @@ public class PolycraftRecipeManager {
 			final Map<Character, ItemStack> itemStackMap) {
 		return addShapedRecipe(containerType, resultItems, inputShape, itemStackMap, 0);
 	}
-	
+
 	public PolycraftRecipe addShapedRecipe(final PolycraftContainerType containerType,
 			final Iterable<ItemStack> resultItems, final String[] inputShape,
 			final Map<Character, ItemStack> itemStackMap, double experience) {
@@ -490,9 +490,9 @@ public class PolycraftRecipeManager {
 
 		return newRecipe;
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onItemCraftedEventServer(final PlayerEvent.ItemCraftedEvent event) {
+	public void onItemCraftedEvent(final PlayerEvent.ItemCraftedEvent event) {
 		ItemStack craftedItem = event.crafting;
 		if (craftedItem.stackTagCompound != null) {
 			// Item has been marked as being a Polycraft recipe, which allows recipes to require

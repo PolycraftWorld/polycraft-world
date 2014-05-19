@@ -25,7 +25,6 @@ public class MinecraftItem extends Config {
 	}
 
 	public ItemStack getItemStack() {
-		// TODO Auto-generated method stub
 		return new ItemStack(PolycraftRegistry.getItem(name));
 	}
 }
