@@ -29,6 +29,7 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
+import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
@@ -58,6 +59,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
@@ -342,12 +344,17 @@ public class PolycraftRegistry {
 				DistillationColumnInventory.register(inventory);
 			else if ("3D".equals(inventory.gameID))
 				SteamCrackerInventory.register(inventory);
+			else if ("3V".equals(inventory.gameID))
+				FueledLampInventory.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}
 	}
 
 	private static void registerCustom() {
+		final InternalObject light = InternalObject.registry.get("Light");
+		PolycraftMod.blockLight = PolycraftRegistry.registerBlock(light, new BlockLight(1.0f));
+
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);

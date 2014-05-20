@@ -1,3 +1,4 @@
-Fuel	Source Type	Source Name	Heat Intensity	Heat Duration (sec)*	*Per smallest vessel type if vesseled
-Crude Oil	Compound	Crude Oil	3	20	
-Coal	Minecraft Item	Coal	1	200	
+Fuel	Source Type	Source Name	Heat Intensity	Heat Duration (sec)*
+Crude Oil	Compound	Crude Oil	3	20
+Coal	Minecraft Item	Coal	1	200
+Gas Oil	Compound	Gas Oil	10	5

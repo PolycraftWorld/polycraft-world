@@ -32,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 
-public class PolycraftInventoryBlock extends BlockContainer {
+public class PolycraftInventoryBlock<I extends PolycraftInventory> extends BlockContainer {
 
 	private final Random random = new Random();
 	private static final Logger logger = LogManager.getLogger();
@@ -60,14 +60,14 @@ public class PolycraftInventoryBlock extends BlockContainer {
 		return null;
 	}
 
-	private PolycraftInventory getInventory(World world, int x, int y, int z) {
-		return (PolycraftInventory) world.getTileEntity(x, y, z);
+	protected I getInventory(World world, int x, int y, int z) {
+		return (I) world.getTileEntity(x, y, z);
 	}
 
 	/**
 	 * Drops all items in the container into the world.
 	 */
-	private void dropAllItems(World world, PolycraftInventory tileEntity, int x, int y, int z) {
+	private void dropAllItems(World world, I tileEntity, int x, int y, int z) {
 		for (int i1 = 0; i1 < tileEntity.getSizeInventory(); ++i1) {
 			ItemStack itemstack = tileEntity.getStackInSlot(i1);
 
@@ -103,24 +103,55 @@ public class PolycraftInventoryBlock extends BlockContainer {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
-		PolycraftInventory tileEntity = getInventory(world, x, y, z);
+		I tileEntity = getInventory(world, x, y, z);
 		for (InventoryBehavior behavior : tileEntity.getBehaviors()) {
 			if (behavior.breakBlock(tileEntity, world, x, y, z, p_149749_5_)) {
 				return;
 			}
 		}
 
-		if (tileEntity != null) {
-			dropAllItems(world, tileEntity, x, y, z);
-			// TODO: What is this method call?
+		final I inventory = (I) world.getTileEntity(x, y, z);
+		if (inventory != null) {
+			for (int i1 = 0; i1 < inventory.getSizeInventory(); ++i1) {
+				final ItemStack itemstack = inventory.getStackInSlot(i1);
+
+				if (itemstack != null) {
+					float f = random.nextFloat() * 0.8F + 0.1F;
+					float f1 = random.nextFloat() * 0.8F + 0.1F;
+					float f2 = random.nextFloat() * 0.8F + 0.1F;
+
+					while (itemstack.stackSize > 0) {
+						int j1 = random.nextInt(21) + 10;
+
+						if (j1 > itemstack.stackSize) {
+							j1 = itemstack.stackSize;
+						}
+
+						itemstack.stackSize -= j1;
+						EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+						if (itemstack.hasTagCompound()) {
+							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+						}
+
+						float f3 = 0.05F;
+						entityitem.motionX = (float) random.nextGaussian() * f3;
+						entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
+						entityitem.motionZ = (float) random.nextGaussian() * f3;
+						world.spawnEntityInWorld(entityitem);
+					}
+				}
+			}
+
 			world.func_147453_f(x, y, z, p_149749_5_);
 		}
+
 		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
 	}
 
 	@Override
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		PolycraftInventory tileEntity = getInventory(world, x, y, z);
+		I tileEntity = getInventory(world, x, y, z);
 		if (tileEntity != null)
 			for (InventoryBehavior behavior : tileEntity.getBehaviors()) {
 				if (behavior.randomDisplayTick(tileEntity, world, x, y, z, random)) {
@@ -169,7 +200,7 @@ public class PolycraftInventoryBlock extends BlockContainer {
 	 */
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
-		PolycraftInventory inventory = getInventory(world, x, y, z);
+		I inventory = getInventory(world, x, y, z);
 		for (InventoryBehavior behavior : inventory.getBehaviors()) {
 			if (behavior.onBlockActivated(inventory, world, x, y, z, player, metadata, what, these, are)) {
 				return true;

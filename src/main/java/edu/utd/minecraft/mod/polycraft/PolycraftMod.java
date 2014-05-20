@@ -79,6 +79,7 @@ public class PolycraftMod {
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
 	public static Block blockOil;
+	public static Block blockLight;
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 
@@ -159,7 +160,7 @@ public class PolycraftMod {
 	}
 
 	public final static int convertSecondsToGameTicks(final double seconds) {
-		return (int) Math.ceil(seconds * 8);
+		return (int) Math.ceil(seconds * 20);
 	}
 
 	public final static String getFileSafeName(final String name) {

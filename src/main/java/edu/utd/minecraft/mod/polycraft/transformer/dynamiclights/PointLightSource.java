@@ -34,6 +34,11 @@ public class PointLightSource implements IDynamicLightSource
 		entity = new PointLightEntity(world);
 	}
 
+	public PointLightSource(final World world, final int lightLevel, final double x, final double y, final double z) {
+		entity = new PointLightEntity(world);
+		update(lightLevel, x, y, z);
+	}
+
 	@Override
 	public Entity getAttachmentEntity() {
 		return entity;
@@ -42,6 +47,10 @@ public class PointLightSource implements IDynamicLightSource
 	@Override
 	public int getLightLevel() {
 		return lightLevel;
+	}
+
+	public void update(final int lightLevel) {
+		this.lightLevel = lightLevel;
 	}
 
 	public void update(final int lightLevel, final double x, final double y, final double z) {
