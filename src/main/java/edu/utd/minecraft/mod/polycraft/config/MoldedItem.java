@@ -1,6 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.item.ItemStack;
+
+import org.apache.commons.lang3.StringUtils;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
@@ -18,19 +21,23 @@ public class MoldedItem extends SourcedConfig<Mold> {
 						PolymerPellets.registry.get(line[3]), //polymerPellets
 						Integer.parseInt(line[5]), //craftingPellets
 						Float.parseFloat(line[6]), //craftingDurationSeconds
-						line, 8 //params
+						line[7], //craftingDurationSeconds
+						line, 9 //params
 				));
 	}
 
 	public final PolymerPellets polymerPellets;
 	public final int craftingPellets;
 	public final float craftingDurationSeconds;
+	public final int maxStackSize;
 
-	public MoldedItem(final String gameID, final String name, final Mold source, final PolymerPellets polymerPellets, final int craftingPellets, final float craftingDurationSeconds, final String[] params, final int paramsOffset) {
+	public MoldedItem(final String gameID, final String name, final Mold source, final PolymerPellets polymerPellets,
+			final int craftingPellets, final float craftingDurationSeconds, final String maxStackSize, final String[] params, final int paramsOffset) {
 		super(gameID, name, source, params, paramsOffset);
 		this.polymerPellets = polymerPellets;
 		this.craftingPellets = craftingPellets;
 		this.craftingDurationSeconds = craftingDurationSeconds;
+		this.maxStackSize = StringUtils.isEmpty(maxStackSize) ? 0 : Integer.parseInt(maxStackSize);
 	}
 
 	@Override

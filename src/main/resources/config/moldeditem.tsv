@@ -1,13 +1,13 @@
-Game ID	Molded Item	Mold	Pellets	Polymer	Crafting Pellets	Crafting Duration (sec)	Parameter names 	P1	P2	P3	Level	First Release	Notes
-3s	Grip (PolyIsoPrene)	Mold (Grip)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	2	10					1	TRUE	
-3t	Running Shoes (PolyIsoPrene)	Mold (Running Shoes)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	walkSpeedBuff, MovementDurationWear(MCMins)	1.2	20		3	TRUE	
-3u	Running Shoes (Low Density PolyEthylene)	Mold (Running Shoes)	Vial (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	6	10	walkSpeedBuff, Durability(MCMins)	1.5	40		8	TRUE	
-3v	Scuba Fins (PolyIsoPrene)	Mold (Scuba Fins)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	swimSpeedBuff, walkSpeedBuff, Durability(MCMins)	2	0.5	20	3	TRUE	
-3w	Scuba Mask (PolyIsoPrene)	Mold (Scuba Mask)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	fogDensity	0.01			3	TRUE	
-3y	Gasket (PolyIsoPrene)	Mold (Gasket)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	2	10					3	TRUE	
-3z	Life Preserver (PolyIsoPrene)	Mold (Life Preserver)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	8	10					3	TRUE	
-3B	Fibers (PolyIsoPrene)	Metal Die (Fibers)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	1	10					3	TRUE	
-3N	Tether (PolyIsoPrene)	Metal Die (Tether)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	2	10					3	TRUE	
-3U	Cord (PolyIsoPrene)	Metal Die (Cord)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	4	10					3	TRUE	Used as a super lead for horses, wont break as easily, can hold boats in place
-F	Hose (PolyIsoPrene)	Metal Die (Hose)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	8	10					3	TRUE	
-42	Large Pipe (PolyIsoPrene)	Metal Die (Large Pipe)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	16	10					3	TRUE	
+Game ID	Molded Item	Mold	Pellets	Polymer	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	Level	First Release	Notes
+3s	Grip (PolyIsoPrene)	Mold (Grip)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	2	10						1	TRUE	
+3t	Running Shoes (PolyIsoPrene)	Mold (Running Shoes)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	VelocityOnGround, MovementDurationWear(MCMins)	0.4	20		3	TRUE	
+3u	Running Shoes (Low Density PolyEthylene)	Mold (Running Shoes)	Vial (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	6	10	1	VelocityOnGround, Durability(MCMins)	0.6	40		8	TRUE	
+3v	Scuba Fins (PolyIsoPrene)	Mold (Scuba Fins)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1	VelocityInWater, VelocityOnGround, Durability(MCMins)	0.4	0.05	20	3	TRUE	
+3w	Scuba Mask (PolyIsoPrene)	Mold (Scuba Mask)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	FogDensity	0.01			3	TRUE	
+3y	Gasket (PolyIsoPrene)	Mold (Gasket)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	2	10						3	TRUE	
+3z	Life Preserver (PolyIsoPrene)	Mold (Life Preserver)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1					3	TRUE	
+3B	Fibers (PolyIsoPrene)	Metal Die (Fibers)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	1	10						3	TRUE	
+3N	Tether (PolyIsoPrene)	Metal Die (Tether)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	2	10						3	TRUE	
+3U	Cord (PolyIsoPrene)	Metal Die (Cord)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	4	10						3	TRUE	Used as a super lead for horses, wont break as easily, can hold boats in place
+F	Hose (PolyIsoPrene)	Metal Die (Hose)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	8	10						3	TRUE	
+42	Large Pipe (PolyIsoPrene)	Metal Die (Large Pipe)	Vial (PolyIsoPrene Pellets)	PolyIsoPrene	16	10						3	TRUE	

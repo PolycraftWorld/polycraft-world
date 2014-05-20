@@ -26,6 +26,8 @@ public class ItemScubaMask extends PolycraftArmorHeadgear implements PolycraftMo
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
 		this.setTextureName(PolycraftMod.getAssetName("scuba_mask"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
+		if (moldedItem.maxStackSize > 0)
+			this.setMaxStackSize(moldedItem.maxStackSize);
 		this.moldedItem = moldedItem;
 		this.fogDensity = moldedItem.params.getFloat(0);
 	}

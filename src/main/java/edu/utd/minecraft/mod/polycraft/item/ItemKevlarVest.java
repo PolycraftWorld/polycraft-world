@@ -30,6 +30,8 @@ public class ItemKevlarVest extends PolycraftArmorChest {
 		super(getArmorMaterial(config), ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getAssetName("kevlar_vest"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
+		if (config.maxStackSize > 0)
+			this.setMaxStackSize(config.maxStackSize);
 	}
 
 	@Override

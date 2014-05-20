@@ -59,7 +59,7 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 
 	private static final int flameLightSourcesMax = 15;
 	private static final int flameParticlesPerTick = 20;
-	private static final double flameParticlesOffsetY = -.25;
+	private static final double flameParticlesRandomSpread = .25; //lowe numbers mean less random spread
 	private static final float flameParticleVelocity = .5f;
 	private static final String flameParticleFlame = "flame";
 
@@ -70,21 +70,26 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		return lightSources;
 	}
 
-	public static void createFlames(final EntityPlayer player, final WorldClient world, final Random random, final Collection<PointLightSource> lightSources) {
+	public static void createFlames(final EntityPlayer player, final WorldClient world, final Random random, final Collection<PointLightSource> lightSources, final boolean playerOnCurrentClient) {
 		//make the pretties
 		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
 		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
 		final double unitVecX = Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians);
 		final double unitVecY = -Math.cos(playerRotationPitchRadians);
 		final double unitVecZ = Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians);
-		final double originX = player.posX + unitVecX;
-		final double originY = player.posY + unitVecY + flameParticlesOffsetY;
-		final double originZ = player.posZ + unitVecZ;
+		final double baseMotionX = player.motionX + (flameParticleVelocity * unitVecX);
+		final double baseMotionY = (player.onGround ? 0 : player.motionY) + (flameParticleVelocity * unitVecY);
+		final double baseMotionZ = player.motionZ + (flameParticleVelocity * unitVecZ);
+		final double originX = player.posX + (unitVecX * .5);
+		//for some reason other players perceive the particles coming out lower in multiplayer, so adjust by the offset
+		final double originY = (playerOnCurrentClient ? player.posY : player.posY - player.getYOffset()) + (unitVecY * .5);
+		final double originZ = player.posZ + (unitVecZ * .5);
+
 		for (int a = 0; a < flameParticlesPerTick; a++)
 			world.spawnParticle(flameParticleFlame, originX, originY, originZ,
-					player.motionX + ((1 - (random.nextDouble() - .5) * .5) * flameParticleVelocity * unitVecX),
-					player.motionY + ((1 - (random.nextDouble() - .5) * .5) * flameParticleVelocity * unitVecY),
-					player.motionZ + ((1 - (random.nextDouble() - .5) * .5) * flameParticleVelocity * unitVecZ));
+					baseMotionX + ((random.nextDouble() - .5) * flameParticlesRandomSpread),
+					baseMotionY + ((random.nextDouble() - .5) * flameParticlesRandomSpread),
+					baseMotionZ + ((random.nextDouble() - .5) * flameParticlesRandomSpread));
 
 		int i = 0;
 		for (final PointLightSource source : lightSources)
@@ -142,6 +147,8 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		this.setTextureName(PolycraftMod.getAssetName("flame_thrower"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
+		if (config.maxStackSize > 0)
+			this.setMaxStackSize(config.maxStackSize);
 		this.fuelUnitsFull = config.params.getInt(0);
 		this.fuelUnitsBurnPerTick = config.params.getInt(1);
 		this.range = config.params.getInt(2);

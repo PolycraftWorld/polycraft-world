@@ -271,7 +271,7 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	private synchronized void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
+	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
 		boolean jetPackIsFlying = false;
 		if (ItemJetPack.allowsFlying(player)) {
 			jetPackIsFlying = playerState.jetPackIsFlying;
@@ -287,9 +287,9 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 		else if (playerState.jetPackIsFlying) {
-			final float flySpeed = baseFlySpeed * ItemJetPack.getEquippedItem(player).flySpeedBuff;
-			setPlayerVelocityFromInputXZ(player, flySpeed);
-			setPlayerVelocityFromInputY(player, flySpeed, true);
+			final float velocityInAir = ItemJetPack.getEquippedItem(player).velocityInAir;
+			setPlayerVelocityFromInputXZ(player, velocityInAir);
+			setPlayerVelocityFromInputY(player, velocityInAir, true);
 
 			// cause an unstable motion to simulate the unpredictability of the exhaust direction
 			ItemJetPack.randomizePosition(player, random);
@@ -299,14 +299,15 @@ public class ClientProxy extends CommonProxy {
 	private void onPlayerTickClientJetPack(final EntityPlayer player, final PlayerState playerState) {
 		final boolean jetPackIgnited = ItemJetPack.getIgnited(player);
 		if (jetPackIgnited)
-			ItemJetPack.createExhaust(player, client.theWorld, playerState.jetPackLightSources);
+			ItemJetPack.createExhaust(player, client.theWorld, playerState.jetPackLightSources, random);
 		playerState.setJetPackLightsEnabled(jetPackIgnited);
 	}
 
 	private void onPlayerTickClientFlameThrower(final EntityPlayer player, final PlayerState playerState) {
-		final boolean flameThrowerIgnited = ItemFlameThrower.getIgnited(player);
+		final boolean playerOnCurrentClient = client.thePlayer.equals(player);
+		final boolean flameThrowerIgnited = playerOnCurrentClient ? ItemFlameThrower.allowsFiring(player) && player.isUsingItem() : ItemFlameThrower.getIgnited(player);
 		if (flameThrowerIgnited)
-			ItemFlameThrower.createFlames(player, client.theWorld, random, playerState.flameThrowerLightSources);
+			ItemFlameThrower.createFlames(player, client.theWorld, random, playerState.flameThrowerLightSources, playerOnCurrentClient);
 		playerState.setFlameThrowerLightsEnabled(flameThrowerIgnited);
 	}
 
@@ -319,27 +320,27 @@ public class ClientProxy extends CommonProxy {
 
 	private void onClientTickParachute(final EntityPlayer player, final PlayerState playerState) {
 		if (ItemParachute.allowsSlowFall(player)) {
-			final float descendVelocity = ItemParachute.getEquippedItem(player).descendVelocity;
-			if (player.motionY < descendVelocity)
-				player.motionY = descendVelocity;
+			final float velocityDescent = -ItemParachute.getEquippedItem(player).velocityDescent;
+			if (player.motionY < velocityDescent)
+				player.motionY = velocityDescent;
 		}
 	}
 
 	private void onClientTickRunningShoes(final EntityPlayer player) {
 		if (ItemRunningShoes.allowsRunning(player))
 			if (player.onGround)
-				setPlayerVelocityFromInputXZ(player, baseWalkSpeed * ItemRunningShoes.getEquippedItem(player).walkSpeedBuff);
+				setPlayerVelocityFromInputXZ(player, ItemRunningShoes.getEquippedItem(player).velocityOnGround);
 	}
 
 	private void onClientTickScubaFins(final EntityPlayer player) {
 		if (ItemScubaFins.allowsFastSwimming(player)) {
 			if (player.isInWater()) {
-				final float swimSpeed = baseSwimSpeed * ItemScubaFins.getEquippedItem(player).swimSpeedBuff;
-				setPlayerVelocityFromInputXZ(player, swimSpeed);
-				setPlayerVelocityFromInputY(player, swimSpeed, false);
+				final float velocityInWater = ItemScubaFins.getEquippedItem(player).velocityInWater;
+				setPlayerVelocityFromInputXZ(player, velocityInWater);
+				setPlayerVelocityFromInputY(player, velocityInWater, false);
 			}
 			else if (player.onGround) {
-				setPlayerVelocityFromInputXZ(player, baseWalkSpeed * ItemScubaFins.getEquippedItem(player).walkSpeedBuff);
+				setPlayerVelocityFromInputXZ(player, ItemScubaFins.getEquippedItem(player).velocityOnGround);
 			}
 		}
 	}
@@ -403,9 +404,9 @@ public class ClientProxy extends CommonProxy {
 		}
 
 		if (phaseShifterEnabled) {
-			final float flySpeed = baseFlySpeed * ItemPhaseShifter.getEquippedItem(player).flySpeedBuff;
-			setPlayerVelocityFromInputXZ(player, flySpeed);
-			setPlayerVelocityFromInputY(player, flySpeed, true);
+			final float velocity = ItemPhaseShifter.getEquippedItem(player).velocity;
+			setPlayerVelocityFromInputXZ(player, velocity);
+			setPlayerVelocityFromInputY(player, velocity, true);
 			if (player.isInWater())
 				player.setAir(baseFullAir);
 		}

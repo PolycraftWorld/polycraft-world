@@ -1,25 +1,25 @@
-Game ID	Custom Item	Type	Level	First Release	Notes	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
-3l	Metal Screw	PC Item	2	TRUE											
-3m	Bucket (Crude Oil)	PC Item	1	TRUE											
-3n	Flame Thrower	Weapon	7	TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
-3o	Flashlight	Utility		TRUE		MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
-3p	Jet Pack	Armor		TRUE		FuelUnitsFull, FuelUnitsBurnPerTick, FlySpeedBuff, InitialDamage	5000	1	1.5	5					
-5a	Parachute					DescendVelocity	-0.3								
-3q	Laser	Tool		TRUE											
-3r	Phase Shifter	Tool	7	TRUE		Radius, FlySpeedBuff, BoundaryBlock	2	3	Glass						
-3x	Scuba Tank	Armor		TRUE		AirUnitsFull, AirUnitsConsumePerTick	5000	1							
-3A	Wetsuit	Armor		TRUE											
-3C	Structural Truss	PC Block		TRUE											
-3G	Barley	Food		TRUE											
-3H	Grapes	Food		TRUE											
-3I	Copper Pipe	PC Block		TRUE											
-3M	Regulator	PC Item													
-3P	Lighter	Utility	4	TRUE											
-3Q	Rubber Mesh X	PC Item		TRUE											
-3R	Rubber Mesh O	PC Item		TRUE											
-3S	Trampoline Mesh	PC Item		TRUE											
-3T	Trampoline	PC Block		TRUE											
-3X	Gas Mantle	PC Item	4	TRUE											
-5b	Kevlar Vest					armorBuffOverDiamond	1.5								
-5d	Heat Exchanger	PC Item		TRUE											
-5e	Heat Fins	PC Item		TRUE											
+Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
+3l	Metal Screw	PC Item	2	TRUE												
+3m	Bucket (Crude Oil)	PC Item	1	TRUE												
+3n	Flame Thrower	Weapon	7	TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
+3o	Flashlight	Utility		TRUE		1	MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
+3p	Jet Pack	Armor		TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect	5000	1	0.4	5					
+5a	Parachute					1	VelocityDescent	0.3								
+3q	Laser	Tool		TRUE		1										
+3r	Phase Shifter	Tool	7	TRUE		1	Radius, Velocity, BoundaryBlock	3	0.6	Glass						
+3x	Scuba Tank	Armor		TRUE		1	AirUnitsFull, AirUnitsConsumePerTick	5000	1							
+3A	Wetsuit	Armor		TRUE		1										
+3C	Structural Truss	PC Block		TRUE												
+3G	Barley	Food		TRUE												
+3H	Grapes	Food		TRUE												
+3I	Copper Pipe	PC Block		TRUE												
+3M	Regulator	PC Item														
+3P	Lighter	Utility	4	TRUE		1										
+3Q	Rubber Mesh X	PC Item		TRUE												
+3R	Rubber Mesh O	PC Item		TRUE												
+3S	Trampoline Mesh	PC Item		TRUE												
+3T	Trampoline	PC Block		TRUE												
+3X	Gas Mantle	PC Item	4	TRUE												
+5b	Kevlar Vest					1	armorBuffOverDiamond	1.5								
+5d	Heat Exchanger	PC Item		TRUE												
+5e	Heat Fins	PC Item		TRUE												

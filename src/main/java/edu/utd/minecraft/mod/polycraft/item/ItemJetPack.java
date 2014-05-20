@@ -64,8 +64,8 @@ public class ItemJetPack extends PolycraftArmorChest {
 	}
 
 	private static final int exhaustRangeY = 5;
-	private static final double exhaustPlumeOffset = .05;
-	private static final int exhaustParticlesPerTick = 5;
+	private static final double exhaustParticlesRandomSpread = .1;
+	private static final int exhaustParticlesPerTick = 20;
 	private static final double exhaustDownwardVelocity = -.8;
 	private static final String exhaustParticleSmoke = "smoke";
 	private static final String exhaustParticleFlame = "flame";
@@ -77,36 +77,25 @@ public class ItemJetPack extends PolycraftArmorChest {
 		return lightSources;
 	}
 
-	public static void createExhaust(final EntityPlayer player, final World world, final Collection<PointLightSource> lightSources) {
-		spawnExhaustParticles(player, world, -.25);
-		spawnExhaustParticles(player, world, .25);
+	public static void createExhaust(final EntityPlayer player, final World world, final Collection<PointLightSource> lightSources, final Random random) {
+		spawnExhaustParticles(player, world, -.25, random);
+		spawnExhaustParticles(player, world, .25, random);
 		int i = 0;
 		for (final PointLightSource source : lightSources)
 			source.update(15, player.posX, player.posY - (i++), player.posZ);
 	}
 
-	private static void spawnExhaustParticles(final EntityPlayer player, final World world, final double offset) {
+	private static void spawnExhaustParticles(final EntityPlayer player, final World world, final double offset, final Random random) {
 		final double playerRotationRadians = Math.toRadians(player.rotationYaw);
-		final double playerRotationSin = Math.sin(playerRotationRadians);
-		final double playerRotationCos = Math.cos(playerRotationRadians);
-		final double centerX = player.posX + (offset * playerRotationCos);
-		final double centerY = player.posY - 1;
-		final double centerZ = player.posZ + (offset * playerRotationSin);
-		final double offsetX = playerRotationCos * exhaustPlumeOffset;
-		final double offsetZ = playerRotationSin * exhaustPlumeOffset;
+		final double originX = player.posX + (offset * Math.cos(playerRotationRadians));
+		final double originY = player.posY - player.getYOffset();
+		final double originZ = player.posZ + (offset * Math.sin(playerRotationRadians));
 		for (int i = 0; i < exhaustParticlesPerTick; i++) {
-			final double y = centerY - (i * .02);
-			world.spawnParticle(exhaustParticleFlame, centerX, y, centerZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleFlame, centerX - offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleFlame, centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleFlame, centerX - offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleFlame, centerX + offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-
-			world.spawnParticle(exhaustParticleSmoke, centerX, y, centerZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleSmoke, centerX - offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleSmoke, centerX + offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleSmoke, centerX - offsetX, y, centerZ + offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
-			world.spawnParticle(exhaustParticleSmoke, centerX + offsetX, y, centerZ - offsetZ, -player.motionX, player.motionY + exhaustDownwardVelocity, -player.motionZ);
+			final double motionX = -player.motionX + ((random.nextDouble() - .5) * exhaustParticlesRandomSpread);
+			final double motionY = player.motionY + exhaustDownwardVelocity + ((random.nextDouble() - .5) * exhaustParticlesRandomSpread);
+			final double motionZ = -player.motionZ + ((random.nextDouble() - .5) * exhaustParticlesRandomSpread);
+			world.spawnParticle(exhaustParticleFlame, originX, originY, originZ, motionX, motionY, motionZ);
+			world.spawnParticle(exhaustParticleSmoke, originX, originY, originZ, motionX, motionY, motionZ);
 		}
 	}
 
@@ -134,7 +123,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 				if (!entity.equals(player)) {
 					if (!entity.isBurning())
 						entity.setFire(Math.max(exhaustRangeY - (int) Math.round(player.posY - entity.posY), 1));
-					entity.attackEntityFrom(DamageSource.onFire, equippedItem.damage);
+					entity.attackEntityFrom(DamageSource.onFire, equippedItem.exhaustDamageDirect);
 				}
 			}
 
@@ -142,17 +131,19 @@ public class ItemJetPack extends PolycraftArmorChest {
 
 	public final int fuelUnitsFull;
 	public final int fuelUnitsBurnPerTick;
-	public final float flySpeedBuff;
-	public final int damage;
+	public final float velocityInAir;
+	public final int exhaustDamageDirect;
 
 	public ItemJetPack(final CustomObject config) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getAssetName("jet_pack"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
+		if (config.maxStackSize > 0)
+			this.setMaxStackSize(config.maxStackSize);
 		this.fuelUnitsFull = config.params.getInt(0);
 		this.fuelUnitsBurnPerTick = config.params.getInt(1);
-		this.flySpeedBuff = config.params.getFloat(2);
-		this.damage = config.params.getInt(3);
+		this.velocityInAir = config.params.getFloat(2);
+		this.exhaustDamageDirect = config.params.getInt(3);
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.item.ItemStack;
+
+import org.apache.commons.lang3.StringUtils;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
@@ -14,12 +17,16 @@ public class CustomObject extends GameIdentifiedConfig {
 				registry.register(new CustomObject(
 						line[0], //gameID
 						line[1], //name
-						line, 7 //params
+						line.length > 5 ? line[5] : null, //maxStackSize
+						line, 8 //params
 				));
 	}
 
-	public CustomObject(final String gameID, final String name, final String[] params, final int paramsOffset) {
+	public final int maxStackSize;;
+
+	public CustomObject(final String gameID, final String name, final String maxStackSize, final String[] params, final int paramsOffset) {
 		super(gameID, name, params, paramsOffset);
+		this.maxStackSize = StringUtils.isEmpty(maxStackSize) ? 0 : Integer.parseInt(maxStackSize);
 	}
 
 	@Override

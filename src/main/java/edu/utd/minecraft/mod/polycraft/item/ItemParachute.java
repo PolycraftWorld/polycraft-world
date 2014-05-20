@@ -19,11 +19,13 @@ public class ItemParachute extends PolycraftUtilityItem {
 		return ItemParachute.isEquipped(player) && !player.capabilities.isFlying;
 	}
 
-	public final float descendVelocity;
+	public final float velocityDescent;
 
 	public ItemParachute(final CustomObject config) {
 		this.setTextureName(PolycraftMod.getAssetName("parachute"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
-		this.descendVelocity = config.params.getFloat(0);
+		if (config.maxStackSize > 0)
+			this.setMaxStackSize(config.maxStackSize);
+		this.velocityDescent = config.params.getFloat(0);
 	}
 }

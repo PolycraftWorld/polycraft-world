@@ -49,9 +49,6 @@ import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 public abstract class CommonProxy {
 
 	protected static final float baseJumpMovementFactor = 0.02F;
-	protected static final float baseWalkSpeed = 0.1f;
-	protected static final float baseSwimSpeed = 0.05f;
-	protected static final float baseFlySpeed = 0.05f;
 	protected static final int baseFullAir = 300;
 	private static final String jetPackSoundName = PolycraftMod.getAssetName("jetpack.fly");
 	private static final long jetPackSoundFrequencyTicks = 10;

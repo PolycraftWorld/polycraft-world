@@ -39,17 +39,19 @@ public class ItemScubaFins extends PolycraftArmorFeet implements PolycraftMolded
 
 	private final MoldedItem moldedItem;
 
-	public final float swimSpeedBuff;
-	public final float walkSpeedBuff;
+	public final float velocityInWater;
+	public final float velocityOnGround;
 
 	public ItemScubaFins(final MoldedItem moldedItem) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
 		this.setTextureName(PolycraftMod.getAssetName("scuba_fins"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(moldedItem.params.getInt(2) * 60));
+		if (moldedItem.maxStackSize > 0)
+			this.setMaxStackSize(moldedItem.maxStackSize);
 		this.moldedItem = moldedItem;
-		this.swimSpeedBuff = moldedItem.params.getFloat(0);
-		this.walkSpeedBuff = moldedItem.params.getFloat(1);
+		this.velocityInWater = moldedItem.params.getFloat(0);
+		this.velocityOnGround = moldedItem.params.getFloat(1);
 	}
 
 	@Override
