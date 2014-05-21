@@ -17,7 +17,7 @@ public class FueledLampBlock extends PolycraftInventoryBlock<FueledLampInventory
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
-		getInventory(world, x, y, z).updateFuelIntensity(0);
+		getInventory(world, x, y, z).updateFuelIntensity(0, true);
 		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
 	}
 }

@@ -15,6 +15,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.spotlight.SpotLightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -36,8 +37,9 @@ public enum PolycraftContainerType {
 	DISTILLATION_COLUMN("Distillation Column"),
 	STEAM_CRACKER("Steam Cracker"),
 	FUELED_LAMP("Fueled Lamp"),
-	MEROX_TREATMENT_UNIT("Merox Treatment Unit"), //TODO
-	CHEMICAL_PROCESSOR("Chemical Processor"); //TODO
+	SPOTLIGHT("SpotLight"),
+	MEROX_TREATMENT_UNIT("Merox Treatment Unit"), // TODO
+	CHEMICAL_PROCESSOR("Chemical Processor"); // TODO
 
 	private final String friendlyName;
 
@@ -68,34 +70,34 @@ public enum PolycraftContainerType {
 
 	static {
 		CRAFTING_TABLE.initialize(ImmutableList.of(
-				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), //INPUT_TOP_LEFT
-				new GuiContainerSlot(1, SlotType.INPUT, 1, 0), //INPUT_TOP_MIDDLE
-				new GuiContainerSlot(2, SlotType.INPUT, 2, 0), //INPUT_TOP_RIGHT
+				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), // INPUT_TOP_LEFT
+				new GuiContainerSlot(1, SlotType.INPUT, 1, 0), // INPUT_TOP_MIDDLE
+				new GuiContainerSlot(2, SlotType.INPUT, 2, 0), // INPUT_TOP_RIGHT
 
-				new GuiContainerSlot(3, SlotType.INPUT, 0, 1), //INPUT_MIDDLE_LEFT
-				new GuiContainerSlot(4, SlotType.INPUT, 1, 1), //INPUT_MIDDLE_MIDDLE
-				new GuiContainerSlot(5, SlotType.INPUT, 2, 1), //INPUT_MIDDLE_RIGHT
+				new GuiContainerSlot(3, SlotType.INPUT, 0, 1), // INPUT_MIDDLE_LEFT
+				new GuiContainerSlot(4, SlotType.INPUT, 1, 1), // INPUT_MIDDLE_MIDDLE
+				new GuiContainerSlot(5, SlotType.INPUT, 2, 1), // INPUT_MIDDLE_RIGHT
 
-				new GuiContainerSlot(6, SlotType.INPUT, 0, 2), //INPUT_BOTTOM_LEFT
-				new GuiContainerSlot(7, SlotType.INPUT, 1, 2), //INPUT_BOTTOM_MIDDLE
-				new GuiContainerSlot(8, SlotType.INPUT, 2, 2), //INPUT_BOTTOM_RIGHT
+				new GuiContainerSlot(6, SlotType.INPUT, 0, 2), // INPUT_BOTTOM_LEFT
+				new GuiContainerSlot(7, SlotType.INPUT, 1, 2), // INPUT_BOTTOM_MIDDLE
+				new GuiContainerSlot(8, SlotType.INPUT, 2, 2), // INPUT_BOTTOM_RIGHT
 
-				new GuiContainerSlot(9, SlotType.OUTPUT, 0, 0), //OUTPUT_TOP_LEFT
-				new GuiContainerSlot(10, SlotType.OUTPUT, 1, 0), //OUTPUT_TOP_MIDDLE
-				new GuiContainerSlot(11, SlotType.OUTPUT, 2, 0), //OUTPUT_TOP_RIGHT
+				new GuiContainerSlot(9, SlotType.OUTPUT, 0, 0), // OUTPUT_TOP_LEFT
+				new GuiContainerSlot(10, SlotType.OUTPUT, 1, 0), // OUTPUT_TOP_MIDDLE
+				new GuiContainerSlot(11, SlotType.OUTPUT, 2, 0), // OUTPUT_TOP_RIGHT
 
-				new GuiContainerSlot(12, SlotType.OUTPUT, 0, 1), //OUTPUT_MIDDLE_LEFT
-				new GuiContainerSlot(13, SlotType.OUTPUT, 1, 1), //OUTPUT_MIDDLE_MIDDLE
-				new GuiContainerSlot(14, SlotType.OUTPUT, 2, 1), //OUTPUT_MIDDLE_RIGHT
+				new GuiContainerSlot(12, SlotType.OUTPUT, 0, 1), // OUTPUT_MIDDLE_LEFT
+				new GuiContainerSlot(13, SlotType.OUTPUT, 1, 1), // OUTPUT_MIDDLE_MIDDLE
+				new GuiContainerSlot(14, SlotType.OUTPUT, 2, 1), // OUTPUT_MIDDLE_RIGHT
 
-				new GuiContainerSlot(15, SlotType.OUTPUT, 0, 2), //OUTPUT_BOTTOM_LEFT
-				new GuiContainerSlot(16, SlotType.OUTPUT, 1, 2), //OUTPUT_BOTTOM_MIDDLE
-				new GuiContainerSlot(17, SlotType.OUTPUT, 2, 2) //OUTPUT_BOTTOM_RIGHT
+				new GuiContainerSlot(15, SlotType.OUTPUT, 0, 2), // OUTPUT_BOTTOM_LEFT
+				new GuiContainerSlot(16, SlotType.OUTPUT, 1, 2), // OUTPUT_BOTTOM_MIDDLE
+				new GuiContainerSlot(17, SlotType.OUTPUT, 2, 2) // OUTPUT_BOTTOM_RIGHT
 				));
 		FURNANCE.initialize(ImmutableList.of(
-				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), //INPUT
-				new GuiContainerSlot(1, SlotType.INPUT, 0, 1), //FUEL
-				new GuiContainerSlot(1, SlotType.OUTPUT, 1, 0) //OUTPUT
+				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), // INPUT
+				new GuiContainerSlot(1, SlotType.INPUT, 0, 1), // FUEL
+				new GuiContainerSlot(1, SlotType.OUTPUT, 1, 0) // OUTPUT
 				));
 		TREE_TAP.initialize(TreeTapInventory.guiSlots);
 		MACHINING_MILL.initialize(MachiningMillInventory.guiSlots);
@@ -104,6 +106,7 @@ public enum PolycraftContainerType {
 		DISTILLATION_COLUMN.initialize(DistillationColumnInventory.guiSlots);
 		STEAM_CRACKER.initialize(SteamCrackerInventory.guiSlots);
 		FUELED_LAMP.initialize(FueledLampInventory.guiSlots);
+		SPOTLIGHT.initialize(SpotLightInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

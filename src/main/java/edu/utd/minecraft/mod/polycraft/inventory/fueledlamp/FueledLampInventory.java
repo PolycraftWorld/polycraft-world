@@ -78,7 +78,7 @@ public class FueledLampInventory extends PolycraftInventory {
 		if (worldObj != null && !worldObj.isRemote) {
 			if (fuelHeatTicksRemaining == 0) {
 				int newFuelHeatIntensity = 0;
-				//find new fuel
+				// find new fuel
 				final ContainerSlot fuelSlot = getNextFuelSlot();
 				if (fuelSlot != null) {
 					final ItemStack fuelStack = getStackInSlot(fuelSlot);
@@ -88,7 +88,7 @@ public class FueledLampInventory extends PolycraftInventory {
 					if (fuelStack.stackSize == 0)
 						clearSlotContents(fuelSlot);
 				}
-				updateFuelIntensity(newFuelHeatIntensity);
+				updateFuelIntensity(newFuelHeatIntensity, false);
 			}
 			if (fuelHeatTicksRemaining > 0) {
 				fuelHeatTicksRemaining--;
@@ -97,33 +97,46 @@ public class FueledLampInventory extends PolycraftInventory {
 		}
 	}
 
-	public void updateFuelIntensity(final int newFuelHeatIntensity) {
-		setBlockLit(newFuelHeatIntensity > 0, xCoord, yCoord, zCoord);
-		final int radiusLit = newFuelHeatIntensity;
+	public void updateFuelIntensity(final int newFuelHeatIntensity, final boolean turnOff) {
+
+		setBlockLit(newFuelHeatIntensity > 0, xCoord, yCoord, zCoord, turnOff);
+		final int radiusLit;
+
+		if (turnOff)
+		{
+			radiusLit = fuelHeatIntensity;
+
+		}
+		else
+		{
+			radiusLit = newFuelHeatIntensity;
+		}
+
 		final int radiusToUpdate = Math.max(fuelHeatIntensity, radiusLit);
+		boolean occludedA = false;
 
-		boolean occludedPos = false;
-		boolean occludedNeg = false;
-		for (int x = 1; x <= radiusToUpdate; x++) {
-			final boolean lit = newFuelHeatIntensity > 0 && x <= radiusLit;
-			occludedPos |= setBlockLit(lit && !occludedPos, xCoord + x, yCoord, zCoord);
-			occludedNeg |= setBlockLit(lit && !occludedNeg, xCoord - x, yCoord, zCoord);
-		}
+		double angleInRadians;
+		if (newFuelHeatIntensity > 0)
+			angleInRadians = 2.0 / newFuelHeatIntensity * Math.PI;
+		else if (fuelHeatIntensity > 0)
+			angleInRadians = 2.0 / fuelHeatIntensity * Math.PI;
+		else
+			angleInRadians = 0;
+		double lineAngle = 0;
 
-		occludedPos = false;
-		occludedNeg = false;
-		for (int y = 1; y <= radiusToUpdate; y++) {
-			final boolean lit = newFuelHeatIntensity > 0 && y <= radiusLit;
-			occludedPos |= setBlockLit(lit && !occludedPos, xCoord, yCoord + y, zCoord);
-			occludedNeg |= setBlockLit(lit && !occludedNeg, xCoord, yCoord - y, zCoord);
-		}
+		if (angleInRadians > 0)
+		{
+			for (int lines = 0; lineAngle <= 2 * Math.PI; lines++) {
+				lineAngle = angleInRadians * lines;
 
-		occludedPos = false;
-		occludedNeg = false;
-		for (int z = 1; z <= radiusToUpdate; z++) {
-			final boolean lit = newFuelHeatIntensity > 0 && z <= radiusLit;
-			occludedPos |= setBlockLit(lit && !occludedPos, xCoord, yCoord, zCoord + z);
-			occludedNeg |= setBlockLit(lit && !occludedNeg, xCoord, yCoord, zCoord - z);
+				occludedA = false;
+				for (int i = 1; i <= radiusLit; i++) {
+					final boolean lit = newFuelHeatIntensity > 0 && i <= radiusLit;
+					occludedA |= setBlockLit(lit && !occludedA, xCoord + (int) (Math.ceil(Math.sin(lineAngle) * i)), yCoord, zCoord + (int) (Math.ceil(Math.cos(lineAngle) * i)), turnOff);
+
+				}
+
+			}
 		}
 
 		fuelHeatIntensity = newFuelHeatIntensity;
@@ -138,15 +151,19 @@ public class FueledLampInventory extends PolycraftInventory {
 		return null;
 	}
 
-	private boolean setBlockLit(final boolean lit, final int x, final int y, final int z) {
+	private boolean setBlockLit(final boolean lit, final int x, final int y, final int z, boolean turnOff) {
 		final Block block = worldObj.getBlock(x, y, z);
 		if (block instanceof BlockLight) {
-			if (!lit)
+			if (!lit && turnOff)
 				worldObj.setBlockToAir(x, y, z);
 		}
 		else if (block.getMaterial() == Material.air) {
-			if (lit)
+			if (lit && !turnOff)
 				worldObj.setBlock(x, y, z, PolycraftMod.blockLight);
+		}
+		else if (block instanceof FueledLampBlock)
+		{
+			return false;
 		}
 		else
 			return true;

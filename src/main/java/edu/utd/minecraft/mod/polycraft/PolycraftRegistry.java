@@ -65,6 +65,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInvento
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.spotlight.SpotLightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
@@ -346,6 +347,8 @@ public class PolycraftRegistry {
 				SteamCrackerInventory.register(inventory);
 			else if ("3V".equals(inventory.gameID))
 				FueledLampInventory.register(inventory);
+			else if ("41".equals(inventory.gameID))
+				SpotLightInventory.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}
