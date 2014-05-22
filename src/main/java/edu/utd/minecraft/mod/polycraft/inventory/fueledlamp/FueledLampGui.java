@@ -19,7 +19,7 @@ public class FueledLampGui extends PolycraftInventoryGui<FueledLampInventory> {
 		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
 		final int fuelTicksRemaining = inventory.getState(FueledLampState.FuelTicksRemaining);
 		if (fuelTicksRemaining > 0) {
-			final Fuel fuel = inventory.getCurrentFuel();
+			final Fuel fuel = Fuel.getFuel(inventory.getState(FueledLampState.FuelIndex));
 			this.fontRendererObj.drawString(fuelName + fuel.name, 8, 40, 4210752);
 			this.fontRendererObj.drawString(fuelIntensity + inventory.getState(FueledLampState.FuelHeatIntensity), 8, 50, 4210752);
 			this.fontRendererObj.drawString(String.format(fuelRemaining, ((double) fuelTicksRemaining / (double) inventory.getState(FueledLampState.FuelTicksTotal)) * 100), 8, 60, 4210752);

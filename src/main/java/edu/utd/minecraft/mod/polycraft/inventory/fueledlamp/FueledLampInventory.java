@@ -38,8 +38,8 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 
-	private boolean needInitialVote = true;
 	private final float rangePerHeatIntensity;
+	private BlockLight.Source currentLightSource = null;
 
 	public FueledLampInventory() {
 		super(PolycraftContainerType.FUELED_LAMP, config, 84, FueledLampState.values());
@@ -56,30 +56,39 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 	public synchronized void updateEntity() {
 		super.updateEntity();
 		if (worldObj != null && !worldObj.isRemote) {
-			if (needInitialVote) {
-				needInitialVote = false;
-				voteOnLights(true);
-			}
-
 			if (getState(FueledLampState.FuelTicksRemaining) == 0) {
-				Fuel fuel = null;
-				int fuelTicksTotal = 0;
 				final ContainerSlot fuelSlot = getNextFuelSlot();
-				if (fuelSlot != null) {
+				if (fuelSlot == null) {
+					if (removeCurrentLightSource()) {
+						setState(FueledLampState.FuelIndex, -1);
+						setState(FueledLampState.FuelTicksTotal, 0);
+						setState(FueledLampState.FuelHeatIntensity, -1);
+					}
+				}
+				else {
 					final ItemStack fuelStack = getStackInSlot(fuelSlot);
-					fuel = Fuel.getFuel(fuelStack.getItem());
-					voteOnLights(fuel.heatIntensity, true);
-					fuelTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
 					fuelStack.stackSize--;
 					if (fuelStack.stackSize == 0)
 						clearSlotContents(fuelSlot);
+
+					final Fuel fuel = Fuel.getFuel(fuelStack.getItem());
+					final int fuelTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
+					setState(FueledLampState.FuelIndex, fuel.index);
+					setState(FueledLampState.FuelTicksTotal, fuelTicksTotal);
+					setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal);
+					//only change the source if the intensity changes
+					if (fuel.heatIntensity != getState(FueledLampState.FuelHeatIntensity)) {
+						setState(FueledLampState.FuelHeatIntensity, fuel.heatIntensity);
+						final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
+						removeCurrentLightSource();
+						currentLightSource = newLightSource;
+					}
 				}
-				voteOnLights(false);
-				setState(FueledLampState.FuelIndex, fuel == null ? -1 : fuel.index);
-				setState(FueledLampState.FuelTicksTotal, fuelTicksTotal);
-				setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal);
-				setState(FueledLampState.FuelHeatIntensity, fuel == null ? -1 : fuel.heatIntensity);
 			}
+			else if (currentLightSource == null) {
+				currentLightSource = addLightSource(getState(FueledLampState.FuelHeatIntensity));
+			}
+
 			if (getState(FueledLampState.FuelTicksRemaining) > 0) {
 				updateState(FueledLampState.FuelTicksRemaining, -1);
 				markDirty();
@@ -96,33 +105,16 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 		return null;
 	}
 
-	public Fuel getCurrentFuel() {
-		return Fuel.getFuel(getState(FueledLampState.FuelIndex));
+	private BlockLight.Source addLightSource(final int heatIntensity) {
+		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * rangePerHeatIntensity)));
 	}
 
-	public void voteOnLights(final boolean enabled) {
-		voteOnLights(getState(FueledLampState.FuelHeatIntensity), enabled);
-	}
-
-	public void voteOnLights(final int heatIntensity, final boolean enabled) {
-		if (heatIntensity > 0) {
-			final int range = (int) Math.floor(heatIntensity * rangePerHeatIntensity);
-			BlockLight.vote(worldObj, xCoord, yCoord, zCoord, enabled);
-			int r = enabled ? 1 : range;
-			while (r >= 1 && r <= range) {
-				final int originX = xCoord - r;
-				final int originZ = zCoord - r;
-				final int size = (r * 2) + 1;
-				for (int s = 0; s < size; s += 2) {
-					BlockLight.vote(worldObj, originX + s, yCoord, originZ, enabled);
-					BlockLight.vote(worldObj, originX + s, yCoord, originZ + size - 1, enabled);
-					if (s > 0 && s < (size - 1)) {
-						BlockLight.vote(worldObj, originX, yCoord, originZ + s, enabled);
-						BlockLight.vote(worldObj, originX + size - 1, yCoord, originZ + s, enabled);
-					}
-				}
-				r += enabled ? 1 : -1;
-			}
+	public synchronized boolean removeCurrentLightSource() {
+		if (currentLightSource != null) {
+			BlockLight.removeSource(worldObj, currentLightSource);
+			currentLightSource = null;
+			return true;
 		}
+		return false;
 	}
 }
