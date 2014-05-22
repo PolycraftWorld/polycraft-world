@@ -6,7 +6,7 @@ Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon
 3D	1I	Steam Cracker	4	2004	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax 	8	1	10						
 3E	1J	Distillation Column	5	2005	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax 	8	1	10						
 3F	1K	Industrial Oven	6	2006																			
-3V	40	Fueled Lamp	7	2007	side		top					side	side										
+3V	40	Fueled Lamp	7	2007	side		top					side	side	RangePerHeatIntensity	1								
 3J	1L	Fracker	8	2008																			
 3K	3Y	Oil Derrick	9	2009																			
 3L	3Z	Plastic Chest	10	2010																			

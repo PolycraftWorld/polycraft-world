@@ -12,16 +12,24 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 public class Fuel extends Config {
 
 	public static final ConfigRegistry<Fuel> registry = new ConfigRegistry<Fuel>();
+	private static final Map<Integer, Fuel> fuelsByIndex = Maps.newHashMap();
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Fuel.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
-				registry.register(new Fuel(
+			if (line.length > 0) {
+				final int index = Integer.parseInt(line[3]);
+				fuelsByIndex.put(index, registry.register(new Fuel(
 						line[0], //name
 						Config.find(line[1], line[2]), //source
-						Integer.parseInt(line[3]), //heatIntensity
-						Float.parseFloat(line[4]) //heatDuration
-				));
+						index, //index
+						Integer.parseInt(line[4]), //heatIntensity
+						Float.parseFloat(line[5]) //heatDuration
+						)));
+			}
+	}
+
+	public static Fuel getFuel(final int index) {
+		return fuelsByIndex.get(index);
 	}
 
 	private static class QuantifiedFuel {
@@ -52,10 +60,17 @@ public class Fuel extends Config {
 		}
 	}
 
-	public static int getHeatIntensity(final Item item) {
+	public static Fuel getFuel(final Item item) {
 		final QuantifiedFuel quantifiedFuel = quantifiedFuelsByItem.get(item);
 		if (quantifiedFuel != null)
-			return quantifiedFuel.fuel.heatIntensity;
+			return quantifiedFuel.fuel;
+		return null;
+	}
+
+	public static int getHeatIntensity(final Item item) {
+		final Fuel fuel = getFuel(item);
+		if (fuel != null)
+			return fuel.heatIntensity;
 		return 0;
 	}
 
@@ -67,12 +82,14 @@ public class Fuel extends Config {
 	}
 
 	public final Config source;
+	public final int index;
 	public final int heatIntensity;
 	public final float heatDurationSeconds;
 
-	public Fuel(final String name, final Config source, final int heatIntensity, final float heatDurationSeconds) {
+	public Fuel(final String name, final Config source, final int index, final int heatIntensity, final float heatDurationSeconds) {
 		super(name);
 		this.source = source;
+		this.index = index;
 		this.heatIntensity = heatIntensity;
 		this.heatDurationSeconds = heatDurationSeconds;
 	}

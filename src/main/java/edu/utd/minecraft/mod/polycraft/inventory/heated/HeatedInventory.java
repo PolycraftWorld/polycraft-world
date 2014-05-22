@@ -1,16 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.inventory.heated;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.relauncher.Side;
@@ -19,28 +15,17 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
-import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 
-public abstract class HeatedInventory extends WateredInventory {
-
-	public enum State {
-		HeatSourceTicksTotal, //The total number of ticks that the current heat source will keep this inventory heated
-		HeatSourceTicksRemaining, //The number of ticks that the current heat source will remain heating this inventory
-		HeatSourceIntensity, //How intense the current heat source is
-		ProcessingTicks //The number of ticks the current recipe has been processed
-	}
+public abstract class HeatedInventory extends WateredInventory<HeatedInventoryState> {
 
 	protected static Random random = new Random();
 
-	private final Map<State, Integer> stateValues = Maps.newHashMap();
-
 	private final int slotIndexHeatSource;
-	private final int playerInventoryOffset;
 	private final int defaultProcessingTicks;
 	private final int defaultHeatIntensityMin;
 	private final int defaultHeatIntensityMax;
@@ -50,11 +35,8 @@ public abstract class HeatedInventory extends WateredInventory {
 	}
 
 	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int playerInventoryOffset, final int slotIndexHeatSource, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
-		super(containerType, config, slotIndexCoolingWater, slotIndexHeatingWater);
+		super(containerType, config, playerInventoryOffset, HeatedInventoryState.values(), slotIndexCoolingWater, slotIndexHeatingWater);
 		this.slotIndexHeatSource = slotIndexHeatSource;
-		this.playerInventoryOffset = playerInventoryOffset;
-		for (final State state : State.values())
-			setState(state, 0);
 		this.defaultProcessingTicks = (config.params == null) ? 0 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(0));
 		this.defaultHeatIntensityMin = (config.params == null) ? 0 : config.params.getInt(1);
 		this.defaultHeatIntensityMax = (config.params == null) ? 0 : config.params.getInt(2);
@@ -71,52 +53,18 @@ public abstract class HeatedInventory extends WateredInventory {
 	}
 
 	@Override
-	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		if (playerInventoryOffset > 0)
-			return new HeatedContainer(this, playerInventory, playerInventoryOffset);
-		return new HeatedContainer(this, playerInventory);
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return getGuiHeated(playerInventory);
 	}
 
-	public int getState(final State state) {
-		return stateValues.get(state);
-	}
-
-	public int setState(final State state, final int value) {
-		stateValues.put(state, value);
-		return value;
-	}
-
-	public int updateState(final State state, final int update) {
-		return setState(state, getState(state) + update);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		for (final State state : State.values())
-			setState(state, tag.getShort(state.toString()));
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tag) {
-		super.writeToNBT(tag);
-		for (final State state : State.values())
-			tag.setShort(state.toString(), (short) getState(state));
-	}
-
 	public boolean isHeated() {
-		return getState(State.HeatSourceTicksRemaining) > 0;
+		return getState(HeatedInventoryState.HeatSourceTicksRemaining) > 0;
 	}
 
 	private boolean isHeatIntensityValid() {
-		return getState(State.HeatSourceIntensity) >= getProcessingHeatIntensityForCurrentInputs(true) &&
-				getState(State.HeatSourceIntensity) <= getProcessingHeatIntensityForCurrentInputs(false);
+		return getState(HeatedInventoryState.HeatSourceIntensity) >= getProcessingHeatIntensityForCurrentInputs(true) &&
+				getState(HeatedInventoryState.HeatSourceIntensity) <= getProcessingHeatIntensityForCurrentInputs(false);
 	}
 
 	/**
@@ -124,9 +72,9 @@ public abstract class HeatedInventory extends WateredInventory {
 	 */
 	@SideOnly(Side.CLIENT)
 	public int getHeatSourceTimeRemainingScaled(final int scale) {
-		final double total = getState(State.HeatSourceTicksTotal);
+		final double total = getState(HeatedInventoryState.HeatSourceTicksTotal);
 		if (total > 0)
-			return (int) ((getState(State.HeatSourceTicksRemaining) / total) * scale);
+			return (int) ((getState(HeatedInventoryState.HeatSourceTicksRemaining) / total) * scale);
 		return 0;
 	}
 
@@ -137,7 +85,7 @@ public abstract class HeatedInventory extends WateredInventory {
 	public int getProcessingProgressScaled(final int scale) {
 		final double total = getTotalProcessingTicksForCurrentInputs();
 		if (total > 0)
-			return (int) ((getState(State.ProcessingTicks) / total) * scale);
+			return (int) ((getState(HeatedInventoryState.ProcessingTicks) / total) * scale);
 		return 0;
 	}
 
@@ -148,16 +96,16 @@ public abstract class HeatedInventory extends WateredInventory {
 		boolean isDirty = false;
 
 		if (isHeated())
-			updateState(State.HeatSourceTicksRemaining, -1);
+			updateState(HeatedInventoryState.HeatSourceTicksRemaining, -1);
 
 		if (!worldObj.isRemote) {
 			if (canProcess()) {
 				if (!isHeated()) {
 					final ItemStack heatSourceItemStack = getStackInSlot(slotIndexHeatSource);
 					if (heatSourceItemStack != null) {
-						setState(State.HeatSourceTicksRemaining, setState(State.HeatSourceTicksTotal,
+						setState(HeatedInventoryState.HeatSourceTicksRemaining, setState(HeatedInventoryState.HeatSourceTicksTotal,
 								PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()))));
-						setState(State.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
+						setState(HeatedInventoryState.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
 						--heatSourceItemStack.stackSize;
 						if (heatSourceItemStack.stackSize == 0)
 							setInventorySlotContents(slotIndexHeatSource, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
@@ -166,17 +114,17 @@ public abstract class HeatedInventory extends WateredInventory {
 				}
 
 				if (isHeated() && isHeatIntensityValid()) {
-					if (updateState(State.ProcessingTicks, 1) == getTotalProcessingTicksForCurrentInputs()) {
+					if (updateState(HeatedInventoryState.ProcessingTicks, 1) == getTotalProcessingTicksForCurrentInputs()) {
 						finishProcessing();
-						setState(State.ProcessingTicks, 0);
+						setState(HeatedInventoryState.ProcessingTicks, 0);
 						isDirty = true;
 					}
 				}
 				else
-					setState(State.ProcessingTicks, 0);
+					setState(HeatedInventoryState.ProcessingTicks, 0);
 			}
 			else
-				setState(State.ProcessingTicks, 0);
+				setState(HeatedInventoryState.ProcessingTicks, 0);
 		}
 
 		if (isDirty)

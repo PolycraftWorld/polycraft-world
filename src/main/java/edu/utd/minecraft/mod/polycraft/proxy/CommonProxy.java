@@ -31,6 +31,7 @@ import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
+import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -214,6 +215,13 @@ public abstract class CommonProxy {
 		}
 
 		ItemJetPack.setIgnited(player, jetPackIgnited);
+	}
+
+	@SubscribeEvent
+	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
+		if (tick.phase == Phase.END) {
+			BlockLight.processPendingUpdates();
+		}
 	}
 
 	private void onPlayerTickServerFlameThrower(final EntityPlayer player, final PlayerState playerState) {

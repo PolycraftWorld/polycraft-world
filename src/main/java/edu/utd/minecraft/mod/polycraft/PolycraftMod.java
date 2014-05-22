@@ -163,6 +163,10 @@ public class PolycraftMod {
 		return (int) Math.ceil(seconds * 20);
 	}
 
+	public final static int convertGameTicksToSeconds(final int ticks) {
+		return (int) Math.ceil(ticks / 20d);
+	}
+
 	public final static String getFileSafeName(final String name) {
 		return name.replaceAll("[()]", "").replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
 	}

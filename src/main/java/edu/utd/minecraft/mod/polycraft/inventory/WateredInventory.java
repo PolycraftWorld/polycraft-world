@@ -5,13 +5,20 @@ import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 
-public abstract class WateredInventory extends PolycraftInventory {
+public abstract class WateredInventory<S extends StatefulInventoryState> extends StatefulInventory<S> {
 
 	private final int slotIndexCoolingWater;
 	private final int slotIndexHeatingWater;
 
-	public WateredInventory(final PolycraftContainerType containerType, final Inventory config, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
-		super(containerType, config);
+	public WateredInventory(final PolycraftContainerType containerType, final Inventory config,
+			final int playerInventoryOffset, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
+		this(containerType, config, playerInventoryOffset, null, slotIndexCoolingWater, slotIndexHeatingWater);
+	}
+
+	public WateredInventory(final PolycraftContainerType containerType, final Inventory config,
+			final int playerInventoryOffset, final S[] states,
+			final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
+		super(containerType, config, playerInventoryOffset, states);
 		this.slotIndexCoolingWater = slotIndexCoolingWater;
 		this.slotIndexHeatingWater = slotIndexHeatingWater;
 	}

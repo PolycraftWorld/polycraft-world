@@ -2,11 +2,8 @@ package edu.utd.minecraft.mod.polycraft.inventory.fueledlamp;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.common.collect.Lists;
 
@@ -19,19 +16,20 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
-import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
+import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 
-public class FueledLampInventory extends PolycraftInventory {
+public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		for (int i = 0; i < 5; i++)
-			guiSlots.add(GuiContainerSlot.createInput(i, i, 0, 44, 2));
+		for (int i = 0; i < 9; i++)
+			guiSlots.add(GuiContainerSlot.createInput(i, i, 0, 8, 2));
 	}
+
+	private static final int checkOcclusionTicks = 1000;
 
 	private static Inventory config;
 
@@ -40,106 +38,53 @@ public class FueledLampInventory extends PolycraftInventory {
 		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 
-	public int fuelHeatTicksRemaining = 0;
-	public int fuelHeatIntensity = 0;
+	private boolean needInitialVote = true;
+	private final float rangePerHeatIntensity;
 
 	public FueledLampInventory() {
-		super(PolycraftContainerType.FUELED_LAMP, config);
-	}
-
-	@Override
-	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		return new PolycraftCraftingContainerGeneric(this, playerInventory, 51);
+		super(PolycraftContainerType.FUELED_LAMP, config, 84, FueledLampState.values());
+		this.rangePerHeatIntensity = config.params.getFloat(0);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		return new FueledLampGui(this, playerInventory);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound p_145839_1_) {
-		super.readFromNBT(p_145839_1_);
-		this.fuelHeatTicksRemaining = p_145839_1_.getInteger("FuelHeatTicksRemaining");
-		this.fuelHeatIntensity = p_145839_1_.getInteger("FuelHeatIntensity");
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound p_145841_1_) {
-		super.writeToNBT(p_145841_1_);
-		p_145841_1_.setInteger("FuelHeatTicksRemaining", this.fuelHeatTicksRemaining);
-		p_145841_1_.setInteger("FuelHeatIntensity", this.fuelHeatIntensity);
-	}
-
-	@Override
-	public void updateEntity() {
+	public synchronized void updateEntity() {
 		super.updateEntity();
 		if (worldObj != null && !worldObj.isRemote) {
-			if (fuelHeatTicksRemaining == 0) {
-				int newFuelHeatIntensity = 0;
-				// find new fuel
+			if (needInitialVote) {
+				needInitialVote = false;
+				voteOnLights(true);
+			}
+
+			if (getState(FueledLampState.FuelTicksRemaining) == 0) {
+				Fuel fuel = null;
+				int fuelTicksTotal = 0;
 				final ContainerSlot fuelSlot = getNextFuelSlot();
 				if (fuelSlot != null) {
 					final ItemStack fuelStack = getStackInSlot(fuelSlot);
-					fuelHeatTicksRemaining = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
-					newFuelHeatIntensity = Fuel.getHeatIntensity(fuelStack.getItem());
+					fuel = Fuel.getFuel(fuelStack.getItem());
+					voteOnLights(fuel.heatIntensity, true);
+					fuelTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
 					fuelStack.stackSize--;
 					if (fuelStack.stackSize == 0)
 						clearSlotContents(fuelSlot);
 				}
-				updateFuelIntensity(newFuelHeatIntensity, false);
+				voteOnLights(false);
+				setState(FueledLampState.FuelIndex, fuel == null ? -1 : fuel.index);
+				setState(FueledLampState.FuelTicksTotal, fuelTicksTotal);
+				setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal);
+				setState(FueledLampState.FuelHeatIntensity, fuel == null ? -1 : fuel.heatIntensity);
 			}
-			if (fuelHeatTicksRemaining > 0) {
-				fuelHeatTicksRemaining--;
+			if (getState(FueledLampState.FuelTicksRemaining) > 0) {
+				updateState(FueledLampState.FuelTicksRemaining, -1);
 				markDirty();
 			}
 		}
-	}
-
-	public void updateFuelIntensity(final int newFuelHeatIntensity, final boolean turnOff) {
-
-		setBlockLit(newFuelHeatIntensity > 0, xCoord, yCoord, zCoord, turnOff);
-		final int radiusLit;
-
-		if (turnOff)
-		{
-			radiusLit = fuelHeatIntensity;
-
-		}
-		else
-		{
-			radiusLit = newFuelHeatIntensity;
-		}
-
-		final int radiusToUpdate = Math.max(fuelHeatIntensity, radiusLit);
-		boolean occludedA = false;
-
-		double angleInRadians;
-		if (newFuelHeatIntensity > 0)
-			angleInRadians = 2.0 / newFuelHeatIntensity * Math.PI;
-		else if (fuelHeatIntensity > 0)
-			angleInRadians = 2.0 / fuelHeatIntensity * Math.PI;
-		else
-			angleInRadians = 0;
-		double lineAngle = 0;
-
-		if (angleInRadians > 0)
-		{
-			for (int lines = 0; lineAngle <= 2 * Math.PI; lines++) {
-				lineAngle = angleInRadians * lines;
-
-				occludedA = false;
-				for (int i = 1; i <= radiusLit; i++) {
-					final boolean lit = newFuelHeatIntensity > 0 && i <= radiusLit;
-					occludedA |= setBlockLit(lit && !occludedA, xCoord + (int) (Math.ceil(Math.sin(lineAngle) * i)), yCoord, zCoord + (int) (Math.ceil(Math.cos(lineAngle) * i)), turnOff);
-
-				}
-
-			}
-		}
-
-		fuelHeatIntensity = newFuelHeatIntensity;
 	}
 
 	private ContainerSlot getNextFuelSlot() {
@@ -151,22 +96,33 @@ public class FueledLampInventory extends PolycraftInventory {
 		return null;
 	}
 
-	private boolean setBlockLit(final boolean lit, final int x, final int y, final int z, boolean turnOff) {
-		final Block block = worldObj.getBlock(x, y, z);
-		if (block instanceof BlockLight) {
-			if (!lit && turnOff)
-				worldObj.setBlockToAir(x, y, z);
+	public Fuel getCurrentFuel() {
+		return Fuel.getFuel(getState(FueledLampState.FuelIndex));
+	}
+
+	public void voteOnLights(final boolean enabled) {
+		voteOnLights(getState(FueledLampState.FuelHeatIntensity), enabled);
+	}
+
+	public void voteOnLights(final int heatIntensity, final boolean enabled) {
+		if (heatIntensity > 0) {
+			final int range = (int) Math.floor(heatIntensity * rangePerHeatIntensity);
+			BlockLight.vote(worldObj, xCoord, yCoord, zCoord, enabled);
+			int r = enabled ? 1 : range;
+			while (r >= 1 && r <= range) {
+				final int originX = xCoord - r;
+				final int originZ = zCoord - r;
+				final int size = (r * 2) + 1;
+				for (int s = 0; s < size; s += 2) {
+					BlockLight.vote(worldObj, originX + s, yCoord, originZ, enabled);
+					BlockLight.vote(worldObj, originX + s, yCoord, originZ + size - 1, enabled);
+					if (s > 0 && s < (size - 1)) {
+						BlockLight.vote(worldObj, originX, yCoord, originZ + s, enabled);
+						BlockLight.vote(worldObj, originX + size - 1, yCoord, originZ + s, enabled);
+					}
+				}
+				r += enabled ? 1 : -1;
+			}
 		}
-		else if (block.getMaterial() == Material.air) {
-			if (lit && !turnOff)
-				worldObj.setBlock(x, y, z, PolycraftMod.blockLight);
-		}
-		else if (block instanceof FueledLampBlock)
-		{
-			return false;
-		}
-		else
-			return true;
-		return false;
 	}
 }

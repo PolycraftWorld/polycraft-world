@@ -43,13 +43,13 @@ public class MachiningMillInventory extends WateredInventory {
 	}
 
 	public MachiningMillInventory() {
-		super(PolycraftContainerType.MACHINING_MILL, config, coolingWaterSlotIndex, -1);
+		super(PolycraftContainerType.MACHINING_MILL, config, 121, coolingWaterSlotIndex, -1);
 		this.addBehavior(new CraftingBehavior());
 	}
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		return new PolycraftCraftingContainerGeneric(this, playerInventory, 121, true);
+		return new PolycraftCraftingContainerGeneric(this, playerInventory, playerInventoryOffset, true);
 	}
 
 	@Override
