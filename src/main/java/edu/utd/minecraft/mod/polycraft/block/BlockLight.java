@@ -23,30 +23,64 @@ public class BlockLight extends BlockAir {
 		private final World world;
 		private final Point3i origin;
 		private final int size;
+		private final int direction;
 		private final Map<Point3i, Boolean> points = Maps.newLinkedHashMap(); //TODO true means lit, false mean occluded
 
 		public Source(final World world, final int originX, final int originY, final int originZ, final int size) {
+			this(world, originX, originY, originZ, size, -1);
+		}
+
+		public Source(final World world, final int originX, final int originY, final int originZ, final int size, final int direction) {
 			this.world = world;
 			this.origin = new Point3i(originX, originY, originZ);
 			this.size = size;
+			this.direction = direction;
 			points.put(origin, true);
-			for (int s = 1; s <= size; s++) {
-				final int offsetX = origin.x - s;
-				final int offsetY = origin.y;// - s;
-				final int offsetZ = origin.z - s;
-				final int length = (s * 2) + 1;
-				final int spacing = length > 3 ? 4 : 2;
-				for (int l = 0; l < length; l += spacing) {
-					int y = 0;
-					//TODO enabled 3rd dimension?
-					//for (int y = 0; y < length; y += spacing) {
-					points.put(new Point3i(offsetX + l, offsetY + y, offsetZ), true);
-					points.put(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1), true);
-					if (l > 0 && l < (length - 1)) {
-						points.put(new Point3i(offsetX, offsetY + y, offsetZ + l), true);
-						points.put(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l), true);
+			//omni-directional
+			if (direction == -1) {
+				for (int s = 1; s <= size; s++) {
+					final int offsetX = origin.x - s;
+					final int offsetY = origin.y;// - s;
+					final int offsetZ = origin.z - s;
+					final int length = (s * 2) + 1;
+					final int spacing = length > 3 ? 4 : 2;
+					for (int l = 0; l < length; l += spacing) {
+						int y = 0;
+						//TODO enabled 3rd dimension?
+						//for (int y = 0; y < length; y += spacing) {
+						points.put(new Point3i(offsetX + l, offsetY + y, offsetZ), true);
+						points.put(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1), true);
+						if (l > 0 && l < (length - 1)) {
+							points.put(new Point3i(offsetX, offsetY + y, offsetZ + l), true);
+							points.put(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l), true);
+						}
+						//}
 					}
-					//}
+				}
+			}
+			//directional
+			else {
+				for (int i = 1; i <= size; i++) {
+					switch (direction) {
+					case 0:
+						points.put(new Point3i(origin.x, origin.y - i, origin.z), true);
+						break;
+					case 1:
+						points.put(new Point3i(origin.x, origin.y + i, origin.z), true);
+						break;
+					case 2:
+						points.put(new Point3i(origin.x, origin.y, origin.z - i), true);
+						break;
+					case 3:
+						points.put(new Point3i(origin.x, origin.y, origin.z + i), true);
+						break;
+					case 4:
+						points.put(new Point3i(origin.x - i, origin.y, origin.z), true);
+						break;
+					case 5:
+						points.put(new Point3i(origin.x + i, origin.y, origin.z), true);
+						break;
+					}
 				}
 			}
 		}

@@ -33,16 +33,20 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 
 	private static Inventory config;
 
-	public static final void register(final Inventory config) {
+	public static void register(final Inventory config) {
 		FueledLampInventory.config = config;
 		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 
-	private final float rangePerHeatIntensity;
+	protected final float rangePerHeatIntensity;
 	private BlockLight.Source currentLightSource = null;
 
 	public FueledLampInventory() {
-		super(PolycraftContainerType.FUELED_LAMP, config, 84, FueledLampState.values());
+		this(PolycraftContainerType.FUELED_LAMP, config);
+	}
+
+	protected FueledLampInventory(final PolycraftContainerType containerType, final Inventory config) {
+		super(containerType, config, 84, FueledLampState.values());
 		this.rangePerHeatIntensity = config.params.getFloat(0);
 	}
 
@@ -105,7 +109,7 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 		return null;
 	}
 
-	private BlockLight.Source addLightSource(final int heatIntensity) {
+	protected BlockLight.Source addLightSource(final int heatIntensity) {
 		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * rangePerHeatIntensity)));
 	}
 
