@@ -32,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
@@ -82,6 +83,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerWall;
@@ -272,8 +274,11 @@ public class PolycraftRegistry {
 		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
 			PolycraftRegistry.registerItem(polymerFibers, new ItemFibers());
 
-		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
-			PolycraftRegistry.registerBlock(polymerBlock, new BlockPolymer(polymerBlock));
+		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
+			final BlockPolymer block = new BlockPolymer(polymerBlock);
+			PolycraftRegistry.registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
+					ItemPolymerBlock.class, new Object[] {});
+		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
@@ -282,21 +287,18 @@ public class PolycraftRegistry {
 					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
 			PolycraftRegistry.registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
 					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
-			// slab.setCreativeTab(CreativeTabs.tabBlock);
 		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
-			final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 0);
+			final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 15);
 			PolycraftRegistry.registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
 					ItemPolymerStairs.class, new Object[] {});
-			// stairs.setCreativeTab(CreativeTabs.tabBlock);
 		}
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
 			final BlockWall wall = new BlockPolymerWall(polymerWall);
 			PolycraftRegistry.registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
 					ItemPolymerWall.class, new Object[] {});
-			// wall.setCreativeTab(CreativeTabs.tabBlock);
 		}
 
 	}
@@ -412,6 +414,7 @@ public class PolycraftRegistry {
 		final String fluidFormat = "fluid.%s=%s";
 		final String containerFormat = "container.%s=%s";
 		final String baseFormat = "%s.name=%s";
+		final String colorFormat = "%s.%d.name=%s %s";
 		final String blockFormat = "tile." + baseFormat;
 		final String itemFormat = "item." + baseFormat;
 
@@ -446,25 +449,18 @@ public class PolycraftRegistry {
 			langEntries.add(String.format(itemFormat, polymerFibers.gameID, polymerFibers.name));
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
-			langEntries.add(String.format(blockFormat, polymerBlock.gameID, polymerBlock.name));
+			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
+				langEntries.add(String.format(colorFormat, polymerBlock.gameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerBlock.name));
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
-		{
 			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
-			// langEntries.add(String.format(itemFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
-		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values())
-		{
-			langEntries.add(String.format(blockFormat, polymerStairs.blockStairsGameID, polymerStairs.name));
-			langEntries.add(String.format(itemFormat, polymerStairs.blockStairsGameID, polymerStairs.name));
-		}
+			langEntries.add(String.format(baseFormat, polymerStairs.blockStairsGameID, polymerStairs.name));
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values())
-		{
-			langEntries.add(String.format(blockFormat, polymerWall.blockWallGameID, polymerWall.name));
-			langEntries.add(String.format(itemFormat, polymerWall.blockWallGameID, polymerWall.name));
-		}
+			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
+				langEntries.add(String.format(colorFormat, polymerWall.blockWallGameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerWall.name));
 
 		for (final Mold mold : Mold.registry.values())
 			langEntries.add(String.format(itemFormat, mold.gameID, mold.name));

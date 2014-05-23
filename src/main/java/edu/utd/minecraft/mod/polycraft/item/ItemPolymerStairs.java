@@ -2,15 +2,25 @@ package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 
 public class ItemPolymerStairs extends ItemBlock implements PolycraftItem {
 
+	private final BlockPolymerStairs blockPolymerStairs;
+
 	public ItemPolymerStairs(Block p_i45355_1_) {
 		super(p_i45355_1_);
+		this.blockPolymerStairs = (BlockPolymerStairs) p_i45355_1_;
 	}
 
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.BLOCKS_BUILDING;
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack par1ItemStack) {
+		return blockPolymerStairs.getUnlocalizedName(par1ItemStack.getItemDamage());
 	}
 }

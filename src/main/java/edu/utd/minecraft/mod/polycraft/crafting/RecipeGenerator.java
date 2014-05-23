@@ -58,7 +58,6 @@ public class RecipeGenerator {
 		}
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
-			// TODO furnace only uses one of the stack?
 			PolycraftMod.recipeManager.addShapelessRecipe(
 					PolycraftContainerType.FURNANCE,
 					polymerBlock.getItemStack(),
@@ -67,44 +66,65 @@ public class RecipeGenerator {
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock),
 					ImmutableList.of(polymerBlock.getItemStack()));
-
-			int colorMetaDataIndex = 2;
-			// for (final String color : Polymer.colors)
-			// {
-
-			// TODO This implementation is broken - needs to push metaData to hashMap in PolycraftRecipe
 			PolycraftMod.recipeManager.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(polymerBlock.getItemStack(8, colorMetaDataIndex)),
+					ImmutableList.of(polymerBlock.getItemStack(8)),
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', polymerBlock.getItemStack(),
-							'y', new ItemStack(Items.dye, 1)), 0);
-			//colorMetaDataIndex++;
-			// }
+							'y', new ItemStack(Items.dye)), 0);
 		}
 
-		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
+		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerSlab.getItemStack(6),
 					new String[] { "xxx", "   ", "   " },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(polymerSlab.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', polymerSlab.getItemStack(),
+							'y', new ItemStack(Items.dye)), 0);
+		}
 
-		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values())
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerStairs.getItemStack(6),
 					new String[] { "x ", "xx ", "xxx" },
 					ImmutableMap.of('x', polymerStairs.source.getItemStack()));
-
-		for (final PolymerWall polymerWall : PolymerWall.registry.values())
 			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(polymerStairs.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', polymerStairs.getItemStack(),
+							'y', new ItemStack(Items.dye)), 0);
+		}
+
+		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerWall.getItemStack(6),
 					new String[] { "xxx", "xxx", "   " },
 					ImmutableMap.of('x', polymerWall.source.getItemStack()));
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(polymerWall.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', polymerWall.getItemStack(),
+							'y', new ItemStack(Items.dye)), 0);
+		}
 
 		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
 			if (largerCompoundVessel.vesselType.smallerType != null) {

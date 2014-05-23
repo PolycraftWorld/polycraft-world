@@ -6,6 +6,13 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class LabelTexture {
 
+	public static final int SIDE_BOTTOM = 0;
+	public static final int SIDE_TOP = 1;
+	public static final int SIDE_BACK = 2;
+	public static final int SIDE_FRONT = 3;
+	public static final int SIDE_LEFT = 4;
+	public static final int SIDE_RIGHT = 5;
+
 	private final IIcon[] icons = new IIcon[6];
 	private final String mainTextureName;
 	private final String mainFlippedTextureName;
@@ -34,7 +41,7 @@ public class LabelTexture {
 	public IIcon getIcon(int side, int metadata) {
 		switch (metadata)
 		{
-		case 0:
+		case SIDE_BOTTOM:
 			return icons[side];
 		default:
 			return icons[side];
@@ -42,11 +49,11 @@ public class LabelTexture {
 	}
 
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		icons[0] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(bottomTextureName));
-		icons[1] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(topTextureName));
-		icons[2] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName)); // back
-		icons[3] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName)); // front
-		icons[4] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName)); // left
-		icons[5] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName)); // right
+		icons[SIDE_BOTTOM] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(bottomTextureName));
+		icons[SIDE_TOP] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(topTextureName));
+		icons[SIDE_BACK] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName));
+		icons[SIDE_FRONT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName));
+		icons[SIDE_LEFT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName));
+		icons[SIDE_RIGHT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName));
 	}
 }

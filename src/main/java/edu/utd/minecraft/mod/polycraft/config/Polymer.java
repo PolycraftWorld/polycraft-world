@@ -53,10 +53,6 @@ public class Polymer extends Config {
 		}
 	}
 
-	// private static final IIcon[] colorIconList = new IIcon[16];
-	public static final String[] colors = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white" };
-	// public static final String[] color_names = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
-
 	public static final ConfigRegistry<Polymer> registry = new ConfigRegistry<Polymer>();
 
 	public static void registerFromResource(final String directory) {

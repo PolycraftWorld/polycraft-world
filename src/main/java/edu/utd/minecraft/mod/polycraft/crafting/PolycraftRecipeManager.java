@@ -391,6 +391,25 @@ public class PolycraftRecipeManager {
 	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
 	 * @param inputItems
 	 *            Map of character representation to item stack needed.
+	 */
+	public PolycraftRecipe addShapedRecipe(final PolycraftRecipeFactory recipeFactory,
+			final PolycraftContainerType containerType,
+			final ItemStack resultItem, final String[] inputShape,
+			final Map<Character, ItemStack> itemStackMap) {
+		return addShapedRecipe(recipeFactory, containerType, ImmutableList.of(resultItem), inputShape, itemStackMap, 0);
+	}
+
+	/**
+	 * Adds a shaped recipe from the inputs, in a similar format to the Forge API. If the crafting recipe container type is a generic or smelting recipe, it will be added to Forge via the GameRegistry APi.
+	 * 
+	 * @param containerType
+	 *            The container the recipe is created in
+	 * @param resultItem
+	 *            The item generated from the recipe
+	 * @param inputShape
+	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
+	 * @param inputItems
+	 *            Map of character representation to item stack needed.
 	 * @param experience
 	 *            The amount of experience yielded by crafting the recipe.
 	 */

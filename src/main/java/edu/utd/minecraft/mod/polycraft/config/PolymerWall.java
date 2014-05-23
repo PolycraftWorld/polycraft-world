@@ -38,6 +38,6 @@ public class PolymerWall extends SourcedConfig<PolymerBlock> {
 
 	@Override
 	public ItemStack getItemStack(final int size) {
-		return new ItemStack(PolycraftRegistry.getItem(itemWallName), size);
+		return new ItemStack(PolycraftRegistry.getItem(itemWallName), size, 15); //15 is white by default
 	}
 }

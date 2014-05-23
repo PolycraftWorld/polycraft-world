@@ -12,23 +12,28 @@ public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerBlock.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerBlock(
-						line[0], // gameID
-						line[1], // name
-						PolymerPellets.registry.get(line[2]), // polymerPellets
-						Integer.parseInt(line[4]) // bounceHeight
+						line[0], // blockGameID
+						line[1], // itemGameID
+						line[2], // name
+						PolymerPellets.registry.get(line[3]), // polymerPellets
+						Integer.parseInt(line[5]) // bounceHeight
 				));
 	}
 
 	public final int bounceHeight;
+	public final String itemName;
+	public final String itemGameID;
 
-	public PolymerBlock(final String gameID, final String name, final PolymerPellets source, final int bounceHeight) {
-		super(gameID, name, source);
+	public PolymerBlock(final String blockGameID, final String itemGameID, final String name, final PolymerPellets source, final int bounceHeight) {
+		super(blockGameID, name, source);
 		this.bounceHeight = bounceHeight;
+		this.itemGameID = itemGameID;
+		this.itemName = name + " Item";
 	}
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftRegistry.getBlock(this), size);
+		return new ItemStack(PolycraftRegistry.getBlock(this), size, 15); //15 is white by default
 	}
 
 	public ItemStack getItemStack(int size, int metadata) {

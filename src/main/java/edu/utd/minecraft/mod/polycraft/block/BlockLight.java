@@ -62,22 +62,22 @@ public class BlockLight extends BlockAir {
 			else {
 				for (int i = 1; i <= size; i++) {
 					switch (direction) {
-					case 0:
+					case LabelTexture.SIDE_BOTTOM:
 						points.put(new Point3i(origin.x, origin.y - i, origin.z), true);
 						break;
-					case 1:
+					case LabelTexture.SIDE_TOP:
 						points.put(new Point3i(origin.x, origin.y + i, origin.z), true);
 						break;
-					case 2:
+					case LabelTexture.SIDE_BACK:
 						points.put(new Point3i(origin.x, origin.y, origin.z - i), true);
 						break;
-					case 3:
+					case LabelTexture.SIDE_FRONT:
 						points.put(new Point3i(origin.x, origin.y, origin.z + i), true);
 						break;
-					case 4:
+					case LabelTexture.SIDE_LEFT:
 						points.put(new Point3i(origin.x - i, origin.y, origin.z), true);
 						break;
-					case 5:
+					case LabelTexture.SIDE_RIGHT:
 						points.put(new Point3i(origin.x + i, origin.y, origin.z), true);
 						break;
 					}

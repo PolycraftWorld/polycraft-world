@@ -11,11 +11,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.spotlight.SpotLightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -37,7 +37,7 @@ public enum PolycraftContainerType {
 	DISTILLATION_COLUMN("Distillation Column"),
 	STEAM_CRACKER("Steam Cracker"),
 	FUELED_LAMP("Fueled Lamp"),
-	SPOTLIGHT("SpotLight"),
+	SPOTLIGHT("Spotlight"),
 	MEROX_TREATMENT_UNIT("Merox Treatment Unit"), // TODO
 	CHEMICAL_PROCESSOR("Chemical Processor"); // TODO
 
@@ -106,7 +106,7 @@ public enum PolycraftContainerType {
 		DISTILLATION_COLUMN.initialize(DistillationColumnInventory.guiSlots);
 		STEAM_CRACKER.initialize(SteamCrackerInventory.guiSlots);
 		FUELED_LAMP.initialize(FueledLampInventory.guiSlots);
-		SPOTLIGHT.initialize(SpotLightInventory.guiSlots);
+		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

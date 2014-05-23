@@ -119,37 +119,39 @@ public class PolycraftModWikiMaker {
 			} catch (IllegalArgumentException e) {
 			}
 
-			iconName = iconName.replaceAll("polycraft:", "");
-			File iconFile = new File(ITEM_IMAGE_PATH, iconName + ".png");
-			images.put(iconName, iconFile.getAbsolutePath());
+			if (iconName != null) {
+				iconName = iconName.replaceAll("polycraft:", "");
+				File iconFile = new File(ITEM_IMAGE_PATH, iconName + ".png");
+				images.put(iconName, iconFile.getAbsolutePath());
 
-			WriteLine("{");
-			Indent();
+				WriteLine("{");
+				Indent();
 
-			WriteString("name", StatCollector.translateToLocal(key));
-			WriteString("icon", iconName);
-			WriteBool("isRepairable", item.isRepairable());
-			WriteBool("isDamagable", item.isDamageable());
-			WriteInteger("durability", item.getMaxDamage());
+				WriteString("name", StatCollector.translateToLocal(key));
+				WriteString("icon", iconName);
+				WriteBool("isRepairable", item.isRepairable());
+				WriteBool("isDamagable", item.isDamageable());
+				WriteInteger("durability", item.getMaxDamage());
 
-			//System.out.println("ITEM: " + StatCollector.translateToLocal(key) + " => " + iconName + " (" + iconFile.exists() + ")");
-			if (item instanceof PolycraftItem) {
-				WriteString("type", ((PolycraftItem) item).getCategory().getValue());
+				//System.out.println("ITEM: " + StatCollector.translateToLocal(key) + " => " + iconName + " (" + iconFile.exists() + ")");
+				if (item instanceof PolycraftItem) {
+					WriteString("type", ((PolycraftItem) item).getCategory().getValue());
+				}
+
+				if (item instanceof ItemArmor) {
+					ItemArmor armor = (ItemArmor) item;
+					WriteInteger("armorType", armor.armorType);
+					WriteInteger("damageReduction", armor.damageReduceAmount);
+					WriteInteger("enchantability", armor.getItemEnchantability());
+				} else if (item instanceof ItemTool) {
+					ItemTool tool = (ItemTool) item;
+					WriteInteger("enchantability", tool.getItemEnchantability());
+					WriteFloat("damageVsEntity", (Float) getFieldOrDefault(damageVsEntityField, tool, -1.0f));
+				}
+
+				Unindent();
+				WriteLine("},");
 			}
-
-			if (item instanceof ItemArmor) {
-				ItemArmor armor = (ItemArmor) item;
-				WriteInteger("armorType", armor.armorType);
-				WriteInteger("damageReduction", armor.damageReduceAmount);
-				WriteInteger("enchantability", armor.getItemEnchantability());
-			} else if (item instanceof ItemTool) {
-				ItemTool tool = (ItemTool) item;
-				WriteInteger("enchantability", tool.getItemEnchantability());
-				WriteFloat("damageVsEntity", (Float) getFieldOrDefault(damageVsEntityField, tool, -1.0f));
-			}
-
-			Unindent();
-			WriteLine("},");
 		}
 		Unindent();
 		WriteLine("],");
