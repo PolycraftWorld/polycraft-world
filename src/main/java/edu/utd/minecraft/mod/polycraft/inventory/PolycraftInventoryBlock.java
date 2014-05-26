@@ -45,11 +45,16 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	public final Map<BlockFace, IIcon> blockFaceIcons = Maps.newHashMap();
 	private IIcon inventoryIcon;
 
-	public PolycraftInventoryBlock(final Inventory config, Class tileEntityClass) {
-		super(Material.iron);
+	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass, final Material material, final float hardness) {
+		super(material);
+		this.setHardness(hardness);
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.config = config;
 		this.tileEntityClass = tileEntityClass;
+	}
+
+	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass) {
+		this(config, tileEntityClass, Material.iron, 3.5F);
 	}
 
 	@Override

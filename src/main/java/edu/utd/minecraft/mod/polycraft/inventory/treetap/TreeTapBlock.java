@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.inventory.treetap;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.Container;
@@ -27,7 +28,7 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	public IIcon iconInside;
 
 	public TreeTapBlock(final Inventory config, final Class tileEntityClass) {
-		super(config, tileEntityClass);
+		super(config, tileEntityClass, Material.wood, 2.5F);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
