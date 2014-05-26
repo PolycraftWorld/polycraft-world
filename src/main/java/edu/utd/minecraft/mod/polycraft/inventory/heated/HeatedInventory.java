@@ -43,7 +43,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		this.defaultHeatIntensityMin = (config.params == null) ? 0 : config.params.getInt(1);
 		this.defaultHeatIntensityMax = (config.params == null) ? 0 : config.params.getInt(2);
 		if (config.params != null)
-			this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(3))));
+			this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(true, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(3))));
 	}
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);

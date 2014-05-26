@@ -10,20 +10,17 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 
 public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInventory> extends InventoryBehavior<I> {
 
+	private final boolean directional;
 	private final int cooldownTicksStart;
 	private int cooldownTicksCurrent = 0;
 
-	public AutomaticInputBehavior() {
-		this(PolycraftMod.convertSecondsToGameTicks(1));
-	}
-
-	public AutomaticInputBehavior(final int cooldownTicks) {
+	public AutomaticInputBehavior(final boolean directional, final int cooldownTicks) {
+		this.directional = directional;
 		this.cooldownTicksStart = cooldownTicks;
 	}
 
@@ -41,11 +38,21 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 	}
 
 	private void attemptAutomaticInput(final I inventory) {
-		final int direction = inventory.getBlockMetadata() & 7;
-		final IInventory inputInventory = getInventoryAt(inventory.getWorldObj(),
-				inventory.xCoord + Facing.offsetsXForSide[direction],
-				inventory.yCoord + Facing.offsetsYForSide[direction],
-				inventory.zCoord + Facing.offsetsZForSide[direction]);
+		IInventory inputInventory = null;
+		if (directional) {
+			final int direction = inventory.getBlockMetadata() & 7;
+			inputInventory = getInventoryAt(inventory.getWorldObj(),
+					inventory.xCoord + Facing.offsetsXForSide[direction],
+					inventory.yCoord + Facing.offsetsYForSide[direction],
+					inventory.zCoord + Facing.offsetsZForSide[direction]);
+		}
+		else {
+			for (int direction = 0; direction < 6 && inputInventory == null; direction++)
+				inputInventory = getInventoryAt(inventory.getWorldObj(),
+						inventory.xCoord + Facing.offsetsXForSide[direction],
+						inventory.yCoord + Facing.offsetsYForSide[direction],
+						inventory.zCoord + Facing.offsetsZForSide[direction]);
+		}
 		if (inputInventory != null) {
 			if (inputInventory instanceof ISidedInventory) {
 				ISidedInventory isidedinventory = (ISidedInventory) inputInventory;

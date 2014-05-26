@@ -54,7 +54,7 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 	protected FueledLampInventory(final PolycraftContainerType containerType, final Inventory config) {
 		super(containerType, config, 84, FueledLampState.values());
 		this.rangePerHeatIntensity = config.params.getFloat(0);
-		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(1))));
+		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(1))));
 	}
 
 	@Override
