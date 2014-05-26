@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 
@@ -15,10 +16,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
+import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
@@ -31,6 +34,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	private final int defaultProcessingTicks;
 	private final int defaultHeatIntensityMin;
 	private final int defaultHeatIntensityMax;
+	private final int[] accessibleSlots;
 
 	public HeatedInventory(final PolycraftContainerType containerType, final Inventory config, final int slotIndexHeatSource, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {
 		this(containerType, config, 0, slotIndexHeatSource, slotIndexCoolingWater, slotIndexHeatingWater);
@@ -42,22 +46,48 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		this.defaultProcessingTicks = (config.params == null) ? 0 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(0));
 		this.defaultHeatIntensityMin = (config.params == null) ? 0 : config.params.getInt(1);
 		this.defaultHeatIntensityMax = (config.params == null) ? 0 : config.params.getInt(2);
-		if (config.params != null)
+		if (config.params != null) {
 			this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(true, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(3))));
+			accessibleSlots = new int[inputSlots.size() + miscSlots.size() + outputSlots.size()];
+			int index = 0;
+			for (final ContainerSlot slot : inputSlots)
+				accessibleSlots[index++] = slot.getSlotIndex();
+			for (final ContainerSlot slot : miscSlots)
+				accessibleSlots[index++] = slot.getSlotIndex();
+			for (final ContainerSlot slot : outputSlots)
+				accessibleSlots[index++] = slot.getSlotIndex();
+		}
+		else
+			accessibleSlots = null;
 	}
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);
 
 	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		return accessibleSlots;
+	}
+
+	@Override
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
-		if (super.canInsertItem(slot, item, side)) {
-			if (!isHeated()) {
-				if (Fuel.getFuel(item.getItem()) != null)
-					return slotIndexHeatSource == slot;
+		if (isItemValidForSlot(slot, item)) {
+			if (item.getItem() == Items.water_bucket) {
+				if (slotIndexCoolingWater > -1 && getStackInSlot(slotIndexCoolingWater) == null && slot != slotIndexCoolingWater)
+					return false;
+				if (slotIndexHeatingWater > -1 && getStackInSlot(slotIndexHeatingWater) == null && slot != slotIndexHeatingWater)
+					return false;
+				return slotIndexHeatSource != slot;
 			}
+			if (getStackInSlot(slotIndexHeatSource) == null && Fuel.getFuel(item.getItem()) != null)
+				return slotIndexHeatSource == slot;
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack item, int side) {
+		return getContainerType().getContainerSlotByIndex(slot).getSlotType() == SlotType.OUTPUT;
 	}
 
 	protected int getTotalProcessingTicksForCurrentInputs() {
