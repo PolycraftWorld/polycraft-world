@@ -11,6 +11,7 @@ public class ItemPolymerBlock extends ItemBlock implements PolycraftItem {
 
 	public ItemPolymerBlock(Block p_i45355_1_) {
 		super(p_i45355_1_);
+		this.setHasSubtypes(true);
 		this.blockPolymer = (BlockPolymer) p_i45355_1_;
 	}
 

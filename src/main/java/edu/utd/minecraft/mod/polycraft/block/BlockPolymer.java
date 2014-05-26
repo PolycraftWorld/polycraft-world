@@ -60,6 +60,11 @@ public class BlockPolymer extends Block implements BlockBouncy {
 		helper.onBlockPlacedBy(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_, p_149689_6_);
 	}
 
+	@Override
+	public int damageDropped(int p_149692_1_) {
+		return helper.damageDropped(p_149692_1_);
+	}
+
 	public String getUnlocalizedName(int colorIndex) {
 		return polymerBlock.gameID + "." + colorIndex;
 	}

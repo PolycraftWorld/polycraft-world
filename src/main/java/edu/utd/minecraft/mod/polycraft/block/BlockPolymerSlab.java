@@ -21,7 +21,7 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy {
 	private final BlockPolymerHelper helper;
 
 	public BlockPolymerSlab(final PolymerSlab polymerSlab, boolean isDouble) {
-		super(isDouble, Material.rock);
+		super(isDouble, Material.cloth);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.polymerSlab = polymerSlab;
 		this.isDouble = isDouble;

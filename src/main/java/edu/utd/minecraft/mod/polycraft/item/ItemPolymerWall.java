@@ -11,6 +11,7 @@ public class ItemPolymerWall extends ItemBlock implements PolycraftItem {
 
 	public ItemPolymerWall(Block p_i45355_1_) {
 		super(p_i45355_1_);
+		this.setHasSubtypes(true);
 		this.blockPolymerWall = (BlockPolymerWall) p_i45355_1_;
 	}
 

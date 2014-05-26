@@ -71,6 +71,11 @@ public class BlockPolymerWall extends BlockWall implements BlockBouncy {
 		return new ItemStack(PolycraftRegistry.getItem(polymerWall.name), 2, p_149644_1_ & helper.colors.length);
 	}
 
+	@Override
+	public int damageDropped(int p_149692_1_) {
+		return helper.damageDropped(p_149692_1_);
+	}
+
 	public String getUnlocalizedName(int colorIndex) {
 		return polymerWall.blockWallGameID + "." + colorIndex;
 	}

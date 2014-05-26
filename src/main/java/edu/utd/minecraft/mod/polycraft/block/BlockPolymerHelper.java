@@ -42,7 +42,7 @@ public class BlockPolymerHelper {
 		}
 	}
 
-	public static final String getColorDisplayName(final int index) {
+	public static String getColorDisplayName(final int index) {
 		return colorDisplayNames[index];
 	}
 
@@ -78,6 +78,10 @@ public class BlockPolymerHelper {
 		for (int i = 0; i < colors.length; ++i) {
 			p_149666_3_.add(new ItemStack(p_149666_1_, 1, i));
 		}
+	}
+
+	public static int damageDropped(int p_149692_1_) {
+		return p_149692_1_;
 	}
 
 	public float getMomentumReturnedOnPassiveFall() {
