@@ -49,14 +49,16 @@ public abstract class StatefulInventory<S extends StatefulInventoryState> extend
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		for (final S state : states)
-			setState(state, tag.getShort(state.toString()));
+		if (states != null)
+			for (final S state : states)
+				setState(state, tag.getShort(state.toString()));
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		for (final S state : states)
-			tag.setShort(state.toString(), (short) getState(state));
+		if (states != null)
+			for (final S state : states)
+				tag.setShort(state.toString(), (short) getState(state));
 	}
 }

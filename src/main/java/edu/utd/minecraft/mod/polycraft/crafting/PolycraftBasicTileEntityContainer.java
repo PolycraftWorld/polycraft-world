@@ -19,10 +19,10 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
 public abstract class PolycraftBasicTileEntityContainer extends TileEntity implements PolycraftTileEntityContainer, IInventory {
-	private final Collection<ContainerSlot> inputSlots;
-	private final Collection<ContainerSlot> outputSlots;
-	private final Collection<ContainerSlot> miscSlots;
-	private final int totalSlots;
+	protected final Collection<ContainerSlot> inputSlots;
+	protected final Collection<ContainerSlot> outputSlots;
+	protected final Collection<ContainerSlot> miscSlots;
+	protected final int totalSlots;
 
 	private final Map<Integer, ContainerSlot> slotToIndexMap = Maps.newHashMap();
 	// Maintain the current set of inputs so it doesn't need to be recomputed every frame.
@@ -193,7 +193,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 * Returns the stack in slot i
 	 */
 	@Override
-	public ItemStack getStackInSlot(int slotIndex) {		
+	public ItemStack getStackInSlot(int slotIndex) {
 		if (slotIndex >= inputArray.length) {
 			return null;
 		}
@@ -208,7 +208,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 		if (slotIndex < 0 || slotIndex >= totalSlots) {
 			return;
 		}
-		
+
 		// TODO: Needed?
 		this.markDirty();
 
@@ -223,7 +223,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 
 		if (stack == null) {
 			inputArray[slotIndex] = null;
-		} else if(stack.stackSize == 0) {
+		} else if (stack.stackSize == 0) {
 			inputArray[slotIndex] = null;
 		} else {
 			RecipeComponent newInput = new RecipeComponent(slotIndex, stack);

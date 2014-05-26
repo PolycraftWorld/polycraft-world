@@ -83,36 +83,27 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	//////////////////////////////////////////////////////////////////////////////////
 	// SlotCrafting methods
 	public void onPickupFromSlot(EntityPlayer player, ContainerSlot slot, ItemStack item) {
-        for (InventoryBehavior behavior : this.getBehaviors()) {
-			boolean result = behavior.onPickupFromSlot(this, player, slot, item);
-			if (result) {
+		for (InventoryBehavior behavior : this.getBehaviors())
+			if (behavior.onPickupFromSlot(this, player, slot, item))
 				return;
-			}
-		}
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// TileEntity Methods
 	@Override
 	public void setInventorySlotContents(int slotIndex, ItemStack stack) {
 		super.setInventorySlotContents(slotIndex, stack);
 		ContainerSlot slot = this.getContainerType().getContainerSlotByIndex(slotIndex);
-		for (InventoryBehavior behavior : this.getBehaviors()) {			
-			Boolean result = behavior.setInventorySlotContents(this, slot, stack);
-			if (result != null) {
+		for (InventoryBehavior behavior : this.getBehaviors())
+			if (behavior.setInventorySlotContents(this, slot, stack))
 				return;
-			}
-		}
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		for (InventoryBehavior behavior : this.getBehaviors()) {
-			Boolean result = behavior.updateEntity(this, this.worldObj);
-			if (result != null) {
+		for (InventoryBehavior behavior : this.getBehaviors())
+			if (behavior.updateEntity(this, this.worldObj))
 				return;
-			}
-		}
 	}
 
 	@Override

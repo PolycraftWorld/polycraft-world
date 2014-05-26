@@ -13,11 +13,11 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 /**
  * Crafting behavior that emulates the regular crafting style behavior.
  */
-public class CraftingBehavior extends InventoryBehavior {
+public class CraftingBehavior<I extends PolycraftInventory> extends InventoryBehavior<I> {
 	private boolean isUpdating = false;
 
 	@Override
-	public boolean setInventorySlotContents(PolycraftInventory inventory, ContainerSlot slot, ItemStack item) {
+	public boolean setInventorySlotContents(I inventory, ContainerSlot slot, ItemStack item) {
 		if (!isUpdating) {
 			if (!slot.getSlotType().equals(SlotType.OUTPUT)) {
 				updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
@@ -27,10 +27,9 @@ public class CraftingBehavior extends InventoryBehavior {
 	}
 
 	@Override
-	public boolean onPickupFromSlot(PolycraftInventory inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
-		if (item == null || item.getItem() == null) {
-			return true;
-		}
+	public boolean onPickupFromSlot(I inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
+		if (item == null || item.getItem() == null)
+			return false;
 
 		try {
 			if (slot.getSlotType().equals(SlotType.OUTPUT)) {
@@ -42,10 +41,10 @@ public class CraftingBehavior extends InventoryBehavior {
 			isUpdating = false;
 		}
 		updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
-		return true;
+		return false;
 	}
 
-	protected void updateOutputsForRecipe(final PolycraftInventory inventory, final PolycraftRecipe recipe) {
+	protected void updateOutputsForRecipe(final I inventory, final PolycraftRecipe recipe) {
 		if (recipe == null || !inventory.canProcess()) {
 			for (ContainerSlot slot : inventory.getOutputSlots()) {
 				if (inventory.getStackInSlot(slot) != null) {

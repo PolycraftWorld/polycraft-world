@@ -44,7 +44,7 @@ public class MachiningMillInventory extends WateredInventory {
 
 	public MachiningMillInventory() {
 		super(PolycraftContainerType.MACHINING_MILL, config, 121, coolingWaterSlotIndex, -1);
-		this.addBehavior(new CraftingBehavior());
+		this.addBehavior(new CraftingBehavior<MachiningMillInventory>());
 	}
 
 	@Override

@@ -2,11 +2,11 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 
 import java.util.Random;
 
-import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 
 /**
  * Interface for defining custom behavior of crafting containers.
@@ -33,14 +33,14 @@ public abstract class InventoryBehavior<I extends PolycraftInventory> {
 	 * Called during display update. Return true to end processing; false to propagate to other behaviors.
 	 */
 	public boolean randomDisplayTick(I inventory, World world, int x, int y, int z, Random random) {
-		return true;
+		return false;
 	}
 
 	/**
 	 * Called during entity update. Return true to end processing; false to propagate to other behaviors.
 	 */
 	public boolean updateEntity(I inventory, World world) {
-		return true;
+		return false;
 	}
 
 	/**
@@ -50,11 +50,17 @@ public abstract class InventoryBehavior<I extends PolycraftInventory> {
 		return null;
 	}
 
-	public boolean setInventorySlotContents(PolycraftInventory inventory, ContainerSlot slot, ItemStack item) {
+	/**
+	 * Return true to end processing; false to propagate to other behaviors.
+	 */
+	public boolean setInventorySlotContents(I inventory, ContainerSlot slot, ItemStack item) {
 		return false;
 	}
-	
-	public boolean onPickupFromSlot(PolycraftInventory inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
+
+	/**
+	 * Return true to end processing; false to propagate to other behaviors.
+	 */
+	public boolean onPickupFromSlot(I inventory, EntityPlayer player, ContainerSlot slot, ItemStack item) {
 		return false;
 	}
 }

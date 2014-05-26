@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.ImmutableList;
@@ -20,8 +21,9 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
 
-public abstract class HeatedInventory extends WateredInventory<HeatedInventoryState> {
+public abstract class HeatedInventory extends WateredInventory<HeatedInventoryState> implements ISidedInventory {
 
 	protected static Random random = new Random();
 
@@ -40,9 +42,23 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		this.defaultProcessingTicks = (config.params == null) ? 0 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(0));
 		this.defaultHeatIntensityMin = (config.params == null) ? 0 : config.params.getInt(1);
 		this.defaultHeatIntensityMax = (config.params == null) ? 0 : config.params.getInt(2);
+		if (config.params != null)
+			this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(3))));
 	}
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		if (super.canInsertItem(slot, item, side)) {
+			if (!isHeated()) {
+				if (Fuel.getFuel(item.getItem()) != null)
+					return slotIndexHeatSource == slot;
+			}
+			return true;
+		}
+		return false;
+	}
 
 	protected int getTotalProcessingTicksForCurrentInputs() {
 		return defaultProcessingTicks;
