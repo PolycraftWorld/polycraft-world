@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.vecmath.Point3i;
 
 import net.minecraft.block.BlockAir;
+import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Maps;
@@ -17,14 +18,13 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class BlockLight extends BlockAir {
 
-	//TODO enable other shapes like directional cones and spheres?
 	public static class Source {
 
 		private final World world;
 		private final Point3i origin;
 		private final int size;
 		private final int direction;
-		private final Map<Point3i, Boolean> points = Maps.newLinkedHashMap(); //TODO true means lit, false mean occluded
+		private final Set<Point3i> points = Sets.newLinkedHashSet();
 
 		public Source(final World world, final int originX, final int originY, final int originZ, final int size) {
 			this(world, originX, originY, originZ, size, -1);
@@ -35,7 +35,7 @@ public class BlockLight extends BlockAir {
 			this.origin = new Point3i(originX, originY, originZ);
 			this.size = size;
 			this.direction = direction;
-			points.put(origin, true);
+			points.add(origin);
 			//omni-directional
 			if (direction == -1) {
 				for (int s = 1; s <= size; s++) {
@@ -46,13 +46,14 @@ public class BlockLight extends BlockAir {
 					final int spacing = length > 3 ? 4 : 2;
 					for (int l = 0; l < length; l += spacing) {
 						int y = 0;
+						//TODO handle occlusions?
 						//TODO enabled 3rd dimension?
 						//for (int y = 0; y < length; y += spacing) {
-						points.put(new Point3i(offsetX + l, offsetY + y, offsetZ), true);
-						points.put(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1), true);
+						points.add(new Point3i(offsetX + l, offsetY + y, offsetZ));
+						points.add(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1));
 						if (l > 0 && l < (length - 1)) {
-							points.put(new Point3i(offsetX, offsetY + y, offsetZ + l), true);
-							points.put(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l), true);
+							points.add(new Point3i(offsetX, offsetY + y, offsetZ + l));
+							points.add(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l));
 						}
 						//}
 					}
@@ -60,27 +61,34 @@ public class BlockLight extends BlockAir {
 			}
 			//directional
 			else {
+				boolean occluded = false;
 				for (int i = 1; i <= size; i++) {
+					Point3i point = null;
 					switch (direction) {
 					case LabelTexture.SIDE_BOTTOM:
-						points.put(new Point3i(origin.x, origin.y - i, origin.z), true);
+						point = new Point3i(origin.x, origin.y - i, origin.z);
 						break;
 					case LabelTexture.SIDE_TOP:
-						points.put(new Point3i(origin.x, origin.y + i, origin.z), true);
+						point = new Point3i(origin.x, origin.y + i, origin.z);
 						break;
 					case LabelTexture.SIDE_BACK:
-						points.put(new Point3i(origin.x, origin.y, origin.z - i), true);
+						point = new Point3i(origin.x, origin.y, origin.z - i);
 						break;
 					case LabelTexture.SIDE_FRONT:
-						points.put(new Point3i(origin.x, origin.y, origin.z + i), true);
+						point = new Point3i(origin.x, origin.y, origin.z + i);
 						break;
 					case LabelTexture.SIDE_LEFT:
-						points.put(new Point3i(origin.x - i, origin.y, origin.z), true);
+						point = new Point3i(origin.x - i, origin.y, origin.z);
 						break;
 					case LabelTexture.SIDE_RIGHT:
-						points.put(new Point3i(origin.x + i, origin.y, origin.z), true);
+						point = new Point3i(origin.x + i, origin.y, origin.z);
 						break;
+					default:
+						throw new Error("Invalid direction");
 					}
+					if (world.getBlock(point.x, point.y, point.z).getMaterial() != Material.air)
+						break;
+					points.add(point);
 				}
 			}
 		}
@@ -112,28 +120,25 @@ public class BlockLight extends BlockAir {
 
 		public boolean updateLights(final Source source, final boolean enabled) {
 			boolean pendingUpdatedChanged = false;
-			for (final Entry<Point3i, Boolean> pointEntry : source.points.entrySet()) {
-				if (pointEntry.getValue()) { //if this point is not occluded
-					final Point3i point = pointEntry.getKey();
-					final Integer value = litPointVotes.get(point);
-					if (value == null) {
-						if (!enabled)
-							throw new Error("Too many disabled votes for: " + point);
-						litPointVotes.put(point, 1);
-						pendingUpdates.put(point, true);
-						pendingUpdatedChanged = true;
-					}
+			for (final Point3i point : source.points) {
+				final Integer value = litPointVotes.get(point);
+				if (value == null) {
+					if (!enabled)
+						throw new Error("Too many disabled votes for: " + point);
+					litPointVotes.put(point, 1);
+					pendingUpdates.put(point, true);
+					pendingUpdatedChanged = true;
+				}
+				else {
+					if (enabled)
+						litPointVotes.put(point, value + 1);
 					else {
-						if (enabled)
-							litPointVotes.put(point, value + 1);
+						if (value > 1)
+							litPointVotes.put(point, value - 1);
 						else {
-							if (value > 1)
-								litPointVotes.put(point, value - 1);
-							else {
-								litPointVotes.remove(point);
-								pendingUpdates.put(point, false);
-								pendingUpdatedChanged = true;
-							}
+							litPointVotes.remove(point);
+							pendingUpdates.put(point, false);
+							pendingUpdatedChanged = true;
 						}
 					}
 				}
@@ -154,14 +159,14 @@ public class BlockLight extends BlockAir {
 
 	public static Source addSource(final World world, final Source source) {
 		synchronized (stateByWorld) {
-			pendingUpdatesAvailable = getWorldState(world).addSource(source);
+			pendingUpdatesAvailable |= getWorldState(world).addSource(source);
 		}
 		return source;
 	}
 
 	public static Source removeSource(final World world, final Source source) {
 		synchronized (stateByWorld) {
-			pendingUpdatesAvailable = getWorldState(world).removeSource(source);
+			pendingUpdatesAvailable |= getWorldState(world).removeSource(source);
 		}
 		return source;
 	}

@@ -80,13 +80,12 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> {
 					setState(FueledLampState.FuelIndex, fuel.index);
 					setState(FueledLampState.FuelTicksTotal, fuelTicksTotal);
 					setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal);
-					//only change the source if the intensity changes
-					if (fuel.heatIntensity != getState(FueledLampState.FuelHeatIntensity)) {
-						setState(FueledLampState.FuelHeatIntensity, fuel.heatIntensity);
-						final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
-						removeCurrentLightSource();
-						currentLightSource = newLightSource;
-					}
+					//used to only do the following if fuel.heatIntensity != getState(FueledLampState.FuelHeatIntensity,
+					//but now we just do it all the time so as to update occlusions on fuel switch (as good a time as any)
+					setState(FueledLampState.FuelHeatIntensity, fuel.heatIntensity);
+					final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
+					removeCurrentLightSource();
+					currentLightSource = newLightSource;
 				}
 			}
 			else if (currentLightSource == null) {
