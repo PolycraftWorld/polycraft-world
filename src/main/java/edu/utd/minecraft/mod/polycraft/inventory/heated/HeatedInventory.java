@@ -72,14 +72,17 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
 		if (isItemValidForSlot(slot, item)) {
 			if (item.getItem() == Items.water_bucket) {
-				if (slotIndexCoolingWater > -1 && getStackInSlot(slotIndexCoolingWater) == null && slot != slotIndexCoolingWater)
-					return false;
-				if (slotIndexHeatingWater > -1 && getStackInSlot(slotIndexHeatingWater) == null && slot != slotIndexHeatingWater)
-					return false;
+				if (slotIndexCoolingWater > -1 && getStackInSlot(slotIndexCoolingWater) == null)
+					return slot == slotIndexCoolingWater;
+				if (slotIndexHeatingWater > -1 && getStackInSlot(slotIndexHeatingWater) == null)
+					return slot == slotIndexHeatingWater;
 				return slotIndexHeatSource != slot;
 			}
-			if (getStackInSlot(slotIndexHeatSource) == null && Fuel.getFuel(item.getItem()) != null)
-				return slotIndexHeatSource == slot;
+			if (Fuel.getFuel(item.getItem()) != null) {
+				final ItemStack currentHeatStack = getStackInSlot(slotIndexHeatSource);
+				if (currentHeatStack == null || (currentHeatStack.getItem() == item.getItem() && currentHeatStack.stackSize + item.stackSize <= currentHeatStack.getMaxStackSize()))
+					return slotIndexHeatSource == slot;
+			}
 			return true;
 		}
 		return false;
