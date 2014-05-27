@@ -7,9 +7,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 
@@ -39,37 +39,31 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 
 	private void attemptAutomaticInput(final I inventory) {
 		IInventory inputInventory = null;
-		if (directional) {
-			final int direction = inventory.getBlockMetadata() & 7;
-			inputInventory = getInventoryAt(inventory.getWorldObj(),
-					inventory.xCoord + Facing.offsetsXForSide[direction],
-					inventory.yCoord + Facing.offsetsYForSide[direction],
-					inventory.zCoord + Facing.offsetsZForSide[direction]);
-		}
-		else {
-			for (int direction = 0; direction < 6 && inputInventory == null; direction++)
+		final int directionFacing = inventory.getBlockMetadata() & 7;
+		for (final ForgeDirection direction : ForgeDirection.values()) {
+			if (direction != ForgeDirection.UNKNOWN) {
+				if (directional && (directionFacing == direction.ordinal() || direction == ForgeDirection.DOWN))
+					continue;
 				inputInventory = getInventoryAt(inventory.getWorldObj(),
-						inventory.xCoord + Facing.offsetsXForSide[direction],
-						inventory.yCoord + Facing.offsetsYForSide[direction],
-						inventory.zCoord + Facing.offsetsZForSide[direction]);
-		}
-		if (inputInventory != null) {
-			if (inputInventory instanceof ISidedInventory) {
-				ISidedInventory isidedinventory = (ISidedInventory) inputInventory;
-				int[] aint = isidedinventory.getAccessibleSlotsFromSide(0);
-				if (aint != null) {
-					for (int k = 0; k < aint.length; ++k) {
-						if (transfer(inventory, isidedinventory, aint[k], 0))
-							return;
+						inventory.xCoord + direction.offsetX,
+						inventory.yCoord + direction.offsetY,
+						inventory.zCoord + direction.offsetZ);
+				if (inputInventory != null) {
+					if (inputInventory instanceof ISidedInventory) {
+						ISidedInventory isidedinventory = (ISidedInventory) inputInventory;
+						int[] aint = isidedinventory.getAccessibleSlotsFromSide(0);
+						if (aint != null)
+							for (int k = 0; k < aint.length; ++k)
+								if (transfer(inventory, isidedinventory, aint[k], 0))
+									return;
 					}
-				}
-			}
-			else
-			{
-				int i = inputInventory.getSizeInventory();
-				for (int j = 0; j < i; ++j) {
-					if (transfer(inventory, inputInventory, j, 0))
-						return;
+					else
+					{
+						int i = inputInventory.getSizeInventory();
+						for (int j = 0; j < i; ++j)
+							if (transfer(inventory, inputInventory, j, 0))
+								return;
+					}
 				}
 			}
 		}
