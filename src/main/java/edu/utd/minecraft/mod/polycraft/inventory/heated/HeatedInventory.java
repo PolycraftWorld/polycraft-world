@@ -25,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
+import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 
 public abstract class HeatedInventory extends WateredInventory<HeatedInventoryState> implements ISidedInventory {
 
@@ -59,6 +60,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		}
 		else
 			accessibleSlots = null;
+		this.addBehavior(new VesselUpcycler());
 	}
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);

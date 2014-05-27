@@ -20,7 +20,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
-import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
 
 public abstract class MolderInventory extends HeatedInventory {
@@ -99,7 +99,7 @@ public abstract class MolderInventory extends HeatedInventory {
 
 	@Override
 	protected int getProcessingHeatIntensityForCurrentInputs(final boolean min) {
-		final PolymerPellets polymerPellets = ((ItemPellets) getStackInSlot(slotIndexInput).getItem()).polymerPellets;
+		final PolymerPellets polymerPellets = ((ItemVessel<PolymerPellets>) getStackInSlot(slotIndexInput).getItem()).cofig;
 		return min ? polymerPellets.craftingMinHeatIntensity : polymerPellets.craftingMaxHeatIntensity;
 	}
 

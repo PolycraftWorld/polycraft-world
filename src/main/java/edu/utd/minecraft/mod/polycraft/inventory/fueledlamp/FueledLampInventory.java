@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
+import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 
 public class FueledLampInventory extends StatefulInventory<FueledLampState> implements ISidedInventory {
@@ -55,6 +56,7 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 		super(containerType, config, 84, FueledLampState.values());
 		this.rangePerHeatIntensity = config.params.getFloat(0);
 		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(1))));
+		this.addBehavior(new VesselUpcycler());
 	}
 
 	@Override

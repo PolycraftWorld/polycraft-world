@@ -80,7 +80,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
-import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
@@ -264,12 +263,12 @@ public class PolycraftRegistry {
 
 	private static void registerVessels() {
 		for (final CompoundVessel vessel : CompoundVessel.registry.values())
-			PolycraftRegistry.registerItem(vessel, new ItemVessel(vessel));
+			PolycraftRegistry.registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 	}
 
 	private static void registerPolymers() {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
-			PolycraftRegistry.registerItem(polymerPellets, new ItemPellets(polymerPellets));
+			PolycraftRegistry.registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 
 		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
 			PolycraftRegistry.registerItem(polymerFibers, new ItemFibers());
