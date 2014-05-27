@@ -83,6 +83,7 @@ public class PolycraftRecipeManager {
 				ItemStack item = outputs.iterator().next().itemStack.copy();
 				if (item.stackTagCompound == null) {
 					PolycraftItemHelper.createTagCompound(item);
+					item.stackTagCompound.setByte("is-recipe-null-tag-compound", (byte) 1);
 				}
 				item.stackTagCompound.setByte("is-recipe", (byte) 1);
 				return item;
@@ -518,7 +519,14 @@ public class PolycraftRecipeManager {
 			// itemstacks with any stackSize.  The generic crafting recipes only remove a single
 			// item for each recipe item, so the rest may need to be removed.
 			if (craftedItem.stackTagCompound.hasKey("is-recipe")) {
-				craftedItem.stackTagCompound.removeTag("is-recipe");
+				if (craftedItem.stackTagCompound.hasKey("is-recipe-null-tag-compound")) {
+					//if we had to create a tag compound just to store is-recipe (the tag compound didn't exist before we came along) then remove the whole thing
+					//otherwise minecraft will thing that two items are different, even if the tag compound on one is empty, and on the other it is null
+					//see net.minecraft.item.ItemStack.areItemStackTagsEqual(ItemStack, ItemStack) for more info
+					craftedItem.setTagCompound(null);
+				}
+				else
+					craftedItem.stackTagCompound.removeTag("is-recipe");
 				Set<RecipeComponent> inputs = CustomGenericCraftingRecipe.getComponentsFromInventory(event.craftMatrix);
 				PolycraftRecipe recipe = findRecipe(PolycraftContainerType.CRAFTING_TABLE, inputs);
 				if (recipe == null) {
