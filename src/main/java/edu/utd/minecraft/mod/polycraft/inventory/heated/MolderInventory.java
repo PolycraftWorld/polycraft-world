@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.inventory.heated;
 import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -55,6 +54,16 @@ public abstract class MolderInventory extends HeatedInventory {
 	@SideOnly(Side.CLIENT)
 	protected HeatedGui getGuiHeated(InventoryPlayer playerInventory) {
 		return new HeatedGui(this, playerInventory, new HeatedGui.ProgressDisplayOffsets(45, 85, 131, 55), 203);
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		if (super.canInsertItem(slot, item, side)) {
+			if (item.getItem() instanceof ItemMold)
+				return slot == slotIndexMold;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
