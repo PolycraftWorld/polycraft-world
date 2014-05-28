@@ -18,6 +18,7 @@ public class Vessel {
 		public final Matter.State matterState;
 		public final Type smallerType;
 		public final int quantityOfSmallerType;
+		public Type largerType;
 
 		Type(final Matter.State matterState) {
 			this(matterState, null, 0);
@@ -30,6 +31,8 @@ public class Vessel {
 		Type(final Matter.State matterState, final Type smallerType, final int quantityOfSmallerType) {
 			this.matterState = matterState;
 			this.smallerType = smallerType;
+			if (smallerType != null)
+				this.smallerType.largerType = this;
 			this.quantityOfSmallerType = quantityOfSmallerType;
 		}
 

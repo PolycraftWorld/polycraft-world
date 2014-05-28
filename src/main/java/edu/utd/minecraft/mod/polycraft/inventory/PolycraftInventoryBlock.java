@@ -170,11 +170,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int front) {
-		// if the front is the top, it must be in the player inventory, so just render the front as side 3 (like furnace)
-		if (front == 0 && side == 3) {
-			return this.inventoryIcon;
-		}
-
 		// If front face is explicitly defined, display that.
 		if (side == front && blockFaceIcons.containsKey(BlockFace.FRONT)) {
 			return blockFaceIcons.get(BlockFace.FRONT);

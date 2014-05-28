@@ -32,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
+import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 
 public class TreeTapInventory extends PolycraftInventory {
 
@@ -63,6 +64,7 @@ public class TreeTapInventory extends PolycraftInventory {
 		this.amountToSpawn = config.params.getInt(1);
 		this.defaultSpawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(2));
 		this.jungleSpawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(3));
+		this.addBehavior(new VesselUpcycler());
 	}
 
 	@Override
@@ -92,6 +94,8 @@ public class TreeTapInventory extends PolycraftInventory {
 
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
+
 		if (this.worldObj != null && !this.worldObj.isRemote) {
 			--this.transferCooldown;
 

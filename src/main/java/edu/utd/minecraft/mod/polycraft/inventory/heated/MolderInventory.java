@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.inventory.heated;
 import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -21,7 +20,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
-import edu.utd.minecraft.mod.polycraft.item.ItemPellets;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
 
 public abstract class MolderInventory extends HeatedInventory {
@@ -58,6 +57,16 @@ public abstract class MolderInventory extends HeatedInventory {
 	}
 
 	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		if (super.canInsertItem(slot, item, side)) {
+			if (item.getItem() instanceof ItemMold)
+				return slot == slotIndexMold;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean canProcess() {
 		if (super.canProcess()) {
 			final ItemStack moldItemStack = getStackInSlot(slotIndexMold);
@@ -90,7 +99,7 @@ public abstract class MolderInventory extends HeatedInventory {
 
 	@Override
 	protected int getProcessingHeatIntensityForCurrentInputs(final boolean min) {
-		final PolymerPellets polymerPellets = ((ItemPellets) getStackInSlot(slotIndexInput).getItem()).polymerPellets;
+		final PolymerPellets polymerPellets = ((ItemVessel<PolymerPellets>) getStackInSlot(slotIndexInput).getItem()).cofig;
 		return min ? polymerPellets.craftingMinHeatIntensity : polymerPellets.craftingMaxHeatIntensity;
 	}
 
