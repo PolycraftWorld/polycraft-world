@@ -42,6 +42,7 @@ public class WikiMaker {
 		try {
 			WikiMaker wikiMaker = new WikiMaker();
 			wikiMaker.uploadIngots();
+			//wikiMaker.uploadMinecraftImages();
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Failed: " + ex.getMessage());
@@ -104,6 +105,20 @@ public class WikiMaker {
 				createWikiPage(ingotName);
 			}
 			wiki.edit(ingotName, "==Gallery==\n[[File:" + ingotName.toLowerCase() + ".png]]", EDIT_REASON, WIKI_SECTION_GALLERY);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("== Obtaining ==\n=== Smelting ===\n");
+			sb.append("{{Grid/Furnace\n");
+			sb.append("|A1=ore_element|A1-link=");
+			sb.append(sourceName);
+			if (sourceType.equals("Element")) {
+				sb.append(" Ore");
+			}
+			sb.append("\n|A2=coal|A2-link=Coal\n");
+			sb.append("|Output=" + ingotName.toLowerCase() + "|Output-link=" + ingotName + "\n");
+			sb.append("}}\n");
+			wiki.edit(ingotName, sb.toString(), EDIT_REASON, WIKI_SECTION_OBTAINING);
+			
 			allIngots.add(ingotName);
 		}
 		
@@ -116,6 +131,26 @@ public class WikiMaker {
 		wiki.edit("List of Ingots", sb.toString(), EDIT_REASON);		
 	}
 
+	/**
+	 * Uploads the original minecraft images from the disassembled source to the wikipedia site. Will overwrite
+	 * any existing images.
+	 */
+	public void uploadMinecraftImages() throws IOException, LoginException {
+		String [] paths = new String [] {
+			"build/tmp/recompSrc/assets/minecraft/textures/blocks",
+			"build/tmp/recompSrc/assets/minecraft/textures/gui/container",
+			"build/tmp/recompSrc/assets/minecraft/textures/items",
+			"build/tmp/recompSrc/assets/minecraft/textures/models/armor",			
+		};
+		for (String path : paths) {
+			for (File imageFile : new File(path).listFiles()) {
+				if (imageFile.getAbsolutePath().endsWith(".png")) {
+					System.out.println("Uploading " + imageFile.getName().replaceAll(".png", ""));
+					wiki.upload(imageFile, imageFile.getName().replaceAll(".png", ""), "", EDIT_REASON);
+				}
+			}
+		}
+	}
 	/**
 	 * Uploads the images in the resource folders to the wikipedia site. Will overwrite
 	 * any existing images.
