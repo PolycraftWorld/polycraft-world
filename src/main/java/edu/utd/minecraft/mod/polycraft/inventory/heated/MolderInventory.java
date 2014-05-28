@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.inventory.heated;
 import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -36,7 +37,7 @@ public abstract class MolderInventory extends HeatedInventory {
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 8, 0));
 		guiSlots.add(new GuiContainerSlot(slotIndexMold = guiSlots.size(), SlotType.INPUT, 1, 0, 90, 55)); //mold
-		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 110, 55)); //cooling water
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 110, 55, Items.water_bucket)); //cooling water
 		slotIndexFirstStorage = guiSlots.size();
 		slotIndexLastStorage = slotIndexFirstStorage + 3;
 		for (int i = 0; i <= (slotIndexLastStorage - slotIndexFirstStorage); i++)

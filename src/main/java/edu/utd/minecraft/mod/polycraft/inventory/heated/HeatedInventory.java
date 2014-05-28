@@ -73,12 +73,13 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	@Override
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
 		if (isItemValidForSlot(slot, item)) {
+			if (slot == slotIndexCoolingWater || slot == slotIndexHeatingWater)
+				return getStackInSlot(slot) == null && item.getItem() == Items.water_bucket;
 			if (item.getItem() == Items.water_bucket) {
 				if (slotIndexCoolingWater > -1 && getStackInSlot(slotIndexCoolingWater) == null)
 					return slot == slotIndexCoolingWater;
 				if (slotIndexHeatingWater > -1 && getStackInSlot(slotIndexHeatingWater) == null)
 					return slot == slotIndexHeatingWater;
-				return slotIndexHeatSource != slot;
 			}
 			if (Fuel.getFuel(item.getItem()) != null) {
 				final ItemStack currentHeatStack = getStackInSlot(slotIndexHeatSource);

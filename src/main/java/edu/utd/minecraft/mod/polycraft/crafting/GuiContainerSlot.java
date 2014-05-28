@@ -1,5 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
 /**
  * A container slot within a container GUI
  */
@@ -16,6 +19,7 @@ public class GuiContainerSlot implements ContainerSlot {
 	private final int relativeY;
 	private final int displayX;
 	private final int displayY;
+	private final Item validItem;
 
 	public GuiContainerSlot(final int index, final SlotType type, final int relativeX, final int relativeY) {
 		this(index, type, relativeX, relativeY, 0, 0);
@@ -28,6 +32,17 @@ public class GuiContainerSlot implements ContainerSlot {
 		this.relativeY = relativeY;
 		this.displayX = displayX;
 		this.displayY = displayY;
+		this.validItem = null;
+	}
+
+	public GuiContainerSlot(final int index, final SlotType type, final int relativeX, final int relativeY, final int displayX, final int displayY, final Item validItem) {
+		this.index = index;
+		this.type = type;
+		this.relativeX = relativeX;
+		this.relativeY = relativeY;
+		this.displayX = displayX;
+		this.displayY = displayY;
+		this.validItem = validItem;
 	}
 
 	@Override
@@ -57,9 +72,17 @@ public class GuiContainerSlot implements ContainerSlot {
 	public int getDisplayY() {
 		return displayY;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getSlotType() + ", index=" + index + ", x=" + getRelativeX() + ", y=" + getRelativeY();
+	}
+
+	public boolean isItemValid(final ItemStack itemStack) {
+		if (type == SlotType.OUTPUT)
+			return false;
+		if (validItem != null && itemStack.getItem() != validItem)
+			return false;
+		return true;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
@@ -32,8 +33,8 @@ public class DistillationColumnInventory extends HeatedInventory {
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 26, 0));
-		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 18)); //cooling water
-		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 54)); //heating water
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 18, Items.water_bucket)); //cooling water
+		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.MISC, -1, -1, 62, 54, Items.water_bucket)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 26, 54)); //heat source
 		slotIndexFirstOutput = guiSlots.size();
 		for (int y = 0; y < 3; y++)

@@ -81,7 +81,7 @@ public abstract class PolycraftCraftingContainer extends Container {
 		@Override
 		public boolean isItemValid(ItemStack par1ItemStack) {
 			if (super.isItemValid(par1ItemStack))
-				return guiSlot.getSlotType() != SlotType.OUTPUT;
+				return guiSlot.isItemValid(par1ItemStack);
 			return false;
 		}
 	}

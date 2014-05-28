@@ -54,8 +54,6 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 					largerConfig = PolymerPellets.registry.find(((PolymerPellets) cofig).source, cofig.vesselType.largerType);
 				if (largerConfig != null)
 					largerItem = (ItemVessel) PolycraftRegistry.getItem(largerConfig);
-				else
-					throw new Error("Unable to find larger vessel for: " + cofig.source.name);
 			}
 			searchForLargerItem = false;
 		}
