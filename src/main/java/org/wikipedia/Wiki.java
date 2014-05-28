@@ -424,7 +424,7 @@ public class Wiki implements Serializable
     // preferences
     private int max = 500;
     private int slowmax = 50;
-    private int throttle = 10000; // throttle
+    private int throttle = 0; // throttle
     private int maxlag = 5;
     private int assertion = ASSERT_NONE; // assertion mode
     private transient int statusinterval = 100; // status check
