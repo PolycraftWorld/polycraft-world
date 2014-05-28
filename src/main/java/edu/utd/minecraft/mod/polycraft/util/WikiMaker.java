@@ -1,174 +1,180 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.wikipedia.Wiki;
 
-import com.google.common.collect.Lists;
-
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Config;
+import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
-
 
 public class WikiMaker {
 
-	private static final String CONFIG_DIRECTORY = "src/main/resources/config";
-	private static final String EDIT_REASON = "Polycraft 1.0";
-	
-	private static final int WIKI_SECTION_DESCRIPTION = 0;
-	private static final int WIKI_SECTION_OBTAINING = 1;
-	private static final int WIKI_SECTION_HISTORY = 2;
-	private static final int WIKI_SECTION_GALLERY = 3;
-	private static final int WIKI_SECTION_REFERENCES = 4;
-	
-	private Wiki wiki;
-	
-	/**
-	 * If true, deletes all pages before editing them
-	 */
-	private boolean createFromScratch = true;
+	private static final Logger logger = LogManager.getLogger();
 
-	public static void main(String[] args) {
+	private static final String CONFIG_DIRECTORY = "src/main/resources/config";
+	private static final String IMAGE_EXTENSION = "png";
+	private static final String MINECRAFT_TEXTURES_DIRECTORY = "build/tmp/recompSrc/assets/minecraft/textures";
+	private static final String[] MINECRAFT_TEXTURES_DIRECTORIES = new String[] {
+			//TODO uncomment to enable upload
+			//MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
+			//MINECRAFT_TEXTURES_DIRECTORY + "/items",
+			//MINECRAFT_TEXTURES_DIRECTORY + "/armor",
+			};
+	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
+	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
+	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
+			//TODO uncomment to enable upload
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
+			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
+			};
+	private static final String WIKI_NEWLINE = "\n";
+
+	private enum Section {
+		Description, Obtaining, History, Gallery, References;
+
+		public final String heading;
+
+		private Section() {
+			this.heading = this.toString();
+		}
+
+		private Section(final String heading) {
+			this.heading = heading;
+		}
+	};
+
+	private static String[] HEADING_FORMATS = new String[] {
+			"== %s ==",
+			"=== %s ===",
+			"==== %s ====",
+			"===== %s =====",
+			"====== %s ======",
+	};
+
+	private static String createHeading(final int level, final String text) {
+		return String.format(HEADING_FORMATS[level], text);
+	}
+
+	private static String LINK_FORMAT = "[[%s]]";
+
+	private static String createLink(final String location) {
+		return String.format(LINK_FORMAT, location);
+	}
+
+	private static String LINK_FORMAT_ALT = "[[%s|%s]]";
+
+	private static String createLink(final String location, final String text) {
+		return String.format(LINK_FORMAT_ALT, location, text);
+	}
+
+	private static String createLinkFile(final String file) {
+		return createLink("File:" + file);
+	}
+
+	private final Wiki wiki;
+	private final String editSummary;
+	private final boolean overwritePages;
+
+	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
 		try {
-			WikiMaker wikiMaker = new WikiMaker();
+			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
+			wikiMaker.uploadImages(MINECRAFT_TEXTURES_DIRECTORIES);
+			wikiMaker.uploadImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 			wikiMaker.uploadIngots();
-			//wikiMaker.uploadMinecraftImages();
-		} catch(Exception ex) {
+			wikiMaker.close();
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("Failed: " + ex.getMessage());
+			logger.error("Failed: {}", ex.getMessage());
 		}
 	}
 
-	public WikiMaker() throws FailedLoginException, IOException {
-		wiki = new Wiki("www.polycraftworld.com", "/wiki");
-		wiki.login("Polycraftbot", "gmratst6zf");
-		
+	public WikiMaker(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) throws FailedLoginException, IOException {
+		this.wiki = new Wiki(url, scriptPath);
+		this.wiki.login(username, password);
+		this.editSummary = PolycraftMod.MODID + " " + PolycraftMod.VERSION;
+		this.overwritePages = overwritePages;
 	}
 
-	public void close() {
+	private void close() {
 		wiki.logout();
 	}
-	
-	private void createWikiPage(String title) throws LoginException, IOException {
-		wiki.edit(title, "==Obtaining==\n==History==\n==Gallery==\n==References==\n", EDIT_REASON);
-	}
-
-	public static Collection<String[]> readResourceFileDelimeted(final String directory, final String name) throws FileNotFoundException {
-		return readResourceFileDelimeted(directory, name, "tsv", "\t");
-	}
-
-	public static Collection<String[]> readResourceFileDelimeted(final String directory, final String name, final String extension, final String delimeter) throws FileNotFoundException {
-		Collection<String[]> config = new LinkedList<String[]>();
-		// TODO: Use classloader ?
-		//final BufferedReader br = new BufferedReader(new InputStreamReader(PolycraftMod.class.getClassLoader().getResourceAsStream(directory + "/" + name + "." + extension)));
-		final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(directory, name + "." + extension))));
-		try {
-			br.readLine();//skip the first line (headers)
-			for (String line; (line = br.readLine()) != null;) {
-				config.add(line.split(delimeter));
-			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-		return config;
-	}
-	
-	/**
-	 * Uploads ingots to the wiki
-	 */
-	public void uploadIngots() throws LoginException, IOException {
-		List<String> allIngots = Lists.newArrayList();
-		for (final String[] line : readResourceFileDelimeted(CONFIG_DIRECTORY, Ingot.class.getSimpleName().toLowerCase())) {
-			if (line.length == 0) {
-				continue;
-			}
-			
-			String ingotName = line[1];
-			String sourceType = line[2];
-			String sourceName = line[3];
-			int modDamagePerUse = Integer.parseInt(line[4]);
-
-			System.out.println("Creating page for " + ingotName);
-			if (createFromScratch || !wiki.exists(new String [] { ingotName } )[0]) {
-				createWikiPage(ingotName);
-			}
-			wiki.edit(ingotName, "==Gallery==\n[[File:" + ingotName.toLowerCase() + ".png]]", EDIT_REASON, WIKI_SECTION_GALLERY);
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append("== Obtaining ==\n=== Smelting ===\n");
-			sb.append("{{Grid/Furnace\n");
-			sb.append("|A1=ore_element|A1-link=");
-			sb.append(sourceName);
-			if (sourceType.equals("Element")) {
-				sb.append(" Ore");
-			}
-			sb.append("\n|A2=coal|A2-link=Coal\n");
-			sb.append("|Output=" + ingotName.toLowerCase() + "|Output-link=" + ingotName + "\n");
-			sb.append("}}\n");
-			wiki.edit(ingotName, sb.toString(), EDIT_REASON, WIKI_SECTION_OBTAINING);
-			
-			allIngots.add(ingotName);
-		}
-		
-		// Create the list of ingots
-		StringBuilder sb = new StringBuilder();		
-		sb.append("== List of Ingots ==\n");
-		for (String ingot : allIngots) {
-			sb.append("* [[" + ingot + "]]\n");
-		}
-		wiki.edit("List of Ingots", sb.toString(), EDIT_REASON);		
-	}
 
 	/**
-	 * Uploads the original minecraft images from the disassembled source to the wikipedia site. Will overwrite
-	 * any existing images.
+	 * Uploads the images in the given paths to the wikipedia site. Will overwrite any existing images.
 	 */
-	public void uploadMinecraftImages() throws IOException, LoginException {
-		String [] paths = new String [] {
-			"build/tmp/recompSrc/assets/minecraft/textures/blocks",
-			"build/tmp/recompSrc/assets/minecraft/textures/gui/container",
-			"build/tmp/recompSrc/assets/minecraft/textures/items",
-			"build/tmp/recompSrc/assets/minecraft/textures/models/armor",			
-		};
-		for (String path : paths) {
-			for (File imageFile : new File(path).listFiles()) {
-				if (imageFile.getAbsolutePath().endsWith(".png")) {
-					System.out.println("Uploading " + imageFile.getName().replaceAll(".png", ""));
-					wiki.upload(imageFile, imageFile.getName().replaceAll(".png", ""), "", EDIT_REASON);
-				}
-			}
+	private void uploadImages(final String[] paths) throws IOException, LoginException {
+		for (final String path : paths)
+			for (final File imageFile : new File(path).listFiles())
+				uploadImage(imageFile);
+	}
+
+	private void uploadImage(final File imageFile) throws LoginException, IOException {
+		if (imageFile.getAbsolutePath().endsWith("." + IMAGE_EXTENSION)) {
+			final String name = imageFile.getName().replaceAll("." + IMAGE_EXTENSION, "");
+			logger.info("Uploading image: {}", name);
+			wiki.upload(imageFile, name, "", editSummary);
 		}
 	}
-	/**
-	 * Uploads the images in the resource folders to the wikipedia site. Will overwrite
-	 * any existing images.
-	 */
-	public void uploadImages() throws IOException, LoginException {
-		String [] paths = new String [] {
-			"src/main/resources/assets/polycraft/textures/items",
-			"src/main/resources/assets/polycraft/textures/blocks",
-			"src/main/resources/assets/polycraft/textures/gui/container",
-			"src/main/resources/assets/polycraft/textures/models/armor",
-		};
-		for (String path : paths) {
-			for (File imageFile : new File(path).listFiles()) {
-				if (imageFile.getAbsolutePath().endsWith(".png")) {
-					System.out.println("Uploading " + imageFile.getName().replaceAll(".png", ""));
-					wiki.upload(imageFile, imageFile.getName().replaceAll(".png", ""), "", EDIT_REASON);
-				}
+
+	private boolean createPage(final String title) throws LoginException, IOException {
+		if (overwritePages || !wiki.exists(new String[] { title })[0]) {
+			logger.info("{} page: {}", overwritePages ? "Overwriting" : "Creating", title);
+			final StringBuilder page = new StringBuilder();
+			for (final Section section : Section.values())
+				page.append(createHeading(2, section.heading)).append(WIKI_NEWLINE);
+			wiki.edit(title, page.toString(), editSummary);
+			return true;
+		}
+		return false;
+	}
+
+	private <C extends Config> void createListPageConfigs(final ConfigRegistry<C> registry) throws LoginException, IOException {
+		if (registry.size() > 0) {
+			String title = null;
+			final StringBuilder list = new StringBuilder();
+			for (final C config : registry.values()) {
+				if (title == null)
+					title = String.format("List of %ss", config.getClass().getSimpleName());
+				list.append(WIKI_NEWLINE).append("* ").append(createLink(config.name));
+			}
+			wiki.edit(title, list.toString(), editSummary);
+		}
+	}
+
+	private static String createFurnaceGrid(
+			final String inputName, final String inputLink,
+			final String fuelName, final String fuelLink,
+			final String outputName, final String outputLink) {
+		final StringBuilder furnace = new StringBuilder(createHeading(3, "Smelting"));
+		furnace.append(WIKI_NEWLINE);
+		furnace.append("{{Grid/Furnace").append(WIKI_NEWLINE);
+		furnace.append("|A1=").append(inputName).append("|A1-link=").append(inputLink).append(WIKI_NEWLINE);
+		furnace.append("|A2=").append(fuelName).append("|A2-link=").append(fuelLink).append(WIKI_NEWLINE);
+		furnace.append("|Output=").append(outputName).append("|Output-link=").append(outputLink).append(WIKI_NEWLINE);
+		furnace.append("}}").append(WIKI_NEWLINE);
+		return furnace.toString();
+	}
+
+	private void uploadIngots() throws LoginException, IOException {
+		for (final Ingot ingot : Ingot.registry.values()) {
+			if (createPage(ingot.name)) {
+				wiki.edit(ingot.name, createHeading(2, Section.Gallery.heading) + WIKI_NEWLINE + createLinkFile(ingot.name.toLowerCase() + "." + IMAGE_EXTENSION), editSummary, Section.Gallery.ordinal());
+				//TODO need to load recipes from recipe manager (populate hashmap by item so we can do a lookup)
+				//TODO correct hard coded reference to ore_element
+				//TODO correct hard coded reference to coal?
+				wiki.edit(ingot.name, createFurnaceGrid("ore_element", ingot.source.name, "coal", "Coal", ingot.name.toLowerCase(), ingot.name), editSummary, Section.Obtaining.ordinal());
 			}
 		}
+		createListPageConfigs(Ingot.registry);
 	}
 }

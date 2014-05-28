@@ -27,7 +27,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
-import edu.utd.minecraft.mod.polycraft.util.PolycraftModWikiMaker;
+import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
@@ -98,12 +98,16 @@ public class PolycraftMod {
 	public void postInit(final FMLPostInitializationEvent event) {
 		proxy.postInit();
 
-		// If "wikiOutputFile" is specified in the environment (e.g. -DwikiOutputFile /tmp/output.txt
-		// in VM Args under Run Configuration/Arguments), then a text file is generated that can be
-		// used to update the Polycraft wiki (and the program exits).  Hint: adding "nogui" to the program
-		// arguments on the same page saves some time!
-		if (System.getProperty("wikiOutputFile") != null) {
-			PolycraftModWikiMaker.createWikiData(System.getProperty("wikiOutputFile"));
+		// If wiki params are specified in the environment in VM Args under Run Configuration/Arguments
+		// (e.g. -DwikiUrl=www.polycraftworld.com -DwikiScriptPath=/wiki -DwikiUsername=Polycraftbot -DwikiPassword=gmratst6zf -DwikiOverwritePages=true)
+		// then data is uploaded to the Polycraft wiki and the program exits.  Hint: adding "nogui" to the program arguments on the same page saves some time!
+		if (System.getProperty("wikiUrl") != null) {
+			WikiMaker.generate(
+					System.getProperty("wikiUrl"),
+					System.getProperty("wikiScriptPath"),
+					System.getProperty("wikiUsername"),
+					System.getProperty("wikiPassword"),
+					Boolean.parseBoolean(System.getProperty("wikiOverwritePages")));
 			System.exit(0);
 		}
 

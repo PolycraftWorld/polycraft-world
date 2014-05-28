@@ -25,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 
+//TODO remove this class, it has been replaced by edu.utd.minecraft.mod.polycraft.util.WikiMaker
 public class PolycraftModWikiMaker {
 	private static Logger logger = LogManager.getLogger();
 
