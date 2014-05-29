@@ -29,7 +29,7 @@ public enum PolycraftContainerType {
 	/**
 	 * Minecraft furnace.
 	 */
-	FURNANCE("Furnance"),
+	FURNACE("Furnace"),
 	TREE_TAP("Tree Tap"),
 	MACHINING_MILL("Machining Mill"),
 	INJECTION_MOLDER("Injection Molder"),
@@ -94,7 +94,7 @@ public enum PolycraftContainerType {
 				new GuiContainerSlot(16, SlotType.OUTPUT, 1, 2), // OUTPUT_BOTTOM_MIDDLE
 				new GuiContainerSlot(17, SlotType.OUTPUT, 2, 2) // OUTPUT_BOTTOM_RIGHT
 				));
-		FURNANCE.initialize(ImmutableList.of(
+		FURNACE.initialize(ImmutableList.of(
 				new GuiContainerSlot(0, SlotType.INPUT, 0, 0), // INPUT
 				new GuiContainerSlot(1, SlotType.INPUT, 0, 1), // FUEL
 				new GuiContainerSlot(1, SlotType.OUTPUT, 1, 0) // OUTPUT

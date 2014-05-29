@@ -2,18 +2,28 @@ package edu.utd.minecraft.mod.polycraft.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
+
+import net.minecraft.item.ItemStack;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wikipedia.Wiki;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 
 public class WikiMaker {
 
@@ -40,7 +50,7 @@ public class WikiMaker {
 	private static final String WIKI_NEWLINE = "\n";
 
 	private enum Section {
-		Description, Obtaining, History, Gallery, References;
+		Description, Recipes, History, Gallery, References;
 
 		public final String heading;
 
@@ -62,7 +72,7 @@ public class WikiMaker {
 	};
 
 	private static String createHeading(final int level, final String text) {
-		return String.format(HEADING_FORMATS[level], text);
+		return String.format(HEADING_FORMATS[level - 2], text);
 	}
 
 	private static String LINK_FORMAT = "[[%s]]";
@@ -81,6 +91,46 @@ public class WikiMaker {
 		return createLink("File:" + file);
 	}
 
+	private static final String RECIPE_CELL_FORMAT = "|SLOT-%1$s=%2$s|SLOT-%1$s-image=%3$s|SLOT-%1$s-link=%4$s";
+	private static final String RECIPE_CELL_AMOUNT_FORMAT = RECIPE_CELL_FORMAT + "|SLOT-%1$s-amount=%5$d";
+
+	private static String getRecipeCell(final int slotIndex, final String itemName, final int amount, final String image, final String link) {
+		if (amount > 1)
+			return String.format(RECIPE_CELL_AMOUNT_FORMAT, slotIndex, itemName, image, link, amount);
+		return String.format(RECIPE_CELL_FORMAT, slotIndex, itemName, image, link);
+	}
+
+	private static String getRecipeCell(final int slotIndex, final ItemStack itemStack) {
+		return getRecipeCell(slotIndex, itemStack.getDisplayName(), itemStack.stackSize, getTextureImageName(getTexture(itemStack)), itemStack.getDisplayName());
+	}
+
+	private static final String GRID_TEMPLATE_FORMAT = "{{Grid/%1$s%2$s%3$s}}";
+
+	private static String getGridTemplate(final PolycraftContainerType containerType, final String content) {
+		return String.format(GRID_TEMPLATE_FORMAT, containerType.toString().replaceAll(" ", "_"), content, WIKI_NEWLINE);
+	}
+
+	private static String getRecipeGrid(final PolycraftRecipe recipe) {
+		final StringBuilder grid = new StringBuilder();
+		for (final RecipeInput input : recipe.getInputs())
+			for (final ItemStack inputStack : input.inputs)
+				grid.append(WIKI_NEWLINE).append(getRecipeCell(input.slot.getSlotIndex(), inputStack));
+		for (final RecipeComponent output : recipe.getOutputs(null))
+			grid.append(WIKI_NEWLINE).append(getRecipeCell(output.slot.getSlotIndex(), output.itemStack));
+		if (!recipe.isShapedOnly())
+			grid.append(WIKI_NEWLINE).append("|").append("Shapeless=Yes");
+		return getGridTemplate(recipe.getContainerType(), grid.toString());
+	}
+
+	private static String getTexture(final ItemStack itemStack) {
+		final String iconName = itemStack.getItem().getIcon(itemStack, 0).getIconName();
+		final int namespaceIndex = iconName.indexOf(":");
+		if (namespaceIndex > -1)
+			return iconName.substring(namespaceIndex + 1);
+		return iconName;
+	}
+
+	private final Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> recipesByIngredientContainerType;
 	private final Wiki wiki;
 	private final String editSummary;
 	private final boolean overwritePages;
@@ -88,9 +138,9 @@ public class WikiMaker {
 	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
-			wikiMaker.uploadImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.uploadImages(POLYCRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.uploadIngots();
+			wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
+			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+			wikiMaker.createIngots();
 			wikiMaker.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -103,16 +153,21 @@ public class WikiMaker {
 		this.wiki.login(username, password);
 		this.editSummary = PolycraftMod.MODID + " " + PolycraftMod.VERSION;
 		this.overwritePages = overwritePages;
+		this.recipesByIngredientContainerType = PolycraftMod.recipeManager.getRecipesByIngredientContainerType();
 	}
 
 	private void close() {
 		wiki.logout();
 	}
 
+	private static String getTextureImageName(final String texture) {
+		return Character.toUpperCase(texture.charAt(0)) + texture.substring(1).toLowerCase().replaceAll(" ", "_") + "." + IMAGE_EXTENSION;
+	}
+
 	/**
 	 * Uploads the images in the given paths to the wikipedia site. Will overwrite any existing images.
 	 */
-	private void uploadImages(final String[] paths) throws IOException, LoginException {
+	private void createImages(final String[] paths) throws IOException, LoginException {
 		for (final String path : paths)
 			for (final File imageFile : new File(path).listFiles())
 				uploadImage(imageFile);
@@ -151,29 +206,27 @@ public class WikiMaker {
 		}
 	}
 
-	private static String createFurnaceGrid(
-			final String inputName, final String inputLink,
-			final String fuelName, final String fuelLink,
-			final String outputName, final String outputLink) {
-		final StringBuilder furnace = new StringBuilder(createHeading(3, "Smelting"));
-		furnace.append(WIKI_NEWLINE);
-		furnace.append("{{Grid/Furnace").append(WIKI_NEWLINE);
-		furnace.append("|A1=").append(inputName).append("|A1-link=").append(inputLink).append(WIKI_NEWLINE);
-		furnace.append("|A2=").append(fuelName).append("|A2-link=").append(fuelLink).append(WIKI_NEWLINE);
-		furnace.append("|Output=").append(outputName).append("|Output-link=").append(outputLink).append(WIKI_NEWLINE);
-		furnace.append("}}").append(WIKI_NEWLINE);
-		return furnace.toString();
+	private boolean createRecipesGrid(final String pageName, final ItemStack ingredient) throws LoginException, IOException {
+		final Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainerType = recipesByIngredientContainerType.get(PolycraftRegistry.itemOrBlockByItem.get(ingredient.getItem()));
+		if (recipesByContainerType != null) {
+			final StringBuilder page = new StringBuilder(createHeading(2, Section.Recipes.heading));
+			for (final Entry<PolycraftContainerType, Set<PolycraftRecipe>> recipeEntry : recipesByContainerType.entrySet()) {
+				page.append(WIKI_NEWLINE).append(createHeading(3, recipeEntry.getKey().toString()));
+				for (final PolycraftRecipe recipe : recipeEntry.getValue())
+					page.append(WIKI_NEWLINE).append(WIKI_NEWLINE).append(getRecipeGrid(recipe));
+			}
+			//TODO section update isn't working? it just adds another section...
+			wiki.edit(pageName, page.toString(), editSummary, Section.Recipes.ordinal());
+			return true;
+		}
+		return false;
 	}
 
-	private void uploadIngots() throws LoginException, IOException {
+	private void createIngots() throws LoginException, IOException {
 		for (final Ingot ingot : Ingot.registry.values()) {
-			if (createPage(ingot.name)) {
-				wiki.edit(ingot.name, createHeading(2, Section.Gallery.heading) + WIKI_NEWLINE + createLinkFile(ingot.name.toLowerCase() + "." + IMAGE_EXTENSION), editSummary, Section.Gallery.ordinal());
-				//TODO need to load recipes from recipe manager (populate hashmap by item so we can do a lookup)
-				//TODO correct hard coded reference to ore_element
-				//TODO correct hard coded reference to coal?
-				wiki.edit(ingot.name, createFurnaceGrid("ore_element", ingot.source.name, "coal", "Coal", ingot.name.toLowerCase(), ingot.name), editSummary, Section.Obtaining.ordinal());
-			}
+			createPage(ingot.name);
+			createRecipesGrid(ingot.name, ingot.getItemStack());
+			wiki.edit(ingot.name, createHeading(2, Section.Gallery.heading) + WIKI_NEWLINE + createLinkFile(getTextureImageName(getTexture(ingot.getItemStack()))), editSummary, Section.Gallery.ordinal());
 		}
 		createListPageConfigs(Ingot.registry);
 	}

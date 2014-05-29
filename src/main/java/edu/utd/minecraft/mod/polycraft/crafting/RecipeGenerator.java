@@ -59,7 +59,7 @@ public class RecipeGenerator {
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			PolycraftMod.recipeManager.addShapelessRecipe(
-					PolycraftContainerType.FURNANCE,
+					PolycraftContainerType.FURNACE,
 					polymerBlock.getItemStack(),
 					ImmutableList.of(polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock)));
 			PolycraftMod.recipeManager.addShapelessRecipe(
@@ -261,7 +261,7 @@ public class RecipeGenerator {
 					logger.warn("Unable to find input item for smelting recipe ({}): {}", outputItemName, inputItemName);
 					continue;
 				}
-				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNANCE, outputItemStack, ImmutableList.of(inputItemStack));
+				PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNACE, outputItemStack, ImmutableList.of(inputItemStack));
 			}
 		}
 	}

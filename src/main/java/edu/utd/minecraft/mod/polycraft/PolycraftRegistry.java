@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -24,6 +23,8 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -100,9 +101,10 @@ public class PolycraftRegistry {
 
 	private static final Logger logger = LogManager.getLogger();
 
-	public static final Map<String, String> registryNames = new HashMap<String, String>();
-	public static final Map<String, Block> blocks = new HashMap<String, Block>();
-	public static final Map<String, Item> items = new HashMap<String, Item>();
+	public static final Map<String, String> registryNames = Maps.newHashMap();
+	public static final Map<String, Block> blocks = Maps.newHashMap();
+	public static final Map<String, Item> items = Maps.newHashMap();
+	public static final Map<Item, Object> itemOrBlockByItem = Maps.newHashMap();
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryNames.containsKey(registryName))
@@ -117,6 +119,16 @@ public class PolycraftRegistry {
 		final Block block = getBlock(name);
 		if (block != null)
 			return new ItemStack(block, size);
+		return null;
+	}
+
+	public static Object getItemOrBlock(final String name) {
+		final Item item = getItem(name);
+		if (item != null)
+			return item;
+		final Block block = getBlock(name);
+		if (block != null)
+			return block;
 		return null;
 	}
 
@@ -145,6 +157,7 @@ public class PolycraftRegistry {
 		block.setBlockName(registryName);
 		GameRegistry.registerBlock(block, registryName);
 		blocks.put(name, block);
+		itemOrBlockByItem.put(Item.getItemFromBlock(block), block);
 		return block;
 	}
 
@@ -159,6 +172,7 @@ public class PolycraftRegistry {
 		item.setUnlocalizedName(registryName);
 		GameRegistry.registerItem(item, registryName);
 		items.put(name, item);
+		itemOrBlockByItem.put(item, item);
 		return item;
 	}
 
@@ -171,6 +185,7 @@ public class PolycraftRegistry {
 		final Item itemBlock = Item.getItemFromBlock(block);
 		itemBlock.setUnlocalizedName(itemBlockGameID);
 		items.put(itemBlockName, itemBlock);
+		itemOrBlockByItem.put(itemBlock, block);
 
 		return block;
 	}
@@ -202,7 +217,8 @@ public class PolycraftRegistry {
 				logger.warn("Missing item: {}", minecraftItem.name);
 			else {
 				logger.debug("Found item: {}", minecraftItem.name);
-				PolycraftRegistry.items.put(minecraftItem.name, item);
+				items.put(minecraftItem.name, item);
+				itemOrBlockByItem.put(item, item);
 			}
 		}
 	}
@@ -214,7 +230,8 @@ public class PolycraftRegistry {
 				logger.warn("Missing block: {}", minecraftBlock.name);
 			else {
 				logger.debug("Found block: {}", minecraftBlock.name);
-				PolycraftRegistry.blocks.put(minecraftBlock.name, block);
+				blocks.put(minecraftBlock.name, block);
+				itemOrBlockByItem.put(Item.getItemFromBlock(block), block);
 			}
 		}
 	}
@@ -243,60 +260,60 @@ public class PolycraftRegistry {
 
 	private static void registerOres() {
 		for (final Ore ore : Ore.registry.values())
-			PolycraftRegistry.registerBlock(ore, new BlockOre(ore));
+			registerBlock(ore, new BlockOre(ore));
 	}
 
 	private static void registerIngots() {
 		for (final Ingot ingot : Ingot.registry.values())
-			PolycraftRegistry.registerItem(ingot, new ItemIngot(ingot));
+			registerItem(ingot, new ItemIngot(ingot));
 	}
 
 	private static void registerCompressedBlocks() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-			PolycraftRegistry.registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
+			registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
 	}
 
 	private static void registerCatalysts() {
 		for (final Catalyst catalyst : Catalyst.registry.values())
-			PolycraftRegistry.registerItem(catalyst, new ItemCatalyst(catalyst));
+			registerItem(catalyst, new ItemCatalyst(catalyst));
 	}
 
 	private static void registerVessels() {
 		for (final CompoundVessel vessel : CompoundVessel.registry.values())
-			PolycraftRegistry.registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
+			registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 	}
 
 	private static void registerPolymers() {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
-			PolycraftRegistry.registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
+			registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 
 		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
-			PolycraftRegistry.registerItem(polymerFibers, new ItemFibers());
+			registerItem(polymerFibers, new ItemFibers());
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			final BlockPolymer block = new BlockPolymer(polymerBlock);
-			PolycraftRegistry.registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
+			registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
 					ItemPolymerBlock.class, new Object[] {});
 		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
 			final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
-			PolycraftRegistry.registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
+			registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
 					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
-			PolycraftRegistry.registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
+			registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
 					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
 		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 15);
-			PolycraftRegistry.registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
+			registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
 					ItemPolymerStairs.class, new Object[] {});
 		}
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
 			final BlockWall wall = new BlockPolymerWall(polymerWall);
-			PolycraftRegistry.registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+			registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
 					ItemPolymerWall.class, new Object[] {});
 		}
 
@@ -304,7 +321,7 @@ public class PolycraftRegistry {
 
 	private static void registerMolds() {
 		for (final Mold mold : Mold.registry.values())
-			PolycraftRegistry.registerItem(mold, new ItemMold(mold));
+			registerItem(mold, new ItemMold(mold));
 	}
 
 	private static void registerMoldedItems() {
@@ -318,18 +335,18 @@ public class PolycraftRegistry {
 				item = new ItemScubaMask(moldedItem);
 			else
 				item = new ItemMoldedItem(moldedItem);
-			PolycraftRegistry.registerItem(moldedItem, item);
+			registerItem(moldedItem, item);
 		}
 	}
 
 	private static void registerGrippedTools() {
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
-			PolycraftRegistry.registerItem(grippedTool, ItemGripped.create(grippedTool));
+			registerItem(grippedTool, ItemGripped.create(grippedTool));
 	}
 
 	private static void registerPogoSticks() {
 		for (final PogoStick pogoStick : PogoStick.registry.values())
-			PolycraftRegistry.registerItem(pogoStick, new ItemPogoStick(pogoStick));
+			registerItem(pogoStick, new ItemPogoStick(pogoStick));
 	}
 
 	private static void registerInventories() {
@@ -357,13 +374,13 @@ public class PolycraftRegistry {
 
 	private static void registerCustom() {
 		final InternalObject light = InternalObject.registry.get("Light");
-		PolycraftMod.blockLight = PolycraftRegistry.registerBlock(light, new BlockLight(1.0f));
+		PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
 
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
 
-		PolycraftMod.blockOil = PolycraftRegistry.registerBlock(oil,
+		PolycraftMod.blockOil = registerBlock(oil,
 				new BlockFluid(fluidOil, Material.water)
 						.setFlammable(true)
 						.setFlammability(PolycraftMod.oilBlockFlammability)
@@ -372,7 +389,7 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
 			if ("3m".equals(customObject.gameID)) {
-				final Item itemBucketOil = PolycraftRegistry.registerItem(customObject,
+				final Item itemBucketOil = registerItem(customObject,
 						new PolycraftBucket(PolycraftMod.blockOil)
 								.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
 				FluidContainerRegistry.registerFluidContainer(
@@ -383,29 +400,29 @@ public class PolycraftRegistry {
 				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 			}
 			else if ("3n".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemFlameThrower(customObject));
+				registerItem(customObject, new ItemFlameThrower(customObject));
 			}
 			else if ("3o".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemFlashlight(customObject));
+				registerItem(customObject, new ItemFlashlight(customObject));
 			}
 			else if ("3p".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemJetPack(customObject));
+				registerItem(customObject, new ItemJetPack(customObject));
 			}
 			else if ("5a".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemParachute(customObject));
+				registerItem(customObject, new ItemParachute(customObject));
 			}
 			else if ("3r".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemPhaseShifter(customObject));
+				registerItem(customObject, new ItemPhaseShifter(customObject));
 			}
 			else if ("3x".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemScubaTank(customObject));
+				registerItem(customObject, new ItemScubaTank(customObject));
 			}
 			else if ("5b".equals(customObject.gameID)) {
-				PolycraftRegistry.registerItem(customObject, new ItemKevlarVest(customObject));
+				registerItem(customObject, new ItemKevlarVest(customObject));
 			}
 			else
 				// TODO should we throw an exception if we don't have a true custom item (needed an implentation)
-				PolycraftRegistry.registerItem(customObject, new ItemCustom(customObject));
+				registerItem(customObject, new ItemCustom(customObject));
 		}
 	}
 

@@ -162,7 +162,7 @@ public class PolycraftModWikiMaker {
 		WriteLine("'recipes': [");
 		Indent();
 
-		Collection<PolycraftRecipe> allRecipes = recipeManager.getAllRecipies();
+		Collection<PolycraftRecipe> allRecipes = recipeManager.getAllRecipes();
 		for (PolycraftRecipe recipe : allRecipes) {
 			WriteString("container", recipe.getContainerType().name());
 

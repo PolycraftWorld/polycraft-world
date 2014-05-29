@@ -14,6 +14,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 
 public class BlockOre extends net.minecraft.block.BlockOre {
 
+	private final Random rand = new Random();
 	public final Ore ore;
 	private final LabelTexture labelTexture;
 
@@ -25,8 +26,6 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 		this.setResistance(ore.resistance);
 		this.setStepSound(Block.soundTypePiston);
 	}
-
-	private final Random rand = new Random();
 
 	@Override
 	public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_) {

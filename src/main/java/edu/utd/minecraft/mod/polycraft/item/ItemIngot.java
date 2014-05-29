@@ -7,7 +7,10 @@ import edu.utd.minecraft.mod.polycraft.config.Ingot;
 
 public class ItemIngot extends Item implements PolycraftItem {
 
+	public final Ingot ingot;
+
 	public ItemIngot(final Ingot ingot) {
+		this.ingot = ingot;
 		this.setCreativeTab(CreativeTabs.tabMaterials);
 		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(ingot.name)));
 	}

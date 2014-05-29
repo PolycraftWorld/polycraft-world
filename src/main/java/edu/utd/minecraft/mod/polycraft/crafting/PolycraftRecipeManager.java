@@ -10,6 +10,7 @@ import java.util.Set;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -29,6 +30,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.util.SetMap;
 
@@ -50,7 +52,7 @@ public class PolycraftRecipeManager {
 		}
 
 		public static Set<RecipeComponent> getComponentsFromInventory(IInventory inventory) {
-			Set<RecipeComponent> inputs = Sets.newHashSet();
+			Set<RecipeComponent> inputs = Sets.newLinkedHashSet();
 			for (int i = 0; i < inventory.getSizeInventory(); ++i) {
 				ItemStack itemStack = inventory.getStackInSlot(i);
 				if (itemStack != null) {
@@ -105,10 +107,10 @@ public class PolycraftRecipeManager {
 
 	}
 
-	private final Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainer = Maps.newHashMap();
+	private final Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainer = Maps.newLinkedHashMap();
 
-	private final Map<PolycraftContainerType, SetMap<RecipeComponent, PolycraftRecipe>> shapedRecipesByContainer = Maps.newHashMap();
-	private final Map<PolycraftContainerType, SetMap<String, PolycraftRecipe>> shapelessRecipesByContainer = Maps.newHashMap();
+	private final Map<PolycraftContainerType, SetMap<RecipeComponent, PolycraftRecipe>> shapedRecipesByContainer = Maps.newLinkedHashMap();
+	private final Map<PolycraftContainerType, SetMap<String, PolycraftRecipe>> shapelessRecipesByContainer = Maps.newLinkedHashMap();
 
 	@SuppressWarnings("unchecked")
 	public PolycraftRecipeManager() {
@@ -122,12 +124,41 @@ public class PolycraftRecipeManager {
 	/**
 	 * @return All recipes known to the Recipe manager.
 	 */
-	public Collection<PolycraftRecipe> getAllRecipies() {
+	public Collection<PolycraftRecipe> getAllRecipes() {
 		List<PolycraftRecipe> recipes = Lists.newArrayList();
 		for (PolycraftContainerType container : recipesByContainer.keySet()) {
 			recipes.addAll(recipesByContainer.get(container));
 		}
 		return recipes;
+	}
+
+	/**
+	 * @return All recipes known to the Recipe manager by each ingredient, and further by container type
+	 */
+	public Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> getRecipesByIngredientContainerType() {
+		final Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> recipesByIngredientContainerType = Maps.newLinkedHashMap();
+		for (final PolycraftContainerType containerType : recipesByContainer.keySet()) {
+			for (final PolycraftRecipe recipe : recipesByContainer.get(containerType)) {
+				for (final RecipeInput recipeInput : recipe.getInputs()) {
+					for (final ItemStack input : recipeInput.inputs)
+						addIngredientRecipe(recipesByIngredientContainerType, input.getItem(), recipe);
+					for (final RecipeComponent output : recipe.getOutputs(null))
+						addIngredientRecipe(recipesByIngredientContainerType, output.itemStack.getItem(), recipe);
+				}
+			}
+		}
+		return recipesByIngredientContainerType;
+	}
+
+	private static void addIngredientRecipe(final Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> recipesByIngredientContainerType,
+			final Item ingredient, final PolycraftRecipe recipe) {
+		Map<PolycraftContainerType, Set<PolycraftRecipe>> containerTypeRecipes = recipesByIngredientContainerType.get(PolycraftRegistry.itemOrBlockByItem.get(ingredient));
+		if (containerTypeRecipes == null)
+			recipesByIngredientContainerType.put(ingredient, containerTypeRecipes = Maps.newLinkedHashMap());
+		Set<PolycraftRecipe> ingredientRecipes = containerTypeRecipes.get(recipe.getContainerType());
+		if (ingredientRecipes == null)
+			containerTypeRecipes.put(recipe.getContainerType(), ingredientRecipes = Sets.newLinkedHashSet());
+		ingredientRecipes.add(recipe);
 	}
 
 	/**
@@ -153,7 +184,7 @@ public class PolycraftRecipeManager {
 		final Collection<Set<RecipeComponent>> shapelessCombinations = recipe.getShapelessCombinations();
 		if (shapelessCombinations.size() != 0) {
 			for (final Set<RecipeComponent> inputs : shapelessCombinations) {
-				Set<String> itemSet = Sets.newHashSet();
+				Set<String> itemSet = Sets.newLinkedHashSet();
 				for (final RecipeComponent input : inputs) {
 					itemSet.add(input.itemStack.getItem().toString());
 				}
@@ -180,7 +211,7 @@ public class PolycraftRecipeManager {
 	 */
 	private static Set<RecipeComponent> shiftInputs(final PolycraftContainerType containerType,
 			final Set<RecipeComponent> inputs, final int dX, final int dY) {
-		Set<RecipeComponent> newInputs = Sets.newHashSet();
+		Set<RecipeComponent> newInputs = Sets.newLinkedHashSet();
 		for (RecipeComponent inputComponent : inputs) {
 			// Make sure the container slot is from the container itself, so relative x and y are right
 			ContainerSlot usedSlot = containerType.getContainerSlotByIndex(inputComponent.slot);
@@ -248,7 +279,7 @@ public class PolycraftRecipeManager {
 		if (!recipesByContainer.containsKey(container)) {
 			return null;
 		}
-		Set<String> itemSet = Sets.newHashSet();
+		Set<String> itemSet = Sets.newLinkedHashSet();
 		for (final RecipeComponent input : inputs) {
 			itemSet.add(input.itemStack.getItem().toString());
 		}
@@ -354,7 +385,7 @@ public class PolycraftRecipeManager {
 		PolycraftRecipe newRecipe = new PolycraftRecipe(containerType, recipeInputs,
 				ImmutableList.of(new RecipeComponent(firstOutput, resultItem)), experience);
 
-		if (containerType.equals(PolycraftContainerType.FURNANCE)) {
+		if (containerType.equals(PolycraftContainerType.FURNACE)) {
 			Preconditions.checkArgument(newRecipe.getInputCount() == 1, "Furnace recipes may only have one input!");
 			ItemStack singleInput = inputItems.iterator().next();
 			GameRegistry.addSmelting(singleInput, resultItem, (float) experience);
@@ -470,7 +501,7 @@ public class PolycraftRecipeManager {
 		Preconditions.checkArgument(itemStackMap.size() != 0, "No input items were specified");
 
 		// Map letters to items and place them in a map
-		Set<RecipeInput> recipeInputs = Sets.newHashSet();
+		Set<RecipeInput> recipeInputs = Sets.newLinkedHashSet();
 		ContainerSlot[][] inputGrid = containerType.getContainerSlotGrid(SlotType.INPUT);
 		Preconditions.checkArgument(inputGrid.length != 0, "Input Container type has not slots defined!");
 		for (int y = 0; y < inputShape.length; ++y) {
@@ -502,7 +533,7 @@ public class PolycraftRecipeManager {
 		this.addRecipe(newRecipe);
 
 		// Add to Forge's GameRegistry if necessary
-		if (containerType.equals(PolycraftContainerType.FURNANCE)) {
+		if (containerType.equals(PolycraftContainerType.FURNACE)) {
 			Preconditions.checkArgument(newRecipe.getInputCount() == 1, "Furnace recipes may only have one input!");
 			ItemStack singleInput = itemStackMap.values().iterator().next();
 			GameRegistry.addSmelting(singleInput, resultItems.iterator().next(), (float) experience);
