@@ -2,93 +2,331 @@ package edu.utd.minecraft.mod.polycraft.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wikipedia.Wiki;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.config.Alloy;
+import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.Element;
+import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
+import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
+import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
+import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
+import edu.utd.minecraft.mod.polycraft.config.Mineral;
+import edu.utd.minecraft.mod.polycraft.config.Mold;
+import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
+import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.config.PogoStick;
+import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
+import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
+import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
+import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
+import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
+import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
+import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
+import edu.utd.minecraft.mod.polycraft.crafting.RecipeSlot;
+import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 
 public class WikiMaker {
 
 	private static final Logger logger = LogManager.getLogger();
+	private static final NumberFormat numFormat = NumberFormat.getInstance();
 
+	private static final String WIKIPEDIA_SEARCH = "http://en.wikipedia.org/wiki/Special:Search/";
+	private static final String MINECRAFT_WIKI = "http://minecraft.gamepedia.com/";
 	private static final String CONFIG_DIRECTORY = "src/main/resources/config";
 	private static final String IMAGE_EXTENSION = "png";
 	private static final String MINECRAFT_TEXTURES_DIRECTORY = "build/tmp/recompSrc/assets/minecraft/textures";
 	private static final String[] MINECRAFT_TEXTURES_DIRECTORIES = new String[] {
-			//TODO uncomment to enable upload
-			//MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
-			//MINECRAFT_TEXTURES_DIRECTORY + "/items",
-			//MINECRAFT_TEXTURES_DIRECTORY + "/armor",
-			};
+			MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
+			MINECRAFT_TEXTURES_DIRECTORY + "/items",
+			MINECRAFT_TEXTURES_DIRECTORY + "/armor",
+	};
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-			//TODO uncomment to enable upload
-			//POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
-			//POLYCRAFT_TEXTURES_DIRECTORY + "/items",
-			//POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
-			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
-			};
+			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
+			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
+	};
 	private static final String WIKI_NEWLINE = "\n";
 
-	private enum Section {
-		Description, Recipes, History, Gallery, References;
+	private enum PageSectionItem {
+		Description, External, Recipes, History, Gallery, References;
 
 		public final String heading;
 
-		private Section() {
+		private PageSectionItem() {
 			this.heading = this.toString();
 		}
 
-		private Section(final String heading) {
+		private PageSectionItem(final String heading) {
 			this.heading = heading;
 		}
 	};
 
+	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
+		try {
+			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
+			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
+			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
+			//wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
+			/*
+			wikiMaker.createFuelPage();
+			wikiMaker.createItemTypesPage(ImmutableList.of(
+					Ore.class, Ingot.class, Catalyst.class, CompoundVessel.class,
+					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
+					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
+			*/
+			/*
+			wikiMaker.createItemPages(Ore.registry);
+			wikiMaker.createItemPages(Ingot.registry);
+			wikiMaker.createItemPages(Catalyst.registry);
+			wikiMaker.createItemPages(CompoundVessel.registry);
+			wikiMaker.createItemPages(PolymerPellets.registry);
+			wikiMaker.createItemPages(PolymerFibers.registry);
+			wikiMaker.createItemPages(PolymerBlock.registry);
+			wikiMaker.createItemPages(PolymerSlab.registry);
+			wikiMaker.createItemPages(PolymerStairs.registry);
+			wikiMaker.createItemPages(PolymerWall.registry);
+			wikiMaker.createItemPages(Mold.registry);
+			wikiMaker.createItemPages(MoldedItem.registry);
+			*/
+			wikiMaker.createItemPages(GrippedTool.registry);
+			wikiMaker.createItemPages(PogoStick.registry);
+			wikiMaker.createItemPages(Inventory.registry);
+			wikiMaker.createItemPages(CustomObject.registry);
+			wikiMaker.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logger.error("Failed: {}", ex.getMessage());
+		}
+	}
+
 	private static String[] HEADING_FORMATS = new String[] {
-			"== %s ==",
-			"=== %s ===",
-			"==== %s ====",
-			"===== %s =====",
-			"====== %s ======",
+			"=%s=" + WIKI_NEWLINE,
+			"==%s==" + WIKI_NEWLINE,
+			"===%s===" + WIKI_NEWLINE,
+			"====%s====" + WIKI_NEWLINE,
+			"=====%s=====" + WIKI_NEWLINE,
+			"======%s======" + WIKI_NEWLINE,
 	};
 
-	private static String createHeading(final int level, final String text) {
-		return String.format(HEADING_FORMATS[level - 2], text);
+	private static String getHeading(final int level, final String text) {
+		return String.format(HEADING_FORMATS[level - 1], text);
 	}
 
-	private static String LINK_FORMAT = "[[%s]]";
-
-	private static String createLink(final String location) {
-		return String.format(LINK_FORMAT, location);
+	private static String getItemStackLocation(final ItemStack itemStack) {
+		if (PolycraftRegistry.minecraftItems.contains(itemStack.getItem()))
+			return MINECRAFT_WIKI + itemStack.getDisplayName();
+		return itemStack.getDisplayName();
 	}
 
-	private static String LINK_FORMAT_ALT = "[[%s|%s]]";
-
-	private static String createLink(final String location, final String text) {
-		return String.format(LINK_FORMAT_ALT, location, text);
+	private static String getConfigLocation(Config config) {
+		if (config instanceof Fuel)
+			config = ((Fuel) config).source;
+		if (config instanceof GameIdentifiedConfig)
+			return config.name;
+		if (config instanceof Element || config instanceof Compound || config instanceof Mineral || config instanceof Alloy || config instanceof Polymer)
+			return WIKIPEDIA_SEARCH + config.name;
+		if (config instanceof MinecraftItem || config instanceof MinecraftBlock)
+			return MINECRAFT_WIKI + config.name;
+		throw new Error("Config has no location!");
 	}
 
-	private static String createLinkFile(final String file) {
-		return createLink("File:" + file);
+	private static String getUrlHost(final String url) {
+		URL netUrl = null;
+		try {
+			netUrl = new URL(url);
+		} catch (final MalformedURLException e) {
+			e.printStackTrace();
+		}
+		String host = netUrl.getHost();
+		if (host.startsWith("www")) {
+			host = host.substring("www".length() + 1);
+		}
+		return host;
+	}
+
+	private static boolean isExternalLocation(final String location) {
+		return location.startsWith("http");
+	}
+
+	private static String LINK_INTERNAL_FORMAT = "[[%s]]";
+	private static String LINK_EXTERNAL_FORMAT = "[%s]";
+
+	private static String getLink(final String location) {
+		if (isExternalLocation(location))
+			return String.format(LINK_EXTERNAL_FORMAT, location.replaceAll(" ", "%20"));
+		return String.format(LINK_INTERNAL_FORMAT, location);
+	}
+
+	private static String getLink(final Config config) {
+		return getLink(getConfigLocation(config), config.name);
+	}
+
+	private static String LINK_INTERNAL_FORMAT_ALT = "[[%s|%s]]";
+	private static String LINK_EXTERNAL_FORMAT_ALT = "[%s %s]";
+
+	private static String getLink(final String location, final String text) {
+		if (isExternalLocation(location))
+			return String.format(LINK_EXTERNAL_FORMAT_ALT, location.replaceAll(" ", "%20"), text);
+		return String.format(LINK_INTERNAL_FORMAT_ALT, location, text);
+	}
+
+	private static String getLinkCategory(final String category) {
+		return getLink(":Category:" + category, category);
+	}
+
+	private static String getLinkFile(final String file) {
+		return getLink("File:" + file);
+	}
+
+	private static String LINK_FORMAT_IMAGE_ALT = "[[Image:%s|link=%s|%dpx|alt=%s|%s]]";
+
+	private static String getLinkImage(final String location, final String image) {
+		return getLinkImage(location, image, 32);
+	}
+
+	private static String getLinkImage(final String location, final String image, int size) {
+		return getLinkImage(location, image, location, location, size);
+	}
+
+	private static String getLinkImage(final String text, final String image, final String location, final String alt, final int size) {
+		return String.format(LINK_FORMAT_IMAGE_ALT, image, location, size, alt, text);
+	}
+
+	private static String CATEGORY_FORMAT_ = "[[Category:%s]]";
+
+	private static String getCategory(final String category) {
+		return String.format(CATEGORY_FORMAT_, category);
+	}
+
+	private static Collection<String> getCategories(final Config config) {
+		return getCategories(config, 0);
+	}
+
+	private static Collection<String> getAllCategories(final Config config) {
+		return getCategories(config, -1);
+	}
+
+	private static Collection<String> getCategories(final Config config, final int maxDepth) {
+		return getCategories(config, maxDepth, 0);
+	}
+
+	private static Collection<String> getCategories(final Config config, final int maxDepth, final int depth) {
+		final Collection categories = Sets.newLinkedHashSet();
+		categories.add(getTitle(config.getClass(), false));
+		if (config instanceof SourcedConfig) {
+			if (config instanceof SourcedVesselConfig) {
+				categories.add("Vessel");
+				categories.add(getTitle(((SourcedVesselConfig) config).vesselType.toString(), false));
+			}
+			if (maxDepth == -1 || depth < maxDepth) {
+				final Config source = ((SourcedConfig) config).source;
+				if (source != null) {
+					categories.add(source.name);
+					categories.addAll(getCategories(source, maxDepth, depth + 1));
+				}
+			}
+		}
+		return categories;
+	}
+
+	private static String getCategoriesAsString(final Collection<String> categories) {
+		final StringBuilder categoriesString = new StringBuilder();
+		for (final String category : categories)
+			categoriesString.append(WIKI_NEWLINE).append(getCategory(category));
+		return categoriesString.toString();
+	}
+
+	private static String getTitle(final Class type, final boolean plural) {
+		return getTitle(type.getSimpleName(), plural);
+	}
+
+	private static String getTitle(final String camelTitle, final boolean plural) {
+		final StringBuilder title = new StringBuilder(camelTitle);
+		for (int i = 1; i < title.length(); i++) {
+			if (Character.isLetter(title.charAt(i)) && Character.isUpperCase(title.charAt(i))) {
+				title.insert(i, ' ');
+				i++;
+			}
+			if (plural && i == title.length() - 1) {
+				if (title.charAt(i) == 'y') {
+					title.deleteCharAt(i);
+					title.append("ies");
+					break;
+				}
+				if (title.charAt(i) != 's') {
+					title.append('s');
+					break;
+				}
+			}
+		}
+		return title.toString();
+	}
+
+	private static final String LIST_OF_TYPE_FORMAT = "List of %s";
+
+	private static String getListOfTypeTitle(final Class type) {
+		return String.format(LIST_OF_TYPE_FORMAT, getTitle(type, true));
+	}
+
+	private static final String TABLE_FORMAT = "{| class=\"wikitable%s%s\"%s|}";
+
+	private static String getTable(final Collection<String> headers, final Collection<Collection<String>> data) {
+		return getTable(headers, data, true, true);
+	}
+
+	private static String getTable(final Collection<String> headers, final Collection<Collection<String>> data, final boolean sortable, final boolean collapsible) {
+		final StringBuilder table = new StringBuilder();
+		table.append(WIKI_NEWLINE).append("|-");
+		for (final String header : headers)
+			table.append(WIKI_NEWLINE).append("! ").append(header);
+		for (final Collection<String> row : data) {
+			table.append(WIKI_NEWLINE).append("|-");
+			for (final String cell : row)
+				table.append(WIKI_NEWLINE).append("| ").append(cell);
+		}
+		table.append(WIKI_NEWLINE);
+		return String.format(TABLE_FORMAT, sortable ? " sortable" : "", collapsible ? " collapsible" : "", table.toString());
 	}
 
 	private static final String RECIPE_CELL_FORMAT = "|SLOT-%1$s=%2$s|SLOT-%1$s-image=%3$s|SLOT-%1$s-link=%4$s";
@@ -101,7 +339,7 @@ public class WikiMaker {
 	}
 
 	private static String getRecipeCell(final int slotIndex, final ItemStack itemStack) {
-		return getRecipeCell(slotIndex, itemStack.getDisplayName(), itemStack.stackSize, getTextureImageName(getTexture(itemStack)), itemStack.getDisplayName());
+		return getRecipeCell(slotIndex, itemStack.getDisplayName(), itemStack.stackSize, getTextureImageName(getTexture(itemStack)), getItemStackLocation(itemStack));
 	}
 
 	private static final String GRID_TEMPLATE_FORMAT = "{{Grid/%1$s%2$s%3$s}}";
@@ -110,43 +348,59 @@ public class WikiMaker {
 		return String.format(GRID_TEMPLATE_FORMAT, containerType.toString().replaceAll(" ", "_"), content, WIKI_NEWLINE);
 	}
 
-	private static String getRecipeGrid(final PolycraftRecipe recipe) {
+	private static Collection<String> getRecipeGridRow(final PolycraftRecipe recipe) {
+		final Collection<String> row = Lists.newLinkedList();
 		final StringBuilder grid = new StringBuilder();
-		for (final RecipeInput input : recipe.getInputs())
-			for (final ItemStack inputStack : input.inputs)
-				grid.append(WIKI_NEWLINE).append(getRecipeCell(input.slot.getSlotIndex(), inputStack));
-		for (final RecipeComponent output : recipe.getOutputs(null))
+		final Map<String, String> inputs = Maps.newLinkedHashMap();
+		final LinkedList<ContainerSlot> intputSlots = Lists.newLinkedList();
+		intputSlots.addAll(recipe.getContainerType().getSlots(SlotType.INPUT));
+		for (final RecipeInput input : recipe.getInputs()) {
+			for (final ItemStack inputStack : input.inputs) {
+				inputs.put(inputStack.getDisplayName(), getItemStackLocation(inputStack));
+				int slotIndex = input.slot.getSlotIndex();
+				if (slotIndex == RecipeSlot.ANY.slotIndex)
+					slotIndex = intputSlots.remove().getSlotIndex();
+				grid.append(WIKI_NEWLINE).append(getRecipeCell(slotIndex, inputStack));
+			}
+		}
+		final Map<String, String> outputs = Maps.newLinkedHashMap();
+		for (final RecipeComponent output : recipe.getOutputs(null)) {
+			outputs.put(output.itemStack.getDisplayName(), getItemStackLocation(output.itemStack));
 			grid.append(WIKI_NEWLINE).append(getRecipeCell(output.slot.getSlotIndex(), output.itemStack));
+		}
 		if (!recipe.isShapedOnly())
 			grid.append(WIKI_NEWLINE).append("|").append("Shapeless=Yes");
-		return getGridTemplate(recipe.getContainerType(), grid.toString());
+		final StringBuilder inputList = new StringBuilder();
+		for (final Entry<String, String> input : inputs.entrySet())
+			inputList.append(WIKI_NEWLINE).append("* ").append(getLink(input.getValue(), input.getKey()));
+		final StringBuilder outputList = new StringBuilder();
+		for (final Entry<String, String> output : outputs.entrySet())
+			outputList.append(WIKI_NEWLINE).append("* ").append(getLink(output.getValue(), output.getKey()));
+		row.add(inputList.toString());
+		row.add(outputList.toString());
+		row.add(getGridTemplate(recipe.getContainerType(), grid.toString()));
+		return row;
+	}
+
+	private static <C extends GameIdentifiedConfig> String getTexture(C config) {
+		return config instanceof Inventory ? "gui_" + config.name : getTexture(config.getItemStack());
 	}
 
 	private static String getTexture(final ItemStack itemStack) {
-		final String iconName = itemStack.getItem().getIcon(itemStack, 0).getIconName();
+		String iconName = itemStack.getItem().getIcon(itemStack, 0).getIconName();
 		final int namespaceIndex = iconName.indexOf(":");
 		if (namespaceIndex > -1)
-			return iconName.substring(namespaceIndex + 1);
+			iconName = iconName.substring(namespaceIndex + 1);
+		final int colorIndex = iconName.indexOf("_black");
+		if (colorIndex > -1)
+			iconName = iconName.replace("_black", "_white");
 		return iconName;
 	}
 
-	private final Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> recipesByIngredientContainerType;
+	private final Map<Object, Map<PolycraftContainerType, Collection<PolycraftRecipe>>> recipesByIngredientContainerType;
 	private final Wiki wiki;
 	private final String editSummary;
 	private final boolean overwritePages;
-
-	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
-		try {
-			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
-			wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.createIngots();
-			wikiMaker.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Failed: {}", ex.getMessage());
-		}
-	}
 
 	public WikiMaker(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) throws FailedLoginException, IOException {
 		this.wiki = new Wiki(url, scriptPath);
@@ -181,53 +435,307 @@ public class WikiMaker {
 		}
 	}
 
-	private boolean createPage(final String title) throws LoginException, IOException {
-		if (overwritePages || !wiki.exists(new String[] { title })[0]) {
-			logger.info("{} page: {}", overwritePages ? "Overwriting" : "Creating", title);
+	private final Collection<String> FUEL_HEADERS = ImmutableList.of("Fuel", "Heat Intensity", "Heat Duration (secs)");
+
+	private void createFuelPage() throws LoginException, IOException {
+		final Collection<Collection<String>> data = Lists.newLinkedList();
+		for (final Entry<Item, QuantifiedFuel> fuelEntry : Fuel.quantifiedFuelsByItem.entrySet()) {
+			final Collection<String> row = Lists.newLinkedList();
+			final ItemStack fuelStack = new ItemStack(fuelEntry.getKey());
+			row.add(getLink(getItemStackLocation(fuelStack), fuelStack.getDisplayName()));
+			row.add(numFormat.format(fuelEntry.getValue().fuel.heatIntensity));
+			row.add(numFormat.format(fuelEntry.getValue().getHeatDuration()));
+			data.add(row);
+		}
+		wiki.edit(getListOfTypeTitle(Fuel.class), getTable(FUEL_HEADERS, data), editSummary);
+	}
+
+	private final Collection<String> RECIPE_GRID_HEADERS = ImmutableList.of("Inputs", "Outputs", "Recipe");
+
+	private boolean createSectionRecipesGrid(final ItemStack ingredient, final String pageName, final String sectionHeader, final int sectionIndex,
+			final PolycraftContainerType forceIncludeType) throws LoginException, IOException {
+		final Collection<PolycraftRecipe> forceIncludedRecipes = forceIncludeType == null ? null : PolycraftMod.recipeManager.getRecipesByContainerType(forceIncludeType);
+		final Map<PolycraftContainerType, Collection<PolycraftRecipe>> recipesByContainerType = recipesByIngredientContainerType.get(ingredient.getItem());
+		if (forceIncludedRecipes != null || recipesByContainerType != null) {
+			final StringBuilder page = new StringBuilder(getHeading(2, sectionHeader));
+			if (recipesByContainerType != null) {
+				for (final Entry<PolycraftContainerType, Collection<PolycraftRecipe>> recipeEntry : recipesByContainerType.entrySet()) {
+					final PolycraftContainerType containerType = recipeEntry.getKey();
+					if (containerType != forceIncludeType) {
+						page.append(WIKI_NEWLINE).append(getHeading(3, containerType.toString()));
+						final Collection<Collection<String>> data = Lists.newLinkedList();
+						for (final PolycraftRecipe recipe : recipeEntry.getValue())
+							data.add(getRecipeGridRow(recipe));
+						page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
+					}
+				}
+			}
+			if (forceIncludedRecipes != null) {
+				page.append(WIKI_NEWLINE).append(getHeading(3, forceIncludeType.toString()));
+				final Collection<Collection<String>> data = Lists.newLinkedList();
+				for (final PolycraftRecipe recipe : forceIncludedRecipes)
+					data.add(getRecipeGridRow(recipe));
+				page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
+			}
+			wiki.edit(pageName, page.toString(), editSummary, sectionIndex);
+			return true;
+		}
+		return false;
+	}
+
+	private void createRecipePage(final PolycraftContainerType containerType) throws LoginException, IOException {
+		final Collection<PolycraftRecipe> recipes = PolycraftMod.recipeManager.getRecipesByContainerType(containerType);
+		if (recipes != null) {
 			final StringBuilder page = new StringBuilder();
-			for (final Section section : Section.values())
-				page.append(createHeading(2, section.heading)).append(WIKI_NEWLINE);
+			final Collection<Collection<String>> data = Lists.newLinkedList();
+			for (final PolycraftRecipe recipe : recipes)
+				data.add(getRecipeGridRow(recipe));
+			page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
+			wiki.edit(containerType.toString(), page.toString(), editSummary);
+		}
+	}
+
+	private void createItemTypesPage(final Collection<Class<? extends GameIdentifiedConfig>> types) throws LoginException, IOException {
+		final StringBuilder list = new StringBuilder();
+		for (final Class<? extends GameIdentifiedConfig> type : types)
+			list.append(WIKI_NEWLINE).append("* ").append(getLink(getListOfTypeTitle(type), getTitle(type, true)));
+		wiki.edit("List of Item Types", list.toString(), editSummary);
+	}
+
+	private boolean gameIdentifiedConfigHasItem(final GameIdentifiedConfig config) {
+		if (config.getItemStack().getItem() == null) {
+			logger.warn("Unable to find item for: {}", config.name);
+			return false;
+		}
+		return true;
+	}
+
+	private <C extends GameIdentifiedConfig> void createItemPages(final ConfigRegistry<C> registry) throws LoginException, IOException {
+		createItemPageList(registry);
+		for (final C config : registry.values())
+			if (gameIdentifiedConfigHasItem(config))
+				createItemPage(config);
+	}
+
+	private <C extends GameIdentifiedConfig> void createItemPage(final C config) throws LoginException, IOException {
+		final String title = config.name;
+		int index = 1;
+		int recipeSectionIndex = -1;
+		if (overwritePages || !wiki.exists(new String[] { title })[0]) {
+			logger.info("{} item page: {}", overwritePages ? "Overwriting" : "Creating", title);
+			final StringBuilder page = new StringBuilder();
+			for (final PageSectionItem section : PageSectionItem.values()) {
+				if (section == PageSectionItem.External) {
+					if (config instanceof SourcedConfig) {
+						final Config source = ((SourcedConfig) config).source;
+						if (source != null) {
+							final String location = getConfigLocation(source);
+							if (isExternalLocation(location)) {
+								page.append(getHeading(2, section.heading));
+								page.append(getLink(location, source.name + " on " + getUrlHost(location))).append(WIKI_NEWLINE);
+							}
+						}
+					}
+				}
+				else {
+					page.append(getHeading(2, section.heading));
+					if (section == PageSectionItem.Gallery)
+						page.append(getLinkFile(getTextureImageName(getTexture(config)))).append(WIKI_NEWLINE);
+				}
+				if (section == PageSectionItem.Recipes)
+					recipeSectionIndex = index;
+				index++;
+			}
+			page.append(WIKI_NEWLINE).append(getCategoriesAsString(getAllCategories(config)));
 			wiki.edit(title, page.toString(), editSummary);
-			return true;
 		}
-		return false;
+		//TODO the section index could change due to sub sections!
+		createSectionRecipesGrid(config.getItemStack(), title, PageSectionItem.Recipes.heading, recipeSectionIndex,
+				config instanceof Inventory ? ((Inventory) config).containerType : null);
 	}
 
-	private <C extends Config> void createListPageConfigs(final ConfigRegistry<C> registry) throws LoginException, IOException {
-		if (registry.size() > 0) {
-			String title = null;
-			final StringBuilder list = new StringBuilder();
+	private <C extends GameIdentifiedConfig> void createItemPageList(final ConfigRegistry<C> registry) throws LoginException, IOException {
+		boolean isSourced = false;
+		boolean isVesseled = false;
+		Class type = null;
+		Class singleSourceType = null;
+		final Collection<String> categories = Sets.newLinkedHashSet();
+		for (final C config : registry.values()) {
+			if (gameIdentifiedConfigHasItem(config)) {
+				isSourced = (config instanceof SourcedConfig);
+				if (isSourced) {
+					final Config source = ((SourcedConfig) config).source;
+					if (source != null) {
+						final Class sourceType = source.getClass();
+						if (singleSourceType == null) {
+							if (type == null)
+								singleSourceType = sourceType;
+						}
+						else if (singleSourceType != sourceType)
+							singleSourceType = null;
+					}
+				}
+				if (type == null) {
+					type = config.getClass();
+					isVesseled = config instanceof SourcedVesselConfig;
+				}
+				categories.addAll(getCategories(config));
+			}
+		}
+
+		if (type != null) {
+			final Collection<String> headers = Lists.newLinkedList();
+			headers.add("ID");
+			headers.add("Icon");
+			headers.add(getTitle(type, false));
+			if (isSourced) {
+				if (singleSourceType == null) {
+					headers.add("Source");
+					headers.add("Type");
+				}
+				else {
+					headers.add(getTitle(singleSourceType, false));
+				}
+			}
+			if (isVesseled)
+				headers.add("Vessel");
+			addItemPageListCustomHeaders(type, headers);
+
+			final Collection<Collection<String>> data = Lists.newLinkedList();
 			for (final C config : registry.values()) {
-				if (title == null)
-					title = String.format("List of %ss", config.getClass().getSimpleName());
-				list.append(WIKI_NEWLINE).append("* ").append(createLink(config.name));
+				if (gameIdentifiedConfigHasItem(config)) {
+					final Collection<String> row = Lists.newLinkedList();
+					row.add(config.gameID);
+					if (config instanceof Inventory)
+						row.add(getLinkImage(config.name, getTextureImageName(getTexture(config)), 350));
+					else
+						row.add(getLinkImage(config.name, getTextureImageName(getTexture(config))));
+					row.add(getLink(config.name));
+					if (isSourced) {
+						final Config source = ((SourcedConfig) config).source;
+						if (singleSourceType == null) {
+							row.add(source == null ? "" : getLink(source));
+							row.add(source == null ? "" : getLinkCategory(getTitle(source.getClass(), false)));
+						}
+						else {
+							row.add(source == null ? "" : getLink(source));
+						}
+					}
+					if (isVesseled)
+						row.add(getLinkCategory(getTitle(((SourcedVesselConfig) config).vesselType.toString(), false)));
+					addItemPageListCustomRowData(config, row);
+					data.add(row);
+				}
 			}
-			wiki.edit(title, list.toString(), editSummary);
+			final StringBuilder page = new StringBuilder(getTable(headers, data));
+			page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
+			wiki.edit(getListOfTypeTitle(type), page.toString(), editSummary);
 		}
 	}
 
-	private boolean createRecipesGrid(final String pageName, final ItemStack ingredient) throws LoginException, IOException {
-		final Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainerType = recipesByIngredientContainerType.get(PolycraftRegistry.itemOrBlockByItem.get(ingredient.getItem()));
-		if (recipesByContainerType != null) {
-			final StringBuilder page = new StringBuilder(createHeading(2, Section.Recipes.heading));
-			for (final Entry<PolycraftContainerType, Set<PolycraftRecipe>> recipeEntry : recipesByContainerType.entrySet()) {
-				page.append(WIKI_NEWLINE).append(createHeading(3, recipeEntry.getKey().toString()));
-				for (final PolycraftRecipe recipe : recipeEntry.getValue())
-					page.append(WIKI_NEWLINE).append(WIKI_NEWLINE).append(getRecipeGrid(recipe));
-			}
-			//TODO section update isn't working? it just adds another section...
-			wiki.edit(pageName, page.toString(), editSummary, Section.Recipes.ordinal());
-			return true;
+	private void addItemPageListCustomHeaders(final Class type, final Collection<String> headers) {
+		//TODO move to somewhere that the details page has access to as well
+		if (type == Ore.class) {
+			headers.add("Hardness");
+			headers.add("Resistance");
+			headers.add("Veins Per Chunk");
+			headers.add("Blocks Per Vein");
+			headers.add("Depth Min");
+			headers.add("Depth Max");
 		}
-		return false;
+		else if (type == Ingot.class) {
+			headers.add("Mold Damage Per Use");
+		}
+		else if (type == PolymerPellets.class) {
+			headers.add("Crafting Min Heat Intensity");
+			headers.add("Crafting Max Heat Intensity");
+		}
+		else if (type == PolymerBlock.class) {
+			headers.add("Bounce Height");
+		}
+		else if (type == PolymerSlab.class) {
+			headers.add("Bounce Height");
+		}
+		else if (type == PolymerWall.class) {
+			headers.add("Bounce Height");
+		}
+		else if (type == PolymerStairs.class) {
+			headers.add("Bounce Height");
+		}
+		else if (type == Mold.class) {
+			headers.add("Crafting Max Damage");
+		}
+		else if (type == MoldedItem.class) {
+			headers.add("Crafting Pellets");
+			headers.add("Crafting Duration (secs)");
+		}
+		else if (type == GrippedTool.class) {
+			headers.add("Durability Buff");
+			headers.add("Speed Buff");
+		}
+		else if (type == PogoStick.class) {
+			headers.add("Max Bounces");
+			headers.add("Stable Bounce Height");
+			headers.add("Jump Movement Buff");
+			headers.add("Restrict Jump to Ground");
+		}
 	}
 
-	private void createIngots() throws LoginException, IOException {
-		for (final Ingot ingot : Ingot.registry.values()) {
-			createPage(ingot.name);
-			createRecipesGrid(ingot.name, ingot.getItemStack());
-			wiki.edit(ingot.name, createHeading(2, Section.Gallery.heading) + WIKI_NEWLINE + createLinkFile(getTextureImageName(getTexture(ingot.getItemStack()))), editSummary, Section.Gallery.ordinal());
+	private <C extends GameIdentifiedConfig> void addItemPageListCustomRowData(final C config, final Collection<String> row) {
+		if (config instanceof Ore) {
+			final Ore ore = (Ore) config;
+			row.add(numFormat.format(ore.hardness));
+			row.add(numFormat.format(ore.resistance));
+			row.add(numFormat.format(ore.generationVeinsPerChunk));
+			row.add(numFormat.format(ore.generationBlocksPerVein));
+			row.add(numFormat.format(ore.generationStartYMin));
+			row.add(numFormat.format(ore.generationStartYMax));
 		}
-		createListPageConfigs(Ingot.registry);
+		else if (config instanceof Ingot) {
+			final Ingot ingot = (Ingot) config;
+			row.add(numFormat.format(ingot.moldDamagePerUse));
+		}
+		else if (config instanceof PolymerPellets) {
+			final PolymerPellets polymerPellets = (PolymerPellets) config;
+			row.add(numFormat.format(polymerPellets.craftingMinHeatIntensity));
+			row.add(numFormat.format(polymerPellets.craftingMaxHeatIntensity));
+		}
+		else if (config instanceof PolymerBlock) {
+			final PolymerBlock polymerBlock = (PolymerBlock) config;
+			row.add(numFormat.format(polymerBlock.bounceHeight));
+		}
+		else if (config instanceof PolymerSlab) {
+			final PolymerSlab polymerSlab = (PolymerSlab) config;
+			row.add(numFormat.format(polymerSlab.bounceHeight));
+		}
+		else if (config instanceof PolymerWall) {
+			final PolymerWall polymerWall = (PolymerWall) config;
+			row.add(numFormat.format(polymerWall.bounceHeight));
+		}
+		else if (config instanceof PolymerStairs) {
+			final PolymerStairs polymerStairs = (PolymerStairs) config;
+			row.add(numFormat.format(polymerStairs.bounceHeight));
+		}
+		else if (config instanceof Mold) {
+			final Mold mold = (Mold) config;
+			row.add(numFormat.format(mold.craftingMaxDamage));
+		}
+		else if (config instanceof MoldedItem) {
+			final MoldedItem moldedItem = (MoldedItem) config;
+			row.add(numFormat.format(moldedItem.craftingPellets));
+			row.add(numFormat.format(moldedItem.craftingDurationSeconds));
+		}
+		else if (config instanceof GrippedTool) {
+			final GrippedTool grippedTool = (GrippedTool) config;
+			row.add(numFormat.format(grippedTool.durabilityBuff));
+			row.add(numFormat.format(grippedTool.speedBuff));
+		}
+		else if (config instanceof PogoStick) {
+			final PogoStick pogoStick = (PogoStick) config;
+			row.add(numFormat.format(pogoStick.maxBounces));
+			row.add(numFormat.format(pogoStick.stableBounceHeight));
+			row.add(numFormat.format(pogoStick.jumpMovementFactorBuff));
+			row.add(String.valueOf(pogoStick.restrictJumpToGround));
+		}
 	}
 }

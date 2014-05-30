@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
@@ -25,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -104,7 +106,7 @@ public class PolycraftRegistry {
 	public static final Map<String, String> registryNames = Maps.newHashMap();
 	public static final Map<String, Block> blocks = Maps.newHashMap();
 	public static final Map<String, Item> items = Maps.newHashMap();
-	public static final Map<Item, Object> itemOrBlockByItem = Maps.newHashMap();
+	public static final Set<Item> minecraftItems = Sets.newHashSet();
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryNames.containsKey(registryName))
@@ -157,7 +159,6 @@ public class PolycraftRegistry {
 		block.setBlockName(registryName);
 		GameRegistry.registerBlock(block, registryName);
 		blocks.put(name, block);
-		itemOrBlockByItem.put(Item.getItemFromBlock(block), block);
 		return block;
 	}
 
@@ -172,7 +173,6 @@ public class PolycraftRegistry {
 		item.setUnlocalizedName(registryName);
 		GameRegistry.registerItem(item, registryName);
 		items.put(name, item);
-		itemOrBlockByItem.put(item, item);
 		return item;
 	}
 
@@ -185,7 +185,6 @@ public class PolycraftRegistry {
 		final Item itemBlock = Item.getItemFromBlock(block);
 		itemBlock.setUnlocalizedName(itemBlockGameID);
 		items.put(itemBlockName, itemBlock);
-		itemOrBlockByItem.put(itemBlock, block);
 
 		return block;
 	}
@@ -218,7 +217,7 @@ public class PolycraftRegistry {
 			else {
 				logger.debug("Found item: {}", minecraftItem.name);
 				items.put(minecraftItem.name, item);
-				itemOrBlockByItem.put(item, item);
+				minecraftItems.add(item);
 			}
 		}
 	}
@@ -231,7 +230,7 @@ public class PolycraftRegistry {
 			else {
 				logger.debug("Found block: {}", minecraftBlock.name);
 				blocks.put(minecraftBlock.name, block);
-				itemOrBlockByItem.put(Item.getItemFromBlock(block), block);
+				minecraftItems.add(Item.getItemFromBlock(block));
 			}
 		}
 	}

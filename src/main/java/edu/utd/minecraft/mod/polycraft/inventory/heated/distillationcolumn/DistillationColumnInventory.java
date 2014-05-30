@@ -47,6 +47,7 @@ public class DistillationColumnInventory extends HeatedInventory {
 
 	public static final void register(final Inventory config) {
 		DistillationColumnInventory.config = config;
+		config.containerType = PolycraftContainerType.DISTILLATION_COLUMN;
 		PolycraftInventory.register(new PolycraftInventoryBlock(config, DistillationColumnInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 

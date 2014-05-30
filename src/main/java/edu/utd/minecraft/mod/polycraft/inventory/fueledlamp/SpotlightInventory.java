@@ -12,6 +12,7 @@ public class SpotlightInventory extends FueledLampInventory {
 
 	public static void register(final Inventory config) {
 		SpotlightInventory.config = config;
+		config.containerType = PolycraftContainerType.SPOTLIGHT;
 		PolycraftInventory.register(new FueledLampBlock(config, SpotlightInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 

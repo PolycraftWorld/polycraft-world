@@ -30,7 +30,6 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.util.SetMap;
 
@@ -132,11 +131,17 @@ public class PolycraftRecipeManager {
 		return recipes;
 	}
 
+	public Collection<PolycraftRecipe> getRecipesByContainerType(final PolycraftContainerType containerType) {
+		if (recipesByContainer.containsKey(containerType))
+			return ImmutableList.copyOf(recipesByContainer.get(containerType));
+		return null;
+	}
+
 	/**
 	 * @return All recipes known to the Recipe manager by each ingredient, and further by container type
 	 */
-	public Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> getRecipesByIngredientContainerType() {
-		final Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> recipesByIngredientContainerType = Maps.newLinkedHashMap();
+	public Map<Object, Map<PolycraftContainerType, Collection<PolycraftRecipe>>> getRecipesByIngredientContainerType() {
+		final Map<Object, Map<PolycraftContainerType, Collection<PolycraftRecipe>>> recipesByIngredientContainerType = Maps.newLinkedHashMap();
 		for (final PolycraftContainerType containerType : recipesByContainer.keySet()) {
 			for (final PolycraftRecipe recipe : recipesByContainer.get(containerType)) {
 				for (final RecipeInput recipeInput : recipe.getInputs()) {
@@ -150,12 +155,12 @@ public class PolycraftRecipeManager {
 		return recipesByIngredientContainerType;
 	}
 
-	private static void addIngredientRecipe(final Map<Object, Map<PolycraftContainerType, Set<PolycraftRecipe>>> recipesByIngredientContainerType,
+	private static void addIngredientRecipe(final Map<Object, Map<PolycraftContainerType, Collection<PolycraftRecipe>>> recipesByIngredientContainerType,
 			final Item ingredient, final PolycraftRecipe recipe) {
-		Map<PolycraftContainerType, Set<PolycraftRecipe>> containerTypeRecipes = recipesByIngredientContainerType.get(PolycraftRegistry.itemOrBlockByItem.get(ingredient));
+		Map<PolycraftContainerType, Collection<PolycraftRecipe>> containerTypeRecipes = recipesByIngredientContainerType.get(ingredient);
 		if (containerTypeRecipes == null)
 			recipesByIngredientContainerType.put(ingredient, containerTypeRecipes = Maps.newLinkedHashMap());
-		Set<PolycraftRecipe> ingredientRecipes = containerTypeRecipes.get(recipe.getContainerType());
+		Collection<PolycraftRecipe> ingredientRecipes = containerTypeRecipes.get(recipe.getContainerType());
 		if (ingredientRecipes == null)
 			containerTypeRecipes.put(recipe.getContainerType(), ingredientRecipes = Sets.newLinkedHashSet());
 		ingredientRecipes.add(recipe);

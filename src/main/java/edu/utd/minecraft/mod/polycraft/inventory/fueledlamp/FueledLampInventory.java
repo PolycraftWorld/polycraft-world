@@ -42,6 +42,7 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 
 	public static void register(final Inventory config) {
 		FueledLampInventory.config = config;
+		config.containerType = PolycraftContainerType.FUELED_LAMP;
 		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 

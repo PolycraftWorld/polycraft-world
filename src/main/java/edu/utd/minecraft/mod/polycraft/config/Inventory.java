@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.BlockFace;
 
 public class Inventory extends GameIdentifiedConfig {
@@ -42,6 +43,7 @@ public class Inventory extends GameIdentifiedConfig {
 	public final int renderID;
 	public final String inventoryAsset;
 	public final Map<BlockFace, String> blockFaceAssets = Maps.newHashMap();
+	public PolycraftContainerType containerType;
 
 	public Inventory(final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID, final String inventoryAsset, final String[] params, final int paramsOffset) {
 		super(gameID, name, params, paramsOffset);

@@ -32,7 +32,7 @@ public class Fuel extends Config {
 		return fuelsByIndex.get(index);
 	}
 
-	private static class QuantifiedFuel {
+	public static class QuantifiedFuel {
 		public final Fuel fuel;
 		public final int quantity;
 
@@ -44,9 +44,13 @@ public class Fuel extends Config {
 			this.fuel = fuel;
 			this.quantity = quantity;
 		}
+
+		public float getHeatDuration() {
+			return fuel.heatDurationSeconds * quantity;
+		}
 	}
 
-	private static final Map<Item, QuantifiedFuel> quantifiedFuelsByItem = Maps.newHashMap();
+	public static final Map<Item, QuantifiedFuel> quantifiedFuelsByItem = Maps.newLinkedHashMap();
 
 	public static void registerQuantifiedFuels() {
 		for (final Fuel fuel : registry.values()) {
@@ -77,7 +81,7 @@ public class Fuel extends Config {
 	public static float getHeatDurationSeconds(final Item item) {
 		final QuantifiedFuel quantifiedFuel = quantifiedFuelsByItem.get(item);
 		if (quantifiedFuel != null)
-			return quantifiedFuel.fuel.heatDurationSeconds * quantifiedFuel.quantity;
+			return quantifiedFuel.getHeatDuration();
 		return 0;
 	}
 
