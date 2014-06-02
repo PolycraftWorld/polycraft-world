@@ -24,12 +24,12 @@ public class DistillationColumnInventory extends HeatedInventory {
 
 	private static Random random = new Random();
 
-	private static int slotIndexInput;
-	private static int slotIndexCoolingWater;
-	private static int slotIndexHeatingWater;
-	private static int slotIndexHeatSource;
-	private static int slotIndexFirstOutput;
-	private static int slotIndexLastOutput;
+	public static int slotIndexInput;
+	public static int slotIndexCoolingWater;
+	public static int slotIndexHeatingWater;
+	public static int slotIndexHeatSource;
+	public static int slotIndexFirstOutput;
+	public static int slotIndexLastOutput;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 26, 0));

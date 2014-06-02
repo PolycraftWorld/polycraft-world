@@ -267,40 +267,40 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesMill(final String directory) {
+		//TODO large pipe recipe broken?
 		Mold currentMold = null;
 		char currentMoldShapeChar = 'x';
 		String[] currentMoldShape = null;
 		int currentRow = 0;
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "mill")) {
-			if (line.length > 0) {
-				if (currentMold == null || currentRow == 5 && line.length > 1) {
-					currentMold = Mold.registry.get(line[1]);
-					currentMoldShape = new String[5];
-					currentRow = 0;
+			if (currentMold == null || currentRow == 5 && line.length > 1) {
+				currentMold = Mold.registry.get(line[1]);
+				currentMoldShape = new String[5];
+				currentRow = 0;
+			}
+			if (currentMold != null) {
+				final StringBuffer currentMoldShapeRow = new StringBuffer();
+				for (int i = 0; i < 5; i++) {
+					final int index = 2 + i;
+					char moldSlot = ' ';
+					if (line.length > index && !line[index].trim().isEmpty())
+						moldSlot = line[index].trim().charAt(0);
+					currentMoldShapeRow.append(moldSlot);
+					if (moldSlot != ' ')
+						currentMoldShapeChar = moldSlot;
 				}
-				if (currentMold != null) {
-					final StringBuffer currentMoldShapeRow = new StringBuffer();
-					for (int i = 0; i < 5; i++) {
-						final int index = 2 + i;
-						char moldSlot = ' ';
-						if (line.length > index && !line[index].trim().isEmpty())
-							moldSlot = line[index].trim().charAt(0);
-						currentMoldShapeRow.append(moldSlot);
-						if (moldSlot != ' ')
-							currentMoldShapeChar = moldSlot;
-					}
-					currentMoldShape[currentRow] = currentMoldShapeRow.toString();
-					currentRow++;
+				currentMoldShape[currentRow] = currentMoldShapeRow.toString();
+				currentRow++;
 
-					if (currentRow == 5) {
-						for (final Ingot ingot : Ingot.registry.values()) {
-							if (ingot.moldDamagePerUse > 0) {
-								PolycraftMod.recipeManager.addShapedRecipe(
-										PolycraftContainerType.MACHINING_MILL,
-										currentMold.getItemStack(ingot),
-										currentMoldShape,
-										ImmutableMap.of(currentMoldShapeChar, ingot.getItemStack()));
-							}
+				if (currentRow == 5) {
+					for (final Ingot ingot : Ingot.registry.values()) {
+						if (ingot.moldDamagePerUse > 0) {
+							//TODO the recipe manager moves shapes like the large pipe incorrectly...
+							PolycraftMod.recipeManager.addShapedRecipe(
+									PolycraftContainerType.MACHINING_MILL,
+									currentMold.getItemStack(ingot),
+									currentMoldShape,
+									ImmutableMap.of(currentMoldShapeChar, ingot.getItemStack()));
 						}
 					}
 				}

@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -28,7 +29,9 @@ import com.google.common.collect.Sets;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
+import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -48,6 +51,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
+import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
@@ -61,6 +65,11 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 
 public class WikiMaker {
 
@@ -80,10 +89,11 @@ public class WikiMaker {
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
-			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
-			POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
-			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
+			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY //,
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
+			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
 	};
 	private static final String WIKI_NEWLINE = "\n";
 
@@ -108,14 +118,12 @@ public class WikiMaker {
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
 			//wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
-			/*
-			wikiMaker.createFuelPage();
-			wikiMaker.createItemTypesPage(ImmutableList.of(
-					Ore.class, Ingot.class, Catalyst.class, CompoundVessel.class,
-					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
-					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-			*/
-			/*
+			//wikiMaker.createFuelPage();
+			//wikiMaker.createItemTypesPage(ImmutableList.of(
+			//		Ore.class, Ingot.class, Catalyst.class, CompoundVessel.class,
+			//		PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
+			//		Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
+			wikiMaker.createItemPages(Inventory.registry);
 			wikiMaker.createItemPages(Ore.registry);
 			wikiMaker.createItemPages(Ingot.registry);
 			wikiMaker.createItemPages(Catalyst.registry);
@@ -128,10 +136,8 @@ public class WikiMaker {
 			wikiMaker.createItemPages(PolymerWall.registry);
 			wikiMaker.createItemPages(Mold.registry);
 			wikiMaker.createItemPages(MoldedItem.registry);
-			*/
 			wikiMaker.createItemPages(GrippedTool.registry);
 			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(Inventory.registry);
 			wikiMaker.createItemPages(CustomObject.registry);
 			wikiMaker.close();
 		} catch (Exception ex) {
@@ -155,7 +161,7 @@ public class WikiMaker {
 
 	private static String getItemStackLocation(final ItemStack itemStack) {
 		if (PolycraftRegistry.minecraftItems.contains(itemStack.getItem()))
-			return MINECRAFT_WIKI + itemStack.getDisplayName();
+			return MINECRAFT_WIKI + itemStack.getDisplayName().replaceAll(" ", "%20");
 		return itemStack.getDisplayName();
 	}
 
@@ -329,28 +335,68 @@ public class WikiMaker {
 		return String.format(TABLE_FORMAT, sortable ? " sortable" : "", collapsible ? " collapsible" : "", table.toString());
 	}
 
-	private static final String RECIPE_CELL_FORMAT = "|SLOT-%1$s=%2$s|SLOT-%1$s-image=%3$s|SLOT-%1$s-link=%4$s";
-	private static final String RECIPE_CELL_AMOUNT_FORMAT = RECIPE_CELL_FORMAT + "|SLOT-%1$s-amount=%5$d";
+	private static final String INVENTORY_SLOT_FORMAT = "{{Inventory/Slot|index=%d|title=%s|image=%s|link=%s}}";
+	private static final String INVENTORY_SLOT_WITH_AMOUNT_FORMAT = "{{Inventory/Slot|index=%d|title=%s|image=%s|link=%s|amount=%d}}";
 
-	private static String getRecipeCell(final int slotIndex, final String itemName, final int amount, final String image, final String link) {
+	private static String getInventorySlot(final int slotIndex, final String title, final String image, final String link, final int amount) {
 		if (amount > 1)
-			return String.format(RECIPE_CELL_AMOUNT_FORMAT, slotIndex, itemName, image, link, amount);
-		return String.format(RECIPE_CELL_FORMAT, slotIndex, itemName, image, link);
+			return String.format(INVENTORY_SLOT_WITH_AMOUNT_FORMAT, slotIndex, title, image, link, amount);
+		return String.format(INVENTORY_SLOT_FORMAT, slotIndex, title, image, link);
 	}
 
-	private static String getRecipeCell(final int slotIndex, final ItemStack itemStack) {
-		return getRecipeCell(slotIndex, itemStack.getDisplayName(), itemStack.stackSize, getTextureImageName(getTexture(itemStack)), getItemStackLocation(itemStack));
+	private static String getInventorySlot(final int slotIndex, final ItemStack itemStack) {
+		return getInventorySlot(slotIndex, itemStack.getDisplayName(), getTextureImageName(getTexture(itemStack)), getItemStackLocation(itemStack), itemStack.stackSize);
 	}
 
-	private static final String GRID_TEMPLATE_FORMAT = "{{Grid/%1$s%2$s%3$s}}";
+	private static String getInventoryWaterSlot(final int slotIndex) {
+		return getInventorySlot(slotIndex, new ItemStack(Items.water_bucket));
+	}
 
-	private static String getGridTemplate(final PolycraftContainerType containerType, final String content) {
-		return String.format(GRID_TEMPLATE_FORMAT, containerType.toString().replaceAll(" ", "_"), content, WIKI_NEWLINE);
+	private static String getInventoryFuelSlot(final int slotIndex) {
+		return getInventorySlot(slotIndex, "Fuel", "Fuel.png", getListOfTypeTitle(Fuel.class), 1);
+	}
+
+	private static String getSpecialInventorySlots(final PolycraftContainerType containerType) {
+		final StringBuilder slots = new StringBuilder();
+		switch (containerType) {
+		case MACHINING_MILL:
+			slots.append(getInventoryWaterSlot(MachiningMillInventory.slotIndexCoolingWater));
+			break;
+		case DISTILLATION_COLUMN:
+			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexCoolingWater));
+			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexHeatingWater));
+			slots.append(getInventoryFuelSlot(DistillationColumnInventory.slotIndexHeatSource));
+			break;
+		case INJECTION_MOLDER:
+			slots.append(getInventoryWaterSlot(InjectionMolderInventory.slotIndexCoolingWater));
+			slots.append(getInventoryFuelSlot(InjectionMolderInventory.slotIndexHeatSource));
+			break;
+		case EXTRUDER:
+			slots.append(getInventoryWaterSlot(ExtruderInventory.slotIndexCoolingWater));
+			slots.append(getInventoryFuelSlot(ExtruderInventory.slotIndexHeatSource));
+			break;
+		case STEAM_CRACKER:
+			slots.append(getInventoryWaterSlot(SteamCrackerInventory.slotIndexCoolingWater));
+			slots.append(getInventoryWaterSlot(SteamCrackerInventory.slotIndexHeatingWater));
+			slots.append(getInventoryFuelSlot(SteamCrackerInventory.slotIndexHeatSource));
+			break;
+		case CHEMICAL_PROCESSOR:
+			break;
+		default:
+			break;
+		}
+		return slots.toString();
+	}
+
+	private static final String INVENTORY_FORMAT = "{{Inventory|%s|type=%s|shapeless=%s}}";
+
+	private static String getInventory(final PolycraftContainerType containerType, final String slots, final boolean shapeless) {
+		return String.format(INVENTORY_FORMAT, slots, containerType.toString().toLowerCase().replaceAll(" ", "-"), String.valueOf(shapeless));
 	}
 
 	private static Collection<String> getRecipeGridRow(final PolycraftRecipe recipe) {
 		final Collection<String> row = Lists.newLinkedList();
-		final StringBuilder grid = new StringBuilder();
+		final StringBuilder slots = new StringBuilder();
 		final Map<String, String> inputs = Maps.newLinkedHashMap();
 		final LinkedList<ContainerSlot> intputSlots = Lists.newLinkedList();
 		intputSlots.addAll(recipe.getContainerType().getSlots(SlotType.INPUT));
@@ -360,16 +406,15 @@ public class WikiMaker {
 				int slotIndex = input.slot.getSlotIndex();
 				if (slotIndex == RecipeSlot.ANY.slotIndex)
 					slotIndex = intputSlots.remove().getSlotIndex();
-				grid.append(WIKI_NEWLINE).append(getRecipeCell(slotIndex, inputStack));
+				slots.append(getInventorySlot(slotIndex, inputStack));
 			}
 		}
 		final Map<String, String> outputs = Maps.newLinkedHashMap();
 		for (final RecipeComponent output : recipe.getOutputs(null)) {
 			outputs.put(output.itemStack.getDisplayName(), getItemStackLocation(output.itemStack));
-			grid.append(WIKI_NEWLINE).append(getRecipeCell(output.slot.getSlotIndex(), output.itemStack));
+			slots.append(getInventorySlot(output.slot.getSlotIndex(), output.itemStack));
 		}
-		if (!recipe.isShapedOnly())
-			grid.append(WIKI_NEWLINE).append("|").append("Shapeless=Yes");
+		slots.append(getSpecialInventorySlots(recipe.getContainerType()));
 		final StringBuilder inputList = new StringBuilder();
 		for (final Entry<String, String> input : inputs.entrySet())
 			inputList.append(WIKI_NEWLINE).append("* ").append(getLink(input.getValue(), input.getKey()));
@@ -378,7 +423,7 @@ public class WikiMaker {
 			outputList.append(WIKI_NEWLINE).append("* ").append(getLink(output.getValue(), output.getKey()));
 		row.add(inputList.toString());
 		row.add(outputList.toString());
-		row.add(getGridTemplate(recipe.getContainerType(), grid.toString()));
+		row.add(getInventory(recipe.getContainerType(), slots.toString(), recipe.getContainerType() == PolycraftContainerType.CRAFTING_TABLE && !recipe.isShapedOnly()));
 		return row;
 	}
 

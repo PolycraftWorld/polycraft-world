@@ -22,7 +22,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
 
 public class MachiningMillInventory extends WateredInventory {
 
-	private static final int coolingWaterSlotIndex;
+	public static final int slotIndexCoolingWater;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		//5x5 input grid
@@ -30,7 +30,7 @@ public class MachiningMillInventory extends WateredInventory {
 			for (int x = 0; x < 5; x++)
 				guiSlots.add(GuiContainerSlot.createInput(guiSlots.size(), x, y, 8, 0));
 		//cooling water
-		guiSlots.add(new GuiContainerSlot(coolingWaterSlotIndex = guiSlots.size(), SlotType.MISC, -1, -1, 116, 90));
+		guiSlots.add(new GuiContainerSlot(slotIndexCoolingWater = guiSlots.size(), SlotType.MISC, -1, -1, 116, 90));
 		//output
 		guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.OUTPUT, -1, -1, 152, 54));
 	}
@@ -44,7 +44,7 @@ public class MachiningMillInventory extends WateredInventory {
 	}
 
 	public MachiningMillInventory() {
-		super(PolycraftContainerType.MACHINING_MILL, config, 121, coolingWaterSlotIndex, -1);
+		super(PolycraftContainerType.MACHINING_MILL, config, 121, slotIndexCoolingWater, -1);
 		this.addBehavior(new CraftingBehavior<MachiningMillInventory>());
 	}
 

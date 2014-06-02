@@ -31,7 +31,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 
 	protected static Random random = new Random();
 
-	private final int slotIndexHeatSource;
+	public final int slotIndexHeatSource;
 	private final int defaultProcessingTicks;
 	private final int defaultHeatIntensityMin;
 	private final int defaultHeatIntensityMax;

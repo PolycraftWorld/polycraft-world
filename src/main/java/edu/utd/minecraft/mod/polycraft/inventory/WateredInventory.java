@@ -7,8 +7,8 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 
 public abstract class WateredInventory<S extends StatefulInventoryState> extends StatefulInventory<S> {
 
-	protected final int slotIndexCoolingWater;
-	protected final int slotIndexHeatingWater;
+	public final int slotIndexCoolingWater;
+	public final int slotIndexHeatingWater;
 
 	public WateredInventory(final PolycraftContainerType containerType, final Inventory config,
 			final int playerInventoryOffset, final int slotIndexCoolingWater, final int slotIndexHeatingWater) {

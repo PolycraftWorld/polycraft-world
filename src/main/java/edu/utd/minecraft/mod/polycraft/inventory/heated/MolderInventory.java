@@ -26,13 +26,13 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
 
 public abstract class MolderInventory extends HeatedInventory {
 
-	private static int slotIndexInput;
-	private static int slotIndexFirstStorage;
-	private static int slotIndexLastStorage;
-	private static int slotIndexMold;
-	private static int slotIndexCoolingWater;
-	private static int slotIndexHeatSource;
-	private static int slotIndexOutput;
+	public static int slotIndexInput;
+	public static int slotIndexFirstStorage;
+	public static int slotIndexLastStorage;
+	public static int slotIndexMold;
+	public static int slotIndexCoolingWater;
+	public static int slotIndexHeatSource;
+	public static int slotIndexOutput;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput = guiSlots.size(), 0, 0, 8, 0));

@@ -24,13 +24,13 @@ public class SteamCrackerInventory extends HeatedInventory {
 
 	private static Random random = new Random();
 
-	private static int slotIndexInput1;
-	private static int slotIndexInput2;
-	private static int slotIndexCoolingWater;
-	private static int slotIndexHeatingWater;
-	private static int slotIndexHeatSource;
-	private static int slotIndexFirstOutput;
-	private static int slotIndexLastOutput;
+	public static int slotIndexInput1;
+	public static int slotIndexInput2;
+	public static int slotIndexCoolingWater;
+	public static int slotIndexHeatingWater;
+	public static int slotIndexHeatSource;
+	public static int slotIndexFirstOutput;
+	public static int slotIndexLastOutput;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput1 = guiSlots.size(), 0, 0, 17, 0));
