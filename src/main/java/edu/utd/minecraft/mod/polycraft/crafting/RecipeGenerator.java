@@ -267,7 +267,6 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesMill(final String directory) {
-		//TODO large pipe recipe broken?
 		Mold currentMold = null;
 		char currentMoldShapeChar = 'x';
 		String[] currentMoldShape = null;
@@ -295,7 +294,6 @@ public class RecipeGenerator {
 				if (currentRow == 5) {
 					for (final Ingot ingot : Ingot.registry.values()) {
 						if (ingot.moldDamagePerUse > 0) {
-							//TODO the recipe manager moves shapes like the large pipe incorrectly...
 							PolycraftMod.recipeManager.addShapedRecipe(
 									PolycraftContainerType.MACHINING_MILL,
 									currentMold.getItemStack(ingot),

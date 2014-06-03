@@ -7,7 +7,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
 
 public class ItemPolymerWall extends ItemBlock implements PolycraftItem {
 
-	private final BlockPolymerWall blockPolymerWall;
+	public final BlockPolymerWall blockPolymerWall;
 
 	public ItemPolymerWall(Block p_i45355_1_) {
 		super(p_i45355_1_);

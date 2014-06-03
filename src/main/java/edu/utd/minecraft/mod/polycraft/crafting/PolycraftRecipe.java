@@ -76,6 +76,9 @@ public class PolycraftRecipe {
 	}
 
 	private boolean canShiftInputs(final int dX, final int dY) {
+		return false;
+		//TODO allowing inputs to shift results in incorrect shapes for inventories like the machining mill
+		/*
 		if (this.shapedInputs.size() == 0) {
 			return false;
 		}
@@ -90,6 +93,7 @@ public class PolycraftRecipe {
 			}
 		}
 		return true;
+		*/
 	}
 
 	/**
@@ -207,7 +211,7 @@ public class PolycraftRecipe {
 		}
 		return maxSize;
 	}
-	
+
 	/**
 	 * Creates a set of every possible combination of shaped recipes.
 	 */
@@ -328,7 +332,7 @@ public class PolycraftRecipe {
 				}
 			}
 		}
-		
+
 		// Remove from the inputs used by the recipe.
 		Set<RecipeInput> usedInputs = Sets.newHashSet();
 		for (final RecipeComponent input : ImmutableList.copyOf(inputs)) {

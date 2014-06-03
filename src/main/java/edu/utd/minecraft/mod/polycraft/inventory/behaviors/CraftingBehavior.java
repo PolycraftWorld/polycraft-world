@@ -45,14 +45,13 @@ public class CraftingBehavior<I extends PolycraftInventory> extends InventoryBeh
 	}
 
 	protected void updateOutputsForRecipe(final I inventory, final PolycraftRecipe recipe) {
-		if (recipe == null || !inventory.canProcess()) {
-			for (ContainerSlot slot : inventory.getOutputSlots()) {
-				if (inventory.getStackInSlot(slot) != null) {
-					inventory.setStackInSlot(slot, null);
-				}
+		for (ContainerSlot slot : inventory.getOutputSlots()) {
+			if (inventory.getStackInSlot(slot) != null) {
+				inventory.setStackInSlot(slot, null);
 			}
-			return;
 		}
+		if (recipe == null || !inventory.canProcess())
+			return;
 
 		for (final RecipeComponent output : recipe.getOutputs(inventory)) {
 			final ItemStack desiredResult = output.itemStack.copy();

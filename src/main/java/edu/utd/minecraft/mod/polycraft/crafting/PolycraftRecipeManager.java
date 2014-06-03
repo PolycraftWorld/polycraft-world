@@ -229,6 +229,9 @@ public class PolycraftRecipeManager {
 
 	private static boolean canShiftInputs(final PolycraftContainerType containerType,
 			final Set<RecipeComponent> inputs, final int dX, final int dY) {
+		return false;
+		//TODO allowing inputs to shift results in incorrect shapes for inventories like the machining mill
+		/*
 		if (inputs.size() == 0) {
 			return false;
 		}
@@ -243,6 +246,7 @@ public class PolycraftRecipeManager {
 			}
 		}
 		return true;
+		*/
 	}
 
 	private PolycraftRecipe findShapedRecipe(final PolycraftContainerType container, final Set<RecipeComponent> inputs) {

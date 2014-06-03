@@ -29,12 +29,9 @@ import com.google.common.collect.Sets;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
-import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
-import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
@@ -51,7 +48,6 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
-import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
@@ -70,6 +66,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInvento
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerWall;
 
 public class WikiMaker {
 
@@ -89,11 +87,11 @@ public class WikiMaker {
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY //,
-			//POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
-			//POLYCRAFT_TEXTURES_DIRECTORY + "/items",
-			//POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
-			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
+			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
+			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
+			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
 	};
 	private static final String WIKI_NEWLINE = "\n";
 
@@ -124,21 +122,21 @@ public class WikiMaker {
 			//		PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
 			//		Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
 			wikiMaker.createItemPages(Inventory.registry);
-			wikiMaker.createItemPages(Ore.registry);
-			wikiMaker.createItemPages(Ingot.registry);
-			wikiMaker.createItemPages(Catalyst.registry);
-			wikiMaker.createItemPages(CompoundVessel.registry);
-			wikiMaker.createItemPages(PolymerPellets.registry);
-			wikiMaker.createItemPages(PolymerFibers.registry);
-			wikiMaker.createItemPages(PolymerBlock.registry);
-			wikiMaker.createItemPages(PolymerSlab.registry);
-			wikiMaker.createItemPages(PolymerStairs.registry);
-			wikiMaker.createItemPages(PolymerWall.registry);
-			wikiMaker.createItemPages(Mold.registry);
-			wikiMaker.createItemPages(MoldedItem.registry);
-			wikiMaker.createItemPages(GrippedTool.registry);
-			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(CustomObject.registry);
+			//wikiMaker.createItemPages(Ore.registry);
+			//wikiMaker.createItemPages(Ingot.registry);
+			//wikiMaker.createItemPages(Catalyst.registry);
+			//wikiMaker.createItemPages(CompoundVessel.registry);
+			//wikiMaker.createItemPages(PolymerPellets.registry);
+			//wikiMaker.createItemPages(PolymerFibers.registry);
+			//wikiMaker.createItemPages(PolymerBlock.registry);
+			//wikiMaker.createItemPages(PolymerSlab.registry);
+			//wikiMaker.createItemPages(PolymerStairs.registry);
+			//wikiMaker.createItemPages(PolymerWall.registry);
+			//wikiMaker.createItemPages(Mold.registry);
+			//wikiMaker.createItemPages(MoldedItem.registry);
+			//wikiMaker.createItemPages(GrippedTool.registry);
+			//wikiMaker.createItemPages(PogoStick.registry);
+			//wikiMaker.createItemPages(CustomObject.registry);
 			wikiMaker.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -162,7 +160,7 @@ public class WikiMaker {
 	private static String getItemStackLocation(final ItemStack itemStack) {
 		if (PolycraftRegistry.minecraftItems.contains(itemStack.getItem()))
 			return MINECRAFT_WIKI + itemStack.getDisplayName().replaceAll(" ", "%20");
-		return itemStack.getDisplayName();
+		return getItemStackName(itemStack);
 	}
 
 	private static String getConfigLocation(Config config) {
@@ -344,8 +342,17 @@ public class WikiMaker {
 		return String.format(INVENTORY_SLOT_FORMAT, slotIndex, title, image, link);
 	}
 
+	private static String getItemStackName(final ItemStack itemStack) {
+		final Item item = itemStack.getItem();
+		if (item instanceof ItemPolymerBlock)
+			return ((ItemPolymerBlock) item).blockPolymer.polymerBlock.name;
+		if (item instanceof ItemPolymerWall)
+			return ((ItemPolymerWall) item).blockPolymerWall.polymerWall.name;
+		return itemStack.getDisplayName();
+	}
+
 	private static String getInventorySlot(final int slotIndex, final ItemStack itemStack) {
-		return getInventorySlot(slotIndex, itemStack.getDisplayName(), getTextureImageName(getTexture(itemStack)), getItemStackLocation(itemStack), itemStack.stackSize);
+		return getInventorySlot(slotIndex, getItemStackName(itemStack), getTextureImageName(getTexture(itemStack)), getItemStackLocation(itemStack), itemStack.stackSize);
 	}
 
 	private static String getInventoryWaterSlot(final int slotIndex) {
@@ -402,7 +409,7 @@ public class WikiMaker {
 		intputSlots.addAll(recipe.getContainerType().getSlots(SlotType.INPUT));
 		for (final RecipeInput input : recipe.getInputs()) {
 			for (final ItemStack inputStack : input.inputs) {
-				inputs.put(inputStack.getDisplayName(), getItemStackLocation(inputStack));
+				inputs.put(getItemStackName(inputStack), getItemStackLocation(inputStack));
 				int slotIndex = input.slot.getSlotIndex();
 				if (slotIndex == RecipeSlot.ANY.slotIndex)
 					slotIndex = intputSlots.remove().getSlotIndex();
@@ -411,7 +418,7 @@ public class WikiMaker {
 		}
 		final Map<String, String> outputs = Maps.newLinkedHashMap();
 		for (final RecipeComponent output : recipe.getOutputs(null)) {
-			outputs.put(output.itemStack.getDisplayName(), getItemStackLocation(output.itemStack));
+			outputs.put(getItemStackName(output.itemStack), getItemStackLocation(output.itemStack));
 			slots.append(getInventorySlot(output.slot.getSlotIndex(), output.itemStack));
 		}
 		slots.append(getSpecialInventorySlots(recipe.getContainerType()));
@@ -487,7 +494,7 @@ public class WikiMaker {
 		for (final Entry<Item, QuantifiedFuel> fuelEntry : Fuel.quantifiedFuelsByItem.entrySet()) {
 			final Collection<String> row = Lists.newLinkedList();
 			final ItemStack fuelStack = new ItemStack(fuelEntry.getKey());
-			row.add(getLink(getItemStackLocation(fuelStack), fuelStack.getDisplayName()));
+			row.add(getLink(getItemStackLocation(fuelStack), getItemStackName(fuelStack)));
 			row.add(numFormat.format(fuelEntry.getValue().fuel.heatIntensity));
 			row.add(numFormat.format(fuelEntry.getValue().getHeatDuration()));
 			data.add(row);
@@ -577,19 +584,20 @@ public class WikiMaker {
 							final String location = getConfigLocation(source);
 							if (isExternalLocation(location)) {
 								page.append(getHeading(2, section.heading));
+								index++;
 								page.append(getLink(location, source.name + " on " + getUrlHost(location))).append(WIKI_NEWLINE);
 							}
 						}
 					}
 				}
 				else {
+					if (section == PageSectionItem.Recipes)
+						recipeSectionIndex = index;
 					page.append(getHeading(2, section.heading));
+					index++;
 					if (section == PageSectionItem.Gallery)
 						page.append(getLinkFile(getTextureImageName(getTexture(config)))).append(WIKI_NEWLINE);
 				}
-				if (section == PageSectionItem.Recipes)
-					recipeSectionIndex = index;
-				index++;
 			}
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(getAllCategories(config)));
 			wiki.edit(title, page.toString(), editSummary);
