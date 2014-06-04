@@ -10,16 +10,19 @@ public class GrippedTool extends SourcedConfig<MinecraftItem> {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, GrippedTool.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new GrippedTool(
-						line[0], //gameID
-						line[1], //name
-						MinecraftItem.registry.get(line[2]), //source
-						MoldedItem.registry.get(line[3]), //grip
-						Tool.Material.valueOf(line[4]), //toolMaterial
-						Float.parseFloat(line[5]), //durabilityBuff
-						Float.parseFloat(line[6]) //speedBuff
+						PolycraftMod.getVersionNumeric(line[index++]),
+						line[index++], //gameID
+						line[index++], //name
+						MinecraftItem.registry.get(line[index++]), //source
+						MoldedItem.registry.get(line[index++]), //grip
+						Tool.Material.valueOf(line[index++]), //toolMaterial
+						Float.parseFloat(line[index++]), //durabilityBuff
+						Float.parseFloat(line[index++]) //speedBuff
 				));
+			}
 	}
 
 	public final MoldedItem grip;
@@ -27,8 +30,8 @@ public class GrippedTool extends SourcedConfig<MinecraftItem> {
 	public final float durabilityBuff;
 	public final float speedBuff;
 
-	public GrippedTool(final String gameID, final String name, final MinecraftItem source, final MoldedItem grip, final Tool.Material toolMaterial, final float durabilityBuff, final float speedBuff) {
-		super(gameID, name, source);
+	public GrippedTool(final int[] version, final String gameID, final String name, final MinecraftItem source, final MoldedItem grip, final Tool.Material toolMaterial, final float durabilityBuff, final float speedBuff) {
+		super(version, gameID, name, source);
 		this.grip = grip;
 		this.toolMaterial = toolMaterial;
 		this.durabilityBuff = durabilityBuff;

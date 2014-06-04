@@ -17,13 +17,14 @@ public class Fuel extends Config {
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Fuel.class.getSimpleName().toLowerCase()))
 			if (line.length > 0) {
-				final int index = Integer.parseInt(line[3]);
+				final int index = Integer.parseInt(line[4]);
 				fuelsByIndex.put(index, registry.register(new Fuel(
-						line[0], //name
-						Config.find(line[1], line[2]), //source
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //name
+						Config.find(line[2], line[3]), //source
 						index, //index
-						Integer.parseInt(line[4]), //heatIntensity
-						Float.parseFloat(line[5]) //heatDuration
+						Integer.parseInt(line[5]), //heatIntensity
+						Float.parseFloat(line[6]) //heatDuration
 						)));
 			}
 	}
@@ -56,6 +57,11 @@ public class Fuel extends Config {
 		for (final Fuel fuel : registry.values()) {
 			if (fuel.source instanceof MinecraftItem)
 				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+			else if (fuel.source instanceof Element) {
+				for (final ElementVessel elementVessel : ElementVessel.registry.values())
+					if (elementVessel.source == fuel.source)
+						quantifiedFuelsByItem.put(PolycraftRegistry.getItem(elementVessel.name), new QuantifiedFuel(fuel, elementVessel.vesselType.getQuantityOfSmallestType()));
+			}
 			else if (fuel.source instanceof Compound) {
 				for (final CompoundVessel compoundVessel : CompoundVessel.registry.values())
 					if (compoundVessel.source == fuel.source)
@@ -90,8 +96,8 @@ public class Fuel extends Config {
 	public final int heatIntensity;
 	public final float heatDurationSeconds;
 
-	public Fuel(final String name, final Config source, final int index, final int heatIntensity, final float heatDurationSeconds) {
-		super(name);
+	public Fuel(final int[] version, final String name, final Config source, final int index, final int heatIntensity, final float heatDurationSeconds) {
+		super(version, name);
 		this.source = source;
 		this.index = index;
 		this.heatIntensity = heatIntensity;

@@ -10,16 +10,19 @@ public class PolymerFibers extends SourcedConfig<PolymerPellets> {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerFibers.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new PolymerFibers(
-						line[0], //gameID
-						line[1], //name
-						PolymerPellets.registry.get(line[2]) //source
+						PolycraftMod.getVersionNumeric(line[index++]),
+						line[index++], //gameID
+						line[index++], //name
+						PolymerPellets.registry.get(line[index++]) //source
 				));
+			}
 	}
 
-	public PolymerFibers(final String gameID, final String name, final PolymerPellets source) {
-		super(gameID, name, source);
+	public PolymerFibers(final int[] version, final String gameID, final String name, final PolymerPellets source) {
+		super(version, gameID, name, source);
 	}
 
 	@Override

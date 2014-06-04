@@ -1,93 +1,93 @@
-Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
-2	1	10	4	Bucket (Crude Oil)	1	Pail (Crude Oil)	1	Bucket	1														
-2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1														
-2	1	10	4	Shale	4	Pail (NeoPentane)	3	Gravel	1														
-2	1	10	4	Bitumen	4	Pail (Crude Oil)	2	Gravel	2														
-1	1	10	4	Beaker (Crude Oil)	4	Beaker (Naphthalene)	1	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Bitumen	1										
-1	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Gas Oil)	4	Bitumen	4										
-2	1	10	4	Pail (Crude Oil)	1	Beaker (Naphthalene)	18	Beaker (Benzene-Toluene-Xylene)	18	Beaker (Gas Oil)	18	Bitumen	10										
-2	1	10	4	Pail (Crude Oil)	4	Pail (Naphthalene)	1	Pail (Benzene-Toluene-Xylene)	1	Pail (Gas Oil)	1	Block of Bitumen	1										
-2	1	10	4	Pail (Crude Oil)	16	Pail (Naphthalene)	4	Pail (Benzene-Toluene-Xylene)	4	Pail (Gas Oil)	4	Block of Bitumen	4										
-3	1	10	4	Drum (Crude Oil)	1	Pail (Naphthalene)	19	Pail (Benzene-Toluene-Xylene)	19	Pail (Gas Oil)	19	Block of Bitumen	7										
-3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	64										
-3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64										
-4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64										
-1	1	10	4	Beaker (NeoPentane)	1	Flask (Methane)	2																
-1	1	10	4	Beaker (NeoPentane)	4	Flask (Methane)	8																
-1	1	10	4	Beaker (NeoPentane)	16	Flask (Methane)	32																
-2	1	10	4	Pail (NeoPentane)	1	Cartridge (Methane)	1	Flask (Methane)	40	Flask (Ethane)	8	Flask (Propane)	4										
-2	1	10	4	Pail (NeoPentane)	4	Cartridge (Methane)	4	Cartridge (Methane)	2	Flask (Ethane)	32	Flask (Propane)	16										
-2	1	10	4	Pail (NeoPentane)	16	Cartridge (Methane)	16	Cartridge (Methane)	10	Cartridge (Ethane)	2	Cartridge (Propane)	1										
-3	1	10	4	Drum (NeoPentane)	1	Canister (Methane)	1	Cartridge (Methane)	40	Cartridge (Ethane)	8	Cartridge (Propane)	4	Flask (Butane Isomers)	2								
-3	1	10	4	Drum (NeoPentane)	4	Canister (Methane)	4	Canister (Methane)	2	Cartridge (Ethane)	32	Cartridge (Propane)	16	Flask (Butane Isomers)	8	Beaker (Pentane Isomers)	1						
-3	1	10	4	Drum (NeoPentane)	16	Canister (Methane)	16	Canister (Methane)	10	Canister (Ethane)	2	Canister (Propane)	1	Flask (Butane Isomers)	32	Beaker (Pentane Isomers)	5						
-4	1	10	4	Drum (NeoPentane)	64	Canister (Methane)	64	Canister (Methane)	40	Canister (Ethane)	8	Canister (Propane)	4	Cartridge (Butane Isomers)	2	Beaker (Pentane Isomers)	20	Beaker (Hexane Isomers)	2				
-1	1	10	4	Beaker (Naphthalene)	4	Beaker (Light Naphtha)	3	Beaker (Heavy Naphtha)	1														
-1	1	10	4	Beaker (Naphthalene)	16	Beaker (Light Naphtha)	12	Beaker (Heavy Naphtha)	4														
-2	1	10	4	Pail (Naphthalene)	1	Beaker (Light Naphtha)	48	Beaker (Heavy Naphtha)	16														
-2	1	10	4	Pail (Naphthalene)	4	Pail (Light Naphtha)	3	Pail (Heavy Naphtha)	1														
-2	1	10	4	Pail (Naphthalene)	16	Pail (Light Naphtha)	12	Pail (Heavy Naphtha)	4														
-3	1	10	4	Drum (Naphthalene)	1	Pail (Light Naphtha)	48	Pail (Heavy Naphtha)	16														
-3	1	10	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1														
-3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	12	Drum (Heavy Naphtha)	4														
-4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	48	Drum (Heavy Naphtha)	16														
-1	1	10	4	Beaker (Light Naphtha)	4	Beaker (Light Parrafins)	2	Beaker (Light Naphthenes)	1	Beaker (Light Olefins)	1												
-1	1	10	4	Beaker (Light Naphtha)	16	Beaker (Light Parrafins)	8	Beaker (Light Naphthenes)	4	Beaker (Light Olefins)	4												
-2	1	10	4	Pail (Light Naphtha)	1	Beaker (Light Parrafins)	32	Beaker (Light Naphthenes)	16	Beaker (Light Olefins)	16												
-2	1	10	4	Pail (Light Naphtha)	4	Pail (Light Parrafins)	2	Pail (Light Naphthenes)	1	Pail (Light Olefins)	1												
-2	1	10	4	Pail (Light Naphtha)	16	Pail (Light Parrafins)	8	Pail (Light Naphthenes)	4	Pail (Light Olefins)	4												
-3	1	10	4	Drum (Light Naphtha)	1	Pail (Light Parrafins)	32	Pail (Light Naphthenes)	16	Pail (Light Olefins)	16												
-3	1	10	4	Drum (Light Naphtha)	4	Drum (Light Parrafins)	2	Drum (Light Naphthenes)	1	Drum (Light Olefins)	1												
-3	1	10	4	Drum (Light Naphtha)	16	Drum (Light Parrafins)	8	Drum (Light Naphthenes)	4	Drum (Light Olefins)	4												
-4	1	10	4	Drum (Light Naphtha)	64	Drum (Light Parrafins)	32	Drum (Light Naphthenes)	16	Drum (Light Olefins)	16												
-1	1	10	4	Beaker (Light Parrafins)	2	Flask (Methane)	1																
-1	1	10	4	Beaker (Light Parrafins)	4	Flask (Methane)	3																
-1	1	10	4	Beaker (Light Parrafins)	16	Flask (Methane)	14	Flask (Ethane)	2														
-2	1	10	4	Pail (Light Parrafins)	1	Flask (Methane)	52	Flask (Ethane)	8	Flask (Propane)	1	Flask (Butane Isomers)	1										
-2	1	10	4	Pail (Light Parrafins)	4	Cartridge (Methane)	3	Flask (Ethane)	32	Flask (Propane)	4	Flask (Butane Isomers)	4										
-2	1	10	4	Pail (Light Parrafins)	16	Cartridge (Methane)	12	Cartridge (Ethane)	2	Flask (Propane)	16	Flask (Butane Isomers)	16										
-3	1	10	4	Drum (Light Parrafins)	1	Cartridge (Methane)	52	Cartridge (Ethane)	8	Cartridge (Propane)	1	Cartridge (Butane Isomers)	1										
-3	1	10	4	Drum (Light Parrafins)	4	Canister (Methane)	3	Cartridge (Ethane)	32	Cartridge (Propane)	4	Cartridge (Butane Isomers)	4										
-3	1	10	4	Drum (Light Parrafins)	16	Canister (Methane)	12	Canister (Ethane)	2	Cartridge (Propane)	16	Cartridge (Butane Isomers)	16										
-4	1	10	4	Drum (Light Parrafins)	64	Canister (Methane)	52	Canister (Ethane)	4	Canister (Propane)	2	Canister (Butane Isomers)	1	Beaker (Pentane Isomers)	10	Beaker (Hexane Isomers)	1						
-1	1	10	4	Flask (Butane Isomers)	4	Beaker (N-Ethylidenecyclohexylamine)	2	Beaker (IsoButane)	1														
-1	1	10	4	Flask (Butane Isomers)	16	Beaker (N-Ethylidenecyclohexylamine)	10	Beaker (IsoButane)	5														
-2	1	10	4	Cartridge (Butane Isomers)	1	Beaker (N-Ethylidenecyclohexylamine)	42	Beaker (IsoButane)	21														
-2	1	10	4	Cartridge (Butane Isomers)	4	Pail (N-Ethylidenecyclohexylamine)	2	Pail (IsoButane)	1														
-2	1	10	4	Cartridge (Butane Isomers)	16	Pail (N-Ethylidenecyclohexylamine)	10	Pail (IsoButane)	5														
-3	1	10	4	Canister (Butane Isomers)	1	Pail (N-Ethylidenecyclohexylamine)	42	Pail (IsoButane)	21														
-3	1	10	4	Canister (Butane Isomers)	4	Drum (N-Ethylidenecyclohexylamine)	2	Drum (IsoButane)	1														
-3	1	10	4	Canister (Butane Isomers)	16	Drum (N-Ethylidenecyclohexylamine)	10	Drum (IsoButane)	5														
-4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Ethylidenecyclohexylamine)	42	Drum (IsoButane)	21														
-1	1	10	4	Beaker (Pentane Isomers)	4	Beaker (Naphtha)	1	Beaker (IsoPentane)	2														
-1	1	10	4	Beaker (Pentane Isomers)	16	Beaker (Naphtha)	6	Beaker (IsoPentane)	10														
-2	1	10	4	Pail (Pentane Isomers)	1	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Flask (Nitrogen Gas)	1												
-2	1	10	4	Pail (Pentane Isomers)	4	Pail (Naphtha)	1	Pail (IsoPentane)	2	Flask (Nitrogen Gas)	3												
-2	1	10	4	Pail (Pentane Isomers)	16	Pail (Naphtha)	6	Pail (IsoPentane)	10	Flask (Nitrogen Gas)	12												
-3	1	10	4	Drum (Pentane Isomers)	1	Pail (Naphtha)	23	Pail (IsoPentane)	40	Cartridge (Nitrogen Gas)	1												
-3	1	10	4	Drum (Pentane Isomers)	4	Drum (Naphtha)	1	Drum (IsoPentane)	2	Cartridge (Nitrogen Gas)	3												
-3	1	10	4	Drum (Pentane Isomers)	16	Drum (Naphtha)	6	Drum (IsoPentane)	10	Cartridge (Nitrogen Gas)	12												
-4	1	10	4	Drum (Pentane Isomers)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen Gas)	1												
-1	1	10	4	Beaker (Hexane Isomers)	6	Beaker (N-Pentane)	2	Beaker (2-MethylPentane)	2	Beaker (3-MethylPentane)	1	Beaker (2,3-DiMethylButane)	1										
-1	1	10	4	Beaker (Hexane Isomers)	16	Beaker (N-Pentane)	5	Beaker (2-MethylPentane)	6	Beaker (3-MethylPentane)	3	Beaker (2,3-DiMethylButane)	3										
-2	1	10	4	Pail (Hexane Isomers)	1	Beaker (N-Pentane)	17	Beaker (2-MethylPentane)	20	Beaker (3-MethylPentane)	11	Beaker (2,3-DiMethylButane)	12	Beaker (2,2-DiMethylButane)	3								
-2	1	10	4	Pail (Hexane Isomers)	4	Pail (N-Pentane)	1	Pail (2-MethylPentane)	1	Beaker (3-MethylPentane)	44	Beaker (2,3-DiMethylButane)	48	Beaker (2,2-DiMethylButane)	12								
-2	1	10	4	Pail (Hexane Isomers)	16	Pail (N-Pentane)	5	Pail (2-MethylPentane)	6	Pail (3-MethylPentane)	3	Pail (2,3-DiMethylButane)	3	Beaker (2,2-DiMethylButane)	48								
-3	1	10	4	Drum (Hexane Isomers)	1	Pail (N-Pentane)	17	Pail (2-MethylPentane)	20	Pail (3-MethylPentane)	11	Pail (2,3-DiMethylButane)	12	Pail (2,2-DiMethylButane)	3								
-3	1	10	4	Drum (Hexane Isomers)	4	Drum (N-Pentane)	1	Drum (2-MethylPentane)	1	Pail (3-MethylPentane)	44	Pail (2,3-DiMethylButane)	48	Pail (2,2-DiMethylButane)	12								
-3	1	10	4	Drum (Hexane Isomers)	16	Drum (N-Pentane)	5	Drum (2-MethylPentane)	6	Drum (3-MethylPentane)	3	Drum (3-MethylPentane)	3	Pail (2,2-DiMethylButane)	48								
-4	1	10	4	Drum (Hexane Isomers)	64	Drum (N-Pentane)	17	Drum (2-MethylPentane)	20	Drum (3-MethylPentane)	11	Drum (2,3-DiMethylButane)	12	Drum (2,2-DiMethylButane)	3								
-1	1	10	4	Apple	1	Beaker (Fruit Brandy)	1																
-2	1	10	4	Apple	64	Pail (Fruit Brandy)	1																
-1	1	10	4	Potato	1	Beaker (Vodka)	1																
-2	1	10	4	Potato	64	Pail (Vodka)	1																
-1	1	10	4	Nether Wart	1	Beaker (Gin)	1																
-2	1	10	4	Nether Wart	64	Pail (Gin)	1																
-1	1	10	4	Cactus	1	Beaker (Tequila)	1																
-2	1	10	4	Cactus	64	Pail (Tequila)	1																
-1	1	10	4	Reeds	1	Beaker (Rum)	1																
-2	1	10	4	Reeds	64	Pail (Rum)	1																
-1	1	10	4	Wheat	1	Beaker (Whiskey)	1																
-2	1	10	4	Wheat	64	Pail (Whiskey)	1																
-1	1	10	4	Carrot	1	Beaker (Carrot Wine)	1																
-2	1	10	4	Carrot	64	Pail (Carrot Wine)	1																
+Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
+1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	1	Bucket	1														
+1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1														
+1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1														
+1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	2	Gravel	2														
+1.0.0	1	1	10	4	Vial (Crude Oil)	4	Vial (Naphthalene)	1	Vial (Benzene-Toluene-Xylene)	1	Vial (Gas Oil)	1	Bitumen	1										
+1.0.0	1	1	10	4	Vial (Crude Oil)	16	Vial (Naphthalene)	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Gas Oil)	4	Bitumen	4										
+1.0.0	2	1	10	4	Beaker (Crude Oil)	1	Vial (Naphthalene)	18	Vial (Benzene-Toluene-Xylene)	18	Vial (Gas Oil)	18	Bitumen	10										
+1.0.0	2	1	10	4	Beaker (Crude Oil)	4	Beaker (Naphthalene)	1	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Block of Bitumen	1										
+1.0.0	2	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Gas Oil)	4	Block of Bitumen	4										
+1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	19	Beaker (Benzene-Toluene-Xylene)	19	Beaker (Gas Oil)	19	Block of Bitumen	7										
+1.0.0	3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	64										
+1.0.0	3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64										
+1.0.0	4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64										
+1.0.0	1	1	10	4	Vial (NeoPentane)	1	Flask (Methane)	2																
+1.0.0	1	1	10	4	Vial (NeoPentane)	4	Flask (Methane)	8																
+1.0.0	1	1	10	4	Vial (NeoPentane)	16	Flask (Methane)	32																
+1.0.0	2	1	10	4	Beaker (NeoPentane)	1	Cartridge (Methane)	1	Flask (Methane)	40	Flask (Ethane)	8	Flask (Propane)	4										
+1.0.0	2	1	10	4	Beaker (NeoPentane)	4	Cartridge (Methane)	4	Cartridge (Methane)	2	Flask (Ethane)	32	Flask (Propane)	16										
+1.0.0	2	1	10	4	Beaker (NeoPentane)	16	Cartridge (Methane)	16	Cartridge (Methane)	10	Cartridge (Ethane)	2	Cartridge (Propane)	1										
+1.0.0	3	1	10	4	Drum (NeoPentane)	1	Canister (Methane)	1	Cartridge (Methane)	40	Cartridge (Ethane)	8	Cartridge (Propane)	4	Flask (Butane Isomers)	2								
+1.0.0	3	1	10	4	Drum (NeoPentane)	4	Canister (Methane)	4	Canister (Methane)	2	Cartridge (Ethane)	32	Cartridge (Propane)	16	Flask (Butane Isomers)	8	Vial (Pentane Isomers)	1						
+1.0.0	3	1	10	4	Drum (NeoPentane)	16	Canister (Methane)	16	Canister (Methane)	10	Canister (Ethane)	2	Canister (Propane)	1	Flask (Butane Isomers)	32	Vial (Pentane Isomers)	5						
+1.0.0	4	1	10	4	Drum (NeoPentane)	64	Canister (Methane)	64	Canister (Methane)	40	Canister (Ethane)	8	Canister (Propane)	4	Cartridge (Butane Isomers)	2	Vial (Pentane Isomers)	20	Vial (Hexane Isomers)	2				
+1.0.0	1	1	10	4	Vial (Naphthalene)	4	Vial (Light Naphtha)	3	Vial (Heavy Naphtha)	1														
+1.0.0	1	1	10	4	Vial (Naphthalene)	16	Vial (Light Naphtha)	12	Vial (Heavy Naphtha)	4														
+1.0.0	2	1	10	4	Beaker (Naphthalene)	1	Vial (Light Naphtha)	48	Vial (Heavy Naphtha)	16														
+1.0.0	2	1	10	4	Beaker (Naphthalene)	4	Beaker (Light Naphtha)	3	Beaker (Heavy Naphtha)	1														
+1.0.0	2	1	10	4	Beaker (Naphthalene)	16	Beaker (Light Naphtha)	12	Beaker (Heavy Naphtha)	4														
+1.0.0	3	1	10	4	Drum (Naphthalene)	1	Beaker (Light Naphtha)	48	Beaker (Heavy Naphtha)	16														
+1.0.0	3	1	10	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1														
+1.0.0	3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	12	Drum (Heavy Naphtha)	4														
+1.0.0	4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	48	Drum (Heavy Naphtha)	16														
+1.0.0	1	1	10	4	Vial (Light Naphtha)	4	Vial (Light Parrafins)	2	Vial (Light Naphthenes)	1	Vial (Light Olefins)	1												
+1.0.0	1	1	10	4	Vial (Light Naphtha)	16	Vial (Light Parrafins)	8	Vial (Light Naphthenes)	4	Vial (Light Olefins)	4												
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	1	Vial (Light Parrafins)	32	Vial (Light Naphthenes)	16	Vial (Light Olefins)	16												
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	4	Beaker (Light Parrafins)	2	Beaker (Light Naphthenes)	1	Beaker (Light Olefins)	1												
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	16	Beaker (Light Parrafins)	8	Beaker (Light Naphthenes)	4	Beaker (Light Olefins)	4												
+1.0.0	3	1	10	4	Drum (Light Naphtha)	1	Beaker (Light Parrafins)	32	Beaker (Light Naphthenes)	16	Beaker (Light Olefins)	16												
+1.0.0	3	1	10	4	Drum (Light Naphtha)	4	Drum (Light Parrafins)	2	Drum (Light Naphthenes)	1	Drum (Light Olefins)	1												
+1.0.0	3	1	10	4	Drum (Light Naphtha)	16	Drum (Light Parrafins)	8	Drum (Light Naphthenes)	4	Drum (Light Olefins)	4												
+1.0.0	4	1	10	4	Drum (Light Naphtha)	64	Drum (Light Parrafins)	32	Drum (Light Naphthenes)	16	Drum (Light Olefins)	16												
+1.0.0	1	1	10	4	Vial (Light Parrafins)	2	Flask (Methane)	1																
+1.0.0	1	1	10	4	Vial (Light Parrafins)	4	Flask (Methane)	3																
+1.0.0	1	1	10	4	Vial (Light Parrafins)	16	Flask (Methane)	14	Flask (Ethane)	2														
+1.0.0	2	1	10	4	Beaker (Light Parrafins)	1	Flask (Methane)	52	Flask (Ethane)	8	Flask (Propane)	1	Flask (Butane Isomers)	1										
+1.0.0	2	1	10	4	Beaker (Light Parrafins)	4	Cartridge (Methane)	3	Flask (Ethane)	32	Flask (Propane)	4	Flask (Butane Isomers)	4										
+1.0.0	2	1	10	4	Beaker (Light Parrafins)	16	Cartridge (Methane)	12	Cartridge (Ethane)	2	Flask (Propane)	16	Flask (Butane Isomers)	16										
+1.0.0	3	1	10	4	Drum (Light Parrafins)	1	Cartridge (Methane)	52	Cartridge (Ethane)	8	Cartridge (Propane)	1	Cartridge (Butane Isomers)	1										
+1.0.0	3	1	10	4	Drum (Light Parrafins)	4	Canister (Methane)	3	Cartridge (Ethane)	32	Cartridge (Propane)	4	Cartridge (Butane Isomers)	4										
+1.0.0	3	1	10	4	Drum (Light Parrafins)	16	Canister (Methane)	12	Canister (Ethane)	2	Cartridge (Propane)	16	Cartridge (Butane Isomers)	16										
+1.0.0	4	1	10	4	Drum (Light Parrafins)	64	Canister (Methane)	52	Canister (Ethane)	4	Canister (Propane)	2	Canister (Butane Isomers)	1	Vial (Pentane Isomers)	10	Vial (Hexane Isomers)	1						
+1.0.0	1	1	10	4	Flask (Butane Isomers)	4	Vial (N-Ethylidenecyclohexylamine)	2	Vial (IsoButane)	1														
+1.0.0	1	1	10	4	Flask (Butane Isomers)	16	Vial (N-Ethylidenecyclohexylamine)	10	Vial (IsoButane)	5														
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	1	Vial (N-Ethylidenecyclohexylamine)	42	Vial (IsoButane)	21														
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	4	Beaker (N-Ethylidenecyclohexylamine)	2	Beaker (IsoButane)	1														
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	16	Beaker (N-Ethylidenecyclohexylamine)	10	Beaker (IsoButane)	5														
+1.0.0	3	1	10	4	Canister (Butane Isomers)	1	Beaker (N-Ethylidenecyclohexylamine)	42	Beaker (IsoButane)	21														
+1.0.0	3	1	10	4	Canister (Butane Isomers)	4	Drum (N-Ethylidenecyclohexylamine)	2	Drum (IsoButane)	1														
+1.0.0	3	1	10	4	Canister (Butane Isomers)	16	Drum (N-Ethylidenecyclohexylamine)	10	Drum (IsoButane)	5														
+1.0.0	4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Ethylidenecyclohexylamine)	42	Drum (IsoButane)	21														
+1.0.0	1	1	10	4	Vial (Pentane Isomers)	4	Vial (Naphtha)	1	Vial (IsoPentane)	2														
+1.0.0	1	1	10	4	Vial (Pentane Isomers)	16	Vial (Naphtha)	6	Vial (IsoPentane)	10														
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	1	Vial (Naphtha)	23	Vial (IsoPentane)	40	Flask (Nitrogen Gas)	1												
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	4	Beaker (Naphtha)	1	Beaker (IsoPentane)	2	Flask (Nitrogen Gas)	3												
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	16	Beaker (Naphtha)	6	Beaker (IsoPentane)	10	Flask (Nitrogen Gas)	12												
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	1	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Cartridge (Nitrogen Gas)	1												
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	4	Drum (Naphtha)	1	Drum (IsoPentane)	2	Cartridge (Nitrogen Gas)	3												
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	16	Drum (Naphtha)	6	Drum (IsoPentane)	10	Cartridge (Nitrogen Gas)	12												
+1.0.0	4	1	10	4	Drum (Pentane Isomers)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen Gas)	1												
+1.0.0	1	1	10	4	Vial (Hexane Isomers)	6	Vial (N-Pentane)	2	Vial (2-MethylPentane)	2	Vial (3-MethylPentane)	1	Vial (2,3-DiMethylButane)	1										
+1.0.0	1	1	10	4	Vial (Hexane Isomers)	16	Vial (N-Pentane)	5	Vial (2-MethylPentane)	6	Vial (3-MethylPentane)	3	Vial (2,3-DiMethylButane)	3										
+1.0.0	2	1	10	4	Beaker (Hexane Isomers)	1	Vial (N-Pentane)	17	Vial (2-MethylPentane)	20	Vial (3-MethylPentane)	11	Vial (2,3-DiMethylButane)	12	Vial (2,2-DiMethylButane)	3								
+1.0.0	2	1	10	4	Beaker (Hexane Isomers)	4	Beaker (N-Pentane)	1	Beaker (2-MethylPentane)	1	Vial (3-MethylPentane)	44	Vial (2,3-DiMethylButane)	48	Vial (2,2-DiMethylButane)	12								
+1.0.0	2	1	10	4	Beaker (Hexane Isomers)	16	Beaker (N-Pentane)	5	Beaker (2-MethylPentane)	6	Beaker (3-MethylPentane)	3	Beaker (2,3-DiMethylButane)	3	Vial (2,2-DiMethylButane)	48								
+1.0.0	3	1	10	4	Drum (Hexane Isomers)	1	Beaker (N-Pentane)	17	Beaker (2-MethylPentane)	20	Beaker (3-MethylPentane)	11	Beaker (2,3-DiMethylButane)	12	Beaker (2,2-DiMethylButane)	3								
+1.0.0	3	1	10	4	Drum (Hexane Isomers)	4	Drum (N-Pentane)	1	Drum (2-MethylPentane)	1	Beaker (3-MethylPentane)	44	Beaker (2,3-DiMethylButane)	48	Beaker (2,2-DiMethylButane)	12								
+1.0.0	3	1	10	4	Drum (Hexane Isomers)	16	Drum (N-Pentane)	5	Drum (2-MethylPentane)	6	Drum (3-MethylPentane)	3	Drum (3-MethylPentane)	3	Beaker (2,2-DiMethylButane)	48								
+1.0.0	4	1	10	4	Drum (Hexane Isomers)	64	Drum (N-Pentane)	17	Drum (2-MethylPentane)	20	Drum (3-MethylPentane)	11	Drum (2,3-DiMethylButane)	12	Drum (2,2-DiMethylButane)	3								
+	1	1	10	4	Apple	1	Vial (Fruit Brandy)	1																
+	2	1	10	4	Apple	64	Beaker (Fruit Brandy)	1																
+	1	1	10	4	Potato	1	Vial (Vodka)	1																
+	2	1	10	4	Potato	64	Beaker (Vodka)	1																
+	1	1	10	4	Nether Wart	1	Vial (Gin)	1																
+	2	1	10	4	Nether Wart	64	Beaker (Gin)	1																
+	1	1	10	4	Cactus	1	Vial (Tequila)	1																
+	2	1	10	4	Cactus	64	Beaker (Tequila)	1																
+	1	1	10	4	Reeds	1	Vial (Rum)	1																
+	2	1	10	4	Reeds	64	Beaker (Rum)	1																
+	1	1	10	4	Wheat	1	Vial (Whiskey)	1																
+	2	1	10	4	Wheat	64	Beaker (Whiskey)	1																
+	1	1	10	4	Carrot	1	Vial (Carrot Wine)	1																
+	2	1	10	4	Carrot	64	Beaker (Carrot Wine)	1																

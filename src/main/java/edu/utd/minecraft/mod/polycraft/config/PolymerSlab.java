@@ -12,13 +12,14 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerSlab.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerSlab(
-						line[0], //itemSlabGameID
-						line[1], //itemDoubleSlabGameID
-						line[2], //blockSlabGameID
-						line[3], //blockDoubleSlabGameID
-						line[4], //name
-						PolymerBlock.registry.get(line[5]), //source
-						Integer.parseInt(line[7]) //bounceHeight
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //itemSlabGameID
+						line[2], //itemDoubleSlabGameID
+						line[3], //blockSlabGameID
+						line[4], //blockDoubleSlabGameID
+						line[5], //name
+						PolymerBlock.registry.get(line[6]), //source
+						Integer.parseInt(line[8]) //bounceHeight
 				));
 	}
 
@@ -32,9 +33,9 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 	public final String blockSlabName;
 	public final String blockDoubleSlabName;
 
-	public PolymerSlab(final String itemSlabGameID, final String itemDoubleSlabGameID, final String blockSlabGameID, final String blockDoubleSlabGameID,
+	public PolymerSlab(final int[] version, final String itemSlabGameID, final String itemDoubleSlabGameID, final String blockSlabGameID, final String blockDoubleSlabGameID,
 			final String name, final PolymerBlock source, final int bounceHeight) {
-		super(itemSlabGameID, name, source);
+		super(version, itemSlabGameID, name, source);
 		this.bounceHeight = bounceHeight;
 		this.itemSlabGameID = itemSlabGameID;
 		this.itemDoubleSlabGameID = itemDoubleSlabGameID;

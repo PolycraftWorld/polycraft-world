@@ -10,16 +10,19 @@ public class CompressedBlock extends SourcedConfig<GameIdentifiedConfig> {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, CompressedBlock.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new CompressedBlock(
-						line[0], //gameID
-						line[1], //name
-						(GameIdentifiedConfig) Config.find(line[2], line[3]) //source
+						PolycraftMod.getVersionNumeric(line[index++]),
+						line[index++], //gameID
+						line[index++], //name
+						(GameIdentifiedConfig) Config.find(line[index++], line[index++]) //source
 				));
+			}
 	}
 
-	public CompressedBlock(final String gameID, final String name, final GameIdentifiedConfig source) {
-		super(gameID, name, source);
+	public CompressedBlock(final int[] version, final String gameID, final String name, final GameIdentifiedConfig source) {
+		super(version, gameID, name, source);
 	}
 
 	@Override

@@ -15,17 +15,18 @@ public class CustomObject extends GameIdentifiedConfig {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, CustomObject.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new CustomObject(
-						line[0], //gameID
-						line[1], //name
-						line.length > 5 ? line[5] : null, //maxStackSize
-						line, 8 //params
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //gameID
+						line[2], //name
+						line.length > 7 ? line[7] : null, //maxStackSize
+						line, 9 //params
 				));
 	}
 
 	public final int maxStackSize;;
 
-	public CustomObject(final String gameID, final String name, final String maxStackSize, final String[] params, final int paramsOffset) {
-		super(gameID, name, params, paramsOffset);
+	public CustomObject(final int[] version, final String gameID, final String name, final String maxStackSize, final String[] params, final int paramsOffset) {
+		super(version, gameID, name, params, paramsOffset);
 		this.maxStackSize = StringUtils.isEmpty(maxStackSize) ? 0 : Integer.parseInt(maxStackSize);
 	}
 

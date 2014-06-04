@@ -19,18 +19,19 @@ public class Inventory extends GameIdentifiedConfig {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Inventory.class.getSimpleName().toLowerCase()))
 			if (line.length > 0) {
 				final Inventory inventory = registry.register(new Inventory(
-						line[0], //gameID
-						line[1], //tileEntityGameID
-						line[2], //name
-						Integer.parseInt(line[3]), //guiID
-						Integer.parseInt(line[4]), //renderID
-						line.length > 5 ? PolycraftMod.getFileSafeName(line[2] + "_" + line[5]) : null, //inventoryAsset
-						line, 15 //params
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //gameID
+						line[2], //tileEntityGameID
+						line[3], //name
+						Integer.parseInt(line[4]), //guiID
+						Integer.parseInt(line[5]), //renderID
+						line.length > 6 ? PolycraftMod.getFileSafeName(line[3] + "_" + line[6]) : null, //inventoryAsset
+						line, 16 //params
 						));
-				for (int i = 6; i <= 13; i++) {
+				for (int i = 7; i <= 14; i++) {
 					if (line.length > i) {
 						if (!line[i].isEmpty())
-							inventory.blockFaceAssets.put(BlockFace.values()[i - 6], PolycraftMod.getFileSafeName(inventory.name + "_" + line[i]));
+							inventory.blockFaceAssets.put(BlockFace.values()[i - 7], PolycraftMod.getFileSafeName(inventory.name + "_" + line[i]));
 					}
 					else
 						break;
@@ -45,8 +46,8 @@ public class Inventory extends GameIdentifiedConfig {
 	public final Map<BlockFace, String> blockFaceAssets = Maps.newHashMap();
 	public PolycraftContainerType containerType;
 
-	public Inventory(final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID, final String inventoryAsset, final String[] params, final int paramsOffset) {
-		super(gameID, name, params, paramsOffset);
+	public Inventory(final int[] version, final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID, final String inventoryAsset, final String[] params, final int paramsOffset) {
+		super(version, gameID, name, params, paramsOffset);
 		this.tileEntityGameID = tileEntityGameID;
 		this.guiID = guiID;
 		this.renderID = renderID;

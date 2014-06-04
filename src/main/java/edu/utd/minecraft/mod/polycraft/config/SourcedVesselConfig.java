@@ -7,8 +7,8 @@ public abstract class SourcedVesselConfig<S extends Config> extends SourcedConfi
 
 	public final Vessel.Type vesselType;
 
-	public SourcedVesselConfig(final String gameID, final String name, final S source, final Vessel.Type vesselType) {
-		super(gameID, name, source);
+	public SourcedVesselConfig(final int[] version, final String gameID, final String name, final S source, final Vessel.Type vesselType) {
+		super(version, gameID, name, source);
 		this.vesselType = vesselType;
 	}
 

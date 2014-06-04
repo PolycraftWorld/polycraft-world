@@ -5,15 +5,15 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 public class Vessel {
 
 	public enum Type {
-		Vial(Matter.State.Solid),
-		Beaker(Matter.State.Liquid),
+		Bag(Matter.State.Solid),
+		Vial(Matter.State.Liquid),
 		Flask(Matter.State.Gas),
-		Jar(Matter.State.Solid, Vial),
-		Pail(Matter.State.Liquid, Beaker),
+		Sack(Matter.State.Solid, Bag),
+		Beaker(Matter.State.Liquid, Vial),
 		Cartridge(Matter.State.Gas, Flask),
-		PowderKeg(Matter.State.Solid, Jar),
-		Drum(Matter.State.Liquid, Pail),
-		Canister(Matter.State.Gas, Drum);
+		PowderKeg(Matter.State.Solid, Sack),
+		Drum(Matter.State.Liquid, Beaker),
+		Canister(Matter.State.Gas, Cartridge);
 
 		public final Matter.State matterState;
 		public final Type smallerType;
@@ -40,6 +40,10 @@ public class Vessel {
 			if (smallerType == null)
 				return 1;
 			return quantityOfSmallerType * smallerType.getQuantityOfSmallestType();
+		}
+
+		public static Type readFromConfig(final String config) {
+			return Type.valueOf(config.replaceAll(" ", ""));
 		}
 	}
 }

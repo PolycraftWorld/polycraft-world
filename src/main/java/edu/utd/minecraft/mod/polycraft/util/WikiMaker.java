@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Element;
@@ -116,16 +117,17 @@ public class WikiMaker {
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
 			//wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
-			//wikiMaker.createFuelPage();
+			wikiMaker.createFuelPage();
 			//wikiMaker.createItemTypesPage(ImmutableList.of(
-			//		Ore.class, Ingot.class, Catalyst.class, CompoundVessel.class,
+			//		Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
 			//		PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
 			//		Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-			wikiMaker.createItemPages(Inventory.registry);
+			//wikiMaker.createItemPages(Inventory.registry);
 			//wikiMaker.createItemPages(Ore.registry);
 			//wikiMaker.createItemPages(Ingot.registry);
 			//wikiMaker.createItemPages(Catalyst.registry);
-			//wikiMaker.createItemPages(CompoundVessel.registry);
+			//wikiMaker.createItemPages(ElementVessel.registry);
+			wikiMaker.createItemPages(CompoundVessel.registry);
 			//wikiMaker.createItemPages(PolymerPellets.registry);
 			//wikiMaker.createItemPages(PolymerFibers.registry);
 			//wikiMaker.createItemPages(PolymerBlock.registry);

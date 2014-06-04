@@ -8,17 +8,21 @@ public class MinecraftBlock extends Config {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, MinecraftBlock.class.getSimpleName().toLowerCase()))
-			if (line.length > 4 && !"0".equals(line[0]))
-				registry.register(new MinecraftBlock(
-						line[0], //name
-						Integer.parseInt(line[4]) //id
-				));
+			if (line.length > 0) {
+				final int[] version = PolycraftMod.getVersionNumeric(line[0]);
+				if (version != null)
+					registry.register(new MinecraftBlock(
+							version, //version
+							line[1], //name
+							Integer.parseInt(line[5]) //id
+					));
+			}
 	}
 
 	public final int id;
 
-	public MinecraftBlock(final String name, final int id) {
-		super(name);
+	public MinecraftBlock(final int[] version, final String name, final int id) {
+		super(version, name);
 		this.id = id;
 	}
 }

@@ -44,7 +44,9 @@ import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
@@ -278,6 +280,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerVessels() {
+		for (final ElementVessel vessel : ElementVessel.registry.values())
+			registerItem(vessel, new ItemVessel<ElementVessel>(vessel));
 		for (final CompoundVessel vessel : CompoundVessel.registry.values())
 			registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 	}
@@ -326,11 +330,11 @@ public class PolycraftRegistry {
 	private static void registerMoldedItems() {
 		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
 			Item item = null;
-			if ("E".equals(moldedItem.source.gameID))
+			if (GameID.MoldedRunningShoes.matches(moldedItem.source))
 				item = new ItemRunningShoes(moldedItem);
-			else if ("G".equals(moldedItem.source.gameID))
+			else if (GameID.MoldScubaFins.matches(moldedItem.source))
 				item = new ItemScubaFins(moldedItem);
-			else if ("H".equals(moldedItem.source.gameID))
+			else if (GameID.MoldScubaMask.matches(moldedItem.source))
 				item = new ItemScubaMask(moldedItem);
 			else
 				item = new ItemMoldedItem(moldedItem);
@@ -350,21 +354,21 @@ public class PolycraftRegistry {
 
 	private static void registerInventories() {
 		for (final Inventory inventory : Inventory.registry.values()) {
-			if ("3h".equals(inventory.gameID))
+			if (GameID.InventoryTreeTap.matches(inventory))
 				TreeTapInventory.register(inventory);
-			else if ("3i".equals(inventory.gameID))
+			else if (GameID.InventoryMachiningMill.matches(inventory))
 				MachiningMillInventory.register(inventory);
-			else if ("3j".equals(inventory.gameID))
+			else if (GameID.InventoryExtruder.matches(inventory))
 				ExtruderInventory.register(inventory);
-			else if ("3k".equals(inventory.gameID))
+			else if (GameID.InventoryInjectionMolder.matches(inventory))
 				InjectionMolderInventory.register(inventory);
-			else if ("3E".equals(inventory.gameID))
+			else if (GameID.InventoryDistillationColumn.matches(inventory))
 				DistillationColumnInventory.register(inventory);
-			else if ("3D".equals(inventory.gameID))
+			else if (GameID.InventorySteamCracker.matches(inventory))
 				SteamCrackerInventory.register(inventory);
-			else if ("3V".equals(inventory.gameID))
+			else if (GameID.InventoryFueledLamp.matches(inventory))
 				FueledLampInventory.register(inventory);
-			else if ("41".equals(inventory.gameID))
+			else if (GameID.InventorySpotlight.matches(inventory))
 				SpotlightInventory.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
@@ -387,7 +391,7 @@ public class PolycraftRegistry {
 		fluidOil.setBlock(PolycraftMod.blockOil);
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
-			if ("3m".equals(customObject.gameID)) {
+			if (GameID.CustomBucketOil.matches(customObject)) {
 				final Item itemBucketOil = registerItem(customObject,
 						new PolycraftBucket(PolycraftMod.blockOil)
 								.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
@@ -398,25 +402,25 @@ public class PolycraftRegistry {
 				BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, itemBucketOil);
 				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 			}
-			else if ("3n".equals(customObject.gameID)) {
+			else if (GameID.CustomFlameThrower.matches(customObject)) {
 				registerItem(customObject, new ItemFlameThrower(customObject));
 			}
-			else if ("3o".equals(customObject.gameID)) {
+			else if (GameID.CustomFlashlight.matches(customObject)) {
 				registerItem(customObject, new ItemFlashlight(customObject));
 			}
-			else if ("3p".equals(customObject.gameID)) {
+			else if (GameID.CustomJetPack.matches(customObject)) {
 				registerItem(customObject, new ItemJetPack(customObject));
 			}
-			else if ("5a".equals(customObject.gameID)) {
+			else if (GameID.CustomParachute.matches(customObject)) {
 				registerItem(customObject, new ItemParachute(customObject));
 			}
-			else if ("3r".equals(customObject.gameID)) {
+			else if (GameID.CustomPhaseShifter.matches(customObject)) {
 				registerItem(customObject, new ItemPhaseShifter(customObject));
 			}
-			else if ("3x".equals(customObject.gameID)) {
+			else if (GameID.CustomScubaTank.matches(customObject)) {
 				registerItem(customObject, new ItemScubaTank(customObject));
 			}
-			else if ("5b".equals(customObject.gameID)) {
+			else if (GameID.CustomKevlarVest.matches(customObject)) {
 				registerItem(customObject, new ItemKevlarVest(customObject));
 			}
 			else
@@ -436,7 +440,7 @@ public class PolycraftRegistry {
 		final Collection<String> langEntries = new LinkedList<String>();
 
 		for (final InternalObject internalObject : InternalObject.registry.values()) {
-			if ("1D".equals(internalObject.gameID)) {
+			if (GameID.InternalOil.matches(internalObject)) {
 				langEntries.add(String.format(fluidFormat, internalObject.name.toLowerCase(), internalObject.name));
 				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.name));
 			}
@@ -453,6 +457,9 @@ public class PolycraftRegistry {
 
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format(itemFormat, catalyst.gameID, catalyst.name));
+
+		for (final ElementVessel vessel : ElementVessel.registry.values())
+			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));
 
 		for (final CompoundVessel vessel : CompoundVessel.registry.values())
 			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));

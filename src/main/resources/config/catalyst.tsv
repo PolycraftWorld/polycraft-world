@@ -1,29 +1,29 @@
-Game ID	Catalyst	Source Type	Source Name
-18	Platinum Catalyst	Element	Platinum
-19	Titanium Catalyst	Element	Titanium
-1a	Palladium Catalyst	Element	Palladium
-1b	Cobalt Catalyst	Element	Cobalt
-1c	Manganese Catalyst	Element	Manganese
-1d	Silver Catalyst	Element	Silver
-1e	Mercury Catalyst	Element	Mercury
-1f	Rhodium Catalyst	Element	Rhodium
-1g	Antimony Trioxide Catalyst	Compound	Antimony Trioxide
-1h	Copper II Chloride Catalyst	Compound	Copper II Chloride
-1i	Iron III Chloride Catalyst	Compound	Iron III Chloride
-1j	Iron III Oxide Catalyst	Compound	Iron III Oxide
-1k	Ziegler-Natta Catalyst	Compound	Ziegler-Natta
-1l	Cobalt-Manganese-Bromide Catalyst	Compound	Cobalt-Manganese-Bromide
-1m	Potassium Hydroxide Catalyst	Compound	Potassium Hydroxide
-1n	Zeolite Catalyst	Compound	Zeolite
-1o	Zinc II Chloride Catalyst	Compound	Zinc II Chloride
-1p	Tungsten VI Chloride  Catalyst	Compound	Tungsten VI Chloride 
-1q	Samarium III Chloride Catalyst	Compound	Samarium III Chloride
-1r	Magnesium Sulfate Catalyst	Compound	Magnesium Sulfate
-1s	Copper II Sulfate Catalyst	Compound	Copper II Sulfate
-1t	Calcium Hydride Catalyst	Compound	Calcium Hydride
-1u	Phosphorus Pentoxide Catalyst	Compound	Phosphorus Pentoxide
-1v	Trimethyl Orthoformate Catalyst	Compound	Trimethyl Orthoformate
-1w	Aluminoxane Catalyst	Compound	Aluminoxane
-1x	Sodium Hydroxide Catalyst	Compound	Sodium Hydroxide
-1y	Triethylaluminium Catalyst	Compound	Triethylaluminium
-1z	Methyl Ethyl Ketone Peroxide Catalyst	Compound	Methyl Ethyl Ketone Peroxide
+Version	Game ID	Catalyst	Source Type	Source Name
+1.0.0	18	Platinum Catalyst	Element	Platinum
+1.0.0	19	Titanium Catalyst	Element	Titanium
+1.0.0	1a	Palladium Catalyst	Element	Palladium
+1.0.0	1b	Cobalt Catalyst	Element	Cobalt
+1.0.0	1c	Manganese Catalyst	Element	Manganese
+1.0.0	1d	Silver Catalyst	Element	Silver
+1.0.0	1e	Mercury Catalyst	Element	Mercury
+1.0.0	1f	Rhodium Catalyst	Element	Rhodium
+1.0.1	1g	Antimony Trioxide Catalyst	Compound	Antimony Trioxide
+1.0.1	1h	Copper II Chloride Catalyst	Compound	Copper II Chloride
+1.0.1	1i	Iron III Chloride Catalyst	Compound	Iron III Chloride
+1.0.1	1j	Iron III Oxide Catalyst	Compound	Iron III Oxide
+1.0.1	1k	Ziegler-Natta Catalyst	Compound	Ziegler-Natta
+1.0.1	1l	Cobalt-Manganese-Bromide Catalyst	Compound	Cobalt-Manganese-Bromide
+1.0.1	1m	Potassium Hydroxide Catalyst	Compound	Potassium Hydroxide
+1.0.1	1n	Zeolite Catalyst	Compound	Zeolite
+1.0.1	1o	Zinc II Chloride Catalyst	Compound	Zinc II Chloride
+1.0.1	1p	Tungsten VI Chloride  Catalyst	Compound	Tungsten VI Chloride 
+1.0.1	1q	Samarium III Chloride Catalyst	Compound	Samarium III Chloride
+1.0.1	1r	Magnesium Sulfate Catalyst	Compound	Magnesium Sulfate
+1.0.1	1s	Copper II Sulfate Catalyst	Compound	Copper II Sulfate
+1.0.1	1t	Calcium Hydride Catalyst	Compound	Calcium Hydride
+1.0.1	1u	Phosphorus Pentoxide Catalyst	Compound	Phosphorus Pentoxide
+1.0.1	1v	Trimethyl Orthoformate Catalyst	Compound	Trimethyl Orthoformate
+1.0.1	1w	Aluminoxane Catalyst	Compound	Aluminoxane
+1.0.1	1x	Sodium Hydroxide Catalyst	Compound	Sodium Hydroxide
+1.0.1	1y	Triethylaluminium Catalyst	Compound	Triethylaluminium
+1.0.1	1z	Methyl Ethyl Ketone Peroxide Catalyst	Compound	Methyl Ethyl Ketone Peroxide

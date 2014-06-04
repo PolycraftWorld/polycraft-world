@@ -10,16 +10,19 @@ public class Catalyst extends SourcedConfig {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Catalyst.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new Catalyst(
-						line[0], //gameID
-						line[1], //name
-						Config.find(line[2], line[3]) //source
+						PolycraftMod.getVersionNumeric(line[index++]), //version
+						line[index++], //gameID
+						line[index++], //name
+						Config.find(line[index++], line[index++]) //source
 				));
+			}
 	}
 
-	public Catalyst(final String gameID, final String name, final Config source) {
-		super(gameID, name, source);
+	public Catalyst(final int[] version, final String gameID, final String name, final Config source) {
+		super(version, gameID, name, source);
 	}
 
 	@Override

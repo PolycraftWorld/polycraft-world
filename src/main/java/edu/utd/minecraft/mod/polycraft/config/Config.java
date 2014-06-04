@@ -15,17 +15,19 @@ public abstract class Config {
 		return Character.toLowerCase(name.charAt(0)) + name.substring(1);
 	}
 
+	public final int[] version;
 	public final String name;
 	public final ConfigParams params;
 
-	public Config(final String name) {
-		this(name, null, 0);
+	public Config(final int[] version, final String name) {
+		this(version, name, null, 0);
 	}
 
-	public Config(final String name, final String[] params, final int paramsOffset) {
+	public Config(final int[] version, final String name, final String[] params, final int paramsOffset) {
 		if (name == null || name.length() == 0) {
 			throw new IllegalArgumentException("name");
 		}
+		this.version = version;
 		this.name = name;
 		this.params = (params == null || params.length <= paramsOffset) ? null : new ConfigParams(params, paramsOffset);
 	}
@@ -45,6 +47,7 @@ public abstract class Config {
 		Ingot.registerFromResource(directory);
 		CompressedBlock.registerFromResource(directory);
 		Catalyst.registerFromResource(directory);
+		ElementVessel.registerFromResource(directory);
 		CompoundVessel.registerFromResource(directory);
 		PolymerPellets.registerFromResource(directory);
 		PolymerFibers.registerFromResource(directory);
@@ -76,6 +79,7 @@ public abstract class Config {
 		registriesByType.put(Ore.class.getSimpleName(), Ore.registry);
 		registriesByType.put(Ingot.class.getSimpleName(), Ingot.registry);
 		registriesByType.put(Catalyst.class.getSimpleName(), Catalyst.registry);
+		registriesByType.put(ElementVessel.class.getSimpleName(), ElementVessel.registry);
 		registriesByType.put(CompoundVessel.class.getSimpleName(), CompoundVessel.registry);
 		registriesByType.put(PolymerPellets.class.getSimpleName(), PolymerPellets.registry);
 		registriesByType.put(PolymerFibers.class.getSimpleName(), PolymerFibers.registry);

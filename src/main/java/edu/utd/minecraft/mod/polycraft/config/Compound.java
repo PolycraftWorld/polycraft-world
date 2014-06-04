@@ -8,22 +8,28 @@ public class Compound extends Config {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Compound.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new Compound(
-						line[0], //name
-						line.length > 1 ? line[1] : "", //formula
-						line.length > 2 ? line[2] : "", //uses
-						line.length > 3 ? line[3] : "" //sources
+						PolycraftMod.getVersionNumeric(line[index++]), //version
+						line[index++], //name
+						line[index++], //formula
+						Matter.State.valueOf(line[index++]), //state
+						line.length > index ? line[index++] : "", //uses
+						line.length > index ? line[index++] : "" //sources
 				));
+			}
 	}
 
 	public final String formula;
+	public final Matter.State state;
 	public final String uses;
 	public final String sources;
 
-	public Compound(final String name, final String formula, final String uses, final String sources) {
-		super(name);
+	public Compound(final int[] version, final String name, final String formula, final Matter.State state, final String uses, final String sources) {
+		super(version, name);
 		this.formula = formula;
+		this.state = state;
 		this.uses = uses;
 		this.sources = sources;
 	}

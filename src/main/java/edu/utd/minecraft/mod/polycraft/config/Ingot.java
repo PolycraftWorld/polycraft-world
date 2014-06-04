@@ -10,19 +10,22 @@ public class Ingot extends SourcedConfig {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Ingot.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new Ingot(
-						line[0], //gameID
-						line[1], //name
-						Config.find(line[2], line[3]), //source
-						Integer.parseInt(line[4]) //moldDamagePerUse
+						PolycraftMod.getVersionNumeric(line[index++]),
+						line[index++], //gameID
+						line[index++], //name
+						Config.find(line[index++], line[index++]), //source
+						Integer.parseInt(line[index++]) //moldDamagePerUse
 				));
+			}
 	}
 
 	public final int moldDamagePerUse;
 
-	public Ingot(final String gameID, final String name, final Config source, final int moldDamagePerUse) {
-		super(gameID, name, source);
+	public Ingot(final int[] version, final String gameID, final String name, final Config source, final int moldDamagePerUse) {
+		super(version, gameID, name, source);
 		this.moldDamagePerUse = moldDamagePerUse;
 	}
 

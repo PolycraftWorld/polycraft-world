@@ -11,13 +11,14 @@ public class InternalObject extends GameIdentifiedConfig {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, InternalObject.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new InternalObject(
-						line[0], //gameID
-						line[1] //name
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //gameID
+						line[2] //name
 				));
 	}
 
-	public InternalObject(final String gameID, final String name) {
-		super(gameID, name);
+	public InternalObject(final int[] version, final String gameID, final String name) {
+		super(version, gameID, name);
 	}
 
 	@Override

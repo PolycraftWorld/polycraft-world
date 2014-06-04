@@ -59,28 +59,29 @@ public class Polymer extends Config {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Polymer.class.getSimpleName().toLowerCase())) {
 			if (line.length > 0) {
 				int resinCodeValue = 0;
-				if (line[3].length() > 0) {
-					resinCodeValue = Integer.parseInt(line[3]);
+				if (line[4].length() > 0) {
+					resinCodeValue = Integer.parseInt(line[4]);
 					if (resinCodeValue > 7)
 						resinCodeValue = 0;
 				}
 
 				Collection<Category> categories = null;
-				for (int i = 6; i <= 8 && line.length > i; i++) {
+				for (int i = 7; i <= 9 && line.length > i; i++) {
 
 					final String category = line[i].trim();
 					if (!category.isEmpty()) {
 						if (categories == null)
 							categories = new LinkedList<Category>();
-						categories.add(Polymer.Category.valueOf(line[6].replaceAll("[^A-Za-z0-9]", "").toLowerCase()));
+						categories.add(Polymer.Category.valueOf(line[i].replaceAll("[^A-Za-z0-9]", "").toLowerCase()));
 					}
 				}
 
 				registry.register(new Polymer(
-						line[0], // name
-						line[1], // shortName
+						PolycraftMod.getVersionNumeric(line[0]), //version
+						line[1], // name
+						line[2], // shortName
 						Polymer.ResinCode.values()[resinCodeValue], // resinCode
-						Boolean.parseBoolean(line[4]), // degradable
+						Boolean.parseBoolean(line[5]), // degradable
 						categories // categories
 				));
 			}
@@ -92,8 +93,8 @@ public class Polymer extends Config {
 	public final Collection<Category> categories;
 	public final ResinCode resinCode;
 
-	public Polymer(final String name, final String shortName, final ResinCode resinCode, final boolean degradable, final Collection<Category> categories) {
-		super(name);
+	public Polymer(final int[] version, final String name, final String shortName, final ResinCode resinCode, final boolean degradable, final Collection<Category> categories) {
+		super(version, name);
 		this.shortName = shortName;
 		this.resinCode = resinCode;
 		this.degradable = degradable;

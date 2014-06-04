@@ -12,11 +12,12 @@ public class PolymerWall extends SourcedConfig<PolymerBlock> {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerWall.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new PolymerWall(
-						line[0], // blockGameID
-						line[1], // itemGameID
-						line[2], // name
-						PolymerBlock.registry.get(line[3]), // source
-						Integer.parseInt(line[5]) // bounceHeight
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], // blockGameID
+						line[2], // itemGameID
+						line[3], // name
+						PolymerBlock.registry.get(line[4]), // source
+						Integer.parseInt(line[6]) // bounceHeight
 				));
 	}
 
@@ -26,8 +27,8 @@ public class PolymerWall extends SourcedConfig<PolymerBlock> {
 	public final String itemWallName;
 	public final String itemWallGameID;
 
-	public PolymerWall(final String blockGameID, final String itemGameID, final String name, final PolymerBlock source, final int bounceHeight) {
-		super(blockGameID, name, source);
+	public PolymerWall(final int[] version, final String blockGameID, final String itemGameID, final String name, final PolymerBlock source, final int bounceHeight) {
+		super(version, blockGameID, name, source);
 		this.bounceHeight = bounceHeight;
 		this.blockWallGameID = blockGameID;
 		this.itemWallGameID = itemGameID;

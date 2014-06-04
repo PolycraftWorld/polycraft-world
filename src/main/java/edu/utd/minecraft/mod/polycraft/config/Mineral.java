@@ -8,11 +8,16 @@ public class Mineral extends Config {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Mineral.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
-				registry.register(new Mineral(line[0]));
+			if (line.length > 0) {
+				int index = 0;
+				registry.register(new Mineral(
+						PolycraftMod.getVersionNumeric(line[index++]), //version
+						line[index++] //name
+				));
+			}
 	}
 
-	public Mineral(final String name) {
-		super(name);
+	public Mineral(final int[] version, final String name) {
+		super(version, name);
 	}
 }

@@ -6,13 +6,13 @@ public abstract class GameIdentifiedConfig<S extends Config> extends Config {
 
 	public final String gameID;
 
-	public GameIdentifiedConfig(final String gameID, final String name) {
-		super(name);
+	public GameIdentifiedConfig(final int[] version, final String gameID, final String name) {
+		super(version, name);
 		this.gameID = gameID;
 	}
 
-	public GameIdentifiedConfig(final String gameID, final String name, final String[] params, final int paramsOffset) {
-		super(name, params, paramsOffset);
+	public GameIdentifiedConfig(final int[] version, final String gameID, final String name, final String[] params, final int paramsOffset) {
+		super(version, name, params, paramsOffset);
 		this.gameID = gameID;
 	}
 

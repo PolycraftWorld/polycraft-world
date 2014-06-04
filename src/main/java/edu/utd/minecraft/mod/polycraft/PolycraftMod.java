@@ -13,6 +13,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +39,32 @@ public class PolycraftMod {
 	private static final Logger logger = LogManager.getLogger();
 
 	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "1.0.0";
+	private static final int[] VERSION_NUMERIC = new int[] { 1, 0, 0 };
+
+	public static final int[] getVersionNumeric(final String version) {
+		if (StringUtils.isEmpty(version))
+			return null;
+		final String[] split = version.split("\\.");
+		if (split.length != VERSION_NUMERIC.length)
+			return null;
+		final int[] versionNumeric = new int[split.length];
+		for (int i = 0; i < VERSION_NUMERIC.length; i++)
+			versionNumeric[i] = Integer.parseInt(split[i]);
+		return versionNumeric;
+	}
+
+	public static final boolean isVersionCompatible(final int[] version) {
+		if (version == null || version.length != VERSION_NUMERIC.length)
+			return false;
+		for (int i = 0; i < VERSION_NUMERIC.length; i++) {
+			if (VERSION_NUMERIC[i] > version[i])
+				return true;
+			if (VERSION_NUMERIC[i] < version[i])
+				return false;
+		}
+		return true;
+	}
 
 	@Instance(value = MODID)
 	public static PolycraftMod instance;

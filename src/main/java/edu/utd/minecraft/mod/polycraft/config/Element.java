@@ -8,25 +8,30 @@ public class Element extends Config {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Element.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new Element(
-						line[0], //name
-						line[1], //symbol
-						Integer.parseInt(line[2]), //atomicNumber
-						Integer.parseInt(line[3]), //group
-						Integer.parseInt(line[4]), //period
-						Double.parseDouble(line[5]), //weight
-						Double.parseDouble(line[6]), //density
-						Double.parseDouble(line[7]), //melt
-						Double.parseDouble(line[8]), //boil
-						Double.parseDouble(line[9]), //heat
-						Double.parseDouble(line[10]), //electronegativity
-						Double.parseDouble(line[11]) //abundance
+						PolycraftMod.getVersionNumeric(line[index++]), //version
+						line[index++], //name
+						line[index++], //symbol
+						Matter.State.valueOf(line[index++]), //state
+						Integer.parseInt(line[index++]), //atomicNumber
+						Integer.parseInt(line[index++]), //group
+						Integer.parseInt(line[index++]), //period
+						Double.parseDouble(line[index++]), //weight
+						Double.parseDouble(line[index++]), //density
+						Double.parseDouble(line[index++]), //melt
+						Double.parseDouble(line[index++]), //boil
+						Double.parseDouble(line[index++]), //heat
+						Double.parseDouble(line[index++]), //electronegativity
+						Double.parseDouble(line[index++]) //abundance
 				));
+			}
 	}
 
 	public final String symbol;
 	public final int atomicNumber;
+	public final Matter.State state;
 	public final int group;
 	public final int period;
 	public final double weight;
@@ -37,12 +42,13 @@ public class Element extends Config {
 	public final double electronegativity;
 	public final double abundance;
 
-	public Element(final String name, final String symbol, final int atomicNumber,
+	public Element(final int[] version, final String name, final String symbol, final Matter.State state, final int atomicNumber,
 			final int group, final int period, final double weight, final double density,
 			final double melt, final double boil, final double heat,
 			final double electronegativity, final double abundance) {
-		super(name);
+		super(version, name);
 		this.symbol = symbol;
+		this.state = state;
 		this.atomicNumber = atomicNumber;
 		this.group = group;
 		this.period = period;

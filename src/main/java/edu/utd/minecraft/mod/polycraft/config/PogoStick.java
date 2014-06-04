@@ -10,18 +10,21 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PogoStick.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new PogoStick(
-						line[0], //gameID
-						line[1], //name
-						Tool.Material.valueOf(line[2]), //toolMaterial
-						Integer.parseInt(line[3]), //maxBounces
-						Float.parseFloat(line[4]), //stableBounceHeight
-						Float.parseFloat(line[5]), //jumpMovementFactorBuff
-						Boolean.parseBoolean(line[6]), //restrictJumpToGround
-						registry.get(line[7]), //source
-						MoldedItem.registry.get(line[8]) //grip
+						PolycraftMod.getVersionNumeric(line[index++]),
+						line[index++], //gameID
+						line[index++], //name
+						Tool.Material.valueOf(line[index++]), //toolMaterial
+						Integer.parseInt(line[index++]), //maxBounces
+						Float.parseFloat(line[index++]), //stableBounceHeight
+						Float.parseFloat(line[index++]), //jumpMovementFactorBuff
+						Boolean.parseBoolean(line[index++]), //restrictJumpToGround
+						registry.get(line[index++]), //source
+						MoldedItem.registry.get(line[index++]) //grip
 				));
+			}
 	}
 
 	public final MoldedItem grip;
@@ -32,10 +35,10 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 	public final boolean restrictJumpToGround;
 	public final float maxFallNoDamageHeight;
 
-	public PogoStick(final String gameID, final String name, final Tool.Material toolMaterial,
+	public PogoStick(final int[] version, final String gameID, final String name, final Tool.Material toolMaterial,
 			final int maxBounces, final float stableBounceHeight, final float jumpMovementFactorBuff, final boolean restrictJumpToGround,
 			final PogoStick source, final MoldedItem grip) {
-		super(gameID, name, source);
+		super(version, gameID, name, source);
 		this.grip = grip;
 		this.toolMaterial = toolMaterial;
 		this.maxBounces = maxBounces;

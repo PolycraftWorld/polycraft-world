@@ -10,20 +10,23 @@ public class Ore extends SourcedConfig {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Ore.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
+			if (line.length > 0) {
+				int index = 0;
 				registry.register(new Ore(
-						line[0], //gameID
-						line[1], //name
-						Config.find(line[2], line[3]), //source
-						Float.parseFloat(line[4]), //hardness
-						Float.parseFloat(line[5]), //resistance
-						Integer.parseInt(line[6]), //dropExperienceMin
-						Integer.parseInt(line[7]), //dropExperienceMax
-						Integer.parseInt(line[8]), //generationVeinsPerChunk
-						Integer.parseInt(line[9]), //generationBlocksPerVein
-						Integer.parseInt(line[10]), //generationStartYMin
-						Integer.parseInt(line[11]) //generationStartYMax
+						PolycraftMod.getVersionNumeric(line[index++]),
+						line[index++], //gameID
+						line[index++], //name
+						Config.find(line[index++], line[index++]), //source
+						Float.parseFloat(line[index++]), //hardness
+						Float.parseFloat(line[index++]), //resistance
+						Integer.parseInt(line[index++]), //dropExperienceMin
+						Integer.parseInt(line[index++]), //dropExperienceMax
+						Integer.parseInt(line[index++]), //generationVeinsPerChunk
+						Integer.parseInt(line[index++]), //generationBlocksPerVein
+						Integer.parseInt(line[index++]), //generationStartYMin
+						Integer.parseInt(line[index++]) //generationStartYMax
 				));
+			}
 	}
 
 	public final float hardness;
@@ -35,9 +38,9 @@ public class Ore extends SourcedConfig {
 	public final int generationVeinsPerChunk;
 	public final int generationBlocksPerVein;
 
-	public Ore(final String gameID, final String name, final Config source, final float hardness, final float resistance, final int dropExperienceMin, final int dropExperienceMax,
+	public Ore(final int[] version, final String gameID, final String name, final Config source, final float hardness, final float resistance, final int dropExperienceMin, final int dropExperienceMax,
 			final int generationVeinsPerChunk, final int generationBlocksPerVein, final int generationStartYMin, final int generationStartYMax) {
-		super(gameID, name, source);
+		super(version, gameID, name, source);
 		this.hardness = hardness;
 		this.resistance = resistance;
 		this.dropExperienceMin = dropExperienceMin;

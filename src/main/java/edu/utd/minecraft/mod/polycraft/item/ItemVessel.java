@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
+import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
@@ -48,6 +49,8 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 		if (searchForLargerItem) {
 			if (cofig.vesselType.largerType != null) {
 				GameIdentifiedConfig largerConfig = null;
+				if (cofig instanceof ElementVessel)
+					largerConfig = ElementVessel.registry.find(((ElementVessel) cofig).source, cofig.vesselType.largerType);
 				if (cofig instanceof CompoundVessel)
 					largerConfig = CompoundVessel.registry.find(((CompoundVessel) cofig).source, cofig.vesselType.largerType);
 				else if (cofig instanceof PolymerPellets)

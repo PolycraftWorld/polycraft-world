@@ -24,6 +24,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
+import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
@@ -345,12 +346,10 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	private static String gameIDLifePreserver = "J";
-
 	private void onClientTickGenericMoldedItem(final EntityPlayer player) {
 		if (ItemMoldedItem.isEquipped(player)) {
 			final MoldedItem moldedItem = ItemMoldedItem.getEquippedItem(player).getMoldedItem();
-			if (gameIDLifePreserver.equals(moldedItem.source.gameID)) {
+			if (GameID.MoldLifePreserver.matches(moldedItem.source)) {
 				if (player.isInWater() && !isKeyDown(gameSettings.keyBindJump) && !isKeyDown(gameSettings.keyBindSneak))
 					player.motionY = 0;
 			}

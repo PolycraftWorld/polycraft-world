@@ -17,11 +17,12 @@ public class Mold extends GameIdentifiedConfig {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Mold.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new Mold(
-						line[0], //gameID
-						line[1], //name
-						Type.valueOf(line[2].replaceAll(" ", "")), //type
-						PolymerObject.registry.get(line[3]), //polymerObject
-						Integer.parseInt(line[4]) //craftingMaxDamage
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //gameID
+						line[2], //name
+						Type.valueOf(line[3].replaceAll(" ", "")), //type
+						PolymerObject.registry.get(line[4]), //polymerObject
+						Integer.parseInt(line[5]) //craftingMaxDamage
 				));
 	}
 
@@ -29,8 +30,8 @@ public class Mold extends GameIdentifiedConfig {
 	public final PolymerObject polymerObject;
 	public final int craftingMaxDamage;
 
-	public Mold(final String gameID, final String name, final Type moldType, final PolymerObject polymerObject, final int craftingMaxDamage) {
-		super(gameID, name);
+	public Mold(final int[] version, final String gameID, final String name, final Type moldType, final PolymerObject polymerObject, final int craftingMaxDamage) {
+		super(version, gameID, name);
 		this.moldType = moldType;
 		this.polymerObject = polymerObject;
 		this.craftingMaxDamage = craftingMaxDamage;

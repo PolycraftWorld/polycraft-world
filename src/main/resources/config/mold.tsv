@@ -1,12 +1,13 @@
-Game ID	Mold	Mold Type	Polymer Object	Crafting Max Damage
-D	Mold (Grip)	Mold	Grip	8192
-E	Mold (Running Shoes)	Mold	Running Shoes	8192
-G	Mold (Scuba Fins)	Mold	Scuba Fins	8192
-H	Mold (Scuba Mask)	Mold	Scuba Mask	8192
-I	Mold (Gasket)	Mold	Gasket	8192
-J	Mold (Life Preserver)	Mold	Life Preserver	8192
-K	Metal Die (Fibers)	Metal Die	Fibers	8192
-L	Metal Die (Tether)	Metal Die	Tether	8192
-M	Metal Die (Cord)	Metal Die	Cord	8192
-N	Metal Die (Hose)	Metal Die	Hose	8192
-3g	Metal Die (Large Pipe)	Metal Die	Large Pipe	8192
+Version	Game ID	Mold	Mold Type	Polymer Object	Crafting Max Damage
+1.0.0	D	Mold (Grip)	Mold	Grip	8192
+1.0.0	E	Mold (Running Shoes)	Mold	Running Shoes	8192
+1.0.0	G	Mold (Scuba Fins)	Mold	Scuba Fins	8192
+1.0.0	H	Mold (Scuba Mask)	Mold	Scuba Mask	8192
+1.0.0	I	Mold (Gasket)	Mold	Gasket	8192
+1.0.0	J	Mold (Life Preserver)	Mold	Life Preserver	8192
+1.0.0	K	Metal Die (Fibers)	Metal Die	Fibers	8192
+1.0.0	L	Metal Die (Tether)	Metal Die	Tether	8192
+1.0.0	M	Metal Die (Cord)	Metal Die	Cord	8192
+1.0.0	N	Metal Die (Hose)	Metal Die	Hose	8192
+1.0.0	3g	Metal Die (Large Pipe)	Metal Die	Large Pipe	8192
+1.0.0	5I	Mold (Flashlight Shaft)	Mold	Flashlight Shaft	8192

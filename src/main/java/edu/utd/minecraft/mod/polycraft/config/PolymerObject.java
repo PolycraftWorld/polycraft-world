@@ -8,11 +8,16 @@ public class PolymerObject extends Config {
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolymerObject.class.getSimpleName().toLowerCase()))
-			if (line.length > 0)
-				registry.register(new PolymerObject(line[0]));
+			if (line.length > 0) {
+				int index = 0;
+				registry.register(new PolymerObject(
+						PolycraftMod.getVersionNumeric(line[index++]), //version
+						line[1] //name
+				));
+			}
 	}
 
-	public PolymerObject(final String name) {
-		super(name);
+	public PolymerObject(final int[] version, final String name) {
+		super(version, name);
 	}
 }

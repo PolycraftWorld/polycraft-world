@@ -15,14 +15,15 @@ public class MoldedItem extends SourcedConfig<Mold> {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, MoldedItem.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
 				registry.register(new MoldedItem(
-						line[0], //gameID
-						line[1], //name
-						Mold.registry.get(line[2]), //source
-						PolymerPellets.registry.get(line[3]), //polymerPellets
-						Integer.parseInt(line[5]), //craftingPellets
-						Float.parseFloat(line[6]), //craftingDurationSeconds
-						line[7], //craftingDurationSeconds
-						line, 9 //params
+						PolycraftMod.getVersionNumeric(line[0]),
+						line[1], //gameID
+						line[2], //name
+						Mold.registry.get(line[3]), //source
+						PolymerPellets.registry.get(line[4]), //polymerPellets
+						Integer.parseInt(line[6]), //craftingPellets
+						Float.parseFloat(line[7]), //craftingDurationSeconds
+						line[8], //craftingDurationSeconds
+						line, 10 //params
 				));
 	}
 
@@ -31,9 +32,9 @@ public class MoldedItem extends SourcedConfig<Mold> {
 	public final float craftingDurationSeconds;
 	public final int maxStackSize;
 
-	public MoldedItem(final String gameID, final String name, final Mold source, final PolymerPellets polymerPellets,
+	public MoldedItem(final int[] version, final String gameID, final String name, final Mold source, final PolymerPellets polymerPellets,
 			final int craftingPellets, final float craftingDurationSeconds, final String maxStackSize, final String[] params, final int paramsOffset) {
-		super(gameID, name, source, params, paramsOffset);
+		super(version, gameID, name, source, params, paramsOffset);
 		this.polymerPellets = polymerPellets;
 		this.craftingPellets = craftingPellets;
 		this.craftingDurationSeconds = craftingDurationSeconds;
