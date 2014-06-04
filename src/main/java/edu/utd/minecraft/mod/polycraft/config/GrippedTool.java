@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.ImmutableList;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
@@ -41,5 +46,19 @@ public class GrippedTool extends SourcedConfig<MinecraftItem> {
 	@Override
 	public ItemStack getItemStack(int size) {
 		return new ItemStack(PolycraftRegistry.getItem(this), size);
+	}
+
+	public List<String> PROPERTY_NAMES = ImmutableList.of("Durability Buff", "Speed Buff");
+
+	@Override
+	public List<String> getPropertyNames() {
+		return PROPERTY_NAMES;
+	}
+
+	@Override
+	public List<String> getPropertyValues() {
+		return ImmutableList.of(
+				PolycraftMod.numFormat.format(durabilityBuff),
+				PolycraftMod.numFormat.format(speedBuff));
 	}
 }

@@ -9,8 +9,8 @@ public abstract class SourcedConfig<S extends Config> extends GameIdentifiedConf
 		this.source = source;
 	}
 
-	public SourcedConfig(final int[] version, final String gameID, final String name, final S source, final String[] params, final int paramsOffset) {
-		super(version, gameID, name, params, paramsOffset);
+	public SourcedConfig(final int[] version, final String gameID, final String name, final S source, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
+		super(version, gameID, name, paramNames, paramValues, paramsOffset);
 		this.source = source;
 	}
 }

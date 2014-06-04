@@ -19,14 +19,15 @@ public class CustomObject extends GameIdentifiedConfig {
 						line[1], //gameID
 						line[2], //name
 						line.length > 7 ? line[7] : null, //maxStackSize
+						line.length > 8 ? line[8].split(",") : null, //paramNames
 						line, 9 //params
 				));
 	}
 
 	public final int maxStackSize;;
 
-	public CustomObject(final int[] version, final String gameID, final String name, final String maxStackSize, final String[] params, final int paramsOffset) {
-		super(version, gameID, name, params, paramsOffset);
+	public CustomObject(final int[] version, final String gameID, final String name, final String maxStackSize, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
+		super(version, gameID, name, paramNames, paramValues, paramsOffset);
 		this.maxStackSize = StringUtils.isEmpty(maxStackSize) ? 0 : Integer.parseInt(maxStackSize);
 	}
 

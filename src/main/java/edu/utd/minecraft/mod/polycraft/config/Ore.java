@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.ImmutableList;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
@@ -54,5 +59,23 @@ public class Ore extends SourcedConfig {
 	@Override
 	public ItemStack getItemStack(int size) {
 		return new ItemStack(PolycraftRegistry.getBlock(this), size);
+	}
+
+	public List<String> PROPERTY_NAMES = ImmutableList.of("Hardness", "Resistance", "Veins per Chunk", "Blocks per Vein", "Depth Min", "Depth Max");
+
+	@Override
+	public List<String> getPropertyNames() {
+		return PROPERTY_NAMES;
+	}
+
+	@Override
+	public List<String> getPropertyValues() {
+		return ImmutableList.of(
+				PolycraftMod.numFormat.format(hardness),
+				PolycraftMod.numFormat.format(resistance),
+				PolycraftMod.numFormat.format(generationVeinsPerChunk),
+				PolycraftMod.numFormat.format(generationBlocksPerVein),
+				PolycraftMod.numFormat.format(generationStartYMin),
+				PolycraftMod.numFormat.format(generationStartYMax));
 	}
 }

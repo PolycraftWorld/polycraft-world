@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -30,29 +30,17 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
-import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
-import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
-import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
-import edu.utd.minecraft.mod.polycraft.config.Mold;
-import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
-import edu.utd.minecraft.mod.polycraft.config.Ore;
-import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
-import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
-import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
-import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
-import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
-import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
@@ -73,7 +61,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemPolymerWall;
 public class WikiMaker {
 
 	private static final Logger logger = LogManager.getLogger();
-	private static final NumberFormat numFormat = NumberFormat.getInstance();
 
 	private static final String WIKIPEDIA_SEARCH = "http://en.wikipedia.org/wiki/Special:Search/";
 	private static final String MINECRAFT_WIKI = "http://minecraft.gamepedia.com/";
@@ -97,7 +84,7 @@ public class WikiMaker {
 	private static final String WIKI_NEWLINE = "\n";
 
 	private enum PageSectionItem {
-		Description, External, Recipes, History, Gallery, References;
+		Description, External, Properties, Recipes, History, Gallery, References;
 
 		public final String heading;
 
@@ -117,28 +104,30 @@ public class WikiMaker {
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
 			//wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
-			wikiMaker.createFuelPage();
+			//wikiMaker.createFuelPage();
 			//wikiMaker.createItemTypesPage(ImmutableList.of(
 			//		Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
 			//		PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
 			//		Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-			//wikiMaker.createItemPages(Inventory.registry);
-			//wikiMaker.createItemPages(Ore.registry);
-			//wikiMaker.createItemPages(Ingot.registry);
-			//wikiMaker.createItemPages(Catalyst.registry);
-			//wikiMaker.createItemPages(ElementVessel.registry);
+			/*
+			wikiMaker.createItemPages(Inventory.registry);
+			wikiMaker.createItemPages(Ore.registry);
+			wikiMaker.createItemPages(Ingot.registry);
+			wikiMaker.createItemPages(Catalyst.registry);
+			wikiMaker.createItemPages(ElementVessel.registry);
 			wikiMaker.createItemPages(CompoundVessel.registry);
-			//wikiMaker.createItemPages(PolymerPellets.registry);
-			//wikiMaker.createItemPages(PolymerFibers.registry);
-			//wikiMaker.createItemPages(PolymerBlock.registry);
-			//wikiMaker.createItemPages(PolymerSlab.registry);
-			//wikiMaker.createItemPages(PolymerStairs.registry);
-			//wikiMaker.createItemPages(PolymerWall.registry);
-			//wikiMaker.createItemPages(Mold.registry);
-			//wikiMaker.createItemPages(MoldedItem.registry);
-			//wikiMaker.createItemPages(GrippedTool.registry);
-			//wikiMaker.createItemPages(PogoStick.registry);
-			//wikiMaker.createItemPages(CustomObject.registry);
+			wikiMaker.createItemPages(PolymerPellets.registry);
+			wikiMaker.createItemPages(PolymerFibers.registry);
+			wikiMaker.createItemPages(PolymerBlock.registry);
+			wikiMaker.createItemPages(PolymerSlab.registry);
+			wikiMaker.createItemPages(PolymerStairs.registry);
+			wikiMaker.createItemPages(PolymerWall.registry);
+			wikiMaker.createItemPages(Mold.registry);
+			wikiMaker.createItemPages(MoldedItem.registry);
+			wikiMaker.createItemPages(GrippedTool.registry);
+			wikiMaker.createItemPages(PogoStick.registry);
+			wikiMaker.createItemPages(CustomObject.registry);
+			*/
 			wikiMaker.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -497,8 +486,8 @@ public class WikiMaker {
 			final Collection<String> row = Lists.newLinkedList();
 			final ItemStack fuelStack = new ItemStack(fuelEntry.getKey());
 			row.add(getLink(getItemStackLocation(fuelStack), getItemStackName(fuelStack)));
-			row.add(numFormat.format(fuelEntry.getValue().fuel.heatIntensity));
-			row.add(numFormat.format(fuelEntry.getValue().getHeatDuration()));
+			row.add(PolycraftMod.numFormat.format(fuelEntry.getValue().fuel.heatIntensity));
+			row.add(PolycraftMod.numFormat.format(fuelEntry.getValue().getHeatDuration()));
 			data.add(row);
 		}
 		wiki.edit(getListOfTypeTitle(Fuel.class), getTable(FUEL_HEADERS, data), editSummary);
@@ -571,6 +560,8 @@ public class WikiMaker {
 				createItemPage(config);
 	}
 
+	private final Collection<String> PROPERTIES_HEADERS = ImmutableList.of("Name", "Value");
+
 	private <C extends GameIdentifiedConfig> void createItemPage(final C config) throws LoginException, IOException {
 		final String title = config.name;
 		int index = 1;
@@ -590,6 +581,24 @@ public class WikiMaker {
 								page.append(getLink(location, source.name + " on " + getUrlHost(location))).append(WIKI_NEWLINE);
 							}
 						}
+					}
+				}
+				else if (section == PageSectionItem.Properties) {
+					if (config.hasProperties() || config.params != null) {
+						page.append(getHeading(2, section.heading));
+						index++;
+						final Collection<Collection<String>> propertiesData = Lists.newLinkedList();
+						if (config.hasProperties()) {
+							final List<String> propertyNames = config.getPropertyNames();
+							final List<String> propertyValues = config.getPropertyValues();
+							for (int i = 0; i < propertyValues.size(); i++)
+								propertiesData.add(ImmutableList.of(propertyNames.get(i), propertyValues.get(i)));
+						}
+						if (config.params != null) {
+							for (int i = 0; i < config.params.values.size(); i++)
+								propertiesData.add(ImmutableList.of(config.params.names[i], config.params.getPretty(i)));
+						}
+						page.append(getTable(PROPERTIES_HEADERS, propertiesData)).append(WIKI_NEWLINE);
 					}
 				}
 				else {
@@ -612,10 +621,13 @@ public class WikiMaker {
 	private <C extends GameIdentifiedConfig> void createItemPageList(final ConfigRegistry<C> registry) throws LoginException, IOException {
 		boolean isSourced = false;
 		boolean isVesseled = false;
+		C firstConfig = null;
 		Class type = null;
 		Class singleSourceType = null;
 		final Collection<String> categories = Sets.newLinkedHashSet();
 		for (final C config : registry.values()) {
+			if (firstConfig == null)
+				firstConfig = config;
 			if (gameIdentifiedConfigHasItem(config)) {
 				isSourced = (config instanceof SourcedConfig);
 				if (isSourced) {
@@ -654,7 +666,8 @@ public class WikiMaker {
 			}
 			if (isVesseled)
 				headers.add("Vessel");
-			addItemPageListCustomHeaders(type, headers);
+			if (firstConfig.hasProperties())
+				headers.addAll(firstConfig.getPropertyNames());
 
 			final Collection<Collection<String>> data = Lists.newLinkedList();
 			for (final C config : registry.values()) {
@@ -678,119 +691,14 @@ public class WikiMaker {
 					}
 					if (isVesseled)
 						row.add(getLinkCategory(getTitle(((SourcedVesselConfig) config).vesselType.toString(), false)));
-					addItemPageListCustomRowData(config, row);
+					if (config.hasProperties())
+						row.addAll(config.getPropertyValues());
 					data.add(row);
 				}
 			}
 			final StringBuilder page = new StringBuilder(getTable(headers, data));
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
 			wiki.edit(getListOfTypeTitle(type), page.toString(), editSummary);
-		}
-	}
-
-	private void addItemPageListCustomHeaders(final Class type, final Collection<String> headers) {
-		//TODO move to somewhere that the details page has access to as well
-		if (type == Ore.class) {
-			headers.add("Hardness");
-			headers.add("Resistance");
-			headers.add("Veins Per Chunk");
-			headers.add("Blocks Per Vein");
-			headers.add("Depth Min");
-			headers.add("Depth Max");
-		}
-		else if (type == Ingot.class) {
-			headers.add("Mold Damage Per Use");
-		}
-		else if (type == PolymerPellets.class) {
-			headers.add("Crafting Min Heat Intensity");
-			headers.add("Crafting Max Heat Intensity");
-		}
-		else if (type == PolymerBlock.class) {
-			headers.add("Bounce Height");
-		}
-		else if (type == PolymerSlab.class) {
-			headers.add("Bounce Height");
-		}
-		else if (type == PolymerWall.class) {
-			headers.add("Bounce Height");
-		}
-		else if (type == PolymerStairs.class) {
-			headers.add("Bounce Height");
-		}
-		else if (type == Mold.class) {
-			headers.add("Crafting Max Damage");
-		}
-		else if (type == MoldedItem.class) {
-			headers.add("Crafting Pellets");
-			headers.add("Crafting Duration (secs)");
-		}
-		else if (type == GrippedTool.class) {
-			headers.add("Durability Buff");
-			headers.add("Speed Buff");
-		}
-		else if (type == PogoStick.class) {
-			headers.add("Max Bounces");
-			headers.add("Stable Bounce Height");
-			headers.add("Jump Movement Buff");
-			headers.add("Restrict Jump to Ground");
-		}
-	}
-
-	private <C extends GameIdentifiedConfig> void addItemPageListCustomRowData(final C config, final Collection<String> row) {
-		if (config instanceof Ore) {
-			final Ore ore = (Ore) config;
-			row.add(numFormat.format(ore.hardness));
-			row.add(numFormat.format(ore.resistance));
-			row.add(numFormat.format(ore.generationVeinsPerChunk));
-			row.add(numFormat.format(ore.generationBlocksPerVein));
-			row.add(numFormat.format(ore.generationStartYMin));
-			row.add(numFormat.format(ore.generationStartYMax));
-		}
-		else if (config instanceof Ingot) {
-			final Ingot ingot = (Ingot) config;
-			row.add(numFormat.format(ingot.moldDamagePerUse));
-		}
-		else if (config instanceof PolymerPellets) {
-			final PolymerPellets polymerPellets = (PolymerPellets) config;
-			row.add(numFormat.format(polymerPellets.craftingMinHeatIntensity));
-			row.add(numFormat.format(polymerPellets.craftingMaxHeatIntensity));
-		}
-		else if (config instanceof PolymerBlock) {
-			final PolymerBlock polymerBlock = (PolymerBlock) config;
-			row.add(numFormat.format(polymerBlock.bounceHeight));
-		}
-		else if (config instanceof PolymerSlab) {
-			final PolymerSlab polymerSlab = (PolymerSlab) config;
-			row.add(numFormat.format(polymerSlab.bounceHeight));
-		}
-		else if (config instanceof PolymerWall) {
-			final PolymerWall polymerWall = (PolymerWall) config;
-			row.add(numFormat.format(polymerWall.bounceHeight));
-		}
-		else if (config instanceof PolymerStairs) {
-			final PolymerStairs polymerStairs = (PolymerStairs) config;
-			row.add(numFormat.format(polymerStairs.bounceHeight));
-		}
-		else if (config instanceof Mold) {
-			final Mold mold = (Mold) config;
-			row.add(numFormat.format(mold.craftingMaxDamage));
-		}
-		else if (config instanceof MoldedItem) {
-			final MoldedItem moldedItem = (MoldedItem) config;
-			row.add(numFormat.format(moldedItem.craftingPellets));
-			row.add(numFormat.format(moldedItem.craftingDurationSeconds));
-		}
-		else if (config instanceof GrippedTool) {
-			final GrippedTool grippedTool = (GrippedTool) config;
-			row.add(numFormat.format(grippedTool.durabilityBuff));
-			row.add(numFormat.format(grippedTool.speedBuff));
-		}
-		else if (config instanceof PogoStick) {
-			final PogoStick pogoStick = (PogoStick) config;
-			row.add(numFormat.format(pogoStick.maxBounces));
-			row.add(numFormat.format(pogoStick.stableBounceHeight));
-			row.add(numFormat.format(pogoStick.jumpMovementFactorBuff));
-			row.add(String.valueOf(pogoStick.restrictJumpToGround));
 		}
 	}
 }

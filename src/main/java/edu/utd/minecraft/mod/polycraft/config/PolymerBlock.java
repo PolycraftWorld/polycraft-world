@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.ImmutableList;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
@@ -40,5 +45,17 @@ public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 
 	public ItemStack getItemStack(int size, int metadata) {
 		return new ItemStack(PolycraftRegistry.getBlock(this), size, metadata);
+	}
+
+	public List<String> PROPERTY_NAMES = ImmutableList.of("Bounce Height");
+
+	@Override
+	public List<String> getPropertyNames() {
+		return PROPERTY_NAMES;
+	}
+
+	@Override
+	public List<String> getPropertyValues() {
+		return ImmutableList.of(PolycraftMod.numFormat.format(bounceHeight));
 	}
 }

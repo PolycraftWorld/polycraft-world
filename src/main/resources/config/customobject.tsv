@@ -1,13 +1,13 @@
 Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
 1.0.0	3l	Metal Screw	PC Item	2	TRUE												
 1.0.0	3m	Bucket (Crude Oil)	PC Item	1	TRUE												
-1.0.0	3n	Flame Thrower	Weapon	7	TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
-1.0.0	3o	Flashlight	Utility		TRUE		1	MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
-1.0.0	3p	Jet Pack	Armor		TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect	5000	1	0.4	5					
-1.0.0	5a	Parachute					1	VelocityDescent	0.3								
+1.0.0	3n	Flame Thrower	Weapon	7	TRUE		1	Fuel Units Full, Fuel Units Burn per Tick, Range, Spread, Fire Duration (sec), Initial Damage	1000	1	10	2	5	3			
+1.0.0	3o	Flashlight	Utility		TRUE		1	Max Light Level, Light Level Decrease by Distance, Viewing Cone Angle	15	0.5	15						
+1.0.0	3p	Jet Pack	Armor		TRUE		1	Fuel Units Full, Fuel Units Burn Per Tick, Velocity in Air, Exhaust Damage Direct	5000	1	0.4	5					
+1.0.0	5a	Parachute					1	Velocity Descent	0.3								
 1.0.0	3q	Laser	Tool		TRUE		1										
-1.0.0	3r	Phase Shifter	Tool	7	TRUE		1	Radius, Velocity, BoundaryBlock	3	0.6	Glass						
-1.0.0	3x	Scuba Tank	Armor		TRUE		1	AirUnitsFull, AirUnitsConsumePerTick	5000	1							
+1.0.0	3r	Phase Shifter	Tool	7	TRUE		1	Radius, Velocity, Boundary Block	3	0.6	Glass						
+1.0.0	3x	Scuba Tank	Armor		TRUE		1	Air Units Full, Air Units Consume per Tick	5000	1							
 1.0.0	3A	Wetsuit	Armor		TRUE		1										
 1.0.0	3C	Structural Truss	PC Block		TRUE												
 	3G	Barley	Food		TRUE												
@@ -20,7 +20,7 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 	3S	Trampoline Mesh	PC Item		TRUE												
 	3T	Trampoline	PC Block		TRUE												
 1.0.0	3X	Gas Mantle	PC Item	4	TRUE												
-1.0.0	5b	Kevlar Vest					1	armorBuffOverDiamond	1.5								
+1.0.0	5b	Kevlar Vest					1	Armor Buff Over Diamond	1.5								
 1.0.0	5d	Heat Exchanger	PC Item		TRUE												
 1.0.0	5e	Heat Fins	PC Item		TRUE												
 1.0.0	5c	Flashlight Shaft	Utility														

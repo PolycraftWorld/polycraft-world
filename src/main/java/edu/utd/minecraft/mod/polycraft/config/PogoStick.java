@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.ImmutableList;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 
@@ -70,5 +75,21 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 		if (motion < .2)
 			return 0;
 		return motion;
+	}
+
+	public List<String> PROPERTY_NAMES = ImmutableList.of("Max Bounces", "Stable Bounce Height", "Jump Movement Buff", "Restrict Jump to Ground");
+
+	@Override
+	public List<String> getPropertyNames() {
+		return PROPERTY_NAMES;
+	}
+
+	@Override
+	public List<String> getPropertyValues() {
+		return ImmutableList.of(
+				PolycraftMod.numFormat.format(maxBounces),
+				PolycraftMod.numFormat.format(stableBounceHeight),
+				PolycraftMod.numFormat.format(jumpMovementFactorBuff),
+				String.valueOf(restrictJumpToGround));
 	}
 }

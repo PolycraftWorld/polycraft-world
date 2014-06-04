@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,16 +21,16 @@ public abstract class Config {
 	public final ConfigParams params;
 
 	public Config(final int[] version, final String name) {
-		this(version, name, null, 0);
+		this(version, name, null, null, 0);
 	}
 
-	public Config(final int[] version, final String name, final String[] params, final int paramsOffset) {
+	public Config(final int[] version, final String name, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
 		if (name == null || name.length() == 0) {
 			throw new IllegalArgumentException("name");
 		}
 		this.version = version;
 		this.name = name;
-		this.params = (params == null || params.length <= paramsOffset) ? null : new ConfigParams(params, paramsOffset);
+		this.params = (paramNames == null || paramValues == null || paramValues.length <= paramsOffset) ? null : new ConfigParams(paramNames, paramValues, paramsOffset);
 	}
 
 	public static void registerFromResources(final String directory) {
@@ -101,6 +102,18 @@ public abstract class Config {
 		if (registry != null) {
 			return registry.get(name);
 		}
+		return null;
+	}
+
+	public boolean hasProperties() {
+		return getPropertyNames() != null;
+	}
+
+	public List<String> getPropertyNames() {
+		return null;
+	}
+
+	public List<String> getPropertyValues() {
 		return null;
 	}
 }

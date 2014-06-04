@@ -26,6 +26,7 @@ public class Inventory extends GameIdentifiedConfig {
 						Integer.parseInt(line[4]), //guiID
 						Integer.parseInt(line[5]), //renderID
 						line.length > 6 ? PolycraftMod.getFileSafeName(line[3] + "_" + line[6]) : null, //inventoryAsset
+						line.length > 15 ? line[15].split(",") : null, //paramNames
 						line, 16 //params
 						));
 				for (int i = 7; i <= 14; i++) {
@@ -46,8 +47,9 @@ public class Inventory extends GameIdentifiedConfig {
 	public final Map<BlockFace, String> blockFaceAssets = Maps.newHashMap();
 	public PolycraftContainerType containerType;
 
-	public Inventory(final int[] version, final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID, final String inventoryAsset, final String[] params, final int paramsOffset) {
-		super(version, gameID, name, params, paramsOffset);
+	public Inventory(final int[] version, final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID, final String inventoryAsset,
+			final String[] paramNames, final String[] paramValues, final int paramsOffset) {
+		super(version, gameID, name, paramNames, paramValues, paramsOffset);
 		this.tileEntityGameID = tileEntityGameID;
 		this.guiID = guiID;
 		this.renderID = renderID;

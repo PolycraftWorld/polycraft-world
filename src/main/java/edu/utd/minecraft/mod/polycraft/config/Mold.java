@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.ImmutableList;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
@@ -44,5 +49,17 @@ public class Mold extends GameIdentifiedConfig {
 
 	public ItemStack getItemStack(final Ingot ingot) {
 		return ItemMold.setDamagePerUse(new ItemStack(PolycraftRegistry.getItem(this)), ingot.moldDamagePerUse);
+	}
+
+	public List<String> PROPERTY_NAMES = ImmutableList.of("Crafting Max Damage");
+
+	@Override
+	public List<String> getPropertyNames() {
+		return PROPERTY_NAMES;
+	}
+
+	@Override
+	public List<String> getPropertyValues() {
+		return ImmutableList.of(PolycraftMod.numFormat.format(craftingMaxDamage));
 	}
 }

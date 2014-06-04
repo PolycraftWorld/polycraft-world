@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class PolymerPellets extends SourcedVesselConfig<Polymer> {
@@ -34,5 +38,19 @@ public class PolymerPellets extends SourcedVesselConfig<Polymer> {
 		super(version, gameID, name, source, vesselType);
 		this.craftingMinHeatIntensity = craftingMinHeatIntensity;
 		this.craftingMaxHeatIntensity = craftingMaxHeatIntensity;
+	}
+
+	public List<String> PROPERTY_NAMES = ImmutableList.of("Crafting Min Heat Intensity", "Crafting Max Heat Intensity");
+
+	@Override
+	public List<String> getPropertyNames() {
+		return PROPERTY_NAMES;
+	}
+
+	@Override
+	public List<String> getPropertyValues() {
+		return ImmutableList.of(
+				PolycraftMod.numFormat.format(craftingMinHeatIntensity),
+				PolycraftMod.numFormat.format(craftingMaxHeatIntensity));
 	}
 }
