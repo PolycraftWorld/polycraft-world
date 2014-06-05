@@ -73,8 +73,10 @@ public class WikiMaker {
 			MINECRAFT_TEXTURES_DIRECTORY + "/armor",
 	};
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
+	private static final String POLYCRAFT_SCREENSHOTS_DIRECTORY = "wiki/screenshots";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
+			POLYCRAFT_SCREENSHOTS_DIRECTORY,
 			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
 			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
 			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
