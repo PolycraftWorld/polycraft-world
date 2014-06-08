@@ -5,7 +5,6 @@
 /.gradle
 /bin
 /eclipse
-/build.gradle
 /gradlew
 /gradlew.bat
 /LICENSE-fml.txt
