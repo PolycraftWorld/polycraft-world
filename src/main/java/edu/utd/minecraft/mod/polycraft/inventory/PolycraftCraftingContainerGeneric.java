@@ -83,6 +83,9 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 			}
 
 			slot.onPickupFromSlot(entityPlayer, itemstack1);
+			if (!(slot instanceof PolycraftCraftingContainer.CraftingSlot) && slot.inventory != null && slot.inventory instanceof PolycraftInventory) {
+				((PolycraftInventory) slot.inventory).onPickupFromSlot(entityPlayer, getContainerType().getContainerSlotByIndex(slotIndex), itemstack1);
+			}
 		}
 		return itemstack;
 	}

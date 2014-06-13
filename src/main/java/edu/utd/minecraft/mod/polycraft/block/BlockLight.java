@@ -5,18 +5,31 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.vecmath.Point3i;
-
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.material.Material;
-import net.minecraft.world.World;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+//import javax.vecmath.Point3i;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockAir;
+
+import net.minecraft.world.World;
 
 public class BlockLight extends BlockAir {
+
+	public static class Point3i {
+
+		public final int x, y, z;
+
+		public Point3i(int _x, int _y, int _z)
+		{
+			this.x = _x;
+			this.y = _y;
+			this.z = _z;
+
+		}
+
+	}
 
 	public static class Source {
 
@@ -36,7 +49,7 @@ public class BlockLight extends BlockAir {
 			this.size = size;
 			this.direction = direction;
 			points.add(origin);
-			//omni-directional
+			// omni-directional
 			if (direction == -1) {
 				for (int s = 1; s <= size; s++) {
 					final int offsetX = origin.x - s;
@@ -46,20 +59,20 @@ public class BlockLight extends BlockAir {
 					final int spacing = length > 3 ? 4 : 2;
 					for (int l = 0; l < length; l += spacing) {
 						int y = 0;
-						//TODO handle occlusions?
-						//TODO enabled 3rd dimension?
-						//for (int y = 0; y < length; y += spacing) {
+						// TODO handle occlusions?
+						// TODO enabled 3rd dimension?
+						// for (int y = 0; y < length; y += spacing) {
 						points.add(new Point3i(offsetX + l, offsetY + y, offsetZ));
 						points.add(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1));
 						if (l > 0 && l < (length - 1)) {
 							points.add(new Point3i(offsetX, offsetY + y, offsetZ + l));
 							points.add(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l));
 						}
-						//}
+						// }
 					}
 				}
 			}
-			//directional
+			// directional
 			else {
 				boolean occluded = false;
 				for (int i = 1; i <= size; i++) {

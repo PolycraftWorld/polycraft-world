@@ -56,6 +56,10 @@ public class PolycraftMod {
 		return versionNumeric;
 	}
 
+	public static final String getVersionText(final int[] version) {
+		return String.format("%d.%d.%d", version[0], version[1], version[2]);
+	}
+
 	public static final boolean isVersionCompatible(final int[] version) {
 		if (version == null || version.length != VERSION_NUMERIC.length)
 			return false;
@@ -91,9 +95,9 @@ public class PolycraftMod {
 	public static final int recipeGripsPerTool = 1;
 	public static final int recipeGripsPerPogoStick = 2;
 
-	public static final int itemPogoStickBouncesUntilStable = 3; //how many bounces it takes to stabilize at stableBounceHeight
-	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; //how many times the stableBounceHeight a player can fall without taking damage
-	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; //the amount of damage the pogo stick will absorb if the max fall height is exceded
+	public static final int itemPogoStickBouncesUntilStable = 3; // how many bounces it takes to stabilize at stableBounceHeight
+	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; // how many times the stableBounceHeight a player can fall without taking damage
+	public static final float itemPogoStickMaxFallExcedeDamageReduction = .5f; // the amount of damage the pogo stick will absorb if the max fall height is exceded
 	public static final Map<Integer, String> itemJetPackLandingWarnings = Maps.newLinkedHashMap();
 	static {
 		itemJetPackLandingWarnings.put(0, "Hope you packed a parachute...");
@@ -128,7 +132,7 @@ public class PolycraftMod {
 
 		// If wiki params are specified in the environment in VM Args under Run Configuration/Arguments
 		// (e.g. -DwikiUrl=www.polycraftworld.com -DwikiScriptPath=/wiki -DwikiUsername=Polycraftbot -DwikiPassword=gmratst6zf -DwikiOverwritePages=true)
-		// then data is uploaded to the Polycraft wiki and the program exits.  Hint: adding "nogui" to the program arguments on the same page saves some time!
+		// then data is uploaded to the Polycraft wiki and the program exits. Hint: adding "nogui" to the program arguments on the same page saves some time!
 		if (System.getProperty("wikiUrl") != null) {
 			WikiMaker.generate(
 					System.getProperty("wikiUrl"),
@@ -140,7 +144,7 @@ public class PolycraftMod {
 		}
 
 		// If "langOutputFile" is specified in the environment (e.g. -DlangOutputFile=/tmp/lang.txt),
-		// then a text file is generated that can be used as the resources lang file.  Hint: adding "nogui" to the program
+		// then a text file is generated that can be used as the resources lang file. Hint: adding "nogui" to the program
 		// arguments on the same page saves some time!
 		if (System.getProperty("langOutputFile") != null) {
 			try {
@@ -217,7 +221,7 @@ public class PolycraftMod {
 		Collection<String[]> config = new LinkedList<String[]>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(PolycraftMod.class.getClassLoader().getResourceAsStream(directory + "/" + name + "." + extension)));
 		try {
-			br.readLine();//skip the first line (headers)
+			br.readLine();// skip the first line (headers)
 			for (String line; (line = br.readLine()) != null;) {
 				config.add(line.split(delimeter));
 			}

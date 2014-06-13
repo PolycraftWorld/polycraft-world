@@ -56,6 +56,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerWall;
 
 public class WikiMaker {
@@ -75,14 +77,17 @@ public class WikiMaker {
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_SCREENSHOTS_DIRECTORY = "wiki/screenshots";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
+	private static final String POLYRAFT_TEXTURES_NEW_VERSION = "wiki/textures/wiki_3D_blocks";// "wiki/version1.01";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-			POLYCRAFT_SCREENSHOTS_DIRECTORY,
-			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
-			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
-			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
-			POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
-			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
+			POLYRAFT_TEXTURES_NEW_VERSION
+			// POLYCRAFT_SCREENSHOTS_DIRECTORY,
+			// POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
+			// POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
 	};
+
 	private static final String WIKI_NEWLINE = "\n";
 
 	private enum PageSectionItem {
@@ -102,34 +107,35 @@ public class WikiMaker {
 	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
-			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
-			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
-			//wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
-			//wikiMaker.createFuelPage();
-			//wikiMaker.createItemTypesPage(ImmutableList.of(
-			//		Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
-			//		PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
-			//		Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-			/*
-			wikiMaker.createItemPages(Inventory.registry);
-			wikiMaker.createItemPages(Ore.registry);
-			wikiMaker.createItemPages(Ingot.registry);
-			wikiMaker.createItemPages(Catalyst.registry);
-			wikiMaker.createItemPages(ElementVessel.registry);
-			wikiMaker.createItemPages(CompoundVessel.registry);
-			wikiMaker.createItemPages(PolymerPellets.registry);
-			wikiMaker.createItemPages(PolymerFibers.registry);
-			wikiMaker.createItemPages(PolymerBlock.registry);
-			wikiMaker.createItemPages(PolymerSlab.registry);
-			wikiMaker.createItemPages(PolymerStairs.registry);
-			wikiMaker.createItemPages(PolymerWall.registry);
-			wikiMaker.createItemPages(Mold.registry);
-			wikiMaker.createItemPages(MoldedItem.registry);
-			wikiMaker.createItemPages(GrippedTool.registry);
-			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(CustomObject.registry);
-			*/
+			// wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
+			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES); // add new textures for new version here
+
+			// wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
+			// wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
+			// wikiMaker.createFuelPage();
+			// wikiMaker.createItemTypesPage(ImmutableList.of(
+			// Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
+			// PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
+			// Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
+			//
+			// wikiMaker.createItemPages(Inventory.registry);
+			// wikiMaker.createItemPages(Ore.registry);
+			// wikiMaker.createItemPages(Ingot.registry);
+			// wikiMaker.createItemPages(Catalyst.registry);
+			// wikiMaker.createItemPages(ElementVessel.registry);
+			// wikiMaker.createItemPages(CompoundVessel.registry);
+			// wikiMaker.createItemPages(PolymerPellets.registry);
+			// wikiMaker.createItemPages(PolymerFibers.registry);
+			// wikiMaker.createItemPages(PolymerBlock.registry);
+			// wikiMaker.createItemPages(PolymerSlab.registry);
+			// wikiMaker.createItemPages(PolymerStairs.registry);
+			// wikiMaker.createItemPages(PolymerWall.registry);
+			// wikiMaker.createItemPages(Mold.registry);
+			// wikiMaker.createItemPages(MoldedItem.registry);
+			// wikiMaker.createItemPages(GrippedTool.registry);
+			// wikiMaker.createItemPages(PogoStick.registry);
+			// wikiMaker.createItemPages(CustomObject.registry);
+
 			wikiMaker.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -151,8 +157,11 @@ public class WikiMaker {
 	}
 
 	private static String getItemStackLocation(final ItemStack itemStack) {
-		if (PolycraftRegistry.minecraftItems.contains(itemStack.getItem()))
+		if (PolycraftRegistry.minecraftItems.contains(itemStack.getItem())) {
+			if (itemStack.getItem() instanceof net.minecraft.item.ItemDye)
+				return MINECRAFT_WIKI + "Dyeing";
 			return MINECRAFT_WIKI + itemStack.getDisplayName().replaceAll(" ", "%20");
+		}
 		return getItemStackName(itemStack);
 	}
 
@@ -341,6 +350,8 @@ public class WikiMaker {
 			return ((ItemPolymerBlock) item).blockPolymer.polymerBlock.name;
 		if (item instanceof ItemPolymerWall)
 			return ((ItemPolymerWall) item).blockPolymerWall.polymerWall.name;
+		if (item instanceof net.minecraft.item.ItemDye)
+			return "Dye";
 		return itemStack.getDisplayName();
 	}
 
@@ -432,7 +443,18 @@ public class WikiMaker {
 	}
 
 	private static String getTexture(final ItemStack itemStack) {
-		String iconName = itemStack.getItem().getIcon(itemStack, 0).getIconName();
+		final Item item = itemStack.getItem();
+		if (item instanceof ItemPolymerStairs)
+			return "Polymer_stairs";
+		if (item instanceof ItemPolymerSlab)
+			return "Polymer_slab";
+		if (item instanceof ItemPolymerWall)
+			return "Polymer_wall";
+		if (item instanceof ItemPolymerBlock)
+			return "Polymer_block";
+		if (item instanceof net.minecraft.item.ItemDye)
+			return "Dyes";
+		String iconName = item.getIcon(itemStack, 0).getIconName();
 		final int namespaceIndex = iconName.indexOf(":");
 		if (namespaceIndex > -1)
 			iconName = iconName.substring(namespaceIndex + 1);
@@ -586,10 +608,12 @@ public class WikiMaker {
 					}
 				}
 				else if (section == PageSectionItem.Properties) {
+					final Collection<Collection<String>> propertiesData = Lists.newLinkedList();
+					index++;
+					page.append(getHeading(2, section.heading));
+
 					if (config.hasProperties() || config.params != null) {
-						page.append(getHeading(2, section.heading));
-						index++;
-						final Collection<Collection<String>> propertiesData = Lists.newLinkedList();
+
 						if (config.hasProperties()) {
 							final List<String> propertyNames = config.getPropertyNames();
 							final List<String> propertyValues = config.getPropertyValues();
@@ -600,8 +624,9 @@ public class WikiMaker {
 							for (int i = 0; i < config.params.values.size(); i++)
 								propertiesData.add(ImmutableList.of(config.params.names[i], config.params.getPretty(i)));
 						}
-						page.append(getTable(PROPERTIES_HEADERS, propertiesData)).append(WIKI_NEWLINE);
 					}
+					propertiesData.add(ImmutableList.of("Release Version", PolycraftMod.getVersionText(config.version)));
+					page.append(getTable(PROPERTIES_HEADERS, propertiesData)).append(WIKI_NEWLINE);
 				}
 				else {
 					if (section == PageSectionItem.Recipes)
@@ -615,7 +640,7 @@ public class WikiMaker {
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(getAllCategories(config)));
 			wiki.edit(title, page.toString(), editSummary);
 		}
-		//TODO the section index could change due to sub sections!
+		// TODO the section index could change due to sub sections!
 		createSectionRecipesGrid(config.getItemStack(), title, PageSectionItem.Recipes.heading, recipeSectionIndex,
 				config instanceof Inventory ? ((Inventory) config).containerType : null);
 	}
@@ -670,6 +695,7 @@ public class WikiMaker {
 				headers.add("Vessel");
 			if (firstConfig.hasProperties())
 				headers.addAll(firstConfig.getPropertyNames());
+			headers.add("Release Version");
 
 			final Collection<Collection<String>> data = Lists.newLinkedList();
 			for (final C config : registry.values()) {
@@ -695,6 +721,7 @@ public class WikiMaker {
 						row.add(getLinkCategory(getTitle(((SourcedVesselConfig) config).vesselType.toString(), false)));
 					if (config.hasProperties())
 						row.addAll(config.getPropertyValues());
+					row.add(PolycraftMod.getVersionText(config.version));
 					data.add(row);
 				}
 			}
