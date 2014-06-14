@@ -1,4 +1,4 @@
-Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
+﻿Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	1,1,1-Trichloroethane	CCl3CH3	Liquid		cleaning fluid, degreaser		hardware store
 1.0.0	1,1,1,2-Tetrafluoroethane	CF3CH2F	Gas		—		Most canned air products contain this gas under pressure. Read the labels as some contain other solvents.
 1.0.0	1,3-Propanediol	CH2(CH2OH)2	Liquid				
@@ -305,25 +305,26 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Zinc Oxide	ZnO	Liquid		pompholyx		Found in opaque sunscreens for its UV opacity. Chinese White fine arts pigment is very pure.
 1.0.0	Zinc Sulfate	ZnSO4	Liquid		zinc sulfate		Moss Killer for use on roofs and concrete. (Moss killer for grass lawns is Ferrous Ammonium Sulfate.)
 1.0.0	Antimony Trioxide	SbO3	Liquid			Catalyst	
-1.0.0	Copper II Chloride	CuCl2	Liquid			Catalyst	
-1.0.0	Iron III Chloride	FeCl3	Liquid			Catalyst	
-1.0.0	Iron III Oxide	Fe2O3	Liquid			Catalyst	
-1.0.0	Ziegler-Natta	Cp2Zr+−CH3	Liquid			Catalyst	
-1.0.0	Cobalt-Manganese-Bromide	CoMnBr4	Liquid			Catalyst	
-1.0.0	Potassium Hydroxide	KOH	Liquid			Catalyst	
-1.0.0	Zeolite	Na2Al2Si3O10	Liquid			Catalyst	
-1.0.0	Zinc II Chloride	ZnCl2	Liquid			Catalyst	Lewis Acid
-1.0.0	Tungsten VI Chloride 	WCl6	Liquid			Catalyst	Lewis Acid
-1.0.0	Samarium III Chloride	SmCl3	Liquid			Catalyst	Lewis Acid
-1.0.0	Magnesium Sulfate	MgSO4	Liquid			Catalyst	dehydrating agent
-1.0.0	Copper II Sulfate	CuSO4	Liquid			Catalyst	dehydrating agent
-1.0.0	Calcium Hydride	CaH2	Liquid			Catalyst	dehydrating agent
-1.0.0	Phosphorus Pentoxide	PO5	Liquid			Catalyst	dehydrating agent
-1.0.0	Trimethyl Orthoformate	C4H10O3	Liquid			Catalyst	dehydrating agent
-1.0.0	Aluminoxane	(Al(CH3)O)n	Liquid			Catalyst	
-1.0.0	Sodium Hydroxide	NAOH	Liquid			Catalyst	
-1.0.0	Triethylaluminium	Al(C2H5)3	Liquid			Catalyst	
-1.0.0	Methyl Ethyl Ketone Peroxide	C8H16O4	Liquid			Catalyst	
+1.0.0	Copper II Chloride	CuCl2	Solid			Catalyst	
+1.0.0	Iron III Chloride	FeCl3	Solid			Catalyst	
+1.0.0	Iron III Oxide	Fe2O3	Solid			Catalyst	
+1.0.0	Ziegler-Natta	Cp2Zr+−CH3	Solid			Catalyst	
+1.0.0	Cobalt-Manganese-Bromide	CoMnBr4	Solid			Catalyst	
+1.0.0	Potassium Hydroxide	KOH	Solid			Catalyst	
+1.0.0	Zeolite	Na2Al2Si3O10	Solid			Catalyst	
+1.0.0	Zinc II Chloride	ZnCl2	Solid			Catalyst	Lewis Acid
+1.0.0	Tungsten VI Chloride 	WCl6	Solid			Catalyst	Lewis Acid
+1.0.0	Samarium III Chloride	SmCl3	Solid			Catalyst	Lewis Acid
+1.0.0	Magnesium Oxide		Solid				
+1.0.0	Magnesium Sulfate	MgSO4	Solid			Catalyst	dehydrating agent
+1.0.0	Copper II Sulfate	CuSO4	Solid			Catalyst	dehydrating agent
+1.0.0	Calcium Hydride	CaH2	Solid			Catalyst	dehydrating agent
+1.0.0	Phosphorus Pentoxide	PO5	Solid			Catalyst	dehydrating agent
+1.0.0	Trimethyl Orthoformate	C4H10O3	Solid			Catalyst	dehydrating agent
+1.0.0	Aluminoxane	(Al(CH3)O)n	Solid			Catalyst	
+1.0.0	Sodium Hydroxide	NAOH	Solid			Catalyst	
+1.0.0	Triethylaluminium	Al(C2H5)3	Solid			Catalyst	
+1.0.0	Methyl Ethyl Ketone Peroxide	C8H16O4	Solid			Catalyst	
 1.0.0	Fruit Brandy		Liquid				
 1.0.0	Vodka		Liquid				
 1.0.0	Gin		Liquid				
@@ -333,3 +334,4 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Carrot Wine		Liquid				
 1.0.0	Wine		Liquid				
 1.0.0	Beer		Liquid				
+1.0.0	Antifreeze		Liquid				

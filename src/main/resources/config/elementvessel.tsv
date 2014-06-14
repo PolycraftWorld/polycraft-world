@@ -33,7 +33,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Element Small	Element Medium	Ele
 1.0.0	6C	8w	aq	ck	Bag (Germanium)	Sack (Germanium)	Powder Keg (Germanium)	Chemical Silo (Germanium)	Germanium	Ge	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	6D	8x	ar	cl	Bag (Arsenic)	Sack (Arsenic)	Powder Keg (Arsenic)	Chemical Silo (Arsenic)	Arsenic	As	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	6E	8y	as	cm	Bag (Selenium)	Sack (Selenium)	Powder Keg (Selenium)	Chemical Silo (Selenium)	Selenium	Se	Solid	Bag	Sack	Powder Keg	Chemical Silo
-1.0.0	6F	8z	at	cn	Vial (Bromine)	Beaker (Bromine)	Drum (Bromine)	Chemical Vat (Bromine)	Bromine	Br	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	6F	8z	at	cn	Vial (Bromine)	Beaker (Bromine)	Powder Keg (Bromine)	Chemical Vat (Bromine)	Bromine	Br	Liquid	Vial	Beaker	Powder Keg	Chemical Vat
 1.0.0	6G	8A	au	co	Flask (Krypton)	Cartridge (Krypton)	Canister (Krypton)	Chemical Tank (Krypton)	Krypton	Kr	Gas	Flask	Cartridge	Canister	Chemical Tank
 1.0.0	6H	8B	av	cp	Bag (Rubidium)	Sack (Rubidium)	Powder Keg (Rubidium)	Chemical Silo (Rubidium)	Rubidium	Rb	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	6I	8C	aw	cq	Bag (Strontium)	Sack (Strontium)	Powder Keg (Strontium)	Chemical Silo (Strontium)	Strontium	Sr	Solid	Bag	Sack	Powder Keg	Chemical Silo
@@ -78,7 +78,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Element Small	Element Medium	Ele
 1.0.0	7l	9f	b9	d3	Bag (Iridium)	Sack (Iridium)	Powder Keg (Iridium)	Chemical Silo (Iridium)	Iridium	Ir	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7m	9g	ba	d4	Bag (Platinum)	Sack (Platinum)	Powder Keg (Platinum)	Chemical Silo (Platinum)	Platinum	Pt	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7n	9h	bb	d5	Bag (Gold)	Sack (Gold)	Powder Keg (Gold)	Chemical Silo (Gold)	Gold	Au	Solid	Bag	Sack	Powder Keg	Chemical Silo
-1.0.0	7o	9i	bc	d6	Vial (Mercury)	Beaker (Mercury)	Drum (Mercury)	Chemical Vat (Mercury)	Mercury	Hg	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	7o	9i	bc	d6	Vial (Mercury)	Beaker (Mercury)	Powder Keg (Mercury)	Chemical Vat (Mercury)	Mercury	Hg	Liquid	Vial	Beaker	Powder Keg	Chemical Vat
 1.0.0	7p	9j	bd	d7	Bag (Thallium)	Sack (Thallium)	Powder Keg (Thallium)	Chemical Silo (Thallium)	Thallium	Tl	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7q	9k	be	d8	Bag (Lead)	Sack (Lead)	Powder Keg (Lead)	Chemical Silo (Lead)	Lead	Pb	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7r	9l	bf	d9	Bag (Bismuth)	Sack (Bismuth)	Powder Keg (Bismuth)	Chemical Silo (Bismuth)	Bismuth	Bi	Solid	Bag	Sack	Powder Keg	Chemical Silo

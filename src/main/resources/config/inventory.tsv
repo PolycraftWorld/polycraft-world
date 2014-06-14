@@ -1,15 +1,15 @@
 Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon Down	Icon Up	Icon North	Icon South	Icon West	Icon East	Icon Default	Icon Front	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
-1.0.0	3h	1F	Tree Tap	0	2000										Polymer to Spawn, Amount to Spawn, Default Spawn Frequency (sec), Jungle Spawn Frequency (sec) 	Bag (PolyIsoPrene Pellets)	1	120	60					
+1.0.0	3h	1F	Tree Tap	0	2000										PolymerToSpawn, AmountToSpawn, DefaultSpawnFreq (sec), JungleSpawnFreq (sec) 	Bag (PolyIsoPrene Pellets)	1	120	60					
 1.0.0	3i	1G	Machining Mill	1	2001	front		top					side	front										
-1.0.0	3j	1E	Extruder	2	2002	front		top					side	front	Default Reaction (sec), Default Heat Min, Default Heat Max, Automatic Input Cooldown (sec)	8	1	10	1					
-1.0.0	3k	1H	Injection Molder	3	2003	front		top					side	front	Default Reaction (sec), Default Heat Min, Default Heat Max, Automatic Input Cooldown (sec)	8	1	10	1					
-1.0.0	3D	1I	Steam Cracker	4	2004	front		top					side	front	Default Reaction (sec), Default Heat Min, Default Heat Max, Automatic Input Cooldown (sec)	8	1	10	1					
-1.0.0	3E	1J	Distillation Column	5	2005	front		top					side	front	Default Reaction (sec), Default Heat Min, Default Heat Max, Automatic Input Cooldown (sec)	8	1	10	1					
-	3F	1K	Industrial Oven	6	2006																			
-1.0.0	3V	40	Fueled Lamp	7	2007	side		top					side	side	Range per Heat Intensity, Automatic Input Cooldown (sec)	1	1							
+1.0.0	3j	1E	Extruder	2	2002	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
+1.0.0	3k	1H	Injection Molder	3	2003	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
+1.0.0	3D	1I	Steam Cracker	4	2004	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
+1.0.0	3E	1J	Distillation Column	5	2005	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
+1.0.0	3F	1K	Industrial Oven	6	2006																			
+1.0.0	3V	40	Fueled Lamp	7	2007	side		top					side	side	RangePerHeatIntensity, AutomaticInputCooldownSecs	1	1							
 1.0.0	3J	1L	Chemical Processor	8	2008																			
-	3K	3Y	Oil Derrick	9	2009																			
+1.0.0	3K	3Y	Oil Derrick	9	2009																			
 1.0.0	3L	3Z	Plastic Chest	10	2010																			
-	4v	4w	Wine Press	11	2011																			
-1.0.0	41	5E	Spotlight	12	2012	front							side	front	Range per Heat Intensity, Automatic Input Cooldown (sec)	3	1							
-	5N	5O	Merox Treatment Unit	13	2013																			
+1.0.0	4v	4w	Wine Press	11	2011																			
+1.0.0	41	5E	Spotlight	12	2012	front							side	front	RangePerHeatIntensity, AutomaticInputCooldownSecs	3	1							
+1.0.0	5N	5O	Merox Treatment Unit	13	2013																			

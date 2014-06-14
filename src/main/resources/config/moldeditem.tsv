@@ -1,9 +1,9 @@
-Version	Game ID	Molded Item	Mold	Bag (Pellets)	Polymer	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	Level	First Release	Notes
+Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	Level	First Release	Notes
 1.0.0	3s	Grip (PolyIsoPrene)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	2	10						1	TRUE	
-1.0.0	3t	Running Shoes (PolyIsoPrene)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	Velocity on Ground, Movement Duration Wear (MC mins)	0.4	20		3	TRUE	
-	3u	Running Shoes (Linear Low-Density PolyEthylene)	Mold (Running Shoes)	Bag (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene	6	10	1	Velocity on Ground, Durability (MC min)	0.6	40		8	TRUE	
-1.0.0	3v	Scuba Fins (PolyIsoPrene)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1	Velocity in Water, Velocity on Ground, Durability (MC min)	0.4	0.05	20	3	TRUE	
-1.0.0	3w	Scuba Mask (PolyIsoPrene)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	Fog Density	0.01			3	TRUE	
+1.0.0	3t	Running Shoes (PolyIsoPrene)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	VelocityOnGround, MovementDurationWear(MCMins)	0.4	20		3	TRUE	
+1.0.0	3u	Running Shoes (Linear Low-Density PolyEthylene)	Mold (Running Shoes)	Bag (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene	6	10	1	VelocityOnGround, Durability(MCMins)	0.6	40		8	TRUE	
+1.0.0	3v	Scuba Fins (PolyIsoPrene)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1	VelocityInWater, VelocityOnGround, Durability(MCMins)	0.4	0.05	20	3	TRUE	
+1.0.0	3w	Scuba Mask (PolyIsoPrene)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	FogDensity	0.01			3	TRUE	
 1.0.0	3y	Gasket (PolyIsoPrene)	Mold (Gasket)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	2	10						3	TRUE	
 1.0.0	3z	Life Preserver (PolyIsoPrene)	Mold (Life Preserver)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1					3	TRUE	
 1.0.0	3B	Fibers (PolyIsoPrene)	Metal Die (Fibers)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	1	10						3	TRUE	

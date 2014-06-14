@@ -1,5 +1,5 @@
 Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
-1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	1	Bucket	1														
+1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	16	Bucket	1														
 1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1														
 1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1														
 1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	2	Gravel	2														
@@ -61,13 +61,13 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Ethylidenecyclohexylamine)	42	Drum (IsoButane)	21														
 1.0.0	1	1	10	4	Vial (Pentane Isomers)	4	Vial (Naphtha)	1	Vial (IsoPentane)	2														
 1.0.0	1	1	10	4	Vial (Pentane Isomers)	16	Vial (Naphtha)	6	Vial (IsoPentane)	10														
-1.0.0	2	1	10	4	Beaker (Pentane Isomers)	1	Vial (Naphtha)	23	Vial (IsoPentane)	40	Flask (Nitrogen Gas)	1												
-1.0.0	2	1	10	4	Beaker (Pentane Isomers)	4	Beaker (Naphtha)	1	Beaker (IsoPentane)	2	Flask (Nitrogen Gas)	3												
-1.0.0	2	1	10	4	Beaker (Pentane Isomers)	16	Beaker (Naphtha)	6	Beaker (IsoPentane)	10	Flask (Nitrogen Gas)	12												
-1.0.0	3	1	10	4	Drum (Pentane Isomers)	1	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Cartridge (Nitrogen Gas)	1												
-1.0.0	3	1	10	4	Drum (Pentane Isomers)	4	Drum (Naphtha)	1	Drum (IsoPentane)	2	Cartridge (Nitrogen Gas)	3												
-1.0.0	3	1	10	4	Drum (Pentane Isomers)	16	Drum (Naphtha)	6	Drum (IsoPentane)	10	Cartridge (Nitrogen Gas)	12												
-1.0.0	4	1	10	4	Drum (Pentane Isomers)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen Gas)	1												
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	1	Vial (Naphtha)	23	Vial (IsoPentane)	40	Flask (Nitrogen)	1												
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	4	Beaker (Naphtha)	1	Beaker (IsoPentane)	2	Flask (Nitrogen)	3												
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	16	Beaker (Naphtha)	6	Beaker (IsoPentane)	10	Flask (Nitrogen)	12												
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	1	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Cartridge (Nitrogen)	1												
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	4	Drum (Naphtha)	1	Drum (IsoPentane)	2	Cartridge (Nitrogen)	3												
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	16	Drum (Naphtha)	6	Drum (IsoPentane)	10	Cartridge (Nitrogen)	12												
+1.0.0	4	1	10	4	Drum (Pentane Isomers)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen)	1												
 1.0.0	1	1	10	4	Vial (Hexane Isomers)	6	Vial (N-Pentane)	2	Vial (2-MethylPentane)	2	Vial (3-MethylPentane)	1	Vial (2,3-DiMethylButane)	1										
 1.0.0	1	1	10	4	Vial (Hexane Isomers)	16	Vial (N-Pentane)	5	Vial (2-MethylPentane)	6	Vial (3-MethylPentane)	3	Vial (2,3-DiMethylButane)	3										
 1.0.0	2	1	10	4	Beaker (Hexane Isomers)	1	Vial (N-Pentane)	17	Vial (2-MethylPentane)	20	Vial (3-MethylPentane)	11	Vial (2,3-DiMethylButane)	12	Vial (2,2-DiMethylButane)	3								
@@ -77,17 +77,17 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	3	1	10	4	Drum (Hexane Isomers)	4	Drum (N-Pentane)	1	Drum (2-MethylPentane)	1	Beaker (3-MethylPentane)	44	Beaker (2,3-DiMethylButane)	48	Beaker (2,2-DiMethylButane)	12								
 1.0.0	3	1	10	4	Drum (Hexane Isomers)	16	Drum (N-Pentane)	5	Drum (2-MethylPentane)	6	Drum (3-MethylPentane)	3	Drum (3-MethylPentane)	3	Beaker (2,2-DiMethylButane)	48								
 1.0.0	4	1	10	4	Drum (Hexane Isomers)	64	Drum (N-Pentane)	17	Drum (2-MethylPentane)	20	Drum (3-MethylPentane)	11	Drum (2,3-DiMethylButane)	12	Drum (2,2-DiMethylButane)	3								
-	1	1	10	4	Apple	1	Vial (Fruit Brandy)	1																
-	2	1	10	4	Apple	64	Beaker (Fruit Brandy)	1																
-	1	1	10	4	Potato	1	Vial (Vodka)	1																
-	2	1	10	4	Potato	64	Beaker (Vodka)	1																
-	1	1	10	4	Nether Wart	1	Vial (Gin)	1																
-	2	1	10	4	Nether Wart	64	Beaker (Gin)	1																
-	1	1	10	4	Cactus	1	Vial (Tequila)	1																
-	2	1	10	4	Cactus	64	Beaker (Tequila)	1																
-	1	1	10	4	Reeds	1	Vial (Rum)	1																
-	2	1	10	4	Reeds	64	Beaker (Rum)	1																
-	1	1	10	4	Wheat	1	Vial (Whiskey)	1																
-	2	1	10	4	Wheat	64	Beaker (Whiskey)	1																
-	1	1	10	4	Carrot	1	Vial (Carrot Wine)	1																
-	2	1	10	4	Carrot	64	Beaker (Carrot Wine)	1																
+1.0.0	1	1	10	4	Apple	1	Vial (Fruit Brandy)	1																
+1.0.0	2	1	10	4	Apple	64	Beaker (Fruit Brandy)	1																
+1.0.0	1	1	10	4	Potato	1	Vial (Vodka)	1																
+1.0.0	2	1	10	4	Potato	64	Beaker (Vodka)	1																
+1.0.0	1	1	10	4	Nether Wart	1	Vial (Gin)	1																
+1.0.0	2	1	10	4	Nether Wart	64	Beaker (Gin)	1																
+1.0.0	1	1	10	4	Cactus	1	Vial (Tequila)	1																
+1.0.0	2	1	10	4	Cactus	64	Beaker (Tequila)	1																
+1.0.0	1	1	10	4	Reeds	1	Vial (Rum)	1																
+1.0.0	2	1	10	4	Reeds	64	Beaker (Rum)	1																
+1.0.0	1	1	10	4	Wheat	1	Vial (Whiskey)	1																
+1.0.0	2	1	10	4	Wheat	64	Beaker (Whiskey)	1																
+1.0.0	1	1	10	4	Carrot	1	Vial (Carrot Wine)	1																
+1.0.0	2	1	10	4	Carrot	64	Beaker (Carrot Wine)	1																
