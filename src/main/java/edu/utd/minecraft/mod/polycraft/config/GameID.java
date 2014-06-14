@@ -11,6 +11,8 @@ public enum GameID {
 	InventoryInjectionMolder("3k"),
 	InventoryDistillationColumn("3E"),
 	InventorySteamCracker("3D"),
+	InventoryMeroxTreatmentUnit("5N"),
+	InventoryChemicalProcessor("3J"),
 	InventoryFueledLamp("3V"),
 	InventorySpotlight("41"),
 	CustomBucketOil("3m"),

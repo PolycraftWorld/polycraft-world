@@ -67,9 +67,11 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
@@ -366,6 +368,10 @@ public class PolycraftRegistry {
 				DistillationColumnInventory.register(inventory);
 			else if (GameID.InventorySteamCracker.matches(inventory))
 				SteamCrackerInventory.register(inventory);
+			else if (GameID.InventoryMeroxTreatmentUnit.matches(inventory))
+				MeroxTreatmentUnitInventory.register(inventory);
+			else if (GameID.InventoryChemicalProcessor.matches(inventory))
+				ChemicalProcessorInventory.register(inventory);
 			else if (GameID.InventoryFueledLamp.matches(inventory))
 				FueledLampInventory.register(inventory);
 			else if (GameID.InventorySpotlight.matches(inventory))

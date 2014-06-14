@@ -50,9 +50,11 @@ import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
@@ -391,7 +393,15 @@ public class WikiMaker {
 			slots.append(getInventoryWaterSlot(SteamCrackerInventory.slotIndexHeatingWater));
 			slots.append(getInventoryFuelSlot(SteamCrackerInventory.slotIndexHeatSource));
 			break;
+		case MEROX_TREATMENT_UNIT:
+			slots.append(getInventoryWaterSlot(MeroxTreatmentUnitInventory.slotIndexCoolingWater));
+			slots.append(getInventoryWaterSlot(MeroxTreatmentUnitInventory.slotIndexHeatingWater));
+			slots.append(getInventoryFuelSlot(MeroxTreatmentUnitInventory.slotIndexHeatSource));
+			break;
 		case CHEMICAL_PROCESSOR:
+			slots.append(getInventoryWaterSlot(ChemicalProcessorInventory.slotIndexCoolingWater));
+			slots.append(getInventoryWaterSlot(ChemicalProcessorInventory.slotIndexHeatingWater));
+			slots.append(getInventoryFuelSlot(ChemicalProcessorInventory.slotIndexHeatSource));
 			break;
 		default:
 			break;

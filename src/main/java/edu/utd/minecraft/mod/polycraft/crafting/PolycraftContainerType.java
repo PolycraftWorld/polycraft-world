@@ -13,7 +13,9 @@ import com.google.common.collect.Maps;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
@@ -38,8 +40,8 @@ public enum PolycraftContainerType {
 	STEAM_CRACKER("Steam Cracker"),
 	FUELED_LAMP("Fueled Lamp"),
 	SPOTLIGHT("Spotlight"),
-	MEROX_TREATMENT_UNIT("Merox Treatment Unit"), // TODO
-	CHEMICAL_PROCESSOR("Chemical Processor"); // TODO
+	MEROX_TREATMENT_UNIT("Merox Treatment Unit"),
+	CHEMICAL_PROCESSOR("Chemical Processor");
 
 	private final String friendlyName;
 
@@ -108,6 +110,8 @@ public enum PolycraftContainerType {
 		EXTRUDER.initialize(MolderInventory.guiSlots);
 		DISTILLATION_COLUMN.initialize(DistillationColumnInventory.guiSlots);
 		STEAM_CRACKER.initialize(SteamCrackerInventory.guiSlots);
+		MEROX_TREATMENT_UNIT.initialize(MeroxTreatmentUnitInventory.guiSlots);
+		CHEMICAL_PROCESSOR.initialize(ChemicalProcessorInventory.guiSlots);
 		FUELED_LAMP.initialize(FueledLampInventory.guiSlots);
 		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
 	}

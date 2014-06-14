@@ -204,6 +204,8 @@ public class RecipeGenerator {
 		generateFileRecipesMill(directory);
 		generateFileRecipesDistill(directory);
 		generateFileRecipesCrack(directory);
+		generateFileRecipesTreat(directory);
+		generateFileRecipesProcess(directory);
 	}
 
 	private static void generateFileRecipesCraft(final String directory) {
@@ -363,29 +365,32 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesCrack(final String directory) {
+		final char[] shapedIdentifiers = new char[] { 'x', 'y' };
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "crack")) {
 			if (line.length > 8) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
-					final String inputItemName1 = line[4];
-					final ItemStack inputItemStack1 = PolycraftRegistry.getItemStack(inputItemName1, Integer.parseInt(line[5]));
-					if (inputItemStack1 == null) {
-						logger.warn("Unable to find input item for cracking recipe: {}", inputItemName1);
-						continue;
+					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
+					final StringBuilder inputShape = new StringBuilder();
+					for (int i = 0; i < shapedIdentifiers.length; i++) {
+						final String inputItemName = line[4 + (i * 2)];
+						final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+						if (inputItemStack == null) {
+							logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
+							shapedInputs = null;
+							break;
+						}
+						shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+						inputShape.append(shapedIdentifiers[i]);
 					}
-
-					final String inputItemName2 = line[6];
-					final ItemStack inputItemStack2 = PolycraftRegistry.getItemStack(inputItemName2, Integer.parseInt(line[7]));
-					if (inputItemStack2 == null) {
-						logger.warn("Unable to find input item for cracking recipe: {}", inputItemName2);
+					if (shapedInputs == null)
 						continue;
-					}
 
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 8; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
 						final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 						if (outputItemStack == null) {
-							logger.warn("Unable to find output item for cracking recipe ({}): {}", inputItemName1, outputItemName);
+							logger.warn("Unable to find output item for cracking recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 							outputItems = null;
 							break;
 						}
@@ -399,11 +404,25 @@ public class RecipeGenerator {
 					PolycraftMod.recipeManager.addShapedRecipe(
 							PolycraftContainerType.STEAM_CRACKER,
 							outputItems,
-							new String[] { "wx" },
-							ImmutableMap.of(
-									'w', inputItemStack1,
-									'x', inputItemStack2));
+							new String[] { inputShape.toString() },
+							shapedInputs);
 				}
+			}
+		}
+	}
+
+	private static void generateFileRecipesTreat(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "treat")) {
+			if (line.length > 8) {
+				//TODO
+			}
+		}
+	}
+
+	private static void generateFileRecipesProcess(final String directory) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "process")) {
+			if (line.length > 8) {
+				//TODO
 			}
 		}
 	}
