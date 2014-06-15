@@ -30,6 +30,8 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockBrick;
+import edu.utd.minecraft.mod.polycraft.block.BlockBrickHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
@@ -57,6 +59,7 @@ import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.config.PlasticBrick;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
@@ -88,6 +91,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
+import edu.utd.minecraft.mod.polycraft.item.ItemPlasticBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
@@ -301,6 +305,12 @@ public class PolycraftRegistry {
 					ItemPolymerBlock.class, new Object[] {});
 		}
 
+		for (final PlasticBrick brick : PlasticBrick.registry.values()) {
+			final BlockBrick blockBrick = new BlockBrick(brick, brick.length, brick.width);
+			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
+					ItemPlasticBrick.class, new Object[] {});
+		}
+
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
 			final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
@@ -479,6 +489,10 @@ public class PolycraftRegistry {
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
 			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
 				langEntries.add(String.format(colorFormat, polymerBlock.gameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerBlock.name));
+
+		for (final PlasticBrick brick : PlasticBrick.registry.values())
+			for (int i = 0; i < BlockBrickHelper.colors.length; i++)
+				langEntries.add(String.format(colorFormat, brick.gameID, i, BlockBrickHelper.getColorDisplayName(i), brick.name));
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
 			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));

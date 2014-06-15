@@ -336,6 +336,11 @@ public class RecipeGenerator {
 			if (line.length > 7) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final String inputItemName = line[5];
+					if (inputItemName.length() <= 1) // if this recipe does not use all of the slots
+					{
+						continue;
+
+					}
 					final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[6]));
 					if (inputItemStack == null) {
 						logger.warn("Unable to find input item for distillation recipe: {}", inputItemName);
@@ -345,6 +350,11 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 7; i < line.length; i += 2) {
 						final String outputItemName = line[i];
+						if (outputItemName.length() <= 1) // if this recipe does not use all of the slots
+						{
+							break;
+
+						}
 						final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 						if (outputItemStack == null) {
 							logger.warn("Unable to find output item for distillation recipe ({}): {}", inputItemName, outputItemName);
@@ -373,14 +383,18 @@ public class RecipeGenerator {
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
-						if (inputItemStack == null) {
-							logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
-							shapedInputs = null;
-							break;
+						final ItemStack inputItemStack;
+						if (inputItemName.length() >= 1) // if this recipe does not use all of the slots
+						{
+							inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+							if (inputItemStack == null) {
+								logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
+								shapedInputs = null;
+								break;
+							}
+							shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+							inputShape.append(shapedIdentifiers[i]);
 						}
-						shapedInputs.put(shapedIdentifiers[i], inputItemStack);
-						inputShape.append(shapedIdentifiers[i]);
 					}
 					if (shapedInputs == null)
 						continue;
@@ -388,14 +402,23 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 8; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
-						if (outputItemStack == null) {
-							logger.warn("Unable to find output item for cracking recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
-							outputItems = null;
-							break;
+						final ItemStack outputItemStack;
+						if (outputItemName.length() <= 1) // if this recipe does not use all of the slots
+						{
+							outputItemStack = null;
+
 						}
 						else
-							outputItems.add(outputItemStack);
+						{
+							outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if (outputItemStack == null) {
+								logger.warn("Unable to find output item for cracking recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
+								outputItems = null;
+								break;
+							}
+							else
+								outputItems.add(outputItemStack);
+						}
 					}
 
 					if (outputItems == null)
@@ -412,17 +435,123 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesTreat(final String directory) {
+		final char[] spreadsheetInputs = new char[] { 'x', 'y', 'z' };
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "treat")) {
 			if (line.length > 8) {
-				//TODO
+				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
+					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
+					final StringBuilder inputShape = new StringBuilder();
+					for (int i = 0; i < spreadsheetInputs.length; i++) {
+						final String inputItemName = line[4 + (i * 2)];
+						final ItemStack inputItemStack;
+						if (inputItemName.length() >= 2) // if this recipe does not use all of the slots
+						{
+							inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+
+							if (inputItemStack == null) {
+								logger.warn("Unable to find input item for treating recipe: {}", inputItemName);
+								shapedInputs = null;
+								break;
+							}
+							shapedInputs.put(spreadsheetInputs[i], inputItemStack);
+							inputShape.append(spreadsheetInputs[i]);
+						}
+					}
+					if (shapedInputs == null)
+						continue;
+
+					List<ItemStack> outputItems = Lists.newArrayList();
+					for (int i = 10; i < line.length - 1; i += 2) {
+						final String outputItemName = line[i];
+						final ItemStack outputItemStack;
+						if (outputItemName.length() >= 2) // if this recipe does not use all of the slots
+						{
+							outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if (outputItemStack == null) {
+								logger.warn("Unable to find output item for treating recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
+								outputItems = null;
+								break;
+							}
+							else
+								outputItems.add(outputItemStack);
+						}
+					}
+
+					if (outputItems == null)
+						continue;
+
+					PolycraftMod.recipeManager.addShapedRecipe(
+							PolycraftContainerType.MEROX_TREATMENT_UNIT,
+							outputItems,
+							new String[] { inputShape.toString() },
+							shapedInputs);
+				}
 			}
 		}
 	}
 
 	private static void generateFileRecipesProcess(final String directory) {
+		final char[] spreadsheetInputs = new char[] { 'a', 'b', 'c', 'd', 'e' };
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "process")) {
 			if (line.length > 8) {
-				//TODO
+				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
+					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
+					final StringBuilder inputShapeRow1 = new StringBuilder();
+					final StringBuilder inputShapeRow2 = new StringBuilder();
+					for (int i = 0; i < spreadsheetInputs.length; i++) {
+						final String inputItemName = line[4 + (i * 2)];
+						final ItemStack inputItemStack;
+						if (inputItemName.length() >= 1) // if this recipe does not use all of the slots
+						{
+
+							inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+							if (inputItemStack == null) {
+								logger.warn("Unable to find input item for processing recipe: {}", inputItemName);
+								shapedInputs = null;
+								break;
+							}
+							if (i < 3)
+							{
+								shapedInputs.put(spreadsheetInputs[i], inputItemStack);
+								inputShapeRow1.append(spreadsheetInputs[i]);
+							}
+							else
+							{
+								shapedInputs.put(spreadsheetInputs[i], inputItemStack);
+								inputShapeRow2.append(spreadsheetInputs[i]);
+							}
+						}
+					}
+					if (shapedInputs == null)
+						continue;
+
+					List<ItemStack> outputItems = Lists.newArrayList();
+					for (int i = 14; i < line.length - 1; i += 2) {
+						final String outputItemName = line[i];
+						final ItemStack outputItemStack;
+						if (outputItemName.length() >= 1) // if this recipe does not use all of the slots
+						{
+
+							outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if (outputItemStack == null) {
+								logger.warn("Unable to find output item for processing recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
+								outputItems = null;
+								break;
+							}
+							else
+								outputItems.add(outputItemStack);
+						}
+					}
+
+					if (outputItems == null)
+						continue;
+
+					PolycraftMod.recipeManager.addShapedRecipe(
+							PolycraftContainerType.CHEMICAL_PROCESSOR,
+							outputItems,
+							new String[] { inputShapeRow1.toString(), inputShapeRow2.toString() },
+							shapedInputs);
+				}
 			}
 		}
 	}
