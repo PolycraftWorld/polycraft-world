@@ -91,7 +91,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
-import edu.utd.minecraft.mod.polycraft.item.ItemPlasticBrick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
@@ -308,7 +308,7 @@ public class PolycraftRegistry {
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
 			final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
 			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
-					ItemPlasticBrick.class, new Object[] {});
+					ItemPolymerBrick.class, new Object[] {});
 		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {

@@ -3,16 +3,16 @@ package edu.utd.minecraft.mod.polycraft.item;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import edu.utd.minecraft.mod.polycraft.block.BlockBrick;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 
-public class ItemPlasticBrick extends ItemBlock implements PolycraftItem {
+public class ItemPolymerBrick extends ItemBlock implements PolycraftItem {
 
-	public final BlockBrick blockBrick;
+	public final BlockPolymerBrick blockBrick;
 
-	public ItemPlasticBrick(Block p_i45355_1_) {
+	public ItemPolymerBrick(Block p_i45355_1_) {
 		super(p_i45355_1_);
 		this.setHasSubtypes(true);
-		this.blockBrick = (BlockBrick) p_i45355_1_;
+		this.blockBrick = (BlockPolymerBrick) p_i45355_1_;
 	}
 
 	@Override
