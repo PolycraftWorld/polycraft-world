@@ -57,7 +57,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.item.ItemPlasticBrick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerStairs;
@@ -351,8 +351,8 @@ public class WikiMaker {
 		final Item item = itemStack.getItem();
 		if (item instanceof ItemPolymerBlock)
 			return ((ItemPolymerBlock) item).blockPolymer.polymerBlock.name;
-		if (item instanceof ItemPlasticBrick)
-			return ((ItemPlasticBrick) item).blockBrick.Brick.name;
+		if (item instanceof ItemPolymerBrick)
+			return ((ItemPolymerBrick) item).blockBrick.Brick.name;
 		if (item instanceof ItemPolymerWall)
 			return ((ItemPolymerWall) item).blockPolymerWall.polymerWall.name;
 		if (item instanceof net.minecraft.item.ItemDye)
@@ -465,7 +465,7 @@ public class WikiMaker {
 			return "Polymer_wall";
 		if (item instanceof ItemPolymerBlock)
 			return "Polymer_block";
-		if (item instanceof ItemPlasticBrick)
+		if (item instanceof ItemPolymerBrick)
 			return "Plastic_brick";
 		if (item instanceof net.minecraft.item.ItemDye)
 			return "Dyes";
