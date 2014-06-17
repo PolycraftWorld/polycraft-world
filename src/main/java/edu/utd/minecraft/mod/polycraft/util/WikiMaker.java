@@ -41,6 +41,7 @@ import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
@@ -57,8 +58,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerWall;
@@ -82,14 +83,14 @@ public class WikiMaker {
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures";
 	private static final String POLYRAFT_TEXTURES_NEW_VERSION = "wiki/textures/wiki_3D_blocks";// "wiki/version1.01";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-			POLYRAFT_TEXTURES_NEW_VERSION
+			// POLYRAFT_TEXTURES_NEW_VERSION,
 			// POLYCRAFT_SCREENSHOTS_DIRECTORY,
 			// POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
-			// POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/blocks"
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/items",
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
 			// POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
-	};
+			};
 
 	private static final String WIKI_NEWLINE = "\n";
 
@@ -111,7 +112,7 @@ public class WikiMaker {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
 			// wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES); // add new textures for new version here
+			// wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES); // add new textures for new version here
 
 			// wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
 			// wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
@@ -132,6 +133,7 @@ public class WikiMaker {
 			// wikiMaker.createItemPages(PolymerBlock.registry);
 			// wikiMaker.createItemPages(PolymerSlab.registry);
 			// wikiMaker.createItemPages(PolymerStairs.registry);
+			wikiMaker.createItemPages(PolymerBrick.registry);
 			// wikiMaker.createItemPages(PolymerWall.registry);
 			// wikiMaker.createItemPages(Mold.registry);
 			// wikiMaker.createItemPages(MoldedItem.registry);
