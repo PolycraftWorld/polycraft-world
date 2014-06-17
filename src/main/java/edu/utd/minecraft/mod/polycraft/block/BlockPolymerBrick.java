@@ -1,32 +1,35 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.config.PlasticBrick;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 
-public class BlockBrick extends Block {
+public class BlockPolymerBrick extends Block {
 
-	public final PlasticBrick Brick;
-	private final BlockBrickHelper helper;
+	public final PolymerBrick Brick;
+	private final BlockPolymerBrickHelper helper;
 	private final int length, width;
 
-	public BlockBrick(final PlasticBrick Brick, final int length, final int width) {
+	public BlockPolymerBrick(final PolymerBrick Brick, final int length, final int width) {
 		super(Material.cloth);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.Brick = Brick;
 		this.length = length;
 		this.width = width;
-		this.helper = new BlockBrickHelper(Brick.source, width, length, -1);
+		this.helper = new BlockPolymerBrickHelper(Brick.source, width, length, -1);
 
 	}
 
@@ -42,11 +45,11 @@ public class BlockBrick extends Block {
 		helper.registerBlockIcons(p_149651_1_);
 	}
 
-	// @Override
-	// @SideOnly(Side.CLIENT)
-	// public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
-	// helper.getSubBlocks(p_149666_1_, p_149666_2_, p_149666_3_);
-	// }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
+		helper.getSubBlocks(p_149666_1_, p_149666_2_, p_149666_3_);
+	}
 
 	// @Override
 	// public int getActiveBounceHeight() {
@@ -144,12 +147,12 @@ public class BlockBrick extends Block {
 
 	}
 
-	// @Override
-	// public int damageDropped(int p_149692_1_) {
-	// return helper.damageDropped(p_149692_1_);
-	// }
+	@Override
+	public int damageDropped(int p_149692_1_) {
+		return helper.damageDropped(p_149692_1_);
+	}
 
 	public String getUnlocalizedName(int colorIndex) {
-		return Brick.itemGameID + "." + colorIndex;
+		return Brick.gameID + "." + colorIndex;
 	}
 }

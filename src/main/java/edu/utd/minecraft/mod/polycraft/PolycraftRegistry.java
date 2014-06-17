@@ -30,8 +30,8 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
-import edu.utd.minecraft.mod.polycraft.block.BlockBrick;
-import edu.utd.minecraft.mod.polycraft.block.BlockBrickHelper;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
@@ -59,7 +59,7 @@ import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
-import edu.utd.minecraft.mod.polycraft.config.PlasticBrick;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
@@ -305,8 +305,8 @@ public class PolycraftRegistry {
 					ItemPolymerBlock.class, new Object[] {});
 		}
 
-		for (final PlasticBrick brick : PlasticBrick.registry.values()) {
-			final BlockBrick blockBrick = new BlockBrick(brick, brick.length, brick.width);
+		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
+			final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
 			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
 					ItemPlasticBrick.class, new Object[] {});
 		}
@@ -490,9 +490,9 @@ public class PolycraftRegistry {
 			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
 				langEntries.add(String.format(colorFormat, polymerBlock.gameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerBlock.name));
 
-		for (final PlasticBrick brick : PlasticBrick.registry.values())
-			for (int i = 0; i < BlockBrickHelper.colors.length; i++)
-				langEntries.add(String.format(colorFormat, brick.gameID, i, BlockBrickHelper.getColorDisplayName(i), brick.name));
+		for (final PolymerBrick brick : PolymerBrick.registry.values())
+			for (int i = 0; i < BlockPolymerBrickHelper.colors.length; i++)
+				langEntries.add(String.format(colorFormat, brick.gameID, i, BlockPolymerBrickHelper.getColorDisplayName(i), brick.name));
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
 			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));

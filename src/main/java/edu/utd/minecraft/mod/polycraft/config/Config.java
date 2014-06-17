@@ -53,7 +53,7 @@ public abstract class Config {
 		PolymerPellets.registerFromResource(directory);
 		PolymerFibers.registerFromResource(directory);
 		PolymerBlock.registerFromResource(directory);
-		PlasticBrick.registerFromResource(directory);
+		PolymerBrick.registerFromResource(directory);
 		PolymerSlab.registerFromResource(directory);
 		PolymerStairs.registerFromResource(directory);
 		PolymerWall.registerFromResource(directory);
@@ -86,7 +86,7 @@ public abstract class Config {
 		registriesByType.put(PolymerPellets.class.getSimpleName(), PolymerPellets.registry);
 		registriesByType.put(PolymerFibers.class.getSimpleName(), PolymerFibers.registry);
 		registriesByType.put(PolymerBlock.class.getSimpleName(), PolymerBlock.registry);
-		registriesByType.put(PlasticBrick.class.getSimpleName(), PlasticBrick.registry);
+		registriesByType.put(PolymerBrick.class.getSimpleName(), PolymerBrick.registry);
 		registriesByType.put(PolymerSlab.class.getSimpleName(), PolymerSlab.registry);
 		registriesByType.put(PolymerStairs.class.getSimpleName(), PolymerStairs.registry);
 		registriesByType.put(PolymerWall.class.getSimpleName(), PolymerWall.registry);
