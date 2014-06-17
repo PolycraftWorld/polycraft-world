@@ -272,4 +272,8 @@ public abstract class CommonProxy {
 			player.fallDistance = 0;
 		}
 	}
+
+	public void registerRenderers() {
+
+	}
 }
