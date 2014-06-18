@@ -16,6 +16,9 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 	protected final I inventory;
 	private static final Logger logger = LogManager.getLogger();
 	private final int firstPlayerInventorySlot;
+	private final int lastPlayerInventorySlot;
+	private final int firstPlayerHotbarSlot;
+	private final int totalPlayerInventoryAndHotbarSlots = 36;
 	private final boolean dropInputsOnClosing;
 
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory) {
@@ -25,6 +28,8 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset) {
 		super(inventory, inventory.getContainerType());
 		this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);
+		this.firstPlayerHotbarSlot = firstPlayerInventorySlot + 27;
+		this.lastPlayerInventorySlot = firstPlayerInventorySlot + totalPlayerInventoryAndHotbarSlots;
 		this.inventory = inventory;
 		this.dropInputsOnClosing = false;
 	}
@@ -32,6 +37,8 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset, final boolean dropInputsOnClosing) {
 		super(inventory, inventory.getContainerType());
 		this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);
+		this.firstPlayerHotbarSlot = firstPlayerInventorySlot + 27;
+		this.lastPlayerInventorySlot = firstPlayerInventorySlot + totalPlayerInventoryAndHotbarSlots;
 		this.inventory = inventory;
 		this.dropInputsOnClosing = dropInputsOnClosing;
 	}
@@ -64,29 +71,56 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotIndex);
 
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack())
+		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, firstPlayerInventorySlot + 36, false)) {
+			if (slotIndex == 0)
+			{
+				if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, true))
+				{
+					return null;
+				}
+
+				slot.onSlotChange(itemstack1, itemstack);
+			}
+			else if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot)
+			{
+				if (!this.mergeItemStack(itemstack1, firstPlayerHotbarSlot, lastPlayerInventorySlot, false))
+				{
+					return null;
+				}
+			}
+			else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot)
+			{
+				if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, firstPlayerHotbarSlot, false))
+				{
+					return null;
+				}
+			}
+			else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
+			{
 				return null;
 			}
 
-			if (itemstack1.stackSize == 0) {
+			if (itemstack1.stackSize == 0)
+			{
 				slot.putStack((ItemStack) null);
-			} else {
+			}
+			else
+			{
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.stackSize == itemstack.stackSize) {
+			if (itemstack1.stackSize == itemstack.stackSize)
+			{
 				return null;
 			}
 
 			slot.onPickupFromSlot(entityPlayer, itemstack1);
-			if (!(slot instanceof PolycraftCraftingContainer.CraftingSlot) && slot.inventory != null && slot.inventory instanceof PolycraftInventory) {
-				((PolycraftInventory) slot.inventory).onPickupFromSlot(entityPlayer, getContainerType().getContainerSlotByIndex(slotIndex), itemstack1);
-			}
 		}
+
 		return itemstack;
 	}
 
