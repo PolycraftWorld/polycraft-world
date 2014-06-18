@@ -57,13 +57,6 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 								if (transfer(inventory, isidedinventory, aint[k], 0))
 									return;
 					}
-					else
-					{
-						int i = inputInventory.getSizeInventory();
-						for (int j = 0; j < i; ++j)
-							if (transfer(inventory, inputInventory, j, 0))
-								return;
-					}
 				}
 			}
 		}
