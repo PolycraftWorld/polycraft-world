@@ -207,7 +207,8 @@ public abstract class CommonProxy {
 		if (jetPackIgnited) {
 			if (playerState.jetPackLastSoundTicks++ > jetPackSoundFrequencyTicks) {
 				playerState.jetPackLastSoundTicks = 0;
-				player.worldObj.playSoundAtEntity(player, jetPackSoundName, 1f, 1f);
+				//TODO this causes performance problems, find a better way to have jet pack sounds
+				//player.worldObj.playSoundAtEntity(player, jetPackSoundName, 1f, 1f);
 			}
 			ItemJetPack.burnFuel(player);
 			ItemJetPack.dealExhaustDamage(player, player.worldObj);
