@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -210,7 +211,7 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesCraft(final String directory) {
 		final char[] shapedIdentifiers = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "craft")) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.CRAFTING_TABLE.toString()))) {
 			if (line.length > 4) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final boolean shapeless = Boolean.parseBoolean(line[2]);
@@ -268,7 +269,7 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesSmelt(final String directory) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "smelt")) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.FURNACE.toString()))) {
 			if (line.length > 4) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final String outputItemName = line[2];
@@ -294,7 +295,7 @@ public class RecipeGenerator {
 		char currentMoldShapeChar = 'x';
 		String[] currentMoldShape = null;
 		int currentRow = 0;
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "mill")) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.MACHINING_MILL.toString()))) {
 			if (currentMold == null || currentRow == 5 && line.length > 2) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					currentMold = Mold.registry.get(line[2]);
@@ -332,15 +333,10 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesDistill(final String directory) {
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "distill")) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.DISTILLATION_COLUMN.toString()))) {
 			if (line.length > 7) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final String inputItemName = line[5];
-					if (inputItemName.length() <= 1) // if this recipe does not use all of the slots
-					{
-						continue;
-
-					}
 					final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[6]));
 					if (inputItemStack == null) {
 						logger.warn("Unable to find input item for distillation recipe: {}", inputItemName);
@@ -350,23 +346,26 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 7; i < line.length; i += 2) {
 						final String outputItemName = line[i];
-						if (outputItemName.length() <= 1) // if this recipe does not use all of the slots
+						if (!StringUtils.isEmpty(outputItemName))
 						{
-							break;
-
+							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if (outputItemStack == null) {
+								logger.warn("Unable to find output item for distillation recipe ({}): {}", inputItemName, outputItemName);
+								outputItems = null;
+								break;
+							}
+							else
+								outputItems.add(outputItemStack);
 						}
-						final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
-						if (outputItemStack == null) {
-							logger.warn("Unable to find output item for distillation recipe ({}): {}", inputItemName, outputItemName);
-							outputItems = null;
-							break;
-						}
-						else
-							outputItems.add(outputItemStack);
 					}
 
 					if (outputItems == null)
 						continue;
+					if (outputItems.size() == 0)
+					{
+						logger.warn("Distillation recipe missing outputs: {}", inputItemName);
+						continue;
+					}
 
 					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.DISTILLATION_COLUMN, ImmutableList.of(inputItemStack), outputItems);
 				}
@@ -376,25 +375,21 @@ public class RecipeGenerator {
 
 	private static void generateFileRecipesCrack(final String directory) {
 		final char[] shapedIdentifiers = new char[] { 'x', 'y' };
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "crack")) {
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.STEAM_CRACKER.toString()))) {
 			if (line.length > 8) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						final ItemStack inputItemStack;
-						if (inputItemName.length() >= 1) // if this recipe does not use all of the slots
-						{
-							inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
-							if (inputItemStack == null) {
-								logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
-								shapedInputs = null;
-								break;
-							}
-							shapedInputs.put(shapedIdentifiers[i], inputItemStack);
-							inputShape.append(shapedIdentifiers[i]);
+						final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+						if (inputItemStack == null) {
+							logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
+							shapedInputs = null;
+							break;
 						}
+						shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+						inputShape.append(shapedIdentifiers[i]);
 					}
 					if (shapedInputs == null)
 						continue;
@@ -402,15 +397,9 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 8; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						final ItemStack outputItemStack;
-						if (outputItemName.length() <= 1) // if this recipe does not use all of the slots
+						if (!StringUtils.isEmpty(outputItemName))
 						{
-							outputItemStack = null;
-
-						}
-						else
-						{
-							outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for cracking recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
@@ -423,6 +412,11 @@ public class RecipeGenerator {
 
 					if (outputItems == null)
 						continue;
+					if (outputItems.size() == 0)
+					{
+						logger.warn("Cracking recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
+						continue;
+					}
 
 					PolycraftMod.recipeManager.addShapedRecipe(
 							PolycraftContainerType.STEAM_CRACKER,
@@ -435,26 +429,33 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesTreat(final String directory) {
-		final char[] spreadsheetInputs = new char[] { 'x', 'y', 'z' };
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "treat")) {
-			if (line.length > 8) {
+		final char[] shapedIdentifiers = new char[] { 'x', 'y', 'z' };
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.MEROX_TREATMENT_UNIT.toString()))) {
+			if (line.length > 10) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
 					final StringBuilder inputShape = new StringBuilder();
-					for (int i = 0; i < spreadsheetInputs.length; i++) {
+					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						final ItemStack inputItemStack;
-						if (inputItemName.length() >= 2) // if this recipe does not use all of the slots
+						if (StringUtils.isEmpty(inputItemName))
 						{
-							inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
-
+							if (i == 0)
+							{
+								logger.warn("Treating recipe missing first input!");
+								shapedInputs = null;
+								break;
+							}
+						}
+						else
+						{
+							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for treating recipe: {}", inputItemName);
 								shapedInputs = null;
 								break;
 							}
-							shapedInputs.put(spreadsheetInputs[i], inputItemStack);
-							inputShape.append(spreadsheetInputs[i]);
+							shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+							inputShape.append(shapedIdentifiers[i]);
 						}
 					}
 					if (shapedInputs == null)
@@ -463,10 +464,9 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 10; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						final ItemStack outputItemStack;
-						if (outputItemName.length() >= 2) // if this recipe does not use all of the slots
+						if (!StringUtils.isEmpty(outputItemName))
 						{
-							outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for treating recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
@@ -479,6 +479,11 @@ public class RecipeGenerator {
 
 					if (outputItems == null)
 						continue;
+					if (outputItems.size() == 0)
+					{
+						logger.warn("Treating recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
+						continue;
+					}
 
 					PolycraftMod.recipeManager.addShapedRecipe(
 							PolycraftContainerType.MEROX_TREATMENT_UNIT,
@@ -491,35 +496,33 @@ public class RecipeGenerator {
 	}
 
 	private static void generateFileRecipesProcess(final String directory) {
-		final char[] spreadsheetInputs = new char[] { 'a', 'b', 'c', 'd', 'e' };
-		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, "process")) {
-			if (line.length > 8) {
+		final char[] shapedIdentifiers = new char[] { 'v', 'w', 'x', 'y', 'z' };
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.CHEMICAL_PROCESSOR.toString()))) {
+			if (line.length > 14) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
-					final StringBuilder inputShapeRow1 = new StringBuilder();
-					final StringBuilder inputShapeRow2 = new StringBuilder();
-					for (int i = 0; i < spreadsheetInputs.length; i++) {
+					final StringBuilder inputShape = new StringBuilder();
+					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						final ItemStack inputItemStack;
-						if (inputItemName.length() >= 1) // if this recipe does not use all of the slots
+						if (StringUtils.isEmpty(inputItemName))
 						{
-
-							inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+							if (i == 0)
+							{
+								logger.warn("Processing recipe missing first input!");
+								shapedInputs = null;
+								break;
+							}
+						}
+						else
+						{
+							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for processing recipe: {}", inputItemName);
 								shapedInputs = null;
 								break;
 							}
-							if (i < 3)
-							{
-								shapedInputs.put(spreadsheetInputs[i], inputItemStack);
-								inputShapeRow1.append(spreadsheetInputs[i]);
-							}
-							else
-							{
-								shapedInputs.put(spreadsheetInputs[i], inputItemStack);
-								inputShapeRow2.append(spreadsheetInputs[i]);
-							}
+							shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+							inputShape.append(shapedIdentifiers[i]);
 						}
 					}
 					if (shapedInputs == null)
@@ -528,11 +531,9 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 14; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						final ItemStack outputItemStack;
-						if (outputItemName.length() >= 1) // if this recipe does not use all of the slots
+						if (!StringUtils.isEmpty(outputItemName))
 						{
-
-							outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for processing recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
@@ -545,11 +546,28 @@ public class RecipeGenerator {
 
 					if (outputItems == null)
 						continue;
+					if (outputItems.size() == 0)
+					{
+						logger.warn("Processing recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
+						continue;
+					}
+
+					final String[] inputShapes = new String[inputShape.length() > 3 ? 2 : 1];
+					if (inputShapes.length == 1)
+						inputShapes[0] = inputShape.toString();
+					else
+					{
+						inputShapes[0] = inputShape.substring(0, 3);
+						inputShapes[1] = inputShape.substring(3);
+					}
+
+					final String inputShapeRow1 = inputShape.toString();
+					final String inputShapeRow2 = inputShape.toString();
 
 					PolycraftMod.recipeManager.addShapedRecipe(
 							PolycraftContainerType.CHEMICAL_PROCESSOR,
 							outputItems,
-							new String[] { inputShapeRow1.toString(), inputShapeRow2.toString() },
+							inputShapes,
 							shapedInputs);
 				}
 			}

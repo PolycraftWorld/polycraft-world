@@ -28,6 +28,7 @@ div.inventory.extruder{background: url('http://www.polycraftworld.com/wiki/image
 div.inventory.fueled-lamp{background: url('http://www.polycraftworld.com/wiki/images/b/b5/Gui_fueled_lamp.png');}
 div.inventory.spotlight{background: url('http://www.polycraftworld.com/wiki/images/0/00/Gui_spotlight.png');}
 div.inventory.steam-cracker{background: url('http://www.polycraftworld.com/wiki/images/4/47/Gui_steam_cracker.png');}
+div.inventory.merox-treatment-unit{background: url('http://www.polycraftworld.com/wiki/images/d/dd/Gui_merox_treatment_unit.png');}
 div.inventory.chemical-processor{background: url('http://www.polycraftworld.com/wiki/images/5/52/Gui_chemical_processor.png');}
 
 div.inventory.crafting-table div.slot.index-0{left:60px;top:34px}
@@ -121,3 +122,37 @@ div.inventory.steam-cracker div.slot.index-10{left:304px;top:72px}
 div.inventory.steam-cracker div.slot.index-11{left:232px;top:108px}
 div.inventory.steam-cracker div.slot.index-12{left:268px;top:108px}
 div.inventory.steam-cracker div.slot.index-13{left:304px;top:108px}
+
+div.inventory.merox-treatment-unit div.slot.index-0{left:16px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-1{left:52px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-2{left:88px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-3{left:142px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-4{left:142px;top:108px}
+div.inventory.merox-treatment-unit div.slot.index-5{left:52px;top:108px}
+div.inventory.merox-treatment-unit div.slot.index-6{left:232px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-7{left:268px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-8{left:304px;top:36px}
+div.inventory.merox-treatment-unit div.slot.index-9{left:232px;top:72px}
+div.inventory.merox-treatment-unit div.slot.index-10{left:268px;top:72px}
+div.inventory.merox-treatment-unit div.slot.index-11{left:304px;top:72px}
+div.inventory.merox-treatment-unit div.slot.index-12{left:232px;top:108px}
+div.inventory.merox-treatment-unit div.slot.index-13{left:268px;top:108px}
+div.inventory.merox-treatment-unit div.slot.index-14{left:304px;top:108px}
+
+div.inventory.chemical-processor div.slot.index-0{left:16px;top:36px}
+div.inventory.chemical-processor div.slot.index-1{left:52px;top:36px}
+div.inventory.chemical-processor div.slot.index-2{left:88px;top:36px}
+div.inventory.chemical-processor div.slot.index-3{left:16px;top:72px}
+div.inventory.chemical-processor div.slot.index-4{left:88px;top:72px}
+div.inventory.chemical-processor div.slot.index-5{left:142px;top:36px}
+div.inventory.chemical-processor div.slot.index-6{left:142px;top:108px}
+div.inventory.chemical-processor div.slot.index-7{left:52px;top:108px}
+div.inventory.chemical-processor div.slot.index-8{left:232px;top:36px}
+div.inventory.chemical-processor div.slot.index-9{left:268px;top:36px}
+div.inventory.chemical-processor div.slot.index-10{left:304px;top:36px}
+div.inventory.chemical-processor div.slot.index-11{left:232px;top:72px}
+div.inventory.chemical-processor div.slot.index-12{left:268px;top:72px}
+div.inventory.chemical-processor div.slot.index-13{left:304px;top:72px}
+div.inventory.chemical-processor div.slot.index-14{left:232px;top:108px}
+div.inventory.chemical-processor div.slot.index-15{left:268px;top:108px}
+div.inventory.chemical-processor div.slot.index-16{left:304px;top:108px}

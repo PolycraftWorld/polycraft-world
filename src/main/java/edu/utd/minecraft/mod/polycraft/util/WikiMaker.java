@@ -41,7 +41,6 @@ import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
-import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
@@ -89,7 +88,7 @@ public class WikiMaker {
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/blocks"
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/items",
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
-			// POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
+			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY + "/gui/container"
 			};
 
 	private static final String WIKI_NEWLINE = "\n";
@@ -112,7 +111,7 @@ public class WikiMaker {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
 			// wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			// wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES); // add new textures for new version here
+			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES); // add new textures for new version here
 
 			// wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
 			// wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
@@ -122,7 +121,7 @@ public class WikiMaker {
 			// PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerWall.class,
 			// Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
 			//
-			// wikiMaker.createItemPages(Inventory.registry);
+			//wikiMaker.createItemPages(Inventory.registry);
 			// wikiMaker.createItemPages(Ore.registry);
 			// wikiMaker.createItemPages(Ingot.registry);
 			// wikiMaker.createItemPages(Catalyst.registry);
@@ -133,7 +132,7 @@ public class WikiMaker {
 			// wikiMaker.createItemPages(PolymerBlock.registry);
 			// wikiMaker.createItemPages(PolymerSlab.registry);
 			// wikiMaker.createItemPages(PolymerStairs.registry);
-			wikiMaker.createItemPages(PolymerBrick.registry);
+			//wikiMaker.createItemPages(PolymerBrick.registry);
 			// wikiMaker.createItemPages(PolymerWall.registry);
 			// wikiMaker.createItemPages(Mold.registry);
 			// wikiMaker.createItemPages(MoldedItem.registry);
