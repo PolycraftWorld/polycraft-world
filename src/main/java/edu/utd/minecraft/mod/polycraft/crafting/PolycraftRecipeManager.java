@@ -84,9 +84,9 @@ public class PolycraftRecipeManager {
 				ItemStack item = outputs.iterator().next().itemStack.copy();
 				if (item.stackTagCompound == null) {
 					PolycraftItemHelper.createTagCompound(item);
-					item.stackTagCompound.setByte("is-recipe-null-tag-compound", (byte) 1);
+					//	item.stackTagCompound.setByte("is-recipe-null-tag-compound", (byte) 1);
 				}
-				item.stackTagCompound.setByte("is-recipe", (byte) 1);
+				item.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
 				return item;
 			}
 			return null;
@@ -558,15 +558,18 @@ public class PolycraftRecipeManager {
 			// Item has been marked as being a Polycraft recipe, which allows recipes to require
 			// itemstacks with any stackSize.  The generic crafting recipes only remove a single
 			// item for each recipe item, so the rest may need to be removed.
-			if (craftedItem.stackTagCompound.hasKey("is-recipe")) {
-				if (craftedItem.stackTagCompound.hasKey("is-recipe-null-tag-compound")) {
-					//if we had to create a tag compound just to store is-recipe (the tag compound didn't exist before we came along) then remove the whole thing
-					//otherwise minecraft will thing that two items are different, even if the tag compound on one is empty, and on the other it is null
-					//see net.minecraft.item.ItemStack.areItemStackTagsEqual(ItemStack, ItemStack) for more info
-					craftedItem.setTagCompound(null);
-				}
-				else
-					craftedItem.stackTagCompound.removeTag("is-recipe");
+			if (craftedItem.stackTagCompound.hasKey("polycraft-recipe")) {
+				//TODO figure out a way that we can remove this key, can't at the moment because net.minecraft.inventory.ContainerWorkbench.transferStackInSlot(EntityPlayer, int)
+				//which is called when a player shift clicks, only hands us a copy, so removing the key results in a mismatch between shift click created items, and single click 
+				//created items
+				//if (craftedItem.stackTagCompound.hasKey("is-recipe-null-tag-compound")) {
+				//if we had to create a tag compound just to store is-recipe (the tag compound didn't exist before we came along) then remove the whole thing
+				//otherwise minecraft will thing that two items are different, even if the tag compound on one is empty, and on the other it is null
+				//see net.minecraft.item.ItemStack.areItemStackTagsEqual(ItemStack, ItemStack) for more info
+				//	craftedItem.setTagCompound(null);
+				//}
+				//else
+				//	craftedItem.stackTagCompound.removeTag("polycraft-recipe");
 				Set<RecipeComponent> inputs = CustomGenericCraftingRecipe.getComponentsFromInventory(event.craftMatrix);
 				PolycraftRecipe recipe = findRecipe(PolycraftContainerType.CRAFTING_TABLE, inputs);
 				if (recipe == null) {

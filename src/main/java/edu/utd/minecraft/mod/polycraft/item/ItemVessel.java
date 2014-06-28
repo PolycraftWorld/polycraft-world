@@ -35,17 +35,27 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 	}
 
 	public static void upcycle(final PolycraftInventory inventory) {
-		for (final ContainerSlot slot : inventory.getInputSlots())
-			upcycle(inventory, slot.getSlotIndex());
+		upcycleOrMerge(inventory, true);
 	}
 
-	public static void upcycle(final PolycraftInventory inventory, final int slotIndex) {
-		final ItemStack itemStack = inventory.getStackInSlot(slotIndex);
-		if (itemStack != null && itemStack.getItem() instanceof ItemVessel)
-			((ItemVessel) itemStack.getItem()).upcycle(inventory, slotIndex, itemStack);
+	public static void merge(final PolycraftInventory inventory) {
+		upcycleOrMerge(inventory, false);
 	}
 
-	public synchronized void upcycle(final PolycraftInventory inventory, final int slotIndex, final ItemStack itemStack) {
+	private static void upcycleOrMerge(final PolycraftInventory inventory, final boolean upcycle) {
+		for (final ContainerSlot slot : inventory.getInputSlots()) {
+			final int slotIndex = slot.getSlotIndex();
+			final ItemStack itemStack = inventory.getStackInSlot(slotIndex);
+			if (itemStack != null && itemStack.getItem() instanceof ItemVessel) {
+				if (upcycle)
+					((ItemVessel) itemStack.getItem()).upcycle(inventory, slotIndex, itemStack);
+				else
+					((ItemVessel) itemStack.getItem()).merge(inventory, slotIndex, itemStack);
+			}
+		}
+	}
+
+	private synchronized void upcycle(final PolycraftInventory inventory, final int slotIndex, final ItemStack itemStack) {
 		if (searchForLargerItem) {
 			if (cofig.vesselType.largerType != null) {
 				GameIdentifiedConfig largerConfig = null;
@@ -61,8 +71,35 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 			searchForLargerItem = false;
 		}
 
-		if (largerItem != null)
-			if (itemStack.stackSize == cofig.vesselType.largerType.quantityOfSmallerType)
-				inventory.setInventorySlotContents(slotIndex, new ItemStack(largerItem));
+		if (largerItem != null) {
+			if (itemStack.stackSize == cofig.vesselType.largerType.quantityOfSmallerType) {
+				final ItemStack largerItemStack = new ItemStack(largerItem);
+				inventory.setInventorySlotContents(slotIndex, largerItemStack);
+			}
+		}
+	}
+
+	private synchronized void merge(final PolycraftInventory inventory, final int slotIndex, final ItemStack itemStack) {
+		if (itemStack.stackSize < itemStack.getMaxStackSize()) {
+			//search for a stack with our type that isn't maxed out and try to combine with it
+			for (final ContainerSlot combineSlot : inventory.getInputSlots()) {
+				if (combineSlot.getSlotIndex() != slotIndex) {
+					final ItemStack combineWithItemStack = inventory.getStackInSlot(combineSlot.getSlotIndex());
+					if (combineWithItemStack != null && combineWithItemStack.isItemEqual(itemStack)) {
+						if (combineWithItemStack.stackSize < combineWithItemStack.getMaxStackSize()) {
+							final ItemStack sourceStack = combineSlot.getSlotIndex() > slotIndex ? combineWithItemStack : itemStack;
+							final ItemStack targetStack = combineSlot.getSlotIndex() > slotIndex ? itemStack : combineWithItemStack;
+							final int amountToTransfer = Math.min(sourceStack.stackSize, targetStack.getMaxStackSize() - targetStack.stackSize);
+							targetStack.stackSize += amountToTransfer;
+							sourceStack.stackSize -= amountToTransfer;
+							if (sourceStack.stackSize == 0) {
+								inventory.setInventorySlotContents(combineSlot.getSlotIndex() > slotIndex ? combineSlot.getSlotIndex() : slotIndex, null);
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
