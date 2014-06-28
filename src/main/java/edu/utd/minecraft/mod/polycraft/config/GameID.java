@@ -15,6 +15,7 @@ public enum GameID {
 	InventoryChemicalProcessor("3J"),
 	InventoryFueledLamp("3V"),
 	InventorySpotlight("41"),
+	InventoryOilDerrick("3K"),
 	CustomBucketOil("3m"),
 	CustomFlameThrower("3n"),
 	CustomFlashlight("3o"),
