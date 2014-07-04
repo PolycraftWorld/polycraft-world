@@ -60,6 +60,8 @@ public class OilDerrickInventory extends PolycraftInventory {
 	private final int amountToSpawn;
 	private final Ore spawnFromOre;
 	private final int spawnFrequencyTicks;
+	private int amountOfOilHarvested;
+	private boolean oilRemains;
 
 	public OilDerrickInventory() {
 		super(PolycraftContainerType.OIL_DERRICK, config);
@@ -67,6 +69,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 		this.amountToSpawn = config.params.getInt(1);
 		this.spawnFromOre = Ore.registry.get(config.params.get(2));
 		this.spawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(3));
+		this.amountOfOilHarvested = 0;
 		this.addBehavior(new VesselUpcycler());
 		this.addBehavior(new VesselMerger());
 	}
@@ -118,8 +121,19 @@ public class OilDerrickInventory extends PolycraftInventory {
 		if (oreBlock != null && oreBlock instanceof BlockOre) {
 			if (((BlockOre) oreBlock).ore.gameID.equals(spawnFromOre.gameID)) {
 				if (spawnAttempts++ >= spawnFrequencyTicks) {
+					int meta = getWorldObj().getBlockMetadata(xCoord, yCoord - 1, zCoord);
+
 					spawnAttempts = 0;
-					return compoundVesselToSpawn.getItemStack(amountToSpawn);
+					amountOfOilHarvested++;
+
+					// every 16 drums of oil, this should decrement the blocks meta data
+					if ((meta > 0) && (amountOfOilHarvested % 16 == 0))
+						getWorldObj().setBlock(xCoord, yCoord - 1, zCoord, oreBlock, meta - 1, 2);
+
+					if (meta > 0)
+						return compoundVesselToSpawn.getItemStack(amountToSpawn);
+					else
+						return null;
 				}
 			}
 			return null;

@@ -84,6 +84,20 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 	}
 
 	@Override
+	public void breakBlock(World world, int xCoord, int yCoord, int zCoord, Block p_149749_5_, int p_149749_6_)
+	{
+		final Block oreBlock = world.getBlock(xCoord, yCoord - 1, zCoord);
+		int meta = world.getBlockMetadata(xCoord, yCoord - 1, zCoord);
+		if (meta > 0)
+			world.setBlock(xCoord, yCoord - 1, zCoord, oreBlock, meta - 1, 2); // remove the rest of the oil in this meta level
+		else
+			world.setBlock(xCoord, yCoord - 1, zCoord, oreBlock, 0, 2); // no more oil
+
+		super.breakBlock(world, xCoord, yCoord, zCoord, p_149749_5_, p_149749_6_);
+
+	}
+
+	@Override
 	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
 	}
 

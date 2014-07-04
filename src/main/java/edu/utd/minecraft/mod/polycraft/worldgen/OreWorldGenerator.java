@@ -34,11 +34,26 @@ public class OreWorldGenerator implements IWorldGenerator {
 		for (final Ore ore : Ore.registry.values()) {
 			if (ore.generationBlocksPerVein > 0) {
 				final Block oreBlock = PolycraftRegistry.getBlock(ore);
-				for (int k = 0; k < ore.generationVeinsPerChunk; k++) {
-					int firstBlockXCoord = i + random.nextInt(16);
-					int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin + 1);
-					int firstBlockZCoord = j + random.nextInt(16);
-					(new WorldGenMinable(oreBlock, ore.generationBlocksPerVein)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+
+				if (ore.name.equals("OilField"))
+				{
+					final int firstBlockXCoord = i + random.nextInt(16);
+					final int firstBlockZCoord = j + random.nextInt(16);
+					world.setBlock(firstBlockXCoord, 4, firstBlockZCoord, oreBlock, 8 + random.nextInt(8), 2);
+					world.setBlock(firstBlockXCoord, 3, firstBlockZCoord, oreBlock, 0, 2);
+					world.setBlock(firstBlockXCoord, 2, firstBlockZCoord, oreBlock, 0, 2);
+					world.setBlock(firstBlockXCoord, 1, firstBlockZCoord, oreBlock, 0, 2);
+				}
+				else
+				{
+
+					for (int k = 0; k < ore.generationVeinsPerChunk; k++) {
+						final int firstBlockXCoord = i + random.nextInt(16);
+						final int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin + 1);
+						final int firstBlockZCoord = j + random.nextInt(16);
+						(new WorldGenMinable(oreBlock, ore.generationBlocksPerVein)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+
+					}
 				}
 			}
 		}
