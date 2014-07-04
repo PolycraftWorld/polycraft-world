@@ -20,6 +20,7 @@ tile.g.name=Shale
 tile.h.name=Graphite
 tile.i.name=Chromite
 tile.j.name=Bitumen
+tile.5s.name=OilField
 item.k.name=Magnesium Ingot
 item.l.name=Titanium Ingot
 item.m.name=Manganese Ingot

@@ -36,7 +36,7 @@ public class OreWorldGenerator implements IWorldGenerator {
 				final Block oreBlock = PolycraftRegistry.getBlock(ore);
 				for (int k = 0; k < ore.generationVeinsPerChunk; k++) {
 					int firstBlockXCoord = i + random.nextInt(16);
-					int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin);
+					int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin + 1);
 					int firstBlockZCoord = j + random.nextInt(16);
 					(new WorldGenMinable(oreBlock, ore.generationBlocksPerVein)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
 				}

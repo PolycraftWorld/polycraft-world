@@ -111,20 +111,20 @@ public class OilDerrickInventory extends PolycraftInventory {
 	}
 
 	private ItemStack getNextTappedItem() {
-		for (final int[] tappedCoordOffset : tappedCoordOffsets) {
-			final int x = xCoord + tappedCoordOffset[0];
-			final int z = zCoord + tappedCoordOffset[1];
-			final Block oreBlock = getWorldObj().getBlock(x, yCoord, z);
-			if (oreBlock != null && oreBlock instanceof BlockOre) {
-				if (((BlockOre) oreBlock).ore.gameID.equals(spawnFromOre.gameID)) {
-					if (spawnAttempts++ >= spawnFrequencyTicks) {
-						spawnAttempts = 0;
-						return compoundVesselToSpawn.getItemStack(amountToSpawn);
-					}
+		// for (final int[] tappedCoordOffset : tappedCoordOffsets) {
+		// final int y = yCoord + tappedCoordOffset[0];
+		// final int z = zCoord + tappedCoordOffset[1];
+		final Block oreBlock = getWorldObj().getBlock(xCoord, yCoord - 1, zCoord);
+		if (oreBlock != null && oreBlock instanceof BlockOre) {
+			if (((BlockOre) oreBlock).ore.gameID.equals(spawnFromOre.gameID)) {
+				if (spawnAttempts++ >= spawnFrequencyTicks) {
+					spawnAttempts = 0;
+					return compoundVesselToSpawn.getItemStack(amountToSpawn);
 				}
-				return null;
 			}
+			return null;
 		}
+		// }
 		spawnAttempts = 0;
 		return null;
 	}
@@ -279,7 +279,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 
 			if (itemstack1 == null)
 			{
-				//Forge: BUGFIX: Again, make things respect max stack sizes.
+				// Forge: BUGFIX: Again, make things respect max stack sizes.
 				int max = Math.min(p_145899_1_.getMaxStackSize(), p_145899_0_.getInventoryStackLimit());
 				if (max >= p_145899_1_.stackSize)
 				{
@@ -294,7 +294,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 			}
 			else if (func_145894_a(itemstack1, p_145899_1_))
 			{
-				//Forge: BUGFIX: Again, make things respect max stack sizes.
+				// Forge: BUGFIX: Again, make things respect max stack sizes.
 				int max = Math.min(p_145899_1_.getMaxStackSize(), p_145899_0_.getInventoryStackLimit());
 				if (max > itemstack1.stackSize)
 				{
@@ -334,12 +334,12 @@ public class OilDerrickInventory extends PolycraftInventory {
 		return func_145893_b(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
 	}
 
-	public static IInventory func_145893_b(World p_145893_0_, double p_145893_1_, double p_145893_3_, double p_145893_5_) {
+	public static IInventory func_145893_b(World worldObj, double p_145893_1_, double p_145893_3_, double p_145893_5_) {
 		IInventory iinventory = null;
 		int i = MathHelper.floor_double(p_145893_1_);
 		int j = MathHelper.floor_double(p_145893_3_);
 		int k = MathHelper.floor_double(p_145893_5_);
-		TileEntity tileentity = p_145893_0_.getTileEntity(i, j, k);
+		TileEntity tileentity = worldObj.getTileEntity(i, j, k);
 
 		if (tileentity != null && tileentity instanceof IInventory)
 		{
@@ -347,23 +347,23 @@ public class OilDerrickInventory extends PolycraftInventory {
 
 			if (iinventory instanceof TileEntityChest)
 			{
-				Block block = p_145893_0_.getBlock(i, j, k);
+				Block block = worldObj.getBlock(i, j, k);
 
 				if (block instanceof BlockChest)
 				{
-					iinventory = ((BlockChest) block).func_149951_m(p_145893_0_, i, j, k);
+					iinventory = ((BlockChest) block).func_149951_m(worldObj, i, j, k);
 				}
 			}
 		}
 
 		if (iinventory == null)
 		{
-			List list = p_145893_0_.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getAABBPool().getAABB(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
+			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getAABBPool().getAABB(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
 					IEntitySelector.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{
-				iinventory = (IInventory) list.get(p_145893_0_.rand.nextInt(list.size()));
+				iinventory = (IInventory) list.get(worldObj.rand.nextInt(list.size()));
 			}
 		}
 

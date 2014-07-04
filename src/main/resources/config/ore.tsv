@@ -19,3 +19,4 @@ Version	Game ID	Ore	Source Type	Source Name	hardness	resistance	dropExpMin	dropE
 1.0.0	h	Graphite	Mineral	Graphite	3	5	2	5	10	10	10	30					
 1.0.0	i	Chromite	Mineral	Chromite	3	5	2	5	10	10	10	30	215	190	200	D7BEC8	
 1.0.0	j	Bitumen	Mineral	Bitumen	3	5	2	5	0	0	0	0					
+1.0.0	5s	OilField	Mineral	OilField	-1	18000000	0	0	80	1	5	5					
