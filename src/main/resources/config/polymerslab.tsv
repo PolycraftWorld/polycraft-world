@@ -1,115 +1,114 @@
 Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game ID	Double Slab Block Game ID	Slab	Source	Version	Bounce Height
-1.0.0	M9	NZ	PP	RF	Slab (Acrylic-Formaldehyde)	Block (Acrylic-Formaldehyde)	Acrylic-Formaldehyde	0
+	M9	NZ	PP	RF	Slab (Acrylic-Formaldehyde)	Block (Acrylic-Formaldehyde)	Acrylic-Formaldehyde	0
 1.0.0	Ma	O0	PQ	RG	Slab (Acrylonitrile-Butadiene-Styrene)	Block (Acrylonitrile-Butadiene-Styrene)	Acrylonitrile-Butadiene-Styrene	0
-1.0.0	Mb	O1	PR	RH	Slab (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
+	Mb	O1	PR	RH	Slab (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Mc	O2	PS	RI	Slab (Amorphous PolyEthylene Terephthalate)	Block (Amorphous PolyEthylene Terephthalate)	Amorphous PolyEthylene Terephthalate	0
-1.0.0	Md	O3	PT	RJ	Slab (Bromine Isobutylene-Isoprene Rubber)	Block (Bromine Isobutylene-Isoprene Rubber)	Bromine Isobutylene-Isoprene Rubber	0
-1.0.0	Me	O4	PU	RK	Slab (Cellulose Diacetate)	Block (Cellulose Diacetate)	Cellulose Diacetate	0
-1.0.0	Mf	O5	PV	RL	Slab (Cellulose Triacetate)	Block (Cellulose Triacetate)	Cellulose Triacetate	0
+	Md	O3	PT	RJ	Slab (Bromine Isobutylene-Isoprene Rubber)	Block (Bromine Isobutylene-Isoprene Rubber)	Bromine Isobutylene-Isoprene Rubber	0
+	Me	O4	PU	RK	Slab (Cellulose Diacetate)	Block (Cellulose Diacetate)	Cellulose Diacetate	0
+	Mf	O5	PV	RL	Slab (Cellulose Triacetate)	Block (Cellulose Triacetate)	Cellulose Triacetate	0
 1.0.0	Mg	O6	PW	RM	Slab (Cellulosic)	Block (Cellulosic)	Cellulosic	0
-1.0.0	Mh	O7	PX	RN	Slab (Chitin)	Block (Chitin)	Chitin	0
-1.0.0	Mi	O8	PY	RO	Slab (Chlorine Isobutylene-Isoprene Rubber)	Block (Chlorine Isobutylene-Isoprene Rubber)	Chlorine Isobutylene-Isoprene Rubber	0
-1.0.0	Mj	O9	PZ	RP	Slab (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
-1.0.0	Mk	Oa	Q0	RQ	Slab (Ethoxylates)	Block (Ethoxylates)	Ethoxylates	0
-1.0.0	Ml	Ob	Q1	RR	Slab (Ethylene-Propylene Monomer)	Block (Ethylene-Propylene Monomer)	Ethylene-Propylene Monomer	0
-1.0.0	Mm	Oc	Q2	RS	Slab (Ethylene-Propylene-Diene Monomer)	Block (Ethylene-Propylene-Diene Monomer)	Ethylene-Propylene-Diene Monomer	0
-1.0.0	Mn	Od	Q3	RT	Slab (Ethylene-Vinyl Acetate)	Block (Ethylene-Vinyl Acetate)	Ethylene-Vinyl Acetate	0
+	Mh	O7	PX	RN	Slab (Chitin)	Block (Chitin)	Chitin	0
+	Mi	O8	PY	RO	Slab (Chlorine Isobutylene-Isoprene Rubber)	Block (Chlorine Isobutylene-Isoprene Rubber)	Chlorine Isobutylene-Isoprene Rubber	0
+	Mj	O9	PZ	RP	Slab (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
+	Mk	Oa	Q0	RQ	Slab (Ethoxylates)	Block (Ethoxylates)	Ethoxylates	0
+	Ml	Ob	Q1	RR	Slab (Ethylene-Propylene Monomer)	Block (Ethylene-Propylene Monomer)	Ethylene-Propylene Monomer	0
+	Mm	Oc	Q2	RS	Slab (Ethylene-Propylene-Diene Monomer)	Block (Ethylene-Propylene-Diene Monomer)	Ethylene-Propylene-Diene Monomer	0
+	Mn	Od	Q3	RT	Slab (Ethylene-Vinyl Acetate)	Block (Ethylene-Vinyl Acetate)	Ethylene-Vinyl Acetate	0
 1.0.0	Mo	Oe	Q4	RU	Slab (High Density PolyEthylene)	Block (High Density PolyEthylene)	High Density PolyEthylene	0
-1.0.0	Mp	Of	Q5	RV	Slab (Hydrogenated Nitrile-Butadiene Rubber)	Block (Hydrogenated Nitrile-Butadiene Rubber)	Hydrogenated Nitrile-Butadiene Rubber	0
-1.0.0	Mq	Og	Q6	RW	Slab (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
-1.0.0	Mr	Oh	Q7	RX	Slab (Lignin)	Block (Lignin)	Lignin	0
+	Mp	Of	Q5	RV	Slab (Hydrogenated Nitrile-Butadiene Rubber)	Block (Hydrogenated Nitrile-Butadiene Rubber)	Hydrogenated Nitrile-Butadiene Rubber	0
+	Mq	Og	Q6	RW	Slab (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
+	Mr	Oh	Q7	RX	Slab (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Ms	Oi	Q8	RY	Slab (Linear Low-Density PolyEthylene)	Block (Linear Low-Density PolyEthylene)	Linear Low-Density PolyEthylene	0
-1.0.0	Mt	Oj	Q9	RZ	Slab (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
+	Mt	Oj	Q9	RZ	Slab (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
 1.0.0	Mu	Ok	Qa	S0	Slab (Low Density PolyEthylene)	Block (Low Density PolyEthylene)	Low Density PolyEthylene	0
 1.0.0	Mv	Ol	Qb	S1	Slab (Medium Density PolyEthylene)	Block (Medium Density PolyEthylene)	Medium Density PolyEthylene	0
-1.0.0	Mw	Om	Qc	S2	Slab (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
-1.0.0	Mx	On	Qd	S3	Slab (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
-1.0.0	My	Oo	Qe	S4	Slab (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
-1.0.0	Mz	Op	Qf	S5	Slab (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
-1.0.0	MA	Oq	Qg	S6	Slab (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
-1.0.0	MB	Or	Qh	S7	Slab (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
-1.0.0	MC	Os	Qi	S8	Slab (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
-1.0.0	MD	Ot	Qj	S9	Slab (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
-1.0.0	ME	Ou	Qk	Sa	Slab (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
-1.0.0	MF	Ov	Ql	Sb	Slab (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
-1.0.0	MG	Ow	Qm	Sc	Slab (Poly2-Hydroxyethyl Methacrylate)	Block (Poly2-Hydroxyethyl Methacrylate)	Poly2-Hydroxyethyl Methacrylate	0
-1.0.0	MH	Ox	Qn	Sd	Slab (PolyAcrylic Ester)	Block (PolyAcrylic Ester)	PolyAcrylic Ester	0
+	Mw	Om	Qc	S2	Slab (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
+	Mx	On	Qd	S3	Slab (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
+	My	Oo	Qe	S4	Slab (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
+	Mz	Op	Qf	S5	Slab (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
+	MA	Oq	Qg	S6	Slab (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
+	MB	Or	Qh	S7	Slab (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
+	MC	Os	Qi	S8	Slab (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
+	MD	Ot	Qj	S9	Slab (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
+	ME	Ou	Qk	Sa	Slab (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
+	MF	Ov	Ql	Sb	Slab (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
+	MG	Ow	Qm	Sc	Slab (Poly2-Hydroxyethyl Methacrylate)	Block (Poly2-Hydroxyethyl Methacrylate)	Poly2-Hydroxyethyl Methacrylate	0
+	MH	Ox	Qn	Sd	Slab (PolyAcrylic Ester)	Block (PolyAcrylic Ester)	PolyAcrylic Ester	0
 1.0.0	MI	Oy	Qo	Se	Slab (PolyAcrylonitrile)	Block (PolyAcrylonitrile)	PolyAcrylonitrile	0
 1.0.0	MJ	Oz	Qp	Sf	Slab (PolyButadiene)	Block (PolyButadiene)	PolyButadiene	0
-1.0.0	MK	OA	Qq	Sg	Slab (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
-1.0.0	ML	OB	Qr	Sh	Slab (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
-1.0.0	MM	OC	Qs	Si	Slab (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
-1.0.0	MN	OD	Qt	Sj	Slab (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
+	MK	OA	Qq	Sg	Slab (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
+	ML	OB	Qr	Sh	Slab (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
+	MN	OD	Qt	Sj	Slab (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
 1.0.0	MO	OE	Qu	Sk	Slab (PolyCaprolactone)	Block (PolyCaprolactone)	PolyCaprolactone	0
 1.0.0	MP	OF	Qv	Sl	Slab (PolyCarbonate)	Block (PolyCarbonate)	PolyCarbonate	0
-1.0.0	MQ	OG	Qw	Sm	Slab (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
-1.0.0	MR	OH	Qx	Sn	Slab (PolyChlorotrifluoroethylene)	Block (PolyChlorotrifluoroethylene)	PolyChlorotrifluoroethylene	0
+	MQ	OG	Qw	Sm	Slab (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
+	MR	OH	Qx	Sn	Slab (PolyChlorotrifluoroethylene)	Block (PolyChlorotrifluoroethylene)	PolyChlorotrifluoroethylene	0
 1.0.0	MS	OI	Qy	So	Slab (PolyDiMethylSiloxane)	Block (PolyDiMethylSiloxane)	PolyDiMethylSiloxane	0
 1.0.0	MT	OJ	Qz	Sp	Slab (PolyEther Ether Ketone)	Block (PolyEther Ether Ketone)	PolyEther Ether Ketone	0
 1.0.0	MU	OK	QA	Sq	Slab (PolyEtherImide)	Block (PolyEtherImide)	PolyEtherImide	0
-1.0.0	MV	OL	QB	Sr	Slab (PolyEthyl Acrylate)	Block (PolyEthyl Acrylate)	PolyEthyl Acrylate	0
-1.0.0	MW	OM	QC	Ss	Slab (PolyEthylene Adipate)	Block (PolyEthylene Adipate)	PolyEthylene Adipate	0
+	MV	OL	QB	Sr	Slab (PolyEthyl Acrylate)	Block (PolyEthyl Acrylate)	PolyEthyl Acrylate	0
+	MW	OM	QC	Ss	Slab (PolyEthylene Adipate)	Block (PolyEthylene Adipate)	PolyEthylene Adipate	0
 1.0.0	MX	ON	QD	St	Slab (PolyEthylene Glycol)	Block (PolyEthylene Glycol)	PolyEthylene Glycol	0
-1.0.0	MY	OO	QE	Su	Slab (PolyEthylene Hexamethylene Dicarbamate)	Block (PolyEthylene Hexamethylene Dicarbamate)	PolyEthylene Hexamethylene Dicarbamate	0
+	MY	OO	QE	Su	Slab (PolyEthylene Hexamethylene Dicarbamate)	Block (PolyEthylene Hexamethylene Dicarbamate)	PolyEthylene Hexamethylene Dicarbamate	0
 1.0.0	MZ	OP	QF	Sv	Slab (PolyEthylene Naphthalate)	Block (PolyEthylene Naphthalate)	PolyEthylene Naphthalate	0
 1.0.0	N0	OQ	QG	Sw	Slab (PolyEthylene Oxide)	Block (PolyEthylene Oxide)	PolyEthylene Oxide	0
-1.0.0	N1	OR	QH	Sx	Slab (PolyEthylene Sulphide)	Block (PolyEthylene Sulphide)	PolyEthylene Sulphide	0
+	N1	OR	QH	Sx	Slab (PolyEthylene Sulphide)	Block (PolyEthylene Sulphide)	PolyEthylene Sulphide	0
 1.0.0	N2	OS	QI	Sy	Slab (PolyEthylene Terephthalate)	Block (PolyEthylene Terephthalate)	PolyEthylene Terephthalate	0
-1.0.0	N3	OT	QJ	Sz	Slab (PolyEthylene Terephthalate Glycol-Modified)	Block (PolyEthylene Terephthalate Glycol-Modified)	PolyEthylene Terephthalate Glycol-Modified	0
+	N3	OT	QJ	Sz	Slab (PolyEthylene Terephthalate Glycol-Modified)	Block (PolyEthylene Terephthalate Glycol-Modified)	PolyEthylene Terephthalate Glycol-Modified	0
 1.0.0	N4	OU	QK	SA	Slab (PolyGlycolic Acid)	Block (PolyGlycolic Acid)	PolyGlycolic Acid	0
-1.0.0	N5	OV	QL	SB	Slab (PolyHexamethylene Adipamide)	Block (PolyHexamethylene Adipamide)	PolyHexamethylene Adipamide	0
-1.0.0	N6	OW	QM	SC	Slab (PolyHexamethylene Sebacamide)	Block (PolyHexamethylene Sebacamide)	PolyHexamethylene Sebacamide	0
+	N5	OV	QL	SB	Slab (PolyHexamethylene Adipamide)	Block (PolyHexamethylene Adipamide)	PolyHexamethylene Adipamide	0
+	N6	OW	QM	SC	Slab (PolyHexamethylene Sebacamide)	Block (PolyHexamethylene Sebacamide)	PolyHexamethylene Sebacamide	0
 1.0.0	N7	OX	QN	SD	Slab (PolyHydroxyalkanoate)	Block (PolyHydroxyalkanoate)	PolyHydroxyalkanoate	0
-1.0.0	N8	OY	QO	SE	Slab (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Block (PolyHydroxybutyrate-Co-Hydroxyvalerate)	PolyHydroxybutyrate-Co-Hydroxyvalerate	0
+	N8	OY	QO	SE	Slab (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Block (PolyHydroxybutyrate-Co-Hydroxyvalerate)	PolyHydroxybutyrate-Co-Hydroxyvalerate	0
 1.0.0	N9	OZ	QP	SF	Slab (PolyImide)	Block (PolyImide)	PolyImide	0
-1.0.0	Na	P0	QQ	SG	Slab (PolyIsoBorynl Acrylate)	Block (PolyIsoBorynl Acrylate)	PolyIsoBorynl Acrylate	0
-1.0.0	Nb	P1	QR	SH	Slab (PolyIsoButyl Acrylate)	Block (PolyIsoButyl Acrylate)	PolyIsoButyl Acrylate	0
+	Na	P0	QQ	SG	Slab (PolyIsoBorynl Acrylate)	Block (PolyIsoBorynl Acrylate)	PolyIsoBorynl Acrylate	0
+	Nb	P1	QR	SH	Slab (PolyIsoButyl Acrylate)	Block (PolyIsoButyl Acrylate)	PolyIsoButyl Acrylate	0
 1.0.0	Nc	P2	QS	SI	Slab (PolyIsoButylene)	Block (PolyIsoButylene)	PolyIsoButylene	0
 1.0.0	Nd	P3	QT	SJ	Slab (PolyIsoPrene)	Block (PolyIsoPrene)	PolyIsoPrene	6
 1.0.0	Ne	P4	QU	SK	Slab (PolyLactic Acid)	Block (PolyLactic Acid)	PolyLactic Acid	0
-1.0.0	Nf	P5	QV	SL	Slab (PolyLactic-Co-Glycolic Acid)	Block (PolyLactic-Co-Glycolic Acid)	PolyLactic-Co-Glycolic Acid	0
-1.0.0	Ng	P6	QW	SM	Slab (PolyMethyl Acrylate)	Block (PolyMethyl Acrylate)	PolyMethyl Acrylate	0
-1.0.0	Nh	P7	QX	SN	Slab (PolyMethyl Cyanoacrylate)	Block (PolyMethyl Cyanoacrylate)	PolyMethyl Cyanoacrylate	0
-1.0.0	Ni	P8	QY	SO	Slab (PolyMethyl Methacrylate)	Block (PolyMethyl Methacrylate)	PolyMethyl Methacrylate	0
-1.0.0	Nj	P9	QZ	SP	Slab (PolyM-Methyl Styrene)	Block (PolyM-Methyl Styrene)	PolyM-Methyl Styrene	0
-1.0.0	Nk	Pa	R0	SQ	Slab (PolyM-Phenylene Isophthalamide)	Block (PolyM-Phenylene Isophthalamide)	PolyM-Phenylene Isophthalamide	0
-1.0.0	Nl	Pb	R1	SR	Slab (PolyN-Butyl Acrylate)	Block (PolyN-Butyl Acrylate)	PolyN-Butyl Acrylate	0
+	Nf	P5	QV	SL	Slab (PolyLactic-Co-Glycolic Acid)	Block (PolyLactic-Co-Glycolic Acid)	PolyLactic-Co-Glycolic Acid	0
+	Ng	P6	QW	SM	Slab (PolyMethyl Acrylate)	Block (PolyMethyl Acrylate)	PolyMethyl Acrylate	0
+	Nh	P7	QX	SN	Slab (PolyMethyl Cyanoacrylate)	Block (PolyMethyl Cyanoacrylate)	PolyMethyl Cyanoacrylate	0
+	Ni	P8	QY	SO	Slab (PolyMethyl Methacrylate)	Block (PolyMethyl Methacrylate)	PolyMethyl Methacrylate	0
+	Nj	P9	QZ	SP	Slab (PolyM-Methyl Styrene)	Block (PolyM-Methyl Styrene)	PolyM-Methyl Styrene	0
+	Nk	Pa	R0	SQ	Slab (PolyM-Phenylene Isophthalamide)	Block (PolyM-Phenylene Isophthalamide)	PolyM-Phenylene Isophthalamide	0
+	Nl	Pb	R1	SR	Slab (PolyN-Butyl Acrylate)	Block (PolyN-Butyl Acrylate)	PolyN-Butyl Acrylate	0
 1.0.0	Nm	Pc	R2	SS	Slab (PolyOxymethylene)	Block (PolyOxymethylene)	PolyOxymethylene	0
-1.0.0	Nn	Pd	R3	ST	Slab (PolyPentamethylene Hexamethylene Dicarbamate)	Block (PolyPentamethylene Hexamethylene Dicarbamate)	PolyPentamethylene Hexamethylene Dicarbamate	0
-1.0.0	No	Pe	R4	SU	Slab (PolyPhenol)	Block (PolyPhenol)	PolyPhenol	0
-1.0.0	Np	Pf	R5	SV	Slab (PolyPhenylene Oxide)	Block (PolyPhenylene Oxide)	PolyPhenylene Oxide	0
-1.0.0	Nq	Pg	R6	SW	Slab (PolyPhosphazene)	Block (PolyPhosphazene)	PolyPhosphazene	0
-1.0.0	Nr	Ph	R7	SX	Slab (PolyP-Methyl Styrene)	Block (PolyP-Methyl Styrene)	PolyP-Methyl Styrene	0
-1.0.0	Ns	Pi	R8	SY	Slab (PolyP-Phenylene Sulphide)	Block (PolyP-Phenylene Sulphide)	PolyP-Phenylene Sulphide	0
-1.0.0	Nt	Pj	R9	SZ	Slab (PolyP-Phenylene Terephthalamide)	Block (PolyP-Phenylene Terephthalamide)	PolyP-Phenylene Terephthalamide	0
+	Nn	Pd	R3	ST	Slab (PolyPentamethylene Hexamethylene Dicarbamate)	Block (PolyPentamethylene Hexamethylene Dicarbamate)	PolyPentamethylene Hexamethylene Dicarbamate	0
+	No	Pe	R4	SU	Slab (PolyPhenol)	Block (PolyPhenol)	PolyPhenol	0
+	Np	Pf	R5	SV	Slab (PolyPhenylene Oxide)	Block (PolyPhenylene Oxide)	PolyPhenylene Oxide	0
+	Nq	Pg	R6	SW	Slab (PolyPhosphazene)	Block (PolyPhosphazene)	PolyPhosphazene	0
+	Nr	Ph	R7	SX	Slab (PolyP-Methyl Styrene)	Block (PolyP-Methyl Styrene)	PolyP-Methyl Styrene	0
+	Ns	Pi	R8	SY	Slab (PolyP-Phenylene Sulphide)	Block (PolyP-Phenylene Sulphide)	PolyP-Phenylene Sulphide	0
+	Nt	Pj	R9	SZ	Slab (PolyP-Phenylene Terephthalamide)	Block (PolyP-Phenylene Terephthalamide)	PolyP-Phenylene Terephthalamide	0
 1.0.0	Nu	Pk	Ra	T0	Slab (PolyPropylene)	Block (PolyPropylene)	PolyPropylene	0
-1.0.0	Nv	Pl	Rb	T1	Slab (PolyPropylene Glycol)	Block (PolyPropylene Glycol)	PolyPropylene Glycol	0
-1.0.0	Nw	Pm	Rc	T2	Slab (PolyPropylene Oxide)	Block (PolyPropylene Oxide)	PolyPropylene Oxide	0
+	Nv	Pl	Rb	T1	Slab (PolyPropylene Glycol)	Block (PolyPropylene Glycol)	PolyPropylene Glycol	0
+	Nw	Pm	Rc	T2	Slab (PolyPropylene Oxide)	Block (PolyPropylene Oxide)	PolyPropylene Oxide	0
 1.0.0	Nx	Pn	Rd	T3	Slab (PolyStyrene)	Block (PolyStyrene)	PolyStyrene	0
-1.0.0	Ny	Po	Re	T4	Slab (PolyTert-Butyl Acrylate)	Block (PolyTert-Butyl Acrylate)	PolyTert-Butyl Acrylate	0
+	Ny	Po	Re	T4	Slab (PolyTert-Butyl Acrylate)	Block (PolyTert-Butyl Acrylate)	PolyTert-Butyl Acrylate	0
 1.0.0	Nz	Pp	Rf	T5	Slab (PolyTetraFluoroEthylene)	Block (PolyTetraFluoroEthylene)	PolyTetraFluoroEthylene	0
-1.0.0	NA	Pq	Rg	T6	Slab (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
-1.0.0	NB	Pr	Rh	T7	Slab (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
-1.0.0	NC	Ps	Ri	T8	Slab (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
-1.0.0	ND	Pt	Rj	T9	Slab (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
+	NA	Pq	Rg	T6	Slab (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
+	NB	Pr	Rh	T7	Slab (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
+	NC	Ps	Ri	T8	Slab (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
+	ND	Pt	Rj	T9	Slab (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
 1.0.0	NE	Pu	Rk	Ta	Slab (PolyUrethane)	Block (PolyUrethane)	PolyUrethane	0
 1.0.0	NF	Pv	Rl	Tb	Slab (PolyVinyl Acetate)	Block (PolyVinyl Acetate)	PolyVinyl Acetate	0
 1.0.0	NG	Pw	Rm	Tc	Slab (PolyVinyl Alcohol)	Block (PolyVinyl Alcohol)	PolyVinyl Alcohol	0
-1.0.0	NH	Px	Rn	Td	Slab (PolyVinyl Butyral)	Block (PolyVinyl Butyral)	PolyVinyl Butyral	0
+	NH	Px	Rn	Td	Slab (PolyVinyl Butyral)	Block (PolyVinyl Butyral)	PolyVinyl Butyral	0
 1.0.0	NI	Py	Ro	Te	Slab (PolyVinyl Chloride)	Block (PolyVinyl Chloride)	PolyVinyl Chloride	0
-1.0.0	NJ	Pz	Rp	Tf	Slab (PolyVinyl Chloride Acetate)	Block (PolyVinyl Chloride Acetate)	PolyVinyl Chloride Acetate	0
-1.0.0	NK	PA	Rq	Tg	Slab (PolyVinyl Fluoride)	Block (PolyVinyl Fluoride)	PolyVinyl Fluoride	0
-1.0.0	NL	PB	Rr	Th	Slab (PolyVinyl Formal)	Block (PolyVinyl Formal)	PolyVinyl Formal	0
-1.0.0	NM	PC	Rs	Ti	Slab (PolyVinyl Methyl Ether)	Block (PolyVinyl Methyl Ether)	PolyVinyl Methyl Ether	0
-1.0.0	NN	PD	Rt	Tj	Slab (PolyVinylidene Dichloride)	Block (PolyVinylidene Dichloride)	PolyVinylidene Dichloride	0
-1.0.0	NO	PE	Ru	Tk	Slab (PolyVinylidene Fluoride)	Block (PolyVinylidene Fluoride)	PolyVinylidene Fluoride	0
-1.0.0	NP	PF	Rv	Tl	Slab (PolyVinylidene Fluoride-Trifluoroethylene)	Block (PolyVinylidene Fluoride-Trifluoroethylene)	PolyVinylidene Fluoride-Trifluoroethylene	0
-1.0.0	NQ	PG	Rw	Tm	Slab (Styrene-Acrylonitrile)	Block (Styrene-Acrylonitrile)	Styrene-Acrylonitrile	0
+	NJ	Pz	Rp	Tf	Slab (PolyVinyl Chloride Acetate)	Block (PolyVinyl Chloride Acetate)	PolyVinyl Chloride Acetate	0
+	NK	PA	Rq	Tg	Slab (PolyVinyl Fluoride)	Block (PolyVinyl Fluoride)	PolyVinyl Fluoride	0
+	NL	PB	Rr	Th	Slab (PolyVinyl Formal)	Block (PolyVinyl Formal)	PolyVinyl Formal	0
+	NM	PC	Rs	Ti	Slab (PolyVinyl Methyl Ether)	Block (PolyVinyl Methyl Ether)	PolyVinyl Methyl Ether	0
+	NN	PD	Rt	Tj	Slab (PolyVinylidene Dichloride)	Block (PolyVinylidene Dichloride)	PolyVinylidene Dichloride	0
+	NO	PE	Ru	Tk	Slab (PolyVinylidene Fluoride)	Block (PolyVinylidene Fluoride)	PolyVinylidene Fluoride	0
+	NP	PF	Rv	Tl	Slab (PolyVinylidene Fluoride-Trifluoroethylene)	Block (PolyVinylidene Fluoride-Trifluoroethylene)	PolyVinylidene Fluoride-Trifluoroethylene	0
+	NQ	PG	Rw	Tm	Slab (Styrene-Acrylonitrile)	Block (Styrene-Acrylonitrile)	Styrene-Acrylonitrile	0
 1.0.0	NR	PH	Rx	Tn	Slab (Styrene-Butadiene Rubber)	Block (Styrene-Butadiene Rubber)	Styrene-Butadiene Rubber	12
-1.0.0	NS	PI	Ry	To	Slab (Styrene-Butadiene-Styrene)	Block (Styrene-Butadiene-Styrene)	Styrene-Butadiene-Styrene	0
-1.0.0	NT	PJ	Rz	Tp	Slab (Styrene-Isoprene-Styrene)	Block (Styrene-Isoprene-Styrene)	Styrene-Isoprene-Styrene	0
-1.0.0	NU	PK	RA	Tq	Slab (Styrene-Maleic Anhydride Copolymer)	Block (Styrene-Maleic Anhydride Copolymer)	Styrene-Maleic Anhydride Copolymer	0
+	NS	PI	Ry	To	Slab (Styrene-Butadiene-Styrene)	Block (Styrene-Butadiene-Styrene)	Styrene-Butadiene-Styrene	0
+	NT	PJ	Rz	Tp	Slab (Styrene-Isoprene-Styrene)	Block (Styrene-Isoprene-Styrene)	Styrene-Isoprene-Styrene	0
+	NU	PK	RA	Tq	Slab (Styrene-Maleic Anhydride Copolymer)	Block (Styrene-Maleic Anhydride Copolymer)	Styrene-Maleic Anhydride Copolymer	0
 1.0.0	NV	PL	RB	Tr	Slab (Ultra-High-Molecular-Weight PolyEthylene)	Block (Ultra-High-Molecular-Weight PolyEthylene)	Ultra-High-Molecular-Weight PolyEthylene	0
-1.0.0	NW	PM	RC	Ts	Slab (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
+	NW	PM	RC	Ts	Slab (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
 1.0.0	NX	PN	RD	Tt	Slab (Very-Low-Density PolyEthylene)	Block (Very-Low-Density PolyEthylene)	Very-Low-Density PolyEthylene	0
-1.0.0	NY	PO	RE	Tu	Slab (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0
+	NY	PO	RE	Tu	Slab (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0
