@@ -1,0 +1,34 @@
+Named client
+program args
+--version 1.6 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --accessToken FML  -username=a
+
+vm args
+-Xincgc -Xmx1024M -Xms1024M -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin -DcheatRecipes=true
+
+Lang
+program args
+--version 1.6 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --accessToken FML
+
+vm args
+-Xincgc -Xmx1024M -Xms1024M -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin
+-Dnogui
+-DlangOutputFile=D:\Workspaces\UTD\polycraft\src\main\resources\assets\polycraft\lang\en_US.lang
+
+Server
+vm args
+-Xincgc -Xmx1024M -Xms1024M -DcheatRecipes=true
+
+Wiki
+program args
+--version 1.6 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --accessToken FML  -username=a
+
+vm args
+-Xincgc -Xmx1024M -Xms1024M
+-Dnogui=true
+-Dfml.ignoreInvalidMinecraftCertificates=true
+-Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin
+-DwikiUrl=www.polycraftworld.com
+-DwikiScriptPath=/wiki
+-DwikiUsername=Polycraftbot
+-DwikiPassword=gmratst6zf
+-DwikiOverwritePages=true
