@@ -18,12 +18,17 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.collect.Maps;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
+import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
+import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
+import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrickRenderer;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -176,10 +181,10 @@ public class ClientProxy extends CommonProxy {
 				playerState.pogoStickLastFallDistance = event.distance;
 			else if (isEntityOnBouncyBlock(player)) {
 				final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
-				//if we are actively jumping
+				// if we are actively jumping
 				if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 					playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-				//if we are supposed to return momentum while not actively jumping (or sneaking)
+				// if we are supposed to return momentum while not actively jumping (or sneaking)
 				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 					playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 			}
@@ -284,7 +289,7 @@ public class ClientProxy extends CommonProxy {
 			playerState.jetPackIsFlying = jetPackIsFlying;
 			sendMessageToServerJetPackIsFlying(jetPackIsFlying);
 			if (jetPackIsFlying) {
-				player.motionY = 1; //takeoff
+				player.motionY = 1; // takeoff
 			}
 		}
 		else if (playerState.jetPackIsFlying) {
@@ -384,8 +389,8 @@ public class ClientProxy extends CommonProxy {
 
 	private void onClientTickBouncyBlock(final EntityPlayer player, final PlayerState playerState) {
 		if (playerState.bouncyBlockBounceHeight > 0) {
-			//if the player is on the ground and holding down jump, then wait for the jump to occur
-			//(if we try to set the y velocity before the game jumps, it will override our velocity)
+			// if the player is on the ground and holding down jump, then wait for the jump to occur
+			// (if we try to set the y velocity before the game jumps, it will override our velocity)
 			if (!(player.onGround && isKeyDown(gameSettings.keyBindJump))) {
 				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.bouncyBlockBounceHeight);
 				if (motionY > .2)
@@ -409,5 +414,13 @@ public class ClientProxy extends CommonProxy {
 			if (player.isInWater())
 				player.setAir(baseFullAir);
 		}
+	}
+
+	@Override
+	public void registerRenderers() {
+		RenderIDs.PolymerBrickID = RenderingRegistry.getNextAvailableRenderId();
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPolymerBrick.class, new TileEntityPolymerBrickRenderer());
+
 	}
 }

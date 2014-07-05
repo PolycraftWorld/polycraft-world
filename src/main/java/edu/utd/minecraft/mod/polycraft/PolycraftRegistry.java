@@ -16,6 +16,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
@@ -41,6 +42,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
@@ -394,6 +396,11 @@ public class PolycraftRegistry {
 		}
 	}
 
+	// added for testing model uploads
+	private static void registerTileEntity(Class<? extends TileEntity> tileEntity, String id) {
+		GameRegistry.registerTileEntity(tileEntity, PolycraftMod.MODID + ":" + id);
+	}
+
 	private static void registerCustom() {
 		final InternalObject light = InternalObject.registry.get("Light");
 		PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
@@ -401,6 +408,8 @@ public class PolycraftRegistry {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
+
+		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 
 		PolycraftMod.blockOil = registerBlock(oil,
 				new BlockFluid(fluidOil, Material.water)
