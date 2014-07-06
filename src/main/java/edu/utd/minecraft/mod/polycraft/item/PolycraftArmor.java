@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.item;
 import com.google.common.base.Preconditions;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public abstract class PolycraftArmor extends ItemArmor implements PolycraftItem 
 	public abstract ItemCategory getCategory();
 	
 	@Override
-	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
