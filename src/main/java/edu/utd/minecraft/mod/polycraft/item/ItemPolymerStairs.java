@@ -1,8 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 
 public class ItemPolymerStairs extends ItemBlock implements PolycraftItem {
@@ -22,5 +25,10 @@ public class ItemPolymerStairs extends ItemBlock implements PolycraftItem {
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack) {
 		return blockPolymerStairs.getUnlocalizedName(par1ItemStack.getItemDamage());
+	}
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
 }

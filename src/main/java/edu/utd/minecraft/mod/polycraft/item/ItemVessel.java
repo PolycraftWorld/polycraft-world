@@ -1,8 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import com.google.common.base.Preconditions;
 
@@ -28,6 +30,24 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Vessel.class.getSimpleName() + "_" + cofig.vesselType.toString())));
 		this.cofig = cofig;
 	}
+	
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack par1ItemStack)
+    {
+		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
+		{
+		PolycraftItemHelper.createTagCompound(par1ItemStack);
+		par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);	
+		}
+        return true;
+    }
+	
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
+	}
+	
 
 	@Override
 	public ItemCategory getCategory() {

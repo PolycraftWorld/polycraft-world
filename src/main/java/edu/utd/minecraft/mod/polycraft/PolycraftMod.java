@@ -11,7 +11,10 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +31,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
@@ -232,4 +236,16 @@ public class PolycraftMod {
 		}
 		return config;
 	}
+	
+	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack) 
+	{
+		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
+		{
+		PolycraftItemHelper.createTagCompound(par1ItemStack);
+		par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);	
+		}
+		
+	}
+	
+	
 }

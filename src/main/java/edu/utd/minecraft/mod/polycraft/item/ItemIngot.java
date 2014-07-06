@@ -1,7 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 
@@ -18,5 +21,11 @@ public class ItemIngot extends Item implements PolycraftItem {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MATERIALS_INGOT;
+	}
+	
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
 }

@@ -1,7 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import com.google.common.base.Preconditions;
 
@@ -24,4 +27,12 @@ public class ItemCustom extends Item implements PolycraftItem {
 	public ItemCategory getCategory() {
 		return ItemCategory.ITEMS_CUSTOM;
 	}
+	
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
+	}
 }
+
+

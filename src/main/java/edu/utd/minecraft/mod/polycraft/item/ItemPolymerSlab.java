@@ -1,7 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSlab;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 
 public class ItemPolymerSlab extends ItemSlab implements PolycraftItem {
@@ -13,5 +17,11 @@ public class ItemPolymerSlab extends ItemSlab implements PolycraftItem {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.BLOCKS_BUILDING;
+	}
+	
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
 }

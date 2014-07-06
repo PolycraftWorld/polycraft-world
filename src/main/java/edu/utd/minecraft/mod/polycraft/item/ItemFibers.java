@@ -1,7 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class ItemFibers extends Item implements PolycraftItem {
@@ -14,5 +17,11 @@ public class ItemFibers extends Item implements PolycraftItem {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MATERIALS_FIBER;
+	}
+	
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
 }
