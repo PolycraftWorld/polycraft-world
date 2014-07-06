@@ -3,28 +3,28 @@ Version	Game ID	Catalyst	Source Type	Source Name
 1.0.0	19	Titanium Catalyst	Element	Titanium
 1.0.0	1a	Palladium Catalyst	Element	Palladium
 1.0.0	1b	Cobalt Catalyst	Element	Cobalt
-1.0.0	1c	Manganese Catalyst	Element	Manganese
+	1c	Manganese Catalyst	Element	Manganese
 1.0.0	1d	Silver Catalyst	Element	Silver
 1.0.0	1e	Mercury Catalyst	Element	Mercury
-1.0.0	1f	Rhodium Catalyst	Element	Rhodium
+	1f	Rhodium Catalyst	Element	Rhodium
 1.0.0	1g	Antimony Trioxide Catalyst	Compound	Antimony Trioxide
 1.0.0	1h	Copper II Chloride Catalyst	Compound	Copper II Chloride
 1.0.0	1i	Iron III Chloride Catalyst	Compound	Iron III Chloride
-1.0.0	1j	Iron III Oxide Catalyst	Compound	Iron III Oxide
+	1j	Iron III Oxide Catalyst	Compound	Iron III Oxide
 1.0.0	1k	Ziegler-Natta Catalyst	Compound	Ziegler-Natta
-1.0.0	1l	Cobalt-Manganese-Bromide Catalyst	Compound	Cobalt-Manganese-Bromide
-1.0.0	1m	Potassium Hydroxide Catalyst	Compound	Potassium Hydroxide
+	1l	Cobalt-Manganese-Bromide Catalyst	Compound	Cobalt-Manganese-Bromide
+	1m	Potassium Hydroxide Catalyst	Compound	Potassium Hydroxide
 1.0.0	1n	Zeolite Catalyst	Compound	Zeolite
-1.0.0	1o	Zinc II Chloride Catalyst	Compound	Zinc II Chloride
-1.0.0	1p	Tungsten VI Chloride  Catalyst	Compound	Tungsten VI Chloride 
-1.0.0	1q	Samarium III Chloride Catalyst	Compound	Samarium III Chloride
-1.0.0	1r	Magnesium Oxide Catalyst	Compound	Magnesium Oxide
-1.0.0	1s	Magnesium Sulfate Catalyst	Compound	Magnesium Sulfate
-1.0.0	1t	Copper II Sulfate Catalyst	Compound	Copper II Sulfate
-1.0.0	1u	Calcium Hydride Catalyst	Compound	Calcium Hydride
-1.0.0	1v	Phosphorus Pentoxide Catalyst	Compound	Phosphorus Pentoxide
-1.0.0	1w	Trimethyl Orthoformate Catalyst	Compound	Trimethyl Orthoformate
+	1o	Zinc II Chloride Catalyst	Compound	Zinc II Chloride
+	1p	Tungsten VI Chloride  Catalyst	Compound	Tungsten VI Chloride 
+	1q	Samarium III Chloride Catalyst	Compound	Samarium III Chloride
+	1r	Magnesium Oxide Catalyst	Compound	Magnesium Oxide
+	1s	Magnesium Sulfate Catalyst	Compound	Magnesium Sulfate
+	1t	Copper II Sulfate Catalyst	Compound	Copper II Sulfate
+	1u	Calcium Hydride Catalyst	Compound	Calcium Hydride
+	1v	Phosphorus Pentoxide Catalyst	Compound	Phosphorus Pentoxide
+	1w	Trimethyl Orthoformate Catalyst	Compound	Trimethyl Orthoformate
 1.0.0	1x	Aluminoxane Catalyst	Compound	Aluminoxane
-1.0.0	1y	Sodium Hydroxide Catalyst	Compound	Sodium Hydroxide
+	1y	Sodium Hydroxide Catalyst	Compound	Sodium Hydroxide
 1.0.0	1z	Triethylaluminium Catalyst	Compound	Triethylaluminium
-1.0.0	10R	Methyl Ethyl Ketone Peroxide Catalyst	Compound	Methyl Ethyl Ketone Peroxide
+	10R	Methyl Ethyl Ketone Peroxide Catalyst	Compound	Methyl Ethyl Ketone Peroxide

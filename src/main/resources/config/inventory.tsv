@@ -7,9 +7,9 @@ Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Invent
 1.0.0	3E	1J	Distillation Column	5	2005	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
 1.0.0	3F	1K	Industrial Oven	6	2006																			
 1.0.0	3V	40	Fueled Lamp	7	2007	side		top					side	side	RangePerHeatIntensity, AutomaticInputCooldownSecs	1	1							
-1.0.0	3J	1L	Chemical Processor	8	2008										DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
-1.0.0	3K	3Y	Oil Derrick	9	2009										CompoundVesselToSpawn, AmountToSpawn, SpawnFromOre, SpawnFreq (sec)	Drum (Crude Oil)	1	OilField	2					
+1.0.0	3J	1L	Chemical Processor	8	2008	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
+1.0.0	3K	3Y	Oil Derrick	9	2009										CompoundVesselToSpawn, AmountToSpawn, SpawnFromOre, SpawnFreq (sec)	Drum (Crude Oil)	1	OilField	5					
 1.0.0	3L	3Z	Plastic Chest	10	2010																			
 1.0.0	4v	4w	Wine Press	11	2011																			
 1.0.0	41	5E	Spotlight	12	2012	front							side	front	RangePerHeatIntensity, AutomaticInputCooldownSecs	3	1							
-1.0.0	5N	5O	Merox Treatment Unit	13	2013										DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
+1.0.0	5N	5O	Merox Treatment Unit	13	2013	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					

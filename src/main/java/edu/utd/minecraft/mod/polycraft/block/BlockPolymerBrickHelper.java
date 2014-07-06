@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.block;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +13,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 
 public class BlockPolymerBrickHelper {
@@ -50,14 +53,16 @@ public class BlockPolymerBrickHelper {
 	}
 
 	public final PolymerPellets pellets;
+	public final PolymerBrick subBrick;
 	private final int onlyColor;
 	private final int width, length;
 
-	public BlockPolymerBrickHelper(final PolymerPellets pellets, final int width, final int length, final int onlyColor) {
+	public BlockPolymerBrickHelper(final PolymerPellets pellets, final int width, final int length, final int onlyColor, final PolymerBrick subBrick) {
 		this.pellets = pellets;
 		this.onlyColor = onlyColor;
 		this.length = length;
 		this.width = width;
+		this.subBrick = subBrick;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -83,9 +88,18 @@ public class BlockPolymerBrickHelper {
 
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
-		for (int i = 0; i < colors.length; ++i) {
-			p_149666_3_.add(new ItemStack(p_149666_1_, 1, i));
-		}
+//		if (this.subBrick != null)
+//		{
+//			for (int i = 0; i < colors.length; ++i) {
+//				p_149666_3_.add(new ItemStack(PolycraftRegistry.getBlock(this.subBrick), 1, i));
+//			}
+//		}
+//		else
+//		{
+			for (int i = 0; i < colors.length; ++i) {
+				p_149666_3_.add(new ItemStack(p_149666_1_, 1, i));
+			}
+//		}
 	}
 
 	public static int damageDropped(int p_149692_1_) {

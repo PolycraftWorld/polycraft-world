@@ -104,9 +104,12 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Vial (Gas Oil)	1	Palladium Catalyst	1							Vial (Diesel)	1	Vial (Kerosene)	1									
 1.0.0				Beaker (Gas Oil)	1	Palladium Catalyst	4							Beaker (Diesel)	1	Beaker (Kerosene)	1									
 1.0.0				Drum (Gas Oil)	1	Palladium Catalyst	16							Drum (Diesel)	1	Drum (Kerosene)	1									
-1.0.0				Vial (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	1							Vial (Terephthalic Acid)	16											
-1.0.0				Beaker (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	4							Beaker (Terephthalic Acid)	16											
-1.0.0				Drum (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	16							Drum (Terephthalic Acid)	16											
+				Vial (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	1							Vial (Terephthalic Acid)	16											
+				Beaker (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	4							Beaker (Terephthalic Acid)	16											
+				Drum (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	16							Drum (Terephthalic Acid)	16											
+1.0.0				Vial (Benzene-Toluene-Xylene)	16	Cobalt Catalyst	1							Vial (Terephthalic Acid)	16											
+1.0.0				Beaker (Benzene-Toluene-Xylene)	16	Cobalt Catalyst	4							Beaker (Terephthalic Acid)	16											
+1.0.0				Drum (Benzene-Toluene-Xylene)	16	Cobalt Catalyst	16							Drum (Terephthalic Acid)	16											
 1.0.0				Vial (Terephthalic Acid)	1	Vial (Methanol)	1							Vial (Dimethyl Terephthalate)	2											
 1.0.0				Beaker (Terephthalic Acid)	1	Beaker (Methanol)	1							Beaker (Dimethyl Terephthalate)	2											
 1.0.0				Drum (Terephthalic Acid)	1	Drum (Methanol)	1							Drum (Dimethyl Terephthalate)	2											
@@ -155,3 +158,148 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Coal Block	1									Beaker (Coke)	2	Beaker (Naphtha)	2									
 1.0.0				Coal Block	16									Beaker (Coke)	32	Beaker (Naphtha)	32									
 1.0.0				Coal Block	64									Drum (Coke)	8	Drum (Naphtha)	8									
+1.0.0				Vial (Calcium Oxide)	1	Vial (Coke)	3							Bag (Calcium Carbide)	1	Bag (Calcium Monoxide)	1									
+1.0.0				Beaker (Calcium Oxide)	1	Beaker (Coke)	3							Sack (Calcium Carbide)	1	Sack (Calcium Monoxide)	1									
+1.0.0				Drum (Calcium Oxide)	1	Drum (Coke)	3							Powder Keg (Calcium Carbide)	1	Powder Keg (Calcium Monoxide)	1									
+1.0.0				Bag (Calcium Carbide)	1	Vial (Water)	1							Vial (Acetylene)	1	Bag (Calcium Hydroxide)	1									
+1.0.0				Sack (Calcium Carbide)	1	Beaker (Water)	1							Beaker (Acetylene)	1	Sack (Calcium Hydroxide)	1									
+1.0.0				Powder Keg (Calcium Carbide)	1	Drum (Water)	1							Drum (Acetylene)	1	Powder Keg (Calcium Hydroxide)	1									
+1.0.0				Vial (Glycolic Acid)	1									Bag (PolyGlycolic Acid Pellets)	1	Vial (Water)	1									
+1.0.0				Beaker (Glycolic Acid)	1									Sack (PolyGlycolic Acid Pellets)	1	Beaker (Water)	1									
+1.0.0				Drum (Glycolic Acid)	1									Powder Keg (PolyGlycolic Acid Pellets)	1	Drum (Water)	1									
+1.0.0				Sugar	32	Nether Wart	1							Beaker (Molasses)	16	Beaker (Lactic Acid)	8									
+1.0.0				Sugar	64	Nether Wart	2							Beaker (Molasses)	32	Beaker (Lactic Acid)	16									
+1.0.0				Vial (Lactic Acid)	1									Bag (PolyLactic Acid Pellets)	1											
+1.0.0				Beaker (Lactic Acid)	1									Sack (PolyLactic Acid Pellets)	1											
+1.0.0				Drum (Lactic Acid)	1									Powder Keg (PolyLactic Acid Pellets)	1											
+1.0.0				Vial (Caprolactone)	1									Bag (PolyCaprolactone Pellets)	1											
+1.0.0				Beaker (Caprolactone)	1									Sack (PolyCaprolactone Pellets)	1											
+1.0.0				Drum (Caprolactone)	1									Powder Keg (PolyCaprolactone Pellets)	1											
+1.0.0				Vial (Cyclohexane)	16	Cobalt Catalyst	1	Flask (Oxygen)	16					Vial (Cyclohexanone)	16	Vial (Water)	16									
+1.0.0				Beaker (Cyclohexane)	16	Cobalt Catalyst	4	Cartridge (Oxygen)	16					Beaker (Cyclohexanone)	16	Beaker (Water)	16									
+1.0.0				Drum (Cyclohexane)	16	Cobalt Catalyst	64	Canister (Oxygen)	16					Drum (Cyclohexanone)	16	Drum (Water)	16									
+1.0.0				Vial (Cyclohexanone)	1	Vial (Peracetic Acid)	1							Vial (Caprolactone)	1											
+1.0.0				Beaker (Cyclohexanone)	1	Beaker (Peracetic Acid)	1							Beaker (Caprolactone)	1											
+1.0.0				Drum (Cyclohexanone)	1	Drum (Peracetic Acid)	1							Drum (Caprolactone)	1											
+1.0.0				Vial (Acetaldehyde)	1	Flask (Oxygen)	1							Vial (Peracetic Acid)	1											
+1.0.0				Beaker (Acetaldehyde)	1	Cartridge (Oxygen)	1							Beaker (Peracetic Acid)	1											
+1.0.0				Drum (Acetaldehyde)	1	Canister (Oxygen)	1							Drum (Peracetic Acid)	1											
+1.0.0				Vial (Acetic Acid)	1	Vial (Hydrogen Peroxide)	1							Vial (Peracetic Acid)	1	Vial (Water)	1									
+1.0.0				Beaker (Acetic Acid)	1	Beaker (Hydrogen Peroxide)	1							Beaker (Peracetic Acid)	1	Beaker (Water)	1									
+1.0.0				Drum (Acetic Acid)	1	Drum (Hydrogen Peroxide)	1							Drum (Peracetic Acid)	1	Drum (Water)	1									
+1.0.0				Flask (Ethylene)	64	Palladium Catalyst	1	Copper II Chloride Catalyst	1	Flask (Oxygen)	32			Vial (Acetaldehyde)	64											
+1.0.0				Cartridge (Ethylene)	64	Palladium Catalyst	4	Copper II Chloride Catalyst	4	Cartridge (Oxygen)	32			Beaker (Acetaldehyde)	64											
+1.0.0				Canister (Ethylene)	64	Palladium Catalyst	16	Copper II Chloride Catalyst	16	Canister (Oxygen)	32			Drum (Acetaldehyde)	64											
+1.0.0				Vial (Ethanol)	4	Flask (Oxygen)	1	Silver Catalyst	1					Vial (Acetaldehyde)	4											
+1.0.0				Beaker (Ethanol)	4	Cartridge (Oxygen)	1	Silver Catalyst	4					Beaker (Acetaldehyde)	4											
+1.0.0				Drum (Ethanol)	4	Canister (Oxygen)	1	Silver Catalyst	16					Drum (Acetaldehyde)	4											
+1.0.0				Vial (Acetylene)	4	Mercury Catalyst	1							Vial (Acetaldehyde)	4											
+1.0.0				Beaker (Acetylene)	4	Mercury Catalyst	4							Beaker (Acetaldehyde)	4											
+1.0.0				Drum (Acetylene)	4	Mercury Catalyst	16							Drum (Acetaldehyde)	4											
+1.0.0				Vial (Ethanol)	4	Copper II Chloride Catalyst	1							Vial (Acetaldehyde)	4	Flask (Hydrogen)	4									
+1.0.0				Beaker (Ethanol)	4	Copper II Chloride Catalyst	4							Beaker (Acetaldehyde)	4	Cartridge (Hydrogen)	4									
+1.0.0				Drum (Ethanol)	4	Copper II Chloride Catalyst	16							Drum (Acetaldehyde)	4	Canister (Hydrogen)	4									
+				Vial (Acetaldehyde)	1	Vial (Cyanide)	1	Flask (Ammonia)	1																	
+				Beaker (Acetaldehyde)	1	Beaker (Cyanide)	1	Cartridge (Ammonia)	1																	
+				Drum (Acetaldehyde)	1	Drum (Cyanide)	1	Canister (Ammonia)	1																	
+1.0.0				Vial (Acetaldehyde)	1	Vial (Cyclohexylamine)	1							Vial (N-Ethylidenecyclohexylamine)	1											
+1.0.0				Beaker (Acetaldehyde)	1	Beaker (Cyclohexylamine)	1							Beaker (N-Ethylidenecyclohexylamine)	1											
+1.0.0				Drum (Acetaldehyde)	1	Drum (Cyclohexylamine)	1							Drum (N-Ethylidenecyclohexylamine)	1											
+1.0.0				Vial (Acetaldehyde)	1	Flask (Ammonia)	1							Vial (Aldehyde-Collidine)	1											
+1.0.0				Beaker (Acetaldehyde)	1	Cartridge (Ammonia)	1							Beaker (Aldehyde-Collidine)	1											
+1.0.0				Drum (Acetaldehyde)	1	Canister (Ammonia)	1							Drum (Aldehyde-Collidine)	1											
+1.0.0				Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1					Bag (Paraledhyde Pellets)	1	Vial (Water)	1									
+1.0.0				Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1					Sack (Paraledhyde Pellets)	1	Beaker (Water)	1									
+1.0.0				Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1					Powder Keg (Paraledhyde Pellets)	1	Drum (Water)	1									
+1.0.0				Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1			Bag (Metaldehyde Pellets)	1	Vial (Water)	1									
+1.0.0				Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1			Sack (Metaldehyde Pellets)	1	Beaker (Water)	1									
+1.0.0				Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1			Powder Keg (Metaldehyde Pellets)	1	Drum (Water)	1									
+1.0.0				Vial (Acetaldehyde)	1	Vial (Ethanol)	1							Bag (PolyOxymethylene Pellets)	1											
+1.0.0				Beaker (Acetaldehyde)	1	Beaker (Ethanol)	1							Sack (PolyOxymethylene Pellets)	1											
+1.0.0				Drum (Acetaldehyde)	1	Drum (Ethanol)	1							Powder Keg (PolyOxymethylene Pellets)	1											
+1.0.0				Flask (Methane)	2	Flask (Oxygen)	1							Vial (Formaldehyde)	2	Flask (Hydrogen)	2									
+1.0.0				Cartridge (Methane)	2	Cartridge (Oxygen)	1							Beaker (Formaldehyde)	2	Cartridge (Hydrogen)	2									
+1.0.0				Chemical Tank (Methane)	2	Canister (Oxygen)	1							Chemical Vat (Formaldehyde)	2	Canister (Hydrogen)	2									
+1.0.0				Vial (Formaldehyde)	1	Vial (Formaldehyde)	1	Vial (Formaldehyde)	1					Vial (Trioxane)	1											
+1.0.0				Beaker (Formaldehyde)	1	Beaker (Formaldehyde)	1	Beaker (Formaldehyde)	1					Beaker (Trioxane)	1											
+1.0.0				Chemical Vat (Formaldehyde)	1	Chemical Vat (Formaldehyde)	1	Chemical Vat (Formaldehyde)	1					Drum (Trioxane)	1											
+1.0.0				Vial (Formaldehyde)	32	Vial (Methanol)	1							Bag (Paraformaldehyde Pellets)	32											
+1.0.0				Beaker (Formaldehyde)	32	Beaker (Methanol)	1							Sack (Paraformaldehyde Pellets)	32											
+1.0.0				Chemical Vat (Formaldehyde)	32	Drum (Methanol)	1							Powder Keg (Paraformaldehyde Pellets)	32											
+1.0.0				Bag (Paraformaldehyde Pellets)	8									Bag (PolyOxymethylene Pellets)	1											
+1.0.0				Sack (Paraformaldehyde Pellets)	8									Sack (PolyOxymethylene Pellets)	1											
+1.0.0				Powder Keg (Paraformaldehyde Pellets)	8									Powder Keg (PolyOxymethylene Pellets)	1											
+1.0.0				Vial (Diethylene Glycol)	32	Vial (Hydrochloric Acid)	1							Vial (Dioxane)	16											
+1.0.0				Beaker (Diethylene Glycol)	32	Beaker (Hydrochloric Acid)	1							Beaker (Dioxane)	16											
+1.0.0				Drum (Diethylene Glycol)	32	Drum (Hydrochloric Acid)	1							Drum (Dioxane)	16											
+1.0.0				Vial (Ethylene Glycol)	1	Vial (Methanol)	1							Vial (2-Methoxyethanol)	1											
+1.0.0				Beaker (Ethylene Glycol)	1	Beaker (Methanol)	1							Beaker (2-Methoxyethanol)	1											
+1.0.0				Drum (Ethylene Glycol)	1	Drum (Methanol)	1							Drum (2-Methoxyethanol)	1											
+1.0.0				Vial (Ethylene Glycol)	1	Vial (Ethanol)	1							Vial (2-Ethoxyethanol)	1											
+1.0.0				Beaker (Ethylene Glycol)	1	Beaker (Ethanol)	1							Beaker (2-Ethoxyethanol)	1											
+1.0.0				Drum (Ethylene Glycol)	1	Drum (Ethanol)	1							Drum (2-Ethoxyethanol)	1											
+1.0.0				Vial (Ethylene Glycol)	1	Vial (Propanol)	1							Vial (2-Propoxyethanol)	1											
+1.0.0				Beaker (Ethylene Glycol)	1	Beaker (Propanol)	1							Beaker (2-Propoxyethanol)	1											
+1.0.0				Drum (Ethylene Glycol)	1	Drum (Propanol)	1							Drum (2-Propoxyethanol)	1											
+1.0.0				Vial (Ethylene Glycol)	1	Vial (Butanol)	1							Vial (2-Butoxyethanol)	1											
+1.0.0				Beaker (Ethylene Glycol)	1	Beaker (Butanol)	1							Beaker (2-Butoxyethanol)	1											
+1.0.0				Drum (Ethylene Glycol)	1	Drum (Butanol)	1							Drum (2-Butoxyethanol)	1											
+1.0.0				Vial (1,6-Hexamethylenediamine)	1	Vial (Adipic Acid)	1							Bag (PolyHydroxyalkanoate Pellets)	1											
+1.0.0				Beaker (1,6-Hexamethylenediamine)	1	Beaker (Adipic Acid)	1							Sack (PolyHydroxyalkanoate Pellets)	1											
+1.0.0				Drum (1,6-Hexamethylenediamine)	1	Drum (Adipic Acid)	1							Powder Keg (PolyHydroxyalkanoate Pellets)	1											
+1.0.0				Sugar	16	Nether Wart	1							Sack (PolyHydroxyalkanoate Pellets)	8											
+1.0.0				Sugar	32	Nether Wart	2							Sack (PolyHydroxyalkanoate Pellets)	16											
+1.0.0				Vial (Terephthalic Acid)	64	Vial (1,4-Butanediol)	64	Antimony Trioxide Catalyst	1					#REF!	64	Vial (Water)	1									
+1.0.0				Beaker (Terephthalic Acid)	64	Beaker (1,4-Butanediol)	64	Antimony Trioxide Catalyst	4					#REF!	64	Beaker (Water)	1									
+1.0.0				Drum (Terephthalic Acid)	64	Drum (1,4-Butanediol)	64	Antimony Trioxide Catalyst	16					#REF!	64	Drum (Water)	1									
+1.0.0				Vial (Terephthalic Acid)	64	Vial (1,3-Propanediol)	64	Antimony Trioxide Catalyst	1					Bag (PolyTrimethylene Terephthalate Pellets)	64	Vial (Water)	1									
+1.0.0				Beaker (Terephthalic Acid)	64	Beaker (1,3-Propanediol)	64	Antimony Trioxide Catalyst	4					Sack (PolyTrimethylene Terephthalate Pellets)	64	Beaker (Water)	1									
+1.0.0				Drum (Terephthalic Acid)	64	Drum (1,3-Propanediol)	64	Antimony Trioxide Catalyst	16					Powder Keg (PolyTrimethylene Terephthalate Pellets)	64	Drum (Water)	1									
+1.0.0				Vial (Ethylene Glycol)	64	Vial (Naphthalenedicarboxylic Acid)	64	Antimony Trioxide Catalyst	1					Bag (PolyEthylene Naphthalate Pellets)	64	Vial (Water)	1									
+1.0.0				Beaker (Ethylene Glycol)	64	Beaker (Naphthalenedicarboxylic Acid)	64	Antimony Trioxide Catalyst	4					Sack (PolyEthylene Naphthalate Pellets)	64	Beaker (Water)	1									
+1.0.0				Drum (Ethylene Glycol)	64	Drum (Naphthalenedicarboxylic Acid)	64	Antimony Trioxide Catalyst	16					Powder Keg (PolyEthylene Naphthalate Pellets)	64	Drum (Water)	1									
+1.0.0				Vial (Succinic Acid)	64	Vial (1,4-Butanediol)	64	Antimony Trioxide Catalyst	1					Bag (PolyButylene Succinate Pellets)	64	Vial (Water)	1									
+1.0.0				Beaker (Succinic Acid)	64	Beaker (1,4-Butanediol)	64	Antimony Trioxide Catalyst	4					Sack (PolyButylene Succinate Pellets)	64	Beaker (Water)	1									
+1.0.0				Drum (Succinic Acid)	64	Drum (1,4-Butanediol)	64	Antimony Trioxide Catalyst	16					Powder Keg (PolyButylene Succinate Pellets)	64	Drum (Water)	1									
+1.0.0				Vial (3-Hydroxybutanoic Acid)	64	Vial (3-Hydroxypentanoic Acid)	64	Antimony Trioxide Catalyst	1					Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	64	Vial (Water)	1									
+1.0.0				Beaker (3-Hydroxybutanoic Acid)	64	Beaker (3-Hydroxypentanoic Acid)	64	Antimony Trioxide Catalyst	4					Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	64	Beaker (Water)	1									
+1.0.0				Drum (3-Hydroxybutanoic Acid)	64	Drum (3-Hydroxypentanoic Acid)	64	Antimony Trioxide Catalyst	16					Powder Keg (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	64	Drum (Water)	1									
+1.0.0				Vial (Butyrolactone)	64	Vial (Valerolactone)	64	Aluminoxane Catalyst	1					Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	64	Vial (Water)	1	Vial (Oleyl Alcohol)	1							
+1.0.0				Beaker (Butyrolactone)	64	Beaker (Valerolactone)	64	Aluminoxane Catalyst	4					Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	64	Beaker (Water)	1	Beaker (Oleyl Alcohol)	1							
+1.0.0				Drum (Butyrolactone)	64	Drum (Valerolactone)	64	Aluminoxane Catalyst	16					Powder Keg (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	64	Drum (Water)	1	Drum (Oleyl Alcohol)	1							
+1.0.0				Vial (4-Hydroxybenzoic Acid)	64	Vial (6-Hydroxynaphthalene-2-Carboxylic Acid)	64	Antimony Trioxide Catalyst	1					Bag (Liquid Crystal Polymer Pellets)	64											
+1.0.0				Beaker (4-Hydroxybenzoic Acid)	64	Beaker (6-Hydroxynaphthalene-2-Carboxylic Acid)	64	Antimony Trioxide Catalyst	4					Sack (Liquid Crystal Polymer Pellets)	64											
+1.0.0				Drum (4-Hydroxybenzoic Acid)	64	Drum (6-Hydroxynaphthalene-2-Carboxylic Acid)	64	Antimony Trioxide Catalyst	16					Powder Keg (Liquid Crystal Polymer Pellets)	64											
+				Vial (Ethylene Glycol)	64	Potassium Hydroxide Catalyst	1																			
+				Beaker (Ethylene Glycol)	64	Potassium Hydroxide Catalyst	1																			
+				Drum (Ethylene Glycol)	64	Potassium Hydroxide Catalyst	1																			
+1.0.0				Flask (Ethylene)	32	Triethylaluminium Catalyst	2	Vial (Water)	3	Flask (Oxygen)	3			Vial (Stearyl Alcohol)	1	Vial (Lauryl Alcohol)	1									
+1.0.0				Cartridge (Ethylene)	32	Triethylaluminium Catalyst	8	Beaker (Water)	3	Cartridge (Oxygen)	3			Beaker (Stearyl Alcohol)	1	Beaker (Lauryl Alcohol)	1									
+1.0.0				Canister (Ethylene)	32	Triethylaluminium Catalyst	32	Drum (Water)	3	Canister (Oxygen)	3			Drum (Stearyl Alcohol)	1	Drum (Lauryl Alcohol)	1									
+1.0.0				Vial (Methacrylic Acid)	1	Vial (Methanol)	1							Vial (Methyl Methacrylate)	1											
+1.0.0				Beaker (Methacrylic Acid)	1	Beaker (Methanol)	1							Beaker (Methyl Methacrylate)	1											
+1.0.0				Drum (Methacrylic Acid)	1	Drum (Methanol)	1							Drum (Methyl Methacrylate)	1											
+				Vial (Meta-Xylene)	64	Flask (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	1					Vial (Isophthalic Acid)	64											
+				Beaker (Meta-Xylene)	64	Cartridge (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	4					Beaker (Isophthalic Acid)	64											
+				Drum (Meta-Xylene)	64	Canister (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	16					Drum (Isophthalic Acid)	64											
+1.0.0				Vial (Meta-Xylene)	64	Flask (Oxygen)	1	Cobalt Catalyst	1					Vial (Isophthalic Acid)	64											
+1.0.0				Beaker (Meta-Xylene)	64	Cartridge (Oxygen)	1	Cobalt Catalyst	4					Beaker (Isophthalic Acid)	64											
+1.0.0				Drum (Meta-Xylene)	64	Canister (Oxygen)	1	Cobalt Catalyst	16					Drum (Isophthalic Acid)	64											
+1.0.0				Vial (Light Naphtha)	1	Vial (Heavy Naphtha)	1							Vial (Naphtha)	1											
+1.0.0				Beaker (Light Naphtha)	1	Beaker (Heavy Naphtha)	1							Beaker (Naphtha)	1											
+1.0.0				Drum (Light Naphtha)	1	Drum (Heavy Naphtha)	1							Drum (Naphtha)	1											
+1.0.0				Vial (Light Naphtha)	8	Vial (Heavy Naphtha)	8							Vial (Naphtha)	8											
+1.0.0				Beaker (Light Naphtha)	8	Beaker (Heavy Naphtha)	8							Beaker (Naphtha)	8											
+1.0.0				Drum (Light Naphtha)	8	Drum (Heavy Naphtha)	8							Drum (Naphtha)	8											
+1.0.0				Vial (Light Naphtha)	64	Vial (Heavy Naphtha)	64							Vial (Naphtha)	64											
+1.0.0				Beaker (Light Naphtha)	64	Beaker (Heavy Naphtha)	64							Beaker (Naphtha)	64											
+1.0.0				Drum (Light Naphtha)	64	Drum (Heavy Naphtha)	64							Drum (Naphtha)	64											
+1.0.0				Vial (Heavy Naphtha)	1									Vial (Benzene-Toluene-Xylene)	1											
+1.0.0				Vial (Heavy Naphtha)	4									Vial (Benzene-Toluene-Xylene)	4											
+1.0.0				Vial (Heavy Naphtha)	16									Vial (Benzene-Toluene-Xylene)	16											
+1.0.0				Beaker (Heavy Naphtha)	1									Beaker (Benzene-Toluene-Xylene)	1											
+1.0.0				Beaker (Heavy Naphtha)	4									Beaker (Benzene-Toluene-Xylene)	4											
+1.0.0				Beaker (Heavy Naphtha)	16									Beaker (Benzene-Toluene-Xylene)	16											
+1.0.0				Drum (Heavy Naphtha)	1									Drum (Benzene-Toluene-Xylene)	1											
+1.0.0				Drum (Heavy Naphtha)	4									Drum (Benzene-Toluene-Xylene)	5											
+1.0.0				Drum (Heavy Naphtha)	16									Drum (Benzene-Toluene-Xylene)	16											

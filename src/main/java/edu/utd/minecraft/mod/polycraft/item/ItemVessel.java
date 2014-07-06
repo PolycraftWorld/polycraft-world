@@ -73,7 +73,10 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 
 		if (largerItem != null) {
 			if (itemStack.stackSize == cofig.vesselType.largerType.quantityOfSmallerType) {
+					
 				final ItemStack largerItemStack = new ItemStack(largerItem);
+				PolycraftItemHelper.createTagCompound(largerItemStack);
+				largerItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);				
 				inventory.setInventorySlotContents(slotIndex, largerItemStack);
 			}
 		}

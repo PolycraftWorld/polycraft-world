@@ -1,21 +1,21 @@
 Version	Game ID	Compressed Block	Source Type	Source Name
 1.0.0	O	Block of Magnesium	Ingot	Magnesium Ingot
 1.0.0	P	Block of Titanium	Ingot	Titanium Ingot
-1.0.0	Q	Block of Manganese	Ingot	Manganese Ingot
+	Q	Block of Manganese	Ingot	Manganese Ingot
 1.0.0	R	Block of Cobalt	Ingot	Cobalt Ingot
-1.0.0	S	Block of Nickel	Ingot	Nickel Ingot
+	S	Block of Nickel	Ingot	Nickel Ingot
 1.0.0	T	Block of Copper	Ingot	Copper Ingot
-1.0.0	U	Block of Zinc	Ingot	Zinc Ingot
+	U	Block of Zinc	Ingot	Zinc Ingot
 1.0.0	V	Block of Palladium	Ingot	Palladium Ingot
 1.0.0	W	Block of Silver	Ingot	Silver Ingot
 1.0.0	X	Block of Antimony	Ingot	Antimony Ingot
-1.0.0	Y	Block of Tungsten	Ingot	Tungsten Ingot
+	Y	Block of Tungsten	Ingot	Tungsten Ingot
 1.0.0	Z	Block of Platinum	Ingot	Platinum Ingot
 1.0.0	10	Block of Lead	Ingot	Lead Ingot
 1.0.0	11	Block of Bismuth	Ingot	Bismuth Ingot
 1.0.0	12	Block of Aluminum	Ingot	Aluminum Ingot
-1.0.0	13	Block of Steel	Ingot	Steel Ingot
-1.0.0	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot
-1.0.0	15	Block of Brass	Ingot	Brass Ingot
-1.0.0	16	Block of Bronze	Ingot	Bronze Ingot
+	13	Block of Steel	Ingot	Steel Ingot
+	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot
+	15	Block of Brass	Ingot	Brass Ingot
+	16	Block of Bronze	Ingot	Bronze Ingot
 1.0.0	17	Block of Bitumen	Ore	Bitumen

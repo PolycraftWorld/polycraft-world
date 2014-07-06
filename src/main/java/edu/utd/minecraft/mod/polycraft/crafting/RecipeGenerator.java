@@ -83,6 +83,18 @@ public class RecipeGenerator {
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerSlab.getItemStack(6),
+					new String[] { "   ", "xxx", "   " },
+					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerSlab.getItemStack(6),
+					new String[] { "   ", "   ", "xxx" },
+					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerSlab.getItemStack(6),
 					new String[] { "xxx", "   ", "   " },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
 			PolycraftMod.recipeManager.addShapedRecipe(
@@ -117,6 +129,12 @@ public class RecipeGenerator {
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerWall.getItemStack(6),
 					new String[] { "xxx", "xxx", "   " },
+					ImmutableMap.of('x', polymerWall.source.getItemStack()));
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerWall.getItemStack(6),
+					new String[] { "   ", "xxx", "xxx" },
 					ImmutableMap.of('x', polymerWall.source.getItemStack()));
 			PolycraftMod.recipeManager.addShapedRecipe(
 					coloringFactory,

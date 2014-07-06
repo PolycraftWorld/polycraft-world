@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
+import net.minecraft.block.BlockNewLog;
 import net.minecraft.block.BlockOldLog;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -115,7 +116,7 @@ public class TreeTapInventory extends PolycraftInventory {
 			final int z = zCoord + tappedCoordOffset[1];
 			final Block treeBlock = getWorldObj().getBlock(x, yCoord, z);
 			//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
-			if (treeBlock != null && treeBlock instanceof BlockOldLog) {
+			if (treeBlock != null && ((treeBlock instanceof BlockOldLog) || (treeBlock instanceof BlockNewLog))) {
 				if (spawnAttempts++ >= (getWorldObj().getBlockMetadata(x, yCoord, z) == 3 ? jungleSpawnFrequencyTicks : defaultSpawnFrequencyTicks)) {
 					spawnAttempts = 0;
 					return polymerPelletsToSpawn.getItemStack(amountToSpawn);

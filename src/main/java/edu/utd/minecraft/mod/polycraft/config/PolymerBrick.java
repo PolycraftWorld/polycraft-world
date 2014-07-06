@@ -23,21 +23,25 @@ public class PolymerBrick extends SourcedConfig<PolymerPellets> {
 						line[3], // name
 						PolymerPellets.registry.get(line[4]), // L-Bricks
 						Integer.parseInt(line[6]), // width
-						Integer.parseInt(line[7]) // length
+						Integer.parseInt(line[7]), // length
+						PolymerBrick.registry.get(line[8]) //subBlockname: null means return same item as one destroyed
 				));
-			}
+					}
 	}
 
 	public final int width, length;
 	public final String itemName;
 	public final String itemGameID;
+	public final PolymerBrick subBrick;
 
-	public PolymerBrick(final int[] version, final String blockGameID, final String itemGameID, final String name, final PolymerPellets polymer, final int width, final int length) {
+	public PolymerBrick(final int[] version, final String blockGameID, final String itemGameID, final String name, 
+			final PolymerPellets polymer, final int width, final int length, final PolymerBrick subBrick) {
 		super(version, blockGameID, name, polymer);
 		this.width = width;
 		this.length = length;
 		this.itemGameID = itemGameID;
 		this.itemName = name + " Item";
+		this.subBrick = subBrick;
 	}
 
 	@Override
@@ -46,7 +50,11 @@ public class PolymerBrick extends SourcedConfig<PolymerPellets> {
 	}
 
 	public ItemStack getItemStack(int size, int metadata) {
-		return new ItemStack(PolycraftRegistry.getBlock(this), size, metadata);
+		if (metadata <=15)
+			return new ItemStack(PolycraftRegistry.getBlock(this), size, metadata);
+		else
+			return new ItemStack(PolycraftRegistry.getBlock(this), size, 15);
+			
 	}
 
 	public List<String> PROPERTY_NAMES = ImmutableList.of("Width", "Length");
