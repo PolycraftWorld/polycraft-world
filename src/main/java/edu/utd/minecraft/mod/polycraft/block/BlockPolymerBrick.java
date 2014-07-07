@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -20,6 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
@@ -107,6 +109,16 @@ public class BlockPolymerBrick extends Block {
 	// public float getMomentumReturnedOnPassiveFall() {
 	// return helper.getMomentumReturnedOnPassiveFall();
 	// }
+	
+	@Override
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+		//TODO: Check to make this implementation works
+        return PolycraftRegistry.getItem(this.Brick.subBrick.itemName);
+    }
+	
+	
+	
 
 	@Override
 	public void onBlockPlacedBy(World worldObj, int xPos, int yPos, int zPos, EntityLivingBase player, ItemStack itemToPlace) {

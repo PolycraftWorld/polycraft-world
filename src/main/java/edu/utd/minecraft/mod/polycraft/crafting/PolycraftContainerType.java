@@ -15,10 +15,12 @@ import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.IndustrialOvenInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -43,7 +45,9 @@ public enum PolycraftContainerType {
 	SPOTLIGHT("Spotlight"),
 	MEROX_TREATMENT_UNIT("Merox Treatment Unit"),
 	CHEMICAL_PROCESSOR("Chemical Processor"),
-	OIL_DERRICK("Oil Derrick");
+	OIL_DERRICK("Oil Derrick"),
+	//PLASTIC_CHEST("Plastic Chest"),
+	INDUSTRIAL_OVEN("Industrial Oven");
 
 	private final String friendlyName;
 
@@ -117,6 +121,8 @@ public enum PolycraftContainerType {
 		FUELED_LAMP.initialize(FueledLampInventory.guiSlots);
 		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
+		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
+		//PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

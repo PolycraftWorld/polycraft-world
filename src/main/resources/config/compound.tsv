@@ -145,13 +145,13 @@
 1.0.0	Glycolic Acid		Liquid				
 1.0.0	Gum Arabic	CH4O3S	Liquid		gum acacia		Available at arts & crafts stores and at fine art supply stores as a binder for turning pigments into paints. In solution with water.
 1.0.0	Heavy Naphtha	Complex	Liquid	TRUE			
-1.0.0	Helium Gas	He2	Liquid		—		Helium can be obtained from party stores or wherever helium balloons are available. Small disposable containers are available for long-term storage. Containers made by Worthington Industries are 99% pure helium. Note that balloon gas is a mixture of helium and normal air.
+	Helium Gas	He2	Liquid		—		Helium can be obtained from party stores or wherever helium balloons are available. Small disposable containers are available for long-term storage. Containers made by Worthington Industries are 99% pure helium. Note that balloon gas is a mixture of helium and normal air.
 1.0.0	Hexamine	C6H12N4	Liquid		Hexamethylenetetramine		Sold as solid fuel tablets in camping and outdoor stores, in combination with 1,3,5-trioxane.
 1.0.0	Hexane Isomers	C6H14	Liquid	TRUE			
 1.0.0	High Octane Gasoline	8-16 carbon alkanes	Liquid				
 1.0.0	Hydrochloric Acid	HCl	Liquid		Masonry Cleaner,Muriatic acid		Hardware store; used in swimming pool maintenance, as masonry cleaner and in silverware cleaner.
 1.0.0	Hydrofluoric Acid	HF	Liquid		Glass Etching Solution		Hardware store; Aluminum brightener & tire cleaner
-1.0.0	Hydrogen Gas	H2	Gas		Hydrogen		Can be generated and captured from electrolysis of water and a wide variety of inorganic chemical reactions. Adding aluminium foil to a solution of Sodium Hydroxide will generate hydrogen gas. Highly flammable and explosive under pressure or in quantity.
+	Hydrogen Gas	H2	Gas		Hydrogen		Can be generated and captured from electrolysis of water and a wide variety of inorganic chemical reactions. Adding aluminium foil to a solution of Sodium Hydroxide will generate hydrogen gas. Highly flammable and explosive under pressure or in quantity.
 1.0.0	Hydrogen Peroxide	H2O2	Liquid		Peroxide		Hydrogen peroxide antiseptic (3%)or even (6%) is available from the drug store. Clairoxide hair bleach by Clairol is much more concentrated (12%) and is available from beauty supply stores. Concentrations as high as 35% may be available at health food stores and natural medicine stores as a source of natural oxygen. Swimming pool and spa suppliers often carry concentrations as high as 27% but these usually contain preservatives/stabilizers. Note: Do not heat. Do not store in metal containers.
 1.0.0	Hydroquinone	C6H6O2	Liquid		—		Photography store catering to the at-home darkroom crowd.
 1.0.0	Hypochlorous Acid	HClO	Liquid		Laundry Bleach		Grocery store.
@@ -210,13 +210,13 @@
 1.0.0	Naphthalenedicarboxylic Acid		Liquid				
 1.0.0	Natural Gas		Gas				
 1.0.0	NeoPentane	C5H12	Liquid	TRUE			
-1.0.0	Nitrogen Gas	N2	Gas		liquid nitrogen		Hospital, laboratory, university, welding supply house, and industrial gas supplier can all provide liquid or gaseous nitrogen.
+	Nitrogen Gas	N2	Gas		liquid nitrogen		Hospital, laboratory, university, welding supply house, and industrial gas supplier can all provide liquid or gaseous nitrogen.
 1.0.0	Nitrous Oxide	N2O	Liquid		whipping gas,laughing gas		Whipped cream canisters from the grocery store. Or in larger canisters from commercial restaurant supply houses. When packaged for automotive use it is usually contaminated with hydrogen sulfide to discourage inhalation. Industrial (welding supply) Nitrous Oxide contains NO and NO2 (can be removed with moist steel wool)which makes Nitric acid in your lungs so use with good ventilation. (Heating Ammonium Nitrate generates an industrial grade of Nitrous Oxide at the risk of explosion.)
 1.0.0	Olefins		Liquid				
 1.0.0	Oleyl Alcohol	CH3(CH2)7-CH=CH-(CH2)8OH	Liquid		Fatty Alcohol, Oleyl alcohol, octadecenol, cis-9-octadecen-1-ol		surfactant, skin cream, moisturizer, shampoo
 1.0.0	Ortho-Xylene		Liquid				
 1.0.0	Oxalic Acid	C2H2O4	Liquid		rust remover, non-chlorine bleach powder cleanser		Grocery, drug, hardware stores. Bar Keeper's Friend.
-1.0.0	Oxygen Gas	O2	Gas		—		Portable welding oxygen tanks are available at welding shops and some hardware stores. Can be generated in small quantities from the electrolysisof water.
+	Oxygen Gas	O2	Gas		—		Portable welding oxygen tanks are available at welding shops and some hardware stores. Can be generated in small quantities from the electrolysisof water.
 1.0.0	Para-Dichlorobenzene	C6H4Cl2	Liquid		moth flakes, moth crystals		Hardware or grocery store.
 1.0.0	Para-Xylene		Liquid				
 1.0.0	Paraffin	CnH2n+2 (n>19)	Liquid		—		Unless otherwise labeled, candle wax is made of paraffin. Some grocery stores sell paraffin as a sealant for home canning. Many arts and crafts stores sell paraffin for at-home candle makers. Vaseline brand is also paraffin, albeit with molecules that are slightly shorter.

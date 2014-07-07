@@ -69,9 +69,9 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0		10		Vial (Ethylene Glycol)	64	Vial (Dimethyl Terephthalate)	32							Bag (Amorphous PolyEthylene Terephthalate Pellets)	32	Vial (Methanol)	2									
 1.0.0		10		Beaker (Ethylene Glycol)	64	Beaker (Dimethyl Terephthalate)	32							Sack (Amorphous PolyEthylene Terephthalate Pellets)	32	Beaker (Methanol)	2									
 1.0.0		10		Drum (Ethylene Glycol)	64	Drum (Dimethyl Terephthalate)	32							Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	32	Drum (Methanol)	2									
-1.0.0		2		Vial (Ethylene Glycol)	64	Vial (Dimethyl Terephthalate)	32	Magnesium Oxide Catalyst	1					Bag (Amorphous PolyEthylene Terephthalate Pellets)	32	Vial (Methanol)	2									
-1.0.0		2		Beaker (Ethylene Glycol)	64	Beaker (Dimethyl Terephthalate)	32	Magnesium Oxide Catalyst	4					Sack (Amorphous PolyEthylene Terephthalate Pellets)	32	Beaker (Methanol)	2									
-1.0.0		2		Drum (Ethylene Glycol)	64	Drum (Dimethyl Terephthalate)	32	Magnesium Oxide Catalyst	16					Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	32	Drum (Methanol)	2									
+1.0.0		2		Vial (Ethylene Glycol)	64	Vial (Dimethyl Terephthalate)	32	Manganese Catalyst	1					Bag (Amorphous PolyEthylene Terephthalate Pellets)	32	Vial (Methanol)	2									
+1.0.0		2		Beaker (Ethylene Glycol)	64	Beaker (Dimethyl Terephthalate)	32	Manganese Catalyst	4					Sack (Amorphous PolyEthylene Terephthalate Pellets)	32	Beaker (Methanol)	2									
+1.0.0		2		Drum (Ethylene Glycol)	64	Drum (Dimethyl Terephthalate)	32	Manganese Catalyst	16					Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	32	Drum (Methanol)	2									
 1.0.0				Vial (Ethylene Glycol)	64	Vial (Terephthalic Acid)	64	Antimony Trioxide Catalyst	1					Bag (Amorphous PolyEthylene Terephthalate Pellets)	64	Beaker (Water)	1	Beaker (Water)	1							
 1.0.0				Beaker (Ethylene Glycol)	64	Beaker (Terephthalic Acid)	64	Antimony Trioxide Catalyst	4					Sack (Amorphous PolyEthylene Terephthalate Pellets)	64	Drum (Water)	1	Drum (Water)	1							
 1.0.0				Drum (Ethylene Glycol)	64	Drum (Terephthalic Acid)	64	Antimony Trioxide Catalyst	16					Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	64	Drum (Water)	64	Drum (Water)	64							

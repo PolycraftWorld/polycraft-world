@@ -101,6 +101,7 @@ public class BlockPolymerBrickHelper {
 			}
 //		}
 	}
+	
 
 	public static int damageDropped(int p_149692_1_) {
 		return p_149692_1_;

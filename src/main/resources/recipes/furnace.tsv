@@ -27,3 +27,4 @@ Version	Level	Output	O1#	Input	I1#
 1.0.0	2	Copper II Chloride Catalyst	16	Copper Ingot	1
 1.0.0	2	Iron III Chloride Catalyst	16	Iron Ingot	1
 1.0.0	2	Aluminoxane Catalyst	1	Triethylaluminium Catalyst	1
+1.0.0	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1

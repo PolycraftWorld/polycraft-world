@@ -24,7 +24,11 @@ public enum GameID {
 	CustomPhaseShifter("3r"),
 	CustomScubaTank("3x"),
 	CustomKevlarVest("5b"),
-	InternalOil("1D");
+	InternalOil("1D"),
+	InventoryIndustrialOven("3F"),
+	InventoryPlasticChest("3L"),
+	InventoryPlasticChestLarge("5j");
+	
 
 	private final String id;
 

@@ -75,11 +75,14 @@ import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.IndustrialOvenInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestLargeInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
@@ -391,6 +394,12 @@ public class PolycraftRegistry {
 				SpotlightInventory.register(inventory);
 			else if (GameID.InventoryOilDerrick.matches(inventory))
 				OilDerrickInventory.register(inventory);
+			//else if (GameID.InventoryPlasticChest.matches(inventory))
+			//	PlasticChestInventory.register(inventory);
+			//else if (GameID.InventoryPlasticChestLarge.matches(inventory))
+			//	PlasticChestLargeInventory.register(inventory);
+			else if (GameID.InventoryIndustrialOven.matches(inventory))
+				IndustrialOvenInventory.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}

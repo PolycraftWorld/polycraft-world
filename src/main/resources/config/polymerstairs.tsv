@@ -1,114 +1,114 @@
 Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
-	Xb	Z1	Stairs (Acrylic-Formaldehyde)	Block (Acrylic-Formaldehyde)	Acrylic-Formaldehyde	0
+0	Xb	Z1	Stairs (Acrylic-Formaldehyde)	Block (Acrylic-Formaldehyde)	Acrylic-Formaldehyde	0
 1.0.0	Xc	Z2	Stairs (Acrylonitrile-Butadiene-Styrene)	Block (Acrylonitrile-Butadiene-Styrene)	Acrylonitrile-Butadiene-Styrene	0
-	Xd	Z3	Stairs (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
+0	Xd	Z3	Stairs (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Xe	Z4	Stairs (Amorphous PolyEthylene Terephthalate)	Block (Amorphous PolyEthylene Terephthalate)	Amorphous PolyEthylene Terephthalate	0
-	Xf	Z5	Stairs (Bromine Isobutylene-Isoprene Rubber)	Block (Bromine Isobutylene-Isoprene Rubber)	Bromine Isobutylene-Isoprene Rubber	0
-	Xg	Z6	Stairs (Cellulose Diacetate)	Block (Cellulose Diacetate)	Cellulose Diacetate	0
-	Xh	Z7	Stairs (Cellulose Triacetate)	Block (Cellulose Triacetate)	Cellulose Triacetate	0
+0	Xf	Z5	Stairs (Bromine Isobutylene-Isoprene Rubber)	Block (Bromine Isobutylene-Isoprene Rubber)	Bromine Isobutylene-Isoprene Rubber	0
+0	Xg	Z6	Stairs (Cellulose Diacetate)	Block (Cellulose Diacetate)	Cellulose Diacetate	0
+0	Xh	Z7	Stairs (Cellulose Triacetate)	Block (Cellulose Triacetate)	Cellulose Triacetate	0
 1.0.0	Xi	Z8	Stairs (Cellulosic)	Block (Cellulosic)	Cellulosic	0
-	Xj	Z9	Stairs (Chitin)	Block (Chitin)	Chitin	0
-	Xk	Za	Stairs (Chlorine Isobutylene-Isoprene Rubber)	Block (Chlorine Isobutylene-Isoprene Rubber)	Chlorine Isobutylene-Isoprene Rubber	0
-	Xl	Zb	Stairs (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
-	Xm	Zc	Stairs (Ethoxylates)	Block (Ethoxylates)	Ethoxylates	0
-	Xn	Zd	Stairs (Ethylene-Propylene Monomer)	Block (Ethylene-Propylene Monomer)	Ethylene-Propylene Monomer	0
-	Xo	Ze	Stairs (Ethylene-Propylene-Diene Monomer)	Block (Ethylene-Propylene-Diene Monomer)	Ethylene-Propylene-Diene Monomer	0
-	Xp	Zf	Stairs (Ethylene-Vinyl Acetate)	Block (Ethylene-Vinyl Acetate)	Ethylene-Vinyl Acetate	0
+0	Xj	Z9	Stairs (Chitin)	Block (Chitin)	Chitin	0
+0	Xk	Za	Stairs (Chlorine Isobutylene-Isoprene Rubber)	Block (Chlorine Isobutylene-Isoprene Rubber)	Chlorine Isobutylene-Isoprene Rubber	0
+0	Xl	Zb	Stairs (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
+0	Xm	Zc	Stairs (Ethoxylates)	Block (Ethoxylates)	Ethoxylates	0
+0	Xn	Zd	Stairs (Ethylene-Propylene Monomer)	Block (Ethylene-Propylene Monomer)	Ethylene-Propylene Monomer	0
+0	Xo	Ze	Stairs (Ethylene-Propylene-Diene Monomer)	Block (Ethylene-Propylene-Diene Monomer)	Ethylene-Propylene-Diene Monomer	0
+1.0.0	Xp	Zf	Stairs (Ethylene-Vinyl Acetate)	Block (Ethylene-Vinyl Acetate)	Ethylene-Vinyl Acetate	0
 1.0.0	Xq	Zg	Stairs (High Density PolyEthylene)	Block (High Density PolyEthylene)	High Density PolyEthylene	0
-	Xr	Zh	Stairs (Hydrogenated Nitrile-Butadiene Rubber)	Block (Hydrogenated Nitrile-Butadiene Rubber)	Hydrogenated Nitrile-Butadiene Rubber	0
-	Xs	Zi	Stairs (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
-	Xt	Zj	Stairs (Lignin)	Block (Lignin)	Lignin	0
+0	Xr	Zh	Stairs (Hydrogenated Nitrile-Butadiene Rubber)	Block (Hydrogenated Nitrile-Butadiene Rubber)	Hydrogenated Nitrile-Butadiene Rubber	0
+0	Xs	Zi	Stairs (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
+0	Xt	Zj	Stairs (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Xu	Zk	Stairs (Linear Low-Density PolyEthylene)	Block (Linear Low-Density PolyEthylene)	Linear Low-Density PolyEthylene	0
-	Xv	Zl	Stairs (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
+0	Xv	Zl	Stairs (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
 1.0.0	Xw	Zm	Stairs (Low Density PolyEthylene)	Block (Low Density PolyEthylene)	Low Density PolyEthylene	0
 1.0.0	Xx	Zn	Stairs (Medium Density PolyEthylene)	Block (Medium Density PolyEthylene)	Medium Density PolyEthylene	0
-	Xy	Zo	Stairs (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
-	Xz	Zp	Stairs (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
-	XA	Zq	Stairs (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
-	XB	Zr	Stairs (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
-	XC	Zs	Stairs (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
-	XD	Zt	Stairs (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
-	XE	Zu	Stairs (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
-	XF	Zv	Stairs (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
-	XG	Zw	Stairs (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
-	XH	Zx	Stairs (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
-	XI	Zy	Stairs (Poly2-Hydroxyethyl Methacrylate)	Block (Poly2-Hydroxyethyl Methacrylate)	Poly2-Hydroxyethyl Methacrylate	0
-	XJ	Zz	Stairs (PolyAcrylic Ester)	Block (PolyAcrylic Ester)	PolyAcrylic Ester	0
+0	Xy	Zo	Stairs (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
+0	Xz	Zp	Stairs (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
+0	XA	Zq	Stairs (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
+1.0.0	XB	Zr	Stairs (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
+1.0.0	XC	Zs	Stairs (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
+0	XD	Zt	Stairs (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
+0	XE	Zu	Stairs (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
+0	XF	Zv	Stairs (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
+0	XG	Zw	Stairs (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
+0	XH	Zx	Stairs (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
+0	XI	Zy	Stairs (Poly2-Hydroxyethyl Methacrylate)	Block (Poly2-Hydroxyethyl Methacrylate)	Poly2-Hydroxyethyl Methacrylate	0
+0	XJ	Zz	Stairs (PolyAcrylic Ester)	Block (PolyAcrylic Ester)	PolyAcrylic Ester	0
 1.0.0	XK	ZA	Stairs (PolyAcrylonitrile)	Block (PolyAcrylonitrile)	PolyAcrylonitrile	0
 1.0.0	XL	ZB	Stairs (PolyButadiene)	Block (PolyButadiene)	PolyButadiene	0
-	XM	ZC	Stairs (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
-	XN	ZD	Stairs (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
-	XP	ZF	Stairs (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
+0	XM	ZC	Stairs (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
+0	XN	ZD	Stairs (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
+0	XP	ZF	Stairs (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
 1.0.0	XQ	ZG	Stairs (PolyCaprolactone)	Block (PolyCaprolactone)	PolyCaprolactone	0
 1.0.0	XR	ZH	Stairs (PolyCarbonate)	Block (PolyCarbonate)	PolyCarbonate	0
-	XS	ZI	Stairs (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
-	XT	ZJ	Stairs (PolyChlorotrifluoroethylene)	Block (PolyChlorotrifluoroethylene)	PolyChlorotrifluoroethylene	0
+0	XS	ZI	Stairs (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
+0	XT	ZJ	Stairs (PolyChlorotrifluoroethylene)	Block (PolyChlorotrifluoroethylene)	PolyChlorotrifluoroethylene	0
 1.0.0	XU	ZK	Stairs (PolyDiMethylSiloxane)	Block (PolyDiMethylSiloxane)	PolyDiMethylSiloxane	0
 1.0.0	XV	ZL	Stairs (PolyEther Ether Ketone)	Block (PolyEther Ether Ketone)	PolyEther Ether Ketone	0
 1.0.0	XW	ZM	Stairs (PolyEtherImide)	Block (PolyEtherImide)	PolyEtherImide	0
-	XX	ZN	Stairs (PolyEthyl Acrylate)	Block (PolyEthyl Acrylate)	PolyEthyl Acrylate	0
-	XY	ZO	Stairs (PolyEthylene Adipate)	Block (PolyEthylene Adipate)	PolyEthylene Adipate	0
+0	XX	ZN	Stairs (PolyEthyl Acrylate)	Block (PolyEthyl Acrylate)	PolyEthyl Acrylate	0
+0	XY	ZO	Stairs (PolyEthylene Adipate)	Block (PolyEthylene Adipate)	PolyEthylene Adipate	0
 1.0.0	XZ	ZP	Stairs (PolyEthylene Glycol)	Block (PolyEthylene Glycol)	PolyEthylene Glycol	0
-	Y0	ZQ	Stairs (PolyEthylene Hexamethylene Dicarbamate)	Block (PolyEthylene Hexamethylene Dicarbamate)	PolyEthylene Hexamethylene Dicarbamate	0
+0	Y0	ZQ	Stairs (PolyEthylene Hexamethylene Dicarbamate)	Block (PolyEthylene Hexamethylene Dicarbamate)	PolyEthylene Hexamethylene Dicarbamate	0
 1.0.0	Y1	ZR	Stairs (PolyEthylene Naphthalate)	Block (PolyEthylene Naphthalate)	PolyEthylene Naphthalate	0
 1.0.0	Y2	ZS	Stairs (PolyEthylene Oxide)	Block (PolyEthylene Oxide)	PolyEthylene Oxide	0
-	Y3	ZT	Stairs (PolyEthylene Sulphide)	Block (PolyEthylene Sulphide)	PolyEthylene Sulphide	0
+0	Y3	ZT	Stairs (PolyEthylene Sulphide)	Block (PolyEthylene Sulphide)	PolyEthylene Sulphide	0
 1.0.0	Y4	ZU	Stairs (PolyEthylene Terephthalate)	Block (PolyEthylene Terephthalate)	PolyEthylene Terephthalate	0
-	Y5	ZV	Stairs (PolyEthylene Terephthalate Glycol-Modified)	Block (PolyEthylene Terephthalate Glycol-Modified)	PolyEthylene Terephthalate Glycol-Modified	0
+1.0.0	Y5	ZV	Stairs (PolyEthylene Terephthalate Glycol-Modified)	Block (PolyEthylene Terephthalate Glycol-Modified)	PolyEthylene Terephthalate Glycol-Modified	0
 1.0.0	Y6	ZW	Stairs (PolyGlycolic Acid)	Block (PolyGlycolic Acid)	PolyGlycolic Acid	0
-	Y7	ZX	Stairs (PolyHexamethylene Adipamide)	Block (PolyHexamethylene Adipamide)	PolyHexamethylene Adipamide	0
-	Y8	ZY	Stairs (PolyHexamethylene Sebacamide)	Block (PolyHexamethylene Sebacamide)	PolyHexamethylene Sebacamide	0
+0	Y7	ZX	Stairs (PolyHexamethylene Adipamide)	Block (PolyHexamethylene Adipamide)	PolyHexamethylene Adipamide	0
+0	Y8	ZY	Stairs (PolyHexamethylene Sebacamide)	Block (PolyHexamethylene Sebacamide)	PolyHexamethylene Sebacamide	0
 1.0.0	Y9	ZZ	Stairs (PolyHydroxyalkanoate)	Block (PolyHydroxyalkanoate)	PolyHydroxyalkanoate	0
-	Ya	100	Stairs (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Block (PolyHydroxybutyrate-Co-Hydroxyvalerate)	PolyHydroxybutyrate-Co-Hydroxyvalerate	0
+0	Ya	100	Stairs (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Block (PolyHydroxybutyrate-Co-Hydroxyvalerate)	PolyHydroxybutyrate-Co-Hydroxyvalerate	0
 1.0.0	Yb	101	Stairs (PolyImide)	Block (PolyImide)	PolyImide	0
-	Yc	102	Stairs (PolyIsoBorynl Acrylate)	Block (PolyIsoBorynl Acrylate)	PolyIsoBorynl Acrylate	0
-	Yd	103	Stairs (PolyIsoButyl Acrylate)	Block (PolyIsoButyl Acrylate)	PolyIsoButyl Acrylate	0
+0	Yc	102	Stairs (PolyIsoBorynl Acrylate)	Block (PolyIsoBorynl Acrylate)	PolyIsoBorynl Acrylate	0
+0	Yd	103	Stairs (PolyIsoButyl Acrylate)	Block (PolyIsoButyl Acrylate)	PolyIsoButyl Acrylate	0
 1.0.0	Ye	104	Stairs (PolyIsoButylene)	Block (PolyIsoButylene)	PolyIsoButylene	0
 1.0.0	Yf	105	Stairs (PolyIsoPrene)	Block (PolyIsoPrene)	PolyIsoPrene	6
 1.0.0	Yg	106	Stairs (PolyLactic Acid)	Block (PolyLactic Acid)	PolyLactic Acid	0
-	Yh	107	Stairs (PolyLactic-Co-Glycolic Acid)	Block (PolyLactic-Co-Glycolic Acid)	PolyLactic-Co-Glycolic Acid	0
-	Yi	108	Stairs (PolyMethyl Acrylate)	Block (PolyMethyl Acrylate)	PolyMethyl Acrylate	0
-	Yj	109	Stairs (PolyMethyl Cyanoacrylate)	Block (PolyMethyl Cyanoacrylate)	PolyMethyl Cyanoacrylate	0
-	Yk	10a	Stairs (PolyMethyl Methacrylate)	Block (PolyMethyl Methacrylate)	PolyMethyl Methacrylate	0
-	Yl	10b	Stairs (PolyM-Methyl Styrene)	Block (PolyM-Methyl Styrene)	PolyM-Methyl Styrene	0
-	Ym	10c	Stairs (PolyM-Phenylene Isophthalamide)	Block (PolyM-Phenylene Isophthalamide)	PolyM-Phenylene Isophthalamide	0
-	Yn	10d	Stairs (PolyN-Butyl Acrylate)	Block (PolyN-Butyl Acrylate)	PolyN-Butyl Acrylate	0
+0	Yh	107	Stairs (PolyLactic-Co-Glycolic Acid)	Block (PolyLactic-Co-Glycolic Acid)	PolyLactic-Co-Glycolic Acid	0
+0	Yi	108	Stairs (PolyMethyl Acrylate)	Block (PolyMethyl Acrylate)	PolyMethyl Acrylate	0
+0	Yj	109	Stairs (PolyMethyl Cyanoacrylate)	Block (PolyMethyl Cyanoacrylate)	PolyMethyl Cyanoacrylate	0
+0	Yk	10a	Stairs (PolyMethyl Methacrylate)	Block (PolyMethyl Methacrylate)	PolyMethyl Methacrylate	0
+0	Yl	10b	Stairs (PolyM-Methyl Styrene)	Block (PolyM-Methyl Styrene)	PolyM-Methyl Styrene	0
+0	Ym	10c	Stairs (PolyM-Phenylene Isophthalamide)	Block (PolyM-Phenylene Isophthalamide)	PolyM-Phenylene Isophthalamide	0
+0	Yn	10d	Stairs (PolyN-Butyl Acrylate)	Block (PolyN-Butyl Acrylate)	PolyN-Butyl Acrylate	0
 1.0.0	Yo	10e	Stairs (PolyOxymethylene)	Block (PolyOxymethylene)	PolyOxymethylene	0
-	Yp	10f	Stairs (PolyPentamethylene Hexamethylene Dicarbamate)	Block (PolyPentamethylene Hexamethylene Dicarbamate)	PolyPentamethylene Hexamethylene Dicarbamate	0
-	Yq	10g	Stairs (PolyPhenol)	Block (PolyPhenol)	PolyPhenol	0
-	Yr	10h	Stairs (PolyPhenylene Oxide)	Block (PolyPhenylene Oxide)	PolyPhenylene Oxide	0
-	Ys	10i	Stairs (PolyPhosphazene)	Block (PolyPhosphazene)	PolyPhosphazene	0
-	Yt	10j	Stairs (PolyP-Methyl Styrene)	Block (PolyP-Methyl Styrene)	PolyP-Methyl Styrene	0
-	Yu	10k	Stairs (PolyP-Phenylene Sulphide)	Block (PolyP-Phenylene Sulphide)	PolyP-Phenylene Sulphide	0
-	Yv	10l	Stairs (PolyP-Phenylene Terephthalamide)	Block (PolyP-Phenylene Terephthalamide)	PolyP-Phenylene Terephthalamide	0
+0	Yp	10f	Stairs (PolyPentamethylene Hexamethylene Dicarbamate)	Block (PolyPentamethylene Hexamethylene Dicarbamate)	PolyPentamethylene Hexamethylene Dicarbamate	0
+0	Yq	10g	Stairs (PolyPhenol)	Block (PolyPhenol)	PolyPhenol	0
+0	Yr	10h	Stairs (PolyPhenylene Oxide)	Block (PolyPhenylene Oxide)	PolyPhenylene Oxide	0
+0	Ys	10i	Stairs (PolyPhosphazene)	Block (PolyPhosphazene)	PolyPhosphazene	0
+0	Yt	10j	Stairs (PolyP-Methyl Styrene)	Block (PolyP-Methyl Styrene)	PolyP-Methyl Styrene	0
+0	Yu	10k	Stairs (PolyP-Phenylene Sulphide)	Block (PolyP-Phenylene Sulphide)	PolyP-Phenylene Sulphide	0
+0	Yv	10l	Stairs (PolyP-Phenylene Terephthalamide)	Block (PolyP-Phenylene Terephthalamide)	PolyP-Phenylene Terephthalamide	0
 1.0.0	Yw	10m	Stairs (PolyPropylene)	Block (PolyPropylene)	PolyPropylene	0
-	Yx	10n	Stairs (PolyPropylene Glycol)	Block (PolyPropylene Glycol)	PolyPropylene Glycol	0
-	Yy	10o	Stairs (PolyPropylene Oxide)	Block (PolyPropylene Oxide)	PolyPropylene Oxide	0
+0	Yx	10n	Stairs (PolyPropylene Glycol)	Block (PolyPropylene Glycol)	PolyPropylene Glycol	0
+0	Yy	10o	Stairs (PolyPropylene Oxide)	Block (PolyPropylene Oxide)	PolyPropylene Oxide	0
 1.0.0	Yz	10p	Stairs (PolyStyrene)	Block (PolyStyrene)	PolyStyrene	0
-	YA	10q	Stairs (PolyTert-Butyl Acrylate)	Block (PolyTert-Butyl Acrylate)	PolyTert-Butyl Acrylate	0
+0	YA	10q	Stairs (PolyTert-Butyl Acrylate)	Block (PolyTert-Butyl Acrylate)	PolyTert-Butyl Acrylate	0
 1.0.0	YB	10r	Stairs (PolyTetraFluoroEthylene)	Block (PolyTetraFluoroEthylene)	PolyTetraFluoroEthylene	0
-	YC	10s	Stairs (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
-	YD	10t	Stairs (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
-	YE	10u	Stairs (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
-	YF	10v	Stairs (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
+0	YC	10s	Stairs (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
+0	YD	10t	Stairs (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
+0	YE	10u	Stairs (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
+0	YF	10v	Stairs (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
 1.0.0	YG	10w	Stairs (PolyUrethane)	Block (PolyUrethane)	PolyUrethane	0
 1.0.0	YH	10x	Stairs (PolyVinyl Acetate)	Block (PolyVinyl Acetate)	PolyVinyl Acetate	0
 1.0.0	YI	10y	Stairs (PolyVinyl Alcohol)	Block (PolyVinyl Alcohol)	PolyVinyl Alcohol	0
-	YJ	10z	Stairs (PolyVinyl Butyral)	Block (PolyVinyl Butyral)	PolyVinyl Butyral	0
+0	YJ	10z	Stairs (PolyVinyl Butyral)	Block (PolyVinyl Butyral)	PolyVinyl Butyral	0
 1.0.0	YK	10A	Stairs (PolyVinyl Chloride)	Block (PolyVinyl Chloride)	PolyVinyl Chloride	0
-	YL	10B	Stairs (PolyVinyl Chloride Acetate)	Block (PolyVinyl Chloride Acetate)	PolyVinyl Chloride Acetate	0
-	YM	10C	Stairs (PolyVinyl Fluoride)	Block (PolyVinyl Fluoride)	PolyVinyl Fluoride	0
-	YN	10D	Stairs (PolyVinyl Formal)	Block (PolyVinyl Formal)	PolyVinyl Formal	0
-	YO	10E	Stairs (PolyVinyl Methyl Ether)	Block (PolyVinyl Methyl Ether)	PolyVinyl Methyl Ether	0
-	YP	10F	Stairs (PolyVinylidene Dichloride)	Block (PolyVinylidene Dichloride)	PolyVinylidene Dichloride	0
-	YQ	10G	Stairs (PolyVinylidene Fluoride)	Block (PolyVinylidene Fluoride)	PolyVinylidene Fluoride	0
-	YR	10H	Stairs (PolyVinylidene Fluoride-Trifluoroethylene)	Block (PolyVinylidene Fluoride-Trifluoroethylene)	PolyVinylidene Fluoride-Trifluoroethylene	0
-	YS	10I	Stairs (Styrene-Acrylonitrile)	Block (Styrene-Acrylonitrile)	Styrene-Acrylonitrile	0
+1.0.0	YL	10B	Stairs (PolyVinyl Chloride Acetate)	Block (PolyVinyl Chloride Acetate)	PolyVinyl Chloride Acetate	0
+0	YM	10C	Stairs (PolyVinyl Fluoride)	Block (PolyVinyl Fluoride)	PolyVinyl Fluoride	0
+0	YN	10D	Stairs (PolyVinyl Formal)	Block (PolyVinyl Formal)	PolyVinyl Formal	0
+0	YO	10E	Stairs (PolyVinyl Methyl Ether)	Block (PolyVinyl Methyl Ether)	PolyVinyl Methyl Ether	0
+0	YP	10F	Stairs (PolyVinylidene Dichloride)	Block (PolyVinylidene Dichloride)	PolyVinylidene Dichloride	0
+0	YQ	10G	Stairs (PolyVinylidene Fluoride)	Block (PolyVinylidene Fluoride)	PolyVinylidene Fluoride	0
+0	YR	10H	Stairs (PolyVinylidene Fluoride-Trifluoroethylene)	Block (PolyVinylidene Fluoride-Trifluoroethylene)	PolyVinylidene Fluoride-Trifluoroethylene	0
+0	YS	10I	Stairs (Styrene-Acrylonitrile)	Block (Styrene-Acrylonitrile)	Styrene-Acrylonitrile	0
 1.0.0	YT	10J	Stairs (Styrene-Butadiene Rubber)	Block (Styrene-Butadiene Rubber)	Styrene-Butadiene Rubber	12
-	YU	10K	Stairs (Styrene-Butadiene-Styrene)	Block (Styrene-Butadiene-Styrene)	Styrene-Butadiene-Styrene	0
-	YV	10L	Stairs (Styrene-Isoprene-Styrene)	Block (Styrene-Isoprene-Styrene)	Styrene-Isoprene-Styrene	0
-	YW	10M	Stairs (Styrene-Maleic Anhydride Copolymer)	Block (Styrene-Maleic Anhydride Copolymer)	Styrene-Maleic Anhydride Copolymer	0
+0	YU	10K	Stairs (Styrene-Butadiene-Styrene)	Block (Styrene-Butadiene-Styrene)	Styrene-Butadiene-Styrene	0
+0	YV	10L	Stairs (Styrene-Isoprene-Styrene)	Block (Styrene-Isoprene-Styrene)	Styrene-Isoprene-Styrene	0
+0	YW	10M	Stairs (Styrene-Maleic Anhydride Copolymer)	Block (Styrene-Maleic Anhydride Copolymer)	Styrene-Maleic Anhydride Copolymer	0
 1.0.0	YX	10N	Stairs (Ultra-High-Molecular-Weight PolyEthylene)	Block (Ultra-High-Molecular-Weight PolyEthylene)	Ultra-High-Molecular-Weight PolyEthylene	0
-	YY	10O	Stairs (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
+0	YY	10O	Stairs (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
 1.0.0	YZ	10P	Stairs (Very-Low-Density PolyEthylene)	Block (Very-Low-Density PolyEthylene)	Very-Low-Density PolyEthylene	0
-	Z0	10Q	Stairs (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0
+0	Z0	10Q	Stairs (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0

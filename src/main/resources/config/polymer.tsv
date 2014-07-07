@@ -39,7 +39,6 @@ Version	Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class
 1.0.0	PolyButadiene Rubber	PBR			FALSE		synthetic rubber						
 1.0.0	PolyButylene Succinate	PBS			TRUE		polyester						
 1.0.0	PolyButylene Terephthalate	PBT			FALSE		polyester						
-1.0.0	PolyButylene Terephthalate	PBT			FALSE		polyester						
 1.0.0	PolyCaprolactone	PCL			TRUE		polyester						
 1.0.0	PolyCarbonate	PC			FALSE		polycarbonate						
 1.0.0	PolyChloroPrene	PCHL			FALSE		synthetic rubber						
@@ -113,3 +112,4 @@ Version	Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class
 1.0.0	Urea-Formaldehyde Polymers	UFP			FALSE		polyaldehyde	polyamide					
 1.0.0	Very-Low-Density PolyEthylene	VLDPE			FALSE		polyolefin						
 1.0.0	Vinyl Acetate-Acrylic Acid	VA/AA			FALSE		polyacrylate	polyvinyl					
+1.0.0	Polycaprolactam	Nylon 6			FALSE		polyamide						

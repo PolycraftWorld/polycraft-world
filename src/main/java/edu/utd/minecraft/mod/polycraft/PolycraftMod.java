@@ -239,6 +239,7 @@ public class PolycraftMod {
 	
 	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack) 
 	{
+		//TODO: this may not be the best way to do things, but works by overiding 
 		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
 		{
 		PolycraftItemHelper.createTagCompound(par1ItemStack);
