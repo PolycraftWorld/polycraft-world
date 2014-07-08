@@ -25,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 
 public class BlockPolymerBrick extends Block {
 
@@ -110,11 +111,20 @@ public class BlockPolymerBrick extends Block {
 	// return helper.getMomentumReturnedOnPassiveFall();
 	// }
 	
-	@Override
+	//@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
+		//return null;
 		//TODO: Check to make this implementation works
-        return PolycraftRegistry.getItem(this.Brick.subBrick.itemName);
+		if (this.Brick.subBrick != null)
+		{			
+			return PolycraftRegistry.getItem(this.Brick.subBrick.itemName);
+		}
+		else
+		{
+			return PolycraftRegistry.getItem(this.Brick.itemName);
+		}
+			
     }
 	
 	

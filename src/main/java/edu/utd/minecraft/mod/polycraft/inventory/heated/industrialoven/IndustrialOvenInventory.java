@@ -24,18 +24,17 @@ public class IndustrialOvenInventory extends HeatedInventory {
 
 	private static Random random = new Random();
 
-	public static int slotIndexInput1;
-	public static int slotIndexInput2;
-	public static int slotIndexInput3;
 	public static int slotIndexHeatingWater;
 	public static int slotIndexHeatSource;
 	public static int slotIndexFirstOutput;
 	public static int slotIndexLastOutput;
 	public final static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput1 = guiSlots.size(), 0, 0, 17, 0));
-		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput2 = guiSlots.size(), 1, 0, 17, 0));
-		guiSlots.add(GuiContainerSlot.createInput(slotIndexInput3 = guiSlots.size(), 2, 0, 17, 0));
+
+		for (int y = 0; y < 3; y++)
+			for (int x = 0; x < 3; x++)
+				guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.INPUT, x, y, 9 + x * 18, 18 + y * 18)); //inputs
+				
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.MISC, -1, -1, 71, 18, Items.water_bucket)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 71, 54)); //heat source
 		slotIndexFirstOutput = guiSlots.size();
@@ -54,7 +53,7 @@ public class IndustrialOvenInventory extends HeatedInventory {
 	}
 
 	public IndustrialOvenInventory() {
-		super(PolycraftContainerType.INDUSTRIAL_OVEN, config, 84, slotIndexHeatingWater, slotIndexHeatSource);
+		super(PolycraftContainerType.INDUSTRIAL_OVEN, config, 84, slotIndexHeatSource, -1, slotIndexHeatingWater);
 	}
 
 	@Override

@@ -25,4 +25,5 @@ public abstract class PolycraftSword extends ItemSword implements PolycraftItem 
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
+	
 }
