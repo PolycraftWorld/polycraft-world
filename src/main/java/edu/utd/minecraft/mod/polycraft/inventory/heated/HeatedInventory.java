@@ -114,7 +114,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		return getState(HeatedInventoryState.HeatSourceTicksRemaining) > 0;
 	}
 
-	private boolean isHeatIntensityValid() {
+	protected boolean isHeatIntensityValid() {
 		return getState(HeatedInventoryState.HeatSourceIntensity) >= getProcessingHeatIntensityForCurrentInputs(true) &&
 				getState(HeatedInventoryState.HeatSourceIntensity) <= getProcessingHeatIntensityForCurrentInputs(false);
 	}

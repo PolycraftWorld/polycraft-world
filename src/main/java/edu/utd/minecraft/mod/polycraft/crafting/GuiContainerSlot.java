@@ -85,4 +85,9 @@ public class GuiContainerSlot implements ContainerSlot {
 			return false;
 		return true;
 	}
+	
+	public Item getItem()
+	{
+		return this.validItem;
+	}
 }
