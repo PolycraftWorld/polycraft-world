@@ -2,7 +2,10 @@ package edu.utd.minecraft.mod.polycraft.inventory.plasticchest;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
 
@@ -58,7 +61,6 @@ public class PlasticChestInventory extends PolycraftInventory {
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new PolycraftInventoryGui(this, playerInventory, 232, 221, true); //ySize overridden for chest in drawGuiContainerBackgroundLayer
 	}
-	
 	
 	
 	

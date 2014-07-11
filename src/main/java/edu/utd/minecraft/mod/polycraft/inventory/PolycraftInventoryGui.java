@@ -51,7 +51,8 @@ public class PolycraftInventoryGui<I extends PolycraftInventory> extends GuiCont
 			this.mc.getTextureManager().bindTexture(inventory.getGuiResourceLocation());
 			int k = (this.width - this.xSize) / 2;
 			int l = (this.height - this.ySize) / 2;
-			this.drawTexturedModalRect(k, 6, 0, 0, this.xSize, this.ySize);			
+			//this.drawTexturedModalRect(k, 6, 0, 0, this.xSize, this.ySize);		
+			this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 		}
 		else
 		{

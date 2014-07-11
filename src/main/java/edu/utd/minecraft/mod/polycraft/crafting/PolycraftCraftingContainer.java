@@ -84,7 +84,11 @@ public abstract class PolycraftCraftingContainer extends Container {
 				return guiSlot.isItemValid(par1ItemStack);
 			return false;
 		}
+		
+				
 	}
+	
+	
 
 	private void addInventorySlot(final IInventory inventory, final GuiContainerSlot guiSlot) {
 		Slot newSlot = new CraftingSlot(this, inventory, guiSlot);
