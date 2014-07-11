@@ -25,5 +25,4 @@ public abstract class PolycraftArmor extends ItemArmor implements PolycraftItem 
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
-	
-	}
+}

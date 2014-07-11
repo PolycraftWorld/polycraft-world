@@ -140,33 +140,9 @@ public abstract class CommonProxy {
 	protected static Block getBlockUnderEntity(final Entity entity) {
 		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
-	
-	protected static Block getBlockUnderNorthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ-1));
-	}
-	protected static Block getBlockUnderSouthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ+1));
-	}
-	protected static Block getBlockUnderEastOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX+1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
-	}
-	protected static Block getBlockUnderWestOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX-1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
-	}
 
 	protected static boolean isEntityOnBouncyBlock(final Entity entity) {
-		if (getBlockUnderEntity(entity) instanceof BlockBouncy)
-			return true;
-		else if (getBlockUnderNorthOfEntity(entity) instanceof BlockBouncy)
-			return true;
-		else if (getBlockUnderSouthOfEntity(entity) instanceof BlockBouncy)
-			return true;
-		else if (getBlockUnderEastOfEntity(entity) instanceof BlockBouncy)
-			return true;
-		else if (getBlockUnderWestOfEntity(entity) instanceof BlockBouncy)
-			return true;
-		else 		
-			return false;
+		return getBlockUnderEntity(entity) instanceof BlockBouncy;
 	}
 
 	@SubscribeEvent

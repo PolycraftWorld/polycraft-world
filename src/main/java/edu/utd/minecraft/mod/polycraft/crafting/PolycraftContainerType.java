@@ -46,8 +46,7 @@ public enum PolycraftContainerType {
 	MEROX_TREATMENT_UNIT("Merox Treatment Unit"),
 	CHEMICAL_PROCESSOR("Chemical Processor"),
 	OIL_DERRICK("Oil Derrick"),
-	PLASTIC_CHEST("Plastic Chest"),
-	FLOW_REGULATOR("Flow Regulator"),
+	//PLASTIC_CHEST("Plastic Chest"),
 	INDUSTRIAL_OVEN("Industrial Oven");
 
 	private final String friendlyName;
@@ -123,8 +122,7 @@ public enum PolycraftContainerType {
 		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
 		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
-		FLOW_REGULATOR.initialize(IndustrialOvenInventory.guiSlots);
-		PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
+		//PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

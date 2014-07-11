@@ -407,12 +407,6 @@ public class WikiMaker {
 			slots.append(getInventoryWaterSlot(ChemicalProcessorInventory.slotIndexHeatingWater));
 			slots.append(getInventoryFuelSlot(ChemicalProcessorInventory.slotIndexHeatSource));
 			break;
-		case INDUSTRIAL_OVEN:
-			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexHeatingWater));
-			slots.append(getInventoryFuelSlot(DistillationColumnInventory.slotIndexHeatSource));
-			break;
-		case PLASTIC_CHEST:
-			break;
 		default:
 			break;
 		}

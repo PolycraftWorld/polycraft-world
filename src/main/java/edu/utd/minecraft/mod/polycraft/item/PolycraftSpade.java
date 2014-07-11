@@ -25,5 +25,4 @@ public abstract class PolycraftSpade extends ItemSpade implements PolycraftItem 
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
-	
 }

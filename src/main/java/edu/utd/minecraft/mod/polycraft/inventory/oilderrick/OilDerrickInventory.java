@@ -62,7 +62,6 @@ public class OilDerrickInventory extends PolycraftInventory {
 	private final int spawnFrequencyTicks;
 	private int amountOfOilHarvested;
 	private boolean oilRemains;
-	private final int oilPerMetaDatavalue = 64;
 
 	public OilDerrickInventory() {
 		super(PolycraftContainerType.OIL_DERRICK, config);
@@ -127,8 +126,8 @@ public class OilDerrickInventory extends PolycraftInventory {
 					spawnAttempts = 0;
 					amountOfOilHarvested++;
 
-					// every oilPerMetaDatavalue drums of oil, this should decrement the blocks meta data
-					if ((meta > 0) && (amountOfOilHarvested % oilPerMetaDatavalue == 0))
+					// every 16 drums of oil, this should decrement the blocks meta data
+					if ((meta > 0) && (amountOfOilHarvested % 16 == 0))
 						getWorldObj().setBlock(xCoord, yCoord - 1, zCoord, oreBlock, meta - 1, 2);
 
 					if (meta > 0)

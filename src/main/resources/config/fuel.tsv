@@ -1,18 +1,18 @@
 Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*Per smallest vessel type if vesseled
 1.0.0	Crude Oil	Compound	Crude Oil	0	3	60	
 1.0.0	Coal	Minecraft Item	Coal	1	1	240	
-1.0.0	Gas Oil	Compound	Gas Oil	2	3	60	
-1.0.0	Methane	Compound	Methane	3	3	60	
-1.0.0	Diesel	Compound	Diesel	4	3	60	
-1.0.0	Kerosene	Compound	Kerosene	5	3	60	
-1.0.0	Liquified Natural Gas	Compound	Liquified Natural Gas	6	3	60	
-1.0.0	Naphtha	Compound	Naphtha	7	3	60	
-1.0.0	Naphthalene	Compound	Naphthalene	8	3	60	
-1.0.0	Propane	Compound	Propane	9	3	60	
-1.0.0	Ethane	Compound	Ethane	10	3	60	
-1.0.0	Sweet Butane Fuel	Compound	Sweet Butane Fuel	11	3	60	
-1.0.0	Sweet Propane Fuel	Compound	Sweet Propane Fuel	12	3	60	
-1.0.0	Sweet Light Naphtha	Compound	Sweet Light Naphtha	13	3	60	
-1.0.0	Town Gas	Compound	Town Gas	14	3	60	
-1.0.0	Light Naphtha	Compound	Light Naphtha	15	3	60	
-1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	3	60	
+1.0.0	Gas Oil	Compound	Gas Oil	2	20	120	
+1.0.0	Methane	Compound	Methane	3	10	540	
+1.0.0	Diesel	Compound	Diesel	4	25	720	
+1.0.0	Kerosene	Compound	Kerosene	5	30	720	
+1.0.0	Liquified Natural Gas	Compound	Liquified Natural Gas	6	20	720	
+1.0.0	Naphtha	Compound	Naphtha	7	10	240	
+1.0.0	Naphthalene	Compound	Naphthalene	8	10	240	
+1.0.0	Propane	Compound	Propane	9	20	540	
+1.0.0	Ethane	Compound	Ethane	10	20	540	
+1.0.0	Sweet Butane Fuel	Compound	Sweet Butane Fuel	11	40	1200	
+1.0.0	Sweet Propane Fuel	Compound	Sweet Propane Fuel	12	40	1200	
+1.0.0	Sweet Light Naphtha	Compound	Sweet Light Naphtha	13	40	900	
+1.0.0	Town Gas	Compound	Town Gas	14	20	150	
+1.0.0	Light Naphtha	Compound	Light Naphtha	15	15	300	
+1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	15	200	
