@@ -8,8 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 
-public class ItemPolymerBrick extends ItemBlock implements PolycraftItem {
+public class ItemPolymerBrick extends ItemBlock implements PolycraftItem, PolycraftPolymerBrick {
 
 	public final BlockPolymerBrick blockBrick;
 
@@ -33,5 +34,11 @@ public class ItemPolymerBrick extends ItemBlock implements PolycraftItem {
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
+	}
+
+	@Override
+	public PolymerBrick getPolymerBrick() {
+		// TODO Auto-generated method stub
+		return blockBrick.Brick;
 	}
 }

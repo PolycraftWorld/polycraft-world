@@ -43,7 +43,6 @@ public abstract class Config {
 		Polymer.registerFromResource(directory);
 		PolymerObject.registerFromResource(directory);
 		Fuel.registerFromResource(directory);
-
 		Ore.registerFromResource(directory);
 		Ingot.registerFromResource(directory);
 		CompressedBlock.registerFromResource(directory);
@@ -53,12 +52,12 @@ public abstract class Config {
 		PolymerPellets.registerFromResource(directory);
 		PolymerFibers.registerFromResource(directory);
 		PolymerBlock.registerFromResource(directory);
-		PolymerBrick.registerFromResource(directory);
 		PolymerSlab.registerFromResource(directory);
 		PolymerStairs.registerFromResource(directory);
 		PolymerWall.registerFromResource(directory);
 		Mold.registerFromResource(directory);
 		MoldedItem.registerFromResource(directory);
+		PolymerBrick.registerFromResource(directory); //must happen after molds have been created
 		GrippedTool.registerFromResource(directory);
 		PogoStick.registerFromResource(directory);
 		Inventory.registerFromResource(directory);

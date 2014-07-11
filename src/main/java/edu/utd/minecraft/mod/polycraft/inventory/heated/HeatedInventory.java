@@ -60,7 +60,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		}
 		else
 			accessibleSlots = null;
-		this.addBehavior(new VesselUpcycler());
+		//this.addBehavior(new VesselUpcycler());
 	}
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);

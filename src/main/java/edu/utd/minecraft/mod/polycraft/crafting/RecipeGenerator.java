@@ -29,6 +29,7 @@ import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
@@ -36,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
+	private static final String ItemPolymerBrick = null;
 
 	public static void generateRecipes() {
 		generateAutoRecipes();
@@ -202,6 +204,17 @@ public class RecipeGenerator {
 					ImmutableMap.of(
 							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
 							'y', moldedItem.source.getItemStack()));
+		
+		for (final PolymerBrick brickItem : PolymerBrick.registry.values())
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.INJECTION_MOLDER,
+					brickItem.getItemStack(),
+					new String[] { "xy" },
+					ImmutableMap.of(
+							'x', brickItem.source.getItemStack(brickItem.craftingPellets),
+							'y', brickItem.brickMold.getItemStack()));
+		
+		
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			PolycraftMod.recipeManager.addShapelessRecipe(

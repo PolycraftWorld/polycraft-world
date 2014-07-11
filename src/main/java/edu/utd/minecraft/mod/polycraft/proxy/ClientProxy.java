@@ -180,13 +180,59 @@ public class ClientProxy extends CommonProxy {
 			if (ItemPogoStick.isEquipped(player))
 				playerState.pogoStickLastFallDistance = event.distance;
 			else if (isEntityOnBouncyBlock(player)) {
-				final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
-				// if we are actively jumping
-				if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
-					playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-				// if we are supposed to return momentum while not actively jumping (or sneaking)
-				else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
-					playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				if (getBlockUnderEntity(player) instanceof BlockBouncy)				
+				{
+					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
+					// if we are actively jumping
+					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
+						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				}
+				else if (getBlockUnderNorthOfEntity(player) instanceof BlockBouncy)				
+				{
+					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderNorthOfEntity(player);
+					// if we are actively jumping
+					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
+						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				}
+				
+				else if (getBlockUnderSouthOfEntity(player) instanceof BlockBouncy)				
+				{
+					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderSouthOfEntity(player);
+					// if we are actively jumping
+					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
+						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				}
+				else if (getBlockUnderEastOfEntity(player) instanceof BlockBouncy)				
+				{
+					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEastOfEntity(player);
+					// if we are actively jumping
+					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
+						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				}
+				else if (getBlockUnderWestOfEntity(player) instanceof BlockBouncy)				
+				{
+					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderWestOfEntity(player);
+					// if we are actively jumping
+					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
+						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
+				}			
+				
+				
 			}
 		}
 		super.onLivingFallEvent(event);

@@ -23,6 +23,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftMoldedItem;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftPolymerBrick;
 
 public abstract class MolderInventory extends HeatedInventory {
 
@@ -91,6 +92,10 @@ public abstract class MolderInventory extends HeatedInventory {
 		if (next == null || next.itemStack == null || next.itemStack.getItem() == null) {
 			return 0;
 		}
+		if (next.itemStack.getItem() instanceof PolycraftPolymerBrick) {
+			final PolycraftPolymerBrick moldedItem = (PolycraftPolymerBrick) recipe.getOutputs(this).iterator().next().itemStack.getItem();
+			return PolycraftMod.convertSecondsToGameTicks(moldedItem.getPolymerBrick().craftingDurationSeconds);
+		}
 		if (next.itemStack.getItem() instanceof PolycraftMoldedItem) {
 			final PolycraftMoldedItem moldedItem = (PolycraftMoldedItem) recipe.getOutputs(this).iterator().next().itemStack.getItem();
 			return PolycraftMod.convertSecondsToGameTicks(moldedItem.getMoldedItem().craftingDurationSeconds);
@@ -131,7 +136,7 @@ public abstract class MolderInventory extends HeatedInventory {
 		public boolean updateEntity(final MolderInventory inventory, final World world) {
 			for (int sourceIndex = slotIndexFirstStorage; sourceIndex <= slotIndexLastStorage; sourceIndex++)
 				if (converge(inventory, sourceIndex, slotIndexInput))
-					break;
+					break;		
 			return true;
 		}
 

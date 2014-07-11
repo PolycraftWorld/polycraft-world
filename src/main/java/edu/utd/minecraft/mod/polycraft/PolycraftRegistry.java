@@ -311,11 +311,6 @@ public class PolycraftRegistry {
 					ItemPolymerBlock.class, new Object[] {});
 		}
 
-		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
-			final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
-			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
-					ItemPolymerBrick.class, new Object[] {});
-		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
@@ -358,6 +353,14 @@ public class PolycraftRegistry {
 				item = new ItemMoldedItem(moldedItem);
 			registerItem(moldedItem, item);
 		}
+		
+		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
+			final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
+			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
+					ItemPolymerBrick.class, new Object[] {});
+		}
+		
+		
 	}
 
 	private static void registerGrippedTools() {

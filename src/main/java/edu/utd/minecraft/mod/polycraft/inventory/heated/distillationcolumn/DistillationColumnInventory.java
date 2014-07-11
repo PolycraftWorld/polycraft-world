@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedGui;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 
@@ -53,6 +54,7 @@ public class DistillationColumnInventory extends HeatedInventory {
 
 	public DistillationColumnInventory() {
 		super(PolycraftContainerType.DISTILLATION_COLUMN, config, 84, slotIndexHeatSource, slotIndexCoolingWater, slotIndexHeatingWater);
+		this.addBehavior(new VesselUpcycler());
 	}
 
 	@Override
