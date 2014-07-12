@@ -98,7 +98,6 @@ public class WikiMaker {
 	private static final String POLYCRAFT_SCREENSHOTS_DIRECTORY = "wiki/screenshots";
 	private static final String POLYCRAFT_GUI_TEXTURES_DIRECTORY = "wiki/textures/gui/container";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures/custom";
-	private static final String POLYRAFT_TEXTURES_CUSTOM = "wiki/textures/custom";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
 			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
 			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
