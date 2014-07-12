@@ -19,16 +19,16 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	Mq	Og	Q6	RW	Slab (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
 0	Mr	Oh	Q7	RX	Slab (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Ms	Oi	Q8	RY	Slab (Linear Low-Density PolyEthylene)	Block (Linear Low-Density PolyEthylene)	Linear Low-Density PolyEthylene	0
-0	Mt	Oj	Q9	RZ	Slab (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
+1.0.0	Mt	Oj	Q9	RZ	Slab (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
 1.0.0	Mu	Ok	Qa	S0	Slab (Low Density PolyEthylene)	Block (Low Density PolyEthylene)	Low Density PolyEthylene	0
 1.0.0	Mv	Ol	Qb	S1	Slab (Medium Density PolyEthylene)	Block (Medium Density PolyEthylene)	Medium Density PolyEthylene	0
 0	Mw	Om	Qc	S2	Slab (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
-0	Mx	On	Qd	S3	Slab (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
+1.0.0	Mx	On	Qd	S3	Slab (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
 0	My	Oo	Qe	S4	Slab (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
 1.0.0	Mz	Op	Qf	S5	Slab (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
 1.0.0	MA	Oq	Qg	S6	Slab (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
 0	MB	Or	Qh	S7	Slab (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
-0	MC	Os	Qi	S8	Slab (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
+1.0.0	MC	Os	Qi	S8	Slab (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
 0	MD	Ot	Qj	S9	Slab (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
 0	ME	Ou	Qk	Sa	Slab (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
 0	MF	Ov	Ql	Sb	Slab (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
@@ -37,8 +37,8 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 1.0.0	MI	Oy	Qo	Se	Slab (PolyAcrylonitrile)	Block (PolyAcrylonitrile)	PolyAcrylonitrile	0
 1.0.0	MJ	Oz	Qp	Sf	Slab (PolyButadiene)	Block (PolyButadiene)	PolyButadiene	0
 0	MK	OA	Qq	Sg	Slab (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
-0	ML	OB	Qr	Sh	Slab (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
-0	MN	OD	Qt	Sj	Slab (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
+1.0.0	ML	OB	Qr	Sh	Slab (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
+1.0.0	MN	OD	Qt	Sj	Slab (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
 1.0.0	MO	OE	Qu	Sk	Slab (PolyCaprolactone)	Block (PolyCaprolactone)	PolyCaprolactone	0
 1.0.0	MP	OF	Qv	Sl	Slab (PolyCarbonate)	Block (PolyCarbonate)	PolyCarbonate	0
 0	MQ	OG	Qw	Sm	Slab (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
@@ -90,7 +90,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	NA	Pq	Rg	T6	Slab (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
 0	NB	Pr	Rh	T7	Slab (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
 0	NC	Ps	Ri	T8	Slab (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
-0	ND	Pt	Rj	T9	Slab (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
+1.0.0	ND	Pt	Rj	T9	Slab (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
 1.0.0	NE	Pu	Rk	Ta	Slab (PolyUrethane)	Block (PolyUrethane)	PolyUrethane	0
 1.0.0	NF	Pv	Rl	Tb	Slab (PolyVinyl Acetate)	Block (PolyVinyl Acetate)	PolyVinyl Acetate	0
 1.0.0	NG	Pw	Rm	Tc	Slab (PolyVinyl Alcohol)	Block (PolyVinyl Alcohol)	PolyVinyl Alcohol	0
@@ -111,4 +111,4 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 1.0.0	NV	PL	RB	Tr	Slab (Ultra-High-Molecular-Weight PolyEthylene)	Block (Ultra-High-Molecular-Weight PolyEthylene)	Ultra-High-Molecular-Weight PolyEthylene	0
 0	NW	PM	RC	Ts	Slab (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
 1.0.0	NX	PN	RD	Tt	Slab (Very-Low-Density PolyEthylene)	Block (Very-Low-Density PolyEthylene)	Very-Low-Density PolyEthylene	0
-0	NY	PO	RE	Tu	Slab (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0
+1.0.0	NY	PO	RE	Tu	Slab (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0

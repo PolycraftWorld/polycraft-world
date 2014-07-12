@@ -19,16 +19,16 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	Xs	Zi	Stairs (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
 0	Xt	Zj	Stairs (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Xu	Zk	Stairs (Linear Low-Density PolyEthylene)	Block (Linear Low-Density PolyEthylene)	Linear Low-Density PolyEthylene	0
-0	Xv	Zl	Stairs (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
+1.0.0	Xv	Zl	Stairs (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
 1.0.0	Xw	Zm	Stairs (Low Density PolyEthylene)	Block (Low Density PolyEthylene)	Low Density PolyEthylene	0
 1.0.0	Xx	Zn	Stairs (Medium Density PolyEthylene)	Block (Medium Density PolyEthylene)	Medium Density PolyEthylene	0
 0	Xy	Zo	Stairs (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
-0	Xz	Zp	Stairs (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
+1.0.0	Xz	Zp	Stairs (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
 0	XA	Zq	Stairs (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
 1.0.0	XB	Zr	Stairs (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
 1.0.0	XC	Zs	Stairs (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
 0	XD	Zt	Stairs (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
-0	XE	Zu	Stairs (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
+1.0.0	XE	Zu	Stairs (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
 0	XF	Zv	Stairs (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
 0	XG	Zw	Stairs (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
 0	XH	Zx	Stairs (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
@@ -37,8 +37,8 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.0.0	XK	ZA	Stairs (PolyAcrylonitrile)	Block (PolyAcrylonitrile)	PolyAcrylonitrile	0
 1.0.0	XL	ZB	Stairs (PolyButadiene)	Block (PolyButadiene)	PolyButadiene	0
 0	XM	ZC	Stairs (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
-0	XN	ZD	Stairs (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
-0	XP	ZF	Stairs (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
+1.0.0	XN	ZD	Stairs (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
+1.0.0	XP	ZF	Stairs (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
 1.0.0	XQ	ZG	Stairs (PolyCaprolactone)	Block (PolyCaprolactone)	PolyCaprolactone	0
 1.0.0	XR	ZH	Stairs (PolyCarbonate)	Block (PolyCarbonate)	PolyCarbonate	0
 0	XS	ZI	Stairs (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
@@ -90,7 +90,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	YC	10s	Stairs (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
 0	YD	10t	Stairs (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
 0	YE	10u	Stairs (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
-0	YF	10v	Stairs (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
+1.0.0	YF	10v	Stairs (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
 1.0.0	YG	10w	Stairs (PolyUrethane)	Block (PolyUrethane)	PolyUrethane	0
 1.0.0	YH	10x	Stairs (PolyVinyl Acetate)	Block (PolyVinyl Acetate)	PolyVinyl Acetate	0
 1.0.0	YI	10y	Stairs (PolyVinyl Alcohol)	Block (PolyVinyl Alcohol)	PolyVinyl Alcohol	0
@@ -111,4 +111,4 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.0.0	YX	10N	Stairs (Ultra-High-Molecular-Weight PolyEthylene)	Block (Ultra-High-Molecular-Weight PolyEthylene)	Ultra-High-Molecular-Weight PolyEthylene	0
 0	YY	10O	Stairs (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
 1.0.0	YZ	10P	Stairs (Very-Low-Density PolyEthylene)	Block (Very-Low-Density PolyEthylene)	Very-Low-Density PolyEthylene	0
-0	Z0	10Q	Stairs (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0
+1.0.0	Z0	10Q	Stairs (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0

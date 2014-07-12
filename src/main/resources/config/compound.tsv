@@ -228,21 +228,21 @@
 1.0.0	Phenolphthalein	C20H14O4	Liquid		—		Magic shops might carry it as a pinkish disappearing ink. Blue disappearing ink is not phenolphthalein but thymolphthalein. Difficult to find outside of chemical supply.
 1.0.0	Phosgene		Liquid				
 1.0.0	Phosphoric Acid	H3PO4	Liquid		pH Down		Some pH reducers (available at pet stores) used in fish tanks are simply dilute solutions (up to 30%) of phosphoric acid. Also available in gel form at hardware stores as a rust remover. Naval Jelly in a spray bottle at hardware stores. Also used as asolder flux.
-1.0.0	Potassium Aluminium Sulfate	KAl(SO4)2·12H2O	Liquid		Alum, aluminium potassium sulfate		It is used as an astringent to shrinkmucous membranes. Some styptic pencils use it in their formulation. Often sold as a deodorant stone at natural health stores. Also available as a mordant for clothing dyes (RIT brand and others).
-1.0.0	Potassium Bitartrate	KHC4H4O6	Liquid		Cream of Tartar		Cream of Tartar is available at the grocery store and is used to stabilize delicate foods like meringue toppings and other baked egg-white products.
-1.0.0	Potassium Bromide	KBr	Liquid		—		Photography store catering to the at-home darkroom crowd.
-1.0.0	Potassium Carbonate	K2CO3	Liquid		Potash		Available at some garden supply and agricultural stores.
-1.0.0	Potassium Chloride	KCl	Liquid		Salt substitute		Available as a salt substitute by people who must limit their sodium intake, and is available at most supermarkets. Also available in larger, though slightly less pure, quantities as a road salt de-icer.
-1.0.0	Potassium Chromium Sulfate	KCr(SO4)2·12H20	Liquid		potassium chrome alum		Photography store catering to the at-home darkroom crowd.
-1.0.0	Potassium Dichromate	K2Cr2O7	Liquid		—		Photography store catering to the at-home darkroom crowd. Also used as a mordant (Chrome Mordant) for textiles and may be available at a dyeing and fabric store.
-1.0.0	Potassium Hydroxide	KOH	Liquid		Caustic potash		Available at some ceramic supply houses and from arts and crafts stores for soap making. Difficult to find. May be the active ingredient in some drain cleaning solutions. Kodak SII Activator is 10% Potassium Hydroxide with various sulfites and bromides in the mixture. Veterinary supply houses may carry it for dissolving hair and horns in animals.
-1.0.0	Potassium Iodide	KI	Liquid		Radiation Pills		Available sometimes as a photographic development chemical. Also from outdoor/survivalist stores in pill form to avoid the uptake of radioactive iodine during a nuclear accident.
-1.0.0	Potassium Iron (II) Hexacyanoferrate(III)	KFe[Fe(CN)6]	Liquid		potassium iron ferricyanide, potassium ferroferricyanide		Mrs. Stewart's liquid laundry bluing is used to whiten clothes and may be found in the detergents section of the supermarket.
-1.0.0	Potassium Metabisulfite	K2S3O5	Liquid		Campden tablets		Used as a sterilizing agent in winemaking and brewing processes. Sold as tablets which may be pure, blended with sodium metabisulfite, or contain only sodium metabisulfite.
-1.0.0	Potassium Nitrate	KNO3	Liquid		Saltpeter, saltpetre		Supermarket; saltpeter or quick salt is used to cure home-made sausagesand corned beef. May be available at independent butcher shops.
-1.0.0	Potassium Permanganate	KMnO4	Liquid		Clearwater		Clearwater is a solution of approximately 50% potassium permanganate and is used to remove odors and cloudiness from water to be used in aquariums and garden ponds. Also used to treat diseases in fish. Used as ~98% pure powder for treatment of hard well water in water softeners. Potassium Permanganate in a dilute solution form can also be found in certain fish water additive sometimes labelled as Gill, Fungus, Parasite's Special, One sure way to test is to put some onto your skin and leave it there for a while, then see if there's a brownish coloration/stain. The color of the solution is colored as normal permanganate in solution.
-1.0.0	Potassium Phenoxide	KOC6H5	Liquid				
-1.0.0	Potassium Sodium Tartrate	NaKC4H4O6 * 4H2O	Liquid		Rochelle salt		Drug store
+1.0.0	Potassium Aluminium Sulfate	KAl(SO4)2·12H2O	Solid		Alum, aluminium potassium sulfate		It is used as an astringent to shrinkmucous membranes. Some styptic pencils use it in their formulation. Often sold as a deodorant stone at natural health stores. Also available as a mordant for clothing dyes (RIT brand and others).
+1.0.0	Potassium Bitartrate	KHC4H4O6	Solid		Cream of Tartar		Cream of Tartar is available at the grocery store and is used to stabilize delicate foods like meringue toppings and other baked egg-white products.
+1.0.0	Potassium Bromide	KBr	Solid		—		Photography store catering to the at-home darkroom crowd.
+1.0.0	Potassium Carbonate	K2CO3	Solid		Potash		Available at some garden supply and agricultural stores.
+1.0.0	Potassium Chloride	KCl	Solid		Salt substitute		Available as a salt substitute by people who must limit their sodium intake, and is available at most supermarkets. Also available in larger, though slightly less pure, quantities as a road salt de-icer.
+1.0.0	Potassium Chromium Sulfate	KCr(SO4)2·12H20	Solid		potassium chrome alum		Photography store catering to the at-home darkroom crowd.
+1.0.0	Potassium Dichromate	K2Cr2O7	Solid		—		Photography store catering to the at-home darkroom crowd. Also used as a mordant (Chrome Mordant) for textiles and may be available at a dyeing and fabric store.
+1.0.0	Potassium Hydroxide	KOH	Solid		Caustic potash		Available at some ceramic supply houses and from arts and crafts stores for soap making. Difficult to find. May be the active ingredient in some drain cleaning solutions. Kodak SII Activator is 10% Potassium Hydroxide with various sulfites and bromides in the mixture. Veterinary supply houses may carry it for dissolving hair and horns in animals.
+1.0.0	Potassium Iodide	KI	Solid		Radiation Pills		Available sometimes as a photographic development chemical. Also from outdoor/survivalist stores in pill form to avoid the uptake of radioactive iodine during a nuclear accident.
+1.0.0	Potassium Iron (II) Hexacyanoferrate(III)	KFe[Fe(CN)6]	Solid		potassium iron ferricyanide, potassium ferroferricyanide		Mrs. Stewart's liquid laundry bluing is used to whiten clothes and may be found in the detergents section of the supermarket.
+1.0.0	Potassium Metabisulfite	K2S3O5	Solid		Campden tablets		Used as a sterilizing agent in winemaking and brewing processes. Sold as tablets which may be pure, blended with sodium metabisulfite, or contain only sodium metabisulfite.
+1.0.0	Potassium Nitrate	KNO3	Solid		Saltpeter, saltpetre		Supermarket; saltpeter or quick salt is used to cure home-made sausagesand corned beef. May be available at independent butcher shops.
+1.0.0	Potassium Permanganate	KMnO4	Solid		Clearwater		Clearwater is a solution of approximately 50% potassium permanganate and is used to remove odors and cloudiness from water to be used in aquariums and garden ponds. Also used to treat diseases in fish. Used as ~98% pure powder for treatment of hard well water in water softeners. Potassium Permanganate in a dilute solution form can also be found in certain fish water additive sometimes labelled as Gill, Fungus, Parasite's Special, One sure way to test is to put some onto your skin and leave it there for a while, then see if there's a brownish coloration/stain. The color of the solution is colored as normal permanganate in solution.
+1.0.0	Potassium Phenoxide	KOC6H5	Solid				
+1.0.0	Potassium Sodium Tartrate	NaKC4H4O6 * 4H2O	Solid		Rochelle salt		Drug store
 1.0.0	Propane	C3H8	Gas		—		Gas barbecue fuel is generally made of propane and is available at many gasoline stations or picnic supply stores.
 1.0.0	Propanol		Liquid				
 1.0.0	Propylene	C3H6	Liquid		Propene		Precursor for made modern polymers
@@ -310,7 +310,6 @@
 1.0.0	Iron III Oxide	Fe2O3	Solid			Catalyst	
 1.0.0	Ziegler-Natta	Cp2Zr+−CH3	Solid			Catalyst	
 1.0.0	Cobalt-Manganese-Bromide	CoMnBr4	Solid			Catalyst	
-1.0.0	Potassium Hydroxide	KOH	Solid			Catalyst	
 1.0.0	Zeolite	Na2Al2Si3O10	Solid			Catalyst	
 1.0.0	Zinc II Chloride	ZnCl2	Solid			Catalyst	Lewis Acid
 1.0.0	Tungsten VI Chloride 	WCl6	Solid			Catalyst	Lewis Acid
@@ -335,3 +334,6 @@
 1.0.0	Wine		Liquid				
 1.0.0	Beer		Liquid				
 1.0.0	Antifreeze		Liquid				
+1.0.0	Chromia Alumina	Cr2O3-Al2O3	Solid			Catalyst	
+1.0.0	Acrylonitrile	C3H3N	Liquid				
+1.0.0	Acetonitrile	CH3CN	Liquid				

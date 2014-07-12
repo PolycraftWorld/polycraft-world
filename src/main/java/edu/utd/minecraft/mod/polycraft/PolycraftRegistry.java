@@ -70,6 +70,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.flowregulator.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -397,6 +398,8 @@ public class PolycraftRegistry {
 				SpotlightInventory.register(inventory);
 			else if (GameID.InventoryOilDerrick.matches(inventory))
 				OilDerrickInventory.register(inventory);
+			else if (GameID.InventoryCondenser.matches(inventory))
+				CondenserInventory.register(inventory);
 			else if (GameID.InventoryPlasticChest.matches(inventory))
 				PlasticChestInventory.register(inventory);
 			else if (GameID.InventoryFlowRegulator.matches(inventory))

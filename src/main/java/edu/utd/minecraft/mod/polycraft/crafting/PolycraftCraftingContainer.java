@@ -19,6 +19,8 @@ public abstract class PolycraftCraftingContainer extends Container {
 		for (final GuiContainerSlot slot : slots) {
 			addInventorySlot(inventory, slot);
 		}
+		
+		//TODO: I think this is where to override default Shift Click Behaviors
 	}
 
 	public PolycraftCraftingContainer(final IInventory inventory, final PolycraftContainerType containerType) {
@@ -27,6 +29,9 @@ public abstract class PolycraftCraftingContainer extends Container {
 				addInventorySlot(inventory, (GuiContainerSlot) slot);
 			}
 		}
+		
+		//TODO: I think this is where to override default Shift Click Behaviors
+		
 	}
 
 	public static class CraftingSlot extends Slot {

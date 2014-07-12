@@ -27,6 +27,7 @@ public enum GameID {
 	InternalOil("1D"),
 	InventoryIndustrialOven("3F"),
 	InventoryPlasticChest("3L"),
+	InventoryCondenser("20"),
 	InventoryFlowRegulator("5j");
 	
 

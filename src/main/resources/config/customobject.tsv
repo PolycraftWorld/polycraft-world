@@ -4,7 +4,7 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.0	3n	Flame Thrower	Weapon	7	TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
 1.0.0	3o	Flashlight	Utility		TRUE		1	MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
 1.0.0	3p	Jet Pack	Armor		TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect	5000	1	0.4	5					
-1.0.0	5a	Parachute					1	VelocityDescent	0.3								
+1.0.0	5a	Parachute			TRUE		1	VelocityDescent	0.3								
 1.0.0	3q	Laser	Tool		TRUE		1										
 1.0.0	3r	Phase Shifter	Tool	7	TRUE		1	Radius, Velocity, BoundaryBlock	3	0.6	1.0.0						
 1.0.0	3x	Scuba Tank	Armor		TRUE		1	AirUnitsFull, AirUnitsConsumePerTick	5000	1							
@@ -13,14 +13,15 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.0	3G	Barley	Food		TRUE												
 1.0.0	3H	Grapes	Food		TRUE												
 1.0.0	3I	Copper Pipe	PC Block		TRUE												
-1.0.0	3M	Regulator	PC Item														
+1.0.0	3M	Regulator	PC Item		TRUE												
 1.0.0	3P	Lighter	Utility	4	TRUE		1										
 1.0.0	3Q	Rubber Mesh X	PC Item		TRUE												
 1.0.0	3R	Rubber Mesh O	PC Item		TRUE												
 1.0.0	3S	Trampoline Mesh	PC Item		TRUE												
 1.0.0	3T	Trampoline	PC Block		TRUE												
 1.0.0	3X	Gas Mantle	PC Item	4	TRUE												
-1.0.0	5b	Kevlar Vest					1	armorBuffOverDiamond	1.5								
+1.0.0	5b	Kevlar Vest			TRUE		1	armorBuffOverDiamond	1.5								
 1.0.0	5d	Heat Exchanger	PC Item		TRUE												
 1.0.0	5e	Heat Fins	PC Item		TRUE												
-1.0.0	5r	Flashlight Shaft	Utility	4	TRUE																							
+1.0.0	5r	Flashlight Shaft	Utility	4	TRUE												
+1.0.0	21	Metalized PET film	PC Item	8	TRUE												

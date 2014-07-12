@@ -51,15 +51,15 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	3	1	10	4	Drum (Light Parrafins)	4	Canister (Methane)	3	Cartridge (Ethane)	32	Cartridge (Propane)	4	Cartridge (Butane Isomers)	4										
 1.0.0	3	1	10	4	Drum (Light Parrafins)	16	Canister (Methane)	12	Canister (Ethane)	2	Cartridge (Propane)	16	Cartridge (Butane Isomers)	16										
 1.0.0	4	1	10	4	Drum (Light Parrafins)	64	Canister (Methane)	52	Canister (Ethane)	4	Canister (Propane)	2	Canister (Butane Isomers)	1	Vial (Pentane Isomers)	10	Vial (Hexane Isomers)	1						
-1.0.0	1	1	10	4	Flask (Butane Isomers)	4	Vial (N-Ethylidenecyclohexylamine)	2	Vial (IsoButane)	1														
-1.0.0	1	1	10	4	Flask (Butane Isomers)	16	Vial (N-Ethylidenecyclohexylamine)	10	Vial (IsoButane)	5														
-1.0.0	2	1	10	4	Cartridge (Butane Isomers)	1	Vial (N-Ethylidenecyclohexylamine)	42	Vial (IsoButane)	21														
-1.0.0	2	1	10	4	Cartridge (Butane Isomers)	4	Beaker (N-Ethylidenecyclohexylamine)	2	Beaker (IsoButane)	1														
-1.0.0	2	1	10	4	Cartridge (Butane Isomers)	16	Beaker (N-Ethylidenecyclohexylamine)	10	Beaker (IsoButane)	5														
-1.0.0	3	1	10	4	Canister (Butane Isomers)	1	Beaker (N-Ethylidenecyclohexylamine)	42	Beaker (IsoButane)	21														
-1.0.0	3	1	10	4	Canister (Butane Isomers)	4	Drum (N-Ethylidenecyclohexylamine)	2	Drum (IsoButane)	1														
-1.0.0	3	1	10	4	Canister (Butane Isomers)	16	Drum (N-Ethylidenecyclohexylamine)	10	Drum (IsoButane)	5														
-1.0.0	4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Ethylidenecyclohexylamine)	42	Drum (IsoButane)	21														
+1.0.0	1	1	10	4	Flask (Butane Isomers)	4	Vial (N-Butane)	2	Vial (IsoButane)	1														
+1.0.0	1	1	10	4	Flask (Butane Isomers)	16	Vial (N-Butane)	10	Vial (IsoButane)	5														
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	1	Vial (N-Butane)	42	Vial (IsoButane)	21														
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	4	Beaker (N-Butane)	2	Beaker (IsoButane)	1														
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	16	Beaker (N-Butane)	10	Beaker (IsoButane)	5														
+1.0.0	3	1	10	4	Canister (Butane Isomers)	1	Beaker (N-Butane)	42	Beaker (IsoButane)	21														
+1.0.0	3	1	10	4	Canister (Butane Isomers)	4	Drum (N-Butane)	2	Drum (IsoButane)	1														
+1.0.0	3	1	10	4	Canister (Butane Isomers)	16	Drum (N-Butane)	10	Drum (IsoButane)	5														
+1.0.0	4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Butane)	42	Drum (IsoButane)	21														
 1.0.0	1	1	10	4	Vial (Pentane Isomers)	4	Vial (Naphtha)	1	Vial (IsoPentane)	2														
 1.0.0	1	1	10	4	Vial (Pentane Isomers)	16	Vial (Naphtha)	6	Vial (IsoPentane)	10														
 1.0.0	2	1	10	4	Beaker (Pentane Isomers)	1	Vial (Naphtha)	23	Vial (IsoPentane)	40	Flask (Nitrogen)	1												
@@ -111,3 +111,14 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Drum (Light Olefins)	8	Drum (Propylene)	4	Canister (Ethylene)	4														
 1.0.0	2	1	10	4	Drum (Light Olefins)	32	Drum (Propylene)	16	Canister (Ethylene)	16														
 1.0.0	2	1	10	4	Drum (Light Olefins)	64	Drum (Propylene)	32	Canister (Ethylene)	32														
+1.0.0	2	1	10	4	Drum (Light Olefins)	1	Drum (Propylene)	1	Canister (Ethylene)	1														
+1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	1	Vial (Benzene)	1	Vial (Toluene)	1	Vial (Xylene)	1												
+1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Benzene)	4	Vial (Toluene)	4	Vial (Xylene)	4												
+1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	16	Vial (Benzene)	16	Vial (Toluene)	16	Vial (Xylene)	16												
+1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Benzene)	1	Beaker (Toluene)	1	Beaker (Xylene)	1												
+1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Benzene)	4	Beaker (Toluene)	4	Beaker (Xylene)	4												
+1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	16	Beaker (Benzene)	16	Beaker (Toluene)	16	Beaker (Xylene)	16												
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	1	Drum (Benzene)	1	Drum (Toluene)	1	Drum (Xylene)	1												
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	4	Drum (Benzene)	4	Drum (Toluene)	4	Drum (Xylene)	4												
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	16	Drum (Benzene)	16	Drum (Toluene)	16	Drum (Xylene)	16												
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	64	Drum (Benzene)	64	Drum (Toluene)	64	Drum (Xylene)	64												

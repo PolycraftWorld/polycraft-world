@@ -19,16 +19,16 @@ Version	Game ID	Fibers	Source	Version
 0	GU	Fibers (Isobutylene-Isoprene Rubber)	Sack (Isobutylene-Isoprene Rubber Pellets)	Isobutylene-Isoprene Rubber
 0	GV	Fibers (Lignin)	Sack (Lignin Pellets)	Lignin
 1.0.0	GW	Fibers (Linear Low-Density PolyEthylene)	Sack (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene
-0	GX	Fibers (Liquid Crystal Polymer)	Sack (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer
+1.0.0	GX	Fibers (Liquid Crystal Polymer)	Sack (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer
 1.0.0	GY	Fibers (Low Density PolyEthylene)	Sack (Low Density PolyEthylene Pellets)	Low Density PolyEthylene
 1.0.0	GZ	Fibers (Medium Density PolyEthylene)	Sack (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene
 0	H0	Fibers (Melamine-Formaldehyde Polymers)	Sack (Melamine-Formaldehyde Polymers Pellets)	Melamine-Formaldehyde Polymers
-0	H1	Fibers (Metaldehyde)	Sack (Metaldehyde Pellets)	Metaldehyde
+1.0.0	H1	Fibers (Metaldehyde)	Sack (Metaldehyde Pellets)	Metaldehyde
 0	H2	Fibers (Nitrile-Butadiene Rubber)	Sack (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber
 1.0.0	H3	Fibers (Paraformaldehyde)	Sack (Paraformaldehyde Pellets)	Paraformaldehyde
 1.0.0	H4	Fibers (Paraledhyde)	Sack (Paraledhyde Pellets)	Paraledhyde
 0	H5	Fibers (Phenolic Resin)	Sack (Phenolic Resin Pellets)	Phenolic Resin
-0	H6	Fibers (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)
+1.0.0	H6	Fibers (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)
 0	H7	Fibers (Poly1-Butene)	Sack (Poly1-Butene Pellets)	Poly1-Butene
 0	H8	Fibers (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Poly2,6-Dimethyl-1,4-Phenylene Ether
 0	H9	Fibers (Poly-2-Hydroxy Butyrate)	Sack (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate
@@ -37,8 +37,8 @@ Version	Game ID	Fibers	Source	Version
 1.0.0	Hc	Fibers (PolyAcrylonitrile)	Sack (PolyAcrylonitrile Pellets)	PolyAcrylonitrile
 1.0.0	Hd	Fibers (PolyButadiene)	Sack (PolyButadiene Pellets)	PolyButadiene
 0	He	Fibers (PolyButadiene Rubber)	Sack (PolyButadiene Rubber Pellets)	PolyButadiene Rubber
-0	Hf	Fibers (PolyButylene Succinate)	Sack (PolyButylene Succinate Pellets)	PolyButylene Succinate
-0	Hh	Fibers (PolyButylene Terephthalate)	Sack (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate
+1.0.0	Hf	Fibers (PolyButylene Succinate)	Sack (PolyButylene Succinate Pellets)	PolyButylene Succinate
+1.0.0	Hh	Fibers (PolyButylene Terephthalate)	Sack (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate
 1.0.0	Hi	Fibers (PolyCaprolactone)	Sack (PolyCaprolactone Pellets)	PolyCaprolactone
 1.0.0	Hj	Fibers (PolyCarbonate)	Sack (PolyCarbonate Pellets)	PolyCarbonate
 0	Hk	Fibers (PolyChloroPrene)	Sack (PolyChloroPrene Pellets)	PolyChloroPrene
@@ -90,7 +90,7 @@ Version	Game ID	Fibers	Source	Version
 0	I4	Fibers (PolyTetramethylene Ether Glycol)	Sack (PolyTetramethylene Ether Glycol Pellets)	PolyTetramethylene Ether Glycol
 0	I5	Fibers (PolyTetramethylene Glycol)	Sack (PolyTetramethylene Glycol Pellets)	PolyTetramethylene Glycol
 0	I6	Fibers (PolyThiazyl)	Sack (PolyThiazyl Pellets)	PolyThiazyl
-0	I7	Fibers (PolyTrimethylene Terephthalate)	Sack (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate
+1.0.0	I7	Fibers (PolyTrimethylene Terephthalate)	Sack (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate
 1.0.0	I8	Fibers (PolyUrethane)	Sack (PolyUrethane Pellets)	PolyUrethane
 1.0.0	I9	Fibers (PolyVinyl Acetate)	Sack (PolyVinyl Acetate Pellets)	PolyVinyl Acetate
 1.0.0	Ia	Fibers (PolyVinyl Alcohol)	Sack (PolyVinyl Alcohol Pellets)	PolyVinyl Alcohol
@@ -111,4 +111,4 @@ Version	Game ID	Fibers	Source	Version
 1.0.0	Ip	Fibers (Ultra-High-Molecular-Weight PolyEthylene)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Ultra-High-Molecular-Weight PolyEthylene
 0	Iq	Fibers (Urea-Formaldehyde Polymers)	Sack (Urea-Formaldehyde Polymers Pellets)	Urea-Formaldehyde Polymers
 1.0.0	Ir	Fibers (Very-Low-Density PolyEthylene)	Sack (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene
-0	Is	Fibers (Vinyl Acetate-Acrylic Acid)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid
+1.0.0	Is	Fibers (Vinyl Acetate-Acrylic Acid)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid

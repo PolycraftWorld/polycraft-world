@@ -3,7 +3,7 @@ Version	Game ID	Catalyst	Source Type	Source Name
 1.0.0	19	Titanium Catalyst	Element	Titanium
 1.0.0	1a	Palladium Catalyst	Element	Palladium
 1.0.0	1b	Cobalt Catalyst	Element	Cobalt
-	1c	Manganese Catalyst	Element	Manganese
+1.0.0	1c	Manganese Catalyst	Element	Manganese
 1.0.0	1d	Silver Catalyst	Element	Silver
 1.0.0	1e	Mercury Catalyst	Element	Mercury
 	1f	Rhodium Catalyst	Element	Rhodium
@@ -13,7 +13,6 @@ Version	Game ID	Catalyst	Source Type	Source Name
 1.0.0	1j	Iron III Oxide Catalyst	Compound	Iron III Oxide
 1.0.0	1k	Ziegler-Natta Catalyst	Compound	Ziegler-Natta
 	1l	Cobalt-Manganese-Bromide Catalyst	Compound	Cobalt-Manganese-Bromide
-	1m	Potassium Hydroxide Catalyst	Compound	Potassium Hydroxide
 1.0.0	1n	Zeolite Catalyst	Compound	Zeolite
 	1o	Zinc II Chloride Catalyst	Compound	Zinc II Chloride
 	1p	Tungsten VI Chloride  Catalyst	Compound	Tungsten VI Chloride 
@@ -28,3 +27,4 @@ Version	Game ID	Catalyst	Source Type	Source Name
 	1y	Sodium Hydroxide Catalyst	Compound	Sodium Hydroxide
 1.0.0	1z	Triethylaluminium Catalyst	Compound	Triethylaluminium
 	10R	Methyl Ethyl Ketone Peroxide Catalyst	Compound	Methyl Ethyl Ketone Peroxide
+1.0.0	59	Chromia Alumina Catalyst	Compound	Chromia Alumina

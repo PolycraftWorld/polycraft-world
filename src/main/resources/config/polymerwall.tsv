@@ -19,16 +19,16 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	TM	VC	Wall (Isobutylene-Isoprene Rubber)	Block (Isobutylene-Isoprene Rubber)	Isobutylene-Isoprene Rubber	0
 0	TN	VD	Wall (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	TO	VE	Wall (Linear Low-Density PolyEthylene)	Block (Linear Low-Density PolyEthylene)	Linear Low-Density PolyEthylene	0
-0	TP	VF	Wall (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
+1.0.0	TP	VF	Wall (Liquid Crystal Polymer)	Block (Liquid Crystal Polymer)	Liquid Crystal Polymer	0
 1.0.0	TQ	VG	Wall (Low Density PolyEthylene)	Block (Low Density PolyEthylene)	Low Density PolyEthylene	0
 1.0.0	TR	VH	Wall (Medium Density PolyEthylene)	Block (Medium Density PolyEthylene)	Medium Density PolyEthylene	0
 0	TS	VI	Wall (Melamine-Formaldehyde Polymers)	Block (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	0
-0	TT	VJ	Wall (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
+1.0.0	TT	VJ	Wall (Metaldehyde)	Block (Metaldehyde)	Metaldehyde	0
 0	TU	VK	Wall (Nitrile-Butadiene Rubber)	Block (Nitrile-Butadiene Rubber)	Nitrile-Butadiene Rubber	0
 1.0.0	TV	VL	Wall (Paraformaldehyde)	Block (Paraformaldehyde)	Paraformaldehyde	0
 1.0.0	TW	VM	Wall (Paraledhyde)	Block (Paraledhyde)	Paraledhyde	0
 0	TX	VN	Wall (Phenolic Resin)	Block (Phenolic Resin)	Phenolic Resin	0
-0	TY	VO	Wall (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
+1.0.0	TY	VO	Wall (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Block (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	0
 0	TZ	VP	Wall (Poly1-Butene)	Block (Poly1-Butene)	Poly1-Butene	0
 0	U0	VQ	Wall (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Block (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Poly2,6-Dimethyl-1,4-Phenylene Ether	0
 0	U1	VR	Wall (Poly-2-Hydroxy Butyrate)	Block (Poly-2-Hydroxy Butyrate)	Poly-2-Hydroxy Butyrate	0
@@ -37,8 +37,8 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	U4	VU	Wall (PolyAcrylonitrile)	Block (PolyAcrylonitrile)	PolyAcrylonitrile	0
 1.0.0	U5	VV	Wall (PolyButadiene)	Block (PolyButadiene)	PolyButadiene	0
 0	U6	VW	Wall (PolyButadiene Rubber)	Block (PolyButadiene Rubber)	PolyButadiene Rubber	0
-0	U7	VX	Wall (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
-0	U9	VZ	Wall (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
+1.0.0	U7	VX	Wall (PolyButylene Succinate)	Block (PolyButylene Succinate)	PolyButylene Succinate	0
+1.0.0	U9	VZ	Wall (PolyButylene Terephthalate)	Block (PolyButylene Terephthalate)	PolyButylene Terephthalate	0
 1.0.0	Ua	W0	Wall (PolyCaprolactone)	Block (PolyCaprolactone)	PolyCaprolactone	0
 1.0.0	Ub	W1	Wall (PolyCarbonate)	Block (PolyCarbonate)	PolyCarbonate	0
 0	Uc	W2	Wall (PolyChloroPrene)	Block (PolyChloroPrene)	PolyChloroPrene	0
@@ -90,7 +90,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	UW	WM	Wall (PolyTetramethylene Ether Glycol)	Block (PolyTetramethylene Ether Glycol)	PolyTetramethylene Ether Glycol	0
 0	UX	WN	Wall (PolyTetramethylene Glycol)	Block (PolyTetramethylene Glycol)	PolyTetramethylene Glycol	0
 0	UY	WO	Wall (PolyThiazyl)	Block (PolyThiazyl)	PolyThiazyl	0
-0	UZ	WP	Wall (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
+1.0.0	UZ	WP	Wall (PolyTrimethylene Terephthalate)	Block (PolyTrimethylene Terephthalate)	PolyTrimethylene Terephthalate	0
 1.0.0	V0	WQ	Wall (PolyUrethane)	Block (PolyUrethane)	PolyUrethane	0
 1.0.0	V1	WR	Wall (PolyVinyl Acetate)	Block (PolyVinyl Acetate)	PolyVinyl Acetate	0
 1.0.0	V2	WS	Wall (PolyVinyl Alcohol)	Block (PolyVinyl Alcohol)	PolyVinyl Alcohol	0
@@ -111,4 +111,4 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	Vh	X7	Wall (Ultra-High-Molecular-Weight PolyEthylene)	Block (Ultra-High-Molecular-Weight PolyEthylene)	Ultra-High-Molecular-Weight PolyEthylene	0
 0	Vi	X8	Wall (Urea-Formaldehyde Polymers)	Block (Urea-Formaldehyde Polymers)	Urea-Formaldehyde Polymers	0
 1.0.0	Vj	X9	Wall (Very-Low-Density PolyEthylene)	Block (Very-Low-Density PolyEthylene)	Very-Low-Density PolyEthylene	0
-0	Vk	Xa	Wall (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0
+1.0.0	Vk	Xa	Wall (Vinyl Acetate-Acrylic Acid)	Block (Vinyl Acetate-Acrylic Acid)	Vinyl Acetate-Acrylic Acid	0

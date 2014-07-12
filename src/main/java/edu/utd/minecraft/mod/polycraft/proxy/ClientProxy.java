@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.block.BlockBed;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
@@ -230,7 +231,14 @@ public class ClientProxy extends CommonProxy {
 					// if we are supposed to return momentum while not actively jumping (or sneaking)
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
-				}			
+				}		
+				else if (getBlockUnderEntity(player) instanceof BlockBed)				
+				{
+					final BlockBed bouncyBed = (BlockBed) getBlockUnderEntity(player);
+					// if we are actively jumping
+					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
+						playerState.bouncyBlockBounceHeight = 3; //hard coded bed value spring height
+				}
 				
 				
 			}

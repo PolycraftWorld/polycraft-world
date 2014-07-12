@@ -214,6 +214,17 @@ public class RecipeGenerator {
 							'x', brickItem.source.getItemStack(brickItem.craftingPellets),
 							'y', brickItem.brickMold.getItemStack()));
 		
+		for (final PolymerBrick brickItem : PolymerBrick.registry.values()) {
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(brickItem.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', brickItem.getItemStack(),
+							'y', new ItemStack(Items.dye)), 0);
+		}
+		
 		
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())

@@ -1,22 +1,24 @@
 Version	Game ID	Ore	Source Type	Source Name	hardness	resistance	dropExpMin	dropExpMax	veinsPerChunk	blocksPerVein	depthMin	depthMax	Red	Green	Blue	hex code	Uses
-1.0.0	0	Magnesium Ore	Element	Magnesium	3	5	2	5	10	10	0	30	168	199	168	A8C7A8	Sold in solid blocks as a fire starter in many camping and outdoor stores. Also used in the construction of metal bodied pencil sharpeners made by the company KUM of Germany.
-1.0.0	1	Titanium Ore	Element	Titanium	3	5	1	4	10	10	0	30	185	213	217	B9D5D9	
-1.0.0	2	Manganese Ore	Element	Manganese	3	5	2	5	10	10	0	30	170	170	170	AAAAAA	
-1.0.0	3	Cobalt Ore	Element	Cobalt	3	5	2	5	10	10	0	30	110	110	110	6E6E6E	
-1.0.0	4	Nickel Ore	Element	Nickel	3	5	2	5	10	10	10	30					Pre-1985 Canadian nickels are made of nickel. Note: American nickels are composed of 25% nickel and 75% copper. Nickel is often used as a welding filler material, and 1/16–1/8 Ni wire is often available at welding supply stores. Silver center of Euro coins is pure Nickel.
-1.0.0	5	Copper Ore	Element	Copper	3	5	3	7	10	10	0	30	200	100	20	C86414	Electrical wire, copper pipe, and copper sheeting are available at hardware stores and are almost 100% pure copper. American pennies (minted 1944–1946, 1962–1982) are 95% copper and 5% zinc. Pennies minted after 1982 are only copper clad.
-1.0.0	6	Zinc Ore	Element	Zinc	3	5	2	5	10	10	10	30					Recent American pennies are 95% zinc with a 5% copper coating Cent (United States coin). Galvanized coating on steel. Inside of carbon-zinc batteries. Found in some hardware stores as moss strip for rooftop. The case of carbon-zinc batteries is zinc. Galvanizing paint contains powdered Zinc in paint, separate with paint thinner.
-1.0.0	7	Palladium Ore	Element	Palladium	3	5	1	4	10	10	0	30	165	184	225	A5B8E1	
-1.0.0	8	Silver Ore	Element	Silver	3	5	2	5	10	10	10	30					Older non-clad American dimes, quarters, half dollars and silver dollars are 90% silver and 10% copper. Pure silver coins and bullion can be obtained from local coin shops, often at bullion value.
-1.0.0	9	Antimony Ore	Element	Antimony	3	5	2	5	10	10	0	30	180	200	210	B4C8D2	
-1.0.0	a	Tungsten Ore	Element	Tungsten	3	5	2	5	10	10	10	30					The filament in incandescent light bulbs is made of tungsten. Also, small tungsten rods are available at welding supply stores. They are sold as TIG electrodes, and they commonly come in 1/16, 3/32, and 1/8 diameters. Request pure tungsten, as they also come alloyed with 2% Thorium,Lanthanum and other elements. Lead free fishing sinkers are sometimes tungsten.
-1.0.0	b	Platinum Ore	Element	Platinum	3	5	1	4	10	10	0	30	215	220	220	D7DCDC	
-1.0.0	c	Lead Ore	Element	Lead	3	5	2	5	10	10	10	30					
-1.0.0	d	Bismuth Ore	Element	Bismuth	3	5	2	5	10	10	10	30					Available as a non-toxic lead replacement for bullets, shot, and fishing sinkers. Unfortunately, not as inexpensive as lead. Also, when sold as a lead replacement it is generally alloyed with tin. Note that to make bismuth crystals you will need very pure bismuth metal.
-1.0.0	e	Bauxite	Mineral	Bauxite	3	5	2	5	10	10	10	30					
-1.0.0	f	Tar Sand	Mineral	Tar Sand	3	5	2	5	10	20	0	30					
-1.0.0	g	Shale	Mineral	Shale	3	5	2	5	10	20	0	30					
-1.0.0	h	Graphite	Mineral	Graphite	3	5	2	5	10	10	10	30					
-1.0.0	i	Chromite	Mineral	Chromite	3	5	2	5	10	10	10	30	215	190	200	D7BEC8	
+1.0.0	0	Magnesium Ore	Element	Magnesium	3	5	2	5	2	2	30	50	168	199	168	A8C7A8	Sold in solid blocks as a fire starter in many camping and outdoor stores. Also used in the construction of metal bodied pencil sharpeners made by the company KUM of Germany.
+1.0.0	1	Titanium Ore	Element	Titanium	3	5	1	4	1	2	0	10	185	213	217	B9D5D9	
+1.0.0	2	Manganese Ore	Element	Manganese	3	5	2	5	5	2	40	80	170	170	170	AAAAAA	
+1.0.0	3	Cobalt Ore	Element	Cobalt	3	5	2	5	3	5	40	80	110	110	110	6E6E6E	
+1.0.0	4	Nickel Ore	Element	Nickel	3	5	2	5	5	6	30	50					Pre-1985 Canadian nickels are made of nickel. Note: American nickels are composed of 25% nickel and 75% copper. Nickel is often used as a welding filler material, and 1/16–1/8 Ni wire is often available at welding supply stores. Silver center of Euro coins is pure Nickel.
+1.0.0	5	Copper Ore	Element	Copper	3	5	3	7	5	15	20	40	200	100	20	C86414	Electrical wire, copper pipe, and copper sheeting are available at hardware stores and are almost 100% pure copper. American pennies (minted 1944–1946, 1962–1982) are 95% copper and 5% zinc. Pennies minted after 1982 are only copper clad.
+1.0.0	6	Zinc Ore	Element	Zinc	3	5	2	5	3	4	30	50					Recent American pennies are 95% zinc with a 5% copper coating Cent (United States coin). Galvanized coating on steel. Inside of carbon-zinc batteries. Found in some hardware stores as moss strip for rooftop. The case of carbon-zinc batteries is zinc. Galvanizing paint contains powdered Zinc in paint, separate with paint thinner.
+1.0.0	7	Palladium Ore	Element	Palladium	3	5	1	4	1	1	0	20	165	184	225	A5B8E1	
+1.0.0	8	Silver Ore	Element	Silver	3	5	2	5	2	2	10	30					Older non-clad American dimes, quarters, half dollars and silver dollars are 90% silver and 10% copper. Pure silver coins and bullion can be obtained from local coin shops, often at bullion value.
+1.0.0	9	Antimony Ore	Element	Antimony	3	5	2	5	5	4	20	50	180	200	210	B4C8D2	
+1.0.0	a	Tungsten Ore	Element	Tungsten	3	5	2	5	5	7	10	50					The filament in incandescent light bulbs is made of tungsten. Also, small tungsten rods are available at welding supply stores. They are sold as TIG electrodes, and they commonly come in 1/16, 3/32, and 1/8 diameters. Request pure tungsten, as they also come alloyed with 2% Thorium,Lanthanum and other elements. Lead free fishing sinkers are sometimes tungsten.
+1.0.0	b	Platinum Ore	Element	Platinum	3	5	1	4	1	1	0	20	215	220	220	D7DCDC	
+	c	Lead Ore	Element	Lead	3	5	2	5	5	6	0	60					
+1.0.0	d	Bismuth Ore	Element	Bismuth	3	5	2	5	2	2	20	60					Available as a non-toxic lead replacement for bullets, shot, and fishing sinkers. Unfortunately, not as inexpensive as lead. Also, when sold as a lead replacement it is generally alloyed with tin. Note that to make bismuth crystals you will need very pure bismuth metal.
+1.0.0	e	Bauxite	Mineral	Bauxite	3	5	2	5	7	11	0	80					
+1.0.0	f	Tar Sand	Mineral	Tar Sand	3	5	2	5	1	35	40	60					
+1.0.0	g	Shale	Mineral	Shale	3	5	2	5	2	20	20	40					
+1.0.0	h	Graphite	Mineral	Graphite	3	5	2	5	1	10	40	80					
+1.0.0	i	Chromite	Mineral	Chromite	3	5	2	5	1	10	40	80	215	190	200	D7BEC8	
 1.0.0	j	Bitumen	Mineral	Bitumen	3	5	2	5	0	0	0	0					
-1.0.0	5s	OilField	Mineral	OilField	-1	10000	0	0	30	1	1	5					
+1.0.0	5s	OilField	Mineral	OilField	-1	18000000	0	0	1	1	5	5					
+1.0.0	1B	Potash Ore	Mineral	Potash	3	5	0	0	1	5	40	60					
+1.0.0	1C	Tin Ore	Element	Tin	3	5	2	5	2	5	0	60					
