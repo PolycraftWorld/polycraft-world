@@ -1,0 +1,4 @@
+Upload /wiki/wiki.png to /skins/common/images
+Create http://www.polycraftworld.com/wiki/MediaWiki:Vector.css from /wiki/styles/Vector.css
+Create http://www.polycraftworld.com/wiki/Template:Inventory from /wiki/templates/Inventory.txt
+Create http://www.polycraftworld.com/wiki/Template:Inventory/Slot from /wiki/templates/InventorySlot.txt
