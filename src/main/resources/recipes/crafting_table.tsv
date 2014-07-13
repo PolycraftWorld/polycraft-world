@@ -12,7 +12,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	3	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1		
 1.0.0	TRUE	FALSE	3	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1		
 1.0.0	TRUE	FALSE	3	Regulator	1	Copper Pipe	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Redstone	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Copper Pipe	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Iron Block	1	Redstone Block	1	Iron Block	1	Iron Block	1	Furnace	1	Iron Block	1
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Iron Block	1	Furnace	1	Iron Block	1
 1.0.0	TRUE	FALSE	3	Rubber Mesh X	1	Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1
 1.0.0	TRUE	FALSE	3	Rubber Mesh O	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1		
 1.0.0	TRUE	TRUE	4	Lighter	1	Vial (Light Naphtha)	1	Flint And Steel	1														
@@ -46,8 +46,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Iron Block	1	Furnace	1	Iron Block	1
 1.0.0	TRUE	TRUE	2	Brass Ingot	1	Zinc Ingot	1	Copper Ingot	1														
 1.0.0	TRUE	TRUE	2	Block of Brass	1	Block of Zinc	1	Block of Copper	1														
-1.0.0	TRUE	TRUE	2	Bronze Ingot	9	Tin Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1
-1.0.0	TRUE	TRUE	2	Block of Bronze	9	Block of Tin	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1
+1.0.0	TRUE	FALSE	2	Bronze Ingot	9	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Tin Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1
+1.0.0	TRUE	FALSE	2	Block of Bronze	9	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Tin	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Tungsten	1					Tungsten Ingot	1					Tungsten Ingot	1		
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Titanium	1					Titanium Ingot	1					Titanium Ingot	1		
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Nickel	1					Nickel Ingot	1					Nickel Ingot	1		
@@ -64,38 +64,20 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Brass	1	Furnace	1	Block of Brass	1
 1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Furnace	1	Block of Brass	1
 1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Metal Screw	1	Block of Brass	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Block of Bronze	1	Redstone Block	1	Block of Bronze	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Block of Brass	1	Redstone Block	1	Block of Brass	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Block of Nickel	1	Redstone Block	1	Block of Nickel	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Brass	1	Furnace	1	Block of Brass	1
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Bronze	1	Redstone Block	1	Block of Bronze	1	Industrial Oven	1			Industrial Oven	1
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Brass	1	Redstone Block	1	Block of Brass	1	Industrial Oven	1			Industrial Oven	1
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Industrial Oven	1			Industrial Oven	1
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Nickel	1	Redstone Block	1	Block of Nickel	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Bronze	1	Block of Bronze	1	Block of Bronze	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Bronze	1	Block of Bronze	1	Block of Bronze	1	Flask (Propane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Bronze	1	Block of Bronze	1	Block of Bronze	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Bronze	1	Block of Bronze	1	Block of Bronze	1	Flask (Ethane)	1	Flask (Propane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Bronze	1	Block of Bronze	1	Block of Bronze	1	Flask (Methane)	1	Flask (Propane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Bronze	1	Block of Bronze	1	Block of Bronze	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Brass	1	Block of Brass	1	Block of Brass	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Brass	1	Block of Brass	1	Block of Brass	1	Flask (Propane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Brass	1	Block of Brass	1	Block of Brass	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Brass	1	Block of Brass	1	Block of Brass	1	Flask (Ethane)	1	Flask (Propane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Brass	1	Block of Brass	1	Block of Brass	1	Flask (Methane)	1	Flask (Propane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Brass	1	Block of Brass	1	Block of Brass	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Tungsten	1	Block of Tungsten	1	Block of Tungsten	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Tungsten	1	Block of Tungsten	1	Block of Tungsten	1	Flask (Propane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Tungsten	1	Block of Tungsten	1	Block of Tungsten	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Tungsten	1	Block of Tungsten	1	Block of Tungsten	1	Flask (Ethane)	1	Flask (Propane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Tungsten	1	Block of Tungsten	1	Block of Tungsten	1	Flask (Methane)	1	Flask (Propane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Tungsten	1	Block of Tungsten	1	Block of Tungsten	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1	Flask (Propane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1	Flask (Ethane)	1	Flask (Propane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1	Flask (Methane)	1	Flask (Propane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	TRUE	4	Industrial Oven	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	TRUE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	TRUE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Propane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	TRUE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	TRUE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Propane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	TRUE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Propane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	TRUE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Canister (Sweet Butane Fuel)	1	Redstone Block	1	Canister (Sweet Propane Fuel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Canister (Sweet Propane Fuel)	1	Redstone Block	1	Canister (Sweet Butane Fuel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Canister (Sweet Butane Fuel)	1	Redstone Block	1	Canister (Sweet Propane Fuel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1

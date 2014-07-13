@@ -1,5 +1,5 @@
 Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Inventory	Icon Down	Icon Up	Icon North	Icon South	Icon West	Icon East	Icon Default	Icon Front	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
-1.0.0	3h	1F	Tree Tap	0	2000										PolymerToSpawn, AmountToSpawn, DefaultSpawnFreq (sec), JungleSpawnFreq (sec) 	Bag (PolyLactic Acid Pellets)	1	120	60					
+1.0.0	3h	1F	Tree Tap	0	2000										PolymerToSpawn, AmountToSpawn, DefaultSpawnFreq (sec), JungleSpawnFreq (sec) 	Bag (PolyIsoPrene Pellets)	1	120	60					
 1.0.0	3i	1G	Machining Mill	1	2001	front		top					side	front										
 1.0.0	3j	1E	Extruder	2	2002	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					
 1.0.0	3k	1H	Injection Molder	3	2003	front		top					side	front	DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs	8	1	10	1					

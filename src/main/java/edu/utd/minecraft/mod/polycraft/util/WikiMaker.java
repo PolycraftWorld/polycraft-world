@@ -28,10 +28,12 @@ import com.google.common.collect.Sets;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
+import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -90,9 +92,9 @@ public class WikiMaker {
 	private static final String IMAGE_EXTENSION = "png";
 	private static final String MINECRAFT_TEXTURES_DIRECTORY = "build/tmp/recompSrc/assets/minecraft/textures";
 	private static final String[] MINECRAFT_TEXTURES_DIRECTORIES = new String[] {
-			MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
-			MINECRAFT_TEXTURES_DIRECTORY + "/items",
-			MINECRAFT_TEXTURES_DIRECTORY + "/armor",
+			//MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
+			//MINECRAFT_TEXTURES_DIRECTORY + "/items",
+			//MINECRAFT_TEXTURES_DIRECTORY + "/models/armor",
 	};
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_SCREENSHOTS_DIRECTORY = "wiki/screenshots";
@@ -100,12 +102,12 @@ public class WikiMaker {
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures/custom";
 	private static final String POLYRAFT_TEXTURES_CUSTOM = "wiki/textures/custom";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-			POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
-			POLYCRAFT_TEXTURES_DIRECTORY + "/items",
-			POLYCRAFT_TEXTURES_DIRECTORY + "/armor",
-			POLYCRAFT_GUI_TEXTURES_DIRECTORY,
-			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
-			POLYCRAFT_SCREENSHOTS_DIRECTORY
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			//POLYCRAFT_TEXTURES_DIRECTORY + "/models/armor",
+			//POLYCRAFT_GUI_TEXTURES_DIRECTORY,
+			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
+			//POLYCRAFT_SCREENSHOTS_DIRECTORY
 	};
 
 	private static final String WIKI_NEWLINE = "\n";
@@ -127,35 +129,45 @@ public class WikiMaker {
 	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
-			wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
+			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
 			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE);
-			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
-			wikiMaker.createFuelPage();
-			wikiMaker.createItemTypesPage(ImmutableList.of(
-					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
-					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
-					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-
-			wikiMaker.createItemPages(Inventory.registry);
-			wikiMaker.createItemPages(Ore.registry);
-			wikiMaker.createItemPages(Ingot.registry);
-			wikiMaker.createItemPages(Catalyst.registry);
-			wikiMaker.createItemPages(ElementVessel.registry);
-			wikiMaker.createItemPages(CompoundVessel.registry);
-			wikiMaker.createItemPages(PolymerPellets.registry);
-			wikiMaker.createItemPages(PolymerFibers.registry);
-			wikiMaker.createItemPages(PolymerBlock.registry);
-			wikiMaker.createItemPages(PolymerSlab.registry);
-			wikiMaker.createItemPages(PolymerStairs.registry);
-			wikiMaker.createItemPages(PolymerBrick.registry);
-			wikiMaker.createItemPages(PolymerWall.registry);
-			wikiMaker.createItemPages(Mold.registry);
-			wikiMaker.createItemPages(MoldedItem.registry);
-			wikiMaker.createItemPages(GrippedTool.registry);
-			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(CustomObject.registry);
+			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE); //TODO:Fix this upload
+//			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
+//			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL);
+//			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER);
+//			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER);
+//			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN);
+//			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER);
+//			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT);
+//			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR);
+			
+			//wikiMaker.createFuelPage();
+//			wikiMaker.createItemTypesPage(ImmutableList.of(
+//					CompressedBlock.class,
+//					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
+//					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
+//					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
+//
+//			wikiMaker.createItemPages(CompressedBlock.registry);
+//			wikiMaker.createItemPages(Inventory.registry);
+//			wikiMaker.createItemPages(Ore.registry);
+//			wikiMaker.createItemPages(Ingot.registry);
+//			wikiMaker.createItemPages(Catalyst.registry);
+//			wikiMaker.createItemPages(ElementVessel.registry);
+//			wikiMaker.createItemPages(CompoundVessel.registry);
+//			wikiMaker.createItemPages(PolymerPellets.registry);
+//			wikiMaker.createItemPages(PolymerFibers.registry);
+//			wikiMaker.createItemPages(PolymerBlock.registry);
+//			wikiMaker.createItemPages(PolymerSlab.registry);
+//			wikiMaker.createItemPages(PolymerStairs.registry);
+//			wikiMaker.createItemPages(PolymerBrick.registry);
+//			wikiMaker.createItemPages(PolymerWall.registry);
+//			wikiMaker.createItemPages(Mold.registry);
+//			wikiMaker.createItemPages(MoldedItem.registry);
+//			wikiMaker.createItemPages(GrippedTool.registry);
+//			wikiMaker.createItemPages(PogoStick.registry);
+//			wikiMaker.createItemPages(CustomObject.registry);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
