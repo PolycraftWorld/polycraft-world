@@ -1,6 +1,8 @@
 Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Notes
-1.0.0		Heat	Cataysis	Bag (Sodium)	2	Bag (Aluminum)	2	Bag (Silicon)	3	Flask (Oxygen)	5	Vial (Water)	2	Zeolite Catalyst	1											
-1.0.0		Heat	Cataysis	Sack (Sodium)	2	Sack (Aluminum)	2	Sack (Silicon)	3	Cartridge (Oxygen)	5	Beaker (Water)	2	Zeolite Catalyst	64											
+		Heat	Cataysis	Bag (Sodium)	2	Aluminum Ingot	2	Bag (Silicon)	3	Flask (Oxygen)	5	Vial (Water)	2	Zeolite Catalyst	1											
+		Heat	Cataysis	Sack (Sodium)	2	Aluminum Ingot	16	Sack (Silicon)	3	Cartridge (Oxygen)	5	Beaker (Water)	2	Zeolite Catalyst	64											
+1.0.0		Heat	Cataysis	Quartz	1	Aluminum Ingot	1							Zeolite Catalyst	4											
+1.0.0		Heat	Cataysis	Quartz	4	Aluminum Ingot	4							Zeolite Catalyst	64											
 1.0.0		Heat	Recycling	Bag (PolyPropylene Pellets)	8									Vial (Propylene)	7											
 1.0.0		Heat	Recycling	Sack (PolyPropylene Pellets)	8									Beaker (Propylene)	7											
 1.0.0		Heat	Recycling	Powder Keg (PolyPropylene Pellets)	8									Drum (Propylene)	7											
@@ -384,3 +386,12 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Beaker (Styrene)	16									Sack (PolyStyrene Pellets)	16											
 1.0.0				Drum (Styrene)	16									Powder Keg (PolyStyrene Pellets)	16											
 1.0.0				Drum (Styrene)	64									Powder Keg (PolyStyrene Pellets)	64											
+1.0.0				Flask (Sweet Light Naphtha)	4	Zeolite Catalyst	1							Vial (High Octane Gasoline)	4											
+1.0.0				Flask (Sweet Light Naphtha)	16	Zeolite Catalyst	1							Vial (High Octane Gasoline)	16											
+1.0.0				Cartridge (Sweet Light Naphtha)	1	Zeolite Catalyst	2							Beaker (High Octane Gasoline)	1											
+1.0.0				Cartridge (Sweet Light Naphtha)	4	Zeolite Catalyst	3							Beaker (High Octane Gasoline)	4											
+1.0.0				Cartridge (Sweet Light Naphtha)	16	Zeolite Catalyst	4							Beaker (High Octane Gasoline)	16											
+1.0.0				Canister (Sweet Light Naphtha)	1	Zeolite Catalyst	5							Vial (High Octane Gasoline)	1											
+1.0.0				Canister (Sweet Light Naphtha)	4	Zeolite Catalyst	6							Vial (High Octane Gasoline)	4											
+1.0.0				Canister (Sweet Light Naphtha)	16	Zeolite Catalyst	7							Vial (High Octane Gasoline)	16											
+1.0.0				Canister (Sweet Light Naphtha)	64	Zeolite Catalyst	8							Vial (High Octane Gasoline)	64											

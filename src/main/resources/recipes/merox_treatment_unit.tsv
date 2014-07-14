@@ -11,15 +11,15 @@ Version	Heat	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Ouptut 1	O1#	Ouptut
 1.0.0	1			Beaker (Light Naphtha)	1	Flask (Ammonia)	4			Cartridge (Sweet Light Naphtha)	1	Vial (Mercaptans)	4									
 1.0.0	1			Drum (Light Naphtha)	1	Cartridge (Ammonia)	2			Canister (Sweet Light Naphtha)	1	Beaker (Mercaptans)	4									
 1.0.0	1			Drum (Light Naphtha)	64	Canister (Ammonia)	1			Canister (Sweet Light Naphtha)	64	Drum (Mercaptans)	4									
-1.0.0	1			Flask (Propane)	16	Vial (Sodium Hydroxide)	2			Flask (Sweet Propane Fuel)	16	Vial (Mercaptans)	1									
-1.0.0	1			Cartridge (Propane)	1	Vial (Sodium Hydroxide)	4			Cartridge (Sweet Propane Fuel)	1	Vial (Mercaptans)	4									
-1.0.0	1			Canister (Propane)	1	Beaker (Sodium Hydroxide)	2			Canister (Sweet Propane Fuel)	1	Beaker (Mercaptans)	4									
-1.0.0	1			Canister (Propane)	64	Drum (Sodium Hydroxide)	1			Canister (Sweet Propane Fuel)	64	Drum (Mercaptans)	4									
-1.0.0	1			Flask (Butane Isomers)	16	Vial (Sodium Hydroxide)	2			Flask (Sweet Butane Fuel)	16	Vial (Mercaptans)	1									
-1.0.0	1			Cartridge (Butane Isomers)	1	Vial (Sodium Hydroxide)	4			Cartridge (Sweet Butane Fuel)	1	Vial (Mercaptans)	4									
-1.0.0	1			Canister (Butane Isomers)	1	Beaker (Sodium Hydroxide)	2			Canister (Sweet Butane Fuel)	1	Beaker (Mercaptans)	4									
-1.0.0	1			Canister (Butane Isomers)	64	Drum (Sodium Hydroxide)	1			Canister (Sweet Butane Fuel)	64	Drum (Mercaptans)	4									
-1.0.0	1			Vial (Light Naphtha)	16	Vial (Sodium Hydroxide)	2			Flask (Sweet Light Naphtha)	16	Vial (Mercaptans)	1									
-1.0.0	1			Beaker (Light Naphtha)	1	Vial (Sodium Hydroxide)	4			Cartridge (Sweet Light Naphtha)	1	Vial (Mercaptans)	4									
-1.0.0	1			Drum (Light Naphtha)	1	Beaker (Sodium Hydroxide)	2			Canister (Sweet Light Naphtha)	1	Beaker (Mercaptans)	4									
-1.0.0	1			Drum (Light Naphtha)	64	Drum (Sodium Hydroxide)	1			Canister (Sweet Light Naphtha)	64	Drum (Mercaptans)	4									
+1.0.0	1			Flask (Propane)	16	Bag (Potassium Hydroxide)	2			Flask (Sweet Propane Fuel)	16	Vial (Mercaptans)	1									
+1.0.0	1			Cartridge (Propane)	1	Bag (Potassium Hydroxide)	4			Cartridge (Sweet Propane Fuel)	1	Vial (Mercaptans)	4									
+1.0.0	1			Canister (Propane)	1	Sack (Potassium Hydroxide)	2			Canister (Sweet Propane Fuel)	1	Beaker (Mercaptans)	4									
+1.0.0	1			Canister (Propane)	64	Powder Keg (Potassium Hydroxide)	1			Canister (Sweet Propane Fuel)	64	Drum (Mercaptans)	4									
+1.0.0	1			Flask (Butane Isomers)	16	Bag (Potassium Hydroxide)	2			Flask (Sweet Butane Fuel)	16	Vial (Mercaptans)	1									
+1.0.0	1			Cartridge (Butane Isomers)	1	Bag (Potassium Hydroxide)	4			Cartridge (Sweet Butane Fuel)	1	Vial (Mercaptans)	4									
+1.0.0	1			Canister (Butane Isomers)	1	Sack (Potassium Hydroxide)	2			Canister (Sweet Butane Fuel)	1	Beaker (Mercaptans)	4									
+1.0.0	1			Canister (Butane Isomers)	64	Powder Keg (Potassium Hydroxide)	1			Canister (Sweet Butane Fuel)	64	Drum (Mercaptans)	4									
+1.0.0	1			Vial (Light Naphtha)	16	Bag (Potassium Hydroxide)	2			Flask (Sweet Light Naphtha)	16	Vial (Mercaptans)	1									
+1.0.0	1			Beaker (Light Naphtha)	1	Bag (Potassium Hydroxide)	4			Cartridge (Sweet Light Naphtha)	1	Vial (Mercaptans)	4									
+1.0.0	1			Drum (Light Naphtha)	1	Sack (Potassium Hydroxide)	2			Canister (Sweet Light Naphtha)	1	Beaker (Mercaptans)	4									
+1.0.0	1			Drum (Light Naphtha)	64	Powder Keg (Potassium Hydroxide)	1			Canister (Sweet Light Naphtha)	64	Drum (Mercaptans)	4									

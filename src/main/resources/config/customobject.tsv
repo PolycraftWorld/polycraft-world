@@ -15,9 +15,9 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.0	3I	Copper Pipe	PC Block		TRUE												
 1.0.0	3M	Regulator	PC Item		TRUE												
 1.0.0	3P	Lighter	Utility	4	TRUE		1										
-1.0.0	3Q	Rubber Mesh X	PC Item		TRUE												
-1.0.0	3R	Rubber Mesh O	PC Item		TRUE												
-1.0.0	3S	Trampoline Mesh	PC Item		TRUE												
+1.0.0	3Q	Membrane X	PC Item		TRUE												
+1.0.0	3R	Membrane O	PC Item		TRUE												
+1.0.0	3S	Separation Membrane	PC Item		TRUE												
 1.0.0	3T	Trampoline	PC Block		TRUE												
 1.0.0	3X	Gas Mantle	PC Item	4	TRUE												
 1.0.0	5b	Kevlar Vest			TRUE		1	armorBuffOverDiamond	1.5								

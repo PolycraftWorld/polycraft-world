@@ -129,9 +129,9 @@ public class WikiMaker {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
 			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE); //TODO:Fix this upload
+			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE); //TODO:Fix this upload
 //			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
 //			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL);
 //			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER);
