@@ -1674,6 +1674,9 @@ public class Wiki implements Serializable
         // @revised 0.25 optional bot flagging
         long start = System.currentTimeMillis();
 
+        if (text.length() > (1024 * 1024)) {
+        	log(Level.WARNING, "edit", "Page length is > 1 MB; this page may not upload properly and return a 413 error.");
+        }
         // protection and token
         HashMap info = getPageInfo(title);
         if (!checkRights(info, "edit") || (Boolean)info.get("exists") && !checkRights(info, "create"))

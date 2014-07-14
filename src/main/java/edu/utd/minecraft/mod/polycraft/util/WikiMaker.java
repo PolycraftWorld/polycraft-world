@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
@@ -108,6 +111,13 @@ public class WikiMaker {
 			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
 			//POLYCRAFT_SCREENSHOTS_DIRECTORY
 	};
+	
+	// These blacklists could probably be regex's or even Item base types... but are necessary for
+	// filtering out the mass of items being generated on the recipe pages
+	private static final String [] CRAFTING_TABLE_BLACKLIST = new String [] { "Block (", "Block of ", "Bag (", "Beaker (", "Canister (", "Drum (", "Flask (", "Powder Keg (",
+			"Drum (", "Flask (", "Powder Keg (", "Sack (", "Slab (", "Stairs (", "Vial (", "Wall (", "Cartridge (", "Gripped ", "Plastic Brick " };
+
+	private static final String [] NO_BLACKLIST = new String [] { };
 
 	private static final String WIKI_NEWLINE = "\n";
 
@@ -131,15 +141,15 @@ public class WikiMaker {
 			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE); //TODO:Fix this upload
-//			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE);
-//			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL);
-//			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER);
-//			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER);
-//			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN);
-//			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER);
-//			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT);
-//			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR);
+			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
+			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
+			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
 			
 			//wikiMaker.createFuelPage();
 //			wikiMaker.createItemTypesPage(ImmutableList.of(
@@ -190,8 +200,9 @@ public class WikiMaker {
 
 	private static String getItemStackLocation(final ItemStack itemStack) {
 		if (PolycraftRegistry.minecraftItems.contains(itemStack.getItem())) {
-			if (itemStack.getItem() instanceof net.minecraft.item.ItemDye)
+			if (itemStack.getItem() instanceof net.minecraft.item.ItemDye) {
 				return MINECRAFT_WIKI + "Dyeing";
+			}
 			return MINECRAFT_WIKI + itemStack.getDisplayName().replaceAll(" ", "%20");
 		}
 		return getItemStackName(itemStack);
@@ -231,8 +242,9 @@ public class WikiMaker {
 	private static String LINK_EXTERNAL_FORMAT = "[%s]";
 
 	private static String getLink(final String location) {
-		if (isExternalLocation(location))
+		if (isExternalLocation(location)) {
 			return String.format(LINK_EXTERNAL_FORMAT, location.replaceAll(" ", "%20"));
+		}
 		return String.format(LINK_INTERNAL_FORMAT, location);
 	}
 
@@ -244,8 +256,9 @@ public class WikiMaker {
 	private static String LINK_EXTERNAL_FORMAT_ALT = "[%s %s]";
 
 	private static String getLink(final String location, final String text) {
-		if (isExternalLocation(location))
+		if (isExternalLocation(location)) {
 			return String.format(LINK_EXTERNAL_FORMAT_ALT, location.replaceAll(" ", "%20"), text);
+		}
 		return String.format(LINK_INTERNAL_FORMAT_ALT, location, text);
 	}
 
@@ -453,7 +466,10 @@ public class WikiMaker {
 		return String.format(INVENTORY_FORMAT, slots, containerType.toString().toLowerCase().replaceAll(" ", "-"), String.valueOf(shapeless));
 	}
 
-	private static Collection<String> getRecipeGridRow(final PolycraftRecipe recipe) {
+	/**
+	 * Grid row for the main crafting table page.
+	 */
+	private static Collection<String> getRecipePageGridRow(final PolycraftRecipe recipe) {
 		final Collection<String> row = Lists.newLinkedList();
 		final StringBuilder slots = new StringBuilder();
 		final Map<String, String> inputs = Maps.newLinkedHashMap();
@@ -463,28 +479,41 @@ public class WikiMaker {
 			for (final ItemStack inputStack : input.inputs) {
 				inputs.put(getItemStackName(inputStack), getItemStackLocation(inputStack));
 				int slotIndex = input.slot.getSlotIndex();
-				if (slotIndex == RecipeSlot.ANY.slotIndex)
+				if (slotIndex == RecipeSlot.ANY.slotIndex) {
 					slotIndex = intputSlots.remove().getSlotIndex();
+				}
 				slots.append(getInventorySlot(slotIndex, inputStack));
 			}
 		}
 		final Map<String, String> outputs = Maps.newLinkedHashMap();
 		for (final RecipeComponent output : recipe.getOutputs(null)) {
-			outputs.put(getItemStackName(output.itemStack), getItemStackLocation(output.itemStack));
+			outputs.put(getLink(getItemStackLocation(output.itemStack), getItemStackName(output.itemStack)),
+					getLinkImage(
+							getLink(getItemStackName(output.itemStack), getItemStackLocation(output.itemStack)),
+							getTextureImageName(getTexture(output.itemStack)), // image
+							//getItemStackName(output.itemStack), // location
+							getItemStackLocation(output.itemStack),
+							getItemStackName(output.itemStack), // alt
+							32 // size
+							));
+							
 			slots.append(getInventorySlot(output.slot.getSlotIndex(), output.itemStack));
 		}
 		slots.append(getSpecialInventorySlots(recipe.getContainerType()));
 		final StringBuilder inputList = new StringBuilder();
-		for (final Entry<String, String> input : inputs.entrySet())
+		for (final Entry<String, String> input : inputs.entrySet()) {
 			inputList.append(WIKI_NEWLINE).append("* ").append(getLink(input.getValue(), input.getKey()));
+		}
 		final StringBuilder outputList = new StringBuilder();
-		for (final Entry<String, String> output : outputs.entrySet())
-			outputList.append(WIKI_NEWLINE).append("* ").append(getLink(output.getValue(), output.getKey()));
-		row.add(inputList.toString());
+		for (final Entry<String, String> output : outputs.entrySet()) {
+			outputList.append(WIKI_NEWLINE).append("* ").append(output.getValue() + " " + output.getKey());
+		}
 		row.add(outputList.toString());
+		row.add(inputList.toString());
 		row.add(getInventory(recipe.getContainerType(), slots.toString(), recipe.getContainerType() == PolycraftContainerType.CRAFTING_TABLE && !recipe.isShapedOnly()));
 		return row;
 	}
+
 
 	private static <C extends GameIdentifiedConfig> String getTexture(C config) {
 		return config instanceof Inventory ? "gui_" + config.name : getTexture(config.getItemStack());
@@ -567,7 +596,7 @@ public class WikiMaker {
 		wiki.edit(getListOfTypeTitle(Fuel.class), getTable(FUEL_HEADERS, data), editSummary);
 	}
 
-	private final Collection<String> RECIPE_GRID_HEADERS = ImmutableList.of("Inputs", "Outputs", "Recipe");
+	private final Collection<String> RECIPE_GRID_HEADERS = ImmutableList.of("Outputs", "Components", "Recipe");
 
 	private boolean createSectionRecipesGrid(final ItemStack ingredient, final String pageName, final String sectionHeader, final int sectionIndex,
 			final PolycraftContainerType forceIncludeType) throws LoginException, IOException {
@@ -581,8 +610,9 @@ public class WikiMaker {
 					if (containerType != forceIncludeType) {
 						page.append(WIKI_NEWLINE).append(getHeading(3, containerType.toString()));
 						final Collection<Collection<String>> data = Lists.newLinkedList();
-						for (final PolycraftRecipe recipe : recipeEntry.getValue())
-							data.add(getRecipeGridRow(recipe));
+						for (final PolycraftRecipe recipe : recipeEntry.getValue()) {
+							data.add(getRecipePageGridRow(recipe));
+						}
 						page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
 					}
 				}
@@ -591,7 +621,7 @@ public class WikiMaker {
 				page.append(WIKI_NEWLINE).append(getHeading(3, forceIncludeType.toString()));
 				final Collection<Collection<String>> data = Lists.newLinkedList();
 				for (final PolycraftRecipe recipe : forceIncludedRecipes)
-					data.add(getRecipeGridRow(recipe));
+					data.add(getRecipePageGridRow(recipe));
 				page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
 			}
 			wiki.edit(pageName, page.toString(), editSummary, sectionIndex);
@@ -600,13 +630,59 @@ public class WikiMaker {
 		return false;
 	}
 
-	private void createRecipePage(final PolycraftContainerType containerType) throws LoginException, IOException {
-		final Collection<PolycraftRecipe> recipes = PolycraftMod.recipeManager.getRecipesByContainerType(containerType);
+	private boolean displayOnRecipePage(ItemStack itemStack, String [] filters) {
+		Item item = itemStack.getItem();
+		String itemName = getItemStackName(itemStack);
+		// TODO: This isn't a great way of creating a blacklist for the main page. But it works for Monday's demo.
+		// Maybe can use instanceof for all the types?
+		for (String filter : filters) {
+			if (itemName.startsWith(filter)) {
+				return false;
+			}			
+		}
+		return true;
+	}
+	
+	private void createRecipePage(final PolycraftContainerType containerType, final String [] filters, final boolean sortByInput) throws LoginException, IOException {
+		final List<PolycraftRecipe> recipes =
+				Lists.newArrayList(PolycraftMod.recipeManager.getRecipesByContainerType(containerType));
+		Collections.sort(recipes, new Comparator<PolycraftRecipe>() {
+			@Override
+			public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
+				if (sortByInput) {
+					// Sort by the FIRST input. Only really useful if there generally aren't more than one input for
+					// the crafting table type.
+					String item1Name = getItemStackName(o1.getInputs().iterator().next().inputs.iterator().next());
+					String item2Name = getItemStackName(o2.getInputs().iterator().next().inputs.iterator().next());
+					return item1Name.compareTo(item2Name);					
+				} else {
+					// Sort by the FIRST output. TODO: Should there be a "priority" output that can be used for sorting?
+					// This seems to work well enough, at least.
+					String item1Name = getItemStackName(o1.getOutputs(null).iterator().next().itemStack);
+					String item2Name = getItemStackName(o2.getOutputs(null).iterator().next().itemStack);
+					return item1Name.compareTo(item2Name);
+				}
+			}
+		});
+		
 		if (recipes != null) {
+			final Set<String> createdRecipes = Sets.newHashSet();
 			final StringBuilder page = new StringBuilder();
 			final Collection<Collection<String>> data = Lists.newLinkedList();
-			for (final PolycraftRecipe recipe : recipes)
-				data.add(getRecipeGridRow(recipe));
+			for (final PolycraftRecipe recipe : recipes) {
+				RecipeComponent output = recipe.getOutputs(null).iterator().next();
+				String outputName = getItemStackName(output.itemStack);
+				if (createdRecipes.contains(outputName)) {
+					// TODO: This causes the many variations of ways to create different crafting tables
+					// to be only shown once. Need a better way to display these.
+					continue;
+				}
+				createdRecipes.add(outputName);
+				if (!displayOnRecipePage(output.itemStack, filters)) {
+					continue;
+				}
+				data.add(getRecipePageGridRow(recipe));
+			}
 			page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
 			wiki.edit(containerType.toString(), page.toString(), editSummary);
 		}
