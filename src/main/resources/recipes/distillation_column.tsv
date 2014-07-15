@@ -1,4 +1,5 @@
 Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
+1.0.0	2	1	10	4	Water Bucket	1	Beaker (Water)	16	Bucket	1														
 1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	16	Bucket	1														
 1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1														
 1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1														

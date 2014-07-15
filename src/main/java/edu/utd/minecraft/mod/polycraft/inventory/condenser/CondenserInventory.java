@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
@@ -41,8 +42,9 @@ public class CondenserInventory extends PolycraftInventory {
 
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		for (int i = 0; i < 5; i++)
-			guiSlots.add(GuiContainerSlot.createInput(i, i, 0, 44, 2));
+		for (int i = 0; i < 9; i++)
+			//guiSlots.add(GuiContainerSlot.createInput(i, i, 0, 8, 2));
+			guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.OUTPUT, 0, 0, 116 + i * 18, 18));
 	}
 
 	private static Inventory config;
