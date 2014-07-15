@@ -77,6 +77,7 @@ public class ClientProxy extends CommonProxy {
 		private final Collection<PointLightSource> phaseShifterLightSources;
 		private boolean phaseShifterLightsEnabled = false;
 		private float bouncyBlockBounceHeight = 0;
+		private boolean placeBrickBackwards = false;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -259,10 +260,12 @@ public class ClientProxy extends CommonProxy {
 				onClientTickGenericMoldedItem(player);
 				onClientTickPogoStick(player, playerState);
 				onClientTickBouncyBlock(player, playerState);
+				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
 			}
 		}
 	}
+
 
 	@Override
 	@SubscribeEvent
@@ -330,6 +333,16 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 	}
+//	private void onClientTickPlasticBrick(EntityPlayer player, PlayerState playerState) {
+//		boolean placeBrickBackwards = false;
+//		if (isKeyDown(gameSettings.keyBindSneak))
+//		{
+//			playerState.placeBrickBackwards = true;
+//		}
+//		else
+//			playerState.placeBrickBackwards = false;
+//		
+//	}
 
 	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
 		boolean jetPackIsFlying = false;

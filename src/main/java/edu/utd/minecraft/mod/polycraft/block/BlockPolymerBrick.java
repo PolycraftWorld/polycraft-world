@@ -154,10 +154,13 @@ public class BlockPolymerBrick extends Block {
 //		}
 		boolean shiftPressed = false;
 	
-		if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		//if (!player.worldObj.isRemote && (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)))
+		if (player.isSneaking())
 		{
+			//need to send a packet to the server informing them of this
 			shiftPressed = true;
 		}
+
 		
 			
 
@@ -177,7 +180,6 @@ public class BlockPolymerBrick extends Block {
 					 Block nextBlock = worldObj.getBlock(xPos - wid, yPos, zPos + len);
 					 if ((nextBlock != Blocks.air) && 
 						(nextBlock != Blocks.water) && 
-						(nextBlock != Blocks.grass) &&
 						(nextBlock != Blocks.deadbush) &&
 						(nextBlock != Blocks.flowing_water) &&
 						(nextBlock != Blocks.sapling) &&
@@ -198,7 +200,6 @@ public class BlockPolymerBrick extends Block {
 					 Block nextBlock = worldObj.getBlock(xPos - len, yPos, zPos - wid);
 					 if ((nextBlock != Blocks.air) && 
 								(nextBlock != Blocks.water) && 
-								(nextBlock != Blocks.grass) &&
 								(nextBlock != Blocks.deadbush) &&
 								(nextBlock != Blocks.flowing_water) &&
 								(nextBlock != Blocks.sapling) &&
@@ -220,7 +221,6 @@ public class BlockPolymerBrick extends Block {
 					 Block nextBlock = worldObj.getBlock(xPos + wid, yPos, zPos - len);
 					 if ((nextBlock != Blocks.air) && 
 								(nextBlock != Blocks.water) && 
-								(nextBlock != Blocks.grass) &&
 								(nextBlock != Blocks.deadbush) &&
 								(nextBlock != Blocks.flowing_water) &&
 								(nextBlock != Blocks.sapling) &&
@@ -241,7 +241,6 @@ public class BlockPolymerBrick extends Block {
 					 Block nextBlock = worldObj.getBlock(xPos + len, yPos, zPos + wid);
 					 if ((nextBlock != Blocks.air) && 
 								(nextBlock != Blocks.water) && 
-								(nextBlock != Blocks.grass) &&
 								(nextBlock != Blocks.deadbush) &&
 								(nextBlock != Blocks.flowing_water) &&
 								(nextBlock != Blocks.sapling) &&
