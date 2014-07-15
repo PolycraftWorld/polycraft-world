@@ -21,6 +21,8 @@ public abstract class PolycraftCraftingContainer extends Container {
 		}
 		
 		//TODO: I think this is where to override default Shift Click Behaviors
+		
+
 	}
 
 	public PolycraftCraftingContainer(final IInventory inventory, final PolycraftContainerType containerType) {
@@ -30,9 +32,20 @@ public abstract class PolycraftCraftingContainer extends Container {
 			}
 		}
 		
-		//TODO: I think this is where to override default Shift Click Behaviors
+		//Fixed by Walter: added into PolycraftCraftingContainerGeneric
+		
 		
 	}
+	
+	@Override
+	public ItemStack slotClick(int par1, int par2, int par3, EntityPlayer par4EntityPlayer)
+    {		
+		
+		return super.slotClick(par1, par2, par3, par4EntityPlayer);
+		
+    }
+		
+
 
 	public static class CraftingSlot extends Slot {
 		private final PolycraftCraftingContainer container;
@@ -75,6 +88,7 @@ public abstract class PolycraftCraftingContainer extends Container {
 			super.onCrafting(par1ItemStack);
 		}
 
+		//detects when something is clicked on in the inventory, but not the player's inventory
 		@Override
 		public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack) {
 			super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
@@ -90,9 +104,7 @@ public abstract class PolycraftCraftingContainer extends Container {
 			return false;
 		}
 		
-				
 	}
-	
 	
 
 	private void addInventorySlot(final IInventory inventory, final GuiContainerSlot guiSlot) {

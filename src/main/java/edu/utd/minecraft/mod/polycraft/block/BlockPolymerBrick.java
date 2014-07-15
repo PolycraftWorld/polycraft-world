@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.block;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -150,6 +152,14 @@ public class BlockPolymerBrick extends Block {
 //			}
 //			te.setOrientation(direction);
 //		}
+		boolean shiftPressed = false;
+	
+		if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		{
+			shiftPressed = true;
+		}
+		
+			
 
 		 Block block = worldObj.getBlock(xPos, yPos, zPos);
 		 int l = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
@@ -157,53 +167,98 @@ public class BlockPolymerBrick extends Block {
 		 boolean blockCanBePlaced = true;
 		 for (int len = 0; len < this.length; len++)
 		 {
-		 for (int wid = 0; wid < this.width; wid++)
-		 {
-		 if ((len == 0) && (wid == 0)) // keeps the just placed block from triggering
-		 continue;
-		
-		 if (l == 0) // facing south (+z)
-		 {
-		 if ((worldObj.getBlock(xPos - wid, yPos, zPos + len) != Blocks.air) &&
-		 (worldObj.getBlock(xPos - wid, yPos, zPos + len) != Blocks.water))
-		 {
-		 blockCanBePlaced = false;
-		 break;
-		 }
-		 }
-		
-		 if (l == 1) // facing west (-x)
-		 {
-		 if ((worldObj.getBlock(xPos - len, yPos, zPos - wid) != Blocks.air) &&
-		 (worldObj.getBlock(xPos - wid, yPos, zPos + len) != Blocks.water))
-		 {
-		 blockCanBePlaced = false;
-		 break;
-		 }
-		
-		 }
-		
-		 if (l == 2) // facing north (-z)
-		 {
-		 if ((worldObj.getBlock(xPos + wid, yPos, zPos - len) != Blocks.air) &&
-		 (worldObj.getBlock(xPos - wid, yPos, zPos + len) != Blocks.water))
-		 {
-		 blockCanBePlaced = false;
-		 break;
-		 }
-		 }
-		
-		 if (l == 3) // facing east (+x)
-		 {
-		 if ((worldObj.getBlock(xPos + len, yPos, zPos + wid) != Blocks.air) &&
-		 (worldObj.getBlock(xPos - wid, yPos, zPos + len) != Blocks.water))
-		 {
-		 blockCanBePlaced = false;
-		 break;
-		 }
-		 }
-		 }
-		 }
+			 for (int wid = 0; wid < this.width; wid++)
+			 {
+				 if ((len == 0) && (wid == 0)) // keeps the just placed block from triggering
+				 continue;
+			
+				 if (((l == 0) && (!shiftPressed)) || ((l==2) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+				 {
+					 Block nextBlock = worldObj.getBlock(xPos - wid, yPos, zPos + len);
+					 if ((nextBlock != Blocks.air) && 
+						(nextBlock != Blocks.water) && 
+						(nextBlock != Blocks.grass) &&
+						(nextBlock != Blocks.deadbush) &&
+						(nextBlock != Blocks.flowing_water) &&
+						(nextBlock != Blocks.sapling) &&
+						(nextBlock != Blocks.snow_layer) &&
+						(nextBlock != Blocks.tallgrass) &&
+						(nextBlock != Blocks.yellow_flower) &&
+						(nextBlock != Blocks.red_flower) &&
+						(nextBlock != Blocks.red_mushroom) &&
+						(nextBlock != Blocks.brown_mushroom))
+					 {
+					 blockCanBePlaced = false;
+					 break;
+					 }
+				 }
+			
+				 if (((l == 1) && (!shiftPressed)) || ((l==3) && (shiftPressed))) // facing west (-x)
+				 {
+					 Block nextBlock = worldObj.getBlock(xPos - len, yPos, zPos - wid);
+					 if ((nextBlock != Blocks.air) && 
+								(nextBlock != Blocks.water) && 
+								(nextBlock != Blocks.grass) &&
+								(nextBlock != Blocks.deadbush) &&
+								(nextBlock != Blocks.flowing_water) &&
+								(nextBlock != Blocks.sapling) &&
+								(nextBlock != Blocks.snow_layer) &&
+								(nextBlock != Blocks.tallgrass) &&
+								(nextBlock != Blocks.yellow_flower) &&
+								(nextBlock != Blocks.red_flower) &&
+								(nextBlock != Blocks.red_mushroom) &&
+								(nextBlock != Blocks.brown_mushroom))
+							 {
+							 blockCanBePlaced = false;
+							 break;
+							 }
+				
+				 }
+			
+				 if (((l == 2) && (!shiftPressed)) || ((l==0) && (shiftPressed))) // facing north (-z)
+				 {
+					 Block nextBlock = worldObj.getBlock(xPos + wid, yPos, zPos - len);
+					 if ((nextBlock != Blocks.air) && 
+								(nextBlock != Blocks.water) && 
+								(nextBlock != Blocks.grass) &&
+								(nextBlock != Blocks.deadbush) &&
+								(nextBlock != Blocks.flowing_water) &&
+								(nextBlock != Blocks.sapling) &&
+								(nextBlock != Blocks.snow_layer) &&
+								(nextBlock != Blocks.tallgrass) &&
+								(nextBlock != Blocks.yellow_flower) &&
+								(nextBlock != Blocks.red_flower) &&
+								(nextBlock != Blocks.red_mushroom) &&
+								(nextBlock != Blocks.brown_mushroom))
+							 {
+							 blockCanBePlaced = false;
+							 break;
+							 }				
+				 }
+			
+				 if (((l == 3) && (!shiftPressed)) || ((l==1) && (shiftPressed))) // facing east (+x)
+				 {
+					 Block nextBlock = worldObj.getBlock(xPos + len, yPos, zPos + wid);
+					 if ((nextBlock != Blocks.air) && 
+								(nextBlock != Blocks.water) && 
+								(nextBlock != Blocks.grass) &&
+								(nextBlock != Blocks.deadbush) &&
+								(nextBlock != Blocks.flowing_water) &&
+								(nextBlock != Blocks.sapling) &&
+								(nextBlock != Blocks.snow_layer) &&
+								(nextBlock != Blocks.tallgrass) &&
+								(nextBlock != Blocks.yellow_flower) &&
+								(nextBlock != Blocks.red_flower) &&
+								(nextBlock != Blocks.red_mushroom) &&
+								(nextBlock != Blocks.brown_mushroom))
+							 {
+							 blockCanBePlaced = false;
+							 break;
+							 }		
+				 
+				 }
+			 } //of of inner for Loop
+		 } //end of outer for Loop
 		
 		 if (blockCanBePlaced)
 		 {
@@ -212,13 +267,13 @@ public class BlockPolymerBrick extends Block {
 		 {
 		 for (int wid = 0; wid < this.width; wid++)
 		 {
-		 if (l == 0) // facing south (+z)
+		 if (((l == 0) && (!shiftPressed)) || ((l==2) && (shiftPressed))) // facing south (+z)
 		 worldObj.setBlock(xPos - wid, yPos, zPos + len, this, meta, 2);
-		 if (l == 1) // facing west (-x)
+		 if (((l == 1) && (!shiftPressed)) || ((l==3) && (shiftPressed))) // facing west (-x)
 		 worldObj.setBlock(xPos - len, yPos, zPos - wid, this, meta, 2);
-		 if (l == 2) // facing north (-z)
+		 if (((l == 2) && (!shiftPressed)) || ((l==0) && (shiftPressed))) // facing north (-z)
 		 worldObj.setBlock(xPos + wid, yPos, zPos - len, this, meta, 2);
-		 if (l == 3) // facing east (+x)
+		 if (((l == 3) && (!shiftPressed)) || ((l==1) && (shiftPressed))) // facing east (+x)
 		 worldObj.setBlock(xPos + len, yPos, zPos + wid, this, meta, 2);
 		 }
 		 }

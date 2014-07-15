@@ -102,27 +102,27 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are their own) Args: x, y, z, neighbor Block
 	 */
 	@Override
-	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+	public void onNeighborBlockChange(World worldObj, int xCoord, int yCoord, int zCoord, Block neighborBlock)
 	{
-		this.func_149919_e(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_);
+		this.notifyIfNeighborPowered(worldObj, xCoord, yCoord, zCoord);
 	}
 
-	private void func_149919_e(World p_149919_1_, int p_149919_2_, int p_149919_3_, int p_149919_4_)
+	private void notifyIfNeighborPowered(World worldObj, int xCoord, int yCoord, int zCoord)
 	{
-		int l = p_149919_1_.getBlockMetadata(p_149919_2_, p_149919_3_, p_149919_4_);
+		int l = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		int i1 = TreeTapInventory.getDirectionFromMetadata(l);
-		boolean flag = !p_149919_1_.isBlockIndirectlyGettingPowered(p_149919_2_, p_149919_3_, p_149919_4_);
-		boolean flag1 = func_149917_c(l);
+		boolean flag = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+		boolean flag1 = isLargestMetaDataBitSet(l);
 
 		if (flag != flag1)
 		{
-			p_149919_1_.setBlockMetadataWithNotify(p_149919_2_, p_149919_3_, p_149919_4_, i1 | (flag ? 0 : 8), 4);
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i1 | (flag ? 0 : 8), 4);
 		}
 	}
 
-	public static boolean func_149917_c(int p_149917_0_)
+	public static boolean isLargestMetaDataBitSet(int metaData)
 	{
-		return (p_149917_0_ & 8) != 8;
+		return (metaData & 8) != 8;
 	}
 
 	/**
@@ -166,9 +166,9 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	 * If hasComparatorInputOverride returns true, the return value from this is used instead of the redstone signal strength when this block inputs to a comparator.
 	 */
 	@Override
-	public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
+	public int getComparatorInputOverride(World worldObj, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
 	{
-		return Container.calcRedstoneFromInventory(func_149920_e(p_149736_1_, p_149736_2_, p_149736_3_, p_149736_4_));
+		return Container.calcRedstoneFromInventory(func_149920_e(worldObj, p_149736_2_, p_149736_3_, p_149736_4_));
 	}
 
 	public static TreeTapInventory func_149920_e(IBlockAccess p_149920_0_, int p_149920_1_, int p_149920_2_, int p_149920_3_)

@@ -212,7 +212,7 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	public static IInventory func_145884_b(TreeTapInventory p_145884_0_) {
-		return func_145893_b(p_145884_0_.getWorldObj(), p_145884_0_.xCoord, p_145884_0_.yCoord + 1.0D, p_145884_0_.zCoord);
+		return getClickedOnInventory(p_145884_0_.getWorldObj(), p_145884_0_.xCoord, p_145884_0_.yCoord + 1.0D, p_145884_0_.zCoord);
 	}
 
 	private boolean func_145883_k() {
@@ -330,15 +330,15 @@ public class TreeTapInventory extends PolycraftInventory {
 
 	private IInventory func_145895_l() {
 		int i = getDirectionFromMetadata(this.getBlockMetadata());
-		return func_145893_b(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
+		return getClickedOnInventory(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
 	}
 
-	public static IInventory func_145893_b(World p_145893_0_, double p_145893_1_, double p_145893_3_, double p_145893_5_) {
+	public static IInventory getClickedOnInventory(World worldObj, double xCoordDecimal, double yCoordDecimal, double zCoordDecimal) {
 		IInventory iinventory = null;
-		int i = MathHelper.floor_double(p_145893_1_);
-		int j = MathHelper.floor_double(p_145893_3_);
-		int k = MathHelper.floor_double(p_145893_5_);
-		TileEntity tileentity = p_145893_0_.getTileEntity(i, j, k);
+		int i = MathHelper.floor_double(xCoordDecimal);
+		int j = MathHelper.floor_double(yCoordDecimal);
+		int k = MathHelper.floor_double(zCoordDecimal);
+		TileEntity tileentity = worldObj.getTileEntity(i, j, k);
 
 		if (tileentity != null && tileentity instanceof IInventory)
 		{
@@ -346,23 +346,23 @@ public class TreeTapInventory extends PolycraftInventory {
 
 			if (iinventory instanceof TileEntityChest)
 			{
-				Block block = p_145893_0_.getBlock(i, j, k);
+				Block block = worldObj.getBlock(i, j, k);
 
 				if (block instanceof BlockChest)
 				{
-					iinventory = ((BlockChest) block).func_149951_m(p_145893_0_, i, j, k);
+					iinventory = ((BlockChest) block).func_149951_m(worldObj, i, j, k);
 				}
 			}
 		}
 
 		if (iinventory == null)
 		{
-			List list = p_145893_0_.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getAABBPool().getAABB(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
+			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getAABBPool().getAABB(xCoordDecimal, yCoordDecimal, zCoordDecimal, xCoordDecimal + 1.0D, yCoordDecimal + 1.0D, zCoordDecimal + 1.0D),
 					IEntitySelector.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{
-				iinventory = (IInventory) list.get(p_145893_0_.rand.nextInt(list.size()));
+				iinventory = (IInventory) list.get(worldObj.rand.nextInt(list.size()));
 			}
 		}
 

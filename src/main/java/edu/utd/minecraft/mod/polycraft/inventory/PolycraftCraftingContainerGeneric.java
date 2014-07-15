@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -85,6 +86,114 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 
 				slot.onSlotChange(itemstack1, itemstack);
 			}
+			else if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST)||
+					(inventory.containerType == PolycraftContainerType.OIL_DERRICK) ||
+					(inventory.containerType == PolycraftContainerType.FUELED_LAMP) ||
+					(inventory.containerType == PolycraftContainerType.CONDENSER) ||
+					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
+					(inventory.containerType == PolycraftContainerType.SPOTLIGHT)) 
+			{
+				if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot) //in the inventory
+				{
+					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot, false))
+					{
+						return null;
+					}
+				}
+				else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot) //on the hotbar
+				{
+					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot, false))
+					{
+						return null;
+					}
+				}
+				else if (slotIndex < lastPlayerInventorySlot) //in the chest
+				{
+					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
+					{
+						return null;
+					}
+				}
+				
+				
+				else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
+				{
+					return null;
+				}
+
+				if (itemstack1.stackSize == 0)
+				{
+					slot.putStack((ItemStack) null);
+				}
+				else
+				{
+					slot.onSlotChanged();
+				}
+
+				if (itemstack1.stackSize == itemstack.stackSize)
+				{
+					return null;
+				}
+
+				slot.onPickupFromSlot(entityPlayer, itemstack1);
+				
+				
+			}
+			else if ((inventory.containerType == PolycraftContainerType.EXTRUDER)||
+					(inventory.containerType == PolycraftContainerType.MACHINING_MILL)||
+					(inventory.containerType == PolycraftContainerType.INJECTION_MOLDER))
+
+			{
+								
+				if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot) //in the inventory
+				{
+				
+					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot-2, false))
+					{
+						return null;
+					}
+				}
+				else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot) //on the hotbar
+				{
+					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot-2, false))
+					{
+						return null;
+					}
+				}
+				else if (slotIndex < lastPlayerInventorySlot) //in the chest
+				{
+					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
+					{
+						return null;
+					}
+				}
+				
+				
+				else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
+				{
+					return null;
+				}
+
+				if (itemstack1.stackSize == 0)
+				{
+					slot.putStack((ItemStack) null);
+				}
+				else
+				{
+					slot.onSlotChanged();
+				}
+
+				if (itemstack1.stackSize == itemstack.stackSize)
+				{
+					return null;
+				}
+
+				slot.onPickupFromSlot(entityPlayer, itemstack1);
+				
+				
+			}
+			
+			
 			else if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot)
 			{
 				if (!this.mergeItemStack(itemstack1, firstPlayerHotbarSlot, lastPlayerInventorySlot, false))
