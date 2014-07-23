@@ -30,6 +30,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.util.SetMap;
 
@@ -278,7 +279,7 @@ public class PolycraftRecipeManager {
 		Collections.sort(validRecipes, new Comparator<PolycraftRecipe>() {
 			@Override
 			public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
-				return Integer.compare(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
+				return PolycraftMod.compareInt(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
 			}
 		});
 		return validRecipes.get(0);
@@ -307,7 +308,7 @@ public class PolycraftRecipeManager {
 		Collections.sort(validRecipes, new Comparator<PolycraftRecipe>() {
 			@Override
 			public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
-				return Integer.compare(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
+				return PolycraftMod.compareInt(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
 			}
 		});
 		return validRecipes.get(0);

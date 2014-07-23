@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 
 import com.google.common.base.Preconditions;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.util.LogUtil;
 
 /**
@@ -69,7 +70,7 @@ public class RecipeComponent implements Comparable<RecipeComponent> {
 			return this.itemStack.getItem().getUnlocalizedName().compareTo(
 					o.itemStack.getItem().getUnlocalizedName());
 		}
-		return Integer.compare(slot.getSlotIndex(), o.slot.getSlotIndex());
+		return PolycraftMod.compareInt(slot.getSlotIndex(), o.slot.getSlotIndex());
 	}
 
 	@Override
