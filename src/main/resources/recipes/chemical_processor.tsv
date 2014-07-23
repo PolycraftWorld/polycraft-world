@@ -106,8 +106,8 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Beaker (Deionized Water)	1									Cartridge (Chlorine)	10	Beaker (Bromine)	1									
 1.0.0				Drum (Deionized Water)	1									Canister (Chlorine)	10	Powder Keg (Bromine)	1									
 1.0.0				Flask (Hydrogen)	2	Flask (Oxygen)	1							Vial (Deionized Water)	1											
-1.0.0				Cartridge (Hydrogen)	2	Flask (Oxygen)	1							Beaker (Deionized Water)	1											
-1.0.0				Canister (Hydrogen)	2	Flask (Oxygen)	1							Drum (Deionized Water)	1											
+1.0.0				Cartridge (Hydrogen)	2	Cartridge (Oxygen)	1							Beaker (Deionized Water)	1											
+1.0.0				Canister (Hydrogen)	2	Canister (Oxygen)	1							Drum (Deionized Water)	1											
 1.0.0				Flask (Ethylene)	16	Ziegler-Natta Catalyst	1							Bag (High Density PolyEthylene Pellets)	16											
 1.0.0				Cartridge (Ethylene)	16	Ziegler-Natta Catalyst	4							Sack (High Density PolyEthylene Pellets)	16											
 1.0.0				Canister (Ethylene)	16	Ziegler-Natta Catalyst	16							Powder Keg (High Density PolyEthylene Pellets)	16											

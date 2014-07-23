@@ -52,7 +52,7 @@ public class OreWorldGenerator implements IWorldGenerator {
 						final int firstBlockYCoord = ore.generationStartYMin + random.nextInt(ore.generationStartYMax - ore.generationStartYMin + 1);
 						final int firstBlockZCoord = j + random.nextInt(16);
 						(new WorldGenMinable(oreBlock, ore.generationBlocksPerVein)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
-
+						//System.out.println("Ore: " + ore.name);
 					}
 				}
 			}

@@ -13,8 +13,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	3	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1		
 1.0.0	TRUE	FALSE	3	Regulator	1	Copper Pipe	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Redstone	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Copper Pipe	1
 1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	FALSE	3	Membrane X	1	Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1
-1.0.0	TRUE	FALSE	3	Membrane O	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1		
+1.0.0	TRUE	FALSE	3	Membrane X	1	Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1
+1.0.0	TRUE	FALSE	3	Membrane O	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1		
 1.0.0	TRUE	FALSE	4	Lighter	1	Vial (Light Naphtha)	1	Flint And Steel	1														
 1.0.0	TRUE	FALSE	3	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1		
 1.0.0	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Pipe	1		
@@ -66,12 +66,12 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Brass	1	Redstone Block	1	Block of Brass	1	Industrial Oven	1			Industrial Oven	1
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Industrial Oven	1			Industrial Oven	1
 1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Nickel	1	Redstone Block	1	Block of Nickel	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Propane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Propane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Propane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Propane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Propane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Propane)	1	Cartridge (Ethane)	1	Cartridge (Methane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Propane)	1	Cartridge (Methane)	1	Cartridge (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Ethane)	1	Cartridge (Methane)	1	Cartridge (Propane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Ethane)	1	Cartridge (Propane)	1	Cartridge (Methane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Methane)	1	Cartridge (Propane)	1	Cartridge (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Methane)	1	Cartridge (Ethane)	1	Cartridge (Propane)	1	Furnace	1	Furnace	1	Furnace	1
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
@@ -85,20 +85,26 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	9	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1
 1.0.0	TRUE	FALSE	9	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1
 1.0.0	TRUE	FALSE	9	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Brass	1	Furnace	1	Block of Brass	1
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
 1.0.0	TRUE	FALSE	6	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1
 1.0.0	TRUE	FALSE	6	Separation Membrane	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1
-1.0.0	TRUE	TRUE	3	Platinum Catalyst	16	Platinum Ingot	1																
-1.0.0	TRUE	TRUE	3	Titanium Catalyst	16	Titanium Ingot	1																
-1.0.0	TRUE	TRUE	3	Palladium Catalyst	16	Palladium Ingot	1																
-1.0.0	TRUE	TRUE	3	Cobalt Catalyst	16	Cobalt Ingot	1																
-1.0.0	TRUE	TRUE	3	Manganese Catalyst	16	Manganese Ingot	1																
-1.0.0	TRUE	TRUE	3	Silver Catalyst	16	Silver Ingot	1																
-1.0.0	TRUE	TRUE	3	Triethylaluminium Catalyst	16	Aluminum Ingot	1																
-1.0.0	TRUE	TRUE	3	Antimony Trioxide Catalyst	16	Antimony Ingot	1																
-1.0.0	TRUE	TRUE	3	Copper II Chloride Catalyst	16	Copper Ingot	1																
-1.0.0	TRUE	TRUE	3	Iron III Chloride Catalyst	16	Iron Ingot	1																
-1.0.0	TRUE	TRUE	3	Bag (Potassium Hydroxide)	16	Potash Ore	1																
+1.0.0	TRUE	TRUE	3	Platinum Catalyst	4	Platinum Ingot	1																
+1.0.0	TRUE	TRUE	3	Titanium Catalyst	4	Titanium Ingot	1																
+1.0.0	TRUE	TRUE	3	Palladium Catalyst	4	Palladium Ingot	1																
+1.0.0	TRUE	TRUE	3	Cobalt Catalyst	4	Cobalt Ingot	1																
+1.0.0	TRUE	TRUE	3	Manganese Catalyst	4	Manganese Ingot	1																
+1.0.0	TRUE	TRUE	3	Silver Catalyst	4	Silver Ingot	1																
+1.0.0	TRUE	TRUE	3	Triethylaluminium Catalyst	4	Aluminum Ingot	1																
+1.0.0	TRUE	TRUE	3	Antimony Trioxide Catalyst	4	Antimony Ingot	1																
+1.0.0	TRUE	TRUE	3	Copper II Chloride Catalyst	4	Copper Ingot	1																
+1.0.0	TRUE	TRUE	3	Iron III Chloride Catalyst	4	Iron Ingot	1																
+1.0.0	TRUE	TRUE	3	Bag (Potassium Hydroxide)	4	Potash Ore	1																
+1.0.3	TRUE	FALSE	4	Diamond-PolyIsoPrene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PolyIsoPrene)	1		
+1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PolyPropylene)	1		
+1.0.3	TRUE	FALSE	4	Diamond-PEEK Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PolyEther Ether Ketone)	1		
+1.0.3	TRUE	FALSE	4	Stainless-PolyIsoPrene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PolyIsoPrene)	1		
+1.0.3	TRUE	FALSE	4	Stainless-PolyPropylene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PolyPropylene)	1		
+1.0.3	TRUE	FALSE	4	Stainless-PEEK Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PolyEther Ether Ketone)	1		

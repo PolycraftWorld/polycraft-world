@@ -26,7 +26,7 @@ public class MoldedItem extends SourcedConfig<Mold> {
 						PolymerPellets.registry.get(line[4]), //polymerPellets
 						Integer.parseInt(line[6]), //craftingPellets
 						Float.parseFloat(line[7]), //craftingDurationSeconds
-						line[8], //craftingDurationSeconds
+						line[8], //maxStackSize
 						line.length <= 9 || line[9].isEmpty() ? null : line[9].split(","), //paramNames
 						line, 10 //paramValues
 				));

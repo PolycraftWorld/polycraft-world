@@ -22,8 +22,8 @@ public class BlockPolymer extends Block implements BlockBouncy {
 	private final BlockPolymerHelper helper;
 
 	public BlockPolymer(final PolymerBlock polymerBlock) {
-		//super(Material.cloth);
-		super(PolycraftMaterial.plasticWhite);
+		super(Material.cloth);
+		//super(PolycraftMaterial.plasticWhite);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.polymerBlock = polymerBlock;
 		this.setHardness(5);
