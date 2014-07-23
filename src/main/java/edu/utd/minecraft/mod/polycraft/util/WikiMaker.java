@@ -145,42 +145,42 @@ public class WikiMaker {
 			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-//			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
-//			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
-//			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
-//			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
-//			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
-//			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
-//			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
-//			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
-//			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
+			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
+			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
+			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
 			
-			//wikiMaker.createFuelPage();
-//			wikiMaker.createItemTypesPage(ImmutableList.of(
-//					CompressedBlock.class,
-//					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
-//					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
-//					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-//
-//			wikiMaker.createItemPages(CompressedBlock.registry);
-//			wikiMaker.createItemPages(Inventory.registry);
-//			wikiMaker.createItemPages(Ore.registry);
-//			wikiMaker.createItemPages(Ingot.registry);
-//			wikiMaker.createItemPages(Catalyst.registry);
-//			wikiMaker.createItemPages(ElementVessel.registry);
-//			wikiMaker.createItemPages(CompoundVessel.registry);
-//			wikiMaker.createItemPages(PolymerPellets.registry);
-//			wikiMaker.createItemPages(PolymerFibers.registry);
-//			wikiMaker.createItemPages(PolymerBlock.registry);
-//			wikiMaker.createItemPages(PolymerSlab.registry);
-//			wikiMaker.createItemPages(PolymerStairs.registry);
-//			wikiMaker.createItemPages(PolymerBrick.registry);
-//			wikiMaker.createItemPages(PolymerWall.registry);
-//			wikiMaker.createItemPages(Mold.registry);
-//			wikiMaker.createItemPages(MoldedItem.registry);
-//			wikiMaker.createItemPages(GrippedTool.registry);
-//			wikiMaker.createItemPages(PogoStick.registry);
-//			wikiMaker.createItemPages(CustomObject.registry);
+			wikiMaker.createFuelPage();
+			wikiMaker.createItemTypesPage(ImmutableList.of(
+					CompressedBlock.class,
+					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
+					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
+					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
+
+			wikiMaker.createItemPages(CompressedBlock.registry);
+			wikiMaker.createItemPages(Inventory.registry);
+			wikiMaker.createItemPages(Ore.registry);
+			wikiMaker.createItemPages(Ingot.registry);
+			wikiMaker.createItemPages(Catalyst.registry);
+			wikiMaker.createItemPages(ElementVessel.registry);
+			wikiMaker.createItemPages(CompoundVessel.registry);
+			wikiMaker.createItemPages(PolymerPellets.registry);
+			wikiMaker.createItemPages(PolymerFibers.registry);
+			wikiMaker.createItemPages(PolymerBlock.registry);
+			wikiMaker.createItemPages(PolymerSlab.registry);
+			wikiMaker.createItemPages(PolymerStairs.registry);
+			wikiMaker.createItemPages(PolymerBrick.registry);
+			wikiMaker.createItemPages(PolymerWall.registry);
+			wikiMaker.createItemPages(Mold.registry);
+			wikiMaker.createItemPages(MoldedItem.registry);
+			wikiMaker.createItemPages(GrippedTool.registry);
+			wikiMaker.createItemPages(PogoStick.registry);
+			wikiMaker.createItemPages(CustomObject.registry);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
@@ -557,7 +557,7 @@ public class WikiMaker {
 		this.wiki = new Wiki(url, scriptPath);
 		this.wiki.login(username, password);
 		this.editSummary = PolycraftMod.MODID + " " + PolycraftMod.VERSION;
-		this.overwritePages = overwritePages;
+		this.overwritePages = overwritePages || !StringUtils.isEmpty(debugOutputDirectory);
 		this.debugOutputDirectory = debugOutputDirectory;
 		this.recipesByIngredientContainerType = PolycraftMod.recipeManager.getRecipesByIngredientContainerType();
 	}
@@ -566,27 +566,21 @@ public class WikiMaker {
 		wiki.logout();
 	}
 
-	private void edit(final String title, final String text, final String summary, int sectionIndex) throws LoginException, IOException
+	private void edit(final String title, final String text, final String summary) throws LoginException, IOException
 	{
 		if (StringUtils.isEmpty(debugOutputDirectory)) {
-			if (sectionIndex > -1)
-				wiki.edit(title, text, summary, sectionIndex);
-			else
-				wiki.edit(title, text, summary);
+			wiki.edit(title, text, summary);
 		}
 		else {
-		        FileOutputStream fos = new FileOutputStream(debugOutputDirectory + PolycraftMod.getFileSafeName(title) + ".txt");
-		        OutputStreamWriter osw = new OutputStreamWriter(fos);
-		        osw.write(text);
-		        osw.close();
-		        fos.close();
+			final String file = debugOutputDirectory + PolycraftMod.getFileSafeName(title) + ".txt";
+		    FileOutputStream fos = new FileOutputStream(file);
+		    OutputStreamWriter osw = new OutputStreamWriter(fos);
+		    osw.write(text);
+		    osw.close();
+		    fos.close();
+		    logger.info("Wrote {}", file);
 		}
 	}
-	
-    private void edit(final String title, final String text, final String summary) throws IOException, LoginException
-    {
-    	edit(title, text, summary, -1);
-    }
 
 	private static String getTextureImageName(final String texture) {
 		return Character.toUpperCase(texture.charAt(0)) + texture.substring(1).toLowerCase().replaceAll(" ", "_") + "." + IMAGE_EXTENSION;
@@ -626,12 +620,11 @@ public class WikiMaker {
 
 	private final Collection<String> RECIPE_GRID_HEADERS = ImmutableList.of("Outputs", "Components", "Recipe");
 
-	private boolean createSectionRecipesGrid(final ItemStack ingredient, final String pageName, final String sectionHeader, final int sectionIndex,
-			final PolycraftContainerType forceIncludeType) throws LoginException, IOException {
+	private String getRecipesGrid(final ItemStack ingredient, final PolycraftContainerType forceIncludeType) throws LoginException, IOException {
 		final Collection<PolycraftRecipe> forceIncludedRecipes = forceIncludeType == null ? null : PolycraftMod.recipeManager.getRecipesByContainerType(forceIncludeType);
 		final Map<PolycraftContainerType, Collection<PolycraftRecipe>> recipesByContainerType = recipesByIngredientContainerType.get(ingredient.getItem());
 		if (forceIncludedRecipes != null || recipesByContainerType != null) {
-			final StringBuilder page = new StringBuilder(getHeading(2, sectionHeader));
+			final StringBuilder page = new StringBuilder();
 			if (recipesByContainerType != null) {
 				for (final Entry<PolycraftContainerType, Collection<PolycraftRecipe>> recipeEntry : recipesByContainerType.entrySet()) {
 					final PolycraftContainerType containerType = recipeEntry.getKey();
@@ -652,10 +645,9 @@ public class WikiMaker {
 					data.add(getRecipePageGridRow(recipe));
 				page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
 			}
-			edit(pageName, page.toString(), editSummary, sectionIndex);
-			return true;
+			return page.toString();
 		}
-		return false;
+		return null;
 	}
 
 	private boolean displayOnRecipePage(ItemStack itemStack, String [] filters) {
@@ -742,10 +734,6 @@ public class WikiMaker {
 
 	private <C extends GameIdentifiedConfig> void createItemPage(final C config) throws LoginException, IOException {
 		final String title = config.name;
-		int index = 1;
-		int recipeSectionIndex = -1;
-		
-		
 		if (overwritePages || !wiki.exists(new String[] { title })[0]) {
 			logger.info("{} item page: {}", overwritePages ? "Overwriting" : "Creating", title);
 			final StringBuilder page = new StringBuilder();
@@ -757,7 +745,6 @@ public class WikiMaker {
 							final String location = getConfigLocation(source);
 							if (isExternalLocation(location)) {
 								page.append(getHeading(2, section.heading));
-								index++;
 								page.append(getLink(location, source.name + " on " + getUrlHost(location))).append(WIKI_NEWLINE);
 							}
 						}
@@ -765,7 +752,6 @@ public class WikiMaker {
 				}
 				else if (section == PageSectionItem.Properties) {
 					final Collection<Collection<String>> propertiesData = Lists.newLinkedList();
-					index++;
 					page.append(getHeading(2, section.heading));
 
 					if (config.hasProperties() || config.params != null) {
@@ -785,32 +771,17 @@ public class WikiMaker {
 					page.append(getTable(PROPERTIES_HEADERS, propertiesData)).append(WIKI_NEWLINE);
 				}
 				else {
-					if (section == PageSectionItem.Recipes)
-						recipeSectionIndex = index;
 					page.append(getHeading(2, section.heading));
-					index++;
 					if (section == PageSectionItem.Gallery)
 						page.append(getLinkFile(getTextureImageName(getTexture(config)))).append(WIKI_NEWLINE);
+					else if (section == PageSectionItem.Recipes)
+						page.append(getRecipesGrid(config.getItemStack(), config instanceof Inventory ? ((Inventory) config).containerType : null)).append(WIKI_NEWLINE);
+					
 				}
 			}
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(getAllCategories(config)));
 			edit(title, page.toString(), editSummary);
 		}
-		else
-		{
-			recipeSectionIndex = 1;
-			Map<String, String> temp = wiki.getSectionMap(title);
-			for (String temp2: temp.values())
-			{
-				if ("Recipes".equals(temp2))
-					break;
-				recipeSectionIndex++;
-				//System.out.println(temp2);			
-			}
-		}
-		// TODO the section index could change due to sub sections!
-		createSectionRecipesGrid(config.getItemStack(), title, PageSectionItem.Recipes.heading, recipeSectionIndex,
-				config instanceof Inventory ? ((Inventory) config).containerType : null);
 	}
 
 	private <C extends GameIdentifiedConfig> void createItemPageList(final ConfigRegistry<C> registry) throws LoginException, IOException {
