@@ -143,7 +143,8 @@ public class PolycraftMod {
 					System.getProperty("wikiScriptPath"),
 					System.getProperty("wikiUsername"),
 					System.getProperty("wikiPassword"),
-					Boolean.parseBoolean(System.getProperty("wikiOverwritePages")));
+					Boolean.parseBoolean(System.getProperty("wikiOverwritePages")),
+					System.getProperty("wikiDebugOutputDirectory"));
 			System.exit(0);
 		}
 

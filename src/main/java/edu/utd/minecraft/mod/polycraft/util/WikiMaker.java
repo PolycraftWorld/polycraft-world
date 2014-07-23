@@ -1,7 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
@@ -20,6 +22,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wikipedia.Wiki;
@@ -135,9 +138,10 @@ public class WikiMaker {
 		}
 	};
 
-	public static void generate(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) {
+	public static void generate(final String url, final String scriptPath, final String username, final String password,
+			final boolean overwritePages, final String debugOutputDirectory) {
 		try {
-			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages);
+			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages, debugOutputDirectory);
 			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
@@ -158,7 +162,7 @@ public class WikiMaker {
 //					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
 //					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
 //
-			wikiMaker.createItemPages(CompressedBlock.registry);
+//			wikiMaker.createItemPages(CompressedBlock.registry);
 //			wikiMaker.createItemPages(Inventory.registry);
 //			wikiMaker.createItemPages(Ore.registry);
 //			wikiMaker.createItemPages(Ingot.registry);
@@ -547,18 +551,42 @@ public class WikiMaker {
 	private final Wiki wiki;
 	private final String editSummary;
 	private final boolean overwritePages;
+	private final String debugOutputDirectory;
 
-	public WikiMaker(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages) throws FailedLoginException, IOException {
+	public WikiMaker(final String url, final String scriptPath, final String username, final String password, final boolean overwritePages, final String debugOutputDirectory) throws FailedLoginException, IOException {
 		this.wiki = new Wiki(url, scriptPath);
 		this.wiki.login(username, password);
 		this.editSummary = PolycraftMod.MODID + " " + PolycraftMod.VERSION;
 		this.overwritePages = overwritePages;
+		this.debugOutputDirectory = debugOutputDirectory;
 		this.recipesByIngredientContainerType = PolycraftMod.recipeManager.getRecipesByIngredientContainerType();
 	}
 
 	private void close() {
 		wiki.logout();
 	}
+
+	private void edit(final String title, final String text, final String summary, int sectionIndex) throws LoginException, IOException
+	{
+		if (StringUtils.isEmpty(debugOutputDirectory)) {
+			if (sectionIndex > -1)
+				wiki.edit(title, text, summary, sectionIndex);
+			else
+				wiki.edit(title, text, summary);
+		}
+		else {
+		        FileOutputStream fos = new FileOutputStream(debugOutputDirectory + PolycraftMod.getFileSafeName(title) + ".txt");
+		        OutputStreamWriter osw = new OutputStreamWriter(fos);
+		        osw.write(text);
+		        osw.close();
+		        fos.close();
+		}
+	}
+	
+    private void edit(final String title, final String text, final String summary) throws IOException, LoginException
+    {
+    	edit(title, text, summary, -1);
+    }
 
 	private static String getTextureImageName(final String texture) {
 		return Character.toUpperCase(texture.charAt(0)) + texture.substring(1).toLowerCase().replaceAll(" ", "_") + "." + IMAGE_EXTENSION;
@@ -593,7 +621,7 @@ public class WikiMaker {
 			row.add(PolycraftMod.numFormat.format(fuelEntry.getValue().getHeatDuration()));
 			data.add(row);
 		}
-		wiki.edit(getListOfTypeTitle(Fuel.class), getTable(FUEL_HEADERS, data), editSummary);
+		edit(getListOfTypeTitle(Fuel.class), getTable(FUEL_HEADERS, data), editSummary);
 	}
 
 	private final Collection<String> RECIPE_GRID_HEADERS = ImmutableList.of("Outputs", "Components", "Recipe");
@@ -624,7 +652,7 @@ public class WikiMaker {
 					data.add(getRecipePageGridRow(recipe));
 				page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
 			}
-			wiki.edit(pageName, page.toString(), editSummary, sectionIndex);
+			edit(pageName, page.toString(), editSummary, sectionIndex);
 			return true;
 		}
 		return false;
@@ -684,7 +712,7 @@ public class WikiMaker {
 				data.add(getRecipePageGridRow(recipe));
 			}
 			page.append(WIKI_NEWLINE).append(getTable(RECIPE_GRID_HEADERS, data));
-			wiki.edit(containerType.toString(), page.toString(), editSummary);
+			edit(containerType.toString(), page.toString(), editSummary);
 		}
 	}
 
@@ -692,7 +720,7 @@ public class WikiMaker {
 		final StringBuilder list = new StringBuilder();
 		for (final Class<? extends GameIdentifiedConfig> type : types)
 			list.append(WIKI_NEWLINE).append("* ").append(getLink(getListOfTypeTitle(type), getTitle(type, true)));
-		wiki.edit("List of Item Types", list.toString(), editSummary);
+		edit("List of Item Types", list.toString(), editSummary);
 	}
 
 	private boolean gameIdentifiedConfigHasItem(final GameIdentifiedConfig config) {
@@ -766,7 +794,7 @@ public class WikiMaker {
 				}
 			}
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(getAllCategories(config)));
-			wiki.edit(title, page.toString(), editSummary);
+			edit(title, page.toString(), editSummary);
 		}
 		else
 		{
@@ -867,7 +895,7 @@ public class WikiMaker {
 			}
 			final StringBuilder page = new StringBuilder(getTable(headers, data));
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
-			wiki.edit(getListOfTypeTitle(type), page.toString(), editSummary);
+			edit(getListOfTypeTitle(type), page.toString(), editSummary);
 		}
 	}
 }
