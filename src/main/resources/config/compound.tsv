@@ -299,7 +299,7 @@
 1.0.0	Valerolactone		Liquid				
 1.0.0	Vinyl Acetate	CH3CO2CHCH2	Liquid		Ethenyl acetate, Ethenyl ethanoate		
 1.0.0	Vinyl Chloride	H2CHCl	Liquid				Precursor to PVC
-1.0.0	Water	H2O	Liquid		—		Distilled (pure) water, is available in most grocery stores. This and deionized water are sufficient for most chemical reactions. Spring water or tap water have numerous minerals in solution. For certain, extremely sensitive experiments, contamination from plasticizers in the bottle may affect your reactions.
+1.0.0	Deionized Water	H2O	Liquid		—		Distilled (pure) water, is available in most grocery stores. This and deionized water are sufficient for most chemical reactions. Spring water or tap water have numerous minerals in solution. For certain, extremely sensitive experiments, contamination from plasticizers in the bottle may affect your reactions.
 1.0.0	Xylene	C8H10	Liquid		dimethylbenzene		Available at hardware stores, paint stores, and fine art supply stores.
 1.0.0	Zinc Chloride	ZnClf + H2O	Liquid		Tinner's Fluid, killed acid		Hardware store; used for cleaning copper.
 1.0.0	Zinc Oxide	ZnO	Liquid		pompholyx		Found in opaque sunscreens for its UV opacity. Chinese White fine arts pigment is very pure.

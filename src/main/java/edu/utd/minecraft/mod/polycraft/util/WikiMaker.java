@@ -141,15 +141,15 @@ public class WikiMaker {
 			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
 			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
-			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
-			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
+//			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
+//			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
 			
 			//wikiMaker.createFuelPage();
 //			wikiMaker.createItemTypesPage(ImmutableList.of(
@@ -158,7 +158,7 @@ public class WikiMaker {
 //					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
 //					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
 //
-//			wikiMaker.createItemPages(CompressedBlock.registry);
+			wikiMaker.createItemPages(CompressedBlock.registry);
 //			wikiMaker.createItemPages(Inventory.registry);
 //			wikiMaker.createItemPages(Ore.registry);
 //			wikiMaker.createItemPages(Ingot.registry);
@@ -716,6 +716,8 @@ public class WikiMaker {
 		final String title = config.name;
 		int index = 1;
 		int recipeSectionIndex = -1;
+		
+		
 		if (overwritePages || !wiki.exists(new String[] { title })[0]) {
 			logger.info("{} item page: {}", overwritePages ? "Overwriting" : "Creating", title);
 			final StringBuilder page = new StringBuilder();
@@ -765,6 +767,18 @@ public class WikiMaker {
 			}
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(getAllCategories(config)));
 			wiki.edit(title, page.toString(), editSummary);
+		}
+		else
+		{
+			recipeSectionIndex = 1;
+			Map<String, String> temp = wiki.getSectionMap(title);
+			for (String temp2: temp.values())
+			{
+				if ("Recipes".equals(temp2))
+					break;
+				recipeSectionIndex++;
+				//System.out.println(temp2);			
+			}
 		}
 		// TODO the section index could change due to sub sections!
 		createSectionRecipesGrid(config.getItemStack(), title, PageSectionItem.Recipes.heading, recipeSectionIndex,

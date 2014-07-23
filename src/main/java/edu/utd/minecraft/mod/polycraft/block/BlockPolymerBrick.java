@@ -153,12 +153,19 @@ public class BlockPolymerBrick extends Block {
 //			te.setOrientation(direction);
 //		}
 		boolean shiftPressed = false;
+		boolean ctrlPressed = false;
 	
 		//if (!player.worldObj.isRemote && (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)))
 		if (player.isSneaking())
 		{
 			//need to send a packet to the server informing them of this
 			shiftPressed = true;
+		}
+		
+		if (player.isSprinting())
+		{
+			//ctrlPressed = true; //TODO: implement mirroring
+			
 		}
 
 		
@@ -168,6 +175,9 @@ public class BlockPolymerBrick extends Block {
 		 int l = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		 int meta = worldObj.getBlockMetadata(xPos, yPos, zPos);
 		 boolean blockCanBePlaced = true;
+		 int notMirrored = 1;
+		 if (ctrlPressed) notMirrored = -1;
+		 
 		 for (int len = 0; len < this.length; len++)
 		 {
 			 for (int wid = 0; wid < this.width; wid++)
@@ -177,7 +187,7 @@ public class BlockPolymerBrick extends Block {
 			
 				 if (((l == 0) && (!shiftPressed)) || ((l==2) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 				 {
-					 Block nextBlock = worldObj.getBlock(xPos - wid, yPos, zPos + len);
+					 Block nextBlock = worldObj.getBlock(xPos - wid*notMirrored, yPos, zPos + len);
 					 if ((nextBlock != Blocks.air) && 
 						(nextBlock != Blocks.water) && 
 						(nextBlock != Blocks.deadbush) &&
@@ -197,7 +207,7 @@ public class BlockPolymerBrick extends Block {
 			
 				 if (((l == 1) && (!shiftPressed)) || ((l==3) && (shiftPressed))) // facing west (-x)
 				 {
-					 Block nextBlock = worldObj.getBlock(xPos - len, yPos, zPos - wid);
+					 Block nextBlock = worldObj.getBlock(xPos - len, yPos, zPos - wid*notMirrored);
 					 if ((nextBlock != Blocks.air) && 
 								(nextBlock != Blocks.water) && 
 								(nextBlock != Blocks.deadbush) &&
@@ -218,7 +228,7 @@ public class BlockPolymerBrick extends Block {
 			
 				 if (((l == 2) && (!shiftPressed)) || ((l==0) && (shiftPressed))) // facing north (-z)
 				 {
-					 Block nextBlock = worldObj.getBlock(xPos + wid, yPos, zPos - len);
+					 Block nextBlock = worldObj.getBlock(xPos + wid*notMirrored, yPos, zPos - len);
 					 if ((nextBlock != Blocks.air) && 
 								(nextBlock != Blocks.water) && 
 								(nextBlock != Blocks.deadbush) &&
@@ -238,7 +248,7 @@ public class BlockPolymerBrick extends Block {
 			
 				 if (((l == 3) && (!shiftPressed)) || ((l==1) && (shiftPressed))) // facing east (+x)
 				 {
-					 Block nextBlock = worldObj.getBlock(xPos + len, yPos, zPos + wid);
+					 Block nextBlock = worldObj.getBlock(xPos + len, yPos, zPos + wid*notMirrored);
 					 if ((nextBlock != Blocks.air) && 
 								(nextBlock != Blocks.water) && 
 								(nextBlock != Blocks.deadbush) &&
@@ -267,13 +277,13 @@ public class BlockPolymerBrick extends Block {
 		 for (int wid = 0; wid < this.width; wid++)
 		 {
 		 if (((l == 0) && (!shiftPressed)) || ((l==2) && (shiftPressed))) // facing south (+z)
-		 worldObj.setBlock(xPos - wid, yPos, zPos + len, this, meta, 2);
+		 worldObj.setBlock(xPos - wid*notMirrored, yPos, zPos + len, this, meta, 2);
 		 if (((l == 1) && (!shiftPressed)) || ((l==3) && (shiftPressed))) // facing west (-x)
-		 worldObj.setBlock(xPos - len, yPos, zPos - wid, this, meta, 2);
+		 worldObj.setBlock(xPos - len, yPos, zPos - wid*notMirrored, this, meta, 2);
 		 if (((l == 2) && (!shiftPressed)) || ((l==0) && (shiftPressed))) // facing north (-z)
-		 worldObj.setBlock(xPos + wid, yPos, zPos - len, this, meta, 2);
+		 worldObj.setBlock(xPos + wid*notMirrored, yPos, zPos - len, this, meta, 2);
 		 if (((l == 3) && (!shiftPressed)) || ((l==1) && (shiftPressed))) // facing east (+x)
-		 worldObj.setBlock(xPos + len, yPos, zPos + wid, this, meta, 2);
+		 worldObj.setBlock(xPos + len, yPos, zPos + wid*notMirrored, this, meta, 2);
 		 }
 		 }
 		

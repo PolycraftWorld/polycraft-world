@@ -1,5 +1,5 @@
 Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
-1.0.0	2	1	10	4	Water Bucket	1	Beaker (Water)	16	Bucket	1														
+1.0.0	2	1	10	4	Water Bucket	1	Beaker (Deionized Water)	16	Bucket	1														
 1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	16	Bucket	1														
 1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1														
 1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1														
@@ -18,11 +18,11 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	1	1	10	4	Vial (NeoPentane)	4	Flask (Methane)	8																
 1.0.0	1	1	10	4	Vial (NeoPentane)	16	Flask (Methane)	32																
 1.0.0	2	1	10	4	Beaker (NeoPentane)	1	Cartridge (Methane)	1	Flask (Methane)	40	Flask (Ethane)	8	Flask (Propane)	4										
-1.0.0	2	1	10	4	Beaker (NeoPentane)	4	Cartridge (Methane)	4	Cartridge (Methane)	2	Flask (Ethane)	32	Flask (Propane)	16										
-1.0.0	2	1	10	4	Beaker (NeoPentane)	16	Cartridge (Methane)	16	Cartridge (Methane)	10	Cartridge (Ethane)	2	Cartridge (Propane)	1										
+1.0.0	2	1	10	4	Beaker (NeoPentane)	4	Cartridge (Methane)	6	Flask (Ethane)	32	Flask (Propane)	16												
+1.0.0	2	1	10	4	Beaker (NeoPentane)	16	Cartridge (Methane)	26	Cartridge (Ethane)	2	Cartridge (Propane)	1												
 1.0.0	3	1	10	4	Drum (NeoPentane)	1	Canister (Methane)	1	Cartridge (Methane)	40	Cartridge (Ethane)	8	Cartridge (Propane)	4	Flask (Butane Isomers)	2								
-1.0.0	3	1	10	4	Drum (NeoPentane)	4	Canister (Methane)	4	Canister (Methane)	2	Cartridge (Ethane)	32	Cartridge (Propane)	16	Flask (Butane Isomers)	8	Vial (Pentane Isomers)	1						
-1.0.0	3	1	10	4	Drum (NeoPentane)	16	Canister (Methane)	16	Canister (Methane)	10	Canister (Ethane)	2	Canister (Propane)	1	Flask (Butane Isomers)	32	Vial (Pentane Isomers)	5						
+1.0.0	3	1	10	4	Drum (NeoPentane)	4	Canister (Methane)	6	Cartridge (Ethane)	32	Cartridge (Propane)	16	Flask (Butane Isomers)	8	Vial (Pentane Isomers)	1								
+1.0.0	3	1	10	4	Drum (NeoPentane)	16	Canister (Methane)	26	Canister (Ethane)	2	Canister (Propane)	1	Flask (Butane Isomers)	32	Vial (Pentane Isomers)	5								
 1.0.0	4	1	10	4	Drum (NeoPentane)	64	Canister (Methane)	64	Canister (Methane)	40	Canister (Ethane)	8	Canister (Propane)	4	Cartridge (Butane Isomers)	2	Vial (Pentane Isomers)	20	Vial (Hexane Isomers)	2				
 1.0.0	1	1	10	4	Vial (Naphthalene)	4	Vial (Light Naphtha)	3	Vial (Heavy Naphtha)	1														
 1.0.0	1	1	10	4	Vial (Naphthalene)	16	Vial (Light Naphtha)	12	Vial (Heavy Naphtha)	4														

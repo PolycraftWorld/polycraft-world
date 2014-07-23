@@ -13,6 +13,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 
 public class BlockPolymer extends Block implements BlockBouncy {
@@ -21,9 +22,11 @@ public class BlockPolymer extends Block implements BlockBouncy {
 	private final BlockPolymerHelper helper;
 
 	public BlockPolymer(final PolymerBlock polymerBlock) {
-		super(Material.cloth);
+		//super(Material.cloth);
+		super(PolycraftMaterial.plasticWhite);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.polymerBlock = polymerBlock;
+		this.setHardness(5);
 		this.helper = new BlockPolymerHelper(polymerBlock.source.source, -1);
 	}
 

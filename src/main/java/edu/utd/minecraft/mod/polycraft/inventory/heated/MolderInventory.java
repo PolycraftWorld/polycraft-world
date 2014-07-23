@@ -144,7 +144,7 @@ public abstract class MolderInventory extends HeatedInventory {
 			final ItemStack sourceInputItemStack = getStackInSlot(sourceIndex);
 			if (sourceInputItemStack != null) {
 				final ItemStack targetInputItemStack = getStackInSlot(targetIndex);
-				if (targetInputItemStack == null || sourceInputItemStack.isItemEqual(targetInputItemStack)) {
+				if (targetInputItemStack == null || (sourceInputItemStack.isItemEqual(targetInputItemStack)&&(targetInputItemStack.stackSize<targetInputItemStack.getMaxStackSize()))) {
 					if (sourceInputItemStack.stackSize == 1)
 						inventory.setInventorySlotContents(sourceIndex, null);
 					else

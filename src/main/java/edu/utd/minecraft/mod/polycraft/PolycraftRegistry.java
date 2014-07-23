@@ -91,6 +91,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFibers;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
@@ -465,6 +466,24 @@ public class PolycraftRegistry {
 			}
 			else if (GameID.CustomKevlarVest.matches(customObject)) {
 				registerItem(customObject, new ItemKevlarVest(customObject));
+			}
+			else if (GameID.CustomHeatedKnifeDiamondPolyIsoPrene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_NR"));
+			}
+			else if (GameID.CustomHeatedKnifeDiamondPolyPropylene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PP"));
+			}
+			else if (GameID.CustomHeatedKnifeDiamondPEEK.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PEEK"));
+			}
+			else if (GameID.CustomHeatedKnifeStainlessPolyIsoPrene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_NR"));
+			}
+			else if (GameID.CustomHeatedKnifeStainlessPolyPropylene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PP"));
+			}
+			else if (GameID.CustomHeatedKnifeStainlessPEEK.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PEEK"));
 			}
 			else
 				// TODO should we throw an exception if we don't have a true custom item (needed an implentation)

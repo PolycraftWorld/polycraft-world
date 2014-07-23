@@ -25,3 +25,9 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.0	5e	Heat Fins	PC Item		TRUE												
 1.0.0	5r	Flashlight Shaft	Utility	4	TRUE												
 1.0.0	21	Metalized PET film	PC Item	8	TRUE												
+1.0.3	114	Diamond-PolyIsoPrene Heated Knife	PC Item	4	TRUE		1	MiningEfficiency	10								
+1.0.3	115	Diamond-PolyPropylene Heated Knife	PC Item	4	TRUE			MiningEfficiency	15								
+1.0.3	116	Diamond-PEEK Heated Knife	PC Item	4	TRUE			MiningEfficiency	20								
+1.0.3	117	Stainless-PolyIsoPrene Heated Knife	PC Item	4	TRUE			MiningEfficiency	5								
+1.0.3	118	Stainless-PolyPropylene Heated Knife	PC Item	4	TRUE			MiningEfficiency	10								
+1.0.3	119	Stainless-PEEK Heated Knife	PC Item	4	TRUE			MiningEfficiency	15								

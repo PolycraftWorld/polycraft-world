@@ -71,7 +71,10 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 				if (upcycle)
 					((ItemVessel) itemStack.getItem()).upcycle(inventory, slotIndex, itemStack);
 				else
+				{
+					if (itemStack.stackSize < 64)
 					((ItemVessel) itemStack.getItem()).merge(inventory, slotIndex, itemStack);
+				}
 			}
 		}
 	}
@@ -104,18 +107,25 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 	}
 
 	private synchronized void merge(final PolycraftInventory inventory, final int slotIndex, final ItemStack itemStack) {
-		if (itemStack.stackSize < itemStack.getMaxStackSize()) {
+		if (itemStack.stackSize < 64) {
 			//search for a stack with our type that isn't maxed out and try to combine with it
 			for (final ContainerSlot combineSlot : inventory.getInputSlots()) {
 				if (combineSlot.getSlotIndex() != slotIndex) {
 					final ItemStack combineWithItemStack = inventory.getStackInSlot(combineSlot.getSlotIndex());
 					if (combineWithItemStack != null && combineWithItemStack.isItemEqual(itemStack)) {
-						if (combineWithItemStack.stackSize < combineWithItemStack.getMaxStackSize()) {
+						if (combineWithItemStack.stackSize < 64) {
 							final ItemStack sourceStack = combineSlot.getSlotIndex() > slotIndex ? combineWithItemStack : itemStack;
 							final ItemStack targetStack = combineSlot.getSlotIndex() > slotIndex ? itemStack : combineWithItemStack;
-							final int amountToTransfer = Math.min(sourceStack.stackSize, targetStack.getMaxStackSize() - targetStack.stackSize);
+							final int amountToTransfer = Math.min(sourceStack.stackSize, 64 - targetStack.stackSize);
 							targetStack.stackSize += amountToTransfer;
 							sourceStack.stackSize -= amountToTransfer;
+//		TODO: fix					if (targetStack.stackSize >= 64)
+//							{
+//								inventory.setInventorySlotContents(combineSlot.getSlotIndex(), targetStack);
+//								inventory.setInventorySlotContents(slotIndex, sourceStack);
+//								return;
+//							}
+								
 							if (sourceStack.stackSize == 0) {
 								inventory.setInventorySlotContents(combineSlot.getSlotIndex() > slotIndex ? combineSlot.getSlotIndex() : slotIndex, null);
 								return;

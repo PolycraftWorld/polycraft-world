@@ -5,22 +5,22 @@ import net.minecraft.block.material.Material;
 
 public class PolycraftMaterial extends Material {
 
-	final PolycraftMaterial plasticBlack = (new PolycraftMaterial(MapColor.blackColor)).setRequiresTool();
-	final PolycraftMaterial plasticRed = (new PolycraftMaterial(MapColor.redColor)).setRequiresTool();
-	final PolycraftMaterial plasticGreen = (new PolycraftMaterial(MapColor.greenColor)).setRequiresTool();
-	final PolycraftMaterial plasticBrown = (new PolycraftMaterial(MapColor.brownColor)).setRequiresTool();
-	final PolycraftMaterial plasticBlue = (new PolycraftMaterial(MapColor.blueColor)).setRequiresTool();
-	final PolycraftMaterial plasticPurple = (new PolycraftMaterial(MapColor.purpleColor)).setRequiresTool();
-	final PolycraftMaterial plasticCyan = (new PolycraftMaterial(MapColor.cyanColor)).setRequiresTool();
-	final PolycraftMaterial plasticSilver = (new PolycraftMaterial(MapColor.silverColor)).setRequiresTool();
-	final PolycraftMaterial plasticGray = (new PolycraftMaterial(MapColor.grayColor)).setRequiresTool();
-	final PolycraftMaterial plasticPink = (new PolycraftMaterial(MapColor.pinkColor)).setRequiresTool();
-	final PolycraftMaterial plasticLime = (new PolycraftMaterial(MapColor.limeColor)).setRequiresTool();
-	final PolycraftMaterial plasticYellow = (new PolycraftMaterial(MapColor.yellowColor)).setRequiresTool();
-	final PolycraftMaterial plasticLightBlue = (new PolycraftMaterial(MapColor.lightBlueColor)).setRequiresTool();
-	final PolycraftMaterial plasticMagenta = (new PolycraftMaterial(MapColor.magentaColor)).setRequiresTool();
-	final PolycraftMaterial plasticAdobe = (new PolycraftMaterial(MapColor.adobeColor)).setRequiresTool();
-	final PolycraftMaterial plasticWhite = (new PolycraftMaterial(MapColor.snowColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticBlack = (new PolycraftMaterial(MapColor.blackColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticRed = (new PolycraftMaterial(MapColor.redColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticGreen = (new PolycraftMaterial(MapColor.greenColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticBrown = (new PolycraftMaterial(MapColor.brownColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticBlue = (new PolycraftMaterial(MapColor.blueColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticPurple = (new PolycraftMaterial(MapColor.purpleColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticCyan = (new PolycraftMaterial(MapColor.cyanColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticSilver = (new PolycraftMaterial(MapColor.silverColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticGray = (new PolycraftMaterial(MapColor.grayColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticPink = (new PolycraftMaterial(MapColor.pinkColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticLime = (new PolycraftMaterial(MapColor.limeColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticYellow = (new PolycraftMaterial(MapColor.yellowColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticLightBlue = (new PolycraftMaterial(MapColor.lightBlueColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticMagenta = (new PolycraftMaterial(MapColor.magentaColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticAdobe = (new PolycraftMaterial(MapColor.adobeColor)).setRequiresTool();
+	public final static PolycraftMaterial plasticWhite = (new PolycraftMaterial(MapColor.snowColor)).setRequiresTool();
 	
 	private boolean requiresNoTool;	
 		

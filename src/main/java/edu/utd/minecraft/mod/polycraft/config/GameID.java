@@ -28,7 +28,13 @@ public enum GameID {
 	InventoryIndustrialOven("3F"),
 	InventoryPlasticChest("3L"),
 	InventoryCondenser("20"),
-	InventoryFlowRegulator("5j");
+	InventoryFlowRegulator("5j"), 
+	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
+	CustomHeatedKnifeDiamondPolyPropylene("115"),
+	CustomHeatedKnifeDiamondPEEK("116"),
+	CustomHeatedKnifeStainlessPolyIsoPrene("117"),
+	CustomHeatedKnifeStainlessPolyPropylene("118"),
+	CustomHeatedKnifeStainlessPEEK("119");
 	
 
 	private final String id;
