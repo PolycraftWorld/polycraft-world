@@ -248,5 +248,8 @@ public class PolycraftMod {
 		
 	}
 	
-	
+	//added this in so we can support java 1.6 (doesn't have Integer.compare yet)
+    public static int compareInt(int x, int y) {
+        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+    }
 }
