@@ -115,13 +115,13 @@ public abstract class PolycraftCraftingContainer extends Container {
 	protected int addPlayerInventorySlots(InventoryPlayer playerInventory, int offset) {
 		final int firstSlotIndex = inventorySlots.size();
 		int nextPlayerSlotIndex = 0;
-		for (int i = 0; i < 9; ++i) {
-			addSlotToContainer(new Slot(playerInventory, nextPlayerSlotIndex++, 8 + i * 18, 58 + offset));
-		}
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				addSlotToContainer(new Slot(playerInventory, nextPlayerSlotIndex++, 8 + j * 18, i * 18 + offset));
 			}
+		}
+		for (int i = 0; i < 9; ++i) {
+			addSlotToContainer(new Slot(playerInventory, nextPlayerSlotIndex++, 8 + i * 18, 58 + offset));
 		}
 		return firstSlotIndex;
 	}

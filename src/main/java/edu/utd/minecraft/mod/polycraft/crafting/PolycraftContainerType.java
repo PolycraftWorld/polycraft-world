@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.flowregulator.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
@@ -124,8 +126,8 @@ public enum PolycraftContainerType {
 		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
 		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
-		CONDENSER.initialize(IndustrialOvenInventory.guiSlots);
-		FLOW_REGULATOR.initialize(IndustrialOvenInventory.guiSlots);
+		CONDENSER.initialize(CondenserInventory.guiSlots);
+		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
 		PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
 	}
 

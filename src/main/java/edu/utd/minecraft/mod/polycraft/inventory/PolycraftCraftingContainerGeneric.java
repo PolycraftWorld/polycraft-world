@@ -76,158 +76,81 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
-			if (slotIndex == 0)
-			{
-				if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, true))
-				{
-					return null;
-				}
-
-				slot.onSlotChange(itemstack1, itemstack);
-			}
-			else if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST)||
+			
+			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST)||
 					(inventory.containerType == PolycraftContainerType.OIL_DERRICK) ||
 					(inventory.containerType == PolycraftContainerType.FUELED_LAMP) ||
 					(inventory.containerType == PolycraftContainerType.CONDENSER) ||
 					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
 					(inventory.containerType == PolycraftContainerType.SPOTLIGHT)) 
 			{
-				if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot) //in the inventory
-				{
-					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot, false))
-					{
-						return null;
-					}
-				}
-				else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot) //on the hotbar
-				{
-					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot, false))
-					{
-						return null;
-					}
-				}
-				else if (slotIndex < lastPlayerInventorySlot) //in the chest
-				{
-					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
-					{
-						return null;
-					}
-				}
-				
-				
-				else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
-				{
-					return null;
-				}
+				if (slotIndex < firstPlayerInventorySlot)
+	            {
+	                if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, this.inventorySlots.size(), true))
+	                {
+	                    return null;
+	                }
+	            }
+	            else if (!this.mergeItemStack(itemstack1, 0, firstPlayerInventorySlot, false))
+	            {
+	                return null;
+	            }
 
-				if (itemstack1.stackSize == 0)
-				{
-					slot.putStack((ItemStack) null);
-				}
-				else
-				{
-					slot.onSlotChanged();
-				}
-
-				if (itemstack1.stackSize == itemstack.stackSize)
-				{
-					return null;
-				}
-
-				slot.onPickupFromSlot(entityPlayer, itemstack1);
-				
-				
-			}
-			else if ((inventory.containerType == PolycraftContainerType.EXTRUDER)||
-					(inventory.containerType == PolycraftContainerType.MACHINING_MILL)||
-					(inventory.containerType == PolycraftContainerType.INJECTION_MOLDER))
-
-			{
-								
-				if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot) //in the inventory
-				{
-				
-					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot-2, false))
-					{
-						return null;
-					}
-				}
-				else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot) //on the hotbar
-				{
-					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size()-firstPlayerInventorySlot-2, false))
-					{
-						return null;
-					}
-				}
-				else if (slotIndex < lastPlayerInventorySlot) //in the chest
-				{
-					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
-					{
-						return null;
-					}
-				}
-				
-				
-				else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
-				{
-					return null;
-				}
-
-				if (itemstack1.stackSize == 0)
-				{
-					slot.putStack((ItemStack) null);
-				}
-				else
-				{
-					slot.onSlotChanged();
-				}
-
-				if (itemstack1.stackSize == itemstack.stackSize)
-				{
-					return null;
-				}
-
-				slot.onPickupFromSlot(entityPlayer, itemstack1);
-				
-				
-			}
-			
-			
-			else if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot)
-			{
-				if (!this.mergeItemStack(itemstack1, firstPlayerHotbarSlot, lastPlayerInventorySlot, false))
-				{
-					return null;
-				}
-			}
-			else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot)
-			{
-				if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, firstPlayerHotbarSlot, false))
-				{
-					return null;
-				}
-			}
-			else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
-			{
-				return null;
-			}
-
-			if (itemstack1.stackSize == 0)
-			{
-				slot.putStack((ItemStack) null);
+	            if (itemstack1.stackSize == 0)
+	            {
+	                slot.putStack((ItemStack)null);
+	            }
+	            else
+	            {
+	                slot.onSlotChanged();
+	            }
 			}
 			else
 			{
-				slot.onSlotChanged();
+				if (slotIndex == 0)
+				{
+					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, true))
+					{
+						return null;
+					}
+	
+					slot.onSlotChange(itemstack1, itemstack);
+				}
+				else if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot)
+				{
+					if (!this.mergeItemStack(itemstack1, firstPlayerHotbarSlot, lastPlayerInventorySlot, false))
+					{
+						return null;
+					}
+				}
+				else if (slotIndex >= firstPlayerHotbarSlot && slotIndex < lastPlayerInventorySlot)
+				{
+					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, firstPlayerHotbarSlot, false))
+					{
+						return null;
+					}
+				}
+				else if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, lastPlayerInventorySlot, false))
+				{
+					return null;
+				}
+	
+				if (itemstack1.stackSize == 0)
+				{
+					slot.putStack((ItemStack) null);
+				}
+				else
+				{
+					slot.onSlotChanged();
+				}
+	
+				if (itemstack1.stackSize == itemstack.stackSize)
+				{
+					return null;
+				}
+	
+				slot.onPickupFromSlot(entityPlayer, itemstack1);
 			}
-
-			if (itemstack1.stackSize == itemstack.stackSize)
-			{
-				return null;
-			}
-
-			slot.onPickupFromSlot(entityPlayer, itemstack1);
 		}
 
 		return itemstack;

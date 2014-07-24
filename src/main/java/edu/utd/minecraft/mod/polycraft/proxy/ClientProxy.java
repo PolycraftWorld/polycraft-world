@@ -3,14 +3,18 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
@@ -27,11 +31,13 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
+import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrickRenderer;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
+import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -54,6 +60,9 @@ public class ClientProxy extends CommonProxy {
 	private Minecraft client;
 	private GameSettings gameSettings;
 	private KeyBinding keyBindingToggleArmor;
+	private KeyBinding keyBindingCheatInfo1;
+	private KeyBinding keyBindingCheatInfo2;
+	private KeyBinding keyBindingCheatInfo3;
 
 	@Override
 	public void preInit() {
@@ -61,6 +70,9 @@ public class ClientProxy extends CommonProxy {
 		client = FMLClientHandler.instance().getClient();
 		gameSettings = client.gameSettings;
 		keyBindingToggleArmor = new KeyBinding("key.toggle.armor", Keyboard.KEY_F, "key.categories.gameplay");
+		keyBindingCheatInfo1 = new KeyBinding("key.cheat.info.1", Keyboard.KEY_J, "key.categories.gameplay");
+		keyBindingCheatInfo2 = new KeyBinding("key.cheat.info.2", Keyboard.KEY_I, "key.categories.gameplay");
+		keyBindingCheatInfo3 = new KeyBinding("key.cheat.info.3", Keyboard.KEY_M, "key.categories.gameplay");
 	}
 
 	private class PlayerState {
@@ -78,6 +90,8 @@ public class ClientProxy extends CommonProxy {
 		private boolean phaseShifterLightsEnabled = false;
 		private float bouncyBlockBounceHeight = 0;
 		private boolean placeBrickBackwards = false;
+		private int cheatInfoTicksRemaining = 0;
+		private Map<Ore, Integer> cheatInfoOreBlocksFound = Maps.newHashMap();
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -290,7 +304,7 @@ public class ClientProxy extends CommonProxy {
 		if (isTickValid(tick)) {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
-				onRenderTickItemStatusOverlays(player);
+				onRenderTickItemStatusOverlays(player, getPlayerState(player));
 			}
 		}
 	}
@@ -306,7 +320,7 @@ public class ClientProxy extends CommonProxy {
 		return String.format("%1$s: %2$.1f%%", itemStack.getItem().getItemStackDisplayName(itemStack), percent * 100);
 	}
 
-	private void onRenderTickItemStatusOverlays(final EntityPlayer player) {
+	private void onRenderTickItemStatusOverlays(final EntityPlayer player, final PlayerState playerState) {
 		if (noScreenOverlay()) {
 			int x = statusOverlayStartX;
 			int y = statusOverlayStartY;
@@ -330,6 +344,45 @@ public class ClientProxy extends CommonProxy {
 			if (ItemFlameThrower.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
+			}
+
+			if (playerState.cheatInfoTicksRemaining == 0) {
+				final boolean cheatInfoActivated = isKeyDown(keyBindingCheatInfo1) && isKeyDown(keyBindingCheatInfo2) && isKeyDown(keyBindingCheatInfo3);
+				if (cheatInfoActivated) {
+					playerState.cheatInfoOreBlocksFound.clear();
+					playerState.cheatInfoTicksRemaining = 400;
+					for (int testX = -8; testX <= 8; testX++) {
+						for (int testY = 0; testY < 64; testY++) {
+							for (int testZ = -8; testZ <= 8; testZ++) {
+								final int blockX = (int)(player.posX + testX);
+								final int blockY = testY;
+								final int blockZ = (int)(player.posZ + testZ);
+								if (!player.worldObj.isAirBlock(blockX, blockY, blockZ)) {
+									final Block testBlock = player.worldObj.getBlock(blockX, blockY, blockZ);
+									if (testBlock instanceof BlockOre) {
+										final Ore ore = ((BlockOre)testBlock).ore;
+										Integer found = playerState.cheatInfoOreBlocksFound.get(ore);
+										if (found == null)
+											playerState.cheatInfoOreBlocksFound.put(ore, 1);
+										else
+											playerState.cheatInfoOreBlocksFound.put(ore, found + 1);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			else {
+				client.fontRenderer.drawStringWithShadow("Cheat Info (" + playerState.cheatInfoTicksRemaining + ")", x, y, 16777215);
+				y += statusOverlayDistanceBetweenY;
+				for (final Entry<Ore, Integer> foundOre : playerState.cheatInfoOreBlocksFound.entrySet())
+				{
+					client.fontRenderer.drawStringWithShadow(foundOre.getValue() + " " + foundOre.getKey().name, x, y, 16777215);
+					y += statusOverlayDistanceBetweenY;
+				}
+				y += statusOverlayDistanceBetweenY;
+				playerState.cheatInfoTicksRemaining--;
 			}
 		}
 	}
