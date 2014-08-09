@@ -103,7 +103,7 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 		//light blocks and entities on fire
 		final ItemFlameThrower flameThrowerItem = getEquippedItem(player);
 		final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getAABBPool().getAABB(
+				AxisAlignedBB.getBoundingBox(
 						player.posX - flameThrowerItem.range - flameThrowerItem.spread,
 						player.posY - flameThrowerItem.range - flameThrowerItem.spread,
 						player.posZ - flameThrowerItem.range - flameThrowerItem.spread,

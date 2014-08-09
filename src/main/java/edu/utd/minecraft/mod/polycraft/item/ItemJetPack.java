@@ -117,7 +117,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 		//light entities on fire in the exhaust plume
 		final ItemJetPack equippedItem = getEquippedItem(player);
 		final List<Entity> closeEntities = world.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getAABBPool().getAABB(player.posX - 1, player.posY - exhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
+				AxisAlignedBB.getBoundingBox(player.posX - 1, player.posY - exhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
 		if (closeEntities != null && closeEntities.size() > 0)
 			for (final Entity entity : closeEntities) {
 				if (!entity.equals(player)) {

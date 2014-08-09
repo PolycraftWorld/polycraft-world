@@ -22,10 +22,10 @@ group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/
 archivesBaseName = "polycraft"
 
 minecraft {
-    version = "1.7.2-10.12.2.1121"
+    version = "1.7.10-10.13.0.1180"
     assetDir = "eclipse/assets"
-
 }
+
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -61,4 +61,3 @@ processResources
         exclude 'mcmod.info'
     }
 }
-
