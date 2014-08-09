@@ -26,11 +26,11 @@ import org.objectweb.asm.tree.VarInsnNode;
  */
 public class Transformer implements IClassTransformer
 {
-	private final String classNameWorld = "afn";
-	private String classNameBlockAccess = "afx";
-	private String classNameBlock = "ahu";
+	private final String classNameWorld = "ahb";
+	private String classNameBlockAccess = "ahl";
+	private String classNameBlock = "aji";
 	private String computeLightValueMethodName = "a";
-	private String targetMethodDesc = "(IIILafz;)I";
+	private String targetMethodDesc = "(IIILahn;)I";
 
 	@Override
 	public byte[] transform(String name, String newName, byte[] bytes)
@@ -55,86 +55,88 @@ public class Transformer implements IClassTransformer
 	private byte[] handleWorldTransform(byte[] bytes)
 	{
 		System.out.println("**************** Dynamic Lights transform running on World *********************** ");
+		
 		ClassNode classNode = new ClassNode();
-		ClassReader classReader = new ClassReader(bytes);
-		classReader.accept(classNode, 0);
-
-		// find method to inject into
-		Iterator<MethodNode> methods = classNode.methods.iterator();
-		while (methods.hasNext())
-		{
-			MethodNode m = methods.next();
-			if (m.name.equals(computeLightValueMethodName)
-					&& m.desc.equals(targetMethodDesc))
-			{
-				System.out.println("In target method! Patching!");
-
-				AbstractInsnNode targetNode = null;
-				Iterator<AbstractInsnNode> iter = m.instructions.iterator();
-				boolean deleting = false;
-				boolean replacing = false;
-				while (iter.hasNext())
-				{
-					targetNode = iter.next();
-
-					if (targetNode instanceof VarInsnNode)
-					{
-						VarInsnNode vNode = (VarInsnNode) targetNode;
-						if (vNode.var == 6)
-						{
-							if (vNode.getOpcode() == ASTORE)
-							{
-								System.out.println("Bytecode ASTORE 6 case!");
-								deleting = true;
-								continue;
-							}
-							else if (vNode.getOpcode() == ISTORE)
-							{
-								System.out.println("Bytecode ISTORE 6 case!");
-								replacing = true;
-								targetNode = iter.next();
-								break;
-							}
-						}
-
-						if (vNode.var == 7 && deleting)
-						{
-							break;
-						}
-					}
-
-					if (deleting)
-					{
-						System.out.println("Removing " + targetNode);
-						iter.remove();
-					}
-				}
-
-				// make new instruction list
-				InsnList toInject = new InsnList();
-
-				// argument mapping! 0 is World, 5 is block, 123 are xyz
-				toInject.add(new VarInsnNode(ALOAD, 0));
-				toInject.add(new VarInsnNode(ALOAD, 5));
-				toInject.add(new VarInsnNode(ILOAD, 1));
-				toInject.add(new VarInsnNode(ILOAD, 2));
-				toInject.add(new VarInsnNode(ILOAD, 3));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, DynamicLights.class.getCanonicalName().replaceAll(Pattern.quote("."), "/"), "getLightValue", "(L" + classNameBlockAccess + ";L" + classNameBlock + ";III)I"));
-				if (replacing)
-				{
-					toInject.add(new VarInsnNode(ISTORE, 6));
-				}
-
-				// inject new instruction list into method instruction list
-				m.instructions.insertBefore(targetNode, toInject);
-
-				System.out.println("Patching Complete!");
-				break;
-			}
-		}
-
-		ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
-		classNode.accept(writer);
-		return writer.toByteArray();
+        ClassReader classReader = new ClassReader(bytes);
+        classReader.accept(classNode, 0);
+        
+        // find method to inject into
+        Iterator<MethodNode> methods = classNode.methods.iterator();
+        while(methods.hasNext())
+        {
+            MethodNode m = methods.next();
+            if (m.name.equals(computeLightValueMethodName)
+            && m.desc.equals(targetMethodDesc))
+            {
+                System.out.println("In target method! Patching!");
+                
+                AbstractInsnNode targetNode = null;
+                Iterator<AbstractInsnNode> iter = m.instructions.iterator();
+                boolean deleting = false;
+                boolean replacing = false;
+                while (iter.hasNext())
+                {
+                    targetNode = (AbstractInsnNode) iter.next();
+                    
+                    if (targetNode instanceof VarInsnNode)
+                    {
+                        VarInsnNode vNode = (VarInsnNode) targetNode;
+                        if (vNode.var == 6)
+                        {
+                            if (vNode.getOpcode() == ASTORE)
+                            {
+                                System.out.println("Bytecode ASTORE 6 case!");
+                                deleting = true;
+                                continue;
+                            }
+                            else if (vNode.getOpcode() == ISTORE)
+                            {
+                                System.out.println("Bytecode ISTORE 6 case!");
+                                replacing = true;
+                                targetNode = (AbstractInsnNode) iter.next();
+                                break;
+                            }
+                        }
+                        
+                        if (vNode.var == 7 && deleting)
+                        {
+                            break;
+                        }
+                    }
+                    
+                    if (deleting)
+                    {
+                        System.out.println("Removing "+targetNode);
+                        iter.remove();
+                    }
+                }
+                
+                // make new instruction list
+                InsnList toInject = new InsnList();
+                
+                // argument mapping! 0 is World, 5 is block, 123 are xyz
+                toInject.add(new VarInsnNode(ALOAD, 0));
+                toInject.add(new VarInsnNode(ALOAD, 5));
+                toInject.add(new VarInsnNode(ILOAD, 1));
+                toInject.add(new VarInsnNode(ILOAD, 2));
+                toInject.add(new VarInsnNode(ILOAD, 3));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, DynamicLights.class.getCanonicalName().replaceAll(Pattern.quote("."), "/"), "getLightValue", "(L" + classNameBlockAccess + ";L" + classNameBlock + ";III)I"));
+                
+                if (replacing)
+                {
+                    toInject.add(new VarInsnNode(ISTORE, 6));
+                }
+                
+                // inject new instruction list into method instruction list
+                m.instructions.insertBefore(targetNode, toInject);
+                
+                System.out.println("Patching Complete!");
+                break;
+            }
+        }
+        
+        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+        classNode.accept(writer);
+        return writer.toByteArray();
 	}
 }
