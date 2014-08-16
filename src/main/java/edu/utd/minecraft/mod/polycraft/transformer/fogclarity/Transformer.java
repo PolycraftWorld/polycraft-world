@@ -23,7 +23,8 @@ public class Transformer implements IClassTransformer
 	private String classNameEntityLivingBase = "sv";
 	private String setupFogMethodName = "a";
 	private final String targetMethodDesc = "(IF)V";
-	private final int lineToRemoveAfter = 267; //looking for opcode 18 in decimal with next var value = 3 (this is 266)
+	private final int instructionToRemoveStart = 266; //looking for opcode 18 in decimal with next var value = 3
+	private final int instructionsToRemove = 7;
 
 	@Override
 	public byte[] transform(String name, String newName, byte[] bytes)
@@ -67,8 +68,8 @@ public class Transformer implements IClassTransformer
 //				}
 				
 
-				AbstractInsnNode currentNode = m.instructions.get(lineToRemoveAfter);
-				for (int i = 0; i < 5; i++) {
+				AbstractInsnNode currentNode = m.instructions.get(instructionToRemoveStart);
+				for (int i = 0; i < instructionsToRemove; i++) {
 					AbstractInsnNode nextNode = currentNode.getNext();
 					m.instructions.remove(currentNode);
 					currentNode = nextNode;
