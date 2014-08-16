@@ -80,37 +80,52 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new FueledLampGui(this, playerInventory);
 	}
+	
+	private static final int maxTicksPerEpoch = (int) Math.pow(2,15);
 
 	@Override
 	public synchronized void updateEntity() {
 		super.updateEntity();
 		if (worldObj != null && !worldObj.isRemote) {
 			if (getState(FueledLampState.FuelTicksRemaining) == 0) {
-				final ContainerSlot fuelSlot = getNextFuelSlot();
-				if (fuelSlot == null) {
-					if (removeCurrentLightSource()) {
-						setState(FueledLampState.FuelIndex, -1);
-						setState(FueledLampState.FuelTicksTotal, 0);
-						setState(FueledLampState.FuelHeatIntensity, -1);
-					}
+				
+				if (getState(FueledLampState.FuelTicksRemainingEpochs) > 0) //decrement tickEpoch
+				{
+					setState(FueledLampState.FuelTicksRemaining, maxTicksPerEpoch);	
+					updateState(FueledLampState.FuelTicksRemainingEpochs, -1);					
 				}
-				else {
-					final ItemStack fuelStack = getStackInSlot(fuelSlot);
-					fuelStack.stackSize--;
-					if (fuelStack.stackSize == 0)
-						clearSlotContents(fuelSlot);
-
-					final Fuel fuel = Fuel.getFuel(fuelStack.getItem());
-					final int fuelTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
-					setState(FueledLampState.FuelIndex, fuel.index);
-					setState(FueledLampState.FuelTicksTotal, fuelTicksTotal);
-					setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal);
-					//used to only do the following if fuel.heatIntensity != getState(FueledLampState.FuelHeatIntensity,
-					//but now we just do it all the time so as to update occlusions on fuel switch (as good a time as any)
-					setState(FueledLampState.FuelHeatIntensity, fuel.heatIntensity);
-					final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
-					removeCurrentLightSource();
-					currentLightSource = newLightSource;
+				
+				else //the lamp should go off or take next fuel
+				{
+					final ContainerSlot fuelSlot = getNextFuelSlot();
+					if (fuelSlot == null) {
+						if (removeCurrentLightSource()) {
+							setState(FueledLampState.FuelIndex, -1);
+							setState(FueledLampState.FuelTicksTotal, 0);
+							setState(FueledLampState.FuelHeatIntensity, -1);
+						}
+					}
+					else {
+						final ItemStack fuelStack = getStackInSlot(fuelSlot);
+						fuelStack.stackSize--;
+						if (fuelStack.stackSize == 0)
+							clearSlotContents(fuelSlot);
+	
+						final Fuel fuel = Fuel.getFuel(fuelStack.getItem());
+						final int fuelTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
+						
+						setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal%maxTicksPerEpoch);					
+						setState(FueledLampState.FuelIndex, fuel.index);
+						setState(FueledLampState.FuelTicksTotal, fuelTicksTotal%maxTicksPerEpoch);
+						setState(FueledLampState.FuelTicksRemainingEpochs, fuelTicksTotal / maxTicksPerEpoch);
+						setState(FueledLampState.FuelTicksTotalEpochs, fuelTicksTotal / maxTicksPerEpoch);
+						//used to only do the following if fuel.heatIntensity != getState(FueledLampState.FuelHeatIntensity,
+						//but now we just do it all the time so as to update occlusions on fuel switch (as good a time as any)
+						setState(FueledLampState.FuelHeatIntensity, fuel.heatIntensity);
+						final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
+						removeCurrentLightSource();
+						currentLightSource = newLightSource;
+					}
 				}
 			}
 			else if (currentLightSource == null) {
