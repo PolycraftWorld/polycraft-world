@@ -17,6 +17,6 @@ public class FogClarity {
 					return 0;
 			}
 		}
-		return 0.1F - EnchantmentHelper.getRespiration(entityLiving) * 0.03F;
+		return 0.1F - (float)EnchantmentHelper.getRespiration(entityLiving) * 0.03F;
 	}
 }

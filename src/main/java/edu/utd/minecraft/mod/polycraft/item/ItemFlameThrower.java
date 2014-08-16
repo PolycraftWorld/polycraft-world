@@ -102,14 +102,16 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	public static void dealFlameDamage(final EntityPlayer player, final World world) {
 		//light blocks and entities on fire
 		final ItemFlameThrower flameThrowerItem = getEquippedItem(player);
-		final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getBoundingBox(
-						player.posX - flameThrowerItem.range - flameThrowerItem.spread,
-						player.posY - flameThrowerItem.range - flameThrowerItem.spread,
-						player.posZ - flameThrowerItem.range - flameThrowerItem.spread,
-						player.posX + flameThrowerItem.range + flameThrowerItem.spread,
-						player.posY + flameThrowerItem.range + flameThrowerItem.spread,
-						player.posZ + flameThrowerItem.range + flameThrowerItem.spread));
+		
+	//FIXME: get the flamethrower to work in a fast way	
+//		final List<Entity> closeEntities = player.worldObj.getEntitiesWithinAABB(Entity.class,
+//				AxisAlignedBB.getBoundingBox(
+//						player.posX - flameThrowerItem.range - flameThrowerItem.spread,
+//						player.posY - flameThrowerItem.range - flameThrowerItem.spread,
+//						player.posZ - flameThrowerItem.range - flameThrowerItem.spread,
+//						player.posX + flameThrowerItem.range + flameThrowerItem.spread,
+//						player.posY + flameThrowerItem.range + flameThrowerItem.spread,
+//						player.posZ + flameThrowerItem.range + flameThrowerItem.spread));
 
 		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
 		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
@@ -123,16 +125,16 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 					player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
 				}
 			}
-
-			if (closeEntities != null && closeEntities.size() > 0) {
-				for (final Entity entity : closeEntities)
-					if (!entity.equals(player) && Math.abs(entity.posX - pathX) < flameThrowerItem.spread && Math.abs(entity.posY - pathY) < flameThrowerItem.spread
-							&& Math.abs(entity.posZ - pathZ) < flameThrowerItem.spread) {
-						if (!entity.isBurning())
-							entity.setFire(flameThrowerItem.fireDuration);
-						entity.attackEntityFrom(DamageSource.onFire, flameThrowerItem.damage);
-					}
-			}
+//FIXME: same as above
+//			if (closeEntities != null && closeEntities.size() > 0) {
+//				for (final Entity entity : closeEntities)
+//					if (!entity.equals(player) && Math.abs(entity.posX - pathX) < flameThrowerItem.spread && Math.abs(entity.posY - pathY) < flameThrowerItem.spread
+//							&& Math.abs(entity.posZ - pathZ) < flameThrowerItem.spread) {
+//						if (!entity.isBurning())
+//							entity.setFire(flameThrowerItem.fireDuration);
+//						entity.attackEntityFrom(DamageSource.onFire, flameThrowerItem.damage);
+//					}
+//			}
 		}
 	}
 

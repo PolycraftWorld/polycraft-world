@@ -17,11 +17,12 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class Transformer implements IClassTransformer {
 
-	private String classNameItemRenderer = "blq";
-	private String classNameBlock = "ahu";
-	private String classNameEntityPlayer = "xl";
+	private String classNameItemRenderer = "bly";
+	private String classNameBlock = "aji";
+	private String classNameEntityPlayer = "yz"; //"yz" is the EntityPlayer, "bjk" is the EntityClientPlayerMP
 	private String renderOverlaysMethodName = "b";
 	private final String renderOverlaysMethodDesc = "(F)V";
+	private final int lineToRemove = 51; //looking for opcode 182 in decimal
 
 	@Override
 	public byte[] transform(String name, String newName, byte[] bytes) {
@@ -49,12 +50,12 @@ public class Transformer implements IClassTransformer {
 			final MethodNode m = methods.next();
 			if (m.name.equals(renderOverlaysMethodName) && m.desc.equals(renderOverlaysMethodDesc)) {
 				System.out.println("In target method! Patching!");
-				final AbstractInsnNode currentNode = m.instructions.get(22);
+				final AbstractInsnNode currentNode = m.instructions.get(lineToRemove);
 				m.instructions.remove(currentNode);
 				final InsnList toInject = new InsnList();
 				toInject.add(new MethodInsnNode(INVOKESTATIC, PhaseShifter.class.getCanonicalName().replaceAll(Pattern.quote("."), "/"), "itemRendererIsEntityInsideOpaqueBlock", "(L" + classNameEntityPlayer + ";)Z"));
 				// inject new instruction list into method instruction list
-				m.instructions.insertBefore(m.instructions.get(22), toInject);
+				m.instructions.insertBefore(m.instructions.get(lineToRemove), toInject);
 
 				System.out.println("Patching Complete!");
 				break;

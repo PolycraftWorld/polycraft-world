@@ -1,2 +1,9 @@
 http://jd.benow.ca
 polycraft\build\unpacked\conf\notch-mcp.srg
+
+decompile from:
+%AppData%\.minecraft\versions\1.7.10-Forge10.13.0.1180
+
+link to opcode:
+http://en.wikipedia.org/wiki/Java_bytecode_instruction_listings
+

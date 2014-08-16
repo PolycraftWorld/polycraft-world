@@ -19,10 +19,11 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 public class Transformer implements IClassTransformer
 {
-	private final String classNameEntityRenderer = "bll";
-	private String classNameEntityLivingBase = "rh";
+	private final String classNameEntityRenderer = "blt";
+	private String classNameEntityLivingBase = "sv";
 	private String setupFogMethodName = "a";
 	private final String targetMethodDesc = "(IF)V";
+	private final int lineToRemoveAfter = 267; //looking for opcode 18 in decimal with next var value = 3 (this is 266)
 
 	@Override
 	public byte[] transform(String name, String newName, byte[] bytes)
@@ -57,9 +58,17 @@ public class Transformer implements IClassTransformer
 			if (m.name.equals(setupFogMethodName) && m.desc.equals(targetMethodDesc))
 			{
 				System.out.println("In target method! Patching!");
+				
+//				for (int temp1 = 265; temp1 <280; temp1++)
+//				{
+//					System.out.print("Instruction " + temp1 +": ");
+//					System.out.println(m.instructions.get(temp1).getOpcode());
+//					
+//				}
+				
 
-				AbstractInsnNode currentNode = m.instructions.get(240);
-				for (int i = 0; i < 7; i++) {
+				AbstractInsnNode currentNode = m.instructions.get(lineToRemoveAfter);
+				for (int i = 0; i < 5; i++) {
 					AbstractInsnNode nextNode = currentNode.getNext();
 					m.instructions.remove(currentNode);
 					currentNode = nextNode;
@@ -73,6 +82,13 @@ public class Transformer implements IClassTransformer
 				// inject new instruction list into method instruction list
 				m.instructions.insertBefore(currentNode, toInject);
 
+//				System.out.println("-------");
+//				for (int temp1 = 265; temp1 <280; temp1++)
+//				{
+//					System.out.print("Instruction " + temp1 +": ");
+//					System.out.println(m.instructions.get(temp1).getOpcode());
+//					
+//				}
 				System.out.println("Patching Complete!");
 				break;
 			}

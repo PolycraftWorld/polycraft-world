@@ -113,19 +113,19 @@ public class ItemJetPack extends PolycraftArmorChest {
 			}
 		}
 		*/
-
+//FIXME: deal with projectile code to improve lag in big servers
 		//light entities on fire in the exhaust plume
-		final ItemJetPack equippedItem = getEquippedItem(player);
-		final List<Entity> closeEntities = world.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getBoundingBox(player.posX - 1, player.posY - exhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
-		if (closeEntities != null && closeEntities.size() > 0)
-			for (final Entity entity : closeEntities) {
-				if (!entity.equals(player)) {
-					if (!entity.isBurning())
-						entity.setFire(Math.max(exhaustRangeY - (int) Math.round(player.posY - entity.posY), 1));
-					entity.attackEntityFrom(DamageSource.onFire, equippedItem.exhaustDamageDirect);
-				}
-			}
+//		final ItemJetPack equippedItem = getEquippedItem(player);
+//		final List<Entity> closeEntities = world.getEntitiesWithinAABB(Entity.class,
+//				AxisAlignedBB.getBoundingBox(player.posX - 1, player.posY - exhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
+//		if (closeEntities != null && closeEntities.size() > 0)
+//			for (final Entity entity : closeEntities) {
+//				if (!entity.equals(player)) {
+//					if (!entity.isBurning())
+//						entity.setFire(Math.max(exhaustRangeY - (int) Math.round(player.posY - entity.posY), 1));
+//					entity.attackEntityFrom(DamageSource.onFire, equippedItem.exhaustDamageDirect);
+//				}
+//			}
 
 	}
 
