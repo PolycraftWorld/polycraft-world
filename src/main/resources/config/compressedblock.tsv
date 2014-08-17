@@ -14,10 +14,11 @@ Version	Game ID	Compressed Block	Source Type	Source Name
 	10	Block of Lead	Ingot	Lead Ingot
 1.0.0	11	Block of Bismuth	Ingot	Bismuth Ingot
 1.0.0	12	Block of Aluminum	Ingot	Aluminum Ingot
-	13	Block of Steel	Ingot	Steel Ingot
-	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot
+1.0.4	13	Block of Steel	Ingot	Steel Ingot
+1.0.4	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot
 1.0.0	15	Block of Brass	Ingot	Brass Ingot
 1.0.0	16	Block of Bronze	Ingot	Bronze Ingot
 1.0.0	17	Block of Bitumen	Ore	Bitumen
 1.0.0	4j	Block of Tin	Ingot	Tin Ingot
 1.0.0	1Z	Block of Potash	Ore	Potash Ore
+1.0.4	4m	Block of Chrome	Ingot	Chrome Ingot

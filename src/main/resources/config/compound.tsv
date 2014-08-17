@@ -278,7 +278,7 @@
 1.0.0	Sulfuric Acid	H2SO4	Liquid		vitriol, oil of vitriol		Hardware store; battery acid. May also be obtained at some auto supply stores.
 1.0.0	Sweet Butane Fuel		Gas				
 1.0.0	Sweet Propane Fuel		Gas				
-1.0.0	Sweet Light Naphtha		Gas				
+1.0.0	Sweet Light Naphtha		Liquid				
 1.0.0	Tannic Acid	C76H52O46	Liquid		tannin		Arts and crafts store in the dyes and fabric section. Some photography stores and drug stores may carry it.
 1.0.0	Tartaric Acid	C4H6O6	Liquid		wine preservative		Sold in wine-making supply stores and sometimes in the grocery store.
 1.0.0	Terephthalic Acid	C6H4(COOH)2	Liquid				
@@ -337,3 +337,5 @@
 1.0.0	Chromia Alumina	Cr2O3-Al2O3	Solid			Catalyst	
 1.0.0	Acrylonitrile	C3H3N	Liquid				
 1.0.0	Acetonitrile	CH3CN	Liquid				
+1.0.4	Sweet Kerosene	CnH2n+1(n=12–16)	Liquid				
+1.0.4	Sweet Diesel		Liquid				

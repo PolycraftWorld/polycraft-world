@@ -14,8 +14,9 @@ Version	Game ID	Ingot	Source Type	Source Name	Mold Damage Per Use
 	w	Lead Ingot	Element	Lead	0
 1.0.0	x	Bismuth Ingot	Element	Bismuth	16
 1.0.0	y	Aluminum Ingot	Element	Aluminum	64
-	z	Steel Ingot	Alloy	Steel	8
-	A	Stainless Steel Ingot	Alloy	Stainless Steel	4
+1.0.4	z	Steel Ingot	Alloy	Steel	8
+1.0.4	A	Stainless Steel Ingot	Alloy	Stainless Steel	4
 1.0.0	B	Brass Ingot	Alloy	Brass	16
 1.0.0	C	Bronze Ingot	Alloy	Bronze	128
 1.0.0	4k	Tin Ingot	Element	Tin	0
+1.0.4	4l	Chrome Ingot	Mineral	Chromite	0

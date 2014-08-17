@@ -286,7 +286,7 @@
 	ik	nI	t6	yu	Vial (Sucrose)	Beaker (Sucrose)	Drum (Sucrose)	Chemical Vat (Sucrose)	Sucrose	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	il	nJ	t7	yv	Vial (Sulfuric Acid)	Beaker (Sulfuric Acid)	Drum (Sulfuric Acid)	Chemical Vat (Sulfuric Acid)	Sulfuric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	im	nK	t8	yw	Flask (Sweet Butane Fuel)	Cartridge (Sweet Butane Fuel)	Canister (Sweet Butane Fuel)	Chemical Tank (Sweet Butane Fuel)	Sweet Butane Fuel	Gas	Flask	Cartridge	Canister	Chemical Tank
-1.0.0	in	nL	t9	yx	Flask (Sweet Light Naphtha)	Cartridge (Sweet Light Naphtha)	Canister (Sweet Light Naphtha)	Chemical Tank (Sweet Light Naphtha)	Sweet Light Naphtha	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	in	nL	t9	yx	Vial (Sweet Light Naphtha)	Beaker (Sweet Light Naphtha)	Drum (Sweet Light Naphtha)	Chemical Vat (Sweet Light Naphtha)	Sweet Light Naphtha	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	io	nM	ta	yy	Flask (Sweet Propane Fuel)	Cartridge (Sweet Propane Fuel)	Canister (Sweet Propane Fuel)	Chemical Tank (Sweet Propane Fuel)	Sweet Propane Fuel	Gas	Flask	Cartridge	Canister	Chemical Tank
 	ip	nN	tb	yz	Vial (Tannic Acid)	Beaker (Tannic Acid)	Drum (Tannic Acid)	Chemical Vat (Tannic Acid)	Tannic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
 	iq	nO	tc	yA	Vial (Tartaric Acid)	Beaker (Tartaric Acid)	Drum (Tartaric Acid)	Chemical Vat (Tartaric Acid)	Tartaric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
@@ -328,6 +328,6 @@
 1.0.0	j1	op	tN	zb	Bag (Chromia Alumina)	Sack (Chromia Alumina)	Powder Keg (Chromia Alumina)	Chemical Silo (Chromia Alumina)	Chromia Alumina	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	j2	oq	tO	zc	Vial (Acrylonitrile)	Beaker (Acrylonitrile)	Drum (Acrylonitrile)	Chemical Vat (Acrylonitrile)	Acrylonitrile	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	j3	or	tP	zd	Vial (Acetonitrile)	Beaker (Acetonitrile)	Drum (Acetonitrile)	Chemical Vat (Acetonitrile)	Acetonitrile	Liquid	Vial	Beaker	Drum	Chemical Vat
-	j4	os	tQ	ze	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
-	j5	ot	tR	zf	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
+1.0.4	j4	os	tQ	ze	Vial (Sweet Kerosene)	Beaker (Sweet Kerosene)	Drum (Sweet Kerosene)	Chemical Vat (Sweet Kerosene)	Sweet Kerosene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.4	j5	ot	tR	zf	Vial (Sweet Diesel)	Beaker (Sweet Diesel)	Drum (Sweet Diesel)	Chemical Vat (Sweet Diesel)	Sweet Diesel	Liquid	Vial	Beaker	Drum	Chemical Vat
 	j6	ou	tS	zg	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo

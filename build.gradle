@@ -17,16 +17,20 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0.3"
+version = "1.0.4"
 group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "polycraft"
 
 minecraft {
-    version = "1.7.10-10.13.0.1180"
+    version = "1.7.10-10.13.0.1160"
     assetDir = "eclipse/assets"
 }
 
 dependencies {
+    //compile 'org.lwjgl.lwjgl:lwjgl:2.9.1'
+    //compile 'org.apache.logging.log4j:log4j-core:2.0-beta9'
+    //compile 'org.apache.logging.log4j:log4j-api:2.0-beta9'
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"

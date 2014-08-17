@@ -1,18 +1,51 @@
 Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*Per smallest vessel type if vesseled
 1.0.0	Crude Oil	Compound	Crude Oil	0	1	240	
-1.0.0	Coal	Minecraft Item	Coal	1	1	240	
-1.0.0	Gas Oil	Compound	Gas Oil	2	2	180	
-1.0.0	Methane	Compound	Methane	3	3	240	
+1.0.0	Coal	Minecraft Item	Coal	1	3	240	
+1.0.0	Gas Oil	Compound	Gas Oil	2	3	180	
+1.0.0	Methane	Compound	Methane	3	6	240	
 1.0.0	Diesel	Compound	Diesel	4	7	360	
-1.0.0	Kerosene	Compound	Kerosene	5	10	360	
-1.0.0	Liquified Natural Gas	Compound	Liquified Natural Gas	6	4	240	
-1.0.0	Naphtha	Compound	Naphtha	7	3	120	
+1.0.0	Kerosene	Compound	Kerosene	5	7	360	
+1.0.0	Liquified Natural Gas	Compound	Liquified Natural Gas	6	3	240	
+1.0.0	Naphtha	Compound	Naphtha	7	2	120	
 1.0.0	Naphthalene	Compound	Naphthalene	8	3	120	
-1.0.0	Propane	Compound	Propane	9	5	240	
-1.0.0	Ethane	Compound	Ethane	10	4	240	
-1.0.0	Sweet Butane Fuel	Compound	Sweet Butane Fuel	11	9	360	
+1.0.0	Propane	Compound	Propane	9	6	240	
+1.0.0	Ethane	Compound	Ethane	10	6	240	
+1.0.0	Sweet Butane Fuel	Compound	Sweet Butane Fuel	11	8	360	
 1.0.0	Sweet Propane Fuel	Compound	Sweet Propane Fuel	12	8	360	
 1.0.0	Sweet Light Naphtha	Compound	Sweet Light Naphtha	13	5	120	
 1.0.0	Town Gas	Compound	Town Gas	14	7	120	
 1.0.0	Light Naphtha	Compound	Light Naphtha	15	3	120	
 1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	3	120	
+1.0.4	Butane Isomers	Compound	Butane Isomers	17	6	240	
+1.0.4	Sweet Kerosene	Compound	Sweet Kerosene	18	10	360	
+1.0.4	Sweet Diesel	Compound	Sweet Diesel	19	10	360	
+1.0.4	Benzene-Toluene-Xylene	Compound	Benzene-Toluene-Xylene	20	2	240	
+1.0.4	Ethanol	Compound	Ethanol	21	4	120	
+1.0.4	Butanol	Compound	Butanol	22	4	120	
+1.0.4	Heavy Naphtha	Compound	Heavy Naphtha	23	2	120	
+1.0.4	Hydrogen Gas	Compound	Hydrogen Gas	24	7	30	
+1.0.4	IsoButane	Compound	IsoButane	25	6	240	
+1.0.4	IsoPentane	Compound	IsoPentane	26	6	240	
+1.0.4	Light Olefins	Compound	Light Olefins	27	3	240	
+1.0.4	Light Parrafins	Compound	Light Parrafins	28	3	240	
+1.0.4	Methanol	Compound	Methanol	29	4	240	
+1.0.4	Meta-Xylene	Compound	Meta-Xylene	30	2	240	
+1.0.4	N-Butane	Compound	N-Butane	31	6	240	
+1.0.4	N-Hexane	Compound	N-Hexane	32	6	240	
+1.0.4	N-Pentane	Compound	N-Pentane	33	6	240	
+1.0.4	NeoPentane	Compound	NeoPentane	34	6	240	
+1.0.4	Olefins	Compound	Olefins	35	3	240	
+1.0.4	Ortho-Xylene	Compound	Ortho-Xylene	36	2	240	
+1.0.4	Para-Xylene	Compound	Para-Xylene	37	2	240	
+1.0.4	Paraffin	Compound	Paraffin	38	3	240	
+1.0.4	Pentane Isomers	Compound	Pentane Isomers	39	6	240	
+1.0.4	Propanol	Compound	Propanol	40	4	240	
+1.0.4	Xylene	Compound	Xylene	41	2	240	
+1.0.4	Toluene	Compound	Toluene	42	2	240	
+1.0.4	Benzene	Compound	Benzene	43	2	240	
+1.0.4	Fruit Brandy	Compound	Fruit Brandy	44	3	180	
+1.0.4	Vodka	Compound	Vodka	45	3	180	
+1.0.4	Gin	Compound	Gin	46	3	180	
+1.0.4	Tequila	Compound	Tequila	47	3	180	
+1.0.4	Rum	Compound	Rum	48	3	180	
+1.0.4	Whiskey	Compound	Whiskey	49	3	180	
