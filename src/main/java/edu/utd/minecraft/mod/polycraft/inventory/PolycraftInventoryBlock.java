@@ -62,7 +62,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		try {
 			return (TileEntity) tileEntityClass.newInstance();
 		} catch (Exception e) {
-			logger.error("Can't create an instance of your tile entity! Does it have a public constructor with no parameters?");
+			logger.error("Can't create an instance of your tile entity: " + e.getMessage());
 		}
 		return null;
 	}

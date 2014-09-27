@@ -80,6 +80,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST)||
 					(inventory.containerType == PolycraftContainerType.OIL_DERRICK) ||
 					(inventory.containerType == PolycraftContainerType.FUELED_LAMP) ||
+					(inventory.containerType == PolycraftContainerType.PUMP) ||
 					(inventory.containerType == PolycraftContainerType.CONDENSER) ||
 					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
 					(inventory.containerType == PolycraftContainerType.SPOTLIGHT)) 

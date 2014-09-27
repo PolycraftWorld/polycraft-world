@@ -29,6 +29,7 @@ public enum GameID {
 	InventoryPlasticChest("3L"),
 	InventoryCondenser("20"),
 	InventoryFlowRegulator("5j"), 
+	InventoryPump("4i"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),

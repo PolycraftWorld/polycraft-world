@@ -14,6 +14,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -253,4 +254,25 @@ public class PolycraftMod {
     public static int compareInt(int x, int y) {
         return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
+
+	
+	private static final int[][] directionUnitVectors = new int[][]{
+		new int[] {0, -1, 0}, //BOTTOM
+		new int[] {0, 1, 0}, //TOP
+		new int[] {0, 0, -1}, //BACK
+		new int[] {0, 0, 1}, //FRONT
+		new int[] {-1, 0, 0}, //LEFT
+		new int[] {1, 0, 0}, //RIGHT
+	};
+	
+	private static final int[] directionOpposites = new int[] { 1, 0, 3, 2, 5, 4 };
+	
+	public static Vec3 getAdjacentCoords(final Vec3 currentCoords, final int direction, final boolean opposite)
+	{
+		final int[] directionUnitVector = directionUnitVectors[opposite ? directionOpposites[direction] : direction];
+		return Vec3.createVectorHelper(
+				currentCoords.xCoord + directionUnitVector[0],
+				currentCoords.yCoord + directionUnitVector[1],
+				currentCoords.zCoord + directionUnitVector[2]);
+	}
 }

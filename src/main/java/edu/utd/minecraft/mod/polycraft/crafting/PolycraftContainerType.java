@@ -23,6 +23,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCracke
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -51,7 +52,8 @@ public enum PolycraftContainerType {
 	PLASTIC_CHEST("Plastic Chest"),
 	FLOW_REGULATOR("Flow Regulator"),
 	CONDENSER("Condenser"),
-	INDUSTRIAL_OVEN("Industrial Oven");
+	INDUSTRIAL_OVEN("Industrial Oven"),
+	PUMP("Pump");
 
 	private final String friendlyName;
 
@@ -129,6 +131,7 @@ public enum PolycraftContainerType {
 		CONDENSER.initialize(CondenserInventory.guiSlots);
 		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
 		PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
+		PUMP.initialize(PumpInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

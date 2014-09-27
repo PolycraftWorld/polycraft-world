@@ -150,6 +150,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		if (isHeated())
 			updateState(HeatedInventoryState.HeatSourceTicksRemaining, -1);
 
+		//TODO this needs to respect epochs like fueled lamps and pumps (need to abstract the code)
 		if (!worldObj.isRemote) {
 			if (canProcess()) {
 				if (!isHeated()) {

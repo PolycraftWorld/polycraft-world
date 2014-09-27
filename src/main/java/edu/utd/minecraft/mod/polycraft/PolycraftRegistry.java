@@ -84,6 +84,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCracke
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
@@ -407,6 +408,8 @@ public class PolycraftRegistry {
 				FlowRegulatorInventory.register(inventory);
 			else if (GameID.InventoryIndustrialOven.matches(inventory))
 				IndustrialOvenInventory.register(inventory);
+			else if (GameID.InventoryPump.matches(inventory))
+				PumpInventory.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}
