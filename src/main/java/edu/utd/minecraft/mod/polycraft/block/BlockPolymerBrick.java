@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -27,6 +28,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 
 public class BlockPolymerBrick extends Block {
@@ -113,7 +115,7 @@ public class BlockPolymerBrick extends Block {
 	// return helper.getMomentumReturnedOnPassiveFall();
 	// }
 	
-	//@Override
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
 		//return null;
@@ -128,9 +130,13 @@ public class BlockPolymerBrick extends Block {
 		}
 			
     }
-	
-	
-	
+
+	//overriding this so we can add ntb stack compounds to the itemstack immediately so they can stack right when broken
+	@Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+    {
+		return helper.getDrops(this, world, x, y, z, metadata, fortune);
+    }
 
 	@Override
 	public void onBlockPlacedBy(World worldObj, int xPos, int yPos, int zPos, EntityLivingBase player, ItemStack itemToPlace) {
@@ -198,7 +204,9 @@ public class BlockPolymerBrick extends Block {
 						(nextBlock != Blocks.yellow_flower) &&
 						(nextBlock != Blocks.red_flower) &&
 						(nextBlock != Blocks.red_mushroom) &&
-						(nextBlock != Blocks.brown_mushroom))
+						(nextBlock != Blocks.brown_mushroom) &&
+						(nextBlock != PolycraftMod.blockLight)
+						)
 					 {
 					 blockCanBePlaced = false;
 					 break;
@@ -218,7 +226,8 @@ public class BlockPolymerBrick extends Block {
 								(nextBlock != Blocks.yellow_flower) &&
 								(nextBlock != Blocks.red_flower) &&
 								(nextBlock != Blocks.red_mushroom) &&
-								(nextBlock != Blocks.brown_mushroom))
+								(nextBlock != Blocks.brown_mushroom) &&
+								(nextBlock != PolycraftMod.blockLight))
 							 {
 							 blockCanBePlaced = false;
 							 break;
@@ -239,7 +248,8 @@ public class BlockPolymerBrick extends Block {
 								(nextBlock != Blocks.yellow_flower) &&
 								(nextBlock != Blocks.red_flower) &&
 								(nextBlock != Blocks.red_mushroom) &&
-								(nextBlock != Blocks.brown_mushroom))
+								(nextBlock != Blocks.brown_mushroom) &&
+								(nextBlock != PolycraftMod.blockLight))
 							 {
 							 blockCanBePlaced = false;
 							 break;
@@ -259,7 +269,8 @@ public class BlockPolymerBrick extends Block {
 								(nextBlock != Blocks.yellow_flower) &&
 								(nextBlock != Blocks.red_flower) &&
 								(nextBlock != Blocks.red_mushroom) &&
-								(nextBlock != Blocks.brown_mushroom))
+								(nextBlock != Blocks.brown_mushroom) &&
+								(nextBlock != PolycraftMod.blockLight))
 							 {
 							 blockCanBePlaced = false;
 							 break;
