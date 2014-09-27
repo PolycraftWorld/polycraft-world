@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -16,6 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 
 public class BlockPolymerBrickHelper {
 
@@ -114,4 +116,22 @@ public class BlockPolymerBrickHelper {
 	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
 		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, p_149689_6_.getItemDamage(), 3);
 	}
+	
+	public ArrayList<ItemStack> getDrops(Block block, World world, int x, int y, int z, int metadata, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+        int count = block.quantityDropped(metadata, fortune, world.rand);
+        for(int i = 0; i < count; i++)
+        {
+            Item item = block.getItemDropped(metadata, world.rand, fortune);
+            if (item != null)
+            {
+            	final ItemStack itemStack = new ItemStack(item, 1, damageDropped(metadata));
+            	PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(itemStack);
+                ret.add(itemStack);
+            }
+        }
+        return ret;
+    }
 }

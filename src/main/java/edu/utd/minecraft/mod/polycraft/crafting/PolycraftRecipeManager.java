@@ -87,7 +87,7 @@ public class PolycraftRecipeManager {
 					PolycraftItemHelper.createTagCompound(item);
 					//	item.stackTagCompound.setByte("is-recipe-null-tag-compound", (byte) 1);
 				}
-				item.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+				markItemStackAsFromPolycraftRecipe(item);
 				return item;
 			}
 			return null;
@@ -105,6 +105,20 @@ public class PolycraftRecipeManager {
 			return null;
 		}
 
+	}
+	
+	public static void markItemStackAsFromPolycraftRecipe(final ItemStack itemStack)
+	{
+		if (itemStack.stackTagCompound == null)
+			PolycraftItemHelper.createTagCompound(itemStack);
+		itemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+	}
+	
+	public static boolean isItemStackFromPolycraftRecipe(final ItemStack itemStack)
+	{
+		if (itemStack.stackTagCompound != null)
+			return itemStack.stackTagCompound.hasKey("polycraft-recipe");
+		return false;
 	}
 
 	private final Map<PolycraftContainerType, Set<PolycraftRecipe>> recipesByContainer = Maps.newLinkedHashMap();
@@ -559,7 +573,7 @@ public class PolycraftRecipeManager {
 			// Item has been marked as being a Polycraft recipe, which allows recipes to require
 			// itemstacks with any stackSize.  The generic crafting recipes only remove a single
 			// item for each recipe item, so the rest may need to be removed.
-			if (craftedItem.stackTagCompound.hasKey("polycraft-recipe")) {
+			if (isItemStackFromPolycraftRecipe(craftedItem)) {
 				//TODO figure out a way that we can remove this key, can't at the moment because net.minecraft.inventory.ContainerWorkbench.transferStackInSlot(EntityPlayer, int)
 				//which is called when a player shift clicks, only hands us a copy, so removing the key results in a mismatch between shift click created items, and single click 
 				//created items
