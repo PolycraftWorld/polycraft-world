@@ -67,7 +67,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		return null;
 	}
 
-	protected I getInventory(World world, int x, int y, int z) {
+	public I getInventory(World world, int x, int y, int z) {
 		return (I) world.getTileEntity(x, y, z);
 	}
 

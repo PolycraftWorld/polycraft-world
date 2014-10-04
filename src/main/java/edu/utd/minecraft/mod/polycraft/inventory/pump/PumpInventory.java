@@ -2,10 +2,12 @@ package edu.utd.minecraft.mod.polycraft.inventory.pump;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -13,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,6 +29,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
+import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.LabelTexture;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight.Point3i;
@@ -34,6 +38,7 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
@@ -61,8 +66,8 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		PolycraftInventory.register(new PumpBlock(config, PumpInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 
-	private final float flowTicksHeatIntensityRatio;
-	private FlowNetwork flowNetwork = null;
+	private final int flowTicks;
+	private final int flowItemsPerHeatIntensity;
 	
 	public PumpInventory() {
 		this(PolycraftContainerType.PUMP, config);
@@ -70,8 +75,9 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 	protected PumpInventory(final PolycraftContainerType containerType, final Inventory config) {
 		super(containerType, config, 84, PumpState.values());
-		this.flowTicksHeatIntensityRatio = config.params.getFloat(0);
-		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(1))));
+		this.flowTicks = config.params.getInt(0);
+		this.flowItemsPerHeatIntensity = config.params.getInt(1);
+		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(2))));
 		this.addBehavior(new VesselUpcycler());
 	}
 
@@ -135,10 +141,8 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			if (getState(PumpState.FuelTicksRemaining) > 0) {
 				if (getState(PumpState.FlowTicksRemaining) == 0)
 				{
-					if (flowNetwork == null || !flowNetwork.isIntact())
-						flowNetwork = new FlowNetwork();
-					flowNetwork.flow();
-					updateState(PumpState.FlowTicksRemaining, (int)(flowTicksHeatIntensityRatio / getState(PumpState.FuelHeatIntensity)));
+					flow(flowItemsPerHeatIntensity * getState(PumpState.FuelHeatIntensity));
+					updateState(PumpState.FlowTicksRemaining, flowTicks);
 				}
 				else
 					updateState(PumpState.FlowTicksRemaining, -1);
@@ -157,87 +161,63 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		return null;
 	}
 	
-	private Pair<Vec3, Block> getAdjacentValidPipeNetworkBlock()
-	{
-		return null;
+	public void flow(int numItems) {
+		final Vec3 coords = Vec3.createVectorHelper(xCoord, yCoord, zCoord);
+		final int flowDirection = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		//find the source (going the opposite direction of the flow, starting at the pump)
+		final IInventory source = findNetworkInventory(coords, flowDirection, true);
+		if (source != null) {
+			//find the target (going the direction of the flow, starting at the pump)
+			final IInventory target = findNetworkInventory(coords, flowDirection, false);
+			if (target != null && target != source) {
+				while (numItems > 0) {
+					int i = 0;
+					for (; i < source.getSizeInventory(); ++i) {
+						ItemStack itemstack = source.getStackInSlot(i);
+						if (itemstack != null) {
+							if (InventoryHelper.transfer(target, source, i, 0)) {
+								numItems--;
+								//go back out the while loop to ensure we are supposed to send more items,
+								//and to keep trying if there are more that we can send from this slot
+								break;
+							}
+						}
+					}
+					//there are no (more) items to flow, so stop trying
+					if (i == source.getSizeInventory())
+						break;
+				}
+			}
+		}
 	}
-
-	private class FlowNetwork
-	{
-		public final Map<Vec3, Block> blocks;
-		//TODO not sure if these are really ISidedInventory
-		public ISidedInventory source = null;
-		public ISidedInventory defaultTarget = null;
-		public Map<Item, ISidedInventory> selectedTargets = null;
-		//TODO improvement keep track of how far the targets are from the source and use it for flow rate
-		
-		public FlowNetwork()
-		{
-			blocks = new HashMap<Vec3, Block>();
-			final Vec3 pumpCoords = Vec3.createVectorHelper(xCoord, yCoord, zCoord);
-			final int pumpFlowDirection = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-
-			final World world = getWorldObj();
-			int pipeFlowDirection = pumpFlowDirection;
-			Vec3 nextSourceCoords = PolycraftMod.getAdjacentCoords(pumpCoords, pipeFlowDirection, true);
-			while (source == null)
-			{
-				final Block sourceBlock = worldObj.getBlock((int)nextSourceCoords.xCoord, (int)nextSourceCoords.yCoord, (int)nextSourceCoords.zCoord);
-				if (sourceBlock instanceof BlockPolymer) //TODO change to BlockPipe
-				{
-					blocks.put(nextSourceCoords, sourceBlock);
-					//TODO make this respect turning pipes using getMetaData from the block, updating pipeFlowDirection
-					//TODO make sure the previous pipe direction agrees with the new pipe direction
-					pipeFlowDirection = worldObj.getBlockMetadata((int)nextSourceCoords.xCoord, (int)nextSourceCoords.yCoord, (int)nextSourceCoords.zCoord);
-					nextSourceCoords = PolycraftMod.getAdjacentCoords(nextSourceCoords, pipeFlowDirection, true);
-				}
-				else if (sourceBlock instanceof PolycraftInventoryBlock)
-				{
-					//TODO only of the pipe direction agrees?
-					source = (ISidedInventory) sourceBlock;
-					break;
-				}
-				else
-				{
-					break;
-				}
+	
+	private IInventory findNetworkInventory(Vec3 coords, int flowDirection, final boolean searchAgainstflow) {
+		final Set<String> seen = new HashSet<String>();
+		while (true) {
+			coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, searchAgainstflow);
+			final String hash = (int)coords.xCoord + "." + (int)coords.yCoord + "." + (int)coords.zCoord;
+			//don't allow networks that flow back in on themselves
+			if (seen.contains(hash))
+				return null;
+			seen.add(hash);
+			final Block block = getBlockAtVec3(coords);
+			if (block instanceof BlockPipe) {
+				flowDirection = getBlockMetadataAtVec3(coords);
 			}
-			
-			if (source != null)
-			{
-				Vec3 nextTargetCoords = PolycraftMod.getAdjacentCoords(pumpCoords, pipeFlowDirection, false);
-				while (defaultTarget == null)
-				{
-					//invalid to have anything other than a polycraft inventory after having gone through the selected side of a selector
-					//when we come to a selector, go ahead and navigate all the way to try to find the end target, and if its not found, bomb out 
-					//if an additional selector is found with the same item as a previous selector, invalid network
-					break;
-				}
+			//TODO add support for selector
+			else {
+				//will return null if the block at the coordinates is not an inventory
+				return PolycraftMod.getInventoryAt(worldObj, (int)coords.xCoord, (int)coords.yCoord, (int)coords.zCoord);
 			}
 		}
-		
-		public boolean isIntact()
-		{
-			final World world = getWorldObj();
-			for (final Entry<Vec3, Block> pipeNetworkBlockEntry : blocks.entrySet())
-			{
-				final Vec3 pipeNetworkPoint = pipeNetworkBlockEntry.getKey();
-				if (world.getBlock((int)pipeNetworkPoint.xCoord, (int)pipeNetworkPoint.yCoord, (int)pipeNetworkPoint.zCoord) != pipeNetworkBlockEntry.getValue())
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		public void flow()
-		{
-			if (source != null && defaultTarget != null)
-			{
-				//TODO need to redefine the flow interval to be a constant number of ticks, and have the number of items per flow variable on heat intensity
-				//TODO go through the source inputs for number of items to flow, and send them either to the default target, or the appropriate selected target (unless full)
-			}
-		}
+	}
+	
+	private Block getBlockAtVec3(final Vec3 vec3) {
+		return worldObj.getBlock((int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
+	}
+	
+	private int getBlockMetadataAtVec3(final Vec3 vec3) {
+		return worldObj.getBlockMetadata((int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
 	}
 	
 }

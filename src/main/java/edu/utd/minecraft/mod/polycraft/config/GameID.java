@@ -25,6 +25,8 @@ public enum GameID {
 	CustomScubaTank("3x"),
 	CustomKevlarVest("5b"),
 	InternalOil("1D"),
+	InternalBlockPipe("11f"),
+	InternalItemPipe("11g"),
 	InventoryIndustrialOven("3F"),
 	InventoryPlasticChest("3L"),
 	InventoryCondenser("20"),

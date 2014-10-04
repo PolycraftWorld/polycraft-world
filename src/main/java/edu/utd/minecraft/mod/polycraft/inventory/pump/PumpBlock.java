@@ -1,13 +1,18 @@
 package edu.utd.minecraft.mod.polycraft.inventory.pump;
 
+import java.util.Map;
 import java.util.Random;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.inventory.BlockFace;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
 public class PumpBlock extends PolycraftInventoryBlock<PumpInventory> {

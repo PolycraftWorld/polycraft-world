@@ -10,13 +10,19 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -255,24 +261,31 @@ public class PolycraftMod {
         return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 
-	
-	private static final int[][] directionUnitVectors = new int[][]{
-		new int[] {0, -1, 0}, //BOTTOM
-		new int[] {0, 1, 0}, //TOP
-		new int[] {0, 0, -1}, //BACK
-		new int[] {0, 0, 1}, //FRONT
-		new int[] {-1, 0, 0}, //LEFT
-		new int[] {1, 0, 0}, //RIGHT
-	};
-	
-	private static final int[] directionOpposites = new int[] { 1, 0, 3, 2, 5, 4 };
-	
 	public static Vec3 getAdjacentCoords(final Vec3 currentCoords, final int direction, final boolean opposite)
 	{
-		final int[] directionUnitVector = directionUnitVectors[opposite ? directionOpposites[direction] : direction];
+		ForgeDirection forgeDirection = ForgeDirection.values()[direction];
+		if (opposite)
+			forgeDirection = forgeDirection.getOpposite();
 		return Vec3.createVectorHelper(
-				currentCoords.xCoord + directionUnitVector[0],
-				currentCoords.yCoord + directionUnitVector[1],
-				currentCoords.zCoord + directionUnitVector[2]);
+				currentCoords.xCoord + forgeDirection.offsetX,
+				currentCoords.yCoord + forgeDirection.offsetY,
+				currentCoords.zCoord + forgeDirection.offsetZ);
+	}
+
+	public static IInventory getInventoryAt(final World world, final double x, final double y, final double z) {
+		IInventory iinventory = null;
+		final int i = MathHelper.floor_double(x);
+		final int j = MathHelper.floor_double(y);
+		final int k = MathHelper.floor_double(z);
+		final TileEntity tileentity = world.getTileEntity(i, j, k);
+		if (tileentity != null && tileentity instanceof IInventory) {
+			iinventory = (IInventory) tileentity;
+			if (iinventory instanceof TileEntityChest) {
+				final Block block = world.getBlock(i, j, k);
+				if (block instanceof BlockChest)
+					iinventory = ((BlockChest) block).func_149951_m(world, i, j, k);
+			}
+		}
+		return iinventory;
 	}
 }

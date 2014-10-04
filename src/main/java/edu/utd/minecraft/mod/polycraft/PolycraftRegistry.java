@@ -35,6 +35,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
@@ -100,6 +101,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
+import edu.utd.minecraft.mod.polycraft.item.ItemPipe;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
@@ -427,6 +429,10 @@ public class PolycraftRegistry {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
+		
+		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
+		final InternalObject itemPipe = InternalObject.registry.get("ItemPipe");
+		registerBlockWithItem(blockPipe.gameID, blockPipe.name, new BlockPipe(), itemPipe.gameID, itemPipe.name, ItemPipe.class, new Object[]{});
 
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 
@@ -506,8 +512,14 @@ public class PolycraftRegistry {
 
 		for (final InternalObject internalObject : InternalObject.registry.values()) {
 			if (GameID.InternalOil.matches(internalObject)) {
-				langEntries.add(String.format(fluidFormat, internalObject.name.toLowerCase(), internalObject.name));
-				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.name));
+				langEntries.add(String.format(fluidFormat, internalObject.name.toLowerCase(), internalObject.display));
+				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.display));
+			}
+			else if (GameID.InternalBlockPipe.matches(internalObject)) {
+				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.display));
+			}
+			else if (GameID.InternalItemPipe.matches(internalObject)) {
+				langEntries.add(String.format(itemFormat, internalObject.gameID, internalObject.display));
 			}
 		}
 

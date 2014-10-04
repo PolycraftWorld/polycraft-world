@@ -1,5 +1,7 @@
 fluid.oil=Oil
 tile.1D.name=Oil
+tile.11f.name=Pipe
+item.11g.name=Pipe
 tile.0.name=Magnesium Ore
 tile.1.name=Titanium Ore
 tile.2.name=Manganese Ore
