@@ -11,7 +11,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.flowregulator.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
@@ -23,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCracke
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
@@ -129,9 +129,9 @@ public enum PolycraftContainerType {
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
 		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
 		CONDENSER.initialize(CondenserInventory.guiSlots);
-		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
 		PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
 		PUMP.initialize(PumpInventory.guiSlots);
+		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

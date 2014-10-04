@@ -72,7 +72,6 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.flowregulator.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
@@ -85,6 +84,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCracke
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
@@ -406,12 +406,12 @@ public class PolycraftRegistry {
 				CondenserInventory.register(inventory);
 			else if (GameID.InventoryPlasticChest.matches(inventory))
 				PlasticChestInventory.register(inventory);
-			else if (GameID.InventoryFlowRegulator.matches(inventory))
-				FlowRegulatorInventory.register(inventory);
 			else if (GameID.InventoryIndustrialOven.matches(inventory))
 				IndustrialOvenInventory.register(inventory);
 			else if (GameID.InventoryPump.matches(inventory))
 				PumpInventory.register(inventory);
+			else if (GameID.InventoryFlowRegulator.matches(inventory))
+				FlowRegulatorInventory.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}
