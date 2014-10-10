@@ -56,12 +56,12 @@ public class FlowRegulatorInventory extends PolycraftInventory {
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		return new PolycraftCraftingContainerGeneric(this, playerInventory, 138); // Was128
+		return new PolycraftCraftingContainerGeneric(this, playerInventory, 88);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 232, 221, true); //ySize overridden for chest in drawGuiContainerBackgroundLayer
+		return new PolycraftInventoryGui(this, playerInventory, 166, false); //ySize overridden for chest in drawGuiContainerBackgroundLayer
 	}
 }

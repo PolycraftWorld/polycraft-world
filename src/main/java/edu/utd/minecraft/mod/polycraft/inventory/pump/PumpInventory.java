@@ -75,11 +75,17 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 	}
 
 	protected PumpInventory(final PolycraftContainerType containerType, final Inventory config) {
-		super(containerType, config, 84, PumpState.values());
+		super(containerType, config, 128, PumpState.values());
 		this.flowTicks = config.params.getInt(0);
 		this.flowItemsPerHeatIntensity = config.params.getInt(1);
 		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(2))));
 		this.addBehavior(new VesselUpcycler());
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
+		return new PumpGui(this, playerInventory);
 	}
 
 	@Override
@@ -95,12 +101,6 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3) {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PumpGui(this, playerInventory);
 	}
 	
 	private static final int maxTicksPerEpoch = (int) Math.pow(2,15);
@@ -142,7 +142,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			if (getState(PumpState.FuelTicksRemaining) > 0) {
 				if (getState(PumpState.FlowTicksRemaining) == 0)
 				{
-					flow(flowItemsPerHeatIntensity * getState(PumpState.FuelHeatIntensity));
+					getFlowNetwork().flow(flowItemsPerHeatIntensity * getState(PumpState.FuelHeatIntensity));
 					updateState(PumpState.FlowTicksRemaining, flowTicks);
 				}
 				else
@@ -162,28 +162,63 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		return null;
 	}
 	
-	public void flow(int numItems) {
-		final Vec3 pumpCoords = Vec3.createVectorHelper(xCoord, yCoord, zCoord);
-		final int flowDirection = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		final Set<String> coordsSeen = new HashSet<String>();
-		coordsSeen.add(getHashVec3(pumpCoords));
-		//find the source (going the opposite direction of the flow, starting at the pump)
-		final IInventory source = findNetworkSourceInventory(coordsSeen, pumpCoords, flowDirection);
-		if (source != null) {
-			//find the targets (going the direction of the flow, starting at the pump)
-			final Map<Item, IInventory> regulatedTargets = new HashMap<Item, IInventory>();
-			final IInventory defaultTarget = findNetworkTargetInventories(coordsSeen, pumpCoords, flowDirection, regulatedTargets, false);
-			if (defaultTarget != null) {
+	public FlowNetwork getFlowNetwork()
+	{
+		return new FlowNetwork(Vec3.createVectorHelper(xCoord, yCoord, zCoord));
+	}
+
+	public class FlowNetwork
+	{
+		public class Terminal
+		{
+			public final Vec3 coords;
+			public final IInventory inventory;
+			public final int distanceFromPump;
+			
+			public Terminal(final Vec3 coords, final IInventory inventory, final int distanceFromPump)
+			{
+				this.coords = coords;
+				this.inventory = inventory;
+				this.distanceFromPump = distanceFromPump;
+			}
+		}
+
+		public final Vec3 pumpCoords;
+		public final int pumpFlowDirection;
+		public final Set<String> coordsUsed = new HashSet<String>();
+		public Terminal source;
+		public Terminal defaultTarget;
+		public Map<Item, Terminal> regulatedTargets;
+		
+		public FlowNetwork(final Vec3 pumpCoords)
+		{
+			this.pumpCoords = pumpCoords;
+			pumpFlowDirection = worldObj.getBlockMetadata((int)pumpCoords.xCoord, (int)pumpCoords.yCoord, (int)pumpCoords.zCoord);
+			coordsUsed.add(getHashVec3(pumpCoords));
+			//find the source (going the opposite direction of the flow, starting at the pump)
+			source = findNetworkSource(pumpCoords, pumpFlowDirection);
+			if (source != null) {
+				//find the targets (going the direction of the flow, starting at the pump)
+				regulatedTargets = new HashMap<Item, Terminal>();
+				defaultTarget = findNetworkTargetInventories(pumpCoords, pumpFlowDirection, false, 0);
+			}
+		}
+		
+		public int flow(int numItems)
+		{
+			int itemsFlowed = 0;
+			if (isValid()) {
 				while (numItems > 0) {
 					int i = 0;
-					for (; i < source.getSizeInventory(); ++i) {
-						ItemStack itemstack = source.getStackInSlot(i);
+					for (; i < source.inventory.getSizeInventory(); ++i) {
+						ItemStack itemstack = source.inventory.getStackInSlot(i);
 						if (itemstack != null) {
-							IInventory target = regulatedTargets.get(itemstack.getItem());
+							Terminal target = regulatedTargets.get(itemstack.getItem());
 							if (target == null)
 								target = defaultTarget;
-							if (InventoryHelper.transfer(target, source, i, 0)) {
+							if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
 								numItems--;
+								itemsFlowed++;
 								//go back out the while loop to ensure we are supposed to send more items,
 								//and to keep trying if there are more that we can send from this slot
 								break;
@@ -191,91 +226,111 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						}
 					}
 					//there are no (more) items to flow, so stop trying
-					if (i == source.getSizeInventory())
+					if (i == source.inventory.getSizeInventory())
 						break;
 				}
 			}
+			return itemsFlowed;
 		}
-	}
-	
-	private IInventory findNetworkSourceInventory(final Set<String> coordsSeen, Vec3 coords, int flowDirection) {
-		while (true) {
-			coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, true);
-			final String hash = (int)coords.xCoord + "." + (int)coords.yCoord + "." + (int)coords.zCoord;
-			//don't allow networks that flow back in on themselves
-			if (coordsSeen.contains(hash))
-				return null;
-			coordsSeen.add(hash);
-			final Block block = getBlockAtVec3(coords);
-			if (block instanceof BlockPipe)
-				flowDirection = getBlockMetadataAtVec3(coords);
-			else
-				return getInventoryAtVec3(coords);
+		
+		public String getHashVec3(final Vec3 vec3) {
+			return (int)vec3.xCoord + "." + (int)vec3.yCoord + "." + (int)vec3.zCoord;
 		}
-	}
+		
+		public boolean isValid()
+		{
+			return source != null && defaultTarget != null && regulatedTargets != null;
+		}
 
-    private static final ForgeDirection[][] REGULATED_DIRECTIONS = {
-        { ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST }, //DOWN
-        { ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST }, //UP
-    	{ ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.UP, ForgeDirection.DOWN }, //NORTH
-    	{ ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.UP, ForgeDirection.DOWN }, //SOUTH
-    	{ ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.UP, ForgeDirection.DOWN }, //WEST
-    	{ ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.UP, ForgeDirection.DOWN }, //EAST
-    };
-    
-	private IInventory findNetworkTargetInventories(final Set<String> coordsSeen, Vec3 coords, int flowDirection, final Map<Item, IInventory> regulatedTargets, final boolean regulatorPath) {
-		while (true) {
-			coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, false);
-			final String hash = getHashVec3(coords);
-			//don't allow networks that flow back in on themselves
-			if (coordsSeen.contains(hash))
-				return null;
-			coordsSeen.add(hash);
-			final Block block = getBlockAtVec3(coords);
-			if (block instanceof BlockPipe) {
-				flowDirection = getBlockMetadataAtVec3(coords);
-			}
-			//only check for regulators if we are not on a regulator path already
-			else if (!regulatorPath && block instanceof FlowRegulatorBlock) {
-				flowDirection = getBlockMetadataAtVec3(coords);
-				ForgeDirection forgeFlowDirection = ForgeDirection.values()[flowDirection];
-				final IInventory regulatorInventory = getInventoryAtVec3(coords);
-				//regulator order will be left, right, bottom, top given a starting orientation
-				//for example, if the starting orienation is facing SOUTH, then the order will be:
-				//WEST, EAST, BOTTOM, TOP
-				for (int i = 0; i < regulatorInventory.getSizeInventory(); i++)
+		private Terminal findNetworkSource(Vec3 coords, int flowDirection) {
+			int distanceFromPump = 0;
+			while (true) {
+				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, true);
+				final String hash = (int)coords.xCoord + "." + (int)coords.yCoord + "." + (int)coords.zCoord;
+				//don't allow networks that flow back in on themselves
+				if (coordsUsed.contains(hash))
+					return null;
+				coordsUsed.add(getHashVec3(coords));
+				final Block block = getBlockAtVec3(coords);
+				if (block instanceof BlockPipe)
+					flowDirection = getBlockMetadataAtVec3(coords);
+				else
 				{
-					final ItemStack regulatorItemStack = regulatorInventory.getStackInSlot(i);
-					if (regulatorItemStack != null) {
-						//if we have already regulated this item, this is an invalid network
-						if (regulatedTargets.containsKey(regulatorItemStack.getItem()))
-							return null;
-						final IInventory regulatedTarget = findNetworkTargetInventories(coordsSeen, coords, REGULATED_DIRECTIONS[flowDirection][i].ordinal(), regulatedTargets, true);
-						if (regulatedTarget == null)
-							return null;
-						regulatedTargets.put(regulatorItemStack.getItem(), regulatedTarget);
+					IInventory sourceInventory = getInventoryAtVec3(coords);
+					if (sourceInventory != null)
+						return new Terminal(coords, sourceInventory, distanceFromPump);
+					return null;
+				}
+				distanceFromPump++;
+			}
+		}
+		
+		private IInventory getInventoryAtVec3(final Vec3 vec3) {
+			return PolycraftMod.getInventoryAt(worldObj, (int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
+		}
+
+	    private final ForgeDirection[][] REGULATED_DIRECTIONS = {
+	        { ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST }, //DOWN
+	        { ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST }, //UP
+	    	{ ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.UP, ForgeDirection.DOWN }, //NORTH
+	    	{ ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.UP, ForgeDirection.DOWN }, //SOUTH
+	    	{ ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.UP, ForgeDirection.DOWN }, //WEST
+	    	{ ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.UP, ForgeDirection.DOWN }, //EAST
+	    };
+	    
+		private Terminal findNetworkTargetInventories(Vec3 coords, int flowDirection, final boolean regulatorPath, final int regulatorDistanceFromPump) {
+			int distanceFromPump = 0;
+			while (regulatedTargets != null) {
+				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, false);
+				final String hash = getHashVec3(coords);
+				//don't allow networks that flow back in on themselves
+				if (coordsUsed.contains(hash))
+					return null;
+				coordsUsed.add(hash);
+				final Block block = getBlockAtVec3(coords);
+				if (block instanceof BlockPipe) {
+					flowDirection = getBlockMetadataAtVec3(coords);
+				}
+				//only check for regulators if we are not on a regulator path already
+				else if (!regulatorPath && block instanceof FlowRegulatorBlock) {
+					flowDirection = getBlockMetadataAtVec3(coords);
+					ForgeDirection forgeFlowDirection = ForgeDirection.values()[flowDirection];
+					final IInventory regulatorInventory = getInventoryAtVec3(coords);
+					//regulator order will be left, right, bottom, top given a starting orientation
+					//for example, if the starting orienation is facing SOUTH, then the order will be:
+					//WEST, EAST, BOTTOM, TOP
+					for (int i = 0; i < regulatorInventory.getSizeInventory(); i++)
+					{
+						final ItemStack regulatorItemStack = regulatorInventory.getStackInSlot(i);
+						if (regulatorItemStack != null) {
+							//if we have already regulated this item, this is an invalid network
+							if (regulatedTargets.containsKey(regulatorItemStack.getItem())) {
+								regulatedTargets = null;
+								return null;
+							}
+							final Terminal regulatedTarget = findNetworkTargetInventories(coords, REGULATED_DIRECTIONS[flowDirection][i].ordinal(), true, distanceFromPump);
+							if (regulatedTarget != null)
+								regulatedTargets.put(regulatorItemStack.getItem(), regulatedTarget);
+						}
 					}
 				}
+				else {
+					final IInventory inventory = getInventoryAtVec3(coords);
+					if (inventory != null)
+						return new Terminal(coords, inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
+					return null;
+				}
+				distanceFromPump++;
 			}
-			else {
-				return getInventoryAtVec3(coords);
-			}
+			return null;
 		}
-	}
-	
-	private String getHashVec3(final Vec3 vec3) {
-		return (int)vec3.xCoord + "." + (int)vec3.yCoord + "." + (int)vec3.zCoord;
-	}
-	
-	private Block getBlockAtVec3(final Vec3 vec3) {
-		return worldObj.getBlock((int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
-	}
-	
-	private int getBlockMetadataAtVec3(final Vec3 vec3) {
-		return worldObj.getBlockMetadata((int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
-	}
-	
-	private IInventory getInventoryAtVec3(final Vec3 vec3) {
-		return PolycraftMod.getInventoryAt(worldObj, (int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
+		
+		private Block getBlockAtVec3(final Vec3 vec3) {
+			return worldObj.getBlock((int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
+		}
+		
+		private int getBlockMetadataAtVec3(final Vec3 vec3) {
+			return worldObj.getBlockMetadata((int)vec3.xCoord, (int)vec3.yCoord, (int)vec3.zCoord);
+		}
 	}
 }
