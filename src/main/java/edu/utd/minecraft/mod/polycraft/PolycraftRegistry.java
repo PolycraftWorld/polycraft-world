@@ -115,6 +115,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
+import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
@@ -195,7 +196,7 @@ public class PolycraftRegistry {
 		return item;
 	}
 
-	private static Block registerBlockWithItem(final String blockGameID, final String blockName, final Block block,
+	public static Block registerBlockWithItem(final String blockGameID, final String blockName, final Block block,
 			final String itemBlockGameID, final String itemBlockName, final Class<? extends ItemBlock> itemBlockClass, Object... itemCtorArgs) {
 		block.setBlockName(blockGameID);
 		GameRegistry.registerBlock(block, itemBlockClass, blockGameID, null, itemCtorArgs);
@@ -432,8 +433,14 @@ public class PolycraftRegistry {
 		
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
 		final InternalObject itemPipe = InternalObject.registry.get("ItemPipe");
-		registerBlockWithItem(blockPipe.gameID, blockPipe.name, new BlockPipe(), itemPipe.gameID, itemPipe.name, ItemPipe.class, new Object[]{});
+		//registerBlockWithItem(blockPipe.gameID, blockPipe.name, new BlockPipe(), itemPipe.gameID, itemPipe.name, ItemPipe.class, new Object[]{});
 
+		TileEntityBlockPipe.register(blockPipe, itemPipe);
+
+		
+		
+		
+		
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 
 		PolycraftMod.blockOil = registerBlock(oil,

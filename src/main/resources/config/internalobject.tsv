@@ -1,1 +1,6 @@
-Version	Game ID	Internal Object	Display1.0.0	1D	Oil	Oil1.0.0	3W	Light	Light1.0.0	5q	BedrockOil	Bedrock Oil1.0.4	11f	BlockPipe	Pipe1.0.4	11g	ItemPipe	Pipe
+Version	Game ID	Internal Object	Display	Tile Entity Game ID	Render ID
+1.0.0	1D	Oil	Oil		0
+1.0.0	3W	Light	Light		0
+1.0.0	5q	BedrockOil	Bedrock Oil		0
+1.0.4	11f	BlockPipe	Pipe	11h	3000
+1.0.4	11g	ItemPipe	Pipe		0

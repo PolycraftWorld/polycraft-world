@@ -8,6 +8,8 @@ public class InternalObject extends GameIdentifiedConfig {
 	public static final ConfigRegistry<InternalObject> registry = new ConfigRegistry<InternalObject>();
 	
 	public final String display;
+	public final String tileEntityGameID;
+	public int renderID;
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, InternalObject.class.getSimpleName().toLowerCase()))
@@ -16,13 +18,20 @@ public class InternalObject extends GameIdentifiedConfig {
 						PolycraftMod.getVersionNumeric(line[0]),
 						line[1], //gameID
 						line[2], //name
-								line[3] //display
+						line[3], //display
+						line[4], //tileEntityID
+						Integer.parseInt(line[5]) //renderID
 				));
 	}
 
-	public InternalObject(final int[] version, final String gameID, final String name, final String display) {
+	public InternalObject(final int[] version, final String gameID, final String name, final String display, final String tileEntityID, final int renderID) {
 		super(version, gameID, name);
 		this.display = display;
+		if (tileEntityID != null)
+			this.tileEntityGameID = tileEntityID;
+		else
+			this.tileEntityGameID = "NA";
+		this.renderID = renderID; //0 means standard block
 	}
 
 	@Override

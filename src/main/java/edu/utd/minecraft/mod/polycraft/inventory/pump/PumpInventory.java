@@ -67,7 +67,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		PolycraftInventory.register(new PumpBlock(config, PumpInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
 	}
 
-	private final int flowTicks;
+	private final int flowTickHeatIntensityRatio;
 	private final int flowItemsPerHeatIntensity;
 	
 	public PumpInventory() {
@@ -76,7 +76,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 	protected PumpInventory(final PolycraftContainerType containerType, final Inventory config) {
 		super(containerType, config, 128, PumpState.values());
-		this.flowTicks = config.params.getInt(0);
+		this.flowTickHeatIntensityRatio = config.params.getInt(0);
 		this.flowItemsPerHeatIntensity = config.params.getInt(1);
 		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(2))));
 		this.addBehavior(new VesselUpcycler());
@@ -142,8 +142,8 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			if (getState(PumpState.FuelTicksRemaining) > 0) {
 				if (getState(PumpState.FlowTicksRemaining) == 0)
 				{
-					getFlowNetwork().flow(flowItemsPerHeatIntensity * getState(PumpState.FuelHeatIntensity));
-					updateState(PumpState.FlowTicksRemaining, flowTicks);
+					getFlowNetwork().flow(flowItemsPerHeatIntensity * getState(PumpState.FuelHeatIntensity));   //TODO: game balancing for flow rate here
+					updateState(PumpState.FlowTicksRemaining, flowTickHeatIntensityRatio/getState(PumpState.FuelHeatIntensity)); //TODO: game balancing for flow rate here
 				}
 				else
 					updateState(PumpState.FlowTicksRemaining, -1);

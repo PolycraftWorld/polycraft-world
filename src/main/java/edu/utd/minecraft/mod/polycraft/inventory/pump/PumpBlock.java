@@ -15,7 +15,7 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.BlockFace;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class PumpBlock extends PolycraftInventoryBlock<PumpInventory> {
+public class PumpBlock extends PolycraftInventoryBlock<PumpInventory> implements Flowable{
 
 	public PumpBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass);
