@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -87,7 +88,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 
 	public boolean renderBlockPipeMetadata(IBlockAccess worldBlockAccess, BlockPipe blockPipe, int xCoord, int yCoord, int zCoord, int metaData, boolean p_147799_6_, RenderBlocks renderer) {
 		Tessellator tessellator = Tessellator.instance;
-		int directionOut = TileEntityBlockPipe.getDirectionFromMetadata(metaData);
+		int directionOut = metaData;
 		TileEntityBlockPipe bte = (TileEntityBlockPipe) blockPipe.getTileEntityBlockPipeAtXYZ(worldBlockAccess, xCoord, yCoord, zCoord);
 		
 		int directionIn = bte.directionIn; //TileEntityBlockPipe.getConnectedDirection(worldBlockAccess, xCoord, yCoord, zCoord);
@@ -167,88 +168,38 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 //		renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconTop);
 //		renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBottom);	
 		
-		lowMiddle = 0.25D;
-		highMiddle = 0.75D;
+		//lowMiddle = 0.25D;
+		//highMiddle = 0.75D;
 		
-		
-		
-		if (directionIn == 0) {			
-			
-			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			
+		if (directionIn == 0) {
 			renderer.setRenderBounds(minBound, lowEdge, minBound, maxBound, lowMiddle, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 		
 		if (directionIn == 1) {
-			
-			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);	
 			renderer.setRenderBounds(minBound, highMiddle, minBound, maxBound, highEdge, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
 		if (directionIn == 2) {
-			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
 			renderer.setRenderBounds(minBound, minBound, lowEdge, maxBound, maxBound, lowMiddle);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
 		if (directionIn == 3) {
-			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
 			renderer.setRenderBounds(minBound, minBound, highMiddle, maxBound, maxBound, highEdge);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
 		if (directionIn == 4) {
 			renderer.setRenderBounds(lowEdge, minBound, minBound, lowMiddle, maxBound, maxBound);
-			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
 		if (directionIn == 5) {
 			renderer.setRenderBounds(highMiddle, minBound, minBound, highEdge, maxBound, maxBound);
-			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
-			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
-			
-		
-		
-		
-		
-		
-		
-
 
 		tessellator.setBrightness(blockPipe.getMixedBrightnessForBlock(renderer.blockAccess, xCoord, yCoord, zCoord));
 		int j1 = blockPipe.colorMultiplier(renderer.blockAccess, xCoord, yCoord, zCoord);

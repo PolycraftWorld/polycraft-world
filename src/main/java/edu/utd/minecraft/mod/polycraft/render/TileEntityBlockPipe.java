@@ -166,10 +166,4 @@ public class TileEntityBlockPipe extends TileEntity{
     {
         return (double)this.zCoord;
     }
-    
-	public static int getDirectionFromMetadata(int metaData) {
-		return metaData & 7;
-	}
-	
-
 }

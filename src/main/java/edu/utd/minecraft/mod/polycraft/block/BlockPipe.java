@@ -221,6 +221,7 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
     @Override
     public void onNeighborBlockChange(World worldObj, int xCoord, int yCoord, int zCoord, Block p_149695_5_)
     {
+    	//FIXME JM: I think we will need to do something more to get this to work...
     	this.setDirectionIn(worldObj, xCoord, yCoord, zCoord);
 
         //this.setMetaDataIfPoweredNeighbor(worldObj, xCoord, yCoord, zCoord);
@@ -282,145 +283,9 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metaData)
     {
-    	
-//		public static final int SIDE_BOTTOM = 0;
-//		public static final int SIDE_TOP = 1;
-//		public static final int SIDE_BACK = 2;
-//		public static final int SIDE_FRONT = 3;
-//		public static final int SIDE_LEFT = 4;
-//		public static final int SIDE_RIGHT = 5;
-    
-    	
-    	int directionOut = TileEntityBlockPipe.getDirectionFromMetadata(metaData);
-
-    	
-    	if (directionOut == 0) {   	
-
-	        switch (side)
-	        {
-	        case 0:
-	        	return this.iconBack;
-	        case 1:
-	        	return this.iconFront;
-	        case 2:
-	        	return this.iconVertical;
-	        case 3:
-	        	return this.iconVertical;
-	        case 4:
-	        	return this.iconVertical;
-	        case 5:
-	        	return this.iconVertical;
-	        default:
-	        	return this.iconHorizontal;    
-	        }        	
-        	
-        }
-    	else if (directionOut == 1) {   	
-
-	        switch (side)
-	        {
-	        case 0:
-	        	return this.iconFront;
-	        case 1:
-	        	return this.iconBack;
-	        case 2:
-	        	return this.iconVertical;
-	        case 3:
-	        	return this.iconVertical;
-	        case 4:
-	        	return this.iconVertical;
-	        case 5:
-	        	return this.iconVertical;
-	        default:
-	        	return this.iconHorizontal;    
-	        }        	
-        	
-        }
-    	else if (directionOut == 2) {   	
-
-	        switch (side)
-	        {
-	        case 0:
-	        	return this.iconVertical;
-	        case 1:
-	        	return this.iconVertical;
-	        case 2:
-	        	return this.iconFront;
-	        case 3:
-	        	return this.iconBack;
-	        case 4:
-	        	return this.iconHorizontal;
-	        case 5:
-	        	return this.iconHorizontal;
-	        default:
-	        	return this.iconHorizontal;    
-	        }        	
-        	
-        }
-    	else if (directionOut == 3) {   	
-
-	        switch (side)
-	        {
-	        case 0:
-	        	return this.iconVertical;
-	        case 1:
-	        	return this.iconVertical;
-	        case 2:
-	        	return this.iconBack;
-	        case 3:
-	        	return this.iconFront;
-	        case 4:
-	        	return this.iconHorizontal;
-	        case 5:
-	        	return this.iconHorizontal;
-	        default:
-	        	return this.iconHorizontal;    
-	        }        	
-        	
-        }
-    	else if (directionOut == 4) {   	
-
-	        switch (side)
-	        {
-	        case 0:
-	        	return this.iconHorizontal;
-	        case 1:
-	        	return this.iconHorizontal;
-	        case 2:
-	        	return this.iconHorizontal;
-	        case 3:
-	        	return this.iconHorizontal;
-	        case 4:
-	        	return this.iconBack;
-	        case 5:
-	        	return this.iconFront;
-	        default:
-	        	return this.iconHorizontal;    
-	        }        	
-        	
-        }
-    	else {   	//direction ==5
-
-	        switch (side)
-	        {
-	        case 0:
-	        	return this.iconHorizontal;
-	        case 1:
-	        	return this.iconHorizontal;
-	        case 2:
-	        	return this.iconHorizontal;
-	        case 3:
-	        	return this.iconHorizontal;
-	        case 4:
-	        	return this.iconFront;
-	        case 5:
-	        	return this.iconBack;
-	        default:
-	        	return this.iconHorizontal;    
-	        }        	
-        	
-        }
-   
+    	if (side == metaData)
+        	return this.iconFront;
+    	return this.iconSolid;
     }
 
     public static int getDirectionFromMetadata(int metaData)
