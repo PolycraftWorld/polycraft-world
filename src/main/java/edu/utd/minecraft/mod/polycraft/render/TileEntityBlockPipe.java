@@ -100,7 +100,7 @@ public class TileEntityBlockPipe extends TileEntity{
         p_145841_1_.setShort("DirectionIn", this.directionIn);
         
 
-    }
+    }	
 
     /**
      * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it

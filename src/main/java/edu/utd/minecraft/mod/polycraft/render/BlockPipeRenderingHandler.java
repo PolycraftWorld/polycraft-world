@@ -17,6 +17,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.common.ModClassLoader;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.block.LabelTexture;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -46,37 +47,37 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 
 		//TODO: this does not seem to do anything yet...
 		
-		//		int meta = 3;
-//		Tessellator tessellator = Tessellator.instance;
-//		block.setBlockBoundsForItemRender();
-//		renderer.setRenderBoundsFromBlock(block);
-//		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-//		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-//		tessellator.startDrawingQuads();
-//		tessellator.setNormal(0.0F, -1.0F, 0.0F);
-//		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
-//		tessellator.draw();
-//		tessellator.startDrawingQuads();
-//		tessellator.setNormal(0.0F, 1.0F, 0.0F);
-//		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
-//		tessellator.draw();
-//		tessellator.startDrawingQuads();
-//		tessellator.setNormal(0.0F, 0.0F, -1.0F);
-//		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
-//		tessellator.draw();
-//		tessellator.startDrawingQuads();
-//		tessellator.setNormal(0.0F, 0.0F, 1.0F);
-//		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
-//		tessellator.draw();
-//		tessellator.startDrawingQuads();
-//		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-//		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
-//		tessellator.draw();
-//		tessellator.startDrawingQuads();
-//		tessellator.setNormal(1.0F, 0.0F, 0.0F);
-//		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
-//		tessellator.draw();
-//		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+		int meta = 3;
+		Tessellator tessellator = Tessellator.instance;
+		block.setBlockBoundsForItemRender();
+		renderer.setRenderBoundsFromBlock(block);
+		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, -1.0F, 0.0F);
+		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 0.0F, -1.0F);
+		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 0.0F, 1.0F);
+		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(1.0F, 0.0F, 0.0F);
+		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
+		tessellator.draw();
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 	
 	@Override
@@ -96,10 +97,15 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 		double maxBound = 0.75D;
 		double minBound = 0.25D;
 		
-		double lowMiddle = 0.75D;
-		double highMiddle = 0.25D;
+		double lowMiddle = 0.25D;
+		double highMiddle = 0.75D;
 		double lowEdge = 0D;
 		double highEdge = 1D;
+		
+		boolean SW = false;
+		boolean SE = false;
+		boolean NE = false;
+		boolean NW = false;
 		
 		
 //		double d1 = 0.375D;
@@ -130,76 +136,281 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 //		renderer.renderFaceYPos(blockPipe, xCoord, yCoord - 1.0F + d0, zCoord, blockPipe.iconTop);
 //		renderer.renderFaceYNeg(blockPipe, xCoord, yCoord + 1.0F - d0, zCoord, blockPipe.iconBottom);
 		
-		if (directionOut == 0) {			
-		
+		if (directionOut == ForgeDirection.DOWN.ordinal()) {	
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//		
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = lowEdge;
+//			renderer.renderMinZ = minBound;
+//			
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = lowMiddle;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(minBound, lowEdge, minBound, maxBound, lowMiddle, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 		
-		if (directionOut == 1) {
+		if (directionOut == ForgeDirection.UP.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = highMiddle;
+//			renderer.renderMinZ = minBound;			
+//			
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = highEdge;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(minBound, highMiddle, minBound, maxBound, highEdge, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionOut == 2) {
-			renderer.setRenderBounds(minBound, minBound, lowEdge, maxBound, maxBound, lowMiddle);
+		if (directionOut == ForgeDirection.NORTH.ordinal()) {
+			
+		
+	
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//					
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = lowEdge;				
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = lowMiddle;
+			
+			renderer.setRenderBounds(minBound, minBound, lowEdge, maxBound, maxBound, lowMiddle);			
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionOut == 3) {
+		if (directionOut == ForgeDirection.SOUTH.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//						
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = highMiddle;
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = highEdge;
+//			
 			renderer.setRenderBounds(minBound, minBound, highMiddle, maxBound, maxBound, highEdge);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionOut == 4) {
+		if (directionOut == ForgeDirection.WEST.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			
+//			renderer.renderMinX = lowEdge;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = minBound;
+//			renderer.renderMaxX = lowMiddle;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(lowEdge, minBound, minBound, lowMiddle, maxBound, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionOut == 5) {
+		if (directionOut == ForgeDirection.EAST.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			
+//			renderer.renderMinX = highMiddle;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = minBound;
+//			renderer.renderMaxX = highEdge;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(highMiddle, minBound, minBound, highEdge, maxBound, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 		
-//		renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconLeft);
-//		renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconRight);
-//		renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
-//		renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
-//		renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconTop);
-//		renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBottom);	
 		
-		//lowMiddle = 0.25D;
-		//highMiddle = 0.75D;
-		
-		if (directionIn == 0) {
+		if (directionIn == ForgeDirection.DOWN.ordinal()) {	
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//		
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = lowEdge;
+//			renderer.renderMinZ = minBound;
+//			
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = lowMiddle;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(minBound, lowEdge, minBound, maxBound, lowMiddle, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 		
-		if (directionIn == 1) {
+		if (directionIn == ForgeDirection.UP.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = highMiddle;
+//			renderer.renderMinZ = minBound;			
+//			
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = highEdge;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(minBound, highMiddle, minBound, maxBound, highEdge, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == 2) {
-			renderer.setRenderBounds(minBound, minBound, lowEdge, maxBound, maxBound, lowMiddle);
+		if (directionIn == ForgeDirection.NORTH.ordinal()) {
+			
+	
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//					
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = lowEdge;				
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = lowMiddle;
+			
+			renderer.setRenderBounds(minBound, minBound, lowEdge, maxBound, maxBound, lowMiddle);			
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == 3) {
+		if (directionIn == ForgeDirection.SOUTH.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//						
+//			renderer.renderMinX = minBound;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = highMiddle;
+//			renderer.renderMaxX = maxBound;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = highEdge;
+			
 			renderer.setRenderBounds(minBound, minBound, highMiddle, maxBound, maxBound, highEdge);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == 4) {
+		if (directionIn == ForgeDirection.WEST.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			
+//			renderer.renderMinX = lowEdge;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = minBound;
+//			renderer.renderMaxX = lowMiddle;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(lowEdge, minBound, minBound, lowMiddle, maxBound, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == 5) {
+		if (directionIn == ForgeDirection.EAST.ordinal()) {
+			
+//			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
+//			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
+//			renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
+//			
+//			renderer.renderMinX = highMiddle;
+//			renderer.renderMinY = minBound;
+//			renderer.renderMinZ = minBound;
+//			renderer.renderMaxX = highEdge;
+//			renderer.renderMaxY = maxBound;
+//			renderer.renderMaxZ = maxBound;
+			
 			renderer.setRenderBounds(highMiddle, minBound, minBound, highEdge, maxBound, maxBound);
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
+		
+		lowMiddle = 0.75D;
+		highMiddle = 0.25D;
+		lowEdge = 0.25D;
+		highEdge = 0.75D;
+		
+			
+//		renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
+//		renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
+//		renderer.renderFaceZPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
+//		renderer.renderFaceZNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
+//		renderer.renderFaceYPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
+//		renderer.renderFaceYNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconSolid);
+//		
+//		renderer.renderMinX = highMiddle;
+//		renderer.renderMinY = highMiddle;
+//		renderer.renderMinZ = highMiddle;
+//		renderer.renderMaxX = highEdge;
+//		renderer.renderMaxY = highEdge;
+//		renderer.renderMaxZ = highEdge;
+		
+		renderer.setOverrideBlockTexture(blockPipe.iconSolid);
+		
+		renderer.setRenderBounds(highMiddle, highMiddle, highMiddle, highEdge, highEdge, highEdge);
+		renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
+		
+	
+		
 
 		tessellator.setBrightness(blockPipe.getMixedBrightnessForBlock(renderer.blockAccess, xCoord, yCoord, zCoord));
 		int j1 = blockPipe.colorMultiplier(renderer.blockAccess, xCoord, yCoord, zCoord);
