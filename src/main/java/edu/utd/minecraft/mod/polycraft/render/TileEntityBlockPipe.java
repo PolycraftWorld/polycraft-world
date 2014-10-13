@@ -10,6 +10,7 @@ import java.util.List;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
@@ -19,7 +20,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.Flowable;
-import edu.utd.minecraft.mod.polycraft.item.ItemPipe;
+import edu.utd.minecraft.mod.polycraft.item.ItemBlockPipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockHopper;
@@ -50,13 +51,13 @@ public class TileEntityBlockPipe extends TileEntity{
     protected static InternalObject config;
     
     
-	public static final void register(final InternalObject pipeConfig, final InternalObject pipeItem) {
+	public static final void register(final InternalObject pipeConfig) {
 		
 		TileEntityBlockPipe.config = pipeConfig;
-		BlockPipe bp = new BlockPipe(pipeConfig, TileEntityBlockPipe.class);
+		final BlockPipe bp = new BlockPipe(pipeConfig, TileEntityBlockPipe.class);
 		BlockPipeRenderingHandler bprh = new BlockPipeRenderingHandler(pipeConfig);
 		
-		PolycraftRegistry.registerBlockWithItem(pipeConfig.gameID, pipeConfig.name, bp, pipeItem.gameID, pipeItem.name, ItemPipe.class, new Object[]{});
+		PolycraftRegistry.registerBlockWithItem(pipeConfig.gameID, pipeConfig.name, bp, pipeConfig.itemID, pipeConfig.itemName, ItemBlockPipe.class, new Object[]{});
 		
 		GameRegistry.registerTileEntity(bp.tileEntityClass, pipeConfig.tileEntityGameID);
 		RenderingRegistry.registerBlockHandler(bprh.getRenderId(), bprh);

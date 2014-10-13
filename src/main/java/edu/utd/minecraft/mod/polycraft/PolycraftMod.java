@@ -52,8 +52,8 @@ public class PolycraftMod {
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
 	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.0.4";
-	private static final int[] VERSION_NUMERIC = new int[] { 1, 0, 5 };
+	public static final String VERSION = "1.0.6";
+	private static final int[] VERSION_NUMERIC = new int[] { 1, 0, 6 };
 
 	public static final int[] getVersionNumeric(final String version) {
 		if (StringUtils.isEmpty(version))

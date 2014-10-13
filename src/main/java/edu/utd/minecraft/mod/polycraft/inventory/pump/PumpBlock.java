@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -18,7 +19,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 public class PumpBlock extends PolycraftInventoryBlock<PumpInventory> implements Flowable{
 
 	public PumpBlock(final Inventory config, final Class tileEntityClass) {
-		super(config, tileEntityClass);
+		super(config, tileEntityClass, Material.iron, 5);
 	}
 
 	@Override

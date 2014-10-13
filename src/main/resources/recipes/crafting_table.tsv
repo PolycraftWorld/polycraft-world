@@ -112,3 +112,13 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.4	TRUE	FALSE	4	Block of Stainless Steel	9	Block of Chrome	1	Block of Nickel	1	Block of Chrome	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1
 1.0.4	TRUE	FALSE	4	Steel Ingot	9	Iron Ingot	1	Graphite	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1
 1.0.4	TRUE	FALSE	4	Block of Steel	9	Iron Block	1	Graphite	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1
+1.0.6	TRUE	FALSE	6	BlockPipe	6			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1		
+1.0.6	TRUE	FALSE	6	BlockPipe	64			Block of Steel	1		1	Block of Steel	1			Block of Steel	1			Block of Steel	1		
+1.0.6	TRUE	FALSE	6	BlockPipe	6			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1		
+1.0.6	TRUE	FALSE	6	BlockPipe	64			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1		
+1.0.6	TRUE	FALSE	6	Pump	1	Hose (PolyIsoPrene)	1	Gasket (PolyIsoPrene)	1	Regulator	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Regulator	1	Gasket (PolyIsoPrene)	1	Hose (PolyIsoPrene)	1
+1.0.6	TRUE	FALSE	6	Pump	1	Regulator	1	Gasket (PolyIsoPrene)	1	Hose (PolyIsoPrene)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Hose (PolyIsoPrene)	1	Gasket (PolyIsoPrene)	1	Regulator	1
+1.0.6	TRUE	TRUE	6	Flow Regulator	1	BlockPipe	1	Regulator	1														
+1.0.6	TRUE	FALSE	6	BlockPipe	16	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1												
+1.0.6	TRUE	FALSE	6	BlockPipe	16							Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1						
+1.0.6	TRUE	FALSE	6	BlockPipe	16													Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1

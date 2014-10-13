@@ -108,6 +108,7 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
 	
 	public BlockPipe(final InternalObject config, final Class tileEntityClass) {
 		super(Material.iron);
+		this.setHardness(2);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setStepSound(Block.soundTypeMetal);
 		this.tileEntityClass = tileEntityClass;
@@ -339,7 +340,8 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
     @Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-    	return PolycraftRegistry.getItem("ItemPipe");
+    	return PolycraftRegistry.getItem(this.config.itemName);
+    
     }
     
 
@@ -454,8 +456,7 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
     @SideOnly(Side.CLIENT)
     public String getItemIconName()
     {
-        return "itempipe"; //not sure what to put here... TODO
-
+    	return PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(this.config.itemName)); 
     }
     
 
@@ -464,6 +465,11 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
 
 		return config.renderID; //http://www.minecraftforge.net/wiki/Multiple_Pass_Render_Blocks
 
+	}
+
+	public String getUnlocalizedName(int itemDamage) {
+		// TODO Auto-generated method stub
+		return this.config.gameID;
 	}
 
  

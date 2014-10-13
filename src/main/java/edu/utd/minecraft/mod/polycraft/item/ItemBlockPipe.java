@@ -13,6 +13,7 @@ import com.google.common.base.Preconditions;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
@@ -23,10 +24,13 @@ import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 
-public class ItemPipe extends ItemBlock implements PolycraftItem {
+public class ItemBlockPipe extends ItemBlock implements PolycraftItem {
 
-	public ItemPipe(Block p_i45355_1_) {
-		super(p_i45355_1_);
+	public final BlockPipe blockPipe;
+	
+	public ItemBlockPipe(Block block) {
+		super(block);
+		this.blockPipe = (BlockPipe) block;
 	}
 
 	@Override
@@ -38,5 +42,10 @@ public class ItemPipe extends ItemBlock implements PolycraftItem {
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack par1ItemStack) {
+		return blockPipe.getUnlocalizedName(par1ItemStack.getItemDamage());
 	}
 }

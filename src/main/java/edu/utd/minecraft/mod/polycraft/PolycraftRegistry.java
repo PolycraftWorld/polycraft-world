@@ -101,7 +101,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
-import edu.utd.minecraft.mod.polycraft.item.ItemPipe;
+import edu.utd.minecraft.mod.polycraft.item.ItemBlockPipe;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
@@ -432,13 +432,10 @@ public class PolycraftRegistry {
 		FluidRegistry.registerFluid(fluidOil);
 		
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
-		final InternalObject itemPipe = InternalObject.registry.get("ItemPipe");
+
 		//registerBlockWithItem(blockPipe.gameID, blockPipe.name, new BlockPipe(), itemPipe.gameID, itemPipe.name, ItemPipe.class, new Object[]{});
 
-		TileEntityBlockPipe.register(blockPipe, itemPipe);
-
-		
-		
+		TileEntityBlockPipe.register(blockPipe);		
 		
 		
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
