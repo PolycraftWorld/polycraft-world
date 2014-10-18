@@ -78,7 +78,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		super(containerType, config, 128, PumpState.values());
 		this.flowTickHeatIntensityRatio = config.params.getInt(0);
 		this.flowItemsPerHeatIntensity = config.params.getInt(1);
-		this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(2))));
+		//this.addBehavior(new AutomaticInputBehavior<HeatedInventory>(false, PolycraftMod.convertSecondsToGameTicks(config.params.getDouble(2))));
 		this.addBehavior(new VesselUpcycler());
 	}
 
