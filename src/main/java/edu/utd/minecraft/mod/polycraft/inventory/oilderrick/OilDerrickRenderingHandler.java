@@ -53,8 +53,8 @@ public class OilDerrickRenderingHandler extends PolycraftInventoryBlock.BasicRen
 	public boolean renderBlockMetadata(PolycraftInventoryBlock inventoryBlock, int p_147799_2_, int p_147799_3_, int p_147799_4_, int p_147799_5_, boolean p_147799_6_, RenderBlocks renderer) {
 		Tessellator tessellator = Tessellator.instance;
 		int i1 = OilDerrickInventory.getDirectionFromMetadata(p_147799_5_);
-		double d0 = 0.625D;
-		renderer.setRenderBounds(0.0D, d0, 0.0D, 1.0D, 1.0D, 1.0D);
+		double d0 = 0.33D;
+		renderer.setRenderBounds(0.0D, 0, 0.0D, 1.0D, d0, 1.0D);
 
 		if (p_147799_6_)
 		{
@@ -146,7 +146,7 @@ public class OilDerrickRenderingHandler extends PolycraftInventoryBlock.BasicRen
 		renderer.setOverrideBlockTexture(iicon);
 		double d3 = 0.25D;
 		double d4 = 0.25D;
-		renderer.setRenderBounds(d3, d4, d3, 1.0D - d3, d0 - 0.002D, 1.0D - d3);
+		renderer.setRenderBounds(d3, d0, d3, 1.0D - d3, d0+d0, 1.0D - d3);
 
 		if (p_147799_6_) {
 			tessellator.startDrawingQuads();
@@ -183,30 +183,30 @@ public class OilDerrickRenderingHandler extends PolycraftInventoryBlock.BasicRen
 			double d2 = 0.25D;
 			renderer.setOverrideBlockTexture(iicon);
 
-			if (i1 == 0) {
-				renderer.setRenderBounds(d1, 0.0D, d1, 1.0D - d1, 0.25D, 1.0D - d1);
+//			if (i1 == 0) {
+				renderer.setRenderBounds(d1, d0+d0, d1, 1.0D - d1, 1.0D, 1.0D - d1);
 				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
-			}
-
-			if (i1 == 2) {
-				renderer.setRenderBounds(d1, d4, 0.0D, 1.0D - d1, d4 + d2, d3);
-				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
-			}
-
-			if (i1 == 3) {
-				renderer.setRenderBounds(d1, d4, 1.0D - d3, 1.0D - d1, d4 + d2, 1.0D);
-				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
-			}
-
-			if (i1 == 4) {
-				renderer.setRenderBounds(0.0D, d4, d1, d3, d4 + d2, 1.0D - d1);
-				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
-			}
-
-			if (i1 == 5) {
-				renderer.setRenderBounds(1.0D - d3, d4, d1, 1.0D, d4 + d2, 1.0D - d1);
-				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
-			}
+//			}
+//
+//			if (i1 == 2) {
+//				renderer.setRenderBounds(d1, d4, 0.0D, 1.0D - d1, d4 + d2, d3);
+//				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
+//			}
+//
+//			if (i1 == 3) {
+//				renderer.setRenderBounds(d1, d4, 1.0D - d3, 1.0D - d1, d4 + d2, 1.0D);
+//				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
+//			}
+//
+//			if (i1 == 4) {
+//				renderer.setRenderBounds(0.0D, d4, d1, d3, d4 + d2, 1.0D - d1);
+//				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
+//			}
+//
+//			if (i1 == 5) {
+//				renderer.setRenderBounds(1.0D - d3, d4, d1, 1.0D, d4 + d2, 1.0D - d1);
+//				renderer.renderStandardBlock(inventoryBlock, p_147799_2_, p_147799_3_, p_147799_4_);
+//			}
 		}
 
 		renderer.clearOverrideBlockTexture();

@@ -31,6 +31,7 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 
 	public OilDerrickBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass, Material.iron, 2.5F);
+		this.setHardness(20);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
@@ -66,19 +67,21 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 	 */
 	@Override
 	public void addCollisionBoxesToList(World worldObj, int xCoord, int yCoord, int zCoord, AxisAlignedBB mask_in, List list_in, Entity collide_in) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
+		
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.33F, 1.0F);
 		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
 
-		float f = 0.125F;
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+		float f = 0.25F;
+		this.setBlockBounds(0.25F, 0.33F, 0.25F, 0.75F, 0.66F, 0.75F);
 		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+		
+		this.setBlockBounds(0.375F, 0.66F, 0.375F, 0.625F, 1.0F, 0.625F);
 		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
 
-		this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
-		this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
+//		this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+//		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
+//		this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+//		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask_in, list_in, collide_in);
 
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
