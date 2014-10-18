@@ -246,11 +246,11 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			int distanceFromPump = 0;
 			while (true) {
 				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, true);
-				final String hash = (int)coords.xCoord + "." + (int)coords.yCoord + "." + (int)coords.zCoord;
+				final String hash = getHashVec3(coords);
 				//don't allow networks that flow back in on themselves
 				if (coordsUsed.contains(hash))
 					return null;
-				coordsUsed.add(getHashVec3(coords));
+				coordsUsed.add(hash);
 				final Block block = getBlockAtVec3(coords);
 				if (block instanceof BlockPipe)
 					flowDirection = getBlockMetadataAtVec3(coords);

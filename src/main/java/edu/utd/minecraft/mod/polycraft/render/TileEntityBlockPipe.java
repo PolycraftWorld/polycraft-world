@@ -42,13 +42,13 @@ import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityBlockPipe extends TileEntity{
 	
-    public short directionIn;
+    private byte directionIn;
     
     protected static InternalObject config;
-    
     
 	public static final void register(final InternalObject pipeConfig) {
 		
@@ -78,20 +78,47 @@ public class TileEntityBlockPipe extends TileEntity{
     public void readFromNBT(NBTTagCompound p_145839_1_)
     {
         super.readFromNBT(p_145839_1_);
-        this.directionIn = p_145839_1_.getShort("d");
+        this.directionIn = p_145839_1_.getByte("d");
     }
-	
-	public void setDirectionIn(short dir)
-	{
-		this.directionIn = dir;
-	}
 
 	@Override
     public void writeToNBT(NBTTagCompound p_145841_1_)
     {
         super.writeToNBT(p_145841_1_);
-        p_145841_1_.setShort("d", this.directionIn);
+        p_145841_1_.setByte("d", this.directionIn);
     }
+	
+	public static void setDirectionIn(World worldObj, int xCoord, int yCoord, int zCoord) {
+		TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(xCoord, yCoord, zCoord);
+		bte.clearDirectionIn();
+		for (ForgeDirection testdir: ForgeDirection.values())
+			if (isDirectionIn(worldObj,testdir, xCoord, yCoord, zCoord))
+				bte.addDirectionIn(testdir);
+	}
+	
+	private static boolean isDirectionIn(World worldObj, ForgeDirection testdir, int xCoord, int yCoord, int zCoord)
+	{
+		if (PolycraftMod.getInventoryAt(worldObj, xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) != null)
+			return true;
+		if ((worldObj.getBlock(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) instanceof Flowable) && (worldObj.getBlockMetadata(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ)==testdir.getOpposite().ordinal()))
+			return true;
+		return false;		
+	}
+	
+	private void clearDirectionIn()
+	{
+		this.directionIn = 0;
+	}
+	
+	private void addDirectionIn(final ForgeDirection dir)
+	{
+		this.directionIn |= 1 << dir.ordinal();
+	}
+	
+	public boolean hasDirectionIn(final ForgeDirection dir)
+	{
+		return (directionIn & (1 << dir.ordinal())) > 0;
+	}
 
     public static EntityItem func_145897_a(World worldObj, double p_145897_1_, double p_145897_3_, double p_145897_5_)
     {

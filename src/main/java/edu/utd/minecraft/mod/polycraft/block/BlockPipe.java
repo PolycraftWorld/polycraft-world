@@ -61,6 +61,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -122,36 +123,36 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
         float f = 0.125F;
         
         int directionOut = BlockPipe.getDirectionFromMetadata(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-        int directionIn = ((TileEntityBlockPipe) worldObj.getTileEntity(xCoord, yCoord, zCoord)).directionIn;
+        TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(xCoord, yCoord, zCoord);
         
         //sets the other parts of the pipes
         
-        if (directionOut == ForgeDirection.DOWN.ordinal() || directionIn == ForgeDirection.DOWN.ordinal())
+        if (directionOut == ForgeDirection.DOWN.ordinal() || bte.hasDirectionIn(ForgeDirection.DOWN))
         {
         	this.setBlockBounds(0.5F-pipeRadius, 0.0F, 0.5F-pipeRadius, 0.5F+pipeRadius, 0.5F-pipeRadius, 0.5F+pipeRadius);
         	super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
         }
-        if (directionOut == ForgeDirection.UP.ordinal() || directionIn == ForgeDirection.UP.ordinal())
+        if (directionOut == ForgeDirection.UP.ordinal() || bte.hasDirectionIn(ForgeDirection.UP))
         {
         	this.setBlockBounds(0.5F-pipeRadius, 0.5F+pipeRadius, 0.5F-pipeRadius, 0.5F+pipeRadius, 1.0F, 0.5F+pipeRadius);
         	super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
         }
-        if (directionOut == ForgeDirection.WEST.ordinal() || directionIn == ForgeDirection.WEST.ordinal())
+        if (directionOut == ForgeDirection.WEST.ordinal() || bte.hasDirectionIn(ForgeDirection.WEST))
         {
         	this.setBlockBounds(0.0F, 0.5F-pipeRadius, 0.5F-pipeRadius, 0.5F-pipeRadius, 0.5F+pipeRadius, 0.5F+pipeRadius);
         	super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
         }
-        if (directionOut == ForgeDirection.EAST.ordinal() || directionIn == ForgeDirection.EAST.ordinal())
+        if (directionOut == ForgeDirection.EAST.ordinal() || bte.hasDirectionIn(ForgeDirection.EAST))
         {
         	this.setBlockBounds(0.5F+pipeRadius, 0.5F-pipeRadius, 0.5F-pipeRadius, 1.0F, 0.5F+pipeRadius, 0.5F+pipeRadius);
         	super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
         }
-        if (directionOut == ForgeDirection.NORTH.ordinal() || directionIn == ForgeDirection.NORTH.ordinal())
+        if (directionOut == ForgeDirection.NORTH.ordinal() || bte.hasDirectionIn(ForgeDirection.NORTH))
         {
         	this.setBlockBounds(0.5F-pipeRadius, 0.5F-pipeRadius,0.0F, 0.5F+pipeRadius, 0.5F+pipeRadius, 0.5F-pipeRadius);
         	super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
         }
-        if (directionOut == ForgeDirection.SOUTH.ordinal() || directionIn == ForgeDirection.SOUTH.ordinal())
+        if (directionOut == ForgeDirection.SOUTH.ordinal() || bte.hasDirectionIn(ForgeDirection.SOUTH))
         {
         	this.setBlockBounds(0.5F-pipeRadius, 0.5F-pipeRadius, 0.5F+pipeRadius, 0.5F+pipeRadius, 0.5F+pipeRadius, 1.0F);
         	super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
@@ -161,66 +162,10 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /**
-     * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
-     */
-//    public int onBlockPlaced(World worldObj, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_)
-//    {
-//        int j1 = Facing.oppositeSide[p_149660_5_];
-//
-//        if (j1 == 1)
-//        {
-//            j1 = 0;
-//        }
-//
-//        return j1;
-//    }
-
-    
 	@Override
 	public void onBlockPlacedBy(World worldObj, int xCoord, int yCoord, int zCoord, EntityLivingBase player, ItemStack itemStack) {
-		BlockHelper.setFacingMetadata6(this, worldObj, xCoord, yCoord, zCoord, player, itemStack);
-		setDirectionIn(worldObj, xCoord, yCoord, zCoord);
+		BlockHelper.setFacingMetadataFlowable(this, worldObj, xCoord, yCoord, zCoord, player, itemStack);
 	}
-
-	public void setDirectionIn(World worldObj, int xCoord, int yCoord,
-			int zCoord) {
-		TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		
-		for (ForgeDirection testdir: ForgeDirection.values())
-		{
-			if (isDirectionIn(worldObj,testdir, xCoord, yCoord, zCoord))
-			{
-				bte.setDirectionIn((short)testdir.ordinal()); 
-				return;
-			}
-		}	
-		bte.setDirectionIn((short)ForgeDirection.UNKNOWN.ordinal());
-	}
-	
-	
-	
-	
-	public boolean isDirectionIn(World worldObj, ForgeDirection testdir, int xCoord, int yCoord, int zCoord)
-	{
-		if (PolycraftMod.getInventoryAt(worldObj, xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) != null)
-			return true;
-		if ((worldObj.getBlock(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) instanceof Flowable) && (worldObj.getBlockMetadata(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ)==testdir.getOpposite().ordinal()))
-			return true;
-		return false;		
-	}
-	
-
-
-    /**
-     * Called whenever the block is added into the world. Args: world, x, y, z
-     */
-	@Override
-    public void onBlockAdded(World worldObj, int xCoord, int yCoord, int zCoord)
-    {
-        super.onBlockAdded(worldObj, xCoord, yCoord, zCoord);
-        //this.setMetaDataIfPoweredNeighbor(worldObj, xCoord, yCoord, zCoord);
-    }
 
     /**
      * Called upon block activation (right click on the block.)
@@ -272,32 +217,6 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
 		//do nothing else upon right click TODO: for now...could display if this is a valid network    
     	return true;
       
-    }
-
-    /**
-     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
-     * their own) Args: x, y, z, neighbor Block
-     */
-    @Override
-    public void onNeighborBlockChange(World worldObj, int xCoord, int yCoord, int zCoord, Block p_149695_5_)
-    {
-    	//FIXME JM: I think we will need to do something more to get this to work...
-    	this.setDirectionIn(worldObj, xCoord, yCoord, zCoord);
-
-        //this.setMetaDataIfPoweredNeighbor(worldObj, xCoord, yCoord, zCoord);
-    }
-
-    private void setMetaDataIfPoweredNeighbor(World worldObj, int xCoord, int yCoord, int zCoord)
-    {
-//        int l = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-//        int i1 = getDirectionFromMetadata(l);
-//        boolean flag = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
-//        boolean flag1 = isLargestMetaDataBitSet(l);
-//
-//        if (flag != flag1)
-//        {
-//            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i1 | (flag ? 0 : 8), 4);
-//        }
     }
 
     @Override

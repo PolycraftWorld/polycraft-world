@@ -92,8 +92,6 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 		int directionOut = metaData;
 		TileEntityBlockPipe bte = blockPipe.getTileEntityBlockPipeAtXYZ(worldBlockAccess, xCoord, yCoord, zCoord);
 		
-		int directionIn = bte.directionIn; //TileEntityBlockPipe.getConnectedDirection(worldBlockAccess, xCoord, yCoord, zCoord);
-		
 		double maxBound = 0.75D;
 		double minBound = 0.25D;
 		
@@ -261,7 +259,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 		}
 		
 		
-		if (directionIn == ForgeDirection.DOWN.ordinal()) {	
+		if (bte.hasDirectionIn(ForgeDirection.DOWN)) {	
 			
 //			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
 //			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
@@ -282,7 +280,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 		
-		if (directionIn == ForgeDirection.UP.ordinal()) {
+		if (bte.hasDirectionIn(ForgeDirection.UP)) {	
 			
 //			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
 //			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
@@ -303,7 +301,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == ForgeDirection.NORTH.ordinal()) {
+		if (bte.hasDirectionIn(ForgeDirection.NORTH)) {	
 			
 	
 //			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
@@ -324,7 +322,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == ForgeDirection.SOUTH.ordinal()) {
+		if (bte.hasDirectionIn(ForgeDirection.SOUTH)) {	
 			
 //			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
 //			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconHorizontal);
@@ -344,7 +342,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == ForgeDirection.WEST.ordinal()) {
+		if (bte.hasDirectionIn(ForgeDirection.WEST)) {	
 			
 //			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);
 //			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
@@ -364,7 +362,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(blockPipe, xCoord, yCoord, zCoord);
 		}
 	
-		if (directionIn == ForgeDirection.EAST.ordinal()) {
+		if (bte.hasDirectionIn(ForgeDirection.EAST)) {	
 			
 //			renderer.renderFaceXPos(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconBack);
 //			renderer.renderFaceXNeg(blockPipe, xCoord, yCoord, zCoord, blockPipe.iconFront);

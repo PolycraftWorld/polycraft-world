@@ -1,9 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -22,15 +25,30 @@ public class BlockHelper {
 		return l == 0 ? 2 : (l == 1 ? 5 : (l == 2 ? 3 : (l == 3 ? 4 : 0)));
 	}
 
-	public static void setFacingMetadata6(Block thisBlock, World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
+	public static int setFacingMetadata6(Block thisBlock, World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
 		int l = determineOrientation(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_);
 		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, l, 2);
+		return l;
 	}
 
-	public static void setFacingMetadata4(Block thisBlock, World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
+	public static int setFacingMetadata4(Block thisBlock, World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
 		int l = determineOrientation(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_);
 		if (l == ForgeDirection.DOWN.ordinal() || l == ForgeDirection.UP.ordinal())
 			l = ForgeDirection.NORTH.ordinal();
 		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, l, 2);
+		return l;
+	}
+
+	public static int setFacingMetadataFlowable(Block thisBlock, World worldObj, int xCoord, int yCoord, int zCoord, EntityLivingBase player, ItemStack itemStack) {
+		int direction = setFacingMetadata6(thisBlock, worldObj, xCoord, yCoord, zCoord, player, itemStack);
+		if (worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockPipe)
+			TileEntityBlockPipe.setDirectionIn(worldObj, xCoord, yCoord, zCoord);
+		
+		//update the neighbor direction in if it needs it
+		final Vec3 coords = PolycraftMod.getAdjacentCoords(Vec3.createVectorHelper(xCoord, yCoord, zCoord), direction, false);
+		if (worldObj.getBlock((int)coords.xCoord, (int)coords.yCoord, (int)coords.zCoord) instanceof BlockPipe)
+			TileEntityBlockPipe.setDirectionIn(worldObj, (int)coords.xCoord, (int)coords.yCoord, (int)coords.zCoord);
+
+		return direction;
 	}
 }
