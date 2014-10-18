@@ -90,7 +90,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 	public boolean renderBlockPipeMetadata(IBlockAccess worldBlockAccess, BlockPipe blockPipe, int xCoord, int yCoord, int zCoord, int metaData, boolean p_147799_6_, RenderBlocks renderer) {
 		Tessellator tessellator = Tessellator.instance;
 		int directionOut = metaData;
-		TileEntityBlockPipe bte = (TileEntityBlockPipe) blockPipe.getTileEntityBlockPipeAtXYZ(worldBlockAccess, xCoord, yCoord, zCoord);
+		TileEntityBlockPipe bte = blockPipe.getTileEntityBlockPipeAtXYZ(worldBlockAccess, xCoord, yCoord, zCoord);
 		
 		int directionIn = bte.directionIn; //TileEntityBlockPipe.getConnectedDirection(worldBlockAccess, xCoord, yCoord, zCoord);
 		

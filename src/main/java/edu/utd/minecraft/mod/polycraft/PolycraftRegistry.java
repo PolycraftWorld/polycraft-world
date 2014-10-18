@@ -432,11 +432,7 @@ public class PolycraftRegistry {
 		FluidRegistry.registerFluid(fluidOil);
 		
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
-
-		//registerBlockWithItem(blockPipe.gameID, blockPipe.name, new BlockPipe(), itemPipe.gameID, itemPipe.name, ItemPipe.class, new Object[]{});
-
 		TileEntityBlockPipe.register(blockPipe);		
-		
 		
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 

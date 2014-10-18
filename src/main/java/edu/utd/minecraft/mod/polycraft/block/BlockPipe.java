@@ -65,66 +65,36 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-//TODO replace getIcon and registerBlockIcons with custom rendering
 public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
 
-	//private final Map<BlockFace, IIcon> blockFaceIcons = Maps.newHashMap();
 	private static final Logger logger = LogManager.getLogger();
 	
-   // private final Random field_149922_a = new Random();
-//    @SideOnly(Side.CLIENT)
-//	public IIcon iconOutside;
-//    @SideOnly(Side.CLIENT)
-//    public IIcon iconInside;
-    
-    @SideOnly(Side.CLIENT)
-    public IIcon iconHorizontal;
-    @SideOnly(Side.CLIENT)
-    public IIcon iconVertical;
-    @SideOnly(Side.CLIENT)
-    
-    public IIcon iconSW;
-    @SideOnly(Side.CLIENT)
-    public IIcon iconSE;
-    @SideOnly(Side.CLIENT)
-    public IIcon iconNE;
-    @SideOnly(Side.CLIENT)
-    public IIcon iconNW;
-
     @SideOnly(Side.CLIENT)
     public IIcon iconFront;
-    @SideOnly(Side.CLIENT)
-    public IIcon iconBack;
     
     @SideOnly(Side.CLIENT)
     public IIcon iconSolid;
     
-    
-    
-    
-    public final Class tileEntityClass;
     protected final InternalObject config;
-    //private static final String __OBFID = "CL_00010000";
 	
-	public BlockPipe(final InternalObject config, final Class tileEntityClass) {
+	public BlockPipe(final InternalObject config) {
 		super(Material.iron);
 		this.setHardness(2);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setStepSound(Block.soundTypeMetal);
-		this.tileEntityClass = tileEntityClass;
 		this.config = config;
 	}
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int var1) {
-		try {
-			return (TileEntity) tileEntityClass.newInstance();
-		} catch (Exception e) {
-			logger.error("Can't create an instance of your tile entity: " + e.getMessage());
-		}
-		return null;
+		return new TileEntityBlockPipe();
 	}
- 
+
+	@Override
+	public boolean hasTileEntity(int metadata)
+	{
+	    return true;
+	}
 
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
@@ -256,7 +226,6 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
 	@Override
     public boolean onBlockActivated(World worldObj, int xCoord, int yCoord, int zCoord, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
-		
         //if you are trying to click on a pump or inventory or clickable block behind the pipe, enable that
 		
 		//this is recursive so you can move through pipes until you turn or hit and inventory
@@ -419,29 +388,8 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_)
     {
-        
-		//this.iconOutside = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_outside")));
-		//this.iconInside = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_inside")));
-		
-		this.iconVertical = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_top")));
-		this.iconHorizontal = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_left")));
-		
-		
-		this.iconSW = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_SW")));
-		this.iconSE = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_SE")));
-		this.iconNW = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_NW")));
-		this.iconNE = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_NE")));
-		
-		
-		
-		//this.iconRight = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_right")));
-		
 		this.iconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_front")));
-		this.iconBack = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_back")));
-		
 		this.iconSolid = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_solid")));
-
-		
     }
 
     public static TileEntityBlockPipe getTileEntityBlockPipeAtXYZ(IBlockAccess blockAccess, int xCoord, int yCoord, int zCoord)

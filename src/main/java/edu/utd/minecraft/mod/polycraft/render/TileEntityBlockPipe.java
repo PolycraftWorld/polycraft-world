@@ -34,6 +34,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
@@ -42,11 +45,7 @@ import net.minecraft.world.World;
 
 public class TileEntityBlockPipe extends TileEntity{
 	
-	public int customField;
-    private String customNameTag;
-    
     public short directionIn;
-    private static final String __OBFID = "CL_00010001";
     
     protected static InternalObject config;
     
@@ -54,88 +53,45 @@ public class TileEntityBlockPipe extends TileEntity{
 	public static final void register(final InternalObject pipeConfig) {
 		
 		TileEntityBlockPipe.config = pipeConfig;
-		final BlockPipe bp = new BlockPipe(pipeConfig, TileEntityBlockPipe.class);
+		final BlockPipe bp = new BlockPipe(pipeConfig);
 		BlockPipeRenderingHandler bprh = new BlockPipeRenderingHandler(pipeConfig);
 		
 		PolycraftRegistry.registerBlockWithItem(pipeConfig.gameID, pipeConfig.name, bp, pipeConfig.itemID, pipeConfig.itemName, ItemBlockPipe.class, new Object[]{});
 		
-		GameRegistry.registerTileEntity(bp.tileEntityClass, pipeConfig.tileEntityGameID);
+		GameRegistry.registerTileEntity(TileEntityBlockPipe.class, pipeConfig.tileEntityGameID);
 		RenderingRegistry.registerBlockHandler(bprh.getRenderId(), bprh);
-		
-		
 	}
-    
+	
+	@Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeToNBT(tag);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+        readFromNBT(packet.func_148857_g());
+    }
 	
 	@Override
     public void readFromNBT(NBTTagCompound p_145839_1_)
     {
         super.readFromNBT(p_145839_1_);
-        NBTTagList nbttaglist = p_145839_1_.getTagList("Items", 10);
-        //this.field_145900_a = new ItemStack[this.getSizeInventory()];
-
-        if (p_145839_1_.hasKey("CustomName", 8))
-        {
-            this.customNameTag = p_145839_1_.getString("CustomName");
-        }
-        if (p_145839_1_.hasKey("DirectionIn", 8))
-        {
-            this.directionIn = p_145839_1_.getShort("DirectionIn");
-        }
-
+        this.directionIn = p_145839_1_.getShort("d");
     }
 	
-	 public void setDirectionIn(short dir)
-	 {
-		 
-		 	this.directionIn = dir;	 
-
-	 }
-	
-	
+	public void setDirectionIn(short dir)
+	{
+		this.directionIn = dir;
+	}
 
 	@Override
     public void writeToNBT(NBTTagCompound p_145841_1_)
     {
         super.writeToNBT(p_145841_1_);
-        //NBTTagList nbttaglist = new NBTTagList();
-        p_145841_1_.setShort("DirectionIn", this.directionIn);
-        
-
-    }	
-
-    /**
-     * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
-     * hasn't changed and skip it.
-     */
-    public void markDirty()
-    {
-        super.markDirty();
+        p_145841_1_.setShort("d", this.directionIn);
     }
-
-    /**
-     * Would be nice to know what this does
-     */
-    
-    public void setCustomName(String customName)
-    {
-        this.customNameTag = customName;
-    }
-
-  
-    /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
-    }
-
-    @Override
-    public void updateEntity()
-    {
-       //nothing on update for now
-    }
-
 
     public static EntityItem func_145897_a(World worldObj, double p_145897_1_, double p_145897_3_, double p_145897_5_)
     {
