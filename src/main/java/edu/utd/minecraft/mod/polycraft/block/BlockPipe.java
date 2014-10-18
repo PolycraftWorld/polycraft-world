@@ -203,6 +203,8 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable{
 	
 	public boolean isDirectionIn(World worldObj, ForgeDirection testdir, int xCoord, int yCoord, int zCoord)
 	{
+		if (PolycraftMod.getInventoryAt(worldObj, xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) != null)
+			return true;
 		if ((worldObj.getBlock(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) instanceof Flowable) && (worldObj.getBlockMetadata(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ)==testdir.getOpposite().ordinal()))
 			return true;
 		return false;		
