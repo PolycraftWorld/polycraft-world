@@ -7,6 +7,10 @@ import java.util.TreeMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockButton;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
@@ -487,7 +491,7 @@ public class ClientProxy extends CommonProxy {
 			final ItemPogoStick pogoStick = ItemPogoStick.getEquippedItem(player);
 			jumpMovementFactor *= pogoStick.config.jumpMovementFactorBuff;
 			if (!pogoStick.config.restrictJumpToGround || player.onGround) {
-				final boolean playerActivelyBouncing = isKeyDown(gameSettings.keyBindUseItem) && noScreenOverlay();
+				final boolean playerActivelyBouncing = isKeyDown(gameSettings.keyBindUseItem) && noScreenOverlay() && !isPlayerLookingAtPogoCancellingBlock();
 				final boolean playerActivelySupressing = !playerActivelyBouncing && isKeyDown(gameSettings.keyBindSneak) && noScreenOverlay();
 				final double motionY = pogoStick.config.getMotionY(playerActivelySupressing ? 0 : playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
 				if (motionY > 0)
@@ -505,6 +509,20 @@ public class ClientProxy extends CommonProxy {
 
 		if (player.jumpMovementFactor != jumpMovementFactor)
 			player.jumpMovementFactor = jumpMovementFactor;
+	}
+
+	private boolean isPlayerLookingAtPogoCancellingBlock()
+	{
+		if (client.objectMouseOver != null)
+		{
+			final Block block = client.theWorld.getBlock(client.objectMouseOver.blockX, client.objectMouseOver.blockY, client.objectMouseOver.blockZ);
+			return block instanceof BlockContainer
+					|| block instanceof BlockWorkbench
+					 || block instanceof BlockDoor
+					 || block instanceof BlockButton
+					 || block == Blocks.bed;
+		}
+		return false;
 	}
 
 	private void onClientTickBouncyBlock(final EntityPlayer player, final PlayerState playerState) {
