@@ -3,13 +3,13 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 		Heat	Cataysis	Sack (Sodium)	2	Aluminum Ingot	16	Sack (Silicon)	3	Cartridge (Oxygen)	5	Beaker (Deionized Water)	2	Zeolite Catalyst	64											
 1.0.0		Heat	Cataysis	Quartz	1	Aluminum Ingot	1							Zeolite Catalyst	4											
 1.0.0		Heat	Cataysis	Quartz	4	Aluminum Ingot	4							Zeolite Catalyst	64											
-1.0.0		Heat	Recycling	Bag (PolyPropylene Pellets)	8									Vial (Propylene)	7											
-1.0.0		Heat	Recycling	Sack (PolyPropylene Pellets)	8									Beaker (Propylene)	7											
-1.0.0		Heat	Recycling	Powder Keg (PolyPropylene Pellets)	8									Drum (Propylene)	7											
-1.0.0		Heat	Recycling	Fibers (PolyPropylene)	8									Beaker (Propylene)	7											
-1.0.0		Heat	Recycling	Block (PolyPropylene)	8									Beaker (Propylene)	7											
-1.0.0		Heat	Recycling	Slab (PolyPropylene)	16									Beaker (Propylene)	7											
-1.0.0		Heat	Recycling	Stairs (PolyPropylene)	8									Beaker (Propylene)	7											
+1.0.0		Heat	Recycling	Bag (PolyPropylene Pellets)	8									Flask (Propylene)	7											
+1.0.0		Heat	Recycling	Sack (PolyPropylene Pellets)	8									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Powder Keg (PolyPropylene Pellets)	8									Canister (Propylene)	7											
+1.0.0		Heat	Recycling	Fibers (PolyPropylene)	8									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Block (PolyPropylene)	8									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Slab (PolyPropylene)	16									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Stairs (PolyPropylene)	8									Cartridge (Propylene)	7											
 1.0.0		Heat	Recycling	Bag (Amorphous PolyEthylene Terephthalate Pellets)	1									Vial (Terephthalic Acid)	2	Vial (Ethylene Glycol)	4	Vial (Dimethyl Terephthalate)	1							
 1.0.0		Heat	Recycling	Sack (Amorphous PolyEthylene Terephthalate Pellets)	1									Beaker (Terephthalic Acid)	2	Beaker (Ethylene Glycol)	4	Beaker (Dimethyl Terephthalate)	1							
 1.0.0		Heat	Recycling	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	1									Drum (Terephthalic Acid)	2	Drum (Ethylene Glycol)	4	Drum (Dimethyl Terephthalate)	1							
@@ -326,13 +326,13 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Cartridge (Nitrogen)	16	Cartridge (Hydrogen)	48	Iron III Oxide Catalyst	4					Cartridge (Ammonia)	32											
 1.0.0				Canister (Nitrogen)	1	Canister (Hydrogen)	3	Iron III Oxide Catalyst	16					Canister (Ammonia)	2											
 1.0.0				Canister (Nitrogen)	16	Canister (Hydrogen)	48	Iron III Oxide Catalyst	16					Canister (Ammonia)	32											
-1.0.0				Vial (Propylene)	1	Flask (Ammonia)	1							Vial (Acrylonitrile)	1											
-1.0.0				Vial (Propylene)	16	Flask (Ammonia)	16							Vial (Acrylonitrile)	16											
-1.0.0				Beaker (Propylene)	1	Cartridge (Ammonia)	1							Beaker (Acrylonitrile)	1											
-1.0.0				Beaker (Propylene)	16	Cartridge (Ammonia)	16							Beaker (Acrylonitrile)	16											
-1.0.0				Drum (Propylene)	1	Canister (Ammonia)	1							Drum (Acrylonitrile)	1											
-1.0.0				Drum (Propylene)	16	Canister (Ammonia)	16							Drum (Acrylonitrile)	16											
-1.0.0				Drum (Propylene)	64	Canister (Ammonia)	64							Drum (Acrylonitrile)	64											
+1.0.0				Flask (Propylene)	1	Flask (Ammonia)	1							Vial (Acrylonitrile)	1											
+1.0.0				Flask (Propylene)	16	Flask (Ammonia)	16							Vial (Acrylonitrile)	16											
+1.0.0				Cartridge (Propylene)	1	Cartridge (Ammonia)	1							Beaker (Acrylonitrile)	1											
+1.0.0				Cartridge (Propylene)	16	Cartridge (Ammonia)	16							Beaker (Acrylonitrile)	16											
+1.0.0				Canister (Propylene)	1	Canister (Ammonia)	1							Drum (Acrylonitrile)	1											
+1.0.0				Canister (Propylene)	16	Canister (Ammonia)	16							Drum (Acrylonitrile)	16											
+1.0.0				Canister (Propylene)	64	Canister (Ammonia)	64							Drum (Acrylonitrile)	64											
 1.0.0				Vial (Benzene)	1	Flask (Ethylene)	1	Vial (Sulfuric Acid)	1					Vial (Ethylbenzene)	1											
 1.0.0				Vial (Benzene)	4	Flask (Ethylene)	4	Vial (Sulfuric Acid)	1					Vial (Ethylbenzene)	4											
 1.0.0				Vial (Benzene)	16	Flask (Ethylene)	16	Vial (Sulfuric Acid)	1					Vial (Ethylbenzene)	16											
@@ -386,12 +386,12 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Beaker (Styrene)	16									Sack (PolyStyrene Pellets)	16											
 1.0.0				Drum (Styrene)	16									Powder Keg (PolyStyrene Pellets)	16											
 1.0.0				Drum (Styrene)	64									Powder Keg (PolyStyrene Pellets)	64											
-1.0.0				Flask (Sweet Light Naphtha)	4	Zeolite Catalyst	1							Vial (High Octane Gasoline)	4											
-1.0.0				Flask (Sweet Light Naphtha)	16	Zeolite Catalyst	1							Vial (High Octane Gasoline)	16											
-1.0.0				Cartridge (Sweet Light Naphtha)	1	Zeolite Catalyst	2							Beaker (High Octane Gasoline)	1											
-1.0.0				Cartridge (Sweet Light Naphtha)	4	Zeolite Catalyst	3							Beaker (High Octane Gasoline)	4											
-1.0.0				Cartridge (Sweet Light Naphtha)	16	Zeolite Catalyst	4							Beaker (High Octane Gasoline)	16											
-1.0.0				Canister (Sweet Light Naphtha)	1	Zeolite Catalyst	5							Vial (High Octane Gasoline)	1											
-1.0.0				Canister (Sweet Light Naphtha)	4	Zeolite Catalyst	6							Vial (High Octane Gasoline)	4											
-1.0.0				Canister (Sweet Light Naphtha)	16	Zeolite Catalyst	7							Vial (High Octane Gasoline)	16											
-1.0.0				Canister (Sweet Light Naphtha)	64	Zeolite Catalyst	8							Vial (High Octane Gasoline)	64											
+1.0.0				Vial (Sweet Light Naphtha)	4	Zeolite Catalyst	1							Vial (High Octane Gasoline)	4											
+1.0.0				Vial (Sweet Light Naphtha)	16	Zeolite Catalyst	1							Vial (High Octane Gasoline)	16											
+1.0.0				Beaker (Sweet Light Naphtha)	1	Zeolite Catalyst	2							Beaker (High Octane Gasoline)	1											
+1.0.0				Beaker (Sweet Light Naphtha)	4	Zeolite Catalyst	3							Beaker (High Octane Gasoline)	4											
+1.0.0				Beaker (Sweet Light Naphtha)	16	Zeolite Catalyst	4							Beaker (High Octane Gasoline)	16											
+1.0.0				Drum (Sweet Light Naphtha)	1	Zeolite Catalyst	5							Vial (High Octane Gasoline)	1											
+1.0.0				Drum (Sweet Light Naphtha)	4	Zeolite Catalyst	6							Vial (High Octane Gasoline)	4											
+1.0.0				Drum (Sweet Light Naphtha)	16	Zeolite Catalyst	7							Vial (High Octane Gasoline)	16											
+1.0.0				Drum (Sweet Light Naphtha)	64	Zeolite Catalyst	8							Vial (High Octane Gasoline)	64											

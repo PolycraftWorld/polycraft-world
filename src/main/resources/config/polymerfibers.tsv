@@ -1,114 +1,114 @@
 Version	Game ID	Fibers	Source	Version
-0	GD	Fibers (Acrylic-Formaldehyde)	Sack (Acrylic-Formaldehyde Pellets)	Acrylic-Formaldehyde
-1.0.0	GE	Fibers (Acrylonitrile-Butadiene-Styrene)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	Acrylonitrile-Butadiene-Styrene
-0	GF	Fibers (Alkyd Resin)	Sack (Alkyd Resin Pellets)	Alkyd Resin
-1.0.0	GG	Fibers (Amorphous PolyEthylene Terephthalate)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate
-0	GH	Fibers (Bromine Isobutylene-Isoprene Rubber)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber
-0	GI	Fibers (Cellulose Diacetate)	Sack (Cellulose Diacetate Pellets)	Cellulose Diacetate
-0	GJ	Fibers (Cellulose Triacetate)	Sack (Cellulose Triacetate Pellets)	Cellulose Triacetate
-1.0.0	GK	Fibers (Cellulosic)	Sack (Cellulosic Pellets)	Cellulosic
-0	GL	Fibers (Chitin)	Sack (Chitin Pellets)	Chitin
-0	GM	Fibers (Chlorine Isobutylene-Isoprene Rubber)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chlorine Isobutylene-Isoprene Rubber
-0	GN	Fibers (Epoxy Resin)	Sack (Epoxy Resin Pellets)	Epoxy Resin
-0	GO	Fibers (Ethoxylates)	Sack (Ethoxylates Pellets)	Ethoxylates
-0	GP	Fibers (Ethylene-Propylene Monomer)	Sack (Ethylene-Propylene Monomer Pellets)	Ethylene-Propylene Monomer
-0	GQ	Fibers (Ethylene-Propylene-Diene Monomer)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	Ethylene-Propylene-Diene Monomer
-1.0.0	GR	Fibers (Ethylene-Vinyl Acetate)	Sack (Ethylene-Vinyl Acetate Pellets)	Ethylene-Vinyl Acetate
-1.0.0	GS	Fibers (High Density PolyEthylene)	Sack (High Density PolyEthylene Pellets)	High Density PolyEthylene
-0	GT	Fibers (Hydrogenated Nitrile-Butadiene Rubber)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Hydrogenated Nitrile-Butadiene Rubber
-0	GU	Fibers (Isobutylene-Isoprene Rubber)	Sack (Isobutylene-Isoprene Rubber Pellets)	Isobutylene-Isoprene Rubber
-0	GV	Fibers (Lignin)	Sack (Lignin Pellets)	Lignin
-1.0.0	GW	Fibers (Linear Low-Density PolyEthylene)	Sack (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene
-1.0.0	GX	Fibers (Liquid Crystal Polymer)	Sack (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer
-1.0.0	GY	Fibers (Low Density PolyEthylene)	Sack (Low Density PolyEthylene Pellets)	Low Density PolyEthylene
-1.0.0	GZ	Fibers (Medium Density PolyEthylene)	Sack (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene
-0	H0	Fibers (Melamine-Formaldehyde Polymers)	Sack (Melamine-Formaldehyde Polymers Pellets)	Melamine-Formaldehyde Polymers
-1.0.0	H1	Fibers (Metaldehyde)	Sack (Metaldehyde Pellets)	Metaldehyde
-0	H2	Fibers (Nitrile-Butadiene Rubber)	Sack (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber
-1.0.0	H3	Fibers (Paraformaldehyde)	Sack (Paraformaldehyde Pellets)	Paraformaldehyde
-1.0.0	H4	Fibers (Paraledhyde)	Sack (Paraledhyde Pellets)	Paraledhyde
-0	H5	Fibers (Phenolic Resin)	Sack (Phenolic Resin Pellets)	Phenolic Resin
-1.0.0	H6	Fibers (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)
-0	H7	Fibers (Poly1-Butene)	Sack (Poly1-Butene Pellets)	Poly1-Butene
-0	H8	Fibers (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Poly2,6-Dimethyl-1,4-Phenylene Ether
-0	H9	Fibers (Poly-2-Hydroxy Butyrate)	Sack (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate
-0	Ha	Fibers (Poly2-Hydroxyethyl Methacrylate)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	Poly2-Hydroxyethyl Methacrylate
-0	Hb	Fibers (PolyAcrylic Ester)	Sack (PolyAcrylic Ester Pellets)	PolyAcrylic Ester
-1.0.0	Hc	Fibers (PolyAcrylonitrile)	Sack (PolyAcrylonitrile Pellets)	PolyAcrylonitrile
-1.0.0	Hd	Fibers (PolyButadiene)	Sack (PolyButadiene Pellets)	PolyButadiene
-0	He	Fibers (PolyButadiene Rubber)	Sack (PolyButadiene Rubber Pellets)	PolyButadiene Rubber
-1.0.0	Hf	Fibers (PolyButylene Succinate)	Sack (PolyButylene Succinate Pellets)	PolyButylene Succinate
-1.0.0	Hh	Fibers (PolyButylene Terephthalate)	Sack (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate
-1.0.0	Hi	Fibers (PolyCaprolactone)	Sack (PolyCaprolactone Pellets)	PolyCaprolactone
-1.0.0	Hj	Fibers (PolyCarbonate)	Sack (PolyCarbonate Pellets)	PolyCarbonate
-0	Hk	Fibers (PolyChloroPrene)	Sack (PolyChloroPrene Pellets)	PolyChloroPrene
-0	Hl	Fibers (PolyChlorotrifluoroethylene)	Sack (PolyChlorotrifluoroethylene Pellets)	PolyChlorotrifluoroethylene
-1.0.0	Hm	Fibers (PolyDiMethylSiloxane)	Sack (PolyDiMethylSiloxane Pellets)	PolyDiMethylSiloxane
-1.0.0	Hn	Fibers (PolyEther Ether Ketone)	Sack (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone
-1.0.0	Ho	Fibers (PolyEtherImide)	Sack (PolyEtherImide Pellets)	PolyEtherImide
-0	Hp	Fibers (PolyEthyl Acrylate)	Sack (PolyEthyl Acrylate Pellets)	PolyEthyl Acrylate
-0	Hq	Fibers (PolyEthylene Adipate)	Sack (PolyEthylene Adipate Pellets)	PolyEthylene Adipate
-1.0.0	Hr	Fibers (PolyEthylene Glycol)	Sack (PolyEthylene Glycol Pellets)	PolyEthylene Glycol
-0	Hs	Fibers (PolyEthylene Hexamethylene Dicarbamate)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PolyEthylene Hexamethylene Dicarbamate
-1.0.0	Ht	Fibers (PolyEthylene Naphthalate)	Sack (PolyEthylene Naphthalate Pellets)	PolyEthylene Naphthalate
-1.0.0	Hu	Fibers (PolyEthylene Oxide)	Sack (PolyEthylene Oxide Pellets)	PolyEthylene Oxide
-0	Hv	Fibers (PolyEthylene Sulphide)	Sack (PolyEthylene Sulphide Pellets)	PolyEthylene Sulphide
-1.0.0	Hw	Fibers (PolyEthylene Terephthalate)	Sack (PolyEthylene Terephthalate Pellets)	PolyEthylene Terephthalate
-1.0.0	Hx	Fibers (PolyEthylene Terephthalate Glycol-Modified)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	PolyEthylene Terephthalate Glycol-Modified
-1.0.0	Hy	Fibers (PolyGlycolic Acid)	Sack (PolyGlycolic Acid Pellets)	PolyGlycolic Acid
-0	Hz	Fibers (PolyHexamethylene Adipamide)	Sack (PolyHexamethylene Adipamide Pellets)	PolyHexamethylene Adipamide
-0	HA	Fibers (PolyHexamethylene Sebacamide)	Sack (PolyHexamethylene Sebacamide Pellets)	PolyHexamethylene Sebacamide
-1.0.0	HB	Fibers (PolyHydroxyalkanoate)	Sack (PolyHydroxyalkanoate Pellets)	PolyHydroxyalkanoate
-0	HC	Fibers (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PolyHydroxybutyrate-Co-Hydroxyvalerate
-1.0.0	HD	Fibers (PolyImide)	Sack (PolyImide Pellets)	PolyImide
-0	HE	Fibers (PolyIsoBorynl Acrylate)	Sack (PolyIsoBorynl Acrylate Pellets)	PolyIsoBorynl Acrylate
-0	HF	Fibers (PolyIsoButyl Acrylate)	Sack (PolyIsoButyl Acrylate Pellets)	PolyIsoButyl Acrylate
-1.0.0	HG	Fibers (PolyIsoButylene)	Sack (PolyIsoButylene Pellets)	PolyIsoButylene
-1.0.0	HH	Fibers (PolyIsoPrene)	Sack (PolyIsoPrene Pellets)	PolyIsoPrene
-1.0.0	HI	Fibers (PolyLactic Acid)	Sack (PolyLactic Acid Pellets)	PolyLactic Acid
-0	HJ	Fibers (PolyLactic-Co-Glycolic Acid)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	PolyLactic-Co-Glycolic Acid
-0	HK	Fibers (PolyMethyl Acrylate)	Sack (PolyMethyl Acrylate Pellets)	PolyMethyl Acrylate
-0	HL	Fibers (PolyMethyl Cyanoacrylate)	Sack (PolyMethyl Cyanoacrylate Pellets)	PolyMethyl Cyanoacrylate
-0	HM	Fibers (PolyMethyl Methacrylate)	Sack (PolyMethyl Methacrylate Pellets)	PolyMethyl Methacrylate
-0	HN	Fibers (PolyM-Methyl Styrene)	Sack (PolyM-Methyl Styrene Pellets)	PolyM-Methyl Styrene
-0	HO	Fibers (PolyM-Phenylene Isophthalamide)	Sack (PolyM-Phenylene Isophthalamide Pellets)	PolyM-Phenylene Isophthalamide
-0	HP	Fibers (PolyN-Butyl Acrylate)	Sack (PolyN-Butyl Acrylate Pellets)	PolyN-Butyl Acrylate
-1.0.0	HQ	Fibers (PolyOxymethylene)	Sack (PolyOxymethylene Pellets)	PolyOxymethylene
-0	HR	Fibers (PolyPentamethylene Hexamethylene Dicarbamate)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PolyPentamethylene Hexamethylene Dicarbamate
-0	HS	Fibers (PolyPhenol)	Sack (PolyPhenol Pellets)	PolyPhenol
-0	HT	Fibers (PolyPhenylene Oxide)	Sack (PolyPhenylene Oxide Pellets)	PolyPhenylene Oxide
-0	HU	Fibers (PolyPhosphazene)	Sack (PolyPhosphazene Pellets)	PolyPhosphazene
-0	HV	Fibers (PolyP-Methyl Styrene)	Sack (PolyP-Methyl Styrene Pellets)	PolyP-Methyl Styrene
-0	HW	Fibers (PolyP-Phenylene Sulphide)	Sack (PolyP-Phenylene Sulphide Pellets)	PolyP-Phenylene Sulphide
-0	HX	Fibers (PolyP-Phenylene Terephthalamide)	Sack (PolyP-Phenylene Terephthalamide Pellets)	PolyP-Phenylene Terephthalamide
-1.0.0	HY	Fibers (PolyPropylene)	Sack (PolyPropylene Pellets)	PolyPropylene
-0	HZ	Fibers (PolyPropylene Glycol)	Sack (PolyPropylene Glycol Pellets)	PolyPropylene Glycol
-0	I0	Fibers (PolyPropylene Oxide)	Sack (PolyPropylene Oxide Pellets)	PolyPropylene Oxide
-1.0.0	I1	Fibers (PolyStyrene)	Sack (PolyStyrene Pellets)	PolyStyrene
-0	I2	Fibers (PolyTert-Butyl Acrylate)	Sack (PolyTert-Butyl Acrylate Pellets)	PolyTert-Butyl Acrylate
-1.0.0	I3	Fibers (PolyTetraFluoroEthylene)	Sack (PolyTetraFluoroEthylene Pellets)	PolyTetraFluoroEthylene
-0	I4	Fibers (PolyTetramethylene Ether Glycol)	Sack (PolyTetramethylene Ether Glycol Pellets)	PolyTetramethylene Ether Glycol
-0	I5	Fibers (PolyTetramethylene Glycol)	Sack (PolyTetramethylene Glycol Pellets)	PolyTetramethylene Glycol
-0	I6	Fibers (PolyThiazyl)	Sack (PolyThiazyl Pellets)	PolyThiazyl
-1.0.0	I7	Fibers (PolyTrimethylene Terephthalate)	Sack (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate
-1.0.0	I8	Fibers (PolyUrethane)	Sack (PolyUrethane Pellets)	PolyUrethane
-1.0.0	I9	Fibers (PolyVinyl Acetate)	Sack (PolyVinyl Acetate Pellets)	PolyVinyl Acetate
-1.0.0	Ia	Fibers (PolyVinyl Alcohol)	Sack (PolyVinyl Alcohol Pellets)	PolyVinyl Alcohol
-0	Ib	Fibers (PolyVinyl Butyral)	Sack (PolyVinyl Butyral Pellets)	PolyVinyl Butyral
-1.0.0	Ic	Fibers (PolyVinyl Chloride)	Sack (PolyVinyl Chloride Pellets)	PolyVinyl Chloride
-1.0.0	Id	Fibers (PolyVinyl Chloride Acetate)	Sack (PolyVinyl Chloride Acetate Pellets)	PolyVinyl Chloride Acetate
-0	Ie	Fibers (PolyVinyl Fluoride)	Sack (PolyVinyl Fluoride Pellets)	PolyVinyl Fluoride
-0	If	Fibers (PolyVinyl Formal)	Sack (PolyVinyl Formal Pellets)	PolyVinyl Formal
-0	Ig	Fibers (PolyVinyl Methyl Ether)	Sack (PolyVinyl Methyl Ether Pellets)	PolyVinyl Methyl Ether
-0	Ih	Fibers (PolyVinylidene Dichloride)	Sack (PolyVinylidene Dichloride Pellets)	PolyVinylidene Dichloride
-0	Ii	Fibers (PolyVinylidene Fluoride)	Sack (PolyVinylidene Fluoride Pellets)	PolyVinylidene Fluoride
-0	Ij	Fibers (PolyVinylidene Fluoride-Trifluoroethylene)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PolyVinylidene Fluoride-Trifluoroethylene
-0	Ik	Fibers (Styrene-Acrylonitrile)	Sack (Styrene-Acrylonitrile Pellets)	Styrene-Acrylonitrile
-1.0.0	Il	Fibers (Styrene-Butadiene Rubber)	Sack (Styrene-Butadiene Rubber Pellets)	Styrene-Butadiene Rubber
-0	Im	Fibers (Styrene-Butadiene-Styrene)	Sack (Styrene-Butadiene-Styrene Pellets)	Styrene-Butadiene-Styrene
-0	In	Fibers (Styrene-Isoprene-Styrene)	Sack (Styrene-Isoprene-Styrene Pellets)	Styrene-Isoprene-Styrene
-0	Io	Fibers (Styrene-Maleic Anhydride Copolymer)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	Styrene-Maleic Anhydride Copolymer
-1.0.0	Ip	Fibers (Ultra-High-Molecular-Weight PolyEthylene)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Ultra-High-Molecular-Weight PolyEthylene
-0	Iq	Fibers (Urea-Formaldehyde Polymers)	Sack (Urea-Formaldehyde Polymers Pellets)	Urea-Formaldehyde Polymers
-1.0.0	Ir	Fibers (Very-Low-Density PolyEthylene)	Sack (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene
-1.0.0	Is	Fibers (Vinyl Acetate-Acrylic Acid)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid
+1.1.0	GD	Fibers (Acrylic-Formaldehyde)	Sack (Acrylic-Formaldehyde Pellets)	Acrylic-Formaldehyde
+1.1.0	GE	Fibers (Acrylonitrile-Butadiene-Styrene)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	Acrylonitrile-Butadiene-Styrene
+1.1.0	GF	Fibers (Alkyd Resin)	Sack (Alkyd Resin Pellets)	Alkyd Resin
+1.1.0	GG	Fibers (Amorphous PolyEthylene Terephthalate)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate
+1.1.0	GH	Fibers (Bromine Isobutylene-Isoprene Rubber)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber
+1.1.0	GI	Fibers (Cellulose Diacetate)	Sack (Cellulose Diacetate Pellets)	Cellulose Diacetate
+1.1.0	GJ	Fibers (Cellulose Triacetate)	Sack (Cellulose Triacetate Pellets)	Cellulose Triacetate
+1.1.0	GK	Fibers (Cellulosic)	Sack (Cellulosic Pellets)	Cellulosic
+1.1.0	GL	Fibers (Chitin)	Sack (Chitin Pellets)	Chitin
+1.1.0	GM	Fibers (Chlorine Isobutylene-Isoprene Rubber)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chlorine Isobutylene-Isoprene Rubber
+1.1.0	GN	Fibers (Epoxy Resin)	Sack (Epoxy Resin Pellets)	Epoxy Resin
+1.1.0	GO	Fibers (Ethoxylates)	Sack (Ethoxylates Pellets)	Ethoxylates
+1.1.0	GP	Fibers (Ethylene-Propylene Monomer)	Sack (Ethylene-Propylene Monomer Pellets)	Ethylene-Propylene Monomer
+1.1.0	GQ	Fibers (Ethylene-Propylene-Diene Monomer)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	Ethylene-Propylene-Diene Monomer
+1.1.0	GR	Fibers (Ethylene-Vinyl Acetate)	Sack (Ethylene-Vinyl Acetate Pellets)	Ethylene-Vinyl Acetate
+1.1.0	GS	Fibers (High Density PolyEthylene)	Sack (High Density PolyEthylene Pellets)	High Density PolyEthylene
+1.1.0	GT	Fibers (Hydrogenated Nitrile-Butadiene Rubber)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Hydrogenated Nitrile-Butadiene Rubber
+1.1.0	GU	Fibers (Isobutylene-Isoprene Rubber)	Sack (Isobutylene-Isoprene Rubber Pellets)	Isobutylene-Isoprene Rubber
+1.1.0	GV	Fibers (Lignin)	Sack (Lignin Pellets)	Lignin
+1.1.0	GW	Fibers (Linear Low-Density PolyEthylene)	Sack (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene
+1.1.0	GX	Fibers (Liquid Crystal Polymer)	Sack (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer
+1.1.0	GY	Fibers (Low Density PolyEthylene)	Sack (Low Density PolyEthylene Pellets)	Low Density PolyEthylene
+1.1.0	GZ	Fibers (Medium Density PolyEthylene)	Sack (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene
+1.1.0	H0	Fibers (Melamine-Formaldehyde Polymers)	Sack (Melamine-Formaldehyde Polymers Pellets)	Melamine-Formaldehyde Polymers
+1.1.0	H1	Fibers (Metaldehyde)	Sack (Metaldehyde Pellets)	Metaldehyde
+1.1.0	H2	Fibers (Nitrile-Butadiene Rubber)	Sack (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber
+1.1.0	H3	Fibers (Paraformaldehyde)	Sack (Paraformaldehyde Pellets)	Paraformaldehyde
+1.1.0	H4	Fibers (Paraledhyde)	Sack (Paraledhyde Pellets)	Paraledhyde
+1.1.0	H5	Fibers (Phenolic Resin)	Sack (Phenolic Resin Pellets)	Phenolic Resin
+1.1.0	H6	Fibers (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)
+1.1.0	H7	Fibers (Poly1-Butene)	Sack (Poly1-Butene Pellets)	Poly1-Butene
+1.1.0	H8	Fibers (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Poly2,6-Dimethyl-1,4-Phenylene Ether
+1.1.0	H9	Fibers (Poly-2-Hydroxy Butyrate)	Sack (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate
+1.1.0	Ha	Fibers (Poly2-Hydroxyethyl Methacrylate)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	Poly2-Hydroxyethyl Methacrylate
+1.1.0	Hb	Fibers (PolyAcrylic Ester)	Sack (PolyAcrylic Ester Pellets)	PolyAcrylic Ester
+1.1.0	Hc	Fibers (PolyAcrylonitrile)	Sack (PolyAcrylonitrile Pellets)	PolyAcrylonitrile
+1.1.0	Hd	Fibers (PolyButadiene)	Sack (PolyButadiene Pellets)	PolyButadiene
+1.1.0	He	Fibers (PolyButadiene Rubber)	Sack (PolyButadiene Rubber Pellets)	PolyButadiene Rubber
+1.1.0	Hf	Fibers (PolyButylene Succinate)	Sack (PolyButylene Succinate Pellets)	PolyButylene Succinate
+1.1.0	Hh	Fibers (PolyButylene Terephthalate)	Sack (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate
+1.1.0	Hi	Fibers (PolyCaprolactone)	Sack (PolyCaprolactone Pellets)	PolyCaprolactone
+1.1.0	Hj	Fibers (PolyCarbonate)	Sack (PolyCarbonate Pellets)	PolyCarbonate
+1.1.0	Hk	Fibers (PolyChloroPrene)	Sack (PolyChloroPrene Pellets)	PolyChloroPrene
+1.1.0	Hl	Fibers (PolyChlorotrifluoroethylene)	Sack (PolyChlorotrifluoroethylene Pellets)	PolyChlorotrifluoroethylene
+1.1.0	Hm	Fibers (PolyDiMethylSiloxane)	Sack (PolyDiMethylSiloxane Pellets)	PolyDiMethylSiloxane
+1.1.0	Hn	Fibers (PolyEther Ether Ketone)	Sack (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone
+1.1.0	Ho	Fibers (PolyEtherImide)	Sack (PolyEtherImide Pellets)	PolyEtherImide
+1.1.0	Hp	Fibers (PolyEthyl Acrylate)	Sack (PolyEthyl Acrylate Pellets)	PolyEthyl Acrylate
+1.1.0	Hq	Fibers (PolyEthylene Adipate)	Sack (PolyEthylene Adipate Pellets)	PolyEthylene Adipate
+1.1.0	Hr	Fibers (PolyEthylene Glycol)	Sack (PolyEthylene Glycol Pellets)	PolyEthylene Glycol
+1.1.0	Hs	Fibers (PolyEthylene Hexamethylene Dicarbamate)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PolyEthylene Hexamethylene Dicarbamate
+1.1.0	Ht	Fibers (PolyEthylene Naphthalate)	Sack (PolyEthylene Naphthalate Pellets)	PolyEthylene Naphthalate
+1.1.0	Hu	Fibers (PolyEthylene Oxide)	Sack (PolyEthylene Oxide Pellets)	PolyEthylene Oxide
+1.1.0	Hv	Fibers (PolyEthylene Sulphide)	Sack (PolyEthylene Sulphide Pellets)	PolyEthylene Sulphide
+1.1.0	Hw	Fibers (PolyEthylene Terephthalate)	Sack (PolyEthylene Terephthalate Pellets)	PolyEthylene Terephthalate
+1.1.0	Hx	Fibers (PolyEthylene Terephthalate Glycol-Modified)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	PolyEthylene Terephthalate Glycol-Modified
+1.1.0	Hy	Fibers (PolyGlycolic Acid)	Sack (PolyGlycolic Acid Pellets)	PolyGlycolic Acid
+1.1.0	Hz	Fibers (PolyHexamethylene Adipamide)	Sack (PolyHexamethylene Adipamide Pellets)	PolyHexamethylene Adipamide
+1.1.0	HA	Fibers (PolyHexamethylene Sebacamide)	Sack (PolyHexamethylene Sebacamide Pellets)	PolyHexamethylene Sebacamide
+1.1.0	HB	Fibers (PolyHydroxyalkanoate)	Sack (PolyHydroxyalkanoate Pellets)	PolyHydroxyalkanoate
+1.1.0	HC	Fibers (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PolyHydroxybutyrate-Co-Hydroxyvalerate
+1.1.0	HD	Fibers (PolyImide)	Sack (PolyImide Pellets)	PolyImide
+1.1.0	HE	Fibers (PolyIsoBorynl Acrylate)	Sack (PolyIsoBorynl Acrylate Pellets)	PolyIsoBorynl Acrylate
+1.1.0	HF	Fibers (PolyIsoButyl Acrylate)	Sack (PolyIsoButyl Acrylate Pellets)	PolyIsoButyl Acrylate
+1.1.0	HG	Fibers (PolyIsoButylene)	Sack (PolyIsoButylene Pellets)	PolyIsoButylene
+1.1.0	HH	Fibers (PolyIsoPrene)	Sack (PolyIsoPrene Pellets)	PolyIsoPrene
+1.1.0	HI	Fibers (PolyLactic Acid)	Sack (PolyLactic Acid Pellets)	PolyLactic Acid
+1.1.0	HJ	Fibers (PolyLactic-Co-Glycolic Acid)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	PolyLactic-Co-Glycolic Acid
+1.1.0	HK	Fibers (PolyMethyl Acrylate)	Sack (PolyMethyl Acrylate Pellets)	PolyMethyl Acrylate
+1.1.0	HL	Fibers (PolyMethyl Cyanoacrylate)	Sack (PolyMethyl Cyanoacrylate Pellets)	PolyMethyl Cyanoacrylate
+1.1.0	HM	Fibers (PolyMethyl Methacrylate)	Sack (PolyMethyl Methacrylate Pellets)	PolyMethyl Methacrylate
+1.1.0	HN	Fibers (PolyM-Methyl Styrene)	Sack (PolyM-Methyl Styrene Pellets)	PolyM-Methyl Styrene
+1.1.0	HO	Fibers (PolyM-Phenylene Isophthalamide)	Sack (PolyM-Phenylene Isophthalamide Pellets)	PolyM-Phenylene Isophthalamide
+1.1.0	HP	Fibers (PolyN-Butyl Acrylate)	Sack (PolyN-Butyl Acrylate Pellets)	PolyN-Butyl Acrylate
+1.1.0	HQ	Fibers (PolyOxymethylene)	Sack (PolyOxymethylene Pellets)	PolyOxymethylene
+1.1.0	HR	Fibers (PolyPentamethylene Hexamethylene Dicarbamate)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PolyPentamethylene Hexamethylene Dicarbamate
+1.1.0	HS	Fibers (PolyPhenol)	Sack (PolyPhenol Pellets)	PolyPhenol
+1.1.0	HT	Fibers (PolyPhenylene Oxide)	Sack (PolyPhenylene Oxide Pellets)	PolyPhenylene Oxide
+1.1.0	HU	Fibers (PolyPhosphazene)	Sack (PolyPhosphazene Pellets)	PolyPhosphazene
+1.1.0	HV	Fibers (PolyP-Methyl Styrene)	Sack (PolyP-Methyl Styrene Pellets)	PolyP-Methyl Styrene
+1.1.0	HW	Fibers (PolyP-Phenylene Sulphide)	Sack (PolyP-Phenylene Sulphide Pellets)	PolyP-Phenylene Sulphide
+1.1.0	HX	Fibers (PolyP-Phenylene Terephthalamide)	Sack (PolyP-Phenylene Terephthalamide Pellets)	PolyP-Phenylene Terephthalamide
+1.1.0	HY	Fibers (PolyPropylene)	Sack (PolyPropylene Pellets)	PolyPropylene
+1.1.0	HZ	Fibers (PolyPropylene Glycol)	Sack (PolyPropylene Glycol Pellets)	PolyPropylene Glycol
+1.1.0	I0	Fibers (PolyPropylene Oxide)	Sack (PolyPropylene Oxide Pellets)	PolyPropylene Oxide
+1.1.0	I1	Fibers (PolyStyrene)	Sack (PolyStyrene Pellets)	PolyStyrene
+1.1.0	I2	Fibers (PolyTert-Butyl Acrylate)	Sack (PolyTert-Butyl Acrylate Pellets)	PolyTert-Butyl Acrylate
+1.1.0	I3	Fibers (PolyTetraFluoroEthylene)	Sack (PolyTetraFluoroEthylene Pellets)	PolyTetraFluoroEthylene
+1.1.0	I4	Fibers (PolyTetramethylene Ether Glycol)	Sack (PolyTetramethylene Ether Glycol Pellets)	PolyTetramethylene Ether Glycol
+1.1.0	I5	Fibers (PolyTetramethylene Glycol)	Sack (PolyTetramethylene Glycol Pellets)	PolyTetramethylene Glycol
+1.1.0	I6	Fibers (PolyThiazyl)	Sack (PolyThiazyl Pellets)	PolyThiazyl
+1.1.0	I7	Fibers (PolyTrimethylene Terephthalate)	Sack (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate
+1.1.0	I8	Fibers (PolyUrethane)	Sack (PolyUrethane Pellets)	PolyUrethane
+1.1.0	I9	Fibers (PolyVinyl Acetate)	Sack (PolyVinyl Acetate Pellets)	PolyVinyl Acetate
+1.1.0	Ia	Fibers (PolyVinyl Alcohol)	Sack (PolyVinyl Alcohol Pellets)	PolyVinyl Alcohol
+1.1.0	Ib	Fibers (PolyVinyl Butyral)	Sack (PolyVinyl Butyral Pellets)	PolyVinyl Butyral
+1.1.0	Ic	Fibers (PolyVinyl Chloride)	Sack (PolyVinyl Chloride Pellets)	PolyVinyl Chloride
+1.1.0	Id	Fibers (PolyVinyl Chloride Acetate)	Sack (PolyVinyl Chloride Acetate Pellets)	PolyVinyl Chloride Acetate
+1.1.0	Ie	Fibers (PolyVinyl Fluoride)	Sack (PolyVinyl Fluoride Pellets)	PolyVinyl Fluoride
+1.1.0	If	Fibers (PolyVinyl Formal)	Sack (PolyVinyl Formal Pellets)	PolyVinyl Formal
+1.1.0	Ig	Fibers (PolyVinyl Methyl Ether)	Sack (PolyVinyl Methyl Ether Pellets)	PolyVinyl Methyl Ether
+1.1.0	Ih	Fibers (PolyVinylidene Dichloride)	Sack (PolyVinylidene Dichloride Pellets)	PolyVinylidene Dichloride
+1.1.0	Ii	Fibers (PolyVinylidene Fluoride)	Sack (PolyVinylidene Fluoride Pellets)	PolyVinylidene Fluoride
+1.1.0	Ij	Fibers (PolyVinylidene Fluoride-Trifluoroethylene)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PolyVinylidene Fluoride-Trifluoroethylene
+1.1.0	Ik	Fibers (Styrene-Acrylonitrile)	Sack (Styrene-Acrylonitrile Pellets)	Styrene-Acrylonitrile
+1.1.0	Il	Fibers (Styrene-Butadiene Rubber)	Sack (Styrene-Butadiene Rubber Pellets)	Styrene-Butadiene Rubber
+1.1.0	Im	Fibers (Styrene-Butadiene-Styrene)	Sack (Styrene-Butadiene-Styrene Pellets)	Styrene-Butadiene-Styrene
+1.1.0	In	Fibers (Styrene-Isoprene-Styrene)	Sack (Styrene-Isoprene-Styrene Pellets)	Styrene-Isoprene-Styrene
+1.1.0	Io	Fibers (Styrene-Maleic Anhydride Copolymer)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	Styrene-Maleic Anhydride Copolymer
+1.1.0	Ip	Fibers (Ultra-High-Molecular-Weight PolyEthylene)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Ultra-High-Molecular-Weight PolyEthylene
+1.1.0	Iq	Fibers (Urea-Formaldehyde Polymers)	Sack (Urea-Formaldehyde Polymers Pellets)	Urea-Formaldehyde Polymers
+1.1.0	Ir	Fibers (Very-Low-Density PolyEthylene)	Sack (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene
+1.1.0	Is	Fibers (Vinyl Acetate-Acrylic Acid)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid

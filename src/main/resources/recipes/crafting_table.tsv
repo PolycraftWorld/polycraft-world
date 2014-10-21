@@ -27,7 +27,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1
 1.0.0	TRUE	FALSE	8	Oil Derrick	1			Structural Truss	1			Structural Truss	1	Plastic Chest	1	Structural Truss	1	Structural Truss	1	Chemical Processor	1	Structural Truss	1
 1.0.0	TRUE	FALSE	7	Flame Thrower	1	Lighter	1	Regulator	1	Hose (PolyIsoPrene)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1						
-1.0.0	TRUE	FALSE	4	Flashlight	1	Gas Mantle	1	Redstone Block	1	Mold (Flashlight Shaft)	1												
+1.0.0	TRUE	FALSE	4	Flashlight	1	Gas Mantle	1	Redstone Block	1	Flashlight Shaft (PolyPropylene)	1												
 1.0.0	TRUE	FALSE	9	Jet Pack	1	Hose (PolyIsoPrene)	1	Regulator	1	Hose (PolyIsoPrene)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1						
 1.0.0	TRUE	FALSE	9	Laser	1			Nether Star	1			Nether Star	1	Redstone Block	1	Nether Star	1			Nether Star	1		
 1.0.0	TRUE	FALSE	9	Phase Shifter	1	Nether Star	1			Nether Star	1			Redstone Block	1			Nether Star	1			Nether Star	1

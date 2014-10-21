@@ -1,17 +1,129 @@
 Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	Level	First Release	Notes
-1.0.0	3s	Grip (PolyIsoPrene)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	2	10	64					1	TRUE	
-1.0.0	3t	Running Shoes (PolyIsoPrene)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	VelocityOnGround, MovementDurationWear(MCMins)	0.2	20		3	TRUE	
-1.0.0	3u	Running Shoes (Low Density PolyEthylene)	Mold (Running Shoes)	Bag (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	6	10	1	VelocityOnGround, Durability(MCMins)	0.3	40		8	TRUE	
-1.0.0	3v	Scuba Fins (PolyIsoPrene)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1	VelocityInWater, VelocityOnGround, Durability(MCMins)	0.4	0.05	20	3	TRUE	
-1.0.0	3w	Scuba Mask (PolyIsoPrene)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	1	FogDensity	0.01			3	TRUE	
-1.0.0	3y	Gasket (PolyIsoPrene)	Mold (Gasket)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	2	10	64					3	TRUE	
-1.0.0	3z	Life Preserver (PolyIsoPrene)	Mold (Life Preserver)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	1					3	TRUE	
-1.0.0	3B	Fibers (PolyIsoPrene)	Metal Die (Fibers)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	1	10	64					3	TRUE	
-1.0.0	3N	Tether (PolyIsoPrene)	Metal Die (Tether)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	2	10	64					3	TRUE	
-1.0.0	3U	Cord (PolyIsoPrene)	Metal Die (Cord)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	4	10	64					3	TRUE	Used as a super lead for horses, wont break as easily, can hold boats in place
-1.0.0	F	Hose (PolyIsoPrene)	Metal Die (Hose)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	64					3	TRUE	
-1.0.0	42	Large Pipe (PolyPropylene)	Metal Die (Large Pipe)	Bag (PolyPropylene Pellets)	PolyPropylene	16	10	64					3	TRUE	
-1.0.0	5J	Flashlight Shaft (PolyPropylene)	Mold (Flashlight Shaft)	Bag (PolyPropylene Pellets)	PolyPropylene	8	10	64							
-1.0.3	11b	Heated Knife Handle (PolyPropylene)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PolyPropylene	8	10	64							
-1.0.3	11c	Heated Knife Handle (PolyEther Ether Ketone)	Mold (Heated Knife Handle)	Bag (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone	8	10	64							
-1.0.3	11d	Heated Knife Handle (PolyIsoPrene)	Mold (Heated Knife Handle)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	64							
+1.0.0	3s	Grip (PolyIsoPrene)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	4	10	64					1	TRUE	
+1.0.0	3t	Running Shoes (PolyIsoPrene)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	12	10	1	VelocityOnGround, MovementDurationWear(MCMins)	0.2	20		3	TRUE	
+1.0.0	3u	Running Shoes (Low Density PolyEthylene)	Mold (Running Shoes)	Bag (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	12	10	1	VelocityOnGround, Durability(MCMins)	0.3	40		8	TRUE	
+1.0.0	3v	Scuba Fins (PolyIsoPrene)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	16	10	1	VelocityInWater, VelocityOnGround, Durability(MCMins)	0.4	0.05	20	3	TRUE	
+1.0.0	3w	Scuba Mask (PolyIsoPrene)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	12	10	1	FogDensity	0.01			3	TRUE	
+1.0.0	3y	Gasket (PolyIsoPrene)	Mold (Gasket)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	4	10	64					3	TRUE	
+1.0.0	3z	Life Preserver (PolyIsoPrene)	Mold (Life Preserver)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	16	10	1					3	TRUE	
+1.0.0	3N	Tether (PolyIsoPrene)	Metal Die (Tether)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	6	10	64					3	TRUE	
+1.0.0	3U	Cord (PolyIsoPrene)	Metal Die (Cord)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	8	10	64					3	TRUE	Used as a super lead for horses, wont break as easily, can hold boats in place
+1.0.0	F	Hose (PolyIsoPrene)	Metal Die (Hose)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	16	10	64					3	TRUE	
+1.0.0	42	Large Pipe (PolyPropylene)	Metal Die (Large Pipe)	Bag (PolyPropylene Pellets)	PolyPropylene	32	10	64					3	TRUE	
+1.0.0	5J	Flashlight Shaft (PolyPropylene)	Mold (Flashlight Shaft)	Bag (PolyPropylene Pellets)	PolyPropylene	16	10	64							
+1.0.3	11b	Heated Knife Handle (PolyPropylene)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PolyPropylene	16	10	64							
+1.0.3	11c	Heated Knife Handle (PolyEther Ether Ketone)	Mold (Heated Knife Handle)	Bag (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone	16	10	64							
+1.0.3	11d	Heated Knife Handle (PolyIsoPrene)	Mold (Heated Knife Handle)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	16	10	64							
+	GD	Fibers (Acrylic-Formaldehyde)	Metal Die (Fibers)	Bag (Acrylic-Formaldehyde Pellets)	Acrylic-Formaldehyde	3	10	64							
+1.0.7	GE	Fibers (Acrylonitrile-Butadiene-Styrene)	Metal Die (Fibers)	Bag (Acrylonitrile-Butadiene-Styrene Pellets)	Acrylonitrile-Butadiene-Styrene	3	10	64							
+	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Bag (Alkyd Resin Pellets)	Alkyd Resin	3	10	64							
+1.0.7	GG	Fibers (Amorphous PolyEthylene Terephthalate)	Metal Die (Fibers)	Bag (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate	3	10	64							
+	GH	Fibers (Bromine Isobutylene-Isoprene Rubber)	Metal Die (Fibers)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber	3	10	64							
+	GI	Fibers (Cellulose Diacetate)	Metal Die (Fibers)	Bag (Cellulose Diacetate Pellets)	Cellulose Diacetate	3	10	64							
+	GJ	Fibers (Cellulose Triacetate)	Metal Die (Fibers)	Bag (Cellulose Triacetate Pellets)	Cellulose Triacetate	3	10	64							
+1.0.7	GK	Fibers (Cellulosic)	Metal Die (Fibers)	Bag (Cellulosic Pellets)	Cellulosic	3	10	64							
+	GL	Fibers (Chitin)	Metal Die (Fibers)	Bag (Chitin Pellets)	Chitin	3	10	64							
+	GM	Fibers (Chlorine Isobutylene-Isoprene Rubber)	Metal Die (Fibers)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chlorine Isobutylene-Isoprene Rubber	3	10	64							
+	GN	Fibers (Epoxy Resin)	Metal Die (Fibers)	Bag (Epoxy Resin Pellets)	Epoxy Resin	3	10	64							
+	GO	Fibers (Ethoxylates)	Metal Die (Fibers)	Bag (Ethoxylates Pellets)	Ethoxylates	3	10	64							
+	GP	Fibers (Ethylene-Propylene Monomer)	Metal Die (Fibers)	Bag (Ethylene-Propylene Monomer Pellets)	Ethylene-Propylene Monomer	3	10	64							
+	GQ	Fibers (Ethylene-Propylene-Diene Monomer)	Metal Die (Fibers)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Ethylene-Propylene-Diene Monomer	3	10	64							
+1.0.7	GR	Fibers (Ethylene-Vinyl Acetate)	Metal Die (Fibers)	Bag (Ethylene-Vinyl Acetate Pellets)	Ethylene-Vinyl Acetate	3	10	64							
+1.0.7	GS	Fibers (High Density PolyEthylene)	Metal Die (Fibers)	Bag (High Density PolyEthylene Pellets)	High Density PolyEthylene	3	10	64							
+	GT	Fibers (Hydrogenated Nitrile-Butadiene Rubber)	Metal Die (Fibers)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Hydrogenated Nitrile-Butadiene Rubber	3	10	64							
+	GU	Fibers (Isobutylene-Isoprene Rubber)	Metal Die (Fibers)	Bag (Isobutylene-Isoprene Rubber Pellets)	Isobutylene-Isoprene Rubber	3	10	64							
+	GV	Fibers (Lignin)	Metal Die (Fibers)	Bag (Lignin Pellets)	Lignin	3	10	64							
+1.0.7	GW	Fibers (Linear Low-Density PolyEthylene)	Metal Die (Fibers)	Bag (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene	3	10	64							
+1.0.7	GX	Fibers (Liquid Crystal Polymer)	Metal Die (Fibers)	Bag (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer	3	10	64							
+1.0.7	GY	Fibers (Low Density PolyEthylene)	Metal Die (Fibers)	Bag (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	3	10	64							
+1.0.7	GZ	Fibers (Medium Density PolyEthylene)	Metal Die (Fibers)	Bag (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene	3	10	64							
+	H0	Fibers (Melamine-Formaldehyde Polymers)	Metal Die (Fibers)	Bag (Melamine-Formaldehyde Polymers Pellets)	Melamine-Formaldehyde Polymers	3	10	64							
+1.0.7	H1	Fibers (Metaldehyde)	Metal Die (Fibers)	Bag (Metaldehyde Pellets)	Metaldehyde	3	10	64							
+	H2	Fibers (Nitrile-Butadiene Rubber)	Metal Die (Fibers)	Bag (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber	3	10	64							
+1.0.7	H3	Fibers (Paraformaldehyde)	Metal Die (Fibers)	Bag (Paraformaldehyde Pellets)	Paraformaldehyde	3	10	64							
+1.0.7	H4	Fibers (Paraledhyde)	Metal Die (Fibers)	Bag (Paraledhyde Pellets)	Paraledhyde	3	10	64							
+	H5	Fibers (Phenolic Resin)	Metal Die (Fibers)	Bag (Phenolic Resin Pellets)	Phenolic Resin	3	10	64							
+1.0.7	H6	Fibers (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate))	Metal Die (Fibers)	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	3	10	64							
+	H7	Fibers (Poly1-Butene)	Metal Die (Fibers)	Bag (Poly1-Butene Pellets)	Poly1-Butene	3	10	64							
+	H8	Fibers (Poly2,6-Dimethyl-1,4-Phenylene Ether)	Metal Die (Fibers)	Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Poly2,6-Dimethyl-1,4-Phenylene Ether	3	10	64							
+	H9	Fibers (Poly-2-Hydroxy Butyrate)	Metal Die (Fibers)	Bag (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate	3	10	64							
+	Ha	Fibers (Poly2-Hydroxyethyl Methacrylate)	Metal Die (Fibers)	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	Poly2-Hydroxyethyl Methacrylate	3	10	64							
+	Hb	Fibers (PolyAcrylic Ester)	Metal Die (Fibers)	Bag (PolyAcrylic Ester Pellets)	PolyAcrylic Ester	3	10	64							
+1.0.7	Hc	Fibers (PolyAcrylonitrile)	Metal Die (Fibers)	Bag (PolyAcrylonitrile Pellets)	PolyAcrylonitrile	3	10	64							
+1.0.7	Hd	Fibers (PolyButadiene)	Metal Die (Fibers)	Bag (PolyButadiene Pellets)	PolyButadiene	3	10	64							
+	He	Fibers (PolyButadiene Rubber)	Metal Die (Fibers)	Bag (PolyButadiene Rubber Pellets)	PolyButadiene Rubber	3	10	64							
+1.0.7	Hf	Fibers (PolyButylene Succinate)	Metal Die (Fibers)	Bag (PolyButylene Succinate Pellets)	PolyButylene Succinate	3	10	64							
+1.0.7	Hh	Fibers (PolyButylene Terephthalate)	Metal Die (Fibers)	Bag (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate	3	10	64							
+1.0.7	Hi	Fibers (PolyCaprolactone)	Metal Die (Fibers)	Bag (PolyCaprolactone Pellets)	PolyCaprolactone	3	10	64							
+1.0.7	Hj	Fibers (PolyCarbonate)	Metal Die (Fibers)	Bag (PolyCarbonate Pellets)	PolyCarbonate	3	10	64							
+	Hk	Fibers (PolyChloroPrene)	Metal Die (Fibers)	Bag (PolyChloroPrene Pellets)	PolyChloroPrene	3	10	64							
+	Hl	Fibers (PolyChlorotrifluoroethylene)	Metal Die (Fibers)	Bag (PolyChlorotrifluoroethylene Pellets)	PolyChlorotrifluoroethylene	3	10	64							
+1.0.7	Hm	Fibers (PolyDiMethylSiloxane)	Metal Die (Fibers)	Bag (PolyDiMethylSiloxane Pellets)	PolyDiMethylSiloxane	3	10	64							
+1.0.7	Hn	Fibers (PolyEther Ether Ketone)	Metal Die (Fibers)	Bag (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone	3	10	64							
+1.0.7	Ho	Fibers (PolyEtherImide)	Metal Die (Fibers)	Bag (PolyEtherImide Pellets)	PolyEtherImide	3	10	64							
+	Hp	Fibers (PolyEthyl Acrylate)	Metal Die (Fibers)	Bag (PolyEthyl Acrylate Pellets)	PolyEthyl Acrylate	3	10	64							
+	Hq	Fibers (PolyEthylene Adipate)	Metal Die (Fibers)	Bag (PolyEthylene Adipate Pellets)	PolyEthylene Adipate	3	10	64							
+1.0.7	Hr	Fibers (PolyEthylene Glycol)	Metal Die (Fibers)	Bag (PolyEthylene Glycol Pellets)	PolyEthylene Glycol	3	10	64							
+	Hs	Fibers (PolyEthylene Hexamethylene Dicarbamate)	Metal Die (Fibers)	Bag (PolyEthylene Hexamethylene Dicarbamate Pellets)	PolyEthylene Hexamethylene Dicarbamate	3	10	64							
+1.0.7	Ht	Fibers (PolyEthylene Naphthalate)	Metal Die (Fibers)	Bag (PolyEthylene Naphthalate Pellets)	PolyEthylene Naphthalate	3	10	64							
+1.0.7	Hu	Fibers (PolyEthylene Oxide)	Metal Die (Fibers)	Bag (PolyEthylene Oxide Pellets)	PolyEthylene Oxide	3	10	64							
+	Hv	Fibers (PolyEthylene Sulphide)	Metal Die (Fibers)	Bag (PolyEthylene Sulphide Pellets)	PolyEthylene Sulphide	3	10	64							
+1.0.7	Hw	Fibers (PolyEthylene Terephthalate)	Metal Die (Fibers)	Bag (PolyEthylene Terephthalate Pellets)	PolyEthylene Terephthalate	3	10	64							
+1.0.7	Hx	Fibers (PolyEthylene Terephthalate Glycol-Modified)	Metal Die (Fibers)	Bag (PolyEthylene Terephthalate Glycol-Modified Pellets)	PolyEthylene Terephthalate Glycol-Modified	3	10	64							
+1.0.7	Hy	Fibers (PolyGlycolic Acid)	Metal Die (Fibers)	Bag (PolyGlycolic Acid Pellets)	PolyGlycolic Acid	3	10	64							
+	Hz	Fibers (PolyHexamethylene Adipamide)	Metal Die (Fibers)	Bag (PolyHexamethylene Adipamide Pellets)	PolyHexamethylene Adipamide	3	10	64							
+	HA	Fibers (PolyHexamethylene Sebacamide)	Metal Die (Fibers)	Bag (PolyHexamethylene Sebacamide Pellets)	PolyHexamethylene Sebacamide	3	10	64							
+1.0.7	HB	Fibers (PolyHydroxyalkanoate)	Metal Die (Fibers)	Bag (PolyHydroxyalkanoate Pellets)	PolyHydroxyalkanoate	3	10	64							
+	HC	Fibers (PolyHydroxybutyrate-Co-Hydroxyvalerate)	Metal Die (Fibers)	Bag (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PolyHydroxybutyrate-Co-Hydroxyvalerate	3	10	64							
+1.0.7	HD	Fibers (PolyImide)	Metal Die (Fibers)	Bag (PolyImide Pellets)	PolyImide	3	10	64							
+	HE	Fibers (PolyIsoBorynl Acrylate)	Metal Die (Fibers)	Bag (PolyIsoBorynl Acrylate Pellets)	PolyIsoBorynl Acrylate	3	10	64							
+	HF	Fibers (PolyIsoButyl Acrylate)	Metal Die (Fibers)	Bag (PolyIsoButyl Acrylate Pellets)	PolyIsoButyl Acrylate	3	10	64							
+1.0.7	HG	Fibers (PolyIsoButylene)	Metal Die (Fibers)	Bag (PolyIsoButylene Pellets)	PolyIsoButylene	3	10	64							
+1.0.7	HH	Fibers (PolyIsoPrene)	Metal Die (Fibers)	Bag (PolyIsoPrene Pellets)	PolyIsoPrene	3	10	64							
+1.0.7	HI	Fibers (PolyLactic Acid)	Metal Die (Fibers)	Bag (PolyLactic Acid Pellets)	PolyLactic Acid	3	10	64							
+	HJ	Fibers (PolyLactic-Co-Glycolic Acid)	Metal Die (Fibers)	Bag (PolyLactic-Co-Glycolic Acid Pellets)	PolyLactic-Co-Glycolic Acid	3	10	64							
+	HK	Fibers (PolyMethyl Acrylate)	Metal Die (Fibers)	Bag (PolyMethyl Acrylate Pellets)	PolyMethyl Acrylate	3	10	64							
+	HL	Fibers (PolyMethyl Cyanoacrylate)	Metal Die (Fibers)	Bag (PolyMethyl Cyanoacrylate Pellets)	PolyMethyl Cyanoacrylate	3	10	64							
+	HM	Fibers (PolyMethyl Methacrylate)	Metal Die (Fibers)	Bag (PolyMethyl Methacrylate Pellets)	PolyMethyl Methacrylate	3	10	64							
+	HN	Fibers (PolyM-Methyl Styrene)	Metal Die (Fibers)	Bag (PolyM-Methyl Styrene Pellets)	PolyM-Methyl Styrene	3	10	64							
+	HO	Fibers (PolyM-Phenylene Isophthalamide)	Metal Die (Fibers)	Bag (PolyM-Phenylene Isophthalamide Pellets)	PolyM-Phenylene Isophthalamide	3	10	64							
+	HP	Fibers (PolyN-Butyl Acrylate)	Metal Die (Fibers)	Bag (PolyN-Butyl Acrylate Pellets)	PolyN-Butyl Acrylate	3	10	64							
+1.0.7	HQ	Fibers (PolyOxymethylene)	Metal Die (Fibers)	Bag (PolyOxymethylene Pellets)	PolyOxymethylene	3	10	64							
+	HR	Fibers (PolyPentamethylene Hexamethylene Dicarbamate)	Metal Die (Fibers)	Bag (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PolyPentamethylene Hexamethylene Dicarbamate	3	10	64							
+	HS	Fibers (PolyPhenol)	Metal Die (Fibers)	Bag (PolyPhenol Pellets)	PolyPhenol	3	10	64							
+	HT	Fibers (PolyPhenylene Oxide)	Metal Die (Fibers)	Bag (PolyPhenylene Oxide Pellets)	PolyPhenylene Oxide	3	10	64							
+	HU	Fibers (PolyPhosphazene)	Metal Die (Fibers)	Bag (PolyPhosphazene Pellets)	PolyPhosphazene	3	10	64							
+	HV	Fibers (PolyP-Methyl Styrene)	Metal Die (Fibers)	Bag (PolyP-Methyl Styrene Pellets)	PolyP-Methyl Styrene	3	10	64							
+	HW	Fibers (PolyP-Phenylene Sulphide)	Metal Die (Fibers)	Bag (PolyP-Phenylene Sulphide Pellets)	PolyP-Phenylene Sulphide	3	10	64							
+	HX	Fibers (PolyP-Phenylene Terephthalamide)	Metal Die (Fibers)	Bag (PolyP-Phenylene Terephthalamide Pellets)	PolyP-Phenylene Terephthalamide	3	10	64							
+1.0.7	HY	Fibers (PolyPropylene)	Metal Die (Fibers)	Bag (PolyPropylene Pellets)	PolyPropylene	3	10	64							
+	HZ	Fibers (PolyPropylene Glycol)	Metal Die (Fibers)	Bag (PolyPropylene Glycol Pellets)	PolyPropylene Glycol	3	10	64							
+	I0	Fibers (PolyPropylene Oxide)	Metal Die (Fibers)	Bag (PolyPropylene Oxide Pellets)	PolyPropylene Oxide	3	10	64							
+1.0.7	I1	Fibers (PolyStyrene)	Metal Die (Fibers)	Bag (PolyStyrene Pellets)	PolyStyrene	3	10	64							
+	I2	Fibers (PolyTert-Butyl Acrylate)	Metal Die (Fibers)	Bag (PolyTert-Butyl Acrylate Pellets)	PolyTert-Butyl Acrylate	3	10	64							
+1.0.7	I3	Fibers (PolyTetraFluoroEthylene)	Metal Die (Fibers)	Bag (PolyTetraFluoroEthylene Pellets)	PolyTetraFluoroEthylene	3	10	64							
+	I4	Fibers (PolyTetramethylene Ether Glycol)	Metal Die (Fibers)	Bag (PolyTetramethylene Ether Glycol Pellets)	PolyTetramethylene Ether Glycol	3	10	64							
+	I5	Fibers (PolyTetramethylene Glycol)	Metal Die (Fibers)	Bag (PolyTetramethylene Glycol Pellets)	PolyTetramethylene Glycol	3	10	64							
+	I6	Fibers (PolyThiazyl)	Metal Die (Fibers)	Bag (PolyThiazyl Pellets)	PolyThiazyl	3	10	64							
+1.0.7	I7	Fibers (PolyTrimethylene Terephthalate)	Metal Die (Fibers)	Bag (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate	3	10	64							
+1.0.7	I8	Fibers (PolyUrethane)	Metal Die (Fibers)	Bag (PolyUrethane Pellets)	PolyUrethane	3	10	64							
+1.0.7	I9	Fibers (PolyVinyl Acetate)	Metal Die (Fibers)	Bag (PolyVinyl Acetate Pellets)	PolyVinyl Acetate	3	10	64							
+1.0.7	Ia	Fibers (PolyVinyl Alcohol)	Metal Die (Fibers)	Bag (PolyVinyl Alcohol Pellets)	PolyVinyl Alcohol	3	10	64							
+	Ib	Fibers (PolyVinyl Butyral)	Metal Die (Fibers)	Bag (PolyVinyl Butyral Pellets)	PolyVinyl Butyral	3	10	64							
+1.0.7	Ic	Fibers (PolyVinyl Chloride)	Metal Die (Fibers)	Bag (PolyVinyl Chloride Pellets)	PolyVinyl Chloride	3	10	64							
+1.0.7	Id	Fibers (PolyVinyl Chloride Acetate)	Metal Die (Fibers)	Bag (PolyVinyl Chloride Acetate Pellets)	PolyVinyl Chloride Acetate	3	10	64							
+	Ie	Fibers (PolyVinyl Fluoride)	Metal Die (Fibers)	Bag (PolyVinyl Fluoride Pellets)	PolyVinyl Fluoride	3	10	64							
+	If	Fibers (PolyVinyl Formal)	Metal Die (Fibers)	Bag (PolyVinyl Formal Pellets)	PolyVinyl Formal	3	10	64							
+	Ig	Fibers (PolyVinyl Methyl Ether)	Metal Die (Fibers)	Bag (PolyVinyl Methyl Ether Pellets)	PolyVinyl Methyl Ether	3	10	64							
+	Ih	Fibers (PolyVinylidene Dichloride)	Metal Die (Fibers)	Bag (PolyVinylidene Dichloride Pellets)	PolyVinylidene Dichloride	3	10	64							
+	Ii	Fibers (PolyVinylidene Fluoride)	Metal Die (Fibers)	Bag (PolyVinylidene Fluoride Pellets)	PolyVinylidene Fluoride	3	10	64							
+	Ij	Fibers (PolyVinylidene Fluoride-Trifluoroethylene)	Metal Die (Fibers)	Bag (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PolyVinylidene Fluoride-Trifluoroethylene	3	10	64							
+	Ik	Fibers (Styrene-Acrylonitrile)	Metal Die (Fibers)	Bag (Styrene-Acrylonitrile Pellets)	Styrene-Acrylonitrile	3	10	64							
+1.0.7	Il	Fibers (Styrene-Butadiene Rubber)	Metal Die (Fibers)	Bag (Styrene-Butadiene Rubber Pellets)	Styrene-Butadiene Rubber	3	10	64							
+	Im	Fibers (Styrene-Butadiene-Styrene)	Metal Die (Fibers)	Bag (Styrene-Butadiene-Styrene Pellets)	Styrene-Butadiene-Styrene	3	10	64							
+	In	Fibers (Styrene-Isoprene-Styrene)	Metal Die (Fibers)	Bag (Styrene-Isoprene-Styrene Pellets)	Styrene-Isoprene-Styrene	3	10	64							
+	Io	Fibers (Styrene-Maleic Anhydride Copolymer)	Metal Die (Fibers)	Bag (Styrene-Maleic Anhydride Copolymer Pellets)	Styrene-Maleic Anhydride Copolymer	3	10	64							
+1.0.7	Ip	Fibers (Ultra-High-Molecular-Weight PolyEthylene)	Metal Die (Fibers)	Bag (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Ultra-High-Molecular-Weight PolyEthylene	3	10	64							
+	Iq	Fibers (Urea-Formaldehyde Polymers)	Metal Die (Fibers)	Bag (Urea-Formaldehyde Polymers Pellets)	Urea-Formaldehyde Polymers	3	10	64							
+1.0.7	Ir	Fibers (Very-Low-Density PolyEthylene)	Metal Die (Fibers)	Bag (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene	3	10	64							
+1.0.7	Is	Fibers (Vinyl Acetate-Acrylic Acid)	Metal Die (Fibers)	Bag (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid	3	10	64							

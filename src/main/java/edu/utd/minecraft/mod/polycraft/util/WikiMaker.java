@@ -105,13 +105,13 @@ public class WikiMaker {
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_SCREENSHOTS_DIRECTORY = "wiki/screenshots";
 	private static final String POLYCRAFT_GUI_TEXTURES_DIRECTORY = "wiki/textures/gui/container";
-	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures/custom";
+	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures/temp";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
 			//POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
 			//POLYCRAFT_TEXTURES_DIRECTORY + "/items",
 			//POLYCRAFT_TEXTURES_DIRECTORY + "/models/armor",
 			//POLYCRAFT_GUI_TEXTURES_DIRECTORY,
-			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
+			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
 			//POLYCRAFT_SCREENSHOTS_DIRECTORY
 	};
 	
@@ -143,44 +143,44 @@ public class WikiMaker {
 		try {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username, password, overwritePages, debugOutputDirectory);
 			//wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+//			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
-			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
-			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
-			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE, CRAFTING_TABLE_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.FURNACE, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.EXTRUDER, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.INJECTION_MOLDER, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.DISTILLATION_COLUMN, NO_BLACKLIST, true);
+//			wikiMaker.createRecipePage(PolycraftContainerType.STEAM_CRACKER, NO_BLACKLIST, true);
+//			wikiMaker.createRecipePage(PolycraftContainerType.MEROX_TREATMENT_UNIT, NO_BLACKLIST, false);
+//			wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR, NO_BLACKLIST, false);
 			
-			wikiMaker.createFuelPage();
-			wikiMaker.createItemTypesPage(ImmutableList.of(
-					CompressedBlock.class,
-					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
-					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
-					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
-
-			wikiMaker.createItemPages(CompressedBlock.registry);
-			wikiMaker.createItemPages(Inventory.registry);
-			wikiMaker.createItemPages(Ore.registry);
-			wikiMaker.createItemPages(Ingot.registry);
-			wikiMaker.createItemPages(Catalyst.registry);
-			wikiMaker.createItemPages(ElementVessel.registry);
+//			wikiMaker.createFuelPage();
+//			wikiMaker.createItemTypesPage(ImmutableList.of(
+//					CompressedBlock.class,
+//					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class, CompoundVessel.class,
+//					PolymerPellets.class, PolymerFibers.class, PolymerBlock.class, PolymerSlab.class, PolymerStairs.class, PolymerBrick.class, PolymerWall.class,
+//					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class, Inventory.class, CustomObject.class));
+//
+//			wikiMaker.createItemPages(CompressedBlock.registry);
+//			wikiMaker.createItemPages(Inventory.registry);
+//			wikiMaker.createItemPages(Ore.registry);
+//			wikiMaker.createItemPages(Ingot.registry);
+//			wikiMaker.createItemPages(Catalyst.registry);
+//			wikiMaker.createItemPages(ElementVessel.registry);
 			wikiMaker.createItemPages(CompoundVessel.registry);
-			wikiMaker.createItemPages(PolymerPellets.registry);
-			wikiMaker.createItemPages(PolymerFibers.registry);
-			wikiMaker.createItemPages(PolymerBlock.registry);
-			wikiMaker.createItemPages(PolymerSlab.registry);
-			wikiMaker.createItemPages(PolymerStairs.registry);
-			wikiMaker.createItemPages(PolymerBrick.registry);
-			wikiMaker.createItemPages(PolymerWall.registry);
-			wikiMaker.createItemPages(Mold.registry);
-			wikiMaker.createItemPages(MoldedItem.registry);
-			wikiMaker.createItemPages(GrippedTool.registry);
-			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(CustomObject.registry);
+//			wikiMaker.createItemPages(PolymerPellets.registry);
+//			wikiMaker.createItemPages(PolymerFibers.registry);
+//			wikiMaker.createItemPages(PolymerBlock.registry);
+//			wikiMaker.createItemPages(PolymerSlab.registry);
+//			wikiMaker.createItemPages(PolymerStairs.registry);
+//			wikiMaker.createItemPages(PolymerBrick.registry);
+//			wikiMaker.createItemPages(PolymerWall.registry);
+//			wikiMaker.createItemPages(Mold.registry);
+//			wikiMaker.createItemPages(MoldedItem.registry);
+//			wikiMaker.createItemPages(GrippedTool.registry);
+//			wikiMaker.createItemPages(PogoStick.registry);
+//			wikiMaker.createItemPages(CustomObject.registry);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
@@ -197,6 +197,10 @@ public class WikiMaker {
 			"=====%s=====" + WIKI_NEWLINE,
 			"======%s======" + WIKI_NEWLINE,
 	};
+	
+	
+	
+
 
 	private static String getHeading(final int level, final String text) {
 		return String.format(HEADING_FORMATS[level - 1], text);
@@ -727,7 +731,36 @@ public class WikiMaker {
 		createItemPageList(registry);
 		for (final C config : registry.values())
 			if (gameIdentifiedConfigHasItem(config))
-				createItemPage(config);
+			{
+				
+				if (config.name.contains("Beaker (Butylene isomers)"))
+					createItemPage(config);
+				else if (config.name.contains("Flask (Ethane)"))
+					createItemPage(config);
+				else if (config.name.contains("Cartridge (Ethane)"))
+					createItemPage(config);
+				else if (config.name.contains("Canister (Ethane)"))
+					createItemPage(config);
+				else if (config.name.contains("Flask (Ethylene)"))
+					createItemPage(config);
+				else if (config.name.contains("Cartridge (Ethylene)"))
+					createItemPage(config);
+				else if (config.name.contains("Canister (Ethylene)"))
+					createItemPage(config);
+				else if (config.name.contains("Vial (Light Olefins)"))
+					createItemPage(config);
+				else if (config.name.contains("Flask (Methane)"))
+					createItemPage(config);
+				else if (config.name.contains("Flask (Propane)"))
+					createItemPage(config);
+				else if (config.name.contains("Vial (Acrylonitrile)"))
+					createItemPage(config);
+				else if (config.name.contains("Bag (PolyPropylene Pellets)"))
+					createItemPage(config);		
+				
+				else
+					continue; //createItemPage(config);
+			}
 	}
 
 	private final Collection<String> PROPERTIES_HEADERS = ImmutableList.of("Name", "Value");

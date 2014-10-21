@@ -252,7 +252,7 @@
 	hM	na	sy	xW	Bag (Potassium Sodium Tartrate)	Sack (Potassium Sodium Tartrate)	Powder Keg (Potassium Sodium Tartrate)	Chemical Silo (Potassium Sodium Tartrate)	Potassium Sodium Tartrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	hN	nb	sz	xX	Flask (Propane)	Cartridge (Propane)	Canister (Propane)	Chemical Tank (Propane)	Propane	Gas	Flask	Cartridge	Canister	Chemical Tank
 1.0.0	hO	nc	sA	xY	Vial (Propanol)	Beaker (Propanol)	Drum (Propanol)	Chemical Vat (Propanol)	Propanol	Liquid	Vial	Beaker	Drum	Chemical Vat
-1.0.0	hP	nd	sB	xZ	Vial (Propylene)	Beaker (Propylene)	Drum (Propylene)	Chemical Vat (Propylene)	Propylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hP	nd	sB	xZ	Flask (Propylene)	Cartridge (Propylene)	Canister (Propylene)	Chemical Tank (Propylene)	Propylene	Gas	Flask	Cartridge	Canister	Chemical Tank
 1.0.0	hQ	ne	sC	y0	Vial (Rum)	Beaker (Rum)	Drum (Rum)	Chemical Vat (Rum)	Rum	Liquid	Vial	Beaker	Drum	Chemical Vat
 	hR	nf	sD	y1	Bag (Samarium III Chloride)	Sack (Samarium III Chloride)	Powder Keg (Samarium III Chloride)	Chemical Silo (Samarium III Chloride)	Samarium III Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
 	hS	ng	sE	y2	Vial (Silicon Carbide)	Beaker (Silicon Carbide)	Drum (Silicon Carbide)	Chemical Vat (Silicon Carbide)	Silicon Carbide	Liquid	Vial	Beaker	Drum	Chemical Vat

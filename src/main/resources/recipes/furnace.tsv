@@ -21,13 +21,13 @@ Version	Level	Output	O1#	Input	I1#
 	2	Manganese Catalyst	16	Manganese Ingot	1
 	2	Silver Catalyst	16	Silver Ingot	1
 1.0.0	5	Block (Low Density PolyEthylene)	1	Cartridge (Ethylene)	1
-1.0.0	5	Block (PolyPropylene)	1	Beaker (Propylene)	1
+1.0.0	5	Block (PolyPropylene)	1	Cartridge (Propylene)	1
 	2	Triethylaluminium Catalyst	16	Aluminum Ingot	1
 	2	Antimony Trioxide Catalyst	16	Antimony Ingot	1
 	2	Copper II Chloride Catalyst	16	Copper Ingot	1
-	2	Iron III Chloride Catalyst	16	Iron Ingot	1
+1.0.4	2	Iron III Chloride Catalyst	16	Iron Ingot	1
 1.0.0	2	Aluminoxane Catalyst	1	Triethylaluminium Catalyst	1
-1.0.0	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1
+1.0.4	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1
 1.0.0	2	Chromia Alumina Catalyst	1	Aluminoxane Catalyst	1
 	2	Bag (Potassium Hydroxide)	16	Potash Ore	1
 1.0.0	8	Bag (PolyStyrene Pellets)	1	Vial (Styrene)	1
