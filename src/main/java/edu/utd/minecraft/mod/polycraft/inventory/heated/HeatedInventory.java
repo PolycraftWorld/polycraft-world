@@ -156,13 +156,17 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 				if (!isHeated()) {
 					final ItemStack heatSourceItemStack = getStackInSlot(slotIndexHeatSource);
 					if (heatSourceItemStack != null) {
-						setState(HeatedInventoryState.HeatSourceTicksRemaining, setState(HeatedInventoryState.HeatSourceTicksTotal,
-								PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()))));
-						setState(HeatedInventoryState.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
-						--heatSourceItemStack.stackSize;
-						if (heatSourceItemStack.stackSize == 0)
-							setInventorySlotContents(slotIndexHeatSource, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
-						isDirty = true;
+						final Fuel fuel = Fuel.getFuel(heatSourceItemStack.getItem()) ;
+						if (fuel != null)
+						{
+							setState(HeatedInventoryState.HeatSourceTicksRemaining, setState(HeatedInventoryState.HeatSourceTicksTotal,
+									PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()))));
+							setState(HeatedInventoryState.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
+							--heatSourceItemStack.stackSize;
+							if (heatSourceItemStack.stackSize == 0)
+								setInventorySlotContents(slotIndexHeatSource, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
+							isDirty = true;
+						}
 					}
 				}
 
@@ -176,7 +180,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 				else
 					setState(HeatedInventoryState.ProcessingTicks, 0);
 			}
-			else
+			else 
 				setState(HeatedInventoryState.ProcessingTicks, 0);
 		}
 

@@ -64,8 +64,16 @@ public class Fuel extends Config {
 			}
 			else if (fuel.source instanceof Compound) {
 				for (final CompoundVessel compoundVessel : CompoundVessel.registry.values())
+				{
 					if (compoundVessel.source == fuel.source)
+					{
 						quantifiedFuelsByItem.put(PolycraftRegistry.getItem(compoundVessel.name), new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType()));
+						//beaker of crude oil (from compound vessels, polycraft materials)
+						if ("kS".equals(compoundVessel.gameID))
+							//FIXME hard coded for now, the recipe for a bucket of crude currently says you get 16 beakers for one bucket
+							quantifiedFuelsByItem.put(PolycraftMod.itemOilBucket, new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType() * 16));
+					}
+				}
 			}
 		}
 	}

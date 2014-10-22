@@ -15,6 +15,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.tileentity.TileEntity;
@@ -123,6 +124,7 @@ public class PolycraftMod {
 	public static BiomeGenOilDesert biomeOilDesert;
 	public static BiomeGenOilOcean biomeOilOcean;
 	public static Block blockOil;
+	public static Item itemOilBucket;
 	public static Block blockLight;
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();

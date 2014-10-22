@@ -445,14 +445,15 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
 			if (GameID.CustomBucketOil.matches(customObject)) {
-				final Item itemBucketOil = registerItem(customObject,
+				PolycraftMod.itemOilBucket = registerItem(customObject,
 						new PolycraftBucket(PolycraftMod.blockOil)
 								.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
+				PolycraftMod.itemOilBucket.setContainerItem(Items.bucket);
 				FluidContainerRegistry.registerFluidContainer(
 						FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),
-						new ItemStack(itemBucketOil),
+						new ItemStack(PolycraftMod.itemOilBucket),
 						new ItemStack(Items.bucket));
-				BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, itemBucketOil);
+				BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.itemOilBucket);
 				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 			}
 			else if (GameID.CustomFlameThrower.matches(customObject)) {
