@@ -283,16 +283,22 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			while (regulatedTargets != null) {
 				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, false);
 				final String hash = getHashVec3(coords);
-				//don't allow networks that flow back in on themselves
-				if (coordsUsed.contains(hash))
-					return null;
-				coordsUsed.add(hash);
+
+				
 				final Block block = getBlockAtVec3(coords);
 				if (block instanceof BlockPipe) {
+					//don't allow networks that flow back in onto other pipes
+					if (coordsUsed.contains(hash))
+						return null;
+					coordsUsed.add(hash);
 					flowDirection = getBlockMetadataAtVec3(coords);
 				}
 				//only check for regulators if we are not on a regulator path already
 				else if (!regulatorPath && block instanceof FlowRegulatorBlock) {
+					//don't allow networks that flow back into flow regulators
+					if (coordsUsed.contains(hash))
+						return null;
+					coordsUsed.add(hash);
 					flowDirection = getBlockMetadataAtVec3(coords);
 					ForgeDirection forgeFlowDirection = ForgeDirection.values()[flowDirection];
 					final IInventory regulatorInventory = getInventoryAtVec3(coords);

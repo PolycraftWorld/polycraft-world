@@ -517,7 +517,7 @@ public class PolycraftRegistry {
 				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.display));
 			}
 			else if (GameID.InternalBlockPipe.matches(internalObject)) {
-				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.display));
+				langEntries.add(String.format(baseFormat, internalObject.gameID, internalObject.display));
 			}
 			else if (GameID.InternalItemPipe.matches(internalObject)) {
 				langEntries.add(String.format(itemFormat, internalObject.gameID, internalObject.display));
