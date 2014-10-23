@@ -59,14 +59,14 @@ public class PolymerBrick extends SourcedConfig<PolymerPellets>{
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftRegistry.getBlock(this), size, 15); // 15 is white by default
+		return new ItemStack(PolycraftRegistry.getBlock(this), size, 0); // 0 is rainbow by default
 	}
 
 	public ItemStack getItemStack(int size, int metadata) {
 		if (metadata <=15)
 			return new ItemStack(PolycraftRegistry.getBlock(this), size, metadata);
 		else
-			return new ItemStack(PolycraftRegistry.getBlock(this), size, 15);
+			return new ItemStack(PolycraftRegistry.getBlock(this), size, 0);
 			
 	}
 
