@@ -170,9 +170,10 @@ public class BlockPolymerBrick extends Block {
 		
 		if (player.isSprinting())
 		{
-			//ctrlPressed = true; //TODO: implement mirroring
+			ctrlPressed = true; //TODO: implement mirroring
 			
 		}
+		
 
 		
 			
@@ -182,7 +183,17 @@ public class BlockPolymerBrick extends Block {
 		 int meta = worldObj.getBlockMetadata(xPos, yPos, zPos);
 		 boolean blockCanBePlaced = true;
 		 int notMirrored = 1;
-		 if (ctrlPressed) notMirrored = -1;
+		 if (ctrlPressed) 
+		 {
+			 //notMirrored = -1;
+		 }		
+		 
+		 else if (meta == 0)
+		 {
+			 meta = (int )(Math.random() * 15 + 1);
+			 worldObj.setBlock(xPos, yPos, zPos, this, meta, 2);			 
+		 }
+		 
 		 
 		 for (int len = 0; len < this.length; len++)
 		 {
