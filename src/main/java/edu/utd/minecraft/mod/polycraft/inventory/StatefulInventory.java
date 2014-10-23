@@ -51,7 +51,7 @@ public abstract class StatefulInventory<S extends StatefulInventoryState> extend
 		super.readFromNBT(tag);
 		if (states != null)
 			for (final S state : states)
-				setState(state, tag.getShort(state.toString()));
+				setState(state, tag.getInteger(state.toString()));
 	}
 
 	@Override
@@ -59,6 +59,6 @@ public abstract class StatefulInventory<S extends StatefulInventoryState> extend
 		super.writeToNBT(tag);
 		if (states != null)
 			for (final S state : states)
-				tag.setShort(state.toString(), (short) getState(state));
+				tag.setInteger(state.toString(), (int) getState(state));
 	}
 }
