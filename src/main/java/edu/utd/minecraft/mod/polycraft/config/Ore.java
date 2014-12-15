@@ -1,10 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -12,6 +18,17 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 public class Ore extends SourcedConfig {
 
 	public static final ConfigRegistry<Ore> registry = new ConfigRegistry<Ore>();
+	
+	public static final Collection<Ore> getByDescendingAbundance()
+	{
+		final List<Ore> oresByDescendingAbundance = Lists.newArrayList(Ore.registry.values());
+		Collections.sort(oresByDescendingAbundance, new Comparator<Ore>() {
+		    public int compare(Ore o1, Ore o2) {
+		        return (o2.generationBlocksPerVein * o2.generationVeinsPerChunk) - (o1.generationBlocksPerVein * o1.generationVeinsPerChunk);
+		    }
+		});
+		return oresByDescendingAbundance;
+	}
 
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Ore.class.getSimpleName().toLowerCase()))

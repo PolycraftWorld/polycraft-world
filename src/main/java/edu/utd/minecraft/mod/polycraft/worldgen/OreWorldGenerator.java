@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.worldgen;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
@@ -31,7 +36,7 @@ public class OreWorldGenerator implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random random, int i, int j) {
-		for (final Ore ore : Ore.registry.values()) {
+		for (final Ore ore : Ore.getByDescendingAbundance()) {
 			if (ore.generationBlocksPerVein > 0) {
 				final Block oreBlock = PolycraftRegistry.getBlock(ore);
 

@@ -95,7 +95,7 @@ public class ClientProxy extends CommonProxy {
 		private float bouncyBlockBounceHeight = 0;
 		private boolean placeBrickBackwards = false;
 		private int cheatInfoTicksRemaining = 0;
-		private Map<Ore, Integer> cheatInfoOreBlocksFound = Maps.newHashMap();
+		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -353,7 +353,12 @@ public class ClientProxy extends CommonProxy {
 			if (playerState.cheatInfoTicksRemaining == 0) {
 				final boolean cheatInfoActivated = isKeyDown(keyBindingCheatInfo1) && isKeyDown(keyBindingCheatInfo2) && isKeyDown(keyBindingCheatInfo3);
 				if (cheatInfoActivated) {
-					playerState.cheatInfoOreBlocksFound.clear();
+					if (playerState.cheatInfoOreBlocksFound == null) {
+						playerState.cheatInfoOreBlocksFound = Maps.newLinkedHashMap();
+					}
+					for (final Ore ore : Ore.getByDescendingAbundance())
+						playerState.cheatInfoOreBlocksFound.put(ore, 0);
+						
 					playerState.cheatInfoTicksRemaining = 400;
 					for (int testX = -8; testX <= 8; testX++) {
 						for (int testY = 0; testY < 64; testY++) {
