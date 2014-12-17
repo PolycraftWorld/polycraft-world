@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -16,6 +17,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.relauncher.Side;
@@ -50,7 +52,7 @@ public class IndustrialOvenInventory extends HeatedInventory {
 
 		for (int y = 0; y < 3; y++)
 			for (int x = 0; x < 3; x++)
-				guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.INPUT, x, y, 9 + x * 18, 18 + y * 18)); //inputs
+				guiSlots.add(new GuiContainerSlot(guiSlots.size(), SlotType.INPUT, x, y, 8 + x * 18, 18 + y * 18)); //inputs
 				
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatingWater = guiSlots.size(), SlotType.MISC, -1, -1, 71, 18, Items.water_bucket)); //heating water
 		guiSlots.add(new GuiContainerSlot(slotIndexHeatSource = guiSlots.size(), SlotType.MISC, -1, -1, 71, 54)); //heat source
@@ -76,7 +78,57 @@ public class IndustrialOvenInventory extends HeatedInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected HeatedGui getGuiHeated(InventoryPlayer playerInventory) {
-		return new HeatedGui(this, playerInventory, new HeatedGui.ProgressDisplayOffsets(26, 49, 89, 36), 166);
+		return new HeatedGui(this, playerInventory, new HeatedGui.ProgressDisplayOffsets(72, 48, 89, 36), 166);
+	}
+	
+	public Map<Integer, PolycraftRecipe> getRecipesRepresentedByInputs()
+	{
+		Map<Integer, PolycraftRecipe> recipes = null;
+		for (final RecipeComponent component : getMaterials()) {
+			Set<RecipeComponent> materials = Sets.newHashSet(component);
+			final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, materials);
+			if (recipe != null) {
+				if (recipes == null)
+					recipes = Maps.newHashMap();
+				recipes.put(component.slot.getSlotIndex(), recipe);
+			}
+		}
+		return recipes;
+	}
+	
+	/**
+	 * Returns true if an item can be processed based on the item at the inputs.
+	 */
+	public boolean canProcess() {
+		//require heating water
+		final ItemStack heatingWaterItemStack = getStackInSlot(slotIndexHeatingWater);
+		if (heatingWaterItemStack == null || heatingWaterItemStack.getItem() != Items.water_bucket)
+			return false;
+		
+		// Check that there is at least one recipe represented in the input slots
+		return getRecipesRepresentedByInputs() != null;
+	}
+	
+	@Override
+	protected void finishProcessing() {
+		Map<Integer, PolycraftRecipe> recipes = getRecipesRepresentedByInputs();
+		if (recipes != null) {
+			for (Entry<Integer, PolycraftRecipe> recipeForSlot : recipes.entrySet()) {
+				for (final RecipeComponent output : recipeForSlot.getValue().getOutputs(this)) {
+					int inputSlotIndex = recipeForSlot.getKey();
+					int adjustedOutputSlot = inputSlotIndex + output.slot.getSlotIndex();
+					ItemStack existingOutput = getStackInSlot(adjustedOutputSlot);
+					ItemStack desiredOutput = output.itemStack;
+					if (existingOutput == null || (existingOutput.isItemEqual(desiredOutput) && (existingOutput.stackSize + desiredOutput.stackSize) <= existingOutput.getMaxStackSize())) {
+						if (getStackInSlot(adjustedOutputSlot) == null)
+							setInventorySlotContents(adjustedOutputSlot, output.itemStack.copy());
+						else
+							getStackInSlot(adjustedOutputSlot).stackSize += output.itemStack.stackSize;
+						finishProcessingInput(inputSlotIndex, getStackInSlot(inputSlotIndex), recipeForSlot.getValue().getInputs().iterator().next().inputs.iterator().next());
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -89,137 +141,4 @@ public class IndustrialOvenInventory extends HeatedInventory {
 			}
 		}
 	}
-	
-	
-	@Override
-	protected void finishProcessing() {
-		//Set<RecipeComponent> inputs = getMaterials();
-		for (int inputNum = 0; inputNum <10; inputNum++)
-		{
-			Set<RecipeComponent> inputs = Sets.newHashSet();
-			inputs.add(new RecipeComponent(inputNum, getStackInSlot(inputNum)));
-			
-			final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(PolycraftContainerType.FURNACE, inputs);
-			ItemStack[] outputs = returnValidOutputs();
-			if (recipe != null) {
-				for (final RecipeComponent output : recipe.getOutputs(this)) {
-					if (getStackInSlot(output.slot) == null)
-						setStackInSlot(output.slot, output.itemStack.copy());
-					else
-						getStackInSlot(output.slot).stackSize += output.itemStack.stackSize;
-	
-				}
-				final Set<RecipeInput> usedInputs = Sets.newHashSet();
-				for (final RecipeComponent input : ImmutableList.copyOf(inputs))
-					finishProcessingInput(input.slot.getSlotIndex(), getStackInSlot(input.slot), recipe.getItemstackForInput(input, usedInputs));
-			}
-			else
-			{
-				
-				outputs[inputNum] = FurnaceRecipes.smelting().getSmeltingResult(getStackInSlot(inputNum));
-				
-				
-			}
-		}
-	}
-	
-	
-	protected ItemStack[] returnValidOutputs()
-	{
-		ItemStack[] outputs = new ItemStack[9];
-		int filledSlots = 0, inputNum = 0;
-		for(GuiContainerSlot iterIndex : guiSlots)
-		{
-			if (iterIndex.getSlotType() == SlotType.INPUT)
-			{
-				Item itemInOven = iterIndex.getItem(); 
-				if (itemInOven != null)						
-				{
-					outputs[inputNum] = FurnaceRecipes.smelting().getSmeltingResult(getStackInSlot(inputNum));						
-					
-					if (outputs[inputNum] == null )
-					{					
-						Set<RecipeComponent> inputs = Sets.newHashSet();
-						inputs.add(new RecipeComponent(inputNum, getStackInSlot(inputNum)));
-						PolycraftRecipe rcp = PolycraftMod.recipeManager.findRecipe(PolycraftContainerType.INDUSTRIAL_OVEN, inputs);
-						Collection <RecipeComponent> crc = rcp.getOutputs(this);
-						if (crc.iterator().hasNext())
-						{
-							RecipeComponent rc = crc.iterator().next();
-							if (rc.slot.getSlotType() == SlotType.OUTPUT)
-							{
-								if (rc.itemStack != null)
-									outputs[inputNum] = rc.itemStack;
-								filledSlots++;
-							}							
-								
-						}
-					}
-					else
-						filledSlots++;
-				}	
-				inputNum++;
-			}		
-			
-		}
-		if (filledSlots>0)
-			return outputs;
-		else
-			return null;
-	}
-	
-	
-	@Override
-	public void updateEntity() {
-
-		for (InventoryBehavior behavior : this.getBehaviors())
-			if (behavior.updateEntity(this, this.worldObj))
-				return;
-
-		boolean isDirty = false;
-
-		if (isHeated())
-			updateState(HeatedInventoryState.HeatSourceTicksRemaining, -1);
-
-		if (!worldObj.isRemote) {
-			if (canProcess()) {
-				//ItemStack[] outputs = returnValidOutputs();
-				//if (outputs != null)
-				//{
-					if (!isHeated()) {
-						final ItemStack heatSourceItemStack = getStackInSlot(slotIndexHeatSource);
-						if (heatSourceItemStack != null) {
-							setState(HeatedInventoryState.HeatSourceTicksRemaining, setState(HeatedInventoryState.HeatSourceTicksTotal,
-									PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()))));
-							setState(HeatedInventoryState.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
-							--heatSourceItemStack.stackSize;
-							if (heatSourceItemStack.stackSize == 0)
-								setInventorySlotContents(slotIndexHeatSource, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
-							isDirty = true;
-						}
-					}
-	
-					if (isHeated() && isHeatIntensityValid()) {
-						if (updateState(HeatedInventoryState.ProcessingTicks, 1) == getTotalProcessingTicksForCurrentInputs()) {
-							finishProcessing();
-							setState(HeatedInventoryState.ProcessingTicks, 0);
-							isDirty = true;
-						}
-					}
-					else
-						setState(HeatedInventoryState.ProcessingTicks, 0);
-				//}
-			}
-			else
-				setState(HeatedInventoryState.ProcessingTicks, 0);
-		}
-
-		if (isDirty)
-			markDirty();
-	}
-	
-	
-	
-	
-	
 }

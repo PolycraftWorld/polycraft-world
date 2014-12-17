@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
@@ -40,15 +42,15 @@ public class RecipeGenerator {
 	private static final String ItemPolymerBrick = null;
 
 	public static void generateRecipes() {
-		generateAutoRecipes();
 		generateFileRecipes("recipes");
+		generateAutoRecipes();
 		if (System.getProperty("cheatRecipes") != null)
 			generateCheatRecipes();
 	}
 
 	private static void generateAutoRecipes() {
 		ColoringPolycraftRecipeFactory coloringFactory = new ColoringPolycraftRecipeFactory();
-
+		
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -225,8 +227,6 @@ public class RecipeGenerator {
 							'y', new ItemStack(Items.dye)), 0);
 		}
 		
-		
-
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			PolycraftMod.recipeManager.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -239,6 +239,23 @@ public class RecipeGenerator {
 						PolycraftContainerType.CRAFTING_TABLE,
 						pogoStick.getItemStack(),
 						ImmutableList.of(pogoStick.source.getItemStack(), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
+		
+		//add all furnace recipes to the industrial oven
+		for (final Object furnaceRecipeEntry : FurnaceRecipes.smelting().getSmeltingList().entrySet()) {
+			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>)furnaceRecipeEntry;
+			try
+			{
+				PolycraftMod.recipeManager.addShapelessRecipe(
+						PolycraftContainerType.INDUSTRIAL_OVEN,
+						furnaceRecipe.getValue(),
+						ImmutableList.of(furnaceRecipe.getKey()));
+			}
+			catch (final Exception e)
+			{
+				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
+				System.err.println(e.getMessage());
+			}
+		}
 	}
 
 	private static void generateFileRecipes(final String directory) {
@@ -315,7 +332,7 @@ public class RecipeGenerator {
 			if (line.length > 4) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final String outputItemName = line[2];
-					final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, 1);
+					final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[3]));
 					if (outputItemStack == null) {
 						logger.warn("Unable to find output item for smelting recipe: {}", outputItemName);
 						continue;

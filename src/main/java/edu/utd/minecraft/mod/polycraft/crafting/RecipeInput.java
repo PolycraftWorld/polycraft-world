@@ -113,6 +113,8 @@ public final class RecipeInput {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((inputs == null) ? 0 : inputs.iterator().next().getItem().getUnlocalizedName().hashCode());
+		//including the display name for sub-typed items like wood
+		result = prime * result + ((inputs == null) ? 0 : inputs.iterator().next().getDisplayName().hashCode());
 		result = prime * result + ((inputs == null) ? 0 : inputs.iterator().next().stackSize);
 		result = prime * result + ((slot == null) ? 0 : slot.hashCode());
 		return result;

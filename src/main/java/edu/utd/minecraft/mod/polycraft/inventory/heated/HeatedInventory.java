@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeInput;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
@@ -145,6 +146,10 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	public void updateEntity() {
 		super.updateEntity();
 
+		for (InventoryBehavior behavior : this.getBehaviors())
+			if (behavior.updateEntity(this, this.worldObj))
+				return;
+		
 		boolean isDirty = false;
 
 		if (isHeated())
