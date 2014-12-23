@@ -1,18 +1,20 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -21,20 +23,13 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.helpers.Loader;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
-import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
-import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 
 public class Analytics {
 	public static final Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
@@ -112,8 +107,8 @@ public class Analytics {
 				formatEnum(category), String.format(format, params)));
 	}
 
-	private static final String FORMAT_TICK_SPATIAL = "%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%s,%s,%s,%s,%s";
-	private static final String FORMAT_TICK_SPATIAL_DEBUG = "MotionX=%.2f, MotionY=%.2f, MotionZ=%.2f, RotationPitch=%.2f, RotationYaw=%.2f, RotationYawHead=%.2f, IsSneaking=%s, IsSprinting=%s, OnGround=%s, InWater=%s, AirBorne=%s";
+	private static final String FORMAT_TICK_SPATIAL = "%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%s,%s,%s,%s";
+	private static final String FORMAT_TICK_SPATIAL_DEBUG = "MotionX=%.2f, MotionY=%.2f, MotionZ=%.2f, RotationPitch=%.2f, RotationYaw=%.2f, RotationYawHead=%.2f, IsSneaking=%s, IsSprinting=%s, OnGround=%s, InWater=%s";
 	private static final String FORMAT_TICK_STATUS = "%.2f,%d,%d,%d,%d,%s,%s,%s";
 	private static final String FORMAT_TICK_STATUS_DEBUG = "Health=%.2f, Armor=%d, Air=%d, ExperienceTotal=%d, ExperienceLevel=%d, Burning=%s, Blocking=%s, Wet=%s";
 	
@@ -129,7 +124,7 @@ public class Analytics {
 							player.motionX, player.motionY, player.motionZ,
 							player.rotationPitch, player.rotationYaw, player.rotationYawHead,
 							formatBoolean(player.isSneaking()), formatBoolean(player.isSprinting()),
-							formatBoolean(player.onGround), formatBoolean(player.isInWater()), formatBoolean(player.isAirBorne));
+							formatBoolean(player.onGround), formatBoolean(player.isInWater()));
 				}
 				if (playerState.ticksStatus++ == tickIntervalStatus) {
 					playerState.ticksStatus = 0;
@@ -194,7 +189,7 @@ public class Analytics {
 		log(event.player, Category.ServerChat, debug ? FORMAT_SERVER_CHAT_DEBUG : FORMAT_SERVER_CHAT, event.message);
 	}
 	
-	//TODO http://www.minecraftforge.net/wiki/Event_Reference#PlayerOpenContainerEvent
+	//TODO http://www.minecraftforge.net/wiki/Event_Reference
 	//TODO ItemTossEvent
 	//TODO LivingAttackEvent
 	//TODO LivingDeathEvent
@@ -206,4 +201,33 @@ public class Analytics {
 	//TODO EntityItemPickupEvent
 	//TODO PlayerDropsEvent
 	//TODO PlayerSleepInBedEvent
+	
+	public static void main(final String...args) throws Exception {
+		final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		final File analyticsFile = new File(args[0]);
+		final String analyticsFileDate = new Timestamp(analyticsFile.lastModified()).toString().substring(0, 10);
+		final BufferedReader br = new BufferedReader(new FileReader(analyticsFile));
+		String line;
+		while ((line = br.readLine()) != null) {
+			final String[] lineSegments = line.replaceAll("\\[", "").split("\\]");
+			int lineSegment = 0;
+			final Date date = dateFormat.parse(analyticsFileDate + " " + lineSegments[lineSegment++]);
+			final String user = lineSegments[lineSegment++];
+			final String[] position = lineSegments[lineSegment++].split(",");
+			final int posX = Integer.parseInt(position[0]);
+			final int posY = Integer.parseInt(position[1]);
+			final int posZ = Integer.parseInt(position[2]);
+			final Category category = Category.values()[Integer.parseInt(lineSegments[lineSegment++])];
+			final String[] data = lineSegments[lineSegment++].split(",");
+			//System.out.printf("Date=%s, User=%s, PosX=%d, PosY=%d, PosZ=%d, Category=%s, Data=%d\n", date.toString(), user, posX, posY, posZ, category.toString(), data.length);
+			if (category == Category.Spatial) {
+				final double motionX = Double.parseDouble(data[0]);
+				final double motionY = Double.parseDouble(data[1]);
+				final double motionZ = Double.parseDouble(data[2]);
+				System.out.printf("{%d,%d,%d},\n", posX, posY, posZ);
+				//System.out.printf("{{%d,%d,%d},{%.2f,%.2f,%.2f}},\n", posX, posY, posZ, motionX, motionY, motionZ);
+			}
+		}
+		br.close();
+	}
 }
