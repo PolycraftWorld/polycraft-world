@@ -23,6 +23,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContaine
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
 
 public abstract class PolycraftInventory extends PolycraftBasicTileEntityContainer {
 
@@ -83,6 +84,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	//////////////////////////////////////////////////////////////////////////////////
 	// SlotCrafting methods
 	public void onPickupFromSlot(EntityPlayer player, ContainerSlot slot, ItemStack item) {
+		Analytics.INSTANCE.onItemPolycrafted(player, item, this);
 		for (InventoryBehavior behavior : this.getBehaviors())
 			if (behavior.onPickupFromSlot(this, player, slot, item))
 				return;
