@@ -59,10 +59,10 @@ public class Analytics {
 	
 	public static final Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
 
-	private static final String DELIMETER_SEGMENT = "|";
-	private static final String DELIMETER_DATA = ",";
+	public static final String DELIMETER_SEGMENT = "\t";
+	public static final String DELIMETER_DATA = ",";
 
-	private static enum Category {
+	public static enum Category {
 		PlayerTickSpatial,
 		PlayerTickSwimming,
 		PlayerTickHealth,
@@ -183,20 +183,20 @@ public class Analytics {
 				data.replace(DELIMETER_SEGMENT, " ")));
 	}
 
-	private static final String FORMAT_TICK_SPATIAL = "%2$.2f%1$s%3$.2f%1$s%4$.2f%1$s%5$d%1$s%6$d%1$s%7$d%1$s%8$s%1$s%9$s%1$s%10$s";
-	private static final String FORMAT_TICK_SPATIAL_DEBUG = "MotionX=%2$.2f%1$s MotionY=%3$.2f%1$s MotionZ=%4$.2f%1$s RotationPitch=%5$d%1$s RotationYaw=%6$d%1$s RotationYawHead=%7$d%1$s OnGround=%8$s%1$s IsSprinting=%9$s%1$s IsSneaking=%10$s";
-	private static final String FORMAT_TICK_SWIMMING = "%d";
-	private static final String FORMAT_TICK_SWIMMING_DEBUG = "Air=%d";
-	private static final String FORMAT_TICK_HEALTH = "%.1f";
-	private static final String FORMAT_TICK_HEALTH_DEBUG = "Health=%.1f";
-	private static final String FORMAT_TICK_ITEM = "%2$s%1$s%3$s";
-	private static final String FORMAT_TICK_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s";
-	private static final String FORMAT_TICK_FOOD = "%2$d%1$s%3$.1f";
-	private static final String FORMAT_TICK_FOOD_DEBUG = "Food=%2$d%1$s Saturation=%3$.1f";
-	private static final String FORMAT_TICK_ARMOR = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s";
-	private static final String FORMAT_TICK_ARMOR_DEBUG = "Armor=%2$d%1$s Head=%3$s%1$s Damage=%4$s%1$s Chest=%5$s%1$s Damage=%6$s%1$s Legs=%7$s%1$s Damage=%8$s%1$s Feet=%9$s%1$s Damage=%10$s";
-	private static final String FORMAT_TICK_EXPERIENCE = "%2$d%1$s%3$d";
-	private static final String FORMAT_TICK_EXPERIENCE_DEBUG = "Experience=%2$d%1$s Level=%3$d";
+	public static final String FORMAT_TICK_SPATIAL = "%2$.2f%1$s%3$.2f%1$s%4$.2f%1$s%5$d%1$s%6$d%1$s%7$d%1$s%8$s%1$s%9$s%1$s%10$s";
+	public static final String FORMAT_TICK_SPATIAL_DEBUG = "MotionX=%2$.2f%1$s MotionY=%3$.2f%1$s MotionZ=%4$.2f%1$s RotationPitch=%5$d%1$s RotationYaw=%6$d%1$s RotationYawHead=%7$d%1$s OnGround=%8$s%1$s IsSprinting=%9$s%1$s IsSneaking=%10$s";
+	public static final String FORMAT_TICK_SWIMMING = "%d";
+	public static final String FORMAT_TICK_SWIMMING_DEBUG = "Air=%d";
+	public static final String FORMAT_TICK_HEALTH = "%.1f";
+	public static final String FORMAT_TICK_HEALTH_DEBUG = "Health=%.1f";
+	public static final String FORMAT_TICK_ITEM = "%2$s%1$s%3$s";
+	public static final String FORMAT_TICK_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s";
+	public static final String FORMAT_TICK_FOOD = "%2$d%1$s%3$.1f";
+	public static final String FORMAT_TICK_FOOD_DEBUG = "Food=%2$d%1$s Saturation=%3$.1f";
+	public static final String FORMAT_TICK_ARMOR = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s";
+	public static final String FORMAT_TICK_ARMOR_DEBUG = "Armor=%2$d%1$s Head=%3$s%1$s Damage=%4$s%1$s Chest=%5$s%1$s Damage=%6$s%1$s Legs=%7$s%1$s Damage=%8$s%1$s Feet=%9$s%1$s Damage=%10$s";
+	public static final String FORMAT_TICK_EXPERIENCE = "%2$d%1$s%3$d";
+	public static final String FORMAT_TICK_EXPERIENCE_DEBUG = "Experience=%2$d%1$s Level=%3$d";
 
 	@SubscribeEvent
 	public synchronized void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
@@ -409,34 +409,5 @@ public class Analytics {
 	public synchronized void onAchievement(final AchievementEvent event) {
 		log(event.entityPlayer, Category.PlayerAchievement, String.format(debug ? FORMAT_ACHIEVEMENT_DEBUG : FORMAT_ACHIEVEMENT,
 				debug ? event.achievement.getDescription() : event.achievement.statId));
-	}
-	
-	public static void main(final String...args) throws Exception {
-		final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-		final File analyticsFile = new File(args[0]);
-		final String analyticsFileDate = new Timestamp(analyticsFile.lastModified()).toString().substring(0, 10);
-		final BufferedReader br = new BufferedReader(new FileReader(analyticsFile));
-		String line;
-		while ((line = br.readLine()) != null) {
-			final String[] lineSegments = line.split(DELIMETER_SEGMENT);
-			int lineSegment = 0;
-			final Date date = dateFormat.parse(analyticsFileDate + " " + lineSegments[lineSegment++]);
-			final String user = lineSegments[lineSegment++];
-			final String[] position = lineSegments[lineSegment++].split(DELIMETER_DATA);
-			final int posX = Integer.parseInt(position[0]);
-			final int posY = Integer.parseInt(position[1]);
-			final int posZ = Integer.parseInt(position[2]);
-			final Category category = Category.values()[Integer.parseInt(lineSegments[lineSegment++])];
-			final String[] data = lineSegments[lineSegment++].split(DELIMETER_DATA);
-			//System.out.printf("Date=%s, User=%s, PosX=%d, PosY=%d, PosZ=%d, Category=%s, Data=%d\n", date.toString(), user, posX, posY, posZ, category.toString(), data.length);
-			if (category == Category.PlayerTickSpatial) {
-				final double motionX = Double.parseDouble(data[0]);
-				final double motionY = Double.parseDouble(data[1]);
-				final double motionZ = Double.parseDouble(data[2]);
-				System.out.printf("{%d,%d,%d},\n", posX, posZ, -posY);
-				//System.out.printf("{{%d,%d,%d},{%.2f,%.2f,%.2f}},\n", posX, posY, posZ, motionX, motionY, motionZ);
-			}
-		}
-		br.close();
 	}
 }

@@ -17,8 +17,8 @@
                 <OnStartupTriggeringPolicy />
             </Policies>
         </RollingRandomAccessFile>
-        <RollingRandomAccessFile name="PolycraftAnalyticsFile" fileName="logs/polycraft-analytics-latest.log" filePattern="logs/polycraft-analytics-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d{HH:mm:ss}%msg%n" />
+        <RollingRandomAccessFile name="PolycraftAnalyticsFile" fileName="logs/polycraft-analytics-latest.log" filePattern="logs/polycraft-analytics-%d{yyyy-MM-dd-HH}{GMT}-%i.log.gz">
+            <PatternLayout pattern="%d{mm:ss}{GMT}%msg%n" />
             <Policies>
                 <TimeBasedTriggeringPolicy />
                 <OnStartupTriggeringPolicy />
@@ -58,8 +58,6 @@
             <AppenderRef ref="ServerGuiConsole" level="INFO" />
         </Logger>
         <Logger level="info" name="polycraft-analytics" additivity="false">
-            <AppenderRef ref="SysOut" level="INFO" />
-            <AppenderRef ref="ServerGuiConsole" level="INFO" />
             <AppenderRef ref="PolycraftAnalyticsFile" />
         </Logger>
         <Root level="all">
