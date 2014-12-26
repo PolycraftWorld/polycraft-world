@@ -68,8 +68,10 @@ public class Analytics {
 		PlayerTickHealth,
 		PlayerTickItem,
 		PlayerTickFood,
-		PlayerTickArmor,
 		PlayerTickExperience,
+		PlayerTickArmor,
+		PlayerTickHotbar,
+		PlayerTickInventory,
 		PlayerChat,
 		PlayerInteract,
 		PlayerUseItemStart,
@@ -92,8 +94,10 @@ public class Analytics {
 		public int health = getValue("health", 5);
 		public int item = getValue("item", 10);
 		public int food = getValue("food", 60);
-		public int armor = getValue("armor", 60);
 		public int experience = getValue("experience", 60);
+		public int armor = getValue("armor", 60);
+		public int hotbar = getValue("hotbar", 60);
+		public int inventory = getValue("inventory", 300);
 		
 		private static int getValue(String name, int value) {
 			name = "analytics.tick.interval." + name;
@@ -120,8 +124,10 @@ public class Analytics {
 		private int ticksHealth = 0;
 		private int ticksItem = 0;
 		private int ticksFood = 0;
-		private int ticksArmor = 0;
 		private int ticksExperience = 0;
+		private int ticksArmor = 0;
+		private int ticksHotbar = 0;
+		private int ticksInventory = 0;
 	}
 
 	private final Map<EntityPlayer, PlayerState> playerStates = Maps.newHashMap();
@@ -193,11 +199,19 @@ public class Analytics {
 	public static final String FORMAT_TICK_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s";
 	public static final String FORMAT_TICK_FOOD = "%2$d%1$s%3$.1f";
 	public static final String FORMAT_TICK_FOOD_DEBUG = "Food=%2$d%1$s Saturation=%3$.1f";
-	public static final String FORMAT_TICK_ARMOR = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s";
-	public static final String FORMAT_TICK_ARMOR_DEBUG = "Armor=%2$d%1$s Head=%3$s%1$s Damage=%4$s%1$s Chest=%5$s%1$s Damage=%6$s%1$s Legs=%7$s%1$s Damage=%8$s%1$s Feet=%9$s%1$s Damage=%10$s";
 	public static final String FORMAT_TICK_EXPERIENCE = "%2$d%1$s%3$d";
 	public static final String FORMAT_TICK_EXPERIENCE_DEBUG = "Experience=%2$d%1$s Level=%3$d";
-
+	public static final String FORMAT_TICK_ARMOR = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s";
+	public static final String FORMAT_TICK_ARMOR_DEBUG = "Armor=%2$d%1$s Head=%3$s%1$s Damage=%4$s%1$s Chest=%5$s%1$s Damage=%6$s%1$s Legs=%7$s%1$s Damage=%8$s%1$s Feet=%9$s%1$s Damage=%10$s";
+	public static final String FORMAT_TICK_HOTBAR = "%2$d%1$s%3$s";
+	public static final String FORMAT_TICK_HOTBAR_ITEM = "%2$d%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_TICK_HOTBAR_DEBUG = "Total=%2$d%1$s %3$s";
+	public static final String FORMAT_TICK_HOTBAR_ITEM_DEBUG = "Slot=%2$d%1$s Item=%3$s%1$s Count=%4$s";
+	public static final String FORMAT_TICK_INVENTORY = "%2$d%1$s%3$s";
+	public static final String FORMAT_TICK_INVENTORY_ITEM = "%2$d%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_TICK_INVENTORY_DEBUG = "Total=%2$d%1$s %3$s";
+	public static final String FORMAT_TICK_INVENTORY_ITEM_DEBUG = "Slot=%2$d%1$s Item=%3$s%1$s Count=%4$s";
+	
 	@SubscribeEvent
 	public synchronized void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
 		if (tick.phase == Phase.END) {
@@ -243,10 +257,17 @@ public class Analytics {
 							player.getFoodStats().getFoodLevel(),
 							player.getFoodStats().getSaturationLevel()));
 				}
+				
+				if (tickIntervals.experience > 0 && playerState.ticksExperience++ == tickIntervals.experience) {
+					playerState.ticksExperience = 0;
+					log(player, Category.PlayerTickExperience, String.format(debug ? FORMAT_TICK_EXPERIENCE_DEBUG : FORMAT_TICK_EXPERIENCE, DELIMETER_DATA,
+							player.experienceTotal,
+							player.experienceLevel));
+				}
 
 				if (tickIntervals.armor > 0 && playerState.ticksArmor++ == tickIntervals.armor) {
 					playerState.ticksArmor = 0;
-					log(player, Category.PlayerTickItem, String.format(debug ? FORMAT_TICK_ARMOR_DEBUG : FORMAT_TICK_ARMOR, DELIMETER_DATA,
+					log(player, Category.PlayerTickArmor, String.format(debug ? FORMAT_TICK_ARMOR_DEBUG : FORMAT_TICK_ARMOR, DELIMETER_DATA,
 						player.getTotalArmorValue(),
 						formatItemStackName(player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot())),
 						formatItemStackDamage(player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot())),
@@ -257,27 +278,52 @@ public class Analytics {
 						formatItemStackName(player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot())),
 						formatItemStackDamage(player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot()))));
 				}
-
-				if (tickIntervals.experience > 0 && playerState.ticksExperience++ == tickIntervals.experience) {
-					playerState.ticksExperience = 0;
-					log(player, Category.PlayerTickExperience, String.format(debug ? FORMAT_TICK_EXPERIENCE_DEBUG : FORMAT_TICK_EXPERIENCE, DELIMETER_DATA,
-							player.experienceTotal,
-							player.experienceLevel));
+				
+				if (tickIntervals.hotbar > 0 && playerState.ticksHotbar++ == tickIntervals.hotbar) {
+					playerState.ticksHotbar = 0;
+					final StringBuilder items = new StringBuilder();
+					int count = 0;
+					for (int i = 0; i < 9; i++) {
+						final ItemStack item = player.inventory.getStackInSlot(i);
+						if (item != null) {
+							if (count++ > 0)
+								items.append(DELIMETER_DATA);
+							items.append(String.format(debug ? FORMAT_TICK_HOTBAR_ITEM_DEBUG : FORMAT_TICK_HOTBAR_ITEM, DELIMETER_DATA,
+									i, formatItemStackName(item), formatItemStackSize(item)));
+						}
+					}
+					log(player, Category.PlayerTickHotbar, String.format(debug ? FORMAT_TICK_HOTBAR_DEBUG : FORMAT_TICK_HOTBAR, DELIMETER_DATA, count, items.toString()));
+				}
+				
+				if (tickIntervals.inventory > 0 && playerState.ticksInventory++ == tickIntervals.inventory) {
+					playerState.ticksInventory = 0;
+					final StringBuilder items = new StringBuilder();
+					int count = 0;
+					for (int i = 0; i < 27; i++) {
+						final ItemStack item = player.inventory.getStackInSlot(i + 9);
+						if (item != null) {
+							if (count++ > 0)
+								items.append(DELIMETER_DATA);
+							items.append(String.format(debug ? FORMAT_TICK_INVENTORY_ITEM_DEBUG : FORMAT_TICK_INVENTORY_ITEM, DELIMETER_DATA,
+									i, formatItemStackName(item), formatItemStackSize(item)));
+						}
+					}
+					log(player, Category.PlayerTickInventory, String.format(debug ? FORMAT_TICK_INVENTORY_DEBUG : FORMAT_TICK_INVENTORY, DELIMETER_DATA, count, items.toString()));
 				}
 			}
 		}
 	}
 	
-	private static final String FORMAT_SERVER_CHAT = "%s";
-	private static final String FORMAT_SERVER_CHAT_DEBUG = "Message=%s";
+	public static final String FORMAT_SERVER_CHAT = "%s";
+	public static final String FORMAT_SERVER_CHAT_DEBUG = "Message=%s";
 	
 	@SubscribeEvent
 	public synchronized void onServerChat(final ServerChatEvent event) {
 		log(event.player, Category.PlayerChat, String.format(debug ? FORMAT_SERVER_CHAT_DEBUG : FORMAT_SERVER_CHAT, event.message));
 	}
 
-	private static final String FORMAT_INTERACT = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$s%1$s%8$s%1$s%9$d%1$s%10$s";
-	private static final String FORMAT_INTERACT_DEBUG = "Action=%2$s%1$s X=%3$d%1$s Y=%4$d%1$s Z=%5$d%1$s Face=%6$d%1$s Result=%7$s%1$s Block=%8$s%1$s Metadata=%9$d%1$s Item=%10$s";
+	public static final String FORMAT_INTERACT = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$s%1$s%8$s%1$s%9$d%1$s%10$s";
+	public static final String FORMAT_INTERACT_DEBUG = "Action=%2$s%1$s X=%3$d%1$s Y=%4$d%1$s Z=%5$d%1$s Face=%6$d%1$s Result=%7$s%1$s Block=%8$s%1$s Metadata=%9$d%1$s Item=%10$s";
 	
 	@SubscribeEvent
 	public synchronized void onPlayerInteract(final PlayerInteractEvent event) {
@@ -290,10 +336,10 @@ public class Analytics {
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
 	}
 	
-	private static final String FORMAT_USE_ITEM = "%2$s%1$s%3$s%1$s%4$d";
-	private static final String FORMAT_USE_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s%1$s Duration=%4$d";
-	private static final String FORMAT_USE_ITEM_FINISH = FORMAT_USE_ITEM + "%1$s%5$s%1$s%6$s";
-	private static final String FORMAT_USE_ITEM_FINISH_DEBUG = FORMAT_USE_ITEM_DEBUG + "%1$s ResultItem=%5$s%1$s Damage=%6$s";
+	public static final String FORMAT_USE_ITEM = "%2$s%1$s%3$s%1$s%4$d";
+	public static final String FORMAT_USE_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s%1$s Duration=%4$d";
+	public static final String FORMAT_USE_ITEM_FINISH = FORMAT_USE_ITEM + "%1$s%5$s%1$s%6$s";
+	public static final String FORMAT_USE_ITEM_FINISH_DEBUG = FORMAT_USE_ITEM_DEBUG + "%1$s ResultItem=%5$s%1$s Damage=%6$s";
 	
 	@SubscribeEvent
 	public synchronized void onPlayerUseItemStart(final PlayerUseItemEvent.Start event) {
@@ -321,8 +367,8 @@ public class Analytics {
 				formatItemStackDamage(event.result)));
 	}
 
-	private static final String FORMAT_PICKUP_ITEM = "%2$s%1$s%3$s";
-	private static final String FORMAT_PICKUP_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s";
+	public static final String FORMAT_PICKUP_ITEM = "%2$s%1$s%3$s";
+	public static final String FORMAT_PICKUP_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s";
 	
 	@SubscribeEvent
 	public synchronized void onItemPickup(final ItemPickupEvent event) {
@@ -331,8 +377,8 @@ public class Analytics {
 				formatItemStackDamage(event.pickedUp.getEntityItem())));
 	}
 	
-	private static final String FORMAT_TOSS_ITEM = "%2$s%1$s%3$s%1$s%4$s";
-	private static final String FORMAT_TOSS_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s%1$s Count=%4$s";
+	public static final String FORMAT_TOSS_ITEM = "%2$s%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_TOSS_ITEM_DEBUG = "Item=%2$s%1$s Damage=%3$s%1$s Count=%4$s";
 	
 	@SubscribeEvent
 	public synchronized void onItemToss(final ItemTossEvent event) {
@@ -342,9 +388,8 @@ public class Analytics {
 				formatItemStackSize(event.entityItem.getEntityItem())));
 	}
 
-	//TODO this doesn't pick up events from polycraft inventories, probably just want to make a separate call for those
-	private static final String FORMAT_CRAFT_ITEM = "%2$s%1$s%3$s%1$s%4$s";
-	private static final String FORMAT_CRAFT_ITEM_DEBUG = "Item=%2$s%1$s Count=%3$s%1$s Inventory=%4$s";
+	public static final String FORMAT_CRAFT_ITEM = "%2$s%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_CRAFT_ITEM_DEBUG = "Item=%2$s%1$s Count=%3$s%1$s Inventory=%4$s";
 	
 	@SubscribeEvent
 	public synchronized void onItemCrafted(final ItemCraftedEvent event) {
@@ -354,8 +399,8 @@ public class Analytics {
 				formatInventoryName(event.craftMatrix)));
 	}
 
-	private static final String FORMAT_SMELT_ITEM = "%2$s%1$s%3$s";
-	private static final String FORMAT_SMELT_ITEM_DEBUG = "Item=%2$s%1$s Count=%3$s";
+	public static final String FORMAT_SMELT_ITEM = "%2$s%1$s%3$s";
+	public static final String FORMAT_SMELT_ITEM_DEBUG = "Item=%2$s%1$s Count=%3$s";
 	
 	@SubscribeEvent
 	public synchronized void onItemSmelted(final ItemSmeltedEvent event) {
@@ -363,8 +408,8 @@ public class Analytics {
 				formatItemStackName(event.smelting), formatItemStackSize(event.smelting)));
 	}
 	
-	private static final String FORMAT_POLYCRAFT_ITEM = "%2$s%1$s%3$s%1$s%4$s";
-	private static final String FORMAT_POLYCRAFT_ITEM_DEBUG = "Item=%2$s%1$s Count=%3$s%1$s Inventory=%4$s";
+	public static final String FORMAT_POLYCRAFT_ITEM = "%2$s%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_POLYCRAFT_ITEM_DEBUG = "Item=%2$s%1$s Count=%3$s%1$s Inventory=%4$s";
 	public synchronized void onItemPolycrafted(final EntityPlayer player, final ItemStack item, final PolycraftInventory inventory) {
 		log(player, Category.PlayerPolycraftItem, String.format(debug ? FORMAT_POLYCRAFT_ITEM_DEBUG : FORMAT_POLYCRAFT_ITEM, DELIMETER_DATA,
 				formatItemStackName(item),
@@ -372,8 +417,8 @@ public class Analytics {
 				formatInventoryName(inventory)));
 	}
 	
-	private static final String FORMAT_ATTACK_ENTITY = "%2$s%1$s%3$s%1$s%4$d%1$s%5$d%1$s%6$d";
-	private static final String FORMAT_ATTACK_ENTITY_DEBUG = "Item=%2$s%1$s Target=%3$s%1$s X=%4$d%1$s Y=%5$d%1$s Z=%6$d";
+	public static final String FORMAT_ATTACK_ENTITY = "%2$s%1$s%3$s%1$s%4$d%1$s%5$d%1$s%6$d";
+	public static final String FORMAT_ATTACK_ENTITY_DEBUG = "Item=%2$s%1$s Target=%3$s%1$s X=%4$d%1$s Y=%5$d%1$s Z=%6$d";
 	
 	@SubscribeEvent
 	public synchronized void onAttackEntity(final AttackEntityEvent event) {
@@ -382,8 +427,8 @@ public class Analytics {
 				(int)event.target.posX, (int)event.target.posY, (int)event.target.posZ));
 	}
 	
-	private static final String FORMAT_BREAK_BLOCK = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$s%1$s%7$d%1$s%8$d";
-	private static final String FORMAT_BREAK_BLOCK_DEBUG = "Item=%2$s%1$s X=%3$d%1$s Y=%4$d%1$s Z=%5$d%1$s Block=%6$s%1$s Metadata=%7$d%1$s ExpToDrop=%8$d";
+	public static final String FORMAT_BREAK_BLOCK = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$s%1$s%7$d%1$s%8$d";
+	public static final String FORMAT_BREAK_BLOCK_DEBUG = "Item=%2$s%1$s X=%3$d%1$s Y=%4$d%1$s Z=%5$d%1$s Block=%6$s%1$s Metadata=%7$d%1$s ExpToDrop=%8$d";
 	
 	@SubscribeEvent
 	public synchronized void onBlockBreakEvent(final BreakEvent event) {
@@ -393,8 +438,8 @@ public class Analytics {
 				formatBlock(event.block), event.blockMetadata, event.getExpToDrop()));
 	}
 	
-	private static final String FORMAT_SLEEP_IN_BED = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
-	private static final String FORMAT_SLEEP_IN_BED_DEBUG = "X=%2$d%1$s Y=%3$d%1$s Z=%4$d%1$s Result=%5$s";
+	public static final String FORMAT_SLEEP_IN_BED = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
+	public static final String FORMAT_SLEEP_IN_BED_DEBUG = "X=%2$d%1$s Y=%3$d%1$s Z=%4$d%1$s Result=%5$s";
 	
 	@SubscribeEvent
 	public synchronized void onPlayerSleepInBed(final PlayerSleepInBedEvent event) {
@@ -402,8 +447,8 @@ public class Analytics {
 				event.x, event.y, event.z, formatEnum(event.getResult())));
 	}
 
-	private static final String FORMAT_ACHIEVEMENT = "%s";
-	private static final String FORMAT_ACHIEVEMENT_DEBUG = "Achievement=%s";
+	public static final String FORMAT_ACHIEVEMENT = "%s";
+	public static final String FORMAT_ACHIEVEMENT_DEBUG = "Achievement=%s";
 	
 	@SubscribeEvent
 	public synchronized void onAchievement(final AchievementEvent event) {
