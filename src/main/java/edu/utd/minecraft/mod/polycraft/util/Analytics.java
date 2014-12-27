@@ -201,8 +201,10 @@ public class Analytics {
 	public static final String FORMAT_TICK_FOOD_DEBUG = "Food=%2$d%1$s Saturation=%3$.1f";
 	public static final String FORMAT_TICK_EXPERIENCE = "%2$d%1$s%3$d";
 	public static final String FORMAT_TICK_EXPERIENCE_DEBUG = "Experience=%2$d%1$s Level=%3$d";
-	public static final String FORMAT_TICK_ARMOR = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s%1$s%6$s%1$s%7$s%1$s%8$s%1$s%9$s%1$s%10$s";
-	public static final String FORMAT_TICK_ARMOR_DEBUG = "Armor=%2$d%1$s Head=%3$s%1$s Damage=%4$s%1$s Chest=%5$s%1$s Damage=%6$s%1$s Legs=%7$s%1$s Damage=%8$s%1$s Feet=%9$s%1$s Damage=%10$s";
+	public static final String FORMAT_TICK_ARMOR = "%2$d%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_TICK_ARMOR_ITEM = "%2$d%1$s%3$s%1$s%4$s";
+	public static final String FORMAT_TICK_ARMOR_DEBUG = "Armor=%2$d%1$s Total=%3$d%1$s %4$s";
+	public static final String FORMAT_TICK_ARMOR_ITEM_DEBUG = "Slot=%2$d%1$s Item=%3$s%1$s Damage=%4$s";
 	public static final String FORMAT_TICK_HOTBAR = "%2$d%1$s%3$s";
 	public static final String FORMAT_TICK_HOTBAR_ITEM = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_TICK_HOTBAR_DEBUG = "Total=%2$d%1$s %3$s";
@@ -267,16 +269,19 @@ public class Analytics {
 
 				if (tickIntervals.armor > 0 && playerState.ticksArmor++ == tickIntervals.armor) {
 					playerState.ticksArmor = 0;
+					final StringBuilder items = new StringBuilder();
+					int count = 0;
+					for (final ArmorSlot slot : ArmorSlot.values()) {
+						final ItemStack item = player.getCurrentArmor(slot.getInventoryArmorSlot());
+						if (item != null) {
+							if (count++ > 0)
+								items.append(DELIMETER_DATA);
+							items.append(String.format(debug ? FORMAT_TICK_ARMOR_ITEM_DEBUG : FORMAT_TICK_ARMOR_ITEM, DELIMETER_DATA,
+									slot.ordinal(), formatItemStackName(item), formatItemStackDamage(item)));
+						}
+					}
 					log(player, Category.PlayerTickArmor, String.format(debug ? FORMAT_TICK_ARMOR_DEBUG : FORMAT_TICK_ARMOR, DELIMETER_DATA,
-						player.getTotalArmorValue(),
-						formatItemStackName(player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot())),
-						formatItemStackDamage(player.getCurrentArmor(ArmorSlot.HEAD.getInventoryArmorSlot())),
-						formatItemStackName(player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot())),
-						formatItemStackDamage(player.getCurrentArmor(ArmorSlot.CHEST.getInventoryArmorSlot())),
-						formatItemStackName(player.getCurrentArmor(ArmorSlot.LEGS.getInventoryArmorSlot())),
-						formatItemStackDamage(player.getCurrentArmor(ArmorSlot.LEGS.getInventoryArmorSlot())),
-						formatItemStackName(player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot())),
-						formatItemStackDamage(player.getCurrentArmor(ArmorSlot.FEET.getInventoryArmorSlot()))));
+							player.getTotalArmorValue(), count, items.toString()));
 				}
 				
 				if (tickIntervals.hotbar > 0 && playerState.ticksHotbar++ == tickIntervals.hotbar) {
