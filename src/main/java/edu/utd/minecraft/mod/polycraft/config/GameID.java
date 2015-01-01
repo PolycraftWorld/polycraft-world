@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
 public enum GameID {
-	MoldedRunningShoes("E"),
+	MoldRunningShoes("E"),
 	MoldScubaFins("G"),
 	MoldScubaMask("H"),
 	MoldLifePreserver("J"),
@@ -37,7 +37,9 @@ public enum GameID {
 	CustomHeatedKnifeDiamondPEEK("116"),
 	CustomHeatedKnifeStainlessPolyIsoPrene("117"),
 	CustomHeatedKnifeStainlessPolyPropylene("118"),
-	CustomHeatedKnifeStainlessPEEK("119");
+	CustomHeatedKnifeStainlessPEEK("119"),
+	CustomRunningShoesSprinter("11q");
+	
 	
 
 	private final String id;

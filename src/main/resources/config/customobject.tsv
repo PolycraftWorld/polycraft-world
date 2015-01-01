@@ -1,13 +1,13 @@
 Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
 1.0.0	3l	Metal Screw	PC Item	2	TRUE												
 1.0.0	3m	Bucket (Crude Oil)	PC Item	1	TRUE												
-1.0.0	3n	Flame Thrower	Weapon	7	TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	10	2	5	3			
-1.0.0	3o	Flashlight	Utility		TRUE		1	MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle	15	0.5	15						
-1.0.0	3p	Jet Pack	Armor		TRUE		1	FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect	5000	1	0.4	5					
+1.0.0	3n	Flame Thrower	Weapon	7	TRUE		1	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	1000	1	10	2	5	3			
+1.0.0	3o	Flashlight	Utility		TRUE		1	"MaxLightLevel, LightLevelDecreaseByDistance, ViewingConeAngle"	15	0.5	15						
+1.0.0	3p	Jet Pack	Armor		TRUE		1	"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect"	5000	1	0.4	5					
 1.0.0	5a	Parachute			TRUE		1	VelocityDescent	0.3								
 1.0.0	3q	Laser	Tool		TRUE		1										
-1.0.0	3r	Phase Shifter	Tool	7	TRUE		1	Radius, Velocity, BoundaryBlock	3	0.6	1.0.0						
-1.0.0	3x	Scuba Tank	Armor		TRUE		1	AirUnitsFull, AirUnitsConsumePerTick	5000	1							
+1.0.0	3r	Phase Shifter	Tool	7	TRUE		1	"Radius, Velocity, BoundaryBlock"	3	0.6	1.0.0						
+1.0.0	3x	Scuba Tank	Armor		TRUE		1	"AirUnitsFull, AirUnitsConsumePerTick"	5000	1							
 1.0.0	3A	Wetsuit	Armor		TRUE		1										
 1.0.0	3C	Structural Truss	PC Block		TRUE												
 1.0.0	3G	Barley	Food		TRUE												
@@ -18,7 +18,7 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.0	3Q	Membrane X	PC Item		TRUE												
 1.0.0	3R	Membrane O	PC Item		TRUE												
 1.0.0	3S	Separation Membrane	PC Item		TRUE												
-1.0.0	3T	Trampoline	PC Block		TRUE												
+1.0.0	3T	Trampoline	PC Block		TRUE			Bounciness	24								
 1.0.0	3X	Gas Mantle	PC Item	4	TRUE												
 1.0.0	5b	Kevlar Vest			TRUE		1	armorBuffOverDiamond	1.5								
 1.0.0	5d	Heat Exchanger	PC Item		TRUE												
@@ -32,3 +32,35 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.3	118	Stainless-PolyPropylene Heated Knife	PC Item	4	TRUE			MiningEfficiency	10								
 1.0.3	119	Stainless-PEEK Heated Knife	PC Item	4	TRUE			MiningEfficiency	15								
 1.0.3	11a	Heated Knife Handle	PC Item	4													
+1.1.0	11q	Running Shoes (Sprinter)	Armor	8	TRUE		1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.4	60							
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	
+																	

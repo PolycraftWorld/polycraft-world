@@ -6,7 +6,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 
 public class ItemRunningShoes extends PolycraftArmorFeet implements PolycraftMoldedItem {
@@ -50,6 +52,18 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements PolycraftMol
 		this.moldedItem = moldedItem;
 		this.velocityOnGround = moldedItem.params.getFloat(0);
 	}
+	
+	public ItemRunningShoes(final CustomObject config, String iconName)
+    {
+        //super(2.0F, p_i45347_1_, field_150915_c);
+		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(iconName)));
+		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.velocityOnGround = config.params.getFloat(0);
+		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(config.params.getInt(1) * 60));
+		this.moldedItem = null; //TODO: unsure if this causes bugs...walter
+    }
+	
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {

@@ -1,114 +1,333 @@
-Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Powder Keg (Pellets)	Chemical Silo (Pellets)	Pellets	Crafting Min Index	Crafting Max Index
-	zh	B7	CX	EN	Bag (Acrylic-Formaldehyde Pellets)	Sack (Acrylic-Formaldehyde Pellets)	Powder Keg (Acrylic-Formaldehyde Pellets)	Chemical Silo (Acrylic-Formaldehyde Pellets)	Acrylic-Formaldehyde	1	10
-1.0.0	zi	B8	CY	EO	Bag (Acrylonitrile-Butadiene-Styrene Pellets)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	Powder Keg (Acrylonitrile-Butadiene-Styrene Pellets)	Chemical Silo (Acrylonitrile-Butadiene-Styrene Pellets)	Acrylonitrile-Butadiene-Styrene	1	10
-	zj	B9	CZ	EP	Bag (Alkyd Resin Pellets)	Sack (Alkyd Resin Pellets)	Powder Keg (Alkyd Resin Pellets)	Chemical Silo (Alkyd Resin Pellets)	Alkyd Resin	1	10
-1.0.0	zk	Ba	D0	EQ	Bag (Amorphous PolyEthylene Terephthalate Pellets)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	Chemical Silo (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate	1	10
-	zl	Bb	D1	ER	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber	1	10
-	zm	Bc	D2	ES	Bag (Cellulose Diacetate Pellets)	Sack (Cellulose Diacetate Pellets)	Powder Keg (Cellulose Diacetate Pellets)	Chemical Silo (Cellulose Diacetate Pellets)	Cellulose Diacetate	1	10
-	zn	Bd	D3	ET	Bag (Cellulose Triacetate Pellets)	Sack (Cellulose Triacetate Pellets)	Powder Keg (Cellulose Triacetate Pellets)	Chemical Silo (Cellulose Triacetate Pellets)	Cellulose Triacetate	1	10
-1.0.0	zo	Be	D4	EU	Bag (Cellulosic Pellets)	Sack (Cellulosic Pellets)	Powder Keg (Cellulosic Pellets)	Chemical Silo (Cellulosic Pellets)	Cellulosic	1	10
-	zp	Bf	D5	EV	Bag (Chitin Pellets)	Sack (Chitin Pellets)	Powder Keg (Chitin Pellets)	Chemical Silo (Chitin Pellets)	Chitin	1	10
-	zq	Bg	D6	EW	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chlorine Isobutylene-Isoprene Rubber	1	10
-	zr	Bh	D7	EX	Bag (Epoxy Resin Pellets)	Sack (Epoxy Resin Pellets)	Powder Keg (Epoxy Resin Pellets)	Chemical Silo (Epoxy Resin Pellets)	Epoxy Resin	1	10
-	zs	Bi	D8	EY	Bag (Ethoxylates Pellets)	Sack (Ethoxylates Pellets)	Powder Keg (Ethoxylates Pellets)	Chemical Silo (Ethoxylates Pellets)	Ethoxylates	1	10
-	zt	Bj	D9	EZ	Bag (Ethylene-Propylene Monomer Pellets)	Sack (Ethylene-Propylene Monomer Pellets)	Powder Keg (Ethylene-Propylene Monomer Pellets)	Chemical Silo (Ethylene-Propylene Monomer Pellets)	Ethylene-Propylene Monomer	1	10
-	zu	Bk	Da	F0	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	Chemical Silo (Ethylene-Propylene-Diene Monomer Pellets)	Ethylene-Propylene-Diene Monomer	1	10
-1.0.0	zv	Bl	Db	F1	Bag (Ethylene-Vinyl Acetate Pellets)	Sack (Ethylene-Vinyl Acetate Pellets)	Powder Keg (Ethylene-Vinyl Acetate Pellets)	Chemical Silo (Ethylene-Vinyl Acetate Pellets)	Ethylene-Vinyl Acetate	1	10
-1.0.0	zw	Bm	Dc	F2	Bag (High Density PolyEthylene Pellets)	Sack (High Density PolyEthylene Pellets)	Powder Keg (High Density PolyEthylene Pellets)	Chemical Silo (High Density PolyEthylene Pellets)	High Density PolyEthylene	1	10
-	zx	Bn	Dd	F3	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Hydrogenated Nitrile-Butadiene Rubber	1	10
-	zy	Bo	De	F4	Bag (Isobutylene-Isoprene Rubber Pellets)	Sack (Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Isobutylene-Isoprene Rubber Pellets)	Isobutylene-Isoprene Rubber	1	10
-	zz	Bp	Df	F5	Bag (Lignin Pellets)	Sack (Lignin Pellets)	Powder Keg (Lignin Pellets)	Chemical Silo (Lignin Pellets)	Lignin	1	10
-1.0.0	zA	Bq	Dg	F6	Bag (Linear Low-Density PolyEthylene Pellets)	Sack (Linear Low-Density PolyEthylene Pellets)	Powder Keg (Linear Low-Density PolyEthylene Pellets)	Chemical Silo (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene	1	10
-1.0.0	zB	Br	Dh	F7	Bag (Liquid Crystal Polymer Pellets)	Sack (Liquid Crystal Polymer Pellets)	Powder Keg (Liquid Crystal Polymer Pellets)	Chemical Silo (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer	1	10
-1.0.0	zC	Bs	Di	F8	Bag (Low Density PolyEthylene Pellets)	Sack (Low Density PolyEthylene Pellets)	Powder Keg (Low Density PolyEthylene Pellets)	Chemical Silo (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	1	10
-1.0.0	zD	Bt	Dj	F9	Bag (Medium Density PolyEthylene Pellets)	Sack (Medium Density PolyEthylene Pellets)	Powder Keg (Medium Density PolyEthylene Pellets)	Chemical Silo (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene	1	10
-	zE	Bu	Dk	Fa	Bag (Melamine-Formaldehyde Polymers Pellets)	Sack (Melamine-Formaldehyde Polymers Pellets)	Powder Keg (Melamine-Formaldehyde Polymers Pellets)	Chemical Silo (Melamine-Formaldehyde Polymers Pellets)	Melamine-Formaldehyde Polymers	1	10
-1.0.0	zF	Bv	Dl	Fb	Bag (Metaldehyde Pellets)	Sack (Metaldehyde Pellets)	Powder Keg (Metaldehyde Pellets)	Chemical Silo (Metaldehyde Pellets)	Metaldehyde	1	10
-	zG	Bw	Dm	Fc	Bag (Nitrile-Butadiene Rubber Pellets)	Sack (Nitrile-Butadiene Rubber Pellets)	Powder Keg (Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber	1	10
-1.0.0	zH	Bx	Dn	Fd	Bag (Paraformaldehyde Pellets)	Sack (Paraformaldehyde Pellets)	Powder Keg (Paraformaldehyde Pellets)	Chemical Silo (Paraformaldehyde Pellets)	Paraformaldehyde	1	10
-1.0.0	zI	By	Do	Fe	Bag (Paraledhyde Pellets)	Sack (Paraledhyde Pellets)	Powder Keg (Paraledhyde Pellets)	Chemical Silo (Paraledhyde Pellets)	Paraledhyde	1	10
-	zJ	Bz	Dp	Ff	Bag (Phenolic Resin Pellets)	Sack (Phenolic Resin Pellets)	Powder Keg (Phenolic Resin Pellets)	Chemical Silo (Phenolic Resin Pellets)	Phenolic Resin	1	10
-1.0.0	zK	BA	Dq	Fg	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Powder Keg (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Chemical Silo (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	1	10
-	zL	BB	Dr	Fh	Bag (Poly1-Butene Pellets)	Sack (Poly1-Butene Pellets)	Powder Keg (Poly1-Butene Pellets)	Chemical Silo (Poly1-Butene Pellets)	Poly1-Butene	1	10
-	zM	BC	Ds	Fi	Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Powder Keg (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Chemical Silo (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)	Poly2,6-Dimethyl-1,4-Phenylene Ether	1	10
-	zN	BD	Dt	Fj	Bag (Poly-2-Hydroxy Butyrate Pellets)	Sack (Poly-2-Hydroxy Butyrate Pellets)	Powder Keg (Poly-2-Hydroxy Butyrate Pellets)	Chemical Silo (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate	1	10
-	zO	BE	Du	Fk	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	Powder Keg (Poly2-Hydroxyethyl Methacrylate Pellets)	Chemical Silo (Poly2-Hydroxyethyl Methacrylate Pellets)	Poly2-Hydroxyethyl Methacrylate	1	10
-	zP	BF	Dv	Fl	Bag (PolyAcrylic Ester Pellets)	Sack (PolyAcrylic Ester Pellets)	Powder Keg (PolyAcrylic Ester Pellets)	Chemical Silo (PolyAcrylic Ester Pellets)	PolyAcrylic Ester	1	10
-1.0.0	zQ	BG	Dw	Fm	Bag (PolyAcrylonitrile Pellets)	Sack (PolyAcrylonitrile Pellets)	Powder Keg (PolyAcrylonitrile Pellets)	Chemical Silo (PolyAcrylonitrile Pellets)	PolyAcrylonitrile	1	10
-1.0.0	zR	BH	Dx	Fn	Bag (PolyButadiene Pellets)	Sack (PolyButadiene Pellets)	Powder Keg (PolyButadiene Pellets)	Chemical Silo (PolyButadiene Pellets)	PolyButadiene	1	10
-	zS	BI	Dy	Fo	Bag (PolyButadiene Rubber Pellets)	Sack (PolyButadiene Rubber Pellets)	Powder Keg (PolyButadiene Rubber Pellets)	Chemical Silo (PolyButadiene Rubber Pellets)	PolyButadiene Rubber	1	10
-1.0.0	zT	BJ	Dz	Fp	Bag (PolyButylene Succinate Pellets)	Sack (PolyButylene Succinate Pellets)	Powder Keg (PolyButylene Succinate Pellets)	Chemical Silo (PolyButylene Succinate Pellets)	PolyButylene Succinate	1	10
-1.0.0	zV	BL	DB	Fr	Bag (PolyButylene Terephthalate Pellets)	Sack (PolyButylene Terephthalate Pellets)	Powder Keg (PolyButylene Terephthalate Pellets)	Chemical Silo (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate	1	10
-1.0.0	zW	BM	DC	Fs	Bag (PolyCaprolactone Pellets)	Sack (PolyCaprolactone Pellets)	Powder Keg (PolyCaprolactone Pellets)	Chemical Silo (PolyCaprolactone Pellets)	PolyCaprolactone	1	10
-1.0.0	zX	BN	DD	Ft	Bag (PolyCarbonate Pellets)	Sack (PolyCarbonate Pellets)	Powder Keg (PolyCarbonate Pellets)	Chemical Silo (PolyCarbonate Pellets)	PolyCarbonate	1	10
-	zY	BO	DE	Fu	Bag (PolyChloroPrene Pellets)	Sack (PolyChloroPrene Pellets)	Powder Keg (PolyChloroPrene Pellets)	Chemical Silo (PolyChloroPrene Pellets)	PolyChloroPrene	1	10
-	zZ	BP	DF	Fv	Bag (PolyChlorotrifluoroethylene Pellets)	Sack (PolyChlorotrifluoroethylene Pellets)	Powder Keg (PolyChlorotrifluoroethylene Pellets)	Chemical Silo (PolyChlorotrifluoroethylene Pellets)	PolyChlorotrifluoroethylene	1	10
-1.0.0	A0	BQ	DG	Fw	Bag (PolyDiMethylSiloxane Pellets)	Sack (PolyDiMethylSiloxane Pellets)	Powder Keg (PolyDiMethylSiloxane Pellets)	Chemical Silo (PolyDiMethylSiloxane Pellets)	PolyDiMethylSiloxane	1	10
-1.0.0	A1	BR	DH	Fx	Bag (PolyEther Ether Ketone Pellets)	Sack (PolyEther Ether Ketone Pellets)	Powder Keg (PolyEther Ether Ketone Pellets)	Chemical Silo (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone	1	10
-1.0.0	A2	BS	DI	Fy	Bag (PolyEtherImide Pellets)	Sack (PolyEtherImide Pellets)	Powder Keg (PolyEtherImide Pellets)	Chemical Silo (PolyEtherImide Pellets)	PolyEtherImide	1	10
-	A3	BT	DJ	Fz	Bag (PolyEthyl Acrylate Pellets)	Sack (PolyEthyl Acrylate Pellets)	Powder Keg (PolyEthyl Acrylate Pellets)	Chemical Silo (PolyEthyl Acrylate Pellets)	PolyEthyl Acrylate	1	10
-	A4	BU	DK	FA	Bag (PolyEthylene Adipate Pellets)	Sack (PolyEthylene Adipate Pellets)	Powder Keg (PolyEthylene Adipate Pellets)	Chemical Silo (PolyEthylene Adipate Pellets)	PolyEthylene Adipate	1	10
-1.0.0	A5	BV	DL	FB	Bag (PolyEthylene Glycol Pellets)	Sack (PolyEthylene Glycol Pellets)	Powder Keg (PolyEthylene Glycol Pellets)	Chemical Silo (PolyEthylene Glycol Pellets)	PolyEthylene Glycol	1	10
-	A6	BW	DM	FC	Bag (PolyEthylene Hexamethylene Dicarbamate Pellets)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	Powder Keg (PolyEthylene Hexamethylene Dicarbamate Pellets)	Chemical Silo (PolyEthylene Hexamethylene Dicarbamate Pellets)	PolyEthylene Hexamethylene Dicarbamate	1	10
-1.0.0	A7	BX	DN	FD	Bag (PolyEthylene Naphthalate Pellets)	Sack (PolyEthylene Naphthalate Pellets)	Powder Keg (PolyEthylene Naphthalate Pellets)	Chemical Silo (PolyEthylene Naphthalate Pellets)	PolyEthylene Naphthalate	1	10
-1.0.0	A8	BY	DO	FE	Bag (PolyEthylene Oxide Pellets)	Sack (PolyEthylene Oxide Pellets)	Powder Keg (PolyEthylene Oxide Pellets)	Chemical Silo (PolyEthylene Oxide Pellets)	PolyEthylene Oxide	1	10
-	A9	BZ	DP	FF	Bag (PolyEthylene Sulphide Pellets)	Sack (PolyEthylene Sulphide Pellets)	Powder Keg (PolyEthylene Sulphide Pellets)	Chemical Silo (PolyEthylene Sulphide Pellets)	PolyEthylene Sulphide	1	10
-1.0.0	Aa	C0	DQ	FG	Bag (PolyEthylene Terephthalate Pellets)	Sack (PolyEthylene Terephthalate Pellets)	Powder Keg (PolyEthylene Terephthalate Pellets)	Chemical Silo (PolyEthylene Terephthalate Pellets)	PolyEthylene Terephthalate	1	10
-1.0.0	Ab	C1	DR	FH	Bag (PolyEthylene Terephthalate Glycol-Modified Pellets)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	Powder Keg (PolyEthylene Terephthalate Glycol-Modified Pellets)	Chemical Silo (PolyEthylene Terephthalate Glycol-Modified Pellets)	PolyEthylene Terephthalate Glycol-Modified	1	10
-1.0.0	Ac	C2	DS	FI	Bag (PolyGlycolic Acid Pellets)	Sack (PolyGlycolic Acid Pellets)	Powder Keg (PolyGlycolic Acid Pellets)	Chemical Silo (PolyGlycolic Acid Pellets)	PolyGlycolic Acid	1	10
-	Ad	C3	DT	FJ	Bag (PolyHexamethylene Adipamide Pellets)	Sack (PolyHexamethylene Adipamide Pellets)	Powder Keg (PolyHexamethylene Adipamide Pellets)	Chemical Silo (PolyHexamethylene Adipamide Pellets)	PolyHexamethylene Adipamide	1	10
-	Ae	C4	DU	FK	Bag (PolyHexamethylene Sebacamide Pellets)	Sack (PolyHexamethylene Sebacamide Pellets)	Powder Keg (PolyHexamethylene Sebacamide Pellets)	Chemical Silo (PolyHexamethylene Sebacamide Pellets)	PolyHexamethylene Sebacamide	1	10
-1.0.0	Af	C5	DV	FL	Bag (PolyHydroxyalkanoate Pellets)	Sack (PolyHydroxyalkanoate Pellets)	Powder Keg (PolyHydroxyalkanoate Pellets)	Chemical Silo (PolyHydroxyalkanoate Pellets)	PolyHydroxyalkanoate	1	10
-	Ag	C6	DW	FM	Bag (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	Powder Keg (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	Chemical Silo (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PolyHydroxybutyrate-Co-Hydroxyvalerate	1	10
-1.0.0	Ah	C7	DX	FN	Bag (PolyImide Pellets)	Sack (PolyImide Pellets)	Powder Keg (PolyImide Pellets)	Chemical Silo (PolyImide Pellets)	PolyImide	1	10
-	Ai	C8	DY	FO	Bag (PolyIsoBorynl Acrylate Pellets)	Sack (PolyIsoBorynl Acrylate Pellets)	Powder Keg (PolyIsoBorynl Acrylate Pellets)	Chemical Silo (PolyIsoBorynl Acrylate Pellets)	PolyIsoBorynl Acrylate	1	10
-	Aj	C9	DZ	FP	Bag (PolyIsoButyl Acrylate Pellets)	Sack (PolyIsoButyl Acrylate Pellets)	Powder Keg (PolyIsoButyl Acrylate Pellets)	Chemical Silo (PolyIsoButyl Acrylate Pellets)	PolyIsoButyl Acrylate	1	10
-1.0.0	Ak	Ca	E0	FQ	Bag (PolyIsoButylene Pellets)	Sack (PolyIsoButylene Pellets)	Powder Keg (PolyIsoButylene Pellets)	Chemical Silo (PolyIsoButylene Pellets)	PolyIsoButylene	1	10
-1.0.0	Al	Cb	E1	FR	Bag (PolyIsoPrene Pellets)	Sack (PolyIsoPrene Pellets)	Powder Keg (PolyIsoPrene Pellets)	Chemical Silo (PolyIsoPrene Pellets)	PolyIsoPrene	1	10
-1.0.0	Am	Cc	E2	FS	Bag (PolyLactic Acid Pellets)	Sack (PolyLactic Acid Pellets)	Powder Keg (PolyLactic Acid Pellets)	Chemical Silo (PolyLactic Acid Pellets)	PolyLactic Acid	1	10
-	An	Cd	E3	FT	Bag (PolyLactic-Co-Glycolic Acid Pellets)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	Powder Keg (PolyLactic-Co-Glycolic Acid Pellets)	Chemical Silo (PolyLactic-Co-Glycolic Acid Pellets)	PolyLactic-Co-Glycolic Acid	1	10
-	Ao	Ce	E4	FU	Bag (PolyMethyl Acrylate Pellets)	Sack (PolyMethyl Acrylate Pellets)	Powder Keg (PolyMethyl Acrylate Pellets)	Chemical Silo (PolyMethyl Acrylate Pellets)	PolyMethyl Acrylate	1	10
-	Ap	Cf	E5	FV	Bag (PolyMethyl Cyanoacrylate Pellets)	Sack (PolyMethyl Cyanoacrylate Pellets)	Powder Keg (PolyMethyl Cyanoacrylate Pellets)	Chemical Silo (PolyMethyl Cyanoacrylate Pellets)	PolyMethyl Cyanoacrylate	1	10
-	Aq	Cg	E6	FW	Bag (PolyMethyl Methacrylate Pellets)	Sack (PolyMethyl Methacrylate Pellets)	Powder Keg (PolyMethyl Methacrylate Pellets)	Chemical Silo (PolyMethyl Methacrylate Pellets)	PolyMethyl Methacrylate	1	10
-	Ar	Ch	E7	FX	Bag (PolyM-Methyl Styrene Pellets)	Sack (PolyM-Methyl Styrene Pellets)	Powder Keg (PolyM-Methyl Styrene Pellets)	Chemical Silo (PolyM-Methyl Styrene Pellets)	PolyM-Methyl Styrene	1	10
-	As	Ci	E8	FY	Bag (PolyM-Phenylene Isophthalamide Pellets)	Sack (PolyM-Phenylene Isophthalamide Pellets)	Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	Chemical Silo (PolyM-Phenylene Isophthalamide Pellets)	PolyM-Phenylene Isophthalamide	1	10
-	At	Cj	E9	FZ	Bag (PolyN-Butyl Acrylate Pellets)	Sack (PolyN-Butyl Acrylate Pellets)	Powder Keg (PolyN-Butyl Acrylate Pellets)	Chemical Silo (PolyN-Butyl Acrylate Pellets)	PolyN-Butyl Acrylate	1	10
-1.0.0	Au	Ck	Ea	G0	Bag (PolyOxymethylene Pellets)	Sack (PolyOxymethylene Pellets)	Powder Keg (PolyOxymethylene Pellets)	Chemical Silo (PolyOxymethylene Pellets)	PolyOxymethylene	1	10
-	Av	Cl	Eb	G1	Bag (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	Powder Keg (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	Chemical Silo (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PolyPentamethylene Hexamethylene Dicarbamate	1	10
-	Aw	Cm	Ec	G2	Bag (PolyPhenol Pellets)	Sack (PolyPhenol Pellets)	Powder Keg (PolyPhenol Pellets)	Chemical Silo (PolyPhenol Pellets)	PolyPhenol	1	10
-	Ax	Cn	Ed	G3	Bag (PolyPhenylene Oxide Pellets)	Sack (PolyPhenylene Oxide Pellets)	Powder Keg (PolyPhenylene Oxide Pellets)	Chemical Silo (PolyPhenylene Oxide Pellets)	PolyPhenylene Oxide	1	10
-	Ay	Co	Ee	G4	Bag (PolyPhosphazene Pellets)	Sack (PolyPhosphazene Pellets)	Powder Keg (PolyPhosphazene Pellets)	Chemical Silo (PolyPhosphazene Pellets)	PolyPhosphazene	1	10
-	Az	Cp	Ef	G5	Bag (PolyP-Methyl Styrene Pellets)	Sack (PolyP-Methyl Styrene Pellets)	Powder Keg (PolyP-Methyl Styrene Pellets)	Chemical Silo (PolyP-Methyl Styrene Pellets)	PolyP-Methyl Styrene	1	10
-	AA	Cq	Eg	G6	Bag (PolyP-Phenylene Sulphide Pellets)	Sack (PolyP-Phenylene Sulphide Pellets)	Powder Keg (PolyP-Phenylene Sulphide Pellets)	Chemical Silo (PolyP-Phenylene Sulphide Pellets)	PolyP-Phenylene Sulphide	1	10
-	AB	Cr	Eh	G7	Bag (PolyP-Phenylene Terephthalamide Pellets)	Sack (PolyP-Phenylene Terephthalamide Pellets)	Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	Chemical Silo (PolyP-Phenylene Terephthalamide Pellets)	PolyP-Phenylene Terephthalamide	1	10
-1.0.0	AC	Cs	Ei	G8	Bag (PolyPropylene Pellets)	Sack (PolyPropylene Pellets)	Powder Keg (PolyPropylene Pellets)	Chemical Silo (PolyPropylene Pellets)	PolyPropylene	1	10
-	AD	Ct	Ej	G9	Bag (PolyPropylene Glycol Pellets)	Sack (PolyPropylene Glycol Pellets)	Powder Keg (PolyPropylene Glycol Pellets)	Chemical Silo (PolyPropylene Glycol Pellets)	PolyPropylene Glycol	1	10
-	AE	Cu	Ek	Ga	Bag (PolyPropylene Oxide Pellets)	Sack (PolyPropylene Oxide Pellets)	Powder Keg (PolyPropylene Oxide Pellets)	Chemical Silo (PolyPropylene Oxide Pellets)	PolyPropylene Oxide	1	10
-1.0.0	AF	Cv	El	Gb	Bag (PolyStyrene Pellets)	Sack (PolyStyrene Pellets)	Powder Keg (PolyStyrene Pellets)	Chemical Silo (PolyStyrene Pellets)	PolyStyrene	1	10
-	AG	Cw	Em	Gc	Bag (PolyTert-Butyl Acrylate Pellets)	Sack (PolyTert-Butyl Acrylate Pellets)	Powder Keg (PolyTert-Butyl Acrylate Pellets)	Chemical Silo (PolyTert-Butyl Acrylate Pellets)	PolyTert-Butyl Acrylate	1	10
-1.0.0	AH	Cx	En	Gd	Bag (PolyTetraFluoroEthylene Pellets)	Sack (PolyTetraFluoroEthylene Pellets)	Powder Keg (PolyTetraFluoroEthylene Pellets)	Chemical Silo (PolyTetraFluoroEthylene Pellets)	PolyTetraFluoroEthylene	1	10
-	AI	Cy	Eo	Ge	Bag (PolyTetramethylene Ether Glycol Pellets)	Sack (PolyTetramethylene Ether Glycol Pellets)	Powder Keg (PolyTetramethylene Ether Glycol Pellets)	Chemical Silo (PolyTetramethylene Ether Glycol Pellets)	PolyTetramethylene Ether Glycol	1	10
-	AJ	Cz	Ep	Gf	Bag (PolyTetramethylene Glycol Pellets)	Sack (PolyTetramethylene Glycol Pellets)	Powder Keg (PolyTetramethylene Glycol Pellets)	Chemical Silo (PolyTetramethylene Glycol Pellets)	PolyTetramethylene Glycol	1	10
-	AK	CA	Eq	Gg	Bag (PolyThiazyl Pellets)	Sack (PolyThiazyl Pellets)	Powder Keg (PolyThiazyl Pellets)	Chemical Silo (PolyThiazyl Pellets)	PolyThiazyl	1	10
-1.0.0	AL	CB	Er	Gh	Bag (PolyTrimethylene Terephthalate Pellets)	Sack (PolyTrimethylene Terephthalate Pellets)	Powder Keg (PolyTrimethylene Terephthalate Pellets)	Chemical Silo (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate	1	10
-1.0.0	AM	CC	Es	Gi	Bag (PolyUrethane Pellets)	Sack (PolyUrethane Pellets)	Powder Keg (PolyUrethane Pellets)	Chemical Silo (PolyUrethane Pellets)	PolyUrethane	1	10
-1.0.0	AN	CD	Et	Gj	Bag (PolyVinyl Acetate Pellets)	Sack (PolyVinyl Acetate Pellets)	Powder Keg (PolyVinyl Acetate Pellets)	Chemical Silo (PolyVinyl Acetate Pellets)	PolyVinyl Acetate	1	10
-1.0.0	AO	CE	Eu	Gk	Bag (PolyVinyl Alcohol Pellets)	Sack (PolyVinyl Alcohol Pellets)	Powder Keg (PolyVinyl Alcohol Pellets)	Chemical Silo (PolyVinyl Alcohol Pellets)	PolyVinyl Alcohol	1	10
-	AP	CF	Ev	Gl	Bag (PolyVinyl Butyral Pellets)	Sack (PolyVinyl Butyral Pellets)	Powder Keg (PolyVinyl Butyral Pellets)	Chemical Silo (PolyVinyl Butyral Pellets)	PolyVinyl Butyral	1	10
-1.0.0	AQ	CG	Ew	Gm	Bag (PolyVinyl Chloride Pellets)	Sack (PolyVinyl Chloride Pellets)	Powder Keg (PolyVinyl Chloride Pellets)	Chemical Silo (PolyVinyl Chloride Pellets)	PolyVinyl Chloride	1	10
-1.0.0	AR	CH	Ex	Gn	Bag (PolyVinyl Chloride Acetate Pellets)	Sack (PolyVinyl Chloride Acetate Pellets)	Powder Keg (PolyVinyl Chloride Acetate Pellets)	Chemical Silo (PolyVinyl Chloride Acetate Pellets)	PolyVinyl Chloride Acetate	1	10
-	AS	CI	Ey	Go	Bag (PolyVinyl Fluoride Pellets)	Sack (PolyVinyl Fluoride Pellets)	Powder Keg (PolyVinyl Fluoride Pellets)	Chemical Silo (PolyVinyl Fluoride Pellets)	PolyVinyl Fluoride	1	10
-	AT	CJ	Ez	Gp	Bag (PolyVinyl Formal Pellets)	Sack (PolyVinyl Formal Pellets)	Powder Keg (PolyVinyl Formal Pellets)	Chemical Silo (PolyVinyl Formal Pellets)	PolyVinyl Formal	1	10
-	AU	CK	EA	Gq	Bag (PolyVinyl Methyl Ether Pellets)	Sack (PolyVinyl Methyl Ether Pellets)	Powder Keg (PolyVinyl Methyl Ether Pellets)	Chemical Silo (PolyVinyl Methyl Ether Pellets)	PolyVinyl Methyl Ether	1	10
-	AV	CL	EB	Gr	Bag (PolyVinylidene Dichloride Pellets)	Sack (PolyVinylidene Dichloride Pellets)	Powder Keg (PolyVinylidene Dichloride Pellets)	Chemical Silo (PolyVinylidene Dichloride Pellets)	PolyVinylidene Dichloride	1	10
-	AW	CM	EC	Gs	Bag (PolyVinylidene Fluoride Pellets)	Sack (PolyVinylidene Fluoride Pellets)	Powder Keg (PolyVinylidene Fluoride Pellets)	Chemical Silo (PolyVinylidene Fluoride Pellets)	PolyVinylidene Fluoride	1	10
-	AX	CN	ED	Gt	Bag (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	Powder Keg (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	Chemical Silo (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PolyVinylidene Fluoride-Trifluoroethylene	1	10
-	AY	CO	EE	Gu	Bag (Styrene-Acrylonitrile Pellets)	Sack (Styrene-Acrylonitrile Pellets)	Powder Keg (Styrene-Acrylonitrile Pellets)	Chemical Silo (Styrene-Acrylonitrile Pellets)	Styrene-Acrylonitrile	1	10
-1.0.0	AZ	CP	EF	Gv	Bag (Styrene-Butadiene Rubber Pellets)	Sack (Styrene-Butadiene Rubber Pellets)	Powder Keg (Styrene-Butadiene Rubber Pellets)	Chemical Silo (Styrene-Butadiene Rubber Pellets)	Styrene-Butadiene Rubber	1	10
-	B0	CQ	EG	Gw	Bag (Styrene-Butadiene-Styrene Pellets)	Sack (Styrene-Butadiene-Styrene Pellets)	Powder Keg (Styrene-Butadiene-Styrene Pellets)	Chemical Silo (Styrene-Butadiene-Styrene Pellets)	Styrene-Butadiene-Styrene	1	10
-	B1	CR	EH	Gx	Bag (Styrene-Isoprene-Styrene Pellets)	Sack (Styrene-Isoprene-Styrene Pellets)	Powder Keg (Styrene-Isoprene-Styrene Pellets)	Chemical Silo (Styrene-Isoprene-Styrene Pellets)	Styrene-Isoprene-Styrene	1	10
-	B2	CS	EI	Gy	Bag (Styrene-Maleic Anhydride Copolymer Pellets)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	Powder Keg (Styrene-Maleic Anhydride Copolymer Pellets)	Chemical Silo (Styrene-Maleic Anhydride Copolymer Pellets)	Styrene-Maleic Anhydride Copolymer	1	10
-1.0.0	B3	CT	EJ	Gz	Bag (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Powder Keg (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Chemical Silo (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Ultra-High-Molecular-Weight PolyEthylene	1	10
-	B4	CU	EK	GA	Bag (Urea-Formaldehyde Polymers Pellets)	Sack (Urea-Formaldehyde Polymers Pellets)	Powder Keg (Urea-Formaldehyde Polymers Pellets)	Chemical Silo (Urea-Formaldehyde Polymers Pellets)	Urea-Formaldehyde Polymers	1	10
-1.0.0	B5	CV	EL	GB	Bag (Very-Low-Density PolyEthylene Pellets)	Sack (Very-Low-Density PolyEthylene Pellets)	Powder Keg (Very-Low-Density PolyEthylene Pellets)	Chemical Silo (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene	1	10
-1.0.0	B6	CW	EM	GC	Bag (Vinyl Acetate-Acrylic Acid Pellets)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Powder Keg (Vinyl Acetate-Acrylic Acid Pellets)	Chemical Silo (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid	1	10
+Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Powder Keg (Pellets)	Chemical Silo (Pellets)	Pellets	Crafting Min Index	Crafting Max Index	Short Name
+	zh	B7	CX	EN	Bag (Acrylic-Formaldehyde Pellets)	Sack (Acrylic-Formaldehyde Pellets)	Powder Keg (Acrylic-Formaldehyde Pellets)	Chemical Silo (Acrylic-Formaldehyde Pellets)	Acrylic-Formaldehyde	1	10	af resin
+1.0.0	zi	B8	CY	EO	Bag (Acrylonitrile-Butadiene-Styrene Pellets)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	Powder Keg (Acrylonitrile-Butadiene-Styrene Pellets)	Chemical Silo (Acrylonitrile-Butadiene-Styrene Pellets)	Acrylonitrile-Butadiene-Styrene	1	10	ABS
+	zj	B9	CZ	EP	Bag (Alkyd Resin Pellets)	Sack (Alkyd Resin Pellets)	Powder Keg (Alkyd Resin Pellets)	Chemical Silo (Alkyd Resin Pellets)	Alkyd Resin	1	10	alkyd resin
+1.0.0	zk	Ba	D0	EQ	Bag (Amorphous PolyEthylene Terephthalate Pellets)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	Chemical Silo (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate	1	10	A-PET
+	zl	Bb	D1	ER	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber	1	10	BIIR
+	zm	Bc	D2	ES	Bag (Cellulose Diacetate Pellets)	Sack (Cellulose Diacetate Pellets)	Powder Keg (Cellulose Diacetate Pellets)	Chemical Silo (Cellulose Diacetate Pellets)	Cellulose Diacetate	1	10	CDAP
+	zn	Bd	D3	ET	Bag (Cellulose Triacetate Pellets)	Sack (Cellulose Triacetate Pellets)	Powder Keg (Cellulose Triacetate Pellets)	Chemical Silo (Cellulose Triacetate Pellets)	Cellulose Triacetate	1	10	CTAP
+1.0.0	zo	Be	D4	EU	Bag (Cellulosic Pellets)	Sack (Cellulosic Pellets)	Powder Keg (Cellulosic Pellets)	Chemical Silo (Cellulosic Pellets)	Cellulosic	1	10	cellulose
+	zp	Bf	D5	EV	Bag (Chitin Pellets)	Sack (Chitin Pellets)	Powder Keg (Chitin Pellets)	Chemical Silo (Chitin Pellets)	Chitin	1	10	chitin
+	zq	Bg	D6	EW	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chlorine Isobutylene-Isoprene Rubber	1	10	CIIR
+	zr	Bh	D7	EX	Bag (Epoxy Resin Pellets)	Sack (Epoxy Resin Pellets)	Powder Keg (Epoxy Resin Pellets)	Chemical Silo (Epoxy Resin Pellets)	Epoxy Resin	1	10	epoxy resin
+	zs	Bi	D8	EY	Bag (Ethoxylates Pellets)	Sack (Ethoxylates Pellets)	Powder Keg (Ethoxylates Pellets)	Chemical Silo (Ethoxylates Pellets)	Ethoxylates	1	10	NRE
+1.1.0	zt	Bj	D9	EZ	Bag (Ethylene-Propylene Monomer Pellets)	Sack (Ethylene-Propylene Monomer Pellets)	Powder Keg (Ethylene-Propylene Monomer Pellets)	Chemical Silo (Ethylene-Propylene Monomer Pellets)	Ethylene-Propylene Monomer	1	10	EPM
+1.1.0	zu	Bk	Da	F0	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	Chemical Silo (Ethylene-Propylene-Diene Monomer Pellets)	Ethylene-Propylene-Diene Monomer	1	10	EPM
+1.1.0	zv	Bl	Db	F1	Bag (Ethylene-Vinyl Acetate Pellets)	Sack (Ethylene-Vinyl Acetate Pellets)	Powder Keg (Ethylene-Vinyl Acetate Pellets)	Chemical Silo (Ethylene-Vinyl Acetate Pellets)	Ethylene-Vinyl Acetate	1	10	EVA
+1.0.0	zw	Bm	Dc	F2	Bag (High Density PolyEthylene Pellets)	Sack (High Density PolyEthylene Pellets)	Powder Keg (High Density PolyEthylene Pellets)	Chemical Silo (High Density PolyEthylene Pellets)	High Density PolyEthylene	1	10	HDPE
+	zx	Bn	Dd	F3	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Hydrogenated Nitrile-Butadiene Rubber	1	10	HNBR
+	zy	Bo	De	F4	Bag (Isobutylene-Isoprene Rubber Pellets)	Sack (Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Isobutylene-Isoprene Rubber Pellets)	Isobutylene-Isoprene Rubber	1	10	IIR
+	zz	Bp	Df	F5	Bag (Lignin Pellets)	Sack (Lignin Pellets)	Powder Keg (Lignin Pellets)	Chemical Silo (Lignin Pellets)	Lignin	1	10	lignin
+1.0.0	zA	Bq	Dg	F6	Bag (Linear Low-Density PolyEthylene Pellets)	Sack (Linear Low-Density PolyEthylene Pellets)	Powder Keg (Linear Low-Density PolyEthylene Pellets)	Chemical Silo (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene	1	10	LLDPE
+1.0.0	zB	Br	Dh	F7	Bag (Liquid Crystal Polymer Pellets)	Sack (Liquid Crystal Polymer Pellets)	Powder Keg (Liquid Crystal Polymer Pellets)	Chemical Silo (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer	1	10	LCP
+1.0.0	zC	Bs	Di	F8	Bag (Low Density PolyEthylene Pellets)	Sack (Low Density PolyEthylene Pellets)	Powder Keg (Low Density PolyEthylene Pellets)	Chemical Silo (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	1	10	LDPE
+1.0.0	zD	Bt	Dj	F9	Bag (Medium Density PolyEthylene Pellets)	Sack (Medium Density PolyEthylene Pellets)	Powder Keg (Medium Density PolyEthylene Pellets)	Chemical Silo (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene	1	10	MDPE
+	zE	Bu	Dk	Fa	Bag (Melamine-Formaldehyde Polymers Pellets)	Sack (Melamine-Formaldehyde Polymers Pellets)	Powder Keg (Melamine-Formaldehyde Polymers Pellets)	Chemical Silo (Melamine-Formaldehyde Polymers Pellets)	Melamine-Formaldehyde Polymers	1	10	MFP
+1.0.0	zF	Bv	Dl	Fb	Bag (Metaldehyde Pellets)	Sack (Metaldehyde Pellets)	Powder Keg (Metaldehyde Pellets)	Chemical Silo (Metaldehyde Pellets)	Metaldehyde	1	10	MALD
+	zG	Bw	Dm	Fc	Bag (Nitrile-Butadiene Rubber Pellets)	Sack (Nitrile-Butadiene Rubber Pellets)	Powder Keg (Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber	1	10	NBR
+1.0.0	zH	Bx	Dn	Fd	Bag (Paraformaldehyde Pellets)	Sack (Paraformaldehyde Pellets)	Powder Keg (Paraformaldehyde Pellets)	Chemical Silo (Paraformaldehyde Pellets)	Paraformaldehyde	1	10	PFA
+1.0.0	zI	By	Do	Fe	Bag (Paraldehyde Pellets)	Sack (Paraldehyde Pellets)	Powder Keg (Paraldehyde Pellets)	Chemical Silo (Paraldehyde Pellets)	Paraldehyde	1	10	PALD
+	zJ	Bz	Dp	Ff	Bag (Phenolic Resin Pellets)	Sack (Phenolic Resin Pellets)	Powder Keg (Phenolic Resin Pellets)	Chemical Silo (Phenolic Resin Pellets)	Phenolic Resin	1	10	phenol formaldehydes
+1.0.0	zK	BA	Dq	Fg	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Powder Keg (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Chemical Silo (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	1	10	PHBV
+	zL	BB	Dr	Fh	Bag (Poly1-Butene Pellets)	Sack (Poly1-Butene Pellets)	Powder Keg (Poly1-Butene Pellets)	Chemical Silo (Poly1-Butene Pellets)	Poly1-Butene	1	10	P1B
+	zM	BC	Ds	Fi	"Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Powder Keg (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Chemical Silo (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Poly2,6-Dimethyl-1,4-Phenylene Ether"	1	10	PDPE
+	zN	BD	Dt	Fj	Bag (Poly-2-Hydroxy Butyrate Pellets)	Sack (Poly-2-Hydroxy Butyrate Pellets)	Powder Keg (Poly-2-Hydroxy Butyrate Pellets)	Chemical Silo (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate	1	10	PHB
+	zO	BE	Du	Fk	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	Powder Keg (Poly2-Hydroxyethyl Methacrylate Pellets)	Chemical Silo (Poly2-Hydroxyethyl Methacrylate Pellets)	Poly2-Hydroxyethyl Methacrylate	1	10	PHEMA
+	zP	BF	Dv	Fl	Bag (PolyAcrylic Ester Pellets)	Sack (PolyAcrylic Ester Pellets)	Powder Keg (PolyAcrylic Ester Pellets)	Chemical Silo (PolyAcrylic Ester Pellets)	PolyAcrylic Ester	1	10	PAE
+1.0.0	zQ	BG	Dw	Fm	Bag (PolyAcrylonitrile Pellets)	Sack (PolyAcrylonitrile Pellets)	Powder Keg (PolyAcrylonitrile Pellets)	Chemical Silo (PolyAcrylonitrile Pellets)	PolyAcrylonitrile	1	10	PAN
+1.0.0	zR	BH	Dx	Fn	Bag (PolyButadiene Pellets)	Sack (PolyButadiene Pellets)	Powder Keg (PolyButadiene Pellets)	Chemical Silo (PolyButadiene Pellets)	PolyButadiene	1	10	PBD
+	zS	BI	Dy	Fo	Bag (PolyButadiene Rubber Pellets)	Sack (PolyButadiene Rubber Pellets)	Powder Keg (PolyButadiene Rubber Pellets)	Chemical Silo (PolyButadiene Rubber Pellets)	PolyButadiene Rubber	1	10	PBR
+1.0.0	zT	BJ	Dz	Fp	Bag (PolyButylene Succinate Pellets)	Sack (PolyButylene Succinate Pellets)	Powder Keg (PolyButylene Succinate Pellets)	Chemical Silo (PolyButylene Succinate Pellets)	PolyButylene Succinate	1	10	PBS
+1.0.0	zV	BL	DB	Fr	Bag (PolyButylene Terephthalate Pellets)	Sack (PolyButylene Terephthalate Pellets)	Powder Keg (PolyButylene Terephthalate Pellets)	Chemical Silo (PolyButylene Terephthalate Pellets)	PolyButylene Terephthalate	1	10	PBT
+1.0.0	zW	BM	DC	Fs	Bag (PolyCaprolactone Pellets)	Sack (PolyCaprolactone Pellets)	Powder Keg (PolyCaprolactone Pellets)	Chemical Silo (PolyCaprolactone Pellets)	PolyCaprolactone	1	10	PCL
+1.0.0	zX	BN	DD	Ft	Bag (PolyCarbonate Pellets)	Sack (PolyCarbonate Pellets)	Powder Keg (PolyCarbonate Pellets)	Chemical Silo (PolyCarbonate Pellets)	PolyCarbonate	1	10	PC
+	zY	BO	DE	Fu	Bag (PolyChloroPrene Pellets)	Sack (PolyChloroPrene Pellets)	Powder Keg (PolyChloroPrene Pellets)	Chemical Silo (PolyChloroPrene Pellets)	PolyChloroPrene	1	10	PCHL
+	zZ	BP	DF	Fv	Bag (PolyChlorotrifluoroethylene Pellets)	Sack (PolyChlorotrifluoroethylene Pellets)	Powder Keg (PolyChlorotrifluoroethylene Pellets)	Chemical Silo (PolyChlorotrifluoroethylene Pellets)	PolyChlorotrifluoroethylene	1	10	PCTFE
+1.0.0	A0	BQ	DG	Fw	Bag (PolyDiMethylSiloxane Pellets)	Sack (PolyDiMethylSiloxane Pellets)	Powder Keg (PolyDiMethylSiloxane Pellets)	Chemical Silo (PolyDiMethylSiloxane Pellets)	PolyDiMethylSiloxane	1	10	PDMS
+1.0.0	A1	BR	DH	Fx	Bag (PolyEther Ether Ketone Pellets)	Sack (PolyEther Ether Ketone Pellets)	Powder Keg (PolyEther Ether Ketone Pellets)	Chemical Silo (PolyEther Ether Ketone Pellets)	PolyEther Ether Ketone	1	10	PEEK
+1.0.0	A2	BS	DI	Fy	Bag (PolyEtherImide Pellets)	Sack (PolyEtherImide Pellets)	Powder Keg (PolyEtherImide Pellets)	Chemical Silo (PolyEtherImide Pellets)	PolyEtherImide	1	10	PEI
+	A3	BT	DJ	Fz	Bag (PolyEthyl Acrylate Pellets)	Sack (PolyEthyl Acrylate Pellets)	Powder Keg (PolyEthyl Acrylate Pellets)	Chemical Silo (PolyEthyl Acrylate Pellets)	PolyEthyl Acrylate	1	10	PEA
+	A4	BU	DK	FA	Bag (PolyEthylene Adipate Pellets)	Sack (PolyEthylene Adipate Pellets)	Powder Keg (PolyEthylene Adipate Pellets)	Chemical Silo (PolyEthylene Adipate Pellets)	PolyEthylene Adipate	1	10	PEA
+1.0.0	A5	BV	DL	FB	Bag (PolyEthylene Glycol Pellets)	Sack (PolyEthylene Glycol Pellets)	Powder Keg (PolyEthylene Glycol Pellets)	Chemical Silo (PolyEthylene Glycol Pellets)	PolyEthylene Glycol	1	10	PEG
+	A6	BW	DM	FC	Bag (PolyEthylene Hexamethylene Dicarbamate Pellets)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	Powder Keg (PolyEthylene Hexamethylene Dicarbamate Pellets)	Chemical Silo (PolyEthylene Hexamethylene Dicarbamate Pellets)	PolyEthylene Hexamethylene Dicarbamate	1	10	PEHD
+1.0.0	A7	BX	DN	FD	Bag (PolyEthylene Naphthalate Pellets)	Sack (PolyEthylene Naphthalate Pellets)	Powder Keg (PolyEthylene Naphthalate Pellets)	Chemical Silo (PolyEthylene Naphthalate Pellets)	PolyEthylene Naphthalate	1	10	PEN
+1.0.0	A8	BY	DO	FE	Bag (PolyEthylene Oxide Pellets)	Sack (PolyEthylene Oxide Pellets)	Powder Keg (PolyEthylene Oxide Pellets)	Chemical Silo (PolyEthylene Oxide Pellets)	PolyEthylene Oxide	1	10	PEO
+	A9	BZ	DP	FF	Bag (PolyEthylene Sulphide Pellets)	Sack (PolyEthylene Sulphide Pellets)	Powder Keg (PolyEthylene Sulphide Pellets)	Chemical Silo (PolyEthylene Sulphide Pellets)	PolyEthylene Sulphide	1	10	PES
+1.0.0	Aa	C0	DQ	FG	Bag (PolyEthylene Terephthalate Pellets)	Sack (PolyEthylene Terephthalate Pellets)	Powder Keg (PolyEthylene Terephthalate Pellets)	Chemical Silo (PolyEthylene Terephthalate Pellets)	PolyEthylene Terephthalate	1	10	PET
+1.0.0	Ab	C1	DR	FH	Bag (PolyEthylene Terephthalate Glycol-Modified Pellets)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	Powder Keg (PolyEthylene Terephthalate Glycol-Modified Pellets)	Chemical Silo (PolyEthylene Terephthalate Glycol-Modified Pellets)	PolyEthylene Terephthalate Glycol-Modified	1	10	PETG
+1.0.0	Ac	C2	DS	FI	Bag (PolyGlycolic Acid Pellets)	Sack (PolyGlycolic Acid Pellets)	Powder Keg (PolyGlycolic Acid Pellets)	Chemical Silo (PolyGlycolic Acid Pellets)	PolyGlycolic Acid	1	10	PGA
+1.1.0	Ad	C3	DT	FJ	Bag (PolyHexamethylene Adipamide Pellets)	Sack (PolyHexamethylene Adipamide Pellets)	Powder Keg (PolyHexamethylene Adipamide Pellets)	Chemical Silo (PolyHexamethylene Adipamide Pellets)	PolyHexamethylene Adipamide	1	10	"Nylon 6,7"
+1.1.0	Ae	C4	DU	FK	Bag (PolyHexamethylene Sebacamide Pellets)	Sack (PolyHexamethylene Sebacamide Pellets)	Powder Keg (PolyHexamethylene Sebacamide Pellets)	Chemical Silo (PolyHexamethylene Sebacamide Pellets)	PolyHexamethylene Sebacamide	1	10	"Nylon 6,11"
+1.0.0	Af	C5	DV	FL	Bag (PolyHydroxyalkanoate Pellets)	Sack (PolyHydroxyalkanoate Pellets)	Powder Keg (PolyHydroxyalkanoate Pellets)	Chemical Silo (PolyHydroxyalkanoate Pellets)	PolyHydroxyalkanoate	1	10	PHA
+	Ag	C6	DW	FM	Bag (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	Powder Keg (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	Chemical Silo (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PolyHydroxybutyrate-Co-Hydroxyvalerate	1	10	PHBV
+1.0.0	Ah	C7	DX	FN	Bag (PolyImide Pellets)	Sack (PolyImide Pellets)	Powder Keg (PolyImide Pellets)	Chemical Silo (PolyImide Pellets)	PolyImide	1	10	PI
+	Ai	C8	DY	FO	Bag (PolyIsoBorynl Acrylate Pellets)	Sack (PolyIsoBorynl Acrylate Pellets)	Powder Keg (PolyIsoBorynl Acrylate Pellets)	Chemical Silo (PolyIsoBorynl Acrylate Pellets)	PolyIsoBorynl Acrylate	1	10	PIBOA
+	Aj	C9	DZ	FP	Bag (PolyIsoButyl Acrylate Pellets)	Sack (PolyIsoButyl Acrylate Pellets)	Powder Keg (PolyIsoButyl Acrylate Pellets)	Chemical Silo (PolyIsoButyl Acrylate Pellets)	PolyIsoButyl Acrylate	1	10	PIBA
+1.0.0	Ak	Ca	E0	FQ	Bag (PolyIsoButylene Pellets)	Sack (PolyIsoButylene Pellets)	Powder Keg (PolyIsoButylene Pellets)	Chemical Silo (PolyIsoButylene Pellets)	PolyIsoButylene	1	10	PIB
+1.0.0	Al	Cb	E1	FR	Bag (PolyIsoPrene Pellets)	Sack (PolyIsoPrene Pellets)	Powder Keg (PolyIsoPrene Pellets)	Chemical Silo (PolyIsoPrene Pellets)	PolyIsoPrene	1	10	NR
+1.0.0	Am	Cc	E2	FS	Bag (PolyLactic Acid Pellets)	Sack (PolyLactic Acid Pellets)	Powder Keg (PolyLactic Acid Pellets)	Chemical Silo (PolyLactic Acid Pellets)	PolyLactic Acid	1	10	PLA
+	An	Cd	E3	FT	Bag (PolyLactic-Co-Glycolic Acid Pellets)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	Powder Keg (PolyLactic-Co-Glycolic Acid Pellets)	Chemical Silo (PolyLactic-Co-Glycolic Acid Pellets)	PolyLactic-Co-Glycolic Acid	1	10	PLGA
+	Ao	Ce	E4	FU	Bag (PolyMethyl Acrylate Pellets)	Sack (PolyMethyl Acrylate Pellets)	Powder Keg (PolyMethyl Acrylate Pellets)	Chemical Silo (PolyMethyl Acrylate Pellets)	PolyMethyl Acrylate	1	10	PMA
+	Ap	Cf	E5	FV	Bag (PolyMethyl Cyanoacrylate Pellets)	Sack (PolyMethyl Cyanoacrylate Pellets)	Powder Keg (PolyMethyl Cyanoacrylate Pellets)	Chemical Silo (PolyMethyl Cyanoacrylate Pellets)	PolyMethyl Cyanoacrylate	1	10	PMCA
+	Aq	Cg	E6	FW	Bag (PolyMethyl Methacrylate Pellets)	Sack (PolyMethyl Methacrylate Pellets)	Powder Keg (PolyMethyl Methacrylate Pellets)	Chemical Silo (PolyMethyl Methacrylate Pellets)	PolyMethyl Methacrylate	1	10	PMMA
+	Ar	Ch	E7	FX	Bag (PolyM-Methyl Styrene Pellets)	Sack (PolyM-Methyl Styrene Pellets)	Powder Keg (PolyM-Methyl Styrene Pellets)	Chemical Silo (PolyM-Methyl Styrene Pellets)	PolyM-Methyl Styrene	1	10	PMMS
+	As	Ci	E8	FY	Bag (PolyM-Phenylene Isophthalamide Pellets)	Sack (PolyM-Phenylene Isophthalamide Pellets)	Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	Chemical Silo (PolyM-Phenylene Isophthalamide Pellets)	PolyM-Phenylene Isophthalamide	1	10	PMIA
+	At	Cj	E9	FZ	Bag (PolyN-Butyl Acrylate Pellets)	Sack (PolyN-Butyl Acrylate Pellets)	Powder Keg (PolyN-Butyl Acrylate Pellets)	Chemical Silo (PolyN-Butyl Acrylate Pellets)	PolyN-Butyl Acrylate	1	10	PNBA
+1.0.0	Au	Ck	Ea	G0	Bag (PolyOxymethylene Pellets)	Sack (PolyOxymethylene Pellets)	Powder Keg (PolyOxymethylene Pellets)	Chemical Silo (PolyOxymethylene Pellets)	PolyOxymethylene	1	10	POM
+	Av	Cl	Eb	G1	Bag (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	Powder Keg (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	Chemical Silo (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PolyPentamethylene Hexamethylene Dicarbamate	1	10	PPHD
+	Aw	Cm	Ec	G2	Bag (PolyPhenol Pellets)	Sack (PolyPhenol Pellets)	Powder Keg (PolyPhenol Pellets)	Chemical Silo (PolyPhenol Pellets)	PolyPhenol	1	10	polyphenol
+	Ax	Cn	Ed	G3	Bag (PolyPhenylene Oxide Pellets)	Sack (PolyPhenylene Oxide Pellets)	Powder Keg (PolyPhenylene Oxide Pellets)	Chemical Silo (PolyPhenylene Oxide Pellets)	PolyPhenylene Oxide	1	10	PPO
+	Ay	Co	Ee	G4	Bag (PolyPhosphazene Pellets)	Sack (PolyPhosphazene Pellets)	Powder Keg (PolyPhosphazene Pellets)	Chemical Silo (PolyPhosphazene Pellets)	PolyPhosphazene	1	10	PPPHAZ
+	Az	Cp	Ef	G5	Bag (PolyP-Methyl Styrene Pellets)	Sack (PolyP-Methyl Styrene Pellets)	Powder Keg (PolyP-Methyl Styrene Pellets)	Chemical Silo (PolyP-Methyl Styrene Pellets)	PolyP-Methyl Styrene	1	10	PPMS
+	AA	Cq	Eg	G6	Bag (PolyP-Phenylene Sulphide Pellets)	Sack (PolyP-Phenylene Sulphide Pellets)	Powder Keg (PolyP-Phenylene Sulphide Pellets)	Chemical Silo (PolyP-Phenylene Sulphide Pellets)	PolyP-Phenylene Sulphide	1	10	PPS
+	AB	Cr	Eh	G7	Bag (PolyP-Phenylene Terephthalamide Pellets)	Sack (PolyP-Phenylene Terephthalamide Pellets)	Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	Chemical Silo (PolyP-Phenylene Terephthalamide Pellets)	PolyP-Phenylene Terephthalamide	1	10	PPTA
+1.0.0	AC	Cs	Ei	G8	Bag (PolyPropylene Pellets)	Sack (PolyPropylene Pellets)	Powder Keg (PolyPropylene Pellets)	Chemical Silo (PolyPropylene Pellets)	PolyPropylene	1	10	PP
+	AD	Ct	Ej	G9	Bag (PolyPropylene Glycol Pellets)	Sack (PolyPropylene Glycol Pellets)	Powder Keg (PolyPropylene Glycol Pellets)	Chemical Silo (PolyPropylene Glycol Pellets)	PolyPropylene Glycol	1	10	PPG
+	AE	Cu	Ek	Ga	Bag (PolyPropylene Oxide Pellets)	Sack (PolyPropylene Oxide Pellets)	Powder Keg (PolyPropylene Oxide Pellets)	Chemical Silo (PolyPropylene Oxide Pellets)	PolyPropylene Oxide	1	10	PPOX
+1.0.0	AF	Cv	El	Gb	Bag (PolyStyrene Pellets)	Sack (PolyStyrene Pellets)	Powder Keg (PolyStyrene Pellets)	Chemical Silo (PolyStyrene Pellets)	PolyStyrene	1	10	PS
+	AG	Cw	Em	Gc	Bag (PolyTert-Butyl Acrylate Pellets)	Sack (PolyTert-Butyl Acrylate Pellets)	Powder Keg (PolyTert-Butyl Acrylate Pellets)	Chemical Silo (PolyTert-Butyl Acrylate Pellets)	PolyTert-Butyl Acrylate	1	10	PTBA
+1.0.0	AH	Cx	En	Gd	Bag (PolyTetraFluoroEthylene Pellets)	Sack (PolyTetraFluoroEthylene Pellets)	Powder Keg (PolyTetraFluoroEthylene Pellets)	Chemical Silo (PolyTetraFluoroEthylene Pellets)	PolyTetraFluoroEthylene	1	10	PTFE
+	AI	Cy	Eo	Ge	Bag (PolyTetramethylene Ether Glycol Pellets)	Sack (PolyTetramethylene Ether Glycol Pellets)	Powder Keg (PolyTetramethylene Ether Glycol Pellets)	Chemical Silo (PolyTetramethylene Ether Glycol Pellets)	PolyTetramethylene Ether Glycol	1	10	PTMEG
+	AJ	Cz	Ep	Gf	Bag (PolyTetramethylene Glycol Pellets)	Sack (PolyTetramethylene Glycol Pellets)	Powder Keg (PolyTetramethylene Glycol Pellets)	Chemical Silo (PolyTetramethylene Glycol Pellets)	PolyTetramethylene Glycol	1	10	PTMG
+	AK	CA	Eq	Gg	Bag (PolyThiazyl Pellets)	Sack (PolyThiazyl Pellets)	Powder Keg (PolyThiazyl Pellets)	Chemical Silo (PolyThiazyl Pellets)	PolyThiazyl	1	10	PTA
+1.0.0	AL	CB	Er	Gh	Bag (PolyTrimethylene Terephthalate Pellets)	Sack (PolyTrimethylene Terephthalate Pellets)	Powder Keg (PolyTrimethylene Terephthalate Pellets)	Chemical Silo (PolyTrimethylene Terephthalate Pellets)	PolyTrimethylene Terephthalate	1	10	PTT
+1.0.0	AM	CC	Es	Gi	Bag (PolyUrethane Pellets)	Sack (PolyUrethane Pellets)	Powder Keg (PolyUrethane Pellets)	Chemical Silo (PolyUrethane Pellets)	PolyUrethane	1	10	PU
+1.0.0	AN	CD	Et	Gj	Bag (PolyVinyl Acetate Pellets)	Sack (PolyVinyl Acetate Pellets)	Powder Keg (PolyVinyl Acetate Pellets)	Chemical Silo (PolyVinyl Acetate Pellets)	PolyVinyl Acetate	1	10	PVAC
+1.0.0	AO	CE	Eu	Gk	Bag (PolyVinyl Alcohol Pellets)	Sack (PolyVinyl Alcohol Pellets)	Powder Keg (PolyVinyl Alcohol Pellets)	Chemical Silo (PolyVinyl Alcohol Pellets)	PolyVinyl Alcohol	1	10	PVA
+	AP	CF	Ev	Gl	Bag (PolyVinyl Butyral Pellets)	Sack (PolyVinyl Butyral Pellets)	Powder Keg (PolyVinyl Butyral Pellets)	Chemical Silo (PolyVinyl Butyral Pellets)	PolyVinyl Butyral	1	10	PVB
+1.0.0	AQ	CG	Ew	Gm	Bag (PolyVinyl Chloride Pellets)	Sack (PolyVinyl Chloride Pellets)	Powder Keg (PolyVinyl Chloride Pellets)	Chemical Silo (PolyVinyl Chloride Pellets)	PolyVinyl Chloride	1	10	PVC
+1.0.0	AR	CH	Ex	Gn	Bag (PolyVinyl Chloride Acetate Pellets)	Sack (PolyVinyl Chloride Acetate Pellets)	Powder Keg (PolyVinyl Chloride Acetate Pellets)	Chemical Silo (PolyVinyl Chloride Acetate Pellets)	PolyVinyl Chloride Acetate	1	10	PVCA
+	AS	CI	Ey	Go	Bag (PolyVinyl Fluoride Pellets)	Sack (PolyVinyl Fluoride Pellets)	Powder Keg (PolyVinyl Fluoride Pellets)	Chemical Silo (PolyVinyl Fluoride Pellets)	PolyVinyl Fluoride	1	10	PVF
+	AT	CJ	Ez	Gp	Bag (PolyVinyl Formal Pellets)	Sack (PolyVinyl Formal Pellets)	Powder Keg (PolyVinyl Formal Pellets)	Chemical Silo (PolyVinyl Formal Pellets)	PolyVinyl Formal	1	10	PVFO
+	AU	CK	EA	Gq	Bag (PolyVinyl Methyl Ether Pellets)	Sack (PolyVinyl Methyl Ether Pellets)	Powder Keg (PolyVinyl Methyl Ether Pellets)	Chemical Silo (PolyVinyl Methyl Ether Pellets)	PolyVinyl Methyl Ether	1	10	PVME
+	AV	CL	EB	Gr	Bag (PolyVinylidene Dichloride Pellets)	Sack (PolyVinylidene Dichloride Pellets)	Powder Keg (PolyVinylidene Dichloride Pellets)	Chemical Silo (PolyVinylidene Dichloride Pellets)	PolyVinylidene Dichloride	1	10	PVDC
+	AW	CM	EC	Gs	Bag (PolyVinylidene Fluoride Pellets)	Sack (PolyVinylidene Fluoride Pellets)	Powder Keg (PolyVinylidene Fluoride Pellets)	Chemical Silo (PolyVinylidene Fluoride Pellets)	PolyVinylidene Fluoride	1	10	PVDF
+	AX	CN	ED	Gt	Bag (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	Powder Keg (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	Chemical Silo (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PolyVinylidene Fluoride-Trifluoroethylene	1	10	PVDF-TRFE
+	AY	CO	EE	Gu	Bag (Styrene-Acrylonitrile Pellets)	Sack (Styrene-Acrylonitrile Pellets)	Powder Keg (Styrene-Acrylonitrile Pellets)	Chemical Silo (Styrene-Acrylonitrile Pellets)	Styrene-Acrylonitrile	1	10	SAN
+1.0.0	AZ	CP	EF	Gv	Bag (Styrene-Butadiene Rubber Pellets)	Sack (Styrene-Butadiene Rubber Pellets)	Powder Keg (Styrene-Butadiene Rubber Pellets)	Chemical Silo (Styrene-Butadiene Rubber Pellets)	Styrene-Butadiene Rubber	1	10	SBR
+	B0	CQ	EG	Gw	Bag (Styrene-Butadiene-Styrene Pellets)	Sack (Styrene-Butadiene-Styrene Pellets)	Powder Keg (Styrene-Butadiene-Styrene Pellets)	Chemical Silo (Styrene-Butadiene-Styrene Pellets)	Styrene-Butadiene-Styrene	1	10	SBS
+	B1	CR	EH	Gx	Bag (Styrene-Isoprene-Styrene Pellets)	Sack (Styrene-Isoprene-Styrene Pellets)	Powder Keg (Styrene-Isoprene-Styrene Pellets)	Chemical Silo (Styrene-Isoprene-Styrene Pellets)	Styrene-Isoprene-Styrene	1	10	SIS
+	B2	CS	EI	Gy	Bag (Styrene-Maleic Anhydride Copolymer Pellets)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	Powder Keg (Styrene-Maleic Anhydride Copolymer Pellets)	Chemical Silo (Styrene-Maleic Anhydride Copolymer Pellets)	Styrene-Maleic Anhydride Copolymer	1	10	SMAC
+1.0.0	B3	CT	EJ	Gz	Bag (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Powder Keg (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Chemical Silo (Ultra-High-Molecular-Weight PolyEthylene Pellets)	Ultra-High-Molecular-Weight PolyEthylene	1	10	UHMWPE
+	B4	CU	EK	GA	Bag (Urea-Formaldehyde Polymers Pellets)	Sack (Urea-Formaldehyde Polymers Pellets)	Powder Keg (Urea-Formaldehyde Polymers Pellets)	Chemical Silo (Urea-Formaldehyde Polymers Pellets)	Urea-Formaldehyde Polymers	1	10	UFP
+1.0.0	B5	CV	EL	GB	Bag (Very-Low-Density PolyEthylene Pellets)	Sack (Very-Low-Density PolyEthylene Pellets)	Powder Keg (Very-Low-Density PolyEthylene Pellets)	Chemical Silo (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene	1	10	VLDPE
+1.0.0	B6	CW	EM	GC	Bag (Vinyl Acetate-Acrylic Acid Pellets)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Powder Keg (Vinyl Acetate-Acrylic Acid Pellets)	Chemical Silo (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid	1	10	VA/AA
+1.1.0	2x	2y	2z	2A	Bag (Polycaprolactam Pellets)	Sack (Polycaprolactam Pellets)	Powder Keg (Polycaprolactam Pellets)	Chemical Silo (Polycaprolactam Pellets)	Polycaprolactam	1	10	Nylon 6
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												

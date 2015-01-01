@@ -65,7 +65,6 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
-import edu.utd.minecraft.mod.polycraft.config.PolymerFibers;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
@@ -308,8 +307,6 @@ public class PolycraftRegistry {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
 			registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 
-		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
-			registerItem(polymerFibers, new ItemFibers());
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			final BlockPolymer block = new BlockPolymer(polymerBlock);
@@ -349,7 +346,7 @@ public class PolycraftRegistry {
 	private static void registerMoldedItems() {
 		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
 			Item item = null;
-			if (GameID.MoldedRunningShoes.matches(moldedItem.source))
+			if (GameID.MoldRunningShoes.matches(moldedItem.source))
 				item = new ItemRunningShoes(moldedItem);
 			else if (GameID.MoldScubaFins.matches(moldedItem.source))
 				item = new ItemScubaFins(moldedItem);
@@ -495,8 +492,12 @@ public class PolycraftRegistry {
 			else if (GameID.CustomHeatedKnifeStainlessPEEK.matches(customObject)) {
 				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PEEK"));
 			}
+			else if (GameID.CustomRunningShoesSprinter.matches(customObject)) {
+				registerItem(customObject, new ItemRunningShoes(customObject, "running_shoes_sprinter"));
+			}
+			
 			else
-				// TODO should we throw an exception if we don't have a true custom item (needed an implentation)
+				// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 				registerItem(customObject, new ItemCustom(customObject));
 		}
 	}
@@ -545,8 +546,6 @@ public class PolycraftRegistry {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
 			langEntries.add(String.format(itemFormat, polymerPellets.gameID, polymerPellets.name));
 
-		for (final PolymerFibers polymerFibers : PolymerFibers.registry.values())
-			langEntries.add(String.format(itemFormat, polymerFibers.gameID, polymerFibers.name));
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
 			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)

@@ -26,11 +26,11 @@ Version	Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class
 1.0.0	Metaldehyde	MALD			FALSE		polyaldehyde						
 1.0.0	Nitrile-Butadiene Rubber	NBR			FALSE		synthetic rubber						
 1.0.0	Paraformaldehyde	PFA			FALSE		polyaldehyde						
-1.0.0	Paraledhyde	PALD			FALSE		polyaldehyde						
+1.0.0	Paraldehyde	PALD			FALSE		polyaldehyde						
 1.0.0	Phenolic Resin	phenol formaldehydes			FALSE		polyaldehyde						
 1.0.0	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	PHBV			TRUE		polyester	polyester					
 1.0.0	Poly1-Butene	P1B			FALSE		polyolefin						
-1.0.0	Poly2,6-Dimethyl-1,4-Phenylene Ether	PDPE			FALSE		polyphenyl ethers						
+1.0.0	"Poly2,6-Dimethyl-1,4-Phenylene Ether"	PDPE			FALSE		polyphenyl ethers						
 1.0.0	Poly-2-Hydroxy Butyrate	PHB			FALSE		polyester						
 1.0.0	Poly2-Hydroxyethyl Methacrylate	PHEMA			FALSE		polyacrylate						
 1.0.0	PolyAcrylic Ester	PAE			FALSE		polyacrylate						
@@ -56,8 +56,8 @@ Version	Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class
 1.0.0	PolyEthylene Terephthalate	PET			FALSE		polyester						
 1.0.0	PolyEthylene Terephthalate Glycol-Modified	PETG			FALSE		polyester						
 1.0.0	PolyGlycolic Acid	PGA			TRUE		polyester						
-1.0.0	PolyHexamethylene Adipamide	Nylon 6,7			FALSE		polyamide						
-1.0.0	PolyHexamethylene Sebacamide	Nylon 6,11			FALSE		polyamide						
+1.0.0	PolyHexamethylene Adipamide	"Nylon 6,7"			FALSE		polyamide						
+1.0.0	PolyHexamethylene Sebacamide	"Nylon 6,11"			FALSE		polyamide						
 1.0.0	PolyHydroxyalkanoate	PHA			TRUE		polyester						
 1.0.0	PolyHydroxybutyrate-Co-Hydroxyvalerate	PHBV			TRUE		polyester						
 1.0.0	PolyImide	PI			FALSE		polyamide						
@@ -112,4 +112,4 @@ Version	Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class
 1.0.0	Urea-Formaldehyde Polymers	UFP			FALSE		polyaldehyde	polyamide					
 1.0.0	Very-Low-Density PolyEthylene	VLDPE			FALSE		polyolefin						
 1.0.0	Vinyl Acetate-Acrylic Acid	VA/AA			FALSE		polyacrylate	polyvinyl					
-1.0.0	Polycaprolactam	Nylon 6			FALSE		polyamide						
+1.1.0	Polycaprolactam	Nylon 6			FALSE		polyamide						

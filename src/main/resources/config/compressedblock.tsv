@@ -1,24 +1,27 @@
-Version	Game ID	Compressed Block	Source Type	Source Name
-1.0.0	O	Block of Magnesium	Ingot	Magnesium Ingot
-1.0.0	P	Block of Titanium	Ingot	Titanium Ingot
-1.0.0	Q	Block of Manganese	Ingot	Manganese Ingot
-1.0.0	R	Block of Cobalt	Ingot	Cobalt Ingot
-1.0.0	S	Block of Nickel	Ingot	Nickel Ingot
-1.0.0	T	Block of Copper	Ingot	Copper Ingot
-1.0.0	U	Block of Zinc	Ingot	Zinc Ingot
-1.0.0	V	Block of Palladium	Ingot	Palladium Ingot
-1.0.0	W	Block of Silver	Ingot	Silver Ingot
-1.0.0	X	Block of Antimony	Ingot	Antimony Ingot
-1.0.0	Y	Block of Tungsten	Ingot	Tungsten Ingot
-1.0.0	Z	Block of Platinum	Ingot	Platinum Ingot
-	10	Block of Lead	Ingot	Lead Ingot
-1.0.0	11	Block of Bismuth	Ingot	Bismuth Ingot
-1.0.0	12	Block of Aluminum	Ingot	Aluminum Ingot
-1.0.4	13	Block of Steel	Ingot	Steel Ingot
-1.0.4	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot
-1.0.0	15	Block of Brass	Ingot	Brass Ingot
-1.0.0	16	Block of Bronze	Ingot	Bronze Ingot
-1.0.0	17	Block of Bitumen	Ore	Bitumen
-1.0.0	4j	Block of Tin	Ingot	Tin Ingot
-1.0.0	1Z	Block of Potash	Ore	Potash Ore
-1.0.4	4m	Block of Chrome	Ingot	Chrome Ingot
+Version	Game ID	Compressed Block	Source Type	Source Name	
+1.0.0	O	Block of Magnesium	Ingot	Magnesium Ingot	
+1.0.0	P	Block of Titanium	Ingot	Titanium Ingot	
+1.0.0	Q	Block of Manganese	Ingot	Manganese Ingot	
+1.0.0	R	Block of Cobalt	Ingot	Cobalt Ingot	
+1.0.0	S	Block of Nickel	Ingot	Nickel Ingot	
+1.0.0	T	Block of Copper	Ingot	Copper Ingot	
+1.0.0	U	Block of Zinc	Ingot	Zinc Ingot	
+1.0.0	V	Block of Palladium	Ingot	Palladium Ingot	
+1.0.0	W	Block of Silver	Ingot	Silver Ingot	
+1.0.0	X	Block of Antimony	Ingot	Antimony Ingot	
+1.0.0	Y	Block of Tungsten	Ingot	Tungsten Ingot	
+1.0.0	Z	Block of Platinum	Ingot	Platinum Ingot	
+1.1.0	10	Block of Plumbum (Lead)	Ingot	Plumbum (Lead) Ingot	
+1.0.0	11	Block of Bismuth	Ingot	Bismuth Ingot	
+1.0.0	12	Block of Aluminum	Ingot	Aluminum Ingot	
+1.0.4	13	Block of Steel	Ingot	Steel Ingot	
+1.0.4	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot	
+1.0.0	15	Block of Brass	Ingot	Brass Ingot	
+1.0.0	16	Block of Bronze	Ingot	Bronze Ingot	
+1.0.0	17	Block of Bitumen	Ore	Bitumen	
+1.0.0	4j	Block of Tin	Ingot	Tin Ingot	
+1.0.0	1Z	Block of Potash	Ore	Potash Ore	
+1.0.4	4m	Block of Chrome	Ingot	Chrome Ingot	
+1.1.0	2v	Block of Tungsten Carbide	Ingot	Tungsten Carbide Ingot	
+1.1.0	2S	Block of Nichrome	Ingot	Nichrome Ingot	
+1.1.0	2U	Block of Antimony-Lead	Ingot	Antimony-Lead Ingot	

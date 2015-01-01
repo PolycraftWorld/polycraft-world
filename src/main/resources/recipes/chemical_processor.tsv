@@ -6,20 +6,20 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0		Heat	Recycling	Bag (PolyPropylene Pellets)	8									Flask (Propylene)	7											
 1.0.0		Heat	Recycling	Sack (PolyPropylene Pellets)	8									Cartridge (Propylene)	7											
 1.0.0		Heat	Recycling	Powder Keg (PolyPropylene Pellets)	8									Canister (Propylene)	7											
-1.0.0		Heat	Recycling	Fibers (PolyPropylene)	8									Cartridge (Propylene)	7											
-1.0.0		Heat	Recycling	Block (PolyPropylene)	8									Cartridge (Propylene)	7											
-1.0.0		Heat	Recycling	Slab (PolyPropylene)	16									Cartridge (Propylene)	7											
-1.0.0		Heat	Recycling	Stairs (PolyPropylene)	8									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Fibers (PP)	8									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Block (PP)	8									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Slab (PP)	16									Cartridge (Propylene)	7											
+1.0.0		Heat	Recycling	Stairs (PP)	8									Cartridge (Propylene)	7											
 1.0.0		Heat	Recycling	Bag (Amorphous PolyEthylene Terephthalate Pellets)	1									Vial (Terephthalic Acid)	2	Vial (Ethylene Glycol)	4	Vial (Dimethyl Terephthalate)	1							
 1.0.0		Heat	Recycling	Sack (Amorphous PolyEthylene Terephthalate Pellets)	1									Beaker (Terephthalic Acid)	2	Beaker (Ethylene Glycol)	4	Beaker (Dimethyl Terephthalate)	1							
 1.0.0		Heat	Recycling	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	1									Drum (Terephthalic Acid)	2	Drum (Ethylene Glycol)	4	Drum (Dimethyl Terephthalate)	1							
 1.0.0		Heat	Recycling	Bag (Low Density PolyEthylene Pellets)	8									Flask (Ethylene)	7											
 1.0.0		Heat	Recycling	Sack (Low Density PolyEthylene Pellets)	8									Cartridge (Ethylene)	7											
 1.0.0		Heat	Recycling	Powder Keg (Low Density PolyEthylene Pellets)	8									Canister (Ethylene)	7											
-1.0.0		Heat	Recycling	Fibers (Low Density PolyEthylene)	8									Cartridge (Ethylene)	7											
-1.0.0		Heat	Recycling	Block (Low Density PolyEthylene)	8									Cartridge (Ethylene)	7											
-1.0.0		Heat	Recycling	Slab (Low Density PolyEthylene)	16									Cartridge (Ethylene)	7											
-1.0.0		Heat	Recycling	Stairs (Low Density PolyEthylene)	8									Cartridge (Ethylene)	7											
+1.0.0		Heat	Recycling	Fibers (LDPE)	8									Cartridge (Ethylene)	7											
+1.0.0		Heat	Recycling	Block (LDPE)	8									Cartridge (Ethylene)	7											
+1.0.0		Heat	Recycling	Slab (LDPE)	16									Cartridge (Ethylene)	7											
+1.0.0		Heat	Recycling	Stairs (LDPE)	8									Cartridge (Ethylene)	7											
 1.0.0	FALSE	UV	Synthesis	Flask (Ethylene)	1									Bag (Low Density PolyEthylene Pellets)	1											
 1.0.0	FALSE	Heat	Synthesis	Flask (Ethylene)	1	Vial (Deionized Water)	1							Vial (Ethanol)	1											
 1.0.0	FALSE	Heat	Synthesis	Flask (Ethylene)	1	Flask (Oxygen)	1	Palladium Catalyst	1					Vial (Ethylene Oxide)	1											
@@ -218,9 +218,9 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Vial (Acetaldehyde)	1	Flask (Ammonia)	1							Vial (Aldehyde-Collidine)	1											
 1.0.0				Beaker (Acetaldehyde)	1	Cartridge (Ammonia)	1							Beaker (Aldehyde-Collidine)	1											
 1.0.0				Drum (Acetaldehyde)	1	Canister (Ammonia)	1							Drum (Aldehyde-Collidine)	1											
-1.0.0				Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1					Bag (Paraledhyde Pellets)	1	Vial (Deionized Water)	1									
-1.0.0				Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1					Sack (Paraledhyde Pellets)	1	Beaker (Deionized Water)	1									
-1.0.0				Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1					Powder Keg (Paraledhyde Pellets)	1	Drum (Deionized Water)	1									
+1.0.0				Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1					Bag (Paraldehyde Pellets)	1	Vial (Deionized Water)	1									
+1.0.0				Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1					Sack (Paraldehyde Pellets)	1	Beaker (Deionized Water)	1									
+1.0.0				Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1					Powder Keg (Paraldehyde Pellets)	1	Drum (Deionized Water)	1									
 1.0.0				Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1	Vial (Acetaldehyde)	1			Bag (Metaldehyde Pellets)	1	Vial (Deionized Water)	1									
 1.0.0				Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1	Beaker (Acetaldehyde)	1			Sack (Metaldehyde Pellets)	1	Beaker (Deionized Water)	1									
 1.0.0				Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1	Drum (Acetaldehyde)	1			Powder Keg (Metaldehyde Pellets)	1	Drum (Deionized Water)	1									

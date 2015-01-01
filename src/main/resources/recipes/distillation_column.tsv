@@ -1,143 +1,1068 @@
-Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
-1.0.0	2	1	10	4	Water Bucket	1	Beaker (Deionized Water)	16	Bucket	1														
-1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	16	Bucket	1														
-1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1														
-1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1														
-1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	1	Gravel	3														
-1.0.0	2	1	10	4	Block of Bitumen	4	Beaker (Crude Oil)	11	Gravel	32														
-1.0.0	1	1	10	4	Vial (Crude Oil)	4	Vial (Naphthalene)	1	Vial (Benzene-Toluene-Xylene)	1	Vial (Gas Oil)	1												
-1.0.0	1	1	10	4	Vial (Crude Oil)	16	Vial (Naphthalene)	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Gas Oil)	4												
-1.0.0	2	1	10	4	Beaker (Crude Oil)	1	Vial (Naphthalene)	18	Vial (Benzene-Toluene-Xylene)	18	Vial (Gas Oil)	18												
-1.0.0	2	1	10	4	Beaker (Crude Oil)	4	Beaker (Naphthalene)	1	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Bitumen	2										
-1.0.0	2	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Gas Oil)	4	Bitumen	8										
-1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	19	Beaker (Benzene-Toluene-Xylene)	19	Beaker (Gas Oil)	19	Bitumen	32										
-1.0.0	3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	16										
-1.0.0	3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64										
-1.0.0	4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64										
-1.0.0	1	1	10	4	Vial (NeoPentane)	1	Flask (Methane)	2																
-1.0.0	1	1	10	4	Vial (NeoPentane)	4	Flask (Methane)	8																
-1.0.0	1	1	10	4	Vial (NeoPentane)	16	Flask (Methane)	32																
-1.0.0	2	1	10	4	Beaker (NeoPentane)	1	Cartridge (Methane)	1	Flask (Methane)	40	Flask (Ethane)	8	Flask (Propane)	4										
-1.0.0	2	1	10	4	Beaker (NeoPentane)	4	Cartridge (Methane)	6	Flask (Ethane)	32	Flask (Propane)	16												
-1.0.0	2	1	10	4	Beaker (NeoPentane)	16	Cartridge (Methane)	26	Cartridge (Ethane)	2	Cartridge (Propane)	1												
-1.0.0	3	1	10	4	Drum (NeoPentane)	1	Canister (Methane)	1	Cartridge (Methane)	40	Cartridge (Ethane)	8	Cartridge (Propane)	4	Flask (Butane Isomers)	2								
-1.0.0	3	1	10	4	Drum (NeoPentane)	4	Canister (Methane)	6	Cartridge (Ethane)	32	Cartridge (Propane)	16	Flask (Butane Isomers)	8	Vial (Pentane Isomers)	1								
-1.0.0	3	1	10	4	Drum (NeoPentane)	16	Canister (Methane)	26	Canister (Ethane)	2	Canister (Propane)	1	Flask (Butane Isomers)	32	Vial (Pentane Isomers)	5								
-1.0.0	4	1	10	4	Drum (NeoPentane)	64	Canister (Methane)	64	Canister (Methane)	40	Canister (Ethane)	8	Canister (Propane)	4	Cartridge (Butane Isomers)	2	Vial (Pentane Isomers)	20	Vial (Hexane Isomers)	2				
-1.0.0	1	1	10	4	Vial (Naphthalene)	4	Vial (Light Naphtha)	3	Vial (Heavy Naphtha)	1														
-1.0.0	1	1	10	4	Vial (Naphthalene)	16	Vial (Light Naphtha)	12	Vial (Heavy Naphtha)	4														
-1.0.0	2	1	10	4	Beaker (Naphthalene)	1	Vial (Light Naphtha)	48	Vial (Heavy Naphtha)	16														
-1.0.0	2	1	10	4	Beaker (Naphthalene)	4	Beaker (Light Naphtha)	3	Beaker (Heavy Naphtha)	1														
-1.0.0	2	1	10	4	Beaker (Naphthalene)	16	Beaker (Light Naphtha)	12	Beaker (Heavy Naphtha)	4														
-1.0.0	3	1	10	4	Drum (Naphthalene)	1	Beaker (Light Naphtha)	48	Beaker (Heavy Naphtha)	16														
-1.0.0	3	1	10	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1														
-1.0.0	3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	12	Drum (Heavy Naphtha)	4														
-1.0.0	4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	48	Drum (Heavy Naphtha)	16														
-1.0.0	1	1	10	4	Vial (Light Naphtha)	4	Vial (Light Parrafins)	2	Vial (Light Naphthenes)	1	Vial (Light Olefins)	1												
-1.0.0	1	1	10	4	Vial (Light Naphtha)	16	Vial (Light Parrafins)	8	Vial (Light Naphthenes)	4	Vial (Light Olefins)	4												
-1.0.0	2	1	10	4	Beaker (Light Naphtha)	1	Vial (Light Parrafins)	32	Vial (Light Naphthenes)	16	Vial (Light Olefins)	16												
-1.0.0	2	1	10	4	Beaker (Light Naphtha)	4	Beaker (Light Parrafins)	2	Beaker (Light Naphthenes)	1	Beaker (Light Olefins)	1												
-1.0.0	2	1	10	4	Beaker (Light Naphtha)	16	Beaker (Light Parrafins)	8	Beaker (Light Naphthenes)	4	Beaker (Light Olefins)	4												
-1.0.0	3	1	10	4	Drum (Light Naphtha)	1	Beaker (Light Parrafins)	32	Beaker (Light Naphthenes)	16	Beaker (Light Olefins)	16												
-1.0.0	3	1	10	4	Drum (Light Naphtha)	4	Drum (Light Parrafins)	2	Drum (Light Naphthenes)	1	Drum (Light Olefins)	1												
-1.0.0	3	1	10	4	Drum (Light Naphtha)	16	Drum (Light Parrafins)	8	Drum (Light Naphthenes)	4	Drum (Light Olefins)	4												
-1.0.0	4	1	10	4	Drum (Light Naphtha)	64	Drum (Light Parrafins)	32	Drum (Light Naphthenes)	16	Drum (Light Olefins)	16												
-1.0.0	1	1	10	4	Vial (Light Parrafins)	2	Flask (Methane)	1																
-1.0.0	1	1	10	4	Vial (Light Parrafins)	4	Flask (Methane)	3																
-1.0.0	1	1	10	4	Vial (Light Parrafins)	16	Flask (Methane)	14	Flask (Ethane)	2														
-1.0.0	2	1	10	4	Beaker (Light Parrafins)	1	Flask (Methane)	52	Flask (Ethane)	8	Flask (Propane)	1	Flask (Butane Isomers)	1										
-1.0.0	2	1	10	4	Beaker (Light Parrafins)	4	Cartridge (Methane)	3	Flask (Ethane)	32	Flask (Propane)	4	Flask (Butane Isomers)	4										
-1.0.0	2	1	10	4	Beaker (Light Parrafins)	16	Cartridge (Methane)	12	Cartridge (Ethane)	2	Flask (Propane)	16	Flask (Butane Isomers)	16										
-1.0.0	3	1	10	4	Drum (Light Parrafins)	1	Cartridge (Methane)	52	Cartridge (Ethane)	8	Cartridge (Propane)	1	Cartridge (Butane Isomers)	1										
-1.0.0	3	1	10	4	Drum (Light Parrafins)	4	Canister (Methane)	3	Cartridge (Ethane)	32	Cartridge (Propane)	4	Cartridge (Butane Isomers)	4										
-1.0.0	3	1	10	4	Drum (Light Parrafins)	16	Canister (Methane)	12	Canister (Ethane)	2	Cartridge (Propane)	16	Cartridge (Butane Isomers)	16										
-1.0.0	4	1	10	4	Drum (Light Parrafins)	64	Canister (Methane)	52	Canister (Ethane)	4	Canister (Propane)	2	Canister (Butane Isomers)	1	Vial (Pentane Isomers)	10	Vial (Hexane Isomers)	1						
-1.0.0	1	1	10	4	Flask (Butane Isomers)	4	Vial (N-Butane)	2	Vial (IsoButane)	1														
-1.0.0	1	1	10	4	Flask (Butane Isomers)	16	Vial (N-Butane)	10	Vial (IsoButane)	5														
-1.0.0	2	1	10	4	Cartridge (Butane Isomers)	1	Vial (N-Butane)	42	Vial (IsoButane)	21														
-1.0.0	2	1	10	4	Cartridge (Butane Isomers)	4	Beaker (N-Butane)	2	Beaker (IsoButane)	1														
-1.0.0	2	1	10	4	Cartridge (Butane Isomers)	16	Beaker (N-Butane)	10	Beaker (IsoButane)	5														
-1.0.0	3	1	10	4	Canister (Butane Isomers)	1	Beaker (N-Butane)	42	Beaker (IsoButane)	21														
-1.0.0	3	1	10	4	Canister (Butane Isomers)	4	Drum (N-Butane)	2	Drum (IsoButane)	1														
-1.0.0	3	1	10	4	Canister (Butane Isomers)	16	Drum (N-Butane)	10	Drum (IsoButane)	5														
-1.0.0	4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Butane)	42	Drum (IsoButane)	21														
-1.0.0	1	1	10	4	Vial (Pentane Isomers)	4	Vial (Naphtha)	1	Vial (IsoPentane)	2														
-1.0.0	1	1	10	4	Vial (Pentane Isomers)	16	Vial (Naphtha)	6	Vial (IsoPentane)	10														
-1.0.0	2	1	10	4	Beaker (Pentane Isomers)	1	Vial (Naphtha)	23	Vial (IsoPentane)	40	Flask (Nitrogen)	1												
-1.0.0	2	1	10	4	Beaker (Pentane Isomers)	4	Beaker (Naphtha)	1	Beaker (IsoPentane)	2	Flask (Nitrogen)	3												
-1.0.0	2	1	10	4	Beaker (Pentane Isomers)	16	Beaker (Naphtha)	6	Beaker (IsoPentane)	10	Flask (Nitrogen)	12												
-1.0.0	3	1	10	4	Drum (Pentane Isomers)	1	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Cartridge (Nitrogen)	1												
-1.0.0	3	1	10	4	Drum (Pentane Isomers)	4	Drum (Naphtha)	1	Drum (IsoPentane)	2	Cartridge (Nitrogen)	3												
-1.0.0	3	1	10	4	Drum (Pentane Isomers)	16	Drum (Naphtha)	6	Drum (IsoPentane)	10	Cartridge (Nitrogen)	12												
-1.0.0	4	1	10	4	Drum (Pentane Isomers)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen)	1												
-1.0.0	1	1	10	4	Vial (Hexane Isomers)	6	Vial (N-Pentane)	2	Vial (2-MethylPentane)	2	Vial (3-MethylPentane)	1	Vial (2,3-DiMethylButane)	1										
-1.0.0	1	1	10	4	Vial (Hexane Isomers)	16	Vial (N-Pentane)	5	Vial (2-MethylPentane)	6	Vial (3-MethylPentane)	3	Vial (2,3-DiMethylButane)	3										
-1.0.0	2	1	10	4	Beaker (Hexane Isomers)	1	Vial (N-Pentane)	17	Vial (2-MethylPentane)	20	Vial (3-MethylPentane)	11	Vial (2,3-DiMethylButane)	12	Vial (2,2-DiMethylButane)	3								
-1.0.0	2	1	10	4	Beaker (Hexane Isomers)	4	Beaker (N-Pentane)	1	Beaker (2-MethylPentane)	1	Vial (3-MethylPentane)	44	Vial (2,3-DiMethylButane)	48	Vial (2,2-DiMethylButane)	12								
-1.0.0	2	1	10	4	Beaker (Hexane Isomers)	16	Beaker (N-Pentane)	5	Beaker (2-MethylPentane)	6	Beaker (3-MethylPentane)	3	Beaker (2,3-DiMethylButane)	3	Vial (2,2-DiMethylButane)	48								
-1.0.0	3	1	10	4	Drum (Hexane Isomers)	1	Beaker (N-Pentane)	17	Beaker (2-MethylPentane)	20	Beaker (3-MethylPentane)	11	Beaker (2,3-DiMethylButane)	12	Beaker (2,2-DiMethylButane)	3								
-1.0.0	3	1	10	4	Drum (Hexane Isomers)	4	Drum (N-Pentane)	1	Drum (2-MethylPentane)	1	Beaker (3-MethylPentane)	44	Beaker (2,3-DiMethylButane)	48	Beaker (2,2-DiMethylButane)	12								
-1.0.0	3	1	10	4	Drum (Hexane Isomers)	16	Drum (N-Pentane)	5	Drum (2-MethylPentane)	6	Drum (3-MethylPentane)	3	Drum (3-MethylPentane)	3	Beaker (2,2-DiMethylButane)	48								
-1.0.0	4	1	10	4	Drum (Hexane Isomers)	64	Drum (N-Pentane)	17	Drum (2-MethylPentane)	20	Drum (3-MethylPentane)	11	Drum (2,3-DiMethylButane)	12	Drum (2,2-DiMethylButane)	3								
-1.0.0	1	1	10	4	Apple	1	Vial (Fruit Brandy)	1																
-1.0.0	2	1	10	4	Apple	64	Beaker (Fruit Brandy)	1																
-1.0.0	1	1	10	4	Potato	1	Vial (Vodka)	1																
-1.0.0	2	1	10	4	Potato	64	Beaker (Vodka)	1																
-1.0.0	1	1	10	4	Nether Wart	1	Vial (Gin)	1																
-1.0.0	2	1	10	4	Nether Wart	64	Beaker (Gin)	1																
-1.0.0	1	1	10	4	Cactus	1	Vial (Tequila)	1																
-1.0.0	2	1	10	4	Cactus	64	Beaker (Tequila)	1																
-1.0.0	1	1	10	4	Reeds	1	Vial (Rum)	1																
-1.0.0	2	1	10	4	Reeds	64	Beaker (Rum)	1																
-1.0.0	1	1	10	4	Wheat	1	Vial (Whiskey)	1																
-1.0.0	2	1	10	4	Wheat	64	Beaker (Whiskey)	1																
-1.0.0	1	1	10	4	Carrot	1	Vial (Carrot Wine)	1																
-1.0.0	2	1	10	4	Carrot	64	Beaker (Carrot Wine)	1																
-1.0.0	2	1	10	4	Vial (Naphtha)	1	Vial (Light Naphtha)	1	Vial (Heavy Naphtha)	1														
-1.0.0	2	1	10	4	Beaker (Naphtha)	1	Beaker (Light Naphtha)	1	Beaker (Heavy Naphtha)	1														
-1.0.0	2	1	10	4	Drum (Naphtha)	1	Drum (Light Naphtha)	1	Drum (Heavy Naphtha)	1														
-1.0.0	2	1	10	4	Vial (Naphtha)	8	Vial (Light Naphtha)	8	Vial (Heavy Naphtha)	8														
-1.0.0	2	1	10	4	Beaker (Naphtha)	8	Beaker (Light Naphtha)	8	Beaker (Heavy Naphtha)	8														
-1.0.0	2	1	10	4	Drum (Naphtha)	8	Drum (Light Naphtha)	8	Drum (Heavy Naphtha)	8														
-1.0.0	2	1	10	4	Vial (Naphtha)	64	Vial (Light Naphtha)	64	Vial (Heavy Naphtha)	64														
-1.0.0	2	1	10	4	Beaker (Naphtha)	64	Beaker (Light Naphtha)	64	Beaker (Heavy Naphtha)	64														
-1.0.0	2	1	10	4	Drum (Naphtha)	64	Drum (Light Naphtha)	64	Drum (Heavy Naphtha)	64														
-1.0.0	2	1	10	4	Vial (Light Olefins)	2	Flask (Propylene)	1	Flask (Ethylene)	1														
-1.0.0	2	1	10	4	Vial (Light Olefins)	8	Flask (Propylene)	4	Flask (Ethylene)	4														
-1.0.0	2	1	10	4	Vial (Light Olefins)	32	Flask (Propylene)	16	Flask (Ethylene)	16														
-1.0.0	2	1	10	4	Beaker (Light Olefins)	2	Cartridge (Propylene)	1	Cartridge (Ethylene)	1														
-1.0.0	2	1	10	4	Beaker (Light Olefins)	8	Cartridge (Propylene)	4	Cartridge (Ethylene)	4														
-1.0.0	2	1	10	4	Beaker (Light Olefins)	32	Cartridge (Propylene)	16	Cartridge (Ethylene)	16														
-1.0.0	2	1	10	4	Drum (Light Olefins)	2	Canister (Propylene)	1	Canister (Ethylene)	1														
-1.0.0	2	1	10	4	Drum (Light Olefins)	8	Canister (Propylene)	4	Canister (Ethylene)	4														
-1.0.0	2	1	10	4	Drum (Light Olefins)	32	Canister (Propylene)	16	Canister (Ethylene)	16														
-1.0.0	2	1	10	4	Drum (Light Olefins)	64	Canister (Propylene)	32	Canister (Ethylene)	32														
-1.0.0	2	1	10	4	Drum (Light Olefins)	1	Canister (Propylene)	1	Canister (Ethylene)	1														
-1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	1	Vial (Benzene)	1	Vial (Toluene)	1	Vial (Xylene)	1												
-1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Benzene)	4	Vial (Toluene)	4	Vial (Xylene)	4												
-1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	16	Vial (Benzene)	16	Vial (Toluene)	16	Vial (Xylene)	16												
-1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Benzene)	1	Beaker (Toluene)	1	Beaker (Xylene)	1												
-1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Benzene)	4	Beaker (Toluene)	4	Beaker (Xylene)	4												
-1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	16	Beaker (Benzene)	16	Beaker (Toluene)	16	Beaker (Xylene)	16												
-1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	1	Drum (Benzene)	1	Drum (Toluene)	1	Drum (Xylene)	1												
-1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	4	Drum (Benzene)	4	Drum (Toluene)	4	Drum (Xylene)	4												
-1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	16	Drum (Benzene)	16	Drum (Toluene)	16	Drum (Xylene)	16												
-1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	64	Drum (Benzene)	64	Drum (Toluene)	64	Drum (Xylene)	64												
-1.0.0	2	1	10	4	Vial (Gas Oil)	4	Vial (Kerosene)	1	Vial (Diesel)	1	Bitumen	2												
-1.0.0	2	1	10	4	Vial (Gas Oil)	8	Vial (Kerosene)	2	Vial (Diesel)	2	Bitumen	4												
-1.0.0	2	1	10	4	Vial (Gas Oil)	32	Vial (Kerosene)	16	Vial (Diesel)	16	Bitumen	8												
-1.0.0	2	1	10	4	Beaker (Gas Oil)	3	Beaker (Kerosene)	1	Beaker (Diesel)	1	Block of Bitumen	1												
-1.0.0	2	1	10	4	Beaker (Gas Oil)	9	Beaker (Kerosene)	3	Beaker (Diesel)	3	Block of Bitumen	3												
-1.0.0	2	1	10	4	Beaker (Gas Oil)	27	Beaker (Kerosene)	9	Beaker (Diesel)	9	Block of Bitumen	9												
-1.0.0	2	1	10	4	Drum (Gas Oil)	2	Drum (Kerosene)	1	Drum (Diesel)	1	Block of Bitumen	16												
-1.0.0	2	1	10	4	Drum (Gas Oil)	8	Drum (Kerosene)	4	Drum (Diesel)	4	Block of Bitumen	32												
-1.0.0	2	1	10	4	Drum (Gas Oil)	32	Drum (Kerosene)	16	Drum (Diesel)	16	Block of Bitumen	64												
-1.0.6	2	1	10	4	Beaker (Deionized Water)	16	Cartridge (Oxygen)	8	Cartridge (Hydrogen)	16														
-1.0.6	2	1	10	4	Drum (Deionized Water)	16	Canister (Oxygen)	8	Canister (Hydrogen)	16														
-1.0.6	2	1	10	4	Vial (Deionized Water)	16	Flask (Oxygen)	8	Flask (Hydrogen)	16														
-1.0.6	2	1	10	4	Beaker (Deionized Water)	64	Cartridge (Oxygen)	32	Cartridge (Hydrogen)	64														
-1.0.6	2	1	10	4	Drum (Deionized Water)	64	Canister (Oxygen)	32	Canister (Hydrogen)	64														
-1.0.6	2	1	10	4	Vial (Deionized Water)	64	Flask (Oxygen)	32	Flask (Hydrogen)	64														
-1.0.6	2	1	10	4	Beaker (Deionized Water)	2	Cartridge (Oxygen)	1	Cartridge (Hydrogen)	2														
-1.0.6	2	1	10	4	Drum (Deionized Water)	2	Canister (Oxygen)	1	Canister (Hydrogen)	2														
-1.0.6	2	1	10	4	Vial (Deionized Water)	2	Flask (Oxygen)	1	Flask (Hydrogen)	2														
+Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#											
+1.0.0	2	1	10	4	Water Bucket	1	Beaker (Deionized Water)	16	Bucket	1																									
+1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	16	Bucket	1																									
+1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1																									
+1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1																									
+1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	1	Gravel	3																									
+1.0.0	2	1	10	4	Block of Bitumen	4	Beaker (Crude Oil)	11	Gravel	32																									
+1.0.0	1	1	10	4	Vial (Crude Oil)	4	Vial (Naphthalene)	1	Vial (Benzene-Toluene-Xylene)	1	Vial (Gas Oil)	1																							
+1.0.0	1	1	10	4	Vial (Crude Oil)	16	Vial (Naphthalene)	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Gas Oil)	4																							
+1.0.0	2	1	10	4	Beaker (Crude Oil)	1	Vial (Naphthalene)	18	Vial (Benzene-Toluene-Xylene)	18	Vial (Gas Oil)	18																							
+1.0.0	2	1	10	4	Beaker (Crude Oil)	4	Beaker (Naphthalene)	1	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Bitumen	2																					
+1.0.0	2	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Gas Oil)	4	Bitumen	8																					
+1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	19	Beaker (Benzene-Toluene-Xylene)	19	Beaker (Gas Oil)	19	Bitumen	32																					
+1.0.0	3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	16																					
+1.0.0	3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64																					
+1.0.0	4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64																					
+1.0.0	1	1	10	4	Vial (NeoPentane)	1	Flask (Methane)	2																											
+1.0.0	1	1	10	4	Vial (NeoPentane)	4	Flask (Methane)	8																											
+1.0.0	1	1	10	4	Vial (NeoPentane)	16	Flask (Methane)	32																											
+1.0.0	2	1	10	4	Beaker (NeoPentane)	1	Cartridge (Methane)	1	Flask (Methane)	40	Flask (Ethane)	8	Flask (Propane)	4																					
+1.0.0	2	1	10	4	Beaker (NeoPentane)	4	Cartridge (Methane)	6	Flask (Ethane)	32	Flask (Propane)	16																							
+1.0.0	2	1	10	4	Beaker (NeoPentane)	16	Cartridge (Methane)	26	Cartridge (Ethane)	2	Cartridge (Propane)	1																							
+1.0.0	3	1	10	4	Drum (NeoPentane)	1	Canister (Methane)	1	Cartridge (Methane)	40	Cartridge (Ethane)	8	Cartridge (Propane)	4	Flask (Butane Isomers)	2																			
+1.0.0	3	1	10	4	Drum (NeoPentane)	4	Canister (Methane)	6	Cartridge (Ethane)	32	Cartridge (Propane)	16	Flask (Butane Isomers)	8	Vial (Pentane Isomers)	1																			
+1.0.0	3	1	10	4	Drum (NeoPentane)	16	Canister (Methane)	26	Canister (Ethane)	2	Canister (Propane)	1	Flask (Butane Isomers)	32	Vial (Pentane Isomers)	5																			
+1.0.0	4	1	10	4	Drum (NeoPentane)	64	Canister (Methane)	64	Canister (Methane)	40	Canister (Ethane)	8	Canister (Propane)	4	Cartridge (Butane Isomers)	2	Vial (Pentane Isomers)	20	Vial (Hexane Isomers)	2															
+1.0.0	1	1	10	4	Vial (Naphthalene)	4	Vial (Light Naphtha)	3	Vial (Heavy Naphtha)	1																									
+1.0.0	1	1	10	4	Vial (Naphthalene)	16	Vial (Light Naphtha)	12	Vial (Heavy Naphtha)	4																									
+1.0.0	2	1	10	4	Beaker (Naphthalene)	1	Vial (Light Naphtha)	48	Vial (Heavy Naphtha)	16																									
+1.0.0	2	1	10	4	Beaker (Naphthalene)	4	Beaker (Light Naphtha)	3	Beaker (Heavy Naphtha)	1																									
+1.0.0	2	1	10	4	Beaker (Naphthalene)	16	Beaker (Light Naphtha)	12	Beaker (Heavy Naphtha)	4																									
+1.0.0	3	1	10	4	Drum (Naphthalene)	1	Beaker (Light Naphtha)	48	Beaker (Heavy Naphtha)	16																									
+1.0.0	3	1	10	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1																									
+1.0.0	3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	12	Drum (Heavy Naphtha)	4																									
+1.0.0	4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	48	Drum (Heavy Naphtha)	16																									
+1.0.0	1	1	10	4	Vial (Light Naphtha)	4	Vial (Light Parrafins)	2	Vial (Light Naphthenes)	1	Vial (Light Olefins)	1																							
+1.0.0	1	1	10	4	Vial (Light Naphtha)	16	Vial (Light Parrafins)	8	Vial (Light Naphthenes)	4	Vial (Light Olefins)	4																							
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	1	Vial (Light Parrafins)	32	Vial (Light Naphthenes)	16	Vial (Light Olefins)	16																							
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	4	Beaker (Light Parrafins)	2	Beaker (Light Naphthenes)	1	Beaker (Light Olefins)	1																							
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	16	Beaker (Light Parrafins)	8	Beaker (Light Naphthenes)	4	Beaker (Light Olefins)	4																							
+1.0.0	3	1	10	4	Drum (Light Naphtha)	1	Beaker (Light Parrafins)	32	Beaker (Light Naphthenes)	16	Beaker (Light Olefins)	16																							
+1.0.0	3	1	10	4	Drum (Light Naphtha)	4	Drum (Light Parrafins)	2	Drum (Light Naphthenes)	1	Drum (Light Olefins)	1																							
+1.0.0	3	1	10	4	Drum (Light Naphtha)	16	Drum (Light Parrafins)	8	Drum (Light Naphthenes)	4	Drum (Light Olefins)	4																							
+1.0.0	4	1	10	4	Drum (Light Naphtha)	64	Drum (Light Parrafins)	32	Drum (Light Naphthenes)	16	Drum (Light Olefins)	16																							
+1.0.0	1	1	10	4	Vial (Light Parrafins)	2	Flask (Methane)	1																											
+1.0.0	1	1	10	4	Vial (Light Parrafins)	4	Flask (Methane)	3																											
+1.0.0	1	1	10	4	Vial (Light Parrafins)	16	Flask (Methane)	14	Flask (Ethane)	2																									
+1.0.0	2	1	10	4	Beaker (Light Parrafins)	1	Flask (Methane)	52	Flask (Ethane)	8	Flask (Propane)	1	Flask (Butane Isomers)	1																					
+1.0.0	2	1	10	4	Beaker (Light Parrafins)	4	Cartridge (Methane)	3	Flask (Ethane)	32	Flask (Propane)	4	Flask (Butane Isomers)	4																					
+1.0.0	2	1	10	4	Beaker (Light Parrafins)	16	Cartridge (Methane)	12	Cartridge (Ethane)	2	Flask (Propane)	16	Flask (Butane Isomers)	16																					
+1.0.0	3	1	10	4	Drum (Light Parrafins)	1	Cartridge (Methane)	52	Cartridge (Ethane)	8	Cartridge (Propane)	1	Cartridge (Butane Isomers)	1																					
+1.0.0	3	1	10	4	Drum (Light Parrafins)	4	Canister (Methane)	3	Cartridge (Ethane)	32	Cartridge (Propane)	4	Cartridge (Butane Isomers)	4																					
+1.0.0	3	1	10	4	Drum (Light Parrafins)	16	Canister (Methane)	12	Canister (Ethane)	2	Cartridge (Propane)	16	Cartridge (Butane Isomers)	16																					
+1.0.0	4	1	10	4	Drum (Light Parrafins)	64	Canister (Methane)	52	Canister (Ethane)	4	Canister (Propane)	2	Canister (Butane Isomers)	1	Vial (Pentane Isomers)	10	Vial (Hexane Isomers)	1																	
+1.0.0	1	1	10	4	Flask (Butane Isomers)	4	Vial (N-Butane)	2	Vial (IsoButane)	1																									
+1.0.0	1	1	10	4	Flask (Butane Isomers)	16	Vial (N-Butane)	10	Vial (IsoButane)	5																									
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	1	Vial (N-Butane)	42	Vial (IsoButane)	21																									
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	4	Beaker (N-Butane)	2	Beaker (IsoButane)	1																									
+1.0.0	2	1	10	4	Cartridge (Butane Isomers)	16	Beaker (N-Butane)	10	Beaker (IsoButane)	5																									
+1.0.0	3	1	10	4	Canister (Butane Isomers)	1	Beaker (N-Butane)	42	Beaker (IsoButane)	21																									
+1.0.0	3	1	10	4	Canister (Butane Isomers)	4	Drum (N-Butane)	2	Drum (IsoButane)	1																									
+1.0.0	3	1	10	4	Canister (Butane Isomers)	16	Drum (N-Butane)	10	Drum (IsoButane)	5																									
+1.0.0	4	1	10	4	Canister (Butane Isomers)	64	Drum (N-Butane)	42	Drum (IsoButane)	21																									
+1.0.0	1	1	10	4	Vial (Pentane Isomers)	4	Vial (Naphtha)	1	Vial (IsoPentane)	2																									
+1.0.0	1	1	10	4	Vial (Pentane Isomers)	16	Vial (Naphtha)	6	Vial (IsoPentane)	10																									
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	1	Vial (Naphtha)	23	Vial (IsoPentane)	40	Flask (Nitrogen)	1																							
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	4	Beaker (Naphtha)	1	Beaker (IsoPentane)	2	Flask (Nitrogen)	3																							
+1.0.0	2	1	10	4	Beaker (Pentane Isomers)	16	Beaker (Naphtha)	6	Beaker (IsoPentane)	10	Flask (Nitrogen)	12																							
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	1	Beaker (Naphtha)	23	Beaker (IsoPentane)	40	Cartridge (Nitrogen)	1																							
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	4	Drum (Naphtha)	1	Drum (IsoPentane)	2	Cartridge (Nitrogen)	3																							
+1.0.0	3	1	10	4	Drum (Pentane Isomers)	16	Drum (Naphtha)	6	Drum (IsoPentane)	10	Cartridge (Nitrogen)	12																							
+1.0.0	4	1	10	4	Drum (Pentane Isomers)	64	Drum (Naphtha)	23	Drum (IsoPentane)	40	Canister (Nitrogen)	1																							
+1.0.0	1	1	10	4	Vial (Hexane Isomers)	6	Vial (N-Pentane)	2	Vial (2-MethylPentane)	2	Vial (3-MethylPentane)	1	"Vial (2,3-DiMethylButane)"	1																					
+1.0.0	1	1	10	4	Vial (Hexane Isomers)	16	Vial (N-Pentane)	5	Vial (2-MethylPentane)	6	Vial (3-MethylPentane)	3	"Vial (2,3-DiMethylButane)"	3																					
+1.0.0	2	1	10	4	Beaker (Hexane Isomers)	1	Vial (N-Pentane)	17	Vial (2-MethylPentane)	20	Vial (3-MethylPentane)	11	"Vial (2,3-DiMethylButane)"	12	"Vial (2,2-DiMethylButane)"	3																			
+1.0.0	2	1	10	4	Beaker (Hexane Isomers)	4	Beaker (N-Pentane)	1	Beaker (2-MethylPentane)	1	Vial (3-MethylPentane)	44	"Vial (2,3-DiMethylButane)"	48	"Vial (2,2-DiMethylButane)"	12																			
+1.0.0	2	1	10	4	Beaker (Hexane Isomers)	16	Beaker (N-Pentane)	5	Beaker (2-MethylPentane)	6	Beaker (3-MethylPentane)	3	"Beaker (2,3-DiMethylButane)"	3	"Vial (2,2-DiMethylButane)"	48																			
+1.0.0	3	1	10	4	Drum (Hexane Isomers)	1	Beaker (N-Pentane)	17	Beaker (2-MethylPentane)	20	Beaker (3-MethylPentane)	11	"Beaker (2,3-DiMethylButane)"	12	"Beaker (2,2-DiMethylButane)"	3																			
+1.0.0	3	1	10	4	Drum (Hexane Isomers)	4	Drum (N-Pentane)	1	Drum (2-MethylPentane)	1	Beaker (3-MethylPentane)	44	"Beaker (2,3-DiMethylButane)"	48	"Beaker (2,2-DiMethylButane)"	12																			
+1.0.0	3	1	10	4	Drum (Hexane Isomers)	16	Drum (N-Pentane)	5	Drum (2-MethylPentane)	6	Drum (3-MethylPentane)	3	Drum (3-MethylPentane)	3	"Beaker (2,2-DiMethylButane)"	48																			
+1.0.0	4	1	10	4	Drum (Hexane Isomers)	64	Drum (N-Pentane)	17	Drum (2-MethylPentane)	20	Drum (3-MethylPentane)	11	"Drum (2,3-DiMethylButane)"	12	"Drum (2,2-DiMethylButane)"	3																			
+1.0.0	1	1	10	4	Apple	1	Vial (Fruit Brandy)	1																											
+1.0.0	2	1	10	4	Apple	64	Beaker (Fruit Brandy)	1																											
+1.0.0	1	1	10	4	Potato	1	Vial (Vodka)	1																											
+1.0.0	2	1	10	4	Potato	64	Beaker (Vodka)	1																											
+1.0.0	1	1	10	4	Nether Wart	1	Vial (Gin)	1																											
+1.0.0	2	1	10	4	Nether Wart	64	Beaker (Gin)	1																											
+1.0.0	1	1	10	4	Cactus	1	Vial (Tequila)	1																											
+1.0.0	2	1	10	4	Cactus	64	Beaker (Tequila)	1																											
+1.0.0	1	1	10	4	Reeds	1	Vial (Rum)	1																											
+1.0.0	2	1	10	4	Reeds	64	Beaker (Rum)	1																											
+1.0.0	1	1	10	4	Wheat	1	Vial (Whiskey)	1																											
+1.0.0	2	1	10	4	Wheat	64	Beaker (Whiskey)	1																											
+1.0.0	1	1	10	4	Carrot	1	Vial (Carrot Wine)	1																											
+1.0.0	2	1	10	4	Carrot	64	Beaker (Carrot Wine)	1																											
+1.0.0	2	1	10	4	Vial (Naphtha)	1	Vial (Light Naphtha)	1	Vial (Heavy Naphtha)	1																									
+1.0.0	2	1	10	4	Beaker (Naphtha)	1	Beaker (Light Naphtha)	1	Beaker (Heavy Naphtha)	1																									
+1.0.0	2	1	10	4	Drum (Naphtha)	1	Drum (Light Naphtha)	1	Drum (Heavy Naphtha)	1																									
+1.0.0	2	1	10	4	Vial (Naphtha)	8	Vial (Light Naphtha)	8	Vial (Heavy Naphtha)	8																									
+1.0.0	2	1	10	4	Beaker (Naphtha)	8	Beaker (Light Naphtha)	8	Beaker (Heavy Naphtha)	8																									
+1.0.0	2	1	10	4	Drum (Naphtha)	8	Drum (Light Naphtha)	8	Drum (Heavy Naphtha)	8																									
+1.0.0	2	1	10	4	Vial (Naphtha)	64	Vial (Light Naphtha)	64	Vial (Heavy Naphtha)	64																									
+1.0.0	2	1	10	4	Beaker (Naphtha)	64	Beaker (Light Naphtha)	64	Beaker (Heavy Naphtha)	64																									
+1.0.0	2	1	10	4	Drum (Naphtha)	64	Drum (Light Naphtha)	64	Drum (Heavy Naphtha)	64																									
+1.0.0	2	1	10	4	Vial (Light Olefins)	2	Flask (Propylene)	1	Flask (Ethylene)	1																									
+1.0.0	2	1	10	4	Vial (Light Olefins)	8	Flask (Propylene)	4	Flask (Ethylene)	4																									
+1.0.0	2	1	10	4	Vial (Light Olefins)	32	Flask (Propylene)	16	Flask (Ethylene)	16																									
+1.0.0	2	1	10	4	Beaker (Light Olefins)	2	Cartridge (Propylene)	1	Cartridge (Ethylene)	1																									
+1.0.0	2	1	10	4	Beaker (Light Olefins)	8	Cartridge (Propylene)	4	Cartridge (Ethylene)	4																									
+1.0.0	2	1	10	4	Beaker (Light Olefins)	32	Cartridge (Propylene)	16	Cartridge (Ethylene)	16																									
+1.0.0	2	1	10	4	Drum (Light Olefins)	2	Canister (Propylene)	1	Canister (Ethylene)	1																									
+1.0.0	2	1	10	4	Drum (Light Olefins)	8	Canister (Propylene)	4	Canister (Ethylene)	4																									
+1.0.0	2	1	10	4	Drum (Light Olefins)	32	Canister (Propylene)	16	Canister (Ethylene)	16																									
+1.0.0	2	1	10	4	Drum (Light Olefins)	64	Canister (Propylene)	32	Canister (Ethylene)	32																									
+1.0.0	2	1	10	4	Drum (Light Olefins)	1	Canister (Propylene)	1	Canister (Ethylene)	1																									
+1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	1	Vial (Benzene)	1	Vial (Toluene)	1	Vial (Xylene)	1																							
+1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Benzene)	4	Vial (Toluene)	4	Vial (Xylene)	4																							
+1.0.0	2	1	10	4	Vial (Benzene-Toluene-Xylene)	16	Vial (Benzene)	16	Vial (Toluene)	16	Vial (Xylene)	16																							
+1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Benzene)	1	Beaker (Toluene)	1	Beaker (Xylene)	1																							
+1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Benzene)	4	Beaker (Toluene)	4	Beaker (Xylene)	4																							
+1.0.0	2	1	10	4	Beaker (Benzene-Toluene-Xylene)	16	Beaker (Benzene)	16	Beaker (Toluene)	16	Beaker (Xylene)	16																							
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	1	Drum (Benzene)	1	Drum (Toluene)	1	Drum (Xylene)	1																							
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	4	Drum (Benzene)	4	Drum (Toluene)	4	Drum (Xylene)	4																							
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	16	Drum (Benzene)	16	Drum (Toluene)	16	Drum (Xylene)	16																							
+1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	64	Drum (Benzene)	64	Drum (Toluene)	64	Drum (Xylene)	64																							
+1.0.0	2	1	10	4	Vial (Gas Oil)	4	Vial (Kerosene)	1	Vial (Diesel)	1	Bitumen	2																							
+1.0.0	2	1	10	4	Vial (Gas Oil)	8	Vial (Kerosene)	2	Vial (Diesel)	2	Bitumen	4																							
+1.0.0	2	1	10	4	Vial (Gas Oil)	32	Vial (Kerosene)	16	Vial (Diesel)	16	Bitumen	8																							
+1.0.0	2	1	10	4	Beaker (Gas Oil)	3	Beaker (Kerosene)	1	Beaker (Diesel)	1	Block of Bitumen	1																							
+1.0.0	2	1	10	4	Beaker (Gas Oil)	9	Beaker (Kerosene)	3	Beaker (Diesel)	3	Block of Bitumen	3																							
+1.0.0	2	1	10	4	Beaker (Gas Oil)	27	Beaker (Kerosene)	9	Beaker (Diesel)	9	Block of Bitumen	9																							
+1.0.0	2	1	10	4	Drum (Gas Oil)	2	Drum (Kerosene)	1	Drum (Diesel)	1	Block of Bitumen	16																							
+1.0.0	2	1	10	4	Drum (Gas Oil)	8	Drum (Kerosene)	4	Drum (Diesel)	4	Block of Bitumen	32																							
+1.0.0	2	1	10	4	Drum (Gas Oil)	32	Drum (Kerosene)	16	Drum (Diesel)	16	Block of Bitumen	64																							
+1.0.6	2	1	10	4	Beaker (Deionized Water)	16	Cartridge (Oxygen)	8	Cartridge (Hydrogen)	16																									
+1.0.6	2	1	10	4	Drum (Deionized Water)	16	Canister (Oxygen)	8	Canister (Hydrogen)	16																									
+1.0.6	2	1	10	4	Vial (Deionized Water)	16	Flask (Oxygen)	8	Flask (Hydrogen)	16																									
+1.0.6	2	1	10	4	Beaker (Deionized Water)	64	Cartridge (Oxygen)	32	Cartridge (Hydrogen)	64																									
+1.0.6	2	1	10	4	Drum (Deionized Water)	64	Canister (Oxygen)	32	Canister (Hydrogen)	64																									
+1.0.6	2	1	10	4	Vial (Deionized Water)	64	Flask (Oxygen)	32	Flask (Hydrogen)	64																									
+1.0.6	2	1	10	4	Beaker (Deionized Water)	2	Cartridge (Oxygen)	1	Cartridge (Hydrogen)	2																									
+1.0.6	2	1	10	4	Drum (Deionized Water)	2	Canister (Oxygen)	1	Canister (Hydrogen)	2																									
+1.0.6	2	1	10	4	Vial (Deionized Water)	2	Flask (Oxygen)	1	Flask (Hydrogen)	2																									
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			

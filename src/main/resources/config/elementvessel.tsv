@@ -80,7 +80,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Element Small	Element Medium	Ele
 1.0.0	7n	9h	bb	d5	Bag (Gold)	Sack (Gold)	Powder Keg (Gold)	Chemical Silo (Gold)	Gold	Au	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7o	9i	bc	d6	Vial (Mercury)	Beaker (Mercury)	Powder Keg (Mercury)	Chemical Vat (Mercury)	Mercury	Hg	Liquid	Vial	Beaker	Powder Keg	Chemical Vat
 1.0.0	7p	9j	bd	d7	Bag (Thallium)	Sack (Thallium)	Powder Keg (Thallium)	Chemical Silo (Thallium)	Thallium	Tl	Solid	Bag	Sack	Powder Keg	Chemical Silo
-1.0.0	7q	9k	be	d8	Bag (Lead)	Sack (Lead)	Powder Keg (Lead)	Chemical Silo (Lead)	Lead	Pb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7q	9k	be	d8	Bag (Plumbum (Lead))	Sack (Plumbum (Lead))	Powder Keg (Plumbum (Lead))	Chemical Silo (Plumbum (Lead))	Plumbum (Lead)	Pb	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7r	9l	bf	d9	Bag (Bismuth)	Sack (Bismuth)	Powder Keg (Bismuth)	Chemical Silo (Bismuth)	Bismuth	Bi	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7s	9m	bg	da	Bag (Polonium)	Sack (Polonium)	Powder Keg (Polonium)	Chemical Silo (Polonium)	Polonium	Po	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	7t	9n	bh	db	Bag (Astatine)	Sack (Astatine)	Powder Keg (Astatine)	Chemical Silo (Astatine)	Astatine	At	Solid	Bag	Sack	Powder Keg	Chemical Silo

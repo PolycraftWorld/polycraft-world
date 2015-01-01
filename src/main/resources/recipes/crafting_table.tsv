@@ -1,124 +1,965 @@
-Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Input 6	I6#	Input 7	I7#	Input 8	I8#	Input 9	I9#
-1.0.0	TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Sack (PolyIsoPrene Pellets)	1		
-1.0.0	TRUE	FALSE	1	Tree Tap	1	Planks	1	Stick	1	Planks	1	Planks	1			Planks	1			Planks	1		
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Metal Screw	1	Iron Block	1
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Iron Block	1					Iron Ingot	1					Iron Ingot	1		
-1.0.0	TRUE	FALSE	2	Stone Pogo Stick	1	Stick	1	Stick	1	Stick	1	Cobblestone	1	Stick	1	Cobblestone	1			Sack (PolyIsoPrene Pellets)	1		
-1.0.0	TRUE	FALSE	2	Iron Pogo Stick	1	Stick	1	Stick	1	Stick	1	Iron Block	1	Stick	1	Iron Block	1			Sack (PolyIsoPrene Pellets)	1		
-1.0.0	TRUE	FALSE	2	Golden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Gold Block	1	Stick	1	Gold Block	1			Sack (PolyIsoPrene Pellets)	1		
-1.0.0	TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Sack (PolyIsoPrene Pellets)	1		
-1.0.0	TRUE	FALSE	3	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1		
-1.0.0	TRUE	FALSE	3	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1		
-1.0.0	TRUE	FALSE	3	Regulator	1	Copper Pipe	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Redstone	1	Gasket (PolyIsoPrene)	1			Gasket (PolyIsoPrene)	1	Copper Pipe	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	FALSE	3	Membrane X	1	Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1
-1.0.0	TRUE	FALSE	3	Membrane O	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1			Fibers (Low Density PolyEthylene)	1		
-1.0.0	TRUE	FALSE	4	Lighter	1	Vial (Light Naphtha)	1	Flint And Steel	1														
-1.0.0	TRUE	FALSE	3	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1		
-1.0.0	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Pipe	1		
-1.0.0	TRUE	FALSE	4	Spotlight	1	Slab (PolyIsoPrene)	1	Gas Mantle	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Chest	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Copper Pipe	1	Slab (PolyIsoPrene)	1
-1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Iron Block	1	Redstone Block	1	Iron Block	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	FALSE	5	Heat Exchanger	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Redstone Block	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1
-1.0.0	TRUE	FALSE	5	Plastic Chest	1	Block (PolyPropylene)	1	Block (PolyPropylene)	1	Block (PolyPropylene)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block (PolyPropylene)	1	Block (PolyPropylene)	1	Block (PolyPropylene)	1
-	TRUE	FALSE	6	Wine Press	1	Hopper	1	Sticky Piston	1			Iron Block	1	Redstone Block	1	Iron Block	1	Iron Block	1	Sticky Piston	1	Iron Block	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	FALSE	8	Oil Derrick	1			Structural Truss	1			Structural Truss	1	Plastic Chest	1	Structural Truss	1	Structural Truss	1	Chemical Processor	1	Structural Truss	1
-1.0.0	TRUE	FALSE	7	Flame Thrower	1	Lighter	1	Regulator	1	Hose (PolyIsoPrene)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1						
-1.0.0	TRUE	FALSE	4	Flashlight	1	Gas Mantle	1	Redstone Block	1	Flashlight Shaft (PolyPropylene)	1												
-1.0.0	TRUE	FALSE	9	Jet Pack	1	Hose (PolyIsoPrene)	1	Regulator	1	Hose (PolyIsoPrene)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1						
-1.0.0	TRUE	FALSE	9	Laser	1			Nether Star	1			Nether Star	1	Redstone Block	1	Nether Star	1			Nether Star	1		
-1.0.0	TRUE	FALSE	9	Phase Shifter	1	Nether Star	1			Nether Star	1			Redstone Block	1			Nether Star	1			Nether Star	1
-1.0.0	TRUE	FALSE	6	Scuba Tank	1	Hose (PolyIsoPrene)	1	Regulator	1	Hose (PolyIsoPrene)	1	Cartridge (Oxygen)	1	Wetsuit	1	Cartridge (Oxygen)	1						
-1.0.0	TRUE	FALSE	6	Wetsuit	1	Fibers (PolyIsoPrene)	1			Fibers (PolyIsoPrene)	1	Fibers (PolyIsoPrene)	1	Fibers (PolyIsoPrene)	1	Fibers (PolyIsoPrene)	1	Fibers (PolyIsoPrene)	1	Fibers (PolyIsoPrene)	1	Fibers (PolyIsoPrene)	1
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1
-1.0.0	TRUE	FALSE	5	Lighter	1	Flint And Steel	1	Copper Pipe	1	Copper Pipe	1												
-1.0.0	TRUE	FALSE	5	Kevlar Vest	1	Fibers (PolyPropylene)	1			Fibers (PolyPropylene)	1	Fibers (PolyPropylene)	1	Fibers (PolyPropylene)	1	Fibers (PolyPropylene)	1	Fibers (PolyPropylene)	1	Fibers (PolyPropylene)	1	Fibers (PolyPropylene)	1
-1.0.0	TRUE	FALSE	5	Heat Fins	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Iron Block	1	Furnace	1	Iron Block	1
-1.0.0	TRUE	TRUE	2	Brass Ingot	1	Zinc Ingot	1	Copper Ingot	1														
-1.0.0	TRUE	TRUE	2	Block of Brass	1	Block of Zinc	1	Block of Copper	1														
-1.0.0	TRUE	FALSE	2	Bronze Ingot	9	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Tin Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1
-1.0.0	TRUE	FALSE	2	Block of Bronze	9	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Tin	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Tungsten	1					Tungsten Ingot	1					Tungsten Ingot	1		
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Titanium	1					Titanium Ingot	1					Titanium Ingot	1		
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Nickel	1					Nickel Ingot	1					Nickel Ingot	1		
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Antimony	1					Antimony Ingot	1					Antimony Ingot	1		
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Metal Screw	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Metal Screw	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Metal Screw	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (PolyIsoPrene)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (PolyIsoPrene)	1	Slab (PolyIsoPrene)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Metal Screw	1	Block of Brass	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Bronze	1	Redstone Block	1	Block of Bronze	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Brass	1	Redstone Block	1	Block of Brass	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Nickel	1	Redstone Block	1	Block of Nickel	1	Industrial Oven	1			Industrial Oven	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Propane)	1	Cartridge (Ethane)	1	Cartridge (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Propane)	1	Cartridge (Methane)	1	Cartridge (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Ethane)	1	Cartridge (Methane)	1	Cartridge (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Ethane)	1	Cartridge (Propane)	1	Cartridge (Methane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Methane)	1	Cartridge (Propane)	1	Cartridge (Ethane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Methane)	1	Cartridge (Ethane)	1	Cartridge (Propane)	1	Furnace	1	Furnace	1	Furnace	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Brass	1	Furnace	1	Block of Brass	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1
-1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1
-1.0.0	TRUE	FALSE	6	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1
-1.0.0	TRUE	FALSE	6	Separation Membrane	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1
-1.0.0	TRUE	TRUE	3	Platinum Catalyst	4	Platinum Ingot	1																
-1.0.0	TRUE	TRUE	3	Titanium Catalyst	4	Titanium Ingot	1																
-1.0.0	TRUE	TRUE	3	Palladium Catalyst	4	Palladium Ingot	1																
-1.0.0	TRUE	TRUE	3	Cobalt Catalyst	4	Cobalt Ingot	1																
-1.0.0	TRUE	TRUE	3	Manganese Catalyst	4	Manganese Ingot	1																
-1.0.0	TRUE	TRUE	3	Silver Catalyst	4	Silver Ingot	1																
-1.0.0	TRUE	TRUE	3	Triethylaluminium Catalyst	4	Aluminum Ingot	1																
-1.0.0	TRUE	TRUE	3	Antimony Trioxide Catalyst	4	Antimony Ingot	1																
-1.0.0	TRUE	TRUE	3	Copper II Chloride Catalyst	4	Copper Ingot	1																
-1.0.0	TRUE	TRUE	3	Iron III Chloride Catalyst	4	Iron Ingot	1																
-1.0.0	TRUE	TRUE	3	Bag (Potassium Hydroxide)	4	Potash Ore	1																
-1.0.3	TRUE	FALSE	4	Diamond-PolyIsoPrene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PolyIsoPrene)	1		
-1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PolyPropylene)	1		
-1.0.3	TRUE	FALSE	4	Diamond-PEEK Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PolyEther Ether Ketone)	1		
-1.0.3	TRUE	FALSE	4	Stainless-PolyIsoPrene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PolyIsoPrene)	1		
-1.0.3	TRUE	FALSE	4	Stainless-PolyPropylene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PolyPropylene)	1		
-1.0.3	TRUE	FALSE	4	Stainless-PEEK Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PolyEther Ether Ketone)	1		
-1.0.4	TRUE	FALSE	4	Stainless Steel Ingot	9	Chrome Ingot	1	Nickel Ingot	1	Chrome Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1
-1.0.4	TRUE	FALSE	4	Block of Stainless Steel	9	Block of Chrome	1	Block of Nickel	1	Block of Chrome	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1
-1.0.4	TRUE	FALSE	4	Steel Ingot	9	Iron Ingot	1	Graphite	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1
-1.0.4	TRUE	FALSE	4	Block of Steel	9	Iron Block	1	Graphite	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1
-1.0.6	TRUE	FALSE	6	BlockPipe	6			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1		
-1.0.6	TRUE	FALSE	6	BlockPipe	64			Block of Steel	1		1	Block of Steel	1			Block of Steel	1			Block of Steel	1		
-1.0.6	TRUE	FALSE	6	BlockPipe	6			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1		
-1.0.6	TRUE	FALSE	6	BlockPipe	64			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1		
-1.0.6	TRUE	FALSE	6	Pump	1	Hose (PolyIsoPrene)	1	Gasket (PolyIsoPrene)	1	Regulator	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Regulator	1	Gasket (PolyIsoPrene)	1	Hose (PolyIsoPrene)	1
-1.0.6	TRUE	FALSE	6	Pump	1	Regulator	1	Gasket (PolyIsoPrene)	1	Hose (PolyIsoPrene)	1	Block (PolyPropylene)	1	Redstone Block	1	Block (PolyPropylene)	1	Hose (PolyIsoPrene)	1	Gasket (PolyIsoPrene)	1	Regulator	1
-1.0.6	TRUE	TRUE	6	Flow Regulator	1	BlockPipe	1	Regulator	1														
-1.0.6	TRUE	FALSE	6	BlockPipe	16	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1												
-1.0.6	TRUE	FALSE	6	BlockPipe	16							Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1						
-1.0.6	TRUE	FALSE	6	BlockPipe	16													Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1	Large Pipe (PolyPropylene)	1
+Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Input 6	I6#	Input 7	I7#	Input 8	I8#	Input 9	I9#						
+1.0.0	TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	1	Tree Tap	1	Planks	1	Stick	1	Planks	1	Planks	1			Planks	1			Planks	1								
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (NR)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (NR)	1	Slab (NR)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Metal Screw	1	Iron Block	1						
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Iron Block	1					Iron Ingot	1					Iron Ingot	1								
+1.0.0	TRUE	FALSE	2	Stone Pogo Stick	1	Stick	1	Stick	1	Stick	1	Cobblestone	1	Stick	1	Cobblestone	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	2	Iron Pogo Stick	1	Stick	1	Stick	1	Stick	1	Iron Block	1	Stick	1	Iron Block	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	2	Golden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Gold Block	1	Stick	1	Gold Block	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	3	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	3	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1								
+1.0.0	TRUE	FALSE	3	Regulator	1	Copper Pipe	1	Gasket (NR)	1			Gasket (NR)	1	Redstone	1	Gasket (NR)	1			Gasket (NR)	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	3	Membrane X	1	Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1						
+1.0.0	TRUE	FALSE	3	Membrane O	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1								
+1.0.0	TRUE	FALSE	4	Lighter	1	Vial (Light Naphtha)	1	Flint And Steel	1																				
+1.0.0	TRUE	FALSE	3	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1								
+1.0.0	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Pipe	1								
+1.0.0	TRUE	FALSE	4	Spotlight	1	Slab (NR)	1	Gas Mantle	1	Slab (NR)	1	Slab (NR)	1	Chest	1	Slab (NR)	1	Slab (NR)	1	Copper Pipe	1	Slab (NR)	1						
+1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Iron Block	1	Redstone Block	1	Iron Block	1	Industrial Oven	1			Industrial Oven	1						
+1.0.0	TRUE	FALSE	5	Heat Exchanger	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Redstone Block	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	5	Plastic Chest	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1						
+	TRUE	FALSE	6	Wine Press	1	Hopper	1	Sticky Piston	1			Iron Block	1	Redstone Block	1	Iron Block	1	Iron Block	1	Sticky Piston	1	Iron Block	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	8	Oil Derrick	1			Structural Truss	1			Structural Truss	1	Plastic Chest	1	Structural Truss	1	Structural Truss	1	Chemical Processor	1	Structural Truss	1						
+1.0.0	TRUE	FALSE	7	Flame Thrower	1	Lighter	1	Regulator	1	Hose (NR)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.0.0	TRUE	FALSE	4	Flashlight	1	Gas Mantle	1	Redstone Block	1	Flashlight Shaft (PS)	1																		
+1.0.0	TRUE	FALSE	9	Jet Pack	1	Hose (NR)	1	Regulator	1	Hose (NR)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.0.0	TRUE	FALSE	9	Laser	1			Nether Star	1			Nether Star	1	Redstone Block	1	Nether Star	1			Nether Star	1								
+1.0.0	TRUE	FALSE	9	Phase Shifter	1	Nether Star	1			Nether Star	1			Redstone Block	1			Nether Star	1			Nether Star	1						
+1.0.0	TRUE	FALSE	6	Scuba Tank	1	Hose (NR)	1	Regulator	1	Hose (NR)	1	Cartridge (Oxygen)	1	Wetsuit	1	Cartridge (Oxygen)	1												
+1.0.0	TRUE	FALSE	6	Wetsuit	1	Fibers (NR)	1			Fibers (NR)	1	Fibers (NR)	1	Fibers (NR)	1	Fibers (NR)	1	Fibers (NR)	1	Fibers (NR)	1	Fibers (NR)	1						
+1.0.0	TRUE	FALSE	9	Structural Truss	1	Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1						
+1.0.0	TRUE	FALSE	5	Lighter	1	Flint And Steel	1	Copper Pipe	1	Copper Pipe	1																		
+1.0.0	TRUE	FALSE	5	Kevlar Vest	1	Fibers (PP)	1			Fibers (PP)	1	Fibers (PP)	1	Fibers (PP)	1	Fibers (PP)	1	Fibers (PP)	1	Fibers (PP)	1	Fibers (PP)	1						
+1.0.0	TRUE	FALSE	5	Heat Fins	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Drum (Gas Oil)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	TRUE	2	Brass Ingot	1	Zinc Ingot	1	Copper Ingot	1																				
+1.0.0	TRUE	TRUE	2	Block of Brass	1	Block of Zinc	1	Block of Copper	1																				
+1.0.0	TRUE	FALSE	2	Bronze Ingot	9	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Tin Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1						
+1.0.0	TRUE	FALSE	2	Block of Bronze	9	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Tin	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1						
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Tungsten	1					Tungsten Ingot	1					Tungsten Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Titanium	1					Titanium Ingot	1					Titanium Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Nickel	1					Nickel Ingot	1					Nickel Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Antimony	1					Antimony Ingot	1					Antimony Ingot	1								
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (NR)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (NR)	1	Slab (NR)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Metal Screw	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (NR)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (NR)	1	Slab (NR)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Metal Screw	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (NR)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (NR)	1	Slab (NR)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Metal Screw	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (NR)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (NR)	1	Slab (NR)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Metal Screw	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator	1	Hopper	1			Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Bronze	1	Redstone Block	1	Block of Bronze	1	Industrial Oven	1			Industrial Oven	1						
+1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Brass	1	Redstone Block	1	Block of Brass	1	Industrial Oven	1			Industrial Oven	1						
+1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Industrial Oven	1			Industrial Oven	1						
+1.0.0	TRUE	FALSE	5	Steam Cracker	1	Regulator	1	Hopper	1	Heat Exchanger	1	Block of Nickel	1	Redstone Block	1	Block of Nickel	1	Industrial Oven	1			Industrial Oven	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Propane)	1	Cartridge (Ethane)	1	Cartridge (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Propane)	1	Cartridge (Methane)	1	Cartridge (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Ethane)	1	Cartridge (Methane)	1	Cartridge (Propane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Ethane)	1	Cartridge (Propane)	1	Cartridge (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Methane)	1	Cartridge (Propane)	1	Cartridge (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Cartridge (Methane)	1	Cartridge (Ethane)	1	Cartridge (Propane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Drum (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator	1	Hopper	1			Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Drum (Diesel)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	9	Structural Truss	1	Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1						
+1.0.0	TRUE	FALSE	9	Structural Truss	1	Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1						
+1.0.0	TRUE	FALSE	9	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1						
+1.0.0	TRUE	FALSE	9	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1						
+1.0.0	TRUE	FALSE	9	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1						
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	6	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1						
+1.0.0	TRUE	FALSE	6	Separation Membrane	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1						
+1.0.0	TRUE	TRUE	3	Platinum Catalyst	4	Platinum Ingot	1																						
+1.0.0	TRUE	TRUE	3	Titanium Catalyst	4	Titanium Ingot	1																						
+1.0.0	TRUE	TRUE	3	Palladium Catalyst	4	Palladium Ingot	1																						
+1.0.0	TRUE	TRUE	3	Cobalt Catalyst	4	Cobalt Ingot	1																						
+1.0.0	TRUE	TRUE	3	Manganese Catalyst	4	Manganese Ingot	1																						
+1.0.0	TRUE	TRUE	3	Silver Catalyst	4	Silver Ingot	1																						
+1.0.0	TRUE	TRUE	3	Triethylaluminium Catalyst	4	Aluminum Ingot	1																						
+1.0.0	TRUE	TRUE	3	Antimony Trioxide Catalyst	4	Antimony Ingot	1																						
+1.0.0	TRUE	TRUE	3	Copper II Chloride Catalyst	4	Copper Ingot	1																						
+1.0.0	TRUE	TRUE	3	Iron III Chloride Catalyst	4	Iron Ingot	1																						
+1.0.0	TRUE	TRUE	3	Bag (Potassium Hydroxide)	4	Potash Ore	1																						
+1.0.3	TRUE	FALSE	4	Diamond-PolyIsoPrene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
+1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PP)	1								
+1.0.3	TRUE	FALSE	4	Diamond-PEEK Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PS)	1								
+1.0.3	TRUE	FALSE	4	Stainless-PolyIsoPrene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
+1.0.3	TRUE	FALSE	4	Stainless-PolyPropylene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PP)	1								
+1.0.3	TRUE	FALSE	4	Stainless-PEEK Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PS)	1								
+1.0.4	TRUE	FALSE	4	Stainless Steel Ingot	9	Chrome Ingot	1	Nickel Ingot	1	Chrome Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1						
+1.0.4	TRUE	FALSE	4	Block of Stainless Steel	9	Block of Chrome	1	Block of Nickel	1	Block of Chrome	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1						
+1.0.4	TRUE	FALSE	4	Block of Steel	9	Iron Block	1	Graphite	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1						
+1.0.6	TRUE	FALSE	6	BlockPipe	6			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1								
+1.0.6	TRUE	FALSE	6	BlockPipe	64			Block of Steel	1		1	Block of Steel	1			Block of Steel	1			Block of Steel	1								
+1.0.6	TRUE	FALSE	6	BlockPipe	6			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1								
+1.0.6	TRUE	FALSE	6	BlockPipe	64			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1								
+1.0.6	TRUE	FALSE	6	Pump	1	Hose (NR)	1	Gasket (NR)	1	Regulator	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Regulator	1	Gasket (NR)	1	Hose (NR)	1						
+1.0.6	TRUE	FALSE	6	Pump	1	Regulator	1	Gasket (NR)	1	Hose (NR)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Hose (NR)	1	Gasket (NR)	1	Regulator	1						
+1.0.6	TRUE	TRUE	6	Flow Regulator	1	BlockPipe	1	Regulator	1																				
+1.0.6	TRUE	FALSE	6	BlockPipe	16	Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1																		
+1.0.6	TRUE	FALSE	6	BlockPipe	16							Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1												
+1.0.6	TRUE	FALSE	6	BlockPipe	16													Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1						
+1.1.0	TRUE	FALSE	6	Jet Pack	1	Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	6	Jet Pack	1							Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack	1													Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1						
+1.1.0	TRUE	FALSE	3	Bucket	1							Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1								
+1.1.0	TRUE	FALSE	3	Bucket	1							Brass Ingot	1			Brass Ingot	1			Brass Ingot	1								
+1.1.0	TRUE	FALSE	3	Bucket	1							Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1								
+1.1.0	TRUE	FALSE	3	Bucket	1							Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1								
+1.1.0	TRUE	FALSE	3	Bucket	1							Steel Ingot	1			Steel Ingot	1			Steel Ingot	1								
+1.1.0	TRUE	TRUE	3	Tungsten Carbide Ingot	1	Tungsten Ingot	1	Graphite	1																				
+1.1.0	TRUE	FALSE	3	Nichrome Ingot	1	Nickel Ingot	1			Nickel Ingot	1			Chrome Ingot	1			Nickel Ingot	1			Nickel Ingot	1						
+1.1.0	TRUE	FALSE	3	Nichrome Ingot	1			Nickel Ingot	1			Nickel Ingot	1	Chrome Ingot	1	Nickel Ingot	1			Nickel Ingot	1								
+1.1.0	TRUE	FALSE	3	Block of Nichrome	1	Block of Nickel	1			Block of Nickel	1			Block of Chrome	1			Block of Nickel	1			Block of Nickel	1						
+1.1.0	TRUE	FALSE	3	Block of Nichrome	1			Block of Nickel	1			Block of Nickel	1	Block of Chrome	1	Block of Nickel	1			Block of Nickel	1								
+1.1.0	TRUE	FALSE	3	Antimony-Lead Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Antimony Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1						
+1.1.0	TRUE	FALSE	4	Block of Antimony-Lead	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Antimony	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1						
+1.1.0	TRUE	FALSE	3	Running Shoes (Sprinter)	1			Rubber Sole (outsole)	1			Leather	1	Rubber Sole (midsole)	1	Leather	1	Leather	1	Rubber Sole (insole)	1	Leather	1						
+1.1.0	TRUE	FALSE	3	Running Shoes (Sprinter)	1			Rubber Sole (outsole)	1			Bag (PolyHexamethylene Adipamide Pellets)	1	Rubber Sole (midsole)	1	Leather	1	Leather	1	Rubber Sole (insole)	1	Leather	1						
+1.1.0	TRUE	FALSE	3	Iron Shovel	1			Brass Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Pickaxe	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Axe	1	Brass Ingot	1	Brass Ingot	1			Brass Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Sword	1			Brass Ingot	1					Brass Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Hoe	1	Brass Ingot	1	Brass Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Shears	1									Brass Ingot	1			Brass Ingot	1										
+1.1.0	TRUE	FALSE	3	Iron Helmet	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1			Brass Ingot	1												
+1.1.0	TRUE	FALSE	3	Iron Chestplate	1	Brass Ingot	1			Brass Ingot	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Leggings	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1	Brass Ingot	1			Brass Ingot	1	Brass Ingot	1			Brass Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Boots	1							Brass Ingot	1			Brass Ingot	1	Brass Ingot	1			Brass Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Shovel	1			Bronze Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Pickaxe	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Axe	1	Bronze Ingot	1	Bronze Ingot	1			Bronze Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Sword	1			Bronze Ingot	1					Bronze Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Hoe	1	Bronze Ingot	1	Bronze Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Shears	1									Bronze Ingot	1			Bronze Ingot	1										
+1.1.0	TRUE	FALSE	3	Iron Helmet	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1			Bronze Ingot	1												
+1.1.0	TRUE	FALSE	3	Iron Chestplate	1	Bronze Ingot	1			Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Leggings	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1	Bronze Ingot	1			Bronze Ingot	1	Bronze Ingot	1			Bronze Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Boots	1							Bronze Ingot	1			Bronze Ingot	1	Bronze Ingot	1			Bronze Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Shovel	1			Steel Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Pickaxe	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Axe	1	Steel Ingot	1	Steel Ingot	1			Steel Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Sword	1			Steel Ingot	1					Steel Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Hoe	1	Steel Ingot	1	Steel Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Shears	1									Steel Ingot	1			Steel Ingot	1										
+1.1.0	TRUE	FALSE	3	Iron Helmet	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1			Steel Ingot	1												
+1.1.0	TRUE	FALSE	3	Iron Chestplate	1	Steel Ingot	1			Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Leggings	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1			Steel Ingot	1	Steel Ingot	1			Steel Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Boots	1							Steel Ingot	1			Steel Ingot	1	Steel Ingot	1			Steel Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Shovel	1			Stainless Steel Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Pickaxe	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Axe	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1			Stainless Steel Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Sword	1			Stainless Steel Ingot	1					Stainless Steel Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Hoe	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Shears	1									Stainless Steel Ingot	1			Stainless Steel Ingot	1										
+1.1.0	TRUE	FALSE	3	Iron Helmet	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1			Stainless Steel Ingot	1												
+1.1.0	TRUE	FALSE	3	Iron Chestplate	1	Stainless Steel Ingot	1			Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Leggings	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1			Stainless Steel Ingot	1	Stainless Steel Ingot	1			Stainless Steel Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Boots	1							Stainless Steel Ingot	1			Stainless Steel Ingot	1	Stainless Steel Ingot	1			Stainless Steel Ingot	1						
+1.1.0	TRUE	FALSE	3	Diamond Shovel	1			Tungsten Carbide Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Diamond Pickaxe	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Diamond Axe	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Diamond Sword	1			Tungsten Carbide Ingot	1					Tungsten Carbide Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Diamond Hoe	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Diamond Helmet	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1												
+1.1.0	TRUE	FALSE	3	Diamond Chestplate	1	Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1						
+1.1.0	TRUE	FALSE	3	Diamond Leggings	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1						
+1.1.0	TRUE	FALSE	3	Diamond Boots	1							Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1	Tungsten Carbide Ingot	1			Tungsten Carbide Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Shovel	1			Nichrome Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Pickaxe	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Axe	1	Nichrome Ingot	1	Nichrome Ingot	1			Nichrome Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Sword	1			Nichrome Ingot	1					Nichrome Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Hoe	1	Nichrome Ingot	1	Nichrome Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Shears	1									Nichrome Ingot	1			Nichrome Ingot	1										
+1.1.0	TRUE	FALSE	3	Iron Helmet	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1			Nichrome Ingot	1												
+1.1.0	TRUE	FALSE	3	Iron Chestplate	1	Nichrome Ingot	1			Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Leggings	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1	Nichrome Ingot	1			Nichrome Ingot	1	Nichrome Ingot	1			Nichrome Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Boots	1							Nichrome Ingot	1			Nichrome Ingot	1	Nichrome Ingot	1			Nichrome Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Shovel	1			Antimony-Lead Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Pickaxe	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1			Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Axe	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1			Antimony-Lead Ingot	1	Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Sword	1			Antimony-Lead Ingot	1					Antimony-Lead Ingot	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Iron Hoe	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1					Stick	1					Stick	1								
+1.1.0	TRUE	FALSE	3	Shears	1									Antimony-Lead Ingot	1			Antimony-Lead Ingot	1										
+1.1.0	TRUE	FALSE	3	Iron Helmet	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1			Antimony-Lead Ingot	1												
+1.1.0	TRUE	FALSE	3	Iron Chestplate	1	Antimony-Lead Ingot	1			Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Leggings	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1	Antimony-Lead Ingot	1			Antimony-Lead Ingot	1	Antimony-Lead Ingot	1			Antimony-Lead Ingot	1						
+1.1.0	TRUE	FALSE	3	Iron Boots	1							Antimony-Lead Ingot	1			Antimony-Lead Ingot	1	Antimony-Lead Ingot	1			Antimony-Lead Ingot	1						
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													

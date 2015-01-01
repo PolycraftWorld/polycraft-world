@@ -167,11 +167,27 @@ Version	Minecraft Block
 1.0.0	Slime	slime	slime	slime	165	A5	minecraft:slime	Slime Block
 1.0.0	Barrier	barrier	barrier	barrier	166	A6	minecraft:barrier	Barrier
 1.0.0	Iron Trapdoor	iron trapdoor	iron trapdoor	iron_trapdoor	167	A7	minecraft:iron_trapdoor	Iron Trapdoor
-	0	0	0	0	168	A8		(unused)
-	0	0	0	0	169	A9		(unused)
+1.0.0	0	0	0	0	168	A8		(unused)
+1.0.0	0	0	0	0	169	A9		(unused)
 1.0.0	Hay Block	hay block	hay block	hay_block	170	AA	minecraft:hay_block	Hay Block D
 1.0.0	Carpet	carpet	carpet	carpet	171	AB	minecraft:carpet	Carpet D B
 1.0.0	Hardened Clay	hardened clay	hardened clay	hardened_clay	172	AC	minecraft:hardened_clay	Hardened Clay
 1.0.0	Coal Block	coal block	coal block	coal_block	173	AD	minecraft:coal_block	Block of Coal
 1.0.0	Packed Ice	packed ice	packed ice	packed_ice	174	AE	minecraft:packed_ice	Packed Ice
 1.0.0	Double Plant	double plant	double plant	double_plant	175	AF	minecraft:double_plant	Large Flowers D B
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
