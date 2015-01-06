@@ -21,7 +21,7 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 	public BlockOre(final Ore ore) {
 		this.ore = ore;
 		final String texture = PolycraftMod.getFileSafeName(ore.name);
-		this.labelTexture = new LabelTexture(texture, texture + "_flipped");
+		this.labelTexture = new LabelTexture(texture, texture, texture + "_flipped");
 		this.setHardness(ore.hardness);
 		this.setResistance(ore.resistance);
 		this.setStepSound(Block.soundTypePiston);
