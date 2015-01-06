@@ -134,10 +134,13 @@ public abstract class MolderInventory extends HeatedInventory {
 
 		@Override
 		public boolean updateEntity(final MolderInventory inventory, final World world) {
-			for (int sourceIndex = slotIndexFirstStorage; sourceIndex <= slotIndexLastStorage; sourceIndex++)
-				if (converge(inventory, sourceIndex, slotIndexInput))
-					break;		
-			return true;
+			if (inventory.getWorldObj() != null && !inventory.getWorldObj().isRemote) {
+				for (int sourceIndex = slotIndexFirstStorage; sourceIndex <= slotIndexLastStorage; sourceIndex++)
+					if (converge(inventory, sourceIndex, slotIndexInput))
+						break;		
+				return true;
+			}
+			return false;
 		}
 
 		private boolean converge(final MolderInventory inventory, final int sourceIndex, final int targetIndex) {
