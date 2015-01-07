@@ -14,6 +14,8 @@ public class CustomObject extends GameIdentifiedConfig {
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, CustomObject.class.getSimpleName().toLowerCase()))
 			if (line.length > 0)
+			{
+				//System.out.println("Custom object: "+line[2]);
 				registry.register(new CustomObject(
 						PolycraftMod.getVersionNumeric(line[0]),
 						line[1], //gameID
@@ -22,6 +24,7 @@ public class CustomObject extends GameIdentifiedConfig {
 						line.length > 8 ? line[8].split(",") : null, //paramNames
 						line, 9 //params
 				));
+			}
 	}
 
 	public final int maxStackSize;;

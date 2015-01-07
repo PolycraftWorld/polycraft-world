@@ -17,6 +17,7 @@ public class Fuel extends Config {
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Fuel.class.getSimpleName().toLowerCase()))
 			if (line.length > 0) {
+				System.out.println("Custom object: "+line[3]);
 				final int index = Integer.parseInt(line[4]);
 				fuelsByIndex.put(index, registry.register(new Fuel(
 						PolycraftMod.getVersionNumeric(line[0]),
@@ -57,6 +58,8 @@ public class Fuel extends Config {
 		for (final Fuel fuel : registry.values()) {
 			if (fuel.source instanceof MinecraftItem)
 				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+			else if (fuel.source instanceof MinecraftBlock)
+				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof CustomObject)
 				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof Element) {
@@ -76,6 +79,10 @@ public class Fuel extends Config {
 							quantifiedFuelsByItem.put(PolycraftMod.itemOilBucket, new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType() * 16));
 					}
 				}
+			}
+			else
+			{
+				throw new Error("Fuel source not found: " + fuel.name);
 			}
 		}
 	}

@@ -23,7 +23,7 @@ Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*
 1.0.4	Ethanol	Compound	Ethanol	21	5	60	
 1.0.4	Butanol	Compound	Butanol	22	5	60	
 1.0.4	Heavy Naphtha	Compound	Heavy Naphtha	23	4	60	
-1.0.4	Hydrogen Gas	Compound	Hydrogen Gas	24	7	15	
+1.0.4	Hydrogen	Element	Hydrogen	24	7	15	
 1.0.4	IsoButane	Compound	IsoButane	25	6	120	
 1.0.4	IsoPentane	Compound	IsoPentane	26	6	120	
 1.0.4	Light Olefins	Compound	Light Olefins	27	3	120	
@@ -63,33 +63,33 @@ Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*
 1.0.6	Wooden Shovel	Minecraft Item	Wooden Shovel	56	1	60	
 1.0.6	Wooden Sword	Minecraft Item	Wooden Sword	57	1	60	
 1.0.6	Bow	Minecraft Item	Bow	58	1	60	
-1.0.7	Bucket (Crude Oil)	Minecraft Item	Bucket (Crude Oil)	59	2	120	
-1.0.7	Dark Oak Stairs	Minecraft Item	Dark Oak Stairs	60	1	60	
-1.0.7	Acacia Stairs	Minecraft Item	Acacia Stairs	61	1	60	
-1.0.7	Jungle Stairs	Minecraft Item	Jungle Stairs	62	1	60	
-1.0.7	Birch Stairs	Minecraft Item	Birch Stairs	63	1	60	
-1.0.7	Spruce Stairs	Minecraft Item	Spruce Stairs	64	1	60	
-1.0.7	Double Wooden Slab	Minecraft Item	Double Wooden Slab	65	1	60	
-1.0.7	Fence Gate	Minecraft Item	Fence Gate	66	1	60	
-1.0.7	Trapdoor	Minecraft Item	Trapdoor	67	1	60	
-1.0.7	Wooden Pressure Plate	Minecraft Item	Wooden Pressure Plate	68	1	60	
-1.0.7	Crafting Table	Minecraft Item	Crafting Table	69	1	60	
-1.0.7	Chest	Minecraft Item	Chest	70	1	60	
-1.0.7	Oak Stairs	Minecraft Item	Oak Stairs	71	1	60	
-1.0.7	Bookshelf	Minecraft Item	Bookshelf	72	1	60	
-1.0.7	Trapped Chest	Minecraft Item	Trapped Chest	73	8	60	
+1.0.7	Bucket (Crude Oil)	Compound	Crude Oil	59	2	120	
+1.0.7	Dark Oak Stairs	Minecraft Block	Dark Oak Stairs	60	1	60	
+1.0.7	Acacia Stairs	Minecraft Block	Acacia Stairs	61	1	60	
+1.0.7	Jungle Stairs	Minecraft Block	Jungle Stairs	62	1	60	
+1.0.7	Birch Stairs	Minecraft Block	Birch Stairs	63	1	60	
+1.0.7	Spruce Stairs	Minecraft Block	Spruce Stairs	64	1	60	
+1.0.7	Double Wooden Slab	Minecraft Block	Double Wooden Slab	65	1	60	
+1.0.7	Fence Gate	Minecraft Block	Fence Gate	66	1	60	
+1.0.7	Trapdoor	Minecraft Block	Trapdoor	67	1	60	
+1.0.7	Wooden Pressure Plate	Minecraft Block	Wooden Pressure Plate	68	1	60	
+1.0.7	Crafting Table	Minecraft Block	Crafting Table	69	1	60	
+1.0.7	Chest	Minecraft Block	Chest	70	1	60	
+1.0.7	Oak Stairs	Minecraft Block	Oak Stairs	71	1	60	
+1.0.7	Bookshelf	Minecraft Block	Bookshelf	72	1	60	
+1.0.7	Trapped Chest	Minecraft Block	Trapped Chest	73	8	60	
 1.0.7	Blaze Rod	Minecraft Item	Blaze Rod	74	3	60	
-1.0.7	Noteblock	Minecraft Item	Noteblock	75	1	60	
-1.0.7	Planks	Minecraft Item	Planks	76	2	60	
-1.0.7	Log	Minecraft Item	Log	77	1	60	
-1.0.7	Fence	Minecraft Item	Fence	78	1	60	
-1.0.7	Daylight Detector	Minecraft Item	Daylight Detector	79	1	60	
-1.0.7	Brown Mushroom Block	Minecraft Item	Brown Mushroom Block	80	1	60	
-1.0.7	Red Mushroom Block	Minecraft Item	Red Mushroom Block	81	1	60	
-1.0.7	Wooden Slab	Minecraft Item	Wooden Slab	82	1	60	
-1.1.0	Lead-Acid Battery (1-Cell)	Custom Item	Lead-Acid Battery (1-Cell)	83	3	1200	
-1.1.0	Lead-Acid Battery (9-Cell)	Custom Item	Lead-Acid Battery (9-Cell)	84	8	10800	
-1.1.0	Lithium Ion Battery (1-Cell)	Custom Item	Lithium Ion Battery (1-Cell)	85	3	4800	
-1.1.0	Lithium Ion Battery (9-Cell)	Custom Item	Lithium Ion Battery (9-Cell)	86	8	43200	
-1.1.0	Nickel Metal Hydride Battery (1-Cell)	Custom Item	Nickel Metal Hydride Battery (1-Cell)	87	3	2400	
-1.1.0	Nickel Metal Hydride Battery (9-Cell)	Custom Item	Nickel Metal Hydride Battery (9-Cell)	88	8	21600	
+1.0.7	Noteblock	Minecraft Block	Noteblock	75	1	60	
+1.0.7	Planks	Minecraft Block	Planks	76	2	60	
+1.0.7	Log	Minecraft Block	Log	77	1	60	
+1.0.7	Fence	Minecraft Block	Fence	78	1	60	
+1.0.7	Daylight Detector	Minecraft Block	Daylight Detector	79	1	60	
+1.0.7	Brown Mushroom Block	Minecraft Block	Brown Mushroom Block	80	1	60	
+1.0.7	Red Mushroom Block	Minecraft Block	Red Mushroom Block	81	1	60	
+1.0.7	Wooden Slab	Minecraft Block	Wooden Slab	82	1	60	
+1.1.0	Lead-Acid Battery (1-Cell)	Custom Object	Lead-Acid Battery (1-Cell)	83	3	1200	
+1.1.0	Lead-Acid Battery (9-Cell)	Custom Object	Lead-Acid Battery (9-Cell)	84	8	10800	
+1.1.0	Lithium Ion Battery (1-Cell)	Custom Object	Lithium Ion Battery (1-Cell)	85	3	4800	
+1.1.0	Lithium Ion Battery (9-Cell)	Custom Object	Lithium Ion Battery (9-Cell)	86	8	43200	
+1.1.0	Nickel Metal Hydride Battery (1-Cell)	Custom Object	Nickel Metal Hydride Battery (1-Cell)	87	3	2400	
+1.1.0	Nickel Metal Hydride Battery (9-Cell)	Custom Object	Nickel Metal Hydride Battery (9-Cell)	88	8	21600	
