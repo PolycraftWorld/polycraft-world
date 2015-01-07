@@ -80,7 +80,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	Nq	Pg	R6	SW	Slab (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	Nr	Ph	R7	SX	Slab (PPMS)	Block (PPMS)	PPMS	0
 0	Ns	Pi	R8	SY	Slab (PPS)	Block (PPS)	PPS	0
-0	Nt	Pj	R9	SZ	Slab (PPTA)	Block (PPTA)	PPTA	0
+0	Nt	Pj	R9	SZ	Slab (kevlar)	Block (kevlar)	kevlar	0
 1.0.0	Nu	Pk	Ra	T0	Slab (PP)	Block (PP)	PP	0
 0	Nv	Pl	Rb	T1	Slab (PPG)	Block (PPG)	PPG	0
 0	Nw	Pm	Rc	T2	Slab (PPOX)	Block (PPOX)	PPOX	0

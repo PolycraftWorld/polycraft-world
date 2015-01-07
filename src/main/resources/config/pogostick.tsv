@@ -1,4 +1,4 @@
-Version	Game ID	Pogo Stick	Tool Material	Max Bounces	Stable Bounce Height	Jump Movement Buff	Restrict Jump to Ground	Pogo Stick Gripped From	Grip Molded Item	Level	First Release	Notes
+Version	Game ID	Pogo Stick	Base Material	Max Bounces	Stable Bounce Height	Jump Movement Buff	Restrict Jump to Ground	Pogo Stick Gripped From	Grip Molded Item	Level	First Release	Notes
 1.0.0	37	Wooden Pogo Stick	Wooden	64	3	1.5	TRUE			1	TRUE	
 1.0.0	36	Stone Pogo Stick	Stone	256	4	1.75	TRUE			1	TRUE	
 1.0.0	38	Iron Pogo Stick	Iron	1024	5	2	TRUE			2	TRUE	

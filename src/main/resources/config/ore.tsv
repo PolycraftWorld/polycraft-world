@@ -9,11 +9,11 @@ Version	Game ID	Ore	Source Type	Source Name	hardness	resistance	dropExpMin	dropE
 1.0.0	7	Palladium Ore	Element	Palladium	3	5	1	4	1	6	0	20	165	184	225	A5B8E1	
 1.0.0	8	Silver Ore	Element	Silver	3	5	2	5	2	4	10	30					"Older non-clad American dimes, quarters, half dollars and silver dollars are 90% silver and 10% copper. Pure silver coins and bullion can be obtained from local coin shops, often at bullion value."
 1.0.0	9	Antimony Ore	Element	Antimony	3	5	2	5	5	4	20	50	180	200	210	B4C8D2	
-1.0.0	a	Tungsten Ore	Element	Tungsten	3	5	2	5	5	7	10	50					"The filament in incandescent light bulbs is made of tungsten. Also, small tungsten rods are available at welding supply stores. They are sold as TIG electrodes, and they commonly come in 1/16, 3/32, and 1/8 diameters. Request pure tungsten, as they also come alloyed with 2% Thorium,Lanthanum and other elements. Lead free fishing sinkers are sometimes tungsten."
+1.0.0	a	Tungsten Ore	Element	Tungsten	3	5	2	5	2	5	10	50					"The filament in incandescent light bulbs is made of tungsten. Also, small tungsten rods are available at welding supply stores. They are sold as TIG electrodes, and they commonly come in 1/16, 3/32, and 1/8 diameters. Request pure tungsten, as they also come alloyed with 2% Thorium,Lanthanum and other elements. Lead free fishing sinkers are sometimes tungsten."
 1.0.0	b	Platinum Ore	Element	Platinum	3	5	1	4	1	6	0	20	215	220	220	D7DCDC	
 1.1.0	c	Plumbum (Lead) Ore	Element	Plumbum (Lead)	3	5	2	5	5	6	0	60					
 1.0.0	d	Bismuth Ore	Element	Bismuth	3	5	2	5	2	5	20	60					"Available as a non-toxic lead replacement for bullets, shot, and fishing sinkers. Unfortunately, not as inexpensive as lead. Also, when sold as a lead replacement it is generally alloyed with tin. Note that to make bismuth crystals you will need very pure bismuth metal."
-1.0.0	e	Bauxite	Mineral	Bauxite	3	5	2	5	7	11	0	60					
+1.0.0	e	Bauxite	Mineral	Bauxite	3	5	2	5	7	11	16	60					
 1.0.0	f	Tar Sand	Mineral	Tar Sand	3	5	2	5	1	20	40	60					
 1.0.0	g	Shale	Mineral	Shale	3	5	2	5	2	20	20	40					
 1.0.0	h	Graphite	Mineral	Graphite	3	5	2	5	1	10	40	60					

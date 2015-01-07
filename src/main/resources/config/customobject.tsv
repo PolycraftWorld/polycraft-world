@@ -33,12 +33,12 @@ Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parame
 1.0.3	119	Stainless-PEEK Heated Knife	PC Item	4	TRUE			MiningEfficiency	15								
 1.0.3	11a	Heated Knife Handle	PC Item	4													
 1.1.0	11q	Running Shoes (Sprinter)	Armor	8	TRUE		1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.4	60							
-																	
-																	
-																	
-																	
-																	
-																	
+1.1.0	12N	Lead-Acid Battery (1-Cell)	PC Item	8			1										
+1.1.0	12O	Lead-Acid Battery (9-Cell)	PC Item	8			1										
+1.1.0	12P	Lithium Ion Battery (1-Cell)	PC Item	8			1										
+1.1.0	12Q	Lithium Ion Battery (9-Cell)	PC Item	8			1										
+1.1.0	12R	Nickel Metal Hydride Battery (1-Cell)	PC Item	8			1										
+1.1.0	12S	Nickel Metal Hydride Battery (9-Cell)	PC Item	8			1										
 																	
 																	
 																	

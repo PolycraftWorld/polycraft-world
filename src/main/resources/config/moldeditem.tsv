@@ -2,7 +2,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	3s	Grip (NR)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	NR	4	10	64					1	TRUE	
 1.0.0	3t	Running Shoes (Walker)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	Walker	12	10	1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.2	20		3	TRUE	
 1.1.0	11p	Running Shoes (Jogger)	Mold (Running Shoes)	Bag (Ethylene-Vinyl Acetate Pellets)	Jogger	12	10	1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.3	40				
-1.0.0	3u	Rubber Sole (insole)	Mold (Rubber Sole)	Bag (Ethylene-Vinyl Acetate Pellets)	insole	4	5	64					8	TRUE	
+1.1.0	3u	Rubber Sole (insole)	Mold (Rubber Sole)	Bag (Ethylene-Vinyl Acetate Pellets)	insole	4	5	64					8	TRUE	
 1.1.0	11n	Rubber Sole (midsole)	Mold (Rubber Sole)	Bag (PolyUrethane Pellets)	midsole	4	5	64					8		
 1.1.0	11o	Rubber Sole (outsole)	Mold (Rubber Sole)	Bag (Styrene-Butadiene Rubber Pellets)	outsole	4	5	64					8		
 1.0.0	3v	Scuba Fins (Beginner)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	Beginner	16	10	1	"VelocityInWater, VelocityOnGround, Durability(MCMins)"	0.2	0.025	20	3	TRUE	
@@ -104,7 +104,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 	HU	Fibers (PPPHAZ)	Metal Die (Fibers)	Sack (PolyPhosphazene Pellets)	PPPHAZ	3	10	64							
 	HV	Fibers (PPMS)	Metal Die (Fibers)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	3	10	64							
 	HW	Fibers (PPS)	Metal Die (Fibers)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	3	10	64							
-	HX	Fibers (PPTA)	Metal Die (Fibers)	Sack (PolyP-Phenylene Terephthalamide Pellets)	PPTA	3	10	64							
+	HX	Fibers (kevlar)	Metal Die (Fibers)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	3	10	64							
 1.0.0	HY	Fibers (PP)	Metal Die (Fibers)	Sack (PolyPropylene Pellets)	PP	3	10	64							
 	HZ	Fibers (PPG)	Metal Die (Fibers)	Sack (PolyPropylene Glycol Pellets)	PPG	3	10	64							
 	I0	Fibers (PPOX)	Metal Die (Fibers)	Sack (PolyPropylene Oxide Pellets)	PPOX	3	10	64							
@@ -137,7 +137,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	Ir	Fibers (VLDPE)	Metal Die (Fibers)	Sack (Very-Low-Density PolyEthylene Pellets)	VLDPE	3	10	64							
 1.0.0	Is	Fibers (VA/AA)	Metal Die (Fibers)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	3	10	64							
 1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Sack (Polycaprolactam Pellets)	Nylon 6	3	10	64							
-															
+1.1.0	12M	Battery Case (PP)	Mold (Battery Case)	Bag (PolyPropylene Pellets)	PP	16	10	64							
 															
 															
 															

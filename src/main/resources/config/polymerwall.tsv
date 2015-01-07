@@ -80,7 +80,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	UM	WC	Wall (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	UN	WD	Wall (PPMS)	Block (PPMS)	PPMS	0
 0	UO	WE	Wall (PPS)	Block (PPS)	PPS	0
-0	UP	WF	Wall (PPTA)	Block (PPTA)	PPTA	0
+0	UP	WF	Wall (kevlar)	Block (kevlar)	kevlar	0
 1.0.0	UQ	WG	Wall (PP)	Block (PP)	PP	0
 0	UR	WH	Wall (PPG)	Block (PPG)	PPG	0
 0	US	WI	Wall (PPOX)	Block (PPOX)	PPOX	0

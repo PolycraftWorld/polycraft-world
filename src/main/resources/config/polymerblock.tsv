@@ -80,7 +80,7 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	JK	LA	Block (PPPHAZ)	Sack (PolyPhosphazene Pellets)	PPPHAZ	0
 0	JL	LB	Block (PPMS)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	0
 0	JM	LC	Block (PPS)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	0
-0	JN	LD	Block (PPTA)	Sack (PolyP-Phenylene Terephthalamide Pellets)	PPTA	0
+0	JN	LD	Block (kevlar)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	0
 1.0.0	JO	LE	Block (PP)	Sack (PolyPropylene Pellets)	PP	0
 0	JP	LF	Block (PPG)	Sack (PolyPropylene Glycol Pellets)	PPG	0
 0	JQ	LG	Block (PPOX)	Sack (PolyPropylene Oxide Pellets)	PPOX	0

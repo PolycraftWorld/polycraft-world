@@ -132,15 +132,15 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Drum (Gas Oil)	2	Drum (Kerosene)	1	Drum (Diesel)	1	Block of Bitumen	16																							
 1.0.0	2	1	10	4	Drum (Gas Oil)	8	Drum (Kerosene)	4	Drum (Diesel)	4	Block of Bitumen	32																							
 1.0.0	2	1	10	4	Drum (Gas Oil)	32	Drum (Kerosene)	16	Drum (Diesel)	16	Block of Bitumen	64																							
-1.0.6	2	1	10	4	Beaker (Deionized Water)	16	Cartridge (Oxygen)	8	Cartridge (Hydrogen)	16																									
-1.0.6	2	1	10	4	Drum (Deionized Water)	16	Canister (Oxygen)	8	Canister (Hydrogen)	16																									
-1.0.6	2	1	10	4	Vial (Deionized Water)	16	Flask (Oxygen)	8	Flask (Hydrogen)	16																									
-1.0.6	2	1	10	4	Beaker (Deionized Water)	64	Cartridge (Oxygen)	32	Cartridge (Hydrogen)	64																									
-1.0.6	2	1	10	4	Drum (Deionized Water)	64	Canister (Oxygen)	32	Canister (Hydrogen)	64																									
-1.0.6	2	1	10	4	Vial (Deionized Water)	64	Flask (Oxygen)	32	Flask (Hydrogen)	64																									
-1.0.6	2	1	10	4	Beaker (Deionized Water)	2	Cartridge (Oxygen)	1	Cartridge (Hydrogen)	2																									
-1.0.6	2	1	10	4	Drum (Deionized Water)	2	Canister (Oxygen)	1	Canister (Hydrogen)	2																									
-1.0.6	2	1	10	4	Vial (Deionized Water)	2	Flask (Oxygen)	1	Flask (Hydrogen)	2																									
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
+1.0.6	2	1	10	4																															
 																																			
 																																			
 																																			

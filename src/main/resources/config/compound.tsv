@@ -339,3 +339,14 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Acetonitrile	CH3CN	Liquid						
 1.0.4	Sweet Kerosene	CnH2n+1(n=12–16)	Liquid						
 1.0.4	Sweet Diesel		Liquid						
+1.1.0	Lactide		Liquid						
+1.1.0	Cyclodextrin		Solid						
+1.1.0	Alpha-cyclodextrin		Solid						
+1.1.0	Beta-cyclodextrin		Solid						
+1.1.0	Gamma-cyclodextrin		Solid						
+1.1.0	MOF-5		Solid						
+1.1.0	CD-MOF		Solid						
+1.1.0	Bucky Balls (C60)		Solid						
+1.1.0	Zinc Nitrate		Solid			Catalyst			
+1.1.0	Lead Oxide		Solid			Catalyst			
+1.1.0	Lithium Hexafluorophosphate	LiPF6	Solid						

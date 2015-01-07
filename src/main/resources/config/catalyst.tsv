@@ -28,3 +28,6 @@ Version	Game ID	Catalyst	Source Type	Source Name
 1.0.0	1z	Triethylaluminium Catalyst	Compound	Triethylaluminium
 	10R	Methyl Ethyl Ketone Peroxide Catalyst	Compound	Methyl Ethyl Ketone Peroxide
 1.0.0	59	Chromia Alumina Catalyst	Compound	Chromia Alumina
+1.1.0	12K	Tin Catalyst	Element	Tin
+1.1.0	12J	Zinc Nitrate Catalyst	Compound	Zinc Nitrate
+1.1.0	130	Lead Oxide Catalyst	Compound	Lead Oxide

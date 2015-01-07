@@ -80,7 +80,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	Ys	10i	Stairs (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	Yt	10j	Stairs (PPMS)	Block (PPMS)	PPMS	0
 0	Yu	10k	Stairs (PPS)	Block (PPS)	PPS	0
-0	Yv	10l	Stairs (PPTA)	Block (PPTA)	PPTA	0
+0	Yv	10l	Stairs (kevlar)	Block (kevlar)	kevlar	0
 1.0.0	Yw	10m	Stairs (PP)	Block (PP)	PP	0
 0	Yx	10n	Stairs (PPG)	Block (PPG)	PPG	0
 0	Yy	10o	Stairs (PPOX)	Block (PPOX)	PPOX	0

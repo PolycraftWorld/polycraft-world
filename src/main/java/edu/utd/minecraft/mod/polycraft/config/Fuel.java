@@ -57,6 +57,8 @@ public class Fuel extends Config {
 		for (final Fuel fuel : registry.values()) {
 			if (fuel.source instanceof MinecraftItem)
 				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+			else if (fuel.source instanceof CustomObject)
+				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof Element) {
 				for (final ElementVessel elementVessel : ElementVessel.registry.values())
 					if (elementVessel.source == fuel.source)

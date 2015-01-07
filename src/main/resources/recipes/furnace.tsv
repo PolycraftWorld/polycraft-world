@@ -35,9 +35,9 @@ Version	Level	Output	O1#	Input	I1#
 1.0.0	8	Powder Keg (PolyStyrene Pellets)	1	Drum (Styrene)	1												
 1.0.0	2	Tin Ingot	1	Tin Ore	1												
 1.1.0	2	Chrome Ingot	1	Chromite	1												
-																	
-																	
-																	
+1.1.0	2	Tin Catalyst	16	Tin Ingot	1												
+1.1.0	2	Zinc Nitrate Catalyst	16	Zinc Ingot	1												
+1.1.0	2	Lead Oxide Catalyst	16	Plumbum (Lead) Ingot	1												
 																	
 																	
 																	

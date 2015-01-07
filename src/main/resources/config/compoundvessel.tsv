@@ -330,5 +330,24 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 1.0.0	j3	or	tP	zd	Vial (Acetonitrile)	Beaker (Acetonitrile)	Drum (Acetonitrile)	Chemical Vat (Acetonitrile)	Acetonitrile	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.4	j4	os	tQ	ze	Vial (Sweet Kerosene)	Beaker (Sweet Kerosene)	Drum (Sweet Kerosene)	Chemical Vat (Sweet Kerosene)	Sweet Kerosene	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.4	j5	ot	tR	zf	Vial (Sweet Diesel)	Beaker (Sweet Diesel)	Drum (Sweet Diesel)	Chemical Vat (Sweet Diesel)	Sweet Diesel	Liquid	Vial	Beaker	Drum	Chemical Vat
-	j6	ou	tS	zg	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
-														
+1.1.0	j6	ou	tS	zg	Vial (Lactide)	Beaker (Lactide)	Drum (Lactide)	Chemical Vat (Lactide)	Lactide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11r	11v	11z	11D	Bag (Cyclodextrin)	Sack (Cyclodextrin)	Powder Keg (Cyclodextrin)	Chemical Silo (Cyclodextrin)	Cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11s	11w	11A	11E	Bag (Alpha-cyclodextrin)	Sack (Alpha-cyclodextrin)	Powder Keg (Alpha-cyclodextrin)	Chemical Silo (Alpha-cyclodextrin)	Alpha-cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11t	11x	11B	11F	Bag (Beta-cyclodextrin)	Sack (Beta-cyclodextrin)	Powder Keg (Beta-cyclodextrin)	Chemical Silo (Beta-cyclodextrin)	Beta-cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11u	11y	11C	11G	Bag (Gamma-cyclodextrin)	Sack (Gamma-cyclodextrin)	Powder Keg (Gamma-cyclodextrin)	Chemical Silo (Gamma-cyclodextrin)	Gamma-cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11H	11X	12d	12t	Bag (MOF-5)	Sack (MOF-5)	Powder Keg (MOF-5)	Chemical Silo (MOF-5)	MOF-5	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11I	11Y	12e	12u	Bag (CD-MOF)	Sack (CD-MOF)	Powder Keg (CD-MOF)	Chemical Silo (CD-MOF)	CD-MOF	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11J	11Z	12f	12v	Bag (Bucky Balls (C60))	Sack (Bucky Balls (C60))	Powder Keg (Bucky Balls (C60))	Chemical Silo (Bucky Balls (C60))	Bucky Balls (C60)	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	11K	120	12g	12w	Bag (Zinc Nitrate)	Sack (Zinc Nitrate)	Powder Keg (Zinc Nitrate)	Chemical Silo (Zinc Nitrate)	Zinc Nitrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	11L	121	12h	12x	Bag (Lead Oxide)	Sack (Lead Oxide)	Powder Keg (Lead Oxide)	Chemical Silo (Lead Oxide)	Lead Oxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11M	122	12i	12y	Bag (Lithium Hexafluorophosphate)	Sack (Lithium Hexafluorophosphate)	Powder Keg (Lithium Hexafluorophosphate)	Chemical Silo (Lithium Hexafluorophosphate)	Lithium Hexafluorophosphate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	11N	123	12j	12z										
+	11O	124	12k	12A										
+	11P	125	12l	12B										
+	11Q	126	12m	12C										
+	11R	127	12n	12D										
+	11S	128	12o	12E										
+	11T	129	12p	12F										
+	11U	12a	12q	12G										
+	11V	12b	12r	12H										
+	11W	12c	12s	12I										

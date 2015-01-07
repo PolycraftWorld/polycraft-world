@@ -80,7 +80,7 @@ Version	Polymer	Short Name	PC Level	Recycling #	Degradable	Solvent	Polymer Class
 1.0.0	PolyPhosphazene	PPPHAZ			FALSE		inorganic-organic polymer						
 1.0.0	PolyP-Methyl Styrene	PPMS			FALSE		polyolefin						
 1.0.0	PolyP-Phenylene Sulphide	PPS			FALSE		polyphenol						
-1.0.0	PolyP-Phenylene Terephthalamide	PPTA			FALSE		polyphenol						
+1.0.0	PolyP-Phenylene Terephthalamide	kevlar			FALSE		polyphenol						
 1.0.0	PolyPropylene	PP			FALSE		polyolefin						
 1.0.0	PolyPropylene Glycol	PPG			FALSE		polyether						
 1.0.0	PolyPropylene Oxide	PPOX			FALSE		polyether						
