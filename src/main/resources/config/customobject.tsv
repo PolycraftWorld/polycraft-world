@@ -1,4 +1,4 @@
-Version	Game ID	Custom Item	Type	Level	First Release	Notes	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
+Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
 1.0.0	3l	Metal Screw	PC Item	2	TRUE												
 1.0.0	3m	Bucket (Crude Oil)	PC Item	1	TRUE												
 1.0.0	3n	Flame Thrower	Weapon	7	TRUE		1	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	1000	1	10	2	5	3			

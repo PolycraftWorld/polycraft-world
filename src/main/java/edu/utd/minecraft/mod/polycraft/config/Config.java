@@ -42,7 +42,6 @@ public abstract class Config {
 		Compound.registerFromResource(directory);
 		Polymer.registerFromResource(directory);
 		PolymerObject.registerFromResource(directory);
-		Fuel.registerFromResource(directory);
 		Ore.registerFromResource(directory);
 		Ingot.registerFromResource(directory);
 		CompressedBlock.registerFromResource(directory);
@@ -62,6 +61,7 @@ public abstract class Config {
 		Inventory.registerFromResource(directory);
 		CustomObject.registerFromResource(directory);
 		InternalObject.registerFromResource(directory);
+		Fuel.registerFromResource(directory);
 	}
 
 	private static Map<String, ConfigRegistry<? extends Config>> registriesByType = new HashMap<String, ConfigRegistry<? extends Config>>();

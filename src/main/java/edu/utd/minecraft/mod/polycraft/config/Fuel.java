@@ -17,7 +17,7 @@ public class Fuel extends Config {
 	public static void registerFromResource(final String directory) {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Fuel.class.getSimpleName().toLowerCase()))
 			if (line.length > 0) {
-				System.out.println("Custom object: "+line[3]);
+				//System.out.println("Custom object: "+line[3]);
 				final int index = Integer.parseInt(line[4]);
 				fuelsByIndex.put(index, registry.register(new Fuel(
 						PolycraftMod.getVersionNumeric(line[0]),
