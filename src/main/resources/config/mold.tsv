@@ -11,18 +11,18 @@ Version	Game ID	Mold	Mold Type	Polymer Object	Crafting Max Damage
 1.0.0	N	Metal Die (Hose)	Metal Die	Hose	8192	
 1.0.0	3g	Metal Die (Large Pipe)	Metal Die	Large Pipe	8192	
 1.0.0	5I	Mold (Flashlight Shaft)	Mold	Flashlight Shaft	8192	
-1.0.0	10S	Mold (ABS Brick (1 x 1))	Mold	ABS Brick (1 x 1)	8192	
-1.0.0	10T	Mold (ABS Brick (1 x 2))	Mold	ABS Brick (1 x 2)	8192	
-1.0.0	10U	Mold (ABS Brick (1 x 3))	Mold	ABS Brick (1 x 3)	8192	
-1.0.0	10V	Mold (ABS Brick (1 x 4))	Mold	ABS Brick (1 x 4)	8192	
-1.0.0	10W	Mold (ABS Brick (2 x 2))	Mold	ABS Brick (2 x 2)	8192	
-1.0.0	10X	Mold (ABS Brick (2 x 3))	Mold	ABS Brick (2 x 3)	8192	
-1.0.0	10Y	Mold (ABS Brick (2 x 4))	Mold	ABS Brick (2 x 4)	8192	
-1.0.0	10Z	Mold (ABS Brick (3 x 3))	Mold	ABS Brick (3 x 3)	8192	
-1.0.0	110	Mold (ABS Brick (3 x 4))	Mold	ABS Brick (3 x 4)	8192	
-1.0.0	111	Mold (ABS Brick (4 x 4))	Mold	ABS Brick (4 x 4)	8192	
-1.0.0	112	Mold (ABS Brick (1 x 8))	Mold	ABS Brick (1 x 8)	8192	
-1.0.0	113	Mold (ABS Brick (2 x 8))	Mold	ABS Brick (2 x 8)	8192	
+1.0.0	10S	Mold (Plastic Brick (1 x 1))	Mold	Plastic Brick (1 x 1)	8192	
+1.0.0	10T	Mold (Plastic Brick (1 x 2))	Mold	Plastic Brick (1 x 2)	8192	
+1.0.0	10U	Mold (Plastic Brick (1 x 3))	Mold	Plastic Brick (1 x 3)	8192	
+1.0.0	10V	Mold (Plastic Brick (1 x 4))	Mold	Plastic Brick (1 x 4)	8192	
+1.0.0	10W	Mold (Plastic Brick (2 x 2))	Mold	Plastic Brick (2 x 2)	8192	
+1.0.0	10X	Mold (Plastic Brick (2 x 3))	Mold	Plastic Brick (2 x 3)	8192	
+1.0.0	10Y	Mold (Plastic Brick (2 x 4))	Mold	Plastic Brick (2 x 4)	8192	
+1.0.0	10Z	Mold (Plastic Brick (3 x 3))	Mold	Plastic Brick (3 x 3)	8192	
+1.0.0	110	Mold (Plastic Brick (3 x 4))	Mold	Plastic Brick (3 x 4)	8192	
+1.0.0	111	Mold (Plastic Brick (4 x 4))	Mold	Plastic Brick (4 x 4)	8192	
+1.0.0	112	Mold (Plastic Brick (1 x 8))	Mold	Plastic Brick (1 x 8)	8192	
+1.0.0	113	Mold (Plastic Brick (2 x 8))	Mold	Plastic Brick (2 x 8)	8192	
 1.0.3	11e	Mold (Heated Knife Handle)	Mold	Heated Knife Handle	8192	
 1.1.0	2w	Mold (Rubber Sole)	Mold	Rubber Sole	8192	
 1.1.0	12L	Mold (Battery Case)	Mold	Battery Case	8192	

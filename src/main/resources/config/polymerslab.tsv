@@ -1,33 +1,33 @@
 Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game ID	Double Slab Block Game ID	Slab	Source	Version	Bounce Height
-0	M9	NZ	PP	RF	Slab (af resin)	Block (af resin)	af resin	0
+0	M9	NZ	PP	RF	Slab (AF Resin)	Block (AF Resin)	AF Resin	0
 1.0.0	Ma	O0	PQ	RG	Slab (ABS)	Block (ABS)	ABS	0
-0	Mb	O1	PR	RH	Slab (alkyd resin)	Block (alkyd resin)	alkyd resin	0
+0	Mb	O1	PR	RH	Slab (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Mc	O2	PS	RI	Slab (A-PET)	Block (A-PET)	A-PET	0
-0	Md	O3	PT	RJ	Slab (BIIR)	Block (BIIR)	BIIR	0
+1.1.0	Md	O3	PT	RJ	Slab (BIIR)	Block (BIIR)	BIIR	6
 0	Me	O4	PU	RK	Slab (CDAP)	Block (CDAP)	CDAP	0
 0	Mf	O5	PV	RL	Slab (CTAP)	Block (CTAP)	CTAP	0
-1.0.0	Mg	O6	PW	RM	Slab (cellulose)	Block (cellulose)	cellulose	0
-0	Mh	O7	PX	RN	Slab (chitin)	Block (chitin)	chitin	0
-0	Mi	O8	PY	RO	Slab (CIIR)	Block (CIIR)	CIIR	0
-0	Mj	O9	PZ	RP	Slab (epoxy resin)	Block (epoxy resin)	epoxy resin	0
+1.0.0	Mg	O6	PW	RM	Slab (Cellulose)	Block (Cellulose)	Cellulose	0
+0	Mh	O7	PX	RN	Slab (Chitin)	Block (Chitin)	Chitin	0
+1.1.0	Mi	O8	PY	RO	Slab (CIIR)	Block (CIIR)	CIIR	6
+0	Mj	O9	PZ	RP	Slab (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
 0	Mk	Oa	Q0	RQ	Slab (NRE)	Block (NRE)	NRE	0
 1.1.0	Ml	Ob	Q1	RR	Slab (EPM)	Block (EPM)	EPM	0
-1.1.0	Mm	Oc	Q2	RS	Slab (EPM)	Block (EPM)	EPM	0
-1.1.0	Mn	Od	Q3	RT	Slab (EVA)	Block (EVA)	EVA	0
+1.1.0	Mm	Oc	Q2	RS	Slab (EPDM)	Block (EPDM)	EPDM	9
+1.1.0	Mn	Od	Q3	RT	Slab (EVA)	Block (EVA)	EVA	9
 1.0.0	Mo	Oe	Q4	RU	Slab (HDPE)	Block (HDPE)	HDPE	0
-0	Mp	Of	Q5	RV	Slab (HNBR)	Block (HNBR)	HNBR	0
-0	Mq	Og	Q6	RW	Slab (IIR)	Block (IIR)	IIR	0
-0	Mr	Oh	Q7	RX	Slab (lignin)	Block (lignin)	lignin	0
+1.1.0	Mp	Of	Q5	RV	Slab (HNBR)	Block (HNBR)	HNBR	6
+1.1.0	Mq	Og	Q6	RW	Slab (IIR)	Block (IIR)	IIR	4
+0	Mr	Oh	Q7	RX	Slab (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Ms	Oi	Q8	RY	Slab (LLDPE)	Block (LLDPE)	LLDPE	0
 1.0.0	Mt	Oj	Q9	RZ	Slab (LCP)	Block (LCP)	LCP	0
 1.0.0	Mu	Ok	Qa	S0	Slab (LDPE)	Block (LDPE)	LDPE	0
 1.0.0	Mv	Ol	Qb	S1	Slab (MDPE)	Block (MDPE)	MDPE	0
 0	Mw	Om	Qc	S2	Slab (MFP)	Block (MFP)	MFP	0
 1.0.0	Mx	On	Qd	S3	Slab (MALD)	Block (MALD)	MALD	0
-0	My	Oo	Qe	S4	Slab (NBR)	Block (NBR)	NBR	0
+1.1.0	My	Oo	Qe	S4	Slab (NBR)	Block (NBR)	NBR	6
 1.0.0	Mz	Op	Qf	S5	Slab (PFA)	Block (PFA)	PFA	0
 1.0.0	MA	Oq	Qg	S6	Slab (PALD)	Block (PALD)	PALD	0
-0	MB	Or	Qh	S7	Slab (phenol formaldehydes)	Block (phenol formaldehydes)	phenol formaldehydes	0
+0	MB	Or	Qh	S7	Slab (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
 1.0.0	MC	Os	Qi	S8	Slab (PHBV)	Block (PHBV)	PHBV	0
 0	MD	Ot	Qj	S9	Slab (P1B)	Block (P1B)	P1B	0
 0	ME	Ou	Qk	Sa	Slab (PDPE)	Block (PDPE)	PDPE	0
@@ -36,7 +36,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	MH	Ox	Qn	Sd	Slab (PAE)	Block (PAE)	PAE	0
 1.0.0	MI	Oy	Qo	Se	Slab (PAN)	Block (PAN)	PAN	0
 1.0.0	MJ	Oz	Qp	Sf	Slab (PBD)	Block (PBD)	PBD	0
-0	MK	OA	Qq	Sg	Slab (PBR)	Block (PBR)	PBR	0
+1.1.0	MK	OA	Qq	Sg	Slab (PBR)	Block (PBR)	PBR	4
 1.0.0	ML	OB	Qr	Sh	Slab (PBS)	Block (PBS)	PBS	0
 1.0.0	MN	OD	Qt	Sj	Slab (PBT)	Block (PBT)	PBT	0
 1.0.0	MO	OE	Qu	Sk	Slab (PCL)	Block (PCL)	PCL	0
@@ -64,7 +64,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	Na	P0	QQ	SG	Slab (PIBOA)	Block (PIBOA)	PIBOA	0
 0	Nb	P1	QR	SH	Slab (PIBA)	Block (PIBA)	PIBA	0
 1.0.0	Nc	P2	QS	SI	Slab (PIB)	Block (PIB)	PIB	0
-1.0.0	Nd	P3	QT	SJ	Slab (NR)	Block (NR)	NR	6
+1.0.0	Nd	P3	QT	SJ	Slab (Natural Rubber)	Block (Natural Rubber)	Natural Rubber	3
 1.0.0	Ne	P4	QU	SK	Slab (PLA)	Block (PLA)	PLA	0
 0	Nf	P5	QV	SL	Slab (PLGA)	Block (PLGA)	PLGA	0
 0	Ng	P6	QW	SM	Slab (PMA)	Block (PMA)	PMA	0
@@ -75,7 +75,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	Nl	Pb	R1	SR	Slab (PNBA)	Block (PNBA)	PNBA	0
 1.0.0	Nm	Pc	R2	SS	Slab (POM)	Block (POM)	POM	0
 0	Nn	Pd	R3	ST	Slab (PPHD)	Block (PPHD)	PPHD	0
-0	No	Pe	R4	SU	Slab (polyphenol)	Block (polyphenol)	polyphenol	0
+0	No	Pe	R4	SU	Slab (Polyphenol)	Block (Polyphenol)	Polyphenol	0
 0	Np	Pf	R5	SV	Slab (PPO)	Block (PPO)	PPO	0
 0	Nq	Pg	R6	SW	Slab (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	Nr	Ph	R7	SX	Slab (PPMS)	Block (PPMS)	PPMS	0
@@ -91,7 +91,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	NB	Pr	Rh	T7	Slab (PTMG)	Block (PTMG)	PTMG	0
 0	NC	Ps	Ri	T8	Slab (PTA)	Block (PTA)	PTA	0
 1.0.0	ND	Pt	Rj	T9	Slab (PTT)	Block (PTT)	PTT	0
-1.0.0	NE	Pu	Rk	Ta	Slab (PU)	Block (PU)	PU	0
+1.0.0	NE	Pu	Rk	Ta	Slab (PU)	Block (PU)	PU	9
 1.0.0	NF	Pv	Rl	Tb	Slab (PVAC)	Block (PVAC)	PVAC	0
 1.0.0	NG	Pw	Rm	Tc	Slab (PVA)	Block (PVA)	PVA	0
 0	NH	Px	Rn	Td	Slab (PVB)	Block (PVB)	PVB	0
@@ -104,7 +104,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	NO	PE	Ru	Tk	Slab (PVDF)	Block (PVDF)	PVDF	0
 0	NP	PF	Rv	Tl	Slab (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
 0	NQ	PG	Rw	Tm	Slab (SAN)	Block (SAN)	SAN	0
-1.0.0	NR	PH	Rx	Tn	Slab (SBR)	Block (SBR)	SBR	12
+1.0.0	NR	PH	Rx	Tn	Slab (SBR)	Block (SBR)	SBR	6
 0	NS	PI	Ry	To	Slab (SBS)	Block (SBS)	SBS	0
 0	NT	PJ	Rz	Tp	Slab (SIS)	Block (SIS)	SIS	0
 0	NU	PK	RA	Tq	Slab (SMAC)	Block (SMAC)	SMAC	0

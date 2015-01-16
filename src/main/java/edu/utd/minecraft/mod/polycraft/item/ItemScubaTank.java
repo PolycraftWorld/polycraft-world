@@ -40,9 +40,9 @@ public class ItemScubaTank extends PolycraftArmorChest {
 	public final int airUnitsFull;
 	public final int airUnitsConsumePerTick;
 
-	public ItemScubaTank(final CustomObject config) {
+	public ItemScubaTank(final CustomObject config, String iconName) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getAssetName("scuba_tank"));
+		this.setTextureName(PolycraftMod.getAssetName(iconName));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

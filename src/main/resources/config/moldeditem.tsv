@@ -1,147 +1,156 @@
-Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	Level	First Release	Notes
-1.0.0	3s	Grip (NR)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	NR	4	10	64					1	TRUE	
-1.0.0	3t	Running Shoes (Walker)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	Walker	12	10	1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.2	20		3	TRUE	
-1.1.0	11p	Running Shoes (Jogger)	Mold (Running Shoes)	Bag (Ethylene-Vinyl Acetate Pellets)	Jogger	12	10	1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.3	40				
-1.1.0	3u	Rubber Sole (insole)	Mold (Rubber Sole)	Bag (Ethylene-Vinyl Acetate Pellets)	insole	4	5	64					8	TRUE	
-1.1.0	11n	Rubber Sole (midsole)	Mold (Rubber Sole)	Bag (PolyUrethane Pellets)	midsole	4	5	64					8		
-1.1.0	11o	Rubber Sole (outsole)	Mold (Rubber Sole)	Bag (Styrene-Butadiene Rubber Pellets)	outsole	4	5	64					8		
-1.0.0	3v	Scuba Fins (Beginner)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	Beginner	16	10	1	"VelocityInWater, VelocityOnGround, Durability(MCMins)"	0.2	0.025	20	3	TRUE	
-1.1.0	2O	Scuba Fins (Intermediate)	Mold (Scuba Fins)	Bag (Ethylene-Vinyl Acetate Pellets)	Intermediate	16	10	1	"VelocityInWater, VelocityOnGround, Durability(MCMins)"	0.3	0.025	30	6		
-1.1.0	2P	Scuba Fins (Pro)	Mold (Scuba Fins)	Bag (Styrene-Butadiene Rubber Pellets)	Pro	16	10	1	"VelocityInWater, VelocityOnGround, Durability(MCMins)"	0.4	0.025	40	8		
-1.0.0	3w	Scuba Mask (Beginner)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	Beginner	12	10	1	FogDensity	0.02			3	TRUE	
-1.1.0	2V	Scuba Mask (Intermediate)	Mold (Scuba Mask)	Bag (Ethylene-Vinyl Acetate Pellets)	Intermediate	12	10	1	FogDensity	0.01			6		
-1.1.0	2W	Scuba Mask (Pro)	Mold (Scuba Mask)	Bag (Styrene-Butadiene Rubber Pellets)	Pro	12	10	1	FogDensity	0.005			8		
-1.0.0	3y	Gasket (NR)	Mold (Gasket)	Bag (PolyIsoPrene Pellets)	NR	4	10	64					3	TRUE	
-1.0.0	3z	Life Preserver (NR)	Mold (Life Preserver)	Bag (PolyIsoPrene Pellets)	NR	16	10	1	Durability(MCMins)	20			3	TRUE	
-1.1.0	2X	Life Preserver (EVA)	Mold (Life Preserver)	Bag (Ethylene-Vinyl Acetate Pellets)	EVA	16	10	1	Durability(MCMins)	200			6		
-1.1.0	2Y	Life Preserver (SBR)	Mold (Life Preserver)	Bag (Styrene-Butadiene Rubber Pellets)	SBR	16	10	1	Durability(MCMins)	2000			8		
-1.0.0	3N	Tether (NR)	Metal Die (Tether)	Bag (PolyIsoPrene Pellets)	NR	6	10	64					3	TRUE	
-1.0.0	3U	Cord (NR)	Metal Die (Cord)	Bag (PolyIsoPrene Pellets)	NR	8	10	64					3	TRUE	"Used as a super lead for horses, wont break as easily, can hold boats in place"
-1.0.0	F	Hose (NR)	Metal Die (Hose)	Bag (PolyIsoPrene Pellets)	NR	16	10	64					3	TRUE	
-1.0.0	42	Large Pipe (PP)	Metal Die (Large Pipe)	Bag (PolyPropylene Pellets)	PP	32	10	64					3	TRUE	
-1.0.0	5J	Flashlight Shaft (PS)	Mold (Flashlight Shaft)	Bag (PolyStyrene Pellets)	PS	16	10	64							
-1.0.3	11b	Heated Knife Handle (PP)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PP	16	10	64							
-1.0.3	11c	Heated Knife Handle (PS)	Mold (Heated Knife Handle)	Bag (PolyStyrene Pellets)	PS	16	10	64							
-1.0.3	11d	Heated Knife Handle (PEEK)	Mold (Heated Knife Handle)	Bag (PolyEther Ether Ketone Pellets)	PEEK	16	10	64							
-	GD	Fibers (af resin)	Metal Die (Fibers)	Sack (Acrylic-Formaldehyde Pellets)	af resin	3	10	64							
-1.0.0	GE	Fibers (ABS)	Metal Die (Fibers)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	3	10	64							
-	GF	Fibers (alkyd resin)	Metal Die (Fibers)	Sack (Alkyd Resin Pellets)	alkyd resin	3	10	64							
-1.0.0	GG	Fibers (A-PET)	Metal Die (Fibers)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	3	10	64							
-	GH	Fibers (BIIR)	Metal Die (Fibers)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	3	10	64							
-	GI	Fibers (CDAP)	Metal Die (Fibers)	Sack (Cellulose Diacetate Pellets)	CDAP	3	10	64							
-	GJ	Fibers (CTAP)	Metal Die (Fibers)	Sack (Cellulose Triacetate Pellets)	CTAP	3	10	64							
-1.0.0	GK	Fibers (cellulose)	Metal Die (Fibers)	Sack (Cellulosic Pellets)	cellulose	3	10	64							
-	GL	Fibers (chitin)	Metal Die (Fibers)	Sack (Chitin Pellets)	chitin	3	10	64							
-	GM	Fibers (CIIR)	Metal Die (Fibers)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	CIIR	3	10	64							
-	GN	Fibers (epoxy resin)	Metal Die (Fibers)	Sack (Epoxy Resin Pellets)	epoxy resin	3	10	64							
-	GO	Fibers (NRE)	Metal Die (Fibers)	Sack (Ethoxylates Pellets)	NRE	3	10	64							
-1.1.0	GP	Fibers (EPM)	Metal Die (Fibers)	Sack (Ethylene-Propylene Monomer Pellets)	EPM	3	10	64							
-1.1.0	GQ	Fibers (EPM)	Metal Die (Fibers)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	EPM	3	10	64							
-1.1.0	GR	Fibers (EVA)	Metal Die (Fibers)	Sack (Ethylene-Vinyl Acetate Pellets)	EVA	3	10	64							
-1.0.0	GS	Fibers (HDPE)	Metal Die (Fibers)	Sack (High Density PolyEthylene Pellets)	HDPE	3	10	64							
-	GT	Fibers (HNBR)	Metal Die (Fibers)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	3	10	64							
-	GU	Fibers (IIR)	Metal Die (Fibers)	Sack (Isobutylene-Isoprene Rubber Pellets)	IIR	3	10	64							
-	GV	Fibers (lignin)	Metal Die (Fibers)	Sack (Lignin Pellets)	lignin	3	10	64							
-1.0.0	GW	Fibers (LLDPE)	Metal Die (Fibers)	Sack (Linear Low-Density PolyEthylene Pellets)	LLDPE	3	10	64							
-1.0.0	GX	Fibers (LCP)	Metal Die (Fibers)	Sack (Liquid Crystal Polymer Pellets)	LCP	3	10	64							
-1.0.0	GY	Fibers (LDPE)	Metal Die (Fibers)	Sack (Low Density PolyEthylene Pellets)	LDPE	3	10	64							
-1.0.0	GZ	Fibers (MDPE)	Metal Die (Fibers)	Sack (Medium Density PolyEthylene Pellets)	MDPE	3	10	64							
-	H0	Fibers (MFP)	Metal Die (Fibers)	Sack (Melamine-Formaldehyde Polymers Pellets)	MFP	3	10	64							
-1.0.0	H1	Fibers (MALD)	Metal Die (Fibers)	Sack (Metaldehyde Pellets)	MALD	3	10	64							
-	H2	Fibers (NBR)	Metal Die (Fibers)	Sack (Nitrile-Butadiene Rubber Pellets)	NBR	3	10	64							
-1.0.0	H3	Fibers (PFA)	Metal Die (Fibers)	Sack (Paraformaldehyde Pellets)	PFA	3	10	64							
-1.0.0	H4	Fibers (PALD)	Metal Die (Fibers)	Sack (Paraldehyde Pellets)	PALD	3	10	64							
-	H5	Fibers (phenol formaldehydes)	Metal Die (Fibers)	Sack (Phenolic Resin Pellets)	phenol formaldehydes	3	10	64							
-1.0.0	H6	Fibers (PHBV)	Metal Die (Fibers)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	3	10	64							
-	H7	Fibers (P1B)	Metal Die (Fibers)	Sack (Poly1-Butene Pellets)	P1B	3	10	64							
-	H8	Fibers (PDPE)	Metal Die (Fibers)	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	3	10	64							
-	H9	Fibers (PHB)	Metal Die (Fibers)	Sack (Poly-2-Hydroxy Butyrate Pellets)	PHB	3	10	64							
-	Ha	Fibers (PHEMA)	Metal Die (Fibers)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	3	10	64							
-	Hb	Fibers (PAE)	Metal Die (Fibers)	Sack (PolyAcrylic Ester Pellets)	PAE	3	10	64							
-1.0.0	Hc	Fibers (PAN)	Metal Die (Fibers)	Sack (PolyAcrylonitrile Pellets)	PAN	3	10	64							
-1.0.0	Hd	Fibers (PBD)	Metal Die (Fibers)	Sack (PolyButadiene Pellets)	PBD	3	10	64							
-	He	Fibers (PBR)	Metal Die (Fibers)	Sack (PolyButadiene Rubber Pellets)	PBR	3	10	64							
-1.0.0	Hf	Fibers (PBS)	Metal Die (Fibers)	Sack (PolyButylene Succinate Pellets)	PBS	3	10	64							
-1.0.0	Hh	Fibers (PBT)	Metal Die (Fibers)	Sack (PolyButylene Terephthalate Pellets)	PBT	3	10	64							
-1.0.0	Hi	Fibers (PCL)	Metal Die (Fibers)	Sack (PolyCaprolactone Pellets)	PCL	3	10	64							
-1.0.0	Hj	Fibers (PC)	Metal Die (Fibers)	Sack (PolyCarbonate Pellets)	PC	3	10	64							
-	Hk	Fibers (PCHL)	Metal Die (Fibers)	Sack (PolyChloroPrene Pellets)	PCHL	3	10	64							
-	Hl	Fibers (PCTFE)	Metal Die (Fibers)	Sack (PolyChlorotrifluoroethylene Pellets)	PCTFE	3	10	64							
-1.0.0	Hm	Fibers (PDMS)	Metal Die (Fibers)	Sack (PolyDiMethylSiloxane Pellets)	PDMS	3	10	64							
-1.0.0	Hn	Fibers (PEEK)	Metal Die (Fibers)	Sack (PolyEther Ether Ketone Pellets)	PEEK	3	10	64							
-1.0.0	Ho	Fibers (PEI)	Metal Die (Fibers)	Sack (PolyEtherImide Pellets)	PEI	3	10	64							
-	Hp	Fibers (PEA)	Metal Die (Fibers)	Sack (PolyEthyl Acrylate Pellets)	PEA	3	10	64							
-	Hq	Fibers (PEA)	Metal Die (Fibers)	Sack (PolyEthylene Adipate Pellets)	PEA	3	10	64							
-1.0.0	Hr	Fibers (PEG)	Metal Die (Fibers)	Sack (PolyEthylene Glycol Pellets)	PEG	3	10	64							
-	Hs	Fibers (PEHD)	Metal Die (Fibers)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	3	10	64							
-1.0.0	Ht	Fibers (PEN)	Metal Die (Fibers)	Sack (PolyEthylene Naphthalate Pellets)	PEN	3	10	64							
-1.0.0	Hu	Fibers (PEO)	Metal Die (Fibers)	Sack (PolyEthylene Oxide Pellets)	PEO	3	10	64							
-	Hv	Fibers (PES)	Metal Die (Fibers)	Sack (PolyEthylene Sulphide Pellets)	PES	3	10	64							
-1.0.0	Hw	Fibers (PET)	Metal Die (Fibers)	Sack (PolyEthylene Terephthalate Pellets)	PET	3	10	64							
-1.0.0	Hx	Fibers (PETG)	Metal Die (Fibers)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	PETG	3	10	64							
-1.0.0	Hy	Fibers (PGA)	Metal Die (Fibers)	Sack (PolyGlycolic Acid Pellets)	PGA	3	10	64							
-1.1.0	Hz	"Fibers (Nylon 6,7)"	Metal Die (Fibers)	Sack (PolyHexamethylene Adipamide Pellets)	"Nylon 6,7"	3	10	64							
-1.1.0	HA	"Fibers (Nylon 6,11)"	Metal Die (Fibers)	Sack (PolyHexamethylene Sebacamide Pellets)	"Nylon 6,11"	3	10	64							
-1.0.0	HB	Fibers (PHA)	Metal Die (Fibers)	Sack (PolyHydroxyalkanoate Pellets)	PHA	3	10	64							
-	HC	Fibers (PHBV)	Metal Die (Fibers)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PHBV	3	10	64							
-1.0.0	HD	Fibers (PI)	Metal Die (Fibers)	Sack (PolyImide Pellets)	PI	3	10	64							
-	HE	Fibers (PIBOA)	Metal Die (Fibers)	Sack (PolyIsoBorynl Acrylate Pellets)	PIBOA	3	10	64							
-	HF	Fibers (PIBA)	Metal Die (Fibers)	Sack (PolyIsoButyl Acrylate Pellets)	PIBA	3	10	64							
-1.0.0	HG	Fibers (PIB)	Metal Die (Fibers)	Sack (PolyIsoButylene Pellets)	PIB	3	10	64							
-1.0.0	HH	Fibers (NR)	Metal Die (Fibers)	Sack (PolyIsoPrene Pellets)	NR	3	10	64							
-1.0.0	HI	Fibers (PLA)	Metal Die (Fibers)	Sack (PolyLactic Acid Pellets)	PLA	3	10	64							
-	HJ	Fibers (PLGA)	Metal Die (Fibers)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	PLGA	3	10	64							
-	HK	Fibers (PMA)	Metal Die (Fibers)	Sack (PolyMethyl Acrylate Pellets)	PMA	3	10	64							
-	HL	Fibers (PMCA)	Metal Die (Fibers)	Sack (PolyMethyl Cyanoacrylate Pellets)	PMCA	3	10	64							
-	HM	Fibers (PMMA)	Metal Die (Fibers)	Sack (PolyMethyl Methacrylate Pellets)	PMMA	3	10	64							
-	HN	Fibers (PMMS)	Metal Die (Fibers)	Sack (PolyM-Methyl Styrene Pellets)	PMMS	3	10	64							
-	HO	Fibers (PMIA)	Metal Die (Fibers)	Sack (PolyM-Phenylene Isophthalamide Pellets)	PMIA	3	10	64							
-	HP	Fibers (PNBA)	Metal Die (Fibers)	Sack (PolyN-Butyl Acrylate Pellets)	PNBA	3	10	64							
-1.0.0	HQ	Fibers (POM)	Metal Die (Fibers)	Sack (PolyOxymethylene Pellets)	POM	3	10	64							
-	HR	Fibers (PPHD)	Metal Die (Fibers)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	3	10	64							
-	HS	Fibers (polyphenol)	Metal Die (Fibers)	Sack (PolyPhenol Pellets)	polyphenol	3	10	64							
-	HT	Fibers (PPO)	Metal Die (Fibers)	Sack (PolyPhenylene Oxide Pellets)	PPO	3	10	64							
-	HU	Fibers (PPPHAZ)	Metal Die (Fibers)	Sack (PolyPhosphazene Pellets)	PPPHAZ	3	10	64							
-	HV	Fibers (PPMS)	Metal Die (Fibers)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	3	10	64							
-	HW	Fibers (PPS)	Metal Die (Fibers)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	3	10	64							
-	HX	Fibers (kevlar)	Metal Die (Fibers)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	3	10	64							
-1.0.0	HY	Fibers (PP)	Metal Die (Fibers)	Sack (PolyPropylene Pellets)	PP	3	10	64							
-	HZ	Fibers (PPG)	Metal Die (Fibers)	Sack (PolyPropylene Glycol Pellets)	PPG	3	10	64							
-	I0	Fibers (PPOX)	Metal Die (Fibers)	Sack (PolyPropylene Oxide Pellets)	PPOX	3	10	64							
-1.0.0	I1	Fibers (PS)	Metal Die (Fibers)	Sack (PolyStyrene Pellets)	PS	3	10	64							
-	I2	Fibers (PTBA)	Metal Die (Fibers)	Sack (PolyTert-Butyl Acrylate Pellets)	PTBA	3	10	64							
-1.0.0	I3	Fibers (PTFE)	Metal Die (Fibers)	Sack (PolyTetraFluoroEthylene Pellets)	PTFE	3	10	64							
-	I4	Fibers (PTMEG)	Metal Die (Fibers)	Sack (PolyTetramethylene Ether Glycol Pellets)	PTMEG	3	10	64							
-	I5	Fibers (PTMG)	Metal Die (Fibers)	Sack (PolyTetramethylene Glycol Pellets)	PTMG	3	10	64							
-	I6	Fibers (PTA)	Metal Die (Fibers)	Sack (PolyThiazyl Pellets)	PTA	3	10	64							
-1.0.0	I7	Fibers (PTT)	Metal Die (Fibers)	Sack (PolyTrimethylene Terephthalate Pellets)	PTT	3	10	64							
-1.0.0	I8	Fibers (PU)	Metal Die (Fibers)	Sack (PolyUrethane Pellets)	PU	3	10	64							
-1.0.0	I9	Fibers (PVAC)	Metal Die (Fibers)	Sack (PolyVinyl Acetate Pellets)	PVAC	3	10	64							
-1.0.0	Ia	Fibers (PVA)	Metal Die (Fibers)	Sack (PolyVinyl Alcohol Pellets)	PVA	3	10	64							
-	Ib	Fibers (PVB)	Metal Die (Fibers)	Sack (PolyVinyl Butyral Pellets)	PVB	3	10	64							
-1.0.0	Ic	Fibers (PVC)	Metal Die (Fibers)	Sack (PolyVinyl Chloride Pellets)	PVC	3	10	64							
-1.0.0	Id	Fibers (PVCA)	Metal Die (Fibers)	Sack (PolyVinyl Chloride Acetate Pellets)	PVCA	3	10	64							
-	Ie	Fibers (PVF)	Metal Die (Fibers)	Sack (PolyVinyl Fluoride Pellets)	PVF	3	10	64							
-	If	Fibers (PVFO)	Metal Die (Fibers)	Sack (PolyVinyl Formal Pellets)	PVFO	3	10	64							
-	Ig	Fibers (PVME)	Metal Die (Fibers)	Sack (PolyVinyl Methyl Ether Pellets)	PVME	3	10	64							
-	Ih	Fibers (PVDC)	Metal Die (Fibers)	Sack (PolyVinylidene Dichloride Pellets)	PVDC	3	10	64							
-	Ii	Fibers (PVDF)	Metal Die (Fibers)	Sack (PolyVinylidene Fluoride Pellets)	PVDF	3	10	64							
-	Ij	Fibers (PVDF-TRFE)	Metal Die (Fibers)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	3	10	64							
-	Ik	Fibers (SAN)	Metal Die (Fibers)	Sack (Styrene-Acrylonitrile Pellets)	SAN	3	10	64							
-1.0.0	Il	Fibers (SBR)	Metal Die (Fibers)	Sack (Styrene-Butadiene Rubber Pellets)	SBR	3	10	64							
-	Im	Fibers (SBS)	Metal Die (Fibers)	Sack (Styrene-Butadiene-Styrene Pellets)	SBS	3	10	64							
-	In	Fibers (SIS)	Metal Die (Fibers)	Sack (Styrene-Isoprene-Styrene Pellets)	SIS	3	10	64							
-	Io	Fibers (SMAC)	Metal Die (Fibers)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	3	10	64							
-1.0.0	Ip	Fibers (UHMWPE)	Metal Die (Fibers)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	UHMWPE	3	10	64							
-	Iq	Fibers (UFP)	Metal Die (Fibers)	Sack (Urea-Formaldehyde Polymers Pellets)	UFP	3	10	64							
-1.0.0	Ir	Fibers (VLDPE)	Metal Die (Fibers)	Sack (Very-Low-Density PolyEthylene Pellets)	VLDPE	3	10	64							
-1.0.0	Is	Fibers (VA/AA)	Metal Die (Fibers)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	3	10	64							
-1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Sack (Polycaprolactam Pellets)	Nylon 6	3	10	64							
-1.1.0	12M	Battery Case (PP)	Mold (Battery Case)	Bag (PolyPropylene Pellets)	PP	16	10	64							
-															
-															
-															
-															
-															
-															
-															
+Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	Level	First Release	Notes
+1.0.0	3s	Grip (Natural Rubber)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	Natural Rubber	4	5	64									1	TRUE	
+1.0.0	3t	Running Shoes (Walker)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	Walker	12	10	1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.15	20						3	TRUE	
+1.1.0	11p	Running Shoes (Jogger)	Mold (Running Shoes)	Bag (PolyButadiene Rubber Pellets)	Jogger	12	15	1	"VelocityOnGround, MovementDurationWear(MCMins), Source 1"	0.25	40	Bag (Isobutylene-Isoprene Rubber Pellets)							
+1.1.0	12U	Running Shoes (Runner)	Mold (Running Shoes)	Bag (Styrene-Butadiene Rubber Pellets)	Runner	12	20	1	"VelocityOnGround, MovementDurationWear(MCMins), Source 1, Source 2, Source 3, Source 4"	0.35	60	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)				
+1.1.0	3u	Rubber Sole (insole)	Mold (Rubber Sole)	Bag (Ethylene-Vinyl Acetate Pellets)	insole	4	5	64									8	TRUE	
+1.1.0	11n	Rubber Sole (midsole)	Mold (Rubber Sole)	Bag (PolyUrethane Pellets)	midsole	4	5	64									8		
+1.1.0	11o	Rubber Sole (outsole)	Mold (Rubber Sole)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	outsole	4	5	64									8		
+1.0.0	3v	Scuba Fins (Beginner)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	Beginner	16	10	1	"VelocityInWater, VelocityOnGround, Durability(MCMins)"	0.2	0.025	20					3	TRUE	
+1.1.0	2O	Scuba Fins (Intermediate)	Mold (Scuba Fins)	Bag (PolyButadiene Rubber Pellets)	Intermediate	16	20	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1"	0.3	0.025	40	Bag (Isobutylene-Isoprene Rubber Pellets)				6		
+1.1.0	12V	Scuba Fins (Advanced)	Mold (Scuba Fins)	Bag (Styrene-Butadiene Rubber Pellets)	Advanced	16	30	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1, Source 2, Source 3, Source 4"	0.4	0.025	60	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	8		
+1.1.0	2P	Scuba Fins (Pro)	Mold (Scuba Fins)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Pro	16	40	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1, Source 2 "	0.5	0.025	80	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)			8		
+1.0.0	3w	Scuba Mask (Beginner)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	Beginner	12	10	1	FogDensity	0.02							3	TRUE	
+1.1.0	2V	Scuba Mask (Intermediate)	Mold (Scuba Mask)	Bag (PolyButadiene Rubber Pellets)	Intermediate	12	20	1	"FogDensity, Source 1"	0.01	Bag (Isobutylene-Isoprene Rubber Pellets)						6		
+1.1.0	12T	Scuba Mask (Advanced)	Mold (Scuba Mask)	Bag (Styrene-Butadiene Rubber Pellets)	Advanced	12	30	1	"FogDensity, Source 1, Source 2, Source 3, Source 4 "	0.005	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)					
+1.1.0	2W	Scuba Mask (Pro)	Mold (Scuba Mask)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Pro	12	40	1	"FogDensity, Source 1, Source 2 "	0.001	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)					8		
+1.0.0	3y	Gasket (Low Pressure)	Mold (Gasket)	Bag (PolyIsoPrene Pellets)	Low Pressure	4	5	64									3	TRUE	
+1.1.0	131	Gasket (Medium Pressure)	Mold (Gasket)	Bag (PolyButadiene Rubber Pellets)	Medium Pressure	4	10	64	Source 1	Bag (Isobutylene-Isoprene Rubber Pellets)									
+1.1.0	132	Gasket (High Pressure)	Mold (Gasket)	Bag (Styrene-Butadiene Rubber Pellets)	High Pressure	4	15	64	"Source 1, Source 2, Source 3, Source 4"	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)						
+1.1.0	133	Gasket (Extreme Pressure)	Mold (Gasket)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Extreme Pressure	4	20	64	"Source 1, Source 2 "	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)								
+1.0.0	3z	Life Preserver (Natural Rubber)	Mold (Life Preserver)	Bag (PolyIsoPrene Pellets)	Natural Rubber	16	10	1	Durability(MCMins)	20							3	TRUE	
+1.1.0	2X	Life Preserver (SBR)	Mold (Life Preserver)	Bag (Styrene-Butadiene Rubber Pellets)	SBR	16	20	1	Durability(MCMins)	200							6		
+1.1.0	2Y	Life Preserver (EVA)	Mold (Life Preserver)	Bag (Ethylene-Vinyl Acetate Pellets)	EVA	16	30	1	Durability(MCMins)	2000							8		
+1.0.0	3N	Tether (Natural Rubber)	Metal Die (Tether)	Bag (PolyIsoPrene Pellets)	Natural Rubber	6	10	64									3	TRUE	
+1.0.0	3U	Cord (Natural Rubber)	Metal Die (Cord)	Bag (PolyIsoPrene Pellets)	Natural Rubber	8	10	64									3	TRUE	"Used as a super lead for horses, wont break as easily, can hold boats in place"
+1.0.0	F	Hose (Low Pressure)	Metal Die (Hose)	Bag (PolyIsoPrene Pellets)	Low Pressure	16	5	64									3	TRUE	
+1.1.0	12W	Hose (Medium Pressure)	Metal Die (Hose)	Bag (PolyButadiene Rubber Pellets)	Medium Pressure	16	10	64	Source 1	Bag (Isobutylene-Isoprene Rubber Pellets)									
+1.1.0	12X	Hose (High Pressure)	Metal Die (Hose)	Bag (Styrene-Butadiene Rubber Pellets)	High Pressure	16	15	64	"Source 1, Source 2, Source 3, Source 4"	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)						
+1.1.0	12Y	Hose (Extreme Pressure)	Metal Die (Hose)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Extreme Pressure	16	20	64	"Source 1, Source 2 "	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)								
+1.0.0	42	Large Pipe (PP)	Metal Die (Large Pipe)	Bag (PolyPropylene Pellets)	PP	32	10	64									3	TRUE	
+1.0.0	5J	Flashlight Shaft (PS)	Mold (Flashlight Shaft)	Bag (PolyStyrene Pellets)	PS	16	10	64											
+1.0.3	11b	Heated Knife Handle (PP)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PP	16	10	64											
+1.0.3	11c	Heated Knife Handle (PS)	Mold (Heated Knife Handle)	Bag (PolyStyrene Pellets)	PS	16	10	64											
+1.0.3	11d	Heated Knife Handle (PEEK)	Mold (Heated Knife Handle)	Bag (PolyEther Ether Ketone Pellets)	PEEK	16	10	64											
+	GD	Fibers (AF Resin)	Metal Die (Fibers)	Cartridge (Acrylic-Formaldehyde Resin)	AF Resin	3	10	64											
+1.0.0	GE	Fibers (ABS)	Metal Die (Fibers)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	3	10	64											
+	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Cartridge (Alkyd Resin)	Alkyd Resin	3	10	64											
+1.0.0	GG	Fibers (A-PET)	Metal Die (Fibers)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	3	10	64											
+1.1.0	GH	Fibers (BIIR)	Metal Die (Fibers)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	3	10	64											
+	GI	Fibers (CDAP)	Metal Die (Fibers)	Sack (Cellulose Diacetate Pellets)	CDAP	3	10	64											
+	GJ	Fibers (CTAP)	Metal Die (Fibers)	Sack (Cellulose Triacetate Pellets)	CTAP	3	10	64											
+1.0.0	GK	Fibers (Cellulose)	Metal Die (Fibers)	Sack (Cellulosic Pellets)	Cellulose	3	10	64											
+	GL	Fibers (Chitin)	Metal Die (Fibers)	Sack (Chitin Pellets)	Chitin	3	10	64											
+1.1.0	GM	Fibers (CIIR)	Metal Die (Fibers)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	CIIR	3	10	64											
+	GN	Fibers (Epoxy Resin)	Metal Die (Fibers)	Cartridge (Epoxy Resin)	Epoxy Resin	3	10	64											
+	GO	Fibers (NRE)	Metal Die (Fibers)	Sack (Ethoxylates Pellets)	NRE	3	10	64											
+1.1.0	GP	Fibers (EPM)	Metal Die (Fibers)	Sack (Ethylene-Propylene Monomer Pellets)	EPM	3	10	64											
+1.1.0	GQ	Fibers (EPDM)	Metal Die (Fibers)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	EPDM	3	10	64											
+1.1.0	GR	Fibers (EVA)	Metal Die (Fibers)	Sack (Ethylene-Vinyl Acetate Pellets)	EVA	3	10	64											
+1.0.0	GS	Fibers (HDPE)	Metal Die (Fibers)	Sack (High Density PolyEthylene Pellets)	HDPE	3	10	64											
+1.1.0	GT	Fibers (HNBR)	Metal Die (Fibers)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	3	10	64											
+1.1.0	GU	Fibers (IIR)	Metal Die (Fibers)	Sack (Isobutylene-Isoprene Rubber Pellets)	IIR	3	10	64											
+	GV	Fibers (Lignin)	Metal Die (Fibers)	Cartridge (Lignin)	Lignin	3	10	64											
+1.0.0	GW	Fibers (LLDPE)	Metal Die (Fibers)	Sack (Linear Low-Density PolyEthylene Pellets)	LLDPE	3	10	64											
+1.0.0	GX	Fibers (LCP)	Metal Die (Fibers)	Sack (Liquid Crystal Polymer Pellets)	LCP	3	10	64											
+1.0.0	GY	Fibers (LDPE)	Metal Die (Fibers)	Sack (Low Density PolyEthylene Pellets)	LDPE	3	10	64											
+1.0.0	GZ	Fibers (MDPE)	Metal Die (Fibers)	Sack (Medium Density PolyEthylene Pellets)	MDPE	3	10	64											
+	H0	Fibers (MFP)	Metal Die (Fibers)	Cartridge (Melamine-Formaldehyde Polymers)	MFP	3	10	64											
+1.0.0	H1	Fibers (MALD)	Metal Die (Fibers)	Sack (Metaldehyde Pellets)	MALD	3	10	64											
+1.1.0	H2	Fibers (NBR)	Metal Die (Fibers)	Sack (Nitrile-Butadiene Rubber Pellets)	NBR	3	10	64											
+1.0.0	H3	Fibers (PFA)	Metal Die (Fibers)	Sack (Paraformaldehyde Pellets)	PFA	3	10	64											
+1.0.0	H4	Fibers (PALD)	Metal Die (Fibers)	Sack (Paraldehyde Pellets)	PALD	3	10	64											
+	H5	Fibers (Phenol Formaldehydes)	Metal Die (Fibers)	Cartridge (Phenolic Resin)	Phenol Formaldehydes	3	10	64											
+1.0.0	H6	Fibers (PHBV)	Metal Die (Fibers)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	3	10	64											
+	H7	Fibers (P1B)	Metal Die (Fibers)	Sack (Poly1-Butene Pellets)	P1B	3	10	64											
+	H8	Fibers (PDPE)	Metal Die (Fibers)	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	3	10	64											
+	H9	Fibers (PHB)	Metal Die (Fibers)	Sack (Poly-2-Hydroxy Butyrate Pellets)	PHB	3	10	64											
+	Ha	Fibers (PHEMA)	Metal Die (Fibers)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	3	10	64											
+	Hb	Fibers (PAE)	Metal Die (Fibers)	Sack (PolyAcrylic Ester Pellets)	PAE	3	10	64											
+1.0.0	Hc	Fibers (PAN)	Metal Die (Fibers)	Sack (PolyAcrylonitrile Pellets)	PAN	3	10	64											
+1.0.0	Hd	Fibers (PBD)	Metal Die (Fibers)	Sack (PolyButadiene Pellets)	PBD	3	10	64											
+1.1.0	He	Fibers (PBR)	Metal Die (Fibers)	Sack (PolyButadiene Rubber Pellets)	PBR	3	10	64											
+1.0.0	Hf	Fibers (PBS)	Metal Die (Fibers)	Sack (PolyButylene Succinate Pellets)	PBS	3	10	64											
+1.0.0	Hh	Fibers (PBT)	Metal Die (Fibers)	Sack (PolyButylene Terephthalate Pellets)	PBT	3	10	64											
+1.0.0	Hi	Fibers (PCL)	Metal Die (Fibers)	Sack (PolyCaprolactone Pellets)	PCL	3	10	64											
+1.0.0	Hj	Fibers (PC)	Metal Die (Fibers)	Sack (PolyCarbonate Pellets)	PC	3	10	64											
+	Hk	Fibers (PCHL)	Metal Die (Fibers)	Sack (PolyChloroPrene Pellets)	PCHL	3	10	64											
+	Hl	Fibers (PCTFE)	Metal Die (Fibers)	Sack (PolyChlorotrifluoroethylene Pellets)	PCTFE	3	10	64											
+1.0.0	Hm	Fibers (PDMS)	Metal Die (Fibers)	Sack (PolyDiMethylSiloxane Pellets)	PDMS	3	10	64											
+1.0.0	Hn	Fibers (PEEK)	Metal Die (Fibers)	Sack (PolyEther Ether Ketone Pellets)	PEEK	3	10	64											
+1.0.0	Ho	Fibers (PEI)	Metal Die (Fibers)	Sack (PolyEtherImide Pellets)	PEI	3	10	64											
+	Hp	Fibers (PEA)	Metal Die (Fibers)	Sack (PolyEthyl Acrylate Pellets)	PEA	3	10	64											
+	Hq	Fibers (PEA)	Metal Die (Fibers)	Sack (PolyEthylene Adipate Pellets)	PEA	3	10	64											
+1.0.0	Hr	Fibers (PEG)	Metal Die (Fibers)	Sack (PolyEthylene Glycol Pellets)	PEG	3	10	64											
+	Hs	Fibers (PEHD)	Metal Die (Fibers)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	3	10	64											
+1.0.0	Ht	Fibers (PEN)	Metal Die (Fibers)	Sack (PolyEthylene Naphthalate Pellets)	PEN	3	10	64											
+1.0.0	Hu	Fibers (PEO)	Metal Die (Fibers)	Sack (PolyEthylene Oxide Pellets)	PEO	3	10	64											
+	Hv	Fibers (PES)	Metal Die (Fibers)	Sack (PolyEthylene Sulphide Pellets)	PES	3	10	64											
+1.0.0	Hw	Fibers (PET)	Metal Die (Fibers)	Sack (PolyEthylene Terephthalate Pellets)	PET	3	10	64											
+1.0.0	Hx	Fibers (PETG)	Metal Die (Fibers)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	PETG	3	10	64											
+1.0.0	Hy	Fibers (PGA)	Metal Die (Fibers)	Sack (PolyGlycolic Acid Pellets)	PGA	3	10	64											
+1.1.0	Hz	"Fibers (Nylon 6,7)"	Metal Die (Fibers)	Sack (PolyHexamethylene Adipamide Pellets)	"Nylon 6,7"	3	10	64											
+1.1.0	HA	"Fibers (Nylon 6,11)"	Metal Die (Fibers)	Sack (PolyHexamethylene Sebacamide Pellets)	"Nylon 6,11"	3	10	64											
+1.0.0	HB	Fibers (PHA)	Metal Die (Fibers)	Sack (PolyHydroxyalkanoate Pellets)	PHA	3	10	64											
+	HC	Fibers (PHBV)	Metal Die (Fibers)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PHBV	3	10	64											
+1.0.0	HD	Fibers (PI)	Metal Die (Fibers)	Sack (PolyImide Pellets)	PI	3	10	64											
+	HE	Fibers (PIBOA)	Metal Die (Fibers)	Sack (PolyIsoBorynl Acrylate Pellets)	PIBOA	3	10	64											
+	HF	Fibers (PIBA)	Metal Die (Fibers)	Sack (PolyIsoButyl Acrylate Pellets)	PIBA	3	10	64											
+1.0.0	HG	Fibers (PIB)	Metal Die (Fibers)	Sack (PolyIsoButylene Pellets)	PIB	3	10	64											
+1.0.0	HH	Fibers (Natural Rubber)	Metal Die (Fibers)	Sack (PolyIsoPrene Pellets)	Natural Rubber	3	10	64											
+1.0.0	HI	Fibers (PLA)	Metal Die (Fibers)	Sack (PolyLactic Acid Pellets)	PLA	3	10	64											
+	HJ	Fibers (PLGA)	Metal Die (Fibers)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	PLGA	3	10	64											
+	HK	Fibers (PMA)	Metal Die (Fibers)	Sack (PolyMethyl Acrylate Pellets)	PMA	3	10	64											
+	HL	Fibers (PMCA)	Metal Die (Fibers)	Sack (PolyMethyl Cyanoacrylate Pellets)	PMCA	3	10	64											
+	HM	Fibers (PMMA)	Metal Die (Fibers)	Sack (PolyMethyl Methacrylate Pellets)	PMMA	3	10	64											
+	HN	Fibers (PMMS)	Metal Die (Fibers)	Sack (PolyM-Methyl Styrene Pellets)	PMMS	3	10	64											
+	HO	Fibers (PMIA)	Metal Die (Fibers)	Sack (PolyM-Phenylene Isophthalamide Pellets)	PMIA	3	10	64											
+	HP	Fibers (PNBA)	Metal Die (Fibers)	Sack (PolyN-Butyl Acrylate Pellets)	PNBA	3	10	64											
+1.0.0	HQ	Fibers (POM)	Metal Die (Fibers)	Sack (PolyOxymethylene Pellets)	POM	3	10	64											
+	HR	Fibers (PPHD)	Metal Die (Fibers)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	3	10	64											
+	HS	Fibers (Polyphenol)	Metal Die (Fibers)	Sack (PolyPhenol Pellets)	Polyphenol	3	10	64											
+	HT	Fibers (PPO)	Metal Die (Fibers)	Sack (PolyPhenylene Oxide Pellets)	PPO	3	10	64											
+	HU	Fibers (PPPHAZ)	Metal Die (Fibers)	Sack (PolyPhosphazene Pellets)	PPPHAZ	3	10	64											
+	HV	Fibers (PPMS)	Metal Die (Fibers)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	3	10	64											
+	HW	Fibers (PPS)	Metal Die (Fibers)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	3	10	64											
+	HX	Fibers (kevlar)	Metal Die (Fibers)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	3	10	64											
+1.0.0	HY	Fibers (PP)	Metal Die (Fibers)	Sack (PolyPropylene Pellets)	PP	3	10	64											
+	HZ	Fibers (PPG)	Metal Die (Fibers)	Sack (PolyPropylene Glycol Pellets)	PPG	3	10	64											
+	I0	Fibers (PPOX)	Metal Die (Fibers)	Sack (PolyPropylene Oxide Pellets)	PPOX	3	10	64											
+1.0.0	I1	Fibers (PS)	Metal Die (Fibers)	Sack (PolyStyrene Pellets)	PS	3	10	64											
+	I2	Fibers (PTBA)	Metal Die (Fibers)	Sack (PolyTert-Butyl Acrylate Pellets)	PTBA	3	10	64											
+1.0.0	I3	Fibers (PTFE)	Metal Die (Fibers)	Sack (PolyTetraFluoroEthylene Pellets)	PTFE	3	10	64											
+	I4	Fibers (PTMEG)	Metal Die (Fibers)	Sack (PolyTetramethylene Ether Glycol Pellets)	PTMEG	3	10	64											
+	I5	Fibers (PTMG)	Metal Die (Fibers)	Sack (PolyTetramethylene Glycol Pellets)	PTMG	3	10	64											
+	I6	Fibers (PTA)	Metal Die (Fibers)	Sack (PolyThiazyl Pellets)	PTA	3	10	64											
+1.0.0	I7	Fibers (PTT)	Metal Die (Fibers)	Sack (PolyTrimethylene Terephthalate Pellets)	PTT	3	10	64											
+1.0.0	I8	Fibers (PU)	Metal Die (Fibers)	Sack (PolyUrethane Pellets)	PU	3	10	64											
+1.0.0	I9	Fibers (PVAC)	Metal Die (Fibers)	Sack (PolyVinyl Acetate Pellets)	PVAC	3	10	64											
+1.0.0	Ia	Fibers (PVA)	Metal Die (Fibers)	Sack (PolyVinyl Alcohol Pellets)	PVA	3	10	64											
+	Ib	Fibers (PVB)	Metal Die (Fibers)	Sack (PolyVinyl Butyral Pellets)	PVB	3	10	64											
+1.0.0	Ic	Fibers (PVC)	Metal Die (Fibers)	Sack (PolyVinyl Chloride Pellets)	PVC	3	10	64											
+1.0.0	Id	Fibers (PVCA)	Metal Die (Fibers)	Sack (PolyVinyl Chloride Acetate Pellets)	PVCA	3	10	64											
+	Ie	Fibers (PVF)	Metal Die (Fibers)	Sack (PolyVinyl Fluoride Pellets)	PVF	3	10	64											
+	If	Fibers (PVFO)	Metal Die (Fibers)	Sack (PolyVinyl Formal Pellets)	PVFO	3	10	64											
+	Ig	Fibers (PVME)	Metal Die (Fibers)	Sack (PolyVinyl Methyl Ether Pellets)	PVME	3	10	64											
+	Ih	Fibers (PVDC)	Metal Die (Fibers)	Sack (PolyVinylidene Dichloride Pellets)	PVDC	3	10	64											
+	Ii	Fibers (PVDF)	Metal Die (Fibers)	Sack (PolyVinylidene Fluoride Pellets)	PVDF	3	10	64											
+	Ij	Fibers (PVDF-TRFE)	Metal Die (Fibers)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	3	10	64											
+	Ik	Fibers (SAN)	Metal Die (Fibers)	Sack (Styrene-Acrylonitrile Pellets)	SAN	3	10	64											
+1.0.0	Il	Fibers (SBR)	Metal Die (Fibers)	Sack (Styrene-Butadiene Rubber Pellets)	SBR	3	10	64											
+	Im	Fibers (SBS)	Metal Die (Fibers)	Sack (Styrene-Butadiene-Styrene Pellets)	SBS	3	10	64											
+	In	Fibers (SIS)	Metal Die (Fibers)	Sack (Styrene-Isoprene-Styrene Pellets)	SIS	3	10	64											
+	Io	Fibers (SMAC)	Metal Die (Fibers)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	3	10	64											
+1.0.0	Ip	Fibers (UHMWPE)	Metal Die (Fibers)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	UHMWPE	3	10	64											
+	Iq	Fibers (UFP)	Metal Die (Fibers)	Sack (Urea-Formaldehyde Polymers Pellets)	UFP	3	10	64											
+1.0.0	Ir	Fibers (VLDPE)	Metal Die (Fibers)	Sack (Very-Low-Density PolyEthylene Pellets)	VLDPE	3	10	64											
+1.0.0	Is	Fibers (VA/AA)	Metal Die (Fibers)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	3	10	64											
+1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Sack (Polycaprolactam Pellets)	Nylon 6	3	10	64											
+1.1.0	12M	Battery Case (PP)	Mold (Battery Case)	Bag (PolyPropylene Pellets)	PP	16	10	64											
+																			
+																			
+																			
+																			
+																			
+																			
+																			

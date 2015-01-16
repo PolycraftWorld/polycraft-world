@@ -1,33 +1,33 @@
 Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
-0	Tv	Vl	Wall (af resin)	Block (af resin)	af resin	0
+0	Tv	Vl	Wall (AF Resin)	Block (AF Resin)	AF Resin	0
 1.0.0	Tw	Vm	Wall (ABS)	Block (ABS)	ABS	0
-0	Tx	Vn	Wall (alkyd resin)	Block (alkyd resin)	alkyd resin	0
+0	Tx	Vn	Wall (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Ty	Vo	Wall (A-PET)	Block (A-PET)	A-PET	0
-0	Tz	Vp	Wall (BIIR)	Block (BIIR)	BIIR	0
+1.1.0	Tz	Vp	Wall (BIIR)	Block (BIIR)	BIIR	6
 0	TA	Vq	Wall (CDAP)	Block (CDAP)	CDAP	0
 0	TB	Vr	Wall (CTAP)	Block (CTAP)	CTAP	0
-1.0.0	TC	Vs	Wall (cellulose)	Block (cellulose)	cellulose	0
-0	TD	Vt	Wall (chitin)	Block (chitin)	chitin	0
-0	TE	Vu	Wall (CIIR)	Block (CIIR)	CIIR	0
-0	TF	Vv	Wall (epoxy resin)	Block (epoxy resin)	epoxy resin	0
+1.0.0	TC	Vs	Wall (Cellulose)	Block (Cellulose)	Cellulose	0
+0	TD	Vt	Wall (Chitin)	Block (Chitin)	Chitin	0
+1.1.0	TE	Vu	Wall (CIIR)	Block (CIIR)	CIIR	6
+0	TF	Vv	Wall (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
 0	TG	Vw	Wall (NRE)	Block (NRE)	NRE	0
 1.1.0	TH	Vx	Wall (EPM)	Block (EPM)	EPM	0
-1.1.0	TI	Vy	Wall (EPM)	Block (EPM)	EPM	0
-1.1.0	TJ	Vz	Wall (EVA)	Block (EVA)	EVA	0
+1.1.0	TI	Vy	Wall (EPDM)	Block (EPDM)	EPDM	9
+1.1.0	TJ	Vz	Wall (EVA)	Block (EVA)	EVA	9
 1.0.0	TK	VA	Wall (HDPE)	Block (HDPE)	HDPE	0
-0	TL	VB	Wall (HNBR)	Block (HNBR)	HNBR	0
-0	TM	VC	Wall (IIR)	Block (IIR)	IIR	0
-0	TN	VD	Wall (lignin)	Block (lignin)	lignin	0
+1.1.0	TL	VB	Wall (HNBR)	Block (HNBR)	HNBR	6
+1.1.0	TM	VC	Wall (IIR)	Block (IIR)	IIR	4
+0	TN	VD	Wall (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	TO	VE	Wall (LLDPE)	Block (LLDPE)	LLDPE	0
 1.0.0	TP	VF	Wall (LCP)	Block (LCP)	LCP	0
 1.0.0	TQ	VG	Wall (LDPE)	Block (LDPE)	LDPE	0
 1.0.0	TR	VH	Wall (MDPE)	Block (MDPE)	MDPE	0
 0	TS	VI	Wall (MFP)	Block (MFP)	MFP	0
 1.0.0	TT	VJ	Wall (MALD)	Block (MALD)	MALD	0
-0	TU	VK	Wall (NBR)	Block (NBR)	NBR	0
+1.1.0	TU	VK	Wall (NBR)	Block (NBR)	NBR	6
 1.0.0	TV	VL	Wall (PFA)	Block (PFA)	PFA	0
 1.0.0	TW	VM	Wall (PALD)	Block (PALD)	PALD	0
-0	TX	VN	Wall (phenol formaldehydes)	Block (phenol formaldehydes)	phenol formaldehydes	0
+0	TX	VN	Wall (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
 1.0.0	TY	VO	Wall (PHBV)	Block (PHBV)	PHBV	0
 0	TZ	VP	Wall (P1B)	Block (P1B)	P1B	0
 0	U0	VQ	Wall (PDPE)	Block (PDPE)	PDPE	0
@@ -36,7 +36,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	U3	VT	Wall (PAE)	Block (PAE)	PAE	0
 1.0.0	U4	VU	Wall (PAN)	Block (PAN)	PAN	0
 1.0.0	U5	VV	Wall (PBD)	Block (PBD)	PBD	0
-0	U6	VW	Wall (PBR)	Block (PBR)	PBR	0
+1.1.0	U6	VW	Wall (PBR)	Block (PBR)	PBR	4
 1.0.0	U7	VX	Wall (PBS)	Block (PBS)	PBS	0
 1.0.0	U9	VZ	Wall (PBT)	Block (PBT)	PBT	0
 1.0.0	Ua	W0	Wall (PCL)	Block (PCL)	PCL	0
@@ -64,7 +64,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	Uw	Wm	Wall (PIBOA)	Block (PIBOA)	PIBOA	0
 0	Ux	Wn	Wall (PIBA)	Block (PIBA)	PIBA	0
 1.0.0	Uy	Wo	Wall (PIB)	Block (PIB)	PIB	0
-1.0.0	Uz	Wp	Wall (NR)	Block (NR)	NR	6
+1.0.0	Uz	Wp	Wall (Natural Rubber)	Block (Natural Rubber)	Natural Rubber	3
 1.0.0	UA	Wq	Wall (PLA)	Block (PLA)	PLA	0
 0	UB	Wr	Wall (PLGA)	Block (PLGA)	PLGA	0
 0	UC	Ws	Wall (PMA)	Block (PMA)	PMA	0
@@ -75,7 +75,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	UH	Wx	Wall (PNBA)	Block (PNBA)	PNBA	0
 1.0.0	UI	Wy	Wall (POM)	Block (POM)	POM	0
 0	UJ	Wz	Wall (PPHD)	Block (PPHD)	PPHD	0
-0	UK	WA	Wall (polyphenol)	Block (polyphenol)	polyphenol	0
+0	UK	WA	Wall (Polyphenol)	Block (Polyphenol)	Polyphenol	0
 0	UL	WB	Wall (PPO)	Block (PPO)	PPO	0
 0	UM	WC	Wall (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	UN	WD	Wall (PPMS)	Block (PPMS)	PPMS	0
@@ -91,7 +91,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	UX	WN	Wall (PTMG)	Block (PTMG)	PTMG	0
 0	UY	WO	Wall (PTA)	Block (PTA)	PTA	0
 1.0.0	UZ	WP	Wall (PTT)	Block (PTT)	PTT	0
-1.0.0	V0	WQ	Wall (PU)	Block (PU)	PU	0
+1.0.0	V0	WQ	Wall (PU)	Block (PU)	PU	9
 1.0.0	V1	WR	Wall (PVAC)	Block (PVAC)	PVAC	0
 1.0.0	V2	WS	Wall (PVA)	Block (PVA)	PVA	0
 0	V3	WT	Wall (PVB)	Block (PVB)	PVB	0
@@ -104,7 +104,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	Va	X0	Wall (PVDF)	Block (PVDF)	PVDF	0
 0	Vb	X1	Wall (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
 0	Vc	X2	Wall (SAN)	Block (SAN)	SAN	0
-1.0.0	Vd	X3	Wall (SBR)	Block (SBR)	SBR	12
+1.0.0	Vd	X3	Wall (SBR)	Block (SBR)	SBR	6
 0	Ve	X4	Wall (SBS)	Block (SBS)	SBS	0
 0	Vf	X5	Wall (SIS)	Block (SIS)	SIS	0
 0	Vg	X6	Wall (SMAC)	Block (SMAC)	SMAC	0

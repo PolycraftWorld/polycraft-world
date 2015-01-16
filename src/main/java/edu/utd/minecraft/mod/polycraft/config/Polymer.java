@@ -59,14 +59,14 @@ public class Polymer extends Config {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, Polymer.class.getSimpleName().toLowerCase())) {
 			if (line.length > 0) {
 				int resinCodeValue = 0;
-				if (line[4].length() > 0) {
-					resinCodeValue = Integer.parseInt(line[4]);
+				if (line[5].length() > 0) {
+					resinCodeValue = Integer.parseInt(line[5]);
 					if (resinCodeValue > 7)
 						resinCodeValue = 0;
 				}
 
 				Collection<Category> categories = null;
-				for (int i = 7; i <= 9 && line.length > i; i++) {
+				for (int i = 8; i <= 10 && line.length > i; i++) {
 
 					final String category = line[i].trim();
 					if (!category.isEmpty()) {
@@ -80,8 +80,9 @@ public class Polymer extends Config {
 						PolycraftMod.getVersionNumeric(line[0]), //version
 						line[1], // name
 						line[2], // shortName
+						Boolean.parseBoolean(line[3]), //thermoplastic
 						Polymer.ResinCode.values()[resinCodeValue], // resinCode
-						Boolean.parseBoolean(line[5]), // degradable
+						Boolean.parseBoolean(line[6]), // degradable
 						categories // categories
 				));
 			}
@@ -92,11 +93,13 @@ public class Polymer extends Config {
 	public final boolean degradable;
 	public final Collection<Category> categories;
 	public final ResinCode resinCode;
+	public final boolean thermoplastic;
 
-	public Polymer(final int[] version, final String name, final String shortName, final ResinCode resinCode, final boolean degradable, final Collection<Category> categories) {
+	public Polymer(final int[] version, final String name, final String shortName, final boolean thermoplastic, final ResinCode resinCode, final boolean degradable, final Collection<Category> categories) {
 		super(version, name);
 		this.shortName = shortName;
 		this.resinCode = resinCode;
+		this.thermoplastic = thermoplastic;
 		this.degradable = degradable;
 		this.categories = categories;
 	}

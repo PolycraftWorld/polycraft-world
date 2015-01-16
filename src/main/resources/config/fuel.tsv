@@ -15,7 +15,7 @@ Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*
 1.0.0	Sweet Light Naphtha	Compound	Sweet Light Naphtha	13	5	20	
 1.0.0	Town Gas	Compound	Town Gas	14	7	20	
 1.0.0	Light Naphtha	Compound	Light Naphtha	15	3	10	
-1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	3	10	
+1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	6	12	
 1.0.4	Butane Isomers	Compound	Butane Isomers	17	6	14	
 1.0.4	Sweet Kerosene	Compound	Sweet Kerosene	18	10	32	
 1.0.4	Sweet Diesel	Compound	Sweet Diesel	19	10	32	
@@ -61,7 +61,9 @@ Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*
 1.0.6	Wooden Axe	Minecraft Item	Wooden Axe	55	1	10	
 1.0.6	Wooden Pickaxe	Minecraft Item	Wooden Pickaxe	55	1	10	
 1.0.6	Wooden Shovel	Minecraft Item	Wooden Shovel	56	1	10	
-1.0.6	Wooden Sword	Minecraft Item	Wooden Sword	57	1	10		
+1.0.6	Wooden Sword	Minecraft Item	Wooden Sword	57	1	10	
+1.0.6	Bow	Minecraft Item	Bow	58	1	10	
+1.0.7	Bucket (Crude Oil)	Compound	Crude Oil	59	2	120	
 1.0.7	Dark Oak Stairs	Minecraft Block	Dark Oak Stairs	60	1	15	
 1.0.7	Acacia Stairs	Minecraft Block	Acacia Stairs	61	1	15	
 1.0.7	Jungle Stairs	Minecraft Block	Jungle Stairs	62	1	15	

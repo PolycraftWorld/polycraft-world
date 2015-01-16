@@ -1,16 +1,16 @@
 Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#											
-1.0.0	2	1	10	4	Water Bucket	1	Beaker (Deionized Water)	16	Bucket	1																									
-1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	16	Bucket	1																									
+1.0.0	2	1	10	4	Water Bucket	1	Beaker (Deionized Water)	1	Bucket	1																									
+1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	1	Bucket	1																									
 1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1																									
 1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1																									
 1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	1	Gravel	3																									
 1.0.0	2	1	10	4	Block of Bitumen	4	Beaker (Crude Oil)	11	Gravel	32																									
-1.0.0	1	1	10	4	Vial (Crude Oil)	4	Vial (Naphthalene)	1	Vial (Benzene-Toluene-Xylene)	1	Vial (Gas Oil)	1																							
-1.0.0	1	1	10	4	Vial (Crude Oil)	16	Vial (Naphthalene)	4	Vial (Benzene-Toluene-Xylene)	4	Vial (Gas Oil)	4																							
-1.0.0	2	1	10	4	Beaker (Crude Oil)	1	Vial (Naphthalene)	18	Vial (Benzene-Toluene-Xylene)	18	Vial (Gas Oil)	18																							
-1.0.0	2	1	10	4	Beaker (Crude Oil)	4	Beaker (Naphthalene)	1	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Bitumen	2																					
-1.0.0	2	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	4	Beaker (Benzene-Toluene-Xylene)	4	Beaker (Gas Oil)	4	Bitumen	8																					
-1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	19	Beaker (Benzene-Toluene-Xylene)	19	Beaker (Gas Oil)	19	Bitumen	32																					
+1.0.0	1	1	10	4	Vial (Crude Oil)	8	Vial (Naphthalene)	6	Vial (Benzene-Toluene-Xylene)	1	Vial (Gas Oil)	1																							
+1.0.0	1	1	10	4	Vial (Crude Oil)	16	Vial (Naphthalene)	12	Vial (Benzene-Toluene-Xylene)	2	Vial (Gas Oil)	2																							
+1.0.0	2	1	10	4	Beaker (Crude Oil)	1	Vial (Naphthalene)	48	Vial (Benzene-Toluene-Xylene)	8	Vial (Gas Oil)	8																							
+1.0.0	2	1	10	4	Beaker (Crude Oil)	8	Beaker (Naphthalene)	5	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Bitumen	1																					
+1.0.0	2	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	8	Beaker (Benzene-Toluene-Xylene)	3	Beaker (Gas Oil)	3	Bitumen	2																					
+1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	30	Beaker (Benzene-Toluene-Xylene)	15	Beaker (Gas Oil)	15	Bitumen	4																					
 1.0.0	3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	16																					
 1.0.0	3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64																					
 1.0.0	4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64																					
@@ -33,15 +33,15 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	3	1	10	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1																									
 1.0.0	3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	12	Drum (Heavy Naphtha)	4																									
 1.0.0	4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	48	Drum (Heavy Naphtha)	16																									
-1.0.0	1	1	10	4	Vial (Light Naphtha)	4	Vial (Light Parrafins)	2	Vial (Light Naphthenes)	1	Vial (Light Olefins)	1																							
-1.0.0	1	1	10	4	Vial (Light Naphtha)	16	Vial (Light Parrafins)	8	Vial (Light Naphthenes)	4	Vial (Light Olefins)	4																							
-1.0.0	2	1	10	4	Beaker (Light Naphtha)	1	Vial (Light Parrafins)	32	Vial (Light Naphthenes)	16	Vial (Light Olefins)	16																							
-1.0.0	2	1	10	4	Beaker (Light Naphtha)	4	Beaker (Light Parrafins)	2	Beaker (Light Naphthenes)	1	Beaker (Light Olefins)	1																							
-1.0.0	2	1	10	4	Beaker (Light Naphtha)	16	Beaker (Light Parrafins)	8	Beaker (Light Naphthenes)	4	Beaker (Light Olefins)	4																							
-1.0.0	3	1	10	4	Drum (Light Naphtha)	1	Beaker (Light Parrafins)	32	Beaker (Light Naphthenes)	16	Beaker (Light Olefins)	16																							
-1.0.0	3	1	10	4	Drum (Light Naphtha)	4	Drum (Light Parrafins)	2	Drum (Light Naphthenes)	1	Drum (Light Olefins)	1																							
-1.0.0	3	1	10	4	Drum (Light Naphtha)	16	Drum (Light Parrafins)	8	Drum (Light Naphthenes)	4	Drum (Light Olefins)	4																							
-1.0.0	4	1	10	4	Drum (Light Naphtha)	64	Drum (Light Parrafins)	32	Drum (Light Naphthenes)	16	Drum (Light Olefins)	16																							
+1.0.0	1	1	10	4	Vial (Light Naphtha)	8	Vial (Light Parrafins)	1	Vial (Light Naphthenes)	1	Vial (Light Olefins)	6																							
+1.0.0	1	1	10	4	Vial (Light Naphtha)	16	Vial (Light Parrafins)	2	Vial (Light Naphthenes)	2	Vial (Light Olefins)	12																							
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	1	Vial (Light Parrafins)	8	Vial (Light Naphthenes)	8	Vial (Light Olefins)	48																							
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	4	Vial (Light Parrafins)	32	Vial (Light Naphthenes)	32	Beaker (Light Olefins)	3																							
+1.0.0	2	1	10	4	Beaker (Light Naphtha)	16	Beaker (Light Parrafins)	3	Beaker (Light Naphthenes)	3	Beaker (Light Olefins)	10																							
+1.0.0	3	1	10	4	Drum (Light Naphtha)	1	Beaker (Light Parrafins)	16	Beaker (Light Naphthenes)	16	Beaker (Light Olefins)	32																							
+1.0.0	3	1	10	4	Drum (Light Naphtha)	4	Drum (Light Parrafins)	1	Drum (Light Naphthenes)	1	Drum (Light Olefins)	2																							
+1.0.0	3	1	10	4	Drum (Light Naphtha)	16	Drum (Light Parrafins)	5	Drum (Light Naphthenes)	5	Drum (Light Olefins)	6																							
+1.0.0	4	1	10	4	Drum (Light Naphtha)	64	Drum (Light Parrafins)	20	Drum (Light Naphthenes)	20	Drum (Light Olefins)	24																							
 1.0.0	1	1	10	4	Vial (Light Parrafins)	2	Flask (Methane)	1																											
 1.0.0	1	1	10	4	Vial (Light Parrafins)	4	Flask (Methane)	3																											
 1.0.0	1	1	10	4	Vial (Light Parrafins)	16	Flask (Methane)	14	Flask (Ethane)	2																									

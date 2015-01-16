@@ -145,8 +145,8 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 	public final int fireDuration;
 	public final int damage;
 
-	public ItemFlameThrower(final CustomObject config) {
-		this.setTextureName(PolycraftMod.getAssetName("flame_thrower"));
+	public ItemFlameThrower(final CustomObject config, String iconName) {
+		this.setTextureName(PolycraftMod.getAssetName(iconName));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
 		if (config.maxStackSize > 0)

@@ -199,6 +199,7 @@ public class RecipeGenerator {
 		}
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
+		{					
 			PolycraftMod.recipeManager.addShapedRecipe(
 					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 					moldedItem.getItemStack(),
@@ -206,6 +207,33 @@ public class RecipeGenerator {
 					ImmutableMap.of(
 							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
 							'y', moldedItem.source.getItemStack()));
+			if ((moldedItem.params!=null)&&(moldedItem.params.names.length>1))
+			{
+				int count = 0;
+				for (final String name : moldedItem.params.names)
+				{
+					if (name.contains("Source"))
+					{
+						PolycraftMod.recipeManager.addShapedRecipe(
+								moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
+								moldedItem.getItemStack(),
+								new String[] { "xy" },
+								ImmutableMap.of(
+										'x', PolymerPellets.registry.get(moldedItem.params.get(count)).getItemStack(moldedItem.craftingPellets),
+										'y', moldedItem.source.getItemStack()));
+						
+						
+					}
+					count++;
+					
+					
+				}
+				
+				
+				
+				
+			}
+		}
 		
 		for (final PolymerBrick brickItem : PolymerBrick.registry.values())
 			PolycraftMod.recipeManager.addShapedRecipe(
@@ -640,14 +668,14 @@ public class RecipeGenerator {
 				CustomObject.registry.get("Flashlight").getItemStack(),
 				CustomObject.registry.get("Flame Thrower").getItemStack(),
 				CustomObject.registry.get("Jet Pack").getItemStack(),
-				PolymerSlab.registry.get("Slab (NR)").getItemStack(),
-				PolymerBlock.registry.get("Block (NR)").getItemStack(),
+				PolymerSlab.registry.get("Slab (Natural Rubber)").getItemStack(),
+				PolymerBlock.registry.get("Block (Natural Rubber)").getItemStack(),
 				CustomObject.registry.get("Phase Shifter").getItemStack(),
-				MoldedItem.registry.get("Life Preserver (NR)").getItemStack(),
+				MoldedItem.registry.get("Life Preserver (Natural Rubber)").getItemStack(),
 				MoldedItem.registry.get("Running Shoes (Walker)").getItemStack(),
 				MoldedItem.registry.get("Scuba Fins (Beginner)").getItemStack(),
 				MoldedItem.registry.get("Scuba Mask (Beginner)").getItemStack(),
-				CustomObject.registry.get("Scuba Tank").getItemStack(),
+				CustomObject.registry.get("Scuba Tank (Beginner)").getItemStack(),
 				CustomObject.registry.get("Parachute").getItemStack(),
 				CustomObject.registry.get("Kevlar Vest").getItemStack(),
 				Inventory.registry.get("Injection Molder").getItemStack(),
