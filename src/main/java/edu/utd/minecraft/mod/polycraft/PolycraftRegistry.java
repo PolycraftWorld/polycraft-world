@@ -454,7 +454,16 @@ public class PolycraftRegistry {
 				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 			}
 			else if (GameID.CustomFlameThrower.matches(customObject)) {
-				registerItem(customObject, new ItemFlameThrower(customObject));
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_thrower"));
+			}
+			else if (GameID.CustomFlameTosser.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_tosser"));
+			}
+			else if (GameID.CustomFlameHurler.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_hurler"));
+			}
+			else if (GameID.CustomFlameChucker.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_chucker"));
 			}
 			else if (GameID.CustomFlashlight.matches(customObject)) {
 				registerItem(customObject, new ItemFlashlight(customObject));
@@ -468,8 +477,17 @@ public class PolycraftRegistry {
 			else if (GameID.CustomPhaseShifter.matches(customObject)) {
 				registerItem(customObject, new ItemPhaseShifter(customObject));
 			}
-			else if (GameID.CustomScubaTank.matches(customObject)) {
-				registerItem(customObject, new ItemScubaTank(customObject));
+			else if (GameID.CustomScubaTankBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_beginner"));
+			}
+			else if (GameID.CustomScubaTankIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_intermediate"));
+			}
+			else if (GameID.CustomScubaTankAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_advanced"));
+			}
+			else if (GameID.CustomScubaTankPro.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_pro"));
 			}
 			else if (GameID.CustomKevlarVest.matches(customObject)) {
 				registerItem(customObject, new ItemKevlarVest(customObject));
