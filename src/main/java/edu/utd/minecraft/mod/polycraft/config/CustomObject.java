@@ -1,7 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
-import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 
 public class CustomObject extends GameIdentifiedConfig {
 
@@ -47,18 +45,20 @@ public class CustomObject extends GameIdentifiedConfig {
 	}
 	
 	public static int getEquippedFlashlightRange(final EntityPlayer player) {
-		Item item = PolycraftItemHelper.getCurrentEquippedItem(player);
+		ItemStack item = player.getCurrentEquippedItem();
 		if (item != null) {
-			final CustomObject co = PolycraftRegistry.customObjectItems.get(item);
+			final CustomObject co = PolycraftRegistry.customObjectItems.get(item.getItem());
 			if (co != null)
 				return co.flashlightRange;
 		}
 		for (final ArmorSlot armorSlot : ArmorSlot.values()) {
-			item = PolycraftItemHelper.getArmorItem(player, armorSlot);
-			if (item != null && PolycraftRegistry.customObjectItems.containsKey(item)) {
-				final CustomObject co = PolycraftRegistry.customObjectItems.get(item);
-				if (co != null)
-					return co.flashlightRange;
+			item = player.getCurrentArmor(armorSlot.getInventoryArmorSlot());
+			if (item != null) {
+				if (PolycraftRegistry.customObjectItems.containsKey(item.getItem())) {
+					final CustomObject co = PolycraftRegistry.customObjectItems.get(item);
+					if (co != null)
+						return co.flashlightRange;
+				}
 			}
 		}
 		return 0;
