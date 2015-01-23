@@ -9,5 +9,5 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="GradleStart"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Minecraft"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M&#13;&#10;-Dnogui=true&#13;&#10;-Dfml.ignoreInvalidMinecraftCertificates=true&#13;&#10;-Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin&#13;&#10;-DwikiUrl=www.polycraftworld.com&#13;&#10;-DwikiScriptPath=/wiki&#13;&#10;-DwikiUsername=Polycraftbot&#13;&#10;-DwikiPassword=gmratst6zf&#13;&#10;-DwikiOverwritePages=false&#10;-DwikiDebugOutputDirectory=C:\Users\Walter\Desktop\Minecraft\WikiOutput\"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M&#13;&#10;-Dnogui=true&#13;&#10;-Dfml.ignoreInvalidMinecraftCertificates=true&#13;&#10;-Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin&#13;&#10;-DwikiUrl=www.polycraftworld.com&#13;&#10;-DwikiScriptPath=/wiki&#13;&#10;-DwikiUsername=Polycraftbot&#13;&#10;-DwikiPassword=gmratst6zf&#13;&#10;-DwikiOverwritePages=false&#10;-DwikiDebugOutputDirectory=G:\PolycraftWorld\WikiOutput\"/>
 </launchConfiguration>

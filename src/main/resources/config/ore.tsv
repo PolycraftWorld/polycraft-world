@@ -20,7 +20,7 @@ Version	Game ID	Ore	Source Type	Source Name	hardness	resistance	dropExpMin	dropE
 1.0.0	i	Chromite	Mineral	Chromite	3	5	2	5	1	10	40	60	215	190	200	D7BEC8	
 1.0.0	j	Bitumen	Mineral	Bitumen	3	5	2	5	0	0	0	0					
 1.0.0	5s	OilField	Mineral	OilField	-1	18000000	0	0	1	1	5	5					
-1.0.0	1B	Potash Ore	Mineral	Potash	3	5	0	0	1	6	40	60					
+1.0.0	1B	Potash Ore	Mineral	Potash	3	5	0	0	2	6	40	60					
 1.0.0	1C	Tin Ore	Element	Tin	3	5	2	5	2	6	0	60					
 																	
 																	

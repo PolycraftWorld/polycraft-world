@@ -239,7 +239,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 	hy	mW	sk	xI	Bag (Potassium Bitartrate)	Sack (Potassium Bitartrate)	Powder Keg (Potassium Bitartrate)	Chemical Silo (Potassium Bitartrate)	Potassium Bitartrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
 	hz	mX	sl	xJ	Bag (Potassium Bromide)	Sack (Potassium Bromide)	Powder Keg (Potassium Bromide)	Chemical Silo (Potassium Bromide)	Potassium Bromide	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	hA	mY	sm	xK	Bag (Potassium Carbonate)	Sack (Potassium Carbonate)	Powder Keg (Potassium Carbonate)	Chemical Silo (Potassium Carbonate)	Potassium Carbonate	Solid	Bag	Sack	Powder Keg	Chemical Silo
-	hB	mZ	sn	xL	Bag (Potassium Chloride)	Sack (Potassium Chloride)	Powder Keg (Potassium Chloride)	Chemical Silo (Potassium Chloride)	Potassium Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	hB	mZ	sn	xL	Bag (Potassium Chloride)	Sack (Potassium Chloride)	Powder Keg (Potassium Chloride)	Chemical Silo (Potassium Chloride)	Potassium Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
 	hC	n0	so	xM	Bag (Potassium Chromium Sulfate)	Sack (Potassium Chromium Sulfate)	Powder Keg (Potassium Chromium Sulfate)	Chemical Silo (Potassium Chromium Sulfate)	Potassium Chromium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
 	hD	n1	sp	xN	Bag (Potassium Dichromate)	Sack (Potassium Dichromate)	Powder Keg (Potassium Dichromate)	Chemical Silo (Potassium Dichromate)	Potassium Dichromate	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.0.0	hE	n2	sq	xO	Bag (Potassium Hydroxide)	Sack (Potassium Hydroxide)	Powder Keg (Potassium Hydroxide)	Chemical Silo (Potassium Hydroxide)	Potassium Hydroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
@@ -341,10 +341,10 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 	11K	120	12g	12w	Bag (Zinc Nitrate)	Sack (Zinc Nitrate)	Powder Keg (Zinc Nitrate)	Chemical Silo (Zinc Nitrate)	Zinc Nitrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
 	11L	121	12h	12x	Bag (Lead Oxide)	Sack (Lead Oxide)	Powder Keg (Lead Oxide)	Chemical Silo (Lead Oxide)	Lead Oxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.1.0	11M	122	12i	12y	Bag (Lithium Hexafluorophosphate)	Sack (Lithium Hexafluorophosphate)	Powder Keg (Lithium Hexafluorophosphate)	Chemical Silo (Lithium Hexafluorophosphate)	Lithium Hexafluorophosphate	Solid	Bag	Sack	Powder Keg	Chemical Silo
-	11N	123	12j	12z										
-	11O	124	12k	12A										
-	11P	125	12l	12B										
-	11Q	126	12m	12C										
+1.1.0	11N	123	12j	12z	Bag (Potassium Persulfate)	Sack (Potassium Persulfate)	Powder Keg (Potassium Persulfate)	Chemical Silo (Potassium Persulfate)	Potassium Persulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11O	124	12k	12A	Bag (Potassium Bisulfate)	Sack (Potassium Bisulfate)	Powder Keg (Potassium Bisulfate)	Chemical Silo (Potassium Bisulfate)	Potassium Bisulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11P	125	12l	12B	Vial (Salt Water)	Beaker (Salt Water)	Drum (Salt Water)	Chemical Vat (Salt Water)	Salt Water	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11Q	126	12m	12C	Vial (Isoprene)	Beaker (Isoprene)	Drum (Isoprene)	Chemical Vat (Isoprene)	Isoprene	Liquid	Vial	Beaker	Drum	Chemical Vat
 	11R	127	12n	12D										
 	11S	128	12o	12E										
 	11T	129	12p	12F										

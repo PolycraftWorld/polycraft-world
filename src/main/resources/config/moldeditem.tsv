@@ -1,21 +1,21 @@
 Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting Duration (sec)	Max Stack Size	Parameter names 	P1	P2	P3	P4	P5	P6	P7	Level	First Release	Notes
 1.0.0	3s	Grip (Natural Rubber)	Mold (Grip)	Bag (PolyIsoPrene Pellets)	Natural Rubber	4	5	64									1	TRUE	
 1.0.0	3t	Running Shoes (Walker)	Mold (Running Shoes)	Bag (PolyIsoPrene Pellets)	Walker	12	10	1	"VelocityOnGround, MovementDurationWear(MCMins)"	0.15	20						3	TRUE	
-1.1.0	11p	Running Shoes (Jogger)	Mold (Running Shoes)	Bag (PolyButadiene Rubber Pellets)	Jogger	12	15	1	"VelocityOnGround, MovementDurationWear(MCMins), Source 1"	0.25	40	Bag (Isobutylene-Isoprene Rubber Pellets)							
+1.1.0	11p	Running Shoes (Jogger)	Mold (Running Shoes)	Bag (PolyButadiene (low-cis) Pellets)	Jogger	12	15	1	"VelocityOnGround, MovementDurationWear(MCMins), Source 1, Source 2 "	0.25	40	Bag (Isobutylene Rubber Pellets)	Bag (PolyButadiene (high-cis) Pellets)						
 1.1.0	12U	Running Shoes (Runner)	Mold (Running Shoes)	Bag (Styrene-Butadiene Rubber Pellets)	Runner	12	20	1	"VelocityOnGround, MovementDurationWear(MCMins), Source 1, Source 2, Source 3, Source 4"	0.35	60	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)				
 1.1.0	3u	Rubber Sole (insole)	Mold (Rubber Sole)	Bag (Ethylene-Vinyl Acetate Pellets)	insole	4	5	64									8	TRUE	
 1.1.0	11n	Rubber Sole (midsole)	Mold (Rubber Sole)	Bag (PolyUrethane Pellets)	midsole	4	5	64									8		
 1.1.0	11o	Rubber Sole (outsole)	Mold (Rubber Sole)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	outsole	4	5	64									8		
 1.0.0	3v	Scuba Fins (Beginner)	Mold (Scuba Fins)	Bag (PolyIsoPrene Pellets)	Beginner	16	10	1	"VelocityInWater, VelocityOnGround, Durability(MCMins)"	0.2	0.025	20					3	TRUE	
-1.1.0	2O	Scuba Fins (Intermediate)	Mold (Scuba Fins)	Bag (PolyButadiene Rubber Pellets)	Intermediate	16	20	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1"	0.3	0.025	40	Bag (Isobutylene-Isoprene Rubber Pellets)				6		
+1.1.0	2O	Scuba Fins (Intermediate)	Mold (Scuba Fins)	Bag (PolyButadiene (low-cis) Pellets)	Intermediate	16	20	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1, Source 2 "	0.3	0.025	40	Bag (Isobutylene Rubber Pellets)	Bag (PolyButadiene (high-cis) Pellets)			6		
 1.1.0	12V	Scuba Fins (Advanced)	Mold (Scuba Fins)	Bag (Styrene-Butadiene Rubber Pellets)	Advanced	16	30	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1, Source 2, Source 3, Source 4"	0.4	0.025	60	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	8		
 1.1.0	2P	Scuba Fins (Pro)	Mold (Scuba Fins)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Pro	16	40	1	"VelocityInWater, VelocityOnGround, Durability(MCMins), Source 1, Source 2 "	0.5	0.025	80	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)			8		
 1.0.0	3w	Scuba Mask (Beginner)	Mold (Scuba Mask)	Bag (PolyIsoPrene Pellets)	Beginner	12	10	1	FogDensity	0.02							3	TRUE	
-1.1.0	2V	Scuba Mask (Intermediate)	Mold (Scuba Mask)	Bag (PolyButadiene Rubber Pellets)	Intermediate	12	20	1	"FogDensity, Source 1"	0.01	Bag (Isobutylene-Isoprene Rubber Pellets)						6		
+1.1.0	2V	Scuba Mask (Intermediate)	Mold (Scuba Mask)	Bag (PolyButadiene (low-cis) Pellets)	Intermediate	12	20	1	"FogDensity, Source 1, Source 2 "	0.01	Bag (Isobutylene Rubber Pellets)	Bag (PolyButadiene (high-cis) Pellets)					6		
 1.1.0	12T	Scuba Mask (Advanced)	Mold (Scuba Mask)	Bag (Styrene-Butadiene Rubber Pellets)	Advanced	12	30	1	"FogDensity, Source 1, Source 2, Source 3, Source 4 "	0.005	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)					
 1.1.0	2W	Scuba Mask (Pro)	Mold (Scuba Mask)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Pro	12	40	1	"FogDensity, Source 1, Source 2 "	0.001	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)					8		
 1.0.0	3y	Gasket (Low Pressure)	Mold (Gasket)	Bag (PolyIsoPrene Pellets)	Low Pressure	4	5	64									3	TRUE	
-1.1.0	131	Gasket (Medium Pressure)	Mold (Gasket)	Bag (PolyButadiene Rubber Pellets)	Medium Pressure	4	10	64	Source 1	Bag (Isobutylene-Isoprene Rubber Pellets)									
+1.1.0	131	Gasket (Medium Pressure)	Mold (Gasket)	Bag (PolyButadiene (low-cis) Pellets)	Medium Pressure	4	10	64	"Source 1, Source 2 "	Bag (Isobutylene Rubber Pellets)	Bag (PolyButadiene (high-cis) Pellets)								
 1.1.0	132	Gasket (High Pressure)	Mold (Gasket)	Bag (Styrene-Butadiene Rubber Pellets)	High Pressure	4	15	64	"Source 1, Source 2, Source 3, Source 4"	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)						
 1.1.0	133	Gasket (Extreme Pressure)	Mold (Gasket)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Extreme Pressure	4	20	64	"Source 1, Source 2 "	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)								
 1.0.0	3z	Life Preserver (Natural Rubber)	Mold (Life Preserver)	Bag (PolyIsoPrene Pellets)	Natural Rubber	16	10	1	Durability(MCMins)	20							3	TRUE	
@@ -24,7 +24,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	3N	Tether (Natural Rubber)	Metal Die (Tether)	Bag (PolyIsoPrene Pellets)	Natural Rubber	6	10	64									3	TRUE	
 1.0.0	3U	Cord (Natural Rubber)	Metal Die (Cord)	Bag (PolyIsoPrene Pellets)	Natural Rubber	8	10	64									3	TRUE	"Used as a super lead for horses, wont break as easily, can hold boats in place"
 1.0.0	F	Hose (Low Pressure)	Metal Die (Hose)	Bag (PolyIsoPrene Pellets)	Low Pressure	16	5	64									3	TRUE	
-1.1.0	12W	Hose (Medium Pressure)	Metal Die (Hose)	Bag (PolyButadiene Rubber Pellets)	Medium Pressure	16	10	64	Source 1	Bag (Isobutylene-Isoprene Rubber Pellets)									
+1.1.0	12W	Hose (Medium Pressure)	Metal Die (Hose)	Bag (PolyButadiene (low-cis) Pellets)	Medium Pressure	16	10	64	"Source 1, Source 2 "	Bag (Isobutylene Rubber Pellets)	Bag (PolyButadiene (high-cis) Pellets)								
 1.1.0	12X	Hose (High Pressure)	Metal Die (Hose)	Bag (Styrene-Butadiene Rubber Pellets)	High Pressure	16	15	64	"Source 1, Source 2, Source 3, Source 4"	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)						
 1.1.0	12Y	Hose (Extreme Pressure)	Metal Die (Hose)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Extreme Pressure	16	20	64	"Source 1, Source 2 "	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)								
 1.0.0	42	Large Pipe (PP)	Metal Die (Large Pipe)	Bag (PolyPropylene Pellets)	PP	32	10	64									3	TRUE	
@@ -49,7 +49,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.1.0	GR	Fibers (EVA)	Metal Die (Fibers)	Sack (Ethylene-Vinyl Acetate Pellets)	EVA	3	10	64											
 1.0.0	GS	Fibers (HDPE)	Metal Die (Fibers)	Sack (High Density PolyEthylene Pellets)	HDPE	3	10	64											
 1.1.0	GT	Fibers (HNBR)	Metal Die (Fibers)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	3	10	64											
-1.1.0	GU	Fibers (IIR)	Metal Die (Fibers)	Sack (Isobutylene-Isoprene Rubber Pellets)	IIR	3	10	64											
+1.1.0	GU	Fibers (Butyl Rubber)	Metal Die (Fibers)	Sack (Isobutylene Rubber Pellets)	Butyl Rubber	3	10	64											
 	GV	Fibers (Lignin)	Metal Die (Fibers)	Cartridge (Lignin)	Lignin	3	10	64											
 1.0.0	GW	Fibers (LLDPE)	Metal Die (Fibers)	Sack (Linear Low-Density PolyEthylene Pellets)	LLDPE	3	10	64											
 1.0.0	GX	Fibers (LCP)	Metal Die (Fibers)	Sack (Liquid Crystal Polymer Pellets)	LCP	3	10	64											
@@ -68,8 +68,8 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 	Ha	Fibers (PHEMA)	Metal Die (Fibers)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	3	10	64											
 	Hb	Fibers (PAE)	Metal Die (Fibers)	Sack (PolyAcrylic Ester Pellets)	PAE	3	10	64											
 1.0.0	Hc	Fibers (PAN)	Metal Die (Fibers)	Sack (PolyAcrylonitrile Pellets)	PAN	3	10	64											
-1.0.0	Hd	Fibers (PBD)	Metal Die (Fibers)	Sack (PolyButadiene Pellets)	PBD	3	10	64											
-1.1.0	He	Fibers (PBR)	Metal Die (Fibers)	Sack (PolyButadiene Rubber Pellets)	PBR	3	10	64											
+1.0.0	Hd	Fibers (PBR (low grade))	Metal Die (Fibers)	Sack (PolyButadiene (low-cis) Pellets)	PBR (low grade)	3	10	64											
+1.1.0	He	Fibers (PBR (high grade))	Metal Die (Fibers)	Sack (PolyButadiene (high-cis) Pellets)	PBR (high grade)	3	10	64											
 1.0.0	Hf	Fibers (PBS)	Metal Die (Fibers)	Sack (PolyButylene Succinate Pellets)	PBS	3	10	64											
 1.0.0	Hh	Fibers (PBT)	Metal Die (Fibers)	Sack (PolyButylene Terephthalate Pellets)	PBT	3	10	64											
 1.0.0	Hi	Fibers (PCL)	Metal Die (Fibers)	Sack (PolyCaprolactone Pellets)	PCL	3	10	64											
