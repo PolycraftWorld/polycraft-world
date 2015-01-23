@@ -16,7 +16,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.1.0	Xp	Zf	Stairs (EVA)	Block (EVA)	EVA	9
 1.0.0	Xq	Zg	Stairs (HDPE)	Block (HDPE)	HDPE	0
 1.1.0	Xr	Zh	Stairs (HNBR)	Block (HNBR)	HNBR	6
-1.1.0	Xs	Zi	Stairs (IIR)	Block (IIR)	IIR	4
+1.1.0	Xs	Zi	Stairs (Butyl Rubber)	Block (Butyl Rubber)	Butyl Rubber	4
 0	Xt	Zj	Stairs (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Xu	Zk	Stairs (LLDPE)	Block (LLDPE)	LLDPE	0
 1.0.0	Xv	Zl	Stairs (LCP)	Block (LCP)	LCP	0
@@ -35,8 +35,8 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	XI	Zy	Stairs (PHEMA)	Block (PHEMA)	PHEMA	0
 0	XJ	Zz	Stairs (PAE)	Block (PAE)	PAE	0
 1.0.0	XK	ZA	Stairs (PAN)	Block (PAN)	PAN	0
-1.0.0	XL	ZB	Stairs (PBD)	Block (PBD)	PBD	0
-1.1.0	XM	ZC	Stairs (PBR)	Block (PBR)	PBR	4
+1.0.0	XL	ZB	Stairs (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
+1.1.0	XM	ZC	Stairs (PBR (high grade))	Block (PBR (high grade))	PBR (high grade)	4
 1.0.0	XN	ZD	Stairs (PBS)	Block (PBS)	PBS	0
 1.0.0	XP	ZF	Stairs (PBT)	Block (PBT)	PBT	0
 1.0.0	XQ	ZG	Stairs (PCL)	Block (PCL)	PCL	0

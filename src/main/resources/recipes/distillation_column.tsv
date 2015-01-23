@@ -1,5 +1,5 @@
 Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#											
-1.0.0	2	1	10	4	Water Bucket	1	Beaker (Deionized Water)	1	Bucket	1																									
+1.0.0	2	1	10	4	Water Bucket	1	Beaker (Salt Water)	1	Bucket	1																									
 1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	1	Bucket	1																									
 1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1																									
 1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1																									
@@ -29,10 +29,10 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Beaker (Naphthalene)	1	Vial (Light Naphtha)	48	Vial (Heavy Naphtha)	16																									
 1.0.0	2	1	10	4	Beaker (Naphthalene)	4	Beaker (Light Naphtha)	3	Beaker (Heavy Naphtha)	1																									
 1.0.0	2	1	10	4	Beaker (Naphthalene)	16	Beaker (Light Naphtha)	12	Beaker (Heavy Naphtha)	4																									
-1.0.0	3	1	10	4	Drum (Naphthalene)	1	Beaker (Light Naphtha)	48	Beaker (Heavy Naphtha)	16																									
-1.0.0	3	1	10	4	Drum (Naphthalene)	4	Drum (Light Naphtha)	3	Drum (Heavy Naphtha)	1																									
-1.0.0	3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	12	Drum (Heavy Naphtha)	4																									
-1.0.0	4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	48	Drum (Heavy Naphtha)	16																									
+1.0.0	3	1	10	4	Drum (Naphthalene)	1	Beaker (Light Naphtha)	44	Beaker (Heavy Naphtha)	20																									
+1.0.0	3	1	10	4	Drum (Naphthalene)	3	Drum (Light Naphtha)	2	Drum (Heavy Naphtha)	1																									
+1.0.0	3	1	10	4	Drum (Naphthalene)	16	Drum (Light Naphtha)	9	Drum (Heavy Naphtha)	7																									
+1.0.0	4	1	10	4	Drum (Naphthalene)	64	Drum (Light Naphtha)	32	Drum (Heavy Naphtha)	32																									
 1.0.0	1	1	10	4	Vial (Light Naphtha)	8	Vial (Light Parrafins)	1	Vial (Light Naphthenes)	1	Vial (Light Olefins)	6																							
 1.0.0	1	1	10	4	Vial (Light Naphtha)	16	Vial (Light Parrafins)	2	Vial (Light Naphthenes)	2	Vial (Light Olefins)	12																							
 1.0.0	2	1	10	4	Beaker (Light Naphtha)	1	Vial (Light Parrafins)	8	Vial (Light Naphthenes)	8	Vial (Light Olefins)	48																							
@@ -132,15 +132,15 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Drum (Gas Oil)	2	Drum (Kerosene)	1	Drum (Diesel)	1	Block of Bitumen	16																							
 1.0.0	2	1	10	4	Drum (Gas Oil)	8	Drum (Kerosene)	4	Drum (Diesel)	4	Block of Bitumen	32																							
 1.0.0	2	1	10	4	Drum (Gas Oil)	32	Drum (Kerosene)	16	Drum (Diesel)	16	Block of Bitumen	64																							
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
-1.0.6	2	1	10	4																															
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
 																																			
 																																			
 																																			

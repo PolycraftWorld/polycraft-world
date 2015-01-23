@@ -16,7 +16,7 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 1.1.0	IH	Kx	Block (EVA)	Sack (Ethylene-Vinyl Acetate Pellets)	EVA	18
 1.0.0	II	Ky	Block (HDPE)	Sack (High Density PolyEthylene Pellets)	HDPE	0
 1.1.0	IJ	Kz	Block (HNBR)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	12
-1.1.0	IK	KA	Block (IIR)	Sack (Isobutylene-Isoprene Rubber Pellets)	IIR	8
+1.1.0	IK	KA	Block (Butyl Rubber)	Sack (Isobutylene Rubber Pellets)	Butyl Rubber	8
 0	IL	KB	Block (Lignin)	Cartridge (Lignin)	Lignin	0
 1.0.0	IM	KC	Block (LLDPE)	Sack (Linear Low-Density PolyEthylene Pellets)	LLDPE	0
 1.0.0	IN	KD	Block (LCP)	Sack (Liquid Crystal Polymer Pellets)	LCP	0
@@ -35,8 +35,8 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	J0	KQ	Block (PHEMA)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	0
 0	J1	KR	Block (PAE)	Sack (PolyAcrylic Ester Pellets)	PAE	0
 1.0.0	J2	KS	Block (PAN)	Sack (PolyAcrylonitrile Pellets)	PAN	0
-1.0.0	J3	KT	Block (PBD)	Sack (PolyButadiene Pellets)	PBD	0
-1.1.0	J4	KU	Block (PBR)	Sack (PolyButadiene Rubber Pellets)	PBR	8
+1.0.0	J3	KT	Block (PBR (low grade))	Sack (PolyButadiene (low-cis) Pellets)	PBR (low grade)	6
+1.1.0	J4	KU	Block (PBR (high grade))	Sack (PolyButadiene (high-cis) Pellets)	PBR (high grade)	8
 1.0.0	J5	KV	Block (PBS)	Sack (PolyButylene Succinate Pellets)	PBS	0
 1.0.0	J7	KX	Block (PBT)	Sack (PolyButylene Terephthalate Pellets)	PBT	0
 1.0.0	J8	KY	Block (PCL)	Sack (PolyCaprolactone Pellets)	PCL	0

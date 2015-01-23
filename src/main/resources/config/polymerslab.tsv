@@ -16,7 +16,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 1.1.0	Mn	Od	Q3	RT	Slab (EVA)	Block (EVA)	EVA	9
 1.0.0	Mo	Oe	Q4	RU	Slab (HDPE)	Block (HDPE)	HDPE	0
 1.1.0	Mp	Of	Q5	RV	Slab (HNBR)	Block (HNBR)	HNBR	6
-1.1.0	Mq	Og	Q6	RW	Slab (IIR)	Block (IIR)	IIR	4
+1.1.0	Mq	Og	Q6	RW	Slab (Butyl Rubber)	Block (Butyl Rubber)	Butyl Rubber	4
 0	Mr	Oh	Q7	RX	Slab (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	Ms	Oi	Q8	RY	Slab (LLDPE)	Block (LLDPE)	LLDPE	0
 1.0.0	Mt	Oj	Q9	RZ	Slab (LCP)	Block (LCP)	LCP	0
@@ -35,8 +35,8 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	MG	Ow	Qm	Sc	Slab (PHEMA)	Block (PHEMA)	PHEMA	0
 0	MH	Ox	Qn	Sd	Slab (PAE)	Block (PAE)	PAE	0
 1.0.0	MI	Oy	Qo	Se	Slab (PAN)	Block (PAN)	PAN	0
-1.0.0	MJ	Oz	Qp	Sf	Slab (PBD)	Block (PBD)	PBD	0
-1.1.0	MK	OA	Qq	Sg	Slab (PBR)	Block (PBR)	PBR	4
+1.0.0	MJ	Oz	Qp	Sf	Slab (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
+1.1.0	MK	OA	Qq	Sg	Slab (PBR (high grade))	Block (PBR (high grade))	PBR (high grade)	4
 1.0.0	ML	OB	Qr	Sh	Slab (PBS)	Block (PBS)	PBS	0
 1.0.0	MN	OD	Qt	Sj	Slab (PBT)	Block (PBT)	PBT	0
 1.0.0	MO	OE	Qu	Sk	Slab (PCL)	Block (PCL)	PCL	0

@@ -16,7 +16,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.1.0	TJ	Vz	Wall (EVA)	Block (EVA)	EVA	9
 1.0.0	TK	VA	Wall (HDPE)	Block (HDPE)	HDPE	0
 1.1.0	TL	VB	Wall (HNBR)	Block (HNBR)	HNBR	6
-1.1.0	TM	VC	Wall (IIR)	Block (IIR)	IIR	4
+1.1.0	TM	VC	Wall (Butyl Rubber)	Block (Butyl Rubber)	Butyl Rubber	4
 0	TN	VD	Wall (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	TO	VE	Wall (LLDPE)	Block (LLDPE)	LLDPE	0
 1.0.0	TP	VF	Wall (LCP)	Block (LCP)	LCP	0
@@ -35,8 +35,8 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	U2	VS	Wall (PHEMA)	Block (PHEMA)	PHEMA	0
 0	U3	VT	Wall (PAE)	Block (PAE)	PAE	0
 1.0.0	U4	VU	Wall (PAN)	Block (PAN)	PAN	0
-1.0.0	U5	VV	Wall (PBD)	Block (PBD)	PBD	0
-1.1.0	U6	VW	Wall (PBR)	Block (PBR)	PBR	4
+1.0.0	U5	VV	Wall (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
+1.1.0	U6	VW	Wall (PBR (high grade))	Block (PBR (high grade))	PBR (high grade)	4
 1.0.0	U7	VX	Wall (PBS)	Block (PBS)	PBS	0
 1.0.0	U9	VZ	Wall (PBT)	Block (PBT)	PBT	0
 1.0.0	Ua	W0	Wall (PCL)	Block (PCL)	PCL	0

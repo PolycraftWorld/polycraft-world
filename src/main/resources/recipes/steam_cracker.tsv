@@ -39,15 +39,15 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Platinum Catalyst	16	Drum (Butadiene)	3	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32									
 1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Platinum Catalyst	16	Drum (Butadiene)	12	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2									
 1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Platinum Catalyst	16	Drum (Butadiene)	48	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8									
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
+1.1.0	5	Heat 	Cracking	Vial (Light Naphthenes)	4	Platinum Catalyst	2	Flask (Ethylene)	1	Flask (Propylene)	1	Vial (Butylene isomers)	1	Vial (Isoprene)	1							
+1.1.0	5	Heat 	Cracking	Vial (Light Naphthenes)	16	Platinum Catalyst	3	Flask (Ethylene)	4	Flask (Propylene)	4	Vial (Butylene isomers)	4	Vial (Isoprene)	4							
+1.1.0	5	Heat 	Cracking	Beaker (Light Naphthenes)	1	Platinum Catalyst	4	Flask (Ethylene)	16	Flask (Propylene)	16	Vial (Butylene isomers)	16	Vial (Isoprene)	16							
+1.1.0	5	Heat 	Cracking	Beaker (Light Naphthenes)	4	Platinum Catalyst	5	Cartridge (Ethylene)	1	Cartridge (Propylene)	1	Beaker (Butylene isomers)	1	Beaker (Isoprene)	1							
+1.1.0	5	Heat 	Cracking	Beaker (Light Naphthenes)	16	Platinum Catalyst	6	Cartridge (Ethylene)	4	Cartridge (Propylene)	4	Beaker (Butylene isomers)	4	Beaker (Isoprene)	4							
+1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	1	Platinum Catalyst	8	Cartridge (Ethylene)	16	Cartridge (Propylene)	16	Beaker (Butylene isomers)	16	Beaker (Isoprene)	16							
+1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	4	Platinum Catalyst	10	Canister (Ethylene)	1	Canister (Propylene)	1	Drum (Butylene isomers)	1	Drum (Isoprene)	1							
+1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	16	Platinum Catalyst	12	Canister (Ethylene)	4	Canister (Propylene)	4	Drum (Butylene isomers)	4	Drum (Isoprene)	4							
+1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	64	Platinum Catalyst	16	Canister (Ethylene)	16	Canister (Propylene)	16	Drum (Butylene isomers)	16	Drum (Isoprene)	16							
 																						
 																						
 																						

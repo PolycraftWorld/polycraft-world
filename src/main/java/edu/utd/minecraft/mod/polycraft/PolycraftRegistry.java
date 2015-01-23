@@ -134,9 +134,19 @@ public class PolycraftRegistry {
 	}
 
 	public static ItemStack getItemStack(final String name, final int size) {
-		final Item item = getItem(name);
-		if (item != null)
-			return new ItemStack(item, size);
+		final int metadataSeparatorIndex = name.indexOf(":");
+		if (metadataSeparatorIndex > -1) {
+			final String nameClean = name.substring(0, metadataSeparatorIndex);
+			final int metadata = Integer.parseInt(name.substring(
+					metadataSeparatorIndex + 1, name.length()));
+			final Item item = getItem(nameClean);
+			if (item != null)
+				return new ItemStack(item, size, metadata);
+		} else {
+			final Item item = getItem(name);
+			if (item != null)
+				return new ItemStack(item, size);
+		}
 		final Block block = getBlock(name);
 		if (block != null)
 			return new ItemStack(block, size);
