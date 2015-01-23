@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -18,7 +17,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
@@ -39,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrickRenderer;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
@@ -314,10 +313,10 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onPlayerTickClientFlashlight(final EntityPlayer player, final PlayerState playerState) {
-		final boolean flashlightEnabled = ItemFlashlight.isEquipped(player);
-		if (flashlightEnabled)
-			ItemFlashlight.createLightCone(player, playerState.flashlightLightSources);
-		playerState.setFlashlightEnabled(flashlightEnabled);
+		int equippedFlashlightRange = CustomObject.getEquippedFlashlightRange(player);
+		if (equippedFlashlightRange > 0)
+			ItemFlashlight.createLightCone(player, playerState.flashlightLightSources, equippedFlashlightRange);
+		playerState.setFlashlightEnabled(equippedFlashlightRange > 0);
 	}
 
 	private static String getOverlayStatusPercent(final ItemStack itemStack, final double percent) {

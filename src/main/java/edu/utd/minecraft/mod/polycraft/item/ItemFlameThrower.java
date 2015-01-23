@@ -6,12 +6,9 @@ import java.util.Random;
 
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -115,15 +112,40 @@ public class ItemFlameThrower extends PolycraftUtilityItem {
 
 		final double playerRotationYawRadians = Math.toRadians(player.rotationYaw - 90);
 		final double playerRotationPitchRadians = Math.toRadians(player.rotationPitch - 90);
-		for (int i = 0; i <= flameThrowerItem.range; i++) {
+		boolean hitSolid = false;
+		for (int i = 3; i <= flameThrowerItem.range; i++) {
 			double pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
-			double pathY = player.posY + (-i * Math.cos(playerRotationPitchRadians));
+			double pathY = player.posY + 2 + (-i * Math.cos(playerRotationPitchRadians));
 			double pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
+			
+			if (player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ)) {
+				player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
+			}
+			else {
+				i -= 1;
+				pathX = player.posX + (i * Math.cos(playerRotationYawRadians) * Math.sin(playerRotationPitchRadians));
+				pathY = player.posY + 2 + (-i * Math.cos(playerRotationPitchRadians));
+				pathZ = player.posZ + (i * Math.sin(playerRotationPitchRadians) * Math.sin(playerRotationYawRadians));
 
-			if (i > 3) {
-				if (player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ)) {
-					player.worldObj.setBlock((int) pathX, (int) pathY, (int) pathZ, Blocks.fire);
+				if (player.worldObj.isAirBlock((int) pathX, (int) pathY - 1, (int) pathZ)) {
+					player.worldObj.isAirBlock((int) pathX, (int) pathY - 1, (int) pathZ);
 				}
+				if (player.worldObj.isAirBlock((int) pathX, (int) pathY + 1, (int) pathZ)) {
+					player.worldObj.isAirBlock((int) pathX, (int) pathY + 1, (int) pathZ);
+				}
+				if (player.worldObj.isAirBlock((int) pathX + 1, (int) pathY, (int) pathZ)) {
+					player.worldObj.isAirBlock((int) pathX + 1, (int) pathY, (int) pathZ);
+				}
+				if (player.worldObj.isAirBlock((int) pathX - 1, (int) pathY, (int) pathZ)) {
+					player.worldObj.isAirBlock((int) pathX - 1, (int) pathY, (int) pathZ);
+				}
+				if (player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ + 1)) {
+					player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ + 1);
+				}
+				if (player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ - 1)) {
+					player.worldObj.isAirBlock((int) pathX, (int) pathY, (int) pathZ - 1);
+				}
+				break;
 			}
 //FIXME: same as above
 //			if (closeEntities != null && closeEntities.size() > 0) {

@@ -35,7 +35,6 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
-import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
@@ -88,7 +87,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
-import edu.utd.minecraft.mod.polycraft.item.ItemFibers;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
@@ -100,7 +98,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
-import edu.utd.minecraft.mod.polycraft.item.ItemBlockPipe;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
@@ -125,6 +122,7 @@ public class PolycraftRegistry {
 	public static final Map<String, String> registryNames = Maps.newHashMap();
 	public static final Map<String, Block> blocks = Maps.newHashMap();
 	public static final Map<String, Item> items = Maps.newHashMap();
+	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
 
 	private static void registerName(final String registryName, final String name) {
@@ -134,9 +132,19 @@ public class PolycraftRegistry {
 	}
 
 	public static ItemStack getItemStack(final String name, final int size) {
-		final Item item = getItem(name);
-		if (item != null)
-			return new ItemStack(item, size);
+		final int metadataSeparatorIndex = name.indexOf(":");
+		if (metadataSeparatorIndex > -1) {
+			final String nameClean = name.substring(0, metadataSeparatorIndex);
+			final int metadata = Integer.parseInt(name.substring(
+					metadataSeparatorIndex + 1, name.length()));
+			final Item item = getItem(nameClean);
+			if (item != null)
+				return new ItemStack(item, size, metadata);
+		} else {
+			final Item item = getItem(name);
+			if (item != null)
+				return new ItemStack(item, size);
+		}
 		final Block block = getBlock(name);
 		if (block != null)
 			return new ItemStack(block, size);
@@ -182,6 +190,9 @@ public class PolycraftRegistry {
 	}
 
 	private static Item registerItem(final GameIdentifiedConfig config, final Item item) {
+		if (config instanceof CustomObject) {
+			customObjectItems.put(item, (CustomObject)config);
+		}
 		return registerItem(config.gameID, config.name, item);
 	}
 
