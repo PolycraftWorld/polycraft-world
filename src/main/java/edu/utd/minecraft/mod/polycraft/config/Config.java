@@ -62,6 +62,7 @@ public abstract class Config {
 		CustomObject.registerFromResource(directory);
 		InternalObject.registerFromResource(directory);
 		Armor.registerFromResource(directory);
+		Tool.registerFromResource(directory);
 		Fuel.registerFromResource(directory);
 	}
 

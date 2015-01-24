@@ -14,6 +14,7 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -71,6 +72,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
+import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
@@ -115,6 +117,11 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolAxe;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolHoe;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolPickaxe;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolShovel;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolSword;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
@@ -242,6 +249,7 @@ public class PolycraftRegistry {
 		registerGrippedTools();
 		registerPogoSticks();
 		registerArmors();
+		registerTools();
 		registerInventories();
 		registerCustom();
 		Fuel.registerQuantifiedFuels();
@@ -416,6 +424,34 @@ public class PolycraftRegistry {
 					armor.componentGameIDs[ArmorSlot.FEET.getValue()],
 					armor.getFullComponentName(ArmorSlot.FEET),
 					new ItemArmorFeet(armor, material));
+		}
+	}
+
+	private static void registerTools() {
+		for (final Tool tool : Tool.registry.values()) {
+			final ToolMaterial material = EnumHelper.addToolMaterial(
+					tool.name, tool.harvestLevel, tool.maxUses, tool.efficiency, tool.damage, tool.enchantability);
+			material.customCraftingMaterial = PolycraftRegistry.getItem(tool.craftingHeadItemName);
+			registerItem(
+					tool.typeGameIDs[Tool.Type.HOE.ordinal()],
+					tool.getFullTypeName(Tool.Type.HOE),
+					new ItemToolHoe(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.SWORD.ordinal()],
+					tool.getFullTypeName(Tool.Type.SWORD),
+					new ItemToolSword(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.SHOVEL.ordinal()],
+					tool.getFullTypeName(Tool.Type.SHOVEL),
+					new ItemToolShovel(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.PICKAXE.ordinal()],
+					tool.getFullTypeName(Tool.Type.PICKAXE),
+					new ItemToolPickaxe(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.AXE.ordinal()],
+					tool.getFullTypeName(Tool.Type.AXE),
+					new ItemToolAxe(tool, material));
 		}
 	}
 
@@ -644,12 +680,16 @@ public class PolycraftRegistry {
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));
 
-		for (final Armor armor : Armor.registry.values())
-		{
-			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.FEET.getValue()], armor.getFullComponentName(ArmorSlot.FEET)));
-			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.CHEST.getValue()], armor.getFullComponentName(ArmorSlot.CHEST)));
-			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.HEAD.getValue()], armor.getFullComponentName(ArmorSlot.HEAD)));
-			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.LEGS.getValue()], armor.getFullComponentName(ArmorSlot.LEGS)));
+		for (final Armor armor : Armor.registry.values()) {
+			for (final ArmorSlot armorSlot : ArmorSlot.values()) {
+				langEntries.add(String.format(itemFormat, armor.componentGameIDs[armorSlot.getValue()], armor.getFullComponentName(armorSlot)));
+			}
+		}
+		
+		for (final Tool tool : Tool.registry.values()) {
+			for (final Tool.Type toolType : Tool.Type.values()) {
+				langEntries.add(String.format(itemFormat, tool.typeGameIDs[toolType.ordinal()], tool.getFullTypeName(toolType)));
+			}
 		}
 		
 		for (final PogoStick pogoStick : PogoStick.registry.values())
