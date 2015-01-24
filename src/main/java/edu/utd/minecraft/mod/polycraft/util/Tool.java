@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.config;
+package edu.utd.minecraft.mod.polycraft.util;
 
 import net.minecraft.item.Item.ToolMaterial;
 

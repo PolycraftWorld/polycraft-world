@@ -29,7 +29,6 @@ public enum GameID {
 	CustomScubaTankIntermediate("13a"),
 	CustomScubaTankAdvanced("13b"),
 	CustomScubaTankPro("13c"),
-	CustomKevlarVest("5b"),
 	InternalOil("1D"),
 	InternalBlockPipe("11f"),
 	InternalItemPipe("11g"),

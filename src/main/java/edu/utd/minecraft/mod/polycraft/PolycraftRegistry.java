@@ -14,11 +14,13 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -43,6 +45,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
+import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
@@ -85,6 +88,11 @@ import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInvent
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
+import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
+import edu.utd.minecraft.mod.polycraft.item.ItemArmorChest;
+import edu.utd.minecraft.mod.polycraft.item.ItemArmorFeet;
+import edu.utd.minecraft.mod.polycraft.item.ItemArmorHead;
+import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -93,7 +101,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
-import edu.utd.minecraft.mod.polycraft.item.ItemKevlarVest;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
@@ -234,6 +241,7 @@ public class PolycraftRegistry {
 		registerMoldedItems();
 		registerGrippedTools();
 		registerPogoSticks();
+		registerArmors();
 		registerInventories();
 		registerCustom();
 		Fuel.registerQuantifiedFuels();
@@ -387,6 +395,30 @@ public class PolycraftRegistry {
 			registerItem(pogoStick, new ItemPogoStick(pogoStick));
 	}
 
+	private static void registerArmors() {
+		for (final Armor armor : Armor.registry.values()) {
+			final ArmorMaterial material = EnumHelper.addArmorMaterial(
+				armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
+			material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.HEAD.getInventoryArmorSlot()],
+					armor.getFullComponentName(ArmorSlot.HEAD),
+					new ItemArmorHead(armor, material));
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.CHEST.getInventoryArmorSlot()],
+					armor.getFullComponentName(ArmorSlot.CHEST),
+					new ItemArmorChest(armor, material));
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.LEGS.getInventoryArmorSlot()],
+					armor.getFullComponentName(ArmorSlot.LEGS),
+					new ItemArmorLegs(armor, material));
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.FEET.getInventoryArmorSlot()],
+					armor.getFullComponentName(ArmorSlot.FEET),
+					new ItemArmorFeet(armor, material));
+		}
+	}
+
 	private static void registerInventories() {
 		for (final Inventory inventory : Inventory.registry.values()) {
 			if (GameID.InventoryTreeTap.matches(inventory))
@@ -499,9 +531,6 @@ public class PolycraftRegistry {
 			}
 			else if (GameID.CustomScubaTankPro.matches(customObject)) {
 				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_pro"));
-			}
-			else if (GameID.CustomKevlarVest.matches(customObject)) {
-				registerItem(customObject, new ItemKevlarVest(customObject));
 			}
 			else if (GameID.CustomHeatedKnifeDiamondPolyIsoPrene.matches(customObject)) {
 				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_NR"));

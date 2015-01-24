@@ -17,9 +17,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -36,6 +36,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
+import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
@@ -267,6 +268,34 @@ public class RecipeGenerator {
 						PolycraftContainerType.CRAFTING_TABLE,
 						pogoStick.getItemStack(),
 						ImmutableList.of(pogoStick.source.getItemStack(), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
+
+		for (final Armor armor : Armor.registry.values()) {
+			final ItemStack craftingItemStack = PolycraftRegistry.getItemStack(armor.craftingItemName, 1);
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.HEAD), 1)),
+					new String[] { "xxx", "x x", "   " },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.CHEST), 1)),
+					new String[] { "x x", "xxx", "xxx" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.LEGS), 1)),
+					new String[] { "xxx", "x x", "x x" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManager.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.FEET), 1)),
+					new String[] { "   ", "x x", "x x" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+		}
 		
 		//add all furnace recipes to the industrial oven
 		for (final Object furnaceRecipeEntry : FurnaceRecipes.smelting().getSmeltingList().entrySet()) {

@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.util.Tool;
 
 public class GrippedTool extends SourcedConfig<MinecraftItem> {
 
