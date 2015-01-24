@@ -6,14 +6,14 @@ import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 
-public class ItemArmorLegs extends PolycraftArmorChest {
+public class ItemArmorLegs extends PolycraftArmorLeggings {
 
 	private Armor armor;
 	
 	public ItemArmorLegs(final Armor armor, final ArmorMaterial material) {
 		super(material, ArmorAppearance.CHAIN);
 		this.armor = armor;
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.FEET))));
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.LEGS))));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 	}
 

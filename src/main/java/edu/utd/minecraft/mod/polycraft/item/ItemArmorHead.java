@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 
-public class ItemArmorHead extends PolycraftArmorChest {
+public class ItemArmorHead extends PolycraftArmorHeadgear {
 
 	private Armor armor;
 	

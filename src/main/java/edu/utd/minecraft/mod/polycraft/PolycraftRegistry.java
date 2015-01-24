@@ -401,19 +401,19 @@ public class PolycraftRegistry {
 				armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
 			material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
 			registerItem(
-					armor.componentGameIDs[ArmorSlot.HEAD.getInventoryArmorSlot()],
+					armor.componentGameIDs[ArmorSlot.HEAD.getValue()],
 					armor.getFullComponentName(ArmorSlot.HEAD),
 					new ItemArmorHead(armor, material));
 			registerItem(
-					armor.componentGameIDs[ArmorSlot.CHEST.getInventoryArmorSlot()],
+					armor.componentGameIDs[ArmorSlot.CHEST.getValue()],
 					armor.getFullComponentName(ArmorSlot.CHEST),
 					new ItemArmorChest(armor, material));
 			registerItem(
-					armor.componentGameIDs[ArmorSlot.LEGS.getInventoryArmorSlot()],
+					armor.componentGameIDs[ArmorSlot.LEGS.getValue()],
 					armor.getFullComponentName(ArmorSlot.LEGS),
 					new ItemArmorLegs(armor, material));
 			registerItem(
-					armor.componentGameIDs[ArmorSlot.FEET.getInventoryArmorSlot()],
+					armor.componentGameIDs[ArmorSlot.FEET.getValue()],
 					armor.getFullComponentName(ArmorSlot.FEET),
 					new ItemArmorFeet(armor, material));
 		}
@@ -644,6 +644,14 @@ public class PolycraftRegistry {
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));
 
+		for (final Armor armor : Armor.registry.values())
+		{
+			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.FEET.getValue()], armor.getFullComponentName(ArmorSlot.FEET)));
+			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.CHEST.getValue()], armor.getFullComponentName(ArmorSlot.CHEST)));
+			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.HEAD.getValue()], armor.getFullComponentName(ArmorSlot.HEAD)));
+			langEntries.add(String.format(itemFormat, armor.componentGameIDs[ArmorSlot.LEGS.getValue()], armor.getFullComponentName(ArmorSlot.LEGS)));
+		}
+		
 		for (final PogoStick pogoStick : PogoStick.registry.values())
 			langEntries.add(String.format(itemFormat, pogoStick.gameID, pogoStick.name));
 

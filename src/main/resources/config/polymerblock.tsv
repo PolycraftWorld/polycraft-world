@@ -4,7 +4,7 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	Iv	Kl	Block (Alkyd Resin)	Cartridge (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Iw	Km	Block (A-PET)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	0
 1.1.0	Ix	Kn	Block (BIIR)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	12
-0	Iy	Ko	Block (CDAP)	Sack (Cellulose Diacetate Pellets)	CDAP	0
+1.1.0	Iy	Ko	Block (Carbon)	Sack (Carbon Fiber Pellets)	Carbon	0
 0	Iz	Kp	Block (CTAP)	Sack (Cellulose Triacetate Pellets)	CTAP	0
 1.0.0	IA	Kq	Block (Cellulose)	Sack (Cellulosic Pellets)	Cellulose	0
 0	IB	Kr	Block (Chitin)	Sack (Chitin Pellets)	Chitin	0

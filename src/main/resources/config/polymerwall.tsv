@@ -4,7 +4,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	Tx	Vn	Wall (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Ty	Vo	Wall (A-PET)	Block (A-PET)	A-PET	0
 1.1.0	Tz	Vp	Wall (BIIR)	Block (BIIR)	BIIR	6
-0	TA	Vq	Wall (CDAP)	Block (CDAP)	CDAP	0
+1.1.0	TA	Vq	Wall (Carbon)	Block (Carbon)	Carbon	0
 0	TB	Vr	Wall (CTAP)	Block (CTAP)	CTAP	0
 1.0.0	TC	Vs	Wall (Cellulose)	Block (Cellulose)	Cellulose	0
 0	TD	Vt	Wall (Chitin)	Block (Chitin)	Chitin	0

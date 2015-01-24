@@ -4,7 +4,7 @@ Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Po
 	zj	B9	CZ	EP	Flask (Alkyd Resin)	Cartridge (Alkyd Resin)	Canister (Alkyd Resin)	Chemical Tank (Alkyd Resin)	Alkyd Resin	1	10	Alkyd Resin	FALSE
 1.0.0	zk	Ba	D0	EQ	Bag (Amorphous PolyEthylene Terephthalate Pellets)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	Chemical Silo (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate	1	10	A-PET	TRUE
 1.1.0	zl	Bb	D1	ER	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber	1	10	BIIR	TRUE
-	zm	Bc	D2	ES	Bag (Cellulose Diacetate Pellets)	Sack (Cellulose Diacetate Pellets)	Powder Keg (Cellulose Diacetate Pellets)	Chemical Silo (Cellulose Diacetate Pellets)	Cellulose Diacetate	1	10	CDAP	TRUE
+1.1.0	zm	Bc	D2	ES	Bag (Carbon Fiber Pellets)	Sack (Carbon Fiber Pellets)	Powder Keg (Carbon Fiber Pellets)	Chemical Silo (Carbon Fiber Pellets)	Carbon Fiber	1	10	Carbon	TRUE
 	zn	Bd	D3	ET	Bag (Cellulose Triacetate Pellets)	Sack (Cellulose Triacetate Pellets)	Powder Keg (Cellulose Triacetate Pellets)	Chemical Silo (Cellulose Triacetate Pellets)	Cellulose Triacetate	1	10	CTAP	TRUE
 1.0.0	zo	Be	D4	EU	Bag (Cellulosic Pellets)	Sack (Cellulosic Pellets)	Powder Keg (Cellulosic Pellets)	Chemical Silo (Cellulosic Pellets)	Cellulosic	1	10	Cellulose	TRUE
 	zp	Bf	D5	EV	Bag (Chitin Pellets)	Sack (Chitin Pellets)	Powder Keg (Chitin Pellets)	Chemical Silo (Chitin Pellets)	Chitin	1	10	Chitin	TRUE

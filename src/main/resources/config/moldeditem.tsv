@@ -37,7 +37,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Cartridge (Alkyd Resin)	Alkyd Resin	3	10	64											
 1.0.0	GG	Fibers (A-PET)	Metal Die (Fibers)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	3	10	64											
 1.1.0	GH	Fibers (BIIR)	Metal Die (Fibers)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	3	10	64											
-	GI	Fibers (CDAP)	Metal Die (Fibers)	Sack (Cellulose Diacetate Pellets)	CDAP	3	10	64											
+1.1.0	GI	Fibers (Carbon)	Metal Die (Fibers)	Sack (Carbon Fiber Pellets)	Carbon	3	10	64											
 	GJ	Fibers (CTAP)	Metal Die (Fibers)	Sack (Cellulose Triacetate Pellets)	CTAP	3	10	64											
 1.0.0	GK	Fibers (Cellulose)	Metal Die (Fibers)	Sack (Cellulosic Pellets)	Cellulose	3	10	64											
 	GL	Fibers (Chitin)	Metal Die (Fibers)	Sack (Chitin Pellets)	Chitin	3	10	64											
@@ -147,8 +147,8 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	Is	Fibers (VA/AA)	Metal Die (Fibers)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	3	10	64											
 1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Sack (Polycaprolactam Pellets)	Nylon 6	3	10	64											
 1.1.0	12M	Battery Case (PP)	Mold (Battery Case)	Bag (PolyPropylene Pellets)	PP	16	10	64											
-																			
-																			
+1.1.0	19M	Tool Shaft (PEEK)	Mold (Tool Shaft)	Sack (PolyEther Ether Ketone Pellets)	PEEK	2	10	64											
+1.1.0	19N	Tool Shaft (Carbon)	Mold (Tool Shaft)	Sack (Carbon Fiber Pellets)	Carbon	2	10	64											
 																			
 																			
 																			

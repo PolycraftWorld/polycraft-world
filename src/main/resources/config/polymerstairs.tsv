@@ -4,7 +4,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	Xd	Z3	Stairs (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Xe	Z4	Stairs (A-PET)	Block (A-PET)	A-PET	0
 1.1.0	Xf	Z5	Stairs (BIIR)	Block (BIIR)	BIIR	6
-0	Xg	Z6	Stairs (CDAP)	Block (CDAP)	CDAP	0
+1.1.0	Xg	Z6	Stairs (Carbon)	Block (Carbon)	Carbon	0
 0	Xh	Z7	Stairs (CTAP)	Block (CTAP)	CTAP	0
 1.0.0	Xi	Z8	Stairs (Cellulose)	Block (Cellulose)	Cellulose	0
 0	Xj	Z9	Stairs (Chitin)	Block (Chitin)	Chitin	0

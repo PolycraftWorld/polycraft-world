@@ -4,7 +4,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	Mb	O1	PR	RH	Slab (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Mc	O2	PS	RI	Slab (A-PET)	Block (A-PET)	A-PET	0
 1.1.0	Md	O3	PT	RJ	Slab (BIIR)	Block (BIIR)	BIIR	6
-0	Me	O4	PU	RK	Slab (CDAP)	Block (CDAP)	CDAP	0
+1.1.0	Me	O4	PU	RK	Slab (Carbon)	Block (Carbon)	Carbon	0
 0	Mf	O5	PV	RL	Slab (CTAP)	Block (CTAP)	CTAP	0
 1.0.0	Mg	O6	PW	RM	Slab (Cellulose)	Block (Cellulose)	Cellulose	0
 0	Mh	O7	PX	RN	Slab (Chitin)	Block (Chitin)	Chitin	0
