@@ -245,10 +245,10 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	FALSE	7	Flame Chucker	1													Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1						
 1.1.0	TRUE	FALSE	7	Flame Hurler	1													Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1						
 1.1.0	TRUE	FALSE	7	Flame Thrower	1													Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1						
-																													
-																													
-																													
-																													
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Beginner)	1	Scuba Mask (Beginner)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Intermediate)	1	Scuba Mask (Intermediate)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Advanced)	1	Scuba Mask (Advanced)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Pro)	1	Scuba Mask (Pro)	1	Flashlight	1																				
 																													
 																													
 																													

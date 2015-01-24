@@ -44,11 +44,19 @@ public enum GameID {
 	CustomHeatedKnifeStainlessPolyIsoPrene("117"),
 	CustomHeatedKnifeStainlessPolyPropylene("118"),
 	CustomHeatedKnifeStainlessPEEK("119"),
-	CustomRunningShoesSprinter("11q");
+	CustomRunningShoesSprinter("11q"),
+	CustomScubaMaskLightBeginner("13e"),
+	CustomScubaMaskLightIntermediate("13f"),
+	CustomScubaMaskLightAdvanced("13g"),
+	CustomScubaMaskLightPro("13h"),
+	MoldedItemScubaMaskBeginner("3w"),
+	MoldedItemScubaMaskIntermediate("2V"),
+	MoldedItemScubaMaskAdvanced("12T"),
+	MoldedItemScubaMaskPro("2W");
 	
 	
 
-	private final String id;
+	public final String id;
 
 	private GameID(final String id) {
 		this.id = id;

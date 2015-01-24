@@ -31,6 +31,12 @@ public class ItemScubaMask extends PolycraftArmorHeadgear implements PolycraftMo
 		this.moldedItem = moldedItem;
 		this.fogDensity = moldedItem.params.getFloat(0);
 	}
+	
+	public ItemScubaMask(final MoldedItem moldedItem, final String iconName) {
+		this(moldedItem);
+		this.setTextureName(PolycraftMod.getAssetName(iconName));	
+	}
+	
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {

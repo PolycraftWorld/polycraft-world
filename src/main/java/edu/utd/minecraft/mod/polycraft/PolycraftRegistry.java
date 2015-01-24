@@ -524,7 +524,19 @@ public class PolycraftRegistry {
 			else if (GameID.CustomRunningShoesSprinter.matches(customObject)) {
 				registerItem(customObject, new ItemRunningShoes(customObject, "running_shoes_sprinter"));
 			}
-			
+			else if (GameID.CustomScubaMaskLightBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Beginner)"), "scuba_mask_light"));
+			}
+			else if (GameID.CustomScubaMaskLightIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Intermediate)"), "scuba_mask_light"));
+			}
+			else if (GameID.CustomScubaMaskLightAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Advanced)"), "scuba_mask_light"));
+			}
+			else if (GameID.CustomScubaMaskLightPro.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Pro)"), "scuba_mask_light"));
+			}
+
 			else
 				// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 				registerItem(customObject, new ItemCustom(customObject));

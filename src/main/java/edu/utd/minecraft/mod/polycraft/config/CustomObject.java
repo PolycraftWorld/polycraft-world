@@ -55,8 +55,8 @@ public class CustomObject extends GameIdentifiedConfig {
 			item = player.getCurrentArmor(armorSlot.getInventoryArmorSlot());
 			if (item != null) {
 				if (PolycraftRegistry.customObjectItems.containsKey(item.getItem())) {
-					final CustomObject co = PolycraftRegistry.customObjectItems.get(item);
-					if (co != null)
+					final CustomObject co = PolycraftRegistry.customObjectItems.get(item.getItem());
+					if (co != null && co.flashlightRange > 0)
 						return co.flashlightRange;
 				}
 			}
