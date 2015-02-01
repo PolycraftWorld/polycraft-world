@@ -4,10 +4,10 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	Tx	Vn	Wall (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Ty	Vo	Wall (A-PET)	Block (A-PET)	A-PET	0
 1.1.0	Tz	Vp	Wall (BIIR)	Block (BIIR)	BIIR	6
-1.1.0	TA	Vq	Wall (Carbon)	Block (Carbon)	Carbon	0
+1.1.0	TA	Vq	Wall (Carbon Fiber)	Block (Carbon Fiber)	Carbon Fiber	0
 0	TB	Vr	Wall (CTAP)	Block (CTAP)	CTAP	0
 1.0.0	TC	Vs	Wall (Cellulose)	Block (Cellulose)	Cellulose	0
-0	TD	Vt	Wall (Chitin)	Block (Chitin)	Chitin	0
+1.1.0	TD	Vt	Wall (Chitin)	Block (Chitin)	Chitin	0
 1.1.0	TE	Vu	Wall (CIIR)	Block (CIIR)	CIIR	6
 0	TF	Vv	Wall (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
 0	TG	Vw	Wall (NRE)	Block (NRE)	NRE	0
@@ -47,17 +47,17 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	Uf	W5	Wall (PEEK)	Block (PEEK)	PEEK	0
 1.0.0	Ug	W6	Wall (PEI)	Block (PEI)	PEI	0
 0	Uh	W7	Wall (PEA)	Block (PEA)	PEA	0
-0	Ui	W8	Wall (PEA)	Block (PEA)	PEA	0
+0	Ui	W8	Wall (PEAd)	Block (PEAd)	PEAd	0
 1.0.0	Uj	W9	Wall (PEG)	Block (PEG)	PEG	0
 0	Uk	Wa	Wall (PEHD)	Block (PEHD)	PEHD	0
 1.0.0	Ul	Wb	Wall (PEN)	Block (PEN)	PEN	0
 1.0.0	Um	Wc	Wall (PEO)	Block (PEO)	PEO	0
-0	Un	Wd	Wall (PES)	Block (PES)	PES	0
+1.1.0	Un	Wd	Wall (PES)	Block (PES)	PES	0
 1.0.0	Uo	We	Wall (PET)	Block (PET)	PET	0
 1.0.0	Up	Wf	Wall (PETG)	Block (PETG)	PETG	0
 1.0.0	Uq	Wg	Wall (PGA)	Block (PGA)	PGA	0
 1.1.0	Ur	Wh	"Wall (Nylon 6,7)"	"Block (Nylon 6,7)"	"Nylon 6,7"	0
-1.1.0	Us	Wi	"Wall (Nylon 6,11)"	"Block (Nylon 6,11)"	"Nylon 6,11"	0
+1.1.0	Us	Wi	"Wall (Nylon 6,10)"	"Block (Nylon 6,10)"	"Nylon 6,10"	0
 1.0.0	Ut	Wj	Wall (PHA)	Block (PHA)	PHA	0
 0	Uu	Wk	Wall (PHBV)	Block (PHBV)	PHBV	0
 1.0.0	Uv	Wl	Wall (PI)	Block (PI)	PI	0
@@ -80,7 +80,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	UM	WC	Wall (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	UN	WD	Wall (PPMS)	Block (PPMS)	PPMS	0
 0	UO	WE	Wall (PPS)	Block (PPS)	PPS	0
-0	UP	WF	Wall (kevlar)	Block (kevlar)	kevlar	0
+1.1.0	UP	WF	Wall (kevlar)	Block (kevlar)	kevlar	0
 1.0.0	UQ	WG	Wall (PP)	Block (PP)	PP	0
 0	UR	WH	Wall (PPG)	Block (PPG)	PPG	0
 0	US	WI	Wall (PPOX)	Block (PPOX)	PPOX	0
@@ -103,9 +103,9 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	V9	WZ	Wall (PVDC)	Block (PVDC)	PVDC	0
 0	Va	X0	Wall (PVDF)	Block (PVDF)	PVDF	0
 0	Vb	X1	Wall (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
-0	Vc	X2	Wall (SAN)	Block (SAN)	SAN	0
+1.1.0	Vc	X2	Wall (SAN)	Block (SAN)	SAN	0
 1.0.0	Vd	X3	Wall (SBR)	Block (SBR)	SBR	6
-0	Ve	X4	Wall (SBS)	Block (SBS)	SBS	0
+1.1.0	Ve	X4	Wall (SBS)	Block (SBS)	SBS	0
 0	Vf	X5	Wall (SIS)	Block (SIS)	SIS	0
 0	Vg	X6	Wall (SMAC)	Block (SMAC)	SMAC	0
 1.0.0	Vh	X7	Wall (UHMWPE)	Block (UHMWPE)	UHMWPE	0

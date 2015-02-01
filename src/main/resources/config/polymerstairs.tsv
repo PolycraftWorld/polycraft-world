@@ -4,10 +4,10 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	Xd	Z3	Stairs (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Xe	Z4	Stairs (A-PET)	Block (A-PET)	A-PET	0
 1.1.0	Xf	Z5	Stairs (BIIR)	Block (BIIR)	BIIR	6
-1.1.0	Xg	Z6	Stairs (Carbon)	Block (Carbon)	Carbon	0
+1.1.0	Xg	Z6	Stairs (Carbon Fiber)	Block (Carbon Fiber)	Carbon Fiber	0
 0	Xh	Z7	Stairs (CTAP)	Block (CTAP)	CTAP	0
 1.0.0	Xi	Z8	Stairs (Cellulose)	Block (Cellulose)	Cellulose	0
-0	Xj	Z9	Stairs (Chitin)	Block (Chitin)	Chitin	0
+1.1.0	Xj	Z9	Stairs (Chitin)	Block (Chitin)	Chitin	0
 1.1.0	Xk	Za	Stairs (CIIR)	Block (CIIR)	CIIR	6
 0	Xl	Zb	Stairs (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
 0	Xm	Zc	Stairs (NRE)	Block (NRE)	NRE	0
@@ -47,17 +47,17 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.0.0	XV	ZL	Stairs (PEEK)	Block (PEEK)	PEEK	0
 1.0.0	XW	ZM	Stairs (PEI)	Block (PEI)	PEI	0
 0	XX	ZN	Stairs (PEA)	Block (PEA)	PEA	0
-0	XY	ZO	Stairs (PEA)	Block (PEA)	PEA	0
+0	XY	ZO	Stairs (PEAd)	Block (PEAd)	PEAd	0
 1.0.0	XZ	ZP	Stairs (PEG)	Block (PEG)	PEG	0
 0	Y0	ZQ	Stairs (PEHD)	Block (PEHD)	PEHD	0
 1.0.0	Y1	ZR	Stairs (PEN)	Block (PEN)	PEN	0
 1.0.0	Y2	ZS	Stairs (PEO)	Block (PEO)	PEO	0
-0	Y3	ZT	Stairs (PES)	Block (PES)	PES	0
+1.1.0	Y3	ZT	Stairs (PES)	Block (PES)	PES	0
 1.0.0	Y4	ZU	Stairs (PET)	Block (PET)	PET	0
 1.0.0	Y5	ZV	Stairs (PETG)	Block (PETG)	PETG	0
 1.0.0	Y6	ZW	Stairs (PGA)	Block (PGA)	PGA	0
 1.1.0	Y7	ZX	"Stairs (Nylon 6,7)"	"Block (Nylon 6,7)"	"Nylon 6,7"	0
-1.1.0	Y8	ZY	"Stairs (Nylon 6,11)"	"Block (Nylon 6,11)"	"Nylon 6,11"	0
+1.1.0	Y8	ZY	"Stairs (Nylon 6,10)"	"Block (Nylon 6,10)"	"Nylon 6,10"	0
 1.0.0	Y9	ZZ	Stairs (PHA)	Block (PHA)	PHA	0
 0	Ya	100	Stairs (PHBV)	Block (PHBV)	PHBV	0
 1.0.0	Yb	101	Stairs (PI)	Block (PI)	PI	0
@@ -80,7 +80,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	Ys	10i	Stairs (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
 0	Yt	10j	Stairs (PPMS)	Block (PPMS)	PPMS	0
 0	Yu	10k	Stairs (PPS)	Block (PPS)	PPS	0
-0	Yv	10l	Stairs (kevlar)	Block (kevlar)	kevlar	0
+1.1.0	Yv	10l	Stairs (kevlar)	Block (kevlar)	kevlar	0
 1.0.0	Yw	10m	Stairs (PP)	Block (PP)	PP	0
 0	Yx	10n	Stairs (PPG)	Block (PPG)	PPG	0
 0	Yy	10o	Stairs (PPOX)	Block (PPOX)	PPOX	0
@@ -103,9 +103,9 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	YP	10F	Stairs (PVDC)	Block (PVDC)	PVDC	0
 0	YQ	10G	Stairs (PVDF)	Block (PVDF)	PVDF	0
 0	YR	10H	Stairs (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
-0	YS	10I	Stairs (SAN)	Block (SAN)	SAN	0
+1.1.0	YS	10I	Stairs (SAN)	Block (SAN)	SAN	0
 1.0.0	YT	10J	Stairs (SBR)	Block (SBR)	SBR	6
-0	YU	10K	Stairs (SBS)	Block (SBS)	SBS	0
+1.1.0	YU	10K	Stairs (SBS)	Block (SBS)	SBS	0
 0	YV	10L	Stairs (SIS)	Block (SIS)	SIS	0
 0	YW	10M	Stairs (SMAC)	Block (SMAC)	SMAC	0
 1.0.0	YX	10N	Stairs (UHMWPE)	Block (UHMWPE)	UHMWPE	0

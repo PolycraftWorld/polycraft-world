@@ -85,7 +85,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	"Calcium Sulfate,Hemihydrate"	CaSO4·1/2H20	Liquid		Plaster of Paris		"Hardware stores, arts and craft stores, and hobby shops."		
 1.0.0	Camphor	C10H16O	Liquid		—		Can be found as a flavor additive at some Chinese grocery stores. Sometimes found in the drugstore as a cream or oral remedy. It feels cool like menthol on the skin.		
 1.0.0	Caprolactone		Liquid						
-1.0.0	Caprolactum		Liquid						
+1.0.0	Caprolactam		Liquid						
 1.0.0	Carbon Dioxide	CO2	Gas	TRUE	—		"Dry ice is available from party stores, supermarkets, refrigeration supply companies and ice cream companies. Nationally distributed by Airgas through Penguin Brand Dry Ice. Gaseous form available in small canisters at sporting goods stores. Used in air guns and in paintball."		
 1.0.0	Carbon Monoxide		Liquid						
 1.0.0	Carbonic Acid	H2CO3	Liquid		—		"Soda water is simply carbonated water, a dilute solution of carbonic acid. A Soda Club home soda maker is a good way to make your own carbonic acid in varying strengths."		
@@ -94,7 +94,6 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Cellulose	(C6H10O5)n	Liquid		—		Processed cotton fiber is almost pure cellulose making many undyed clothing articles an excellent source of cellulose. 100% cotton paper is also a good source of this material.		
 1.0.0	Cellulose Acetate		Liquid						
 1.0.0	Cellulose Nitrate		Liquid						
-1.0.0	Chlorine Gas	Cl2	Liquid						
 1.0.0	Chromium Oxide	Cr2O3	Liquid		Chrome Green		Used as a green pigment for fine art paints. It is available as a powder from most fine art supply stores.		
 1.0.0	Citric Acid	C6H8O7	Liquid		Sour Salt		Available at the grocery store as Sour Salt. Also used for home soap making and also in photographic development.		
 1.0.0	Coke		Liquid				Used when you refine coal		
@@ -354,3 +353,9 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.1.0	Potassium Bisulfate	KHSO4	Solid			Catalyst			
 1.1.0	Salt Water	H20	Liquid						
 1.1.0	Isoprene	CH2=C(CH3)CH=CH2	Liquid						
+1.1.0	Epichlorohydrin		Liquid						
+1.1.0	Isopropanol		Liquid						
+1.1.0	Allyl Chloride		Liquid						
+1.1.0	Propylene Oxide		Liquid						
+1.1.0	Propylene Glycol		Liquid						
+1.1.0	Cumene		Liquid						

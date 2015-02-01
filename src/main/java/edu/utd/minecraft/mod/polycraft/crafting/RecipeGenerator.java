@@ -754,7 +754,6 @@ public class RecipeGenerator {
 				MoldedItem.registry.get("Scuba Mask (Beginner)").getItemStack(),
 				CustomObject.registry.get("Scuba Tank (Beginner)").getItemStack(),
 				CustomObject.registry.get("Parachute").getItemStack(),
-				CustomObject.registry.get("Kevlar Vest").getItemStack(),
 				Inventory.registry.get("Injection Molder").getItemStack(),
 				PolymerPellets.registry.get("Bag (PolyIsoPrene Pellets)").getItemStack(),
 				Mold.registry.get("Mold (Grip)").getItemStack(),

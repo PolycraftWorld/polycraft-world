@@ -1,52 +1,51 @@
-Version	Headgear ID	Chest ID	Leggings ID	Feet ID	Crafting Item	Armor Material Name	Headgear	Chest	Leggings	Feet	Durability (Int)	Enchantability (Int)	Reduction Headgear (Int)	Reduction Chest (Int)	Reduction Leggings (Int)	Reduction Feet (Int)	
-1.1.0	15s	14n	2Z	13i	Fibers (Natural Rubber)	Rubber	Helmet	Vest	Pants	Shoes	20	10	3	8	6	3	
-2.0.0	15t	14o	30	13j	Fibers (PVC)	Pleather	Hat	Vest	Pants	Shoes	20	10	3	8	6	3	
-2.0.1	15u	14p	31	13k	Fibers (Nylon 6)	Nylon	Hat	Vest	Pants	Shoes	20	10	3	8	6	3	
-2.0.2	15v	14q	32	13l	Fibers (kevlar)	Kevlar	Hat	Vest	Pants	Shoes	40	10	3	8	6	3	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
+Version	Headgear ID	Chest ID	Leggings ID	Feet ID	Crafting Item	Armor Material Name	Headgear	Chest	Leggings	Feet	Durability (Int)	Enchantability (Int)	Reduction Headgear (Int)	Reduction Chest (Int)	Reduction Leggings (Int)	Reduction Feet (Int)	AquaAffinity Level
+1.1.0	15s	14n	2Z	13i	Fibers (Natural Rubber)	Rubber	Shower Cap	Raincoat	Wading Pants	Socks	3	15	1	3	2	1	0
+1.1.0	15t	14o	30	13j	Fibers (PVC)	Pleather	Hat	Jacket	Pants	Shoes	1	30	1	3	2	1	0
+1.1.0	15u	14p	31	13k	Fibers (Nylon 6)	Underwater	Swimming Cap	Poncho	Tool Belt	Booties	5	10	2	5	4	1	1
+1.1.0	15v	14q	32	13l	Fibers (kevlar)	Kevlar	Helmet	Vest	Pants	Shoes	33	10	3	8	6	3	0
+1.1.0	33	13m	14r	15w	Magnesium Ingot	Sparkling	Headgear	Chestplate	Pants	Shoes	7	20	2	5	4	1	0
+1.1.0	34	13n	14s	15x	Titanium Ingot	Titan	Head	Body	Legs	Feet	30	10	3	8	6	3	0
+1.1.0	35	13o	14t	15y	Manganese Ingot	Mangy	Toupee	Coat	Bellbottoms	Feet	7	10	1	3	2	1	0
+1.1.0	4x	13p	14u	15z	Cobalt Ingot	Blue Steel	Helmet	Cuirass	Shins	Boots	15	10	2	6	5	2	0
+1.1.0	4y	13q	14v	15A	Nickel Ingot	Jeffersonian	Wig	Culet	Knickers	Sabaton a la Poulaine	15	20	2	6	5	2	0
+1.1.0	4z	13r	14w	15B	Copper Ingot	Copper	Cap	Culet	Cuisse	Boots	10	10	2	5	4	2	0
+1.1.0	4A	13s	14x	15C	Zinc Ingot	Zinc-Plated	Helmet	Plackart	Chausses	Sabatons	10	10	2	5	4	2	0
+1.1.0	4B	13t	14y	15D	Palladium Ingot	Palladin	Helm	Cuirass	Poleyn	Treadsoles	7	30	2	5	4	2	0
+1.1.0	4C	13u	14z	15E	Silver Ingot	Silver	Sallet	Bevor	Schynbalds	Sabatons	10	20	2	5	4	2	0
+1.1.0	4D	13v	14A	15F	Antimony Ingot	SuperB	Barbute	Chestplate	Lames	Batts	20	10	2	6	5	2	0
+1.1.0	4E	13w	14B	15G	Tungsten Ingot	Wolfram	Great Helm	Cuirass	Poleyns	Treadsoles	25	10	3	8	6	3	0
+1.1.0	4F	13x	14C	15H	Platinum Ingot	Noble	Armet	Gorget	Leggings	Pantoble	7	30	2	5	4	2	0
+1.1.0	4G	13y	14D	15I	Plumbum (Lead) Ingot	Plumed	Close Helm	Cuirass	Poleyns	Pantofle	15	2	2	6	5	2	0
+1.1.0	4H	13z	14E	15J	Bismuth Ingot	Pepto Bismal	Pink Cap	Pink Bodygear	Pink Splatterdashes	Pink Swiftlere	7	30	3	8	6	3	0
+1.1.0	4I	13A	14F	15K	Aluminum Ingot	Tin Foil	Hat	Chestplate	Greaves	Overshoes	12	12	2	6	5	2	0
+1.1.0	4J	13B	14G	15L	Steel Ingot	Steel	Sallet	Bevor	Shynbalds	Sabatons	24	10	3	8	6	3	0
+1.1.0	4K	13C	14H	15M	Stainless Steel Ingot	Stainless Steel	Sallet	Bevor	Shynbalds	Sabatons	28	10	3	8	6	3	0
+1.1.0	4L	13D	14I	15N	Brass Ingot	Brass	Bassinet	Brigandine	Chausses	Solleret	18	10	2	6	5	2	0
+1.1.0	4M	13E	14J	15O	Bronze Ingot	Brazen	Bassinet	Brigandine	Chausses	Solleret	18	10	2	6	5	2	0
+1.1.0	4N	13F	14K	15P	Tin Ingot	Tin	Funnel	Faulds	Tassets	Treadsoles	12	20	2	5	3	1	0
+1.1.0	4O	13G	14L	15Q	Chrome Ingot	Chrome	Cervelliere	Culet	Chausses	Carbatines	15	10	2	6	5	2	0
+1.1.0	4P	13H	14M	15R	Tungsten Carbide Ingot	WC	Burgonet	Faulds	Tassets	Sabatons	33	10	3	8	6	3	0
+1.1.0	4Q	13I	14N	15S	Nichrome Ingot	Nichrome	Wire Coif	Wire Hauberk	Wiry Knot Leggings	Wiry Knot Boots	10	30	2	5	3	1	0
+1.1.0	4R	13J	14O	15T	Antimony-Lead Ingot	SuperB Alloy	Barbute	Plackart	Lames	Batts	32	10	3	8	6	3	0
+1.1.0	43	13K	14P	15U	Fibers (Carbon Fiber)	Carbon Fiber	Cervelliere	Culet	Chausses	Carbatines	32	10	3	8	6	3	0
+1.1.0	44	13L	14Q	15V	Fibers (Chitin)	Chitin	Skull Cap	Skeleton Vest	Skelton Pants	Skeleton Feet	15	30	2	5	4	2	0
+1.1.0	45	13M	14R	15W	Fibers (PAN)	Acrylic	Tamoshanter	Sweater	Khakis	Shoes	5	30	1	3	2	1	0
+1.1.0	46	13N	14S	15X	"Fibers (Nylon 6,7)"	Sporty Nylon	Baseball Cap	Windbreaker	Stockings	Footie	5	30	1	3	2	1	0
+1.1.0	47	13O	14T	15Y	"Fibers (Nylon 6,10)"	Ripstop Nylon	Beanie	Track Suit	Track Pants	Cleats	5	30	1	3	2	1	0
+1.1.0	48	13P	14U	15Z	Fibers (LLDPE)	Cheap Leisure	Hat	Suit	Pants	Shoes	3	30	1	3	2	1	0
+1.1.0	49	13Q	14V	160	Fibers (LDPE)	Comfortable	Cap	Bathrobe	Bathrobe pants	Slippers	5	30	1	3	2	1	0
+1.1.0	4a	13R	14W	161	Fibers (MDPE)	Ski	Beanie	Jacket	Pants	Boots	8	30	1	3	2	1	0
+1.1.0	4b	13S	14X	162	Fibers (HDPE)	The Emperor's New	Hat	Jacket	Pants	Shoes	12	30	1	3	2	1	0
+1.1.0	4c	13T	14Y	163	Fibers (PEN)	Fine Polyester	Top Hat	Dress Jacket	Dress Pants	Dress Shoes	10	30	2	6	5	2	0
+1.1.0	4d	13U	14Z	164	Fibers (PES)	Reliable Polyester	Tamoshanter	Cardigan	Trousers	Shoes	8	30	1	3	2	1	0
+1.1.0	4e	13V	150	165	Fibers (PET)	Corduroy	Hat	Jacker	Pants	Slippers	8	30	1	3	2	1	0
+1.1.0	4f	13W	151	166	Fibers (PETG)	Yoga	Hat	Top	Pants	Shoes	5	30	1	3	2	1	0
+1.1.0	4g	13X	152	167	Fibers (PP)	Thermal	Hat	Henley	Long Johns	Shoes	5	30	1	3	2	1	0
+1.1.0	4h	13Y	153	168	Fibers (PS)	Styrofoam	Hat	Vest	Pants	Shoes	2	30	1	3	2	1	0
+1.1.0	5f	13Z	154	169	Fibers (PU)	Spandex	Hat	Jacket	Pants	Shoes	8	30	1	3	2	1	0
+1.1.0	5w	140	155	16a	Fibers (POM)	Zippered	Hat	Jacket	Pants	Shoes	3	30	1	3	2	1	0
+1.1.0	5x	141	156	16b	Fibers (UHMWPE)	Spectra	Helmet	Chestplate	Leggings	Boots	28	30	3	8	6	3	0
+1.1.0	29	16Q	17u	188	Kevlar Helmet	The Emperor's New Kevlar	Helmet	Vest	Pants	Shoes	33	10	3	8	6	3	0
 																	
 																	
 																	

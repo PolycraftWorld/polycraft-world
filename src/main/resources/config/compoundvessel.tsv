@@ -89,7 +89,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 	f8	kw	pU	vi	"Vial (Calcium Sulfate,Hemihydrate)"	"Beaker (Calcium Sulfate,Hemihydrate)"	"Drum (Calcium Sulfate,Hemihydrate)"	"Chemical Vat (Calcium Sulfate,Hemihydrate)"	"Calcium Sulfate,Hemihydrate"	Liquid	Vial	Beaker	Drum	Chemical Vat
 	f9	kx	pV	vj	Vial (Camphor)	Beaker (Camphor)	Drum (Camphor)	Chemical Vat (Camphor)	Camphor	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	fa	ky	pW	vk	Vial (Caprolactone)	Beaker (Caprolactone)	Drum (Caprolactone)	Chemical Vat (Caprolactone)	Caprolactone	Liquid	Vial	Beaker	Drum	Chemical Vat
-1.0.0	fb	kz	pX	vl	Vial (Caprolactum)	Beaker (Caprolactum)	Drum (Caprolactum)	Chemical Vat (Caprolactum)	Caprolactum	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fb	kz	pX	vl	Vial (Caprolactam)	Beaker (Caprolactam)	Drum (Caprolactam)	Chemical Vat (Caprolactam)	Caprolactam	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	fc	kA	pY	vm	Flask (Carbon Dioxide)	Cartridge (Carbon Dioxide)	Canister (Carbon Dioxide)	Chemical Tank (Carbon Dioxide)	Carbon Dioxide	Gas	Flask	Cartridge	Canister	Chemical Tank
 1.0.0	fd	kB	pZ	vn	Vial (Carbon Monoxide)	Beaker (Carbon Monoxide)	Drum (Carbon Monoxide)	Chemical Vat (Carbon Monoxide)	Carbon Monoxide	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	fe	kC	q0	vo	Vial (Carbonic Acid)	Beaker (Carbonic Acid)	Drum (Carbonic Acid)	Chemical Vat (Carbonic Acid)	Carbonic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
@@ -345,9 +345,10 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 1.1.0	11O	124	12k	12A	Bag (Potassium Bisulfate)	Sack (Potassium Bisulfate)	Powder Keg (Potassium Bisulfate)	Chemical Silo (Potassium Bisulfate)	Potassium Bisulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
 1.1.0	11P	125	12l	12B	Vial (Salt Water)	Beaker (Salt Water)	Drum (Salt Water)	Chemical Vat (Salt Water)	Salt Water	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.1.0	11Q	126	12m	12C	Vial (Isoprene)	Beaker (Isoprene)	Drum (Isoprene)	Chemical Vat (Isoprene)	Isoprene	Liquid	Vial	Beaker	Drum	Chemical Vat
-	11R	127	12n	12D										
-	11S	128	12o	12E										
-	11T	129	12p	12F										
-	11U	12a	12q	12G										
-	11V	12b	12r	12H										
-	11W	12c	12s	12I										
+1.1.0	11R	127	12n	12D	Vial (Epichlorohydrin)	Beaker (Epichlorohydrin)	Drum (Epichlorohydrin)	Chemical Vat (Epichlorohydrin)	Epichlorohydrin	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11S	128	12o	12E	Vial (Isopropanol)	Beaker (Isopropanol)	Drum (Isopropanol)	Chemical Vat (Isopropanol)	Isopropanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11T	129	12p	12F	Vial (Allyl Chloride)	Beaker (Allyl Chloride)	Drum (Allyl Chloride)	Chemical Vat (Allyl Chloride)	Allyl Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11U	12a	12q	12G	Vial (Propylene Oxide)	Beaker (Propylene Oxide)	Drum (Propylene Oxide)	Chemical Vat (Propylene Oxide)	Propylene Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11V	12b	12r	12H	Vial (Propylene Glycol)	Beaker (Propylene Glycol)	Drum (Propylene Glycol)	Chemical Vat (Propylene Glycol)	Propylene Glycol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11W	12c	12s	12I	Vial (Cumene)	Beaker (Cumene)	Drum (Cumene)	Chemical Vat (Cumene)	Cumene	Liquid	Vial	Beaker	Drum	Chemical Vat
+	28	16P	17t	187	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo

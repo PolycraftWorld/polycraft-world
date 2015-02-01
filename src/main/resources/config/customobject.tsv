@@ -29,7 +29,6 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.0.0	3S	Separation Membrane	PC Item		TRUE													
 1.0.0	3T	Trampoline	PC Block		TRUE				Bounciness	24								
 1.0.0	3X	Gas Mantle	PC Item	4	TRUE													
-1.0.0	5b	Kevlar Vest			TRUE		1		armorBuffOverDiamond	1.5								
 1.0.0	5d	Heat Exchanger	PC Item		TRUE													
 1.0.0	5e	Heat Fins	PC Item		TRUE													
 1.0.0	5r	Flashlight Shaft	Utility	4	TRUE													

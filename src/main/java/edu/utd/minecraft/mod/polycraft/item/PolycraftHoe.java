@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.item;
 import com.google.common.base.Preconditions;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemHoe;
@@ -25,5 +26,6 @@ public abstract class PolycraftHoe extends ItemHoe implements PolycraftItem {
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
 	}
+	
 
 }

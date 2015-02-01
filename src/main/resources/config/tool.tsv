@@ -1,41 +1,41 @@
-Version	Hoe ID	Sword ID	Spade ID	Pickaxe ID	Axe ID	Knife ID	Crafting Item Shaft	Crafting Item Head	Tool Material Name	Harvest Level	MaxUses	Efficiency (Int)	DmgVsEntity	Enchantability (Int)	Underwater Buff	Ladder Buff
-1.1.0	1M	16x	17b	17P	18t	197	Tool Shaft (Carbon)	Steel Ingot	Composite Steel	3	2048	8	3	10	2.5	2.5
-1.1.0	1N	16y	17c	17Q	18u	198	Tool Shaft (Carbon)	Stainless Steel Ingot	Composite Stainless Steel	3	2048	8	3	10	2.5	2.5
-1.1.0	1O	16z	17d	17R	18v	199	Tool Shaft (Carbon)	Brass Ingot	Composite Brass	3	2048	8	3	10	2.5	2.5
-1.1.0	1P	16A	17e	17S	18w	19a	Tool Shaft (Carbon)	Bronze Ingot	Composite Bronze	3	2048	8	3	10	2.5	2.5
-1.1.0	1Q	16B	17f	17T	18x	19b	Tool Shaft (Carbon)	Tungsten Carbide Ingot	Composite Tungsten Carbide	3	2048	8	3	10	2.5	2.5
-1.1.0	1R	16C	17g	17U	18y	19c	Tool Shaft (Carbon)	Nichrome Ingot	Composite Nichrome	3	2048	8	3	10	2.5	2.5
-1.1.0	1S	16D	17h	17V	18z	19d	Tool Shaft (Carbon)	Antimony-Lead Ingot	Composite Antimony-Lead	3	2048	8	3	10	2.5	2.5
-1.1.0	1T	16E	17i	17W	18A	19e	Tool Shaft (PEEK)	Steel Ingot	Engineered Steel	3	2048	8	3	10	2.5	2.5
-1.1.0	1U	16F	17j	17X	18B	19f	Tool Shaft (PEEK)	Stainless Steel Ingot	Engineered Stainless Steel	3	2048	8	3	10	2.5	2.5
-1.1.0	1V	16G	17k	17Y	18C	19g	Tool Shaft (PEEK)	Brass Ingot	Engineered Brass	3	2048	8	3	10	2.5	2.5
-1.1.0	1W	16H	17l	17Z	18D	19h	Tool Shaft (PEEK)	Bronze Ingot	Engineered Bronze	3	2048	8	3	10	2.5	2.5
-1.1.0	1X	16I	17m	180	18E	19i	Tool Shaft (PEEK)	Tungsten Carbide Ingot	Engineered Tungsten Carbide	3	2048	8	3	10	2.5	2.5
-1.1.0	22	16J	17n	181	18F	19j	Tool Shaft (PEEK)	Nichrome Ingot	Engineered Nichrome	3	2048	8	3	10	2.5	2.5
-1.1.0	23	16K	17o	182	18G	19k	Tool Shaft (PEEK)	Antimony-Lead Ingot	Engineered Antimony-Lead	3	2048	8	3	10	2.5	2.5
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
-																
+Version	Hoe ID	Sword ID	Spade ID	Pickaxe ID	Axe ID	Crafting Item Shaft	Crafting Item Head	Tool Material Name	Harvest Level	MaxUses	Efficiency (Int)	DmgVsEntity	Enchantability (Int)
+1.1.0	1M	16x	17b	17P	18t	Tool Shaft (Carbon Fiber)	Steel Ingot	Composite Steel	2	1600	7	2	10
+1.1.0	1N	16y	17c	17Q	18u	Tool Shaft (Carbon Fiber)	Stainless Steel Ingot	Composite Stainless Steel	2	1800	8	2	10
+1.1.0	1O	16z	17d	17R	18v	Tool Shaft (Carbon Fiber)	Brass Ingot	Composite Brass	2	900	5	2	30
+1.1.0	1P	16A	17e	17S	18w	Tool Shaft (Carbon Fiber)	Bronze Ingot	Composite Bronze	2	900	5	2	30
+1.1.0	1Q	16B	17f	17T	18x	Tool Shaft (Carbon Fiber)	Tungsten Carbide Ingot	Composite Tungsten Carbide	3	2200	12	4	10
+1.1.0	1R	16C	17g	17U	18y	Tool Shaft (Carbon Fiber)	Nichrome Ingot	Composite Nichrome	2	700	5	2	20
+1.1.0	1S	16D	17h	17V	18z	Tool Shaft (Carbon Fiber)	Antimony-Lead Ingot	Composite Antimony-Lead	3	2200	10	3	10
+1.1.0	1T	16E	17i	17W	18A	Tool Shaft (PEEK)	Steel Ingot	Engineered Steel	2	1800	5	2	10
+1.1.0	1U	16F	17j	17X	18B	Tool Shaft (PEEK)	Stainless Steel Ingot	Engineered Stainless Steel	2	2000	6	2	10
+1.1.0	1V	16G	17k	17Y	18C	Tool Shaft (PEEK)	Brass Ingot	Engineered Brass	2	1200	3	2	30
+1.1.0	1W	16H	17l	17Z	18D	Tool Shaft (PEEK)	Bronze Ingot	Engineered Bronze	2	1200	3	2	30
+1.1.0	1X	16I	17m	180	18E	Tool Shaft (PEEK)	Tungsten Carbide Ingot	Engineered Tungsten Carbide	3	2500	10	4	10
+1.1.0	22	16J	17n	181	18F	Tool Shaft (PEEK)	Nichrome Ingot	Engineered Nichrome	2	1000	3	2	20
+1.1.0	23	16K	17o	182	18G	Tool Shaft (PEEK)	Antimony-Lead Ingot	Engineered Antimony-Lead	3	2500	8	3	10
+1.1.0	24	16L	17p	183	18H	Tool Shaft (Carbon Fiber)	Iron Ingot	Composite Iron	2	1050	8	3	10
+1.1.0	25	16M	17q	184	18I	Tool Shaft (PEEK)	Iron Ingot	Engineered Iron	2	1250	7	3	10
+1.1.0	26	16N	17r	185	18J	Tool Shaft (Carbon Fiber)	Diamond	Composite Diamond	3	2200	12	4	10
+1.1.0	27	16O	17s	186	18K	Tool Shaft (PEEK)	Diamond	Engineered Diamond	3	2500	10	4	10
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													

@@ -1,6 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 
@@ -12,4 +16,5 @@ public class ItemToolHoe extends PolycraftHoe {
 		setCreativeTab(CreativeTabs.tabTools);
 		setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.HOE))));
 	}
+	
 }

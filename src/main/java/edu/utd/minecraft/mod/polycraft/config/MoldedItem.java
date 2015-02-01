@@ -27,8 +27,9 @@ public class MoldedItem extends SourcedConfig<Mold> {
 						Integer.parseInt(line[6]), //craftingPellets
 						Float.parseFloat(line[7]), //craftingDurationSeconds
 						line[8], //maxStackSize
-						line.length <= 9 || line[9].isEmpty() ? null : line[9].split(","), //paramNames
-						line, 10 //paramValues
+						Boolean.parseBoolean(line[9]), //customTextureBool
+						line.length <= 10 || line[10].isEmpty() ? null : line[10].split(","), //paramNames
+						line, 11 //paramValues
 				));
 	}
 
@@ -36,14 +37,16 @@ public class MoldedItem extends SourcedConfig<Mold> {
 	public final int craftingPellets;
 	public final float craftingDurationSeconds;
 	public final int maxStackSize;
+	public final boolean loadCustomTexture;
 
 	public MoldedItem(final int[] version, final String gameID, final String name, final Mold source, final PolymerPellets polymerPellets,
-			final int craftingPellets, final float craftingDurationSeconds, final String maxStackSize, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
+			final int craftingPellets, final float craftingDurationSeconds, final String maxStackSize, final boolean loadCustomTexture, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
 		super(version, gameID, name, source, paramNames, paramValues, paramsOffset);
 		this.polymerPellets = polymerPellets;
 		this.craftingPellets = craftingPellets;
 		this.craftingDurationSeconds = craftingDurationSeconds;
 		this.maxStackSize = StringUtils.isEmpty(maxStackSize) ? 0 : Integer.parseInt(maxStackSize);
+		this.loadCustomTexture = loadCustomTexture;
 	}
 
 	@Override

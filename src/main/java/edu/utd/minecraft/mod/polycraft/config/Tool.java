@@ -40,9 +40,8 @@ public class Tool extends Config {
 						Integer.parseInt(line[10]), //maxUses
 						Integer.parseInt(line[11]), //efficiency
 						Integer.parseInt(line[12]), //damage
-						Integer.parseInt(line[13]), //enchantability
-						Integer.parseInt(line[14]), //underwaterBuff
-						Integer.parseInt(line[15]) //ladderBuff
+						Integer.parseInt(line[13]) //enchantability
+
 				));
 			}
 	}
@@ -55,16 +54,13 @@ public class Tool extends Config {
 	public final int efficiency;
 	public final int damage;
 	public final int enchantability;
-	//TODO actually use these (Walter)
-	public final int underwaterBuff;
-	public final int ladderBuff;
 
 	public Tool(
 			final int[] version, final String[] typeGameIDs,
-			final String craftingHeadItemName, final String craftingShaftItemName,
+			final String craftingShaftItemName, final String craftingHeadItemName,
 			final String name,
 			final int harvestLevel, final int maxUses, final int efficiency,
-			final int damage, final int enchantability, final int underwaterBuff, final int ladderBuff) {
+			final int damage, final int enchantability) {
 		super(version, name);
 		this.typeGameIDs = typeGameIDs;
 		this.craftingHeadItemName = craftingHeadItemName;
@@ -74,8 +70,6 @@ public class Tool extends Config {
 		this.efficiency = efficiency;
 		this.damage = damage;
 		this.enchantability = enchantability;
-		this.underwaterBuff = underwaterBuff;
-		this.ladderBuff = ladderBuff;
 	}
 	
 	public String getFullTypeName(final Type type) {

@@ -4,10 +4,10 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	Iv	Kl	Block (Alkyd Resin)	Cartridge (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Iw	Km	Block (A-PET)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	0
 1.1.0	Ix	Kn	Block (BIIR)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	12
-1.1.0	Iy	Ko	Block (Carbon)	Sack (Carbon Fiber Pellets)	Carbon	0
+1.1.0	Iy	Ko	Block (Carbon Fiber)	Sack (Carbon Fiber Pellets)	Carbon Fiber	0
 0	Iz	Kp	Block (CTAP)	Sack (Cellulose Triacetate Pellets)	CTAP	0
 1.0.0	IA	Kq	Block (Cellulose)	Sack (Cellulosic Pellets)	Cellulose	0
-0	IB	Kr	Block (Chitin)	Sack (Chitin Pellets)	Chitin	0
+1.1.0	IB	Kr	Block (Chitin)	Sack (Chitin Pellets)	Chitin	0
 1.1.0	IC	Ks	Block (CIIR)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	CIIR	12
 0	ID	Kt	Block (Epoxy Resin)	Cartridge (Epoxy Resin)	Epoxy Resin	0
 0	IE	Ku	Block (NRE)	Sack (Ethoxylates Pellets)	NRE	0
@@ -47,17 +47,17 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 1.0.0	Jd	L3	Block (PEEK)	Sack (PolyEther Ether Ketone Pellets)	PEEK	0
 1.0.0	Je	L4	Block (PEI)	Sack (PolyEtherImide Pellets)	PEI	0
 0	Jf	L5	Block (PEA)	Sack (PolyEthyl Acrylate Pellets)	PEA	0
-0	Jg	L6	Block (PEA)	Sack (PolyEthylene Adipate Pellets)	PEA	0
+0	Jg	L6	Block (PEAd)	Sack (PolyEthylene Adipate Pellets)	PEAd	0
 1.0.0	Jh	L7	Block (PEG)	Sack (PolyEthylene Glycol Pellets)	PEG	0
 0	Ji	L8	Block (PEHD)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	0
 1.0.0	Jj	L9	Block (PEN)	Sack (PolyEthylene Naphthalate Pellets)	PEN	0
 1.0.0	Jk	La	Block (PEO)	Sack (PolyEthylene Oxide Pellets)	PEO	0
-0	Jl	Lb	Block (PES)	Sack (PolyEthylene Sulphide Pellets)	PES	0
+1.1.0	Jl	Lb	Block (PES)	Sack (PolyEthylene Sulphide Pellets)	PES	0
 1.0.0	Jm	Lc	Block (PET)	Sack (PolyEthylene Terephthalate Pellets)	PET	0
 1.0.0	Jn	Ld	Block (PETG)	Sack (PolyEthylene Terephthalate Glycol-Modified Pellets)	PETG	0
 1.0.0	Jo	Le	Block (PGA)	Sack (PolyGlycolic Acid Pellets)	PGA	0
 1.1.0	Jp	Lf	"Block (Nylon 6,7)"	Sack (PolyHexamethylene Adipamide Pellets)	"Nylon 6,7"	0
-1.1.0	Jq	Lg	"Block (Nylon 6,11)"	Sack (PolyHexamethylene Sebacamide Pellets)	"Nylon 6,11"	0
+1.1.0	Jq	Lg	"Block (Nylon 6,10)"	Sack (PolyHexamethylene Sebacamide Pellets)	"Nylon 6,10"	0
 1.0.0	Jr	Lh	Block (PHA)	Sack (PolyHydroxyalkanoate Pellets)	PHA	0
 0	Js	Li	Block (PHBV)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PHBV	0
 1.0.0	Jt	Lj	Block (PI)	Sack (PolyImide Pellets)	PI	0
@@ -80,7 +80,7 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	JK	LA	Block (PPPHAZ)	Sack (PolyPhosphazene Pellets)	PPPHAZ	0
 0	JL	LB	Block (PPMS)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	0
 0	JM	LC	Block (PPS)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	0
-0	JN	LD	Block (kevlar)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	0
+1.1.0	JN	LD	Block (kevlar)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	0
 1.0.0	JO	LE	Block (PP)	Sack (PolyPropylene Pellets)	PP	0
 0	JP	LF	Block (PPG)	Sack (PolyPropylene Glycol Pellets)	PPG	0
 0	JQ	LG	Block (PPOX)	Sack (PolyPropylene Oxide Pellets)	PPOX	0
@@ -103,9 +103,9 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	K7	LX	Block (PVDC)	Sack (PolyVinylidene Dichloride Pellets)	PVDC	0
 0	K8	LY	Block (PVDF)	Sack (PolyVinylidene Fluoride Pellets)	PVDF	0
 0	K9	LZ	Block (PVDF-TRFE)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	0
-0	Ka	M0	Block (SAN)	Sack (Styrene-Acrylonitrile Pellets)	SAN	0
+1.1.0	Ka	M0	Block (SAN)	Sack (Styrene-Acrylonitrile Pellets)	SAN	0
 1.0.0	Kb	M1	Block (SBR)	Sack (Styrene-Butadiene Rubber Pellets)	SBR	12
-0	Kc	M2	Block (SBS)	Sack (Styrene-Butadiene-Styrene Pellets)	SBS	0
+1.1.0	Kc	M2	Block (SBS)	Sack (Styrene-Butadiene-Styrene Pellets)	SBS	0
 0	Kd	M3	Block (SIS)	Sack (Styrene-Isoprene-Styrene Pellets)	SIS	0
 0	Ke	M4	Block (SMAC)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	0
 1.0.0	Kf	M5	Block (UHMWPE)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	UHMWPE	0
