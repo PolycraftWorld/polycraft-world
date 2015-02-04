@@ -71,7 +71,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	Nh	P7	QX	SN	Slab (PMCA)	Block (PMCA)	PMCA	0
 0	Ni	P8	QY	SO	Slab (PMMA)	Block (PMMA)	PMMA	0
 0	Nj	P9	QZ	SP	Slab (PMMS)	Block (PMMS)	PMMS	0
-0	Nk	Pa	R0	SQ	Slab (PMIA)	Block (PMIA)	PMIA	0
+1.1.1	Nk	Pa	R0	SQ	Slab (nomex)	Block (nomex)	nomex	0
 0	Nl	Pb	R1	SR	Slab (PNBA)	Block (PNBA)	PNBA	0
 1.0.0	Nm	Pc	R2	SS	Slab (POM)	Block (POM)	POM	0
 0	Nn	Pd	R3	ST	Slab (PPHD)	Block (PPHD)	PPHD	0

@@ -71,7 +71,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 0	Yj	109	Stairs (PMCA)	Block (PMCA)	PMCA	0
 0	Yk	10a	Stairs (PMMA)	Block (PMMA)	PMMA	0
 0	Yl	10b	Stairs (PMMS)	Block (PMMS)	PMMS	0
-0	Ym	10c	Stairs (PMIA)	Block (PMIA)	PMIA	0
+1.1.1	Ym	10c	Stairs (nomex)	Block (nomex)	nomex	0
 0	Yn	10d	Stairs (PNBA)	Block (PNBA)	PNBA	0
 1.0.0	Yo	10e	Stairs (POM)	Block (POM)	POM	0
 0	Yp	10f	Stairs (PPHD)	Block (PPHD)	PPHD	0

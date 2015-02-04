@@ -14,7 +14,7 @@ Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Icon Invent
 1.0.0	41	5E	Spotlight	12	2012	front							side	front	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	25	1							
 1.0.0	5N	5O	Merox Treatment Unit	13	2013	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
 1.0.0	5j	5m	Flow Regulator	14	2014	front							side	front										
-1.0.0	20	1A	Condenser	15	2015	front	side	top					side	front	"CompoundVesselToSpawn, AmountToSpawn, SpawnFreq (sec)"	Flask (Nitrogen)	1	10						
+1.0.0	20	1A	Condenser	15	2015	front	side	top					side	front	"CompoundVesselToSpawn, AmountToSpawn, SpawnFreq (sec), InWaterSpawnVessel"	Flask (Nitrogen)	1	10	Vial (Salt Water)					
 1.0.4	4i	1Y	Pump	16	2016	front							side	front	"FlowTickHeatIntensityRatio, FlowItemsPerHeatIntensity, AutomaticInputCooldownSecs"	500	10	1						
 																								
 																								

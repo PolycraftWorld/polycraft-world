@@ -29,14 +29,14 @@ Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*
 1.0.4	Light Olefins	Compound	Light Olefins	27	3	8	
 1.0.4	Light Parrafins	Compound	Light Parrafins	28	3	8	
 1.0.4	Methanol	Compound	Methanol	29	4	10	
-1.0.4	Meta-Xylene	Compound	Meta-Xylene	30	3	8	
-1.0.4	N-Butane	Compound	N-Butane	31	6	14	
-1.0.4	N-Hexane	Compound	N-Hexane	32	6	14	
-1.0.4	N-Pentane	Compound	N-Pentane	33	6	14	
+1.0.4	m-Xylene	Compound	m-Xylene	30	3	8	
+1.0.4	n-Butane	Compound	n-Butane	31	6	14	
+1.0.4	n-Hexane	Compound	n-Hexane	32	6	14	
+1.0.4	n-Pentane	Compound	n-Pentane	33	6	14	
 1.0.4	NeoPentane	Compound	NeoPentane	34	6	14	
 1.0.4	Olefins	Compound	Olefins	35	3	10	
-1.0.4	Ortho-Xylene	Compound	Ortho-Xylene	36	3	8	
-1.0.4	Para-Xylene	Compound	Para-Xylene	37	3	8	
+1.0.4	o-Xylene	Compound	o-Xylene	36	3	8	
+1.0.4	p-Xylene	Compound	p-Xylene	37	3	8	
 1.0.4	Paraffin	Compound	Paraffin	38	3	10	
 1.0.4	Pentane Isomers	Compound	Pentane Isomers	39	6	14	
 1.0.4	Propanol	Compound	Propanol	40	4	10	

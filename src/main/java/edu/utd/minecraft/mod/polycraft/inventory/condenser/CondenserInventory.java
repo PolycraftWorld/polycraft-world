@@ -59,9 +59,12 @@ public class CondenserInventory extends PolycraftInventory {
 	private int transferCooldown = -1;
 	private int spawnAttempts = -1;
 	private final ElementVessel compoundVesselToSpawn;
+	private final ElementVessel inWaterSpawnVessel;
 	private final int amountToSpawn;
 	private final int spawnFrequencyTicks;
-	private int amountOfNitrogenHarvested;
+	private int amountOfCompoundHarvested;
+	public boolean inWater = false;
+
 
 
 	public CondenserInventory() {
@@ -69,7 +72,8 @@ public class CondenserInventory extends PolycraftInventory {
 		this.compoundVesselToSpawn = ElementVessel.registry.get(config.params.get(0));
 		this.amountToSpawn = config.params.getInt(1);
 		this.spawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(2));
-		this.amountOfNitrogenHarvested = 0;
+		this.inWaterSpawnVessel = ElementVessel.registry.get(config.params.get(3));
+		this.amountOfCompoundHarvested = 0;
 		this.addBehavior(new VesselUpcycler());
 		this.addBehavior(new VesselMerger());
 	}
@@ -117,9 +121,11 @@ public class CondenserInventory extends PolycraftInventory {
 
 				if (spawnAttempts++ >= spawnFrequencyTicks) {
 					spawnAttempts = 0;
-					amountOfNitrogenHarvested++;
-
-					return compoundVesselToSpawn.getItemStack(amountToSpawn);
+					amountOfCompoundHarvested++;
+					if (inWater)
+						return compoundVesselToSpawn.getItemStack(amountToSpawn);
+					else						
+						return inWaterSpawnVessel.getItemStack(amountToSpawn);
 
 				}
 			return null;

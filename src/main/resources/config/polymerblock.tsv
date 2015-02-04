@@ -71,7 +71,7 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 0	JB	Lr	Block (PMCA)	Sack (PolyMethyl Cyanoacrylate Pellets)	PMCA	0
 0	JC	Ls	Block (PMMA)	Sack (PolyMethyl Methacrylate Pellets)	PMMA	0
 0	JD	Lt	Block (PMMS)	Sack (PolyM-Methyl Styrene Pellets)	PMMS	0
-0	JE	Lu	Block (PMIA)	Sack (PolyM-Phenylene Isophthalamide Pellets)	PMIA	0
+1.1.1	JE	Lu	Block (nomex)	Sack (PolyM-Phenylene Isophthalamide Pellets)	nomex	0
 0	JF	Lv	Block (PNBA)	Sack (PolyN-Butyl Acrylate Pellets)	PNBA	0
 1.0.0	JG	Lw	Block (POM)	Sack (PolyOxymethylene Pellets)	POM	0
 0	JH	Lx	Block (PPHD)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	0

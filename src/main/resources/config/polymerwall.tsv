@@ -71,7 +71,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	UD	Wt	Wall (PMCA)	Block (PMCA)	PMCA	0
 0	UE	Wu	Wall (PMMA)	Block (PMMA)	PMMA	0
 0	UF	Wv	Wall (PMMS)	Block (PMMS)	PMMS	0
-0	UG	Ww	Wall (PMIA)	Block (PMIA)	PMIA	0
+1.1.1	UG	Ww	Wall (nomex)	Block (nomex)	nomex	0
 0	UH	Wx	Wall (PNBA)	Block (PNBA)	PNBA	0
 1.0.0	UI	Wy	Wall (POM)	Block (POM)	POM	0
 0	UJ	Wz	Wall (PPHD)	Block (PPHD)	PPHD	0

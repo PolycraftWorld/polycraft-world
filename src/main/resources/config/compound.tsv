@@ -6,9 +6,9 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	"1,6-Hexamethylenediamine"		Liquid						
 1.0.0	"2,2-DiMethylButane"	C6H14	Liquid	TRUE		Isomer of Hexane			
 1.0.0	"2,3-DiMethylButane"	C6H14	Liquid	TRUE		Isomer of Hexane			
-1.0.0	2-(2-Butoxyethoxy)Ethanol	CH3CH2CH2CH2OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol mono-n-butyl ether				Glycol Ether Solvent
-1.0.0	"2-(2-Ethoxyethoxy)Ethanol, Carbitol Cellosolve"	CH3CH2OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol monoethyl ether				Glycol Ether Solvent
-1.0.0	"2-(2-Methoxyethoxy)Ethanol, Methyl Carbitol"	CH3OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol monomethyl ether				Glycol Ether Solvent
+1.0.0	2-(2-Butoxyethoxy) Ethanol	CH3CH2CH2CH2OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol mono-n-butyl ether				Glycol Ether Solvent
+1.0.0	"2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve"	CH3CH2OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol monoethyl ether				Glycol Ether Solvent
+1.0.0	"2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol"	CH3OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol monomethyl ether				Glycol Ether Solvent
 1.0.0	2-Benzyloxyethanol	C6H5CH2OCH2CH2OH	Liquid		Ethylene glycol monobenzyl ether				Glycol Ether Solvent
 1.0.0	2-Butoxyethanol	CH3CH2CH2CH2OCH2CH2OH	Liquid		Ethylene glycol monobutyl ether		"a widely used solvent in paintings and surface coatings, cleaning products and inks"		Glycol Ether Solvent
 1.0.0	2-Butoxyethyl Acetate	CH3CH2CH2CH2OCH2CH2OCOCH3	Liquid		Ethylene glycol monobutyl ether acetate				Esters
@@ -82,7 +82,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	"Calcium Phosphate, Monobasic"	Ca(H2PO4)2	Liquid		superphosphate		Available as a fertilizer from garden supply stores. Also sometimes available as a nutritional supplement at health food stores.		
 1.0.0	Calcium Sulfate Anhydrous	CaSO4	Liquid		—		Can be made from commonly available plaster of paris by additional heating to above 180C. Also available at fine art supply stores as Terra Alba.		
 1.0.0	Calcium Sulfate Dihydrate	CaSO4·2H20	Liquid		Gypsum		Can be made from the reaction of Plaster of Paris with Water.		
-1.0.0	"Calcium Sulfate,Hemihydrate"	CaSO4·1/2H20	Liquid		Plaster of Paris		"Hardware stores, arts and craft stores, and hobby shops."		
+1.0.0	"Calcium Sulfate, Hemihydrate"	CaSO4·1/2H20	Liquid		Plaster of Paris		"Hardware stores, arts and craft stores, and hobby shops."		
 1.0.0	Camphor	C10H16O	Liquid		—		Can be found as a flavor additive at some Chinese grocery stores. Sometimes found in the drugstore as a cream or oral remedy. It feels cool like menthol on the skin.		
 1.0.0	Caprolactone		Liquid						
 1.0.0	Caprolactam		Liquid						
@@ -99,7 +99,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Coke		Liquid				Used when you refine coal		
 1.0.0	Copper Naphthenate	Cu(C11H10O2)2	Liquid		cupric naphthenate		"Used as a wood preservative to protect lumber from termites, ants, and other burrowing insects. Brands including Wolman and Jasco are up to 25% copper naphthenate with the remainder composed of linseed oil and petroleum distillate-based solvents."		
 1.0.0	Copper Sulfate Pentahydrate	CuSO25H2O	Liquid		"cupric sulfate, blue vitriol, bluestone"		"Hardware store; rootkiller (Zep Root Kill, Rooto Root Kill)"		
-1.0.0	Copper Sulfate(Anhydrous)	CuSO4	Liquid		cupric sulfate(anhydrous)		Available from garden supply or pond supply stores as an algaecide and rootkiller.		
+1.0.0	Copper Sulfate (Anhydrous)	CuSO4	Liquid		cupric sulfate(anhydrous)		Available from garden supply or pond supply stores as an algaecide and rootkiller.		
 1.0.0	Crude Oil	Complex	Liquid	TRUE	"Oil, Black Gold, "				
 1.0.0	Cyanide		Liquid						
 1.0.0	Cyanuric Acid	C3H3N3O3	Liquid		isocyanuric acid		Available from swimming pool and lawn/yard supply stores as a chlorine stabilizer. A pure tablet form sells under the brand name Kem Tek.		
@@ -133,7 +133,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Ethylidene Diacetate	C6H10O4	Liquid		"1,1-Diacetoxyethane, 1,1-Ethanediol diacetate"				
 1.0.0	Eugenol	CH2CH2CH2C6H3(OCH3)OH	Liquid		"oil of clove, 2-methoxy-4-(2-propenyl)phenol"		Available at most health food and natural healing stores as clove oil. Note that organically derived oil of clove will have numerous impurities from the distillation process. Synthetic oil of clove is generally pure but more difficult to find.		
 1.0.0	Ferric Chloride	FeCl3	Liquid		Etching Solution		Available in solution from Radio Shack and other electronics suppliers as an etching solution for circuit boards. Also available in solution from fine art supply stores.		
-1.0.0	Ferric Oxide(Iron III Oxide)	Fe2O3	Liquid		Rust		Common rust. Reddish in color. Can be scraped off of rusted iron objects or purchased in a purified form as the artists pigment Red Iron Oxide from fine art supply stores.		
+1.0.0	Ferric Oxide (Iron III Oxide)	Fe2O3	Liquid		Rust		Common rust. Reddish in color. Can be scraped off of rusted iron objects or purchased in a purified form as the artists pigment Red Iron Oxide from fine art supply stores.		
 1.0.0	Ferrous Ferric Oxide (Iron II-III Oxide)	Fe3O4	Liquid		Magnetite		Used as the artists pigment Mars Black and can be purchased from fine art supply stores.		
 1.0.0	Formaldehyde		Liquid						
 1.0.0	Formic Acid	CH2O2	Liquid		methanoic acid		Available in some stain removers at the hardware store. A fairly pure 5% concentration can be obtained from the blue chamber of Clorox Dual Action Toilet Bowl Cleanser.		
@@ -178,15 +178,15 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Melamine		Liquid						
 1.0.0	Melamine Formaldehyde		Liquid						
 1.0.0	Mercaptans	Short Thiols	Liquid						
-1.0.0	m-mercaptan	CH3SH	Liquid		Methanethiol				
-1.0.0	e-mercaptan	C2H5SH	Liquid		Ethanethiol				
-1.0.0	n-p mercaptan	C3H7SH	Liquid		1-Propanethiol				
+1.0.0	m-Mercaptan	CH3SH	Liquid		Methanethiol				
+1.0.0	e-Mercaptan	C2H5SH	Liquid		Ethanethiol				
+1.0.0	n-p Mercaptan	C3H7SH	Liquid		1-Propanethiol				
 1.0.0	2C3 mercaptan	CH3CH(SH)CH3	Liquid		2-Propanethiol				
-1.0.0	n-butyl mercaptan	C4H9SH	Liquid		Butanethiol				
-1.0.0	t-butyl mercaptan	C(CH3)3SH	Liquid		tert-Butyl mercaptan				
-1.0.0	pentyl mercaptan	C5H11SH	Liquid		Pentanethiol				
-1.0.0	Mercury (Liquid)	Hg	Liquid		quicksilver		Becoming difficult to find due to fears of toxicity and environmental contamination. Old mercury switches can be found in many thermostats. Old-style thermometers contain mercury. Fluorescent light tubes contain a small amount of mercury though it can be difficult to extract. Specialty occult stores may carry it as quicksilver. Ben-Wha balls at sex toy shops.		
-1.0.0	Meta-Xylene	C8H10	Liquid						
+1.0.0	n-Butyl Mercaptan	C4H9SH	Liquid		Butanethiol				
+1.0.0	t-Butyl Mercaptan	C(CH3)3SH	Liquid		tert-Butyl mercaptan				
+1.0.0	Pentyl Mercaptan	C5H11SH	Liquid		Pentanethiol				
+	Mercury (Liquid)	Hg	Liquid		quicksilver		Becoming difficult to find due to fears of toxicity and environmental contamination. Old mercury switches can be found in many thermostats. Old-style thermometers contain mercury. Fluorescent light tubes contain a small amount of mercury though it can be difficult to extract. Specialty occult stores may carry it as quicksilver. Ben-Wha balls at sex toy shops.		
+1.0.0	m-Xylene	C8H10	Liquid						
 1.0.0	Methacrylic Acid	C4H6O2	Liquid		2-methylpropenoic acid				
 1.0.0	Methyl Methacrylate		Liquid						
 1.0.0	Methane	CH4	Gas		Natural Gas		Gas line in many homes.		
@@ -200,10 +200,10 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Mineral Oil	complex mixture of hydrocarbons	Liquid		—		Mineral oil is sold in drug stores as an emollient. Some baby oils are essentially mineral oil and fragrance.		
 1.0.0	Molasses		Liquid						
 1.0.0	Monosodium Glutamate	C5H8NNaO4	Liquid		MSG		Widely used as a condiment in many parts of Asia. Can be purchased from Chinese or Japanese grocery stores. Also easily acquired in many supermarkets as a flavor enhancer.		
-1.0.0	N-Butane	C4H10	Liquid	TRUE					
+1.0.0	n-Butane	C4H10	Liquid	TRUE					
 1.0.0	N-Ethylidenecyclohexylamine		Liquid						
-1.0.0	N-Hexane	C6H14	Liquid	TRUE					
-1.0.0	N-Pentane	C5H12	Liquid	TRUE					
+1.0.0	n-Hexane	C6H14	Liquid	TRUE					
+1.0.0	n-Pentane	C5H12	Liquid	TRUE					
 1.0.0	Naphtha	Complex	Liquid						
 1.0.0	Naphthalene	C10H8	Liquid		moth balls		"Hardware store, grocery store."		
 1.0.0	Naphthalenedicarboxylic Acid		Liquid						
@@ -213,11 +213,11 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Nitrous Oxide	N2O	Liquid		"whipping gas,laughing gas"		Whipped cream canisters from the grocery store. Or in larger canisters from commercial restaurant supply houses. When packaged for automotive use it is usually contaminated with hydrogen sulfide to discourage inhalation. Industrial (welding supply) Nitrous Oxide contains NO and NO2 (can be removed with moist steel wool)which makes Nitric acid in your lungs so use with good ventilation. (Heating Ammonium Nitrate generates an industrial grade of Nitrous Oxide at the risk of explosion.)		
 1.0.0	Olefins		Liquid						
 1.0.0	Oleyl Alcohol	CH3(CH2)7-CH=CH-(CH2)8OH	Liquid		"Fatty Alcohol, Oleyl alcohol, octadecenol, cis-9-octadecen-1-ol"		"surfactant, skin cream, moisturizer, shampoo"		
-1.0.0	Ortho-Xylene		Liquid						
+1.0.0	o-Xylene		Liquid						
 1.0.0	Oxalic Acid	C2H2O4	Liquid		"rust remover, non-chlorine bleach powder cleanser"		"Grocery, drug, hardware stores. Bar Keeper's Friend."		
 	Oxygen Gas	O2	Gas		—		Portable welding oxygen tanks are available at welding shops and some hardware stores. Can be generated in small quantities from the electrolysisof water.		
-1.0.0	Para-Dichlorobenzene	C6H4Cl2	Liquid		"moth flakes, moth crystals"		Hardware or grocery store.		
-1.0.0	Para-Xylene		Liquid						
+1.0.0	p-Dichlorobenzene	C6H4Cl2	Liquid		"moth flakes, moth crystals"		Hardware or grocery store.		
+1.0.0	p-Xylene		Liquid						
 1.0.0	Paraffin	CnH2n+2 (n>19)	Liquid		—		"Unless otherwise labeled, candle wax is made of paraffin. Some grocery stores sell paraffin as a sealant for home canning. Many arts and crafts stores sell paraffin for at-home candle makers. Vaseline brand is also paraffin, albeit with molecules that are slightly shorter."		
 1.0.0	Pentane Isomers	C5H12	Liquid	TRUE			"Used as refrigerant, blowing agent for making styrofoam, working fluid in geothermal stations"		
 1.0.0	Peracetic Acid		Liquid						
@@ -359,3 +359,14 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.1.0	Propylene Oxide		Liquid						
 1.1.0	Propylene Glycol		Liquid						
 1.1.0	Cumene		Liquid						
+1.1.1	Chlorobenzene		Liquid						
+1.1.1	4-Nitrochlorobenzene		Solid						
+1.1.1	p-Phenylenediamine		Solid						
+1.1.1	Nitric Acid		Liquid						
+1.1.1	4-Nitroaniline		Solid						
+1.1.1	Nitric Oxide		Gas						
+1.1.1	p-Hexachloroxylene		Solid						
+1.1.1	m-Hexachloroxylene		Solid						
+1.1.1	o-Hexachloroxylene		Solid						
+1.1.1	Terephthaloyl chloride		Solid						
+1.1.1	Isophthaloyl chloride		Solid						

@@ -104,7 +104,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 	HL	Fibers (PMCA)	Metal Die (Fibers)	Bag (PolyMethyl Cyanoacrylate Pellets)	PMCA	16	10	64	FALSE											
 	HM	Fibers (PMMA)	Metal Die (Fibers)	Bag (PolyMethyl Methacrylate Pellets)	PMMA	16	10	64	FALSE											
 	HN	Fibers (PMMS)	Metal Die (Fibers)	Bag (PolyM-Methyl Styrene Pellets)	PMMS	16	10	64	FALSE											
-	HO	Fibers (PMIA)	Metal Die (Fibers)	Bag (PolyM-Phenylene Isophthalamide Pellets)	PMIA	16	10	64	FALSE											
+1.1.1	HO	Fibers (nomex)	Metal Die (Fibers)	Bag (PolyM-Phenylene Isophthalamide Pellets)	nomex	16	10	64	FALSE											
 	HP	Fibers (PNBA)	Metal Die (Fibers)	Bag (PolyN-Butyl Acrylate Pellets)	PNBA	16	10	64	FALSE											
 1.0.0	HQ	Fibers (POM)	Metal Die (Fibers)	Bag (PolyOxymethylene Pellets)	POM	16	10	64	FALSE											
 	HR	Fibers (PPHD)	Metal Die (Fibers)	Bag (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	16	10	64	FALSE											

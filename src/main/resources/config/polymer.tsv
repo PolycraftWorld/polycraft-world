@@ -71,7 +71,7 @@ Version	Polymer	Short Name	Thermoplastic	PC Level	Recycling #	Degradable	Solvent
 1.0.0	PolyMethyl Cyanoacrylate	PMCA	TRUE			FALSE		polyacrylate						
 1.0.0	PolyMethyl Methacrylate	PMMA	TRUE			FALSE		polyacrylate						
 1.0.0	PolyM-Methyl Styrene	PMMS	TRUE			FALSE		polyolefin						
-1.0.0	PolyM-Phenylene Isophthalamide	PMIA	TRUE			FALSE		polyphenol						
+1.0.0	PolyM-Phenylene Isophthalamide	nomex	TRUE			FALSE		polyphenol						
 1.0.0	PolyN-Butyl Acrylate	PNBA	TRUE			FALSE		polyacrylate						
 1.0.0	PolyOxymethylene	POM	TRUE			FALSE		polyether						
 1.0.0	PolyPentamethylene Hexamethylene Dicarbamate	PPHD	TRUE			FALSE		polyurethane						
