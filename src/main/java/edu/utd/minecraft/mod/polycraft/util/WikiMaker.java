@@ -80,21 +80,21 @@ public class WikiMaker {
 	private static final String IMAGE_EXTENSION = "png";
 	private static final String MINECRAFT_TEXTURES_DIRECTORY = "build/tmp/recompSrc/assets/minecraft/textures";
 	private static final String[] MINECRAFT_TEXTURES_DIRECTORIES = new String[] {
-	// MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
-	// MINECRAFT_TEXTURES_DIRECTORY + "/items",
-	// MINECRAFT_TEXTURES_DIRECTORY + "/models/armor",
-	};
+			// MINECRAFT_TEXTURES_DIRECTORY + "/blocks",
+			// MINECRAFT_TEXTURES_DIRECTORY + "/items",
+			// MINECRAFT_TEXTURES_DIRECTORY + "/models/armor",
+			};
 	private static final String POLYCRAFT_TEXTURES_DIRECTORY = "src/main/resources/assets/polycraft/textures";
 	private static final String POLYCRAFT_SCREENSHOTS_DIRECTORY = "wiki/screenshots";
 	private static final String POLYCRAFT_GUI_TEXTURES_DIRECTORY = "wiki/textures/gui/container";
 	private static final String POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY = "wiki/textures/temp";
 	private static final String[] POLYCRAFT_TEXTURES_DIRECTORIES = new String[] {
-	// POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
-	// POLYCRAFT_TEXTURES_DIRECTORY + "/items",
-	// POLYCRAFT_TEXTURES_DIRECTORY + "/models/armor",
-	// POLYCRAFT_GUI_TEXTURES_DIRECTORY,
-	// POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
-	// POLYCRAFT_SCREENSHOTS_DIRECTORY
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/blocks",
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/items",
+			// POLYCRAFT_TEXTURES_DIRECTORY + "/models/armor",
+			// POLYCRAFT_GUI_TEXTURES_DIRECTORY,
+			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
+			// POLYCRAFT_SCREENSHOTS_DIRECTORY
 	};
 
 	// These blacklists could probably be regex's or even Item base types... but
@@ -634,8 +634,7 @@ public class WikiMaker {
 	}
 
 	/**
-	 * Uploads the images in the given paths to the wikipedia site. Will
-	 * overwrite any existing images.
+	 * Uploads the images in the given paths to the wikipedia site. Will overwrite any existing images.
 	 */
 	private void createImages(final String[] paths) throws IOException,
 			LoginException {
