@@ -4,7 +4,7 @@ Version	Polymer	Short Name	Thermoplastic	PC Level	Recycling #	Degradable	Solvent
 1.0.0	Alkyd Resin	Alkyd Resin	FALSE			FALSE		polyester						
 1.0.0	Amorphous PolyEthylene Terephthalate	A-PET	TRUE			FALSE		polyester						
 1.0.0	Bromine Isobutylene-Isoprene Rubber	BIIR	TRUE			FALSE		natural rubber						
-1.1.0	Carbon Fiber	Carbon Fiber	TRUE			FALSE		polysaccharide						
+1.1.0	Carbon Fiber	Carbon Fiber	FALSE			FALSE		polysaccharide						
 1.0.0	Cellulose Triacetate	CTAP	TRUE			FALSE		polysaccharide						
 1.0.0	Cellulosic	Cellulose	TRUE			TRUE		polysaccharide						
 1.0.0	Chitin	Chitin	TRUE			FALSE		polysaccharide						
@@ -33,7 +33,7 @@ Version	Polymer	Short Name	Thermoplastic	PC Level	Recycling #	Degradable	Solvent
 1.0.0	"Poly2,6-Dimethyl-1,4-Phenylene Ether"	PDPE	TRUE			FALSE		polyphenyl ethers						
 1.0.0	Poly-2-Hydroxy Butyrate	PHB	TRUE			FALSE		polyester						
 1.0.0	Poly2-Hydroxyethyl Methacrylate	PHEMA	TRUE			FALSE		polyacrylate						
-1.0.0	PolyAcrylic Ester	PAE	TRUE			FALSE		polyacrylate						
+1.1.2	PolyAcrylic Acid	PAA	TRUE			FALSE		polyacrylate						
 1.0.0	PolyAcrylonitrile	PAN	TRUE			FALSE		polyolefin						
 1.0.0	PolyButadiene (low-cis)	PBR (low grade)	TRUE			FALSE		synthetic rubber						
 1.0.0	PolyButadiene (high-cis)	PBR (high grade)	TRUE			FALSE		synthetic rubber						

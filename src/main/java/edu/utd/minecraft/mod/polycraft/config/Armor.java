@@ -1,11 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 
@@ -26,7 +20,7 @@ public class Armor extends Config {
 						Integer.parseInt(line[12]), //enchantability
 						new int[] { Integer.parseInt(line[13]), Integer.parseInt(line[14]), Integer.parseInt(line[15]), Integer.parseInt(line[16]) }, //reduction ammounts
 						Integer.parseInt(line[17]) //aquaAffinityLevel
-						));
+				));
 			}
 	}
 
@@ -53,7 +47,7 @@ public class Armor extends Config {
 		this.reductionAmounts = reductionAmounts;
 		this.aquaAffinityLevel = aquaAffinityLevel;
 	}
-	
+
 	public String getFullComponentName(final ArmorSlot slot) {
 		return name + " " + componentNames[slot.getValue()];
 	}
@@ -61,36 +55,5 @@ public class Armor extends Config {
 	public String getTexture() {
 		return PolycraftMod.getAssetName("textures/models/armor/" + PolycraftMod.getFileSafeName(name) + ".png");
 	}
-	
-	public void saveArmorPNG(ArmorSlot type) throws IOException
-	{
-		BufferedImage image = null; 
-		
-		if (type == ArmorSlot.CHEST)
-		{
-			image = ImageIO.read(new File("G:\\PolycraftWorld\\polycraft\\wiki\\textures\\temp\\iron_chestplate.png"));					
-		
-		}
-		else if (type == ArmorSlot.HEAD)
-		{
-			image = ImageIO.read(new File("G:\\PolycraftWorld\\polycraft\\wiki\\textures\\temp\\iron_helmet.png"));		
-		
-		}
-		else if (type == ArmorSlot.LEGS)
-		{
-			image = ImageIO.read(new File("G:\\PolycraftWorld\\polycraft\\wiki\\textures\\temp\\iron_leggings.png"));		
-		
-		}
-		else if (type == ArmorSlot.FEET)
-		{
-			image = ImageIO.read(new File("G:\\PolycraftWorld\\polycraft\\wiki\\textures\\temp\\iron_boots.png"));		
-		}
-		
-		if (image!=null)
-			ImageIO.write(image, "png", new File("G:\\PolycraftWorld\\polycraft\\wiki\\textures\\temp\\items\\"+ PolycraftMod.getFileSafeName(getFullComponentName(type))+".png"));
-		
-		
-		
-	}
-	
+
 }

@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
-import edu.utd.minecraft.mod.polycraft.util.Tool;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftTool;
 
 public class GrippedTool extends SourcedConfig<MinecraftItem> {
 
@@ -24,7 +24,7 @@ public class GrippedTool extends SourcedConfig<MinecraftItem> {
 						line[index++], //name
 						MinecraftItem.registry.get(line[index++]), //source
 						MoldedItem.registry.get(line[index++]), //grip
-						Tool.Material.valueOf(line[index++]), //toolMaterial
+						PolycraftTool.Material.valueOf(line[index++]), //toolMaterial
 						Float.parseFloat(line[index++]), //durabilityBuff
 						Float.parseFloat(line[index++]) //speedBuff
 				));
@@ -32,11 +32,11 @@ public class GrippedTool extends SourcedConfig<MinecraftItem> {
 	}
 
 	public final MoldedItem grip;
-	public final Tool.Material toolMaterial;
+	public final PolycraftTool.Material toolMaterial;
 	public final float durabilityBuff;
 	public final float speedBuff;
 
-	public GrippedTool(final int[] version, final String gameID, final String name, final MinecraftItem source, final MoldedItem grip, final Tool.Material toolMaterial, final float durabilityBuff, final float speedBuff) {
+	public GrippedTool(final int[] version, final String gameID, final String name, final MinecraftItem source, final MoldedItem grip, final PolycraftTool.Material toolMaterial, final float durabilityBuff, final float speedBuff) {
 		super(version, gameID, name, source);
 		this.grip = grip;
 		this.toolMaterial = toolMaterial;

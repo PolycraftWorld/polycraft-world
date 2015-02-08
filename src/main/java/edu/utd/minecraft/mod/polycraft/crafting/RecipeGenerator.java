@@ -52,7 +52,7 @@ public class RecipeGenerator {
 
 	private static void generateAutoRecipes() {
 		ColoringPolycraftRecipeFactory coloringFactory = new ColoringPolycraftRecipeFactory();
-		
+
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -201,7 +201,7 @@ public class RecipeGenerator {
 		}
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
-		{					
+		{
 			PolycraftMod.recipeManager.addShapedRecipe(
 					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 					moldedItem.getItemStack(),
@@ -209,7 +209,7 @@ public class RecipeGenerator {
 					ImmutableMap.of(
 							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
 							'y', moldedItem.source.getItemStack()));
-			if ((moldedItem.params!=null)&&(moldedItem.params.names.length>1))
+			if ((moldedItem.params != null) && (moldedItem.params.names.length > 1))
 			{
 				int count = 0;
 				for (final String name : moldedItem.params.names)
@@ -223,20 +223,15 @@ public class RecipeGenerator {
 								ImmutableMap.of(
 										'x', PolymerPellets.registry.get(moldedItem.params.get(count)).getItemStack(moldedItem.craftingPellets),
 										'y', moldedItem.source.getItemStack()));
-						
-						
+
 					}
 					count++;
-					
-					
+
 				}
-				
-				
-				
-				
+
 			}
 		}
-		
+
 		for (final PolymerBrick brickItem : PolymerBrick.registry.values())
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.INJECTION_MOLDER,
@@ -245,7 +240,7 @@ public class RecipeGenerator {
 					ImmutableMap.of(
 							'x', brickItem.source.getItemStack(brickItem.craftingPellets),
 							'y', brickItem.brickMold.getItemStack()));
-		
+
 		for (final PolymerBrick brickItem : PolymerBrick.registry.values()) {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					coloringFactory,
@@ -256,7 +251,7 @@ public class RecipeGenerator {
 							'x', brickItem.getItemStack(),
 							'y', new ItemStack(Items.dye)), 0);
 		}
-		
+
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			PolycraftMod.recipeManager.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -297,7 +292,7 @@ public class RecipeGenerator {
 					new String[] { "   ", "x x", "x x" },
 					ImmutableMap.of('x', craftingItemStack), 0);
 		}
-		
+
 		for (final Tool tool : Tool.registry.values()) {
 			final ItemStack craftingHeadItemStack = PolycraftRegistry.getItemStack(tool.craftingHeadItemName, 1);
 			final ItemStack craftingShaftItemStack = PolycraftRegistry.getItemStack(tool.craftingShaftItemName, 1);
@@ -344,18 +339,17 @@ public class RecipeGenerator {
 					new String[] { "xx ", "xy ", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
 		}
-		
+
 		//add all furnace recipes to the industrial oven
 		for (final Object furnaceRecipeEntry : FurnaceRecipes.smelting().getSmeltingList().entrySet()) {
-			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>)furnaceRecipeEntry;
+			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>) furnaceRecipeEntry;
 			try
 			{
 				PolycraftMod.recipeManager.addShapelessRecipe(
 						PolycraftContainerType.INDUSTRIAL_OVEN,
 						furnaceRecipe.getValue(),
 						ImmutableList.of(furnaceRecipe.getKey()));
-			}
-			catch (final Exception e)
+			} catch (final Exception e)
 			{
 				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
 				System.err.println(e.getMessage());
@@ -392,6 +386,7 @@ public class RecipeGenerator {
 							ItemStack inputItemStack = null;
 							if (!inputItemName.isEmpty()) {
 								inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[i + 1]));
+								//System.out.println(inputItemName); //test output of each crafting recipes to catch mistakes
 								if (inputItemStack == null) {
 									logger.warn("Unable to find input item for crafting recipe ({}): {}", outputItemName, inputItemName);
 									inputItems = null;

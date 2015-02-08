@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
-import edu.utd.minecraft.mod.polycraft.util.Tool;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftTool;
 
 public class PogoStick extends SourcedConfig<PogoStick> {
 
@@ -22,7 +22,7 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 						PolycraftMod.getVersionNumeric(line[index++]),
 						line[index++], //gameID
 						line[index++], //name
-						Tool.Material.valueOf(line[index++]), //toolMaterial
+						PolycraftTool.Material.valueOf(line[index++]), //toolMaterial
 						Integer.parseInt(line[index++]), //maxBounces
 						Float.parseFloat(line[index++]), //stableBounceHeight
 						Float.parseFloat(line[index++]), //jumpMovementFactorBuff
@@ -34,14 +34,14 @@ public class PogoStick extends SourcedConfig<PogoStick> {
 	}
 
 	public final MoldedItem grip;
-	public final Tool.Material toolMaterial;
+	public final PolycraftTool.Material toolMaterial;
 	public final int maxBounces;
 	public final float stableBounceHeight;
 	public final float jumpMovementFactorBuff;
 	public final boolean restrictJumpToGround;
 	public final float maxFallNoDamageHeight;
 
-	public PogoStick(final int[] version, final String gameID, final String name, final Tool.Material toolMaterial,
+	public PogoStick(final int[] version, final String gameID, final String name, final PolycraftTool.Material toolMaterial,
 			final int maxBounces, final float stableBounceHeight, final float jumpMovementFactorBuff, final boolean restrictJumpToGround,
 			final PogoStick source, final MoldedItem grip) {
 		super(version, gameID, name, source);

@@ -30,19 +30,19 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	42	Large Pipe (PP)	Metal Die (Large Pipe)	Bag (PolyPropylene Pellets)	PP	32	10	64	FALSE									3	TRUE	
 1.0.0	5J	Flashlight Shaft (PS)	Mold (Flashlight Shaft)	Bag (PolyStyrene Pellets)	PS	16	10	64	FALSE											
 1.0.3	11b	Heated Knife Handle (PP)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PP	16	10	64	FALSE											
-1.0.3	11c	Heated Knife Handle (PS)	Mold (Heated Knife Handle)	Bag (PolyStyrene Pellets)	PS	16	10	64	FALSE											
+1.0.3	11c	Heated Knife Handle (Natural Rubber)	Mold (Heated Knife Handle)	Bag (PolyIsoPrene Pellets)	Natural Rubber	16	10	64	FALSE											
 1.0.3	11d	Heated Knife Handle (PEEK)	Mold (Heated Knife Handle)	Bag (PolyEther Ether Ketone Pellets)	PEEK	16	10	64	FALSE											
-	GD	Fibers (AF Resin)	Metal Die (Fibers)	Flask (Acrylic-Formaldehyde Resin)	AF Resin	16	10	64	FALSE											
+	GD	Fibers (AF Resin)	Metal Die (Fibers)	Vial (Acrylic-Formaldehyde Resin)	AF Resin	16	10	64	FALSE											
 1.0.0	GE	Fibers (ABS)	Metal Die (Fibers)	Bag (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	16	10	64	FALSE											
-	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Flask (Alkyd Resin)	Alkyd Resin	16	10	64	FALSE											
+	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Vial (Alkyd Resin)	Alkyd Resin	16	10	64	FALSE											
 1.0.0	GG	Fibers (A-PET)	Metal Die (Fibers)	Bag (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	16	10	64	FALSE											
 1.1.0	GH	Fibers (BIIR)	Metal Die (Fibers)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	16	10	64	FALSE											
-1.1.0	GI	Fibers (Carbon Fiber)	Metal Die (Fibers)	Bag (Carbon Fiber Pellets)	Carbon Fiber	16	10	64	FALSE											
+1.1.0	GI	Fibers (Carbon Fiber)	Metal Die (Fibers)	Bag (Carbon Fiber)	Carbon Fiber	16	10	64	FALSE											
 	GJ	Fibers (CTAP)	Metal Die (Fibers)	Bag (Cellulose Triacetate Pellets)	CTAP	16	10	64	FALSE											
 1.0.0	GK	Fibers (Cellulose)	Metal Die (Fibers)	Bag (Cellulosic Pellets)	Cellulose	16	10	64	FALSE											
 1.1.0	GL	Fibers (Chitin)	Metal Die (Fibers)	Bag (Chitin Pellets)	Chitin	16	10	64	FALSE											
 1.1.0	GM	Fibers (CIIR)	Metal Die (Fibers)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	CIIR	16	10	64	FALSE											
-	GN	Fibers (Epoxy Resin)	Metal Die (Fibers)	Flask (Epoxy Resin)	Epoxy Resin	16	10	64	FALSE											
+1.1.2	GN	Fibers (Epoxy Resin)	Metal Die (Fibers)	Vial (Epoxy Resin)	Epoxy Resin	16	10	64	FALSE											
 	GO	Fibers (NRE)	Metal Die (Fibers)	Bag (Ethoxylates Pellets)	NRE	16	10	64	FALSE											
 1.1.0	GP	Fibers (EPM)	Metal Die (Fibers)	Bag (Ethylene-Propylene Monomer Pellets)	EPM	16	10	64	FALSE											
 1.1.0	GQ	Fibers (EPDM)	Metal Die (Fibers)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	EPDM	16	10	64	FALSE											
@@ -50,23 +50,23 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	GS	Fibers (HDPE)	Metal Die (Fibers)	Bag (High Density PolyEthylene Pellets)	HDPE	16	10	64	FALSE											
 1.1.0	GT	Fibers (HNBR)	Metal Die (Fibers)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	16	10	64	FALSE											
 1.1.0	GU	Fibers (Butyl Rubber)	Metal Die (Fibers)	Bag (Isobutylene Rubber Pellets)	Butyl Rubber	16	10	64	FALSE											
-	GV	Fibers (Lignin)	Metal Die (Fibers)	Flask (Lignin)	Lignin	16	10	64	FALSE											
+	GV	Fibers (Lignin)	Metal Die (Fibers)	Vial (Lignin)	Lignin	16	10	64	FALSE											
 1.0.0	GW	Fibers (LLDPE)	Metal Die (Fibers)	Bag (Linear Low-Density PolyEthylene Pellets)	LLDPE	16	10	64	FALSE											
 1.0.0	GX	Fibers (LCP)	Metal Die (Fibers)	Bag (Liquid Crystal Polymer Pellets)	LCP	16	10	64	FALSE											
 1.0.0	GY	Fibers (LDPE)	Metal Die (Fibers)	Bag (Low Density PolyEthylene Pellets)	LDPE	16	10	64	FALSE											
 1.0.0	GZ	Fibers (MDPE)	Metal Die (Fibers)	Bag (Medium Density PolyEthylene Pellets)	MDPE	16	10	64	FALSE											
-	H0	Fibers (MFP)	Metal Die (Fibers)	Flask (Melamine-Formaldehyde Polymers)	MFP	16	10	64	FALSE											
+	H0	Fibers (MFP)	Metal Die (Fibers)	Vial (Melamine-Formaldehyde Polymers)	MFP	16	10	64	FALSE											
 1.0.0	H1	Fibers (MALD)	Metal Die (Fibers)	Bag (Metaldehyde Pellets)	MALD	16	10	64	FALSE											
 1.1.0	H2	Fibers (NBR)	Metal Die (Fibers)	Bag (Nitrile-Butadiene Rubber Pellets)	NBR	16	10	64	FALSE											
 1.0.0	H3	Fibers (PFA)	Metal Die (Fibers)	Bag (Paraformaldehyde Pellets)	PFA	16	10	64	FALSE											
 1.0.0	H4	Fibers (PALD)	Metal Die (Fibers)	Bag (Paraldehyde Pellets)	PALD	16	10	64	FALSE											
-	H5	Fibers (Phenol Formaldehydes)	Metal Die (Fibers)	Flask (Phenolic Resin)	Phenol Formaldehydes	16	10	64	FALSE											
+	H5	Fibers (Phenol Formaldehydes)	Metal Die (Fibers)	Vial (Phenolic Resin)	Phenol Formaldehydes	16	10	64	FALSE											
 1.0.0	H6	Fibers (PHBV)	Metal Die (Fibers)	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	16	10	64	FALSE											
 	H7	Fibers (P1B)	Metal Die (Fibers)	Bag (Poly1-Butene Pellets)	P1B	16	10	64	FALSE											
 	H8	Fibers (PDPE)	Metal Die (Fibers)	"Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	16	10	64	FALSE											
 	H9	Fibers (PHB)	Metal Die (Fibers)	Bag (Poly-2-Hydroxy Butyrate Pellets)	PHB	16	10	64	FALSE											
 	Ha	Fibers (PHEMA)	Metal Die (Fibers)	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	16	10	64	FALSE											
-	Hb	Fibers (PAE)	Metal Die (Fibers)	Bag (PolyAcrylic Ester Pellets)	PAE	16	10	64	FALSE											
+1.1.2	Hb	Fibers (PAA)	Metal Die (Fibers)	Bag (PolyAcrylic Acid Pellets)	PAA	16	10	64	FALSE											
 1.0.0	Hc	Fibers (PAN)	Metal Die (Fibers)	Bag (PolyAcrylonitrile Pellets)	PAN	16	10	64	FALSE											
 1.0.0	Hd	Fibers (PBR (low grade))	Metal Die (Fibers)	Bag (PolyButadiene (low-cis) Pellets)	PBR (low grade)	16	10	64	FALSE											
 1.1.0	He	Fibers (PBR (high grade))	Metal Die (Fibers)	Bag (PolyButadiene (high-cis) Pellets)	PBR (high grade)	16	10	64	FALSE											
@@ -148,8 +148,8 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Bag (Polycaprolactam Pellets)	Nylon 6	16	10	64	FALSE											
 1.1.0	12M	Battery Case (SAN)	Mold (Battery Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
 1.1.0	19M	Tool Shaft (PEEK)	Mold (Tool Shaft)	Bag (PolyEther Ether Ketone Pellets)	PEEK	2	10	64	TRUE											
-1.1.0	19N	Tool Shaft (Carbon Fiber)	Mold (Tool Shaft)	Bag (Carbon Fiber Pellets)	Carbon Fiber	2	10	64	TRUE											
-																				
+1.1.0	19N	Tool Shaft (Carbon Fiber)	Mold (Tool Shaft)	Bag (Carbon Fiber)	Carbon Fiber	2	10	64	TRUE											
+1.1.1	19l	Lighter Body (LDPE)	Mold (Lighter Body)	Bag (Low Density PolyEthylene Pellets)	LDPE	2	5	64	FALSE											
 																				
 																				
 																				

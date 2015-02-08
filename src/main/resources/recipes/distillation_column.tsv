@@ -1,7 +1,7 @@
 Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#											
 1.0.0	2	1	10	4	Water Bucket	1	Beaker (Salt Water)	1	Bucket	1																									
 1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	1	Bucket	1																									
-1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1																									
+1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1	Bag (Anthracene)	4																							
 1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1																									
 1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	1	Gravel	3																									
 1.0.0	2	1	10	4	Block of Bitumen	4	Beaker (Crude Oil)	11	Gravel	32																									
@@ -10,10 +10,10 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Beaker (Crude Oil)	1	Vial (Naphthalene)	48	Vial (Benzene-Toluene-Xylene)	8	Vial (Gas Oil)	8																							
 1.0.0	2	1	10	4	Beaker (Crude Oil)	8	Beaker (Naphthalene)	5	Beaker (Benzene-Toluene-Xylene)	1	Beaker (Gas Oil)	1	Bitumen	1																					
 1.0.0	2	1	10	4	Beaker (Crude Oil)	16	Beaker (Naphthalene)	8	Beaker (Benzene-Toluene-Xylene)	3	Beaker (Gas Oil)	3	Bitumen	2																					
-1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	30	Beaker (Benzene-Toluene-Xylene)	15	Beaker (Gas Oil)	15	Bitumen	4																					
-1.0.0	3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	16																					
-1.0.0	3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64																					
-1.0.0	4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64																					
+1.0.0	3	1	10	4	Drum (Crude Oil)	1	Beaker (Naphthalene)	30	Beaker (Benzene-Toluene-Xylene)	15	Beaker (Gas Oil)	15	Bitumen	4	Vanadium Pentoxide Catalyst	1																			
+1.0.0	3	1	10	4	Drum (Crude Oil)	4	Drum (Naphthalene)	1	Drum (Benzene-Toluene-Xylene)	1	Drum (Gas Oil)	1	Block of Bitumen	16	Vanadium Pentoxide Catalyst	4																			
+1.0.0	3	1	10	4	Drum (Crude Oil)	16	Drum (Naphthalene)	5	Drum (Benzene-Toluene-Xylene)	5	Drum (Gas Oil)	5	Block of Bitumen	64	Vanadium Pentoxide Catalyst	16																			
+1.0.0	4	1	10	4	Drum (Crude Oil)	64	Drum (Naphthalene)	21	Drum (Benzene-Toluene-Xylene)	21	Drum (Gas Oil)	21	Block of Bitumen	64	Vanadium Pentoxide Catalyst	64																			
 1.0.0	1	1	10	4	Vial (NeoPentane)	1	Flask (Methane)	2																											
 1.0.0	1	1	10	4	Vial (NeoPentane)	4	Flask (Methane)	8																											
 1.0.0	1	1	10	4	Vial (NeoPentane)	16	Flask (Methane)	32																											

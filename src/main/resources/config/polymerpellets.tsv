@@ -1,15 +1,15 @@
 Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Powder Keg (Pellets)	Chemical Silo (Pellets)	Pellets	Crafting Min Index	Crafting Max Index	Short Name	Thermoplastic
-	zh	B7	CX	EN	Flask (Acrylic-Formaldehyde Resin)	Cartridge (Acrylic-Formaldehyde Resin)	Canister (Acrylic-Formaldehyde Resin)	Chemical Tank (Acrylic-Formaldehyde Resin)	Acrylic-Formaldehyde Resin	1	10	AF Resin	FALSE
+	zh	B7	CX	EN	Vial (Acrylic-Formaldehyde Resin)	Beaker (Acrylic-Formaldehyde Resin)	Drum (Acrylic-Formaldehyde Resin)	Chemical Vat (Acrylic-Formaldehyde Resin)	Acrylic-Formaldehyde Resin	1	10	AF Resin	FALSE
 1.0.0	zi	B8	CY	EO	Bag (Acrylonitrile-Butadiene-Styrene Pellets)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	Powder Keg (Acrylonitrile-Butadiene-Styrene Pellets)	Chemical Silo (Acrylonitrile-Butadiene-Styrene Pellets)	Acrylonitrile-Butadiene-Styrene	1	10	ABS	TRUE
-	zj	B9	CZ	EP	Flask (Alkyd Resin)	Cartridge (Alkyd Resin)	Canister (Alkyd Resin)	Chemical Tank (Alkyd Resin)	Alkyd Resin	1	10	Alkyd Resin	FALSE
+	zj	B9	CZ	EP	Vial (Alkyd Resin)	Beaker (Alkyd Resin)	Drum (Alkyd Resin)	Chemical Vat (Alkyd Resin)	Alkyd Resin	1	10	Alkyd Resin	FALSE
 1.0.0	zk	Ba	D0	EQ	Bag (Amorphous PolyEthylene Terephthalate Pellets)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	Chemical Silo (Amorphous PolyEthylene Terephthalate Pellets)	Amorphous PolyEthylene Terephthalate	1	10	A-PET	TRUE
 1.1.0	zl	Bb	D1	ER	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Bromine Isobutylene-Isoprene Rubber Pellets)	Bromine Isobutylene-Isoprene Rubber	1	10	BIIR	TRUE
-1.1.0	zm	Bc	D2	ES	Bag (Carbon Fiber Pellets)	Sack (Carbon Fiber Pellets)	Powder Keg (Carbon Fiber Pellets)	Chemical Silo (Carbon Fiber Pellets)	Carbon Fiber	1	10	Carbon Fiber	TRUE
+1.1.0	zm	Bc	D2	ES	Bag (Carbon Fiber)	Sack (Carbon Fiber)	Powder Keg (Carbon Fiber)	Chemical Silo (Carbon Fiber)	Carbon Fiber	1	10	Carbon Fiber	FALSE
 	zn	Bd	D3	ET	Bag (Cellulose Triacetate Pellets)	Sack (Cellulose Triacetate Pellets)	Powder Keg (Cellulose Triacetate Pellets)	Chemical Silo (Cellulose Triacetate Pellets)	Cellulose Triacetate	1	10	CTAP	TRUE
 1.0.0	zo	Be	D4	EU	Bag (Cellulosic Pellets)	Sack (Cellulosic Pellets)	Powder Keg (Cellulosic Pellets)	Chemical Silo (Cellulosic Pellets)	Cellulosic	1	10	Cellulose	TRUE
 1.1.0	zp	Bf	D5	EV	Bag (Chitin Pellets)	Sack (Chitin Pellets)	Powder Keg (Chitin Pellets)	Chemical Silo (Chitin Pellets)	Chitin	1	10	Chitin	TRUE
 1.1.0	zq	Bg	D6	EW	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chemical Silo (Chlorine Isobutylene-Isoprene Rubber Pellets)	Chlorine Isobutylene-Isoprene Rubber	1	10	CIIR	TRUE
-	zr	Bh	D7	EX	Flask (Epoxy Resin)	Cartridge (Epoxy Resin)	Canister (Epoxy Resin)	Chemical Tank (Epoxy Resin)	Epoxy Resin	1	10	Epoxy Resin	FALSE
+1.1.2	zr	Bh	D7	EX	Vial (Epoxy Resin)	Beaker (Epoxy Resin)	Drum (Epoxy Resin)	Chemical Vat (Epoxy Resin)	Epoxy Resin	1	10	Epoxy Resin	FALSE
 	zs	Bi	D8	EY	Bag (Ethoxylates Pellets)	Sack (Ethoxylates Pellets)	Powder Keg (Ethoxylates Pellets)	Chemical Silo (Ethoxylates Pellets)	Ethoxylates	1	10	NRE	TRUE
 1.1.0	zt	Bj	D9	EZ	Bag (Ethylene-Propylene Monomer Pellets)	Sack (Ethylene-Propylene Monomer Pellets)	Powder Keg (Ethylene-Propylene Monomer Pellets)	Chemical Silo (Ethylene-Propylene Monomer Pellets)	Ethylene-Propylene Monomer	1	10	EPM	TRUE
 1.1.0	zu	Bk	Da	F0	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	Chemical Silo (Ethylene-Propylene-Diene Monomer Pellets)	Ethylene-Propylene-Diene Monomer	1	10	EPDM	TRUE
@@ -17,23 +17,23 @@ Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Po
 1.0.0	zw	Bm	Dc	F2	Bag (High Density PolyEthylene Pellets)	Sack (High Density PolyEthylene Pellets)	Powder Keg (High Density PolyEthylene Pellets)	Chemical Silo (High Density PolyEthylene Pellets)	High Density PolyEthylene	1	10	HDPE	TRUE
 1.1.0	zx	Bn	Dd	F3	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Hydrogenated Nitrile-Butadiene Rubber	1	10	HNBR	TRUE
 1.1.0	zy	Bo	De	F4	Bag (Isobutylene Rubber Pellets)	Sack (Isobutylene Rubber Pellets)	Powder Keg (Isobutylene Rubber Pellets)	Chemical Silo (Isobutylene Rubber Pellets)	Isobutylene Rubber	1	10	Butyl Rubber	TRUE
-	zz	Bp	Df	F5	Flask (Lignin)	Cartridge (Lignin)	Canister (Lignin)	Chemical Tank (Lignin)	Lignin	1	10	Lignin	FALSE
+	zz	Bp	Df	F5	Vial (Lignin)	Beaker (Lignin)	Drum (Lignin)	Chemical Vat (Lignin)	Lignin	1	10	Lignin	FALSE
 1.0.0	zA	Bq	Dg	F6	Bag (Linear Low-Density PolyEthylene Pellets)	Sack (Linear Low-Density PolyEthylene Pellets)	Powder Keg (Linear Low-Density PolyEthylene Pellets)	Chemical Silo (Linear Low-Density PolyEthylene Pellets)	Linear Low-Density PolyEthylene	1	10	LLDPE	TRUE
 1.0.0	zB	Br	Dh	F7	Bag (Liquid Crystal Polymer Pellets)	Sack (Liquid Crystal Polymer Pellets)	Powder Keg (Liquid Crystal Polymer Pellets)	Chemical Silo (Liquid Crystal Polymer Pellets)	Liquid Crystal Polymer	1	10	LCP	TRUE
 1.0.0	zC	Bs	Di	F8	Bag (Low Density PolyEthylene Pellets)	Sack (Low Density PolyEthylene Pellets)	Powder Keg (Low Density PolyEthylene Pellets)	Chemical Silo (Low Density PolyEthylene Pellets)	Low Density PolyEthylene	1	10	LDPE	TRUE
 1.0.0	zD	Bt	Dj	F9	Bag (Medium Density PolyEthylene Pellets)	Sack (Medium Density PolyEthylene Pellets)	Powder Keg (Medium Density PolyEthylene Pellets)	Chemical Silo (Medium Density PolyEthylene Pellets)	Medium Density PolyEthylene	1	10	MDPE	TRUE
-	zE	Bu	Dk	Fa	Flask (Melamine-Formaldehyde Polymers)	Cartridge (Melamine-Formaldehyde Polymers)	Canister (Melamine-Formaldehyde Polymers)	Chemical Tank (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	1	10	MFP	FALSE
+	zE	Bu	Dk	Fa	Vial (Melamine-Formaldehyde Polymers)	Beaker (Melamine-Formaldehyde Polymers)	Drum (Melamine-Formaldehyde Polymers)	Chemical Vat (Melamine-Formaldehyde Polymers)	Melamine-Formaldehyde Polymers	1	10	MFP	FALSE
 1.0.0	zF	Bv	Dl	Fb	Bag (Metaldehyde Pellets)	Sack (Metaldehyde Pellets)	Powder Keg (Metaldehyde Pellets)	Chemical Silo (Metaldehyde Pellets)	Metaldehyde	1	10	MALD	TRUE
 1.1.0	zG	Bw	Dm	Fc	Bag (Nitrile-Butadiene Rubber Pellets)	Sack (Nitrile-Butadiene Rubber Pellets)	Powder Keg (Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber	1	10	NBR	TRUE
 1.0.0	zH	Bx	Dn	Fd	Bag (Paraformaldehyde Pellets)	Sack (Paraformaldehyde Pellets)	Powder Keg (Paraformaldehyde Pellets)	Chemical Silo (Paraformaldehyde Pellets)	Paraformaldehyde	1	10	PFA	TRUE
 1.0.0	zI	By	Do	Fe	Bag (Paraldehyde Pellets)	Sack (Paraldehyde Pellets)	Powder Keg (Paraldehyde Pellets)	Chemical Silo (Paraldehyde Pellets)	Paraldehyde	1	10	PALD	TRUE
-	zJ	Bz	Dp	Ff	Flask (Phenolic Resin)	Cartridge (Phenolic Resin)	Canister (Phenolic Resin)	Chemical Tank (Phenolic Resin)	Phenolic Resin	1	10	Phenol Formaldehydes	FALSE
+	zJ	Bz	Dp	Ff	Vial (Phenolic Resin)	Beaker (Phenolic Resin)	Drum (Phenolic Resin)	Chemical Vat (Phenolic Resin)	Phenolic Resin	1	10	Phenol Formaldehydes	FALSE
 1.0.0	zK	BA	Dq	Fg	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Powder Keg (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Chemical Silo (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	1	10	PHBV	TRUE
 	zL	BB	Dr	Fh	Bag (Poly1-Butene Pellets)	Sack (Poly1-Butene Pellets)	Powder Keg (Poly1-Butene Pellets)	Chemical Silo (Poly1-Butene Pellets)	Poly1-Butene	1	10	P1B	TRUE
 	zM	BC	Ds	Fi	"Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Powder Keg (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Chemical Silo (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Poly2,6-Dimethyl-1,4-Phenylene Ether"	1	10	PDPE	TRUE
 	zN	BD	Dt	Fj	Bag (Poly-2-Hydroxy Butyrate Pellets)	Sack (Poly-2-Hydroxy Butyrate Pellets)	Powder Keg (Poly-2-Hydroxy Butyrate Pellets)	Chemical Silo (Poly-2-Hydroxy Butyrate Pellets)	Poly-2-Hydroxy Butyrate	1	10	PHB	TRUE
 	zO	BE	Du	Fk	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	Powder Keg (Poly2-Hydroxyethyl Methacrylate Pellets)	Chemical Silo (Poly2-Hydroxyethyl Methacrylate Pellets)	Poly2-Hydroxyethyl Methacrylate	1	10	PHEMA	TRUE
-	zP	BF	Dv	Fl	Bag (PolyAcrylic Ester Pellets)	Sack (PolyAcrylic Ester Pellets)	Powder Keg (PolyAcrylic Ester Pellets)	Chemical Silo (PolyAcrylic Ester Pellets)	PolyAcrylic Ester	1	10	PAE	TRUE
+1.1.2	zP	BF	Dv	Fl	Bag (PolyAcrylic Acid Pellets)	Sack (PolyAcrylic Acid Pellets)	Powder Keg (PolyAcrylic Acid Pellets)	Chemical Silo (PolyAcrylic Acid Pellets)	PolyAcrylic Acid	1	10	PAA	TRUE
 1.0.0	zQ	BG	Dw	Fm	Bag (PolyAcrylonitrile Pellets)	Sack (PolyAcrylonitrile Pellets)	Powder Keg (PolyAcrylonitrile Pellets)	Chemical Silo (PolyAcrylonitrile Pellets)	PolyAcrylonitrile	1	10	PAN	TRUE
 1.0.0	zR	BH	Dx	Fn	Bag (PolyButadiene (low-cis) Pellets)	Sack (PolyButadiene (low-cis) Pellets)	Powder Keg (PolyButadiene (low-cis) Pellets)	Chemical Silo (PolyButadiene (low-cis) Pellets)	PolyButadiene (low-cis)	1	10	PBR (low grade)	TRUE
 1.1.0	zS	BI	Dy	Fo	Bag (PolyButadiene (high-cis) Pellets)	Sack (PolyButadiene (high-cis) Pellets)	Powder Keg (PolyButadiene (high-cis) Pellets)	Chemical Silo (PolyButadiene (high-cis) Pellets)	PolyButadiene (high-cis)	1	10	PBR (high grade)	TRUE
@@ -113,10 +113,10 @@ Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Po
 1.0.0	B5	CV	EL	GB	Bag (Very-Low-Density PolyEthylene Pellets)	Sack (Very-Low-Density PolyEthylene Pellets)	Powder Keg (Very-Low-Density PolyEthylene Pellets)	Chemical Silo (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene	1	10	VLDPE	TRUE
 1.0.0	B6	CW	EM	GC	Bag (Vinyl Acetate-Acrylic Acid Pellets)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Powder Keg (Vinyl Acetate-Acrylic Acid Pellets)	Chemical Silo (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid	1	10	VA/AA	TRUE
 1.1.0	2x	2y	2z	2A	Bag (Polycaprolactam Pellets)	Sack (Polycaprolactam Pellets)	Powder Keg (Polycaprolactam Pellets)	Chemical Silo (Polycaprolactam Pellets)	Polycaprolactam	1	10	Nylon 6	TRUE
-													
-													
-													
-													
+					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
+					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
+					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
+					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
 													
 													
 													

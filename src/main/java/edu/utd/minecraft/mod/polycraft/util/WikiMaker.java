@@ -35,10 +35,11 @@ import com.google.common.collect.Sets;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
+import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
-import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
@@ -50,6 +51,7 @@ import edu.utd.minecraft.mod.polycraft.config.Mineral;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
+import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
@@ -64,6 +66,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
@@ -131,10 +134,10 @@ public class WikiMaker {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username,
 					password, overwritePages, debugOutputDirectory);
 			// wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			// wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
-			// wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE,
-			// CRAFTING_TABLE_BLACKLIST, false);
+			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE,
+			//		CRAFTING_TABLE_BLACKLIST, false);
 			// wikiMaker.createRecipePage(PolycraftContainerType.FURNACE,
 			// NO_BLACKLIST, false);
 			// wikiMaker.createRecipePage(PolycraftContainerType.MACHINING_MILL,
@@ -152,36 +155,37 @@ public class WikiMaker {
 			// wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR,
 			// NO_BLACKLIST, false);
 
-			// wikiMaker.createFuelPage();
-			// wikiMaker.createItemTypesPage(ImmutableList.of(
-			// CompressedBlock.class,
-			// Ore.class, Ingot.class, Catalyst.class, ElementVessel.class,
-			// CompoundVessel.class,
-			// PolymerPellets.class, PolymerFibers.class, PolymerBlock.class,
-			// PolymerSlab.class, PolymerStairs.class, PolymerBrick.class,
-			// PolymerWall.class,
-			// Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class,
-			// Inventory.class, CustomObject.class));
+			//			wikiMaker.createFuelPage();
+			//			wikiMaker.createItemTypesPage(ImmutableList.of(
+			//					CompressedBlock.class,
+			//					Ore.class, Ingot.class, Catalyst.class, ElementVessel.class,
+			//					CompoundVessel.class,
+			//					PolymerPellets.class, PolymerBlock.class,
+			//					PolymerSlab.class, PolymerStairs.class, PolymerBrick.class,
+			//					PolymerWall.class,
+			//					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class,
+			//					Inventory.class, CustomObject.class));
 			//
-			// wikiMaker.createItemPages(CompressedBlock.registry);
-			// wikiMaker.createItemPages(Inventory.registry);
-			// wikiMaker.createItemPages(Ore.registry);
-			// wikiMaker.createItemPages(Ingot.registry);
-			// wikiMaker.createItemPages(Catalyst.registry);
-			// wikiMaker.createItemPages(ElementVessel.registry);
-			wikiMaker.createItemPages(CompoundVessel.registry);
-			// wikiMaker.createItemPages(PolymerPellets.registry);
-			// wikiMaker.createItemPages(PolymerFibers.registry);
-			// wikiMaker.createItemPages(PolymerBlock.registry);
-			// wikiMaker.createItemPages(PolymerSlab.registry);
-			// wikiMaker.createItemPages(PolymerStairs.registry);
-			// wikiMaker.createItemPages(PolymerBrick.registry);
-			// wikiMaker.createItemPages(PolymerWall.registry);
-			// wikiMaker.createItemPages(Mold.registry);
-			// wikiMaker.createItemPages(MoldedItem.registry);
-			// wikiMaker.createItemPages(GrippedTool.registry);
-			// wikiMaker.createItemPages(PogoStick.registry);
-			// wikiMaker.createItemPages(CustomObject.registry);
+			//			wikiMaker.createItemPages(CompressedBlock.registry);
+			//			wikiMaker.createItemPages(Inventory.registry);
+			//			wikiMaker.createItemPages(Ore.registry);
+			//			wikiMaker.createItemPages(Ingot.registry);
+			//			wikiMaker.createItemPages(Catalyst.registry);
+			//			wikiMaker.createItemPages(ElementVessel.registry);
+			//			wikiMaker.createItemPages(CompoundVessel.registry);
+			//			wikiMaker.createItemPages(PolymerPellets.registry);
+			//			wikiMaker.createItemPages(PolymerBlock.registry);
+			//			wikiMaker.createItemPages(PolymerSlab.registry);
+			//			wikiMaker.createItemPages(PolymerStairs.registry);
+			//			wikiMaker.createItemPages(PolymerBrick.registry);
+			//			wikiMaker.createItemPages(PolymerWall.registry);
+			//			wikiMaker.createItemPages(Mold.registry);
+			//			wikiMaker.createItemPages(MoldedItem.registry);
+			//			wikiMaker.createItemPages(GrippedTool.registry);
+			//			wikiMaker.createItemPages(PogoStick.registry);
+			wikiMaker.createItemPages(CustomObject.registry);
+			//wikiMaker.createArmor(Armor.registry);
+			//wikiMaker.createTools(Tool.registry);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
@@ -635,12 +639,18 @@ public class WikiMaker {
 
 	/**
 	 * Uploads the images in the given paths to the wikipedia site. Will overwrite any existing images.
+	 * 
+	 * @throws InterruptedException
 	 */
 	private void createImages(final String[] paths) throws IOException,
-			LoginException {
+			LoginException, InterruptedException {
 		for (final String path : paths)
 			for (final File imageFile : new File(path).listFiles())
+			{
 				uploadImage(imageFile);
+				Thread.sleep(5000);
+			}
+
 	}
 
 	private void uploadImage(final File imageFile) throws LoginException,
@@ -661,13 +671,16 @@ public class WikiMaker {
 		for (final Entry<Item, QuantifiedFuel> fuelEntry : Fuel.quantifiedFuelsByItem
 				.entrySet()) {
 			final Collection<String> row = Lists.newLinkedList();
-			final ItemStack fuelStack = new ItemStack(fuelEntry.getKey());
-			row.add(getLink(getItemStackLocation(fuelStack),
-					getItemStackName(fuelStack)));
-			row.add(PolycraftMod.numFormat.format(fuelEntry.getValue().fuel.heatIntensity));
-			row.add(PolycraftMod.numFormat.format(fuelEntry.getValue()
-					.getHeatDuration()));
-			data.add(row);
+			if (fuelEntry.getKey() != null)
+			{
+				final ItemStack fuelStack = new ItemStack(fuelEntry.getKey());
+				row.add(getLink(getItemStackLocation(fuelStack),
+						getItemStackName(fuelStack)));
+				row.add(PolycraftMod.numFormat.format(fuelEntry.getValue().fuel.heatIntensity));
+				row.add(PolycraftMod.numFormat.format(fuelEntry.getValue()
+						.getHeatDuration()));
+				data.add(row);
+			}
 		}
 		edit(getListOfTypeTitle(Fuel.class), getTable(FUEL_HEADERS, data),
 				editSummary);
@@ -820,34 +833,28 @@ public class WikiMaker {
 		for (final C config : registry.values())
 			if (gameIdentifiedConfigHasItem(config)) {
 
-				if (config.name.contains("Beaker (Butylene isomers)"))
+				if (config.name.contains("Regulator"))
 					createItemPage(config);
-				else if (config.name.contains("Flask (Ethane)"))
-					createItemPage(config);
-				else if (config.name.contains("Cartridge (Ethane)"))
-					createItemPage(config);
-				else if (config.name.contains("Canister (Ethane)"))
-					createItemPage(config);
-				else if (config.name.contains("Flask (Ethylene)"))
-					createItemPage(config);
-				else if (config.name.contains("Cartridge (Ethylene)"))
-					createItemPage(config);
-				else if (config.name.contains("Canister (Ethylene)"))
-					createItemPage(config);
-				else if (config.name.contains("Vial (Light Olefins)"))
-					createItemPage(config);
-				else if (config.name.contains("Flask (Methane)"))
-					createItemPage(config);
-				else if (config.name.contains("Flask (Propane)"))
-					createItemPage(config);
-				else if (config.name.contains("Vial (Acrylonitrile)"))
-					createItemPage(config);
-				else if (config.name.contains("Bag (PolyPropylene Pellets)"))
-					createItemPage(config);
-
-				else
-					continue; // createItemPage(config);
+				//createItemPage(config);
 			}
+	}
+
+	private <C extends Config> void createArmor(
+			final ConfigRegistry<C> registry) throws LoginException,
+			IOException {
+		//createArmorList(registry);
+		for (final C config : registry.values())
+			createArmorPage(config);
+
+	}
+
+	private <C extends Config> void createTools(
+			final ConfigRegistry<C> registry) throws LoginException,
+			IOException {
+		createToolsList(registry);
+		for (final C config : registry.values())
+			createToolsPage(config);
+
 	}
 
 	private final Collection<String> PROPERTIES_HEADERS = ImmutableList.of(
@@ -856,47 +863,58 @@ public class WikiMaker {
 	private <C extends GameIdentifiedConfig> void createItemPage(final C config)
 			throws LoginException, IOException {
 		final String title = config.name;
-		if (overwritePages || !wiki.exists(new String[] { title })[0]) {
+		final Config source;
+
+		if (config instanceof SourcedConfig)
+		{
+			source = ((SourcedConfig) config).source;
+		}
+		else
+			source = null;
+
+		if (overwritePages || !wiki.exists(new String[] { title })[0])
+		{
 			logger.info("{} item page: {}", overwritePages ? "Overwriting"
 					: "Creating", title);
 			final StringBuilder page = new StringBuilder();
-			for (final PageSectionItem section : PageSectionItem.values()) {
-				if (section == PageSectionItem.External) {
-					if (config instanceof SourcedConfig) {
-						final Config source = ((SourcedConfig) config).source;
-						if (source != null) {
-							final String location = getConfigLocation(source);
-							if (isExternalLocation(location)) {
-								page.append(getHeading(2, section.heading));
-								page.append(
-										getLink(location, source.name + " on "
-												+ getUrlHost(location)))
-										.append(WIKI_NEWLINE);
-							}
+			for (final PageSectionItem section : PageSectionItem.values())
+			{
+				//Looks up the source on wikipedia if it can...
+				if (section == PageSectionItem.External)
+				{
+					if (source != null)
+					{
+						final String location = getConfigLocation(source);
+						if (isExternalLocation(location))
+						{
+							page.append(getHeading(2, section.heading));
+							page.append(
+									getLink(location, source.name + " on "
+											+ getUrlHost(location)))
+									.append(WIKI_NEWLINE);
 						}
 					}
-				} else if (section == PageSectionItem.Properties) {
+
+				} else if (section == PageSectionItem.Properties)
+				{
 					final Collection<Collection<String>> propertiesData = Lists
 							.newLinkedList();
 					page.append(getHeading(2, section.heading));
 
-					if (config.hasProperties() || config.params != null) {
+					if (config.hasProperties() || config.params != null)
+					{
 
-						if (config.hasProperties()) {
-							final List<String> propertyNames = config
-									.getPropertyNames();
-							final List<String> propertyValues = config
-									.getPropertyValues();
+						if (config.hasProperties())
+						{
+							final List<String> propertyNames = config.getPropertyNames();
+							final List<String> propertyValues = config.getPropertyValues();
 							for (int i = 0; i < propertyValues.size(); i++)
-								propertiesData.add(ImmutableList.of(
-										propertyNames.get(i),
-										propertyValues.get(i)));
+								propertiesData.add(ImmutableList.of(propertyNames.get(i), propertyValues.get(i)));
 						}
-						if (config.params != null) {
+						if (config.params != null)
+						{
 							for (int i = 0; i < config.params.values.size(); i++)
-								propertiesData.add(ImmutableList.of(
-										config.params.names[i],
-										config.params.getPretty(i)));
+								propertiesData.add(ImmutableList.of(config.params.names[i], config.params.getPretty(i)));
 						}
 					}
 					propertiesData.add(ImmutableList.of("Release Version",
@@ -1013,6 +1031,352 @@ public class WikiMaker {
 					getTable(headers, data));
 			page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
 			edit(getListOfTypeTitle(type), page.toString(), editSummary);
+		}
+	}
+
+	private <C extends Config> void createArmorList(
+			final ConfigRegistry<C> registry) throws LoginException,
+			IOException {
+		final Collection<String> categories = Sets.newLinkedHashSet();
+		for (final C config : registry.values())
+		{
+			categories.addAll(getCategories(config));
+		}
+
+		final Collection<String> headers = Lists.newLinkedList();
+		headers.add("Release Version");
+		headers.add("Headgear ID");
+		headers.add("Chest ID");
+		headers.add("Leggings ID");
+		headers.add("Feet ID");
+		headers.add("Crafting Item");
+		headers.add("Armor Adjective");
+		headers.add("Headgear");
+		headers.add("Chest");
+		headers.add("Leggings");
+		headers.add("Feet");
+		headers.add("Durability");
+		headers.add("Enchantability");
+		headers.add("Recuction Headgear");
+		headers.add("Recuction Chest");
+		headers.add("Recuction Leggings");
+		headers.add("Recuction Feet");
+		headers.add("Aqua Affinity");
+
+		final Collection<Collection<String>> data = Lists.newLinkedList();
+		for (final C config : registry.values())
+		{
+			final Collection<String> row = Lists.newLinkedList();
+			row.add(PolycraftMod.getVersionText(config.version));
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.HEAD.getValue()]);
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.CHEST.getValue()]);
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.LEGS.getValue()]);
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.FEET.getValue()]);
+			row.add(((Armor) config).craftingItemName);
+			row.add(((Armor) config).name);
+			row.add(((Armor) config).componentNames[ArmorSlot.HEAD.getValue()]);
+			row.add(((Armor) config).componentNames[ArmorSlot.CHEST.getValue()]);
+			row.add(((Armor) config).componentNames[ArmorSlot.LEGS.getValue()]);
+			row.add(((Armor) config).componentNames[ArmorSlot.FEET.getValue()]);
+			row.add(Integer.toString(((Armor) config).durability));
+			row.add(Integer.toString(((Armor) config).enchantability));
+			row.add(Integer.toString(((Armor) config).reductionAmounts[ArmorSlot.HEAD.getValue()]));
+			row.add(Integer.toString(((Armor) config).reductionAmounts[ArmorSlot.FEET.getValue()]));
+			row.add(Integer.toString(((Armor) config).reductionAmounts[ArmorSlot.CHEST.getValue()]));
+			row.add(Integer.toString(((Armor) config).reductionAmounts[ArmorSlot.LEGS.getValue()]));
+			row.add(Integer.toString(((Armor) config).aquaAffinityLevel));
+			data.add(row);
+
+		}
+		final StringBuilder page = new StringBuilder(
+				getTable(headers, data));
+		page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
+		edit(getListOfTypeTitle(Armor.class), page.toString(), editSummary);
+
+	}
+
+	private <C extends Config> void createArmorPage(final C config)
+			throws LoginException, IOException {
+		final String title = PolycraftMod.getFileSafeName(config.name);
+		final String headgear = PolycraftMod.getFileSafeName(((Armor) config).componentNames[ArmorSlot.HEAD.getValue()]);
+		final String footwear = PolycraftMod.getFileSafeName(((Armor) config).componentNames[ArmorSlot.FEET.getValue()]);
+		final String vest = PolycraftMod.getFileSafeName(((Armor) config).componentNames[ArmorSlot.CHEST.getValue()]);
+		final String pants = PolycraftMod.getFileSafeName(((Armor) config).componentNames[ArmorSlot.LEGS.getValue()]);
+
+		if (overwritePages || !wiki.exists(new String[] { title + " Armor" })[0])
+		{
+			logger.info("{} item page: {}", overwritePages ? "Overwriting"
+					: "Creating", title + " Armor");
+			final StringBuilder page = new StringBuilder();
+			for (final PageSectionItem section : PageSectionItem.values())
+			{
+				//Looks up the source on wikipedia if it can...
+				if (section == PageSectionItem.External)
+				{
+					boolean heading = false;
+					final String nameLocation = WIKIPEDIA_SEARCH + config.name;
+					if (isExternalLocation(nameLocation))
+					{
+
+						if (!heading)
+							page.append(getHeading(2, section.heading));
+						page.append(getLink(nameLocation, config.name + " on " + getUrlHost(nameLocation)) + WIKI_NEWLINE).append(WIKI_NEWLINE);
+						heading = true;
+					}
+
+					final String headLocation = WIKIPEDIA_SEARCH + headgear;
+					if (isExternalLocation(headLocation))
+					{
+						if (!heading)
+							page.append(getHeading(2, section.heading));
+						page.append(getLink(headLocation, headgear + " on " + getUrlHost(headLocation)) + WIKI_NEWLINE).append(WIKI_NEWLINE);
+						heading = true;
+					}
+					final String chestLocation = WIKIPEDIA_SEARCH + vest;
+					if (isExternalLocation(chestLocation))
+					{
+						if (!heading)
+							page.append(getHeading(2, section.heading));
+						page.append(getLink(chestLocation, vest + " on " + getUrlHost(chestLocation)) + WIKI_NEWLINE).append(WIKI_NEWLINE);
+						heading = true;
+					}
+					final String legLocation = WIKIPEDIA_SEARCH + pants;
+					if (isExternalLocation(legLocation))
+					{
+						if (!heading)
+							page.append(getHeading(2, section.heading));
+						page.append(getLink(legLocation, pants + " on " + getUrlHost(legLocation)) + WIKI_NEWLINE).append(WIKI_NEWLINE);
+						heading = true;
+					}
+					final String footLocation = WIKIPEDIA_SEARCH + footwear;
+					if (isExternalLocation(headLocation))
+					{
+						if (!heading)
+							page.append(getHeading(2, section.heading));
+						page.append(getLink(footLocation, footwear + " on " + getUrlHost(footLocation)) + WIKI_NEWLINE).append(WIKI_NEWLINE);
+						heading = true;
+					}
+
+				} else if (section == PageSectionItem.Properties)
+				{
+					final Collection<Collection<String>> propertiesData = Lists
+							.newLinkedList();
+					page.append(getHeading(2, section.heading));
+
+					if (config.hasProperties() || config.params != null)
+					{
+
+						if (config.hasProperties())
+						{
+							final List<String> propertyNames = config.getPropertyNames();
+							final List<String> propertyValues = config.getPropertyValues();
+							for (int i = 0; i < propertyValues.size(); i++)
+								propertiesData.add(ImmutableList.of(propertyNames.get(i), propertyValues.get(i)));
+						}
+						if (config.params != null)
+						{
+							for (int i = 0; i < config.params.values.size(); i++)
+								propertiesData.add(ImmutableList.of(config.params.names[i], config.params.getPretty(i)));
+						}
+					}
+					propertiesData.add(ImmutableList.of("Release Version",
+							PolycraftMod.getVersionText(config.version)));
+					page.append(getTable(PROPERTIES_HEADERS, propertiesData))
+							.append(WIKI_NEWLINE);
+				}
+				else
+				{
+					page.append(getHeading(2, section.heading));
+					if (section == PageSectionItem.Gallery)
+					{
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getFileSafeName(
+								((Armor) config).getFullComponentName(ArmorSlot.HEAD))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getFileSafeName(
+								((Armor) config).getFullComponentName(ArmorSlot.CHEST))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getFileSafeName(
+								((Armor) config).getFullComponentName(ArmorSlot.LEGS))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getFileSafeName(
+								((Armor) config).getFullComponentName(ArmorSlot.FEET))))).append(WIKI_NEWLINE);
+					}
+
+					else if (section == PageSectionItem.Recipes)
+					{
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Armor) config).getFullComponentName(ArmorSlot.HEAD))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Armor) config).getFullComponentName(ArmorSlot.CHEST))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Armor) config).getFullComponentName(ArmorSlot.LEGS))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Armor) config).getFullComponentName(ArmorSlot.FEET))),
+										null)).append(WIKI_NEWLINE);
+					}
+
+				}
+			}
+			//			page.append(WIKI_NEWLINE).append(
+			//					getCategoriesAsString(getAllCategories(config)));
+			edit(title + " Armor", page.toString(), editSummary);
+		}
+	}
+
+	private <C extends Config> void createToolsList(
+			final ConfigRegistry<C> registry) throws LoginException,
+			IOException {
+		final Collection<String> categories = Sets.newLinkedHashSet();
+		for (final C config : registry.values())
+		{
+			categories.addAll(getCategories(config));
+		}
+
+		final Collection<String> headers = Lists.newLinkedList();
+		headers.add("Release Version");
+		headers.add("Hoe ID");
+		headers.add("Sword ID");
+		headers.add("Spade ID");
+		headers.add("Pickaxe ID");
+		headers.add("Axe ID");
+		headers.add("Crafting Item Shaft");
+		headers.add("Crafting Item Head");
+		headers.add("Tool Adjective");
+		headers.add("Harvest Level");
+		headers.add("Max Uses");
+		headers.add("Efficiency");
+		headers.add("Dmg vs. Entity");
+		headers.add("Enchantability");
+
+		final Collection<Collection<String>> data = Lists.newLinkedList();
+		for (final C config : registry.values())
+		{
+			final Collection<String> row = Lists.newLinkedList();
+			row.add(PolycraftMod.getVersionText(config.version));
+			row.add(((Tool) config).typeGameIDs[Tool.Type.HOE.getValue()]);
+			row.add(((Tool) config).typeGameIDs[Tool.Type.SWORD.getValue()]);
+			row.add(((Tool) config).typeGameIDs[Tool.Type.SHOVEL.getValue()]);
+			row.add(((Tool) config).typeGameIDs[Tool.Type.PICKAXE.getValue()]);
+			row.add(((Tool) config).typeGameIDs[Tool.Type.AXE.getValue()]);
+			row.add(((Tool) config).craftingShaftItemName);
+			row.add(((Tool) config).craftingHeadItemName);
+			row.add(((Tool) config).name);
+			row.add(Integer.toString(((Tool) config).harvestLevel));
+			row.add(Integer.toString(((Tool) config).maxUses));
+			row.add(Integer.toString(((Tool) config).efficiency));
+			row.add(Integer.toString(((Tool) config).damage));
+			row.add(Integer.toString(((Tool) config).enchantability));
+			data.add(row);
+
+		}
+		final StringBuilder page = new StringBuilder(
+				getTable(headers, data));
+		page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
+		edit(getListOfTypeTitle(Tool.class), page.toString(), editSummary);
+
+	}
+
+	private <C extends Config> void createToolsPage(final C config)
+			throws LoginException, IOException {
+		final String title = PolycraftMod.getFileSafeName(config.name) + " Tools";
+
+		if (overwritePages || !wiki.exists(new String[] { title })[0])
+		{
+			logger.info("{} item page: {}", overwritePages ? "Overwriting"
+					: "Creating", title);
+			final StringBuilder page = new StringBuilder();
+			for (final PageSectionItem section : PageSectionItem.values())
+			{
+				//Looks up the source on wikipedia if it can...
+				if (section == PageSectionItem.External)
+				{
+					boolean heading = false;
+					final String nameLocation = WIKIPEDIA_SEARCH + config.name;
+					if (isExternalLocation(nameLocation))
+					{
+						if (!heading)
+							page.append(getHeading(2, section.heading));
+						page.append(getLink(nameLocation, config.name + " on " + getUrlHost(nameLocation)) + WIKI_NEWLINE).append(WIKI_NEWLINE);
+						heading = true;
+					}
+
+				} else if (section == PageSectionItem.Properties)
+				{
+					final Collection<Collection<String>> propertiesData = Lists
+							.newLinkedList();
+					page.append(getHeading(2, section.heading));
+
+					if (config.hasProperties() || config.params != null)
+					{
+
+						if (config.hasProperties())
+						{
+							final List<String> propertyNames = config.getPropertyNames();
+							final List<String> propertyValues = config.getPropertyValues();
+							for (int i = 0; i < propertyValues.size(); i++)
+								propertiesData.add(ImmutableList.of(propertyNames.get(i), propertyValues.get(i)));
+						}
+						if (config.params != null)
+						{
+							for (int i = 0; i < config.params.values.size(); i++)
+								propertiesData.add(ImmutableList.of(config.params.names[i], config.params.getPretty(i)));
+						}
+					}
+					propertiesData.add(ImmutableList.of("Release Version",
+							PolycraftMod.getVersionText(config.version)));
+					page.append(getTable(PROPERTIES_HEADERS, propertiesData))
+							.append(WIKI_NEWLINE);
+				}
+				else
+				{
+					page.append(getHeading(2, section.heading));
+					if (section == PageSectionItem.Gallery)
+					{
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+								((Tool) config).getFullTypeName(Tool.Type.HOE)))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+								((Tool) config).getFullTypeName(Tool.Type.SWORD)))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+								((Tool) config).getFullTypeName(Tool.Type.SHOVEL)))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+								((Tool) config).getFullTypeName(Tool.Type.PICKAXE)))))).append(WIKI_NEWLINE);
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+								((Tool) config).getFullTypeName(Tool.Type.AXE)))))).append(WIKI_NEWLINE);
+					}
+
+					else if (section == PageSectionItem.Recipes)
+					{
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Tool) config).getFullTypeName(Tool.Type.HOE))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Tool) config).getFullTypeName(Tool.Type.SWORD))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Tool) config).getFullTypeName(Tool.Type.SHOVEL))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Tool) config).getFullTypeName(Tool.Type.PICKAXE))),
+										null)).append(WIKI_NEWLINE);
+						page.append(
+								getRecipesGrid(
+										new ItemStack(PolycraftRegistry.getItem(((Tool) config).getFullTypeName(Tool.Type.AXE))),
+										null)).append(WIKI_NEWLINE);
+					}
+
+				}
+			}
+			//			page.append(WIKI_NEWLINE).append(
+			//					getCategoriesAsString(getAllCategories(config)));
+			edit(title, page.toString(), editSummary);
 		}
 	}
 }

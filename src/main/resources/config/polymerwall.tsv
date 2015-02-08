@@ -9,7 +9,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	TC	Vs	Wall (Cellulose)	Block (Cellulose)	Cellulose	0
 1.1.0	TD	Vt	Wall (Chitin)	Block (Chitin)	Chitin	0
 1.1.0	TE	Vu	Wall (CIIR)	Block (CIIR)	CIIR	6
-0	TF	Vv	Wall (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
+1.1.2	TF	Vv	Wall (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
 0	TG	Vw	Wall (NRE)	Block (NRE)	NRE	0
 1.1.0	TH	Vx	Wall (EPM)	Block (EPM)	EPM	0
 1.1.0	TI	Vy	Wall (EPDM)	Block (EPDM)	EPDM	9
@@ -33,7 +33,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 0	U0	VQ	Wall (PDPE)	Block (PDPE)	PDPE	0
 0	U1	VR	Wall (PHB)	Block (PHB)	PHB	0
 0	U2	VS	Wall (PHEMA)	Block (PHEMA)	PHEMA	0
-0	U3	VT	Wall (PAE)	Block (PAE)	PAE	0
+1.1.2	U3	VT	Wall (PAA)	Block (PAA)	PAA	0
 1.0.0	U4	VU	Wall (PAN)	Block (PAN)	PAN	0
 1.0.0	U5	VV	Wall (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
 1.1.0	U6	VW	Wall (PBR (high grade))	Block (PBR (high grade))	PBR (high grade)	4

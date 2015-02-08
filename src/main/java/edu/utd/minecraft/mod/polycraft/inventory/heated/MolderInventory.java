@@ -105,7 +105,7 @@ public abstract class MolderInventory extends HeatedInventory {
 
 	@Override
 	protected int getProcessingHeatIntensityForCurrentInputs(final boolean min) {
-		final PolymerPellets polymerPellets = ((ItemVessel<PolymerPellets>) getStackInSlot(slotIndexInput).getItem()).cofig;
+		final PolymerPellets polymerPellets = ((ItemVessel<PolymerPellets>) getStackInSlot(slotIndexInput).getItem()).config;
 		return min ? polymerPellets.craftingMinHeatIntensity : polymerPellets.craftingMaxHeatIntensity;
 	}
 

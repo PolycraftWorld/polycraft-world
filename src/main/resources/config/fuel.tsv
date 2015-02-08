@@ -63,7 +63,7 @@ Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*
 1.0.6	Wooden Shovel	Minecraft Item	Wooden Shovel	56	1	10	
 1.0.6	Wooden Sword	Minecraft Item	Wooden Sword	57	1	10	
 1.0.6	Bow	Minecraft Item	Bow	58	1	10	
-1.0.7	Bucket (Crude Oil)	Compound	Crude Oil	59	2	120	
+1.0.7	Bucket (Crude Oil)	Custom Object	Crude Oil	59	2	120	
 1.0.7	Dark Oak Stairs	Minecraft Block	Dark Oak Stairs	60	1	15	
 1.0.7	Acacia Stairs	Minecraft Block	Acacia Stairs	61	1	15	
 1.0.7	Jungle Stairs	Minecraft Block	Jungle Stairs	62	1	15	

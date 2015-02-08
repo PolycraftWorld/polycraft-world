@@ -1,7 +1,7 @@
 Version	Headgear ID	Chest ID	Leggings ID	Feet ID	Crafting Item	Armor Material Name	Headgear	Chest	Leggings	Feet	Durability (Int)	Enchantability (Int)	Reduction Headgear (Int)	Reduction Chest (Int)	Reduction Leggings (Int)	Reduction Feet (Int)	AquaAffinity Level
 1.1.0	15s	14n	2Z	13i	Fibers (Natural Rubber)	Rubber	Shower Cap	Raincoat	Wading Pants	Socks	3	15	1	3	2	1	0
 1.1.0	15t	14o	30	13j	Fibers (PVC)	Pleather	Hat	Jacket	Pants	Shoes	1	30	1	3	2	1	0
-1.1.0	15u	14p	31	13k	Fibers (Nylon 6)	Underwater	Swimming Cap	Poncho	Tool Belt	Booties	5	10	2	5	4	1	1
+1.1.0	15u	14p	31	13k	Fibers (Nylon 6)	Water Resistant	Swimming Cap	Wetsuit	Tool Belt	Booties	5	10	2	5	4	1	1
 1.1.0	15v	14q	32	13l	Fibers (kevlar)	Kevlar	Helmet	Vest	Pants	Shoes	33	10	3	8	6	3	0
 1.1.0	33	13m	14r	15w	Magnesium Ingot	Sparkling	Headgear	Chestplate	Pants	Shoes	7	20	2	5	4	1	0
 1.1.0	34	13n	14s	15x	Titanium Ingot	Titan	Head	Body	Legs	Feet	30	10	3	8	6	3	0

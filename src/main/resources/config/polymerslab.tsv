@@ -9,7 +9,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 1.0.0	Mg	O6	PW	RM	Slab (Cellulose)	Block (Cellulose)	Cellulose	0
 1.1.0	Mh	O7	PX	RN	Slab (Chitin)	Block (Chitin)	Chitin	0
 1.1.0	Mi	O8	PY	RO	Slab (CIIR)	Block (CIIR)	CIIR	6
-0	Mj	O9	PZ	RP	Slab (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
+1.1.2	Mj	O9	PZ	RP	Slab (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
 0	Mk	Oa	Q0	RQ	Slab (NRE)	Block (NRE)	NRE	0
 1.1.0	Ml	Ob	Q1	RR	Slab (EPM)	Block (EPM)	EPM	0
 1.1.0	Mm	Oc	Q2	RS	Slab (EPDM)	Block (EPDM)	EPDM	9
@@ -33,7 +33,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 0	ME	Ou	Qk	Sa	Slab (PDPE)	Block (PDPE)	PDPE	0
 0	MF	Ov	Ql	Sb	Slab (PHB)	Block (PHB)	PHB	0
 0	MG	Ow	Qm	Sc	Slab (PHEMA)	Block (PHEMA)	PHEMA	0
-0	MH	Ox	Qn	Sd	Slab (PAE)	Block (PAE)	PAE	0
+1.1.2	MH	Ox	Qn	Sd	Slab (PAA)	Block (PAA)	PAA	0
 1.0.0	MI	Oy	Qo	Se	Slab (PAN)	Block (PAN)	PAN	0
 1.0.0	MJ	Oz	Qp	Sf	Slab (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
 1.1.0	MK	OA	Qq	Sg	Slab (PBR (high grade))	Block (PBR (high grade))	PBR (high grade)	4

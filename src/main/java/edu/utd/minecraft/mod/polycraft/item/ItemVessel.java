@@ -21,15 +21,15 @@ import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 
 public class ItemVessel<C extends SourcedVesselConfig> extends Item implements PolycraftItem {
-	public final C cofig;
+	public final C config;
 	private boolean searchForLargerItem = true;
 	private ItemVessel largerItem = null;
 
-	public ItemVessel(final C cofig) {
-		Preconditions.checkNotNull(cofig);
+	public ItemVessel(final C config) {
+		Preconditions.checkNotNull(config);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Vessel.class.getSimpleName() + "_" + cofig.vesselType.toString())));
-		this.cofig = cofig;
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Vessel.class.getSimpleName() + "_" + config.vesselType.toString())));
+		this.config = config;
 	}
 	
 	@Override
@@ -81,14 +81,14 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 
 	private synchronized void upcycle(final PolycraftInventory inventory, final int slotIndex, final ItemStack itemStack) {
 		if (searchForLargerItem) {
-			if (cofig.vesselType.largerType != null) {
+			if (config.vesselType.largerType != null) {
 				GameIdentifiedConfig largerConfig = null;
-				if (cofig instanceof ElementVessel)
-					largerConfig = ElementVessel.registry.find(((ElementVessel) cofig).source, cofig.vesselType.largerType);
-				if (cofig instanceof CompoundVessel)
-					largerConfig = CompoundVessel.registry.find(((CompoundVessel) cofig).source, cofig.vesselType.largerType);
-				else if (cofig instanceof PolymerPellets)
-					largerConfig = PolymerPellets.registry.find(((PolymerPellets) cofig).source, cofig.vesselType.largerType);
+				if (config instanceof ElementVessel)
+					largerConfig = ElementVessel.registry.find(((ElementVessel) config).source, config.vesselType.largerType);
+				if (config instanceof CompoundVessel)
+					largerConfig = CompoundVessel.registry.find(((CompoundVessel) config).source, config.vesselType.largerType);
+				else if (config instanceof PolymerPellets)
+					largerConfig = PolymerPellets.registry.find(((PolymerPellets) config).source, config.vesselType.largerType);
 				if (largerConfig != null)
 					largerItem = (ItemVessel) PolycraftRegistry.getItem(largerConfig);
 			}
@@ -96,7 +96,7 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 		}
 
 		if (largerItem != null) {
-			if (itemStack.stackSize == cofig.vesselType.largerType.quantityOfSmallerType) {
+			if (itemStack.stackSize == config.vesselType.largerType.quantityOfSmallerType) {
 					
 				final ItemStack largerItemStack = new ItemStack(largerItem);
 				PolycraftItemHelper.createTagCompound(largerItemStack);

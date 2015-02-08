@@ -5,26 +5,35 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 public class Tool extends Config {
 
 	public enum Type {
-		HOE("Hoe"),
-		SWORD("Sword"),
-		SHOVEL("Shovel"),
-		PICKAXE("Pickaxe"),
-		AXE("Axe");
-		
+		HOE("Hoe", 0),
+		SWORD("Sword", 1),
+		SHOVEL("Shovel", 2),
+		PICKAXE("Pickaxe", 3),
+		AXE("Axe", 4);
+
 		private final String name;
-		
+		private final int value;
+
 		/**
 		 * @return the friendly name of the type
 		 */
 		public String getName() {
 			return this.name;
 		}
-		
-		private Type(final String name) {
+
+		/**
+		 * @return the integer value of the tool slot.
+		 */
+		public int getValue() {
+			return this.value;
+		}
+
+		private Type(final String name, final int value) {
 			this.name = name;
+			this.value = value;
 		}
 	}
-	
+
 	public static final ConfigRegistry<Tool> registry = new ConfigRegistry<Tool>();
 
 	public static void registerFromResource(final String directory) {
@@ -71,7 +80,7 @@ public class Tool extends Config {
 		this.damage = damage;
 		this.enchantability = enchantability;
 	}
-	
+
 	public String getFullTypeName(final Type type) {
 		return name + " " + type.getName();
 	}

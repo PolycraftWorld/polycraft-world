@@ -1,55 +1,55 @@
 Version	Level	Output	O1#	Input	I1#												
-1.0.0	2	Magnesium Ingot	1	Magnesium Ore	1												
-1.0.0	2	Titanium Ingot	1	Titanium Ore	1												
-1.0.0	2	Manganese Ingot	1	Manganese Ore	1												
-1.0.0	2	Cobalt Ingot	1	Cobalt Ore	1												
-1.0.0	2	Nickel Ingot	1	Nickel Ore	1												
-1.0.0	2	Copper Ingot	1	Copper Ore	1												
-1.0.0	2	Zinc Ingot	1	Zinc Ore	1												
-1.0.0	2	Palladium Ingot	1	Palladium Ore	1												
-1.0.0	2	Silver Ingot	1	Silver Ore	1												
+1.0.0	2	Aluminoxane Catalyst	1	Triethylaluminium Catalyst	1												
+1.0.0	2	Aluminum Ingot	1	Bauxite	1												
 1.0.0	2	Antimony Ingot	1	Antimony Ore	1												
-1.0.0	2	Tungsten Ingot	1	Tungsten Ore	1												
+1.1.0	2	Antimony Trioxide Catalyst	16	Antimony Ingot	1												
+1.1.0	2	Bag (Potassium Hydroxide)	16	Potash Ore	1												
+1.0.0	2	Bismuth Ingot	1	Bismuth Ore	1												
+1.1.0	2	Chrome Ingot	1	Chromite	1												
+1.1.0	2	Cobalt Catalyst	16	Cobalt Ingot	1												
+1.0.0	2	Cobalt Ingot	1	Cobalt Ore	1												
+1.1.0	2	Copper II Chloride Catalyst	16	Copper Ingot	1												
+1.0.0	2	Copper Ingot	1	Copper Ore	1												
+1.0.4	2	Iron III Chloride Catalyst	16	Iron Ingot	1												
+1.0.4	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1												
+1.1.0	2	Lead Oxide Catalyst	16	Plumbum (Lead) Ingot	1												
+1.0.0	2	Magnesium Ingot	1	Magnesium Ore	1												
+1.1.0	2	Magnesium Oxide Catalyst	16	Magnesium Ingot	1												
+1.1.0	2	Manganese Catalyst	16	Manganese Ingot	1												
+1.0.0	2	Manganese Ingot	1	Manganese Ore	1												
+1.0.0	2	Nickel Ingot	1	Nickel Ore	1												
+1.1.0	2	Palladium Catalyst	16	Palladium Ingot	1												
+1.0.0	2	Palladium Ingot	1	Palladium Ore	1												
+1.1.0	2	Platinum Catalyst	16	Platinum Ingot	1												
 1.0.0	2	Platinum Ingot	1	Platinum Ore	1												
 1.1.0	2	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ore	1												
-1.0.0	2	Bismuth Ingot	1	Bismuth Ore	1												
-1.0.0	2	Aluminum Ingot	1	Bauxite	1												
-1.1.0	2	Platinum Catalyst	16	Platinum Ingot	1												
-1.1.0	2	Titanium Catalyst	16	Titanium Ingot	1												
-1.1.0	2	Palladium Catalyst	16	Palladium Ingot	1												
-1.1.0	2	Cobalt Catalyst	16	Cobalt Ingot	1												
-1.1.0	2	Manganese Catalyst	16	Manganese Ingot	1												
 1.1.0	2	Silver Catalyst	16	Silver Ingot	1												
-1.0.0	5	Block (LDPE)	1	Cartridge (Ethylene)	1												
-1.0.0	5	Block (PP)	1	Cartridge (Propylene)	1												
-1.1.0	2	Triethylaluminium Catalyst	16	Aluminum Ingot	1												
-1.1.0	2	Antimony Trioxide Catalyst	16	Antimony Ingot	1												
-1.1.0	2	Copper II Chloride Catalyst	16	Copper Ingot	1												
-1.0.4	2	Iron III Chloride Catalyst	16	Iron Ingot	1												
-1.0.0	2	Aluminoxane Catalyst	1	Triethylaluminium Catalyst	1												
-1.0.4	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1												
-1.1.0	2	Bag (Potassium Hydroxide)	16	Potash Ore	1												
-1.0.0	8	Bag (PolyStyrene Pellets)	1	Vial (Styrene)	1												
-1.0.0	8	Sack (PolyStyrene Pellets)	1	Beaker (Styrene)	1												
-1.0.0	8	Powder Keg (PolyStyrene Pellets)	1	Drum (Styrene)	1												
-1.0.0	2	Tin Ingot	1	Tin Ore	1												
-1.1.0	2	Chrome Ingot	1	Chromite	1												
+1.0.0	2	Silver Ingot	1	Silver Ore	1												
 1.1.0	2	Tin Catalyst	16	Tin Ingot	1												
+1.0.0	2	Tin Ingot	1	Tin Ore	1												
+1.1.0	2	Titanium Catalyst	16	Titanium Ingot	1												
+1.0.0	2	Titanium Ingot	1	Titanium Ore	1												
+1.1.0	2	Triethylaluminium Catalyst	16	Aluminum Ingot	1												
+1.0.0	2	Tungsten Ingot	1	Tungsten Ore	1												
+1.0.0	2	Zinc Ingot	1	Zinc Ore	1												
 1.1.0	2	Zinc Nitrate Catalyst	16	Zinc Ingot	1												
-1.1.0	2	Lead Oxide Catalyst	16	Plumbum (Lead) Ingot	1												
-1.1.0	5	Bag (PolyButadiene (low-cis) Pellets)	1	Vial (Butadiene)	1												
-1.1.0	5	Sack (PolyButadiene (low-cis) Pellets)	1	Beaker (Butadiene)	1												
-1.1.0	5	Powder Keg (PolyButadiene (low-cis) Pellets)	1	Drum (Butadiene)	1												
+1.0.0	4	Block (LDPE)	1	Cartridge (Ethylene)	1												
+1.0.0	4	Block (PP)	1	Cartridge (Propylene)	1												
 1.1.0	5	Bag (Isobutylene Rubber Pellets)	1	Vial (Butylene isomers)	1												
-1.1.0	5	Sack (Isobutylene Rubber Pellets)	1	Beaker (Butylene isomers)	1												
+1.1.0	5	Bag (PolyButadiene (low-cis) Pellets)	1	Vial (Butadiene)	1												
 1.1.0	5	Powder Keg (Isobutylene Rubber Pellets)	1	Drum (Butylene isomers)	1												
+1.1.0	5	Powder Keg (PolyButadiene (low-cis) Pellets)	1	Drum (Butadiene)	1												
+1.1.0	5	Sack (Isobutylene Rubber Pellets)	1	Beaker (Butylene isomers)	1												
+1.1.0	5	Sack (PolyButadiene (low-cis) Pellets)	1	Beaker (Butadiene)	1												
 1.1.0	5	Sack (Polycaprolactam Pellets)	1	Beaker (Caprolactam)	1												
-1.1.0	2	Magnesium Oxide Catalyst	16	Magnesium Ingot	1												
-																	
-																	
-																	
-																	
-																	
+1.0.0	8	Bag (PolyStyrene Pellets)	1	Vial (Styrene)	1												
+1.0.0	8	Powder Keg (PolyStyrene Pellets)	1	Drum (Styrene)	1												
+1.0.0	8	Sack (PolyStyrene Pellets)	1	Beaker (Styrene)	1												
+1.1.2	8	Bag (PolyAcrylonitrile Pellets)	1	Vial (Acrylonitrile)	1												
+1.1.2	8	Sack (PolyAcrylonitrile Pellets)	1	Beaker (Acrylonitrile)	1												
+1.1.2	8	Powder Keg (PolyAcrylonitrile Pellets)	1	Drum (Acrylonitrile)	1												
+1.1.2	8	Fibers (Carbon Fiber)	1	Fibers (PAN)	1												
+1.1.2	3	Chromium (VI) Oxide Catalyst	1	Chrome Ingot	1												
 																	
 																	
 																	

@@ -12,12 +12,10 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.MathHelper;
@@ -50,8 +48,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.1.1";
-	private static final int[] VERSION_NUMERIC = new int[] { 1, 1, 1 };
+	public static final String VERSION = "1.1.2";
+	private static final int[] VERSION_NUMERIC = new int[] { 1, 1, 2 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -165,6 +163,7 @@ public class PolycraftMod {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			System.out.println("***************************** LANG FILE FINISHED PROCESSING ***************************** ");
 			System.exit(0);
 		}
 	}
@@ -245,22 +244,22 @@ public class PolycraftMod {
 		}
 		return config;
 	}
-	
-	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack) 
+
+	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack)
 	{
 		//TODO: this may not be the best way to do things, but works by overiding 
 		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
 		{
-		PolycraftItemHelper.createTagCompound(par1ItemStack);
-		par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);	
+			PolycraftItemHelper.createTagCompound(par1ItemStack);
+			par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
 		}
-		
+
 	}
-	
+
 	//added this in so we can support java 1.6 (doesn't have Integer.compare yet)
-    public static int compareInt(int x, int y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
-    }
+	public static int compareInt(int x, int y) {
+		return (x < y) ? -1 : ((x == y) ? 0 : 1);
+	}
 
 	public static Vec3 getAdjacentCoords(final Vec3 currentCoords, final int direction, final boolean opposite)
 	{

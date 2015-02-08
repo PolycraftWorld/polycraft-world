@@ -49,7 +49,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Ammonium Nitrate	NH4NO3	Solid		Ammonium Nitrate		Garden supply; Nitrate of Ammonia (fertilizer)		
 1.0.0	Ammonium Persulfate	(NH4)2S2O8	Solid		"Etching Solution,Ammonium Peroxodisulphate"		Electronics supply; circuit board etching solution		
 1.0.0	Ammonium Phosphate	(NH4)3PO4	Solid		Fertilizer		Garden/Agricultural supply; by name		
-1.0.0	Ammonium Sulfate	(NH4)2SO4	Solid		—		Garden/Agricultural supply; fertilizer or pH adjuster for soil		
+1.1.2	Ammonium Hydroxide	(NH4)OH	Solid		—				
 1.0.0	Amylose	(C6H9O5)n	Solid		Cornstarch		Grocery store; corn starch		
 1.0.0	Anthocyanin	—	Liquid		—		"Extraction from Red Cabbage: Cut, boil, then filter"		
 1.0.0	Argon Gas	Ar	Gas		—		Welding supply; by name		
@@ -254,7 +254,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Sodium Bromide	NaBr	Liquid		Hot Tub Salt		Pool supply store		
 1.0.0	Sodium Carbonate	Na2CO3	Liquid		"Washing soda,soda ash"		Grocery; Arm & Hammer		
 1.0.0	Sodium Chlorate	NaClO3	Liquid		—		"Available from gardening and agricultural stores. This herbicide is toxic to all green plants and, as such, is becoming less available as more selective herbicides some onto the market. Some brand names are Atlacide, Defol, Drop-Leaf, and Tumbleaf. Read product labeling to deduce the particular purity of any of these brands."		
-1.0.0	Sodium Chloride	NaCl	Liquid		Salt		"Grocery; Table salt used in cooking is sodium chloride, usually with anti-caking agents such as magnesium carbonate. Iodized salt contains traces of sodium iodide."		
+1.0.0	Sodium Chloride	NaCl	Solid		Salt		"Grocery; Table salt used in cooking is sodium chloride, usually with anti-caking agents such as magnesium carbonate. Iodized salt contains traces of sodium iodide."		
 1.0.0	Sodium Fluoride	NaF	Liquid		—		"Used in toothpastes and mouthwashes to prevent cavities. Difficult to obtain in pure form. Most dental solutions contain a laundry list of inert ingredients to provide coloring, flavor, foaming, and other aesthetic properties."		
 1.0.0	Sodium Hexametaphosphate	(NaPO3)6	Liquid		"Sodium polymetaphosphate,Calgon water softener"		"This water softener, surfactant and detergent is the primary ingredient in Calgon water softener. It is available at the grocery and hardware store. It is also known by other names including: glassy sodium, Graham's Salt, and hexasodium salt."		
 1.0.0	Sodium Hydroxide	NaOH	Liquid		"Lye, Caustic Soda"		"Grocery, hardware; Known also as caustic soda and lye, sodium hydroxide is used in many commercial drain cleaners/openers."		
@@ -370,3 +370,19 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.1.1	o-Hexachloroxylene		Solid						
 1.1.1	Terephthaloyl chloride		Solid						
 1.1.1	Isophthaloyl chloride		Solid						
+1.1.2	Cyclohexanol		Liquid						
+1.1.2	Nitrobenzene		Liquid						
+1.1.2	Anilene		Liquid						
+1.1.2	Diphenylmethane Diisocyanate		Liquid						
+1.1.2	Toluene Diisocyanate		Liquid						
+1.1.2	Hexamethylene Diisocyanate		Liquid						
+1.1.2	Isopherone Diisocyanate		Liquid						
+1.1.2	"1,4-Diisopropylbenzene"		Liquid						
+1.1.2	Catechol		Solid						
+1.1.2	Anthracene		Solid						
+1.1.2	Chromium (VI) Oxide		Solid			Catalyst			
+1.1.2	"9,10-Anthraquinone"		Solid			Catalyst			
+1.1.2	Phthalic Anhydride		Solid						
+1.1.2	Maleic Anhydride		Solid						
+1.1.2	Disodium Hydroquinone		Solid						
+1.1.2	Cyclopentadiene		Liquid						

@@ -74,12 +74,18 @@ public class Fuel extends Config {
 					{
 						quantifiedFuelsByItem.put(PolycraftRegistry.getItem(compoundVessel.name), new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType()));
 						//beaker of crude oil (from compound vessels, polycraft materials)
-						if ("kS".equals(compoundVessel.gameID))
-							//FIXME hard coded for now, the recipe for a bucket of crude currently says you get 16 beakers for one bucket
-							quantifiedFuelsByItem.put(PolycraftMod.itemOilBucket, new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType() * 16));
+						//						if ("kS".equals(compoundVessel.gameID))
+						//							//FIXME hard coded for now, the recipe for a bucket of crude currently says you get 16 beakers for one bucket
+						//							quantifiedFuelsByItem.put(PolycraftMod.itemOilBucket, new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType() * 16));
 					}
 				}
 			}
+			//FIXME: hard coded in bucket of crude oil
+			else if (fuel.name.equalsIgnoreCase("bucket (crude oil)"))
+			{
+				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.name), new QuantifiedFuel(fuel));
+			}
+
 			else
 			{
 				throw new Error("Fuel source not found: " + fuel.name);

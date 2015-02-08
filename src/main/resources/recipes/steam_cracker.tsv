@@ -21,24 +21,24 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.0.0	5	Heat 	Cracking	Coal Block	4	Platinum Catalyst	3	Cartridge (Hydrogen)	16	Block of Bitumen	1	Cartridge (Carbon Dioxide)	8	Beaker (Carbon Monoxide)	8							
 1.0.0	5	Heat 	Cracking	Coal Block	16	Platinum Catalyst	4	Canister (Hydrogen)	1	Block of Bitumen	4	Cartridge (Carbon Dioxide)	32	Beaker (Carbon Monoxide)	32							
 1.0.0	5	Heat 	Cracking	Coal Block	64	Platinum Catalyst	5	Canister (Hydrogen)	4	Block of Bitumen	16	Canister (Carbon Dioxide)	2	Drum (Carbon Monoxide)	2							
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	4	Palladium Catalyst	1	Vial (Butadiene)	4													
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Palladium Catalyst	1	Vial (Butadiene)	16	Vial (Benzene-Toluene-Xylene)	2	Vial (Light Olefins)	2									
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Palladium Catalyst	4	Beaker (Butadiene)	1	Vial (Benzene-Toluene-Xylene)	8	Vial (Light Olefins)	8									
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	4	Palladium Catalyst	4	Beaker (Butadiene)	4	Vial (Benzene-Toluene-Xylene)	32	Vial (Light Olefins)	32									
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Palladium Catalyst	4	Beaker (Butadiene)	16	Beaker (Benzene-Toluene-Xylene)	2	Beaker (Light Olefins)	2									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Palladium Catalyst	8	Drum (Butadiene)	1	Beaker (Benzene-Toluene-Xylene)	8	Beaker (Light Olefins)	8									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Palladium Catalyst	16	Drum (Butadiene)	4	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Palladium Catalyst	16	Drum (Butadiene)	16	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Palladium Catalyst	16	Drum (Butadiene)	64	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8									
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	4	Platinum Catalyst	1	Vial (Butadiene)	3													
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Platinum Catalyst	1	Vial (Butadiene)	12	Vial (Benzene-Toluene-Xylene)	2	Vial (Light Olefins)	2									
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Platinum Catalyst	4	Vial (Butadiene)	48	Vial (Benzene-Toluene-Xylene)	8	Vial (Light Olefins)	8									
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	4	Platinum Catalyst	4	Beaker (Butadiene)	3	Vial (Benzene-Toluene-Xylene)	32	Vial (Light Olefins)	32									
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Platinum Catalyst	4	Beaker (Butadiene)	12	Beaker (Benzene-Toluene-Xylene)	2	Beaker (Light Olefins)	2									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Platinum Catalyst	8	Beaker (Butadiene)	48	Beaker (Benzene-Toluene-Xylene)	8	Beaker (Light Olefins)	8									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Platinum Catalyst	16	Drum (Butadiene)	3	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Platinum Catalyst	16	Drum (Butadiene)	12	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2									
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Platinum Catalyst	16	Drum (Butadiene)	48	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8									
+1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	4	Palladium Catalyst	1	Vial (Butadiene)	3	Vial (Cyclopentadiene)	1											
+1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Palladium Catalyst	1	Vial (Butadiene)	12	Vial (Cyclopentadiene)	3	Vial (Benzene-Toluene-Xylene)	2	Vial (Light Olefins)	2							
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Palladium Catalyst	4	Vial (Butadiene)	48	Vial (Cyclopentadiene)	16	Vial (Benzene-Toluene-Xylene)	8	Vial (Light Olefins)	8							
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	4	Palladium Catalyst	4	Beaker (Butadiene)	3	Beaker (Cyclopentadiene)	1	Vial (Benzene-Toluene-Xylene)	32	Vial (Light Olefins)	32							
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Palladium Catalyst	4	Beaker (Butadiene)	12	Beaker (Cyclopentadiene)	3	Beaker (Benzene-Toluene-Xylene)	2	Beaker (Light Olefins)	2							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Palladium Catalyst	8	Beaker (Butadiene)	48	Beaker (Cyclopentadiene)	16	Beaker (Benzene-Toluene-Xylene)	8	Beaker (Light Olefins)	8							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Palladium Catalyst	16	Drum (Butadiene)	3	Drum (Cyclopentadiene)	1	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Palladium Catalyst	16	Drum (Butadiene)	12	Drum (Cyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Palladium Catalyst	16	Drum (Butadiene)	48	Drum (Cyclopentadiene)	16	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8							
+1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	4	Platinum Catalyst	1	Vial (Butadiene)	3	Vial (Cyclopentadiene)	1											
+1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Platinum Catalyst	1	Vial (Butadiene)	12	Vial (Cyclopentadiene)	3	Vial (Benzene-Toluene-Xylene)	2	Vial (Light Olefins)	2							
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Platinum Catalyst	4	Vial (Butadiene)	48	Vial (Cyclopentadiene)	16	Vial (Benzene-Toluene-Xylene)	8	Vial (Light Olefins)	8							
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	4	Platinum Catalyst	4	Beaker (Butadiene)	3	Beaker (Cyclopentadiene)	1	Vial (Benzene-Toluene-Xylene)	32	Vial (Light Olefins)	32							
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Platinum Catalyst	4	Beaker (Butadiene)	12	Beaker (Cyclopentadiene)	3	Beaker (Benzene-Toluene-Xylene)	2	Beaker (Light Olefins)	2							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Platinum Catalyst	8	Beaker (Butadiene)	48	Beaker (Cyclopentadiene)	16	Beaker (Benzene-Toluene-Xylene)	8	Beaker (Light Olefins)	8							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Platinum Catalyst	16	Drum (Butadiene)	3	Drum (Cyclopentadiene)	1	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Platinum Catalyst	16	Drum (Butadiene)	12	Drum (Cyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2							
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Platinum Catalyst	16	Drum (Butadiene)	48	Drum (Cyclopentadiene)	16	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8							
 1.1.0	5	Heat 	Cracking	Vial (Light Naphthenes)	4	Platinum Catalyst	2	Flask (Ethylene)	1	Flask (Propylene)	1	Vial (Butylene isomers)	1	Vial (Isoprene)	1							
 1.1.0	5	Heat 	Cracking	Vial (Light Naphthenes)	16	Platinum Catalyst	3	Flask (Ethylene)	4	Flask (Propylene)	4	Vial (Butylene isomers)	4	Vial (Isoprene)	4							
 1.1.0	5	Heat 	Cracking	Beaker (Light Naphthenes)	1	Platinum Catalyst	4	Flask (Ethylene)	16	Flask (Propylene)	16	Vial (Butylene isomers)	16	Vial (Isoprene)	16							
@@ -48,46 +48,51 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	4	Platinum Catalyst	10	Canister (Ethylene)	1	Canister (Propylene)	1	Drum (Butylene isomers)	1	Drum (Isoprene)	1							
 1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	16	Platinum Catalyst	12	Canister (Ethylene)	4	Canister (Propylene)	4	Drum (Butylene isomers)	4	Drum (Isoprene)	4							
 1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	64	Platinum Catalyst	16	Canister (Ethylene)	16	Canister (Propylene)	16	Drum (Butylene isomers)	16	Drum (Isoprene)	16							
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
+1.1.2	5	Heat 	Cracking	Vial (Xylene)	4	Flask (Hydrogen)	4	Vial (Butadiene)	4	Vial (Butylene isomers)	4											
+1.1.2	5	Heat 	Cracking	Vial (Xylene)	16	Flask (Hydrogen)	16	Vial (Butadiene)	16	Vial (Butylene isomers)	16											
+1.1.2	5	Heat 	Cracking	Beaker (Xylene)	1	Flask (Hydrogen)	1	Beaker (Butadiene)	1	Beaker (Butylene isomers)	1											
+1.1.2	5	Heat 	Cracking	Beaker (Xylene)	4	Cartridge (Hydrogen)	4	Beaker (Butadiene)	4	Beaker (Butylene isomers)	4											
+1.1.2	5	Heat 	Cracking	Beaker (Xylene)	16	Cartridge (Hydrogen)	16	Beaker (Butadiene)	16	Beaker (Butylene isomers)	16											
+1.1.2	5	Heat 	Cracking	Drum (Xylene)	1	Cartridge (Hydrogen)	1	Drum (Butadiene)	1	Drum (Butylene isomers)	1											
+1.1.2	5	Heat 	Cracking	Drum (Xylene)	4	Canister (Hydrogen)	4	Drum (Butadiene)	4	Drum (Butylene isomers)	4											
+1.1.2	5	Heat 	Cracking	Drum (Xylene)	16	Canister (Hydrogen)	16	Drum (Butadiene)	16	Drum (Butylene isomers)	16											
+1.1.2	5	Heat 	Cracking	Drum (Xylene)	64	Canister (Hydrogen)	64	Drum (Butadiene)	64	Drum (Butylene isomers)	64											
+1.1.2	5	Heat 	Cracking	Vial (Toluene)	4	Flask (Hydrogen)	4	Vial (Butadiene)	2	Vial (Butylene isomers)	2	Flask (Propylene)	4									
+1.1.2	5	Heat 	Cracking	Vial (Toluene)	16	Flask (Hydrogen)	16	Vial (Butadiene)	8	Vial (Butylene isomers)	8	Flask (Propylene)	16									
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	1	Flask (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Cartridge (Propylene)	1									
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	4	Cartridge (Hydrogen)	4	Beaker (Butadiene)	2	Beaker (Butylene isomers)	2	Cartridge (Propylene)	4									
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	16	Cartridge (Hydrogen)	16	Beaker (Butadiene)	8	Beaker (Butylene isomers)	8	Cartridge (Propylene)	16									
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	1	Canister (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Canister (Propylene)	1									
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	4	Canister (Hydrogen)	4	Drum (Butadiene)	2	Drum (Butylene isomers)	2	Canister (Propylene)	4									
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	16	Canister (Hydrogen)	16	Drum (Butadiene)	8	Drum (Butylene isomers)	8	Canister (Propylene)	16									
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	64	Canister (Hydrogen)	64	Drum (Butadiene)	32	Drum (Butylene isomers)	32	Canister (Propylene)	64									
+1.1.2	5	Heat 	Cracking	Vial (Benzene)	4	Flask (Hydrogen)	4	Vial (Butadiene)	2	Vial (Butylene isomers)	2	Flask (Ethylene)	4									
+1.1.2	5	Heat 	Cracking	Vial (Benzene)	16	Flask (Hydrogen)	16	Vial (Butadiene)	8	Vial (Butylene isomers)	8	Flask (Ethylene)	16									
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	1	Flask (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Cartridge (Ethylene)	1									
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	4	Cartridge (Hydrogen)	4	Beaker (Butadiene)	2	Beaker (Butylene isomers)	2	Cartridge (Ethylene)	4									
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	16	Cartridge (Hydrogen)	16	Beaker (Butadiene)	8	Beaker (Butylene isomers)	8	Cartridge (Ethylene)	16									
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	1	Canister (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Canister (Ethylene)	1									
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	4	Canister (Hydrogen)	4	Drum (Butadiene)	2	Drum (Butylene isomers)	2	Canister (Ethylene)	4									
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	16	Canister (Hydrogen)	16	Drum (Butadiene)	8	Drum (Butylene isomers)	8	Canister (Ethylene)	16									
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	64	Canister (Hydrogen)	64	Drum (Butadiene)	32	Drum (Butylene isomers)	32	Canister (Ethylene)	64									
+1.1.2	5	Heat 	Cracking	Vial (Toluene)	4	Flask (Ethane)	4	Vial (Styrene)	1	Vial (Toluene)	3	Flask (Ethane)	1	Flask (Ethylene)	2	Flask (Hydrogen)	1					
+1.1.2	5	Heat 	Cracking	Vial (Toluene)	16	Flask (Ethane)	16	Vial (Styrene)	4	Vial (Toluene)	12	Flask (Ethane)	4	Flask (Ethylene)	8	Flask (Hydrogen)	4					
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	1	Cartridge (Ethane)	1	Vial (Styrene)	16	Vial (Toluene)	48	Flask (Ethane)	16	Flask (Ethylene)	32	Flask (Hydrogen)	16					
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	4	Cartridge (Ethane)	4	Beaker (Styrene)	1	Beaker (Toluene)	3	Cartridge (Ethane)	1	Cartridge (Ethylene)	2	Cartridge (Hydrogen)	1					
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	16	Cartridge (Ethane)	16	Beaker (Styrene)	4	Beaker (Toluene)	12	Cartridge (Ethane)	4	Cartridge (Ethylene)	8	Cartridge (Hydrogen)	4					
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	1	Canister (Ethane)	1	Beaker (Styrene)	16	Beaker (Toluene)	48	Cartridge (Ethane)	16	Cartridge (Ethylene)	32	Cartridge (Hydrogen)	16					
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	4	Canister (Ethane)	4	Drum (Styrene)	1	Drum (Toluene)	3	Canister (Ethane)	1	Canister (Ethylene)	2	Canister (Hydrogen)	1					
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	16	Canister (Ethane)	16	Drum (Styrene)	4	Drum (Toluene)	12	Canister (Ethane)	4	Canister (Ethylene)	8	Canister (Hydrogen)	4					
+1.1.2	5	Heat 	Cracking	Drum (Toluene)	64	Canister (Ethane)	64	Drum (Styrene)	16	Drum (Toluene)	48	Canister (Ethane)	16	Canister (Ethylene)	32	Canister (Hydrogen)	16					
+1.1.2	5	Heat 	Cracking	Vial (Benzene)	4	Flask (Propane)	4	Vial (Ethylbenzene)	2	Vial (Benzene)	2	Flask (Ethylene)	2	Flask (Hydrogen)	2							
+1.1.2	5	Heat 	Cracking	Vial (Benzene)	16	Flask (Propane)	16	Vial (Ethylbenzene)	8	Vial (Benzene)	8	Flask (Ethylene)	8	Flask (Hydrogen)	8							
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	1	Cartridge (Propane)	1	Vial (Ethylbenzene)	32	Beaker (Benzene)	32	Flask (Ethylene)	32	Flask (Hydrogen)	32							
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	4	Cartridge (Propane)	4	Beaker (Ethylbenzene)	2	Beaker (Benzene)	2	Cartridge (Ethylene)	2	Cartridge (Hydrogen)	2							
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	16	Cartridge (Propane)	16	Beaker (Ethylbenzene)	8	Beaker (Benzene)	8	Cartridge (Ethylene)	8	Cartridge (Hydrogen)	8							
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	1	Canister (Propane)	1	Beaker (Ethylbenzene)	32	Drum (Benzene)	32	Cartridge (Ethylene)	32	Cartridge (Hydrogen)	32							
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	4	Canister (Propane)	4	Drum (Ethylbenzene)	2	Drum (Benzene)	2	Canister (Ethylene)	2	Canister (Hydrogen)	2							
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	16	Canister (Propane)	16	Drum (Ethylbenzene)	8	Drum (Benzene)	8	Canister (Ethylene)	8	Canister (Hydrogen)	8							
+1.1.2	5	Heat 	Cracking	Drum (Benzene)	64	Canister (Propane)	64	Drum (Ethylbenzene)	32	Drum (Benzene)	32	Canister (Ethylene)	32	Canister (Hydrogen)	32							
 																						
 																						
 																						
