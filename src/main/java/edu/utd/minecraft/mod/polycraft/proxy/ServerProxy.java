@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 
 public class ServerProxy extends CommonProxy {
@@ -12,6 +13,8 @@ public class ServerProxy extends CommonProxy {
 		//if (System.getProperty("analyticsEnabled") != null && Boolean.parseBoolean(System.getProperty("analyticsEnabled"))) {
 			FMLCommonHandler.instance().bus().register(Analytics.INSTANCE);
 			MinecraftForge.EVENT_BUS.register(Analytics.INSTANCE);
+			FMLCommonHandler.instance().bus().register(ServerEnforcer.INSTANCE);
+			MinecraftForge.EVENT_BUS.register(ServerEnforcer.INSTANCE);
 		//}
 	}
 }

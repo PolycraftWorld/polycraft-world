@@ -17,6 +17,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
@@ -27,6 +28,7 @@ import com.google.common.collect.Maps;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -51,6 +53,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 
@@ -76,6 +79,12 @@ public class ClientProxy extends CommonProxy {
 		keyBindingCheatInfo1 = new KeyBinding("key.cheat.info.1", Keyboard.KEY_J, "key.categories.gameplay");
 		keyBindingCheatInfo2 = new KeyBinding("key.cheat.info.2", Keyboard.KEY_I, "key.categories.gameplay");
 		keyBindingCheatInfo3 = new KeyBinding("key.cheat.info.3", Keyboard.KEY_M, "key.categories.gameplay");
+	}
+
+	public void postInit() {
+		super.postInit();
+		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
 	}
 
 	private class PlayerState {
