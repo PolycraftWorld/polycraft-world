@@ -52,12 +52,13 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 
 public abstract class Enforcer {
 	private static final double forceExitSpeed = .2;
+	private static final int propertyDimension = 0; //you can only own property in the surface dimension
 	protected final FMLEventChannel netChannel;
 	protected final String netChannelName = "private.properties";
 	private final Gson gson;
 	protected String privatePropertiesJson = null;
-	protected final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
-	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
+	private final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
+	private final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
 	
@@ -88,8 +89,14 @@ public abstract class Enforcer {
 		return String.format("%d,%d", x, z);
 	}
 	
+	protected PrivateProperty findPrivateProperty(final Entity entity, final int chunkX, final int chunkZ) {
+		if (entity.dimension == propertyDimension)
+			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
+		return null;
+	}
+	
 	protected PrivateProperty findPrivateProperty(final Entity entity) {
-		return privatePropertiesByChunk.get(getChunkKey(entity.chunkCoordX, entity.chunkCoordZ));
+		return findPrivateProperty(entity, entity.chunkCoordX, entity.chunkCoordZ);
 	}
 	
 	protected void setActionPrevented(final Action action, final PrivateProperty privateProperty) {
@@ -105,8 +112,8 @@ public abstract class Enforcer {
 		}
 	}
 	
-	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final int chunkX, final int chunkY) {
-		possiblyPreventAction(event, player, action, privatePropertiesByChunk.get(getChunkKey(chunkX, chunkY)));
+	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final int chunkX, final int chunkZ) {
+		possiblyPreventAction(event, player, action, findPrivateProperty(player, chunkX, chunkZ));
 	}
 	
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final net.minecraft.world.chunk.Chunk chunk) {
@@ -163,7 +170,7 @@ public abstract class Enforcer {
 		final int z = (int)(player.posZ + targetOffsetZ);
 		if (player.worldObj.isAirBlock(x, y, z)) {
 			final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
-			final PrivateProperty targetPrivateProperty = privatePropertiesByChunk.get(getChunkKey(chunk.xPosition, chunk.zPosition));
+			final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
 			if (targetPrivateProperty == null || (targetPrivateProperty != privateProperty && targetPrivateProperty.actionEnabled(player, Action.Enter))) {
 				player.motionX = targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ? -forceExitSpeed : 0;
 				player.motionY = 0;

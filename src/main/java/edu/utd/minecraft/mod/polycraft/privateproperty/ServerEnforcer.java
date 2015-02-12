@@ -17,14 +17,16 @@ public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
 	
 	//refresh once per minecraft day
-	public static final long refreshTicks = SystemUtil.getPropertyLong("private.properties.refresh.ticks", 24000);
+	private static final long refreshTicks = SystemUtil.getPropertyLong("private.properties.refresh.ticks", 24000);
+	private static final String privatePropertiesUrl = System.getProperty("private.properties.url");
 	
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
+		//TODO not sure why this is getting called multiple times with different world java objects for the same world
 		//refresh private property permissions at the start of each day, or if we haven't loaded them yet
 		if (event.phase == TickEvent.Phase.END && (event.world.getWorldTime() % refreshTicks == 0 || privatePropertiesJson == null)) {
 			try {
-				final String privatePropertiesUrl = System.getProperty("private.properties.url");
+				//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
 				updatePrivateProperties(NetUtil.getText(privatePropertiesUrl + (privatePropertiesUrl.startsWith("file:") ? "" : event.world.getWorldInfo().getWorldName())));
 				netChannel.sendToAll(getPrivatePropertiesPacket());
 			}
