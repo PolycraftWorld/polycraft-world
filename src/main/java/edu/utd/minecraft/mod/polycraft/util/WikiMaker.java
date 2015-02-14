@@ -39,7 +39,6 @@ import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
@@ -134,7 +133,7 @@ public class WikiMaker {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username,
 					password, overwritePages, debugOutputDirectory);
 			// wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
 			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE,
 			//		CRAFTING_TABLE_BLACKLIST, false);
@@ -183,7 +182,7 @@ public class WikiMaker {
 			//			wikiMaker.createItemPages(MoldedItem.registry);
 			//			wikiMaker.createItemPages(GrippedTool.registry);
 			//			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(CustomObject.registry);
+			//wikiMaker.createItemPages(CustomObject.registry);
 			//wikiMaker.createArmor(Armor.registry);
 			//wikiMaker.createTools(Tool.registry);
 
@@ -842,7 +841,7 @@ public class WikiMaker {
 	private <C extends Config> void createArmor(
 			final ConfigRegistry<C> registry) throws LoginException,
 			IOException {
-		//createArmorList(registry);
+		createArmorList(registry);
 		for (final C config : registry.values())
 			createArmorPage(config);
 
@@ -1044,11 +1043,7 @@ public class WikiMaker {
 		}
 
 		final Collection<String> headers = Lists.newLinkedList();
-		headers.add("Release Version");
-		headers.add("Headgear ID");
-		headers.add("Chest ID");
-		headers.add("Leggings ID");
-		headers.add("Feet ID");
+
 		headers.add("Crafting Item");
 		headers.add("Armor Adjective");
 		headers.add("Headgear");
@@ -1062,16 +1057,17 @@ public class WikiMaker {
 		headers.add("Recuction Leggings");
 		headers.add("Recuction Feet");
 		headers.add("Aqua Affinity");
+		headers.add("Release Version");
+		headers.add("Headgear ID");
+		headers.add("Chest ID");
+		headers.add("Leggings ID");
+		headers.add("Feet ID");
 
 		final Collection<Collection<String>> data = Lists.newLinkedList();
 		for (final C config : registry.values())
 		{
 			final Collection<String> row = Lists.newLinkedList();
-			row.add(PolycraftMod.getVersionText(config.version));
-			row.add(((Armor) config).componentGameIDs[ArmorSlot.HEAD.getValue()]);
-			row.add(((Armor) config).componentGameIDs[ArmorSlot.CHEST.getValue()]);
-			row.add(((Armor) config).componentGameIDs[ArmorSlot.LEGS.getValue()]);
-			row.add(((Armor) config).componentGameIDs[ArmorSlot.FEET.getValue()]);
+
 			row.add(((Armor) config).craftingItemName);
 			row.add(((Armor) config).name);
 			row.add(((Armor) config).componentNames[ArmorSlot.HEAD.getValue()]);
@@ -1085,6 +1081,11 @@ public class WikiMaker {
 			row.add(Integer.toString(((Armor) config).reductionAmounts[ArmorSlot.CHEST.getValue()]));
 			row.add(Integer.toString(((Armor) config).reductionAmounts[ArmorSlot.LEGS.getValue()]));
 			row.add(Integer.toString(((Armor) config).aquaAffinityLevel));
+			row.add(PolycraftMod.getVersionText(config.version));
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.HEAD.getValue()]);
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.CHEST.getValue()]);
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.LEGS.getValue()]);
+			row.add(((Armor) config).componentGameIDs[ArmorSlot.FEET.getValue()]);
 			data.add(row);
 
 		}

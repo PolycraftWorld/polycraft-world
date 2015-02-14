@@ -1,98 +1,104 @@
 Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Input 6	I6#	Input 7	I7#	Input 8	I8#	Input 9	I9#						
-1.0.0	TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	1	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	FALSE	1	Tree Tap	1	Planks	1	Stick	1	Planks	1	Planks	1			Planks	1			Planks	1								
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Iron Block	1	Furnace	1	Iron Block	1						
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1						
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Metal Screw	1	Iron Block	1						
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Iron Block	1					Iron Ingot	1					Iron Ingot	1								
-1.0.0	TRUE	FALSE	2	Stone Pogo Stick	1	Stick	1	Stick	1	Stick	1	Cobblestone	1	Stick	1	Cobblestone	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	FALSE	2	Iron Pogo Stick	1	Stick	1	Stick	1	Stick	1	Iron Block	1	Stick	1	Iron Block	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	FALSE	2	Golden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Gold Block	1	Stick	1	Gold Block	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	TRUE	2	Brass Ingot	1	Zinc Ingot	1	Copper Ingot	1																				
-1.0.0	TRUE	TRUE	2	Block of Brass	1	Block of Zinc	1	Block of Copper	1																				
-1.0.0	TRUE	FALSE	2	Bronze Ingot	9	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Tin Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1						
-1.0.0	TRUE	FALSE	2	Block of Bronze	9	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Tin	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1						
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Tungsten	1					Tungsten Ingot	1					Tungsten Ingot	1								
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Titanium	1					Titanium Ingot	1					Titanium Ingot	1								
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Nickel	1					Nickel Ingot	1					Nickel Ingot	1								
-1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Antimony	1					Antimony Ingot	1					Antimony Ingot	1								
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Metal Screw	1	Block of Tungsten	1						
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Metal Screw	1	Block of Nickel	1						
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Metal Screw	1	Block of Bronze	1						
-1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Brass	1	Furnace	1	Block of Brass	1						
-1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Furnace	1	Block of Brass	1						
-1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Metal Screw	1	Block of Brass	1						
-1.0.0	TRUE	FALSE	2	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1								
-1.0.0	TRUE	FALSE	2	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1								
-1.0.0	TRUE	TRUE	2	Platinum Catalyst	4	Platinum Ingot	1																						
-1.0.0	TRUE	TRUE	2	Titanium Catalyst	4	Titanium Ingot	1																						
-1.0.0	TRUE	TRUE	2	Palladium Catalyst	4	Palladium Ingot	1																						
-1.0.0	TRUE	TRUE	2	Cobalt Catalyst	4	Cobalt Ingot	1																						
-1.0.0	TRUE	TRUE	2	Manganese Catalyst	4	Manganese Ingot	1																						
-1.0.0	TRUE	TRUE	2	Silver Catalyst	4	Silver Ingot	1																						
-1.0.0	TRUE	TRUE	2	Triethylaluminium Catalyst	4	Aluminum Ingot	1																						
+1.0.0	TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	TRUE	2	Antimony Trioxide Catalyst	4	Antimony Ingot	1																						
-1.0.0	TRUE	TRUE	2	Copper II Chloride Catalyst	4	Copper Ingot	1																						
-1.0.0	TRUE	TRUE	2	Iron III Chloride Catalyst	4	Iron Ingot	1																						
+1.1.0	TRUE	FALSE	2	Antimony-Lead Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Antimony Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1						
+1.0.0	TRUE	TRUE	2	Bag (Potassium Hydroxide)	4	Potash Ore	1																						
+1.1.0	TRUE	FALSE	2	Block of Antimony-Lead	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Antimony	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1						
+1.0.0	TRUE	TRUE	2	Block of Brass	1	Block of Zinc	1	Block of Copper	1																				
+1.0.0	TRUE	FALSE	2	Block of Bronze	9	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Tin	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1						
+1.1.0	TRUE	FALSE	2	Block of Nichrome	1	Block of Nickel	1			Block of Nickel	1			Block of Chrome	1			Block of Nickel	1			Block of Nickel	1						
+1.1.0	TRUE	FALSE	2	Block of Nichrome	1			Block of Nickel	1			Block of Nickel	1	Block of Chrome	1	Block of Nickel	1			Block of Nickel	1								
+1.0.4	TRUE	FALSE	2	Block of Stainless Steel	9	Block of Chrome	1	Block of Nickel	1	Block of Chrome	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1						
+1.0.4	TRUE	FALSE	2	Block of Steel	9	Iron Block	1	Graphite	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1						
 1.0.6	TRUE	FALSE	2	BlockPipe	6			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1			Steel Ingot	1								
 1.0.6	TRUE	FALSE	2	BlockPipe	64			Block of Steel	1		1	Block of Steel	1			Block of Steel	1			Block of Steel	1								
 1.0.6	TRUE	FALSE	2	BlockPipe	6			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1								
 1.0.6	TRUE	FALSE	2	BlockPipe	64			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1			Block of Stainless Steel	1								
+1.0.0	TRUE	TRUE	2	Brass Ingot	1	Zinc Ingot	1	Copper Ingot	1																				
+1.0.0	TRUE	FALSE	2	Bronze Ingot	9	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Tin Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1	Copper Ingot	1						
 1.1.0	TRUE	FALSE	2	Bucket	1							Stainless Steel Ingot	1			Stainless Steel Ingot	1			Stainless Steel Ingot	1								
 1.1.0	TRUE	FALSE	2	Bucket	1							Brass Ingot	1			Brass Ingot	1			Brass Ingot	1								
 1.1.0	TRUE	FALSE	2	Bucket	1							Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1								
 1.1.0	TRUE	FALSE	2	Bucket	1							Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1								
 1.1.0	TRUE	FALSE	2	Bucket	1							Steel Ingot	1			Steel Ingot	1			Steel Ingot	1								
-1.1.0	TRUE	TRUE	2	Tungsten Carbide Ingot	1	Tungsten Ingot	1	Graphite	1																				
+1.0.0	TRUE	TRUE	2	Cobalt Catalyst	4	Cobalt Ingot	1																						
+1.0.0	TRUE	TRUE	2	Copper II Chloride Catalyst	4	Copper Ingot	1																						
+1.0.0	TRUE	FALSE	2	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1								
+1.0.0	TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	2	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1								
+1.0.0	TRUE	FALSE	2	Golden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Gold Block	1	Stick	1	Gold Block	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	2	Heat Exchanger	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Redstone Block	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	2	Heat Fins	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	TRUE	2	Iron III Chloride Catalyst	4	Iron Ingot	1																						
+1.0.0	TRUE	FALSE	2	Iron Pogo Stick	1	Stick	1	Stick	1	Stick	1	Iron Block	1	Stick	1	Iron Block	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Metal Screw	1	Iron Block	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Metal Screw	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Metal Screw	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Metal Screw	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Metal Screw	1	Block of Brass	1						
+1.0.0	TRUE	TRUE	2	Manganese Catalyst	4	Manganese Ingot	1																						
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Iron Block	1					Iron Ingot	1					Iron Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Tungsten	1					Tungsten Ingot	1					Tungsten Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Titanium	1					Titanium Ingot	1					Titanium Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Nickel	1					Nickel Ingot	1					Nickel Ingot	1								
+1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Antimony	1					Antimony Ingot	1					Antimony Ingot	1								
 1.1.0	TRUE	FALSE	2	Nichrome Ingot	1	Nickel Ingot	1			Nickel Ingot	1			Chrome Ingot	1			Nickel Ingot	1			Nickel Ingot	1						
 1.1.0	TRUE	FALSE	2	Nichrome Ingot	1			Nickel Ingot	1			Nickel Ingot	1	Chrome Ingot	1	Nickel Ingot	1			Nickel Ingot	1								
-1.1.0	TRUE	FALSE	2	Block of Nichrome	1	Block of Nickel	1			Block of Nickel	1			Block of Chrome	1			Block of Nickel	1			Block of Nickel	1						
-1.1.0	TRUE	FALSE	2	Block of Nichrome	1			Block of Nickel	1			Block of Nickel	1	Block of Chrome	1	Block of Nickel	1			Block of Nickel	1								
-1.1.0	TRUE	FALSE	2	Antimony-Lead Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Antimony Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1						
+1.0.0	TRUE	TRUE	2	Palladium Catalyst	4	Palladium Ingot	1																						
+1.0.0	TRUE	TRUE	2	Platinum Catalyst	4	Platinum Ingot	1																						
+1.0.0	TRUE	TRUE	2	Silver Catalyst	4	Silver Ingot	1																						
 1.0.4	TRUE	FALSE	2	Stainless Steel Ingot	9	Chrome Ingot	1	Nickel Ingot	1	Chrome Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1						
-1.0.4	TRUE	FALSE	2	Block of Stainless Steel	9	Block of Chrome	1	Block of Nickel	1	Block of Chrome	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1	Block of Steel	1						
-1.0.4	TRUE	FALSE	2	Block of Steel	9	Iron Block	1	Graphite	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1	Iron Block	1						
-1.1.0	TRUE	FALSE	2	Block of Antimony-Lead	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Antimony	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1						
-1.0.0	TRUE	FALSE	1	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	FALSE	3	Regulator (Low Pressure)	1	Copper Pipe	1	Gasket (Low Pressure)	1			Gasket (Low Pressure)	1	Redstone	1	Gasket (Low Pressure)	1			Gasket (Low Pressure)	1	Copper Pipe	1						
-1.1.0	TRUE	FALSE	5	Regulator (Medium Pressure)	1	Copper Pipe	1	Gasket (Medium Pressure)	1			Gasket (Medium Pressure)	1	Redstone	1	Gasket (Medium Pressure)	1			Gasket (Medium Pressure)	1	Copper Pipe	1						
-1.1.0	TRUE	FALSE	8	Regulator (High Pressure)	1	Copper Pipe	1	Gasket (High Pressure)	1			Gasket (High Pressure)	1	Redstone	1	Gasket (High Pressure)	1			Gasket (High Pressure)	1	Copper Pipe	1						
-1.1.0	TRUE	FALSE	8	Regulator (Extreme Pressure)	1	Copper Pipe	1	Gasket (Extreme Pressure)	1			Gasket (Extreme Pressure)	1	Redstone	1	Gasket (Extreme Pressure)	1			Gasket (Extreme Pressure)	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	2	Stone Pogo Stick	1	Stick	1	Stick	1	Stick	1	Cobblestone	1	Stick	1	Cobblestone	1			Sack (PolyIsoPrene Pellets)	1								
+1.0.0	TRUE	TRUE	2	Titanium Catalyst	4	Titanium Ingot	1																						
+1.0.0	TRUE	TRUE	2	Triethylaluminium Catalyst	4	Aluminum Ingot	1																						
+1.1.0	TRUE	TRUE	2	Tungsten Carbide Ingot	1	Tungsten Ingot	1	Graphite	1																				
+1.0.6	TRUE	FALSE	3	BlockPipe	16	Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1																		
+1.0.6	TRUE	FALSE	3	BlockPipe	16							Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1												
+1.0.6	TRUE	FALSE	3	BlockPipe	16													Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1						
+1.0.3	TRUE	FALSE	3	Diamond-PolyIsoPrene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (Natural Rubber)	1								
 1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
 1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Brass	1	Furnace	1	Block of Brass	1						
 1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
 1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
-1.0.0	TRUE	TRUE	2	Bag (Potassium Hydroxide)	4	Potash Ore	1																						
 1.0.6	TRUE	TRUE	3	Flow Regulator	1	BlockPipe	1	Regulator (Low Pressure)	1																				
+1.0.0	TRUE	FALSE	3	Regulator (Low Pressure)	1	Copper Pipe	1	Gasket (Low Pressure)	1			Gasket (Low Pressure)	1	Redstone	1	Gasket (Low Pressure)	1			Gasket (Low Pressure)	1	Copper Pipe	1						
 1.1.0	TRUE	FALSE	3	Running Shoes (Sprinter)	1			Rubber Sole (outsole)	1			Leather	1	Rubber Sole (midsole)	1	Leather	1	Leather	1	Rubber Sole (insole)	1	Leather	1						
-1.1.0	TRUE	FALSE	3	Running Shoes (Sprinter)	1			Rubber Sole (outsole)	1			Bag (PolyHexamethylene Adipamide Pellets)	1	Rubber Sole (midsole)	1	Leather	1	Leather	1	Rubber Sole (insole)	1	Leather	1						
-1.0.3	TRUE	FALSE	3	Diamond-PolyIsoPrene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (Natural Rubber)	1								
+1.1.0	TRUE	FALSE	3	Running Shoes (Sprinter)	1			Rubber Sole (outsole)	1			Bag (PolyHexamethylene Adipamide Pellets)	1	Rubber Sole (midsole)	1	Bag (PolyHexamethylene Adipamide Pellets)	1	Bag (PolyHexamethylene Adipamide Pellets)	1	Rubber Sole (insole)	1	Bag (PolyHexamethylene Adipamide Pellets)	1						
 1.0.3	TRUE	FALSE	3	Stainless-PolyIsoPrene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (Natural Rubber)	1								
-1.0.0	TRUE	FALSE	4	Membrane X	1	Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1						
-1.0.0	TRUE	FALSE	4	Membrane O	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1								
-1.0.0	TRUE	FALSE	4	Lighter	1			Flint And Steel	1					Vial (Light Naphtha)	1					Lighter Body (LDPE)	1								
+1.0.0	TRUE	FALSE	4	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1						
+1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PP)	1								
 1.1.1	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Pipe	1	Lighter	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Lighter	1			Flint And Steel	1					Vial (Light Naphtha)	1					Lighter Body (LDPE)	1								
+1.0.0	TRUE	FALSE	4	Membrane O	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1								
+1.0.0	TRUE	FALSE	4	Membrane X	1	Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1						
+1.0.0	TRUE	FALSE	4	Plastic Chest	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1						
+1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1																		
+1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1							Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1													Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1						
+1.0.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Oxygen)	1	Rubber Shirt	1	Cartridge (Oxygen)	1												
+1.0.0	TRUE	FALSE	4	Separation Membrane	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1						
 1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Gas Mantle	1	Slab (PP)	1	Chest	1	Copper Pipe	1	Lighter	1						
 1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (LDPE)	1	Slab (LDPE)	1	Slab (LDPE)	1	Slab (LDPE)	1	Gas Mantle	1	Slab (LDPE)	1	Chest	1	Copper Pipe	1	Lighter	1						
 1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (PS)	1	Slab (PS)	1	Slab (PS)	1	Slab (PS)	1	Gas Mantle	1	Slab (PS)	1	Chest	1	Copper Pipe	1	Lighter	1						
 1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Gas Mantle	1	Slab (Natural Rubber)	1	Chest	1	Copper Pipe	1	Lighter	1						
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
-1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PP)	1								
 1.0.3	TRUE	FALSE	4	Stainless-PolyPropylene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PP)	1								
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Iron Block	1	Redstone Block	1	Iron Block	1	Industrial Oven	1			Industrial Oven	1						
-1.0.0	TRUE	FALSE	2	Heat Exchanger	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Redstone Block	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1						
-1.0.0	TRUE	FALSE	4	Plastic Chest	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1						
-1.0.0	TRUE	FALSE	2	Heat Fins	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1						
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Block of Bronze	1	Redstone Block	1	Block of Bronze	1	Industrial Oven	1			Industrial Oven	1						
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Block of Brass	1	Redstone Block	1	Block of Brass	1	Industrial Oven	1			Industrial Oven	1						
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Industrial Oven	1			Industrial Oven	1						
@@ -101,71 +107,22 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.6	TRUE	FALSE	5	Pump	1	Regulator (Medium Pressure)	1	Gasket (Low Pressure)	1	Hose (Medium Pressure)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Hose (Medium Pressure)	1	Gasket (Low Pressure)	1	Regulator (Medium Pressure)	1						
 1.0.6	TRUE	FALSE	5	Pump	1	Hose (Medium Pressure)	1	Gasket (Medium Pressure)	1	Regulator (Medium Pressure)	1	Block (LDPE)	1	Redstone Block	1	Block (LDPE)	1	Regulator (Medium Pressure)	1	Gasket (Low Pressure)	1	Hose (Medium Pressure)	1						
 1.0.6	TRUE	FALSE	5	Pump	1	Regulator (Medium Pressure)	1	Gasket (Low Pressure)	1	Hose (Medium Pressure)	1	Block (LDPE)	1	Redstone Block	1	Block (LDPE)	1	Hose (Medium Pressure)	1	Gasket (Low Pressure)	1	Regulator (Medium Pressure)	1						
-1.0.6	TRUE	FALSE	3	BlockPipe	16	Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1																		
-1.0.6	TRUE	FALSE	3	BlockPipe	16							Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1												
-1.0.6	TRUE	FALSE	3	BlockPipe	16													Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1						
-1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1																		
-1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1							Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1													Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1						
+1.1.0	TRUE	FALSE	5	Regulator (Medium Pressure)	1	Copper Pipe	1	Gasket (Medium Pressure)	1			Gasket (Medium Pressure)	1	Redstone	1	Gasket (Medium Pressure)	1			Gasket (Medium Pressure)	1	Copper Pipe	1						
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1																		
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1							Cartridge (Oxygen)	1	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1												
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1													Cartridge (Oxygen)	1	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1						
-1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1																		
-1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1							Cartridge (Oxygen)	1	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1													Cartridge (Oxygen)	1	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1						
-1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1																		
-1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1							Cartridge (Oxygen)	1	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1													Cartridge (Oxygen)	1	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1						
-	TRUE	FALSE	6	Wine Press	1	Hopper	1	Sticky Piston	1			Iron Block	1	Redstone Block	1	Iron Block	1	Iron Block	1	Sticky Piston	1	Iron Block	1						
-1.0.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Oxygen)	1			Cartridge (Oxygen)	1												
-1.0.0	TRUE	FALSE	6	Wetsuit	1	Fibers (Natural Rubber)	1			Fibers (Natural Rubber)	1	Fibers (Natural Rubber)	1	Redstone	1	Fibers (Natural Rubber)	1	Fibers (Natural Rubber)	1	Fibers (Natural Rubber)	1	Fibers (Natural Rubber)	1						
+1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Butyl Rubber Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Synthetic Rubber Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Synthetic Rubber (II) Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack	1	Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	6	Jet Pack	1							Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack	1													Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1						
 1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator (Low Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator (Low Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
 1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator (Low Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
 1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator (Low Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
 1.0.0	TRUE	FALSE	6	Merox Treatment Unit	1	Regulator (Low Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
-1.0.0	TRUE	FALSE	4	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1						
-1.0.0	TRUE	FALSE	4	Separation Membrane	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1						
-1.1.0	TRUE	FALSE	6	Jet Pack	1	Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	6	Jet Pack	1							Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack	1													Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1						
-1.0.0	TRUE	FALSE	7	Flame Tosser	1	Lighter	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	7	Flame Chucker	1	Lighter	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	7	Flame Hurler	1	Lighter	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	7	Flame Thrower	1	Lighter	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
-1.0.0	TRUE	FALSE	7	Flame Tosser	1	Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	7	Flame Chucker	1	Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	7	Flame Hurler	1	Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	7	Flame Thrower	1	Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1																		
-1.0.0	TRUE	FALSE	7	Flame Tosser	1							Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	7	Flame Chucker	1							Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	7	Flame Hurler	1							Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	7	Flame Thrower	1							Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1												
-1.0.0	TRUE	FALSE	7	Flame Tosser	1													Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1						
-1.1.0	TRUE	FALSE	7	Flame Chucker	1													Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1						
-1.1.0	TRUE	FALSE	7	Flame Hurler	1													Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1						
-1.1.0	TRUE	FALSE	7	Flame Thrower	1													Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1						
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Beginner)	1	Scuba Mask (Beginner)	1	Flashlight	1																				
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Intermediate)	1	Scuba Mask (Intermediate)	1	Flashlight	1																				
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Advanced)	1	Scuba Mask (Advanced)	1	Flashlight	1																				
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Pro)	1	Scuba Mask (Pro)	1	Flashlight	1																				
-1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Lead-Acid Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
-1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Lithium Ion Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
-1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Nickel Metal Hydride Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
-1.0.3	TRUE	FALSE	8	Diamond-PEEK Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
-1.0.3	TRUE	FALSE	8	Stainless-PEEK Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
-1.1.0	TRUE	FALSE	8	Lead-Acid Battery (1-Cell)	1	Plumbum (Lead) Ingot	1	Lead Oxide Catalyst	1	Plumbum (Lead) Ingot	1	Battery Case (SAN)	1	Slab (LDPE)	1	Beaker (Sulfuric Acid)	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1						
-1.1.0	TRUE	FALSE	8	Lead-Acid Battery (9-Cell)	1	Block of Plumbum (Lead)	1	Lead Oxide Catalyst	1	Block of Plumbum (Lead)	1	Battery Case (SAN)	1	Slab (LDPE)	1	Beaker (Sulfuric Acid)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1						
-1.1.0	TRUE	FALSE	8	Lithium Ion Battery (1-Cell)	1			Graphite	1			Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Lithium Hexafluorophosphate)	1	Nickel Ingot	1	Cobalt Ingot	1	Manganese Ingot	1						
-1.1.0	TRUE	FALSE	8	Lithium Ion Battery (9-Cell)	1	Graphite	1	Graphite	1	Graphite	1	Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Lithium Hexafluorophosphate)	1	Block of Nickel	1	Block of Cobalt	1	Block of Manganese	1						
-1.1.0	TRUE	FALSE	8	Nickel Metal Hydride Battery (1-Cell)	1	Nichrome Ingot	1	Titanium Ingot	1	Nichrome Ingot	1	Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Potassium Hydroxide)	1	Nickel Ingot	1	Nickel Ingot	1	Nickel Ingot	1						
-1.1.0	TRUE	FALSE	8	Nickel Metal Hydride Battery (9-Cell)	1	Block of Nichrome	1	Block of Titanium	1	Block of Nichrome	1	Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Potassium Hydroxide)	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1						
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Iron Block	1	Furnace	1	Iron Block	1						
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1						
-1.0.0	TRUE	FALSE	8	Oil Derrick	1			Structural Truss	1			Structural Truss	1	Plastic Chest	1	Structural Truss	1	Structural Truss	1	Chemical Processor	1	Structural Truss	1						
-1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1			Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1	Hose (High Pressure)	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Oxygen)	1			Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Oxygen)	1			Cartridge (Oxygen)	1												
+	TRUE	FALSE	6	Wine Press	1	Hopper	1	Sticky Piston	1			Iron Block	1	Redstone Block	1	Iron Block	1	Iron Block	1	Sticky Piston	1	Iron Block	1						
 1.0.0	TRUE	FALSE	7	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
 1.0.0	TRUE	FALSE	7	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
 1.0.0	TRUE	FALSE	7	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
@@ -174,19 +131,69 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	7	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
 1.0.0	TRUE	FALSE	7	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
 1.0.0	TRUE	FALSE	7	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.1.0	TRUE	FALSE	7	Flame Chucker	1	Lighter	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	7	Flame Chucker	1	Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	7	Flame Chucker	1							Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	7	Flame Chucker	1													Cartridge (Propane)	1	Flame Chucker	1	Cartridge (Propane)	1						
+1.1.0	TRUE	FALSE	7	Flame Hurler	1	Lighter	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	7	Flame Hurler	1	Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	7	Flame Hurler	1							Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	7	Flame Hurler	1													Cartridge (Propane)	1	Flame Hurler	1	Cartridge (Propane)	1						
+1.1.0	TRUE	FALSE	7	Flame Thrower	1	Lighter	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	7	Flame Thrower	1	Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	7	Flame Thrower	1							Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	7	Flame Thrower	1													Cartridge (Propane)	1	Flame Thrower	1	Cartridge (Propane)	1						
+1.0.0	TRUE	FALSE	7	Flame Tosser	1	Lighter	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.0.0	TRUE	FALSE	7	Flame Tosser	1	Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1																		
+1.0.0	TRUE	FALSE	7	Flame Tosser	1							Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1												
+1.0.0	TRUE	FALSE	7	Flame Tosser	1													Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1						
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Advanced)	1	Scuba Mask (Advanced)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Beginner)	1	Scuba Mask (Beginner)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Intermediate)	1	Scuba Mask (Intermediate)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	7	Scuba Mask Light (Pro)	1	Scuba Mask (Pro)	1	Flashlight	1																				
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.3	TRUE	FALSE	8	Diamond-PEEK Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
+1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Lead-Acid Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
+1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Lithium Ion Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
+1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Nickel Metal Hydride Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
+1.1.0	TRUE	FALSE	8	Lead-Acid Battery (1-Cell)	1	Plumbum (Lead) Ingot	1	Lead Oxide Catalyst	1	Plumbum (Lead) Ingot	1	Battery Case (SAN)	1	Slab (LDPE)	1	Beaker (Sulfuric Acid)	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1						
+1.1.0	TRUE	FALSE	8	Lead-Acid Battery (9-Cell)	1	Block of Plumbum (Lead)	1	Lead Oxide Catalyst	1	Block of Plumbum (Lead)	1	Battery Case (SAN)	1	Slab (LDPE)	1	Beaker (Sulfuric Acid)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1						
+1.1.0	TRUE	FALSE	8	Lithium Ion Battery (1-Cell)	1			Graphite	1			Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Lithium Hexafluorophosphate)	1	Nickel Ingot	1	Cobalt Ingot	1	Manganese Ingot	1						
+1.1.0	TRUE	FALSE	8	Lithium Ion Battery (9-Cell)	1	Graphite	1	Graphite	1	Graphite	1	Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Lithium Hexafluorophosphate)	1	Block of Nickel	1	Block of Cobalt	1	Block of Manganese	1						
+1.1.0	TRUE	FALSE	8	Nickel Metal Hydride Battery (1-Cell)	1	Nichrome Ingot	1	Titanium Ingot	1	Nichrome Ingot	1	Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Potassium Hydroxide)	1	Nickel Ingot	1	Nickel Ingot	1	Nickel Ingot	1						
+1.1.0	TRUE	FALSE	8	Nickel Metal Hydride Battery (9-Cell)	1	Block of Nichrome	1	Block of Titanium	1	Block of Nichrome	1	Battery Case (SAN)	1	Slab (LDPE)	1	Bag (Potassium Hydroxide)	1	Block of Nickel	1	Block of Nickel	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	8	Oil Derrick	1			Structural Truss	1			Structural Truss	1	Plastic Chest	1	Structural Truss	1	Structural Truss	1	Chemical Processor	1	Structural Truss	1						
+1.1.0	TRUE	FALSE	8	Regulator (Extreme Pressure)	1	Copper Pipe	1	Gasket (Extreme Pressure)	1			Gasket (Extreme Pressure)	1	Redstone	1	Gasket (Extreme Pressure)	1			Gasket (Extreme Pressure)	1	Copper Pipe	1						
+1.1.0	TRUE	FALSE	8	Regulator (High Pressure)	1	Copper Pipe	1	Gasket (High Pressure)	1			Gasket (High Pressure)	1	Redstone	1	Gasket (High Pressure)	1			Gasket (High Pressure)	1	Copper Pipe	1						
+1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1																		
+1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1							Cartridge (Oxygen)	1	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1													Cartridge (Oxygen)	1	Scuba Tank (Advanced)	1	Cartridge (Oxygen)	1						
+1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1	Hose (High Pressure)	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Oxygen)	1	SBR Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1	Hose (High Pressure)	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Oxygen)	1	NBR Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Advanced)	1	Hose (High Pressure)	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Oxygen)	1	HNBR Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1																		
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1							Cartridge (Oxygen)	1	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1													Cartridge (Oxygen)	1	Scuba Tank (Pro)	1	Cartridge (Oxygen)	1						
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Oxygen)	1	CIIR Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Oxygen)	1	BIIR Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Oxygen)	1	EPDM Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Oxygen)	1	EVA Wetsuit	1	Cartridge (Oxygen)	1												
+1.1.0	TRUE	FALSE	8	Scuba Tank (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Oxygen)	1	PUR Wetsuit	1	Cartridge (Oxygen)	1												
+1.0.3	TRUE	FALSE	8	Stainless-PEEK Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Helmet	1	Kevlar Helmet	1	The Emperor's New Hat	1																				
-1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Vest	1	Kevlar Vest	1	The Emperor's New Jacket	1																				
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Pants	1	Kevlar Pants	1	The Emperor's New Pants	1																				
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Shoes	1	Kevlar Shoes	1	The Emperor's New Shoes	1																				
+1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Vest	1	Kevlar Vest	1	The Emperor's New Jacket	1																				
 1.0.0	TRUE	FALSE	9	Jet Pack	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
 1.0.0	TRUE	FALSE	9	Laser	1			Nether Star	1			Nether Star	1	Redstone Block	1	Nether Star	1			Nether Star	1								
 1.0.0	TRUE	FALSE	9	Phase Shifter	1	Nether Star	1			Nether Star	1			Redstone Block	1			Nether Star	1			Nether Star	1						
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1						
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1						
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1						
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1						
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1						
-1.0.0	TRUE	FALSE	9	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1						
+1.0.0	TRUE	FALSE	8	Structural Truss	1	Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1						
+1.0.0	TRUE	FALSE	8	Structural Truss	1	Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1						
+1.0.0	TRUE	FALSE	8	Structural Truss	1	Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1						
+1.0.0	TRUE	FALSE	8	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1						
+1.0.0	TRUE	FALSE	8	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1						
+1.0.0	TRUE	FALSE	8	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1						
 																													
 																													
 																													
