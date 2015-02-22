@@ -114,9 +114,9 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Butyl Rubber Wetsuit	1	Cartridge (Oxygen)	1												
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Synthetic Rubber Wetsuit	1	Cartridge (Oxygen)	1												
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Synthetic Rubber (II) Wetsuit	1	Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack	1	Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	6	Jet Pack	1							Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack	1													Cartridge (Propane)	1	Jet Pack	1	Cartridge (Propane)	1						
+1.1.0	TRUE	FALSE	6	Jet Pack (Beginner)	1	Cartridge (Propane)	1	Jet Pack (Beginner)	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	6	Jet Pack (Beginner)	1							Cartridge (Propane)	1	Jet Pack (Beginner)	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack (Beginner)	1													Cartridge (Propane)	1	Jet Pack (Beginner)	1	Cartridge (Propane)	1						
 1.0.0	TRUE	FALSE	5	Merox Treatment Unit	1	Regulator (Medium Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.0	TRUE	FALSE	5	Merox Treatment Unit	1	Regulator (Medium Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
 1.0.0	TRUE	FALSE	5	Merox Treatment Unit	1	Regulator (Medium Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
@@ -147,12 +147,12 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	7	Flame Tosser	1	Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1																		
 1.0.0	TRUE	FALSE	7	Flame Tosser	1							Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1												
 1.0.0	TRUE	FALSE	7	Flame Tosser	1													Cartridge (Propane)	1	Flame Tosser	1	Cartridge (Propane)	1						
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Advanced)	1	Scuba Mask (Advanced)	1	Flashlight	1																				
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Beginner)	1	Scuba Mask (Beginner)	1	Flashlight	1																				
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Intermediate)	1	Scuba Mask (Intermediate)	1	Flashlight	1																				
-1.1.0	TRUE	TRUE	7	Scuba Mask Light (Pro)	1	Scuba Mask (Pro)	1	Flashlight	1																				
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator (Medium Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Iron Block	1	Furnace	1	Iron Block	1						
-1.0.0	TRUE	FALSE	8	Chemical Processor	1	Regulator (Medium Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.1.0	TRUE	TRUE	8	Scuba Mask Light (Advanced)	1	Scuba Mask (Advanced)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	8	Scuba Mask Light (Beginner)	1	Scuba Mask (Beginner)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	8	Scuba Mask Light (Intermediate)	1	Scuba Mask (Intermediate)	1	Flashlight	1																				
+1.1.0	TRUE	TRUE	8	Scuba Mask Light (Pro)	1	Scuba Mask (Pro)	1	Flashlight	1																				
+1.0.0	TRUE	FALSE	6	Chemical Processor	1	Regulator (Medium Pressure)	1	Hopper	1	Heat Exchanger	1	Beaker (Diesel)	1	Redstone Block	1	Cartridge (Sweet Propane Fuel)	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	6	Chemical Processor	1	Regulator (Medium Pressure)	1	Hopper	1	Heat Exchanger	1	Cartridge (Sweet Propane Fuel)	1	Redstone Block	1	Beaker (Diesel)	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.3	TRUE	FALSE	8	Diamond-PEEK Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PEEK)	1								
 1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Lead-Acid Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
 1.1.0	TRUE	FALSE	8	Flashlight	1	Gas Mantle	1	Lithium Ion Battery (1-Cell)	1	Flashlight Shaft (PS)	1																		
@@ -185,7 +185,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Pants	1	Kevlar Pants	1	The Emperor's New Pants	1																				
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Shoes	1	Kevlar Shoes	1	The Emperor's New Shoes	1																				
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Vest	1	Kevlar Vest	1	The Emperor's New Jacket	1																				
-1.0.0	TRUE	FALSE	9	Jet Pack	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.0.0	TRUE	FALSE	9	Jet Pack (Beginner)	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
 1.0.0	TRUE	FALSE	9	Laser	1			Nether Star	1			Nether Star	1	Redstone Block	1	Nether Star	1			Nether Star	1								
 1.0.0	TRUE	FALSE	9	Phase Shifter	1	Nether Star	1			Nether Star	1			Redstone Block	1			Nether Star	1			Nether Star	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1						
@@ -194,18 +194,18 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1						
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
+1.1.0	TRUE	FALSE	6	Jet Pack (Intermediate)	1	Cartridge (Propane)	1	Jet Pack (Intermediate)	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	6	Jet Pack (Intermediate)	1							Cartridge (Propane)	1	Jet Pack (Intermediate)	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack (Intermediate)	1													Cartridge (Propane)	1	Jet Pack (Intermediate)	1	Cartridge (Propane)	1						
+1.0.0	TRUE	FALSE	9	Jet Pack (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack (Advanced)	1	Cartridge (Propane)	1	Jet Pack (Advanced)	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	6	Jet Pack (Advanced)	1							Cartridge (Propane)	1	Jet Pack (Advanced)	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack (Advanced)	1													Cartridge (Propane)	1	Jet Pack (Advanced)	1	Cartridge (Propane)	1						
+1.0.0	TRUE	FALSE	9	Jet Pack (Advanced)	1	Hose (High Pressure)	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack (Pro)	1	Cartridge (Propane)	1	Jet Pack (Pro)	1	Cartridge (Propane)	1																		
+1.1.0	TRUE	FALSE	6	Jet Pack (Pro)	1							Cartridge (Propane)	1	Jet Pack (Pro)	1	Cartridge (Propane)	1												
+1.1.0	TRUE	FALSE	6	Jet Pack (Pro)	1													Cartridge (Propane)	1	Jet Pack (Pro)	1	Cartridge (Propane)	1						
+1.0.0	TRUE	FALSE	9	Jet Pack (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
 																													
 																													
 																													
