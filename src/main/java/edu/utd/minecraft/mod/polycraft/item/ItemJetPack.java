@@ -8,8 +8,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -113,19 +111,19 @@ public class ItemJetPack extends PolycraftArmorChest {
 			}
 		}
 		*/
-//FIXME: deal with projectile code to improve lag in big servers
+		//FIXME: deal with projectile code to improve lag in big servers
 		//light entities on fire in the exhaust plume
-//		final ItemJetPack equippedItem = getEquippedItem(player);
-//		final List<Entity> closeEntities = world.getEntitiesWithinAABB(Entity.class,
-//				AxisAlignedBB.getBoundingBox(player.posX - 1, player.posY - exhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
-//		if (closeEntities != null && closeEntities.size() > 0)
-//			for (final Entity entity : closeEntities) {
-//				if (!entity.equals(player)) {
-//					if (!entity.isBurning())
-//						entity.setFire(Math.max(exhaustRangeY - (int) Math.round(player.posY - entity.posY), 1));
-//					entity.attackEntityFrom(DamageSource.onFire, equippedItem.exhaustDamageDirect);
-//				}
-//			}
+		//		final ItemJetPack equippedItem = getEquippedItem(player);
+		//		final List<Entity> closeEntities = world.getEntitiesWithinAABB(Entity.class,
+		//				AxisAlignedBB.getBoundingBox(player.posX - 1, player.posY - exhaustRangeY, player.posZ - 1, player.posX + 1, player.posY, player.posZ + 1));
+		//		if (closeEntities != null && closeEntities.size() > 0)
+		//			for (final Entity entity : closeEntities) {
+		//				if (!entity.equals(player)) {
+		//					if (!entity.isBurning())
+		//						entity.setFire(Math.max(exhaustRangeY - (int) Math.round(player.posY - entity.posY), 1));
+		//					entity.attackEntityFrom(DamageSource.onFire, equippedItem.exhaustDamageDirect);
+		//				}
+		//			}
 
 	}
 
@@ -133,6 +131,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 	public final int fuelUnitsBurnPerTick;
 	public final float velocityInAir;
 	public final int exhaustDamageDirect;
+	public final int altitudeMaximum;
 
 	public ItemJetPack(final CustomObject config) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
@@ -144,6 +143,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 		this.fuelUnitsBurnPerTick = config.params.getInt(1);
 		this.velocityInAir = config.params.getFloat(2);
 		this.exhaustDamageDirect = config.params.getInt(3);
+		this.altitudeMaximum = config.params.getInt(4);
 	}
 
 	@Override

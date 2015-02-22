@@ -22,7 +22,10 @@ public enum GameID {
 	CustomFlameChucker("135"),
 	CustomFlameHurler("136"),
 	CustomFlashlight("3o"),
-	CustomJetPack("3p"),
+	CustomJetPackBeginner("3p"),
+	CustomJetPackIntermediate("19P"),
+	CustomJetPackAdvanced("19Q"),
+	CustomJetPackPro("19R"),
 	CustomParachute("5a"),
 	CustomPhaseShifter("3r"),
 	CustomScubaTankBeginner("3x"),
@@ -35,7 +38,7 @@ public enum GameID {
 	InventoryIndustrialOven("3F"),
 	InventoryPlasticChest("3L"),
 	InventoryCondenser("20"),
-	InventoryFlowRegulator("5j"), 
+	InventoryFlowRegulator("5j"),
 	InventoryPump("4i"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
@@ -52,8 +55,6 @@ public enum GameID {
 	MoldedItemScubaMaskIntermediate("2V"),
 	MoldedItemScubaMaskAdvanced("12T"),
 	MoldedItemScubaMaskPro("2W");
-	
-	
 
 	public final String id;
 

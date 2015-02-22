@@ -739,7 +739,7 @@ public class RecipeGenerator {
 				new ItemStack(Blocks.crafting_table),
 				CustomObject.registry.get("Flashlight").getItemStack(),
 				CustomObject.registry.get("Flame Thrower").getItemStack(),
-				CustomObject.registry.get("Jet Pack").getItemStack(),
+				CustomObject.registry.get("Jet Pack (Beginner)").getItemStack(),
 				PolymerSlab.registry.get("Slab (Natural Rubber)").getItemStack(),
 				PolymerBlock.registry.get("Block (Natural Rubber)").getItemStack(),
 				CustomObject.registry.get("Phase Shifter").getItemStack(),

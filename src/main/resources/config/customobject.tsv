@@ -6,7 +6,7 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.1.0	135	Flame Hurler	Weapon	7	FALSE		1	30	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	2000	1	10	2	5	2			
 1.1.0	136	Flame Thrower	Weapon	7	FALSE		1	80	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	2500	1	40	2	5	10			
 1.0.0	3o	Flashlight	Utility		TRUE		1	30										
-1.0.0	3p	Jet Pack	Armor		TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect"	5000	1	0.4	5					
+1.0.0	3p	Jet Pack (Beginner)	Armor		TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	3000	1	0.4	5	100				
 1.0.0	5a	Parachute			TRUE		1		VelocityDescent	0.3								
 1.0.0	3q	Laser	Tool		TRUE		1											
 1.0.0	3r	Phase Shifter	Tool	7	TRUE		1		"Radius, Velocity, BoundaryBlock"	3	0.6	1.0.0						
@@ -50,9 +50,9 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.1.0	13f	Scuba Mask Light (Intermediate)	PC Item	8	FALSE		1	10										
 1.1.0	13g	Scuba Mask Light (Advanced)	PC Item	8	FALSE		1	15										
 1.1.0	13h	Scuba Mask Light (Pro)	PC Item	8	FALSE		1	25										
-																		
-																		
-																		
+1.0.0	19P	Jet Pack (Intermediate)	Armor		TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	6000	1	0.4	5	150				
+1.0.0	19Q	Jet Pack (Advanced)	Armor		TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	9000	1	0.4	5	200				
+1.0.0	19R	Jet Pack (Pro)	Armor		TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	12000	1	0.4	5	10000				
 																		
 																		
 																		

@@ -185,7 +185,13 @@ public class ClientProxy extends CommonProxy {
 
 	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
 		if (isKeyDown(gameSettings.keyBindJump))
-			player.motionY = velocity;
+		{
+			if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
+				player.motionY = velocity;
+			else
+				player.motionY = 0;
+
+		}
 		else if (isKeyDown(gameSettings.keyBindSneak))
 			player.motionY = -velocity;
 		else if (cancelGravity && player.motionY < 0)
@@ -208,7 +214,7 @@ public class ClientProxy extends CommonProxy {
 			if (ItemPogoStick.isEquipped(player))
 				playerState.pogoStickLastFallDistance = event.distance;
 			else if (isEntityOnBouncyBlock(player)) {
-				if (getBlockUnderEntity(player) instanceof BlockBouncy)				
+				if (getBlockUnderEntity(player) instanceof BlockBouncy)
 				{
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
 					// if we are actively jumping
@@ -218,7 +224,7 @@ public class ClientProxy extends CommonProxy {
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				}
-				else if (getBlockUnderNorthOfEntity(player) instanceof BlockBouncy)				
+				else if (getBlockUnderNorthOfEntity(player) instanceof BlockBouncy)
 				{
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderNorthOfEntity(player);
 					// if we are actively jumping
@@ -228,8 +234,8 @@ public class ClientProxy extends CommonProxy {
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				}
-				
-				else if (getBlockUnderSouthOfEntity(player) instanceof BlockBouncy)				
+
+				else if (getBlockUnderSouthOfEntity(player) instanceof BlockBouncy)
 				{
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderSouthOfEntity(player);
 					// if we are actively jumping
@@ -239,7 +245,7 @@ public class ClientProxy extends CommonProxy {
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				}
-				else if (getBlockUnderEastOfEntity(player) instanceof BlockBouncy)				
+				else if (getBlockUnderEastOfEntity(player) instanceof BlockBouncy)
 				{
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEastOfEntity(player);
 					// if we are actively jumping
@@ -249,7 +255,7 @@ public class ClientProxy extends CommonProxy {
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				}
-				else if (getBlockUnderWestOfEntity(player) instanceof BlockBouncy)				
+				else if (getBlockUnderWestOfEntity(player) instanceof BlockBouncy)
 				{
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderWestOfEntity(player);
 					// if we are actively jumping
@@ -258,16 +264,15 @@ public class ClientProxy extends CommonProxy {
 					// if we are supposed to return momentum while not actively jumping (or sneaking)
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
-				}		
-				else if (getBlockUnderEntity(player) instanceof BlockBed)				
+				}
+				else if (getBlockUnderEntity(player) instanceof BlockBed)
 				{
 					final BlockBed bouncyBed = (BlockBed) getBlockUnderEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 						playerState.bouncyBlockBounceHeight = 3; //hard coded bed value spring height
 				}
-				
-				
+
 			}
 		}
 		super.onLivingFallEvent(event);
@@ -291,7 +296,6 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 	}
-
 
 	@Override
 	@SubscribeEvent
@@ -366,18 +370,18 @@ public class ClientProxy extends CommonProxy {
 					}
 					for (final Ore ore : Ore.getByDescendingAbundance())
 						playerState.cheatInfoOreBlocksFound.put(ore, 0);
-						
+
 					playerState.cheatInfoTicksRemaining = 400;
 					for (int testX = -8; testX <= 8; testX++) {
 						for (int testY = 0; testY < 64; testY++) {
 							for (int testZ = -8; testZ <= 8; testZ++) {
-								final int blockX = (int)(player.posX + testX);
+								final int blockX = (int) (player.posX + testX);
 								final int blockY = testY;
-								final int blockZ = (int)(player.posZ + testZ);
+								final int blockZ = (int) (player.posZ + testZ);
 								if (!player.worldObj.isAirBlock(blockX, blockY, blockZ)) {
 									final Block testBlock = player.worldObj.getBlock(blockX, blockY, blockZ);
 									if (testBlock instanceof BlockOre) {
-										final Ore ore = ((BlockOre)testBlock).ore;
+										final Ore ore = ((BlockOre) testBlock).ore;
 										Integer found = playerState.cheatInfoOreBlocksFound.get(ore);
 										if (found == null)
 											playerState.cheatInfoOreBlocksFound.put(ore, 1);
@@ -403,16 +407,17 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 	}
-//	private void onClientTickPlasticBrick(EntityPlayer player, PlayerState playerState) {
-//		boolean placeBrickBackwards = false;
-//		if (isKeyDown(gameSettings.keyBindSneak))
-//		{
-//			playerState.placeBrickBackwards = true;
-//		}
-//		else
-//			playerState.placeBrickBackwards = false;
-//		
-//	}
+
+	//	private void onClientTickPlasticBrick(EntityPlayer player, PlayerState playerState) {
+	//		boolean placeBrickBackwards = false;
+	//		if (isKeyDown(gameSettings.keyBindSneak))
+	//		{
+	//			playerState.placeBrickBackwards = true;
+	//		}
+	//		else
+	//			playerState.placeBrickBackwards = false;
+	//		
+	//	}
 
 	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
 		boolean jetPackIsFlying = false;
@@ -425,18 +430,25 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.jetPackIsFlying != jetPackIsFlying) {
 			playerState.jetPackIsFlying = jetPackIsFlying;
 			sendMessageToServerJetPackIsFlying(jetPackIsFlying);
-			if (jetPackIsFlying) {
+			if ((jetPackIsFlying) && (ItemJetPack.getEquippedItem(player).altitudeMaximum < player.posY))
+			{
 				player.motionY = 1; // takeoff
 			}
 		}
 		else if (playerState.jetPackIsFlying) {
 			final float velocityInAir = ItemJetPack.getEquippedItem(player).velocityInAir;
+
 			setPlayerVelocityFromInputXZ(player, velocityInAir);
 			setPlayerVelocityFromInputY(player, velocityInAir, true);
 
 			// cause an unstable motion to simulate the unpredictability of the exhaust direction
 			ItemJetPack.randomizePosition(player, random);
 		}
+		//TODO: Jim, inspect code to respect the altitudeLimit of the jet pack
+		// The jet pack should still be able to move in the XZ plane and in -Y
+		// simply disallow climbing 
+		// the variable in ItemJetPack is called altitudeMaximum
+		// just want you to be aware that I am monkeying with your code
 	}
 
 	private void onPlayerTickClientJetPack(final EntityPlayer player, final PlayerState playerState) {
@@ -531,9 +543,9 @@ public class ClientProxy extends CommonProxy {
 			final Block block = client.theWorld.getBlock(client.objectMouseOver.blockX, client.objectMouseOver.blockY, client.objectMouseOver.blockZ);
 			return block instanceof BlockContainer
 					|| block instanceof BlockWorkbench
-					 || block instanceof BlockDoor
-					 || block instanceof BlockButton
-					 || block == Blocks.bed;
+					|| block instanceof BlockDoor
+					|| block instanceof BlockButton
+					|| block == Blocks.bed;
 		}
 		return false;
 	}

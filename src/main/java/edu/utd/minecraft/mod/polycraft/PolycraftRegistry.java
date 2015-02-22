@@ -205,7 +205,7 @@ public class PolycraftRegistry {
 
 	private static Item registerItem(final GameIdentifiedConfig config, final Item item) {
 		if (config instanceof CustomObject) {
-			customObjectItems.put(item, (CustomObject)config);
+			customObjectItems.put(item, (CustomObject) config);
 		}
 		return registerItem(config.gameID, config.name, item);
 	}
@@ -334,13 +334,11 @@ public class PolycraftRegistry {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
 			registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 
-
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			final BlockPolymer block = new BlockPolymer(polymerBlock);
 			registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
 					ItemPolymerBlock.class, new Object[] {});
 		}
-
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
@@ -383,14 +381,13 @@ public class PolycraftRegistry {
 				item = new ItemMoldedItem(moldedItem);
 			registerItem(moldedItem, item);
 		}
-		
+
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
 			final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
 			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
 					ItemPolymerBrick.class, new Object[] {});
 		}
-		
-		
+
 	}
 
 	private static void registerGrippedTools() {
@@ -406,7 +403,7 @@ public class PolycraftRegistry {
 	private static void registerArmors() {
 		for (final Armor armor : Armor.registry.values()) {
 			final ArmorMaterial material = EnumHelper.addArmorMaterial(
-				armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
+					armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
 			material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
 			registerItem(
 					armor.componentGameIDs[ArmorSlot.HEAD.getValue()],
@@ -506,10 +503,10 @@ public class PolycraftRegistry {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 		FluidRegistry.registerFluid(fluidOil);
-		
+
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
-		TileEntityBlockPipe.register(blockPipe);		
-		
+		TileEntityBlockPipe.register(blockPipe);
+
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 
 		PolycraftMod.blockOil = registerBlock(oil,
@@ -547,7 +544,16 @@ public class PolycraftRegistry {
 			else if (GameID.CustomFlashlight.matches(customObject)) {
 				registerItem(customObject, new ItemFlashlight(customObject));
 			}
-			else if (GameID.CustomJetPack.matches(customObject)) {
+			else if (GameID.CustomJetPackBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomJetPackIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomJetPackAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomJetPackPro.matches(customObject)) {
 				registerItem(customObject, new ItemJetPack(customObject));
 			}
 			else if (GameID.CustomParachute.matches(customObject)) {
@@ -652,7 +658,6 @@ public class PolycraftRegistry {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
 			langEntries.add(String.format(itemFormat, polymerPellets.gameID, polymerPellets.name));
 
-
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
 			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
 				langEntries.add(String.format(colorFormat, polymerBlock.gameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerBlock.name));
@@ -685,13 +690,13 @@ public class PolycraftRegistry {
 				langEntries.add(String.format(itemFormat, armor.componentGameIDs[armorSlot.getValue()], armor.getFullComponentName(armorSlot)));
 			}
 		}
-		
+
 		for (final Tool tool : Tool.registry.values()) {
 			for (final Tool.Type toolType : Tool.Type.values()) {
 				langEntries.add(String.format(itemFormat, tool.typeGameIDs[toolType.ordinal()], tool.getFullTypeName(toolType)));
 			}
 		}
-		
+
 		for (final PogoStick pogoStick : PogoStick.registry.values())
 			langEntries.add(String.format(itemFormat, pogoStick.gameID, pogoStick.name));
 
