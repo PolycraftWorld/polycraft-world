@@ -7,6 +7,7 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -23,6 +24,7 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
@@ -55,20 +57,18 @@ public class CondenserInventory extends PolycraftInventory {
 	private int transferCooldown = -1;
 	private int spawnAttempts = -1;
 	private final ElementVessel compoundVesselToSpawn;
-	private final ElementVessel inWaterSpawnVessel;
+	private final CompoundVessel inWaterSpawnVessel;
 	private final int amountToSpawn;
 	private final int spawnFrequencyTicks;
 	private int amountOfCompoundHarvested;
 	public boolean inWater = false;
-
-
 
 	public CondenserInventory() {
 		super(PolycraftContainerType.CONDENSER, config);
 		this.compoundVesselToSpawn = ElementVessel.registry.get(config.params.get(0));
 		this.amountToSpawn = config.params.getInt(1);
 		this.spawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(2));
-		this.inWaterSpawnVessel = ElementVessel.registry.get(config.params.get(3));
+		this.inWaterSpawnVessel = CompoundVessel.registry.get(config.params.get(3));
 		this.amountOfCompoundHarvested = 0;
 		this.addBehavior(new VesselUpcycler());
 		this.addBehavior(new VesselMerger());
@@ -115,16 +115,30 @@ public class CondenserInventory extends PolycraftInventory {
 
 	private ItemStack getNextTappedItem() {
 
-				if (spawnAttempts++ >= spawnFrequencyTicks) {
-					spawnAttempts = 0;
-					amountOfCompoundHarvested++;
-					if (inWater)
-						return compoundVesselToSpawn.getItemStack(amountToSpawn);
-					else if (inWaterSpawnVessel != null)
-						return inWaterSpawnVessel.getItemStack(amountToSpawn);
+		if (spawnAttempts++ >= spawnFrequencyTicks) {
+			spawnAttempts = 0;
+			amountOfCompoundHarvested++;
+			if (!this.blockNeighborsWater()) //TODO: fix to respect whether it is next to water
+				return compoundVesselToSpawn.getItemStack(amountToSpawn);
+			else if (inWaterSpawnVessel != null)
+				return inWaterSpawnVessel.getItemStack(amountToSpawn);
 
-				}
-			return null;
+		}
+		return null;
+
+	}
+
+	private boolean blockNeighborsWater()
+	{
+		if ((this.worldObj.getBlock(this.xCoord + 1, this.yCoord, this.zCoord)) == Blocks.water)
+			return true;
+		else if ((this.worldObj.getBlock(this.xCoord - 1, this.yCoord, this.zCoord)) == Blocks.water)
+			return true;
+		else if ((this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord + 1)) == Blocks.water)
+			return true;
+		else if ((this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord - 1)) == Blocks.water)
+			return true;
+		return false;
 
 	}
 

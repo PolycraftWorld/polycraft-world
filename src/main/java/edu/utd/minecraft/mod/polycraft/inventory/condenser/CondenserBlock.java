@@ -121,9 +121,9 @@ public class CondenserBlock extends PolycraftInventoryBlock {
 	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
 	{
+		//TODO: keep track of whether it is next to water
 		this.func_149919_e(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_);
-		//TODO: implement condenser giving water instead of nitrogen if block above it is water
-		
+
 	}
 
 	private void func_149919_e(World p_149919_1_, int p_149919_2_, int p_149919_3_, int p_149919_4_)

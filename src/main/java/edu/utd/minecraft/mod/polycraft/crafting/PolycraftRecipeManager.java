@@ -106,14 +106,14 @@ public class PolycraftRecipeManager {
 		}
 
 	}
-	
+
 	public static void markItemStackAsFromPolycraftRecipe(final ItemStack itemStack)
 	{
 		if (itemStack.stackTagCompound == null)
 			PolycraftItemHelper.createTagCompound(itemStack);
 		itemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
 	}
-	
+
 	public static boolean isItemStackFromPolycraftRecipe(final ItemStack itemStack)
 	{
 		if (itemStack.stackTagCompound != null)
@@ -195,7 +195,7 @@ public class PolycraftRecipeManager {
 
 		Preconditions.checkArgument(
 				!recipesByContainer.get(containerType).contains(recipe),
-				"Recipe already exists!");
+				"Recipe in:" + containerType.name() + " contains " + recipe.getInputs().toString() + "already exists!");
 
 		recipesByContainer.get(containerType).add(recipe);
 

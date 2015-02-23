@@ -257,7 +257,7 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.0.0	Sodium Chloride	NaCl	Solid		Salt		"Grocery; Table salt used in cooking is sodium chloride, usually with anti-caking agents such as magnesium carbonate. Iodized salt contains traces of sodium iodide."		
 1.0.0	Sodium Fluoride	NaF	Liquid		—		"Used in toothpastes and mouthwashes to prevent cavities. Difficult to obtain in pure form. Most dental solutions contain a laundry list of inert ingredients to provide coloring, flavor, foaming, and other aesthetic properties."		
 1.0.0	Sodium Hexametaphosphate	(NaPO3)6	Liquid		"Sodium polymetaphosphate,Calgon water softener"		"This water softener, surfactant and detergent is the primary ingredient in Calgon water softener. It is available at the grocery and hardware store. It is also known by other names including: glassy sodium, Graham's Salt, and hexasodium salt."		
-1.0.0	Sodium Hydroxide	NaOH	Liquid		"Lye, Caustic Soda"		"Grocery, hardware; Known also as caustic soda and lye, sodium hydroxide is used in many commercial drain cleaners/openers."		
+1.0.0	Sodium Hydroxide	NaOH	Solid		"Lye, Caustic Soda"		"Grocery, hardware; Known also as caustic soda and lye, sodium hydroxide is used in many commercial drain cleaners/openers."		
 1.0.0	Sodium Hypochlorite	NaClO	Liquid		Bleach		Household bleach is generally a 5% solution of sodium hypochlorite.		
 1.0.0	Sodium Metabisulfite	Na2S2O5	Liquid		Campden tablets		"Used as a sterilizing agent in winemaking and brewing processes. Sold as tablets which may be pure, blended withpotassium metabisulfite, or contain onlypotassium metabisulfite."		
 1.0.0	Sodium Nitrate	NaNO3	Liquid		Chile saltpeter		Garden supply store		
@@ -386,3 +386,6 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.1.2	Maleic Anhydride		Solid						
 1.1.2	Disodium Hydroquinone		Solid						
 1.1.2	Cyclopentadiene		Liquid						
+1.1.2	Nitrogen Dioxide		Gas						
+1.1.2	Sodium Nitrite	NaNO2	Solid						
+1.1.2	Dicyclopentadiene		Liquid						

@@ -102,9 +102,9 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Wheat	4									Vial (Ethanol)	4													
 1.0.0				Wheat	16									Vial (Ethanol)	16													
 1.0.0				Wheat	64									Beaker (Ethanol)	1													
-1.0.0				Vial (Salt Water)	32	Platinum Catalyst	1							Flask (Chlorine)	1	Vial (Bromine)	1	Vial (Deionized Water)	30									
-1.0.0				Beaker (Salt Water)	32	Platinum Catalyst	2							Cartridge (Chlorine)	1	Beaker (Bromine)	1	Beaker (Deionized Water)	30	Platinum Catalyst	1							
-1.0.0				Drum (Salt Water)	32	Platinum Catalyst	3							Canister (Chlorine)	1	Powder Keg (Bromine)	1	Drum (Deionized Water)	30	Platinum Catalyst	2							
+1.0.0				Vial (Salt Water)	32	Platinum Catalyst	1							Flask (Chlorine)	1	Vial (Bromine)	1	Bag (Sodium)	1	Vial (Sodium Borate)	1	Vial (Deionized Water)	28					
+1.0.0				Beaker (Salt Water)	32	Platinum Catalyst	2							Cartridge (Chlorine)	1	Beaker (Bromine)	1	Sack (Sodium)	1	Beaker (Sodium Borate)	1	Beaker (Deionized Water)	28	Platinum Catalyst	1			
+1.0.0				Drum (Salt Water)	32	Platinum Catalyst	3							Canister (Chlorine)	1	Drum (Bromine)	1	Powder Keg (Sodium)	1	Drum (Sodium Borate)	1	Drum (Deionized Water)	28	Platinum Catalyst	2			
 1.0.0				Flask (Hydrogen)	2	Flask (Oxygen)	1							Vial (Deionized Water)	1													
 1.0.0				Cartridge (Hydrogen)	2	Cartridge (Oxygen)	1							Beaker (Deionized Water)	1													
 1.0.0				Canister (Hydrogen)	2	Canister (Oxygen)	1							Drum (Deionized Water)	1													
@@ -539,16 +539,16 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Epichlorohydrin)	4	Drum (Bisphenol A)	4							Drum (Epoxy Resin)	4													
 1.1.2				Drum (Epichlorohydrin)	16	Drum (Bisphenol A)	16							Drum (Epoxy Resin)	16													
 1.1.2				Drum (Epichlorohydrin)	64	Drum (Bisphenol A)	64							Drum (Epoxy Resin)	64													
-1.1.2				Vial (Epichlorohydrin)	1	Vial (Sodium Hydroxide)	1							Vial (Propylene Oxide)	1	Bag (Sodium Chloride)	1											
-1.1.2				Vial (Epichlorohydrin)	4	Vial (Sodium Hydroxide)	4							Vial (Propylene Oxide)	4	Bag (Sodium Chloride)	4											
-1.1.2				Vial (Epichlorohydrin)	16	Vial (Sodium Hydroxide)	16							Vial (Propylene Oxide)	16	Bag (Sodium Chloride)	16											
-1.1.2				Beaker (Epichlorohydrin)	1	Beaker (Sodium Hydroxide)	1							Beaker (Propylene Oxide)	1	Sack (Sodium Chloride)	1											
-1.1.2				Beaker (Epichlorohydrin)	4	Beaker (Sodium Hydroxide)	4							Beaker (Propylene Oxide)	4	Sack (Sodium Chloride)	4											
-1.1.2				Beaker (Epichlorohydrin)	16	Beaker (Sodium Hydroxide)	16							Beaker (Propylene Oxide)	16	Sack (Sodium Chloride)	16											
-1.1.2				Drum (Epichlorohydrin)	1	Drum (Sodium Hydroxide)	1							Drum (Propylene Oxide)	1	Powder Keg (Sodium Chloride)	1											
-1.1.2				Drum (Epichlorohydrin)	4	Drum (Sodium Hydroxide)	4							Drum (Propylene Oxide)	4	Powder Keg (Sodium Chloride)	4											
-1.1.2				Drum (Epichlorohydrin)	16	Drum (Sodium Hydroxide)	16							Drum (Propylene Oxide)	16	Powder Keg (Sodium Chloride)	16											
-1.1.2				Drum (Epichlorohydrin)	64	Drum (Sodium Hydroxide)	64							Drum (Propylene Oxide)	64	Powder Keg (Sodium Chloride)	64											
+1.1.2				Vial (Epichlorohydrin)	1	Bag (Sodium Hydroxide)	1							Vial (Propylene Oxide)	1	Bag (Sodium Chloride)	1											
+1.1.2				Vial (Epichlorohydrin)	4	Bag (Sodium Hydroxide)	4							Vial (Propylene Oxide)	4	Bag (Sodium Chloride)	4											
+1.1.2				Vial (Epichlorohydrin)	16	Bag (Sodium Hydroxide)	16							Vial (Propylene Oxide)	16	Bag (Sodium Chloride)	16											
+1.1.2				Beaker (Epichlorohydrin)	1	Sack (Sodium Hydroxide)	1							Beaker (Propylene Oxide)	1	Sack (Sodium Chloride)	1											
+1.1.2				Beaker (Epichlorohydrin)	4	Sack (Sodium Hydroxide)	4							Beaker (Propylene Oxide)	4	Sack (Sodium Chloride)	4											
+1.1.2				Beaker (Epichlorohydrin)	16	Sack (Sodium Hydroxide)	16							Beaker (Propylene Oxide)	16	Sack (Sodium Chloride)	16											
+1.1.2				Drum (Epichlorohydrin)	1	Powder Keg (Sodium Hydroxide)	1							Drum (Propylene Oxide)	1	Powder Keg (Sodium Chloride)	1											
+1.1.2				Drum (Epichlorohydrin)	4	Powder Keg (Sodium Hydroxide)	4							Drum (Propylene Oxide)	4	Powder Keg (Sodium Chloride)	4											
+1.1.2				Drum (Epichlorohydrin)	16	Powder Keg (Sodium Hydroxide)	16							Drum (Propylene Oxide)	16	Powder Keg (Sodium Chloride)	16											
+1.1.2				Drum (Epichlorohydrin)	64	Powder Keg (Sodium Hydroxide)	64							Drum (Propylene Oxide)	64	Powder Keg (Sodium Chloride)	64											
 1.1.2				Vial (Cyclohexanol)	1	Vial (Cyclohexanone)	1	Vial (Nitric Acid)	1					Vial (Adipic Acid)	2													
 1.1.2				Vial (Cyclohexanol)	4	Vial (Cyclohexanone)	4	Vial (Nitric Acid)	4					Vial (Adipic Acid)	4													
 1.1.2				Vial (Cyclohexanol)	16	Vial (Cyclohexanone)	16	Vial (Nitric Acid)	16					Vial (Adipic Acid)	32													
@@ -725,26 +725,16 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.0				Dye:15	16									Sack (Potassium Chloride)	1													
 1.1.0				Dye:15	64									Sack (Potassium Chloride)	4													
 1.1.0				Dye:15	64	Dye:15	64	Dye:15	64	Dye:15	64			Sack (Potassium Chloride)	16													
-1.1.0				Vial (Acrylonitrile)	1	Vial (Butadiene)	3	Ruthenium Catalyst	1					Bag (Nitrile-Butadiene Rubber Pellets)	4													
-1.1.0				Vial (Acrylonitrile)	4	Vial (Butadiene)	12	Ruthenium Catalyst	2					Bag (Nitrile-Butadiene Rubber Pellets)	16													
-1.1.0				Vial (Acrylonitrile)	16	Vial (Butadiene)	48	Ruthenium Catalyst	3					Sack (Nitrile-Butadiene Rubber Pellets)	1													
-1.1.0				Beaker (Acrylonitrile)	1	Beaker (Butadiene)	3	Ruthenium Catalyst	4					Sack (Nitrile-Butadiene Rubber Pellets)	4													
-1.1.0				Beaker (Acrylonitrile)	4	Beaker (Butadiene)	12	Ruthenium Catalyst	5					Sack (Nitrile-Butadiene Rubber Pellets)	16													
-1.1.0				Beaker (Acrylonitrile)	16	Beaker (Butadiene)	48	Ruthenium Catalyst	6					Powder Keg (Nitrile-Butadiene Rubber Pellets)	1													
-1.1.0				Drum (Acrylonitrile)	1	Drum (Butadiene)	3	Ruthenium Catalyst	7					Powder Keg (Nitrile-Butadiene Rubber Pellets)	4													
-1.1.0				Drum (Acrylonitrile)	4	Drum (Butadiene)	12	Ruthenium Catalyst	8					Powder Keg (Nitrile-Butadiene Rubber Pellets)	16													
-1.1.0				Drum (Acrylonitrile)	16	Drum (Butadiene)	48	Ruthenium Catalyst	9					Powder Keg (Nitrile-Butadiene Rubber Pellets)	64													
-1.1.0				Drum (Acrylonitrile)	64	Drum (Butadiene)	64	Drum (Butadiene)	64	Drum (Butadiene)	64	Ruthenium Catalyst	10	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64							
-1.1.0				Vial (Acrylonitrile)	1	Vial (Butadiene)	3	Osmium Catalyst	1					Bag (Nitrile-Butadiene Rubber Pellets)	4													
-1.1.0				Vial (Acrylonitrile)	4	Vial (Butadiene)	12	Osmium Catalyst	2					Bag (Nitrile-Butadiene Rubber Pellets)	16													
-1.1.0				Vial (Acrylonitrile)	16	Vial (Butadiene)	48	Osmium Catalyst	3					Sack (Nitrile-Butadiene Rubber Pellets)	1													
-1.1.0				Beaker (Acrylonitrile)	1	Beaker (Butadiene)	3	Osmium Catalyst	4					Sack (Nitrile-Butadiene Rubber Pellets)	4													
-1.1.0				Beaker (Acrylonitrile)	4	Beaker (Butadiene)	12	Osmium Catalyst	5					Sack (Nitrile-Butadiene Rubber Pellets)	16													
-1.1.0				Beaker (Acrylonitrile)	16	Beaker (Butadiene)	48	Osmium Catalyst	6					Powder Keg (Nitrile-Butadiene Rubber Pellets)	1													
-1.1.0				Drum (Acrylonitrile)	1	Drum (Butadiene)	3	Osmium Catalyst	7					Powder Keg (Nitrile-Butadiene Rubber Pellets)	4													
-1.1.0				Drum (Acrylonitrile)	4	Drum (Butadiene)	12	Osmium Catalyst	8					Powder Keg (Nitrile-Butadiene Rubber Pellets)	16													
-1.1.0				Drum (Acrylonitrile)	16	Drum (Butadiene)	48	Osmium Catalyst	9					Powder Keg (Nitrile-Butadiene Rubber Pellets)	64													
-1.1.0				Drum (Acrylonitrile)	64	Drum (Butadiene)	64	Drum (Butadiene)	64	Drum (Butadiene)	64	Osmium Catalyst	10	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64							
+1.1.0				Vial (Acrylonitrile)	1	Vial (Butadiene)	3							Bag (Nitrile-Butadiene Rubber Pellets)	4													
+1.1.0				Vial (Acrylonitrile)	4	Vial (Butadiene)	12							Bag (Nitrile-Butadiene Rubber Pellets)	16													
+1.1.0				Vial (Acrylonitrile)	16	Vial (Butadiene)	48							Sack (Nitrile-Butadiene Rubber Pellets)	1													
+1.1.0				Beaker (Acrylonitrile)	1	Beaker (Butadiene)	3							Sack (Nitrile-Butadiene Rubber Pellets)	4													
+1.1.0				Beaker (Acrylonitrile)	4	Beaker (Butadiene)	12							Sack (Nitrile-Butadiene Rubber Pellets)	16													
+1.1.0				Beaker (Acrylonitrile)	16	Beaker (Butadiene)	48							Powder Keg (Nitrile-Butadiene Rubber Pellets)	1													
+1.1.0				Drum (Acrylonitrile)	1	Drum (Butadiene)	3							Powder Keg (Nitrile-Butadiene Rubber Pellets)	4													
+1.1.0				Drum (Acrylonitrile)	4	Drum (Butadiene)	12							Powder Keg (Nitrile-Butadiene Rubber Pellets)	16													
+1.1.0				Drum (Acrylonitrile)	16	Drum (Butadiene)	48							Powder Keg (Nitrile-Butadiene Rubber Pellets)	64													
+1.1.0				Drum (Acrylonitrile)	64	Drum (Butadiene)	64	Drum (Butadiene)	64	Drum (Butadiene)	64			Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Powder Keg (Nitrile-Butadiene Rubber Pellets)	64							
 1.1.0				Vial (Caprolactone)	1	Flask (Ammonia)	1							Vial (Caprolactam)	2													
 1.1.0				Vial (Caprolactone)	4	Flask (Ammonia)	4							Vial (Caprolactam)	8													
 1.1.0				Vial (Caprolactone)	16	Flask (Ammonia)	16							Vial (Caprolactam)	32													
@@ -784,16 +774,16 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.1				Powder Keg (4-Nitrochlorobenzene)	4	Canister (Ammonia)	8							Powder Keg (4-Nitroaniline)	4													
 1.1.1				Powder Keg (4-Nitrochlorobenzene)	16	Canister (Ammonia)	32							Powder Keg (4-Nitroaniline)	16													
 1.1.1				Powder Keg (4-Nitrochlorobenzene)	64	Canister (Ammonia)	64	Canister (Ammonia)	64					Powder Keg (4-Nitroaniline)	64													
-1.1.1				Bag (4-Nitroaniline)	1	Flask (Hydrogen)	3							Bag (p-Phenylenediamine)	1	Vial (Deionized Water)	2											
-1.1.1				Bag (4-Nitroaniline)	4	Flask (Hydrogen)	12							Bag (p-Phenylenediamine)	4	Vial (Deionized Water)	8											
-1.1.1				Bag (4-Nitroaniline)	16	Flask (Hydrogen)	48							Bag (p-Phenylenediamine)	16	Vial (Deionized Water)	32											
-1.1.1				Sack (4-Nitroaniline)	1	Cartridge (Hydrogen)	3							Sack (p-Phenylenediamine)	1	Beaker (Deionized Water)	2											
-1.1.1				Sack (4-Nitroaniline)	4	Cartridge (Hydrogen)	12							Sack (p-Phenylenediamine)	4	Beaker (Deionized Water)	8											
-1.1.1				Sack (4-Nitroaniline)	16	Cartridge (Hydrogen)	48							Sack (p-Phenylenediamine)	16	Beaker (Deionized Water)	32											
-1.1.1				Powder Keg (4-Nitroaniline)	1	Canister (Hydrogen)	3							Powder Keg (p-Phenylenediamine)	1	Drum (Deionized Water)	2											
-1.1.1				Powder Keg (4-Nitroaniline)	4	Canister (Hydrogen)	12							Powder Keg (p-Phenylenediamine)	4	Drum (Deionized Water)	8											
-1.1.1				Powder Keg (4-Nitroaniline)	16	Canister (Hydrogen)	48							Powder Keg (p-Phenylenediamine)	16	Drum (Deionized Water)	32											
-1.1.1				Powder Keg (4-Nitroaniline)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64			Powder Keg (p-Phenylenediamine)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64									
+1.1.1				Bag (4-Nitroaniline)	1	Flask (Hydrogen)	3	Platinum Catalyst	1					Bag (p-Phenylenediamine)	1	Vial (Deionized Water)	2											
+1.1.1				Bag (4-Nitroaniline)	4	Flask (Hydrogen)	12	Platinum Catalyst	2					Bag (p-Phenylenediamine)	4	Vial (Deionized Water)	8											
+1.1.1				Bag (4-Nitroaniline)	16	Flask (Hydrogen)	48	Platinum Catalyst	3					Bag (p-Phenylenediamine)	16	Vial (Deionized Water)	32											
+1.1.1				Sack (4-Nitroaniline)	1	Cartridge (Hydrogen)	3	Platinum Catalyst	4					Sack (p-Phenylenediamine)	1	Beaker (Deionized Water)	2											
+1.1.1				Sack (4-Nitroaniline)	4	Cartridge (Hydrogen)	12	Platinum Catalyst	5					Sack (p-Phenylenediamine)	4	Beaker (Deionized Water)	8											
+1.1.1				Sack (4-Nitroaniline)	16	Cartridge (Hydrogen)	48	Platinum Catalyst	6					Sack (p-Phenylenediamine)	16	Beaker (Deionized Water)	32											
+1.1.1				Powder Keg (4-Nitroaniline)	1	Canister (Hydrogen)	3	Platinum Catalyst	7					Powder Keg (p-Phenylenediamine)	1	Drum (Deionized Water)	2											
+1.1.1				Powder Keg (4-Nitroaniline)	4	Canister (Hydrogen)	12	Platinum Catalyst	8					Powder Keg (p-Phenylenediamine)	4	Drum (Deionized Water)	8											
+1.1.1				Powder Keg (4-Nitroaniline)	16	Canister (Hydrogen)	48	Platinum Catalyst	9					Powder Keg (p-Phenylenediamine)	16	Drum (Deionized Water)	32											
+1.1.1				Powder Keg (4-Nitroaniline)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10	Powder Keg (p-Phenylenediamine)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64									
 1.1.1				Flask (Ammonia)	12	Flask (Oxygen)	21							Vial (Nitric Acid)	8	Vial (Deionized Water)	14	Flask (Nitric Oxide)	4									
 1.1.1				Flask (Ammonia)	24	Flask (Oxygen)	42							Vial (Nitric Acid)	16	Vial (Deionized Water)	28	Flask (Nitric Oxide)	8									
 1.1.1				Flask (Ammonia)	36	Flask (Oxygen)	63							Vial (Nitric Acid)	24	Vial (Deionized Water)	42	Flask (Nitric Oxide)	12									
@@ -951,114 +941,116 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Block of Potash	4	Flask (Ammonia)	32							Powder Keg (Potassium Hydroxide)	2													
 1.1.2				Block of Potash	16	Cartridge (Ammonia)	2							Powder Keg (Potassium Hydroxide)	8													
 1.1.2				Block of Potash	64	Cartridge (Ammonia)	8							Powder Keg (Potassium Hydroxide)	32													
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
-																												
+1.1.2				Fluorite Ore	1	Vial (Sulfuric Acid)	1	Beaker (Deionized Water)	1					Beaker (Hydrofluoric Acid)	1													
+1.1.2				Fluorite Ore	4	Vial (Sulfuric Acid)	4	Beaker (Deionized Water)	4					Beaker (Hydrofluoric Acid)	4													
+1.1.2				Fluorite Ore	16	Vial (Sulfuric Acid)	16	Beaker (Deionized Water)	16					Beaker (Hydrofluoric Acid)	16													
+1.1.2				Fluorite Ore	64	Beaker (Sulfuric Acid)	1	Drum (Deionized Water)	1					Drum (Hydrofluoric Acid)	1													
+1.1.2				Block of Fluorite	1	Vial (Sulfuric Acid)	8	Beaker (Deionized Water)	8					Beaker (Hydrofluoric Acid)	8													
+1.1.2				Block of Fluorite	4	Vial (Sulfuric Acid)	32	Beaker (Deionized Water)	32					Beaker (Hydrofluoric Acid)	32													
+1.1.2				Block of Fluorite	16	Beaker (Sulfuric Acid)	1	Drum (Deionized Water)	1					Drum (Hydrofluoric Acid)	1													
+1.1.2				Block of Fluorite	64	Beaker (Sulfuric Acid)	2	Drum (Deionized Water)	2					Drum (Hydrofluoric Acid)	2													
+1.1.2				Vial (Nitric Acid)	1	Tin Catalyst	1							Flask (Nitrogen Dioxide)	1													
+1.1.2				Vial (Nitric Acid)	4	Tin Catalyst	2							Flask (Nitrogen Dioxide)	4													
+1.1.2				Vial (Nitric Acid)	16	Tin Catalyst	3							Flask (Nitrogen Dioxide)	16													
+1.1.2				Beaker (Nitric Acid)	1	Tin Catalyst	4							Cartridge (Nitrogen Dioxide)	1													
+1.1.2				Beaker (Nitric Acid)	4	Tin Catalyst	5							Cartridge (Nitrogen Dioxide)	4													
+1.1.2				Beaker (Nitric Acid)	16	Tin Catalyst	6							Cartridge (Nitrogen Dioxide)	16													
+1.1.2				Drum (Nitric Acid)	1	Tin Catalyst	7							Canister (Nitrogen Dioxide)	1													
+1.1.2				Drum (Nitric Acid)	4	Tin Catalyst	8							Canister (Nitrogen Dioxide)	4													
+1.1.2				Drum (Nitric Acid)	16	Tin Catalyst	9							Canister (Nitrogen Dioxide)	16													
+1.1.2				Drum (Nitric Acid)	64	Tin Catalyst	10							Canister (Nitrogen Dioxide)	64													
+1.1.2				Bag (Sodium)	1	Vial (Deionized Water)	1							Bag (Sodium Hydroxide)	1													
+1.1.2				Bag (Sodium)	4	Vial (Deionized Water)	4							Bag (Sodium Hydroxide)	4													
+1.1.2				Bag (Sodium)	16	Vial (Deionized Water)	16							Bag (Sodium Hydroxide)	16													
+1.1.2				Sack (Sodium)	1	Beaker (Deionized Water)	1							Sack (Sodium Hydroxide)	1													
+1.1.2				Sack (Sodium)	4	Beaker (Deionized Water)	4							Sack (Sodium Hydroxide)	4													
+1.1.2				Sack (Sodium)	16	Beaker (Deionized Water)	16							Sack (Sodium Hydroxide)	16													
+1.1.2				Powder Keg (Sodium)	1	Drum (Deionized Water)	1							Powder Keg (Sodium Hydroxide)	1													
+1.1.2				Powder Keg (Sodium)	4	Drum (Deionized Water)	4							Powder Keg (Sodium Hydroxide)	4													
+1.1.2				Powder Keg (Sodium)	16	Drum (Deionized Water)	16							Powder Keg (Sodium Hydroxide)	16													
+1.1.2				Powder Keg (Sodium)	64	Drum (Deionized Water)	64							Powder Keg (Sodium Hydroxide)	64													
+1.1.2				Bag (Sodium Hydroxide)	2	Flask (Nitrogen Dioxide)	1	Flask (Nitric Oxide)	1					Bag (Sodium Nitrite)	1													
+1.1.2				Bag (Sodium Hydroxide)	8	Flask (Nitrogen Dioxide)	4	Flask (Nitric Oxide)	4					Bag (Sodium Nitrite)	4													
+1.1.2				Bag (Sodium Hydroxide)	32	Flask (Nitrogen Dioxide)	16	Flask (Nitric Oxide)	16					Bag (Sodium Nitrite)	16													
+1.1.2				Sack (Sodium Hydroxide)	2	Cartridge (Nitrogen Dioxide)	1	Cartridge (Nitric Oxide)	1					Sack (Sodium Nitrite)	1													
+1.1.2				Sack (Sodium Hydroxide)	8	Cartridge (Nitrogen Dioxide)	4	Cartridge (Nitric Oxide)	4					Sack (Sodium Nitrite)	4													
+1.1.2				Sack (Sodium Hydroxide)	32	Cartridge (Nitrogen Dioxide)	16	Cartridge (Nitric Oxide)	16					Sack (Sodium Nitrite)	16													
+1.1.2				Powder Keg (Sodium Hydroxide)	2	Canister (Nitrogen Dioxide)	1	Canister (Nitric Oxide)	1					Powder Keg (Sodium Nitrite)	1													
+1.1.2				Powder Keg (Sodium Hydroxide)	8	Canister (Nitrogen Dioxide)	4	Canister (Nitric Oxide)	4					Powder Keg (Sodium Nitrite)	4													
+1.1.2				Powder Keg (Sodium Hydroxide)	32	Canister (Nitrogen Dioxide)	16	Canister (Nitric Oxide)	16					Powder Keg (Sodium Nitrite)	16													
+1.1.2				Powder Keg (Sodium Hydroxide)	64	Powder Keg (Sodium Hydroxide)	64	Canister (Nitrogen Dioxide)	64	Canister (Nitric Oxide)	64			Powder Keg (Sodium Nitrite)	64													
+1.1.2				Vial (Sodium Borate)	1	Vial (Hydrochloric Acid)	2							Vial (Boric Acid)	4													
+1.1.2				Vial (Sodium Borate)	4	Vial (Hydrochloric Acid)	8							Vial (Boric Acid)	16													
+1.1.2				Vial (Sodium Borate)	16	Vial (Hydrochloric Acid)	32							Vial (Boric Acid)	1													
+1.1.2				Beaker (Sodium Borate)	1	Beaker (Hydrochloric Acid)	2							Beaker (Boric Acid)	4													
+1.1.2				Beaker (Sodium Borate)	4	Beaker (Hydrochloric Acid)	8							Beaker (Boric Acid)	16													
+1.1.2				Beaker (Sodium Borate)	16	Beaker (Hydrochloric Acid)	32							Beaker (Boric Acid)	1													
+1.1.2				Drum (Sodium Borate)	1	Drum (Hydrochloric Acid)	2							Drum (Boric Acid)	4													
+1.1.2				Drum (Sodium Borate)	4	Drum (Hydrochloric Acid)	8							Drum (Boric Acid)	16													
+1.1.2				Drum (Sodium Borate)	16	Drum (Hydrochloric Acid)	32							Drum (Boric Acid)	64													
+1.1.2				Drum (Sodium Borate)	64	Drum (Hydrochloric Acid)	64	Drum (Hydrochloric Acid)	64					Drum (Boric Acid)	64	Drum (Boric Acid)	64	Drum (Boric Acid)	64	Drum (Boric Acid)	64							
+1.1.2				Bag (Nitrile-Butadiene Rubber Pellets)	1	Flask (Hydrogen)	3	Platinum Catalyst	1					Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	1													
+1.1.2				Bag (Nitrile-Butadiene Rubber Pellets)	4	Flask (Hydrogen)	12	Platinum Catalyst	2					Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	4													
+1.1.2				Bag (Nitrile-Butadiene Rubber Pellets)	16	Flask (Hydrogen)	48	Platinum Catalyst	3					Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	16													
+1.1.2				Sack (Nitrile-Butadiene Rubber Pellets)	1	Cartridge (Hydrogen)	3	Platinum Catalyst	4					Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	1													
+1.1.2				Sack (Nitrile-Butadiene Rubber Pellets)	4	Cartridge (Hydrogen)	12	Platinum Catalyst	5					Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	4													
+1.1.2				Sack (Nitrile-Butadiene Rubber Pellets)	16	Cartridge (Hydrogen)	48	Platinum Catalyst	6					Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	16													
+1.1.2				Powder Keg (Nitrile-Butadiene Rubber Pellets)	1	Canister (Hydrogen)	3	Platinum Catalyst	7					Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	1													
+1.1.2				Powder Keg (Nitrile-Butadiene Rubber Pellets)	4	Canister (Hydrogen)	12	Platinum Catalyst	8					Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	4													
+1.1.2				Powder Keg (Nitrile-Butadiene Rubber Pellets)	16	Canister (Hydrogen)	48	Platinum Catalyst	9					Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	16													
+1.1.2				Powder Keg (Nitrile-Butadiene Rubber Pellets)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10	Powder Keg (Hydrogenated Nitrile-Butadiene Rubber Pellets)	64													
+1.1.2				Vial (Acrylonitrile)	1	Vial (Butadiene)	1							Bag (Nitrile-Butadiene Rubber Pellets)	1													
+1.1.2				Vial (Acrylonitrile)	4	Vial (Butadiene)	4							Bag (Nitrile-Butadiene Rubber Pellets)	4													
+1.1.2				Vial (Acrylonitrile)	16	Vial (Butadiene)	16							Bag (Nitrile-Butadiene Rubber Pellets)	16													
+1.1.2				Beaker (Acrylonitrile)	1	Beaker (Butadiene)	1							Sack (Nitrile-Butadiene Rubber Pellets)	1													
+1.1.2				Beaker (Acrylonitrile)	4	Beaker (Butadiene)	4							Sack (Nitrile-Butadiene Rubber Pellets)	4													
+1.1.2				Beaker (Acrylonitrile)	16	Beaker (Butadiene)	16							Sack (Nitrile-Butadiene Rubber Pellets)	16													
+1.1.2				Drum (Acrylonitrile)	1	Drum (Butadiene)	1							Powder Keg (Nitrile-Butadiene Rubber Pellets)	1													
+1.1.2				Drum (Acrylonitrile)	4	Drum (Butadiene)	4							Powder Keg (Nitrile-Butadiene Rubber Pellets)	4													
+1.1.2				Drum (Acrylonitrile)	16	Drum (Butadiene)	16							Powder Keg (Nitrile-Butadiene Rubber Pellets)	16													
+1.1.2				Drum (Acrylonitrile)	64	Drum (Butadiene)	64							Powder Keg (Nitrile-Butadiene Rubber Pellets)	64													
+1.1.2				Vial (Butylene isomers)	16	Vial (Isoprene)	1							Bag (Isobutylene-Isoprene Rubber Pellets)	17													
+1.1.2				Beaker (Butylene isomers)	1	Vial (Isoprene)	4							Sack (Isobutylene-Isoprene Rubber Pellets)	1	Bag (Isobutylene-Isoprene Rubber Pellets)	4											
+1.1.2				Beaker (Butylene isomers)	4	Vial (Isoprene)	16							Sack (Isobutylene-Isoprene Rubber Pellets)	4	Bag (Isobutylene-Isoprene Rubber Pellets)	16											
+1.1.2				Beaker (Butylene isomers)	16	Beaker (Isoprene)	1							Sack (Isobutylene-Isoprene Rubber Pellets)	17													
+1.1.2				Drum (Butylene isomers)	1	Beaker (Isoprene)	4							Powder Keg (Isobutylene-Isoprene Rubber Pellets)	1	Sack (Isobutylene-Isoprene Rubber Pellets)	4											
+1.1.2				Drum (Butylene isomers)	4	Beaker (Isoprene)	16							Powder Keg (Isobutylene-Isoprene Rubber Pellets)	4	Sack (Isobutylene-Isoprene Rubber Pellets)	16											
+1.1.2				Drum (Butylene isomers)	16	Drum (Isoprene)	1							Powder Keg (Isobutylene-Isoprene Rubber Pellets)	17													
+1.1.2				Drum (Butylene isomers)	64	Drum (Isoprene)	4							Powder Keg (Isobutylene-Isoprene Rubber Pellets)	64	Powder Keg (Isobutylene-Isoprene Rubber Pellets)	4											
+1.1.2				Bag (Isobutylene-Isoprene Rubber Pellets)	16	Flask (Chlorine)	1	Bag (Potassium Hydroxide)	1					Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	16													
+1.1.2				Sack (Isobutylene-Isoprene Rubber Pellets)	1	Flask (Chlorine)	4	Bag (Potassium Hydroxide)	4					Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	1													
+1.1.2				Sack (Isobutylene-Isoprene Rubber Pellets)	4	Flask (Chlorine)	16	Bag (Potassium Hydroxide)	16					Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	4													
+1.1.2				Sack (Isobutylene-Isoprene Rubber Pellets)	16	Cartridge (Chlorine)	1	Sack (Potassium Hydroxide)	1					Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	16													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	1	Cartridge (Chlorine)	4	Sack (Potassium Hydroxide)	4					Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	1													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	4	Cartridge (Chlorine)	16	Sack (Potassium Hydroxide)	16					Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	4													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	16	Canister (Chlorine)	1	Powder Keg (Potassium Hydroxide)	1					Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	16													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	64	Canister (Chlorine)	4	Powder Keg (Potassium Hydroxide)	4					Powder Keg (Chlorine Isobutylene-Isoprene Rubber Pellets)	64													
+1.1.2				Bag (Isobutylene-Isoprene Rubber Pellets)	16	Vial (Bromine)	1	Bag (Potassium Hydroxide)	1					Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	16													
+1.1.2				Sack (Isobutylene-Isoprene Rubber Pellets)	1	Vial (Bromine)	4	Bag (Potassium Hydroxide)	4					Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	1													
+1.1.2				Sack (Isobutylene-Isoprene Rubber Pellets)	4	Vial (Bromine)	16	Bag (Potassium Hydroxide)	16					Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	4													
+1.1.2				Sack (Isobutylene-Isoprene Rubber Pellets)	16	Beaker (Bromine)	1	Sack (Potassium Hydroxide)	1					Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	16													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	1	Beaker (Bromine)	4	Sack (Potassium Hydroxide)	4					Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	1													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	4	Beaker (Bromine)	16	Sack (Potassium Hydroxide)	16					Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	4													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	16	Drum (Bromine)	1	Powder Keg (Potassium Hydroxide)	1					Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	16													
+1.1.2				Powder Keg (Isobutylene-Isoprene Rubber Pellets)	64	Drum (Bromine)	4	Powder Keg (Potassium Hydroxide)	4					Powder Keg (Bromine Isobutylene-Isoprene Rubber Pellets)	64													
+1.1.2				Vial (Ethylene Glycol)	1	Vial (Diphenylmethane Diisocyanate)	1							Bag (PolyUrethane Pellets)	1													
+1.1.2				Vial (Ethylene Glycol)	4	Vial (Diphenylmethane Diisocyanate)	4							Bag (PolyUrethane Pellets)	4													
+1.1.2				Vial (Ethylene Glycol)	16	Vial (Diphenylmethane Diisocyanate)	16							Bag (PolyUrethane Pellets)	16													
+1.1.2				Beaker (Ethylene Glycol)	1	Beaker (Diphenylmethane Diisocyanate)	1							Sack (PolyUrethane Pellets)	1													
+1.1.2				Beaker (Ethylene Glycol)	4	Beaker (Diphenylmethane Diisocyanate)	4							Sack (PolyUrethane Pellets)	4													
+1.1.2				Beaker (Ethylene Glycol)	16	Beaker (Diphenylmethane Diisocyanate)	16							Sack (PolyUrethane Pellets)	16													
+1.1.2				Drum (Ethylene Glycol)	1	Drum (Diphenylmethane Diisocyanate)	1							Powder Keg (PolyUrethane Pellets)	1													
+1.1.2				Drum (Ethylene Glycol)	4	Drum (Diphenylmethane Diisocyanate)	4							Powder Keg (PolyUrethane Pellets)	4													
+1.1.2				Drum (Ethylene Glycol)	16	Drum (Diphenylmethane Diisocyanate)	16							Powder Keg (PolyUrethane Pellets)	16													
+1.1.2				Drum (Ethylene Glycol)	64	Drum (Diphenylmethane Diisocyanate)	64							Powder Keg (PolyUrethane Pellets)	64													
+1.1.2				Platinum Ore	16									Platinum Ingot	14	Ruthenium Catalyst	16	Iridium Catalyst	16									
+1.1.2				Vial (Methanol)	1	Vial (Carbon Monoxide)	1	Ruthenium Catalyst	1					Vial (Acetic Acid)	1													
+1.1.2				Vial (Methanol)	4	Vial (Carbon Monoxide)	4	Ruthenium Catalyst	2					Vial (Acetic Acid)	4													
+1.1.2				Vial (Methanol)	16	Vial (Carbon Monoxide)	16	Ruthenium Catalyst	3					Vial (Acetic Acid)	16													
+1.1.2				Beaker (Methanol)	1	Beaker (Carbon Monoxide)	1	Ruthenium Catalyst	4					Beaker (Acetic Acid)	1													
+1.1.2				Beaker (Methanol)	4	Beaker (Carbon Monoxide)	4	Ruthenium Catalyst	5					Beaker (Acetic Acid)	4													
+1.1.2				Beaker (Methanol)	16	Beaker (Carbon Monoxide)	16	Ruthenium Catalyst	6					Beaker (Acetic Acid)	16													
+1.1.2				Drum (Methanol)	1	Drum (Carbon Monoxide)	1	Ruthenium Catalyst	7					Drum (Acetic Acid)	1													
+1.1.2				Drum (Methanol)	4	Drum (Carbon Monoxide)	4	Ruthenium Catalyst	8					Drum (Acetic Acid)	4													
+1.1.2				Drum (Methanol)	16	Drum (Carbon Monoxide)	16	Ruthenium Catalyst	9					Drum (Acetic Acid)	16													
+1.1.2				Drum (Methanol)	64	Drum (Carbon Monoxide)	64	Ruthenium Catalyst	10					Drum (Acetic Acid)	64													
