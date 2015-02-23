@@ -85,6 +85,8 @@ public class ClientProxy extends CommonProxy {
 		super.postInit();
 		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
+		//TODO: Walter add in 3D rendering code
+		//registerRenderers();
 	}
 
 	private class PlayerState {

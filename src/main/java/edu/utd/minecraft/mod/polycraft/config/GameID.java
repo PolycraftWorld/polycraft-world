@@ -54,7 +54,8 @@ public enum GameID {
 	MoldedItemScubaMaskBeginner("3w"),
 	MoldedItemScubaMaskIntermediate("2V"),
 	MoldedItemScubaMaskAdvanced("12T"),
-	MoldedItemScubaMaskPro("2W");
+	MoldedItemScubaMaskPro("2W"),
+	CustomCarbonFiberWeave("1bz");
 
 	public final String id;
 

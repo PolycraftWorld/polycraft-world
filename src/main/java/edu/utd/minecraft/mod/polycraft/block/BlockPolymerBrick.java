@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -19,9 +21,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
+import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 
-public class BlockPolymerBrick extends Block {
+public class BlockPolymerBrick extends Block { //implements ITileEntityProvider {
 
 	public final PolymerBrick Brick;
 	private final BlockPolymerBrickHelper helper;
@@ -39,24 +43,26 @@ public class BlockPolymerBrick extends Block {
 
 	}
 
-	//	@Override
-	//	public TileEntity createNewTileEntity(World var1, int var2) {
-	//		return new TileEntityPolymerBrick();
-	//	}
-	//
-	//	@Override
-	//	public int getRenderType() {
-	//		return RenderIDs.PolymerBrickID;
-	//	}
-	//
-	//	/**
-	//	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-	//	 */
-	//	@Override
-	//	public boolean renderAsNormalBlock()
-	//	{
-	//		return false;
-	//	}
+//	@Override
+//	public TileEntity createNewTileEntity(World var1, int var2) {
+//		return new TileEntityPolymerBrick();
+//	}
+
+//	@Override
+//	public int getRenderType() {
+//		return RenderIDs.PolymerBrickID;
+//	}
+
+	/**
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
+	 */
+//	@Override
+//	public boolean renderAsNormalBlock()
+//	{
+//		return false;
+//	}
+	//TODO: Walter to fix for 3D additions
+
 	//
 	//	@Override
 	//	public boolean getBlocksMovement(IBlockAccess p_149655_1_, int p_149655_2_, int p_149655_3_, int p_149655_4_)
@@ -64,14 +70,11 @@ public class BlockPolymerBrick extends Block {
 	//		return false;
 	//	}
 	//
-	//	/**
-	//	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the shared face of two adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-	//	 */
-	//	@Override
-	//	public boolean isOpaqueCube()
-	//	{
-	//		return false;
-	//	}
+	/**
+	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the shared face of two adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
+	 */
+
+//TODO: Walter to fix for 3D additions
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -126,7 +129,7 @@ public class BlockPolymerBrick extends Block {
 		return helper.getDrops(this, world, x, y, z, metadata, fortune);
 	}
 
-	@Override
+	//@Override
 	public void onBlockPlacedBy(World worldObj, int xPos, int yPos, int zPos, EntityLivingBase player, ItemStack itemToPlace) {
 
 		helper.onBlockPlacedBy(worldObj, xPos, yPos, zPos, player, itemToPlace);

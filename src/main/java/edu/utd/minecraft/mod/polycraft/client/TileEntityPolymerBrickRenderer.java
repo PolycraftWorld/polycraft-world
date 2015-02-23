@@ -15,8 +15,17 @@ public class TileEntityPolymerBrickRenderer extends TileEntitySpecialRenderer {
 	private final ModelPolymerBrick modelPolymerBrick;
 	private final ResourceLocation modelTexture = new ResourceLocation(PolycraftMod.MODID.toLowerCase(), "/textures/blocks/brick_top_black.png");
 
+	//private IModelCustom chemicalProcessor;
+	//private ResourceLocation cpObjFile;
+	//private ResourceLocation cpTextureFile;
+	//private String objFile = "/textures/models/inventories/teddy_bear2.obj";
+	//private String textureFile = "/textures/models/inventories/ChemicalProcessor_Map.png";
+
 	public TileEntityPolymerBrickRenderer() {
 		this.modelPolymerBrick = new ModelPolymerBrick();
+		//this.cpObjFile = new ResourceLocation(PolycraftMod.MODID, objFile);
+		//this.chemicalProcessor = AdvancedModelLoader.loadModel(cpObjFile);
+		//this.cpTextureFile = new ResourceLocation(PolycraftMod.MODID, textureFile);
 	}
 
 	@Override
@@ -32,8 +41,13 @@ public class TileEntityPolymerBrickRenderer extends TileEntitySpecialRenderer {
 			// System.out.println(direction + "|" + angle);
 			GL11.glPushMatrix();
 			scaleTranslateRotate(x, y, z, direction);
+
+			//TODO: Walter to implement to fix 3D renderers
 			Minecraft.getMinecraft().renderEngine.bindTexture(modelTexture);
 			this.modelPolymerBrick.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+
+			//Minecraft.getMinecraft().renderEngine.bindTexture(cpTextureFile);
+			//this.chemicalProcessor.renderAll();
 			GL11.glPopMatrix();
 		}
 
