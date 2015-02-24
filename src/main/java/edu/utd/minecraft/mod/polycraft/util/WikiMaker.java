@@ -39,6 +39,7 @@ import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
@@ -47,7 +48,15 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
+import edu.utd.minecraft.mod.polycraft.config.Mold;
+import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
+import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
+import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
+import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
+import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
@@ -165,26 +174,26 @@ public class WikiMaker {
 			//					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class,
 			//					Inventory.class, CustomObject.class));
 			//
-			//			wikiMaker.createItemPages(CompressedBlock.registry);
+			//wikiMaker.createItemPages(CompressedBlock.registry);
 			//			wikiMaker.createItemPages(Inventory.registry);
-			//			wikiMaker.createItemPages(Ore.registry);
-			//			wikiMaker.createItemPages(Ingot.registry);
-			//			wikiMaker.createItemPages(Catalyst.registry);
-			//			wikiMaker.createItemPages(ElementVessel.registry);
-			//			wikiMaker.createItemPages(CompoundVessel.registry);
-			//			wikiMaker.createItemPages(PolymerPellets.registry);
-			//			wikiMaker.createItemPages(PolymerBlock.registry);
-			//			wikiMaker.createItemPages(PolymerSlab.registry);
-			//			wikiMaker.createItemPages(PolymerStairs.registry);
-			//			wikiMaker.createItemPages(PolymerBrick.registry);
-			//			wikiMaker.createItemPages(PolymerWall.registry);
-			//			wikiMaker.createItemPages(Mold.registry);
-			//			wikiMaker.createItemPages(MoldedItem.registry);
+			//wikiMaker.createItemPages(Ore.registry);
+			//wikiMaker.createItemPages(Ingot.registry);
+			//wikiMaker.createItemPages(Catalyst.registry);
+			//wikiMaker.createItemPages(ElementVessel.registry);
+			//wikiMaker.createItemPages(CompoundVessel.registry);
+			wikiMaker.createItemPages(PolymerPellets.registry);
+			wikiMaker.createItemPages(PolymerBlock.registry);
+			wikiMaker.createItemPages(PolymerSlab.registry);
+			wikiMaker.createItemPages(PolymerStairs.registry);
+			wikiMaker.createItemPages(PolymerBrick.registry);
+			wikiMaker.createItemPages(PolymerWall.registry);
+			wikiMaker.createItemPages(Mold.registry);
+			wikiMaker.createItemPages(MoldedItem.registry);
 			//			wikiMaker.createItemPages(GrippedTool.registry);
 			//			wikiMaker.createItemPages(PogoStick.registry);
-			//wikiMaker.createItemPages(CustomObject.registry);
-			//wikiMaker.createArmor(Armor.registry);
-			//wikiMaker.createTools(Tool.registry);
+			wikiMaker.createItemPages(CustomObject.registry);
+			//			wikiMaker.createArmor(Armor.registry);
+			wikiMaker.createTools(Tool.registry);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
@@ -829,12 +838,14 @@ public class WikiMaker {
 			final ConfigRegistry<C> registry) throws LoginException,
 			IOException {
 		createItemPageList(registry);
+		boolean stopped = true;
 		for (final C config : registry.values())
 			if (gameIdentifiedConfigHasItem(config)) {
 
-				if (config.name.contains("Regulator"))
+				if (config.name.contains("Bag (PolyButadiene (low-cis) Pellets)"))
+					stopped = false;
+				if (!stopped)
 					createItemPage(config);
-				//createItemPage(config);
 			}
 	}
 

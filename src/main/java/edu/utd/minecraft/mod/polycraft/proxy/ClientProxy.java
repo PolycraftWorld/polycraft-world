@@ -188,10 +188,12 @@ public class ClientProxy extends CommonProxy {
 	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
 		if (isKeyDown(gameSettings.keyBindJump))
 		{
-			if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
-				player.motionY = velocity;
-			else
-				player.motionY = 0;
+			if (ItemJetPack.isEquipped(player)) {
+				if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
+					player.motionY = velocity;
+				else
+					player.motionY = 0;
+			}
 
 		}
 		else if (isKeyDown(gameSettings.keyBindSneak))

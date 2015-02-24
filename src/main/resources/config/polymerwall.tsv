@@ -27,7 +27,7 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.1.0	TU	VK	Wall (NBR)	Block (NBR)	NBR	6
 1.0.0	TV	VL	Wall (PFA)	Block (PFA)	PFA	0
 1.0.0	TW	VM	Wall (PALD)	Block (PALD)	PALD	0
-0	TX	VN	Wall (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
+1.1.2	TX	VN	Wall (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
 1.0.0	TY	VO	Wall (PHBV)	Block (PHBV)	PHBV	0
 0	TZ	VP	Wall (P1B)	Block (P1B)	P1B	0
 0	U0	VQ	Wall (PDPE)	Block (PDPE)	PDPE	0
@@ -113,8 +113,8 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	Vj	X9	Wall (VLDPE)	Block (VLDPE)	VLDPE	0
 1.0.0	Vk	Xa	Wall (VA/AA)	Block (VA/AA)	VA/AA	0
 1.1.0	2I	2J	Wall (Nylon 6)	Block (Nylon 6)	Nylon 6	0
-						
-						
+1.1.2	1br	1bt	Wall (Carbon Fiber Resin (E))	Block (Carbon Fiber Resin (E))	Carbon Fiber Resin (E)	0
+1.1.2	1bs	1bu	Wall (Carbon Fiber Resin (P))	Block (Carbon Fiber Resin (P))	Carbon Fiber Resin (P)	0
 						
 						
 						

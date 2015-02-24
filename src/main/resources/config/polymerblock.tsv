@@ -27,7 +27,7 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 1.1.0	IS	KI	Block (NBR)	Sack (Nitrile-Butadiene Rubber Pellets)	NBR	12
 1.0.0	IT	KJ	Block (PFA)	Sack (Paraformaldehyde Pellets)	PFA	0
 1.0.0	IU	KK	Block (PALD)	Sack (Paraldehyde Pellets)	PALD	0
-0	IV	KL	Block (Phenol Formaldehydes)	Beaker (Phenolic Resin)	Phenol Formaldehydes	0
+1.1.2	IV	KL	Block (Phenol Formaldehydes)	Beaker (Phenolic Resin)	Phenol Formaldehydes	0
 1.0.0	IW	KM	Block (PHBV)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	0
 0	IX	KN	Block (P1B)	Sack (Poly1-Butene Pellets)	P1B	0
 0	IY	KO	Block (PDPE)	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	0
@@ -113,8 +113,8 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 1.0.0	Kh	M7	Block (VLDPE)	Sack (Very-Low-Density PolyEthylene Pellets)	VLDPE	0
 1.0.0	Ki	M8	Block (VA/AA)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	0
 1.1.0	2C	2D	Block (Nylon 6)	Sack (Polycaprolactam Pellets)	Nylon 6	0
-						
-						
+1.1.2	1bn	1bp	Block (Carbon Fiber Resin (E))	Beaker (Epoxy-Carbon Fiber Resin)	Carbon Fiber Resin (E)	0
+1.1.2	1bo	1bq	Block (Carbon Fiber Resin (P))	Beaker (Phenolic-Carbon Fiber Resin)	Carbon Fiber Resin (P)	0
 						
 						
 						

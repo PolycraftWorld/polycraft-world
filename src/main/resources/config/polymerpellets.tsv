@@ -27,7 +27,7 @@ Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Po
 1.1.0	zG	Bw	Dm	Fc	Bag (Nitrile-Butadiene Rubber Pellets)	Sack (Nitrile-Butadiene Rubber Pellets)	Powder Keg (Nitrile-Butadiene Rubber Pellets)	Chemical Silo (Nitrile-Butadiene Rubber Pellets)	Nitrile-Butadiene Rubber	1	10	NBR	TRUE
 1.0.0	zH	Bx	Dn	Fd	Bag (Paraformaldehyde Pellets)	Sack (Paraformaldehyde Pellets)	Powder Keg (Paraformaldehyde Pellets)	Chemical Silo (Paraformaldehyde Pellets)	Paraformaldehyde	1	10	PFA	TRUE
 1.0.0	zI	By	Do	Fe	Bag (Paraldehyde Pellets)	Sack (Paraldehyde Pellets)	Powder Keg (Paraldehyde Pellets)	Chemical Silo (Paraldehyde Pellets)	Paraldehyde	1	10	PALD	TRUE
-	zJ	Bz	Dp	Ff	Vial (Phenolic Resin)	Beaker (Phenolic Resin)	Drum (Phenolic Resin)	Chemical Vat (Phenolic Resin)	Phenolic Resin	1	10	Phenol Formaldehydes	FALSE
+1.1.2	zJ	Bz	Dp	Ff	Vial (Phenolic Resin)	Beaker (Phenolic Resin)	Drum (Phenolic Resin)	Chemical Vat (Phenolic Resin)	Phenolic Resin	1	10	Phenol Formaldehydes	FALSE
 1.0.0	zK	BA	Dq	Fg	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Powder Keg (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Chemical Silo (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate)	1	10	PHBV	TRUE
 	zL	BB	Dr	Fh	Bag (Poly1-Butene Pellets)	Sack (Poly1-Butene Pellets)	Powder Keg (Poly1-Butene Pellets)	Chemical Silo (Poly1-Butene Pellets)	Poly1-Butene	1	10	P1B	TRUE
 	zM	BC	Ds	Fi	"Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Powder Keg (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Chemical Silo (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	"Poly2,6-Dimethyl-1,4-Phenylene Ether"	1	10	PDPE	TRUE
@@ -113,27 +113,27 @@ Version	Game ID S	Game ID M	Game ID L	Game ID XL	Bag (Pellets)	Sack (Pellets)	Po
 1.0.0	B5	CV	EL	GB	Bag (Very-Low-Density PolyEthylene Pellets)	Sack (Very-Low-Density PolyEthylene Pellets)	Powder Keg (Very-Low-Density PolyEthylene Pellets)	Chemical Silo (Very-Low-Density PolyEthylene Pellets)	Very-Low-Density PolyEthylene	1	10	VLDPE	TRUE
 1.0.0	B6	CW	EM	GC	Bag (Vinyl Acetate-Acrylic Acid Pellets)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	Powder Keg (Vinyl Acetate-Acrylic Acid Pellets)	Chemical Silo (Vinyl Acetate-Acrylic Acid Pellets)	Vinyl Acetate-Acrylic Acid	1	10	VA/AA	TRUE
 1.1.0	2x	2y	2z	2A	Bag (Polycaprolactam Pellets)	Sack (Polycaprolactam Pellets)	Powder Keg (Polycaprolactam Pellets)	Chemical Silo (Polycaprolactam Pellets)	Polycaprolactam	1	10	Nylon 6	TRUE
-					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
-					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
-					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
-					Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
-													
+1.1.2	19W	1aj	1aF	1b2	Vial (Epoxy-Carbon Fiber Resin)	Beaker (Epoxy-Carbon Fiber Resin)	Drum (Epoxy-Carbon Fiber Resin)	Chemical Vat (Epoxy-Carbon Fiber Resin)	Epoxy-Carbon Fiber Resin	1	10	Carbon Fiber Resin (E)	FALSE
+1.1.2	19X	1ak	1aG	1b3	Vial (Phenolic-Carbon Fiber Resin)	Beaker (Phenolic-Carbon Fiber Resin)	Drum (Phenolic-Carbon Fiber Resin)	Chemical Vat (Phenolic-Carbon Fiber Resin)	Phenolic-Carbon Fiber Resin	1	10	Carbon Fiber Resin (P)	FALSE
+	19Y	1al	1aH	1b4	Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
+	19Z	1am	1aI	1b5	Vial (0)	Beaker (0)	Drum (0)	Chemical Vat (0)	0	1	10	0	0
+	1a0	1an	1aJ	1b6									
+	1a1	1ao	1aK	1b7									
+	1a2	1ap	1aL	1b8									
+	1a3	1aq	1aM	1b9									
+	1a4	1ar	1aN	1ba									
+	1a5	1as	1aO	1bb									
+	1a6	1at	1aP	1bc									
+	1a7	1au	1aQ	1bd									
+	1a8	1av	1aR	1be									
+	1a9	1aw	1aS	1bf									
+	1aa	1ax	1aT	1bg									
+	1ab	1ay	1aU	1bh									
+	1ac	1az	1aV	1bi									
+	1ad	1aA	1aW	1bj									
+	1ae	1aB	1aX	1bk									
+	1af	1aC	1aY	1bl									
+	1ag	142	1aZ	1bm									
 													
 													
 													

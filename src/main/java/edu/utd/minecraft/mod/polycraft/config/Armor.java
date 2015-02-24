@@ -50,6 +50,7 @@ public class Armor extends Config {
 
 	public String getFullComponentName(final ArmorSlot slot) {
 		return name + " " + componentNames[slot.getValue()];
+
 	}
 
 	public String getTexture() {

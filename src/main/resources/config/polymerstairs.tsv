@@ -27,7 +27,7 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.1.0	XA	Zq	Stairs (NBR)	Block (NBR)	NBR	6
 1.0.0	XB	Zr	Stairs (PFA)	Block (PFA)	PFA	0
 1.0.0	XC	Zs	Stairs (PALD)	Block (PALD)	PALD	0
-0	XD	Zt	Stairs (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
+1.1.2	XD	Zt	Stairs (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
 1.0.0	XE	Zu	Stairs (PHBV)	Block (PHBV)	PHBV	0
 0	XF	Zv	Stairs (P1B)	Block (P1B)	P1B	0
 0	XG	Zw	Stairs (PDPE)	Block (PDPE)	PDPE	0
@@ -113,8 +113,8 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.0.0	YZ	10P	Stairs (VLDPE)	Block (VLDPE)	VLDPE	0
 1.0.0	Z0	10Q	Stairs (VA/AA)	Block (VA/AA)	VA/AA	0
 1.1.0	2K	2L	Stairs (Nylon 6)	Block (Nylon 6)	Nylon 6	0
-						
-						
+1.1.2	1bv	1bx	Stairs (Carbon Fiber Resin (E))	Block (Carbon Fiber Resin (E))	Carbon Fiber Resin (E)	0
+1.1.2	1bw	1by	Stairs (Carbon Fiber Resin (P))	Block (Carbon Fiber Resin (P))	Carbon Fiber Resin (P)	0
 						
 						
 						

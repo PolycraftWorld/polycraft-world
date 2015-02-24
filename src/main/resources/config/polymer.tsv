@@ -113,3 +113,5 @@ Version	Polymer	Short Name	Thermoplastic	PC Level	Recycling #	Degradable	Solvent
 1.0.0	Very-Low-Density PolyEthylene	VLDPE	TRUE			FALSE		polyolefin						
 1.0.0	Vinyl Acetate-Acrylic Acid	VA/AA	TRUE			FALSE		polyacrylate	polyvinyl					
 1.1.0	Polycaprolactam	Nylon 6	TRUE			FALSE		polyamide						
+1.1.2	Epoxy-Carbon Fiber Resin	Carbon Fiber Resin (E)	FALSE			FALSE		polyepoxide						
+1.1.2	Phenolic-Carbon Fiber Resin	Carbon Fiber Resin (P)	FALSE			FALSE		polyphenol						

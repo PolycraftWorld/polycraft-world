@@ -489,16 +489,30 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Cumene)	4	Canister (Oxygen)	4							Drum (Phenol)	4	Drum (Acetone)	4											
 1.1.2				Drum (Cumene)	16	Canister (Oxygen)	16							Drum (Phenol)	16	Drum (Acetone)	16											
 1.1.2				Drum (Cumene)	64	Canister (Oxygen)	64							Drum (Phenol)	64	Drum (Acetone)	64											
-1.1.2				Vial (Phenol)	1	Vial (Acetone)	2	Vial (Sulfuric Acid)	1					Vial (Bisphenol A)	1	Vial (Deionized Water)	1											
-1.1.2				Vial (Phenol)	4	Vial (Acetone)	8	Vial (Sulfuric Acid)	2					Vial (Bisphenol A)	4	Vial (Deionized Water)	4											
-1.1.2				Vial (Phenol)	16	Vial (Acetone)	32	Vial (Sulfuric Acid)	3					Vial (Bisphenol A)	16	Vial (Deionized Water)	16											
-1.1.2				Beaker (Phenol)	1	Beaker (Acetone)	2	Vial (Sulfuric Acid)	4					Beaker (Bisphenol A)	1	Beaker (Deionized Water)	1											
-1.1.2				Beaker (Phenol)	4	Beaker (Acetone)	8	Vial (Sulfuric Acid)	8					Beaker (Bisphenol A)	4	Beaker (Deionized Water)	4											
-1.1.2				Beaker (Phenol)	16	Beaker (Acetone)	32	Vial (Sulfuric Acid)	12					Beaker (Bisphenol A)	16	Beaker (Deionized Water)	16											
-1.1.2				Drum (Phenol)	1	Drum (Acetone)	2	Vial (Sulfuric Acid)	16					Drum (Bisphenol A)	1	Drum (Deionized Water)	1											
-1.1.2				Drum (Phenol)	4	Drum (Acetone)	8	Vial (Sulfuric Acid)	32					Drum (Bisphenol A)	4	Drum (Deionized Water)	4											
-1.1.2				Drum (Phenol)	16	Drum (Acetone)	32	Vial (Sulfuric Acid)	48					Drum (Bisphenol A)	16	Drum (Deionized Water)	16											
+1.1.2				Vial (Phenol)	2	Vial (Acetone)	1	Vial (Sulfuric Acid)	1					Vial (Bisphenol A)	1	Vial (Deionized Water)	1											
+1.1.2				Vial (Phenol)	8	Vial (Acetone)	4	Vial (Sulfuric Acid)	2					Vial (Bisphenol A)	4	Vial (Deionized Water)	4											
+1.1.2				Vial (Phenol)	32	Vial (Acetone)	16	Vial (Sulfuric Acid)	3					Vial (Bisphenol A)	16	Vial (Deionized Water)	16											
+1.1.2				Beaker (Phenol)	2	Beaker (Acetone)	1	Vial (Sulfuric Acid)	4					Beaker (Bisphenol A)	1	Beaker (Deionized Water)	1											
+1.1.2				Beaker (Phenol)	8	Beaker (Acetone)	4	Vial (Sulfuric Acid)	8					Beaker (Bisphenol A)	4	Beaker (Deionized Water)	4											
+1.1.2				Beaker (Phenol)	32	Beaker (Acetone)	16	Vial (Sulfuric Acid)	12					Beaker (Bisphenol A)	16	Beaker (Deionized Water)	16											
+1.1.2				Drum (Phenol)	2	Drum (Acetone)	1	Vial (Sulfuric Acid)	16					Drum (Bisphenol A)	1	Drum (Deionized Water)	1											
+1.1.2				Drum (Phenol)	8	Drum (Acetone)	4	Vial (Sulfuric Acid)	32					Drum (Bisphenol A)	4	Drum (Deionized Water)	4											
+1.1.2				Drum (Phenol)	32	Drum (Acetone)	16	Vial (Sulfuric Acid)	48					Drum (Bisphenol A)	16	Drum (Deionized Water)	16											
 1.1.2				Drum (Phenol)	64	Drum (Acetone)	64	Drum (Acetone)	64	Beaker (Sulfuric Acid)	1			Drum (Bisphenol A)	64	Drum (Deionized Water)	64											
+1.1.2				Vial (Phenol)	1	Vial (Formaldehyde)	2	Vial (Sulfuric Acid)	1					Vial (Phenol Formaldehyde)	1	Vial (Deionized Water)	1											
+1.1.2				Vial (Phenol)	4	Vial (Formaldehyde)	8	Vial (Sulfuric Acid)	2					Vial (Phenol Formaldehyde)	4	Vial (Deionized Water)	4											
+1.1.2				Vial (Phenol)	16	Vial (Formaldehyde)	32	Vial (Sulfuric Acid)	3					Vial (Phenol Formaldehyde)	16	Vial (Deionized Water)	16											
+1.1.2				Beaker (Phenol)	1	Beaker (Formaldehyde)	2	Vial (Sulfuric Acid)	4					Beaker (Phenol Formaldehyde)	1	Beaker (Deionized Water)	1											
+1.1.2				Beaker (Phenol)	4	Beaker (Formaldehyde)	8	Vial (Sulfuric Acid)	8					Beaker (Phenol Formaldehyde)	4	Beaker (Deionized Water)	4											
+1.1.2				Beaker (Phenol)	16	Beaker (Formaldehyde)	32	Vial (Sulfuric Acid)	12					Beaker (Phenol Formaldehyde)	16	Beaker (Deionized Water)	16											
+1.1.2				Drum (Phenol)	1	Drum (Formaldehyde)	2	Vial (Sulfuric Acid)	16					Drum (Phenol Formaldehyde)	1	Drum (Deionized Water)	1											
+1.1.2				Drum (Phenol)	4	Drum (Formaldehyde)	8	Vial (Sulfuric Acid)	32					Drum (Phenol Formaldehyde)	4	Drum (Deionized Water)	4											
+1.1.2				Drum (Phenol)	16	Drum (Formaldehyde)	32	Vial (Sulfuric Acid)	48					Drum (Phenol Formaldehyde)	16	Drum (Deionized Water)	16											
+1.1.2				Drum (Phenol)	64	Drum (Formaldehyde)	64	Drum (Acetone)	64	Beaker (Sulfuric Acid)	1			Drum (Phenol Formaldehyde)	64	Drum (Deionized Water)	64											
+1.1.2				Beaker (Phenol)	1	Beaker (Formaldehyde)	2	Vial (Sulfuric Acid)	4	Carbon Fiber Weave	1			Vial (Phenolic-Carbon Fiber Resin)	1	Beaker (Deionized Water)	1											
+1.1.2				Beaker (Phenol)	4	Beaker (Formaldehyde)	8	Vial (Sulfuric Acid)	8	Carbon Fiber Weave	4			Beaker (Phenolic-Carbon Fiber Resin)	4	Beaker (Deionized Water)	4											
+1.1.2				Beaker (Phenol)	16	Beaker (Formaldehyde)	32	Vial (Sulfuric Acid)	12	Carbon Fiber Weave	16			Beaker (Phenolic-Carbon Fiber Resin)	16	Beaker (Deionized Water)	16											
+1.1.2				Drum (Phenol)	1	Drum (Formaldehyde)	2	Vial (Sulfuric Acid)	16	Carbon Fiber Weave	64			Drum (Phenolic-Carbon Fiber Resin)	1	Drum (Deionized Water)	1											
 1.1.2				Vial (Bisphenol A)	1	Vial (Phosgene)	1							Bag (PolyCarbonate Pellets)	1													
 1.1.2				Vial (Bisphenol A)	4	Vial (Phosgene)	4							Bag (PolyCarbonate Pellets)	4													
 1.1.2				Vial (Bisphenol A)	16	Vial (Phosgene)	16							Bag (PolyCarbonate Pellets)	16													
@@ -539,6 +553,10 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Epichlorohydrin)	4	Drum (Bisphenol A)	4							Drum (Epoxy Resin)	4													
 1.1.2				Drum (Epichlorohydrin)	16	Drum (Bisphenol A)	16							Drum (Epoxy Resin)	16													
 1.1.2				Drum (Epichlorohydrin)	64	Drum (Bisphenol A)	64							Drum (Epoxy Resin)	64													
+1.1.2				Beaker (Epichlorohydrin)	1	Beaker (Bisphenol A)	1	Carbon Fiber Weave	1					Vial (Epoxy-Carbon Fiber Resin)	1													
+1.1.2				Beaker (Epichlorohydrin)	4	Beaker (Bisphenol A)	4	Carbon Fiber Weave	4					Beaker (Epoxy-Carbon Fiber Resin)	4													
+1.1.2				Beaker (Epichlorohydrin)	16	Beaker (Bisphenol A)	16	Carbon Fiber Weave	16					Beaker (Epoxy-Carbon Fiber Resin)	16													
+1.1.2				Drum (Epichlorohydrin)	1	Drum (Bisphenol A)	1	Carbon Fiber Weave	64					Drum (Epoxy-Carbon Fiber Resin)	1													
 1.1.2				Vial (Epichlorohydrin)	1	Bag (Sodium Hydroxide)	1							Vial (Propylene Oxide)	1	Bag (Sodium Chloride)	1											
 1.1.2				Vial (Epichlorohydrin)	4	Bag (Sodium Hydroxide)	4							Vial (Propylene Oxide)	4	Bag (Sodium Chloride)	4											
 1.1.2				Vial (Epichlorohydrin)	16	Bag (Sodium Hydroxide)	16							Vial (Propylene Oxide)	16	Bag (Sodium Chloride)	16											
@@ -589,26 +607,26 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Benzene)	4	Drum (Nitric Acid)	4	Vial (Sulfuric Acid)	32					Drum (Nitrobenzene)	4	Drum (Deionized Water)	4											
 1.1.2				Drum (Benzene)	16	Drum (Nitric Acid)	16	Vial (Sulfuric Acid)	48					Drum (Nitrobenzene)	16	Drum (Deionized Water)	16											
 1.1.2				Drum (Benzene)	64	Drum (Nitric Acid)	64	Beaker (Sulfuric Acid)	1					Drum (Nitrobenzene)	64	Drum (Deionized Water)	64											
-1.1.2				Vial (Nitrobenzene)	1	Flask (Hydrogen)	3	Platinum Catalyst	1					Vial (Anilene)	1	Vial (Deionized Water)	2											
-1.1.2				Vial (Nitrobenzene)	4	Flask (Hydrogen)	12	Platinum Catalyst	2					Vial (Anilene)	4	Vial (Deionized Water)	8											
-1.1.2				Vial (Nitrobenzene)	16	Flask (Hydrogen)	48	Platinum Catalyst	3					Vial (Anilene)	16	Vial (Deionized Water)	32											
-1.1.2				Beaker (Nitrobenzene)	1	Flask (Hydrogen)	3	Platinum Catalyst	4					Beaker (Anilene)	1	Beaker (Deionized Water)	2											
-1.1.2				Beaker (Nitrobenzene)	4	Cartridge (Hydrogen)	12	Platinum Catalyst	5					Beaker (Anilene)	4	Beaker (Deionized Water)	8											
-1.1.2				Beaker (Nitrobenzene)	16	Cartridge (Hydrogen)	48	Platinum Catalyst	6					Beaker (Anilene)	16	Beaker (Deionized Water)	32											
-1.1.2				Drum (Nitrobenzene)	1	Canister (Hydrogen)	3	Platinum Catalyst	7					Drum (Anilene)	1	Drum (Deionized Water)	2											
-1.1.2				Drum (Nitrobenzene)	4	Canister (Hydrogen)	12	Platinum Catalyst	8					Drum (Anilene)	4	Drum (Deionized Water)	8											
-1.1.2				Drum (Nitrobenzene)	16	Canister (Hydrogen)	48	Platinum Catalyst	9					Drum (Anilene)	16	Drum (Deionized Water)	32											
-1.1.2				Drum (Nitrobenzene)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10	Drum (Anilene)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64									
-1.1.2				Vial (Anilene)	1	Vial (Formaldehyde)	1							Vial (Diphenylmethane Diisocyanate)	1	Vial (Deionized Water)	1											
-1.1.2				Vial (Anilene)	4	Vial (Formaldehyde)	4							Vial (Diphenylmethane Diisocyanate)	4	Vial (Deionized Water)	4											
-1.1.2				Vial (Anilene)	16	Vial (Formaldehyde)	16							Vial (Diphenylmethane Diisocyanate)	16	Vial (Deionized Water)	16											
-1.1.2				Beaker (Anilene)	1	Beaker (Formaldehyde)	1							Beaker (Diphenylmethane Diisocyanate)	1	Beaker (Deionized Water)	1											
-1.1.2				Beaker (Anilene)	4	Beaker (Formaldehyde)	4							Beaker (Diphenylmethane Diisocyanate)	4	Beaker (Deionized Water)	4											
-1.1.2				Beaker (Anilene)	16	Beaker (Formaldehyde)	16							Beaker (Diphenylmethane Diisocyanate)	16	Beaker (Deionized Water)	16											
-1.1.2				Drum (Anilene)	1	Drum (Formaldehyde)	1							Drum (Diphenylmethane Diisocyanate)	1	Drum (Deionized Water)	1											
-1.1.2				Drum (Anilene)	4	Drum (Formaldehyde)	4							Drum (Diphenylmethane Diisocyanate)	4	Drum (Deionized Water)	4											
-1.1.2				Drum (Anilene)	16	Drum (Formaldehyde)	16							Drum (Diphenylmethane Diisocyanate)	16	Drum (Deionized Water)	16											
-1.1.2				Drum (Anilene)	64	Drum (Formaldehyde)	64							Drum (Diphenylmethane Diisocyanate)	64	Drum (Deionized Water)	64											
+1.1.2				Vial (Nitrobenzene)	1	Flask (Hydrogen)	3	Platinum Catalyst	1					Vial (Aniline)	1	Vial (Deionized Water)	2											
+1.1.2				Vial (Nitrobenzene)	4	Flask (Hydrogen)	12	Platinum Catalyst	2					Vial (Aniline)	4	Vial (Deionized Water)	8											
+1.1.2				Vial (Nitrobenzene)	16	Flask (Hydrogen)	48	Platinum Catalyst	3					Vial (Aniline)	16	Vial (Deionized Water)	32											
+1.1.2				Beaker (Nitrobenzene)	1	Flask (Hydrogen)	3	Platinum Catalyst	4					Beaker (Aniline)	1	Beaker (Deionized Water)	2											
+1.1.2				Beaker (Nitrobenzene)	4	Cartridge (Hydrogen)	12	Platinum Catalyst	5					Beaker (Aniline)	4	Beaker (Deionized Water)	8											
+1.1.2				Beaker (Nitrobenzene)	16	Cartridge (Hydrogen)	48	Platinum Catalyst	6					Beaker (Aniline)	16	Beaker (Deionized Water)	32											
+1.1.2				Drum (Nitrobenzene)	1	Canister (Hydrogen)	3	Platinum Catalyst	7					Drum (Aniline)	1	Drum (Deionized Water)	2											
+1.1.2				Drum (Nitrobenzene)	4	Canister (Hydrogen)	12	Platinum Catalyst	8					Drum (Aniline)	4	Drum (Deionized Water)	8											
+1.1.2				Drum (Nitrobenzene)	16	Canister (Hydrogen)	48	Platinum Catalyst	9					Drum (Aniline)	16	Drum (Deionized Water)	32											
+1.1.2				Drum (Nitrobenzene)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10	Drum (Aniline)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64									
+1.1.2				Vial (Aniline)	1	Vial (Formaldehyde)	1							Vial (Diphenylmethane Diisocyanate)	1	Vial (Deionized Water)	1											
+1.1.2				Vial (Aniline)	4	Vial (Formaldehyde)	4							Vial (Diphenylmethane Diisocyanate)	4	Vial (Deionized Water)	4											
+1.1.2				Vial (Aniline)	16	Vial (Formaldehyde)	16							Vial (Diphenylmethane Diisocyanate)	16	Vial (Deionized Water)	16											
+1.1.2				Beaker (Aniline)	1	Beaker (Formaldehyde)	1							Beaker (Diphenylmethane Diisocyanate)	1	Beaker (Deionized Water)	1											
+1.1.2				Beaker (Aniline)	4	Beaker (Formaldehyde)	4							Beaker (Diphenylmethane Diisocyanate)	4	Beaker (Deionized Water)	4											
+1.1.2				Beaker (Aniline)	16	Beaker (Formaldehyde)	16							Beaker (Diphenylmethane Diisocyanate)	16	Beaker (Deionized Water)	16											
+1.1.2				Drum (Aniline)	1	Drum (Formaldehyde)	1							Drum (Diphenylmethane Diisocyanate)	1	Drum (Deionized Water)	1											
+1.1.2				Drum (Aniline)	4	Drum (Formaldehyde)	4							Drum (Diphenylmethane Diisocyanate)	4	Drum (Deionized Water)	4											
+1.1.2				Drum (Aniline)	16	Drum (Formaldehyde)	16							Drum (Diphenylmethane Diisocyanate)	16	Drum (Deionized Water)	16											
+1.1.2				Drum (Aniline)	64	Drum (Formaldehyde)	64							Drum (Diphenylmethane Diisocyanate)	64	Drum (Deionized Water)	64											
 1.1.0				Rotten Flesh	1	Sugar	16							Beaker (Lactic Acid)	1													
 1.1.0				Rotten Flesh	2	Sugar	64							Beaker (Lactic Acid)	4													
 1.1.0				Rotten Flesh	3	Sugar	64	Sugar	64	Sugar	64	Sugar	64	Beaker (Lactic Acid)	16													
@@ -823,46 +841,46 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.1				Drum (o-Xylene)	4	Canister (Chlorine)	12							Powder Keg (o-Hexachloroxylene)	4													
 1.1.1				Drum (o-Xylene)	16	Canister (Chlorine)	48							Powder Keg (o-Hexachloroxylene)	16													
 1.1.1				Drum (o-Xylene)	64	Canister (Chlorine)	64	Canister (Chlorine)	64	Canister (Chlorine)	64			Powder Keg (o-Hexachloroxylene)	64													
-1.1.1				Bag (p-Hexachloroxylene)	1	Vial (Acetic Acid)	2							Bag (Terephthaloyl chloride)	1													
-1.1.1				Bag (p-Hexachloroxylene)	4	Vial (Acetic Acid)	8							Bag (Terephthaloyl chloride)	4													
-1.1.1				Bag (p-Hexachloroxylene)	16	Vial (Acetic Acid)	32							Bag (Terephthaloyl chloride)	16													
-1.1.1				Sack (p-Hexachloroxylene)	1	Beaker (Acetic Acid)	2							Sack (Terephthaloyl chloride)	1													
-1.1.1				Sack (p-Hexachloroxylene)	4	Beaker (Acetic Acid)	8							Sack (Terephthaloyl chloride)	4													
-1.1.1				Sack (p-Hexachloroxylene)	16	Beaker (Acetic Acid)	32							Sack (Terephthaloyl chloride)	16													
-1.1.1				Powder Keg (p-Hexachloroxylene)	1	Drum (Acetic Acid)	2							Powder Keg (Terephthaloyl chloride)	1													
-1.1.1				Powder Keg (p-Hexachloroxylene)	4	Drum (Acetic Acid)	8							Powder Keg (Terephthaloyl chloride)	4													
-1.1.1				Powder Keg (p-Hexachloroxylene)	16	Drum (Acetic Acid)	32							Powder Keg (Terephthaloyl chloride)	16													
-1.1.1				Powder Keg (p-Hexachloroxylene)	64	Drum (Acetic Acid)	64	Drum (Acetic Acid)	64					Powder Keg (Terephthaloyl chloride)	64													
-1.1.1				Bag (m-Hexachloroxylene)	1	Vial (Acetic Acid)	2							Bag (Isophthaloyl chloride)	1													
-1.1.1				Bag (m-Hexachloroxylene)	4	Vial (Acetic Acid)	8							Bag (Isophthaloyl chloride)	4													
-1.1.1				Bag (m-Hexachloroxylene)	16	Vial (Acetic Acid)	32							Bag (Isophthaloyl chloride)	16													
-1.1.1				Sack (m-Hexachloroxylene)	1	Beaker (Acetic Acid)	2							Sack (Isophthaloyl chloride)	1													
-1.1.1				Sack (m-Hexachloroxylene)	4	Beaker (Acetic Acid)	8							Sack (Isophthaloyl chloride)	4													
-1.1.1				Sack (m-Hexachloroxylene)	16	Beaker (Acetic Acid)	32							Sack (Isophthaloyl chloride)	16													
-1.1.1				Powder Keg (m-Hexachloroxylene)	1	Drum (Acetic Acid)	2							Powder Keg (Isophthaloyl chloride)	1													
-1.1.1				Powder Keg (m-Hexachloroxylene)	4	Drum (Acetic Acid)	8							Powder Keg (Isophthaloyl chloride)	4													
-1.1.1				Powder Keg (m-Hexachloroxylene)	16	Drum (Acetic Acid)	32							Powder Keg (Isophthaloyl chloride)	16													
-1.1.1				Powder Keg (m-Hexachloroxylene)	64	Drum (Acetic Acid)	64	Drum (Acetic Acid)	64					Powder Keg (Isophthaloyl chloride)	64													
-1.1.1				Bag (p-Phenylenediamine)	1	Bag (Terephthaloyl chloride)	1							Bag (PolyP-Phenylene Terephthalamide Pellets)	2													
-1.1.1				Bag (p-Phenylenediamine)	4	Bag (Terephthaloyl chloride)	4							Bag (PolyP-Phenylene Terephthalamide Pellets)	8													
-1.1.1				Bag (p-Phenylenediamine)	16	Bag (Terephthaloyl chloride)	16							Bag (PolyP-Phenylene Terephthalamide Pellets)	32													
-1.1.1				Sack (p-Phenylenediamine)	1	Sack (Terephthaloyl chloride)	1							Sack (PolyP-Phenylene Terephthalamide Pellets)	2													
-1.1.1				Sack (p-Phenylenediamine)	4	Sack (Terephthaloyl chloride)	4							Sack (PolyP-Phenylene Terephthalamide Pellets)	8													
-1.1.1				Sack (p-Phenylenediamine)	16	Sack (Terephthaloyl chloride)	16							Sack (PolyP-Phenylene Terephthalamide Pellets)	32													
-1.1.1				Powder Keg (p-Phenylenediamine)	1	Powder Keg (Terephthaloyl chloride)	1							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	2													
-1.1.1				Powder Keg (p-Phenylenediamine)	4	Powder Keg (Terephthaloyl chloride)	4							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	8													
-1.1.1				Powder Keg (p-Phenylenediamine)	16	Powder Keg (Terephthaloyl chloride)	16							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	32													
-1.1.1				Powder Keg (p-Phenylenediamine)	64	Powder Keg (Terephthaloyl chloride)	64							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	64	Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	64											
-1.1.1				Bag (p-Phenylenediamine)	1	Bag (Isophthaloyl chloride)	1							Bag (PolyM-Phenylene Isophthalamide Pellets)	2													
-1.1.1				Bag (p-Phenylenediamine)	4	Bag (Isophthaloyl chloride)	4							Bag (PolyM-Phenylene Isophthalamide Pellets)	8													
-1.1.1				Bag (p-Phenylenediamine)	16	Bag (Isophthaloyl chloride)	16							Bag (PolyM-Phenylene Isophthalamide Pellets)	32													
-1.1.1				Sack (p-Phenylenediamine)	1	Sack (Isophthaloyl chloride)	1							Sack (PolyM-Phenylene Isophthalamide Pellets)	2													
-1.1.1				Sack (p-Phenylenediamine)	4	Sack (Isophthaloyl chloride)	4							Sack (PolyM-Phenylene Isophthalamide Pellets)	8													
-1.1.1				Sack (p-Phenylenediamine)	16	Sack (Isophthaloyl chloride)	16							Sack (PolyM-Phenylene Isophthalamide Pellets)	32													
-1.1.1				Powder Keg (p-Phenylenediamine)	1	Powder Keg (Isophthaloyl chloride)	1							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	2													
-1.1.1				Powder Keg (p-Phenylenediamine)	4	Powder Keg (Isophthaloyl chloride)	4							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	8													
-1.1.1				Powder Keg (p-Phenylenediamine)	16	Powder Keg (Isophthaloyl chloride)	16							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	32													
-1.1.1				Powder Keg (p-Phenylenediamine)	64	Powder Keg (Isophthaloyl chloride)	64							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	64	Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	64											
+1.1.1				Bag (p-Hexachloroxylene)	1	Vial (Acetic Acid)	2							Bag (Terephthaloyl Chloride)	1													
+1.1.1				Bag (p-Hexachloroxylene)	4	Vial (Acetic Acid)	8							Bag (Terephthaloyl Chloride)	4													
+1.1.1				Bag (p-Hexachloroxylene)	16	Vial (Acetic Acid)	32							Bag (Terephthaloyl Chloride)	16													
+1.1.1				Sack (p-Hexachloroxylene)	1	Beaker (Acetic Acid)	2							Sack (Terephthaloyl Chloride)	1													
+1.1.1				Sack (p-Hexachloroxylene)	4	Beaker (Acetic Acid)	8							Sack (Terephthaloyl Chloride)	4													
+1.1.1				Sack (p-Hexachloroxylene)	16	Beaker (Acetic Acid)	32							Sack (Terephthaloyl Chloride)	16													
+1.1.1				Powder Keg (p-Hexachloroxylene)	1	Drum (Acetic Acid)	2							Powder Keg (Terephthaloyl Chloride)	1													
+1.1.1				Powder Keg (p-Hexachloroxylene)	4	Drum (Acetic Acid)	8							Powder Keg (Terephthaloyl Chloride)	4													
+1.1.1				Powder Keg (p-Hexachloroxylene)	16	Drum (Acetic Acid)	32							Powder Keg (Terephthaloyl Chloride)	16													
+1.1.1				Powder Keg (p-Hexachloroxylene)	64	Drum (Acetic Acid)	64	Drum (Acetic Acid)	64					Powder Keg (Terephthaloyl Chloride)	64													
+1.1.1				Bag (m-Hexachloroxylene)	1	Vial (Acetic Acid)	2							Bag (Isophthaloyl Chloride)	1													
+1.1.1				Bag (m-Hexachloroxylene)	4	Vial (Acetic Acid)	8							Bag (Isophthaloyl Chloride)	4													
+1.1.1				Bag (m-Hexachloroxylene)	16	Vial (Acetic Acid)	32							Bag (Isophthaloyl Chloride)	16													
+1.1.1				Sack (m-Hexachloroxylene)	1	Beaker (Acetic Acid)	2							Sack (Isophthaloyl Chloride)	1													
+1.1.1				Sack (m-Hexachloroxylene)	4	Beaker (Acetic Acid)	8							Sack (Isophthaloyl Chloride)	4													
+1.1.1				Sack (m-Hexachloroxylene)	16	Beaker (Acetic Acid)	32							Sack (Isophthaloyl Chloride)	16													
+1.1.1				Powder Keg (m-Hexachloroxylene)	1	Drum (Acetic Acid)	2							Powder Keg (Isophthaloyl Chloride)	1													
+1.1.1				Powder Keg (m-Hexachloroxylene)	4	Drum (Acetic Acid)	8							Powder Keg (Isophthaloyl Chloride)	4													
+1.1.1				Powder Keg (m-Hexachloroxylene)	16	Drum (Acetic Acid)	32							Powder Keg (Isophthaloyl Chloride)	16													
+1.1.1				Powder Keg (m-Hexachloroxylene)	64	Drum (Acetic Acid)	64	Drum (Acetic Acid)	64					Powder Keg (Isophthaloyl Chloride)	64													
+1.1.1				Bag (p-Phenylenediamine)	1	Bag (Terephthaloyl Chloride)	1							Bag (PolyP-Phenylene Terephthalamide Pellets)	2													
+1.1.1				Bag (p-Phenylenediamine)	4	Bag (Terephthaloyl Chloride)	4							Bag (PolyP-Phenylene Terephthalamide Pellets)	8													
+1.1.1				Bag (p-Phenylenediamine)	16	Bag (Terephthaloyl Chloride)	16							Bag (PolyP-Phenylene Terephthalamide Pellets)	32													
+1.1.1				Sack (p-Phenylenediamine)	1	Sack (Terephthaloyl Chloride)	1							Sack (PolyP-Phenylene Terephthalamide Pellets)	2													
+1.1.1				Sack (p-Phenylenediamine)	4	Sack (Terephthaloyl Chloride)	4							Sack (PolyP-Phenylene Terephthalamide Pellets)	8													
+1.1.1				Sack (p-Phenylenediamine)	16	Sack (Terephthaloyl Chloride)	16							Sack (PolyP-Phenylene Terephthalamide Pellets)	32													
+1.1.1				Powder Keg (p-Phenylenediamine)	1	Powder Keg (Terephthaloyl Chloride)	1							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	2													
+1.1.1				Powder Keg (p-Phenylenediamine)	4	Powder Keg (Terephthaloyl Chloride)	4							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	8													
+1.1.1				Powder Keg (p-Phenylenediamine)	16	Powder Keg (Terephthaloyl Chloride)	16							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	32													
+1.1.1				Powder Keg (p-Phenylenediamine)	64	Powder Keg (Terephthaloyl Chloride)	64							Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	64	Powder Keg (PolyP-Phenylene Terephthalamide Pellets)	64											
+1.1.1				Bag (p-Phenylenediamine)	1	Bag (Isophthaloyl Chloride)	1							Bag (PolyM-Phenylene Isophthalamide Pellets)	2													
+1.1.1				Bag (p-Phenylenediamine)	4	Bag (Isophthaloyl Chloride)	4							Bag (PolyM-Phenylene Isophthalamide Pellets)	8													
+1.1.1				Bag (p-Phenylenediamine)	16	Bag (Isophthaloyl Chloride)	16							Bag (PolyM-Phenylene Isophthalamide Pellets)	32													
+1.1.1				Sack (p-Phenylenediamine)	1	Sack (Isophthaloyl Chloride)	1							Sack (PolyM-Phenylene Isophthalamide Pellets)	2													
+1.1.1				Sack (p-Phenylenediamine)	4	Sack (Isophthaloyl Chloride)	4							Sack (PolyM-Phenylene Isophthalamide Pellets)	8													
+1.1.1				Sack (p-Phenylenediamine)	16	Sack (Isophthaloyl Chloride)	16							Sack (PolyM-Phenylene Isophthalamide Pellets)	32													
+1.1.1				Powder Keg (p-Phenylenediamine)	1	Powder Keg (Isophthaloyl Chloride)	1							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	2													
+1.1.1				Powder Keg (p-Phenylenediamine)	4	Powder Keg (Isophthaloyl Chloride)	4							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	8													
+1.1.1				Powder Keg (p-Phenylenediamine)	16	Powder Keg (Isophthaloyl Chloride)	16							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	32													
+1.1.1				Powder Keg (p-Phenylenediamine)	64	Powder Keg (Isophthaloyl Chloride)	64							Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	64	Powder Keg (PolyM-Phenylene Isophthalamide Pellets)	64											
 1.1.2				Vial (Benzene)	1	Flask (Propylene)	1	Flask (Oxygen)	1	Vial (Sulfuric Acid)	1			Vial (Acetone)	1	Vial (Hydroquinone)	1											
 1.1.2				Vial (Benzene)	4	Flask (Propylene)	4	Flask (Oxygen)	4	Vial (Sulfuric Acid)	2			Vial (Acetone)	4	Vial (Hydroquinone)	4											
 1.1.2				Vial (Benzene)	16	Flask (Propylene)	16	Flask (Oxygen)	16	Vial (Sulfuric Acid)	3			Vial (Acetone)	16	Vial (Hydroquinone)	16											
@@ -1054,3 +1072,96 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Methanol)	4	Drum (Carbon Monoxide)	4	Ruthenium Catalyst	8					Drum (Acetic Acid)	4													
 1.1.2				Drum (Methanol)	16	Drum (Carbon Monoxide)	16	Ruthenium Catalyst	9					Drum (Acetic Acid)	16													
 1.1.2				Drum (Methanol)	64	Drum (Carbon Monoxide)	64	Ruthenium Catalyst	10					Drum (Acetic Acid)	64													
+1.1.2				Vial (Aniline)	1	Vial (Tetrafluoroboric Acid)	1	Vial (Hydrofluoric Acid)	1	Bag (Sodium Nitrite)	1			Vial (Fluorobenzene)	1	Vial (Tetrafluoroboric Acid)	1	Flask (Nitrogen)	1	Vial (Deionized Water)	2							
+1.1.2				Vial (Aniline)	4	Vial (Tetrafluoroboric Acid)	4	Vial (Hydrofluoric Acid)	4	Bag (Sodium Nitrite)	4			Vial (Fluorobenzene)	4	Vial (Tetrafluoroboric Acid)	4	Flask (Nitrogen)	4	Vial (Deionized Water)	8							
+1.1.2				Vial (Aniline)	16	Vial (Tetrafluoroboric Acid)	16	Vial (Hydrofluoric Acid)	16	Bag (Sodium Nitrite)	16			Vial (Fluorobenzene)	16	Vial (Tetrafluoroboric Acid)	16	Flask (Nitrogen)	16	Vial (Deionized Water)	32							
+1.1.2				Beaker (Aniline)	1	Beaker (Tetrafluoroboric Acid)	1	Beaker (Hydrofluoric Acid)	1	Sack (Sodium Nitrite)	1			Beaker (Fluorobenzene)	1	Beaker (Tetrafluoroboric Acid)	1	Cartridge (Nitrogen)	1	Beaker (Deionized Water)	2							
+1.1.2				Beaker (Aniline)	4	Beaker (Tetrafluoroboric Acid)	4	Beaker (Hydrofluoric Acid)	4	Sack (Sodium Nitrite)	4			Beaker (Fluorobenzene)	4	Beaker (Tetrafluoroboric Acid)	4	Cartridge (Nitrogen)	4	Beaker (Deionized Water)	8							
+1.1.2				Beaker (Aniline)	16	Beaker (Tetrafluoroboric Acid)	16	Beaker (Hydrofluoric Acid)	16	Sack (Sodium Nitrite)	16			Beaker (Fluorobenzene)	16	Beaker (Tetrafluoroboric Acid)	16	Cartridge (Nitrogen)	16	Beaker (Deionized Water)	32							
+1.1.2				Drum (Aniline)	1	Drum (Tetrafluoroboric Acid)	1	Drum (Hydrofluoric Acid)	1	Powder Keg (Sodium Nitrite)	1			Drum (Fluorobenzene)	1	Drum (Tetrafluoroboric Acid)	1	Canister (Nitrogen)	1	Drum (Deionized Water)	2							
+1.1.2				Drum (Aniline)	4	Drum (Tetrafluoroboric Acid)	4	Drum (Hydrofluoric Acid)	4	Powder Keg (Sodium Nitrite)	4			Drum (Fluorobenzene)	4	Drum (Tetrafluoroboric Acid)	4	Canister (Nitrogen)	4	Drum (Deionized Water)	8							
+1.1.2				Drum (Aniline)	16	Drum (Tetrafluoroboric Acid)	16	Drum (Hydrofluoric Acid)	16	Powder Keg (Sodium Nitrite)	16			Drum (Fluorobenzene)	16	Drum (Tetrafluoroboric Acid)	16	Canister (Nitrogen)	16	Drum (Deionized Water)	32							
+1.1.2				Drum (Aniline)	64	Drum (Tetrafluoroboric Acid)	64	Drum (Hydrofluoric Acid)	64	Powder Keg (Sodium Nitrite)	64			Drum (Fluorobenzene)	64	Drum (Tetrafluoroboric Acid)	64	Canister (Nitrogen)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64					
+1.1.2				Vial (Boric Acid)	1	Vial (Hydrofluoric Acid)	4							Vial (Tetrafluoroboric Acid)	1													
+1.1.2				Vial (Boric Acid)	4	Vial (Hydrofluoric Acid)	16							Vial (Tetrafluoroboric Acid)	4													
+1.1.2				Vial (Boric Acid)	16	Beaker (Hydrofluoric Acid)	1							Vial (Tetrafluoroboric Acid)	16													
+1.1.2				Beaker (Boric Acid)	1	Beaker (Hydrofluoric Acid)	4							Beaker (Tetrafluoroboric Acid)	1													
+1.1.2				Beaker (Boric Acid)	4	Beaker (Hydrofluoric Acid)	16							Beaker (Tetrafluoroboric Acid)	4													
+1.1.2				Beaker (Boric Acid)	16	Drum (Hydrofluoric Acid)	1							Beaker (Tetrafluoroboric Acid)	16													
+1.1.2				Drum (Boric Acid)	1	Drum (Hydrofluoric Acid)	4							Drum (Tetrafluoroboric Acid)	1													
+1.1.2				Drum (Boric Acid)	4	Drum (Hydrofluoric Acid)	16							Drum (Tetrafluoroboric Acid)	4													
+1.1.2				Drum (Boric Acid)	16	Drum (Hydrofluoric Acid)	64							Drum (Tetrafluoroboric Acid)	16													
+1.1.2				Drum (Boric Acid)	64	Drum (Hydrofluoric Acid)	64	Drum (Hydrofluoric Acid)	64	Drum (Hydrofluoric Acid)	64	Drum (Hydrofluoric Acid)	64	Drum (Tetrafluoroboric Acid)	64													
+1.1.2				Vial (Toluene)	1	Vial (Nitric Acid)	1							Vial (p-Nitrotoluene)	1													
+1.1.2				Vial (Toluene)	4	Vial (Nitric Acid)	4							Vial (p-Nitrotoluene)	4													
+1.1.2				Vial (Toluene)	16	Vial (Nitric Acid)	16							Vial (p-Nitrotoluene)	16													
+1.1.2				Beaker (Toluene)	1	Beaker (Nitric Acid)	1							Beaker (p-Nitrotoluene)	1													
+1.1.2				Beaker (Toluene)	4	Beaker (Nitric Acid)	4							Beaker (p-Nitrotoluene)	4													
+1.1.2				Beaker (Toluene)	16	Beaker (Nitric Acid)	16							Beaker (p-Nitrotoluene)	16													
+1.1.2				Drum (Toluene)	1	Drum (Nitric Acid)	1							Drum (p-Nitrotoluene)	1													
+1.1.2				Drum (Toluene)	4	Drum (Nitric Acid)	4							Drum (p-Nitrotoluene)	4													
+1.1.2				Drum (Toluene)	16	Drum (Nitric Acid)	16							Drum (p-Nitrotoluene)	16													
+1.1.2				Drum (Toluene)	64	Drum (Nitric Acid)	64							Drum (p-Nitrotoluene)	64													
+1.1.2				Vial (p-Nitrotoluene)	1	Flask (Hydrogen)	2	Platinum Catalyst	1					Vial (p-Aminotoluene)	1													
+1.1.2				Vial (p-Nitrotoluene)	4	Flask (Hydrogen)	8	Platinum Catalyst	2					Vial (p-Aminotoluene)	4													
+1.1.2				Vial (p-Nitrotoluene)	16	Flask (Hydrogen)	32	Platinum Catalyst	3					Vial (p-Aminotoluene)	16													
+1.1.2				Beaker (p-Nitrotoluene)	1	Cartridge (Hydrogen)	2	Platinum Catalyst	4					Beaker (p-Aminotoluene)	1													
+1.1.2				Beaker (p-Nitrotoluene)	4	Cartridge (Hydrogen)	8	Platinum Catalyst	5					Beaker (p-Aminotoluene)	4													
+1.1.2				Beaker (p-Nitrotoluene)	16	Cartridge (Hydrogen)	32	Platinum Catalyst	6					Beaker (p-Aminotoluene)	16													
+1.1.2				Drum (p-Nitrotoluene)	1	Canister (Hydrogen)	2	Platinum Catalyst	7					Drum (p-Aminotoluene)	1													
+1.1.2				Drum (p-Nitrotoluene)	4	Canister (Hydrogen)	8	Platinum Catalyst	8					Drum (p-Aminotoluene)	4													
+1.1.2				Drum (p-Nitrotoluene)	16	Canister (Hydrogen)	32	Platinum Catalyst	9					Drum (p-Aminotoluene)	16													
+1.1.2				Drum (p-Nitrotoluene)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10			Drum (p-Aminotoluene)	64													
+1.1.2				Vial (p-Aminotoluene)	1	Vial (Tetrafluoroboric Acid)	1	Vial (Hydrofluoric Acid)	1	Bag (Sodium Nitrite)	1			Vial (p-Fluorotoluene)	1	Vial (Tetrafluoroboric Acid)	1	Flask (Nitrogen)	1	Vial (Deionized Water)	2							
+1.1.2				Vial (p-Aminotoluene)	4	Vial (Tetrafluoroboric Acid)	4	Vial (Hydrofluoric Acid)	4	Bag (Sodium Nitrite)	4			Vial (p-Fluorotoluene)	4	Vial (Tetrafluoroboric Acid)	4	Flask (Nitrogen)	4	Vial (Deionized Water)	8							
+1.1.2				Vial (p-Aminotoluene)	16	Vial (Tetrafluoroboric Acid)	16	Vial (Hydrofluoric Acid)	16	Bag (Sodium Nitrite)	16			Vial (p-Fluorotoluene)	16	Vial (Tetrafluoroboric Acid)	16	Flask (Nitrogen)	16	Vial (Deionized Water)	32							
+1.1.2				Beaker (p-Aminotoluene)	1	Beaker (Tetrafluoroboric Acid)	1	Beaker (Hydrofluoric Acid)	1	Sack (Sodium Nitrite)	1			Beaker (p-Fluorotoluene)	1	Beaker (Tetrafluoroboric Acid)	1	Cartridge (Nitrogen)	1	Beaker (Deionized Water)	2							
+1.1.2				Beaker (p-Aminotoluene)	4	Beaker (Tetrafluoroboric Acid)	4	Beaker (Hydrofluoric Acid)	4	Sack (Sodium Nitrite)	4			Beaker (p-Fluorotoluene)	4	Beaker (Tetrafluoroboric Acid)	4	Cartridge (Nitrogen)	4	Beaker (Deionized Water)	8							
+1.1.2				Beaker (p-Aminotoluene)	16	Beaker (Tetrafluoroboric Acid)	16	Beaker (Hydrofluoric Acid)	16	Sack (Sodium Nitrite)	16			Beaker (p-Fluorotoluene)	16	Beaker (Tetrafluoroboric Acid)	16	Cartridge (Nitrogen)	16	Beaker (Deionized Water)	32							
+1.1.2				Drum (p-Aminotoluene)	1	Drum (Tetrafluoroboric Acid)	1	Drum (Hydrofluoric Acid)	1	Powder Keg (Sodium Nitrite)	1			Drum (p-Fluorotoluene)	1	Drum (Tetrafluoroboric Acid)	1	Canister (Nitrogen)	1	Drum (Deionized Water)	2							
+1.1.2				Drum (p-Aminotoluene)	4	Drum (Tetrafluoroboric Acid)	4	Drum (Hydrofluoric Acid)	4	Powder Keg (Sodium Nitrite)	4			Drum (p-Fluorotoluene)	4	Drum (Tetrafluoroboric Acid)	4	Canister (Nitrogen)	4	Drum (Deionized Water)	8							
+1.1.2				Drum (p-Aminotoluene)	16	Drum (Tetrafluoroboric Acid)	16	Drum (Hydrofluoric Acid)	16	Powder Keg (Sodium Nitrite)	16			Drum (p-Fluorotoluene)	16	Drum (Tetrafluoroboric Acid)	16	Canister (Nitrogen)	16	Drum (Deionized Water)	32							
+1.1.2				Drum (p-Aminotoluene)	64	Drum (Tetrafluoroboric Acid)	64	Drum (Hydrofluoric Acid)	64	Powder Keg (Sodium Nitrite)	64			Drum (p-Fluorotoluene)	64	Drum (Tetrafluoroboric Acid)	64	Canister (Nitrogen)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64					
+1.1.2				Vial (p-Fluorotoluene)	1	Flask (Chlorine)	2							Vial (1-(Trichloromethyl)-4-Fluorobenzene)	1													
+1.1.2				Vial (p-Fluorotoluene)	4	Flask (Chlorine)	8							Vial (1-(Trichloromethyl)-4-Fluorobenzene)	4													
+1.1.2				Vial (p-Fluorotoluene)	16	Flask (Chlorine)	32							Vial (1-(Trichloromethyl)-4-Fluorobenzene)	16													
+1.1.2				Beaker (p-Fluorotoluene)	1	Cartridge (Chlorine)	2							Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	1													
+1.1.2				Beaker (p-Fluorotoluene)	4	Cartridge (Chlorine)	8							Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	4													
+1.1.2				Beaker (p-Fluorotoluene)	16	Cartridge (Chlorine)	32							Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	16													
+1.1.2				Drum (p-Fluorotoluene)	1	Canister (Chlorine)	2							Drum (1-(Trichloromethyl)-4-Fluorobenzene)	1													
+1.1.2				Drum (p-Fluorotoluene)	4	Canister (Chlorine)	8							Drum (1-(Trichloromethyl)-4-Fluorobenzene)	4													
+1.1.2				Drum (p-Fluorotoluene)	16	Canister (Chlorine)	32							Drum (1-(Trichloromethyl)-4-Fluorobenzene)	16													
+1.1.2				Drum (p-Fluorotoluene)	64	Canister (Chlorine)	64	Canister (Chlorine)	64					Drum (1-(Trichloromethyl)-4-Fluorobenzene)	64													
+1.1.2				Vial (1-(Trichloromethyl)-4-Fluorobenzene)	1	Vial (Acetic Acid)	1							Vial (p-Fluorobenzoyl Chloride)	1													
+1.1.2				Vial (1-(Trichloromethyl)-4-Fluorobenzene)	4	Vial (Acetic Acid)	4							Vial (p-Fluorobenzoyl Chloride)	4													
+1.1.2				Vial (1-(Trichloromethyl)-4-Fluorobenzene)	16	Vial (Acetic Acid)	16							Vial (p-Fluorobenzoyl Chloride)	16													
+1.1.2				Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	1	Beaker (Acetic Acid)	1							Beaker (p-Fluorobenzoyl Chloride)	1													
+1.1.2				Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	4	Beaker (Acetic Acid)	4							Beaker (p-Fluorobenzoyl Chloride)	4													
+1.1.2				Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	16	Beaker (Acetic Acid)	16							Beaker (p-Fluorobenzoyl Chloride)	16													
+1.1.2				Drum (1-(Trichloromethyl)-4-Fluorobenzene)	1	Drum (Acetic Acid)	1							Drum (p-Fluorobenzoyl Chloride)	1													
+1.1.2				Drum (1-(Trichloromethyl)-4-Fluorobenzene)	4	Drum (Acetic Acid)	4							Drum (p-Fluorobenzoyl Chloride)	4													
+1.1.2				Drum (1-(Trichloromethyl)-4-Fluorobenzene)	16	Drum (Acetic Acid)	16							Drum (p-Fluorobenzoyl Chloride)	16													
+1.1.2				Drum (1-(Trichloromethyl)-4-Fluorobenzene)	64	Drum (Acetic Acid)	64							Drum (p-Fluorobenzoyl Chloride)	64													
+1.1.2				Vial (p-Fluorobenzoyl Chloride)	1	Vial (Fluorobenzene)	1							"Vial (4,4-Difluorobenzophenone)"	1													
+1.1.2				Vial (p-Fluorobenzoyl Chloride)	4	Vial (Fluorobenzene)	4							"Vial (4,4-Difluorobenzophenone)"	4													
+1.1.2				Vial (p-Fluorobenzoyl Chloride)	16	Vial (Fluorobenzene)	16							"Vial (4,4-Difluorobenzophenone)"	16													
+1.1.2				Beaker (p-Fluorobenzoyl Chloride)	1	Beaker (Fluorobenzene)	1							"Beaker (4,4-Difluorobenzophenone)"	1													
+1.1.2				Beaker (p-Fluorobenzoyl Chloride)	4	Beaker (Fluorobenzene)	4							"Beaker (4,4-Difluorobenzophenone)"	4													
+1.1.2				Beaker (p-Fluorobenzoyl Chloride)	16	Beaker (Fluorobenzene)	16							"Beaker (4,4-Difluorobenzophenone)"	16													
+1.1.2				Drum (p-Fluorobenzoyl Chloride)	1	Drum (Fluorobenzene)	1							"Drum (4,4-Difluorobenzophenone)"	1													
+1.1.2				Drum (p-Fluorobenzoyl Chloride)	4	Drum (Fluorobenzene)	4							"Drum (4,4-Difluorobenzophenone)"	4													
+1.1.2				Drum (p-Fluorobenzoyl Chloride)	16	Drum (Fluorobenzene)	16							"Drum (4,4-Difluorobenzophenone)"	16													
+1.1.2				Drum (p-Fluorobenzoyl Chloride)	64	Drum (Fluorobenzene)	64							"Drum (4,4-Difluorobenzophenone)"	64													
+1.1.2				"Vial (4,4-Difluorobenzophenone)"	1	Bag (Disodium Hydroquinone)	1							Bag (PolyEther Ether Ketone Pellets)	2													
+1.1.2				"Vial (4,4-Difluorobenzophenone)"	4	Bag (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8													
+1.1.2				"Vial (4,4-Difluorobenzophenone)"	16	Bag (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32													
+1.1.2				"Beaker (4,4-Difluorobenzophenone)"	1	Sack (Disodium Hydroquinone)	1							Bag (PolyEther Ether Ketone Pellets)	2													
+1.1.2				"Beaker (4,4-Difluorobenzophenone)"	4	Sack (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8													
+1.1.2				"Beaker (4,4-Difluorobenzophenone)"	16	Sack (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32													
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	1	Powder Keg (Disodium Hydroquinone)	1							Bag (PolyEther Ether Ketone Pellets)	2													
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	4	Powder Keg (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8													
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	16	Powder Keg (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32													
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	64	Powder Keg (Disodium Hydroquinone)	64							Bag (PolyEther Ether Ketone Pellets)	64	Bag (PolyEther Ether Ketone Pellets)	64											
+																												
+																												
+																												

@@ -27,7 +27,7 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 1.1.0	My	Oo	Qe	S4	Slab (NBR)	Block (NBR)	NBR	6
 1.0.0	Mz	Op	Qf	S5	Slab (PFA)	Block (PFA)	PFA	0
 1.0.0	MA	Oq	Qg	S6	Slab (PALD)	Block (PALD)	PALD	0
-0	MB	Or	Qh	S7	Slab (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
+1.1.2	MB	Or	Qh	S7	Slab (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
 1.0.0	MC	Os	Qi	S8	Slab (PHBV)	Block (PHBV)	PHBV	0
 0	MD	Ot	Qj	S9	Slab (P1B)	Block (P1B)	P1B	0
 0	ME	Ou	Qk	Sa	Slab (PDPE)	Block (PDPE)	PDPE	0
@@ -113,8 +113,8 @@ Version	Single Slab Item Game ID	Double Slab Item Game ID	Single Slab Block Game
 1.0.0	NX	PN	RD	Tt	Slab (VLDPE)	Block (VLDPE)	VLDPE	0
 1.0.0	NY	PO	RE	Tu	Slab (VA/AA)	Block (VA/AA)	VA/AA	0
 1.1.0	2E	2F	2G	2H	Slab (Nylon 6)	Block (Nylon 6)	Nylon 6	0
-								
-								
+1.1.2	19U	1ah	1aD	1b0	Slab (Carbon Fiber Resin (E))	Block (Carbon Fiber Resin (E))	Carbon Fiber Resin (E)	0
+1.1.2	19V	1ai	1aE	1b1	Slab (Carbon Fiber Resin (P))	Block (Carbon Fiber Resin (P))	Carbon Fiber Resin (P)	0
 								
 								
 								

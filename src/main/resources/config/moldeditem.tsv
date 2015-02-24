@@ -60,7 +60,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.1.0	H2	Fibers (NBR)	Metal Die (Fibers)	Bag (Nitrile-Butadiene Rubber Pellets)	NBR	16	10	64	FALSE											
 1.0.0	H3	Fibers (PFA)	Metal Die (Fibers)	Bag (Paraformaldehyde Pellets)	PFA	16	10	64	FALSE											
 1.0.0	H4	Fibers (PALD)	Metal Die (Fibers)	Bag (Paraldehyde Pellets)	PALD	16	10	64	FALSE											
-	H5	Fibers (Phenol Formaldehydes)	Metal Die (Fibers)	Vial (Phenolic Resin)	Phenol Formaldehydes	16	10	64	FALSE											
+1.1.2	H5	Fibers (Phenol Formaldehydes)	Metal Die (Fibers)	Vial (Phenolic Resin)	Phenol Formaldehydes	16	10	64	FALSE											
 1.0.0	H6	Fibers (PHBV)	Metal Die (Fibers)	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	16	10	64	FALSE											
 	H7	Fibers (P1B)	Metal Die (Fibers)	Bag (Poly1-Butene Pellets)	P1B	16	10	64	FALSE											
 	H8	Fibers (PDPE)	Metal Die (Fibers)	"Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	16	10	64	FALSE											
@@ -147,8 +147,8 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	Is	Fibers (VA/AA)	Metal Die (Fibers)	Bag (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	16	10	64	FALSE											
 1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Bag (Polycaprolactam Pellets)	Nylon 6	16	10	64	FALSE											
 1.1.0	12M	Battery Case (SAN)	Mold (Battery Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
-1.1.0	19M	Tool Shaft (PEEK)	Mold (Tool Shaft)	Bag (PolyEther Ether Ketone Pellets)	PEEK	2	10	64	TRUE											
-1.1.0	19N	Tool Shaft (Carbon Fiber)	Mold (Tool Shaft)	Bag (Carbon Fiber)	Carbon Fiber	2	10	64	TRUE											
+1.1.0	19M	Tool Shaft (PEEK)	Mold (Tool Shaft)	Bag (PolyEther Ether Ketone Pellets)	PEEK	8	10	64	TRUE											
+1.1.0	19N	Tool Shaft (Carbon Fiber Composite)	Mold (Tool Shaft)	Vial (Epoxy-Carbon Fiber Resin)	Carbon Fiber Composite	8	10	64	TRUE	Source 1	Vial (Phenolic-Carbon Fiber Resin)									
 1.1.1	19l	Lighter Body (LDPE)	Mold (Lighter Body)	Bag (Low Density PolyEthylene Pellets)	LDPE	2	5	64	FALSE											
 																				
 																				

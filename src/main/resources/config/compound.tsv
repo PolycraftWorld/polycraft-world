@@ -368,11 +368,11 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.1.1	p-Hexachloroxylene		Solid						
 1.1.1	m-Hexachloroxylene		Solid						
 1.1.1	o-Hexachloroxylene		Solid						
-1.1.1	Terephthaloyl chloride		Solid						
-1.1.1	Isophthaloyl chloride		Solid						
+1.1.1	Terephthaloyl Chloride		Solid						
+1.1.1	Isophthaloyl Chloride		Solid						
 1.1.2	Cyclohexanol		Liquid						
 1.1.2	Nitrobenzene		Liquid						
-1.1.2	Anilene		Liquid						
+1.1.2	Aniline		Liquid						
 1.1.2	Diphenylmethane Diisocyanate		Liquid						
 1.1.2	Toluene Diisocyanate		Liquid						
 1.1.2	Hexamethylene Diisocyanate		Liquid						
@@ -389,3 +389,11 @@ Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses
 1.1.2	Nitrogen Dioxide		Gas						
 1.1.2	Sodium Nitrite	NaNO2	Solid						
 1.1.2	Dicyclopentadiene		Liquid						
+1.1.2	Tetrafluoroboric Acid	HBF4	Liquid						
+1.1.2	Fluorobenzene	C6H5F	Liquid						
+1.1.2	p-Fluorobenzoyl Chloride	C7H4ClFO	Liquid						
+1.1.2	p-Nitrotoluene		Liquid						
+1.1.2	p-Aminotoluene		Liquid						
+1.1.2	p-Fluorotoluene		Liquid						
+1.1.2	1-(Trichloromethyl)-4-Fluorobenzene		Liquid						
+1.1.2	"4,4-Difluorobenzophenone"		Liquid						
