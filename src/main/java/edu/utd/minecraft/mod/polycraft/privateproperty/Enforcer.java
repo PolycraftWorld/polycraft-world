@@ -57,8 +57,10 @@ public abstract class Enforcer {
 	protected final String netChannelName = "private.properties";
 	private final Gson gson;
 	protected String privatePropertiesJson = null;
+	protected String whitelistJson = null;
 	private final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
 	private final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
+	protected String[] whitelist = new String[] {};
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
 	
@@ -83,6 +85,11 @@ public abstract class Enforcer {
 				}
 			}
 		}
+	}
+	
+	protected void updateWhitelist(final String whitelistJson) {
+		this.whitelistJson = whitelistJson;
+		whitelist = gson.fromJson(whitelistJson, new TypeToken<String[]>(){}.getType());
 	}
 	
 	private static String getChunkKey(final int x, final int z) {
