@@ -4,7 +4,6 @@ import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
 public class SpotlightInventory extends FueledLampInventory {
 
@@ -13,7 +12,7 @@ public class SpotlightInventory extends FueledLampInventory {
 	public static void register(final Inventory config) {
 		SpotlightInventory.config = config;
 		config.containerType = PolycraftContainerType.SPOTLIGHT;
-		PolycraftInventory.register(new FueledLampBlock(config, SpotlightInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new FueledLampBlock(config, SpotlightInventory.class));
 	}
 
 	public SpotlightInventory() {

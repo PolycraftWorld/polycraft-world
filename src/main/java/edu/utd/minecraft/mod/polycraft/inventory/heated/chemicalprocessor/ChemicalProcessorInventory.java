@@ -56,7 +56,7 @@ public class ChemicalProcessorInventory extends HeatedInventory {
 	public static final void register(final Inventory config) {
 		ChemicalProcessorInventory.config = config;
 		config.containerType = PolycraftContainerType.CHEMICAL_PROCESSOR;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, ChemicalProcessorInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, ChemicalProcessorInventory.class));
 	}
 
 	public ChemicalProcessorInventory() {

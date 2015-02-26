@@ -122,6 +122,7 @@ public class PolycraftMod {
 	public static Block blockOil;
 	public static Item itemOilBucket;
 	public static Block blockLight;
+	public static Block blockCollision;
 
 	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
 

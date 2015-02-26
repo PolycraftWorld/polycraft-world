@@ -34,15 +34,18 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
-import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
-import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
-import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrickRenderer;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -86,7 +89,7 @@ public class ClientProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
 		//TODO: Walter add in 3D rendering code
-		//registerRenderers();
+		registerRenderers();
 	}
 
 	private class PlayerState {
@@ -585,9 +588,27 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerRenderers() {
-		RenderIDs.PolymerBrickID = RenderingRegistry.getNextAvailableRenderId();
+		//RenderIDs.PolymerBrickID = RenderingRegistry.getNextAvailableRenderId();
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPolymerBrick.class, new TileEntityPolymerBrickRenderer());
+		for (final Inventory inventory : Inventory.registry.values()) {
+			PolycraftInventoryBlock inventoryBlock = (PolycraftInventoryBlock) PolycraftRegistry.getBlock(inventory);
+			PolycraftInventoryBlock.BasicRenderingHandler renderingHandler;
+			if (inventory.render3D)
+				inventory.renderID = RenderingRegistry.getNextAvailableRenderId();
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPolymerBrick.class, new TileEntityPolymerBrickRenderer());
+			if (GameID.InventoryTreeTap.matches(inventory))
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new TreeTapRenderingHandler(inventory));
+			else if (GameID.InventoryOilDerrick.matches(inventory))
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new OilDerrickRenderingHandler(inventory));
+			else if (GameID.InventoryCondenser.matches(inventory))
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new CondenserRenderingHandler(inventory));
+			else
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new PolycraftInventoryBlock.BasicRenderingHandler(inventory));
+
+			if (inventory.render3D)
+				ClientRegistry.bindTileEntitySpecialRenderer(inventoryBlock.tileEntityClass, renderingHandler);
+
+		}
 
 	}
 }

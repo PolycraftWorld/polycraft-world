@@ -10,8 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,10 +25,9 @@ import edu.utd.minecraft.mod.polycraft.util.Analytics;
 
 public abstract class PolycraftInventory extends PolycraftBasicTileEntityContainer {
 
-	protected static final void register(final PolycraftInventoryBlock inventoryBlock, final ISimpleBlockRenderingHandler renderingHandler) {
+	protected static final void register(final PolycraftInventoryBlock inventoryBlock) {
 		PolycraftRegistry.registerBlock(inventoryBlock.config, inventoryBlock);
 		GameRegistry.registerTileEntity(inventoryBlock.tileEntityClass, inventoryBlock.config.tileEntityGameID);
-		RenderingRegistry.registerBlockHandler(renderingHandler.getRenderId(), renderingHandler);
 	}
 
 	private final ResourceLocation guiTexture;

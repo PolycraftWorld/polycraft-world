@@ -53,7 +53,7 @@ public class MeroxTreatmentUnitInventory extends HeatedInventory {
 	public static final void register(final Inventory config) {
 		MeroxTreatmentUnitInventory.config = config;
 		config.containerType = PolycraftContainerType.MEROX_TREATMENT_UNIT;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, MeroxTreatmentUnitInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, MeroxTreatmentUnitInventory.class));
 	}
 
 	public MeroxTreatmentUnitInventory() {

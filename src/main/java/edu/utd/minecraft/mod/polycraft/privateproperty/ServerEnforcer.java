@@ -23,8 +23,8 @@ import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
 	
-	//refresh once per minecraft day
 	private static final String portalRestUrl = System.getProperty("portal.rest.url");
+	//refresh once per minecraft day by default
 	private static final long portalRefreshTicksPrivateProperties = SystemUtil.getPropertyLong("portal.refresh.ticks.private.properties", 24000);
 	private static final long portalRefreshTicksWhitelist = SystemUtil.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
 	
@@ -32,57 +32,30 @@ public class ServerEnforcer extends Enforcer {
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
 		//TODO not sure why this is getting called multiple times with different world java objects for the same world
 		if (event.phase == TickEvent.Phase.END) {
-			//refresh private property permissions at the start of each day, or if we haven't loaded them yet
-			if (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 0 || privatePropertiesJson == null) {
-				try {
-					//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
-					updatePrivateProperties(NetUtil.getText(String.format("%s/worlds/%s/private_property_permissions/", portalRestUrl, event.world.getWorldInfo().getWorldName())));
-					netChannel.sendToAll(getPrivatePropertiesPacket());
-				}
-				catch (final IOException e) {
-					//TODO set up a log4j mapping to send emails on error messages (via mandrill)
-					if (privatePropertiesJson == null) {
-						PolycraftMod.logger.error("Unable to load private properties: " + e.getMessage());
-						System.exit(-1);
-					}
-					else {
-						PolycraftMod.logger.error("Unable to refresh private properties: " + e.getMessage());
-					}
-				}
+			onWorldTickPrivateProperties(event);
+			onWorldTickWhitelist(event);
+		}	
+	}
+	
+	private void onWorldTickPrivateProperties(final TickEvent.WorldTickEvent event) {
+		//refresh private property permissions at the start of each day, or if we haven't loaded them yet
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 0 || privatePropertiesJson == null)) {
+			try {
+				final String url = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "privateproperties.json"
+						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
+						: String.format("%s/worlds/%s/private_property_permissions/", portalRestUrl, event.world.getWorldInfo().getWorldName());
+				updatePrivateProperties(NetUtil.getText(url));
+				netChannel.sendToAll(getPrivatePropertiesPacket());
 			}
-			
-			//refresh the whitelist at the start of each day, or if we haven't it yet
-			if (event.world.getWorldTime() % portalRefreshTicksWhitelist == 0 || whitelistJson == null) {
-				try {
-					final Set<String> previousWhitelist = Sets.newHashSet(whitelist);
-					updateWhitelist(NetUtil.getText(String.format("%s/worlds/%s/whitelist/", portalRestUrl, event.world.getWorldInfo().getWorldName())));
-					//reconcile whitelists
-					final MinecraftServer minecraftserver = MinecraftServer.getServer();
-					for (final String usernameToAdd : whitelist) {
-						//if the user is new, add to the whitelist
-						if (!previousWhitelist.remove(usernameToAdd)) {
-							final GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
-			                if (gameprofile != null)
-				                minecraftserver.getConfigurationManager().func_152601_d(gameprofile);
-						}
-					}
-					//remove users from the whitelist that were not in the new whitelist
-					for (final String usernameToRemove : previousWhitelist) {
-						final GameProfile gameprofile = minecraftserver.getConfigurationManager().func_152599_k().func_152706_a(usernameToRemove);
-						if (gameprofile != null)
-							minecraftserver.getConfigurationManager().func_152597_c(gameprofile);
-		                //TODO don't worry about kicking them right now
-					}
+			catch (final Exception e) {
+				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
+				if (privatePropertiesJson == null) {
+					PolycraftMod.logger.error("Unable to load private properties: " + e.getMessage());
+					System.exit(-1);
 				}
-				catch (final IOException e) {
-					//TODO set up a log4j mapping to send emails on error messages (via mandrill)
-					if (privatePropertiesJson == null) {
-						PolycraftMod.logger.error("Unable to load whitelist: " + e.getMessage());
-						System.exit(-1);
-					}
-					else {
-						PolycraftMod.logger.error("Unable to refresh whitelist: " + e.getMessage());
-					}
+				else {
+					PolycraftMod.logger.error("Unable to refresh private properties: " + e.getMessage());
 				}
 			}
 		}
@@ -90,6 +63,46 @@ public class ServerEnforcer extends Enforcer {
 	
 	private FMLProxyPacket getPrivatePropertiesPacket() {
 		return new FMLProxyPacket(Unpooled.buffer().writeBytes(privatePropertiesJson.getBytes()).copy(), netChannelName);
+	}
+	
+	private void onWorldTickWhitelist(final TickEvent.WorldTickEvent event) {
+		//refresh the whitelist at the start of each day, or if we haven't it yet
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksWhitelist == 0 || whitelistJson == null)) {
+			try {
+				final String url = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "whitelist.json"
+						: String.format("%s/worlds/%s/whitelist/", portalRestUrl, event.world.getWorldInfo().getWorldName());
+				final Set<String> previousWhitelist = Sets.newHashSet(whitelist);
+				updateWhitelist(NetUtil.getText(url));
+				//reconcile whitelists
+				final MinecraftServer minecraftserver = MinecraftServer.getServer();
+				for (final String usernameToAdd : whitelist) {
+					//if the user is new, add to the whitelist
+					if (!previousWhitelist.remove(usernameToAdd)) {
+						final GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
+		                if (gameprofile != null)
+			                minecraftserver.getConfigurationManager().func_152601_d(gameprofile);
+					}
+				}
+				//remove users from the whitelist that were not in the new whitelist
+				for (final String usernameToRemove : previousWhitelist) {
+					final GameProfile gameprofile = minecraftserver.getConfigurationManager().func_152599_k().func_152706_a(usernameToRemove);
+					if (gameprofile != null)
+						minecraftserver.getConfigurationManager().func_152597_c(gameprofile);
+	                //TODO don't worry about kicking them right now
+				}
+			}
+			catch (final Exception e) {
+				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
+				if (privatePropertiesJson == null) {
+					PolycraftMod.logger.error("Unable to load whitelist: " + e.getMessage());
+					System.exit(-1);
+				}
+				else {
+					PolycraftMod.logger.error("Unable to refresh whitelist: " + e.getMessage());
+				}
+			}
+		}
 	}
 	
 	@SubscribeEvent

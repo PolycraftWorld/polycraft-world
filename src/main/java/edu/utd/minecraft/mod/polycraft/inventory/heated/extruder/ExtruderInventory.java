@@ -13,7 +13,7 @@ public class ExtruderInventory extends MolderInventory {
 	public static final void register(final Inventory config) {
 		ExtruderInventory.config = config;
 		config.containerType = PolycraftContainerType.EXTRUDER;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, ExtruderInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, ExtruderInventory.class));
 	}
 
 	public ExtruderInventory() {

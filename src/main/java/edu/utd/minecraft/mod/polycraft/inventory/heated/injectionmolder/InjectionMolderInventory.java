@@ -13,7 +13,7 @@ public class InjectionMolderInventory extends MolderInventory {
 	public static final void register(final Inventory config) {
 		InjectionMolderInventory.config = config;
 		config.containerType = PolycraftContainerType.INJECTION_MOLDER;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, InjectionMolderInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, InjectionMolderInventory.class));
 	}
 
 	public InjectionMolderInventory() {

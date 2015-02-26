@@ -2,16 +2,12 @@ package edu.utd.minecraft.mod.polycraft.inventory.plasticchest;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -21,11 +17,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGener
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
-import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselMerger;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
-
 
 public class PlasticChestInventory extends PolycraftInventory {
 
@@ -41,27 +34,25 @@ public class PlasticChestInventory extends PolycraftInventory {
 	public static final void register(final Inventory config) {
 		PlasticChestInventory.config = config;
 		config.containerType = PolycraftContainerType.PLASTIC_CHEST;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, PlasticChestInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, PlasticChestInventory.class));
 	}
-	
+
 	public PlasticChestInventory() {
 		super(PolycraftContainerType.PLASTIC_CHEST, config);
 		this.addBehavior(new VesselUpcycler());
 		this.addBehavior(new VesselMerger());
-		
+
 	}
-	
+
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
 		return new PolycraftCraftingContainerGeneric(this, playerInventory, 138); // Was128
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new PolycraftInventoryGui(this, playerInventory, 232, 221, true); //ySize overridden for chest in drawGuiContainerBackgroundLayer
 	}
-	
-	
-	
+
 }

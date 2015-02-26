@@ -34,6 +34,7 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
@@ -506,6 +507,9 @@ public class PolycraftRegistry {
 
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
 		TileEntityBlockPipe.register(blockPipe);
+
+		final InternalObject collision = InternalObject.registry.get("BlockCollision");
+		PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
 
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 

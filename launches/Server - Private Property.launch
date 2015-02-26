@@ -9,6 +9,6 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="GradleStartServer"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Minecraft"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -DcheatRecipes=true&#13;&#10;-Dprivate.properties.url=file:///G:\PolycraftWorld\polycraft\database\privateproperties.json&#13;&#10;-Dprivate.properties.refresh.ticks=200"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -DcheatRecipes=true&#13;&#10;-Dportal.rest.url=http://polycraft-dev.cloudapp.net:8001/rest"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc}"/>
 </launchConfiguration>

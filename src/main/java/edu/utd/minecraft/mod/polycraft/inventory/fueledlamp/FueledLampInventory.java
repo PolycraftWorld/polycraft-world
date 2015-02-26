@@ -18,7 +18,6 @@ import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
@@ -43,7 +42,7 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 	public static void register(final Inventory config) {
 		FueledLampInventory.config = config;
 		config.containerType = PolycraftContainerType.FUELED_LAMP;
-		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class));
 	}
 
 	protected final float rangePerHeatIntensity;
@@ -80,21 +79,21 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new FueledLampGui(this, playerInventory);
 	}
-	
-	private static final int maxTicksPerEpoch = (int) Math.pow(2,15);
+
+	private static final int maxTicksPerEpoch = (int) Math.pow(2, 15);
 
 	@Override
 	public synchronized void updateEntity() {
 		super.updateEntity();
 		if (worldObj != null && !worldObj.isRemote) {
 			if (getState(FueledLampState.FuelTicksRemaining) == 0) {
-				
+
 				if (getState(FueledLampState.FuelTicksRemainingEpochs) > 0) //decrement tickEpoch
 				{
-					setState(FueledLampState.FuelTicksRemaining, maxTicksPerEpoch);	
-					updateState(FueledLampState.FuelTicksRemainingEpochs, -1);					
+					setState(FueledLampState.FuelTicksRemaining, maxTicksPerEpoch);
+					updateState(FueledLampState.FuelTicksRemainingEpochs, -1);
 				}
-				
+
 				else //the lamp should go off or take next fuel
 				{
 					final ContainerSlot fuelSlot = getNextFuelSlot();
@@ -110,13 +109,13 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 						fuelStack.stackSize--;
 						if (fuelStack.stackSize == 0)
 							clearSlotContents(fuelSlot);
-	
+
 						final Fuel fuel = Fuel.getFuel(fuelStack.getItem());
 						final int fuelTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(fuelStack.getItem()));
-						
-						setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal%maxTicksPerEpoch);					
+
+						setState(FueledLampState.FuelTicksRemaining, fuelTicksTotal % maxTicksPerEpoch);
 						setState(FueledLampState.FuelIndex, fuel.index);
-						setState(FueledLampState.FuelTicksTotal, fuelTicksTotal%maxTicksPerEpoch);
+						setState(FueledLampState.FuelTicksTotal, fuelTicksTotal % maxTicksPerEpoch);
 						setState(FueledLampState.FuelTicksRemainingEpochs, fuelTicksTotal / maxTicksPerEpoch);
 						setState(FueledLampState.FuelTicksTotalEpochs, fuelTicksTotal / maxTicksPerEpoch);
 						//used to only do the following if fuel.heatIntensity != getState(FueledLampState.FuelHeatIntensity,

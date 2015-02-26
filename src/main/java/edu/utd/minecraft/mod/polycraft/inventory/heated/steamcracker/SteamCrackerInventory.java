@@ -51,7 +51,7 @@ public class SteamCrackerInventory extends HeatedInventory {
 	public static final void register(final Inventory config) {
 		SteamCrackerInventory.config = config;
 		config.containerType = PolycraftContainerType.STEAM_CRACKER;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, SteamCrackerInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, SteamCrackerInventory.class));
 	}
 
 	public SteamCrackerInventory() {

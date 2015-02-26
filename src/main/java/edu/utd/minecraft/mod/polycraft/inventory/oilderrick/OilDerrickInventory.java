@@ -49,7 +49,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 	public static final void register(final Inventory config) {
 		OilDerrickInventory.config = config;
 		config.containerType = PolycraftContainerType.OIL_DERRICK;
-		PolycraftInventory.register(new OilDerrickBlock(config, OilDerrickInventory.class), new OilDerrickRenderingHandler(config));
+		PolycraftInventory.register(new OilDerrickBlock(config, OilDerrickInventory.class));
 	}
 
 	private static final int[][] tappedCoordOffsets = new int[][] { new int[] { 1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1 }, new int[] { -1, 0 } };

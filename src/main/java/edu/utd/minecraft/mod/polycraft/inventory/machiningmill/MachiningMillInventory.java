@@ -40,7 +40,7 @@ public class MachiningMillInventory extends WateredInventory {
 	public static final void register(final Inventory config) {
 		MachiningMillInventory.config = config;
 		config.containerType = PolycraftContainerType.MACHINING_MILL;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, MachiningMillInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new PolycraftInventoryBlock(config, MachiningMillInventory.class));
 	}
 
 	public MachiningMillInventory() {

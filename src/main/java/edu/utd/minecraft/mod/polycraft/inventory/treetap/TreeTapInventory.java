@@ -49,7 +49,7 @@ public class TreeTapInventory extends PolycraftInventory {
 	public static final void register(final Inventory config) {
 		TreeTapInventory.config = config;
 		config.containerType = PolycraftContainerType.TREE_TAP;
-		PolycraftInventory.register(new TreeTapBlock(config, TreeTapInventory.class), new TreeTapRenderingHandler(config));
+		PolycraftInventory.register(new TreeTapBlock(config, TreeTapInventory.class));
 	}
 
 	private static final int[][] tappedCoordOffsets = new int[][] { new int[] { 1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1 }, new int[] { -1, 0 } };

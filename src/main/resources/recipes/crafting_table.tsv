@@ -104,9 +104,9 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Block of Tungsten	1	Redstone Block	1	Block of Tungsten	1	Industrial Oven	1			Industrial Oven	1						
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Block of Nickel	1	Redstone Block	1	Block of Nickel	1	Industrial Oven	1			Industrial Oven	1						
 1.0.6	TRUE	FALSE	8	Pump	1	Hose (Extreme Pressure)	1	Gasket (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1						
-1.0.6	TRUE	FALSE	8	Pump	1	Regulator (Medium Pressure)	1	Gasket (Low Pressure)	1	Hose (Medium Pressure)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1						
-1.0.6	TRUE	FALSE	8	Pump	1	Hose (Medium Pressure)	1	Gasket (Medium Pressure)	1	Regulator (Medium Pressure)	1	Block (LDPE)	1	Redstone Block	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1						
-1.0.6	TRUE	FALSE	8	Pump	1	Regulator (Medium Pressure)	1	Gasket (Low Pressure)	1	Hose (Medium Pressure)	1	Block (LDPE)	1	Redstone Block	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1						
+1.0.6	TRUE	FALSE	8	Pump	1	Regulator (Extreme Pressure)	1	Gasket (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block (PP)	1	Block (PP)	1	Block (PP)	1						
+1.0.6	TRUE	FALSE	8	Pump	1	Hose (Extreme Pressure)	1	Gasket (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Block (LDPE)	1	Redstone Block	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1						
+1.0.6	TRUE	FALSE	8	Pump	1	Regulator (Extreme Pressure)	1	Gasket (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Block (LDPE)	1	Redstone Block	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1	Block (LDPE)	1						
 1.1.0	TRUE	FALSE	5	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Gasket (Medium Pressure)	1			Gasket (Medium Pressure)	1	Redstone	1	Gasket (Medium Pressure)	1			Gasket (Medium Pressure)	1	Hose (Medium Pressure)	1						
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1																		
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1							Cartridge (Oxygen)	1	Scuba Tank (Intermediate)	1	Cartridge (Oxygen)	1												

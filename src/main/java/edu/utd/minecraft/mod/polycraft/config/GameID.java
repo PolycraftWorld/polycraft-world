@@ -35,6 +35,8 @@ public enum GameID {
 	InternalOil("1D"),
 	InternalBlockPipe("11f"),
 	InternalItemPipe("11g"),
+	InternalBlockCollision("1bA"),
+	InternalItemCollision("1bB"),
 	InventoryIndustrialOven("3F"),
 	InventoryPlasticChest("3L"),
 	InventoryCondenser("20"),

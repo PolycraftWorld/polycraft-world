@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
@@ -47,6 +48,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInvent
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
@@ -132,7 +134,7 @@ public abstract class Enforcer {
 	}
 
 	@SubscribeEvent
-	public void onBlockBreakEvent(final BreakEvent event) {
+	public void onBlockBreak(final BreakEvent event) {
 		//TODO what happens if they use dynamite? other ways?
 		//TODO why is this not happening on the client?
 		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
@@ -141,6 +143,11 @@ public abstract class Enforcer {
 	@SubscribeEvent
 	public void onAttackEntity(final AttackEntityEvent event) {
 		possiblyPreventAction(event, event.entityPlayer, Action.AttackEntity, event.target.chunkCoordX, event.target.chunkCoordZ);
+	}
+	
+	@SubscribeEvent
+	public void onFillBucket(final FillBucketEvent event) {
+		possiblyPreventAction(event, event.entityPlayer, Action.UseBucket, event.world.getChunkFromBlockCoords(event.target.blockX, event.target.blockZ));
 	}
 
 	@SubscribeEvent
@@ -196,6 +203,11 @@ public abstract class Enforcer {
 				possiblyPreventAction(event, event.entityPlayer, Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
 				break;
 			case RIGHT_CLICK_AIR:
+				if (event.entityPlayer.getCurrentEquippedItem() != null) {
+					if (event.entityPlayer.getCurrentEquippedItem().getItem() instanceof ItemFlameThrower) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
+					}
+				}
 				break;
 			case RIGHT_CLICK_BLOCK:
 				final net.minecraft.world.chunk.Chunk blockChunk = event.world.getChunkFromBlockCoords(event.x, event.z);
@@ -278,8 +290,13 @@ public abstract class Enforcer {
 				}
 				else {
 					final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
-					if (equippedItem != null && equippedItem.getItem() instanceof ItemBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
+					if (equippedItem != null) {
+						if (equippedItem.getItem() instanceof ItemBlock) {
+							possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
+						}
+						else if (equippedItem.getItem() instanceof ItemFlameThrower) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
+						}
 					}
 				}
 				break;

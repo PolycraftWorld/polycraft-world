@@ -44,6 +44,8 @@ public class PrivateProperty {
 			UsePressurePlate,
 			UseFlowRegulator,
 			UseCondenser,
+			UseFlameThrower,
+			UseBucket
 		}
 		
 		public final String user;

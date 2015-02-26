@@ -13,6 +13,9 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public class ClientEnforcer extends Enforcer {
@@ -24,17 +27,23 @@ public class ClientEnforcer extends Enforcer {
 	private static final int overlayDistanceBetweenY = 10;
 	private static final int overlayMaxY = 175;
 	private static final int overlayColor = 16777215;
-	private static final KeyBinding keyBindingRights1 = new KeyBinding("key.private.property.rights.1", Keyboard.KEY_P, "key.categories.gameplay");
-	private static final KeyBinding keyBindingRights2 = new KeyBinding("key.private.property.rights.2", Keyboard.KEY_R, "key.categories.gameplay");
-	private static final KeyBinding keyBindingChunks1 = new KeyBinding("key.private.property.chunks.1", Keyboard.KEY_P, "key.categories.gameplay");
-	private static final KeyBinding keyBindingChunks2 = new KeyBinding("key.private.property.chunks.2", Keyboard.KEY_C, "key.categories.gameplay");
+	private static final KeyBinding keyBindingPrivateProperty = new KeyBinding("key.private.property", Keyboard.KEY_P, "key.categories.gameplay");
+	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
-	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(20);
+	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(7);
 	
 	private final Minecraft client;
+	private boolean showPrivateProperty = false;
 
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
+	}
+	
+	@SubscribeEvent
+	public void KeyInputEvent(cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent event) {
+		if (keyBindingPrivateProperty.isPressed()) {
+			showPrivateProperty = !showPrivateProperty;
+		}
 	}
 	
 	@Override
@@ -55,20 +64,32 @@ public class ClientEnforcer extends Enforcer {
 			if (player != null && player.isEntityAlive()) {
 				final PrivateProperty insidePrivateProperty = findPrivateProperty(player);
 				final PrivateProperty targetPrivateProperty = actionPreventedPrivateProperty == null ? insidePrivateProperty : actionPreventedPrivateProperty;
-				if (targetPrivateProperty != null) {
-					int x = overlayStartX;
-					int y = overlayStartY;
+				int x = overlayStartX;
+				int y = overlayStartY;
+				//offset if the item overlays are displayed
+				if (ItemJetPack.isEquipped(player) || ItemScubaTank.isEquipped(player)) {
+					y += overlayDistanceBetweenY;
+				}
+				if (ItemFlameThrower.isEquipped(player)) {
+					y += overlayDistanceBetweenY;
+				}
+				if (targetPrivateProperty != null && (showPrivateProperty || actionPreventedPrivateProperty != null)) {
+					if (insidePrivateProperty != null) {
+						client.fontRenderer.drawStringWithShadow("Private Property - Inside", x, y, overlayColor);
+						client.fontRenderer.drawStringWithShadow(insidePrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
+					}
 					if (actionPreventedPrivateProperty != null && insidePrivateProperty != actionPreventedPrivateProperty) {
-						client.fontRenderer.drawStringWithShadow("Private Property (Beside)", x, y, overlayColor);
+						if (insidePrivateProperty != null) {
+							y += overlayDistanceBetweenY + overlayDistanceBetweenY;
+						}
+						client.fontRenderer.drawStringWithShadow("Private Property - Beside", x, y, overlayColor);
+						client.fontRenderer.drawStringWithShadow(targetPrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
 					}
-					else {
-						client.fontRenderer.drawStringWithShadow("Private Property (Inside)", x, y, overlayColor);
-					}
-					client.fontRenderer.drawStringWithShadow(targetPrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
 					client.fontRenderer.drawStringWithShadow("Owned by " + targetPrivateProperty.owner, x, y += overlayDistanceBetweenY, overlayColor);
 					client.fontRenderer.drawStringWithShadow("Posted: " + targetPrivateProperty.message, x, y += overlayDistanceBetweenY, overlayColor);
+					client.fontRenderer.drawStringWithShadow(String.format("Position: %d,%d,%d (%d, %d)", (int)player.posX, (int)player.posY, (int)player.posZ, player.chunkCoordX, player.chunkCoordZ), x, y += overlayDistanceBetweenY, overlayColor);
 					y += overlayDistanceBetweenY;
-					if (GameSettings.isKeyDown(keyBindingRights1) && GameSettings.isKeyDown(keyBindingRights2)) {
+					if (GameSettings.isKeyDown(keyBindingPrivatePropertyRights)) {
 						client.fontRenderer.drawStringWithShadow("Property Rights:", x, y += overlayDistanceBetweenY, overlayColor);
 						final int startY = y;
 						boolean any = false;
@@ -87,25 +108,15 @@ public class ClientEnforcer extends Enforcer {
 							client.fontRenderer.drawStringWithShadow("None", x, y += overlayDistanceBetweenY, overlayColor);
 						}
 					}
-					else if (GameSettings.isKeyDown(keyBindingChunks1) && GameSettings.isKeyDown(keyBindingChunks2)) {
-						client.fontRenderer.drawStringWithShadow("Property Chunks:", x, y += overlayDistanceBetweenY, overlayColor);
-						final int startY = y;
-						for (final PrivateProperty.Chunk chunk : targetPrivateProperty.chunks) {
-							client.fontRenderer.drawStringWithShadow(String.format("[%d, %d]",  chunk.x, chunk.z), x, y += overlayDistanceBetweenY, overlayColor);
-							//move over to the next column
-							if (y > overlayMaxY) {
-								x += overlayDistanceBetweenX;
-								y = startY;
-							}
-						}
-					}
 					else if (actionPrevented != null) {
 						client.fontRenderer.drawStringWithShadow("Action Prevented: " + actionPrevented, x, y += overlayDistanceBetweenY, overlayColor);
-						client.fontRenderer.drawStringWithShadow("Hold down " + Keyboard.getKeyName(keyBindingRights1.getKeyCode()) + Keyboard.getKeyName(keyBindingRights2.getKeyCode()) + " to see property rights", x, y += overlayDistanceBetweenY, overlayColor);
 						if (actionPreventedWarningMessageTicks++ == actionPreventedWarningMessageMaxTicks) {
 							setActionPrevented(null, null);
 						}
 					}
+				}
+				else if (showPrivateProperty) {
+					client.fontRenderer.drawStringWithShadow("Private Property - None", x, y, overlayColor);
 				}
 			}
 		}

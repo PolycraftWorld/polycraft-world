@@ -49,7 +49,7 @@ public class CondenserInventory extends PolycraftInventory {
 	public static final void register(final Inventory config) {
 		CondenserInventory.config = config;
 		config.containerType = PolycraftContainerType.CONDENSER;
-		PolycraftInventory.register(new CondenserBlock(config, CondenserInventory.class), new CondenserRenderingHandler(config));
+		PolycraftInventory.register(new CondenserBlock(config, CondenserInventory.class));
 	}
 
 	private static final int[][] tappedCoordOffsets = new int[][] { new int[] { 1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1 }, new int[] { -1, 0 } };

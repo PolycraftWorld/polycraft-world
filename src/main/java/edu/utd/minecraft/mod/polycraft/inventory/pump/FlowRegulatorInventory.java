@@ -1,37 +1,20 @@
 package edu.utd.minecraft.mod.polycraft.inventory.pump;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
 
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
-import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
-import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
-import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
-import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 
 public class FlowRegulatorInventory extends PolycraftInventory {
 
@@ -47,7 +30,7 @@ public class FlowRegulatorInventory extends PolycraftInventory {
 	public static void register(final Inventory config) {
 		FlowRegulatorInventory.config = config;
 		config.containerType = PolycraftContainerType.FLOW_REGULATOR;
-		PolycraftInventory.register(new FlowRegulatorBlock(config, FlowRegulatorInventory.class), new PolycraftInventoryBlock.BasicRenderingHandler(config));
+		PolycraftInventory.register(new FlowRegulatorBlock(config, FlowRegulatorInventory.class));
 	}
 
 	public FlowRegulatorInventory() {
@@ -58,7 +41,7 @@ public class FlowRegulatorInventory extends PolycraftInventory {
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
 		return new PolycraftCraftingContainerGeneric(this, playerInventory, 88);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
