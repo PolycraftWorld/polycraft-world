@@ -26,6 +26,11 @@ minecraft {
     assetDir = "eclipse/assets"
 }
 
+configurations {
+    external
+    compile.extendsFrom external
+}
+
 dependencies {
     //compile 'org.lwjgl.lwjgl:lwjgl:2.9.1'
     //compile 'org.apache.logging.log4j:log4j-core:2.0-beta9'
@@ -44,8 +49,9 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+    external 'org.apache.httpcomponents:httpclient:4.3.3'
+    external 'org.apache.httpcomponents:httpcore:4.3.2'
 }
-
 
 processResources
 {
@@ -65,4 +71,8 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+jar {
+    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
 }
