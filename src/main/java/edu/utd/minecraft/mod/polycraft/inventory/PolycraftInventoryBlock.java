@@ -88,14 +88,14 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		if ((dir == ForgeDirection.NORTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
 
-					x + config.inputBlockOffset[1], //x is width
+					x - config.inputBlockOffset[1], //x is width
 					y + config.inputBlockOffset[2],
 					z - config.inputBlockOffset[0]);
 
 		}
 		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.inputBlockOffset[1],
+					x + config.inputBlockOffset[1],
 					y + config.inputBlockOffset[2],
 					z + config.inputBlockOffset[0]);
 		}
@@ -115,13 +115,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 		} else if ((dir == ForgeDirection.SOUTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.inputBlockOffset[1],
+					x + config.inputBlockOffset[1],
 					y + config.inputBlockOffset[2],
 					z + config.inputBlockOffset[0]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.inputBlockOffset[1],
+					x - config.inputBlockOffset[1],
 					y + config.inputBlockOffset[2],
 					z - config.inputBlockOffset[0]);
 
@@ -150,13 +150,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		boolean rotated = (meta >> 3) == 1;
 		if ((dir == ForgeDirection.NORTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.outputBlockOffset[1], //x is width
+					x - config.outputBlockOffset[1], //x is width
 					y + config.outputBlockOffset[2], //y is height
 					z - config.outputBlockOffset[0]); //-z is length
 		}
 		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.outputBlockOffset[1],
+					x + config.outputBlockOffset[1],
 					y + config.outputBlockOffset[2],
 					z + config.outputBlockOffset[0]);
 
@@ -177,13 +177,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 		} else if ((dir == ForgeDirection.SOUTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.outputBlockOffset[1],
+					x + config.outputBlockOffset[1],
 					y + config.outputBlockOffset[2],
 					z + config.outputBlockOffset[0]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.outputBlockOffset[1],
+					x - config.outputBlockOffset[1],
 					y + config.outputBlockOffset[2],
 					z - config.outputBlockOffset[0]);
 
