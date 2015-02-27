@@ -1,13 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.inventory.behaviors;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -31,7 +25,7 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 		if (inventory.getWorldObj() != null && !inventory.getWorldObj().isRemote) {
 			if (cooldownTicksCurrent == 0) {
 				cooldownTicksCurrent = cooldownTicksStart;
-				attemptAutomaticInput(inventory);
+				//attemptAutomaticInput(inventory); //TODO: fix this: walter commented out to test 3D inputs/outputs
 			}
 			else
 				cooldownTicksCurrent--;

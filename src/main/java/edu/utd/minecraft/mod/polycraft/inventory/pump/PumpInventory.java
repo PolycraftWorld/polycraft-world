@@ -28,6 +28,7 @@ import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
@@ -242,7 +243,25 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 				{
 					IInventory sourceInventory = getInventoryAtVec3(coords);
 					if (sourceInventory != null)
+					{
+						//TODO: Jim - check Walter's modification of your code to ensure functionality not broken
+						if (sourceInventory instanceof PolycraftInventory)
+						{
+							PolycraftInventory pi = ((PolycraftInventory) sourceInventory);
+							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
+							Vec3 input = pib.getOutputBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord));
+
+							if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
+							{
+								return new Terminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), sourceInventory, distanceFromPump);
+							}
+							return null;
+
+						}
+
 						return new Terminal(coords, sourceInventory, distanceFromPump);
+
+					}
 					return null;
 				}
 				distanceFromPump++;
@@ -306,7 +325,24 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 				else {
 					final IInventory inventory = getInventoryAtVec3(coords);
 					if (inventory != null)
+					{
+						//TODO: Jim - check Walter's modification of your code to ensure functionality not broken
+						if (inventory instanceof PolycraftInventory)
+						{
+							PolycraftInventory pi = ((PolycraftInventory) inventory);
+							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
+							Vec3 input = pib.getInputBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord));
+
+							if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
+							{
+								return new Terminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
+							}
+							return null;
+						}
+
 						return new Terminal(coords, inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
+
+					}
 					return null;
 				}
 				distanceFromPump++;

@@ -29,14 +29,16 @@ public class Inventory extends GameIdentifiedConfig {
 						Integer.parseInt(line[7]), //length
 						Integer.parseInt(line[8]), //width
 						Integer.parseInt(line[9]), //height
-						line.length > 10 ? PolycraftMod.getFileSafeName(line[3] + "_" + line[10]) : null, //inventoryAsset
-						line.length > 19 ? line[19].split(",") : null, //paramNames
-						line, 20 //params
+						line.length > 10 ? line[10].split(",") : null,
+						line.length > 11 ? line[11].split(",") : null,
+						line.length > 12 ? PolycraftMod.getFileSafeName(line[3] + "_" + line[12]) : null, //inventoryAsset
+						line.length > 21 ? line[21].split(",") : null, //paramNames
+						line, 22 //params
 						));
-				for (int i = 11; i <= 18; i++) {
+				for (int i = 13; i <= 20; i++) {
 					if (line.length > i) {
 						if (!line[i].isEmpty())
-							inventory.blockFaceAssets.put(BlockFace.values()[i - 11], PolycraftMod.getFileSafeName(inventory.name + "_" + line[i]));
+							inventory.blockFaceAssets.put(BlockFace.values()[i - 13], PolycraftMod.getFileSafeName(inventory.name + "_" + line[i]));
 					}
 					else
 						break;
@@ -52,9 +54,11 @@ public class Inventory extends GameIdentifiedConfig {
 	public final String inventoryAsset;
 	public final Map<BlockFace, String> blockFaceAssets = Maps.newHashMap();
 	public PolycraftContainerType containerType;
+	public int[] inputBlockOffset; //offset in length, width and height from inventory block
+	public int[] outputBlockOffset; //offset in length, width and height from inventory block
 
 	public Inventory(final int[] version, final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID,
-			final boolean render3D, final int length, final int width, final int height, final String inventoryAsset,
+			final boolean render3D, final int length, final int width, final int height, final String[] inputCoords, final String[] outputCoords, final String inventoryAsset,
 			final String[] paramNames, final String[] paramValues, final int paramsOffset) {
 		super(version, gameID, name, paramNames, paramValues, paramsOffset);
 		this.tileEntityGameID = tileEntityGameID;
@@ -65,6 +69,14 @@ public class Inventory extends GameIdentifiedConfig {
 		this.width = width;
 		this.height = height;
 		this.inventoryAsset = inventoryAsset;
+		this.inputBlockOffset = new int[3];
+		this.outputBlockOffset = new int[3];
+		for (int x = 0; x <= 2; x++)
+		{
+			this.inputBlockOffset[x] = Integer.parseInt(inputCoords[x].replaceAll("\"", ""));
+			this.outputBlockOffset[x] = Integer.parseInt(outputCoords[x].replaceAll("\"", ""));
+		}
+
 	}
 
 	@Override

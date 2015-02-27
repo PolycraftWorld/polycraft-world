@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
@@ -78,6 +79,128 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 	public I getInventory(World world, int x, int y, int z) {
 		return (I) world.getTileEntity(x, y, z);
+	}
+
+	public Vec3 getInputBlockCoords(int x, int y, int z, int meta)
+	{
+		ForgeDirection dir = ForgeDirection.values()[meta & 7];
+		boolean rotated = (meta >> 3) == 1;
+		if ((dir == ForgeDirection.NORTH) && (!rotated)) {
+			return Vec3.createVectorHelper(
+
+					x + config.inputBlockOffset[1], //x is width
+					y + config.inputBlockOffset[2],
+					z - config.inputBlockOffset[0]);
+
+		}
+		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.inputBlockOffset[1],
+					y + config.inputBlockOffset[2],
+					z + config.inputBlockOffset[0]);
+		}
+
+		else if ((dir == ForgeDirection.EAST) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x + config.inputBlockOffset[0],
+					y + config.inputBlockOffset[2],
+					z + config.inputBlockOffset[1]);
+		}
+
+		else if ((dir == ForgeDirection.EAST) && (rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.inputBlockOffset[0],
+					y + config.inputBlockOffset[2],
+					z - config.inputBlockOffset[1]);
+
+		} else if ((dir == ForgeDirection.SOUTH) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.inputBlockOffset[1],
+					y + config.inputBlockOffset[2],
+					z + config.inputBlockOffset[0]);
+
+		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
+			return Vec3.createVectorHelper(
+					x + config.inputBlockOffset[1],
+					y + config.inputBlockOffset[2],
+					z - config.inputBlockOffset[0]);
+
+		} else if ((dir == ForgeDirection.WEST) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.inputBlockOffset[0],
+					y + config.inputBlockOffset[2],
+					z + config.inputBlockOffset[1]);
+		} else if ((dir == ForgeDirection.WEST) && (rotated)) {
+
+			return Vec3.createVectorHelper(
+					x + config.inputBlockOffset[0],
+					y + config.inputBlockOffset[2],
+					z - config.inputBlockOffset[1]);
+		}
+		return Vec3.createVectorHelper(
+				x,
+				y,
+				z); //this should not happen: block should have valid metadata
+
+	}
+
+	public Vec3 getOutputBlockCoords(int x, int y, int z, int meta)
+	{
+		ForgeDirection dir = ForgeDirection.values()[meta & 7];
+		boolean rotated = (meta >> 3) == 1;
+		if ((dir == ForgeDirection.NORTH) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x + config.outputBlockOffset[1], //x is width
+					y + config.outputBlockOffset[2], //y is height
+					z - config.outputBlockOffset[0]); //-z is length
+		}
+		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.outputBlockOffset[1],
+					y + config.outputBlockOffset[2],
+					z + config.outputBlockOffset[0]);
+
+		}
+
+		else if ((dir == ForgeDirection.EAST) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x + config.outputBlockOffset[0],
+					y + config.outputBlockOffset[2],
+					z - config.outputBlockOffset[1]);
+		}
+
+		else if ((dir == ForgeDirection.EAST) && (rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.outputBlockOffset[0],
+					y + config.outputBlockOffset[2],
+					z + config.outputBlockOffset[1]);
+
+		} else if ((dir == ForgeDirection.SOUTH) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.outputBlockOffset[1],
+					y + config.outputBlockOffset[2],
+					z + config.outputBlockOffset[0]);
+
+		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
+			return Vec3.createVectorHelper(
+					x + config.outputBlockOffset[1],
+					y + config.outputBlockOffset[2],
+					z - config.outputBlockOffset[0]);
+
+		} else if ((dir == ForgeDirection.WEST) && (!rotated)) {
+			return Vec3.createVectorHelper(
+					x - config.outputBlockOffset[0],
+					y + config.outputBlockOffset[2],
+					z + config.outputBlockOffset[1]);
+		} else if ((dir == ForgeDirection.WEST) && (rotated)) {
+
+			return Vec3.createVectorHelper(
+					x + config.outputBlockOffset[0],
+					y + config.outputBlockOffset[2],
+					z - config.outputBlockOffset[1]);
+		}
+		return Vec3.createVectorHelper(x, y, z); //this should not happen: block should have metadata
+
 	}
 
 	/**
@@ -487,7 +610,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 	public boolean canPlaceBlockWithoutInterference(Block nextBlock)
 	{
-		if ((nextBlock != Blocks.air) &&
+		if ((nextBlock != Blocks.air) && //TODO: add a check for chests b/c we dont want to replace them
 				(nextBlock != Blocks.water) &&
 				(nextBlock != Blocks.deadbush) &&
 				(nextBlock != Blocks.flowing_water) &&

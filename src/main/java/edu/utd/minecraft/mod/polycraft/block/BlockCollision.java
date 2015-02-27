@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -92,6 +93,44 @@ public class BlockCollision extends Block {
 		}
 		//TODO: throw some error here: misdefined inventory
 		return false;
+
+	}
+
+	static public TileEntity findConnectedInventory(World worldObj, int xCoord, int yCoord, int zCoord)
+	{
+		ForgeDirection dir = ForgeDirection.values()[worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
+		TileEntity target = null;
+		int xCoordNext = xCoord;
+		int yCoordNext = yCoord;
+		int zCoordNext = zCoord;
+
+		if (dir == ForgeDirection.DOWN)
+		{
+			yCoordNext--;
+
+		}
+		else if (dir == ForgeDirection.WEST)
+		{
+			xCoordNext++;
+		}
+		else if (dir == ForgeDirection.EAST)
+		{
+			xCoordNext--;
+		}
+		else if (dir == ForgeDirection.NORTH)
+		{
+			zCoordNext--;
+		}
+		else if (dir == ForgeDirection.SOUTH)
+		{
+			zCoordNext++;
+		}
+		target = worldObj.getTileEntity(xCoordNext, yCoordNext, zCoordNext);
+		if (target != null) {
+			return target;
+		}
+
+		return findConnectedInventory(worldObj, xCoordNext, yCoordNext, zCoordNext);
 
 	}
 

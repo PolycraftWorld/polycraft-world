@@ -37,6 +37,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
@@ -278,7 +279,7 @@ public class PolycraftMod {
 		final int i = MathHelper.floor_double(x);
 		final int j = MathHelper.floor_double(y);
 		final int k = MathHelper.floor_double(z);
-		final TileEntity tileentity = world.getTileEntity(i, j, k);
+		TileEntity tileentity = world.getTileEntity(i, j, k);
 		if (tileentity != null && tileentity instanceof IInventory) {
 			iinventory = (IInventory) tileentity;
 			if (iinventory instanceof TileEntityChest) {
@@ -286,6 +287,11 @@ public class PolycraftMod {
 				if (block instanceof BlockChest)
 					iinventory = ((BlockChest) block).func_149951_m(world, i, j, k);
 			}
+		} else if (world.getBlock(i, j, k) instanceof BlockCollision)
+		{
+			tileentity = BlockCollision.findConnectedInventory(world, i, j, k);
+			return getInventoryAt(world, tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
+
 		}
 		return iinventory;
 	}
