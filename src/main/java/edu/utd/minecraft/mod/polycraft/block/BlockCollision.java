@@ -96,6 +96,12 @@ public class BlockCollision extends Block {
 
 	}
 
+	@Override
+	public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
+	{
+		return false;
+	}
+
 	static public TileEntity findConnectedInventory(World worldObj, int xCoord, int yCoord, int zCoord)
 	{
 		ForgeDirection dir = ForgeDirection.values()[worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
@@ -137,6 +143,11 @@ public class BlockCollision extends Block {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
 	{
+		breakBlockRecurse(world, x, y, z, block, meta);
+	}
+
+	public void breakBlockRecurse(World world, int x, int y, int z, Block block, int meta)
+	{
 		//world.setBlockToAir(x, y, z);
 		world.func_147480_a(x, y, z, false);
 		Block neighbor;
@@ -150,43 +161,73 @@ public class BlockCollision extends Block {
 		{
 			neighbor = world.getBlock(x + 1, y, z); //follow the way it is pointing
 			meta = world.getBlockMetadata(x + 1, y, z);
-			if ((neighbor instanceof BlockCollision) || ((neighbor instanceof PolycraftInventoryBlock) && (!world.isRemote)))
-				neighbor.breakBlock(world, x + 1, y, z, neighbor, meta);
+			if (!world.isRemote)
+			{
+				if (neighbor instanceof BlockCollision)
+					((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, meta);
+				if (neighbor instanceof PolycraftInventoryBlock)
+					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, meta, true);
+			}
 		}
 		else if (dir == ForgeDirection.EAST)
 		{
 			neighbor = world.getBlock(x - 1, y, z); //follow the way it is pointing
 			meta = world.getBlockMetadata(x - 1, y, z);
-			if ((neighbor instanceof BlockCollision) || ((neighbor instanceof PolycraftInventoryBlock) && (!world.isRemote)))
-				neighbor.breakBlock(world, x - 1, y, z, neighbor, meta);
+			if (!world.isRemote)
+			{
+				if (neighbor instanceof BlockCollision)
+					((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, meta);
+				if (neighbor instanceof PolycraftInventoryBlock)
+					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, meta, true);
+			}
 		}
 		else if (dir == ForgeDirection.NORTH)
 		{
 			neighbor = world.getBlock(x, y, z - 1); //follow the way it is pointing
 			meta = world.getBlockMetadata(x, y, z - 1);
-			if ((neighbor instanceof BlockCollision) || ((neighbor instanceof PolycraftInventoryBlock) && (!world.isRemote)))
-				neighbor.breakBlock(world, x, y, z - 1, neighbor, meta);
+			if (!world.isRemote)
+			{
+				if (neighbor instanceof BlockCollision)
+					((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, neighbor, meta);
+				if (neighbor instanceof PolycraftInventoryBlock)
+					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y, z - 1, neighbor, meta, true);
+			}
 		}
 		else if (dir == ForgeDirection.SOUTH)
 		{
 			neighbor = world.getBlock(x, y, z + 1); //follow the way it is pointing
 			meta = world.getBlockMetadata(x, y, z + 1);
-			if ((neighbor instanceof BlockCollision) || ((neighbor instanceof PolycraftInventoryBlock) && (!world.isRemote)))
-				neighbor.breakBlock(world, x, y, z + 1, neighbor, meta);
+			if (!world.isRemote)
+			{
+				if (neighbor instanceof BlockCollision)
+					((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, neighbor, meta);
+				if (neighbor instanceof PolycraftInventoryBlock)
+					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y, z + 1, neighbor, meta, true);
+			}
 		}
 		else if (dir == ForgeDirection.DOWN)
 		{
 			neighbor = world.getBlock(x, y - 1, z); //follow the way it is pointing
 			meta = world.getBlockMetadata(x, y - 1, z);
-			if ((neighbor instanceof BlockCollision) || ((neighbor instanceof PolycraftInventoryBlock) && (!world.isRemote)))
-				neighbor.breakBlock(world, x, y - 1, z, neighbor, meta);
+			if (!world.isRemote)
+			{
+				if (neighbor instanceof BlockCollision)
+					((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, neighbor, meta);
+				if (neighbor instanceof PolycraftInventoryBlock)
+					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y - 1, z, neighbor, meta, true);
+			}
 		}
 		else if (dir == ForgeDirection.UP)
 		{
 			neighbor = world.getBlock(x, y + 1, z); //follow the way it is pointing
 			meta = world.getBlockMetadata(x, y + 1, z);
-			if ((neighbor instanceof BlockCollision) || ((neighbor instanceof PolycraftInventoryBlock) && (!world.isRemote)))
-				neighbor.breakBlock(world, x, y + 1, z, neighbor, meta);
+			if (!world.isRemote)
+			{
+				if (neighbor instanceof BlockCollision)
+					((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, neighbor, meta);
+				if (neighbor instanceof PolycraftInventoryBlock)
+					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y + 1, z, neighbor, meta, true);
+			}
 		}
 
 		//get each neighbor if it is a BlockCollision facing this block, then destroy it too. 
@@ -195,56 +236,27 @@ public class BlockCollision extends Block {
 		//neighbor = world.getBlock(x + 1, y, z);
 		if ((neighbor = world.getBlock(x + 1, y, z)) instanceof BlockCollision)
 			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z)]) == ForgeDirection.EAST)
-				neighbor.breakBlock(world, x + 1, y, z, neighbor, dir.ordinal());
+				((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, dir.ordinal());
 
 		if ((neighbor = world.getBlock(x - 1, y, z)) instanceof BlockCollision)
 			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z)]) == ForgeDirection.WEST)
-				neighbor.breakBlock(world, x - 1, y, z, neighbor, dir.ordinal());
+				((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, dir.ordinal());
 
 		if ((neighbor = world.getBlock(x, y, z + 1)) instanceof BlockCollision)
 			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z + 1)]) == ForgeDirection.NORTH)
-				neighbor.breakBlock(world, x, y, z + 1, neighbor, dir.ordinal());
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, neighbor, dir.ordinal());
 
 		if ((neighbor = world.getBlock(x, y, z - 1)) instanceof BlockCollision)
 			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z - 1)]) == ForgeDirection.SOUTH)
-				neighbor.breakBlock(world, x, y, z - 1, neighbor, dir.ordinal());
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, neighbor, dir.ordinal());
 
 		if ((neighbor = world.getBlock(x, y + 1, z)) instanceof BlockCollision)
 			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y + 1, z)]) == ForgeDirection.DOWN)
-				neighbor.breakBlock(world, x, y + 1, z, neighbor, dir.ordinal());
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, neighbor, dir.ordinal());
+
 		if ((neighbor = world.getBlock(x, y - 1, z)) instanceof BlockCollision)
 			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y - 1, z)]) == ForgeDirection.UP)
-				neighbor.breakBlock(world, x, y - 1, z, neighbor, dir.ordinal());
-
-		//		neighbor = world.getBlock(x - 1, y, z);
-		//		dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z)];
-		//
-		//		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.WEST))
-		//			neighbor.breakBlock(world, x - 1, y, z, neighbor, meta);
-		//
-		//		neighbor = world.getBlock(x, y, z + 1);
-		//		dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z + 1)];
-		//
-		//		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.NORTH))
-		//			neighbor.breakBlock(world, x, y, z + 1, neighbor, meta);
-		//
-		//		neighbor = world.getBlock(x, y, z - 1);
-		//		dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z - 1)];
-		//
-		//		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.SOUTH))
-		//			neighbor.breakBlock(world, x, y, z - 1, neighbor, meta);
-		//
-		//		neighbor = world.getBlock(x, y + 1, z);
-		//		dir = ForgeDirection.values()[world.getBlockMetadata(x, y + 1, z)];
-		//
-		//		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.DOWN))
-		//			neighbor.breakBlock(world, x, y + 1, z, neighbor, meta);
-		//
-		//		neighbor = world.getBlock(x, y - 1, z);
-		//		dir = ForgeDirection.values()[world.getBlockMetadata(x, y - 1, z)];
-		//
-		//		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.UP)) //As implemented with inventories on the bottom, this should never happen
-		//			neighbor.breakBlock(world, x, y - 1, z, neighbor, meta);
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, neighbor, dir.ordinal());
 
 	}
 

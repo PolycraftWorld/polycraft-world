@@ -39,13 +39,22 @@ public class BlockHelper {
 		return l;
 	}
 
-	public static int setFacingFlippableMetadata4(Block thisBlock, World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_, boolean shiftPressed) {
-		int l = determineOrientation(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_);
+	public static int setFacingFlippableMetadata4(Block thisBlock, World worldObj, int xCoord, int yCoord, int zCoord, EntityLivingBase player, ItemStack itemStack, boolean shiftPressed) {
+		int l = determineOrientation(worldObj, xCoord, yCoord, zCoord, player);
 		if (l == ForgeDirection.DOWN.ordinal() || l == ForgeDirection.UP.ordinal())
 			l = ForgeDirection.NORTH.ordinal();
 		if (shiftPressed)
 			l |= 1 << 3;
-		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, l, 2);
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, l, 2);
+
+		return l;
+	}
+
+	public static int setKnownFacingMetadata4(Block thisBlock, World worldObj, int xCoord, int yCoord, int zCoord, ForgeDirection dir, boolean shiftPressed) {
+		int l = dir.getOpposite().ordinal();
+		if (shiftPressed)
+			l |= 1 << 3;
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, l, 2);
 
 		return l;
 	}

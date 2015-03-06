@@ -3,15 +3,21 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.ExplicitTerminal;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.FuelTerminal;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.InputTerminal;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 
 public class InventoryHelper {
-	
+
 	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, int side) {
 		ItemStack itemstack = source.getStackInSlot(sourceSlotIndex);
 
 		if (itemstack != null && (!(source instanceof ISidedInventory) || ((ISidedInventory) source).canExtractItem(sourceSlotIndex, itemstack, side))) {
 			ItemStack itemstack1 = itemstack.copy();
-			ItemStack itemstack2 = func_145889_a(target, source.decrStackSize(sourceSlotIndex, 1), -1);
+			ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, 1), -1);
 
 			if (itemstack2 == null || itemstack2.stackSize == 0)
 			{
@@ -25,60 +31,160 @@ public class InventoryHelper {
 		return false;
 	}
 
-	private static ItemStack func_145889_a(IInventory target, ItemStack p_145889_1_, int p_145889_2_) {
-		if (target instanceof ISidedInventory && p_145889_2_ > -1) {
-			ISidedInventory isidedinventory = (ISidedInventory) target;
-			int[] aint = isidedinventory.getAccessibleSlotsFromSide(p_145889_2_);
+	public static boolean transferExplicit(ExplicitTerminal target, IInventory source, int sourceSlotIndex) {
 
-			for (int l = 0; l < aint.length && p_145889_1_ != null && p_145889_1_.stackSize > 0; ++l) {
-				p_145889_1_ = func_145899_c(target, p_145889_1_, aint[l], p_145889_2_);
+		int targetSlotIndex = 0;
+		if (target instanceof InputTerminal)
+		{
+			targetSlotIndex = ((PolycraftInventory) target.inventory).getInputSlots().get(((InputTerminal) target).offsetIndex).getSlotIndex();
+		}
+		else if (target instanceof FuelTerminal)
+		{
+			if (target.inventory instanceof HeatedInventory)
+			{
+				targetSlotIndex = ((HeatedInventory) target.inventory).slotIndexHeatSource;
+			}
+			else
+				return false;
+
+		}
+		else
+		{
+			return false;
+		}
+
+		ItemStack sourceItemStack = source.getStackInSlot(sourceSlotIndex);
+		ItemStack targetItemStack = target.inventory.getStackInSlot(targetSlotIndex);
+		ItemStack prototypeStack = target.itemStack;
+
+		if ((sourceItemStack == null) || (targetItemStack != null))
+			return false;
+
+		if (sourceItemStack.getItem() instanceof ItemVessel)
+		{
+			if (!(prototypeStack.getItem() instanceof ItemVessel))
+			{
+				return false;
+			}
+
+			ItemVessel sourceVessel = (ItemVessel) sourceItemStack.getItem();
+			ItemVessel prototypeVessel = (ItemVessel) prototypeStack.getItem();
+
+			if (sourceVessel.config.vesselType == prototypeVessel.config.vesselType)
+			{
+				if (sourceItemStack.stackSize < prototypeStack.stackSize)
+				{
+					return false;
+				}
+
+				ItemStack splitStack = new ItemStack(prototypeVessel, prototypeStack.stackSize);
+				PolycraftItemHelper.createTagCompound(splitStack);
+				splitStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+				target.inventory.setInventorySlotContents(targetSlotIndex, splitStack);
+
+				sourceItemStack.stackSize -= prototypeStack.stackSize;
+				if (sourceItemStack.stackSize == 0)
+					source.setInventorySlotContents(sourceSlotIndex, null);
+				else
+					source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+
+			}
+			else if (!sourceVessel.config.vesselType.isLarger(prototypeVessel.config.vesselType))
+				return false;
+			else
+			{
+				sourceItemStack.stackSize--;
+				targetItemStack = new ItemStack(prototypeVessel, prototypeStack.stackSize);
+				PolycraftItemHelper.createTagCompound(targetItemStack);
+				targetItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+
+				target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+
+				if (sourceItemStack.stackSize == 0)
+					source.setInventorySlotContents(sourceSlotIndex, null);
+
+				//deal with the waste
+				ItemStack splitStack = new ItemStack(prototypeVessel, targetItemStack.getMaxStackSize() - targetItemStack.stackSize);
+				PolycraftItemHelper.createTagCompound(splitStack);
+				splitStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+				transferItemToNextValidSlot(source, splitStack, 0); //transfers the remainder into the next open slot in the source
+
+			}
+		}
+		else if (sourceItemStack.stackSize < prototypeStack.stackSize)
+		{
+			return false;
+		}
+		else if (sourceItemStack.getItem() != prototypeStack.getItem())
+		{
+			return false;
+		}
+		else
+		{
+			target.inventory.setInventorySlotContents(targetSlotIndex, sourceItemStack);
+			target.inventory.setInventorySlotContents(sourceSlotIndex, null);
+		}
+
+		source.markDirty();
+		target.inventory.markDirty();
+		return true;
+
+	}
+
+	private static ItemStack transferItemToNextValidSlot(IInventory target, ItemStack itemStack, int side) {
+		if (target instanceof ISidedInventory && side > -1) {
+			ISidedInventory isidedinventory = (ISidedInventory) target;
+			int[] aint = isidedinventory.getAccessibleSlotsFromSide(side);
+
+			for (int l = 0; l < aint.length && itemStack != null && itemStack.stackSize > 0; ++l) {
+				itemStack = func_145899_c(target, itemStack, aint[l], side);
 			}
 		}
 		else {
 			int j = target.getSizeInventory();
 
-			for (int k = 0; k < j && p_145889_1_ != null && p_145889_1_.stackSize > 0; ++k) {
-				p_145889_1_ = func_145899_c(target, p_145889_1_, k, p_145889_2_);
+			for (int k = 0; k < j && itemStack != null && itemStack.stackSize > 0; ++k) {
+				itemStack = func_145899_c(target, itemStack, k, side);
 			}
 		}
 
-		if (p_145889_1_ != null && p_145889_1_.stackSize == 0) {
-			p_145889_1_ = null;
+		if (itemStack != null && itemStack.stackSize == 0) {
+			itemStack = null;
 		}
 
-		return p_145889_1_;
+		return itemStack;
 	}
 
-	private static ItemStack func_145899_c(IInventory p_145899_0_, ItemStack p_145899_1_, int p_145899_2_, int p_145899_3_) {
-		ItemStack itemstack1 = p_145899_0_.getStackInSlot(p_145899_2_);
+	private static ItemStack func_145899_c(IInventory iInventory, ItemStack itemStack, int p_145899_2_, int side) {
+		ItemStack itemstack1 = iInventory.getStackInSlot(p_145899_2_);
 
-		if (func_145885_a(p_145899_0_, p_145899_1_, p_145899_2_, p_145899_3_))
+		if (func_145885_a(iInventory, itemStack, p_145899_2_, side))
 		{
 			boolean flag = false;
 
 			if (itemstack1 == null)
 			{
 				//Forge: BUGFIX: Again, make things respect max stack sizes.
-				int max = Math.min(p_145899_1_.getMaxStackSize(), p_145899_0_.getInventoryStackLimit());
-				if (max >= p_145899_1_.stackSize)
+				int max = Math.min(itemStack.getMaxStackSize(), iInventory.getInventoryStackLimit());
+				if (max >= itemStack.stackSize)
 				{
-					p_145899_0_.setInventorySlotContents(p_145899_2_, p_145899_1_);
-					p_145899_1_ = null;
+					iInventory.setInventorySlotContents(p_145899_2_, itemStack);
+					itemStack = null;
 				}
 				else
 				{
-					p_145899_0_.setInventorySlotContents(p_145899_2_, p_145899_1_.splitStack(max));
+					iInventory.setInventorySlotContents(p_145899_2_, itemStack.splitStack(max));
 				}
 				flag = true;
 			}
-			else if (func_145894_a(itemstack1, p_145899_1_))
+			else if (func_145894_a(itemstack1, itemStack))
 			{
 				//Forge: BUGFIX: Again, make things respect max stack sizes.
-				int max = Math.min(p_145899_1_.getMaxStackSize(), p_145899_0_.getInventoryStackLimit());
+				int max = Math.min(itemStack.getMaxStackSize(), iInventory.getInventoryStackLimit());
 				if (max > itemstack1.stackSize)
 				{
-					int l = Math.min(p_145899_1_.stackSize, max - itemstack1.stackSize);
-					p_145899_1_.stackSize -= l;
+					int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
+					itemStack.stackSize -= l;
 					itemstack1.stackSize += l;
 					flag = l > 0;
 				}
@@ -86,11 +192,11 @@ public class InventoryHelper {
 
 			if (flag)
 			{
-				p_145899_0_.markDirty();
+				iInventory.markDirty();
 			}
 		}
 
-		return p_145899_1_;
+		return itemStack;
 	}
 
 	private static boolean func_145885_a(IInventory p_145885_0_, ItemStack p_145885_1_, int p_145885_2_, int p_145885_3_) {

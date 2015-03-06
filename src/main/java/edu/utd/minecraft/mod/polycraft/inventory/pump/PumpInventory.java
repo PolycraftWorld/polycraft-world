@@ -20,9 +20,14 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
+import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -32,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 
 public class PumpInventory extends StatefulInventory<PumpState> implements ISidedInventory {
 
@@ -168,6 +174,39 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			}
 		}
 
+		public class ExplicitTerminal extends Terminal
+		{
+			public ItemStack itemStack;
+
+			public ExplicitTerminal(Vec3 coords, IInventory inventory, int distanceFromPump) {
+				super(coords, inventory, distanceFromPump);
+
+			}
+		}
+
+		public class FuelTerminal extends ExplicitTerminal
+		{
+
+			public FuelTerminal(Vec3 coords, IInventory inventory, int distanceFromPump) {
+				super(coords, inventory, distanceFromPump);
+				// TODO Auto-generated constructor stub
+			}
+
+		}
+
+		public class InputTerminal extends ExplicitTerminal
+		{
+
+			public final int offsetIndex;
+
+			public InputTerminal(Vec3 coords, IInventory inventory, int distanceFromPump, int offsetIndex) {
+				super(coords, inventory, distanceFromPump);
+				this.offsetIndex = offsetIndex;
+
+			}
+
+		}
+
 		public final Vec3 pumpCoords;
 		public final int pumpFlowDirection;
 		public final Set<String> coordsUsed = new HashSet<String>();
@@ -193,15 +232,74 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		{
 			int itemsFlowed = 0;
 			if (isValid()) {
+				//explicit calls here
+
 				while (numItems > 0) {
 					int i = 0;
 					for (; i < source.inventory.getSizeInventory(); ++i) {
 						ItemStack itemstack = source.inventory.getStackInSlot(i);
 						if (itemstack != null) {
+							boolean defaultTransfer = false;
 							Terminal target = regulatedTargets.get(itemstack.getItem());
+
 							if (target == null)
-								target = defaultTarget;
-							if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
+							{
+								if (itemstack.getItem() instanceof ItemVessel)
+								{
+									ItemVessel regulatedVessel = (ItemVessel) itemstack.getItem();
+									ItemVessel smallerVessel = null;
+
+									if (regulatedVessel.config.vesselType.smallerType != null) {
+										GameIdentifiedConfig smallerConfig = null;
+										if (regulatedVessel.config instanceof ElementVessel)
+											smallerConfig = ElementVessel.registry.find(((ElementVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
+										if (regulatedVessel.config instanceof CompoundVessel)
+											smallerConfig = CompoundVessel.registry.find(((CompoundVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
+										else if (regulatedVessel.config instanceof PolymerPellets)
+											smallerConfig = PolymerPellets.registry.find(((PolymerPellets) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
+										if (smallerConfig != null)
+										{
+											smallerVessel = (ItemVessel) PolycraftRegistry.getItem(smallerConfig);
+											target = regulatedTargets.get(smallerVessel);
+										}
+									}
+								}
+
+								if (target == null) // if it still is null 
+								{
+									target = defaultTarget;
+									defaultTransfer = true;
+								}
+
+							}
+							if ((target instanceof ExplicitTerminal))
+							{
+								ItemStack regulatedItemStack = ((ExplicitTerminal) target).itemStack;
+								if (regulatedItemStack != null)
+								{
+									if (numItems >= regulatedItemStack.stackSize)
+									{
+										if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+											numItems -= regulatedItemStack.stackSize;
+											itemsFlowed += regulatedItemStack.stackSize;
+											//go back out the while loop to ensure we are supposed to send more items,
+											//and to keep trying if there are more that we can send from this slot
+											break;
+										}
+
+									}
+								}
+								else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
+									numItems--;
+									itemsFlowed++;
+									//go back out the while loop to ensure we are supposed to send more items,
+									//and to keep trying if there are more that we can send from this slot
+									break;
+								}
+
+							}
+
+							else if ((defaultTransfer) && (InventoryHelper.transfer(target.inventory, source.inventory, i, 0))) {
 								numItems--;
 								itemsFlowed++;
 								//go back out the while loop to ensure we are supposed to send more items,
@@ -249,7 +347,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						{
 							PolycraftInventory pi = ((PolycraftInventory) sourceInventory);
 							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
-							Vec3 input = pib.getOutputBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord));
+							Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.outputBlockOffset);
 
 							if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
 							{
@@ -318,7 +416,14 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 							}
 							final Terminal regulatedTarget = findNetworkTargetInventories(coords, REGULATED_DIRECTIONS[flowDirection][i].ordinal(), true, distanceFromPump);
 							if (regulatedTarget != null)
+							{
+								if (regulatedTarget instanceof ExplicitTerminal)
+								{
+									((ExplicitTerminal) regulatedTarget).itemStack = regulatorItemStack;
+								}
 								regulatedTargets.put(regulatorItemStack.getItem(), regulatedTarget);
+
+							}
 						}
 					}
 				}
@@ -331,15 +436,32 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						{
 							PolycraftInventory pi = ((PolycraftInventory) inventory);
 							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
-							Vec3 input = pib.getInputBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord));
 
-							if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
+							if (pib.config.inputBlockOffset != null)
 							{
-								return new Terminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
-							}
-							return null;
-						}
+								Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.fuelBlockOffset);
 
+								if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
+								{
+									//need to return a class that contains the slot as well
+									return new FuelTerminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
+								}
+
+								//iterate through the five slots: can this be more generic?
+								for (int offsetIndex = 0; offsetIndex < pib.config.inputBlockOffset.size(); offsetIndex++)
+								{
+									input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.inputBlockOffset.get(offsetIndex));
+
+									if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
+									{
+										//need to return a class that contains the slot as well
+										return new InputTerminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump, offsetIndex);
+									}
+								}
+								//if none of the slots match we don't have a proper input: should this happen?
+								return null;
+							}
+						}
 						return new Terminal(coords, inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
 
 					}

@@ -22,21 +22,21 @@ import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
-	
+
 	private static final String portalRestUrl = System.getProperty("portal.rest.url");
 	//refresh once per minecraft day by default
 	private static final long portalRefreshTicksPrivateProperties = SystemUtil.getPropertyLong("portal.refresh.ticks.private.properties", 24000);
 	private static final long portalRefreshTicksWhitelist = SystemUtil.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
-	
+
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
 		//TODO not sure why this is getting called multiple times with different world java objects for the same world
 		if (event.phase == TickEvent.Phase.END) {
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
-		}	
+		}
 	}
-	
+
 	private void onWorldTickPrivateProperties(final TickEvent.WorldTickEvent event) {
 		//refresh private property permissions at the start of each day, or if we haven't loaded them yet
 		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 0 || privatePropertiesJson == null)) {
@@ -47,24 +47,23 @@ public class ServerEnforcer extends Enforcer {
 						: String.format("%s/worlds/%s/private_property_permissions/", portalRestUrl, event.world.getWorldInfo().getWorldName());
 				updatePrivateProperties(NetUtil.getText(url));
 				netChannel.sendToAll(getPrivatePropertiesPacket());
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
 				if (privatePropertiesJson == null) {
-					PolycraftMod.logger.error("Unable to load private properties: " + e.getMessage());
+					PolycraftMod.logger.error("Unable to load private properties", e);
 					System.exit(-1);
 				}
 				else {
-					PolycraftMod.logger.error("Unable to refresh private properties: " + e.getMessage());
+					PolycraftMod.logger.error("Unable to refresh private properties", e);
 				}
 			}
 		}
 	}
-	
+
 	private FMLProxyPacket getPrivatePropertiesPacket() {
 		return new FMLProxyPacket(Unpooled.buffer().writeBytes(privatePropertiesJson.getBytes()).copy(), netChannelName);
 	}
-	
+
 	private void onWorldTickWhitelist(final TickEvent.WorldTickEvent event) {
 		//refresh the whitelist at the start of each day, or if we haven't it yet
 		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksWhitelist == 0 || whitelistJson == null)) {
@@ -80,8 +79,8 @@ public class ServerEnforcer extends Enforcer {
 					//if the user is new, add to the whitelist
 					if (!previousWhitelist.remove(usernameToAdd)) {
 						final GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
-		                if (gameprofile != null)
-			                minecraftserver.getConfigurationManager().func_152601_d(gameprofile);
+						if (gameprofile != null)
+							minecraftserver.getConfigurationManager().func_152601_d(gameprofile);
 					}
 				}
 				//remove users from the whitelist that were not in the new whitelist
@@ -89,31 +88,30 @@ public class ServerEnforcer extends Enforcer {
 					final GameProfile gameprofile = minecraftserver.getConfigurationManager().func_152599_k().func_152706_a(usernameToRemove);
 					if (gameprofile != null)
 						minecraftserver.getConfigurationManager().func_152597_c(gameprofile);
-	                //TODO don't worry about kicking them right now
+					//TODO don't worry about kicking them right now
 				}
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
 				if (privatePropertiesJson == null) {
-					PolycraftMod.logger.error("Unable to load whitelist: " + e.getMessage());
+					PolycraftMod.logger.error("Unable to load whitelist", e);
 					System.exit(-1);
 				}
 				else {
-					PolycraftMod.logger.error("Unable to refresh whitelist: " + e.getMessage());
+					PolycraftMod.logger.error("Unable to refresh whitelist", e);
 				}
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityPlayerMP) {
-			final EntityPlayerMP player = (EntityPlayerMP)event.entity;
+			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			netChannel.sendTo(getPrivatePropertiesPacket(), player);
 			try {
 				NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
 			} catch (final IOException e) {
-				PolycraftMod.logger.error("Unable to log player last world seen: " + e.getMessage());
+				PolycraftMod.logger.error("Unable to log player last world seen", e);
 			}
 		}
 	}

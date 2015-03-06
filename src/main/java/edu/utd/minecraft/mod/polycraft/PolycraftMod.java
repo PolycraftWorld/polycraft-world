@@ -49,8 +49,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.1.4";
-	private static final int[] VERSION_NUMERIC = new int[] { 1, 1, 4 };
+	public static final String VERSION = "1.1.5";
+	private static final int[] VERSION_NUMERIC = new int[] { 1, 1, 5 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 

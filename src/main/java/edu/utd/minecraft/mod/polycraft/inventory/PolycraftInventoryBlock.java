@@ -49,7 +49,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	private final Random random = new Random();
 	private static final Logger logger = LogManager.getLogger();
 
-	protected final Inventory config;
+	public final Inventory config;
 	public final Class tileEntityClass;
 
 	public final Map<BlockFace, IIcon> blockFaceIcons = Maps.newHashMap();
@@ -81,61 +81,61 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		return (I) world.getTileEntity(x, y, z);
 	}
 
-	public Vec3 getInputBlockCoords(int x, int y, int z, int meta)
+	public Vec3 getBlockCoords(int x, int y, int z, int meta, int[] offsets)
 	{
 		ForgeDirection dir = ForgeDirection.values()[meta & 7];
 		boolean rotated = (meta >> 3) == 1;
 		if ((dir == ForgeDirection.NORTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
 
-					x - config.inputBlockOffset[1], //x is width
-					y + config.inputBlockOffset[2],
-					z - config.inputBlockOffset[0]);
+					x - offsets[1], //x is width
+					y + offsets[2],
+					z - offsets[0]);
 
 		}
 		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.inputBlockOffset[1],
-					y + config.inputBlockOffset[2],
-					z + config.inputBlockOffset[0]);
+					x + offsets[1],
+					y + offsets[2],
+					z + offsets[0]);
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.inputBlockOffset[0],
-					y + config.inputBlockOffset[2],
-					z + config.inputBlockOffset[1]);
+					x + offsets[0],
+					y + offsets[2],
+					z + offsets[1]);
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.inputBlockOffset[0],
-					y + config.inputBlockOffset[2],
-					z - config.inputBlockOffset[1]);
+					x - offsets[0],
+					y + offsets[2],
+					z - offsets[1]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.inputBlockOffset[1],
-					y + config.inputBlockOffset[2],
-					z + config.inputBlockOffset[0]);
+					x + offsets[1],
+					y + offsets[2],
+					z + offsets[0]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.inputBlockOffset[1],
-					y + config.inputBlockOffset[2],
-					z - config.inputBlockOffset[0]);
+					x - offsets[1],
+					y + offsets[2],
+					z - offsets[0]);
 
 		} else if ((dir == ForgeDirection.WEST) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.inputBlockOffset[0],
-					y + config.inputBlockOffset[2],
-					z + config.inputBlockOffset[1]);
+					x - offsets[0],
+					y + offsets[2],
+					z + offsets[1]);
 		} else if ((dir == ForgeDirection.WEST) && (rotated)) {
 
 			return Vec3.createVectorHelper(
-					x + config.inputBlockOffset[0],
-					y + config.inputBlockOffset[2],
-					z - config.inputBlockOffset[1]);
+					x + offsets[0],
+					y + offsets[2],
+					z - offsets[1]);
 		}
 		return Vec3.createVectorHelper(
 				x,
@@ -242,6 +242,22 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+
+		if (!(world.getBlock(x, y, z) == this))
+		{
+			if (!world.isRemote)
+			{
+				world.removeTileEntity(x, y, z);
+				world.func_147480_a(x, y, z, false); //this is destroy block
+				this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
+				world.setBlockToAir(x, y, z);
+			}
+			breakBlockRecurse(world, x, y, z, block, meta, false);
+		}
+	}
+
+	public void breakBlockRecurse(World world, int x, int y, int z, Block block, int meta, boolean destroyBlock) {
+
 		I tileEntity = getInventory(world, x, y, z);
 		if (tileEntity != null)
 		{
@@ -288,11 +304,16 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			world.func_147453_f(x, y, z, block);
 		}
 
-		//super.breakBlock(world, x, y, z, block, meta);
-
-		world.removeTileEntity(x, y, z);
-		world.func_147480_a(x, y, z, false); //this is destroy block
-		world.setBlockToAir(x, y, z);
+		if (destroyBlock)
+		{
+			if (!world.isRemote)
+			{
+				world.removeTileEntity(x, y, z);
+				world.func_147480_a(x, y, z, false); //this is destroy block
+				//this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
+				world.setBlockToAir(x, y, z);
+			}
+		}
 
 		//get each neighbor if it is a BlockCollision facing this block, then destroy it too. 
 		Block neighbor;
@@ -302,37 +323,37 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z) & 7];
 
 		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.EAST))
-			neighbor.breakBlock(world, x + 1, y, z, block, meta);
+			((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, block, meta);
 
 		neighbor = world.getBlock(x - 1, y, z);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z) & 7];
 
 		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.WEST))
-			neighbor.breakBlock(world, x - 1, y, z, block, meta);
+			((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, block, meta);
 
 		neighbor = world.getBlock(x, y, z + 1);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z + 1) & 7];
 
 		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.NORTH))
-			neighbor.breakBlock(world, x, y, z + 1, block, meta);
+			((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, block, meta);
 
 		neighbor = world.getBlock(x, y, z - 1);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z - 1) & 7];
 
 		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.SOUTH))
-			neighbor.breakBlock(world, x, y, z - 1, block, meta);
+			((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, block, meta);
 
 		neighbor = world.getBlock(x, y + 1, z);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x, y + 1, z) & 7];
 
 		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.DOWN))
-			neighbor.breakBlock(world, x, y + 1, z, block, meta);
+			((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, block, meta);
 
 		neighbor = world.getBlock(x, y - 1, z);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x, y - 1, z) & 7];
 
 		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.UP)) //As implemented with inventories on the bottom, this should never happen
-			neighbor.breakBlock(world, x, y - 1, z, block, meta);
+			((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, block, meta);
 
 	}
 
@@ -667,7 +688,9 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					//ctrlPressed = true; //TODO: implement mirroring
 				}
 
-				int meta = BlockHelper.setFacingFlippableMetadata4(this, worldObj, xPos, yPos, zPos, player, itemToPlace, shiftPressed);
+				int meta = BlockHelper.setKnownFacingMetadata4(this, worldObj, xPos, yPos, zPos, playerFacingDir, shiftPressed);
+
+				//int meta = BlockHelper.setFacingFlippableMetadata4(this, worldObj, xPos, yPos, zPos, player, itemToPlace, shiftPressed);
 				//boolean flipped = (meta >> 4) == 1;
 				//int direction = meta & 7;
 

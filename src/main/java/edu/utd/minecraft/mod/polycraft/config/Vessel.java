@@ -45,5 +45,19 @@ public class Vessel {
 		public static Type readFromConfig(final String config) {
 			return Type.valueOf(config.replaceAll(" ", ""));
 		}
+
+		public boolean isLarger(Vessel.Type vesselType)
+		{
+			if (vesselType.matterState != matterState)
+				return false;
+			if (vesselType.largerType == null)
+				return false; //this is the largest vessel
+
+			if ((vesselType.largerType) == this)
+				return true;
+
+			return isLarger(vesselType.largerType);
+
+		}
 	}
 }

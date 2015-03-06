@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
 public abstract class PolycraftBasicTileEntityContainer extends TileEntity implements PolycraftTileEntityContainer, IInventory {
-	protected final Collection<ContainerSlot> inputSlots;
+	protected final List<ContainerSlot> inputSlots;
 	protected final Collection<ContainerSlot> outputSlots;
 	protected final Collection<ContainerSlot> miscSlots;
 	protected final int totalSlots;
@@ -68,7 +69,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 * Gets the input slots available to this container.
 	 */
 	@Override
-	public Collection<ContainerSlot> getInputSlots() {
+	public List<ContainerSlot> getInputSlots() {
 		return this.inputSlots;
 	}
 

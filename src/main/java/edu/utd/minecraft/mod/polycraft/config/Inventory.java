@@ -1,9 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -29,16 +31,17 @@ public class Inventory extends GameIdentifiedConfig {
 						Integer.parseInt(line[7]), //length
 						Integer.parseInt(line[8]), //width
 						Integer.parseInt(line[9]), //height
-						line.length > 10 ? line[10].split(",") : null,
-						line.length > 11 ? line[11].split(",") : null,
-						line.length > 12 ? PolycraftMod.getFileSafeName(line[3] + "_" + line[12]) : null, //inventoryAsset
-						line.length > 21 ? line[21].split(",") : null, //paramNames
-						line, 22 //params
+						line.length > 10 ? line[10].split(",") : null, //fuel inputs
+						line.length > 11 ? line[11].split(";") : null, //input areas
+						line.length > 12 ? line[12].split(",") : null, //output areas
+						line.length > 13 ? PolycraftMod.getFileSafeName(line[3] + "_" + line[13]) : null, //inventoryAsset
+						line.length > 22 ? line[22].split(",") : null, //paramNames
+						line, 23 //params
 						));
-				for (int i = 13; i <= 20; i++) {
+				for (int i = 14; i <= 21; i++) {
 					if (line.length > i) {
 						if (!line[i].isEmpty())
-							inventory.blockFaceAssets.put(BlockFace.values()[i - 13], PolycraftMod.getFileSafeName(inventory.name + "_" + line[i]));
+							inventory.blockFaceAssets.put(BlockFace.values()[i - 14], PolycraftMod.getFileSafeName(inventory.name + "_" + line[i]));
 					}
 					else
 						break;
@@ -54,11 +57,12 @@ public class Inventory extends GameIdentifiedConfig {
 	public final String inventoryAsset;
 	public final Map<BlockFace, String> blockFaceAssets = Maps.newHashMap();
 	public PolycraftContainerType containerType;
-	public int[] inputBlockOffset; //offset in length, width and height from inventory block
+	public List<int[]> inputBlockOffset; //offset in length, width and height from inventory block
 	public int[] outputBlockOffset; //offset in length, width and height from inventory block
+	public int[] fuelBlockOffset; //offset in length, width and height from inventory block
 
 	public Inventory(final int[] version, final String gameID, final String tileEntityGameID, final String name, final int guiID, final int renderID,
-			final boolean render3D, final int length, final int width, final int height, final String[] inputCoords, final String[] outputCoords, final String inventoryAsset,
+			final boolean render3D, final int length, final int width, final int height, final String[] fuelCoords, final String[] inputCoords, final String[] outputCoords, final String inventoryAsset,
 			final String[] paramNames, final String[] paramValues, final int paramsOffset) {
 		super(version, gameID, name, paramNames, paramValues, paramsOffset);
 		this.tileEntityGameID = tileEntityGameID;
@@ -69,12 +73,44 @@ public class Inventory extends GameIdentifiedConfig {
 		this.width = width;
 		this.height = height;
 		this.inventoryAsset = inventoryAsset;
-		this.inputBlockOffset = new int[3];
+		this.inputBlockOffset = Lists.newArrayList();
 		this.outputBlockOffset = new int[3];
-		for (int x = 0; x <= 2; x++)
+		this.fuelBlockOffset = new int[3];
+
+		if (inputCoords[0].isEmpty())
+			inputBlockOffset = null;
+		else
 		{
-			this.inputBlockOffset[x] = Integer.parseInt(inputCoords[x].replaceAll("\"", ""));
-			this.outputBlockOffset[x] = Integer.parseInt(outputCoords[x].replaceAll("\"", ""));
+			for (String inputCoord : inputCoords)
+			{
+				String[] singleInput = inputCoord.replaceAll("\"", "").split(",");
+				int[] singleInputInt = new int[singleInput.length];
+				for (int x = 0; x < singleInput.length; x++)
+				{
+					singleInputInt[x] = Integer.parseInt(singleInput[x].replaceAll("\"", ""));
+
+				}
+				inputBlockOffset.add(singleInputInt);
+			}
+		}
+		if (outputCoords[0].isEmpty())
+			outputBlockOffset = null;
+		else
+		{
+
+			for (int x = 0; x < outputBlockOffset.length; x++) {
+				this.outputBlockOffset[x] = Integer.parseInt(outputCoords[x].replaceAll("\"", ""));
+			}
+		}
+
+		if (fuelCoords[0].isEmpty())
+			fuelBlockOffset = null;
+		else
+		{
+
+			for (int x = 0; x < fuelBlockOffset.length; x++) {
+				this.fuelBlockOffset[x] = Integer.parseInt(fuelCoords[x].replaceAll("\"", ""));
+			}
 		}
 
 	}
