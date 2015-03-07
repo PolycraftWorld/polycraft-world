@@ -20,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -209,6 +210,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	 * Drops all items in the container into the world.
 	 */
 	private void dropAllItems(World world, I tileEntity, int x, int y, int z) {
+		this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
 		for (int i1 = 0; i1 < tileEntity.getSizeInventory(); ++i1) {
 			ItemStack itemstack = tileEntity.getStackInSlot(i1);
 
@@ -245,17 +247,18 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 
-		if (!(world.getBlock(x, y, z) == this))
-		{
-			if (!world.isRemote)
-			{
-				world.removeTileEntity(x, y, z);
-				world.func_147480_a(x, y, z, false); //this is destroy block
-				this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
-				world.setBlockToAir(x, y, z);
-			}
-			breakBlockRecurse(world, x, y, z, block, meta, false);
-		}
+		//		if (!(world.getBlock(x, y, z) == this))
+		//		{
+		//			if (!world.isRemote)
+		//			{
+		//				world.removeTileEntity(x, y, z);
+		//				world.func_147480_a(x, y, z, false); //this is destroy block
+		//				//this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
+		//				world.setBlockToAir(x, y, z);
+		//			}
+		breakBlockRecurse(world, x, y, z, block, meta, false);
+		super.breakBlock(world, x, y, z, block, meta);
+		//		}
 	}
 
 	public void breakBlockRecurse(World world, int x, int y, int z, Block block, int meta, boolean destroyBlock) {
@@ -312,7 +315,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			{
 				world.removeTileEntity(x, y, z);
 				world.func_147480_a(x, y, z, false); //this is destroy block
-				//this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
+				this.dropAllItems(world, inventory, x, y, z);
 				world.setBlockToAir(x, y, z);
 			}
 		}
@@ -439,6 +442,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		return false;
 	}
 
+	//0 width length and height box so no wireframe rendered.
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	{
+		return AxisAlignedBB.getBoundingBox((double) par2, (double) par3, (double) par4, (double) par2, (double) par3, (double) par4);
+	}
+
 	@Override
 	public boolean renderAsNormalBlock()
 	{
@@ -561,6 +570,10 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 				scaleTranslateRotate(x, y, z, direction, rotated);
 				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+				{
+					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+				}
+				else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}

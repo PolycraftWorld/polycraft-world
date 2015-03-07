@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -63,10 +64,10 @@ public class BlockCollision extends Block {
 	}
 
 	//0 width length and height box so no wireframe rendered.
-	//	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-	//	{
-	//		return AxisAlignedBB.getBoundingBox((double) par2, (double) par3, (double) par4, (double) par2, (double) par3, (double) par4);
-	//	}
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	{
+		return AxisAlignedBB.getBoundingBox((double) par2, (double) par3, (double) par4, (double) par2, (double) par3, (double) par4);
+	}
 
 	@Override
 	public boolean onBlockActivated(World worldObj, int xCoord, int yCoord, int zCoord, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
