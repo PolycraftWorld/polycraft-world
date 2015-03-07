@@ -11,11 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
@@ -55,6 +58,18 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 
 		totalSlots = inputSlots.size() + outputSlots.size() + miscSlots.size();
 		inputArray = new RecipeComponent[totalSlots];
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return AxisAlignedBB.getBoundingBox(xCoord - 5, yCoord, zCoord - 5, xCoord + 5, yCoord + 8, zCoord + 5);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 16384.0D;
 	}
 
 	/**

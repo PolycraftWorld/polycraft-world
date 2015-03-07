@@ -43,6 +43,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 
 public class PolycraftInventoryBlock<I extends PolycraftInventory> extends BlockContainer {
 
@@ -61,6 +62,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.config = config;
 		this.tileEntityClass = tileEntityClass;
+
 	}
 
 	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass) {
@@ -90,26 +92,26 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 					x - offsets[1], //x is width
 					y + offsets[2],
-					z - offsets[0]);
+					z + offsets[0]); //-z is length
 
 		}
 		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
 			return Vec3.createVectorHelper(
 					x + offsets[1],
 					y + offsets[2],
-					z + offsets[0]);
+					z - offsets[0]);
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x + offsets[0],
+					x - offsets[0],
 					y + offsets[2],
 					z + offsets[1]);
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x - offsets[0],
+					x + offsets[0],
 					y + offsets[2],
 					z - offsets[1]);
 
@@ -117,23 +119,23 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return Vec3.createVectorHelper(
 					x + offsets[1],
 					y + offsets[2],
-					z + offsets[0]);
+					z - offsets[0]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
 			return Vec3.createVectorHelper(
 					x - offsets[1],
 					y + offsets[2],
-					z - offsets[0]);
+					z + offsets[0]);
 
 		} else if ((dir == ForgeDirection.WEST) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x - offsets[0],
+					x + offsets[0],
 					y + offsets[2],
 					z + offsets[1]);
 		} else if ((dir == ForgeDirection.WEST) && (rotated)) {
 
 			return Vec3.createVectorHelper(
-					x + offsets[0],
+					x - offsets[0],
 					y + offsets[2],
 					z - offsets[1]);
 		}
@@ -152,26 +154,26 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return Vec3.createVectorHelper(
 					x - config.outputBlockOffset[1], //x is width
 					y + config.outputBlockOffset[2], //y is height
-					z - config.outputBlockOffset[0]); //-z is length
+					z + config.outputBlockOffset[0]); //-z is length
 		}
 		else if ((dir == ForgeDirection.NORTH) && (rotated)) {
 			return Vec3.createVectorHelper(
 					x + config.outputBlockOffset[1],
 					y + config.outputBlockOffset[2],
-					z + config.outputBlockOffset[0]);
+					z - config.outputBlockOffset[0]);
 
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x + config.outputBlockOffset[0],
+					x - config.outputBlockOffset[0],
 					y + config.outputBlockOffset[2],
 					z - config.outputBlockOffset[1]);
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.outputBlockOffset[0],
+					x + config.outputBlockOffset[0],
 					y + config.outputBlockOffset[2],
 					z + config.outputBlockOffset[1]);
 
@@ -179,23 +181,23 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return Vec3.createVectorHelper(
 					x + config.outputBlockOffset[1],
 					y + config.outputBlockOffset[2],
-					z + config.outputBlockOffset[0]);
+					z - config.outputBlockOffset[0]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (rotated)) {
 			return Vec3.createVectorHelper(
 					x - config.outputBlockOffset[1],
 					y + config.outputBlockOffset[2],
-					z - config.outputBlockOffset[0]);
+					z + config.outputBlockOffset[0]);
 
 		} else if ((dir == ForgeDirection.WEST) && (!rotated)) {
 			return Vec3.createVectorHelper(
-					x - config.outputBlockOffset[0],
+					x + config.outputBlockOffset[0],
 					y + config.outputBlockOffset[2],
 					z + config.outputBlockOffset[1]);
 		} else if ((dir == ForgeDirection.WEST) && (rotated)) {
 
 			return Vec3.createVectorHelper(
-					x + config.outputBlockOffset[0],
+					x - config.outputBlockOffset[0],
 					y + config.outputBlockOffset[2],
 					z - config.outputBlockOffset[1]);
 		}
@@ -322,13 +324,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		neighbor = world.getBlock(x + 1, y, z);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z) & 7];
 
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.EAST))
+		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.WEST))
 			((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, block, meta);
 
 		neighbor = world.getBlock(x - 1, y, z);
 		dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z) & 7];
 
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.WEST))
+		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.EAST))
 			((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, block, meta);
 
 		neighbor = world.getBlock(x, y, z + 1);
@@ -414,7 +416,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		if (world.isRemote) {
 			return true;
 		} else if (!player.isSneaking()) {
-			TileEntity tileEntity = world.getTileEntity(x, y, z);
+			TileEntity tileEntity = (TileEntity) world.getTileEntity(x, y, z);
 			if (tileEntity != null) {
 				player.openGui(PolycraftMod.instance, config.guiID, world, x, y, z);
 			}
@@ -490,8 +492,10 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 			int meta = 3;
 			Tessellator tessellator = Tessellator.instance;
+			//block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			block.setBlockBoundsForItemRender();
-			renderer.setRenderBoundsFromBlock(block);
+			//renderer.setRenderBoundsFromBlock(block);
+			renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 			tessellator.startDrawingQuads();
@@ -543,6 +547,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 			if (config.render3D)
 			{
+
 				ForgeDirection direction = null;
 				boolean rotated = false;
 				short angle = 0;
@@ -552,10 +557,18 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 				// System.out.println(direction + "|" + angle);
 				GL11.glPushMatrix();
+				GL11.glDisable(GL11.GL_CULL_FACE);
+
 				scaleTranslateRotate(x, y, z, direction, rotated);
+				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+				{
+					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
 				this.inventoryModel.renderAll();
+
+				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glPopMatrix();
 			}
 		}
@@ -656,10 +669,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 		if (this.config.render3D)
 		{
-
 			int facing = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 			if (worldObj.getTileEntity(xPos, yPos, zPos) instanceof TileEntity) {
-				TileEntity te = (TileEntity) worldObj.getTileEntity(xPos, yPos, zPos);
+				TileEntity te = worldObj.getTileEntity(xPos, yPos, zPos);
+				//worldObj.getTileEntity(xPos, yPos, zPos).getRenderBoundingBox().setBounds(te.xCoord - 20, te.yCoord, te.zCoord - 20, te.xCoord + 20, te.yCoord + 20, te.zCoord + 20);
+
 				ForgeDirection playerFacingDir = null;
 				if (facing == 0) {
 					playerFacingDir = ForgeDirection.SOUTH; //Facing South
@@ -767,7 +781,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											if (len != 0)
 												collisionMeta = ForgeDirection.NORTH.ordinal();
 											else if (wid != 0)
-												collisionMeta = ForgeDirection.WEST.ordinal();
+												collisionMeta = ForgeDirection.EAST.ordinal();
 										}
 
 										worldObj.setBlock(xPos - wid, yPos + height, zPos + len, PolycraftMod.blockCollision, collisionMeta, 2);
@@ -780,7 +794,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											if (wid != 0)
 												collisionMeta = ForgeDirection.SOUTH.ordinal();
 											else if (len != 0)
-												collisionMeta = ForgeDirection.WEST.ordinal();
+												collisionMeta = ForgeDirection.EAST.ordinal();
 										}
 										worldObj.setBlock(xPos - len, yPos + height, zPos - wid, PolycraftMod.blockCollision, collisionMeta, 2);
 
@@ -792,7 +806,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											if (len != 0)
 												collisionMeta = ForgeDirection.SOUTH.ordinal();
 											else if (wid != 0)
-												collisionMeta = ForgeDirection.EAST.ordinal();
+												collisionMeta = ForgeDirection.WEST.ordinal();
 										}
 										worldObj.setBlock(xPos + wid, yPos + height, zPos - len, PolycraftMod.blockCollision, collisionMeta, 2);
 									}
@@ -803,7 +817,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											if (wid != 0)
 												collisionMeta = ForgeDirection.NORTH.ordinal();
 											else if (len != 0)
-												collisionMeta = ForgeDirection.EAST.ordinal();
+												collisionMeta = ForgeDirection.WEST.ordinal();
 										}
 										worldObj.setBlock(xPos + len, yPos + height, zPos + wid, PolycraftMod.blockCollision, collisionMeta, 2);
 									}
@@ -811,45 +825,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 							}
 						}
 					}
-					//				if ((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) // facing south (+z)
-					//				{
-					//					worldObj.setBlock(xPos - this.config.width + 1, yPos, zPos + this.config.length - 1, this, meta, 2);
-					//				}
-					//				if ((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) // facing north (-z)
-					//				{
-					//					worldObj.setBlock(xPos, yPos, zPos, this, meta, 2);
-					//				}
-					//				if ((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) // facing west (-x)
-					//				{
-					//					worldObj.setBlock(xPos - this.config.length + 1, yPos, zPos, this, meta, 2);
-					//				}
-					//				if ((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) // facing east (x) 
-					//				{
-					//					worldObj.setBlock(xPos, yPos, zPos + this.config.width - 1, this, meta, 2);
-					//				}
-					//
-					//				if ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed)) // facing south (+z) with shift
-					//				{
-					//					worldObj.setBlock(xPos, yPos, zPos, this, meta, 2);
-					//				}
-					//
-					//				if ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed)) // facing north (-z) with shift
-					//				{
-					//					worldObj.setBlock(xPos - this.config.width + 1, yPos, zPos + this.config.length - 1, this, meta, 2);
-					//				}
-					//
-					//				if ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed)) // facing west (-x) with shift
-					//				{
-					//					worldObj.setBlock(xPos, yPos, zPos + this.config.width - 1, this, meta, 2);
-					//				}
-					//
-					//				if ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed)) // facing east (x) with shift
-					//				{
-					//					worldObj.setBlock(xPos - this.config.length + 1, yPos, zPos, this, meta, 2);
-					//				}
-
-					//				worldObj.markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
-					//				te.markDirty();
 
 				}
 				else
@@ -858,7 +833,120 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					itemToPlace.stackSize += 1;
 
 				}
+
+				//add custom collision blocks: FIXME: dependent on release 1.1.7, will change if inventories change...
+				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+				{
+					if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+					{
+
+						worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 2, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 2, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+
+						worldObj.setBlock(xPos - 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+
+					}
+					if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+					{
+
+						worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 2, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos, yPos + 2, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+
+						worldObj.setBlock(xPos - 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos - 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+
+					}
+					if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+					{
+						worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 2, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 2, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+
+						worldObj.setBlock(xPos + 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+					}
+					if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+					{
+						worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 2, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos, yPos + 2, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+
+						worldObj.setBlock(xPos + 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos + 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+					}
+
+				}
+				else if (config.containerType == PolycraftContainerType.EXTRUDER)
+				{
+
+					if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+					{
+
+						worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos - 1, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos - 2, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						worldObj.setBlock(xPos - 2, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+					}
+					if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+					{
+
+						worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 1, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos - 1, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos - 1, yPos, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+						worldObj.setBlock(xPos - 1, yPos + 1, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+					}
+					if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+					{
+						worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos + 1, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos + 2, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+						worldObj.setBlock(xPos + 2, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+					}
+					if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+					{
+						worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 1, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos + 1, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						worldObj.setBlock(xPos + 1, yPos, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						worldObj.setBlock(xPos + 1, yPos + 1, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+					}
+
+				}
+
 			}
+		}
+		else
+		{
+			BlockHelper.setFacingMetadata4(this, worldObj, xPos, yPos, zPos, player, itemToPlace);
 		}
 		super.onBlockPlacedBy(worldObj, xPos, yPos, zPos, player, itemToPlace);
 

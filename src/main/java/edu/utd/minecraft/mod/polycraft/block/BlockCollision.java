@@ -28,6 +28,7 @@ public class BlockCollision extends Block {
 	public BlockCollision(final InternalObject config) {
 		super(Material.iron);
 		this.config = config;
+		this.setHardness(5);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -61,6 +62,12 @@ public class BlockCollision extends Block {
 		return true;
 	}
 
+	//0 width length and height box so no wireframe rendered.
+	//	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	//	{
+	//		return AxisAlignedBB.getBoundingBox((double) par2, (double) par3, (double) par4, (double) par2, (double) par3, (double) par4);
+	//	}
+
 	@Override
 	public boolean onBlockActivated(World worldObj, int xCoord, int yCoord, int zCoord, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
@@ -71,12 +78,12 @@ public class BlockCollision extends Block {
 			worldObj.getBlock(xCoord, yCoord - 1, zCoord).onBlockActivated(worldObj, xCoord, yCoord - 1, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
-		else if (dir == ForgeDirection.WEST)
+		else if (dir == ForgeDirection.EAST)
 		{
 			worldObj.getBlock(xCoord + 1, yCoord, zCoord).onBlockActivated(worldObj, xCoord + 1, yCoord, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
-		else if (dir == ForgeDirection.EAST)
+		else if (dir == ForgeDirection.WEST)
 		{
 			worldObj.getBlock(xCoord - 1, yCoord, zCoord).onBlockActivated(worldObj, xCoord - 1, yCoord, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
@@ -117,11 +124,11 @@ public class BlockCollision extends Block {
 		}
 		else if (dir == ForgeDirection.WEST)
 		{
-			xCoordNext++;
+			xCoordNext--;
 		}
 		else if (dir == ForgeDirection.EAST)
 		{
-			xCoordNext--;
+			xCoordNext++;
 		}
 		else if (dir == ForgeDirection.NORTH)
 		{
@@ -157,7 +164,7 @@ public class BlockCollision extends Block {
 
 		dir = ForgeDirection.values()[meta & 7]; //meta = world.getBlockMetadata(x, y, z) right now
 
-		if (dir == ForgeDirection.WEST)
+		if (dir == ForgeDirection.EAST)
 		{
 			neighbor = world.getBlock(x + 1, y, z); //follow the way it is pointing
 			meta = world.getBlockMetadata(x + 1, y, z);
@@ -169,7 +176,7 @@ public class BlockCollision extends Block {
 					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, meta, true);
 			}
 		}
-		else if (dir == ForgeDirection.EAST)
+		else if (dir == ForgeDirection.WEST)
 		{
 			neighbor = world.getBlock(x - 1, y, z); //follow the way it is pointing
 			meta = world.getBlockMetadata(x - 1, y, z);
@@ -235,11 +242,11 @@ public class BlockCollision extends Block {
 
 		//neighbor = world.getBlock(x + 1, y, z);
 		if ((neighbor = world.getBlock(x + 1, y, z)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z)]) == ForgeDirection.EAST)
+			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z)]) == ForgeDirection.WEST)
 				((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, dir.ordinal());
 
 		if ((neighbor = world.getBlock(x - 1, y, z)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z)]) == ForgeDirection.WEST)
+			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z)]) == ForgeDirection.EAST)
 				((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, dir.ordinal());
 
 		if ((neighbor = world.getBlock(x, y, z + 1)) instanceof BlockCollision)
