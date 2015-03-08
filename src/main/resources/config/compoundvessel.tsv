@@ -91,7 +91,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 1.0.0	fa	ky	pW	vk	Vial (Caprolactone)	Beaker (Caprolactone)	Drum (Caprolactone)	Chemical Vat (Caprolactone)	Caprolactone	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	fb	kz	pX	vl	Vial (Caprolactam)	Beaker (Caprolactam)	Drum (Caprolactam)	Chemical Vat (Caprolactam)	Caprolactam	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	fc	kA	pY	vm	Flask (Carbon Dioxide)	Cartridge (Carbon Dioxide)	Canister (Carbon Dioxide)	Chemical Tank (Carbon Dioxide)	Carbon Dioxide	Gas	Flask	Cartridge	Canister	Chemical Tank
-1.0.0	fd	kB	pZ	vn	Vial (Carbon Monoxide)	Beaker (Carbon Monoxide)	Drum (Carbon Monoxide)	Chemical Vat (Carbon Monoxide)	Carbon Monoxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fd	kB	pZ	vn	Flask (Carbon Monoxide)	Cartridge (Carbon Monoxide)	Canister (Carbon Monoxide)	Chemical Tank (Carbon Monoxide)	Carbon Monoxide	Gas	Flask	Cartridge	Canister	Chemical Tank
 1.0.0	fe	kC	q0	vo	Vial (Carbonic Acid)	Beaker (Carbonic Acid)	Drum (Carbonic Acid)	Chemical Vat (Carbonic Acid)	Carbonic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
 1.0.0	ff	kD	q1	vp	Vial (Carboxylates)	Beaker (Carboxylates)	Drum (Carboxylates)	Chemical Vat (Carboxylates)	Carboxylates	Liquid	Vial	Beaker	Drum	Chemical Vat
 	fg	kE	q2	vq	Vial (Carrageenan)	Beaker (Carrageenan)	Drum (Carrageenan)	Chemical Vat (Carrageenan)	Carrageenan	Liquid	Vial	Beaker	Drum	Chemical Vat

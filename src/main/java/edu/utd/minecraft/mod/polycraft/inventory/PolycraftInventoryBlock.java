@@ -256,7 +256,39 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		//				//this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
 		//				world.setBlockToAir(x, y, z);
 		//			}
-		breakBlockRecurse(world, x, y, z, block, meta, false);
+		final I inventory = (I) world.getTileEntity(x, y, z);
+		if (config.containerType == PolycraftContainerType.PLASTIC_CHEST)
+		{
+			this.dropAllItems(world, inventory, x, y, z);
+			world.removeTileEntity(x, y, z);
+		}
+
+		else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
+		{
+			this.dropAllItems(world, inventory, x, y, z);
+			world.removeTileEntity(x, y, z);
+		}
+		else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+		{
+			this.dropAllItems(world, inventory, x, y, z);
+			world.removeTileEntity(x, y, z);
+		}
+		else if (config.containerType == PolycraftContainerType.SPOTLIGHT)
+		{
+			this.dropAllItems(world, inventory, x, y, z);
+			world.removeTileEntity(x, y, z);
+		}
+		else if (config.containerType == PolycraftContainerType.PUMP)
+		{
+			this.dropAllItems(world, inventory, x, y, z);
+			world.removeTileEntity(x, y, z);
+		}
+
+		else if (this.config.render3D)
+		{
+			breakBlockRecurse(world, x, y, z, block, meta, false);
+		}
+
 		super.breakBlock(world, x, y, z, block, meta);
 		//		}
 	}
@@ -730,45 +762,248 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					//notMirrored = -1;
 				}
 
-				//TODO: make sure the blocks on all sides of this are not BlockCollision blocks
-
 				for (int len = 0; len < this.config.length; len++)
 				{
 					for (int wid = 0; wid < this.config.width; wid++)
 					{
-						if ((len == 0) && (wid == 0)) // keeps the just placed block from triggering
-							continue;
+						for (int height = 0; height < this.config.height; height++)
+						{
+							if ((len == 0) && (wid == 0) && (height == 0)) // keeps the just placed block from triggering
+								continue;
+
+							if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+							{
+								Block nextBlock = worldObj.getBlock(xPos - wid * notMirrored, yPos + height, zPos + len);
+								if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+									break;
+							}
+
+							if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+							{
+								Block nextBlock = worldObj.getBlock(xPos - len, yPos + height, zPos - wid * notMirrored);
+								if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+									break;
+							}
+
+							if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+							{
+								Block nextBlock = worldObj.getBlock(xPos + wid * notMirrored, yPos + height, zPos - len);
+								if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+									break;
+							}
+
+							if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+							{
+								Block nextBlock = worldObj.getBlock(xPos + len, yPos + height, zPos + wid * notMirrored);
+								if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+									break;
+							}
+						}
+						if (!blockCanBePlaced)
+							break;
+					} //of of inner for Loop
+					if (!blockCanBePlaced)
+						break;
+				} //end of outer for Loop
+
+				//test explicit blocks we decorate around the inventories added to make sure the inventory can be placed
+				while (blockCanBePlaced)
+				{
+					if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+					{
+						if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+						{
+							Block nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 2, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 2, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 4, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+
+						}
+						if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+						{
+							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 4, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+						}
+						if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+						{
+							Block nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 2, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 2, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 4, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+
+						}
+						if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+						{
+							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 4, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+						}
+
+					}
+					else if (config.containerType == PolycraftContainerType.EXTRUDER)
+					{
 
 						if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
-							Block nextBlock = worldObj.getBlock(xPos - wid * notMirrored, yPos, zPos + len);
+							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos + 1);
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-						}
+							nextBlock = worldObj.getBlock(xPos, yPos + 1, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 2, yPos + 1, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
 
+						}
 						if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos - len, yPos, zPos - wid * notMirrored);
+							Block nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos);
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos - 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
 						}
-
 						if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							Block nextBlock = worldObj.getBlock(xPos + wid * notMirrored, yPos, zPos - len);
+							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos - 1);
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-						}
+							nextBlock = worldObj.getBlock(xPos, yPos + 1, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 2, yPos + 1, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
 
+						}
 						if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos + len, yPos, zPos + wid * notMirrored);
+							Block nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos);
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos + 2);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
 						}
-					} //of of inner for Loop
-				} //end of outer for Loop
+
+					}
+					break;
+				}
 
 				int collisionMeta = ForgeDirection.DOWN.ordinal();
 
@@ -839,122 +1074,117 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 						}
 					}
 
+					//add custom collision blocks: FIXME: dependent on release 1.1.7, will change if inventories change...
+					if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+					{
+						if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+						{
+
+							worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 2, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 2, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+
+							worldObj.setBlock(xPos - 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+						{
+
+							worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 2, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos, yPos + 2, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+
+							worldObj.setBlock(xPos - 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos - 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+						{
+							worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 2, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 2, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+
+							worldObj.setBlock(xPos + 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+						}
+						if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+						{
+							worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 2, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos, yPos + 2, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+
+							worldObj.setBlock(xPos + 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos + 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+						}
+
+					}
+					else if (config.containerType == PolycraftContainerType.EXTRUDER)
+					{
+
+						if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+						{
+
+							worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos - 1, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos - 2, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 2, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+						{
+
+							worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 1, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos - 1, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos - 1, yPos, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 1, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+						{
+							worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos + 1, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos + 2, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 2, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+						}
+						if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+						{
+							worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 1, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos + 1, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+							worldObj.setBlock(xPos + 1, yPos, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 1, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+						}
+					}
 				}
-				else
+				else //block cannot be placed
 				{
 					worldObj.setBlock(xPos, yPos, zPos, Blocks.air);
 					itemToPlace.stackSize += 1;
-
 				}
-
-				//add custom collision blocks: FIXME: dependent on release 1.1.7, will change if inventories change...
-				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
-				{
-					if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
-					{
-
-						worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 2, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 2, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-
-						worldObj.setBlock(xPos - 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-
-					}
-					if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
-					{
-
-						worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 2, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos, yPos + 2, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-
-						worldObj.setBlock(xPos - 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos - 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-
-					}
-					if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
-					{
-						worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 2, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 2, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-
-						worldObj.setBlock(xPos + 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-					}
-					if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
-					{
-						worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 2, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos, yPos + 2, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-
-						worldObj.setBlock(xPos + 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos + 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-					}
-
-				}
-				else if (config.containerType == PolycraftContainerType.EXTRUDER)
-				{
-
-					if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
-					{
-
-						worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos - 1, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos - 2, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
-						worldObj.setBlock(xPos - 2, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-					}
-					if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
-					{
-
-						worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 1, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos - 1, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos - 1, yPos, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
-						worldObj.setBlock(xPos - 1, yPos + 1, zPos - 2, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-					}
-					if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
-					{
-						worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos + 1, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos + 2, yPos, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
-						worldObj.setBlock(xPos + 2, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-					}
-					if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
-					{
-						worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 1, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos + 1, yPos, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-						worldObj.setBlock(xPos + 1, yPos, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
-						worldObj.setBlock(xPos + 1, yPos + 1, zPos + 2, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
-
-					}
-
-				}
-
 			}
 		}
 		else
@@ -962,7 +1192,5 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			BlockHelper.setFacingMetadata4(this, worldObj, xPos, yPos, zPos, player, itemToPlace);
 		}
 		super.onBlockPlacedBy(worldObj, xPos, yPos, zPos, player, itemToPlace);
-
 	}
-
 }

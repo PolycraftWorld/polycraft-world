@@ -299,7 +299,8 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 							}
 
-							else if ((defaultTransfer) && (InventoryHelper.transfer(target.inventory, source.inventory, i, 0))) {
+							else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
+								//else if ((defaultTransfer) && (InventoryHelper.transfer(target.inventory, source.inventory, i, 0))) {
 								numItems--;
 								itemsFlowed++;
 								//go back out the while loop to ensure we are supposed to send more items,

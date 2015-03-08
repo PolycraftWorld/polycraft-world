@@ -1062,16 +1062,16 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Ethylene Glycol)	16	Drum (Diphenylmethane Diisocyanate)	16							Powder Keg (PolyUrethane Pellets)	16													
 1.1.2				Drum (Ethylene Glycol)	64	Drum (Diphenylmethane Diisocyanate)	64							Powder Keg (PolyUrethane Pellets)	64													
 1.1.2				Platinum Ore	16									Platinum Ingot	14	Ruthenium Catalyst	16	Iridium Catalyst	16									
-1.1.2				Vial (Methanol)	1	Vial (Carbon Monoxide)	1	Ruthenium Catalyst	1					Vial (Acetic Acid)	1													
-1.1.2				Vial (Methanol)	4	Vial (Carbon Monoxide)	4	Ruthenium Catalyst	2					Vial (Acetic Acid)	4													
-1.1.2				Vial (Methanol)	16	Vial (Carbon Monoxide)	16	Ruthenium Catalyst	3					Vial (Acetic Acid)	16													
-1.1.2				Beaker (Methanol)	1	Beaker (Carbon Monoxide)	1	Ruthenium Catalyst	4					Beaker (Acetic Acid)	1													
-1.1.2				Beaker (Methanol)	4	Beaker (Carbon Monoxide)	4	Ruthenium Catalyst	5					Beaker (Acetic Acid)	4													
-1.1.2				Beaker (Methanol)	16	Beaker (Carbon Monoxide)	16	Ruthenium Catalyst	6					Beaker (Acetic Acid)	16													
-1.1.2				Drum (Methanol)	1	Drum (Carbon Monoxide)	1	Ruthenium Catalyst	7					Drum (Acetic Acid)	1													
-1.1.2				Drum (Methanol)	4	Drum (Carbon Monoxide)	4	Ruthenium Catalyst	8					Drum (Acetic Acid)	4													
-1.1.2				Drum (Methanol)	16	Drum (Carbon Monoxide)	16	Ruthenium Catalyst	9					Drum (Acetic Acid)	16													
-1.1.2				Drum (Methanol)	64	Drum (Carbon Monoxide)	64	Ruthenium Catalyst	10					Drum (Acetic Acid)	64													
+1.1.2				Vial (Methanol)	1	Flask (Carbon Monoxide)	1	Ruthenium Catalyst	1					Vial (Acetic Acid)	1													
+1.1.2				Vial (Methanol)	4	Flask (Carbon Monoxide)	4	Ruthenium Catalyst	2					Vial (Acetic Acid)	4													
+1.1.2				Vial (Methanol)	16	Flask (Carbon Monoxide)	16	Ruthenium Catalyst	3					Vial (Acetic Acid)	16													
+1.1.2				Beaker (Methanol)	1	Cartridge (Carbon Monoxide)	1	Ruthenium Catalyst	4					Beaker (Acetic Acid)	1													
+1.1.2				Beaker (Methanol)	4	Cartridge (Carbon Monoxide)	4	Ruthenium Catalyst	5					Beaker (Acetic Acid)	4													
+1.1.2				Beaker (Methanol)	16	Cartridge (Carbon Monoxide)	16	Ruthenium Catalyst	6					Beaker (Acetic Acid)	16													
+1.1.2				Drum (Methanol)	1	Canister (Carbon Monoxide)	1	Ruthenium Catalyst	7					Drum (Acetic Acid)	1													
+1.1.2				Drum (Methanol)	4	Canister (Carbon Monoxide)	4	Ruthenium Catalyst	8					Drum (Acetic Acid)	4													
+1.1.2				Drum (Methanol)	16	Canister (Carbon Monoxide)	16	Ruthenium Catalyst	9					Drum (Acetic Acid)	16													
+1.1.2				Drum (Methanol)	64	Canister (Carbon Monoxide)	64	Ruthenium Catalyst	10					Drum (Acetic Acid)	64													
 1.1.2				Vial (Aniline)	1	Vial (Tetrafluoroboric Acid)	1	Vial (Hydrofluoric Acid)	1	Bag (Sodium Nitrite)	1			Vial (Fluorobenzene)	1	Vial (Tetrafluoroboric Acid)	1	Flask (Nitrogen)	1	Vial (Deionized Water)	2							
 1.1.2				Vial (Aniline)	4	Vial (Tetrafluoroboric Acid)	4	Vial (Hydrofluoric Acid)	4	Bag (Sodium Nitrite)	4			Vial (Fluorobenzene)	4	Vial (Tetrafluoroboric Acid)	4	Flask (Nitrogen)	4	Vial (Deionized Water)	8							
 1.1.2				Vial (Aniline)	16	Vial (Tetrafluoroboric Acid)	16	Vial (Hydrofluoric Acid)	16	Bag (Sodium Nitrite)	16			Vial (Fluorobenzene)	16	Vial (Tetrafluoroboric Acid)	16	Flask (Nitrogen)	16	Vial (Deionized Water)	32							
@@ -1162,6 +1162,13 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				"Drum (4,4-Difluorobenzophenone)"	4	Powder Keg (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8													
 1.1.2				"Drum (4,4-Difluorobenzophenone)"	16	Powder Keg (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32													
 1.1.2				"Drum (4,4-Difluorobenzophenone)"	64	Powder Keg (Disodium Hydroquinone)	64							Bag (PolyEther Ether Ketone Pellets)	64	Bag (PolyEther Ether Ketone Pellets)	64											
-																												
-																												
-																												
+1.1.2				Flask (Carbon Monoxide)	1	Flask (Hydrogen)	2	Zinc II Chloride Catalyst	1					Vial (Methanol)	1													
+1.1.2				Flask (Carbon Monoxide)	4	Flask (Hydrogen)	8	Zinc II Chloride Catalyst	2					Vial (Methanol)	4													
+1.1.2				Flask (Carbon Monoxide)	16	Flask (Hydrogen)	32	Zinc II Chloride Catalyst	3					Vial (Methanol)	16													
+1.1.2				Cartridge (Carbon Monoxide)	1	Cartridge (Hydrogen)	2	Zinc II Chloride Catalyst	4					Beaker (Methanol)	1													
+1.1.2				Cartridge (Carbon Monoxide)	4	Cartridge (Hydrogen)	8	Zinc II Chloride Catalyst	5					Beaker (Methanol)	4													
+1.1.2				Cartridge (Carbon Monoxide)	16	Cartridge (Hydrogen)	32	Zinc II Chloride Catalyst	6					Beaker (Methanol)	16													
+1.1.2				Canister (Carbon Monoxide)	1	Canister (Hydrogen)	2	Zinc II Chloride Catalyst	7					Drum (Methanol)	1													
+1.1.2				Canister (Carbon Monoxide)	4	Canister (Hydrogen)	8	Zinc II Chloride Catalyst	8					Drum (Methanol)	4													
+1.1.2				Canister (Carbon Monoxide)	16	Canister (Hydrogen)	32	Zinc II Chloride Catalyst	9					Drum (Methanol)	16													
+1.1.2				Canister (Carbon Monoxide)	64	Canister (Hydrogen)	64	Zinc II Chloride Catalyst	10					Drum (Methanol)	64													
