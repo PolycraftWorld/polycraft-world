@@ -1162,13 +1162,13 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				"Drum (4,4-Difluorobenzophenone)"	4	Powder Keg (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8													
 1.1.2				"Drum (4,4-Difluorobenzophenone)"	16	Powder Keg (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32													
 1.1.2				"Drum (4,4-Difluorobenzophenone)"	64	Powder Keg (Disodium Hydroquinone)	64							Bag (PolyEther Ether Ketone Pellets)	64	Bag (PolyEther Ether Ketone Pellets)	64											
-1.1.2				Flask (Carbon Monoxide)	1	Flask (Hydrogen)	2	Zinc II Chloride Catalyst	1					Vial (Methanol)	1													
-1.1.2				Flask (Carbon Monoxide)	4	Flask (Hydrogen)	8	Zinc II Chloride Catalyst	2					Vial (Methanol)	4													
-1.1.2				Flask (Carbon Monoxide)	16	Flask (Hydrogen)	32	Zinc II Chloride Catalyst	3					Vial (Methanol)	16													
-1.1.2				Cartridge (Carbon Monoxide)	1	Cartridge (Hydrogen)	2	Zinc II Chloride Catalyst	4					Beaker (Methanol)	1													
-1.1.2				Cartridge (Carbon Monoxide)	4	Cartridge (Hydrogen)	8	Zinc II Chloride Catalyst	5					Beaker (Methanol)	4													
-1.1.2				Cartridge (Carbon Monoxide)	16	Cartridge (Hydrogen)	32	Zinc II Chloride Catalyst	6					Beaker (Methanol)	16													
-1.1.2				Canister (Carbon Monoxide)	1	Canister (Hydrogen)	2	Zinc II Chloride Catalyst	7					Drum (Methanol)	1													
-1.1.2				Canister (Carbon Monoxide)	4	Canister (Hydrogen)	8	Zinc II Chloride Catalyst	8					Drum (Methanol)	4													
-1.1.2				Canister (Carbon Monoxide)	16	Canister (Hydrogen)	32	Zinc II Chloride Catalyst	9					Drum (Methanol)	16													
-1.1.2				Canister (Carbon Monoxide)	64	Canister (Hydrogen)	64	Zinc II Chloride Catalyst	10					Drum (Methanol)	64													
+1.1.2				Flask (Carbon Monoxide)	1	Flask (Hydrogen)	2	Zinc Nitrate Catalyst	1					Vial (Methanol)	1													
+1.1.2				Flask (Carbon Monoxide)	4	Flask (Hydrogen)	8	Zinc Nitrate Catalyst	2					Vial (Methanol)	4													
+1.1.2				Flask (Carbon Monoxide)	16	Flask (Hydrogen)	32	Zinc Nitrate Catalyst	3					Vial (Methanol)	16													
+1.1.2				Cartridge (Carbon Monoxide)	1	Cartridge (Hydrogen)	2	Zinc Nitrate Catalyst	4					Beaker (Methanol)	1													
+1.1.2				Cartridge (Carbon Monoxide)	4	Cartridge (Hydrogen)	8	Zinc Nitrate Catalyst	5					Beaker (Methanol)	4													
+1.1.2				Cartridge (Carbon Monoxide)	16	Cartridge (Hydrogen)	32	Zinc Nitrate Catalyst	6					Beaker (Methanol)	16													
+1.1.2				Canister (Carbon Monoxide)	1	Canister (Hydrogen)	2	Zinc Nitrate Catalyst	7					Drum (Methanol)	1													
+1.1.2				Canister (Carbon Monoxide)	4	Canister (Hydrogen)	8	Zinc Nitrate Catalyst	8					Drum (Methanol)	4													
+1.1.2				Canister (Carbon Monoxide)	16	Canister (Hydrogen)	32	Zinc Nitrate Catalyst	9					Drum (Methanol)	16													
+1.1.2				Canister (Carbon Monoxide)	64	Canister (Hydrogen)	64	Zinc Nitrate Catalyst	10					Drum (Methanol)	64													

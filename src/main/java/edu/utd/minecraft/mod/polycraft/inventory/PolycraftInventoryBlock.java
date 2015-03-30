@@ -43,7 +43,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
+import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 
 public class PolycraftInventoryBlock<I extends PolycraftInventory> extends BlockContainer {
@@ -107,14 +109,14 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return Vec3.createVectorHelper(
 					x - offsets[0],
 					y + offsets[2],
-					z + offsets[1]);
+					z - offsets[1]);
 		}
 
 		else if ((dir == ForgeDirection.EAST) && (rotated)) {
 			return Vec3.createVectorHelper(
 					x + offsets[0],
 					y + offsets[2],
-					z - offsets[1]);
+					z + offsets[1]);
 
 		} else if ((dir == ForgeDirection.SOUTH) && (!rotated)) {
 			return Vec3.createVectorHelper(
@@ -211,7 +213,8 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	 */
 	private void dropAllItems(World world, I tileEntity, int x, int y, int z) {
 		this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
-		for (int i1 = 0; i1 < tileEntity.getSizeInventory(); ++i1) {
+		int sizeNow = tileEntity.getSizeInventory(); //this is to prevent ticking memory crash
+		for (int i1 = 0; i1 < sizeNow; ++i1) {
 			ItemStack itemstack = tileEntity.getStackInSlot(i1);
 
 			if (itemstack != null) {
@@ -247,46 +250,61 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 
-		//		if (!(world.getBlock(x, y, z) == this))
-		//		{
-		//			if (!world.isRemote)
-		//			{
-		//				world.removeTileEntity(x, y, z);
-		//				world.func_147480_a(x, y, z, false); //this is destroy block
-		//				//this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
-		//				world.setBlockToAir(x, y, z);
-		//			}
+		if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+		{
+			final Block oreBlock = world.getBlock(x, y - 1, z);
+			int metaOre = world.getBlockMetadata(x, y - 1, z);
+			if (oreBlock != null && oreBlock instanceof BlockOre) {
+				if (config.params != null)
+				{
+					if (config.params.get(2) != null)
+					{
+						if (((BlockOre) oreBlock).ore.gameID.equals(Ore.registry.get(config.params.get(2)).gameID)) {
+							if (metaOre > 0)
+								world.setBlock(x, y - 1, z, oreBlock, metaOre - 1, 2); // remove the rest of the oil in this meta level
+							else
+								world.setBlock(x, y - 1, z, oreBlock, 0, 2); // no more oil
+						}
+					}
+				}
+			}
+		}
+
 		final I inventory = (I) world.getTileEntity(x, y, z);
-		if (config.containerType == PolycraftContainerType.PLASTIC_CHEST)
+		if (inventory != null)
 		{
-			this.dropAllItems(world, inventory, x, y, z);
-			world.removeTileEntity(x, y, z);
-		}
+			if (config.containerType == PolycraftContainerType.PLASTIC_CHEST)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
 
-		else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
-		{
-			this.dropAllItems(world, inventory, x, y, z);
-			world.removeTileEntity(x, y, z);
-		}
-		else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
-		{
-			this.dropAllItems(world, inventory, x, y, z);
-			world.removeTileEntity(x, y, z);
-		}
-		else if (config.containerType == PolycraftContainerType.SPOTLIGHT)
-		{
-			this.dropAllItems(world, inventory, x, y, z);
-			world.removeTileEntity(x, y, z);
-		}
-		else if (config.containerType == PolycraftContainerType.PUMP)
-		{
-			this.dropAllItems(world, inventory, x, y, z);
-			world.removeTileEntity(x, y, z);
-		}
+			else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
+			else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+				breakBlockRecurse(world, x, y, z, block, meta, false);
+			}
+			else if (config.containerType == PolycraftContainerType.SPOTLIGHT)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
+			else if (config.containerType == PolycraftContainerType.PUMP)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
 
-		else if (this.config.render3D)
-		{
-			breakBlockRecurse(world, x, y, z, block, meta, false);
+			else if (this.config.render3D)
+			{
+				breakBlockRecurse(world, x, y, z, block, meta, false);
+			}
 		}
 
 		super.breakBlock(world, x, y, z, block, meta);
@@ -345,9 +363,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		{
 			if (!world.isRemote)
 			{
-				world.removeTileEntity(x, y, z);
-				world.func_147480_a(x, y, z, false); //this is destroy block
-				this.dropAllItems(world, inventory, x, y, z);
+				if (getInventory(world, x, y, z) != null)
+				{
+					this.dropAllItems(world, inventory, x, y, z);
+					world.removeTileEntity(x, y, z);
+				}
+				world.func_147480_a(x, y, z, false); //this is destroy block				
 				world.setBlockToAir(x, y, z);
 			}
 		}
@@ -357,40 +378,52 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		ForgeDirection dir;
 
 		neighbor = world.getBlock(x + 1, y, z);
-		dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z) & 7];
-
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.WEST))
-			((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, block, meta);
+		if (neighbor instanceof BlockCollision)
+		{
+			dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z) & 7];
+			if (dir == ForgeDirection.WEST)
+				((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, block, meta);
+		}
 
 		neighbor = world.getBlock(x - 1, y, z);
-		dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z) & 7];
-
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.EAST))
-			((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, block, meta);
+		if (neighbor instanceof BlockCollision)
+		{
+			dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z) & 7];
+			if (dir == ForgeDirection.EAST)
+				((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, block, meta);
+		}
 
 		neighbor = world.getBlock(x, y, z + 1);
-		dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z + 1) & 7];
-
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.NORTH))
-			((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, block, meta);
+		if (neighbor instanceof BlockCollision)
+		{
+			dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z + 1) & 7];
+			if (dir == ForgeDirection.NORTH)
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, block, meta);
+		}
 
 		neighbor = world.getBlock(x, y, z - 1);
-		dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z - 1) & 7];
-
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.SOUTH))
-			((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, block, meta);
+		if (neighbor instanceof BlockCollision)
+		{
+			dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z - 1) & 7];
+			if (dir == ForgeDirection.SOUTH)
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, block, meta);
+		}
 
 		neighbor = world.getBlock(x, y + 1, z);
-		dir = ForgeDirection.values()[world.getBlockMetadata(x, y + 1, z) & 7];
-
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.DOWN))
-			((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, block, meta);
+		if (neighbor instanceof BlockCollision)
+		{
+			dir = ForgeDirection.values()[world.getBlockMetadata(x, y + 1, z) & 7];
+			if (dir == ForgeDirection.DOWN)
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, block, meta);
+		}
 
 		neighbor = world.getBlock(x, y - 1, z);
-		dir = ForgeDirection.values()[world.getBlockMetadata(x, y - 1, z) & 7];
-
-		if ((neighbor instanceof BlockCollision) && (dir == ForgeDirection.UP)) //As implemented with inventories on the bottom, this should never happen
-			((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, block, meta);
+		if (neighbor instanceof BlockCollision)
+		{
+			dir = ForgeDirection.values()[world.getBlockMetadata(x, y - 1, z) & 7];
+			if (dir == ForgeDirection.UP) //As implemented with inventories on the bottom, this should never happen
+				((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, block, meta);
+		}
 
 	}
 
@@ -608,6 +641,20 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+				}
+				else if (config.containerType == PolycraftContainerType.CONDENSER)
+				{
+					GL11.glTranslated(1F, 0, 0);
+				}
+				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+				{
+					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+					GL11.glTranslated(0, 0, -2F);
+				}
+				else if (config.containerType == PolycraftContainerType.INDUSTRIAL_OVEN)
+				{
+					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+					GL11.glTranslated(0, 0, -3F);
 				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);

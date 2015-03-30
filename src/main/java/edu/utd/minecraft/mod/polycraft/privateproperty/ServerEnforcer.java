@@ -105,7 +105,7 @@ public class ServerEnforcer extends Enforcer {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
-		if (event.entity instanceof EntityPlayerMP) {
+		if (event.entity instanceof EntityPlayerMP && !portalRestUrl.startsWith("file:")) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			netChannel.sendTo(getPrivatePropertiesPacket(), player);
 			try {
