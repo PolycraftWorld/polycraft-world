@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
@@ -16,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -53,6 +55,10 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public abstract class Enforcer {
+	private static final String chatCommandPrefix = "~";
+	private static final String chatCommandTeleport = "tp";
+	private static final String chatCommandTeleportArgPrivateProperty = "pp";
+	private static final String chatCommandTeleportArgUTD = "utd";
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; //you can only own property in the surface dimension
 	protected final FMLEventChannel netChannel;
@@ -62,6 +68,7 @@ public abstract class Enforcer {
 	protected String whitelistJson = null;
 	private final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
 	private final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
+	private final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps.newHashMap();
 	protected String[] whitelist = new String[] {};
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
@@ -79,12 +86,19 @@ public abstract class Enforcer {
 		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(privatePropertiesJson, new TypeToken<Collection<PrivateProperty>>(){}.getType());
 		privateProperties.clear();
 		privatePropertiesByChunk.clear();
+		privatePropertiesByOwner.clear();
 		if (newPrivateProperties != null) {
 			privateProperties.addAll(newPrivateProperties);
 			for (final PrivateProperty privateProperty : privateProperties) {
 				for (final Chunk chunk : privateProperty.chunks) {
 					privatePropertiesByChunk.put(getChunkKey(chunk.x, chunk.z), privateProperty);
 				}
+				List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(privateProperty.owner);
+				if (ownerPrivateProperties == null) {
+					ownerPrivateProperties = Lists.newLinkedList();
+					privatePropertiesByOwner.put(privateProperty.owner, ownerPrivateProperties);
+				}
+				ownerPrivateProperties.add(privateProperty);
 			}
 		}
 	}
@@ -302,6 +316,73 @@ public abstract class Enforcer {
 				break;
 			default:
 				break;
+		}
+	}
+
+	@SubscribeEvent
+	public synchronized void onCommandEvent(final ServerChatEvent event) {
+		if (event.message.startsWith(chatCommandPrefix)) {
+			event.setCanceled(true);
+			if (event.player.worldObj.isRemote) {
+				return;
+			}
+			//FIXME analytics?
+			final String command = event.message.substring(1);
+			//teleport to private property
+			if (command.startsWith(chatCommandTeleport)) {
+				handleChatCommandTeleport(event.player, command.substring(chatCommandTeleport.length() + 1).split(" "));
+			}
+		}
+	}
+	
+	public void handleChatCommandTeleport(final EntityPlayer player, final String[] args) {
+		if (args.length > 0) {
+			//teleport to UTD
+			if (chatCommandTeleportArgUTD.equalsIgnoreCase(args[0])) {
+				//only allow if the player is in a private property
+				if (findPrivateProperty(player) != null) {
+					player.setPositionAndUpdate(1, player.worldObj.getTopSolidOrLiquidBlock(1, 1), 1);
+				}
+			}
+			//teleport to a private property
+			else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
+				//only allow if the player is in chunk 0,0 (center of UTD), or if they are in a private property already
+				if ((player.chunkCoordX == 0 && player.chunkCoordZ == 0) || findPrivateProperty(player) != null) {
+					boolean valid = false;
+					int x = 0, z = 0;
+					if (args.length < 3) {
+						final List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(player.getDisplayName());
+						if (ownerPrivateProperties != null) {
+							int index = 0;
+							try {
+								index = Integer.parseInt(args[1]);
+								if (index < 0 || index >= ownerPrivateProperties.size())
+									return;
+							}
+							catch (final Exception e) {}
+							
+							final PrivateProperty targetPrivateProperty = ownerPrivateProperties.get(index);
+							final PrivateProperty.Chunk tpChunk = targetPrivateProperty.chunks[0];
+							x = tpChunk.x * 16;
+							z = tpChunk.z * 16;
+							valid = true;
+						}
+					}
+					else {
+						try {
+							x = Integer.parseInt(args[1]);
+							z = Integer.parseInt(args[2]);
+							final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
+							final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
+							valid = targetPrivateProperty != null && targetPrivateProperty.actionEnabled(player, Action.Enter);
+						}
+						catch (final Exception e) {}
+					}
+					if (valid) {
+						player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock(x, z), z);
+					}
+				}
+			}
 		}
 	}
 }

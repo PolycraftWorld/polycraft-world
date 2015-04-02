@@ -44,7 +44,7 @@ public class ServerEnforcer extends Enforcer {
 				final String url = portalRestUrl.startsWith("file:")
 						? portalRestUrl + "privateproperties.json"
 						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
-						: String.format("%s/worlds/%s/private_property_permissions/", portalRestUrl, event.world.getWorldInfo().getWorldName());
+						: String.format("%s/private_properties/", portalRestUrl);
 				updatePrivateProperties(NetUtil.getText(url));
 				netChannel.sendToAll(getPrivatePropertiesPacket());
 			} catch (final Exception e) {
@@ -92,7 +92,7 @@ public class ServerEnforcer extends Enforcer {
 				}
 			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
-				if (privatePropertiesJson == null) {
+				if (whitelistJson == null) {
 					PolycraftMod.logger.error("Unable to load whitelist", e);
 					System.exit(-1);
 				}
