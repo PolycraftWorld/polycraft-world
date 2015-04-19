@@ -1,6 +1,6 @@
 # Blender v2.71 (sub 0) OBJ File: 'ChemicalProcessor.blend'
 # www.blender.org
-mtllib ChemicalProcessor_Tri.mtl
+mtllib chemical_processor.mtl
 v 0.999997 0.125000 2.000000
 v 1.000000 0.125000 4.000000
 v 0.000000 0.125000 4.000001
