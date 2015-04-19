@@ -25,7 +25,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	FALSE	2	Bucket	1							Steel Ingot	1			Steel Ingot	1			Steel Ingot	1								
 1.0.0	TRUE	TRUE	2	Cobalt Catalyst	4	Cobalt Ingot	1																						
 1.0.0	TRUE	TRUE	2	Copper II Chloride Catalyst	4	Copper Ingot	1																						
-1.0.0	TRUE	FALSE	2	Copper Pipe	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1								
+1.0.0	TRUE	FALSE	2	Copper Piping	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1								
 1.0.0	TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
@@ -34,8 +34,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Furnace	1	Block of Brass	1						
 1.0.0	TRUE	FALSE	2	Gas Mantle	1			Wool	1			Wool	1	Magnesium Ingot	1	Wool	1			Wool	1								
 1.0.0	TRUE	FALSE	2	Golden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Gold Block	1	Stick	1	Gold Block	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	FALSE	2	Heat Exchanger	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Redstone Block	1	Heat Fins	1	Copper Pipe	1	Heat Fins	1	Copper Pipe	1						
-1.0.0	TRUE	FALSE	2	Heat Fins	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1			Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1						
+1.0.0	TRUE	FALSE	2	Heat Exchanger	1	Copper Piping	1	Heat Fins	1	Copper Piping	1	Heat Fins	1	Redstone Block	1	Heat Fins	1	Copper Piping	1	Heat Fins	1	Copper Piping	1						
+1.0.0	TRUE	FALSE	2	Heat Fins	1	Copper Piping	1			Copper Piping	1	Copper Piping	1			Copper Piping	1	Copper Piping	1	Copper Piping	1	Copper Piping	1						
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
@@ -64,15 +64,15 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	TRUE	2	Titanium Catalyst	4	Titanium Ingot	1																						
 1.0.0	TRUE	TRUE	2	Triethylaluminium Catalyst	4	Aluminum Ingot	1																						
 1.1.0	TRUE	TRUE	2	Tungsten Carbide Ingot	1	Tungsten Ingot	1	Graphite	1																				
-1.0.6	TRUE	FALSE	3	BlockPipe	16	Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1																		
-1.0.6	TRUE	FALSE	3	BlockPipe	16							Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1												
-1.0.6	TRUE	FALSE	3	BlockPipe	16													Large Pipe (PP)	1	Large Pipe (PP)	1	Large Pipe (PP)	1						
+1.0.6	TRUE	FALSE	3	BlockPipe	16	Pipe Segment (PP)	1	Pipe Segment (PP)	1	Pipe Segment (PP)	1																		
+1.0.6	TRUE	FALSE	3	BlockPipe	16							Pipe Segment (PP)	1	Pipe Segment (PP)	1	Pipe Segment (PP)	1												
+1.0.6	TRUE	FALSE	3	BlockPipe	16													Pipe Segment (PP)	1	Pipe Segment (PP)	1	Pipe Segment (PP)	1						
 1.0.3	TRUE	FALSE	3	Diamond-PolyIsoPrene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (Natural Rubber)	1								
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Iron Block	1	Furnace	1	Iron Block	1						
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Brass	1	Furnace	1	Block of Brass	1						
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
-1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Pipe	1	Redstone Block	1	Copper Pipe	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Piping	1	Redstone Block	1	Copper Piping	1	Iron Block	1	Furnace	1	Iron Block	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Piping	1	Redstone Block	1	Copper Piping	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Piping	1	Redstone Block	1	Copper Piping	1	Block of Brass	1	Furnace	1	Block of Brass	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Piping	1	Redstone Block	1	Copper Piping	1	Block of Tungsten	1	Furnace	1	Block of Tungsten	1						
+1.0.0	TRUE	FALSE	3	Distillation Column	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Copper Piping	1	Redstone Block	1	Copper Piping	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
 1.0.6	TRUE	TRUE	8	Flow Regulator	1	BlockPipe	1	Regulator (Extreme Pressure)	1																				
 1.0.0	TRUE	FALSE	3	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Gasket (Low Pressure)	1			Gasket (Low Pressure)	1	Redstone	1	Gasket (Low Pressure)	1			Gasket (Low Pressure)	1	Hose (Low Pressure)	1						
 1.1.0	TRUE	FALSE	3	Running Shoes (Sprinter)	1			Rubber Sole (outsole)	1			Leather	1	Rubber Sole (midsole)	1	Leather	1	Leather	1	Rubber Sole (insole)	1	Leather	1						
@@ -80,10 +80,10 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.3	TRUE	FALSE	3	Stainless-PolyIsoPrene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (Natural Rubber)	1								
 1.0.0	TRUE	FALSE	4	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1						
 1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PP)	1								
-1.1.1	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Pipe	1	Lighter	1						
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Methane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
-1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Pipe	1	Copper Pipe	1	Copper Pipe	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.1.1	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Piping	1	Lighter	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Piping	1	Copper Piping	1	Copper Piping	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Piping	1	Copper Piping	1	Copper Piping	1	Flask (Methane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
+1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Piping	1	Copper Piping	1	Copper Piping	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
 1.0.0	TRUE	FALSE	4	Lighter	1			Flint And Steel	1					Vial (Light Naphtha)	1					Lighter Body (LDPE)	1								
 1.0.0	TRUE	FALSE	4	Membrane O	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1								
 1.0.0	TRUE	FALSE	4	Membrane X	1	Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1			Fibers (LDPE)	1						
@@ -93,10 +93,10 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1													Cartridge (Oxygen)	1	Scuba Tank (Beginner)	1	Cartridge (Oxygen)	1						
 1.0.0	TRUE	FALSE	4	Scuba Tank (Beginner)	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Oxygen)	1	Rubber Shirt	1	Cartridge (Oxygen)	1												
 1.0.0	TRUE	FALSE	4	Separation Membrane	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1	Membrane O	1	Membrane X	1						
-1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Gas Mantle	1	Slab (PP)	1	Chest	1	Copper Pipe	1	Lighter	1						
-1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (LDPE)	1	Slab (LDPE)	1	Slab (LDPE)	1	Slab (LDPE)	1	Gas Mantle	1	Slab (LDPE)	1	Chest	1	Copper Pipe	1	Lighter	1						
-1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (PS)	1	Slab (PS)	1	Slab (PS)	1	Slab (PS)	1	Gas Mantle	1	Slab (PS)	1	Chest	1	Copper Pipe	1	Lighter	1						
-1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Gas Mantle	1	Slab (Natural Rubber)	1	Chest	1	Copper Pipe	1	Lighter	1						
+1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Gas Mantle	1	Slab (PP)	1	Chest	1	Copper Piping	1	Lighter	1						
+1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (LDPE)	1	Slab (LDPE)	1	Slab (LDPE)	1	Slab (LDPE)	1	Gas Mantle	1	Slab (LDPE)	1	Chest	1	Copper Piping	1	Lighter	1						
+1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (PS)	1	Slab (PS)	1	Slab (PS)	1	Slab (PS)	1	Gas Mantle	1	Slab (PS)	1	Chest	1	Copper Piping	1	Lighter	1						
+1.1.1	TRUE	FALSE	4	Spotlight	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Gas Mantle	1	Slab (Natural Rubber)	1	Chest	1	Copper Piping	1	Lighter	1						
 1.0.3	TRUE	FALSE	4	Stainless-PolyPropylene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (PP)	1								
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Iron Block	1	Redstone Block	1	Iron Block	1	Industrial Oven	1			Industrial Oven	1						
 1.0.0	TRUE	FALSE	4	Steam Cracker	1	Regulator (Low Pressure)	1	Hopper	1	Heat Exchanger	1	Block of Bronze	1	Redstone Block	1	Block of Bronze	1	Industrial Oven	1			Industrial Oven	1						

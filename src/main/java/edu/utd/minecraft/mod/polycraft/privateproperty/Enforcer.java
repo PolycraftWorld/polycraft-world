@@ -72,7 +72,7 @@ public abstract class Enforcer {
 	protected String[] whitelist = new String[] {};
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
-	
+
 	public Enforcer() {
 		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
@@ -80,10 +80,11 @@ public abstract class Enforcer {
 		gsonBuilder.registerTypeAdapter(PrivateProperty.class, new PrivateProperty.Deserializer());
 		gson = gsonBuilder.create();
 	}
-	
+
 	protected void updatePrivateProperties(final String privatePropertiesJson) {
 		this.privatePropertiesJson = privatePropertiesJson;
-		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(privatePropertiesJson, new TypeToken<Collection<PrivateProperty>>(){}.getType());
+		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(privatePropertiesJson, new TypeToken<Collection<PrivateProperty>>() {
+		}.getType());
 		privateProperties.clear();
 		privatePropertiesByChunk.clear();
 		privatePropertiesByOwner.clear();
@@ -102,31 +103,32 @@ public abstract class Enforcer {
 			}
 		}
 	}
-	
+
 	protected void updateWhitelist(final String whitelistJson) {
 		this.whitelistJson = whitelistJson;
-		whitelist = gson.fromJson(whitelistJson, new TypeToken<String[]>(){}.getType());
+		whitelist = gson.fromJson(whitelistJson, new TypeToken<String[]>() {
+		}.getType());
 	}
-	
+
 	private static String getChunkKey(final int x, final int z) {
 		return String.format("%d,%d", x, z);
 	}
-	
+
 	protected PrivateProperty findPrivateProperty(final Entity entity, final int chunkX, final int chunkZ) {
 		if (entity.dimension == propertyDimension)
 			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
 		return null;
 	}
-	
+
 	protected PrivateProperty findPrivateProperty(final Entity entity) {
 		return findPrivateProperty(entity, entity.chunkCoordX, entity.chunkCoordZ);
 	}
-	
+
 	protected void setActionPrevented(final Action action, final PrivateProperty privateProperty) {
 		actionPrevented = action;
 		actionPreventedPrivateProperty = privateProperty;
 	}
-	
+
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final PrivateProperty privateProperty) {
 		//if the player is not in private property, they can do anything
 		if (privateProperty != null && !privateProperty.actionEnabled(player, action)) {
@@ -134,15 +136,15 @@ public abstract class Enforcer {
 			setActionPrevented(action, privateProperty);
 		}
 	}
-	
+
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final int chunkX, final int chunkZ) {
 		possiblyPreventAction(event, player, action, findPrivateProperty(player, chunkX, chunkZ));
 	}
-	
+
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final net.minecraft.world.chunk.Chunk chunk) {
 		possiblyPreventAction(event, player, action, chunk.xPosition, chunk.zPosition);
 	}
-	
+
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action) {
 		possiblyPreventAction(event, player, action, findPrivateProperty(player));
 	}
@@ -158,7 +160,7 @@ public abstract class Enforcer {
 	public void onAttackEntity(final AttackEntityEvent event) {
 		possiblyPreventAction(event, event.entityPlayer, Action.AttackEntity, event.target.chunkCoordX, event.target.chunkCoordZ);
 	}
-	
+
 	@SubscribeEvent
 	public void onFillBucket(final FillBucketEvent event) {
 		possiblyPreventAction(event, event.entityPlayer, Action.UseBucket, event.world.getChunkFromBlockCoords(event.target.blockX, event.target.blockZ));
@@ -191,11 +193,11 @@ public abstract class Enforcer {
 			}
 		}
 	}
-	
+
 	private boolean forcePlayerToExitProperty(final EntityPlayer player, int targetOffsetX, double targetOffsetZ, final PrivateProperty privateProperty) {
-		final int x = (int)(player.posX + targetOffsetX);
-		final int y = (int)player.posY;
-		final int z = (int)(player.posZ + targetOffsetZ);
+		final int x = (int) (player.posX + targetOffsetX);
+		final int y = (int) player.posY;
+		final int z = (int) (player.posZ + targetOffsetZ);
 		if (player.worldObj.isAirBlock(x, y, z)) {
 			final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
 			final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
@@ -208,114 +210,114 @@ public abstract class Enforcer {
 		}
 		return false;
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerInteract(final PlayerInteractEvent event) {
 		switch (event.action) {
-			case LEFT_CLICK_BLOCK:
-				//TODO why is this not happening on the client?
-				possiblyPreventAction(event, event.entityPlayer, Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
-				break;
-			case RIGHT_CLICK_AIR:
-				if (event.entityPlayer.getCurrentEquippedItem() != null) {
-					if (event.entityPlayer.getCurrentEquippedItem().getItem() instanceof ItemFlameThrower) {
+		case LEFT_CLICK_BLOCK:
+			//TODO why is this not happening on the client?
+			possiblyPreventAction(event, event.entityPlayer, Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
+			break;
+		case RIGHT_CLICK_AIR:
+			if (event.entityPlayer.getCurrentEquippedItem() != null) {
+				if (event.entityPlayer.getCurrentEquippedItem().getItem() instanceof ItemFlameThrower) {
+					possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
+				}
+			}
+			break;
+		case RIGHT_CLICK_BLOCK:
+			final net.minecraft.world.chunk.Chunk blockChunk = event.world.getChunkFromBlockCoords(event.x, event.z);
+			final Block block = event.world.getBlock(event.x, event.y, event.z);
+			if (block instanceof BlockWorkbench) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseCraftingTable, blockChunk);
+			}
+			else if (block instanceof BlockFurnace) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseFurnace, blockChunk);
+			}
+			else if (block instanceof BlockContainer) {
+				if (block instanceof BlockChest) {
+					possiblyPreventAction(event, event.entityPlayer, Action.OpenChest, blockChunk);
+				}
+				else if (block instanceof BlockEnderChest) {
+					possiblyPreventAction(event, event.entityPlayer, Action.OpenEnderChest, blockChunk);
+				}
+				else if (block instanceof PolycraftInventoryBlock) {
+					if (block instanceof TreeTapBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UseTreeTap, blockChunk);
+					}
+					else if (block instanceof CondenserBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UseCondenser, blockChunk);
+					}
+					else if (block instanceof PumpBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UsePump, blockChunk);
+					}
+					else if (block instanceof FlowRegulatorBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UseFlowRegulator, blockChunk);
+					}
+					else if (block instanceof CondenserBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UseCondenser, blockChunk);
+					}
+					else if (block instanceof OilDerrickBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.UseOilDerrick, blockChunk);
+					}
+					else {
+						final PolycraftInventoryBlock polycraftInventoryBlock = (PolycraftInventoryBlock) block;
+						if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == InjectionMolderInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseInjectionMolder, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == ExtruderInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseExtruder, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == DistillationColumnInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseDistillationColumn, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == SteamCrackerInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseSteamCracker, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == MeroxTreatmentUnitInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseMeroxTreatmentUnit, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == ChemicalProcessorInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseChemicalProcessor, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == SpotlightInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseSpotlight, blockChunk);
+						}
+						else if (polycraftInventoryBlock.tileEntityClass == FueledLampInventory.class) {
+							possiblyPreventAction(event, event.entityPlayer, Action.UseFueledLamp, blockChunk);
+						}
+					}
+				}
+			}
+			else if (block instanceof BlockButton) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseButton, blockChunk);
+			}
+			else if (block instanceof BlockLever) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseLever, blockChunk);
+			}
+			else if (block instanceof BlockPressurePlate) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UsePressurePlate, blockChunk);
+			}
+			else {
+				final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
+				if (equippedItem != null) {
+					if (equippedItem.getItem() instanceof ItemBlock) {
+						possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
+					}
+					else if (equippedItem.getItem() instanceof ItemFlameThrower) {
 						possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
 					}
 				}
-				break;
-			case RIGHT_CLICK_BLOCK:
-				final net.minecraft.world.chunk.Chunk blockChunk = event.world.getChunkFromBlockCoords(event.x, event.z);
-				final Block block = event.world.getBlock(event.x, event.y, event.z);
-				if (block instanceof BlockWorkbench) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseCraftingTable, blockChunk);
-				}
-				else if (block instanceof BlockFurnace) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseFurnace, blockChunk);
-				}
-				else if (block instanceof BlockContainer) {
-					if (block instanceof BlockChest) {
-						possiblyPreventAction(event, event.entityPlayer, Action.OpenChest, blockChunk);
-					}
-					else if (block instanceof BlockEnderChest) {
-						possiblyPreventAction(event, event.entityPlayer, Action.OpenEnderChest, blockChunk);
-					}
-					else if (block instanceof PolycraftInventoryBlock) {
-						if (block instanceof TreeTapBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseTreeTap, blockChunk);
-						}
-						else if (block instanceof CondenserBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseCondenser, blockChunk);
-						}
-						else if (block instanceof PumpBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UsePump, blockChunk);
-						}
-						else if (block instanceof FlowRegulatorBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseFlowRegulator, blockChunk);
-						}
-						else if (block instanceof CondenserBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseCondenser, blockChunk);
-						}
-						else if (block instanceof OilDerrickBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseOilDerrick, blockChunk);
-						}
-						else {
-							final PolycraftInventoryBlock polycraftInventoryBlock = (PolycraftInventoryBlock)block;
-							if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == InjectionMolderInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseInjectionMolder, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == ExtruderInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseExtruder, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == DistillationColumnInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseDistillationColumn, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == SteamCrackerInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseSteamCracker, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == MeroxTreatmentUnitInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseMeroxTreatmentUnit, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == ChemicalProcessorInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseChemicalProcessor, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == SpotlightInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseSpotlight, blockChunk);
-							}
-							else if (polycraftInventoryBlock.tileEntityClass == FueledLampInventory.class) {
-								possiblyPreventAction(event, event.entityPlayer, Action.UseFueledLamp, blockChunk);
-							}
-						}
-					}
-				}
-				else if (block instanceof BlockButton) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseButton, blockChunk);
-				}
-				else if (block instanceof BlockLever) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseLever, blockChunk);
-				}
-				else if (block instanceof BlockPressurePlate) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UsePressurePlate, blockChunk);
-				}
-				else {
-					final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
-					if (equippedItem != null) {
-						if (equippedItem.getItem() instanceof ItemBlock) {
-							possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
-						}
-						else if (equippedItem.getItem() instanceof ItemFlameThrower) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
-						}
-					}
-				}
-				break;
-			default:
-				break;
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -334,20 +336,20 @@ public abstract class Enforcer {
 			}
 		}
 	}
-	
+
 	public void handleChatCommandTeleport(final EntityPlayer player, final String[] args) {
 		if (args.length > 0) {
 			//teleport to UTD
 			if (chatCommandTeleportArgUTD.equalsIgnoreCase(args[0])) {
 				//only allow if the player is in a private property
 				if (findPrivateProperty(player) != null) {
-					player.setPositionAndUpdate(1, player.worldObj.getTopSolidOrLiquidBlock(1, 1), 1);
+					player.setPositionAndUpdate(1, player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3, 1);
 				}
 			}
 			//teleport to a private property
 			else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
 				//only allow if the player is in chunk 0,0 (center of UTD), or if they are in a private property already
-				if ((player.chunkCoordX == 0 && player.chunkCoordZ == 0) || findPrivateProperty(player) != null) {
+				if ((Math.abs(player.chunkCoordX) <= 5 && Math.abs(player.chunkCoordZ) <= 5) || findPrivateProperty(player) != null) {
 					boolean valid = false;
 					int x = 0, z = 0;
 					if (args.length < 3) {
@@ -358,9 +360,9 @@ public abstract class Enforcer {
 								index = Integer.parseInt(args[1]);
 								if (index < 0 || index >= ownerPrivateProperties.size())
 									return;
+							} catch (final Exception e) {
 							}
-							catch (final Exception e) {}
-							
+
 							final PrivateProperty targetPrivateProperty = ownerPrivateProperties.get(index);
 							final PrivateProperty.Chunk tpChunk = targetPrivateProperty.chunks[0];
 							x = tpChunk.x * 16;
@@ -375,11 +377,11 @@ public abstract class Enforcer {
 							final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
 							final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
 							valid = targetPrivateProperty != null && targetPrivateProperty.actionEnabled(player, Action.Enter);
+						} catch (final Exception e) {
 						}
-						catch (final Exception e) {}
 					}
 					if (valid) {
-						player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock(x, z), z);
+						player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z);
 					}
 				}
 			}

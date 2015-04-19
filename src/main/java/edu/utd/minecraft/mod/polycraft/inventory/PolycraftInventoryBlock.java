@@ -565,37 +565,105 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		@Override
 		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 			int meta = 3;
-			Tessellator tessellator = Tessellator.instance;
-			//block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+
 			block.setBlockBoundsForItemRender();
-			//renderer.setRenderBoundsFromBlock(block);
 			renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-			tessellator.startDrawingQuads();
-			tessellator.setNormal(0.0F, -1.0F, 0.0F);
-			renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setNormal(0.0F, 1.0F, 0.0F);
-			renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setNormal(0.0F, 0.0F, -1.0F);
-			renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setNormal(0.0F, 0.0F, 1.0F);
-			renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-			renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setNormal(1.0F, 0.0F, 0.0F);
-			renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
-			tessellator.draw();
+
+			if (this.config.render3D)
+			{
+
+				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+				{
+					GL11.glScalef(0.25F, 0.125F, 0.25F);
+					GL11.glTranslatef(4F, -4.7F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
+				{
+					GL11.glScalef(1.5F, 1.5F, 1.5F);
+					GL11.glTranslatef(.75F, -.75F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.CHEMICAL_PROCESSOR)
+				{
+					GL11.glScalef(.33F, .33F, .33F);
+					GL11.glTranslatef(.4F, 0.4F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.CONDENSER)
+				{
+					GL11.glScalef(1.2F, 1.2F, 1.2F);
+					GL11.glTranslatef(.8F, 0.25F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+				{
+					GL11.glScalef(0.125F, 0.125F, 0.125F);
+				}
+				else if (config.containerType == PolycraftContainerType.INDUSTRIAL_OVEN)
+				{
+					GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glScalef(0.35F, 0.35F, 0.35F);
+					GL11.glTranslatef(-3.5F, -2.5F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.INJECTION_MOLDER)
+				{
+					GL11.glScalef(0.35F, 0.35F, 0.35F);
+					GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-5.25F, -2.25F, 0F);
+
+				}
+				else if (config.containerType == PolycraftContainerType.EXTRUDER)
+				{
+					GL11.glScalef(0.35F, 0.35F, 0.35F);
+					GL11.glTranslatef(.25F, 1.0F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.MACHINING_MILL)
+				{
+					GL11.glScalef(0.6F, 0.6F, 0.6F);
+					GL11.glTranslatef(0.25F, 0F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.MEROX_TREATMENT_UNIT)
+				{
+					GL11.glScalef(0.25F, 0.25F, 0.25F);
+					GL11.glTranslatef(2F, -1F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.STEAM_CRACKER)
+				{
+					GL11.glScalef(0.24F, 0.24F, 0.24F);
+
+				}
+
+				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
+				this.inventoryModel.renderAll();
+			}
+			else
+			{
+				Tessellator tessellator = Tessellator.instance;
+				tessellator.startDrawingQuads();
+				tessellator.setNormal(0.0F, -1.0F, 0.0F);
+				renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
+				tessellator.draw();
+				tessellator.startDrawingQuads();
+				tessellator.setNormal(0.0F, 1.0F, 0.0F);
+				renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
+				tessellator.draw();
+				tessellator.startDrawingQuads();
+				tessellator.setNormal(0.0F, 0.0F, -1.0F);
+				renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
+				tessellator.draw();
+				tessellator.startDrawingQuads();
+				tessellator.setNormal(0.0F, 0.0F, 1.0F);
+				renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
+				tessellator.draw();
+				tessellator.startDrawingQuads();
+				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+				renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
+				tessellator.draw();
+				tessellator.startDrawingQuads();
+				tessellator.setNormal(1.0F, 0.0F, 0.0F);
+				renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
+				tessellator.draw();
+			}
+
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		}
 
@@ -958,6 +1026,47 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 						}
 
 					}
+					else if (config.containerType == PolycraftContainerType.MACHINING_MILL)
+					{
+						if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+						{
+							Block nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+						}
+						if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+						{
+							Block nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos - 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+						}
+						if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+						{
+							Block nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+
+						}
+						if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+						{
+							Block nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
+								break;
+							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos + 1);
+							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
+								break;
+						}
+
+					}
 					else if (config.containerType == PolycraftContainerType.EXTRUDER)
 					{
 
@@ -1174,6 +1283,36 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 						}
 
 					}
+					else if (config.containerType == PolycraftContainerType.MACHINING_MILL)
+					{
+						if (((playerFacingDir == ForgeDirection.SOUTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
+						{
+
+							worldObj.setBlock(xPos - 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.SOUTH.ordinal(), 2);
+							worldObj.setBlock(xPos - 1, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.WEST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.EAST) && (shiftPressed))) // facing west (-x)
+						{
+							worldObj.setBlock(xPos + 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.WEST.ordinal(), 2);
+							worldObj.setBlock(xPos, yPos + 2, zPos - 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.NORTH) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.SOUTH) && (shiftPressed))) // facing north (-z)
+						{
+							worldObj.setBlock(xPos + 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.NORTH.ordinal(), 2);
+							worldObj.setBlock(xPos + 1, yPos + 2, zPos, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						}
+						if (((playerFacingDir == ForgeDirection.EAST) && (!shiftPressed)) || ((playerFacingDir == ForgeDirection.WEST) && (shiftPressed))) // facing east (+x)
+						{
+							worldObj.setBlock(xPos - 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.EAST.ordinal(), 2);
+							worldObj.setBlock(xPos, yPos + 2, zPos + 1, PolycraftMod.blockCollision, ForgeDirection.DOWN.ordinal(), 2);
+
+						}
+
+					}
+
 					else if (config.containerType == PolycraftContainerType.EXTRUDER)
 					{
 

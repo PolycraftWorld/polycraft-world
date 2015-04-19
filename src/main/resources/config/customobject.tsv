@@ -17,7 +17,7 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.0.0	3C	Structural Truss	PC Block		TRUE													
 1.0.0	3G	Barley	Food		TRUE													
 1.0.0	3H	Grapes	Food		TRUE													
-1.0.0	3I	Copper Pipe	PC Block		TRUE													
+1.0.0	3I	Copper Piping	PC Block		TRUE													
 1.0.0	3M	Regulator (Low Pressure)	PC Item		TRUE													
 1.1.0	137	Regulator (Medium Pressure)	PC Item		FALSE													
 1.1.0	138	Regulator (High Pressure)	PC Item		FALSE													
