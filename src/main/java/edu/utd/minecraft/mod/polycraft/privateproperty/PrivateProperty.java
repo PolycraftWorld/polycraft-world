@@ -74,7 +74,9 @@ public class PrivateProperty {
 	public final String owner;
 	public final String name;
 	public final String message;
-	public final Chunk[] chunks;
+	public final Chunk[] bounds;
+	public final Chunk boundTopLeft;
+	public final Chunk boundBottomRight;
 	public final PermissionSet defaultPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
 	
@@ -87,9 +89,11 @@ public class PrivateProperty {
 		this.owner = owner.getAsString();
 		this.name = name.getAsString();
  		this.message = message.getAsString();
-		this.chunks = new Chunk[chunks.size()];
+		this.bounds = new Chunk[chunks.size()];
 		for (int i = 0; i < chunks.size(); i++)
-			this.chunks[i] = new Chunk(chunks.get(i).getAsJsonArray());
+			this.bounds[i] = new Chunk(chunks.get(i).getAsJsonArray());
+		this.boundTopLeft = this.bounds[0];
+		this.boundBottomRight = this.bounds[1];
 		this.defaultPermissions = new PermissionSet(permissions.get(0).getAsJsonObject());
 		this.permissionOverridesByUser = Maps.newHashMap();
 		for (int i = 1; i < permissions.size(); i++) {
@@ -107,7 +111,7 @@ public class PrivateProperty {
 					jobject.get("owner"),
 					jobject.get("name"),
 					jobject.get("message"),
-					jobject.getAsJsonArray("chunks"),
+					jobject.getAsJsonArray("bounds"),
 					jobject.getAsJsonArray("permissions"));
 		}
 		

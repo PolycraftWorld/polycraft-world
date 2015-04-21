@@ -17,6 +17,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 
@@ -46,7 +47,10 @@ public class ServerEnforcer extends Enforcer {
 						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
 						: String.format("%s/private_properties/", portalRestUrl);
 				updatePrivateProperties(NetUtil.getText(url));
-				netChannel.sendToAll(getPrivatePropertiesPacket());
+				final FMLProxyPacket[] packets = getPrivatePropertiesPackets();
+				if (packets != null)
+					for (final FMLProxyPacket packet : packets)
+						netChannel.sendToAll(packet);
 			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
 				if (privatePropertiesJson == null) {
@@ -60,8 +64,22 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
-	private FMLProxyPacket getPrivatePropertiesPacket() {
-		return new FMLProxyPacket(Unpooled.buffer().writeBytes(privatePropertiesJson.getBytes()).copy(), netChannelName);
+	private FMLProxyPacket[] getPrivatePropertiesPackets() {
+		try {
+			//we have to split these up into smaller packets due to this issue: https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
+			final byte[] privatePropertiesBytes = CompressUtil.compress(privatePropertiesJson);
+			final FMLProxyPacket[] packets = new FMLProxyPacket[getPacketsRequired(privatePropertiesBytes.length) + 1];
+			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(privatePropertiesBytes.length).copy(), netChannelName);
+			for (int i = 0; i < packets.length - 1; i++) {
+				int startIndex = i * maxPacketSizeBytes;
+				int length = Math.min(privatePropertiesBytes.length - startIndex, maxPacketSizeBytes);
+				packets[i + 1] = new FMLProxyPacket(Unpooled.buffer().writeBytes(privatePropertiesBytes, startIndex, length).copy(), netChannelName);
+			}
+			return packets;
+		} catch (IOException e) {
+			PolycraftMod.logger.error("Unable to compress private properties", e);
+			return null;
+		}
 	}
 
 	private void onWorldTickWhitelist(final TickEvent.WorldTickEvent event) {
@@ -105,13 +123,19 @@ public class ServerEnforcer extends Enforcer {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
-		if (event.entity instanceof EntityPlayerMP && !portalRestUrl.startsWith("file:")) {
+		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-			netChannel.sendTo(getPrivatePropertiesPacket(), player);
-			try {
-				NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
-			} catch (final IOException e) {
-				PolycraftMod.logger.error("Unable to log player last world seen", e);
+			final FMLProxyPacket[] packets = getPrivatePropertiesPackets();
+			if (packets != null)
+				for (final FMLProxyPacket packet : packets)
+					netChannel.sendTo(packet, player);
+			if (!portalRestUrl.startsWith("file:"))
+			{
+				try {
+					NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
+				} catch (final IOException e) {
+					PolycraftMod.logger.error("Unable to log player last world seen", e);
+				}
 			}
 		}
 	}

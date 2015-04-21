@@ -51,7 +51,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
-import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public abstract class Enforcer {
@@ -61,14 +60,18 @@ public abstract class Enforcer {
 	private static final String chatCommandTeleportArgUTD = "utd";
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; //you can only own property in the surface dimension
+	protected static final int maxPacketSizeBytes = (int)Math.pow(2, 16) - 1;
+	protected static final int getPacketsRequired(int bytes) {
+		return (int) Math.ceil((double)bytes / (double)maxPacketSizeBytes);
+	}
 	protected final FMLEventChannel netChannel;
 	protected final String netChannelName = "private.properties";
 	private final Gson gson;
 	protected String privatePropertiesJson = null;
 	protected String whitelistJson = null;
-	private final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
-	private final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
-	private final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps.newHashMap();
+	protected final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
+	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
+	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps.newHashMap();
 	protected String[] whitelist = new String[] {};
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
@@ -91,8 +94,11 @@ public abstract class Enforcer {
 		if (newPrivateProperties != null) {
 			privateProperties.addAll(newPrivateProperties);
 			for (final PrivateProperty privateProperty : privateProperties) {
-				for (final Chunk chunk : privateProperty.chunks) {
-					privatePropertiesByChunk.put(getChunkKey(chunk.x, chunk.z), privateProperty);
+				for (int x = privateProperty.boundTopLeft.x; x <= privateProperty.boundBottomRight.x; x++) {
+					//z coords go pos from north to south: http://minecraft.gamepedia.com/coordinates
+					for (int z = privateProperty.boundTopLeft.z; z <= privateProperty.boundBottomRight.z; z++) {
+						privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+					}
 				}
 				List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(privateProperty.owner);
 				if (ownerPrivateProperties == null) {
@@ -364,7 +370,7 @@ public abstract class Enforcer {
 							}
 
 							final PrivateProperty targetPrivateProperty = ownerPrivateProperties.get(index);
-							final PrivateProperty.Chunk tpChunk = targetPrivateProperty.chunks[0];
+							final PrivateProperty.Chunk tpChunk = targetPrivateProperty.boundTopLeft;
 							x = tpChunk.x * 16;
 							z = tpChunk.z * 16;
 							valid = true;
