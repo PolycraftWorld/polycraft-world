@@ -5,15 +5,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import net.minecraft.block.BlockAir;
+//import javax.vecmath.Point3i;
+import net.minecraft.block.material.Material;
+import net.minecraft.world.World;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-//import javax.vecmath.Point3i;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.BlockAir;
-
-import net.minecraft.world.World;
 
 public class BlockLight extends BlockAir {
 
@@ -194,16 +194,21 @@ public class BlockLight extends BlockAir {
 					if (worldState.pendingUpdates.size() > 0) {
 						final Iterator<Entry<Point3i, Boolean>> pendingUpdates = worldState.pendingUpdates.entrySet().iterator();
 						for (int i = 0; pendingUpdates.hasNext(); i++) {
-							if (i < pendingUpdatesToProcessPerCall) {
+							int blocksSet = 0;
+							if (blocksSet < pendingUpdatesToProcessPerCall) {
 								final Entry<Point3i, Boolean> entry = pendingUpdates.next();
 								final Point3i point = entry.getKey();
 								if (entry.getValue()) {
-									if (worldState.world.isAirBlock(point.x, point.y, point.z))
+									if (worldState.world.isAirBlock(point.x, point.y, point.z)) {
 										worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
+										blocksSet++;
+									}
 								}
 								else {
-									if (worldState.world.getBlock(point.x, point.y, point.z) instanceof BlockLight)
+									if (worldState.world.getBlock(point.x, point.y, point.z) instanceof BlockLight) {
 										worldState.world.setBlockToAir(point.x, point.y, point.z);
+										blocksSet++;
+									}
 								}
 								pendingUpdates.remove();
 							}
