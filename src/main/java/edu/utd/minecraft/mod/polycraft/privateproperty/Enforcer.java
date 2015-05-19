@@ -51,6 +51,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
+import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public abstract class Enforcer {
@@ -226,8 +228,14 @@ public abstract class Enforcer {
 			break;
 		case RIGHT_CLICK_AIR:
 			if (event.entityPlayer.getCurrentEquippedItem() != null) {
-				if (event.entityPlayer.getCurrentEquippedItem().getItem() instanceof ItemFlameThrower) {
+				if (ItemFlameThrower.isEquipped(event.entityPlayer)) {
 					possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
+				}
+				else if (ItemFreezeRay.isEquipped(event.entityPlayer)) {
+					possiblyPreventAction(event, event.entityPlayer, Action.UseFreezeRay);
+				}
+				else if (ItemWaterCannon.isEquipped(event.entityPlayer)) {
+					possiblyPreventAction(event, event.entityPlayer, Action.UseWaterCannon);
 				}
 			}
 			break;

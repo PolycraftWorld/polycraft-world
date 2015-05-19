@@ -54,14 +54,14 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.0.0	19Q	Jet Pack (Advanced)	Armor	8	TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	9000	1	0.4	5	200				
 1.0.0	19R	Jet Pack (Pro)	Armor	8	TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	12000	1	0.4	5	10000				
 1.1.2	1bz	Carbon Fiber Weave	PC Item	8	FALSE		64											
-																		
-																		
-																		
-																		
-																		
-																		
-																		
-																		
+1.2.3	1bO	Freeze Ray (Beginner)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	1000	1	6	1	1				
+1.2.3	1bP	Freeze Ray (Intermediate)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	1500	1	8	2	1				
+1.2.3	1bQ	Freeze Ray (Advanced)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	2000	1	10	3	2				
+1.2.3	1bR	Freeze Ray (Pro)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	2500	1	20	5	2				
+1.2.3	1bS	Water Cannon (Beginner)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	1000	1	6						
+1.2.3	1bT	Water Cannon (Intermediate)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	1500	1	8						
+1.2.3	1bU	Water Cannon (Advanced)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	2000	1	10						
+1.2.3	1bV	Water Cannon (Pro)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	2500	1	20						
 																		
 																		
 																		

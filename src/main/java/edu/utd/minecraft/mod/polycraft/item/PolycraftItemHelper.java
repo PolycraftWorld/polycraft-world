@@ -106,6 +106,6 @@ public class PolycraftItemHelper {
 	}
 
 	private static boolean checkItem(final ItemStack itemStack, final Class itemClass, final boolean notBroken) {
-		return (itemStack != null && itemStack.getItem().getClass().equals(itemClass) && (!notBroken || itemStack.getItemDamage() < itemStack.getMaxDamage()));
+		return (itemStack != null && (itemStack.getItem().getClass().equals(itemClass) || itemStack.getItem().getClass().getGenericSuperclass().equals(itemClass)) && (!notBroken || itemStack.getItemDamage() < itemStack.getMaxDamage()));
 	}
 }

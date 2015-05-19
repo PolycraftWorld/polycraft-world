@@ -18,7 +18,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
@@ -107,7 +107,7 @@ public class ClientEnforcer extends Enforcer {
 					if (ItemJetPack.isEquipped(player) || ItemScubaTank.isEquipped(player)) {
 						y += overlayDistanceBetweenY;
 					}
-					if (ItemFlameThrower.isEquipped(player)) {
+					if (ItemFueledProjectileLauncher.isEquipped(player)) {
 						y += overlayDistanceBetweenY;
 					}
 					if (statusMessage != null) {

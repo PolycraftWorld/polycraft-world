@@ -36,6 +36,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
@@ -43,6 +44,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
@@ -52,11 +54,10 @@ public abstract class CommonProxy {
 
 	protected static final float baseJumpMovementFactor = 0.02F;
 	protected static final int baseFullAir = 300;
-	private static final String jetPackSoundName = PolycraftMod.getAssetName("jetpack.fly");
 	private static final long jetPackSoundFrequencyTicks = 10;
 	private static final String scubaTankSoundName = PolycraftMod.getAssetName("scubatank.breathe");
 	private static final long scubaTankSoundFrequencyTicks = 30;
-	private static final String flameThrowerSoundName = PolycraftMod.getAssetName("flamethrower.ignite");
+	private static final int flameSoundID =  1009;
 	private static final long flameThrowerSoundFrequencyTicks = 10;
 	private static final String netChannelName = PolycraftMod.MODID;
 	private static final int netMessageTypeJetPackIsFlying = 0;
@@ -113,6 +114,7 @@ public abstract class CommonProxy {
 		private long flameThrowerLastSoundTicks = 0;
 		private ItemPhaseShifter phaseShifterEquipped = null;
 		private long scubaBreatheLastSoundTicks = 0;
+		private long freezeRayFrozenTicks = 0;
 	}
 
 	private final Map<EntityPlayer, PlayerState> playerStates = Maps.newHashMap();
@@ -219,6 +221,8 @@ public abstract class CommonProxy {
 				final PlayerState playerState = getPlayerState(tick.player);
 				onPlayerTickServerJetPack(tick.player, playerState);
 				onPlayerTickServerFlameThrower(tick.player, playerState);
+				onPlayerTickServerFreezeRay(tick.player, playerState);
+				onPlayerTickServerWaterCannon(tick.player, playerState);
 				onPlayerTickServerRunningShoes(tick.player);
 				onPlayerTickServerScubaFins(tick.player);
 				onPlayerTickServerScubaTank(tick.player, playerState);
@@ -233,7 +237,7 @@ public abstract class CommonProxy {
 			if (playerState.jetPackLastSoundTicks++ > jetPackSoundFrequencyTicks) {
 				playerState.jetPackLastSoundTicks = 0;
 				//TODO this causes performance problems, find a better way to have jet pack sounds
-				//player.worldObj.playSoundAtEntity(player, jetPackSoundName, 1f, 1f);
+				//player.worldObj.playAuxSFXAtEntity((EntityPlayer)null, flameSoundID, (int)player.posX, (int)player.posY, (int)player.posZ, 0);
 			}
 			ItemJetPack.burnFuel(player);
 			ItemJetPack.dealExhaustDamage(player, player.worldObj);
@@ -251,16 +255,35 @@ public abstract class CommonProxy {
 	}
 
 	private void onPlayerTickServerFlameThrower(final EntityPlayer player, final PlayerState playerState) {
-		final boolean flameThrowerIgnited = ItemFlameThrower.allowsFiring(player) && player.isUsingItem();
-		if (flameThrowerIgnited) {
+		final boolean flameThrowerActivated = ItemFlameThrower.allowsActivation(player) && player.isUsingItem();
+		if (flameThrowerActivated) {
 			if (playerState.flameThrowerLastSoundTicks++ > flameThrowerSoundFrequencyTicks) {
 				playerState.flameThrowerLastSoundTicks = 0;
-				player.worldObj.playSoundAtEntity(player, flameThrowerSoundName, 1f, 1f);
+				//TODO this causes performance problems, find a better way to have jet pack sounds
+				//player.worldObj.playAuxSFXAtEntity((EntityPlayer)null, flameSoundID, (int)player.posX, (int)player.posY, (int)player.posZ, 0);
 			}
 			ItemFlameThrower.burnFuel(player);
-			ItemFlameThrower.dealFlameDamage(player, player.worldObj);
+			ItemFlameThrower.getEquippedItem(player).spawnProjectiles(player, player.worldObj, random);
 		}
-		ItemFlameThrower.setIgnited(player, flameThrowerIgnited);
+		ItemFlameThrower.setActivated(player, flameThrowerActivated);
+	}
+
+	private void onPlayerTickServerFreezeRay(final EntityPlayer player, final PlayerState playerState) {
+		final boolean activated = ItemFreezeRay.allowsActivation(player) && player.isUsingItem();
+		if (activated) {
+			ItemFreezeRay.burnFuel(player);
+			ItemFreezeRay.getEquippedItem(player).spawnProjectiles(player, player.worldObj, random);
+		}
+		ItemFreezeRay.setActivated(player, activated);
+	}
+
+	private void onPlayerTickServerWaterCannon(final EntityPlayer player, final PlayerState playerState) {
+		final boolean activated = ItemWaterCannon.allowsActivation(player) && player.isUsingItem();
+		if (activated) {
+			ItemWaterCannon.burnFuel(player);
+			ItemWaterCannon.getEquippedItem(player).spawnProjectiles(player, player.worldObj, random);
+		}
+		ItemWaterCannon.setActivated(player, activated);
 	}
 
 	private void onPlayerTickServerRunningShoes(final EntityPlayer player) {

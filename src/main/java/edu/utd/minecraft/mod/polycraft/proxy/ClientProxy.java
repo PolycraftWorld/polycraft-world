@@ -48,6 +48,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingH
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
+import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
@@ -56,6 +57,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
 import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
@@ -132,6 +134,13 @@ public class ClientProxy extends CommonProxy {
 		}
 
 		private void setFlameThrowerLightsEnabled(final boolean enabled) {
+			if (flameThrowerLightsEnabled != enabled) {
+				flameThrowerLightsEnabled = enabled;
+				DynamicLights.syncLightSources(flameThrowerLightSources, enabled);
+			}
+		}
+
+		private void setFreezeRayLightsEnabled(final boolean enabled) {
 			if (flameThrowerLightsEnabled != enabled) {
 				flameThrowerLightsEnabled = enabled;
 				DynamicLights.syncLightSources(flameThrowerLightSources, enabled);
@@ -368,6 +377,14 @@ public class ClientProxy extends CommonProxy {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
+			else if (ItemFreezeRay.isEquipped(player)) {
+				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFreezeRay.getEquippedItemStack(player), ItemFreezeRay.getFuelRemainingPercent(player)), x, y, 16777215);
+				y += statusOverlayDistanceBetweenY;
+			}
+			else if (ItemWaterCannon.isEquipped(player)) {
+				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player), ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
+				y += statusOverlayDistanceBetweenY;
+			}
 
 			if (playerState.cheatInfoTicksRemaining == 0) {
 				final boolean cheatInfoActivated = isKeyDown(keyBindingCheatInfo1) && isKeyDown(keyBindingCheatInfo2) && isKeyDown(keyBindingCheatInfo3);
@@ -467,9 +484,7 @@ public class ClientProxy extends CommonProxy {
 
 	private void onPlayerTickClientFlameThrower(final EntityPlayer player, final PlayerState playerState) {
 		final boolean playerOnCurrentClient = client.thePlayer.equals(player);
-		final boolean flameThrowerIgnited = playerOnCurrentClient ? ItemFlameThrower.allowsFiring(player) && player.isUsingItem() : ItemFlameThrower.getIgnited(player);
-		if (flameThrowerIgnited)
-			ItemFlameThrower.createFlames(player, client.theWorld, random, playerState.flameThrowerLightSources, playerOnCurrentClient);
+		final boolean flameThrowerIgnited = playerOnCurrentClient ? ItemFlameThrower.allowsActivation(player) && player.isUsingItem() : ItemFlameThrower.getActivated(player);
 		playerState.setFlameThrowerLightsEnabled(flameThrowerIgnited);
 	}
 

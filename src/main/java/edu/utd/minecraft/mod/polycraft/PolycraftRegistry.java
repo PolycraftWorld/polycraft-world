@@ -100,6 +100,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
+import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
@@ -124,6 +125,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemToolPickaxe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolShovel;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolSword;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
+import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
@@ -544,6 +546,30 @@ public class PolycraftRegistry {
 			}
 			else if (GameID.CustomFlameChucker.matches(customObject)) {
 				registerItem(customObject, new ItemFlameThrower(customObject, "flame_chucker"));
+			}
+			else if (GameID.CustomFreezeRayBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_beginner"));
+			}
+			else if (GameID.CustomFreezeRayIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_intermediate"));
+			}
+			else if (GameID.CustomFreezeRayAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_advanced"));
+			}
+			else if (GameID.CustomFreezeRayPro.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_pro"));
+			}
+			else if (GameID.CustomWaterCannonBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_beginner"));
+			}
+			else if (GameID.CustomWaterCannonIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_intermediate"));
+			}
+			else if (GameID.CustomWaterCannonAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_advanced"));
+			}
+			else if (GameID.CustomWaterCannonPro.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_pro"));
 			}
 			else if (GameID.CustomFlashlight.matches(customObject)) {
 				registerItem(customObject, new ItemFlashlight(customObject));
