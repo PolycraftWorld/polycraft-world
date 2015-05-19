@@ -39,28 +39,33 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
                 int j = p_70227_1_.blockY;
                 int k = p_70227_1_.blockZ;
 
-                switch (p_70227_1_.sideHit) {
-                    case 0:
-                        --j;
-                        break;
-                    case 1:
-                        ++j;
-                        break;
-                    case 2:
-                        --k;
-                        break;
-                    case 3:
-                        ++k;
-                        break;
-                    case 4:
-                        --i;
-                        break;
-                    case 5:
-                        ++i;
+                if (this.worldObj.getBlock(i, j, k) == Blocks.ice) {
+                    this.worldObj.setBlock(i, j, k, Blocks.water);
                 }
-
-                if (this.worldObj.isAirBlock(i, j, k)) {
-                    this.worldObj.setBlock(i, j, k, Blocks.fire);
+                else {
+	                switch (p_70227_1_.sideHit) {
+	                    case 0:
+	                        --j;
+	                        break;
+	                    case 1:
+	                        ++j;
+	                        break;
+	                    case 2:
+	                        --k;
+	                        break;
+	                    case 3:
+	                        ++k;
+	                        break;
+	                    case 4:
+	                        --i;
+	                        break;
+	                    case 5:
+	                        ++i;
+	                }
+	
+	                if (this.worldObj.isAirBlock(i, j, k)) {
+	                    this.worldObj.setBlock(i, j, k, Blocks.fire);
+	                }
                 }
             }
 
