@@ -21,7 +21,7 @@ public class ItemFlameThrower extends ItemFueledProjectileLauncher {
 	public static boolean allowsActivation(final EntityPlayer player) {
 		return !player.isInWater() && isEquipped(player) && getEquippedItem(player).hasFuelRemaining(getEquippedItemStack(player));
 	}
-	
+
 	private static final int flameLightSourcesMax = 15;
 	private static final double flameProjectilesRandomSpread = .25; //lower numbers mean less random spread
 	private static final float flameParticleVelocity = 1f;
@@ -32,7 +32,7 @@ public class ItemFlameThrower extends ItemFueledProjectileLauncher {
 			lightSources.add(new PointLightSource(world));
 		return lightSources;
 	}
-	
+
 	public final int range;
 	public final int spread;
 	public final int fireDuration;
@@ -56,12 +56,12 @@ public class ItemFlameThrower extends ItemFueledProjectileLauncher {
 		final double baseMotionY = (player.onGround ? 0 : player.motionY) + (flameParticleVelocity * unitVecY);
 		final double baseMotionZ = player.motionZ + (flameParticleVelocity * unitVecZ);
 		//for some reason other players perceive the particles coming out lower in multiplayer, so adjust by the offset
-		final double originY = (player.posY - player.getYOffset()) + (unitVecY * .5);
+		final double originY = (player.posY - player.getYOffset() + 1) + (unitVecY * .5);
 
 		final EntityFlameThrowerProjectile fireball = new EntityFlameThrowerProjectile(this, world, player, originY,
-            	baseMotionX + ((random.nextDouble() - .5) * flameProjectilesRandomSpread),
-            	baseMotionY + ((random.nextDouble() - .5) * flameProjectilesRandomSpread),
-            	baseMotionZ + ((random.nextDouble() - .5) * flameProjectilesRandomSpread));
+				baseMotionX + ((random.nextDouble() - .5) * flameProjectilesRandomSpread),
+				baseMotionY + ((random.nextDouble() - .5) * flameProjectilesRandomSpread),
+				baseMotionZ + ((random.nextDouble() - .5) * flameProjectilesRandomSpread));
 		world.spawnEntityInWorld(fireball);
 	}
 }
