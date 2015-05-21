@@ -56,7 +56,8 @@ public class ItemFlameThrower extends ItemFueledProjectileLauncher {
 		final double baseMotionY = (player.onGround ? 0 : player.motionY) + (flameParticleVelocity * unitVecY);
 		final double baseMotionZ = player.motionZ + (flameParticleVelocity * unitVecZ);
 		//for some reason other players perceive the particles coming out lower in multiplayer, so adjust by the offset
-		final double originY = (player.posY - player.getYOffset() + 1) + (unitVecY * .5);
+		//0.8 added offset is to make the particle come from near your hand, but not obscure your face entirely
+		final double originY = (player.posY - player.getYOffset() + 0.8) + (unitVecY * .5);
 
 		final EntityFlameThrowerProjectile fireball = new EntityFlameThrowerProjectile(this, world, player, originY,
 				baseMotionX + ((random.nextDouble() - .5) * flameProjectilesRandomSpread),

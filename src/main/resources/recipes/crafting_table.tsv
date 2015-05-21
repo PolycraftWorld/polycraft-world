@@ -80,7 +80,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.3	TRUE	FALSE	3	Stainless-PolyIsoPrene Heated Knife	1	Stainless Steel Ingot	1	Stainless Steel Ingot	1					Redstone Block	1					Heated Knife Handle (Natural Rubber)	1								
 1.0.0	TRUE	FALSE	4	Condenser	1	Stone	1	Separation Membrane	1	Stone	1	Stone	1	Redstone Block	1	Stone	1	Stone	1	Stone	1	Stone	1						
 1.0.3	TRUE	FALSE	4	Diamond-PolyPropylene Heated Knife	1	Diamond	1	Diamond	1					Redstone Block	1					Heated Knife Handle (PP)	1								
-1.1.1	TRUE	FALSE	4	Fueled Lamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Piping	1	Lighter	1						
+1.1.1	TRUE	FALSE	4	Flood Light	1	Slab (PP)	1	Slab (PP)	1	Slab (PP)	1	Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Piping	1	Lighter	1						
 1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Piping	1	Copper Piping	1	Copper Piping	1	Flask (Methane)	1	Flask (Ethane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
 1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Piping	1	Copper Piping	1	Copper Piping	1	Flask (Methane)	1	Flask (Methane)	1	Flask (Ethane)	1	Furnace	1	Furnace	1	Furnace	1						
 1.0.0	TRUE	FALSE	4	Industrial Oven	1	Copper Piping	1	Copper Piping	1	Copper Piping	1	Flask (Ethane)	1	Flask (Methane)	1	Flask (Methane)	1	Furnace	1	Furnace	1	Furnace	1						
@@ -239,7 +239,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.2.3	TRUE	FALSE	8	Water Cannon (Pro)	1	Drum (Salt Water)	1	Water Cannon (Pro)	1	Cartridge (Propane)	1																		
 1.2.3	TRUE	FALSE	8	Water Cannon (Pro)	1							Drum (Salt Water)	1	Water Cannon (Pro)	1	Cartridge (Propane)	1												
 1.2.3	TRUE	FALSE	8	Water Cannon (Pro)	1													Drum (Salt Water)	1	Water Cannon (Pro)	1	Cartridge (Propane)	1						
-																													
+1.1.1	TRUE	FALSE	4	Gaslamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Piping	1	Lighter	1						
 																													
 																													
 																													
