@@ -16,7 +16,7 @@ Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Render 3D O
 1.0.0	5j	5m	Flow Regulator	14	2014	FALSE	1	1	1			"0,0,0"	front							side	front										
 1.0.0	20	1A	Condenser	15	2015	TRUE	1	1	1			"0,0,0"	front	side	top					side	front	"CompoundVesselToSpawn, AmountToSpawn, SpawnFreq (sec), InWaterSpawnVessel"	Flask (Nitrogen)	1	10	Vial (Salt Water)					
 1.0.4	4i	1Y	Pump	16	2016	FALSE	1	1	1			"0,0,0"	front							side	front	"FlowTickHeatIntensityRatio, FlowItemsPerHeatIntensity, AutomaticInputCooldownSecs"	500	10	1						
-1.2.5	1bW	1bX	Gaslamp																	side	side	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	1.5	1							
+1.2.5	1bW	1bX	Gaslamp	17	2017	FALSE	1	1	1			"0,0,0"	side		top					side	side	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	1.5	1							
 																															
 																															
 																															
