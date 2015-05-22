@@ -123,15 +123,15 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	4	Drum (Benzene)	4	Drum (Toluene)	4	Drum (Xylene)	4																							
 1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	16	Drum (Benzene)	16	Drum (Toluene)	16	Drum (Xylene)	16																							
 1.0.0	2	1	10	4	Drum (Benzene-Toluene-Xylene)	64	Drum (Benzene)	64	Drum (Toluene)	64	Drum (Xylene)	64																							
-1.0.0	2	1	10	4	Vial (Gas Oil)	4	Vial (Kerosene)	1	Vial (Diesel)	1	Bitumen	2																							
-1.0.0	2	1	10	4	Vial (Gas Oil)	8	Vial (Kerosene)	2	Vial (Diesel)	2	Bitumen	4																							
-1.0.0	2	1	10	4	Vial (Gas Oil)	32	Vial (Kerosene)	16	Vial (Diesel)	16	Bitumen	8																							
-1.0.0	2	1	10	4	Beaker (Gas Oil)	3	Beaker (Kerosene)	1	Beaker (Diesel)	1	Block of Bitumen	1																							
-1.0.0	2	1	10	4	Beaker (Gas Oil)	9	Beaker (Kerosene)	3	Beaker (Diesel)	3	Block of Bitumen	3																							
-1.0.0	2	1	10	4	Beaker (Gas Oil)	27	Beaker (Kerosene)	9	Beaker (Diesel)	9	Block of Bitumen	9																							
-1.0.0	2	1	10	4	Drum (Gas Oil)	2	Drum (Kerosene)	1	Drum (Diesel)	1	Block of Bitumen	16																							
-1.0.0	2	1	10	4	Drum (Gas Oil)	8	Drum (Kerosene)	4	Drum (Diesel)	4	Block of Bitumen	32																							
-1.0.0	2	1	10	4	Drum (Gas Oil)	32	Drum (Kerosene)	16	Drum (Diesel)	16	Block of Bitumen	64																							
+1.0.0	2	1	10	4	Vial (Gas Oil)	4	Vial (Kerosene)	1	Vial (Diesel)	1																									
+1.0.0	2	1	10	4	Vial (Gas Oil)	8	Vial (Kerosene)	2	Vial (Diesel)	2																									
+1.0.0	2	1	10	4	Vial (Gas Oil)	32	Vial (Kerosene)	16	Vial (Diesel)	16																									
+1.0.0	2	1	10	4	Beaker (Gas Oil)	3	Beaker (Kerosene)	1	Beaker (Diesel)	1	Bitumen	1																							
+1.0.0	2	1	10	4	Beaker (Gas Oil)	9	Beaker (Kerosene)	3	Beaker (Diesel)	3	Bitumen	3																							
+1.0.0	2	1	10	4	Beaker (Gas Oil)	27	Beaker (Kerosene)	9	Beaker (Diesel)	9	Bitumen	9																							
+1.0.0	2	1	10	4	Drum (Gas Oil)	2	Drum (Kerosene)	1	Drum (Diesel)	1	Bitumen	16																							
+1.0.0	2	1	10	4	Drum (Gas Oil)	8	Drum (Kerosene)	4	Drum (Diesel)	4	Bitumen	32																							
+1.0.0	2	1	10	4	Drum (Gas Oil)	32	Drum (Kerosene)	16	Drum (Diesel)	16	Bitumen	64																							
 1.1.1	2	1	10	4	Vial (Xylene)	3	Vial (o-Xylene)	1	Vial (p-Xylene)	1	Vial (m-Xylene)	1																							
 1.1.1	2	1	10	4	Vial (Xylene)	12	Vial (o-Xylene)	4	Vial (p-Xylene)	4	Vial (m-Xylene)	4																							
 1.1.1	2	1	10	4	Vial (Xylene)	48	Vial (o-Xylene)	16	Vial (p-Xylene)	16	Vial (m-Xylene)	16																							
