@@ -11,7 +11,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
@@ -44,8 +45,9 @@ public enum PolycraftContainerType {
 	EXTRUDER("Extruder"),
 	DISTILLATION_COLUMN("Distillation Column"),
 	STEAM_CRACKER("Steam Cracker"),
-	FUELED_LAMP("Fueled Lamp"),
+	FLOODLIGHT("Floodlight"),
 	SPOTLIGHT("Spotlight"),
+	GASLAMP("Gaslamp"),
 	MEROX_TREATMENT_UNIT("Merox Treatment Unit"),
 	CHEMICAL_PROCESSOR("Chemical Processor"),
 	OIL_DERRICK("Oil Derrick"),
@@ -124,8 +126,9 @@ public enum PolycraftContainerType {
 		STEAM_CRACKER.initialize(SteamCrackerInventory.guiSlots);
 		MEROX_TREATMENT_UNIT.initialize(MeroxTreatmentUnitInventory.guiSlots);
 		CHEMICAL_PROCESSOR.initialize(ChemicalProcessorInventory.guiSlots);
-		FUELED_LAMP.initialize(FueledLampInventory.guiSlots);
+		FLOODLIGHT.initialize(FloodlightInventory.guiSlots);
 		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
+		GASLAMP.initialize(GaslampInventory.guiSlots);
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
 		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
 		CONDENSER.initialize(CondenserInventory.guiSlots);

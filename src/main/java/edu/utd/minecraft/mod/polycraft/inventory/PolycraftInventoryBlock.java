@@ -278,8 +278,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				this.dropAllItems(world, inventory, x, y, z);
 				world.removeTileEntity(x, y, z);
 			}
-
-			else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
+			else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
 			{
 				this.dropAllItems(world, inventory, x, y, z);
 				world.removeTileEntity(x, y, z);
@@ -291,6 +290,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				breakBlockRecurse(world, x, y, z, block, meta, false);
 			}
 			else if (config.containerType == PolycraftContainerType.SPOTLIGHT)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
+			else if (config.containerType == PolycraftContainerType.GASLAMP)
 			{
 				this.dropAllItems(world, inventory, x, y, z);
 				world.removeTileEntity(x, y, z);
@@ -579,7 +583,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(0.25F, 0.125F, 0.25F);
 					GL11.glTranslatef(4F, -4.7F, 0F);
 				}
-				else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
+				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
 				{
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					GL11.glTranslatef(.75F, -.75F, 0F);
@@ -706,7 +710,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}
-				else if (config.containerType == PolycraftContainerType.FUELED_LAMP)
+				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}

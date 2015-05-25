@@ -221,7 +221,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	}
 	
 	private BlockLight.Source addLightSource(final int heatIntensity) {
-		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * .25)));
+		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * .25), false));
 	}
 
 	private boolean removeCurrentLightSource() {

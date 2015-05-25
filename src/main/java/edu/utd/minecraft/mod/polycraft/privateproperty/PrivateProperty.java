@@ -35,7 +35,7 @@ public class PrivateProperty {
 			UseSteamCracker,
 			UseMeroxTreatmentUnit,
 			UseChemicalProcessor,
-			UseFueledLamp,
+			UseFloodlight, //FIXME renamed from UseFueledLamp
 			UseSpotlight,
 			UsePump,
 			UseOilDerrick,
@@ -47,7 +47,8 @@ public class PrivateProperty {
 			UseFlameThrower,
 			UseBucket,
 			UseFreezeRay,
-			UseWaterCannon
+			UseWaterCannon,
+			UseGaslamp
 		}
 		
 		public final String user;

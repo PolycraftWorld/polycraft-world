@@ -2,7 +2,6 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -79,11 +78,12 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 			
 			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST)||
 					(inventory.containerType == PolycraftContainerType.OIL_DERRICK) ||
-					(inventory.containerType == PolycraftContainerType.FUELED_LAMP) ||
+					(inventory.containerType == PolycraftContainerType.FLOODLIGHT) ||
 					(inventory.containerType == PolycraftContainerType.PUMP) ||
 					(inventory.containerType == PolycraftContainerType.CONDENSER) ||
 					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
-					(inventory.containerType == PolycraftContainerType.SPOTLIGHT)) 
+					(inventory.containerType == PolycraftContainerType.SPOTLIGHT) ||
+					(inventory.containerType == PolycraftContainerType.GASLAMP)) 
 			{
 				if (slotIndex < firstPlayerInventorySlot)
 	            {

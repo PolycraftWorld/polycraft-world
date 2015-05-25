@@ -17,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -34,9 +35,11 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
@@ -130,6 +133,14 @@ public abstract class Enforcer {
 
 	protected PrivateProperty findPrivateProperty(final Entity entity) {
 		return findPrivateProperty(entity, entity.chunkCoordX, entity.chunkCoordZ);
+	}
+	
+	public PrivateProperty findPrivatePropertyByBlockCoords(final Entity entity, final int x, final int z) {
+		if (entity.dimension == propertyDimension) {
+			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj.getChunkFromBlockCoords(x, z);
+			return privatePropertiesByChunk.get(getChunkKey(chunk.xPosition, chunk.zPosition));
+		}
+		return null;
 	}
 
 	protected void setActionPrevented(final Action action, final PrivateProperty privateProperty) {
@@ -275,37 +286,7 @@ public abstract class Enforcer {
 						possiblyPreventAction(event, event.entityPlayer, Action.UseOilDerrick, blockChunk);
 					}
 					else {
-						final PolycraftInventoryBlock polycraftInventoryBlock = (PolycraftInventoryBlock) block;
-						if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == InjectionMolderInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseInjectionMolder, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == ExtruderInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseExtruder, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == DistillationColumnInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseDistillationColumn, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == SteamCrackerInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseSteamCracker, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == MeroxTreatmentUnitInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseMeroxTreatmentUnit, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == ChemicalProcessorInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseChemicalProcessor, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == SpotlightInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseSpotlight, blockChunk);
-						}
-						else if (polycraftInventoryBlock.tileEntityClass == FueledLampInventory.class) {
-							possiblyPreventAction(event, event.entityPlayer, Action.UseFueledLamp, blockChunk);
-						}
+						possiblyPreventAction(event, (PolycraftInventoryBlock) block, blockChunk);
 					}
 				}
 			}
@@ -317,6 +298,15 @@ public abstract class Enforcer {
 			}
 			else if (block instanceof BlockPressurePlate) {
 				possiblyPreventAction(event, event.entityPlayer, Action.UsePressurePlate, blockChunk);
+			}
+			else if (block instanceof BlockCollision) {
+				final TileEntity tileEntity = BlockCollision.findConnectedInventory(event.world, event.x, event.y, event.z);
+				if (tileEntity != null) {
+					final Block pBlock = event.world.getBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+					if (pBlock instanceof PolycraftInventoryBlock) {
+						possiblyPreventAction(event, (PolycraftInventoryBlock)pBlock, blockChunk);
+					}
+				}
 			}
 			else {
 				final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
@@ -332,6 +322,44 @@ public abstract class Enforcer {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	private void possiblyPreventAction(final PlayerInteractEvent event, final PolycraftInventoryBlock polycraftInventoryBlock, final net.minecraft.world.chunk.Chunk blockChunk) {
+		if (polycraftInventoryBlock != null) {
+			if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == InjectionMolderInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseInjectionMolder, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == ExtruderInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseExtruder, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == DistillationColumnInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseDistillationColumn, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == SteamCrackerInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseSteamCracker, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == MeroxTreatmentUnitInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseMeroxTreatmentUnit, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == ChemicalProcessorInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseChemicalProcessor, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == SpotlightInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseSpotlight, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == FloodlightInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseFloodlight, blockChunk);
+			}
+			else if (polycraftInventoryBlock.tileEntityClass == GaslampInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseGaslamp, blockChunk);
+			}
 		}
 	}
 

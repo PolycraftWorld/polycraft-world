@@ -39,8 +39,8 @@ public class BlockLight extends BlockAir {
 		private final int direction;
 		private final Set<Point3i> points = Sets.newLinkedHashSet();
 
-		public Source(final World world, final int originX, final int originY, final int originZ, final int size) {
-			this(world, originX, originY, originZ, size, -1);
+		public Source(final World world, final int originX, final int originY, final int originZ, final int size, final boolean omniDirectional) {
+			this(world, originX, originY, originZ, size, omniDirectional ? -2 : -1);
 		}
 
 		public Source(final World world, final int originX, final int originY, final int originZ, final int size, final int direction) {
@@ -50,7 +50,28 @@ public class BlockLight extends BlockAir {
 			this.direction = direction;
 			points.add(origin);
 			// omni-directional
-			if (direction == -1) {
+			if (direction == -2) {
+				for (int s = 1; s <= size; s++) {
+					final int offsetX = origin.x - s;
+					final int offsetY = origin.y;// - s;
+					final int offsetZ = origin.z - s;
+					final int length = (s * 2) + 1;
+					final int spacing = length > 3 ? 4 : 2;
+					for (int l = 0; l < length; l += spacing) {
+						// TODO handle occlusions?
+						for (int y = 0; y < length; y += spacing) {
+							points.add(new Point3i(offsetX + l, offsetY + y, offsetZ));
+							points.add(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1));
+							if (l > 0 && l < (length - 1)) {
+								points.add(new Point3i(offsetX, offsetY + y, offsetZ + l));
+								points.add(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l));
+							}
+						}
+					}
+				}
+			}
+			// bi-directional
+			else if (direction == -1) {
 				for (int s = 1; s <= size; s++) {
 					final int offsetX = origin.x - s;
 					final int offsetY = origin.y;// - s;
@@ -60,15 +81,12 @@ public class BlockLight extends BlockAir {
 					for (int l = 0; l < length; l += spacing) {
 						int y = 0;
 						// TODO handle occlusions?
-						// TODO enabled 3rd dimension?
-						// for (int y = 0; y < length; y += spacing) {
 						points.add(new Point3i(offsetX + l, offsetY + y, offsetZ));
 						points.add(new Point3i(offsetX + l, offsetY + y, offsetZ + length - 1));
 						if (l > 0 && l < (length - 1)) {
 							points.add(new Point3i(offsetX, offsetY + y, offsetZ + l));
 							points.add(new Point3i(offsetX + length - 1, offsetY + y, offsetZ + l));
 						}
-						// }
 					}
 				}
 			}

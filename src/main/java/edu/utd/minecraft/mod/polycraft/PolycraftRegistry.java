@@ -76,7 +76,8 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
@@ -473,10 +474,12 @@ public class PolycraftRegistry {
 				MeroxTreatmentUnitInventory.register(inventory);
 			else if (GameID.InventoryChemicalProcessor.matches(inventory))
 				ChemicalProcessorInventory.register(inventory);
-			else if (GameID.InventoryFueledLamp.matches(inventory))
-				FueledLampInventory.register(inventory);
+			else if (GameID.InventoryFloodlight.matches(inventory))
+				FloodlightInventory.register(inventory);
 			else if (GameID.InventorySpotlight.matches(inventory))
 				SpotlightInventory.register(inventory);
+			else if (GameID.InventoryGaslamp.matches(inventory))
+				GaslampInventory.register(inventory);
 			else if (GameID.InventoryOilDerrick.matches(inventory))
 				OilDerrickInventory.register(inventory);
 			else if (GameID.InventoryCondenser.matches(inventory))

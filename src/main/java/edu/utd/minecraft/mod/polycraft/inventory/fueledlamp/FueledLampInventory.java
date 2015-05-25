@@ -17,14 +17,13 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 
-public class FueledLampInventory extends StatefulInventory<FueledLampState> implements ISidedInventory {
+public abstract class FueledLampInventory extends StatefulInventory<FueledLampState> implements ISidedInventory {
 
 	private static int[] accessibleSlots = new int[9];
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
@@ -39,18 +38,8 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 
 	private static Inventory config;
 
-	public static void register(final Inventory config) {
-		FueledLampInventory.config = config;
-		config.containerType = PolycraftContainerType.FUELED_LAMP;
-		PolycraftInventory.register(new FueledLampBlock(config, FueledLampInventory.class));
-	}
-
 	protected final float rangePerHeatIntensity;
 	private BlockLight.Source currentLightSource = null;
-
-	public FueledLampInventory() {
-		this(PolycraftContainerType.FUELED_LAMP, config);
-	}
 
 	protected FueledLampInventory(final PolycraftContainerType containerType, final Inventory config) {
 		super(containerType, config, 84, FueledLampState.values());
@@ -147,9 +136,7 @@ public class FueledLampInventory extends StatefulInventory<FueledLampState> impl
 		return null;
 	}
 
-	protected BlockLight.Source addLightSource(final int heatIntensity) {
-		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * rangePerHeatIntensity)));
-	}
+	protected abstract BlockLight.Source addLightSource(final int heatIntensity);
 
 	public synchronized boolean removeCurrentLightSource() {
 		if (currentLightSource != null) {
