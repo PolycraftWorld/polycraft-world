@@ -13,7 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 
 public class BlockPolymer extends Block implements BlockBouncy {

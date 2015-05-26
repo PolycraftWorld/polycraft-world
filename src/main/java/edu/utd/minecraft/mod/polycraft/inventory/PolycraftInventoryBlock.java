@@ -369,8 +369,8 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				if (getInventory(world, x, y, z) != null)
 				{
 					this.dropAllItems(world, inventory, x, y, z);
-					this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
 					world.removeTileEntity(x, y, z);
+					this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
 				}
 				world.func_147480_a(x, y, z, false); //this is destroy block				
 				world.setBlockToAir(x, y, z);
@@ -429,6 +429,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, block, meta);
 		}
 
+	}
+
+	@Override
+	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+		super.dropBlockAsItem(world, x, y, z, itemstack);
 	}
 
 	@Override
