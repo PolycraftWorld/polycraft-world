@@ -28,7 +28,8 @@ public class BlockCollision extends Block {
 	public BlockCollision(final InternalObject config) {
 		super(Material.iron);
 		this.config = config;
-		this.setHardness(5);
+		this.setHardness(7.5F);
+		this.setResistance(10.0F);
 		// TODO Auto-generated constructor stub
 	}
 

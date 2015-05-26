@@ -62,6 +62,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass, final Material material, final float hardness) {
 		super(material);
 		this.setHardness(hardness);
+		this.setResistance(10.0F);
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.config = config;
 		this.tileEntityClass = tileEntityClass;
@@ -69,7 +70,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	}
 
 	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass) {
-		this(config, tileEntityClass, config.render3D ? Material.glass : Material.iron, 3.5F);
+		this(config, tileEntityClass, config.render3D ? Material.glass : Material.iron, 1.0F);
 	}
 
 	@Override
@@ -212,7 +213,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	 * Drops all items in the container into the world.
 	 */
 	private void dropAllItems(World world, I tileEntity, int x, int y, int z) {
-		this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
+		//this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
 		int sizeNow = tileEntity.getSizeInventory(); //this is to prevent ticking memory crash
 		for (int i1 = 0; i1 < sizeNow; ++i1) {
 			ItemStack itemstack = tileEntity.getStackInSlot(i1);
@@ -368,6 +369,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				if (getInventory(world, x, y, z) != null)
 				{
 					this.dropAllItems(world, inventory, x, y, z);
+					this.dropBlockAsItem(world, x, y, z, new ItemStack(this));
 					world.removeTileEntity(x, y, z);
 				}
 				world.func_147480_a(x, y, z, false); //this is destroy block				

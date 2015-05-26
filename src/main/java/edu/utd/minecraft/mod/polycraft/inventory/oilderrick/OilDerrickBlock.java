@@ -18,8 +18,7 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 	public IIcon iconInside;
 
 	public OilDerrickBlock(final Inventory config, final Class tileEntityClass) {
-		super(config, tileEntityClass, Material.iron, 2.5F);
-		this.setHardness(20);
+		super(config, tileEntityClass, Material.iron, 7.5F);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 

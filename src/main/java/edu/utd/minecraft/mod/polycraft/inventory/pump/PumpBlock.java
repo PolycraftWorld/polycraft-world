@@ -1,25 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.inventory.pump;
 
-import java.util.Map;
-import java.util.Random;
-
-import com.google.common.collect.Maps;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.inventory.BlockFace;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class PumpBlock extends PolycraftInventoryBlock<PumpInventory> implements Flowable{
+public class PumpBlock extends PolycraftInventoryBlock<PumpInventory> implements Flowable {
 
 	public PumpBlock(final Inventory config, final Class tileEntityClass) {
-		super(config, tileEntityClass, Material.iron, 5);
+		super(config, tileEntityClass, Material.iron, 7.5F);
 	}
 
 	@Override
