@@ -1,6 +1,6 @@
 # Blender v2.71 (sub 0) OBJ File: 'FueledLamp.blend'
 # www.blender.org
-mtllib FueledLamp.mtl
+mtllib gaslamp.mtl
 v 0.468750 0.187500 -0.593750
 v 0.468750 0.187500 -0.656250
 v 0.531250 0.187500 -0.656250

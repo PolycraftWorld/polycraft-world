@@ -268,11 +268,15 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					}
 				}
 			}
+
 		}
 
 		final I inventory = (I) world.getTileEntity(x, y, z);
 		if (inventory != null)
 		{
+			//only call out inventory here if there are no collision blocks associated with the 3D inventory
+			//if there are any collision blocks, the recursive function will handle this cleanup...
+
 			if (config.containerType == PolycraftContainerType.PLASTIC_CHEST)
 			{
 				this.dropAllItems(world, inventory, x, y, z);
@@ -282,12 +286,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			{
 				this.dropAllItems(world, inventory, x, y, z);
 				world.removeTileEntity(x, y, z);
-			}
-			else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
-			{
-				this.dropAllItems(world, inventory, x, y, z);
-				world.removeTileEntity(x, y, z);
-				breakBlockRecurse(world, x, y, z, block, meta, false);
 			}
 			else if (config.containerType == PolycraftContainerType.SPOTLIGHT)
 			{
@@ -588,6 +586,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					GL11.glTranslatef(.75F, -.75F, 0F);
 				}
+				else if (config.containerType == PolycraftContainerType.GASLAMP)
+				{
+					GL11.glScalef(1.5F, 1.5F, 1.5F);
+					GL11.glTranslatef(.75F, -.75F, 0F);
+				}
 				else if (config.containerType == PolycraftContainerType.CHEMICAL_PROCESSOR)
 				{
 					GL11.glScalef(.33F, .33F, .33F);
@@ -711,6 +714,10 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}
 				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
+				{
+					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+				}
+				else if (config.containerType == PolycraftContainerType.GASLAMP)
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}
