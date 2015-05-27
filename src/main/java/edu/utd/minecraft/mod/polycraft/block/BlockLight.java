@@ -202,18 +202,16 @@ public class BlockLight extends BlockAir {
 		return source;
 	}
 
-	private static final int pendingUpdatesToProcessPerCall = 5;
-
-	public static void processPendingUpdates() {
+	public static void processPendingUpdates(final int pendingUpdatesToProcessPerCall) {
 		synchronized (stateByWorld) {
 			if (pendingUpdatesAvailable) {
 				pendingUpdatesAvailable = false;
 				for (final WorldState worldState : stateByWorld.values()) {
 					if (worldState.pendingUpdates.size() > 0) {
 						final Iterator<Entry<Point3i, Boolean>> pendingUpdates = worldState.pendingUpdates.entrySet().iterator();
+						int blocksSet = 0;
 						for (int i = 0; pendingUpdates.hasNext(); i++) {
-							int blocksSet = 0;
-							if (blocksSet < pendingUpdatesToProcessPerCall) {
+							if ((blocksSet < pendingUpdatesToProcessPerCall) || (worldState.pendingUpdates.size() > 2000)) {
 								final Entry<Point3i, Boolean> entry = pendingUpdates.next();
 								final Point3i point = entry.getKey();
 								if (entry.getValue()) {
@@ -221,6 +219,7 @@ public class BlockLight extends BlockAir {
 										worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
 										blocksSet++;
 									}
+
 								}
 								else {
 									if (worldState.world.getBlock(point.x, point.y, point.z) instanceof BlockLight) {

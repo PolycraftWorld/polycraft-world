@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -66,7 +67,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.config = config;
 		this.tileEntityClass = tileEntityClass;
-
 	}
 
 	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass) {
@@ -436,6 +436,23 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	{
 		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
 		super.dropBlockAsItem(world, x, y, z, itemstack);
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+		return polycraftItemStack;
+
+	}
+
+	@Override
+	protected ItemStack createStackedBlock(int damage)
+	{
+		ItemStack polycraftItemStack = super.createStackedBlock(damage);
+		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+		return polycraftItemStack;
 	}
 
 	@Override

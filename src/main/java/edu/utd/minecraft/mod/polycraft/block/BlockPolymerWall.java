@@ -10,9 +10,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 
@@ -74,6 +76,22 @@ public class BlockPolymerWall extends BlockWall implements BlockBouncy {
 	@Override
 	public int damageDropped(int p_149692_1_) {
 		return helper.damageDropped(p_149692_1_);
+	}
+
+	@Override
+	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+		super.dropBlockAsItem(world, x, y, z, itemstack);
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+		return polycraftItemStack;
+
 	}
 
 	public String getUnlocalizedName(int colorIndex) {

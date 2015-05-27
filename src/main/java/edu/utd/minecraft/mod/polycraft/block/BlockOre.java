@@ -4,9 +4,12 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -43,4 +46,21 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
 		labelTexture.registerBlockIcons(p_149651_1_);
 	}
+
+	@Override
+	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+		super.dropBlockAsItem(world, x, y, z, itemstack);
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+		return polycraftItemStack;
+
+	}
+
 }

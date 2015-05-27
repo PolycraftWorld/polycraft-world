@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,16 +12,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
-import edu.utd.minecraft.mod.polycraft.client.RenderIDs;
-import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 
 public class BlockPolymerBrick extends Block { //implements ITileEntityProvider {
@@ -43,24 +40,24 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 	}
 
-//	@Override
-//	public TileEntity createNewTileEntity(World var1, int var2) {
-//		return new TileEntityPolymerBrick();
-//	}
+	//	@Override
+	//	public TileEntity createNewTileEntity(World var1, int var2) {
+	//		return new TileEntityPolymerBrick();
+	//	}
 
-//	@Override
-//	public int getRenderType() {
-//		return RenderIDs.PolymerBrickID;
-//	}
+	//	@Override
+	//	public int getRenderType() {
+	//		return RenderIDs.PolymerBrickID;
+	//	}
 
 	/**
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
 	 */
-//	@Override
-//	public boolean renderAsNormalBlock()
-//	{
-//		return false;
-//	}
+	//	@Override
+	//	public boolean renderAsNormalBlock()
+	//	{
+	//		return false;
+	//	}
 	//TODO: Walter to fix for 3D additions
 
 	//
@@ -74,7 +71,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the shared face of two adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
 	 */
 
-//TODO: Walter to fix for 3D additions
+	//TODO: Walter to fix for 3D additions
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -307,6 +304,22 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	@Override
 	public int damageDropped(int p_149692_1_) {
 		return helper.damageDropped(p_149692_1_);
+	}
+
+	@Override
+	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+	{
+		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+		super.dropBlockAsItem(world, x, y, z, itemstack);
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+		return polycraftItemStack;
+
 	}
 
 	public String getUnlocalizedName(int colorIndex) {

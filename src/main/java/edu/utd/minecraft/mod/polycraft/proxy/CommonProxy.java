@@ -57,7 +57,7 @@ public abstract class CommonProxy {
 	private static final long jetPackSoundFrequencyTicks = 10;
 	private static final String scubaTankSoundName = PolycraftMod.getAssetName("scubatank.breathe");
 	private static final long scubaTankSoundFrequencyTicks = 30;
-	private static final int flameSoundID =  1009;
+	private static final int flameSoundID = 1009;
 	private static final long flameThrowerSoundFrequencyTicks = 10;
 	private static final String netChannelName = PolycraftMod.MODID;
 	private static final int netMessageTypeJetPackIsFlying = 0;
@@ -143,18 +143,21 @@ public abstract class CommonProxy {
 	protected static Block getBlockUnderEntity(final Entity entity) {
 		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
-	
+
 	protected static Block getBlockUnderNorthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ-1));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ - 1));
 	}
+
 	protected static Block getBlockUnderSouthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ+1));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ + 1));
 	}
+
 	protected static Block getBlockUnderEastOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX+1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX + 1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
+
 	protected static Block getBlockUnderWestOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX-1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX - 1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
 
 	protected static boolean isEntityOnBouncyBlock(final Entity entity) {
@@ -168,7 +171,7 @@ public abstract class CommonProxy {
 			return true;
 		else if ((getBlockUnderWestOfEntity(entity) instanceof BlockBouncy) || (getBlockUnderWestOfEntity(entity) instanceof BlockBed))
 			return true;
-		else 		
+		else
 			return false;
 	}
 
@@ -250,7 +253,7 @@ public abstract class CommonProxy {
 	@SubscribeEvent
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
 		if (tick.phase == Phase.END) {
-			BlockLight.processPendingUpdates();
+			BlockLight.processPendingUpdates(16);
 		}
 	}
 
