@@ -1,12 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 
 public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 
@@ -28,7 +33,11 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 
 	@Override
 	protected void onImpact(MovingObjectPosition p_70227_1_) {
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer)shootingEntity, this, p_70227_1_, PrivateProperty.PermissionSet.Action.UseFlameThrower))
+			return;
+		
 		if (!this.worldObj.isRemote) {
+			
 			if (p_70227_1_.entityHit != null) {
 				if (!p_70227_1_.entityHit.isImmuneToFire() && p_70227_1_.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), flameThrowerItem.damage)) {
 					p_70227_1_.entityHit.setFire(flameThrowerItem.fireDuration);
@@ -43,26 +52,10 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 					this.worldObj.setBlock(i, j, k, Blocks.water);
 				}
 				else {
-					switch (p_70227_1_.sideHit) {
-					case 0:
-						--j;
-						break;
-					case 1:
-						++j;
-						break;
-					case 2:
-						--k;
-						break;
-					case 3:
-						++k;
-						break;
-					case 4:
-						--i;
-						break;
-					case 5:
-						++i;
-					}
-
+					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70227_1_);
+					i = (int) blockCoords.xCoord;
+					j = (int) blockCoords.yCoord;
+					k = (int) blockCoords.zCoord;
 					if (this.worldObj.isAirBlock(i, j, k)) {
 						this.worldObj.setBlock(i, j, k, Blocks.fire);
 					}

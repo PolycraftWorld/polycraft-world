@@ -18,6 +18,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -80,6 +82,13 @@ public abstract class Enforcer {
 	protected String[] whitelist = new String[] {};
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
+	
+	public static Enforcer getInstance(final World world) {
+		if (world.isRemote) {
+			return ClientEnforcer.INSTANCE;
+		}
+		return ServerEnforcer.INSTANCE;
+	}
 
 	public Enforcer() {
 		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
@@ -166,6 +175,17 @@ public abstract class Enforcer {
 
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action) {
 		possiblyPreventAction(event, player, action, findPrivateProperty(player));
+	}
+	
+	public boolean possiblyKillProjectile(final EntityPlayer player, final Entity projectile, final MovingObjectPosition position, final Action action) {
+		final PrivateProperty privateProperty = findPrivatePropertyByBlockCoords(projectile, position.blockX, position.blockZ);
+		//if the entity is not in private property, they can do anything
+		if (privateProperty != null && !privateProperty.actionEnabled(player, action)) {
+			projectile.setDead();
+			setActionPrevented(action, privateProperty);
+			return true;
+		}
+		return false;
 	}
 
 	@SubscribeEvent

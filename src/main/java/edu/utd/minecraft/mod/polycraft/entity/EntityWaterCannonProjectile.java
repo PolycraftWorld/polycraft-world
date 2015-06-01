@@ -1,12 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 
 public class EntityWaterCannonProjectile extends EntitySnowball {
 
@@ -23,7 +28,11 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer)getThrower(), this, p_70184_1_, PrivateProperty.PermissionSet.Action.UseWaterCannon))
+			return;
+		
 		if (!worldObj.isRemote) {
+			
 			if (p_70184_1_.entityHit != null)
 			{
 				if (p_70184_1_.entityHit instanceof EntityFlameThrowerProjectile) {
@@ -38,36 +47,44 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 				int x = p_70184_1_.blockX;
 				int y = p_70184_1_.blockY;
 				int z = p_70184_1_.blockZ;
-				if (worldObj.getBlock(x, y, z) == Blocks.fire
-						|| worldObj.getBlock(x, y, z) == Blocks.deadbush
-						|| worldObj.getBlock(x, y, z) == Blocks.sapling
-						|| worldObj.getBlock(x, y, z) == Blocks.yellow_flower
-						|| worldObj.getBlock(x, y, z) == Blocks.red_flower
-						|| worldObj.getBlock(x, y, z) == Blocks.nether_wart
-						|| worldObj.getBlock(x, y, z) == Blocks.carrots
-						|| worldObj.getBlock(x, y, z) == Blocks.wheat
-						|| worldObj.getBlock(x, y, z) == Blocks.potatoes
-						|| worldObj.getBlock(x, y, z) == Blocks.snow_layer
-						|| worldObj.getBlock(x, y, z) == Blocks.double_plant
-						|| worldObj.getBlock(x, y, z) == Blocks.red_mushroom
-						|| worldObj.getBlock(x, y, z) == Blocks.brown_mushroom
-						|| worldObj.getBlock(x, y, z) == Blocks.tallgrass)
+				Block block = worldObj.getBlock(x, y, z);
+				if (block == Blocks.fire
+						|| block == Blocks.deadbush
+						|| block == Blocks.sapling
+						|| block == Blocks.yellow_flower
+						|| block == Blocks.red_flower
+						|| block == Blocks.nether_wart
+						|| block == Blocks.carrots
+						|| block == Blocks.wheat
+						|| block == Blocks.potatoes
+						|| block == Blocks.snow_layer
+						|| block == Blocks.double_plant
+						|| block == Blocks.red_mushroom
+						|| block == Blocks.brown_mushroom
+						|| block == Blocks.tallgrass)
 				{
 					worldObj.setBlock(x, y, z, Blocks.water);
 				}
-				else if (worldObj.getBlock(x, y + 1, z) == Blocks.flowing_lava)
-				{
-					worldObj.setBlock(x, y + 1, z, Blocks.cobblestone);
-				}
-				else if (worldObj.getBlock(x, y + 1, z) == Blocks.lava)
-				{
-					worldObj.setBlock(x, y + 1, z, Blocks.obsidian);
-				}
-				else if (worldObj.isAirBlock(x, y + 1, z)
-						|| worldObj.getBlock(x, y + 1, z) == PolycraftMod.blockLight
-						|| worldObj.getBlock(x, y + 1, z) == Blocks.flowing_water)
-				{
-					worldObj.setBlock(x, y + 1, z, Blocks.water);
+				else {
+					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
+					x = (int) blockCoords.xCoord;
+					y = (int) blockCoords.yCoord;
+					z = (int) blockCoords.zCoord;
+					block = worldObj.getBlock(x, y, z);
+					if (block == Blocks.flowing_lava)
+					{
+						worldObj.setBlock(x, y, z, Blocks.cobblestone);
+					}
+					else if (block == Blocks.lava)
+					{
+						worldObj.setBlock(x, y, z, Blocks.obsidian);
+					}
+					else if (block == Blocks.air
+							|| block == PolycraftMod.blockLight
+							|| block == Blocks.flowing_water)
+					{
+						worldObj.setBlock(x, y, z, Blocks.water);
+					}
 				}
 
 			}

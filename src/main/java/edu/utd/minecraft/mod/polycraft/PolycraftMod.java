@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -272,6 +273,11 @@ public class PolycraftMod {
 				currentCoords.xCoord + forgeDirection.offsetX,
 				currentCoords.yCoord + forgeDirection.offsetY,
 				currentCoords.zCoord + forgeDirection.offsetZ);
+	}
+
+	public static Vec3 getAdjacentCoordsSideHit(final MovingObjectPosition position) {
+		final ForgeDirection direction = ForgeDirection.values()[position.sideHit];
+		return Vec3.createVectorHelper(position.blockX + direction.offsetX, position.blockY + direction.offsetY, position.blockZ + direction.offsetZ);
 	}
 
 	public static IInventory getInventoryAt(final World world, final double x, final double y, final double z) {

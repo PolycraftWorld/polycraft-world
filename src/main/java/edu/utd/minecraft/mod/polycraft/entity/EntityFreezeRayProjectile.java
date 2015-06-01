@@ -1,13 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 
 public class EntityFreezeRayProjectile extends EntitySnowball {
 
@@ -24,7 +28,11 @@ public class EntityFreezeRayProjectile extends EntitySnowball {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer)getThrower(), this, p_70184_1_, PrivateProperty.PermissionSet.Action.UseFreezeRay))
+			return;
+		
 		if (!worldObj.isRemote) {
+
 			if (p_70184_1_.entityHit != null)
 			{
 				if (p_70184_1_.entityHit instanceof EntityFlameThrowerProjectile) {
@@ -47,11 +55,17 @@ public class EntityFreezeRayProjectile extends EntitySnowball {
 				{
 					worldObj.setBlock(x, y, z, Blocks.ice);
 				}
-				else if ((worldObj.isAirBlock(x, y, z)
-						|| worldObj.getBlock(x, y, z) == PolycraftMod.blockLight)
-						&& Blocks.snow_layer.canPlaceBlockAt(worldObj, x, y, z))
-				{
-					worldObj.setBlock(x, y, z, Blocks.snow_layer);
+				else {
+					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
+					x = (int) blockCoords.xCoord;
+					y = (int) blockCoords.yCoord;
+					z = (int) blockCoords.zCoord;
+					if ((worldObj.isAirBlock(x, y, z)
+							|| worldObj.getBlock(x, y, z) == PolycraftMod.blockLight)
+							&& Blocks.snow_layer.canPlaceBlockAt(worldObj, x, y, z))
+					{
+						worldObj.setBlock(x, y, z, Blocks.snow_layer);
+					}
 				}
 			}
 			this.setDead();
