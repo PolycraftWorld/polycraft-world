@@ -28,11 +28,11 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
-		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer)getThrower(), this, p_70184_1_, PrivateProperty.PermissionSet.Action.UseWaterCannon))
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer) getThrower(), this, p_70184_1_, PrivateProperty.PermissionSet.Action.UseWaterCannon))
 			return;
-		
+
 		if (!worldObj.isRemote) {
-			
+
 			if (p_70184_1_.entityHit != null)
 			{
 				if (p_70184_1_.entityHit instanceof EntityFlameThrowerProjectile) {
@@ -48,8 +48,7 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 				int y = p_70184_1_.blockY;
 				int z = p_70184_1_.blockZ;
 				Block block = worldObj.getBlock(x, y, z);
-				if (block == Blocks.fire
-						|| block == Blocks.deadbush
+				if (block == Blocks.deadbush
 						|| block == Blocks.sapling
 						|| block == Blocks.yellow_flower
 						|| block == Blocks.red_flower
@@ -63,7 +62,7 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 						|| block == Blocks.brown_mushroom
 						|| block == Blocks.tallgrass)
 				{
-					worldObj.setBlock(x, y, z, Blocks.water);
+					worldObj.setBlock(x, y, z, Blocks.flowing_water);
 				}
 				else {
 					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
@@ -79,11 +78,16 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 					{
 						worldObj.setBlock(x, y, z, Blocks.obsidian);
 					}
+					else if (block == Blocks.fire)
+					{
+						worldObj.setBlock(x, y, z, Blocks.air);
+					}
+
 					else if (block == Blocks.air
 							|| block == PolycraftMod.blockLight
 							|| block == Blocks.flowing_water)
 					{
-						worldObj.setBlock(x, y, z, Blocks.water);
+						worldObj.setBlock(x, y, z, Blocks.flowing_water);
 					}
 				}
 

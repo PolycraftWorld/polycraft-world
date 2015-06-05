@@ -28,9 +28,9 @@ public class EntityFreezeRayProjectile extends EntitySnowball {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
-		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer)getThrower(), this, p_70184_1_, PrivateProperty.PermissionSet.Action.UseFreezeRay))
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer) getThrower(), this, p_70184_1_, PrivateProperty.PermissionSet.Action.UseFreezeRay))
 			return;
-		
+
 		if (!worldObj.isRemote) {
 
 			if (p_70184_1_.entityHit != null)
@@ -48,25 +48,23 @@ public class EntityFreezeRayProjectile extends EntitySnowball {
 			}
 
 			if (p_70184_1_.entityHit == null) {
-				int x = p_70184_1_.blockX;
-				int y = p_70184_1_.blockY + 1;
-				int z = p_70184_1_.blockZ;
+
+				final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
+				int x = (int) blockCoords.xCoord;
+				int y = (int) blockCoords.yCoord;
+				int z = (int) blockCoords.zCoord;
 				if (worldObj.getBlock(x, y, z) == Blocks.water)
 				{
 					worldObj.setBlock(x, y, z, Blocks.ice);
 				}
-				else {
-					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
-					x = (int) blockCoords.xCoord;
-					y = (int) blockCoords.yCoord;
-					z = (int) blockCoords.zCoord;
-					if ((worldObj.isAirBlock(x, y, z)
-							|| worldObj.getBlock(x, y, z) == PolycraftMod.blockLight)
-							&& Blocks.snow_layer.canPlaceBlockAt(worldObj, x, y, z))
-					{
-						worldObj.setBlock(x, y, z, Blocks.snow_layer);
-					}
+
+				else if ((worldObj.isAirBlock(x, y, z)
+						|| worldObj.getBlock(x, y, z) == PolycraftMod.blockLight)
+						&& Blocks.snow_layer.canPlaceBlockAt(worldObj, x, y, z))
+				{
+					worldObj.setBlock(x, y, z, Blocks.snow_layer);
 				}
+
 			}
 			this.setDead();
 		}

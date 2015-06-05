@@ -48,12 +48,13 @@ public class PrivateProperty {
 			UseBucket,
 			UseFreezeRay,
 			UseWaterCannon,
-			UseGaslamp
+			UseGaslamp,
+			SpawnEntity
 		}
-		
+
 		public final String user;
 		public final boolean[] enabled;
-		
+
 		public PermissionSet(final JsonObject jsonObject) {
 			final JsonElement userElement = jsonObject.get("user");
 			user = userElement.isJsonNull() ? null : userElement.getAsString();
@@ -63,17 +64,17 @@ public class PrivateProperty {
 			}
 		}
 	}
-	
+
 	public static class Chunk {
 		public final int x;
 		public final int z;
-		
+
 		public Chunk(final JsonArray chunk) {
 			this.x = chunk.get(0).getAsInt();
 			this.z = chunk.get(1).getAsInt();
 		}
 	}
-	
+
 	public final String owner;
 	public final String name;
 	public final String message;
@@ -82,7 +83,7 @@ public class PrivateProperty {
 	public final Chunk boundBottomRight;
 	public final PermissionSet defaultPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
-	
+
 	public PrivateProperty(
 			final JsonElement owner,
 			final JsonElement name,
@@ -91,7 +92,7 @@ public class PrivateProperty {
 			final JsonArray permissions) {
 		this.owner = owner.getAsString();
 		this.name = name.getAsString();
- 		this.message = message.getAsString();
+		this.message = message.getAsString();
 		this.bounds = new Chunk[chunks.size()];
 		for (int i = 0; i < chunks.size(); i++)
 			this.bounds[i] = new Chunk(chunks.get(i).getAsJsonArray());
@@ -104,12 +105,12 @@ public class PrivateProperty {
 			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
 		}
 	}
-	
+
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {
 		@Override
 		public PrivateProperty deserialize(final JsonElement json, final Type typeOfT,
 				final JsonDeserializationContext context) throws JsonParseException {
-		    JsonObject jobject = (JsonObject) json;
+			JsonObject jobject = (JsonObject) json;
 			return new PrivateProperty(
 					jobject.get("owner"),
 					jobject.get("name"),
@@ -117,19 +118,23 @@ public class PrivateProperty {
 					jobject.getAsJsonArray("bounds"),
 					jobject.getAsJsonArray("permissions"));
 		}
-		
+
 	}
-	
+
 	public boolean actionEnabled(final EntityPlayer player, final Action action) {
 		//if the player owns this property, they can do anything
 		if (owner.equals(player.getDisplayName()))
 			return true;
-		
+
 		final PermissionSet overridePermissions = permissionOverridesByUser.get(player.getDisplayName());
 		//if there is a specific permission set for this user, use it over the defaults
 		if (overridePermissions != null)
 			return overridePermissions.enabled[action.ordinal()];
 		//otherwise just use the default permissions
+		return defaultPermissions.enabled[action.ordinal()];
+	}
+
+	public boolean actionEnabled(final Action action) {
 		return defaultPermissions.enabled[action.ordinal()];
 	}
 }

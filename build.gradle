@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.2.8"
+version = "1.2.9"
 group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "polycraft"
 
 minecraft {
-    version = "1.7.10-10.13.0.1180"
+    version = "1.7.10-10.13.2.1291"
     assetDir = "eclipse/assets"
 }
 
@@ -32,22 +32,6 @@ configurations {
 }
 
 dependencies {
-    //compile 'org.lwjgl.lwjgl:lwjgl:2.9.1'
-    //compile 'org.apache.logging.log4j:log4j-core:2.0-beta9'
-    //compile 'org.apache.logging.log4j:log4j-api:2.0-beta9'
-
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     external 'org.apache.httpcomponents:httpclient:4.3.3'
     external 'org.apache.httpcomponents:httpcore:4.3.2'

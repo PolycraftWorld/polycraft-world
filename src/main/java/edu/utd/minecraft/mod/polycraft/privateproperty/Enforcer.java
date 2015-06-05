@@ -21,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -33,6 +34,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
@@ -67,10 +69,12 @@ public abstract class Enforcer {
 	private static final String chatCommandTeleportArgUTD = "utd";
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; //you can only own property in the surface dimension
-	protected static final int maxPacketSizeBytes = (int)Math.pow(2, 16) - 1;
+	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
+
 	protected static final int getPacketsRequired(int bytes) {
-		return (int) Math.ceil((double)bytes / (double)maxPacketSizeBytes);
+		return (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
 	}
+
 	protected final FMLEventChannel netChannel;
 	protected final String netChannelName = "private.properties";
 	private final Gson gson;
@@ -82,7 +86,7 @@ public abstract class Enforcer {
 	protected String[] whitelist = new String[] {};
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
-	
+
 	public static Enforcer getInstance(final World world) {
 		if (world.isRemote) {
 			return ClientEnforcer.INSTANCE;
@@ -143,7 +147,7 @@ public abstract class Enforcer {
 	protected PrivateProperty findPrivateProperty(final Entity entity) {
 		return findPrivateProperty(entity, entity.chunkCoordX, entity.chunkCoordZ);
 	}
-	
+
 	public PrivateProperty findPrivatePropertyByBlockCoords(final Entity entity, final int x, final int z) {
 		if (entity.dimension == propertyDimension) {
 			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj.getChunkFromBlockCoords(x, z);
@@ -176,7 +180,7 @@ public abstract class Enforcer {
 	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action) {
 		possiblyPreventAction(event, player, action, findPrivateProperty(player));
 	}
-	
+
 	public boolean possiblyKillProjectile(final EntityPlayer player, final Entity projectile, final MovingObjectPosition position, final Action action) {
 		final PrivateProperty privateProperty = findPrivatePropertyByBlockCoords(projectile, position.blockX, position.blockZ);
 		//if the entity is not in private property, they can do anything
@@ -324,7 +328,7 @@ public abstract class Enforcer {
 				if (tileEntity != null) {
 					final Block pBlock = event.world.getBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 					if (pBlock instanceof PolycraftInventoryBlock) {
-						possiblyPreventAction(event, (PolycraftInventoryBlock)pBlock, blockChunk);
+						possiblyPreventAction(event, (PolycraftInventoryBlock) pBlock, blockChunk);
 					}
 				}
 			}
@@ -344,7 +348,7 @@ public abstract class Enforcer {
 			break;
 		}
 	}
-	
+
 	private void possiblyPreventAction(final PlayerInteractEvent event, final PolycraftInventoryBlock polycraftInventoryBlock, final net.minecraft.world.chunk.Chunk blockChunk) {
 		if (polycraftInventoryBlock != null) {
 			if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
@@ -379,6 +383,19 @@ public abstract class Enforcer {
 			}
 			else if (polycraftInventoryBlock.tileEntityClass == GaslampInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer, Action.UseGaslamp, blockChunk);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public synchronized void onEntityCheckSpawn(final CheckSpawn event) {
+		final PrivateProperty privateProperty = this.findPrivatePropertyByBlockCoords(event.entity, (int) event.x, (int) event.z);
+		if (privateProperty != null)
+		{
+			if (!privateProperty.actionEnabled(Action.SpawnEntity))
+			{
+				setActionPrevented(Action.SpawnEntity, privateProperty);
+				event.setResult(Result.DENY);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
@@ -33,11 +34,11 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 
 	@Override
 	protected void onImpact(MovingObjectPosition p_70227_1_) {
-		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer)shootingEntity, this, p_70227_1_, PrivateProperty.PermissionSet.Action.UseFlameThrower))
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer) shootingEntity, this, p_70227_1_, PrivateProperty.PermissionSet.Action.UseFlameThrower))
 			return;
-		
+
 		if (!this.worldObj.isRemote) {
-			
+
 			if (p_70227_1_.entityHit != null) {
 				if (!p_70227_1_.entityHit.isImmuneToFire() && p_70227_1_.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), flameThrowerItem.damage)) {
 					p_70227_1_.entityHit.setFire(flameThrowerItem.fireDuration);
@@ -48,15 +49,40 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 				int j = p_70227_1_.blockY;
 				int k = p_70227_1_.blockZ;
 
-				if (this.worldObj.getBlock(i, j, k) == Blocks.ice) {
-					this.worldObj.setBlock(i, j, k, Blocks.water);
+				Block block = worldObj.getBlock(i, j, k);
+				if (block == Blocks.ice) {
+					this.worldObj.setBlock(i, j, k, Blocks.flowing_water);
 				}
+				else if (block == Blocks.deadbush
+						|| block == Blocks.sapling
+						|| block == Blocks.yellow_flower
+						|| block == Blocks.red_flower
+						|| block == Blocks.nether_wart
+						|| block == Blocks.carrots
+						|| block == Blocks.wheat
+						|| block == Blocks.potatoes
+						|| block == Blocks.double_plant
+						|| block == Blocks.red_mushroom
+						|| block == Blocks.brown_mushroom
+						|| block == Blocks.tallgrass)
+				{
+					this.worldObj.setBlock(i, j, k, Blocks.fire);
+				}
+				else if (block == Blocks.snow_layer)
+				{
+					this.worldObj.setBlock(i, j, k, Blocks.air);
+				}
+
 				else {
 					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70227_1_);
 					i = (int) blockCoords.xCoord;
 					j = (int) blockCoords.yCoord;
 					k = (int) blockCoords.zCoord;
-					if (this.worldObj.isAirBlock(i, j, k)) {
+					if (worldObj.getBlock(i, j, k) == Blocks.water)
+					{
+						this.worldObj.setBlock(i, j, k, Blocks.air);
+					}
+					else if (this.worldObj.isAirBlock(i, j, k)) {
 						this.worldObj.setBlock(i, j, k, Blocks.fire);
 					}
 				}
