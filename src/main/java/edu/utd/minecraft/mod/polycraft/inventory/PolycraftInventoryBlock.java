@@ -591,6 +591,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		}
 
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 			int meta = 3;
 
@@ -701,6 +702,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		}
 
 		@Override
+		@SideOnly(Side.CLIENT)
 		public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 			int direction = renderer.blockAccess.getBlockMetadata(x, y, z) & 3;
 			if (direction > 0)
@@ -718,6 +720,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		}
 
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float tick) {
 
 			if (config.render3D)
