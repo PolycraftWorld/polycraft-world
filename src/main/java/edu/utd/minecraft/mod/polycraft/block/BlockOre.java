@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 
 public class BlockOre extends net.minecraft.block.BlockOre {
@@ -23,8 +24,16 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 
 	public BlockOre(final Ore ore) {
 		this.ore = ore;
-		final String texture = PolycraftMod.getFileSafeName(ore.name);
-		this.labelTexture = new LabelTexture(texture, texture, texture + "_flipped");
+		if ((ore.source) instanceof Element)
+		{
+			final String texture = PolycraftMod.getFileSafeName(ore.name);
+			this.labelTexture = new LabelTexture(texture, texture, texture + "_flipped");
+		}
+		else
+		{
+			final String texture = PolycraftMod.getFileSafeName(ore.name);
+			this.labelTexture = new LabelTexture(texture, texture, texture + "_flipped");
+		}
 		this.setHardness(ore.hardness);
 		this.setResistance(ore.resistance);
 		this.setStepSound(Block.soundTypePiston);

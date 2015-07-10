@@ -46,6 +46,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.BlockPureAir;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -53,6 +54,8 @@ import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.Electronics;
+import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
@@ -61,6 +64,7 @@ import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.Mask;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
@@ -74,12 +78,14 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
+import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.contactprinter.ContactPrinterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.IndustrialOvenInventory;
@@ -87,10 +93,13 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriter;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorChest;
@@ -99,6 +108,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemArmorHead;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
+import edu.utd.minecraft.mod.polycraft.item.ItemElectronics;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -106,6 +116,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
@@ -126,6 +137,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemToolPickaxe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolShovel;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolSword;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
+import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
@@ -256,6 +268,9 @@ public class PolycraftRegistry {
 		registerTools();
 		registerInventories();
 		registerCustom();
+		registerMaskItems();
+		registerWaferItems();
+		registerElectronics();
 		Fuel.registerQuantifiedFuels();
 	}
 
@@ -394,6 +409,21 @@ public class PolycraftRegistry {
 
 	}
 
+	private static void registerMaskItems() {
+		for (final Mask maskItem : Mask.registry.values())
+			registerItem(maskItem, new ItemMask(maskItem));
+	}
+
+	private static void registerWaferItems() {
+		for (final WaferItem waferItem : WaferItem.registry.values())
+			registerItem(waferItem, new ItemWafer(waferItem));
+	}
+
+	private static void registerElectronics() {
+		for (final Electronics electronics : Electronics.registry.values())
+			registerItem(electronics, new ItemElectronics(electronics));
+	}
+
 	private static void registerGrippedTools() {
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			registerItem(grippedTool, ItemGripped.create(grippedTool));
@@ -474,6 +504,8 @@ public class PolycraftRegistry {
 				MeroxTreatmentUnitInventory.register(inventory);
 			else if (GameID.InventoryChemicalProcessor.matches(inventory))
 				ChemicalProcessorInventory.register(inventory);
+			else if (GameID.InventoryContactPrinter.matches(inventory))
+				ContactPrinterInventory.register(inventory);
 			else if (GameID.InventoryFloodlight.matches(inventory))
 				FloodlightInventory.register(inventory);
 			else if (GameID.InventorySpotlight.matches(inventory))
@@ -484,14 +516,20 @@ public class PolycraftRegistry {
 				OilDerrickInventory.register(inventory);
 			else if (GameID.InventoryCondenser.matches(inventory))
 				CondenserInventory.register(inventory);
+			else if (GameID.InventorySolarPlant.matches(inventory))
+				SolarPlantInventory.register(inventory);
 			else if (GameID.InventoryPlasticChest.matches(inventory))
 				PlasticChestInventory.register(inventory);
+			else if (GameID.InventoryPortalChest.matches(inventory))
+				PortalChestInventory.register(inventory);
 			else if (GameID.InventoryIndustrialOven.matches(inventory))
 				IndustrialOvenInventory.register(inventory);
 			else if (GameID.InventoryPump.matches(inventory))
 				PumpInventory.register(inventory);
 			else if (GameID.InventoryFlowRegulator.matches(inventory))
 				FlowRegulatorInventory.register(inventory);
+			else if (GameID.InventoryMaskWriter.matches(inventory))
+				MaskWriter.register(inventory);
 			else
 				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}
@@ -515,6 +553,9 @@ public class PolycraftRegistry {
 
 		final InternalObject collision = InternalObject.registry.get("BlockCollision");
 		PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
+
+		final InternalObject blockPureAir = InternalObject.registry.get("BlockPureAir");
+		PolycraftMod.blockPureAir = registerBlock(blockPureAir, new BlockPureAir(1.0f));
 
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 
@@ -671,7 +712,16 @@ public class PolycraftRegistry {
 		}
 
 		for (final Ore ore : Ore.registry.values())
-			langEntries.add(String.format(blockFormat, ore.gameID, ore.name));
+		{
+			if (ore.source instanceof Element)
+			{
+				langEntries.add(String.format(blockFormat, ore.gameID, "[" + ((Element) ore.source).symbol + " " + ((Element) ore.source).atomicNumber + "]  " + ore.name));
+			}
+			else
+			{
+				langEntries.add(String.format(blockFormat, ore.gameID, ore.name));
+			}
+		}
 
 		for (final Ingot ingot : Ingot.registry.values())
 			langEntries.add(String.format(itemFormat, ingot.gameID, ingot.name));
@@ -714,6 +764,15 @@ public class PolycraftRegistry {
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
 			langEntries.add(String.format(itemFormat, moldedItem.gameID, moldedItem.name));
+
+		for (final Mask mask : Mask.registry.values())
+			langEntries.add(String.format(itemFormat, mask.gameID, mask.name));
+
+		for (final WaferItem waferItem : WaferItem.registry.values())
+			langEntries.add(String.format(itemFormat, waferItem.gameID, waferItem.name));
+
+		for (final Electronics electronics : Electronics.registry.values())
+			langEntries.add(String.format(itemFormat, electronics.gameID, electronics.name));
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));

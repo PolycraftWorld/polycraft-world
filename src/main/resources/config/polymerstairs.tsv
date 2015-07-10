@@ -115,12 +115,12 @@ Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
 1.1.0	2K	2L	Stairs (Nylon 6)	Block (Nylon 6)	Nylon 6	0
 1.1.2	1bv	1bx	Stairs (Carbon Fiber Resin (E))	Block (Carbon Fiber Resin (E))	Carbon Fiber Resin (E)	0
 1.1.2	1bw	1by	Stairs (Carbon Fiber Resin (P))	Block (Carbon Fiber Resin (P))	Carbon Fiber Resin (P)	0
-						
-						
-						
-						
-						
-						
+1.3.2	1cX	1dZ	Stairs (n-PR)	Block (n-PR)	n-PR	0
+1.3.2	1cY	1e0	Stairs (p-PR)	Block (p-PR)	p-PR	0
+0	1cZ	1e1	#N/A	0	#N/A	0
+0	1d0	1e2	#N/A	0	#N/A	0
+0	1d1	1e3	#N/A	0	#N/A	0
+0	1d2	1e4	#N/A	0	#N/A	0
 						
 						
 						

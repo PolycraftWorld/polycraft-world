@@ -39,7 +39,6 @@ import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
@@ -48,15 +47,8 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
-import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
-import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
-import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
-import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
-import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
-import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
-import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
@@ -104,9 +96,9 @@ public class WikiMaker {
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/items",
 			// POLYCRAFT_TEXTURES_DIRECTORY + "/models/armor",
 			// POLYCRAFT_GUI_TEXTURES_DIRECTORY,
-			POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
+			//POLYCRAFT_CUSTOM_TEXTURES_DIRECTORY,
 			// POLYCRAFT_SCREENSHOTS_DIRECTORY
-	};
+			};
 
 	// These blacklists could probably be regex's or even Item base types... but
 	// are necessary for
@@ -142,7 +134,7 @@ public class WikiMaker {
 			WikiMaker wikiMaker = new WikiMaker(url, scriptPath, username,
 					password, overwritePages, debugOutputDirectory);
 			// wikiMaker.createImages(MINECRAFT_TEXTURES_DIRECTORIES);
-			wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
+			//wikiMaker.createImages(POLYCRAFT_TEXTURES_DIRECTORIES);
 
 			//wikiMaker.createRecipePage(PolycraftContainerType.CRAFTING_TABLE,
 			//		CRAFTING_TABLE_BLACKLIST, false);
@@ -181,19 +173,19 @@ public class WikiMaker {
 			//wikiMaker.createItemPages(Catalyst.registry);
 			//wikiMaker.createItemPages(ElementVessel.registry);
 			//wikiMaker.createItemPages(CompoundVessel.registry);
-			wikiMaker.createItemPages(PolymerPellets.registry);
-			wikiMaker.createItemPages(PolymerBlock.registry);
-			wikiMaker.createItemPages(PolymerSlab.registry);
-			wikiMaker.createItemPages(PolymerStairs.registry);
-			wikiMaker.createItemPages(PolymerBrick.registry);
-			wikiMaker.createItemPages(PolymerWall.registry);
-			wikiMaker.createItemPages(Mold.registry);
+			//wikiMaker.createItemPages(PolymerPellets.registry);
+			//wikiMaker.createItemPages(PolymerBlock.registry);
+			//wikiMaker.createItemPages(PolymerSlab.registry);
+			//wikiMaker.createItemPages(PolymerStairs.registry);
+			//wikiMaker.createItemPages(PolymerBrick.registry);
+			//wikiMaker.createItemPages(PolymerWall.registry);
+			//wikiMaker.createItemPages(Mold.registry);
 			wikiMaker.createItemPages(MoldedItem.registry);
 			//			wikiMaker.createItemPages(GrippedTool.registry);
 			//			wikiMaker.createItemPages(PogoStick.registry);
-			wikiMaker.createItemPages(CustomObject.registry);
+			//wikiMaker.createItemPages(CustomObject.registry);
 			//			wikiMaker.createArmor(Armor.registry);
-			wikiMaker.createTools(Tool.registry);
+			//wikiMaker.createTools(Tool.registry);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
@@ -489,6 +481,9 @@ public class WikiMaker {
 			slots.append(getInventoryWaterSlot(ChemicalProcessorInventory.slotIndexHeatingWater));
 			slots.append(getInventoryFuelSlot(ChemicalProcessorInventory.slotIndexHeatSource));
 			break;
+		case CONTACT_PRINTER:
+			slots.append(getInventoryFuelSlot(ChemicalProcessorInventory.slotIndexHeatSource));
+			break;
 		case INDUSTRIAL_OVEN:
 			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexHeatingWater));
 			slots.append(getInventoryFuelSlot(DistillationColumnInventory.slotIndexHeatSource));
@@ -609,8 +604,12 @@ public class WikiMaker {
 			final String username, final String password,
 			final boolean overwritePages, final String debugOutputDirectory)
 			throws FailedLoginException, IOException {
-		this.wiki = new Wiki(url, scriptPath);
-		this.wiki.login(username, password);
+		if (StringUtils.isEmpty(debugOutputDirectory)) {
+			this.wiki = new Wiki(url, scriptPath);
+			this.wiki.login(username, password);
+		}
+		else
+			this.wiki = null;
 		this.editSummary = PolycraftMod.MODID + " " + PolycraftMod.VERSION;
 		this.overwritePages = overwritePages
 				|| !StringUtils.isEmpty(debugOutputDirectory);
@@ -620,7 +619,8 @@ public class WikiMaker {
 	}
 
 	private void close() {
-		wiki.logout();
+		if (wiki != null)
+			wiki.logout();
 	}
 
 	private void edit(final String title, final String text,
@@ -842,10 +842,12 @@ public class WikiMaker {
 		for (final C config : registry.values())
 			if (gameIdentifiedConfigHasItem(config)) {
 
-				if (config.name.contains("Bag (PolyButadiene (low-cis) Pellets)"))
-					stopped = false;
-				if (!stopped)
+				if (config.name.contains("Tool Shaft"))
 					createItemPage(config);
+
+				//					stopped = false;
+				//				if (!stopped)
+				//					createItemPage(config);
 			}
 	}
 

@@ -354,6 +354,7 @@ public abstract class Enforcer {
 			if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
 			}
+			//TODO JIM: Respect Portal Chests here
 			else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
 			}

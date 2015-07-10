@@ -27,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.Mask;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
@@ -37,6 +38,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
 import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
+import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 
 public class RecipeGenerator {
@@ -198,6 +200,50 @@ public class RecipeGenerator {
 							ImmutableList.of(smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType)));
 				}
 			}
+		}
+
+		for (final WaferItem waferItem : WaferItem.registry.values())
+		{
+
+			if (waferItem.sourceWafer != null)
+			{
+				PolycraftMod.recipeManager.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { "x  ", "y  ", "z  " },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+				PolycraftMod.recipeManager.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { " x ", " y ", " z " },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+				PolycraftMod.recipeManager.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { "  x", "  y", "  z" },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+
+				PolycraftMod.recipeManager.addShapedRecipe(
+						PolycraftContainerType.CONTACT_PRINTER,
+						ImmutableList.of(CustomObject.registry.get("254 nm UV Bulbs").getItemStack(), waferItem.source.getItemStack(), waferItem.getItemStack()),
+						new String[] { "xy", "za" },
+						ImmutableMap.of(
+								'x', CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),
+								'y', waferItem.source.getItemStack(),
+								'z', waferItem.photoresist.getItemStack(),
+								'a', waferItem.sourceWafer.getItemStack()));
+
+			}
+
 		}
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
@@ -365,6 +411,87 @@ public class RecipeGenerator {
 		generateFileRecipesCrack(directory);
 		generateFileRecipesTreat(directory);
 		generateFileRecipesProcess(directory);
+		generateFileRecipesWrite(directory);
+		//generateFileRecipesPrint(directory);
+	}
+
+	private static void generateFileRecipesPrint(String directory) {
+		final char[] shapedIdentifiers = new char[] { 'v', 'w', 'x', 'y', 'z' };
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.CONTACT_PRINTER.toString()))) {
+			if (line.length > 14) {
+				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
+					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
+					final StringBuilder inputShape = new StringBuilder();
+					for (int i = 0; i < shapedIdentifiers.length; i++) {
+						final String inputItemName = line[4 + (i * 2)];
+						if (StringUtils.isEmpty(inputItemName))
+						{
+							if (i == 0)
+							{
+								logger.warn("Processing recipe missing first input!");
+								shapedInputs = null;
+								break;
+							}
+						}
+						else
+						{
+							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+							if (inputItemStack == null) {
+								logger.warn("Unable to find input item for processing recipe: {}", inputItemName);
+								shapedInputs = null;
+								break;
+							}
+							shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+							inputShape.append(shapedIdentifiers[i]);
+						}
+					}
+					if (shapedInputs == null)
+						continue;
+
+					List<ItemStack> outputItems = Lists.newArrayList();
+					for (int i = 14; i < line.length - 1; i += 2) {
+						final String outputItemName = line[i];
+						if (!StringUtils.isEmpty(outputItemName))
+						{
+							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if (outputItemStack == null) {
+								logger.warn("Unable to find output item for processing recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
+								outputItems = null;
+								break;
+							}
+							else
+								outputItems.add(outputItemStack);
+						}
+					}
+
+					if (outputItems == null)
+						continue;
+					if (outputItems.size() == 0)
+					{
+						logger.warn("Processing recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
+						continue;
+					}
+
+					final String[] inputShapes = new String[inputShape.length() > 3 ? 2 : 1];
+					if (inputShapes.length == 1)
+						inputShapes[0] = inputShape.toString();
+					else
+					{
+						inputShapes[0] = inputShape.substring(0, 3);
+						inputShapes[1] = inputShape.substring(3);
+					}
+
+					final String inputShapeRow1 = inputShape.toString();
+					final String inputShapeRow2 = inputShape.toString();
+
+					PolycraftMod.recipeManager.addShapedRecipe(
+							PolycraftContainerType.CONTACT_PRINTER,
+							outputItems,
+							inputShapes,
+							shapedInputs);
+				}
+			}
+		}
 	}
 
 	private static void generateFileRecipesCraft(final String directory) {
@@ -484,6 +611,48 @@ public class RecipeGenerator {
 									currentMold.getItemStack(ingot),
 									currentMoldShape,
 									ImmutableMap.of(currentMoldShapeChar, ingot.getItemStack()));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void generateFileRecipesWrite(final String directory) {
+		Mask currentMask = null;
+		char currentMaskShapeChar = 'x';
+		String[] currentMaskShape = null;
+		int currentRow = 0;
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.MASK_WRITER.toString()))) {
+			if (currentMask == null || currentRow == 5 && line.length > 2) {
+				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
+					currentMask = Mask.registry.get(line[2]);
+					currentMaskShape = new String[5];
+					currentRow = 0;
+				}
+			}
+			if (currentMask != null) {
+				final StringBuffer currentMaskShapeRow = new StringBuffer();
+				for (int i = 0; i < 5; i++) {
+					final int index = 3 + i;
+					char maskSlot = ' ';
+					if (line.length > index && !line[index].trim().isEmpty())
+						maskSlot = line[index].trim().charAt(0);
+					currentMaskShapeRow.append(maskSlot);
+					if (maskSlot != ' ')
+						currentMaskShapeChar = maskSlot;
+				}
+				currentMaskShape[currentRow] = currentMaskShapeRow.toString();
+				currentRow++;
+
+				if (currentRow == 5) {
+					for (final Ingot ingot : Ingot.registry.values()) {
+						if (ingot.name.startsWith("Chrome")) {
+							PolycraftMod.recipeManager.addShapedRecipe(
+									PolycraftContainerType.MASK_WRITER,
+									currentMask.getItemStack(ingot),
+									currentMaskShape,
+									ImmutableMap.of(currentMaskShapeChar, ingot.getItemStack()));
 						}
 					}
 				}

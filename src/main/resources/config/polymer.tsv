@@ -115,3 +115,5 @@ Version	Polymer	Short Name	Thermoplastic	PC Level	Recycling #	Degradable	Solvent
 1.1.0	Polycaprolactam	Nylon 6	TRUE			FALSE		polyamide						
 1.1.2	Epoxy-Carbon Fiber Resin	Carbon Fiber Resin (E)	FALSE			FALSE		polyepoxide						
 1.1.2	Phenolic-Carbon Fiber Resin	Carbon Fiber Resin (P)	FALSE			FALSE		polyphenol						
+1.3.2	Negative Photoresist	n-PR	FALSE			FALSE		polyepoxide						
+1.3.2	Positive Photoresist	p-PR	FALSE			FALSE		polyepoxide						

@@ -150,7 +150,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.1.0	19M	Tool Shaft (PEEK)	Mold (Tool Shaft)	Bag (PolyEther Ether Ketone Pellets)	PEEK	8	10	64	TRUE											
 1.1.0	19N	Tool Shaft (Carbon Fiber Composite)	Mold (Tool Shaft)	Vial (Epoxy-Carbon Fiber Resin)	Carbon Fiber Composite	8	10	64	TRUE	Source 1	Vial (Phenolic-Carbon Fiber Resin)									
 1.1.1	19l	Lighter Body (LDPE)	Mold (Lighter Body)	Bag (Low Density PolyEthylene Pellets)	LDPE	2	5	64	FALSE											
-																				
-																				
-																				
+1.3.2	1eV	Cell Phone Case (SAN)	Mold (Cell Phone Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
+1.3.2	1eW	Walky Talky Case (SAN)	Mold (Walky Talky Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
+1.3.2	1eX	HAM Radio Case (SAN)	Mold (HAM Radio Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
 																				

@@ -13,6 +13,7 @@ public enum GameID {
 	InventorySteamCracker("3D"),
 	InventoryMeroxTreatmentUnit("5N"),
 	InventoryChemicalProcessor("3J"),
+	InventoryContactPrinter("1ee"),
 	InventoryFloodlight("3V"),
 	InventorySpotlight("41"),
 	InventoryGaslamp("1bW"),
@@ -31,6 +32,7 @@ public enum GameID {
 	CustomWaterCannonAdvanced("1bU"),
 	CustomWaterCannonPro("1bV"),
 	CustomFlashlight("3o"),
+	CustomSiliconBoule("1et"),
 	CustomJetPackBeginner("3p"),
 	CustomJetPackIntermediate("19P"),
 	CustomJetPackAdvanced("19Q"),
@@ -48,9 +50,12 @@ public enum GameID {
 	InternalItemCollision("1bB"),
 	InventoryIndustrialOven("3F"),
 	InventoryPlasticChest("3L"),
+	InventoryPortalChest("1ed"),
 	InventoryCondenser("20"),
+	InventorySolarPlant("1el"),
 	InventoryFlowRegulator("5j"),
 	InventoryPump("4i"),
+	InventoryMaskWriter("1eu"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),
@@ -66,7 +71,17 @@ public enum GameID {
 	MoldedItemScubaMaskIntermediate("2V"),
 	MoldedItemScubaMaskAdvanced("12T"),
 	MoldedItemScubaMaskPro("2W"),
-	CustomCarbonFiberWeave("1bz");
+	CustomCarbonFiberWeave("1bz"),
+	CustomCoinCopper("1eN"),
+	CustomBarCopper("1eO"),
+	CustomLoadCopper("1eP"),
+	Custom254nmUVLight("1eF"),
+	Custom365nmUVLight("1eG"),
+	CustomVoiceCone("1eQ"),
+	CustomMegaPhone("1eR"),
+	CustomHAMRadio("1eS"),
+	CustomWalkyTalky("1eT"),
+	CustomCellPhone("1eU");
 
 	public final String id;
 

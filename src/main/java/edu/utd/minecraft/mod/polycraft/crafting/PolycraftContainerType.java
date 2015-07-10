@@ -16,15 +16,19 @@ import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.MolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.contactprinter.ContactPrinterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.IndustrialOvenInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriter;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -50,12 +54,16 @@ public enum PolycraftContainerType {
 	GASLAMP("Gaslamp"),
 	MEROX_TREATMENT_UNIT("Merox Treatment Unit"),
 	CHEMICAL_PROCESSOR("Chemical Processor"),
+	CONTACT_PRINTER("Contact Printer"),
 	OIL_DERRICK("Oil Derrick"),
 	PLASTIC_CHEST("Plastic Chest"),
 	FLOW_REGULATOR("Flow Regulator"),
 	CONDENSER("Condenser"),
 	INDUSTRIAL_OVEN("Industrial Oven"),
-	PUMP("Pump");
+	PUMP("Pump"),
+	MASK_WRITER("Mask Writer"),
+	SOLAR_PLANT("Solar Plant"),
+	PORTAL_CHEST("Portal Chest");
 
 	private final String friendlyName;
 
@@ -126,15 +134,19 @@ public enum PolycraftContainerType {
 		STEAM_CRACKER.initialize(SteamCrackerInventory.guiSlots);
 		MEROX_TREATMENT_UNIT.initialize(MeroxTreatmentUnitInventory.guiSlots);
 		CHEMICAL_PROCESSOR.initialize(ChemicalProcessorInventory.guiSlots);
+		CONTACT_PRINTER.initialize(ContactPrinterInventory.guiSlots);
 		FLOODLIGHT.initialize(FloodlightInventory.guiSlots);
 		SPOTLIGHT.initialize(SpotlightInventory.guiSlots);
 		GASLAMP.initialize(GaslampInventory.guiSlots);
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
 		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
 		CONDENSER.initialize(CondenserInventory.guiSlots);
+		SOLAR_PLANT.initialize(SolarPlantInventory.guiSlots);
 		PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
+		PORTAL_CHEST.initialize(PortalChestInventory.guiSlots);
 		PUMP.initialize(PumpInventory.guiSlots);
 		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
+		MASK_WRITER.initialize(MaskWriter.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

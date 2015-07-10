@@ -60,6 +60,9 @@ public abstract class Config {
 		PogoStick.registerFromResource(directory);
 		Inventory.registerFromResource(directory);
 		CustomObject.registerFromResource(directory);
+		Mask.registerFromResource(directory);
+		WaferItem.registerFromResource(directory);
+		Electronics.registerFromResource(directory);
 		InternalObject.registerFromResource(directory);
 		Armor.registerFromResource(directory);
 		Tool.registerFromResource(directory);
@@ -91,6 +94,9 @@ public abstract class Config {
 		registriesByType.put(PolymerWall.class.getSimpleName(), PolymerWall.registry);
 		registriesByType.put(Mold.class.getSimpleName(), Mold.registry);
 		registriesByType.put(MoldedItem.class.getSimpleName(), MoldedItem.registry);
+		registriesByType.put(Mask.class.getSimpleName(), Mask.registry);
+		registriesByType.put(WaferItem.class.getSimpleName(), WaferItem.registry);
+		registriesByType.put(Electronics.class.getSimpleName(), Electronics.registry);
 		registriesByType.put(GrippedTool.class.getSimpleName(), GrippedTool.registry);
 		registriesByType.put(PogoStick.class.getSimpleName(), PogoStick.registry);
 		registriesByType.put(Inventory.class.getSimpleName(), Inventory.registry);

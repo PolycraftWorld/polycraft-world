@@ -23,4 +23,5 @@ Version	Game ID	Ingot	Source Type	Source Name	Mold Damage Per Use
 1.1.0	2u	Tungsten Carbide Ingot	Alloy	Tungsten Carbide	2
 1.1.0	2R	Nichrome Ingot	Alloy	Nichrome	16
 1.1.0	2T	Antimony-Lead Ingot	Alloy	Antimony-Lead	32
-					
+1.3.2	1e5	Silicon Ingot	Element	Silicon	0
+1.3.2	1eI	Mercury Sulfide Ingot	Mineral	Cinnabar	0

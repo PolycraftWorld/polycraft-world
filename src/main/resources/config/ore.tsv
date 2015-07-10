@@ -23,8 +23,8 @@ Version	Game ID	Ore	Source Type	Source Name	hardness	resistance	dropExpMin	dropE
 1.0.0	1B	Potash Ore	Mineral	Potash	3	5	0	0	2	6	40	60					
 1.0.0	1C	Tin Ore	Element	Tin	3	5	2	5	2	6	0	60					
 1.1.2	19S	Fluorite Ore	Mineral	Fluorite	3	5	2	5	2	6	40	60					
-																	
-																	
+1.3.2	1c0	Silicon Ore	Element	Silicon	3	5	2	5	5	8	20	50	180	200	210	B4C8D2	
+1.3.2	1eH	Cinnabar	Mineral	Cinnabar	3	5	2	5	3	5	10	30	180	200	210	B4C8D2	
 																	
 																	
 																	

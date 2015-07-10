@@ -75,36 +75,38 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			
-			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST)||
+
+			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST) ||
+					(inventory.containerType == PolycraftContainerType.PORTAL_CHEST) ||
 					(inventory.containerType == PolycraftContainerType.OIL_DERRICK) ||
 					(inventory.containerType == PolycraftContainerType.FLOODLIGHT) ||
 					(inventory.containerType == PolycraftContainerType.PUMP) ||
 					(inventory.containerType == PolycraftContainerType.CONDENSER) ||
+					(inventory.containerType == PolycraftContainerType.SOLAR_PLANT) ||
 					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
 					(inventory.containerType == PolycraftContainerType.SPOTLIGHT) ||
-					(inventory.containerType == PolycraftContainerType.GASLAMP)) 
+					(inventory.containerType == PolycraftContainerType.GASLAMP))
 			{
 				if (slotIndex < firstPlayerInventorySlot)
-	            {
-	                if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, this.inventorySlots.size(), true))
-	                {
-	                    return null;
-	                }
-	            }
-	            else if (!this.mergeItemStack(itemstack1, 0, firstPlayerInventorySlot, false))
-	            {
-	                return null;
-	            }
+				{
+					if (!this.mergeItemStack(itemstack1, firstPlayerInventorySlot, this.inventorySlots.size(), true))
+					{
+						return null;
+					}
+				}
+				else if (!this.mergeItemStack(itemstack1, 0, firstPlayerInventorySlot, false))
+				{
+					return null;
+				}
 
-	            if (itemstack1.stackSize == 0)
-	            {
-	                slot.putStack((ItemStack)null);
-	            }
-	            else
-	            {
-	                slot.onSlotChanged();
-	            }
+				if (itemstack1.stackSize == 0)
+				{
+					slot.putStack((ItemStack) null);
+				}
+				else
+				{
+					slot.onSlotChanged();
+				}
 			}
 			else
 			{
@@ -114,7 +116,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 					{
 						return null;
 					}
-	
+
 					slot.onSlotChange(itemstack1, itemstack);
 				}
 				else if (slotIndex >= firstPlayerInventorySlot && slotIndex < firstPlayerHotbarSlot)
@@ -135,7 +137,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 				{
 					return null;
 				}
-	
+
 				if (itemstack1.stackSize == 0)
 				{
 					slot.putStack((ItemStack) null);
@@ -144,12 +146,12 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 				{
 					slot.onSlotChanged();
 				}
-	
+
 				if (itemstack1.stackSize == itemstack.stackSize)
 				{
 					return null;
 				}
-	
+
 				slot.onPickupFromSlot(entityPlayer, itemstack1);
 			}
 		}

@@ -16,6 +16,8 @@ public enum ItemCategory {
 	ITEMS_CUSTOM("Items/Custom"),
 	ITEMS_MOLD("Items/Mold"),
 	ITEMS_MOLDED_ITEM("Items/MoldedItem"),
+	ITEMS_WAFER_ITEM("Items/WaferItem"),
+	ITEMS_MASK_ITEM("Items/MaskItem"),
 	ITEMS_UTILITY("Items/Utility"),
 	ITEMS_VESSEL("Items/Vessel"),
 	MATERIALS("Materials"),

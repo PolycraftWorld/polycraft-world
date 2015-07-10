@@ -45,6 +45,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
@@ -617,6 +618,8 @@ public class ClientProxy extends CommonProxy {
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new OilDerrickRenderingHandler(inventory));
 			else if (GameID.InventoryCondenser.matches(inventory))
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new CondenserRenderingHandler(inventory));
+			else if (GameID.InventorySolarPlant.matches(inventory))
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new SolarPlantRenderingHandler(inventory));
 			else
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new PolycraftInventoryBlock.BasicRenderingHandler(inventory));
 

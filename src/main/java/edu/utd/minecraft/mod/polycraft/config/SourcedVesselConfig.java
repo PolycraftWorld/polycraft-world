@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.config;
 
 import net.minecraft.item.ItemStack;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 
 public abstract class SourcedVesselConfig<S extends Config> extends SourcedConfig<S> {
 
@@ -14,6 +15,8 @@ public abstract class SourcedVesselConfig<S extends Config> extends SourcedConfi
 
 	@Override
 	public ItemStack getItemStack(int size) {
-		return new ItemStack(PolycraftRegistry.getItem(this), size);
+		ItemStack newStack = new ItemStack(PolycraftRegistry.getItem(this), size);
+		PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(newStack);
+		return newStack;
 	}
 }

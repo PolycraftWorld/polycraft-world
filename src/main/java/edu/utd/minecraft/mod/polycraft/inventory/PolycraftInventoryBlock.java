@@ -283,6 +283,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				this.dropAllItems(world, inventory, x, y, z);
 				world.removeTileEntity(x, y, z);
 			}
+			else if (config.containerType == PolycraftContainerType.PORTAL_CHEST)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
 			else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
 			{
 				this.dropAllItems(world, inventory, x, y, z);
@@ -628,6 +633,10 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
+				else if (config.containerType == PolycraftContainerType.SOLAR_PLANT)
+				{
+					GL11.glScalef(0.125F, 0.125F, 0.125F);
+				}
 				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
 				{
 					GL11.glScalef(0.125F, 0.125F, 0.125F);
@@ -651,6 +660,16 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glTranslatef(.25F, 1.0F, 0F);
 				}
 				else if (config.containerType == PolycraftContainerType.MACHINING_MILL)
+				{
+					GL11.glScalef(0.6F, 0.6F, 0.6F);
+					GL11.glTranslatef(0.25F, 0F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.CONTACT_PRINTER)
+				{
+					GL11.glScalef(0.6F, 0.6F, 0.6F);
+					GL11.glTranslatef(0.25F, 0F, 0F);
+				}
+				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
 				{
 					GL11.glScalef(0.6F, 0.6F, 0.6F);
 					GL11.glTranslatef(0.25F, 0F, 0F);
@@ -855,6 +874,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				(nextBlock != Blocks.red_flower) &&
 				(nextBlock != Blocks.red_mushroom) &&
 				(nextBlock != Blocks.brown_mushroom) &&
+				(nextBlock != PolycraftMod.blockPureAir) &&
 				(nextBlock != PolycraftMod.blockLight))
 			return false;
 		else
