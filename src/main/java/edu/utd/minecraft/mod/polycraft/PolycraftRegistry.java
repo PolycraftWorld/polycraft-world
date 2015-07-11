@@ -46,7 +46,6 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
-import edu.utd.minecraft.mod.polycraft.block.BlockPureAir;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -553,9 +552,6 @@ public class PolycraftRegistry {
 
 		final InternalObject collision = InternalObject.registry.get("BlockCollision");
 		PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
-
-		final InternalObject blockPureAir = InternalObject.registry.get("BlockPureAir");
-		PolycraftMod.blockPureAir = registerBlock(blockPureAir, new BlockPureAir(1.0f));
 
 		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 

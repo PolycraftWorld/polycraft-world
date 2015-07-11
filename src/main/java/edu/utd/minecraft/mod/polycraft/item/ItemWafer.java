@@ -42,4 +42,5 @@ public class ItemWafer extends Item implements PolycraftItem, PolycraftWaferItem
 	public WaferItem getWaferItem() {
 		return waferItem;
 	}
+
 }

@@ -314,7 +314,9 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						break;
 				}
 			}
+
 			return itemsFlowed;
+
 		}
 
 		public String getHashVec3(final Vec3 vec3) {
