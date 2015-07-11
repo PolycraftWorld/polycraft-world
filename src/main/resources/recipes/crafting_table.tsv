@@ -245,25 +245,25 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.3.2	TRUE	TRUE	2	Coins (Copper)	15	Copper Ingot	1																						
 1.3.2	TRUE	TRUE	2	Copper Ingot	1	Coins (Copper)	16																						
 1.3.2	TRUE	TRUE	2	Bars (Copper)	1	Coins (Copper)	64																						
-1.3.2	TRUE	TRUE	2	Loads (Copper)	1	Bars (Copper)	64																						
+1.3.2	TRUE	TRUE	2	Stacks (Copper)	1	Bars (Copper)	64																						
 1.3.2	TRUE	TRUE	2	Coins (Copper)	64	Bars (Copper)	1																						
-1.3.2	TRUE	TRUE	2	Bars (Copper)	64	Loads (Copper)	1																						
+1.3.2	TRUE	TRUE	2	Bars (Copper)	64	Stacks (Copper)	1																						
 1.3.2	TRUE	FALSE	2	Bars (Copper)	2	Coins (Copper)	64	Coins (Copper)	64																				
-1.3.2	TRUE	FALSE	2	Loads (Copper)	2	Bars (Copper)	64	Bars (Copper)	64																				
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	2	Bars (Copper)	64	Bars (Copper)	64																				
 1.3.2	TRUE	FALSE	2	Bars (Copper)	3	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64																		
-1.3.2	TRUE	FALSE	2	Loads (Copper)	3	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64																		
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	3	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64																		
 1.3.2	TRUE	FALSE	2	Bars (Copper)	4	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64																
-1.3.2	TRUE	FALSE	2	Loads (Copper)	4	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64																
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	4	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64																
 1.3.2	TRUE	FALSE	2	Bars (Copper)	5	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64														
-1.3.2	TRUE	FALSE	2	Loads (Copper)	5	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64														
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	5	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64														
 1.3.2	TRUE	FALSE	2	Bars (Copper)	6	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64												
-1.3.2	TRUE	FALSE	2	Loads (Copper)	6	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64												
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	6	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64												
 1.3.2	TRUE	FALSE	2	Bars (Copper)	7	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64										
-1.3.2	TRUE	FALSE	2	Loads (Copper)	7	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64										
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	7	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64										
 1.3.2	TRUE	FALSE	2	Bars (Copper)	8	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64								
-1.3.2	TRUE	FALSE	2	Loads (Copper)	8	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64								
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	8	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64								
 1.3.2	TRUE	FALSE	2	Bars (Copper)	9	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64						
-1.3.2	TRUE	FALSE	2	Loads (Copper)	9	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64						
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	9	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64						
 1.3.2	TRUE	FALSE	8	Solar Cell	1	Wafer (Solar Cell)	1																						
 1.3.2	TRUE	FALSE	8	Processor	8	Wafer (Processor)	1																						
 1.3.2	TRUE	FALSE	8	Temperature Sensor	32	Wafer (Temperature Sensor)	1																						
@@ -279,10 +279,10 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.3.2	TRUE	FALSE	2	Voice Cone	1	Bag (PolyIsoPrene Pellets)	1			Bag (PolyIsoPrene Pellets)	1	Bag (PolyIsoPrene Pellets)	1	Redstone Block	1	Bag (PolyIsoPrene Pellets)	1			Bag (PolyIsoPrene Pellets)	1								
 1.3.2	TRUE	FALSE	4	Megaphone	1	Bag (Low Density PolyEthylene Pellets)	1			Bag (Low Density PolyEthylene Pellets)	1	Bag (Low Density PolyEthylene Pellets)	1	Redstone Block	1	Bag (Low Density PolyEthylene Pellets)	1			Bag (Low Density PolyEthylene Pellets)	1								
 1.3.2	TRUE	FALSE	4	Megaphone	1	Bag (PolyPropylene Pellets)	1			Bag (PolyPropylene Pellets)	1	Bag (PolyPropylene Pellets)	1	Redstone Block	1	Bag (PolyPropylene Pellets)	1			Bag (PolyPropylene Pellets)	1								
-1.3.2	TRUE	FALSE	8	HAM Radio	1							Low Power Radio	1	HAM Radio Case (SAN)	1	Amplifier	1												
-1.3.2	TRUE	FALSE	8	Walky Talky	1					Digital Analog Convertor	1	Low Power Radio	1	Walky Talky Case (SAN)	1	Amplifier	1			DSP	1								
-1.3.2	TRUE	FALSE	8	Cell Phone	1	OLED Array	1	OLED Array	1	Digital Analog Convertor	1	Low Power Radio	1	Cell Phone Case (SAN)	1	Amplifier	1	Processor	1	DSP	1	Processor	1						
-																													
+1.3.2	TRUE	FALSE	8	HAM Radio	1	Low Power Radio	1	HAM Radio Case (SAN)	1	Amplifier	1																		
+1.3.2	TRUE	FALSE	8	Walky Talky	1	Low Power Radio	1	Walky Talky Case (SAN)	1																				
+1.3.2	TRUE	FALSE	8	Cell Phone	1	Low Power Radio	1	Cell Phone Case (SAN)	1	OLED Array	1	Processor	1	Amplifier	1	Digital Analog Convertor	1			Cell Phone Case (SAN)	1								
+1.3.2	TRUE	FALSE	8	Smart Phone	1	Low Power Radio	1	Pressure Sensor	1	OLED Array	1	Processor	1	Amplifier	1	Digital Analog Convertor	1	DSP	1	Cell Phone Case (SAN)	1	DSP	1						
 																													
 																													
 																													
