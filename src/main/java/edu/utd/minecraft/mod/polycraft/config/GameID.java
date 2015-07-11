@@ -74,14 +74,15 @@ public enum GameID {
 	CustomCarbonFiberWeave("1bz"),
 	CustomCoinCopper("1eN"),
 	CustomBarCopper("1eO"),
-	CustomLoadCopper("1eP"),
+	CustomStackCopper("1eP"),
 	Custom254nmUVLight("1eF"),
 	Custom365nmUVLight("1eG"),
 	CustomVoiceCone("1eQ"),
 	CustomMegaPhone("1eR"),
 	CustomHAMRadio("1eS"),
 	CustomWalkyTalky("1eT"),
-	CustomCellPhone("1eU");
+	CustomCellPhone("1eU"),
+	CustomSmartPhone("1eq");
 
 	public final String id;
 

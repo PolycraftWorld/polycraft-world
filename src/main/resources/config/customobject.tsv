@@ -65,7 +65,7 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.3.2	1et	Silicon Boule	PC Item	4	FALSE		64											
 1.3.2	1eN	Coins (Copper)	Currency	2	FALSE		64											
 1.3.2	1eO	Bars (Copper)	Currency	2	FALSE		64											
-1.3.2	1eP	Loads (Copper)	Currency	2	FALSE		64											
+1.3.2	1eP	Stacks (Copper)	Currency	2	FALSE		64											
 1.3.2	1eF	365 nm UV Bulbs	PC Item	8	FALSE		64											
 1.3.2	1eG	254 nm UV Bulbs	PC Item	8	FALSE		64											
 1.3.2	1eQ	Voice Cone	PC Item	2	FALSE		64		SpeechDistance	64								
@@ -73,3 +73,4 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.3.2	1eS	HAM Radio	PC Item	8	FALSE		1		SpeechDistance	512								
 1.3.2	1eT	Walky Talky	PC Item	8	FALSE		1		SpeechDistance	512								
 1.3.2	1eU	Cell Phone	PC Item	8	FALSE		1											
+1.3.2	1eq	Smart Phone	PC Item	8	FALSE		1											

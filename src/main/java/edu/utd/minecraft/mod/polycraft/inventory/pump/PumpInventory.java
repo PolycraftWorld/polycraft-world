@@ -144,7 +144,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		}
 	}
 
-	private ContainerSlot getNextFuelSlot() {
+	public ContainerSlot getNextFuelSlot() {
 		for (final ContainerSlot inputSlot : getInputSlots()) {
 			final ItemStack fuelStack = getStackInSlot(inputSlot);
 			if (fuelStack != null && Fuel.getHeatDurationSeconds(fuelStack.getItem()) > 0)
