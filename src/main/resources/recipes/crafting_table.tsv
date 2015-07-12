@@ -242,17 +242,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.2.3	TRUE	FALSE	4	Gaslamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Piping	1	Lighter	1						
 1.3.2	TRUE	FALSE	4	Silicon Boule	1			Silicon Ingot	1			Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1						
 1.3.2	TRUE	TRUE	4	Silicon Wafer	64	Silicon Boule	1																						
-1.3.2	TRUE	TRUE	2	Coins (Copper)	16	Copper Nugget	1	Copper Nugget	1																				
-1.3.2	TRUE	TRUE	2	Bars (Copper)	3	Copper Nugget	4	Copper Ingot	1																				
-1.3.2	TRUE	TRUE	2	Bars (Copper)	21	Copper Nugget	4	Block of Copper	1																				
-1.3.2	TRUE	FALSE	2	Bars (Copper)	42	Copper Nugget	7	Block of Copper	1	Block of Copper	1																		
-1.3.2	TRUE	FALSE	2	Bars (Copper)	63	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Copper Ingot	1														
-1.3.2	TRUE	FALSE	2	Stacks (Copper)	1	Copper Nugget	4	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Copper Ingot	7												
-1.3.2	TRUE	FALSE	2	Stacks (Copper)	2	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Copper Ingot	1										
-1.3.2	TRUE	FALSE	2	Stacks (Copper)	3	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1										
-1.3.2	TRUE	FALSE	2	Stacks (Copper)	4	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1								
-1.3.2	TRUE	FALSE	2	Stacks (Copper)	5	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1						
-1.3.2	TRUE	TRUE	2	Copper Nugget	1	Coins (Copper)	16																						
+1.3.2	TRUE	TRUE	2	Coins (Copper)	16	Copper Nugget	2																						
+1.3.2	TRUE	TRUE	2	Copper Nugget	2	Coins (Copper)	16																						
 1.3.2	TRUE	TRUE	2	Bars (Copper)	1	Coins (Copper)	64																						
 1.3.2	TRUE	TRUE	2	Stacks (Copper)	1	Bars (Copper)	64																						
 1.3.2	TRUE	TRUE	2	Trove (Copper)	1	Stacks (Copper)	64																						
