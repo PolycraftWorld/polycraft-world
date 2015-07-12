@@ -68,6 +68,7 @@ import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
+import edu.utd.minecraft.mod.polycraft.config.Nugget;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
@@ -99,6 +100,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventor
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorChest;
@@ -118,6 +120,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
+import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -255,6 +258,7 @@ public class PolycraftRegistry {
 		registerBiomes();
 		registerOres();
 		registerIngots();
+		registerNuggets();
 		registerCompressedBlocks();
 		registerCatalysts();
 		registerVessels();
@@ -329,6 +333,11 @@ public class PolycraftRegistry {
 	private static void registerIngots() {
 		for (final Ingot ingot : Ingot.registry.values())
 			registerItem(ingot, new ItemIngot(ingot));
+	}
+
+	private static void registerNuggets() {
+		for (final Nugget nugget : Nugget.registry.values())
+			registerItem(nugget, new ItemNugget(nugget));
 	}
 
 	private static void registerCompressedBlocks() {
@@ -505,6 +514,8 @@ public class PolycraftRegistry {
 				ChemicalProcessorInventory.register(inventory);
 			else if (GameID.InventoryContactPrinter.matches(inventory))
 				ContactPrinterInventory.register(inventory);
+			else if (GameID.InventoryTradingHouse.matches(inventory))
+				TradingHouseInventory.register(inventory);
 			else if (GameID.InventoryFloodlight.matches(inventory))
 				FloodlightInventory.register(inventory);
 			else if (GameID.InventorySpotlight.matches(inventory))
@@ -721,6 +732,9 @@ public class PolycraftRegistry {
 
 		for (final Ingot ingot : Ingot.registry.values())
 			langEntries.add(String.format(itemFormat, ingot.gameID, ingot.name));
+
+		for (final Nugget nugget : Nugget.registry.values())
+			langEntries.add(String.format(itemFormat, nugget.gameID, nugget.name));
 
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
 			langEntries.add(String.format(blockFormat, compressedBlock.gameID, compressedBlock.name));

@@ -2,7 +2,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	1	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	FALSE	1	Tree Tap	1	Planks	1	Stick	1	Planks	1	Planks	1			Planks	1			Planks	1								
 1.0.0	TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	TRUE	2	Antimony Trioxide Catalyst	4	Antimony Ingot	1																						
+1.0.0	TRUE	TRUE	2	Antimony Trioxide Catalyst	1	Antimony Nugget	1																						
 1.1.0	TRUE	FALSE	2	Antimony-Lead Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Antimony Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ingot	1						
 1.0.0	TRUE	TRUE	2	Bag (Potassium Hydroxide)	4	Potash Ore	1																						
 1.1.0	TRUE	FALSE	2	Block of Antimony-Lead	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Antimony	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1	Block of Plumbum (Lead)	1						
@@ -23,8 +23,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	FALSE	2	Bucket	1							Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1								
 1.1.0	TRUE	FALSE	2	Bucket	1							Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1								
 1.1.0	TRUE	FALSE	2	Bucket	1							Steel Ingot	1			Steel Ingot	1			Steel Ingot	1								
-1.0.0	TRUE	TRUE	2	Cobalt Catalyst	4	Cobalt Ingot	1																						
-1.0.0	TRUE	TRUE	2	Copper II Chloride Catalyst	4	Copper Ingot	1	Flask (Chlorine)	1																				
+1.0.0	TRUE	TRUE	2	Cobalt Catalyst	1	Cobalt Nugget	1																						
+1.0.0	TRUE	TRUE	2	Copper II Chloride Catalyst	1	Copper Nugget	1	Flask (Chlorine)	1																				
 1.0.0	TRUE	FALSE	2	Copper Piping	4			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1			Copper Ingot	1								
 1.0.0	TRUE	FALSE	2	Diamond Pogo Stick	1	Stick	1	Stick	1	Stick	1	Diamond Block	1	Stick	1	Diamond Block	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	FALSE	2	Extruder	1	Hopper	1	Slab (Natural Rubber)	1	Slab (Natural Rubber)	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Furnace	1	Iron Block	1						
@@ -41,14 +41,14 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Nickel	1	Furnace	1	Block of Nickel	1						
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
 1.0.0	TRUE	FALSE	2	Injection Molder	1	Slab (Natural Rubber)	1	Hopper	1	Metal Screw	1	Piston	1	Redstone Block	1	Piston	1	Block of Brass	1	Furnace	1	Block of Brass	1						
-1.0.0	TRUE	TRUE	2	Iron III Chloride Catalyst	4	Iron Ingot	1																						
+1.0.0	TRUE	TRUE	2	Iron III Chloride Catalyst	9	Iron Ingot	1																						
 1.0.0	TRUE	FALSE	2	Iron Pogo Stick	1	Stick	1	Stick	1	Stick	1	Iron Block	1	Stick	1	Iron Block	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Iron Block	1	Metal Screw	1	Iron Block	1						
 1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Tungsten	1	Metal Screw	1	Block of Tungsten	1						
 1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Nickel	1	Metal Screw	1	Block of Nickel	1						
 1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Bronze	1	Metal Screw	1	Block of Bronze	1						
 1.0.0	TRUE	FALSE	2	Machining Mill	1	Stone Slab	1	Stone Slab	1	Stone Slab	1	Metal Screw	1	Redstone Block	1	Metal Screw	1	Block of Brass	1	Metal Screw	1	Block of Brass	1						
-1.0.0	TRUE	TRUE	2	Manganese Catalyst	4	Manganese Ingot	1																						
+1.0.0	TRUE	TRUE	2	Manganese Catalyst	1	Manganese Nugget	1																						
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Iron Block	1					Iron Ingot	1					Iron Ingot	1								
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Tungsten	1					Tungsten Ingot	1					Tungsten Ingot	1								
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Titanium	1					Titanium Ingot	1					Titanium Ingot	1								
@@ -56,13 +56,13 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	2	Metal Screw	1			Block of Antimony	1					Antimony Ingot	1					Antimony Ingot	1								
 1.1.0	TRUE	FALSE	2	Nichrome Ingot	1	Nickel Ingot	1			Nickel Ingot	1			Chrome Ingot	1			Nickel Ingot	1			Nickel Ingot	1						
 1.1.0	TRUE	FALSE	2	Nichrome Ingot	1			Nickel Ingot	1			Nickel Ingot	1	Chrome Ingot	1	Nickel Ingot	1			Nickel Ingot	1								
-1.0.0	TRUE	TRUE	2	Palladium Catalyst	4	Palladium Ingot	1																						
-1.0.0	TRUE	TRUE	2	Platinum Catalyst	4	Platinum Ingot	1																						
-1.0.0	TRUE	TRUE	2	Silver Catalyst	4	Silver Ingot	1																						
+1.0.0	TRUE	TRUE	2	Palladium Catalyst	1	Palladium Nugget	1																						
+1.0.0	TRUE	TRUE	2	Platinum Catalyst	1	Platinum Nugget	1																						
+1.0.0	TRUE	TRUE	2	Silver Catalyst	1	Silver Nugget	1																						
 1.0.4	TRUE	FALSE	2	Stainless Steel Ingot	9	Chrome Ingot	1	Nickel Ingot	1	Chrome Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1	Steel Ingot	1						
 1.0.0	TRUE	FALSE	2	Stone Pogo Stick	1	Stick	1	Stick	1	Stick	1	Cobblestone	1	Stick	1	Cobblestone	1			Sack (PolyIsoPrene Pellets)	1								
-1.0.0	TRUE	TRUE	2	Titanium Catalyst	4	Titanium Ingot	1																						
-1.0.0	TRUE	TRUE	2	Triethylaluminium Catalyst	4	Aluminum Ingot	1																						
+1.0.0	TRUE	TRUE	2	Titanium Catalyst	1	Titanium Nugget	1																						
+1.0.0	TRUE	TRUE	2	Triethylaluminium Catalyst	1	Aluminum Nugget	1																						
 1.1.0	TRUE	TRUE	2	Tungsten Carbide Ingot	1	Tungsten Ingot	1	Graphite	1																				
 1.0.6	TRUE	FALSE	3	BlockPipe	16	Pipe Segment (PP)	1	Pipe Segment (PP)	1	Pipe Segment (PP)	1																		
 1.0.6	TRUE	FALSE	3	BlockPipe	16							Pipe Segment (PP)	1	Pipe Segment (PP)	1	Pipe Segment (PP)	1												
@@ -242,28 +242,47 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.2.3	TRUE	FALSE	4	Gaslamp	1			Glass Pane	1			Glass Pane	1	Gas Mantle	1	Glass Pane	1	Chest	1	Copper Piping	1	Lighter	1						
 1.3.2	TRUE	FALSE	4	Silicon Boule	1			Silicon Ingot	1			Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1	Silicon Ingot	1						
 1.3.2	TRUE	TRUE	4	Silicon Wafer	64	Silicon Boule	1																						
-1.3.2	TRUE	TRUE	2	Coins (Copper)	15	Copper Ingot	1																						
-1.3.2	TRUE	TRUE	2	Copper Ingot	1	Coins (Copper)	16																						
+1.3.2	TRUE	TRUE	2	Coins (Copper)	16	Copper Nugget	1	Copper Nugget	1																				
+1.3.2	TRUE	TRUE	2	Bars (Copper)	3	Copper Nugget	4	Copper Ingot	1																				
+1.3.2	TRUE	TRUE	2	Bars (Copper)	21	Copper Nugget	4	Block of Copper	1																				
+1.3.2	TRUE	FALSE	2	Bars (Copper)	42	Copper Nugget	7	Block of Copper	1	Block of Copper	1																		
+1.3.2	TRUE	FALSE	2	Bars (Copper)	63	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Copper Ingot	1														
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	1	Copper Nugget	4	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Copper Ingot	7												
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	2	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Copper Ingot	1										
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	3	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1										
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	4	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1								
+1.3.2	TRUE	FALSE	2	Stacks (Copper)	5	Copper Nugget	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1	Block of Copper	1						
+1.3.2	TRUE	TRUE	2	Copper Nugget	1	Coins (Copper)	16																						
 1.3.2	TRUE	TRUE	2	Bars (Copper)	1	Coins (Copper)	64																						
 1.3.2	TRUE	TRUE	2	Stacks (Copper)	1	Bars (Copper)	64																						
+1.3.2	TRUE	TRUE	2	Trove (Copper)	1	Stacks (Copper)	64																						
 1.3.2	TRUE	TRUE	2	Coins (Copper)	64	Bars (Copper)	1																						
 1.3.2	TRUE	TRUE	2	Bars (Copper)	64	Stacks (Copper)	1																						
+1.3.2	TRUE	TRUE	2	Stacks (Copper)	64	Trove (Copper)	1																						
 1.3.2	TRUE	FALSE	2	Bars (Copper)	2	Coins (Copper)	64	Coins (Copper)	64																				
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	2	Bars (Copper)	64	Bars (Copper)	64																				
+1.3.2	TRUE	FALSE	2	Trove (Copper)	2	Stacks (Copper)	64	Stacks (Copper)	64																				
 1.3.2	TRUE	FALSE	2	Bars (Copper)	3	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64																		
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	3	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64																		
+1.3.2	TRUE	FALSE	2	Trove (Copper)	3	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64																		
 1.3.2	TRUE	FALSE	2	Bars (Copper)	4	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64																
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	4	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64																
+1.3.2	TRUE	FALSE	2	Trove (Copper)	4	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64																
 1.3.2	TRUE	FALSE	2	Bars (Copper)	5	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64														
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	5	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64														
+1.3.2	TRUE	FALSE	2	Trove (Copper)	5	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64														
 1.3.2	TRUE	FALSE	2	Bars (Copper)	6	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64												
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	6	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64												
+1.3.2	TRUE	FALSE	2	Trove (Copper)	6	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64												
 1.3.2	TRUE	FALSE	2	Bars (Copper)	7	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64										
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	7	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64										
+1.3.2	TRUE	FALSE	2	Trove (Copper)	7	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64										
 1.3.2	TRUE	FALSE	2	Bars (Copper)	8	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64								
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	8	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64								
+1.3.2	TRUE	FALSE	2	Trove (Copper)	8	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64								
 1.3.2	TRUE	FALSE	2	Bars (Copper)	9	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64						
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	9	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64						
+1.3.2	TRUE	FALSE	2	Trove (Copper)	9	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64						
 1.3.2	TRUE	FALSE	8	Solar Cell	1	Wafer (Solar Cell)	1																						
 1.3.2	TRUE	FALSE	8	Processor	8	Wafer (Processor)	1																						
 1.3.2	TRUE	FALSE	8	Temperature Sensor	32	Wafer (Temperature Sensor)	1																						

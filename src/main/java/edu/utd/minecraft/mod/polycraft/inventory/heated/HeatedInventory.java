@@ -32,7 +32,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavio
 public abstract class HeatedInventory extends WateredInventory<HeatedInventoryState> implements ISidedInventory {
 
 	protected static Random random = new Random();
-	private static final int maxTicksPerEpoch = (int) Math.pow(2,15);
+	private static final int maxTicksPerEpoch = (int) Math.pow(2, 15);
 
 	public final int slotIndexHeatSource;
 	private final int defaultProcessingTicks;
@@ -132,10 +132,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		final double ticksRemaining = getState(HeatedInventoryState.HeatSourceTicksRemaining);
 		final double ticksRemainingEpochs = getState(HeatedInventoryState.HeatSourceTicksRemainingEpochs);
 		if (ticksRemaining > 0 || ticksRemainingEpochs > 0)
-			return (int) ((((double) 
-					(ticksRemaining + ticksRemainingEpochs*maxTicksPerEpoch) / 
-					(double) (getState(HeatedInventoryState.HeatSourceTicksTotal) + 
-							(getState(HeatedInventoryState.HeatSourceTicksTotalEpochs)*maxTicksPerEpoch)))) * scale);
+			return (int) ((((double) (ticksRemaining + ticksRemainingEpochs * maxTicksPerEpoch) / (double) (getState(HeatedInventoryState.HeatSourceTicksTotal) + (getState(HeatedInventoryState.HeatSourceTicksTotalEpochs) * maxTicksPerEpoch)))) * scale);
 		return 0;
 	}
 
@@ -164,25 +161,25 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 
 			if (ticksRemaining == 0 && getState(HeatedInventoryState.HeatSourceTicksRemainingEpochs) > 0) //decrement tickEpoch
 			{
-				ticksRemaining = setState(HeatedInventoryState.HeatSourceTicksRemaining, maxTicksPerEpoch);	
-				updateState(HeatedInventoryState.HeatSourceTicksRemainingEpochs, -1);					
+				ticksRemaining = setState(HeatedInventoryState.HeatSourceTicksRemaining, maxTicksPerEpoch);
+				updateState(HeatedInventoryState.HeatSourceTicksRemainingEpochs, -1);
 			}
-			
+
 			if (canProcess()) {
 
 				if (!isHeated()) {
 					final ItemStack heatSourceItemStack = getStackInSlot(slotIndexHeatSource);
 					if (heatSourceItemStack != null) {
-						final Fuel fuel = Fuel.getFuel(heatSourceItemStack.getItem()) ;
+						final Fuel fuel = Fuel.getFuel(heatSourceItemStack.getItem());
 						if (fuel != null)
 						{
 							final int heatSourceTicksTotal = PolycraftMod.convertSecondsToGameTicks(Fuel.getHeatDurationSeconds(heatSourceItemStack.getItem()));
-							setState(HeatedInventoryState.HeatSourceTicksRemaining, heatSourceTicksTotal%maxTicksPerEpoch);
-							setState(HeatedInventoryState.HeatSourceTicksTotal, heatSourceTicksTotal%maxTicksPerEpoch);
+							setState(HeatedInventoryState.HeatSourceTicksRemaining, heatSourceTicksTotal % maxTicksPerEpoch);
+							setState(HeatedInventoryState.HeatSourceTicksTotal, heatSourceTicksTotal % maxTicksPerEpoch);
 							setState(HeatedInventoryState.HeatSourceTicksRemainingEpochs, heatSourceTicksTotal / maxTicksPerEpoch);
 							setState(HeatedInventoryState.HeatSourceTicksTotalEpochs, heatSourceTicksTotal / maxTicksPerEpoch);
 							setState(HeatedInventoryState.HeatSourceIntensity, Fuel.getHeatIntensity(heatSourceItemStack.getItem()));
-							
+
 							--heatSourceItemStack.stackSize;
 							if (heatSourceItemStack.stackSize == 0)
 								setInventorySlotContents(slotIndexHeatSource, heatSourceItemStack.getItem().getContainerItem(heatSourceItemStack));
@@ -219,7 +216,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		if (isDirty)
 			markDirty();
 	}
-	
+
 	private BlockLight.Source addLightSource(final int heatIntensity) {
 		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * .25), false));
 	}
@@ -251,44 +248,44 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	}
 
 	protected abstract void finishProcessingInput(final int slotIndex, final ItemStack actualInput, final ItemStack recipeInput);
-	
+
 	//automatically moves storage slots into the input slot
 	private class HeatParticlesBehavior extends InventoryBehavior<HeatedInventory> {
-	    /**
-	     * A randomly called display update to be able to add particles or other items for display
-	     */
-	    @Override
+		/**
+		 * A randomly called display update to be able to add particles or other items for display
+		 */
+		@Override
 		public boolean randomDisplayTick(HeatedInventory inventory, World world, int x, int y, int z, Random random) {
-	        if (inventory.isHeated()) {
-	            int l = world.getBlockMetadata(x, y, z);
-	            float f = (float)x + 0.5F;
-	            float f1 = (float)y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
-	            float f2 = (float)z + 0.5F;
-	            float f3 = 0.52F;
-	            float f4 = random.nextFloat() * 0.6F - 0.3F;
+			if (inventory.isHeated()) {
+				int l = world.getBlockMetadata(x, y, z);
+				float f = (float) x + 0.5F;
+				float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
+				float f2 = (float) z + 0.5F;
+				float f3 = 0.52F;
+				float f4 = random.nextFloat() * 0.6F - 0.3F;
 
-	            if (l == 4)
-	            {
-	            	world.spawnParticle("smoke", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-	            	world.spawnParticle("flame", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-	            }
-	            else if (l == 5)
-	            {
-	            	world.spawnParticle("smoke", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-	            	world.spawnParticle("flame", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-	            }
-	            else if (l == 2)
-	            {
-	            	world.spawnParticle("smoke", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D);
-	            	world.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D);
-	            }
-	            else if (l == 3)
-	            {
-	            	world.spawnParticle("smoke", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
-	            	world.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
-	            }
-	        }
+				if (l == 4)
+				{
+					world.spawnParticle("smoke", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle("flame", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+				}
+				else if (l == 5)
+				{
+					world.spawnParticle("smoke", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle("flame", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+				}
+				else if (l == 2)
+				{
+					world.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
+				}
+				else if (l == 3)
+				{
+					world.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
+				}
+			}
 			return false;
-	    }
+		}
 	}
 }

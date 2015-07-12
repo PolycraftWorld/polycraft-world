@@ -39,6 +39,7 @@ import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
@@ -66,6 +67,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
@@ -441,6 +443,10 @@ public class WikiMaker {
 		return getInventorySlot(slotIndex, new ItemStack(Items.water_bucket));
 	}
 
+	private static String getInventoryCoinSlot(final int slotIndex) {
+		return getInventorySlot(slotIndex, CustomObject.registry.get("Coins (Copper)").getItemStack()); //TODO: ensure we dont need new operator here
+	}
+
 	private static String getInventoryFuelSlot(final int slotIndex) {
 		return getInventorySlot(slotIndex, "Fuel", "Fuel.png",
 				getListOfTypeTitle(Fuel.class), 1);
@@ -453,6 +459,10 @@ public class WikiMaker {
 		case MACHINING_MILL:
 			slots.append(getInventoryWaterSlot(MachiningMillInventory.slotIndexCoolingWater));
 			break;
+		case TRADING_HOUSE:
+			slots.append(getInventoryCoinSlot(TradingHouseInventory.slotIndexInputFee));
+			break;
+
 		case DISTILLATION_COLUMN:
 			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexCoolingWater));
 			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexHeatingWater));

@@ -52,8 +52,8 @@ public class Mask extends GameIdentifiedConfig {
 		return new ItemStack(PolycraftRegistry.getItem(this), size);
 	}
 
-	public ItemStack getItemStack(final Ingot ingot) {
-		return ItemMask.setDamagePerUse(new ItemStack(PolycraftRegistry.getItem(this)), ingot.moldDamagePerUse);
+	public ItemStack getItemStack(final Nugget nugget) {
+		return ItemMask.setDamagePerUse(new ItemStack(PolycraftRegistry.getItem(this)), nugget.maskDamagePerUse);
 	}
 
 	public List<String> PROPERTY_NAMES = ImmutableList.of("Polymer Pellets", "Crafting Pellets", "Crafting Duration (sec)", "Max Stack Size");

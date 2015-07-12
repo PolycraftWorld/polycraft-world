@@ -26,7 +26,7 @@ public class WaferItem extends SourcedConfig<Mask> {
 						Integer.parseInt(line[6]), //layer number
 						line[7], //name
 						WaferItem.registry.get(line[8]), //source Wafer
-						(PolymerPellets.registry.get(line[9]) != null) ? PolymerPellets.registry.get(line[9]) : Ingot.registry.get(line[9]),
+						(PolymerPellets.registry.get(line[9]) != null) ? PolymerPellets.registry.get(line[9]) : Nugget.registry.get(line[9]),
 						Boolean.parseBoolean(line[10]), //customTextureBool
 						Boolean.parseBoolean(line[11]), //needs to be in clean environment
 						line.length <= 12 || line[12].isEmpty() ? null : line[12].split(","), //paramNames
@@ -40,7 +40,7 @@ public class WaferItem extends SourcedConfig<Mask> {
 	public final boolean mustBeInCleanroom;
 	public final WaferItem sourceWafer;
 	public final PolymerPellets photoresist;
-	public final Ingot ingot;
+	public final Nugget nugget;
 
 	public WaferItem(final int[] version, final String gameID, final Mask source, final String electronicObject, final String layerName,
 			final int layerNumber, final String name, final WaferItem sourceWafer, final Object thinFilmMaterial, final boolean customTextureBool,
@@ -54,11 +54,11 @@ public class WaferItem extends SourcedConfig<Mask> {
 		if (thinFilmMaterial instanceof PolymerPellets)
 		{
 			this.photoresist = (PolymerPellets) thinFilmMaterial;
-			this.ingot = null;
+			this.nugget = null;
 		}
 		else
 		{
-			this.ingot = (Ingot) thinFilmMaterial;
+			this.nugget = (Nugget) thinFilmMaterial;
 			this.photoresist = null;
 		}
 

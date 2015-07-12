@@ -29,6 +29,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventor
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
 /**
@@ -63,7 +64,8 @@ public enum PolycraftContainerType {
 	PUMP("Pump"),
 	MASK_WRITER("Mask Writer"),
 	SOLAR_PLANT("Solar Plant"),
-	PORTAL_CHEST("Portal Chest");
+	PORTAL_CHEST("Portal Chest"),
+	TRADING_HOUSE("Trading House");
 
 	private final String friendlyName;
 
@@ -147,6 +149,7 @@ public enum PolycraftContainerType {
 		PUMP.initialize(PumpInventory.guiSlots);
 		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
 		MASK_WRITER.initialize(MaskWriter.guiSlots);
+		TRADING_HOUSE.initialize(TradingHouseInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

@@ -44,6 +44,7 @@ public abstract class Config {
 		PolymerObject.registerFromResource(directory);
 		Ore.registerFromResource(directory);
 		Ingot.registerFromResource(directory);
+		Nugget.registerFromResource(directory);
 		CompressedBlock.registerFromResource(directory);
 		Catalyst.registerFromResource(directory);
 		ElementVessel.registerFromResource(directory);

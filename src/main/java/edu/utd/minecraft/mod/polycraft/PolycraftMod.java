@@ -99,7 +99,7 @@ public class PolycraftMod {
 	public static final int oilBlockFlammability = 5;
 	public static final int oreWorldGeneratorWeight = 100;
 
-	public static final String[] recipeCompressedBlockFromItems = new String[] { "xxx", "xxx", "xxx" };
+	public static final String[] recipeUpcycleOre = new String[] { "xxx", "xxx", "xxx" };
 	public static final int recipeItemsPerCompressedBlock = 9;
 	public static final int recipePolymerPelletsPerBlock = 1;
 	public static final int recipeSmallerVesselsPerLargerVessel = 64;

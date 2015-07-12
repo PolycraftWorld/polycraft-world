@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Mask;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
+import edu.utd.minecraft.mod.polycraft.config.Nugget;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
@@ -59,12 +60,24 @@ public class RecipeGenerator {
 			PolycraftMod.recipeManager.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					compressedBlock.getItemStack(),
-					PolycraftMod.recipeCompressedBlockFromItems,
+					PolycraftMod.recipeUpcycleOre,
 					ImmutableMap.of('x', compressedBlock.source.getItemStack()));
 			PolycraftMod.recipeManager.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					compressedBlock.source.getItemStack(PolycraftMod.recipeItemsPerCompressedBlock),
 					ImmutableList.of(compressedBlock.getItemStack()));
+		}
+
+		for (final Nugget nugget : Nugget.registry.values()) {
+			PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftContainerType.CRAFTING_TABLE,
+					((Ingot) nugget.source).getItemStack(),
+					PolycraftMod.recipeUpcycleOre,
+					ImmutableMap.of('x', nugget.getItemStack()));
+			PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftContainerType.CRAFTING_TABLE,
+					nugget.getItemStack(PolycraftMod.recipeItemsPerCompressedBlock),
+					ImmutableList.of(((Ingot) nugget.source).getItemStack()));
 		}
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
@@ -412,7 +425,74 @@ public class RecipeGenerator {
 		generateFileRecipesTreat(directory);
 		generateFileRecipesProcess(directory);
 		generateFileRecipesWrite(directory);
-		//generateFileRecipesPrint(directory);
+		generateFileRecipesTrade(directory);
+	}
+
+	private static void generateFileRecipesTrade(String directory) {
+		final char[] shapedIdentifiers = new char[] { 'v', 'w', 'x', 'y', 'z', ' ' };
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.TRADING_HOUSE.toString()))) {
+			if (line.length > 12) {
+				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
+					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
+					final StringBuilder inputShape = new StringBuilder();
+					for (int i = 0; i < shapedIdentifiers.length - 1; i++) {
+						final String inputItemName = line[2 + (i * 2)];
+						if (!StringUtils.isEmpty(inputItemName))
+						{
+							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[3 + (i * 2)]));
+							if (inputItemStack == null) {
+								logger.warn("Unable to find input item for trading house recipe: {}", inputItemName);
+								shapedInputs.put(shapedIdentifiers[shapedIdentifiers.length - 1], null);
+								inputShape.append(shapedIdentifiers[shapedIdentifiers.length - 1]);
+							}
+							else
+							{
+								shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+								inputShape.append(shapedIdentifiers[i]);
+							}
+						}
+						else
+						{
+							shapedInputs.put(shapedIdentifiers[shapedIdentifiers.length - 1], null);
+							inputShape.append(shapedIdentifiers[shapedIdentifiers.length - 1]);
+						}
+					}
+					if (shapedInputs == null)
+						continue;
+
+					List<ItemStack> outputItems = Lists.newArrayList();
+					for (int i = 12; i < 20 - 1; i += 2) {
+						final String outputItemName = line[i];
+						if (!StringUtils.isEmpty(outputItemName))
+						{
+							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if (outputItemStack == null) {
+								logger.warn("Unable to find output item for trading recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
+								outputItems = null;
+								break;
+							}
+							else
+								outputItems.add(outputItemStack);
+						}
+					}
+
+					if (outputItems == null)
+						continue;
+					if (outputItems.size() == 0)
+					{
+						logger.warn("Trading house recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
+						continue;
+					}
+
+					PolycraftMod.recipeManager.addShapedRecipe(
+							PolycraftContainerType.TRADING_HOUSE,
+							outputItems,
+							new String[] { inputShape.toString() },
+							shapedInputs);
+				}
+			}
+		}
+
 	}
 
 	private static void generateFileRecipesPrint(String directory) {
@@ -646,14 +726,15 @@ public class RecipeGenerator {
 				currentRow++;
 
 				if (currentRow == 5) {
-					for (final Ingot ingot : Ingot.registry.values()) {
-						if (ingot.name.startsWith("Chrome")) {
+					for (final Nugget nugget : Nugget.registry.values()) {
+						if (nugget.maskDamagePerUse > 0) {
 							PolycraftMod.recipeManager.addShapedRecipe(
 									PolycraftContainerType.MASK_WRITER,
-									currentMask.getItemStack(ingot),
+									currentMask.getItemStack(nugget),
 									currentMaskShape,
-									ImmutableMap.of(currentMaskShapeChar, ingot.getItemStack()));
+									ImmutableMap.of(currentMaskShapeChar, nugget.getItemStack()));
 						}
+
 					}
 				}
 			}

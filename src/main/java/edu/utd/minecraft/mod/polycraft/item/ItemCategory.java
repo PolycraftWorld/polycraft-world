@@ -24,6 +24,7 @@ public enum ItemCategory {
 	MATERIALS_CATALYST("Materials/Catalyst"),
 	MATERIALS_FIBER("Materials/Fiber"),
 	MATERIALS_INGOT("Materials/Ingot"),
+	MATERIALS_NUGGET("Materials/Nugget"),
 	MATERIALS_PELLET("Materials/Pellet"),
 	TOOLS("Tools"),
 	TOOLS_AXES("Tools/Axes"),

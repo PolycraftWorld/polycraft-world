@@ -21,6 +21,6 @@ Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Render 3D O
 1.3.2	1ed	1eh	Portal Chest	19	2019	FALSE	1	1	1			"0,0,0"	front							side	front										
 1.3.2	1el	1ep	Solar Plant	20	2020	TRUE	8	8	1		"0,0,8"	"0,0,0"	front	side	top					side	front	"ElementVesselAToSpawn, ElementVesselBToSpawn, AmountToSpawnA, AmountToSpawnB, SpawnFreq (sec)"	Flask (Hydrogen)	Flask (Oxygen)	2	1	10				
 1.3.2	1ee	1ei	Contact Printer	21	2021	TRUE	1	2	2			"0,0,0"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
-																															
+1.3.2	1fo	1fp	Trading House	22	2022	TRUE	1	2	2			"0,0,0"	front		top					side	front										
 																															
 																															
