@@ -49,7 +49,15 @@ public class PrivateProperty {
 			UseFreezeRay,
 			UseWaterCannon,
 			UseGaslamp,
-			SpawnEntity
+			SpawnEntity,
+			MountEntity, //horse, donkey, mule, pig, minecart, boat, etc
+			UseDoor,
+			UseTrapDoor,
+			UseFenceGate,
+			UseFlintAndSteel,
+			AddBlockTNT,
+			//FIXME figure out how to add this
+			//UsePhaseShifter
 		}
 
 		public final String user;

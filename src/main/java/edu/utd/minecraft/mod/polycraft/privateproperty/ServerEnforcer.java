@@ -28,6 +28,7 @@ public class ServerEnforcer extends Enforcer {
 	//refresh once per minecraft day by default
 	private static final long portalRefreshTicksPrivateProperties = SystemUtil.getPropertyLong("portal.refresh.ticks.private.properties", 24000);
 	private static final long portalRefreshTicksWhitelist = SystemUtil.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
+	private static final long portalRefreshTicksFriends = SystemUtil.getPropertyLong("portal.refresh.ticks.friends", 24000);
 
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
@@ -35,6 +36,7 @@ public class ServerEnforcer extends Enforcer {
 		if (event.phase == TickEvent.Phase.END) {
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
+			onWorldTickFriends(event);
 		}
 	}
 
@@ -47,10 +49,7 @@ public class ServerEnforcer extends Enforcer {
 						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
 						: String.format("%s/private_properties/", portalRestUrl);
 				updatePrivateProperties(NetUtil.getText(url));
-				final FMLProxyPacket[] packets = getPrivatePropertiesPackets();
-				if (packets != null)
-					for (final FMLProxyPacket packet : packets)
-						netChannel.sendToAll(packet);
+				sendDataPackets(DataPacketType.PrivateProperties);
 			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
 				if (privatePropertiesJson == null) {
@@ -64,20 +63,41 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
-	private FMLProxyPacket[] getPrivatePropertiesPackets() {
+	private void sendDataPackets(final DataPacketType type) {
+		sendDataPackets(type, null);
+	}
+
+	private void sendDataPackets(final DataPacketType type, final EntityPlayerMP player) {
+		final FMLProxyPacket[] packets = getDataPackets(type);
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				}
+				else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+
+	private FMLProxyPacket[] getDataPackets(final DataPacketType type) {
 		try {
 			//we have to split these up into smaller packets due to this issue: https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
-			final byte[] privatePropertiesBytes = CompressUtil.compress(privatePropertiesJson);
-			final FMLProxyPacket[] packets = new FMLProxyPacket[getPacketsRequired(privatePropertiesBytes.length) + 1];
-			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(privatePropertiesBytes.length).copy(), netChannelName);
-			for (int i = 0; i < packets.length - 1; i++) {
-				int startIndex = i * maxPacketSizeBytes;
-				int length = Math.min(privatePropertiesBytes.length - startIndex, maxPacketSizeBytes);
-				packets[i + 1] = new FMLProxyPacket(Unpooled.buffer().writeBytes(privatePropertiesBytes, startIndex, length).copy(), netChannelName);
+			final byte[] dataBytes = CompressUtil.compress(type == DataPacketType.PrivateProperties ? privatePropertiesJson : friendsJson);
+			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
+			final int controlPacketsRequired = 2;
+			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).copy(), netChannelName);
+			packets[1] = new FMLProxyPacket(Unpooled.buffer().writeInt(dataBytes.length).copy(), netChannelName);
+			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
+				int startDataIndex = payloadIndex * maxPacketSizeBytes;
+				int length = Math.min(dataBytes.length - startDataIndex, maxPacketSizeBytes);
+				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(Unpooled.buffer().writeBytes(dataBytes, startDataIndex, length).copy(), netChannelName);
 			}
 			return packets;
 		} catch (IOException e) {
-			PolycraftMod.logger.error("Unable to compress private properties", e);
+			PolycraftMod.logger.error("Unable to compress packet data", e);
 			return null;
 		}
 	}
@@ -89,11 +109,11 @@ public class ServerEnforcer extends Enforcer {
 				final String url = portalRestUrl.startsWith("file:")
 						? portalRestUrl + "whitelist.json"
 						: String.format("%s/worlds/%s/whitelist/", portalRestUrl, event.world.getWorldInfo().getWorldName());
-				final Set<String> previousWhitelist = Sets.newHashSet(whitelist);
+				final Set<String> previousWhitelist = Sets.newHashSet(whitelist.keySet());
 				updateWhitelist(NetUtil.getText(url));
 				//reconcile whitelists
 				final MinecraftServer minecraftserver = MinecraftServer.getServer();
-				for (final String usernameToAdd : whitelist) {
+				for (final String usernameToAdd : whitelist.keySet()) {
 					//if the user is new, add to the whitelist
 					if (!previousWhitelist.remove(usernameToAdd)) {
 						final GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
@@ -121,16 +141,34 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
+	private void onWorldTickFriends(final TickEvent.WorldTickEvent event) {
+		//refresh the friends at the start of each day, or if we haven't it yet
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksFriends == 0 || friendsJson == null)) {
+			try {
+				final String url = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "friends.json"
+						: String.format("%s/friends/", portalRestUrl);
+				updateFriends(NetUtil.getText(url));
+				sendDataPackets(DataPacketType.Friends);
+			} catch (final Exception e) {
+				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
+				if (friendsJson == null) {
+					PolycraftMod.logger.error("Unable to load friends", e);
+				}
+				else {
+					PolycraftMod.logger.error("Unable to refresh friends", e);
+				}
+			}
+		}
+	}
+
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-			final FMLProxyPacket[] packets = getPrivatePropertiesPackets();
-			if (packets != null)
-				for (final FMLProxyPacket packet : packets)
-					netChannel.sendTo(packet, player);
-			if (!portalRestUrl.startsWith("file:"))
-			{
+			sendDataPackets(DataPacketType.PrivateProperties);
+			sendDataPackets(DataPacketType.Friends);
+			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
 				} catch (final IOException e) {

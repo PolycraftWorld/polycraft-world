@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.input.Keyboard;
 
@@ -37,13 +38,14 @@ public class ClientEnforcer extends Enforcer {
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(7);
-	
+
 	private final Minecraft client;
 	private String statusMessage = null;
 	private int statusMessageTicksRemaining = 0;
 	private boolean showPrivateProperty = false;
-	private int pendingPrivatePropertiesBytes = 0;
-	private ByteBuffer pendingPrivatePropertiesBuffer = null;
+	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
+	private int pendingDataPacketsBytes = 0;
+	private ByteBuffer pendingDataPacketsBuffer = null;
 
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
@@ -61,36 +63,72 @@ public class ClientEnforcer extends Enforcer {
 		super.setActionPrevented(action, privateProperty);
 		actionPreventedWarningMessageTicks = 0;
 	}
-	
+
 	private void showStatusMessage(final String message, final int seconds) {
 		statusMessageTicksRemaining = PolycraftMod.convertSecondsToGameTicks(seconds);
 		statusMessage = message;
-		
+
 	}
 
 	@SubscribeEvent
 	public void onClientPacket(final ClientCustomPacketEvent event) {
 		try {
 			final byte[] payload = event.packet.payload().array();
-			if (pendingPrivatePropertiesBytes == 0) {
-				pendingPrivatePropertiesBytes = ByteBuffer.wrap(payload).getInt();
-				pendingPrivatePropertiesBuffer = ByteBuffer.allocate(pendingPrivatePropertiesBytes);
+			if (pendingDataPacketType == DataPacketType.Unknown) {
+				pendingDataPacketType = DataPacketType.values()[ByteBuffer.wrap(payload).getInt()];
+			}
+			else if (pendingDataPacketsBytes == 0) {
+				pendingDataPacketsBytes = ByteBuffer.wrap(payload).getInt();
+				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
 			}
 			else {
-				pendingPrivatePropertiesBytes -= payload.length;
-				pendingPrivatePropertiesBuffer.put(payload);
-				if (pendingPrivatePropertiesBytes == 0) {
-					updatePrivateProperties(CompressUtil.decompress(pendingPrivatePropertiesBuffer.array()));
-					pendingPrivatePropertiesBuffer = null;
-					final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
-					showStatusMessage("Received " + format.format(privateProperties.size()) + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+				pendingDataPacketsBytes -= payload.length;
+				pendingDataPacketsBuffer.put(payload);
+				if (pendingDataPacketsBytes == 0) {
+					switch (pendingDataPacketType) {
+					case PrivateProperties:
+						updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + format.format(privateProperties.size()) + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size())
+								+ " chunks)", 10);
+						break;
+					case Friends:
+						updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case Unknown:
+					default:
+						break;
+					}
+					pendingDataPacketType = DataPacketType.Unknown;
+					pendingDataPacketsBuffer = null;
 				}
 			}
 		} catch (IOException e) {
-			PolycraftMod.logger.error("Unable to decompress private properties", e);
+			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
 
+	@SubscribeEvent
+	public synchronized void onClientChatReceivedEvent(final ClientChatReceivedEvent event) {
+		final String message = event.message.getUnformattedText();
+		final int usernameIndex = message.indexOf("<");
+		if (usernameIndex > -1) {
+			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
+			final EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
+			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
+			if (sendingPlayer != null) {
+				//FIXME: Walter add a check to make sure the player has a cell phone equipped
+				if (!friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName())))) {
+					if (Math.sqrt(
+							Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
+									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
+									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) > PolycraftMod.maxChatBlockProximity) {
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {

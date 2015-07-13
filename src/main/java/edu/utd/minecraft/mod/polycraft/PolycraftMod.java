@@ -105,6 +105,7 @@ public class PolycraftMod {
 	public static final int recipeSmallerVesselsPerLargerVessel = 64;
 	public static final int recipeGripsPerTool = 1;
 	public static final int recipeGripsPerPogoStick = 2;
+	public static final int maxChatBlockProximity = 32;
 
 	public static final int itemPogoStickBouncesUntilStable = 3; // how many bounces it takes to stabilize at stableBounceHeight
 	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; // how many times the stableBounceHeight a player can fall without taking damage

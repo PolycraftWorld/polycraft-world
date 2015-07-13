@@ -3,19 +3,27 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockEnderChest;
+import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockPressurePlate;
+import net.minecraft.block.BlockTNT;
+import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemFlintAndSteel;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -29,6 +37,7 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -63,9 +72,15 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public abstract class Enforcer {
+
+	public enum DataPacketType {
+		Unknown, PrivateProperties, Friends
+	}
+
 	private static final String chatCommandPrefix = "~";
 	private static final String chatCommandTeleport = "tp";
 	private static final String chatCommandTeleportArgPrivateProperty = "pp";
+	private static final String chatCommandTeleportArgUser = "user";
 	private static final String chatCommandTeleportArgUTD = "utd";
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; //you can only own property in the surface dimension
@@ -76,14 +91,17 @@ public abstract class Enforcer {
 	}
 
 	protected final FMLEventChannel netChannel;
-	protected final String netChannelName = "private.properties";
+	protected final String netChannelName = "polycraft.enforcer";
 	private final Gson gson;
 	protected String privatePropertiesJson = null;
 	protected String whitelistJson = null;
+	protected String friendsJson = null;
 	protected final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
 	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
 	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps.newHashMap();
-	protected String[] whitelist = new String[] {};
+	//polycraft user ids by minecraft username
+	public static Map<String, Long> whitelist = Maps.newHashMap();
+	public static Set<String> friends = Sets.newHashSet();
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
 
@@ -130,8 +148,31 @@ public abstract class Enforcer {
 
 	protected void updateWhitelist(final String whitelistJson) {
 		this.whitelistJson = whitelistJson;
-		whitelist = gson.fromJson(whitelistJson, new TypeToken<String[]>() {
+		whitelist = gson.fromJson(whitelistJson, new TypeToken<Map<String, Long>>() {
 		}.getType());
+	}
+
+	protected String getFriendPairKey(final Long friend1, final Long friend2) {
+		if (friend1 == null || friend2 == null) {
+			return "";
+		}
+
+		if (friend1 < friend2) {
+			return String.format("%d-%d", friend1, friend2);
+		}
+		return String.format("%d-%d", friend2, friend1);
+	}
+
+	protected void updateFriends(final String friendsJson) {
+		this.friendsJson = friendsJson;
+		final long[][] friendsRaw = gson.fromJson(friendsJson, new TypeToken<long[][]>() {
+		}.getType());
+		friends.clear();
+		for (final long[] friendPair : friendsRaw) {
+			if (friendPair.length == 2) {
+				friends.add(getFriendPairKey(friendPair[0], friendPair[1]));
+			}
+		}
 	}
 
 	private static String getChunkKey(final int x, final int z) {
@@ -216,6 +257,13 @@ public abstract class Enforcer {
 				final EntityPlayer player = event.player;
 				final PrivateProperty privateProperty = findPrivateProperty(player);
 				if (privateProperty != null) {
+
+					if (player.ridingEntity != null && !privateProperty.actionEnabled(player, Action.MountEntity)) {
+						setActionPrevented(Action.MountEntity, privateProperty);
+						player.mountEntity(null);
+						return;
+					}
+
 					if (!privateProperty.actionEnabled(player, Action.Enter)) {
 						setActionPrevented(Action.Enter, privateProperty);
 						int i = 1;
@@ -231,6 +279,7 @@ public abstract class Enforcer {
 								break;
 							i++;
 						}
+						return;
 					}
 				}
 			}
@@ -245,9 +294,13 @@ public abstract class Enforcer {
 			final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
 			final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
 			if (targetPrivateProperty == null || (targetPrivateProperty != privateProperty && targetPrivateProperty.actionEnabled(player, Action.Enter))) {
+				//just teleport them out now
+				player.setPositionAndUpdate(x + .5, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z + .5);
+				/* Old method where they user would be "pushed" out
 				player.motionX = targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ? -forceExitSpeed : 0;
 				player.motionY = 0;
 				player.motionZ = targetOffsetZ > 0 ? forceExitSpeed : targetOffsetZ < 0 ? -forceExitSpeed : 0;
+				*/
 				return true;
 			}
 		}
@@ -262,17 +315,7 @@ public abstract class Enforcer {
 			possiblyPreventAction(event, event.entityPlayer, Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
 			break;
 		case RIGHT_CLICK_AIR:
-			if (event.entityPlayer.getCurrentEquippedItem() != null) {
-				if (ItemFlameThrower.isEquipped(event.entityPlayer)) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
-				}
-				else if (ItemFreezeRay.isEquipped(event.entityPlayer)) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseFreezeRay);
-				}
-				else if (ItemWaterCannon.isEquipped(event.entityPlayer)) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseWaterCannon);
-				}
-			}
+			possiblyPreventUseEquippedItem(event);
 			break;
 		case RIGHT_CLICK_BLOCK:
 			final net.minecraft.world.chunk.Chunk blockChunk = event.world.getChunkFromBlockCoords(event.x, event.z);
@@ -323,6 +366,15 @@ public abstract class Enforcer {
 			else if (block instanceof BlockPressurePlate) {
 				possiblyPreventAction(event, event.entityPlayer, Action.UsePressurePlate, blockChunk);
 			}
+			else if (block instanceof BlockDoor) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseDoor, blockChunk);
+			}
+			else if (block instanceof BlockTrapDoor) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseTrapDoor, blockChunk);
+			}
+			else if (block instanceof BlockFenceGate) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseFenceGate, blockChunk);
+			}
 			else if (block instanceof BlockCollision) {
 				final TileEntity tileEntity = BlockCollision.findConnectedInventory(event.world, event.x, event.y, event.z);
 				if (tileEntity != null) {
@@ -336,10 +388,16 @@ public abstract class Enforcer {
 				final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
 				if (equippedItem != null) {
 					if (equippedItem.getItem() instanceof ItemBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
+						final Block equippedBlock = ((ItemBlock) equippedItem.getItem()).field_150939_a;
+						if (equippedBlock instanceof BlockTNT) {
+							possiblyPreventAction(event, event.entityPlayer, Action.AddBlockTNT, blockChunk);
+						}
+						else {
+							possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
+						}
 					}
-					else if (equippedItem.getItem() instanceof ItemFlameThrower) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
+					else {
+						possiblyPreventUseEquippedItem(event);
 					}
 				}
 			}
@@ -349,12 +407,35 @@ public abstract class Enforcer {
 		}
 	}
 
+	private void possiblyPreventUseEquippedItem(final PlayerInteractEvent event) {
+		final ItemStack equippedItemStack = event.entityPlayer.getCurrentEquippedItem();
+		if (equippedItemStack != null) {
+			if (ItemFlameThrower.isEquipped(event.entityPlayer)) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
+			}
+			else if (ItemFreezeRay.isEquipped(event.entityPlayer)) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseFreezeRay);
+			}
+			else if (ItemWaterCannon.isEquipped(event.entityPlayer)) {
+				possiblyPreventAction(event, event.entityPlayer, Action.UseWaterCannon);
+			}
+			else {
+				final Item equippedItem = equippedItemStack.getItem();
+				if (equippedItem instanceof ItemMonsterPlacer) {
+					possiblyPreventAction(event, event.entityPlayer, Action.SpawnEntity);
+				}
+				else if (equippedItem instanceof ItemFlintAndSteel) {
+					possiblyPreventAction(event, event.entityPlayer, Action.UseFlintAndSteel);
+				}
+			}
+		}
+	}
+
 	private void possiblyPreventAction(final PlayerInteractEvent event, final PolycraftInventoryBlock polycraftInventoryBlock, final net.minecraft.world.chunk.Chunk blockChunk) {
 		if (polycraftInventoryBlock != null) {
 			if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
 			}
-			//TODO JIM: Respect Portal Chests here
 			else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
 			}
@@ -402,7 +483,7 @@ public abstract class Enforcer {
 	}
 
 	@SubscribeEvent
-	public synchronized void onCommandEvent(final ServerChatEvent event) {
+	public synchronized void onServerChatEvent(final ServerChatEvent event) {
 		if (event.message.startsWith(chatCommandPrefix)) {
 			event.setCanceled(true);
 			if (event.player.worldObj.isRemote) {
@@ -423,15 +504,28 @@ public abstract class Enforcer {
 			if (chatCommandTeleportArgUTD.equalsIgnoreCase(args[0])) {
 				//only allow if the player is in a private property
 				if (findPrivateProperty(player) != null) {
-					player.setPositionAndUpdate(1, player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3, 1);
+					player.setPositionAndUpdate(1 + .5, player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3, 1 + .5);
 				}
 			}
-			//teleport to a private property
-			else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
-				//only allow if the player is in chunk 0,0 (center of UTD), or if they are in a private property already
-				if ((Math.abs(player.chunkCoordX) <= 5 && Math.abs(player.chunkCoordZ) <= 5) || findPrivateProperty(player) != null) {
-					boolean valid = false;
-					int x = 0, z = 0;
+			//only allow if the player is in chunk 0,0 (center of UTD), or if they are in a private property already
+			else if ((Math.abs(player.chunkCoordX) <= 5 && Math.abs(player.chunkCoordZ) <= 5) || findPrivateProperty(player) != null) {
+				boolean valid = false;
+				int x = 0, z = 0;
+				//teleport to a user
+				if (chatCommandTeleportArgUser.equalsIgnoreCase(args[0])) {
+					if (args.length > 1) {
+						//teleport to a player
+						final EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(args[1]);
+						if (targetPlayer != null && targetPlayer != player) {
+							final PrivateProperty targetPrivateProperty = findPrivateProperty(targetPlayer);
+							valid = targetPrivateProperty != null && targetPrivateProperty.actionEnabled(player, Action.Enter);
+							x = (int) targetPlayer.posX;
+							z = (int) targetPlayer.posZ;
+						}
+					}
+				}
+				//teleport to a private property
+				else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
 					if (args.length < 3) {
 						final List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(player.getDisplayName());
 						if (ownerPrivateProperties != null) {
@@ -444,9 +538,12 @@ public abstract class Enforcer {
 							}
 
 							final PrivateProperty targetPrivateProperty = ownerPrivateProperties.get(index);
-							final PrivateProperty.Chunk tpChunk = targetPrivateProperty.boundTopLeft;
-							x = tpChunk.x * 16;
-							z = tpChunk.z * 16;
+							int minX = (targetPrivateProperty.boundTopLeft.x * 16) + 1;
+							int minZ = (targetPrivateProperty.boundTopLeft.z * 16) + 1;
+							int maxX = (targetPrivateProperty.boundBottomRight.x * 16) + 15;
+							int maxZ = (targetPrivateProperty.boundBottomRight.z * 16) + 15;
+							x = (minX + maxX) / 2;
+							z = (minZ + maxZ) / 2;
 							valid = true;
 						}
 					}
@@ -460,9 +557,10 @@ public abstract class Enforcer {
 						} catch (final Exception e) {
 						}
 					}
-					if (valid) {
-						player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z);
-					}
+				}
+
+				if (valid) {
+					player.setPositionAndUpdate(x + .5, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z + .5);
 				}
 			}
 		}
