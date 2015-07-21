@@ -1,38 +1,38 @@
 Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
-0	It	Kj	Block (AF Resin)	Beaker (Acrylic-Formaldehyde Resin)	AF Resin	0
+1.3.2	It	Kj	Block (AF Resin)	Beaker (Acrylic-Formaldehyde Resin)	AF Resin	0
 1.0.0	Iu	Kk	Block (ABS)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	0
-0	Iv	Kl	Block (Alkyd Resin)	Beaker (Alkyd Resin)	Alkyd Resin	0
+1.3.2	Iv	Kl	Block (Alkyd Resin)	Beaker (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Iw	Km	Block (A-PET)	Sack (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	0
 1.1.0	Ix	Kn	Block (BIIR)	Sack (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	12
 1.1.0	Iy	Ko	Block (Carbon Fiber)	Sack (Carbon Fiber)	Carbon Fiber	0
-0	Iz	Kp	Block (CTAP)	Sack (Cellulose Triacetate Pellets)	CTAP	0
+1.3.2	Iz	Kp	Block (CTAP)	Sack (Cellulose Triacetate Pellets)	CTAP	0
 1.0.0	IA	Kq	Block (Cellulose)	Sack (Cellulosic Pellets)	Cellulose	0
 1.1.0	IB	Kr	Block (Chitin)	Sack (Chitin Pellets)	Chitin	0
 1.1.0	IC	Ks	Block (CIIR)	Sack (Chlorine Isobutylene-Isoprene Rubber Pellets)	CIIR	12
 1.1.2	ID	Kt	Block (Epoxy Resin)	Beaker (Epoxy Resin)	Epoxy Resin	0
-0	IE	Ku	Block (NRE)	Sack (Ethoxylates Pellets)	NRE	0
+1.3.2	IE	Ku	Block (NRE)	Sack (Ethoxylates Pellets)	NRE	0
 1.1.0	IF	Kv	Block (EPM)	Sack (Ethylene-Propylene Monomer Pellets)	EPM	0
 1.1.0	IG	Kw	Block (EPDM)	Sack (Ethylene-Propylene-Diene Monomer Pellets)	EPDM	18
 1.1.0	IH	Kx	Block (EVA)	Sack (Ethylene-Vinyl Acetate Pellets)	EVA	18
 1.0.0	II	Ky	Block (HDPE)	Sack (High Density PolyEthylene Pellets)	HDPE	0
 1.1.0	IJ	Kz	Block (HNBR)	Sack (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	12
 1.1.0	IK	KA	Block (Butyl Rubber)	Sack (Isobutylene-Isoprene Rubber Pellets)	Butyl Rubber	8
-0	IL	KB	Block (Lignin)	Beaker (Lignin)	Lignin	0
+1.3.2	IL	KB	Block (Lignin)	Beaker (Lignin)	Lignin	0
 1.0.0	IM	KC	Block (LLDPE)	Sack (Linear Low-Density PolyEthylene Pellets)	LLDPE	0
 1.0.0	IN	KD	Block (LCP)	Sack (Liquid Crystal Polymer Pellets)	LCP	0
 1.0.0	IO	KE	Block (LDPE)	Sack (Low Density PolyEthylene Pellets)	LDPE	0
 1.0.0	IP	KF	Block (MDPE)	Sack (Medium Density PolyEthylene Pellets)	MDPE	0
-0	IQ	KG	Block (MFP)	Beaker (Melamine-Formaldehyde Polymers)	MFP	0
+1.3.2	IQ	KG	Block (MFP)	Beaker (Melamine-Formaldehyde Polymers)	MFP	0
 1.0.0	IR	KH	Block (MALD)	Sack (Metaldehyde Pellets)	MALD	0
 1.1.0	IS	KI	Block (NBR)	Sack (Nitrile-Butadiene Rubber Pellets)	NBR	12
 1.0.0	IT	KJ	Block (PFA)	Sack (Paraformaldehyde Pellets)	PFA	0
 1.0.0	IU	KK	Block (PALD)	Sack (Paraldehyde Pellets)	PALD	0
 1.1.2	IV	KL	Block (Phenol Formaldehydes)	Beaker (Phenolic Resin)	Phenol Formaldehydes	0
 1.0.0	IW	KM	Block (PHBV)	Sack (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	0
-0	IX	KN	Block (P1B)	Sack (Poly1-Butene Pellets)	P1B	0
-0	IY	KO	Block (PDPE)	"Sack (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	0
-0	IZ	KP	Block (PHB)	Sack (Poly-2-Hydroxy Butyrate Pellets)	PHB	0
-0	J0	KQ	Block (PHEMA)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	0
+1.3.2	IX	KN	Block (P1B)	Sack (Poly1-Butene Pellets)	P1B	0
+1.3.2	IY	KO	Block (PDPE)	Sack (Poly2-6-Dimethyl-1-4-Phenylene Ether Pellets)	PDPE	0
+1.3.2	IZ	KP	Block (PHB)	Sack (Poly-2-Hydroxy Butyrate Pellets)	PHB	0
+1.3.2	J0	KQ	Block (PHEMA)	Sack (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	0
 1.1.2	J1	KR	Block (PAA)	Sack (PolyAcrylic Acid Pellets)	PAA	0
 1.0.0	J2	KS	Block (PAN)	Sack (PolyAcrylonitrile Pellets)	PAN	0
 1.0.0	J3	KT	Block (PBR (low grade))	Sack (PolyButadiene (low-cis) Pellets)	PBR (low grade)	6
@@ -41,15 +41,15 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 1.0.0	J7	KX	Block (PBT)	Sack (PolyButylene Terephthalate Pellets)	PBT	0
 1.0.0	J8	KY	Block (PCL)	Sack (PolyCaprolactone Pellets)	PCL	0
 1.0.0	J9	KZ	Block (PC)	Sack (PolyCarbonate Pellets)	PC	0
-0	Ja	L0	Block (PCHL)	Sack (PolyChloroPrene Pellets)	PCHL	0
-0	Jb	L1	Block (PCTFE)	Sack (PolyChlorotrifluoroethylene Pellets)	PCTFE	0
+1.3.2	Ja	L0	Block (PCHL)	Sack (PolyChloroPrene Pellets)	PCHL	0
+1.3.2	Jb	L1	Block (PCTFE)	Sack (PolyChlorotrifluoroethylene Pellets)	PCTFE	0
 1.0.0	Jc	L2	Block (PDMS)	Sack (PolyDiMethylSiloxane Pellets)	PDMS	0
 1.0.0	Jd	L3	Block (PEEK)	Sack (PolyEther Ether Ketone Pellets)	PEEK	0
 1.0.0	Je	L4	Block (PEI)	Sack (PolyEtherImide Pellets)	PEI	0
-0	Jf	L5	Block (PEA)	Sack (PolyEthyl Acrylate Pellets)	PEA	0
-0	Jg	L6	Block (PEAd)	Sack (PolyEthylene Adipate Pellets)	PEAd	0
+1.3.2	Jf	L5	Block (PEA)	Sack (PolyEthyl Acrylate Pellets)	PEA	0
+1.3.2	Jg	L6	Block (PEAd)	Sack (PolyEthylene Adipate Pellets)	PEAd	0
 1.0.0	Jh	L7	Block (PEG)	Sack (PolyEthylene Glycol Pellets)	PEG	0
-0	Ji	L8	Block (PEHD)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	0
+1.3.2	Ji	L8	Block (PEHD)	Sack (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	0
 1.0.0	Jj	L9	Block (PEN)	Sack (PolyEthylene Naphthalate Pellets)	PEN	0
 1.0.0	Jk	La	Block (PEO)	Sack (PolyEthylene Oxide Pellets)	PEO	0
 1.1.0	Jl	Lb	Block (PES)	Sack (PolyEthylene Sulphide Pellets)	PES	0
@@ -61,55 +61,55 @@ Version	Block Game ID	Item Game ID	Block	Source	Version	Bounce Height
 1.0.0	Jr	Lh	Block (PHA)	Sack (PolyHydroxyalkanoate Pellets)	PHA	0
 0	Js	Li	Block (PHBV)	Sack (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PHBV	0
 1.0.0	Jt	Lj	Block (PI)	Sack (PolyImide Pellets)	PI	0
-0	Ju	Lk	Block (PIBOA)	Sack (PolyIsoBorynl Acrylate Pellets)	PIBOA	0
-0	Jv	Ll	Block (PIBA)	Sack (PolyIsoButyl Acrylate Pellets)	PIBA	0
+1.3.2	Ju	Lk	Block (PIBOA)	Sack (PolyIsoBorynl Acrylate Pellets)	PIBOA	0
+1.3.2	Jv	Ll	Block (PIBA)	Sack (PolyIsoButyl Acrylate Pellets)	PIBA	0
 1.0.0	Jw	Lm	Block (PIB)	Sack (PolyIsoButylene Pellets)	PIB	0
 1.0.0	Jx	Ln	Block (Natural Rubber)	Sack (PolyIsoPrene Pellets)	Natural Rubber	6
 1.0.0	Jy	Lo	Block (PLA)	Sack (PolyLactic Acid Pellets)	PLA	0
-0	Jz	Lp	Block (PLGA)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	PLGA	0
-0	JA	Lq	Block (PMA)	Sack (PolyMethyl Acrylate Pellets)	PMA	0
-0	JB	Lr	Block (PMCA)	Sack (PolyMethyl Cyanoacrylate Pellets)	PMCA	0
-0	JC	Ls	Block (PMMA)	Sack (PolyMethyl Methacrylate Pellets)	PMMA	0
-0	JD	Lt	Block (PMMS)	Sack (PolyM-Methyl Styrene Pellets)	PMMS	0
+1.3.2	Jz	Lp	Block (PLGA)	Sack (PolyLactic-Co-Glycolic Acid Pellets)	PLGA	0
+1.3.2	JA	Lq	Block (PMA)	Sack (PolyMethyl Acrylate Pellets)	PMA	0
+1.3.2	JB	Lr	Block (PMCA)	Sack (PolyMethyl Cyanoacrylate Pellets)	PMCA	0
+1.3.2	JC	Ls	Block (PMMA)	Sack (PolyMethyl Methacrylate Pellets)	PMMA	0
+1.3.2	JD	Lt	Block (PMMS)	Sack (PolyM-Methyl Styrene Pellets)	PMMS	0
 1.1.1	JE	Lu	Block (nomex)	Sack (PolyM-Phenylene Isophthalamide Pellets)	nomex	0
-0	JF	Lv	Block (PNBA)	Sack (PolyN-Butyl Acrylate Pellets)	PNBA	0
+1.3.2	JF	Lv	Block (PNBA)	Sack (PolyN-Butyl Acrylate Pellets)	PNBA	0
 1.0.0	JG	Lw	Block (POM)	Sack (PolyOxymethylene Pellets)	POM	0
-0	JH	Lx	Block (PPHD)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	0
-0	JI	Ly	Block (Polyphenol)	Sack (PolyPhenol Pellets)	Polyphenol	0
-0	JJ	Lz	Block (PPO)	Sack (PolyPhenylene Oxide Pellets)	PPO	0
-0	JK	LA	Block (PPPHAZ)	Sack (PolyPhosphazene Pellets)	PPPHAZ	0
-0	JL	LB	Block (PPMS)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	0
-0	JM	LC	Block (PPS)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	0
+1.3.2	JH	Lx	Block (PPHD)	Sack (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	0
+1.3.2	JI	Ly	Block (Polyphenol)	Sack (PolyPhenol Pellets)	Polyphenol	0
+1.3.2	JJ	Lz	Block (PPO)	Sack (PolyPhenylene Oxide Pellets)	PPO	0
+1.3.2	JK	LA	Block (PPPHAZ)	Sack (PolyPhosphazene Pellets)	PPPHAZ	0
+1.3.2	JL	LB	Block (PPMS)	Sack (PolyP-Methyl Styrene Pellets)	PPMS	0
+1.3.2	JM	LC	Block (PPS)	Sack (PolyP-Phenylene Sulphide Pellets)	PPS	0
 1.1.0	JN	LD	Block (kevlar)	Sack (PolyP-Phenylene Terephthalamide Pellets)	kevlar	0
 1.0.0	JO	LE	Block (PP)	Sack (PolyPropylene Pellets)	PP	0
-0	JP	LF	Block (PPG)	Sack (PolyPropylene Glycol Pellets)	PPG	0
-0	JQ	LG	Block (PPOX)	Sack (PolyPropylene Oxide Pellets)	PPOX	0
+1.3.2	JP	LF	Block (PPG)	Sack (PolyPropylene Glycol Pellets)	PPG	0
+1.3.2	JQ	LG	Block (PPOX)	Sack (PolyPropylene Oxide Pellets)	PPOX	0
 1.0.0	JR	LH	Block (PS)	Sack (PolyStyrene Pellets)	PS	0
-0	JS	LI	Block (PTBA)	Sack (PolyTert-Butyl Acrylate Pellets)	PTBA	0
+1.3.2	JS	LI	Block (PTBA)	Sack (PolyTert-Butyl Acrylate Pellets)	PTBA	0
 1.0.0	JT	LJ	Block (PTFE)	Sack (PolyTetraFluoroEthylene Pellets)	PTFE	0
-0	JU	LK	Block (PTMEG)	Sack (PolyTetramethylene Ether Glycol Pellets)	PTMEG	0
-0	JV	LL	Block (PTMG)	Sack (PolyTetramethylene Glycol Pellets)	PTMG	0
-0	JW	LM	Block (PTA)	Sack (PolyThiazyl Pellets)	PTA	0
+1.3.2	JU	LK	Block (PTMEG)	Sack (PolyTetramethylene Ether Glycol Pellets)	PTMEG	0
+1.3.2	JV	LL	Block (PTMG)	Sack (PolyTetramethylene Glycol Pellets)	PTMG	0
+1.3.2	JW	LM	Block (PTA)	Sack (PolyThiazyl Pellets)	PTA	0
 1.0.0	JX	LN	Block (PTT)	Sack (PolyTrimethylene Terephthalate Pellets)	PTT	0
 1.0.0	JY	LO	Block (PU)	Sack (PolyUrethane Pellets)	PU	18
 1.0.0	JZ	LP	Block (PVAC)	Sack (PolyVinyl Acetate Pellets)	PVAC	0
 1.0.0	K0	LQ	Block (PVA)	Sack (PolyVinyl Alcohol Pellets)	PVA	0
-0	K1	LR	Block (PVB)	Sack (PolyVinyl Butyral Pellets)	PVB	0
+1.3.2	K1	LR	Block (PVB)	Sack (PolyVinyl Butyral Pellets)	PVB	0
 1.0.0	K2	LS	Block (PVC)	Sack (PolyVinyl Chloride Pellets)	PVC	0
 1.0.0	K3	LT	Block (PVCA)	Sack (PolyVinyl Chloride Acetate Pellets)	PVCA	0
-0	K4	LU	Block (PVF)	Sack (PolyVinyl Fluoride Pellets)	PVF	0
-0	K5	LV	Block (PVFO)	Sack (PolyVinyl Formal Pellets)	PVFO	0
-0	K6	LW	Block (PVME)	Sack (PolyVinyl Methyl Ether Pellets)	PVME	0
-0	K7	LX	Block (PVDC)	Sack (PolyVinylidene Dichloride Pellets)	PVDC	0
-0	K8	LY	Block (PVDF)	Sack (PolyVinylidene Fluoride Pellets)	PVDF	0
-0	K9	LZ	Block (PVDF-TRFE)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	0
+1.3.2	K4	LU	Block (PVF)	Sack (PolyVinyl Fluoride Pellets)	PVF	0
+1.3.2	K5	LV	Block (PVFO)	Sack (PolyVinyl Formal Pellets)	PVFO	0
+1.3.2	K6	LW	Block (PVME)	Sack (PolyVinyl Methyl Ether Pellets)	PVME	0
+1.3.2	K7	LX	Block (PVDC)	Sack (PolyVinylidene Dichloride Pellets)	PVDC	0
+1.3.2	K8	LY	Block (PVDF)	Sack (PolyVinylidene Fluoride Pellets)	PVDF	0
+1.3.2	K9	LZ	Block (PVDF-TRFE)	Sack (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	0
 1.1.0	Ka	M0	Block (SAN)	Sack (Styrene-Acrylonitrile Pellets)	SAN	0
 1.0.0	Kb	M1	Block (SBR)	Sack (Styrene-Butadiene Rubber Pellets)	SBR	12
 1.1.0	Kc	M2	Block (SBS)	Sack (Styrene-Butadiene-Styrene Pellets)	SBS	0
-0	Kd	M3	Block (SIS)	Sack (Styrene-Isoprene-Styrene Pellets)	SIS	0
-0	Ke	M4	Block (SMAC)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	0
+1.3.2	Kd	M3	Block (SIS)	Sack (Styrene-Isoprene-Styrene Pellets)	SIS	0
+1.3.2	Ke	M4	Block (SMAC)	Sack (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	0
 1.0.0	Kf	M5	Block (UHMWPE)	Sack (Ultra-High-Molecular-Weight PolyEthylene Pellets)	UHMWPE	0
-0	Kg	M6	Block (UFP)	Sack (Urea-Formaldehyde Polymers Pellets)	UFP	0
+1.3.2	Kg	M6	Block (UFP)	Sack (Urea-Formaldehyde Polymers Pellets)	UFP	0
 1.0.0	Kh	M7	Block (VLDPE)	Sack (Very-Low-Density PolyEthylene Pellets)	VLDPE	0
 1.0.0	Ki	M8	Block (VA/AA)	Sack (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	0
 1.1.0	2C	2D	Block (Nylon 6)	Sack (Polycaprolactam Pellets)	Nylon 6	0

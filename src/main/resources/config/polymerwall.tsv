@@ -1,38 +1,38 @@
 Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
-0	Tv	Vl	Wall (AF Resin)	Block (AF Resin)	AF Resin	0
+1.3.2	Tv	Vl	Wall (AF Resin)	Block (AF Resin)	AF Resin	0
 1.0.0	Tw	Vm	Wall (ABS)	Block (ABS)	ABS	0
-0	Tx	Vn	Wall (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
+1.3.2	Tx	Vn	Wall (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
 1.0.0	Ty	Vo	Wall (A-PET)	Block (A-PET)	A-PET	0
 1.1.0	Tz	Vp	Wall (BIIR)	Block (BIIR)	BIIR	6
 1.1.0	TA	Vq	Wall (Carbon Fiber)	Block (Carbon Fiber)	Carbon Fiber	0
-0	TB	Vr	Wall (CTAP)	Block (CTAP)	CTAP	0
+1.3.2	TB	Vr	Wall (CTAP)	Block (CTAP)	CTAP	0
 1.0.0	TC	Vs	Wall (Cellulose)	Block (Cellulose)	Cellulose	0
 1.1.0	TD	Vt	Wall (Chitin)	Block (Chitin)	Chitin	0
 1.1.0	TE	Vu	Wall (CIIR)	Block (CIIR)	CIIR	6
 1.1.2	TF	Vv	Wall (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
-0	TG	Vw	Wall (NRE)	Block (NRE)	NRE	0
+1.3.2	TG	Vw	Wall (NRE)	Block (NRE)	NRE	0
 1.1.0	TH	Vx	Wall (EPM)	Block (EPM)	EPM	0
 1.1.0	TI	Vy	Wall (EPDM)	Block (EPDM)	EPDM	9
 1.1.0	TJ	Vz	Wall (EVA)	Block (EVA)	EVA	9
 1.0.0	TK	VA	Wall (HDPE)	Block (HDPE)	HDPE	0
 1.1.0	TL	VB	Wall (HNBR)	Block (HNBR)	HNBR	6
 1.1.0	TM	VC	Wall (Butyl Rubber)	Block (Butyl Rubber)	Butyl Rubber	4
-0	TN	VD	Wall (Lignin)	Block (Lignin)	Lignin	0
+1.3.2	TN	VD	Wall (Lignin)	Block (Lignin)	Lignin	0
 1.0.0	TO	VE	Wall (LLDPE)	Block (LLDPE)	LLDPE	0
 1.0.0	TP	VF	Wall (LCP)	Block (LCP)	LCP	0
 1.0.0	TQ	VG	Wall (LDPE)	Block (LDPE)	LDPE	0
 1.0.0	TR	VH	Wall (MDPE)	Block (MDPE)	MDPE	0
-0	TS	VI	Wall (MFP)	Block (MFP)	MFP	0
+1.3.2	TS	VI	Wall (MFP)	Block (MFP)	MFP	0
 1.0.0	TT	VJ	Wall (MALD)	Block (MALD)	MALD	0
 1.1.0	TU	VK	Wall (NBR)	Block (NBR)	NBR	6
 1.0.0	TV	VL	Wall (PFA)	Block (PFA)	PFA	0
 1.0.0	TW	VM	Wall (PALD)	Block (PALD)	PALD	0
 1.1.2	TX	VN	Wall (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
 1.0.0	TY	VO	Wall (PHBV)	Block (PHBV)	PHBV	0
-0	TZ	VP	Wall (P1B)	Block (P1B)	P1B	0
-0	U0	VQ	Wall (PDPE)	Block (PDPE)	PDPE	0
-0	U1	VR	Wall (PHB)	Block (PHB)	PHB	0
-0	U2	VS	Wall (PHEMA)	Block (PHEMA)	PHEMA	0
+1.3.2	TZ	VP	Wall (P1B)	Block (P1B)	P1B	0
+1.3.2	U0	VQ	Wall (PDPE)	Block (PDPE)	PDPE	0
+1.3.2	U1	VR	Wall (PHB)	Block (PHB)	PHB	0
+1.3.2	U2	VS	Wall (PHEMA)	Block (PHEMA)	PHEMA	0
 1.1.2	U3	VT	Wall (PAA)	Block (PAA)	PAA	0
 1.0.0	U4	VU	Wall (PAN)	Block (PAN)	PAN	0
 1.0.0	U5	VV	Wall (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
@@ -41,15 +41,15 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	U9	VZ	Wall (PBT)	Block (PBT)	PBT	0
 1.0.0	Ua	W0	Wall (PCL)	Block (PCL)	PCL	0
 1.0.0	Ub	W1	Wall (PC)	Block (PC)	PC	0
-0	Uc	W2	Wall (PCHL)	Block (PCHL)	PCHL	0
-0	Ud	W3	Wall (PCTFE)	Block (PCTFE)	PCTFE	0
+1.3.2	Uc	W2	Wall (PCHL)	Block (PCHL)	PCHL	0
+1.3.2	Ud	W3	Wall (PCTFE)	Block (PCTFE)	PCTFE	0
 1.0.0	Ue	W4	Wall (PDMS)	Block (PDMS)	PDMS	0
 1.0.0	Uf	W5	Wall (PEEK)	Block (PEEK)	PEEK	0
 1.0.0	Ug	W6	Wall (PEI)	Block (PEI)	PEI	0
-0	Uh	W7	Wall (PEA)	Block (PEA)	PEA	0
-0	Ui	W8	Wall (PEAd)	Block (PEAd)	PEAd	0
+1.3.2	Uh	W7	Wall (PEA)	Block (PEA)	PEA	0
+1.3.2	Ui	W8	Wall (PEAd)	Block (PEAd)	PEAd	0
 1.0.0	Uj	W9	Wall (PEG)	Block (PEG)	PEG	0
-0	Uk	Wa	Wall (PEHD)	Block (PEHD)	PEHD	0
+1.3.2	Uk	Wa	Wall (PEHD)	Block (PEHD)	PEHD	0
 1.0.0	Ul	Wb	Wall (PEN)	Block (PEN)	PEN	0
 1.0.0	Um	Wc	Wall (PEO)	Block (PEO)	PEO	0
 1.1.0	Un	Wd	Wall (PES)	Block (PES)	PES	0
@@ -61,55 +61,55 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.0.0	Ut	Wj	Wall (PHA)	Block (PHA)	PHA	0
 0	Uu	Wk	Wall (PHBV)	Block (PHBV)	PHBV	0
 1.0.0	Uv	Wl	Wall (PI)	Block (PI)	PI	0
-0	Uw	Wm	Wall (PIBOA)	Block (PIBOA)	PIBOA	0
-0	Ux	Wn	Wall (PIBA)	Block (PIBA)	PIBA	0
+1.3.2	Uw	Wm	Wall (PIBOA)	Block (PIBOA)	PIBOA	0
+1.3.2	Ux	Wn	Wall (PIBA)	Block (PIBA)	PIBA	0
 1.0.0	Uy	Wo	Wall (PIB)	Block (PIB)	PIB	0
 1.0.0	Uz	Wp	Wall (Natural Rubber)	Block (Natural Rubber)	Natural Rubber	3
 1.0.0	UA	Wq	Wall (PLA)	Block (PLA)	PLA	0
-0	UB	Wr	Wall (PLGA)	Block (PLGA)	PLGA	0
-0	UC	Ws	Wall (PMA)	Block (PMA)	PMA	0
-0	UD	Wt	Wall (PMCA)	Block (PMCA)	PMCA	0
-0	UE	Wu	Wall (PMMA)	Block (PMMA)	PMMA	0
-0	UF	Wv	Wall (PMMS)	Block (PMMS)	PMMS	0
+1.3.2	UB	Wr	Wall (PLGA)	Block (PLGA)	PLGA	0
+1.3.2	UC	Ws	Wall (PMA)	Block (PMA)	PMA	0
+1.3.2	UD	Wt	Wall (PMCA)	Block (PMCA)	PMCA	0
+1.3.2	UE	Wu	Wall (PMMA)	Block (PMMA)	PMMA	0
+1.3.2	UF	Wv	Wall (PMMS)	Block (PMMS)	PMMS	0
 1.1.1	UG	Ww	Wall (nomex)	Block (nomex)	nomex	0
-0	UH	Wx	Wall (PNBA)	Block (PNBA)	PNBA	0
+1.3.2	UH	Wx	Wall (PNBA)	Block (PNBA)	PNBA	0
 1.0.0	UI	Wy	Wall (POM)	Block (POM)	POM	0
-0	UJ	Wz	Wall (PPHD)	Block (PPHD)	PPHD	0
-0	UK	WA	Wall (Polyphenol)	Block (Polyphenol)	Polyphenol	0
-0	UL	WB	Wall (PPO)	Block (PPO)	PPO	0
-0	UM	WC	Wall (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
-0	UN	WD	Wall (PPMS)	Block (PPMS)	PPMS	0
-0	UO	WE	Wall (PPS)	Block (PPS)	PPS	0
+1.3.2	UJ	Wz	Wall (PPHD)	Block (PPHD)	PPHD	0
+1.3.2	UK	WA	Wall (Polyphenol)	Block (Polyphenol)	Polyphenol	0
+1.3.2	UL	WB	Wall (PPO)	Block (PPO)	PPO	0
+1.3.2	UM	WC	Wall (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
+1.3.2	UN	WD	Wall (PPMS)	Block (PPMS)	PPMS	0
+1.3.2	UO	WE	Wall (PPS)	Block (PPS)	PPS	0
 1.1.0	UP	WF	Wall (kevlar)	Block (kevlar)	kevlar	0
 1.0.0	UQ	WG	Wall (PP)	Block (PP)	PP	0
-0	UR	WH	Wall (PPG)	Block (PPG)	PPG	0
-0	US	WI	Wall (PPOX)	Block (PPOX)	PPOX	0
+1.3.2	UR	WH	Wall (PPG)	Block (PPG)	PPG	0
+1.3.2	US	WI	Wall (PPOX)	Block (PPOX)	PPOX	0
 1.0.0	UT	WJ	Wall (PS)	Block (PS)	PS	0
-0	UU	WK	Wall (PTBA)	Block (PTBA)	PTBA	0
+1.3.2	UU	WK	Wall (PTBA)	Block (PTBA)	PTBA	0
 1.0.0	UV	WL	Wall (PTFE)	Block (PTFE)	PTFE	0
-0	UW	WM	Wall (PTMEG)	Block (PTMEG)	PTMEG	0
-0	UX	WN	Wall (PTMG)	Block (PTMG)	PTMG	0
-0	UY	WO	Wall (PTA)	Block (PTA)	PTA	0
+1.3.2	UW	WM	Wall (PTMEG)	Block (PTMEG)	PTMEG	0
+1.3.2	UX	WN	Wall (PTMG)	Block (PTMG)	PTMG	0
+1.3.2	UY	WO	Wall (PTA)	Block (PTA)	PTA	0
 1.0.0	UZ	WP	Wall (PTT)	Block (PTT)	PTT	0
 1.0.0	V0	WQ	Wall (PU)	Block (PU)	PU	9
 1.0.0	V1	WR	Wall (PVAC)	Block (PVAC)	PVAC	0
 1.0.0	V2	WS	Wall (PVA)	Block (PVA)	PVA	0
-0	V3	WT	Wall (PVB)	Block (PVB)	PVB	0
+1.3.2	V3	WT	Wall (PVB)	Block (PVB)	PVB	0
 1.0.0	V4	WU	Wall (PVC)	Block (PVC)	PVC	0
 1.0.0	V5	WV	Wall (PVCA)	Block (PVCA)	PVCA	0
-0	V6	WW	Wall (PVF)	Block (PVF)	PVF	0
-0	V7	WX	Wall (PVFO)	Block (PVFO)	PVFO	0
-0	V8	WY	Wall (PVME)	Block (PVME)	PVME	0
-0	V9	WZ	Wall (PVDC)	Block (PVDC)	PVDC	0
-0	Va	X0	Wall (PVDF)	Block (PVDF)	PVDF	0
-0	Vb	X1	Wall (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
+1.3.2	V6	WW	Wall (PVF)	Block (PVF)	PVF	0
+1.3.2	V7	WX	Wall (PVFO)	Block (PVFO)	PVFO	0
+1.3.2	V8	WY	Wall (PVME)	Block (PVME)	PVME	0
+1.3.2	V9	WZ	Wall (PVDC)	Block (PVDC)	PVDC	0
+1.3.2	Va	X0	Wall (PVDF)	Block (PVDF)	PVDF	0
+1.3.2	Vb	X1	Wall (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
 1.1.0	Vc	X2	Wall (SAN)	Block (SAN)	SAN	0
 1.0.0	Vd	X3	Wall (SBR)	Block (SBR)	SBR	6
 1.1.0	Ve	X4	Wall (SBS)	Block (SBS)	SBS	0
-0	Vf	X5	Wall (SIS)	Block (SIS)	SIS	0
-0	Vg	X6	Wall (SMAC)	Block (SMAC)	SMAC	0
+1.3.2	Vf	X5	Wall (SIS)	Block (SIS)	SIS	0
+1.3.2	Vg	X6	Wall (SMAC)	Block (SMAC)	SMAC	0
 1.0.0	Vh	X7	Wall (UHMWPE)	Block (UHMWPE)	UHMWPE	0
-0	Vi	X8	Wall (UFP)	Block (UFP)	UFP	0
+1.3.2	Vi	X8	Wall (UFP)	Block (UFP)	UFP	0
 1.0.0	Vj	X9	Wall (VLDPE)	Block (VLDPE)	VLDPE	0
 1.0.0	Vk	Xa	Wall (VA/AA)	Block (VA/AA)	VA/AA	0
 1.1.0	2I	2J	Wall (Nylon 6)	Block (Nylon 6)	Nylon 6	0
@@ -117,8 +117,8 @@ Version	Block Game ID	Item Game ID	Wall	Source	Version	Bounce Height
 1.1.2	1bs	1bu	Wall (Carbon Fiber Resin (P))	Block (Carbon Fiber Resin (P))	Carbon Fiber Resin (P)	0
 1.3.2	1cT	1dV	Wall (n-PR)	Block (n-PR)	n-PR	0
 1.3.2	1cU	1dW	Wall (p-PR)	Block (p-PR)	p-PR	0
-0	1cV	1dX	#N/A	0	#N/A	0
-0	1cW	1dY	#N/A	0	#N/A	0
+	1cV	1dX	#N/A	0	#N/A	0
+	1cW	1dY	#N/A	0	#N/A	0
 						
 						
 						

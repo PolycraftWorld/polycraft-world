@@ -32,40 +32,40 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.3	11b	Heated Knife Handle (PP)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PP	16	10	64	FALSE											
 1.0.3	11c	Heated Knife Handle (Natural Rubber)	Mold (Heated Knife Handle)	Bag (PolyIsoPrene Pellets)	Natural Rubber	16	10	64	FALSE											
 1.0.3	11d	Heated Knife Handle (PEEK)	Mold (Heated Knife Handle)	Bag (PolyEther Ether Ketone Pellets)	PEEK	16	10	64	FALSE											
-	GD	Fibers (AF Resin)	Metal Die (Fibers)	Vial (Acrylic-Formaldehyde Resin)	AF Resin	16	10	64	FALSE											
+1.3.2	GD	Fibers (AF Resin)	Metal Die (Fibers)	Vial (Acrylic-Formaldehyde Resin)	AF Resin	16	10	64	FALSE											
 1.0.0	GE	Fibers (ABS)	Metal Die (Fibers)	Bag (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	16	10	64	FALSE											
-	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Vial (Alkyd Resin)	Alkyd Resin	16	10	64	FALSE											
+1.3.2	GF	Fibers (Alkyd Resin)	Metal Die (Fibers)	Vial (Alkyd Resin)	Alkyd Resin	16	10	64	FALSE											
 1.0.0	GG	Fibers (A-PET)	Metal Die (Fibers)	Bag (Amorphous PolyEthylene Terephthalate Pellets)	A-PET	16	10	64	FALSE											
 1.1.0	GH	Fibers (BIIR)	Metal Die (Fibers)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)	BIIR	16	10	64	FALSE											
 1.1.0	GI	Fibers (Carbon Fiber)	Metal Die (Fibers)	Bag (Carbon Fiber)	Carbon Fiber	16	10	64	FALSE											
-	GJ	Fibers (CTAP)	Metal Die (Fibers)	Bag (Cellulose Triacetate Pellets)	CTAP	16	10	64	FALSE											
+1.3.2	GJ	Fibers (CTAP)	Metal Die (Fibers)	Bag (Cellulose Triacetate Pellets)	CTAP	16	10	64	FALSE											
 1.0.0	GK	Fibers (Cellulose)	Metal Die (Fibers)	Bag (Cellulosic Pellets)	Cellulose	16	10	64	FALSE											
 1.1.0	GL	Fibers (Chitin)	Metal Die (Fibers)	Bag (Chitin Pellets)	Chitin	16	10	64	FALSE											
 1.1.0	GM	Fibers (CIIR)	Metal Die (Fibers)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	CIIR	16	10	64	FALSE											
 1.1.2	GN	Fibers (Epoxy Resin)	Metal Die (Fibers)	Vial (Epoxy Resin)	Epoxy Resin	16	10	64	FALSE											
-	GO	Fibers (NRE)	Metal Die (Fibers)	Bag (Ethoxylates Pellets)	NRE	16	10	64	FALSE											
+1.3.2	GO	Fibers (NRE)	Metal Die (Fibers)	Bag (Ethoxylates Pellets)	NRE	16	10	64	FALSE											
 1.1.0	GP	Fibers (EPM)	Metal Die (Fibers)	Bag (Ethylene-Propylene Monomer Pellets)	EPM	16	10	64	FALSE											
 1.1.0	GQ	Fibers (EPDM)	Metal Die (Fibers)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	EPDM	16	10	64	FALSE											
 1.1.0	GR	Fibers (EVA)	Metal Die (Fibers)	Bag (Ethylene-Vinyl Acetate Pellets)	EVA	16	10	64	FALSE											
 1.0.0	GS	Fibers (HDPE)	Metal Die (Fibers)	Bag (High Density PolyEthylene Pellets)	HDPE	16	10	64	FALSE											
 1.1.0	GT	Fibers (HNBR)	Metal Die (Fibers)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	HNBR	16	10	64	FALSE											
 1.1.0	GU	Fibers (Butyl Rubber)	Metal Die (Fibers)	Bag (Isobutylene-Isoprene Rubber Pellets)	Butyl Rubber	16	10	64	FALSE											
-	GV	Fibers (Lignin)	Metal Die (Fibers)	Vial (Lignin)	Lignin	16	10	64	FALSE											
+1.3.2	GV	Fibers (Lignin)	Metal Die (Fibers)	Vial (Lignin)	Lignin	16	10	64	FALSE											
 1.0.0	GW	Fibers (LLDPE)	Metal Die (Fibers)	Bag (Linear Low-Density PolyEthylene Pellets)	LLDPE	16	10	64	FALSE											
 1.0.0	GX	Fibers (LCP)	Metal Die (Fibers)	Bag (Liquid Crystal Polymer Pellets)	LCP	16	10	64	FALSE											
 1.0.0	GY	Fibers (LDPE)	Metal Die (Fibers)	Bag (Low Density PolyEthylene Pellets)	LDPE	16	10	64	FALSE											
 1.0.0	GZ	Fibers (MDPE)	Metal Die (Fibers)	Bag (Medium Density PolyEthylene Pellets)	MDPE	16	10	64	FALSE											
-	H0	Fibers (MFP)	Metal Die (Fibers)	Vial (Melamine-Formaldehyde Polymers)	MFP	16	10	64	FALSE											
+1.3.2	H0	Fibers (MFP)	Metal Die (Fibers)	Vial (Melamine-Formaldehyde Polymers)	MFP	16	10	64	FALSE											
 1.0.0	H1	Fibers (MALD)	Metal Die (Fibers)	Bag (Metaldehyde Pellets)	MALD	16	10	64	FALSE											
 1.1.0	H2	Fibers (NBR)	Metal Die (Fibers)	Bag (Nitrile-Butadiene Rubber Pellets)	NBR	16	10	64	FALSE											
 1.0.0	H3	Fibers (PFA)	Metal Die (Fibers)	Bag (Paraformaldehyde Pellets)	PFA	16	10	64	FALSE											
 1.0.0	H4	Fibers (PALD)	Metal Die (Fibers)	Bag (Paraldehyde Pellets)	PALD	16	10	64	FALSE											
 1.1.2	H5	Fibers (Phenol Formaldehydes)	Metal Die (Fibers)	Vial (Phenolic Resin)	Phenol Formaldehydes	16	10	64	FALSE											
 1.0.0	H6	Fibers (PHBV)	Metal Die (Fibers)	Bag (Poly(3-Hydroxybutyrate-Co-3-Hydroxyvalerate) Pellets)	PHBV	16	10	64	FALSE											
-	H7	Fibers (P1B)	Metal Die (Fibers)	Bag (Poly1-Butene Pellets)	P1B	16	10	64	FALSE											
-	H8	Fibers (PDPE)	Metal Die (Fibers)	"Bag (Poly2,6-Dimethyl-1,4-Phenylene Ether Pellets)"	PDPE	16	10	64	FALSE											
-	H9	Fibers (PHB)	Metal Die (Fibers)	Bag (Poly-2-Hydroxy Butyrate Pellets)	PHB	16	10	64	FALSE											
-	Ha	Fibers (PHEMA)	Metal Die (Fibers)	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	16	10	64	FALSE											
+1.3.2	H7	Fibers (P1B)	Metal Die (Fibers)	Bag (Poly1-Butene Pellets)	P1B	16	10	64	FALSE											
+1.3.2	H8	Fibers (PDPE)	Metal Die (Fibers)	Bag (Poly2-6-Dimethyl-1-4-Phenylene Ether Pellets)	PDPE	16	10	64	FALSE											
+1.3.2	H9	Fibers (PHB)	Metal Die (Fibers)	Bag (Poly-2-Hydroxy Butyrate Pellets)	PHB	16	10	64	FALSE											
+1.3.2	Ha	Fibers (PHEMA)	Metal Die (Fibers)	Bag (Poly2-Hydroxyethyl Methacrylate Pellets)	PHEMA	16	10	64	FALSE											
 1.1.2	Hb	Fibers (PAA)	Metal Die (Fibers)	Bag (PolyAcrylic Acid Pellets)	PAA	16	10	64	FALSE											
 1.0.0	Hc	Fibers (PAN)	Metal Die (Fibers)	Bag (PolyAcrylonitrile Pellets)	PAN	16	10	64	FALSE											
 1.0.0	Hd	Fibers (PBR (low grade))	Metal Die (Fibers)	Bag (PolyButadiene (low-cis) Pellets)	PBR (low grade)	16	10	64	FALSE											
@@ -74,15 +74,15 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	Hh	Fibers (PBT)	Metal Die (Fibers)	Bag (PolyButylene Terephthalate Pellets)	PBT	16	10	64	FALSE											
 1.0.0	Hi	Fibers (PCL)	Metal Die (Fibers)	Bag (PolyCaprolactone Pellets)	PCL	16	10	64	FALSE											
 1.0.0	Hj	Fibers (PC)	Metal Die (Fibers)	Bag (PolyCarbonate Pellets)	PC	16	10	64	FALSE											
-	Hk	Fibers (PCHL)	Metal Die (Fibers)	Bag (PolyChloroPrene Pellets)	PCHL	16	10	64	FALSE											
-	Hl	Fibers (PCTFE)	Metal Die (Fibers)	Bag (PolyChlorotrifluoroethylene Pellets)	PCTFE	16	10	64	FALSE											
+1.3.2	Hk	Fibers (PCHL)	Metal Die (Fibers)	Bag (PolyChloroPrene Pellets)	PCHL	16	10	64	FALSE											
+1.3.2	Hl	Fibers (PCTFE)	Metal Die (Fibers)	Bag (PolyChlorotrifluoroethylene Pellets)	PCTFE	16	10	64	FALSE											
 1.0.0	Hm	Fibers (PDMS)	Metal Die (Fibers)	Bag (PolyDiMethylSiloxane Pellets)	PDMS	16	10	64	FALSE											
 1.0.0	Hn	Fibers (PEEK)	Metal Die (Fibers)	Bag (PolyEther Ether Ketone Pellets)	PEEK	16	10	64	FALSE											
 1.0.0	Ho	Fibers (PEI)	Metal Die (Fibers)	Bag (PolyEtherImide Pellets)	PEI	16	10	64	FALSE											
-	Hp	Fibers (PEA)	Metal Die (Fibers)	Bag (PolyEthyl Acrylate Pellets)	PEA	16	10	64	FALSE											
-	Hq	Fibers (PEAd)	Metal Die (Fibers)	Bag (PolyEthylene Adipate Pellets)	PEAd	16	10	64	FALSE											
+1.3.2	Hp	Fibers (PEA)	Metal Die (Fibers)	Bag (PolyEthyl Acrylate Pellets)	PEA	16	10	64	FALSE											
+1.3.2	Hq	Fibers (PEAd)	Metal Die (Fibers)	Bag (PolyEthylene Adipate Pellets)	PEAd	16	10	64	FALSE											
 1.0.0	Hr	Fibers (PEG)	Metal Die (Fibers)	Bag (PolyEthylene Glycol Pellets)	PEG	16	10	64	FALSE											
-	Hs	Fibers (PEHD)	Metal Die (Fibers)	Bag (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	16	10	64	FALSE											
+1.3.2	Hs	Fibers (PEHD)	Metal Die (Fibers)	Bag (PolyEthylene Hexamethylene Dicarbamate Pellets)	PEHD	16	10	64	FALSE											
 1.0.0	Ht	Fibers (PEN)	Metal Die (Fibers)	Bag (PolyEthylene Naphthalate Pellets)	PEN	16	10	64	FALSE											
 1.0.0	Hu	Fibers (PEO)	Metal Die (Fibers)	Bag (PolyEthylene Oxide Pellets)	PEO	16	10	64	FALSE											
 1.1.0	Hv	Fibers (PES)	Metal Die (Fibers)	Bag (PolyEthylene Sulphide Pellets)	PES	16	10	64	FALSE											
@@ -94,55 +94,55 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.0.0	HB	Fibers (PHA)	Metal Die (Fibers)	Bag (PolyHydroxyalkanoate Pellets)	PHA	16	10	64	FALSE											
 	HC	Fibers (PHBV)	Metal Die (Fibers)	Bag (PolyHydroxybutyrate-Co-Hydroxyvalerate Pellets)	PHBV	16	10	64	FALSE											
 1.0.0	HD	Fibers (PI)	Metal Die (Fibers)	Bag (PolyImide Pellets)	PI	16	10	64	FALSE											
-	HE	Fibers (PIBOA)	Metal Die (Fibers)	Bag (PolyIsoBorynl Acrylate Pellets)	PIBOA	16	10	64	FALSE											
-	HF	Fibers (PIBA)	Metal Die (Fibers)	Bag (PolyIsoButyl Acrylate Pellets)	PIBA	16	10	64	FALSE											
+1.3.2	HE	Fibers (PIBOA)	Metal Die (Fibers)	Bag (PolyIsoBorynl Acrylate Pellets)	PIBOA	16	10	64	FALSE											
+1.3.2	HF	Fibers (PIBA)	Metal Die (Fibers)	Bag (PolyIsoButyl Acrylate Pellets)	PIBA	16	10	64	FALSE											
 1.0.0	HG	Fibers (PIB)	Metal Die (Fibers)	Bag (PolyIsoButylene Pellets)	PIB	16	10	64	FALSE											
 1.0.0	HH	Fibers (Natural Rubber)	Metal Die (Fibers)	Bag (PolyIsoPrene Pellets)	Natural Rubber	16	10	64	FALSE											
 1.0.0	HI	Fibers (PLA)	Metal Die (Fibers)	Bag (PolyLactic Acid Pellets)	PLA	16	10	64	FALSE											
-	HJ	Fibers (PLGA)	Metal Die (Fibers)	Bag (PolyLactic-Co-Glycolic Acid Pellets)	PLGA	16	10	64	FALSE											
-	HK	Fibers (PMA)	Metal Die (Fibers)	Bag (PolyMethyl Acrylate Pellets)	PMA	16	10	64	FALSE											
-	HL	Fibers (PMCA)	Metal Die (Fibers)	Bag (PolyMethyl Cyanoacrylate Pellets)	PMCA	16	10	64	FALSE											
-	HM	Fibers (PMMA)	Metal Die (Fibers)	Bag (PolyMethyl Methacrylate Pellets)	PMMA	16	10	64	FALSE											
-	HN	Fibers (PMMS)	Metal Die (Fibers)	Bag (PolyM-Methyl Styrene Pellets)	PMMS	16	10	64	FALSE											
+1.3.2	HJ	Fibers (PLGA)	Metal Die (Fibers)	Bag (PolyLactic-Co-Glycolic Acid Pellets)	PLGA	16	10	64	FALSE											
+1.3.2	HK	Fibers (PMA)	Metal Die (Fibers)	Bag (PolyMethyl Acrylate Pellets)	PMA	16	10	64	FALSE											
+1.3.2	HL	Fibers (PMCA)	Metal Die (Fibers)	Bag (PolyMethyl Cyanoacrylate Pellets)	PMCA	16	10	64	FALSE											
+1.3.2	HM	Fibers (PMMA)	Metal Die (Fibers)	Bag (PolyMethyl Methacrylate Pellets)	PMMA	16	10	64	FALSE											
+1.3.2	HN	Fibers (PMMS)	Metal Die (Fibers)	Bag (PolyM-Methyl Styrene Pellets)	PMMS	16	10	64	FALSE											
 1.1.1	HO	Fibers (nomex)	Metal Die (Fibers)	Bag (PolyM-Phenylene Isophthalamide Pellets)	nomex	16	10	64	FALSE											
-	HP	Fibers (PNBA)	Metal Die (Fibers)	Bag (PolyN-Butyl Acrylate Pellets)	PNBA	16	10	64	FALSE											
+1.3.2	HP	Fibers (PNBA)	Metal Die (Fibers)	Bag (PolyN-Butyl Acrylate Pellets)	PNBA	16	10	64	FALSE											
 1.0.0	HQ	Fibers (POM)	Metal Die (Fibers)	Bag (PolyOxymethylene Pellets)	POM	16	10	64	FALSE											
-	HR	Fibers (PPHD)	Metal Die (Fibers)	Bag (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	16	10	64	FALSE											
-	HS	Fibers (Polyphenol)	Metal Die (Fibers)	Bag (PolyPhenol Pellets)	Polyphenol	16	10	64	FALSE											
-	HT	Fibers (PPO)	Metal Die (Fibers)	Bag (PolyPhenylene Oxide Pellets)	PPO	16	10	64	FALSE											
-	HU	Fibers (PPPHAZ)	Metal Die (Fibers)	Bag (PolyPhosphazene Pellets)	PPPHAZ	16	10	64	FALSE											
-	HV	Fibers (PPMS)	Metal Die (Fibers)	Bag (PolyP-Methyl Styrene Pellets)	PPMS	16	10	64	FALSE											
-	HW	Fibers (PPS)	Metal Die (Fibers)	Bag (PolyP-Phenylene Sulphide Pellets)	PPS	16	10	64	FALSE											
+1.3.2	HR	Fibers (PPHD)	Metal Die (Fibers)	Bag (PolyPentamethylene Hexamethylene Dicarbamate Pellets)	PPHD	16	10	64	FALSE											
+1.3.2	HS	Fibers (Polyphenol)	Metal Die (Fibers)	Bag (PolyPhenol Pellets)	Polyphenol	16	10	64	FALSE											
+1.3.2	HT	Fibers (PPO)	Metal Die (Fibers)	Bag (PolyPhenylene Oxide Pellets)	PPO	16	10	64	FALSE											
+1.3.2	HU	Fibers (PPPHAZ)	Metal Die (Fibers)	Bag (PolyPhosphazene Pellets)	PPPHAZ	16	10	64	FALSE											
+1.3.2	HV	Fibers (PPMS)	Metal Die (Fibers)	Bag (PolyP-Methyl Styrene Pellets)	PPMS	16	10	64	FALSE											
+1.3.2	HW	Fibers (PPS)	Metal Die (Fibers)	Bag (PolyP-Phenylene Sulphide Pellets)	PPS	16	10	64	FALSE											
 1.1.0	HX	Fibers (kevlar)	Metal Die (Fibers)	Bag (PolyP-Phenylene Terephthalamide Pellets)	kevlar	16	10	64	FALSE											
 1.0.0	HY	Fibers (PP)	Metal Die (Fibers)	Bag (PolyPropylene Pellets)	PP	16	10	64	FALSE											
-	HZ	Fibers (PPG)	Metal Die (Fibers)	Bag (PolyPropylene Glycol Pellets)	PPG	16	10	64	FALSE											
-	I0	Fibers (PPOX)	Metal Die (Fibers)	Bag (PolyPropylene Oxide Pellets)	PPOX	16	10	64	FALSE											
+1.3.2	HZ	Fibers (PPG)	Metal Die (Fibers)	Bag (PolyPropylene Glycol Pellets)	PPG	16	10	64	FALSE											
+1.3.2	I0	Fibers (PPOX)	Metal Die (Fibers)	Bag (PolyPropylene Oxide Pellets)	PPOX	16	10	64	FALSE											
 1.0.0	I1	Fibers (PS)	Metal Die (Fibers)	Bag (PolyStyrene Pellets)	PS	16	10	64	FALSE											
-	I2	Fibers (PTBA)	Metal Die (Fibers)	Bag (PolyTert-Butyl Acrylate Pellets)	PTBA	16	10	64	FALSE											
+1.3.2	I2	Fibers (PTBA)	Metal Die (Fibers)	Bag (PolyTert-Butyl Acrylate Pellets)	PTBA	16	10	64	FALSE											
 1.0.0	I3	Fibers (PTFE)	Metal Die (Fibers)	Bag (PolyTetraFluoroEthylene Pellets)	PTFE	16	10	64	FALSE											
-	I4	Fibers (PTMEG)	Metal Die (Fibers)	Bag (PolyTetramethylene Ether Glycol Pellets)	PTMEG	16	10	64	FALSE											
-	I5	Fibers (PTMG)	Metal Die (Fibers)	Bag (PolyTetramethylene Glycol Pellets)	PTMG	16	10	64	FALSE											
-	I6	Fibers (PTA)	Metal Die (Fibers)	Bag (PolyThiazyl Pellets)	PTA	16	10	64	FALSE											
+1.3.2	I4	Fibers (PTMEG)	Metal Die (Fibers)	Bag (PolyTetramethylene Ether Glycol Pellets)	PTMEG	16	10	64	FALSE											
+1.3.2	I5	Fibers (PTMG)	Metal Die (Fibers)	Bag (PolyTetramethylene Glycol Pellets)	PTMG	16	10	64	FALSE											
+1.3.2	I6	Fibers (PTA)	Metal Die (Fibers)	Bag (PolyThiazyl Pellets)	PTA	16	10	64	FALSE											
 1.0.0	I7	Fibers (PTT)	Metal Die (Fibers)	Bag (PolyTrimethylene Terephthalate Pellets)	PTT	16	10	64	FALSE											
 1.0.0	I8	Fibers (PU)	Metal Die (Fibers)	Bag (PolyUrethane Pellets)	PU	16	10	64	FALSE											
 1.0.0	I9	Fibers (PVAC)	Metal Die (Fibers)	Bag (PolyVinyl Acetate Pellets)	PVAC	16	10	64	FALSE											
 1.0.0	Ia	Fibers (PVA)	Metal Die (Fibers)	Bag (PolyVinyl Alcohol Pellets)	PVA	16	10	64	FALSE											
-	Ib	Fibers (PVB)	Metal Die (Fibers)	Bag (PolyVinyl Butyral Pellets)	PVB	16	10	64	FALSE											
+1.3.2	Ib	Fibers (PVB)	Metal Die (Fibers)	Bag (PolyVinyl Butyral Pellets)	PVB	16	10	64	FALSE											
 1.0.0	Ic	Fibers (PVC)	Metal Die (Fibers)	Bag (PolyVinyl Chloride Pellets)	PVC	16	10	64	FALSE											
 1.0.0	Id	Fibers (PVCA)	Metal Die (Fibers)	Bag (PolyVinyl Chloride Acetate Pellets)	PVCA	16	10	64	FALSE											
-	Ie	Fibers (PVF)	Metal Die (Fibers)	Bag (PolyVinyl Fluoride Pellets)	PVF	16	10	64	FALSE											
-	If	Fibers (PVFO)	Metal Die (Fibers)	Bag (PolyVinyl Formal Pellets)	PVFO	16	10	64	FALSE											
-	Ig	Fibers (PVME)	Metal Die (Fibers)	Bag (PolyVinyl Methyl Ether Pellets)	PVME	16	10	64	FALSE											
-	Ih	Fibers (PVDC)	Metal Die (Fibers)	Bag (PolyVinylidene Dichloride Pellets)	PVDC	16	10	64	FALSE											
-	Ii	Fibers (PVDF)	Metal Die (Fibers)	Bag (PolyVinylidene Fluoride Pellets)	PVDF	16	10	64	FALSE											
-	Ij	Fibers (PVDF-TRFE)	Metal Die (Fibers)	Bag (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	16	10	64	FALSE											
+1.3.2	Ie	Fibers (PVF)	Metal Die (Fibers)	Bag (PolyVinyl Fluoride Pellets)	PVF	16	10	64	FALSE											
+1.3.2	If	Fibers (PVFO)	Metal Die (Fibers)	Bag (PolyVinyl Formal Pellets)	PVFO	16	10	64	FALSE											
+1.3.2	Ig	Fibers (PVME)	Metal Die (Fibers)	Bag (PolyVinyl Methyl Ether Pellets)	PVME	16	10	64	FALSE											
+1.3.2	Ih	Fibers (PVDC)	Metal Die (Fibers)	Bag (PolyVinylidene Dichloride Pellets)	PVDC	16	10	64	FALSE											
+1.3.2	Ii	Fibers (PVDF)	Metal Die (Fibers)	Bag (PolyVinylidene Fluoride Pellets)	PVDF	16	10	64	FALSE											
+1.3.2	Ij	Fibers (PVDF-TRFE)	Metal Die (Fibers)	Bag (PolyVinylidene Fluoride-Trifluoroethylene Pellets)	PVDF-TRFE	16	10	64	FALSE											
 1.1.0	Ik	Fibers (SAN)	Metal Die (Fibers)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
 1.0.0	Il	Fibers (SBR)	Metal Die (Fibers)	Bag (Styrene-Butadiene Rubber Pellets)	SBR	16	10	64	FALSE											
 1.1.0	Im	Fibers (SBS)	Metal Die (Fibers)	Bag (Styrene-Butadiene-Styrene Pellets)	SBS	16	10	64	FALSE											
-	In	Fibers (SIS)	Metal Die (Fibers)	Bag (Styrene-Isoprene-Styrene Pellets)	SIS	16	10	64	FALSE											
-	Io	Fibers (SMAC)	Metal Die (Fibers)	Bag (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	16	10	64	FALSE											
+1.3.2	In	Fibers (SIS)	Metal Die (Fibers)	Bag (Styrene-Isoprene-Styrene Pellets)	SIS	16	10	64	FALSE											
+1.3.2	Io	Fibers (SMAC)	Metal Die (Fibers)	Bag (Styrene-Maleic Anhydride Copolymer Pellets)	SMAC	16	10	64	FALSE											
 1.0.0	Ip	Fibers (UHMWPE)	Metal Die (Fibers)	Bag (Ultra-High-Molecular-Weight PolyEthylene Pellets)	UHMWPE	16	10	64	FALSE											
-	Iq	Fibers (UFP)	Metal Die (Fibers)	Bag (Urea-Formaldehyde Polymers Pellets)	UFP	16	10	64	FALSE											
+1.3.2	Iq	Fibers (UFP)	Metal Die (Fibers)	Bag (Urea-Formaldehyde Polymers Pellets)	UFP	16	10	64	FALSE											
 1.0.0	Ir	Fibers (VLDPE)	Metal Die (Fibers)	Bag (Very-Low-Density PolyEthylene Pellets)	VLDPE	16	10	64	FALSE											
 1.0.0	Is	Fibers (VA/AA)	Metal Die (Fibers)	Bag (Vinyl Acetate-Acrylic Acid Pellets)	VA/AA	16	10	64	FALSE											
 1.1.0	2B	Fibers (Nylon 6)	Metal Die (Fibers)	Bag (Polycaprolactam Pellets)	Nylon 6	16	10	64	FALSE											
