@@ -51,7 +51,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String VERSION = "1.3.2";
-	private static final int[] VERSION_NUMERIC = new int[] { 1, 3, 2 };
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 3, 2 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -67,10 +67,6 @@ public class PolycraftMod {
 		return versionNumeric;
 	}
 
-	public static final String getVersionText(final int[] version) {
-		return String.format("%d.%d.%d", version[0], version[1], version[2]);
-	}
-
 	public static final boolean isVersionCompatible(final int[] version) {
 		if (version == null || version.length != VERSION_NUMERIC.length)
 			return false;
@@ -81,6 +77,10 @@ public class PolycraftMod {
 				return false;
 		}
 		return true;
+	}
+
+	public static final String getVersionText(final int[] version) {
+		return String.format("%d.%d.%d", version[0], version[1], version[2]);
 	}
 
 	@Instance(value = MODID)
