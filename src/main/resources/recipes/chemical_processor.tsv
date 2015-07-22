@@ -1183,121 +1183,121 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.3.1				Drum (Styrene)	16	Drum (Acrylonitrile)	16							Powder Keg (Styrene-Acrylonitrile Pellets)	16																
 1.3.1				Drum (Styrene)	64	Drum (Acrylonitrile)	64							Powder Keg (Styrene-Acrylonitrile Pellets)	64																
 1.3.2				Block (AF Resin)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (ABS)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Alkyd Resin)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (A-PET)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (BIIR)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Carbon Fiber)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (CTAP)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Cellulose)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Chitin)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (CIIR)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Epoxy Resin)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (NRE)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (EPM)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (EPDM)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (EVA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (HDPE)	1									Flask (Carbon Monoxide)	8	Flask (Ethane)	16	Flask (Ethylene)	16	Flask (Propane)	8	Flask (Propylene)	8	Vial (Butylene isomers)	4	Vial (Hexane Isomers)	4				
-1.3.2				Block (HNBR)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Butyl Rubber)	1									Flask (Carbon Monoxide)	16	Vial (Butadiene)	48														
-1.3.2				Block (Lignin)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (LLDPE)	1									Flask (Carbon Monoxide)	32	Flask (Ethane)	8	Flask (Ethylene)	8	Flask (Propane)	6	Flask (Propylene)	6	Vial (Butylene isomers)	2	Vial (Hexane Isomers)	2				
-1.3.2				Block (LCP)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (LDPE)	1									Flask (Carbon Monoxide)	32	Flask (Ethane)	8	Flask (Ethylene)	8	Flask (Propane)	6	Flask (Propylene)	6	Vial (Butylene isomers)	2	Vial (Hexane Isomers)	2				
-1.3.2				Block (MDPE)	1									Flask (Carbon Monoxide)	16	Flask (Ethane)	12	Flask (Ethylene)	12	Flask (Propane)	8	Flask (Propylene)	8	Vial (Butylene isomers)	4	Vial (Hexane Isomers)	4				
-1.3.2				Block (MFP)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (MALD)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (NBR)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PFA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PALD)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Phenol Formaldehydes)	1									Flask (Carbon Monoxide)	32	Flask (Carbon Dioxide)	32														
-1.3.2				Block (PHBV)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (ABS)	1									Cartridge (Carbon Monoxide)	1																
+				Block (Alkyd Resin)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (A-PET)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (BIIR)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (Carbon Fiber)	1									Cartridge (Carbon Monoxide)	1																
+				Block (CTAP)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (Cellulose)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (Chitin)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (CIIR)	1									Cartridge (Carbon Monoxide)	1																
+1.1.2				Block (Epoxy Resin)	1									Cartridge (Carbon Monoxide)	1																
+				Block (NRE)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (EPM)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (EPDM)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (EVA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (HDPE)	1									Flask (Carbon Monoxide)	8	Flask (Ethane)	16	Flask (Ethylene)	16	Flask (Propane)	8	Flask (Propylene)	8	Vial (Butylene isomers)	4	Vial (Hexane Isomers)	4				
+1.1.0				Block (HNBR)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (Butyl Rubber)	1									Flask (Carbon Monoxide)	16	Vial (Butadiene)	48														
+				Block (Lignin)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (LLDPE)	1									Flask (Carbon Monoxide)	32	Flask (Ethane)	8	Flask (Ethylene)	8	Flask (Propane)	6	Flask (Propylene)	6	Vial (Butylene isomers)	2	Vial (Hexane Isomers)	2				
+1.0.0				Block (LCP)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (LDPE)	1									Flask (Carbon Monoxide)	32	Flask (Ethane)	8	Flask (Ethylene)	8	Flask (Propane)	6	Flask (Propylene)	6	Vial (Butylene isomers)	2	Vial (Hexane Isomers)	2				
+1.0.0				Block (MDPE)	1									Flask (Carbon Monoxide)	16	Flask (Ethane)	12	Flask (Ethylene)	12	Flask (Propane)	8	Flask (Propylene)	8	Vial (Butylene isomers)	4	Vial (Hexane Isomers)	4				
+				Block (MFP)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (MALD)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (NBR)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PFA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PALD)	1									Cartridge (Carbon Monoxide)	1																
+1.1.2				Block (Phenol Formaldehydes)	1									Flask (Carbon Monoxide)	32	Flask (Carbon Dioxide)	32														
+1.0.0				Block (PHBV)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (P1B)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (PDPE)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (PHB)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (PHEMA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PAA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PAN)	1									Block (Carbon Fiber)	1																
-1.3.2				Block (PBR (low grade))	1									Flask (Carbon Monoxide)	32	Vial (Butadiene)	32														
-1.3.2				Block (PBR (high grade))	1									Flask (Carbon Monoxide)	16	Vial (Butadiene)	48														
-1.3.2				Block (PBS)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PBT)	1									Flask (Carbon Monoxide)	8	Vial (Acetaldehyde)	32	Vial (Deionized Water)	16	Flask (Carbon Dioxide)	8										
-1.3.2				Block (PCL)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PC)	1									Flask (Carbon Dioxide)	24	Vial (Bisphenol A)	20	Vial (Phenol)	20												
+1.1.2				Block (PAA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PAN)	1									Block (Carbon Fiber)	1																
+1.0.0				Block (PBR (low grade))	1									Flask (Carbon Monoxide)	32	Vial (Butadiene)	32														
+1.1.0				Block (PBR (high grade))	1									Flask (Carbon Monoxide)	16	Vial (Butadiene)	48														
+1.0.0				Block (PBS)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PBT)	1									Flask (Carbon Monoxide)	8	Vial (Acetaldehyde)	32	Vial (Deionized Water)	16	Flask (Carbon Dioxide)	8										
+1.0.0				Block (PCL)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PC)	1									Flask (Carbon Dioxide)	24	Vial (Bisphenol A)	20	Vial (Phenol)	20												
 1.3.2				Block (PCHL)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PCTFE)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PDMS)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEEK)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEI)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEAd)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEG)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEHD)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEN)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PEO)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PES)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PET)	1									Flask (Carbon Monoxide)	16	Vial (Acetaldehyde)	16	Vial (Deionized Water)	16	Flask (Carbon Dioxide)	16										
-1.3.2				Block (PETG)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PGA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				"Block (Nylon 6,7)"	1									Flask (Carbon Monoxide)	16	Vial (Benzene)	16	Vial (Nitrobenzene)	16	Vial (Toluene)	16										
-1.3.2				"Block (Nylon 6,10)"	1									Flask (Carbon Monoxide)	16	Vial (Benzene)	16	Vial (Nitrobenzene)	16	Vial (Toluene)	16										
-1.3.2				Block (PHA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PCTFE)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PDMS)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PEEK)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PEI)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PEA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PEAd)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PEG)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PEHD)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PEN)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PEO)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (PES)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PET)	1									Flask (Carbon Monoxide)	16	Vial (Acetaldehyde)	16	Vial (Deionized Water)	16	Flask (Carbon Dioxide)	16										
+1.0.0				Block (PETG)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PGA)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				"Block (Nylon 6,7)"	1									Flask (Carbon Monoxide)	16	Vial (Benzene)	16	Vial (Nitrobenzene)	16	Vial (Toluene)	16										
+1.1.0				"Block (Nylon 6,10)"	1									Flask (Carbon Monoxide)	16	Vial (Benzene)	16	Vial (Nitrobenzene)	16	Vial (Toluene)	16										
+1.0.0				Block (PHA)	1									Cartridge (Carbon Monoxide)	1																
 				Block (PHBV)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PI)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PIBOA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PIBA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PIB)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Natural Rubber)	1									Flask (Carbon Monoxide)	32	Vial (Isoprene)	32														
-1.3.2				Block (PLA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PLGA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PI)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PIBOA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PIBA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PIB)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (Natural Rubber)	1									Flask (Carbon Monoxide)	32	Vial (Isoprene)	32														
+1.0.0				Block (PLA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PLGA)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (PMA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PMCA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PMCA)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (PMMA)	1									Flask (Carbon Monoxide)	4	Vial (Methyl Methacrylate)	60														
 1.3.2				Block (PMMS)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (nomex)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PNBA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (POM)	1									Flask (Carbon Monoxide)	1	Vial (Formaldehyde)	63														
-1.3.2				Block (PPHD)	1									Cartridge (Carbon Monoxide)	1																
+1.1.1				Block (nomex)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PNBA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (POM)	1									Flask (Carbon Monoxide)	1	Vial (Formaldehyde)	63														
+				Block (PPHD)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (Polyphenol)	1									Flask (Carbon Monoxide)	32	Flask (Carbon Dioxide)	32														
-1.3.2				Block (PPO)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PPPHAZ)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PPMS)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PPS)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (kevlar)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PP)	1									Flask (Carbon Monoxide)	16	Vial (Pentane Isomers)	16	Vial (n-Pentane)	8	Vial (NeoPentane)	8	Vial (IsoPentane)	4	Vial (Butylene isomers)	4	Flask (Butane Isomers)	4	Vial (IsoButane)	4		
-1.3.2				Block (PPG)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PPOX)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PS)	1									Flask (Carbon Monoxide)	1	Vial (Styrene)	63														
-1.3.2				Block (PTBA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PTFE)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PTMEG)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PTMG)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PTA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PTT)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PU)	1									Flask (Carbon Monoxide)	16	Vial (Toluene Diisocyanate)	32	Flask (Nitric Oxide)	4	Flask (Nitrogen Dioxide)	4	Vial (Nitrobenzene)	4	Bag (4-Nitroaniline)	4						
-1.3.2				Block (PVAC)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVB)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVC)	1									Beaker (Hydrochloric Acid)	1																
-1.3.2				Block (PVCA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVF)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVFO)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVME)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVDC)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVDF)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (PVDF-TRFE)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (SAN)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	31	Vial (Acrylonitrile)	31												
-1.3.2				Block (SBR)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	31	Vial (Butadiene)	31												
-1.3.2				Block (SBS)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	42	Vial (Butadiene)	20												
+				Block (PPO)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PPPHAZ)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PPMS)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PPS)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (kevlar)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PP)	1									Flask (Carbon Monoxide)	16	Vial (Pentane Isomers)	16	Vial (n-Pentane)	8	Vial (NeoPentane)	8	Vial (IsoPentane)	4	Vial (Butylene isomers)	4	Flask (Butane Isomers)	4	Vial (IsoButane)	4		
+				Block (PPG)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PPOX)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PS)	1									Flask (Carbon Monoxide)	1	Vial (Styrene)	63														
+				Block (PTBA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PTFE)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PTMEG)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PTMG)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PTA)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PTT)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PU)	1									Flask (Carbon Monoxide)	16	Vial (Toluene Diisocyanate)	32	Flask (Nitric Oxide)	4	Flask (Nitrogen Dioxide)	4	Vial (Nitrobenzene)	4	Bag (4-Nitroaniline)	4						
+1.0.0				Block (PVAC)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PVA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVB)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (PVC)	1									Beaker (Hydrochloric Acid)	1																
+1.0.0				Block (PVCA)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVF)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVFO)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVME)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVDC)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVDF)	1									Cartridge (Carbon Monoxide)	1																
+				Block (PVDF-TRFE)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (SAN)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	31	Vial (Acrylonitrile)	31												
+1.0.0				Block (SBR)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	31	Vial (Butadiene)	31												
+1.1.0				Block (SBS)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	42	Vial (Butadiene)	20												
 1.3.2				Block (SIS)	1									Flask (Carbon Monoxide)	2	Vial (Styrene)	42	Vial (Isoprene)	20												
-1.3.2				Block (SMAC)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (UHMWPE)	1									Flask (Ethane)	16	Flask (Ethylene)	16	Flask (Propane)	12	Flask (Propylene)	12	Vial (Butylene isomers)	4	Vial (Hexane Isomers)	4						
-1.3.2				Block (UFP)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (VLDPE)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (VA/AA)	1									Cartridge (Carbon Monoxide)	1																
-1.3.2				Block (Nylon 6)	1									Flask (Carbon Monoxide)	2	"Vial (1,6-Hexamethylenediamine)"	62														
-1.3.2				Block (Carbon Fiber Resin (E))	1									Beaker (Phenol)	1																
-1.3.2				Block (Carbon Fiber Resin (P))	1									Beaker (Phenol)	1																
+				Block (SMAC)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (UHMWPE)	1									Flask (Ethane)	16	Flask (Ethylene)	16	Flask (Propane)	12	Flask (Propylene)	12	Vial (Butylene isomers)	4	Vial (Hexane Isomers)	4						
+				Block (UFP)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (VLDPE)	1									Cartridge (Carbon Monoxide)	1																
+1.0.0				Block (VA/AA)	1									Cartridge (Carbon Monoxide)	1																
+1.1.0				Block (Nylon 6)	1									Flask (Carbon Monoxide)	2	"Vial (1,6-Hexamethylenediamine)"	62														
+1.1.2				Block (Carbon Fiber Resin (E))	1									Beaker (Phenol)	1																
+1.1.2				Block (Carbon Fiber Resin (P))	1									Beaker (Phenol)	1																
 1.3.2				Block (n-PR)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (p-PR)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Titanium Nugget	1	Flask (Chlorine)	4	Magnesium Nugget	1	Flask (Chlorine)	2	Sand	1	Ziegler-Natta Catalyst	32																
