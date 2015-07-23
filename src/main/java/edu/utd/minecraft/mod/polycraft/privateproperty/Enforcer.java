@@ -120,7 +120,7 @@ public abstract class Enforcer {
 		gsonGeneric = gsonBuilder.create();
 	}
 
-	protected void updatePrivateProperties(final String privatePropertiesJson, final boolean master) {
+	protected int updatePrivateProperties(final String privatePropertiesJson, final boolean master) {
 		if (master) {
  			this.privatePropertiesMasterJson = privatePropertiesJson;
 		}
@@ -150,7 +150,6 @@ public abstract class Enforcer {
 			}
 		});
 		*/
-		privateProperties.clear();
 		privatePropertiesByChunk.clear();
 		privatePropertiesByOwner.clear();
 		if (newPrivateProperties != null) {
@@ -170,6 +169,8 @@ public abstract class Enforcer {
 				ownerPrivateProperties.add(privateProperty);
 			}
 		}
+		
+		return newPrivateProperties.size();
 	}
 
 	protected void updateWhitelist(final String whitelistJson) {

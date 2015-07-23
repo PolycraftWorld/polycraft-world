@@ -97,9 +97,9 @@ public class ClientEnforcer extends Enforcer {
 				if (pendingDataPacketsBytes == 0) {
 					switch (pendingDataPacketType) {
 						case PrivateProperties:
-							updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1);
+							final int count = updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1);
 							final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
-							showStatusMessage("Received " + format.format(privateProperties.size()) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+							showStatusMessage("Received " + format.format(count) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size()) + " chunks)", 10);
 							break;
 						case Friends:
 							updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
