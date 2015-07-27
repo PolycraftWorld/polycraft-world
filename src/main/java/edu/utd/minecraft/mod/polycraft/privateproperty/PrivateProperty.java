@@ -83,6 +83,7 @@ public class PrivateProperty {
 		}
 	}
 
+	public final boolean master;
 	public final String owner;
 	public final String name;
 	public final String message;
@@ -93,11 +94,13 @@ public class PrivateProperty {
 	public final Map<String, PermissionSet> permissionOverridesByUser;
 
 	public PrivateProperty(
+			final boolean master,
 			final JsonElement owner,
 			final JsonElement name,
 			final JsonElement message,
 			final JsonArray chunks,
 			final JsonArray permissions) {
+		this.master = master;
 		this.owner = owner.getAsString();
 		this.name = name.getAsString();
 		this.message = message.getAsString();
@@ -115,31 +118,41 @@ public class PrivateProperty {
 	}
 
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {
+
+		private final boolean master;
+
+		public Deserializer(final boolean master) {
+			this.master = master;
+		}
+
 		@Override
 		public PrivateProperty deserialize(final JsonElement json, final Type typeOfT,
 				final JsonDeserializationContext context) throws JsonParseException {
 			JsonObject jobject = (JsonObject) json;
 			return new PrivateProperty(
+					master,
 					jobject.get("owner"),
 					jobject.get("name"),
 					jobject.get("message"),
 					jobject.getAsJsonArray("bounds"),
 					jobject.getAsJsonArray("permissions"));
 		}
-
 	}
 
 	public boolean actionEnabled(final EntityPlayer player, final Action action) {
-		//if the player owns this property, they can do anything
-		if (owner.equals(player.getDisplayName()))
-			return true;
+		if (master) {
+			//if the player owns this property, they can do anything
+			if (owner.equals(player.getDisplayName()))
+				return true;
 
-		final PermissionSet overridePermissions = permissionOverridesByUser.get(player.getDisplayName());
-		//if there is a specific permission set for this user, use it over the defaults
-		if (overridePermissions != null)
-			return overridePermissions.enabled[action.ordinal()];
-		//otherwise just use the default permissions
-		return defaultPermissions.enabled[action.ordinal()];
+			final PermissionSet overridePermissions = permissionOverridesByUser.get(player.getDisplayName());
+			//if there is a specific permission set for this user, use it over the defaults
+			if (overridePermissions != null)
+				return overridePermissions.enabled[action.ordinal()];
+			//otherwise just use the default permissions
+			return defaultPermissions.enabled[action.ordinal()];
+		}
+		return action == Action.Enter;
 	}
 
 	public boolean actionEnabled(final Action action) {

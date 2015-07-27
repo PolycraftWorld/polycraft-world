@@ -42,17 +42,24 @@ public class ServerEnforcer extends Enforcer {
 
 	private void onWorldTickPrivateProperties(final TickEvent.WorldTickEvent event) {
 		//refresh private property permissions at the start of each day, or if we haven't loaded them yet
-		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 0 || privatePropertiesJson == null)) {
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 0 || privatePropertiesMasterJson == null || privatePropertiesNonMasterJson == null)) {
 			try {
-				final String url = portalRestUrl.startsWith("file:")
-						? portalRestUrl + "privateproperties.json"
+				String url = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "privatepropertiesinclude.json"
 						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
-						: String.format("%s/private_properties/", portalRestUrl);
-				updatePrivateProperties(NetUtil.getText(url));
-				sendDataPackets(DataPacketType.PrivateProperties);
+						: String.format("%s/private_properties/worlds/include/%s/", portalRestUrl, event.world.getWorldInfo().getWorldName());
+				updatePrivateProperties(NetUtil.getText(url), true);
+				sendDataPackets(DataPacketType.PrivateProperties, 1);
+
+				url = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "privatepropertiesexclude.json"
+						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
+						: String.format("%s/private_properties/worlds/exclude/%s/", portalRestUrl, event.world.getWorldInfo().getWorldName());
+				updatePrivateProperties(NetUtil.getText(url), false);
+				sendDataPackets(DataPacketType.PrivateProperties, 0);
 			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
-				if (privatePropertiesJson == null) {
+				if (privatePropertiesMasterJson == null || privatePropertiesNonMasterJson == null) {
 					PolycraftMod.logger.error("Unable to load private properties", e);
 					System.exit(-1);
 				}
@@ -62,13 +69,17 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
-
+	
 	private void sendDataPackets(final DataPacketType type) {
-		sendDataPackets(type, null);
+		sendDataPackets(type, 0, null);
 	}
-
-	private void sendDataPackets(final DataPacketType type, final EntityPlayerMP player) {
-		final FMLProxyPacket[] packets = getDataPackets(type);
+	
+	private void sendDataPackets(final DataPacketType type, final int typeMetadata) {
+		sendDataPackets(type, typeMetadata, null);
+	}
+	
+	private void sendDataPackets(final DataPacketType type, final int typeMetadata, final EntityPlayerMP player) {
+		final FMLProxyPacket[] packets = getDataPackets(type, typeMetadata);
 		if (packets != null) {
 			for (final FMLProxyPacket packet : packets) {
 				if (player == null) {
@@ -81,15 +92,19 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
-	private FMLProxyPacket[] getDataPackets(final DataPacketType type) {
+	private FMLProxyPacket[] getDataPackets(final DataPacketType type, final int typeMetadata) {
 		try {
 			//we have to split these up into smaller packets due to this issue: https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
-			final byte[] dataBytes = CompressUtil.compress(type == DataPacketType.PrivateProperties ? privatePropertiesJson : friendsJson);
+			final byte[] dataBytes = CompressUtil.compress(
+				type == DataPacketType.PrivateProperties
+					? (typeMetadata == 1
+						? privatePropertiesMasterJson
+						: privatePropertiesNonMasterJson)
+					: friendsJson);
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
-			final int controlPacketsRequired = 2;
+			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
-			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).copy(), netChannelName);
-			packets[1] = new FMLProxyPacket(Unpooled.buffer().writeInt(dataBytes.length).copy(), netChannelName);
+			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata).writeInt(dataBytes.length).copy(), netChannelName);
 			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
 				int startDataIndex = payloadIndex * maxPacketSizeBytes;
 				int length = Math.min(dataBytes.length - startDataIndex, maxPacketSizeBytes);
@@ -166,7 +181,8 @@ public class ServerEnforcer extends Enforcer {
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-			sendDataPackets(DataPacketType.PrivateProperties);
+			sendDataPackets(DataPacketType.PrivateProperties, 1);
+			sendDataPackets(DataPacketType.PrivateProperties, 0);
 			sendDataPackets(DataPacketType.Friends);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {

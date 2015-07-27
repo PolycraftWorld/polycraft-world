@@ -662,7 +662,7 @@ public class RecipeGenerator {
 		String[] currentMoldShape = null;
 		int currentRow = 0;
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.MACHINING_MILL.toString()))) {
-			if (currentMold == null || currentRow == 5 && line.length > 2) {
+			if (line.length > 2 && (currentMold == null || currentRow == 5)) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					currentMold = Mold.registry.get(line[2]);
 					currentMoldShape = new String[5];
@@ -704,7 +704,7 @@ public class RecipeGenerator {
 		String[] currentMaskShape = null;
 		int currentRow = 0;
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.MASK_WRITER.toString()))) {
-			if (currentMask == null || currentRow == 5 && line.length > 2) {
+			if (line.length > 2 && (currentMask == null || currentRow == 5)) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					currentMask = Mask.registry.get(line[2]);
 					currentMaskShape = new String[5];

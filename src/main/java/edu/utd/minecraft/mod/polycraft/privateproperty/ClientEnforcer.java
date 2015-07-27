@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.input.Keyboard;
+
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -38,12 +41,22 @@ public class ClientEnforcer extends Enforcer {
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(7);
-
+	
 	private final Minecraft client;
-	private String statusMessage = null;
-	private int statusMessageTicksRemaining = 0;
+	
+	private static class StatusMessage {
+		public final String text;
+		public int ticksRemaining;
+		
+		public StatusMessage(final String text, final int ticksRemaining) {
+			this.text = text;
+			this.ticksRemaining = ticksRemaining;
+		}
+	}
+	private List<StatusMessage> statusMessages = Lists.newArrayList();
 	private boolean showPrivateProperty = false;
 	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
+	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
 
@@ -63,41 +76,37 @@ public class ClientEnforcer extends Enforcer {
 		super.setActionPrevented(action, privateProperty);
 		actionPreventedWarningMessageTicks = 0;
 	}
-
+	
 	private void showStatusMessage(final String message, final int seconds) {
-		statusMessageTicksRemaining = PolycraftMod.convertSecondsToGameTicks(seconds);
-		statusMessage = message;
-
+		statusMessages.add(new StatusMessage(message, PolycraftMod.convertSecondsToGameTicks(seconds)));
 	}
 
 	@SubscribeEvent
 	public void onClientPacket(final ClientCustomPacketEvent event) {
 		try {
-			final byte[] payload = event.packet.payload().array();
+			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
 			if (pendingDataPacketType == DataPacketType.Unknown) {
-				pendingDataPacketType = DataPacketType.values()[ByteBuffer.wrap(payload).getInt()];
-			}
-			else if (pendingDataPacketsBytes == 0) {
-				pendingDataPacketsBytes = ByteBuffer.wrap(payload).getInt();
+				pendingDataPacketType = DataPacketType.values()[payload.getInt()];
+				pendingDataPacketTypeMetadata = payload.getInt();
+				pendingDataPacketsBytes = payload.getInt();
 				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
 			}
 			else {
-				pendingDataPacketsBytes -= payload.length;
+				pendingDataPacketsBytes -= payload.array().length;
 				pendingDataPacketsBuffer.put(payload);
 				if (pendingDataPacketsBytes == 0) {
 					switch (pendingDataPacketType) {
-					case PrivateProperties:
-						updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
-						showStatusMessage("Received " + format.format(privateProperties.size()) + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size())
-								+ " chunks)", 10);
-						break;
-					case Friends:
-						updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						break;
-					case Unknown:
-					default:
-						break;
+						case PrivateProperties:
+							final int count = updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1);
+							final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
+							showStatusMessage("Received " + format.format(count) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+							break;
+						case Friends:
+							updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case Unknown:
+						default:
+							break;
 					}
 					pendingDataPacketType = DataPacketType.Unknown;
 					pendingDataPacketsBuffer = null;
@@ -117,12 +126,12 @@ public class ClientEnforcer extends Enforcer {
 			final EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
 			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
 			if (sendingPlayer != null) {
-				//FIXME: Walter add a check to make sure the player has a cell phone equipped
+				//FIXME add a check to make sure the player has a cell phone equipped
 				if (!friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName())))) {
 					if (Math.sqrt(
 							Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) > PolycraftMod.maxChatBlockProximity) {
+							Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
+							Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) > PolycraftMod.maxChatBlockProximity) {
 						event.setCanceled(true);
 					}
 				}
@@ -148,11 +157,15 @@ public class ClientEnforcer extends Enforcer {
 					if (ItemFueledProjectileLauncher.isEquipped(player)) {
 						y += overlayDistanceBetweenY;
 					}
-					if (statusMessage != null) {
-						client.fontRenderer.drawStringWithShadow(statusMessage, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
-						if (statusMessageTicksRemaining-- <= 0) {
-							statusMessage = null;
+					if (statusMessages.size() > 0) {
+						for (int i = statusMessages.size() - 1; i >= 0; i--) {
+							if (--statusMessages.get(i).ticksRemaining <= 0) {
+								statusMessages.remove(i);
+							}
+						}
+						for (final StatusMessage statusMessage : statusMessages) {
+							client.fontRenderer.drawStringWithShadow(statusMessage.text, x, y, overlayColor);
+							y += overlayDistanceBetweenY;
 						}
 					}
 					if (targetPrivateProperty != null && (showPrivateProperty || actionPreventedPrivateProperty != null)) {

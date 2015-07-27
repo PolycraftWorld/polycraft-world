@@ -72,11 +72,11 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public abstract class Enforcer {
-
+	
 	public enum DataPacketType {
 		Unknown, PrivateProperties, Friends
 	}
-
+	
 	private static final String chatCommandPrefix = "~";
 	private static final String chatCommandTeleport = "tp";
 	private static final String chatCommandTeleportArgPrivateProperty = "pp";
@@ -92,8 +92,8 @@ public abstract class Enforcer {
 
 	protected final FMLEventChannel netChannel;
 	protected final String netChannelName = "polycraft.enforcer";
-	private final Gson gson;
-	protected String privatePropertiesJson = null;
+	protected String privatePropertiesMasterJson = null;
+	protected String privatePropertiesNonMasterJson = null;
 	protected String whitelistJson = null;
 	protected String friendsJson = null;
 	protected final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
@@ -104,6 +104,7 @@ public abstract class Enforcer {
 	public static Set<String> friends = Sets.newHashSet();
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
+	private final Gson gsonGeneric;
 
 	public static Enforcer getInstance(final World world) {
 		if (world.isRemote) {
@@ -116,15 +117,39 @@ public abstract class Enforcer {
 		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
 		final GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(PrivateProperty.class, new PrivateProperty.Deserializer());
-		gson = gsonBuilder.create();
+		gsonGeneric = gsonBuilder.create();
 	}
 
-	protected void updatePrivateProperties(final String privatePropertiesJson) {
-		this.privatePropertiesJson = privatePropertiesJson;
+	protected int updatePrivateProperties(final String privatePropertiesJson, final boolean master) {
+		if (master) {
+ 			this.privatePropertiesMasterJson = privatePropertiesJson;
+		}
+		else {
+ 			this.privatePropertiesNonMasterJson = privatePropertiesJson;
+		}
+		final GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(PrivateProperty.class, new PrivateProperty.Deserializer(master));
+		final Gson gson = gsonBuilder.create();
 		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(privatePropertiesJson, new TypeToken<Collection<PrivateProperty>>() {
 		}.getType());
-		privateProperties.clear();
+		
+		//java 7 version
+		final Collection<PrivateProperty> removePrivateProperties = Lists.newLinkedList();
+		for (final PrivateProperty privateProperty : privateProperties) {
+			if (privateProperty.master == master) {
+				removePrivateProperties.add(privateProperty);
+			}
+		}
+		privateProperties.removeAll(removePrivateProperties);
+		//java 8 version
+		/*
+		privateProperties.removeIf(new Predicate<PrivateProperty>() {
+			@Override
+			public boolean test(final PrivateProperty t) {
+				return t.master == master;
+			}
+		});
+		*/
 		privatePropertiesByChunk.clear();
 		privatePropertiesByOwner.clear();
 		if (newPrivateProperties != null) {
@@ -144,28 +169,30 @@ public abstract class Enforcer {
 				ownerPrivateProperties.add(privateProperty);
 			}
 		}
+		
+		return newPrivateProperties.size();
 	}
 
 	protected void updateWhitelist(final String whitelistJson) {
 		this.whitelistJson = whitelistJson;
-		whitelist = gson.fromJson(whitelistJson, new TypeToken<Map<String, Long>>() {
+		whitelist = gsonGeneric.fromJson(whitelistJson, new TypeToken<Map<String, Long>>() {
 		}.getType());
 	}
-
+	
 	protected String getFriendPairKey(final Long friend1, final Long friend2) {
 		if (friend1 == null || friend2 == null) {
 			return "";
 		}
-
+		
 		if (friend1 < friend2) {
 			return String.format("%d-%d", friend1, friend2);
 		}
 		return String.format("%d-%d", friend2, friend1);
 	}
-
+	
 	protected void updateFriends(final String friendsJson) {
 		this.friendsJson = friendsJson;
-		final long[][] friendsRaw = gson.fromJson(friendsJson, new TypeToken<long[][]>() {
+		final long[][] friendsRaw = gsonGeneric.fromJson(friendsJson, new TypeToken<long[][]>() {
 		}.getType());
 		friends.clear();
 		for (final long[] friendPair : friendsRaw) {
@@ -257,13 +284,13 @@ public abstract class Enforcer {
 				final EntityPlayer player = event.player;
 				final PrivateProperty privateProperty = findPrivateProperty(player);
 				if (privateProperty != null) {
-
+					
 					if (player.ridingEntity != null && !privateProperty.actionEnabled(player, Action.MountEntity)) {
 						setActionPrevented(Action.MountEntity, privateProperty);
 						player.mountEntity(null);
 						return;
 					}
-
+					
 					if (!privateProperty.actionEnabled(player, Action.Enter)) {
 						setActionPrevented(Action.Enter, privateProperty);
 						int i = 1;
@@ -295,7 +322,7 @@ public abstract class Enforcer {
 			final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
 			if (targetPrivateProperty == null || (targetPrivateProperty != privateProperty && targetPrivateProperty.actionEnabled(player, Action.Enter))) {
 				//just teleport them out now
-				player.setPositionAndUpdate(x + .5, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z + .5);
+				player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z);
 				/* Old method where they user would be "pushed" out
 				player.motionX = targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ? -forceExitSpeed : 0;
 				player.motionY = 0;
@@ -388,7 +415,7 @@ public abstract class Enforcer {
 				final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
 				if (equippedItem != null) {
 					if (equippedItem.getItem() instanceof ItemBlock) {
-						final Block equippedBlock = ((ItemBlock) equippedItem.getItem()).field_150939_a;
+						final Block equippedBlock = ((ItemBlock)equippedItem.getItem()).field_150939_a;
 						if (equippedBlock instanceof BlockTNT) {
 							possiblyPreventAction(event, event.entityPlayer, Action.AddBlockTNT, blockChunk);
 						}
@@ -406,7 +433,7 @@ public abstract class Enforcer {
 			break;
 		}
 	}
-
+	
 	private void possiblyPreventUseEquippedItem(final PlayerInteractEvent event) {
 		final ItemStack equippedItemStack = event.entityPlayer.getCurrentEquippedItem();
 		if (equippedItemStack != null) {
@@ -536,7 +563,7 @@ public abstract class Enforcer {
 									return;
 							} catch (final Exception e) {
 							}
-
+	
 							final PrivateProperty targetPrivateProperty = ownerPrivateProperties.get(index);
 							int minX = (targetPrivateProperty.boundTopLeft.x * 16) + 1;
 							int minZ = (targetPrivateProperty.boundTopLeft.z * 16) + 1;
@@ -558,7 +585,7 @@ public abstract class Enforcer {
 						}
 					}
 				}
-
+				
 				if (valid) {
 					player.setPositionAndUpdate(x + .5, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z + .5);
 				}

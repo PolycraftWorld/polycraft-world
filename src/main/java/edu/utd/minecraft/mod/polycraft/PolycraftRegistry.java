@@ -251,8 +251,31 @@ public class PolycraftRegistry {
 		return block;
 	}
 
+	private static int[] targetVersion = null;
+	
+	public static final boolean isTargetVersion(final int[] version) {
+		if (version == null || targetVersion == null || version.length != targetVersion.length)
+			return false;
+		for (int i = 0; i < targetVersion.length; i++) {
+			if (targetVersion[i] != version[i])
+				return false;
+		}
+		return true;
+	}
+
 	public static void registerFromResources() {
-		Config.registerFromResources("config");
+		for (final String[] line : PolycraftMod.readResourceFileDelimeted("config", "enums")) {
+			if (line.length == 0)
+				break;
+			
+			targetVersion = PolycraftMod.getVersionNumeric(line[0]);
+			if (!PolycraftMod.isVersionCompatible(targetVersion)) {
+				break;
+			}
+			Config.registerFromResources("config");
+		}
+		targetVersion = PolycraftMod.VERSION_NUMERIC;
+
 		registerMinecraftItems();
 		registerMinecraftBlocks();
 		registerBiomes();
