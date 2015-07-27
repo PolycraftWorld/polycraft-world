@@ -1,0 +1,152 @@
+Version		
+1.0.0	14-Jun-14	
+1.0.1	15-Jun-14	
+1.0.2	16-Jun-14	
+1.0.3	23-Jun-14	
+1.0.4	17-Aug-14	
+1.0.5	31-Sep-2014	
+1.0.6	18-Oct-14	
+1.0.7	20-Oct-14	
+1.0.8	29-Oct-14	
+1.0.9	25-Dec-14	
+1.1.0	29-Dec-14	
+1.1.1	2-Feb-15	
+1.1.2	7-Feb-15	
+1.1.3	25-Feb-15	
+1.1.4	27-Feb-15	
+1.2.3	19-May-15	
+1.2.5	21-May-15	
+1.3.0	6-Jun-15	
+1.3.1	29-Jun-15	
+1.3.2	4-Jul-15	
+2.0.0	Future	
+		
+State of Matter		
+Solid		
+Liquid		
+Gas		
+		
+Vessel Type	Contains	Scale
+Bag	Solid	1
+Vial	Liquid	1
+Flask	Gas	1
+Sack	Solid	2
+Beaker	Liquid	2
+Cartridge	Gas	2
+Powder Keg	Solid	3
+Drum	Liquid	3
+Canister	Gas	3
+Chemical Silo	Solid	4
+Chemical Vat	Liquid	4
+Chemical Tank	Gas	4
+		
+Custom Type		
+Armor		
+Weapon		
+Utility		
+Tool		
+Inventory		
+PC Item		
+PC Block		
+Food		
+Currency		
+		
+Polymer Class		
+fluoropolymer		
+inorganic polymer		
+inorganic-organic polymer		
+natural rubber		
+polyacrylate		
+polyaldehyde		
+polyalkene sulfide		
+polyamide		
+polycarbonate		
+polyepoxide		
+polyester		
+polyether		
+polyimide		
+polyol		
+polyolefin		
+polyphenol		
+polyphenyl ethers		
+polysaccharide		
+polyurethane		
+polyvinyl		
+polyvinyl ester		
+silicone		
+synthetic rubber		
+		
+Process	Mold Type	
+Craft		
+Smelt		
+Mill		
+Mold	Mold	
+Extrude	Metal Die	
+Distill		
+Crack		
+Treat		
+Process		
+Frack		
+Power		
+Spin-coat	Wafer	
+Mask-write	Mask	
+Reactive-etch		
+Thinfilm-sputter		
+Contact-print		
+		
+Distilled Alcohol Type		
+Apple	Fruit Brandy	
+Potatoes	Vodka	
+Netherwart	Gin	
+Cactus	Tequila	
+Sugarcane	Rum	
+Wheat	Whiskey	
+Carrot	Carrot Wine	
+		
+Grip Type		
+Gripped		
+Synthetic Gripped		
+		
+Base Material		
+Wooden	WOOD	
+Stone	STONE	
+Iron	IRON	
+Golden	GOLD	
+Diamond	EMERALD	
+Magic	EMERALD	
+Bronze	IRON	
+Brass	IRON	
+Stainless Steel	IRON	
+Tungsten Carbide	IRON	
+Nichrome	IRON	
+Plastic	PLASTIC	
+		
+Item Types		
+Hoe		
+Spade		
+Pickaxe		
+Axe		
+Sword		
+Knife Blade		
+Armor Leggings		
+Armor Feet		
+Armor Chest		
+Armor Headgear		
+Pogo Stick		
+		
+Tasks		
+Cataysis		
+Recycling		
+Synthesis		
+Refining		
+Sizing		
+		
+Shaft Types		
+Composite		
+Engineered		
+		
+Smelting Class		
+Ingot		
+Catalyst		
+Pellets		
+Fibers		
