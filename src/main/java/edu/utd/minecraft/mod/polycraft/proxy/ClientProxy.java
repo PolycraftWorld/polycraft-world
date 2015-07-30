@@ -47,6 +47,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHan
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -308,10 +309,19 @@ public class ClientProxy extends CommonProxy {
 				onClientTickGenericMoldedItem(player);
 				onClientTickPogoStick(player, playerState);
 				onClientTickBouncyBlock(player, playerState);
+				onClientTickCommDeviceToggled(player, playerState);
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
 			}
 		}
+	}
+
+	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {
+		if (keyBindingToggleArmor.isPressed())
+		{
+			//TODO: add in functionality for pushing F when comm. device is equipped
+		}
+
 	}
 
 	@Override
@@ -353,6 +363,19 @@ public class ClientProxy extends CommonProxy {
 		return String.format("%1$s: %2$.1f%%", itemStack.getItem().getItemStackDisplayName(itemStack), percent * 100);
 	}
 
+	private static String getFrequency(final ItemStack itemStack, final double frequency) {
+		if (itemStack.getDisplayName().equalsIgnoreCase("voice cone"))
+		{
+			return "";
+		}
+		else if (itemStack.getDisplayName().equalsIgnoreCase("megaphone"))
+		{
+			return "";
+		}
+
+		return String.format("%1$s: %2$.1f MHz", itemStack.getItem().getItemStackDisplayName(itemStack), frequency / 10);
+	}
+
 	private void onRenderTickItemStatusOverlays(final EntityPlayer player, final PlayerState playerState) {
 		if (noScreenOverlay()) {
 			int x = statusOverlayStartX;
@@ -384,6 +407,12 @@ public class ClientProxy extends CommonProxy {
 			}
 			else if (ItemWaterCannon.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player), ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
+				y += statusOverlayDistanceBetweenY;
+			}
+
+			else if (ItemCommunication.isEquipped(player)) {
+
+				client.fontRenderer.drawStringWithShadow(getFrequency(ItemCommunication.getEquippedItemStack(player), ItemCommunication.getFrequency(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
