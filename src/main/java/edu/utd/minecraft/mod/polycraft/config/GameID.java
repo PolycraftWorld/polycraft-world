@@ -57,6 +57,8 @@ public enum GameID {
 	InventoryPump("4i"),
 	InventoryMaskWriter("1eu"),
 	InventoryTradingHouse("1fo"),
+	InventoryTerritoryFlag("1fq"),
+	InventoryPrintingPress("1fs"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),
@@ -80,11 +82,13 @@ public enum GameID {
 	Custom254nmUVLight("1eF"),
 	Custom365nmUVLight("1eG"),
 	CustomVoiceCone("1eQ"),
-	CustomMegaPhone("1eR"),
+	CustomMegaphone("1eR"),
 	CustomHAMRadio("1eS"),
 	CustomWalkyTalky("1eT"),
 	CustomCellPhone("1eU"),
-	CustomSmartPhone("1eq");
+	CustomSmartPhone("1eq"),
+	CustomFlagEmpty("1bZ"),
+	CustomBillStackEmpty("1fx");
 
 	public final String id;
 

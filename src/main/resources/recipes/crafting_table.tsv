@@ -293,8 +293,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.3.2	TRUE	FALSE	8	Walky Talky	1	Low Power Radio	1	Walky Talky Case (SAN)	1																				
 1.3.2	TRUE	FALSE	8	Cell Phone	1	Low Power Radio	1	Cell Phone Case (SAN)	1	OLED Array	1	Processor	1	Amplifier	1	Digital Analog Convertor	1			Cell Phone Case (SAN)	1								
 1.3.2	TRUE	FALSE	8	Smart Phone	1	Low Power Radio	1	Pressure Sensor	1	OLED Array	1	Processor	1	Amplifier	1	Digital Analog Convertor	1	DSP	1	Cell Phone Case (SAN)	1	DSP	1						
-																													
-																													
+1.3.3	TRUE	FALSE	8	Flag (Empty)	1	Flagpole Segment (PEEK)	1	"Fibers (Nylon 6,10)"	1	"Fibers (Nylon 6,10)"	1	Flagpole Segment (PEEK)	1	"Fibers (Nylon 6,10)"	1	"Fibers (Nylon 6,10)"	1	Flagpole Segment (PEEK)	1										
+1.3.3	TRUE	FALSE	8	Bill Stack (Empty)	1	Paper	1					Paper	1					Paper	1										
 																													
 																													
 																													

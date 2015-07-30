@@ -83,6 +83,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 					(inventory.containerType == PolycraftContainerType.FLOODLIGHT) ||
 					(inventory.containerType == PolycraftContainerType.PUMP) ||
 					(inventory.containerType == PolycraftContainerType.CONDENSER) ||
+					(inventory.containerType == PolycraftContainerType.PRINTING_PRESS) ||
 					(inventory.containerType == PolycraftContainerType.SOLAR_PLANT) ||
 					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
 					(inventory.containerType == PolycraftContainerType.SPOTLIGHT) ||
