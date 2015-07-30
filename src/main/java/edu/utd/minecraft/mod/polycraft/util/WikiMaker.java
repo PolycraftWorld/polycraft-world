@@ -462,7 +462,6 @@ public class WikiMaker {
 		case TRADING_HOUSE:
 			slots.append(getInventoryCoinSlot(TradingHouseInventory.slotIndexInputFee));
 			break;
-
 		case DISTILLATION_COLUMN:
 			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexCoolingWater));
 			slots.append(getInventoryWaterSlot(DistillationColumnInventory.slotIndexHeatingWater));

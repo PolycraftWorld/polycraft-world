@@ -22,13 +22,15 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.Industria
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriter;
+import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.printingpress.PrintingPressInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
@@ -65,9 +67,9 @@ public enum PolycraftContainerType {
 	MASK_WRITER("Mask Writer"),
 	SOLAR_PLANT("Solar Plant"),
 	PORTAL_CHEST("Portal Chest"),
+	TRADING_HOUSE("Trading House"),
 	PRINTING_PRESS("Printing Press"),
-	TERRITORY_FLAG("Territory Flag"),
-	TRADING_HOUSE("Trading House");
+	TERRITORY_FLAG("Territory Flag");
 
 	private final String friendlyName;
 
@@ -150,8 +152,10 @@ public enum PolycraftContainerType {
 		PORTAL_CHEST.initialize(PortalChestInventory.guiSlots);
 		PUMP.initialize(PumpInventory.guiSlots);
 		FLOW_REGULATOR.initialize(FlowRegulatorInventory.guiSlots);
-		MASK_WRITER.initialize(MaskWriter.guiSlots);
+		MASK_WRITER.initialize(MaskWriterInventory.guiSlots);
 		TRADING_HOUSE.initialize(TradingHouseInventory.guiSlots);
+		PRINTING_PRESS.initialize(PrintingPressInventory.guiSlots);
+		TERRITORY_FLAG.initialize(TerritoryFlagInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {
