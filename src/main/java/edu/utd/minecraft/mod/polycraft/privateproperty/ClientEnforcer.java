@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.input.Keyboard;
@@ -23,7 +22,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -43,19 +41,18 @@ public class ClientEnforcer extends Enforcer {
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(7);
-
+	
 	private final Minecraft client;
-
+	
 	private static class StatusMessage {
 		public final String text;
 		public int ticksRemaining;
-
+		
 		public StatusMessage(final String text, final int ticksRemaining) {
 			this.text = text;
 			this.ticksRemaining = ticksRemaining;
 		}
 	}
-
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
 	private boolean showPrivateProperty = false;
 	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
@@ -79,7 +76,7 @@ public class ClientEnforcer extends Enforcer {
 		super.setActionPrevented(action, privateProperty);
 		actionPreventedWarningMessageTicks = 0;
 	}
-
+	
 	private void showStatusMessage(final String message, final int seconds) {
 		statusMessages.add(new StatusMessage(message, PolycraftMod.convertSecondsToGameTicks(seconds)));
 	}
@@ -99,18 +96,17 @@ public class ClientEnforcer extends Enforcer {
 				pendingDataPacketsBuffer.put(payload);
 				if (pendingDataPacketsBytes == 0) {
 					switch (pendingDataPacketType) {
-					case PrivateProperties:
-						final int count = updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1);
-						final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
-						showStatusMessage("Received " + format.format(count) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / "
-								+ format.format(privatePropertiesByChunk.size()) + " chunks)", 10);
-						break;
-					case Friends:
-						updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						break;
-					case Unknown:
-					default:
-						break;
+						case PrivateProperties:
+							final int count = updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1);
+							final NumberFormat format = NumberFormat.getNumberInstance(Locale.getDefault());
+							showStatusMessage("Received " + format.format(count) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + format.format(privatePropertiesByOwner.size()) + " players / " + format.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+							break;
+						case Friends:
+							updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case Unknown:
+						default:
+							break;
 					}
 					pendingDataPacketType = DataPacketType.Unknown;
 					pendingDataPacketsBuffer = null;
@@ -129,130 +125,16 @@ public class ClientEnforcer extends Enforcer {
 			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
 			final EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
 			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
-			if (sendingPlayer != null)
-			{
-				//calculate distance and save
-				//send message to anyone within 32 blocks
-
-				if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-						Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-						Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximity)
-				{
-					return;
-				}
-				//if greater than 32 blocks
-				//test to see if you holding voice cone (item)
-				//send message 48 blocks
-				int recFreqWT = -1;
-				int sendFreqWT = -2;
-				int recFreqHR = -1;
-				int sendFreqHR = -2;
-				for (int i = 0; i < 36; i++)
-				{
-					ItemStack itemStackSend = sendingPlayer.inventory.getStackInSlot(i); //TODO: why isnt this working?
-					ItemStack itemStackRec = receivingPlayer.inventory.getStackInSlot(i);
-
-					if (i < 9)
-					{
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
-						{
-							if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityVoiceCone)
-							{
-								return;
-							}
-						}
-
-						//test to see if you holding a mega phone
-						//send message 64 blocks
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
-						{
-							if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityMegaphone)
-							{
-								return;
-							}
-						}
-
-						//test if sending and receiving player have walky talky on same frequency on the hotbar
-						//send message if within 1024 blocks
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-						{
-							sendFreqWT = itemStackSend.getItemDamage();
-						}
-
-						if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-						{
-							recFreqWT = itemStackRec.getItemDamage();
-						}
-
-						if (recFreqWT == sendFreqWT)
-						{
-							if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityWalkyTalky)
-							{
-								return;
-							}
-						}
-					}
-
-					//test if sending and receiving player have ham radios on same frequency
-					//send message to within 8096
-
-					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
-					{
-						sendFreqHR = itemStackSend.getItemDamage();
-					}
-
-					if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
-					{
-						recFreqHR = itemStackRec.getItemDamage();
-					}
-					if (recFreqWT == sendFreqWT)
-					{
-						if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-								Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-								Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityHAMRadio)
-						{
-							return;
-						}
-					}
-					//test if sending and receiving player have a cell phone and are friends
-					//send message to a specific user (tell command)
-					if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
-					{
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-						{
-							if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-							{
-								final int beginIndex = message.indexOf(">");
-								final String[] textStream = event.message.getUnformattedText().substring(beginIndex).split(" ");
-								if (textStream.length > 1)
-								{
-									if (receivingPlayer.getDisplayName() == textStream[1])
-									{
-										return;
-									}
-								}
-							}
-						}
-					}
-					if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
-					{
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-						{
-							if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-							{
-								return;
-							}
-						}
+			if (sendingPlayer != null) {
+				//FIXME add a check to make sure the player has a cell phone equipped
+				if (!friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName())))) {
+					if (Math.sqrt(
+							Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
+							Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
+							Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) > PolycraftMod.maxChatBlockProximity) {
+						event.setCanceled(true);
 					}
 				}
-
-				event.setCanceled(true);
 			}
 		}
 	}

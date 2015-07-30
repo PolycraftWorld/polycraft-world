@@ -633,12 +633,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
-				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
-				{
-					GL11.glScalef(1.2F, 1.2F, 1.2F);
-					GL11.glTranslatef(.8F, 0.25F, 0F);
-				}
-
 				else if (config.containerType == PolycraftContainerType.SOLAR_PLANT)
 				{
 					GL11.glScalef(0.125F, 0.125F, 0.125F);
@@ -682,15 +676,9 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
 				{
-					GL11.glScalef(0.4F, 0.4F, 0.4F);
-					GL11.glTranslatef(.25F, 0F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.PRINTING_PRESS)
-				{
 					GL11.glScalef(0.6F, 0.6F, 0.6F);
 					GL11.glTranslatef(0.25F, 0F, 0F);
 				}
-
 				else if (config.containerType == PolycraftContainerType.MEROX_TREATMENT_UNIT)
 				{
 					GL11.glScalef(0.25F, 0.25F, 0.25F);
@@ -786,16 +774,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}
-				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
-				{
-					//GL11.glRotatef(-90, 0F, 1F, 0F); //z axis
-					//GL11.glTranslated(0F, 0F, -1F);
-				}
 				else if (config.containerType == PolycraftContainerType.CONDENSER)
-				{
-					GL11.glTranslated(1F, 0, 0);
-				}
-				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
 				{
 					GL11.glTranslated(1F, 0, 0);
 				}

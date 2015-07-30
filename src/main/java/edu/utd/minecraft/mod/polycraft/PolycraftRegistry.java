@@ -93,15 +93,13 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriter;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.printingpress.PrintingPressInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -110,7 +108,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemArmorFeet;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorHead;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
-import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemElectronics;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -255,13 +252,10 @@ public class PolycraftRegistry {
 	}
 
 	private static int[] targetVersion = null;
-
+	
 	public static final boolean isTargetVersion(final int[] version) {
 		if (version == null || targetVersion == null || version.length != targetVersion.length)
 			return false;
-		if (PolycraftMod.isVersionCompatible(targetVersion, new int[] { 1, 3, 0 }))
-			if (PolycraftMod.isVersionCompatible(version, new int[] { 1, 3, 0 }))
-				return true;
 		for (int i = 0; i < targetVersion.length; i++) {
 			if (targetVersion[i] != version[i])
 				return false;
@@ -273,447 +267,304 @@ public class PolycraftRegistry {
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted("config", "enums")) {
 			if (line.length == 0)
 				break;
-
+			
 			targetVersion = PolycraftMod.getVersionNumeric(line[0]);
 			if (!PolycraftMod.isVersionCompatible(targetVersion)) {
 				break;
 			}
-			if (PolycraftMod.isVersionCompatible(targetVersion, new int[] { 1, 2, 5 })) {
-				continue;
-			}
-
 			Config.registerFromResources("config");
-
-			registerMinecraftItems();
-			registerMinecraftBlocks();
-			registerBiomes();
-			registerOres();
-			registerIngots();
-			registerNuggets();
-			registerCompressedBlocks();
-			registerCatalysts();
-			registerVessels();
-			registerPolymers();
-			registerMolds();
-			registerMoldedItems();
-			registerGrippedTools();
-			registerPogoSticks();
-			registerArmors();
-			registerTools();
-			registerInventories();
-			registerCustom();
-			registerMaskItems();
-			registerWaferItems();
-			registerElectronics();
-			Fuel.registerQuantifiedFuels();
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
+
+		registerMinecraftItems();
+		registerMinecraftBlocks();
+		registerBiomes();
+		registerOres();
+		registerIngots();
+		registerNuggets();
+		registerCompressedBlocks();
+		registerCatalysts();
+		registerVessels();
+		registerPolymers();
+		registerMolds();
+		registerMoldedItems();
+		registerGrippedTools();
+		registerPogoSticks();
+		registerArmors();
+		registerTools();
+		registerInventories();
+		registerCustom();
+		registerMaskItems();
+		registerWaferItems();
+		registerElectronics();
+		Fuel.registerQuantifiedFuels();
 	}
 
 	private static void registerMinecraftItems() {
 		for (final MinecraftItem minecraftItem : MinecraftItem.registry.values()) {
-			if (isTargetVersion(minecraftItem.version))
-			{
-				final Item item = GameData.itemRegistry.get(minecraftItem.id);
-				if (item == null)
-					logger.warn("Missing item: {}", minecraftItem.name);
-				else {
-					logger.debug("Found item: {}", minecraftItem.name);
-					items.put(minecraftItem.name, item);
-					minecraftItems.add(item);
-				}
+			final Item item = GameData.itemRegistry.get(minecraftItem.id);
+			if (item == null)
+				logger.warn("Missing item: {}", minecraftItem.name);
+			else {
+				logger.debug("Found item: {}", minecraftItem.name);
+				items.put(minecraftItem.name, item);
+				minecraftItems.add(item);
 			}
 		}
 	}
 
 	private static void registerMinecraftBlocks() {
 		for (final MinecraftBlock minecraftBlock : MinecraftBlock.registry.values()) {
-			if (isTargetVersion(minecraftBlock.version))
-			{
-				final Block block = GameData.blockRegistry.get(minecraftBlock.id);
-				if (block == null)
-					logger.warn("Missing block: {}", minecraftBlock.name);
-				else {
-					logger.debug("Found block: {}", minecraftBlock.name);
-					blocks.put(minecraftBlock.name, block);
-					minecraftItems.add(Item.getItemFromBlock(block));
-				}
+			final Block block = GameData.blockRegistry.get(minecraftBlock.id);
+			if (block == null)
+				logger.warn("Missing block: {}", minecraftBlock.name);
+			else {
+				logger.debug("Found block: {}", minecraftBlock.name);
+				blocks.put(minecraftBlock.name, block);
+				minecraftItems.add(Item.getItemFromBlock(block));
 			}
 		}
 	}
 
 	private static void registerBiomes() {
-		if (isTargetVersion(new int[] { 1, 0, 0 }))
-		{
-			class BiomeIdException extends RuntimeException {
-				public BiomeIdException(String biome, int id) {
-					super(String.format("You have a Biome Id conflict at %d for %s", id, biome));
-				}
+		class BiomeIdException extends RuntimeException {
+			public BiomeIdException(String biome, int id) {
+				super(String.format("You have a Biome Id conflict at %d for %s", id, biome));
 			}
+		}
 
-			if (PolycraftMod.oilDesertBiomeId > 0) {
-				if (BiomeGenBase.getBiomeGenArray()[PolycraftMod.oilDesertBiomeId] != null) {
-					throw new BiomeIdException("oilDesert", PolycraftMod.oilDesertBiomeId);
-				}
-				PolycraftMod.biomeOilDesert = BiomeGenOilDesert.makeBiome(PolycraftMod.oilDesertBiomeId);
+		if (PolycraftMod.oilDesertBiomeId > 0) {
+			if (BiomeGenBase.getBiomeGenArray()[PolycraftMod.oilDesertBiomeId] != null) {
+				throw new BiomeIdException("oilDesert", PolycraftMod.oilDesertBiomeId);
 			}
+			PolycraftMod.biomeOilDesert = BiomeGenOilDesert.makeBiome(PolycraftMod.oilDesertBiomeId);
+		}
 
-			if (PolycraftMod.oilOceanBiomeId > 0) {
-				if (BiomeGenBase.getBiomeGenArray()[PolycraftMod.oilOceanBiomeId] != null) {
-					throw new BiomeIdException("oilOcean", PolycraftMod.oilOceanBiomeId);
-				}
-				PolycraftMod.biomeOilOcean = BiomeGenOilOcean.makeBiome(PolycraftMod.oilOceanBiomeId);
+		if (PolycraftMod.oilOceanBiomeId > 0) {
+			if (BiomeGenBase.getBiomeGenArray()[PolycraftMod.oilOceanBiomeId] != null) {
+				throw new BiomeIdException("oilOcean", PolycraftMod.oilOceanBiomeId);
 			}
+			PolycraftMod.biomeOilOcean = BiomeGenOilOcean.makeBiome(PolycraftMod.oilOceanBiomeId);
 		}
 	}
 
 	private static void registerOres() {
 		for (final Ore ore : Ore.registry.values())
-		{
-			if (isTargetVersion(ore.version))
-			{
-				registerBlock(ore, new BlockOre(ore));
-			}
-		}
-
+			registerBlock(ore, new BlockOre(ore));
 	}
 
 	private static void registerIngots() {
 		for (final Ingot ingot : Ingot.registry.values())
-		{
-			if (isTargetVersion(ingot.version))
-			{
-				registerItem(ingot, new ItemIngot(ingot));
-			}
-		}
-
+			registerItem(ingot, new ItemIngot(ingot));
 	}
 
 	private static void registerNuggets() {
 		for (final Nugget nugget : Nugget.registry.values())
-		{
-			if (isTargetVersion(nugget.version))
-			{
-				registerItem(nugget, new ItemNugget(nugget));
-			}
-		}
-
+			registerItem(nugget, new ItemNugget(nugget));
 	}
 
 	private static void registerCompressedBlocks() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-		{
-			if (isTargetVersion(compressedBlock.version))
-			{
-				registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
-			}
-		}
-
+			registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
 	}
 
 	private static void registerCatalysts() {
 		for (final Catalyst catalyst : Catalyst.registry.values())
-		{
-			if (isTargetVersion(catalyst.version))
-			{
-				registerItem(catalyst, new ItemCatalyst(catalyst));
-			}
-		}
-
+			registerItem(catalyst, new ItemCatalyst(catalyst));
 	}
 
 	private static void registerVessels() {
 		for (final ElementVessel vessel : ElementVessel.registry.values())
-		{
-			if (isTargetVersion(vessel.version))
-			{
-				registerItem(vessel, new ItemVessel<ElementVessel>(vessel));
-			}
-		}
-
+			registerItem(vessel, new ItemVessel<ElementVessel>(vessel));
 		for (final CompoundVessel vessel : CompoundVessel.registry.values())
-		{
-			if (isTargetVersion(vessel.version))
-			{
-				registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
-			}
-		}
-
+			registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 	}
 
 	private static void registerPolymers() {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
-		{
-			if (isTargetVersion(polymerPellets.version))
-			{
-				registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
-			}
-		}
+			registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
-			{
-				if (isTargetVersion(polymerBlock.version))
-				{
-					final BlockPolymer block = new BlockPolymer(polymerBlock);
-					registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
-							ItemPolymerBlock.class, new Object[] {});
-				}
-			}
-
+			final BlockPolymer block = new BlockPolymer(polymerBlock);
+			registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
+					ItemPolymerBlock.class, new Object[] {});
 		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
-			{
-				if (isTargetVersion(polymerSlab.version))
-				{
-					final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
-					final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
-					registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
-					registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
-				}
-			}
+			final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
+			final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
+			registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
+					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
+			registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
+					ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
 		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
-			{
-				if (isTargetVersion(polymerStairs.version))
-				{
-					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 15);
-					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
-							ItemPolymerStairs.class, new Object[] {});
-				}
-			}
-
+			final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 15);
+			registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
+					ItemPolymerStairs.class, new Object[] {});
 		}
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
-			{
-				if (isTargetVersion(polymerWall.version))
-				{
-					final BlockWall wall = new BlockPolymerWall(polymerWall);
-					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
-							ItemPolymerWall.class, new Object[] {});
-
-				}
-			}
-
+			final BlockWall wall = new BlockPolymerWall(polymerWall);
+			registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+					ItemPolymerWall.class, new Object[] {});
 		}
 
 	}
 
 	private static void registerMolds() {
 		for (final Mold mold : Mold.registry.values())
-		{
-			if (isTargetVersion(mold.version))
-			{
-				registerItem(mold, new ItemMold(mold));
-			}
-		}
-
+			registerItem(mold, new ItemMold(mold));
 	}
 
 	private static void registerMoldedItems() {
 		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
-
-			if (isTargetVersion(moldedItem.version))
-			{
-				Item item = null;
-				if (GameID.MoldRunningShoes.matches(moldedItem.source))
-					item = new ItemRunningShoes(moldedItem);
-				else if (GameID.MoldScubaFins.matches(moldedItem.source))
-					item = new ItemScubaFins(moldedItem);
-				else if (GameID.MoldScubaMask.matches(moldedItem.source))
-					item = new ItemScubaMask(moldedItem);
-				else
-					item = new ItemMoldedItem(moldedItem);
-				registerItem(moldedItem, item);
-			}
-
+			Item item = null;
+			if (GameID.MoldRunningShoes.matches(moldedItem.source))
+				item = new ItemRunningShoes(moldedItem);
+			else if (GameID.MoldScubaFins.matches(moldedItem.source))
+				item = new ItemScubaFins(moldedItem);
+			else if (GameID.MoldScubaMask.matches(moldedItem.source))
+				item = new ItemScubaMask(moldedItem);
+			else
+				item = new ItemMoldedItem(moldedItem);
+			registerItem(moldedItem, item);
 		}
 
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
-			if (isTargetVersion(brick.version))
-			{
-				final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
-				registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
-						ItemPolymerBrick.class, new Object[] {});
-			}
-
+			final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
+			registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
+					ItemPolymerBrick.class, new Object[] {});
 		}
 
 	}
 
 	private static void registerMaskItems() {
 		for (final Mask maskItem : Mask.registry.values())
-		{
-			if (isTargetVersion(maskItem.version))
-			{
-				registerItem(maskItem, new ItemMask(maskItem));
-			}
-		}
-
+			registerItem(maskItem, new ItemMask(maskItem));
 	}
 
 	private static void registerWaferItems() {
 		for (final WaferItem waferItem : WaferItem.registry.values())
-		{
-			if (isTargetVersion(waferItem.version))
-			{
-				registerItem(waferItem, new ItemWafer(waferItem));
-			}
-		}
-
+			registerItem(waferItem, new ItemWafer(waferItem));
 	}
 
 	private static void registerElectronics() {
 		for (final Electronics electronics : Electronics.registry.values())
-		{
-			if (isTargetVersion(electronics.version))
-			{
-				registerItem(electronics, new ItemElectronics(electronics));
-			}
-		}
-
+			registerItem(electronics, new ItemElectronics(electronics));
 	}
 
 	private static void registerGrippedTools() {
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
-		{
-			if (isTargetVersion(grippedTool.version))
-			{
-				registerItem(grippedTool, ItemGripped.create(grippedTool));
-			}
-		}
-
+			registerItem(grippedTool, ItemGripped.create(grippedTool));
 	}
 
 	private static void registerPogoSticks() {
 		for (final PogoStick pogoStick : PogoStick.registry.values())
-		{
-			if (isTargetVersion(pogoStick.version))
-			{
-				registerItem(pogoStick, new ItemPogoStick(pogoStick));
-			}
-		}
-
+			registerItem(pogoStick, new ItemPogoStick(pogoStick));
 	}
 
 	private static void registerArmors() {
 		for (final Armor armor : Armor.registry.values()) {
-			if (isTargetVersion(armor.version))
-			{
-
-				final ArmorMaterial material = EnumHelper.addArmorMaterial(
-						armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
-				material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
-				registerItem(
-						armor.componentGameIDs[ArmorSlot.HEAD.getValue()],
-						armor.getFullComponentName(ArmorSlot.HEAD),
-						new ItemArmorHead(armor, material));
-				registerItem(
-						armor.componentGameIDs[ArmorSlot.CHEST.getValue()],
-						armor.getFullComponentName(ArmorSlot.CHEST),
-						new ItemArmorChest(armor, material));
-				registerItem(
-						armor.componentGameIDs[ArmorSlot.LEGS.getValue()],
-						armor.getFullComponentName(ArmorSlot.LEGS),
-						new ItemArmorLegs(armor, material));
-				registerItem(
-						armor.componentGameIDs[ArmorSlot.FEET.getValue()],
-						armor.getFullComponentName(ArmorSlot.FEET),
-						new ItemArmorFeet(armor, material));
-			}
+			final ArmorMaterial material = EnumHelper.addArmorMaterial(
+					armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
+			material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.HEAD.getValue()],
+					armor.getFullComponentName(ArmorSlot.HEAD),
+					new ItemArmorHead(armor, material));
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.CHEST.getValue()],
+					armor.getFullComponentName(ArmorSlot.CHEST),
+					new ItemArmorChest(armor, material));
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.LEGS.getValue()],
+					armor.getFullComponentName(ArmorSlot.LEGS),
+					new ItemArmorLegs(armor, material));
+			registerItem(
+					armor.componentGameIDs[ArmorSlot.FEET.getValue()],
+					armor.getFullComponentName(ArmorSlot.FEET),
+					new ItemArmorFeet(armor, material));
 		}
 	}
 
 	private static void registerTools() {
 		for (final Tool tool : Tool.registry.values()) {
-			if (isTargetVersion(tool.version))
-			{
-				final ToolMaterial material = EnumHelper.addToolMaterial(
-						tool.name, tool.harvestLevel, tool.maxUses, tool.efficiency, tool.damage, tool.enchantability);
-				material.customCraftingMaterial = PolycraftRegistry.getItem(tool.craftingHeadItemName);
-				registerItem(
-						tool.typeGameIDs[Tool.Type.HOE.ordinal()],
-						tool.getFullTypeName(Tool.Type.HOE),
-						new ItemToolHoe(tool, material));
-				registerItem(
-						tool.typeGameIDs[Tool.Type.SWORD.ordinal()],
-						tool.getFullTypeName(Tool.Type.SWORD),
-						new ItemToolSword(tool, material));
-				registerItem(
-						tool.typeGameIDs[Tool.Type.SHOVEL.ordinal()],
-						tool.getFullTypeName(Tool.Type.SHOVEL),
-						new ItemToolShovel(tool, material));
-				registerItem(
-						tool.typeGameIDs[Tool.Type.PICKAXE.ordinal()],
-						tool.getFullTypeName(Tool.Type.PICKAXE),
-						new ItemToolPickaxe(tool, material));
-				registerItem(
-						tool.typeGameIDs[Tool.Type.AXE.ordinal()],
-						tool.getFullTypeName(Tool.Type.AXE),
-						new ItemToolAxe(tool, material));
-			}
+			final ToolMaterial material = EnumHelper.addToolMaterial(
+					tool.name, tool.harvestLevel, tool.maxUses, tool.efficiency, tool.damage, tool.enchantability);
+			material.customCraftingMaterial = PolycraftRegistry.getItem(tool.craftingHeadItemName);
+			registerItem(
+					tool.typeGameIDs[Tool.Type.HOE.ordinal()],
+					tool.getFullTypeName(Tool.Type.HOE),
+					new ItemToolHoe(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.SWORD.ordinal()],
+					tool.getFullTypeName(Tool.Type.SWORD),
+					new ItemToolSword(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.SHOVEL.ordinal()],
+					tool.getFullTypeName(Tool.Type.SHOVEL),
+					new ItemToolShovel(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.PICKAXE.ordinal()],
+					tool.getFullTypeName(Tool.Type.PICKAXE),
+					new ItemToolPickaxe(tool, material));
+			registerItem(
+					tool.typeGameIDs[Tool.Type.AXE.ordinal()],
+					tool.getFullTypeName(Tool.Type.AXE),
+					new ItemToolAxe(tool, material));
 		}
 	}
 
 	private static void registerInventories() {
 		for (final Inventory inventory : Inventory.registry.values()) {
-			if (isTargetVersion(inventory.version))
-			{
-				if (GameID.InventoryTreeTap.matches(inventory))
-					TreeTapInventory.register(inventory);
-				else if (GameID.InventoryMachiningMill.matches(inventory))
-					MachiningMillInventory.register(inventory);
-				else if (GameID.InventoryExtruder.matches(inventory))
-					ExtruderInventory.register(inventory);
-				else if (GameID.InventoryInjectionMolder.matches(inventory))
-					InjectionMolderInventory.register(inventory);
-				else if (GameID.InventoryDistillationColumn.matches(inventory))
-					DistillationColumnInventory.register(inventory);
-				else if (GameID.InventorySteamCracker.matches(inventory))
-					SteamCrackerInventory.register(inventory);
-				else if (GameID.InventoryMeroxTreatmentUnit.matches(inventory))
-					MeroxTreatmentUnitInventory.register(inventory);
-				else if (GameID.InventoryChemicalProcessor.matches(inventory))
-					ChemicalProcessorInventory.register(inventory);
-				else if (GameID.InventoryContactPrinter.matches(inventory))
-					ContactPrinterInventory.register(inventory);
-				else if (GameID.InventoryTradingHouse.matches(inventory))
-					TradingHouseInventory.register(inventory);
-				else if (GameID.InventoryFloodlight.matches(inventory))
-					FloodlightInventory.register(inventory);
-				else if (GameID.InventorySpotlight.matches(inventory))
-					SpotlightInventory.register(inventory);
-				else if (GameID.InventoryGaslamp.matches(inventory))
-					GaslampInventory.register(inventory);
-				else if (GameID.InventoryOilDerrick.matches(inventory))
-					OilDerrickInventory.register(inventory);
-				else if (GameID.InventoryCondenser.matches(inventory))
-					CondenserInventory.register(inventory);
-				else if (GameID.InventorySolarPlant.matches(inventory))
-					SolarPlantInventory.register(inventory);
-				else if (GameID.InventoryPlasticChest.matches(inventory))
-					PlasticChestInventory.register(inventory);
-				else if (GameID.InventoryPortalChest.matches(inventory))
-					PortalChestInventory.register(inventory);
-				else if (GameID.InventoryIndustrialOven.matches(inventory))
-					IndustrialOvenInventory.register(inventory);
-				else if (GameID.InventoryPump.matches(inventory))
-					PumpInventory.register(inventory);
-				else if (GameID.InventoryFlowRegulator.matches(inventory))
-					FlowRegulatorInventory.register(inventory);
-				else if (GameID.InventoryMaskWriter.matches(inventory))
-					MaskWriterInventory.register(inventory);
-				else if (GameID.InventoryPrintingPress.matches(inventory))
-					PrintingPressInventory.register(inventory);
-				else if (GameID.InventoryTerritoryFlag.matches(inventory))
-					TerritoryFlagInventory.register(inventory);
-				else
-					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
-			}
+			if (GameID.InventoryTreeTap.matches(inventory))
+				TreeTapInventory.register(inventory);
+			else if (GameID.InventoryMachiningMill.matches(inventory))
+				MachiningMillInventory.register(inventory);
+			else if (GameID.InventoryExtruder.matches(inventory))
+				ExtruderInventory.register(inventory);
+			else if (GameID.InventoryInjectionMolder.matches(inventory))
+				InjectionMolderInventory.register(inventory);
+			else if (GameID.InventoryDistillationColumn.matches(inventory))
+				DistillationColumnInventory.register(inventory);
+			else if (GameID.InventorySteamCracker.matches(inventory))
+				SteamCrackerInventory.register(inventory);
+			else if (GameID.InventoryMeroxTreatmentUnit.matches(inventory))
+				MeroxTreatmentUnitInventory.register(inventory);
+			else if (GameID.InventoryChemicalProcessor.matches(inventory))
+				ChemicalProcessorInventory.register(inventory);
+			else if (GameID.InventoryContactPrinter.matches(inventory))
+				ContactPrinterInventory.register(inventory);
+			else if (GameID.InventoryTradingHouse.matches(inventory))
+				TradingHouseInventory.register(inventory);
+			else if (GameID.InventoryFloodlight.matches(inventory))
+				FloodlightInventory.register(inventory);
+			else if (GameID.InventorySpotlight.matches(inventory))
+				SpotlightInventory.register(inventory);
+			else if (GameID.InventoryGaslamp.matches(inventory))
+				GaslampInventory.register(inventory);
+			else if (GameID.InventoryOilDerrick.matches(inventory))
+				OilDerrickInventory.register(inventory);
+			else if (GameID.InventoryCondenser.matches(inventory))
+				CondenserInventory.register(inventory);
+			else if (GameID.InventorySolarPlant.matches(inventory))
+				SolarPlantInventory.register(inventory);
+			else if (GameID.InventoryPlasticChest.matches(inventory))
+				PlasticChestInventory.register(inventory);
+			else if (GameID.InventoryPortalChest.matches(inventory))
+				PortalChestInventory.register(inventory);
+			else if (GameID.InventoryIndustrialOven.matches(inventory))
+				IndustrialOvenInventory.register(inventory);
+			else if (GameID.InventoryPump.matches(inventory))
+				PumpInventory.register(inventory);
+			else if (GameID.InventoryFlowRegulator.matches(inventory))
+				FlowRegulatorInventory.register(inventory);
+			else if (GameID.InventoryMaskWriter.matches(inventory))
+				MaskWriter.register(inventory);
+			else
+				logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 		}
 	}
 
@@ -723,186 +574,147 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerCustom() {
-		final InternalObject light = InternalObject.registry.get("BlockLight");
-		if (light != null && isTargetVersion(light.version))
-		{
-			PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
-		}
+		final InternalObject light = InternalObject.registry.get("Light");
+		PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
 
 		final InternalObject oil = InternalObject.registry.get("Oil");
-		Fluid fluidOil = null;
-		if (oil != null && isTargetVersion(oil.version))
-		{
-			fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
-			FluidRegistry.registerFluid(fluidOil);
-		}
+		final Fluid fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
+		FluidRegistry.registerFluid(fluidOil);
 
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
-		if (blockPipe != null && isTargetVersion(blockPipe.version))
-		{
-			TileEntityBlockPipe.register(blockPipe);
-		}
+		TileEntityBlockPipe.register(blockPipe);
 
 		final InternalObject collision = InternalObject.registry.get("BlockCollision");
-		if (collision != null && isTargetVersion(collision.version))
-		{
-			PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
-		}
+		PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
 
-		if (isTargetVersion(new int[] { 1, 0, 0 }))
-		{
-			registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
-		}
+		registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 
-		if (fluidOil != null) //do not reorder this even though it seems more efficient, because registration order matters!
-		{
-			PolycraftMod.blockOil = registerBlock(oil,
-					new BlockFluid(fluidOil, Material.water)
-							.setFlammable(true)
-							.setFlammability(PolycraftMod.oilBlockFlammability)
-							.setParticleColor(0.7F, 0.7F, 0.0F));
-			fluidOil.setBlock(PolycraftMod.blockOil);
-		}
+		PolycraftMod.blockOil = registerBlock(oil,
+				new BlockFluid(fluidOil, Material.water)
+						.setFlammable(true)
+						.setFlammability(PolycraftMod.oilBlockFlammability)
+						.setParticleColor(0.7F, 0.7F, 0.0F));
+		fluidOil.setBlock(PolycraftMod.blockOil);
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
-			if (isTargetVersion(customObject.version))
-			{
-				if (GameID.CustomBucketOil.matches(customObject)) {
-					PolycraftMod.itemOilBucket = registerItem(customObject,
-							new PolycraftBucket(PolycraftMod.blockOil)
-									.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
-					PolycraftMod.itemOilBucket.setContainerItem(Items.bucket);
-					FluidContainerRegistry.registerFluidContainer(
-							FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),
-							new ItemStack(PolycraftMod.itemOilBucket),
-							new ItemStack(Items.bucket));
-					BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.itemOilBucket);
-					MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
-				}
-				else if (GameID.CustomFlameThrower.matches(customObject)) {
-					registerItem(customObject, new ItemFlameThrower(customObject, "flame_thrower"));
-				}
-				else if (GameID.CustomFlameTosser.matches(customObject)) {
-					registerItem(customObject, new ItemFlameThrower(customObject, "flame_tosser"));
-				}
-				else if (GameID.CustomFlameHurler.matches(customObject)) {
-					registerItem(customObject, new ItemFlameThrower(customObject, "flame_hurler"));
-				}
-				else if (GameID.CustomFlameChucker.matches(customObject)) {
-					registerItem(customObject, new ItemFlameThrower(customObject, "flame_chucker"));
-				}
-				else if (GameID.CustomFreezeRayBeginner.matches(customObject)) {
-					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_beginner"));
-				}
-				else if (GameID.CustomFreezeRayIntermediate.matches(customObject)) {
-					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_intermediate"));
-				}
-				else if (GameID.CustomFreezeRayAdvanced.matches(customObject)) {
-					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_advanced"));
-				}
-				else if (GameID.CustomFreezeRayPro.matches(customObject)) {
-					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_pro"));
-				}
-				else if (GameID.CustomWaterCannonBeginner.matches(customObject)) {
-					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_beginner"));
-				}
-				else if (GameID.CustomWaterCannonIntermediate.matches(customObject)) {
-					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_intermediate"));
-				}
-				else if (GameID.CustomWaterCannonAdvanced.matches(customObject)) {
-					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_advanced"));
-				}
-				else if (GameID.CustomWaterCannonPro.matches(customObject)) {
-					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_pro"));
-				}
-				else if (GameID.CustomFlashlight.matches(customObject)) {
-					registerItem(customObject, new ItemFlashlight(customObject));
-				}
-				else if (GameID.CustomJetPackBeginner.matches(customObject)) {
-					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomJetPackIntermediate.matches(customObject)) {
-					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomJetPackAdvanced.matches(customObject)) {
-					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomJetPackPro.matches(customObject)) {
-					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomParachute.matches(customObject)) {
-					registerItem(customObject, new ItemParachute(customObject));
-				}
-				else if (GameID.CustomPhaseShifter.matches(customObject)) {
-					registerItem(customObject, new ItemPhaseShifter(customObject));
-				}
-				else if (GameID.CustomScubaTankBeginner.matches(customObject)) {
-					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_beginner"));
-				}
-				else if (GameID.CustomScubaTankIntermediate.matches(customObject)) {
-					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_intermediate"));
-				}
-				else if (GameID.CustomScubaTankAdvanced.matches(customObject)) {
-					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_advanced"));
-				}
-				else if (GameID.CustomScubaTankPro.matches(customObject)) {
-					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_pro"));
-				}
-				else if (GameID.CustomHeatedKnifeDiamondPolyIsoPrene.matches(customObject)) {
-					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_NR"));
-				}
-				else if (GameID.CustomHeatedKnifeDiamondPolyPropylene.matches(customObject)) {
-					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PP"));
-				}
-				else if (GameID.CustomHeatedKnifeDiamondPEEK.matches(customObject)) {
-					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PEEK"));
-				}
-				else if (GameID.CustomHeatedKnifeStainlessPolyIsoPrene.matches(customObject)) {
-					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_NR"));
-				}
-				else if (GameID.CustomHeatedKnifeStainlessPolyPropylene.matches(customObject)) {
-					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PP"));
-				}
-				else if (GameID.CustomHeatedKnifeStainlessPEEK.matches(customObject)) {
-					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PEEK"));
-				}
-				else if (GameID.CustomRunningShoesSprinter.matches(customObject)) {
-					registerItem(customObject, new ItemRunningShoes(customObject, "running_shoes_sprinter"));
-				}
-				else if (GameID.CustomScubaMaskLightBeginner.matches(customObject)) {
-					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Beginner)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomScubaMaskLightIntermediate.matches(customObject)) {
-					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Intermediate)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomScubaMaskLightAdvanced.matches(customObject)) {
-					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Advanced)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomScubaMaskLightPro.matches(customObject)) {
-					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Pro)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomVoiceCone.matches(customObject)) {
-					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomMegaphone.matches(customObject)) {
-					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomWalkyTalky.matches(customObject)) {
-					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomHAMRadio.matches(customObject)) {
-					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomCellPhone.matches(customObject)) {
-					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomSmartPhone.matches(customObject)) {
-					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else
-					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
-					registerItem(customObject, new ItemCustom(customObject));
+			if (GameID.CustomBucketOil.matches(customObject)) {
+				PolycraftMod.itemOilBucket = registerItem(customObject,
+						new PolycraftBucket(PolycraftMod.blockOil)
+								.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
+				PolycraftMod.itemOilBucket.setContainerItem(Items.bucket);
+				FluidContainerRegistry.registerFluidContainer(
+						FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),
+						new ItemStack(PolycraftMod.itemOilBucket),
+						new ItemStack(Items.bucket));
+				BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.itemOilBucket);
+				MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 			}
+			else if (GameID.CustomFlameThrower.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_thrower"));
+			}
+			else if (GameID.CustomFlameTosser.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_tosser"));
+			}
+			else if (GameID.CustomFlameHurler.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_hurler"));
+			}
+			else if (GameID.CustomFlameChucker.matches(customObject)) {
+				registerItem(customObject, new ItemFlameThrower(customObject, "flame_chucker"));
+			}
+			else if (GameID.CustomFreezeRayBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_beginner"));
+			}
+			else if (GameID.CustomFreezeRayIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_intermediate"));
+			}
+			else if (GameID.CustomFreezeRayAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_advanced"));
+			}
+			else if (GameID.CustomFreezeRayPro.matches(customObject)) {
+				registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_pro"));
+			}
+			else if (GameID.CustomWaterCannonBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_beginner"));
+			}
+			else if (GameID.CustomWaterCannonIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_intermediate"));
+			}
+			else if (GameID.CustomWaterCannonAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_advanced"));
+			}
+			else if (GameID.CustomWaterCannonPro.matches(customObject)) {
+				registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_pro"));
+			}
+			else if (GameID.CustomFlashlight.matches(customObject)) {
+				registerItem(customObject, new ItemFlashlight(customObject));
+			}
+			else if (GameID.CustomJetPackBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomJetPackIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomJetPackAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomJetPackPro.matches(customObject)) {
+				registerItem(customObject, new ItemJetPack(customObject));
+			}
+			else if (GameID.CustomParachute.matches(customObject)) {
+				registerItem(customObject, new ItemParachute(customObject));
+			}
+			else if (GameID.CustomPhaseShifter.matches(customObject)) {
+				registerItem(customObject, new ItemPhaseShifter(customObject));
+			}
+			else if (GameID.CustomScubaTankBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_beginner"));
+			}
+			else if (GameID.CustomScubaTankIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_intermediate"));
+			}
+			else if (GameID.CustomScubaTankAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_advanced"));
+			}
+			else if (GameID.CustomScubaTankPro.matches(customObject)) {
+				registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_pro"));
+			}
+			else if (GameID.CustomHeatedKnifeDiamondPolyIsoPrene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_NR"));
+			}
+			else if (GameID.CustomHeatedKnifeDiamondPolyPropylene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PP"));
+			}
+			else if (GameID.CustomHeatedKnifeDiamondPEEK.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PEEK"));
+			}
+			else if (GameID.CustomHeatedKnifeStainlessPolyIsoPrene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_NR"));
+			}
+			else if (GameID.CustomHeatedKnifeStainlessPolyPropylene.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PP"));
+			}
+			else if (GameID.CustomHeatedKnifeStainlessPEEK.matches(customObject)) {
+				registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PEEK"));
+			}
+			else if (GameID.CustomRunningShoesSprinter.matches(customObject)) {
+				registerItem(customObject, new ItemRunningShoes(customObject, "running_shoes_sprinter"));
+			}
+			else if (GameID.CustomScubaMaskLightBeginner.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Beginner)"), "scuba_mask_light"));
+			}
+			else if (GameID.CustomScubaMaskLightIntermediate.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Intermediate)"), "scuba_mask_light"));
+			}
+			else if (GameID.CustomScubaMaskLightAdvanced.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Advanced)"), "scuba_mask_light"));
+			}
+			else if (GameID.CustomScubaMaskLightPro.matches(customObject)) {
+				registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Pro)"), "scuba_mask_light"));
+			}
+
+			else
+				// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
+				registerItem(customObject, new ItemCustom(customObject));
 		}
 	}
 
