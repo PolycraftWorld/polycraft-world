@@ -65,6 +65,8 @@ public enum PolycraftContainerType {
 	MASK_WRITER("Mask Writer"),
 	SOLAR_PLANT("Solar Plant"),
 	PORTAL_CHEST("Portal Chest"),
+	PRINTING_PRESS("Printing Press"),
+	TERRITORY_FLAG("Territory Flag"),
 	TRADING_HOUSE("Trading House");
 
 	private final String friendlyName;
