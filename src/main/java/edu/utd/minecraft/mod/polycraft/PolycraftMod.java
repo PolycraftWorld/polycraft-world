@@ -50,8 +50,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.3.3";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 3, 3 };
+	public static final String VERSION = "1.3.2";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 3, 2 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -68,16 +68,12 @@ public class PolycraftMod {
 	}
 
 	public static final boolean isVersionCompatible(final int[] version) {
-		return isVersionCompatible(version, VERSION_NUMERIC);
-	}
-
-	public static final boolean isVersionCompatible(final int[] version, final int[] targetVersion) {
-		if (version == null || version.length != targetVersion.length)
+		if (version == null || version.length != VERSION_NUMERIC.length)
 			return false;
-		for (int i = 0; i < targetVersion.length; i++) {
-			if (targetVersion[i] > version[i])
+		for (int i = 0; i < VERSION_NUMERIC.length; i++) {
+			if (VERSION_NUMERIC[i] > version[i])
 				return true;
-			if (targetVersion[i] < version[i])
+			if (VERSION_NUMERIC[i] < version[i])
 				return false;
 		}
 		return true;
@@ -110,10 +106,6 @@ public class PolycraftMod {
 	public static final int recipeGripsPerTool = 1;
 	public static final int recipeGripsPerPogoStick = 2;
 	public static final int maxChatBlockProximity = 32;
-	public static final int maxChatBlockProximityVoiceCone = 48;
-	public static final int maxChatBlockProximityMegaphone = 64;
-	public static final int maxChatBlockProximityWalkyTalky = 1024;
-	public static final int maxChatBlockProximityHAMRadio = 8096;
 
 	public static final int itemPogoStickBouncesUntilStable = 3; // how many bounces it takes to stabilize at stableBounceHeight
 	public static final float itemPogoStickMaxFallNoDamageMultiple = 3; // how many times the stableBounceHeight a player can fall without taking damage

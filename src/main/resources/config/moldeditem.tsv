@@ -153,5 +153,4 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.3.2	1eV	Cell Phone Case (SAN)	Mold (Cell Phone Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
 1.3.2	1eW	Walky Talky Case (SAN)	Mold (Walky Talky Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
 1.3.2	1eX	HAM Radio Case (SAN)	Mold (HAM Radio Case)	Bag (Styrene-Acrylonitrile Pellets)	SAN	16	10	64	FALSE											
-1.3.3	1fv	Flagpole (PEEK)	Mold (Flagpole)	Bag (PolyEther Ether Ketone Pellets)	PEEK	8	10	64	TRUE											
-1.3.3	1fw	Flagpole (Carbon Fiber Composite)	Mold (Flagpole)	Vial (Epoxy-Carbon Fiber Resin)	Carbon Fiber Composite	8	10	64	TRUE	Source 1	Vial (Phenolic-Carbon Fiber Resin)									
+																				
