@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 import com.google.common.collect.ImmutableMap;
@@ -17,6 +19,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
@@ -38,6 +41,69 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 		}
+	}
+
+	@SubscribeEvent
+	public void onServerChatEvent(final ServerChatEvent event)
+	{
+
+		for (int i = 0; i < 36; i++)
+		{
+			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
+
+			if (itemStackSend != null)
+			{
+				if (i < 9)
+				{
+					//test if  receiving player has walky talky on the hotbar	
+					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
+						broadcastFromSender(event, itemStackSend);
+
+					//test if  receiving player has cell phone on the hotbar	
+					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+						broadcastFromSender(event, itemStackSend);
+
+				}
+
+				//test if sending and receiving player have ham radios on same frequency
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+					broadcastFromSender(event, itemStackSend);
+
+				//test if sending player holding phone broadcast the message
+				//send message to a specific user (tell command)
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+					broadcastFromSender(event, itemStackSend);
+
+			}
+
+		}
+
+	}
+
+	private void broadcastFromSender(ServerChatEvent event, ItemStack itemStack)
+	{
+		//somehow we need to send a broadcast event now...
+		//		int i = 0;
+		//		ClientBroadcastReceivedEvent broadcast =
+		//				new ClientBroadcastReceivedEvent(new ChatComponentText("<" + event.username + "> " + event.message),
+		//						event.player.posX, event.player.posY, event.player.posY,
+		//						itemStack.getDisplayName(), itemStack.getItemDamage());
+
+		//MinecraftForge.EVENT_BUS.post(broadcast);
+
+		broadcastMessage =
+				String.valueOf(itemStack.getItemDamage()) + ":" +
+						String.valueOf(event.player.posX) + ":" +
+						String.valueOf(event.player.posY) + ":" +
+						String.valueOf(event.player.posZ) + ":" +
+						itemStack.getDisplayName() + ":" +
+						event.username + ":" +
+						event.message;
+
+		sendDataPackets(DataPacketType.Broadcast, 1);
+
+		//option #2: modified form of...sendDataPackets(DataPacketType.Broadcast, 1) which includes message;
+
 	}
 
 	private void onWorldTickPrivateProperties(final TickEvent.WorldTickEvent event) {
@@ -69,15 +135,15 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
-	
+
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
-	
+
 	private void sendDataPackets(final DataPacketType type, final int typeMetadata) {
 		sendDataPackets(type, typeMetadata, null);
 	}
-	
+
 	private void sendDataPackets(final DataPacketType type, final int typeMetadata, final EntityPlayerMP player) {
 		final FMLProxyPacket[] packets = getDataPackets(type, typeMetadata);
 		if (packets != null) {
@@ -96,11 +162,13 @@ public class ServerEnforcer extends Enforcer {
 		try {
 			//we have to split these up into smaller packets due to this issue: https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
 			final byte[] dataBytes = CompressUtil.compress(
-				type == DataPacketType.PrivateProperties
-					? (typeMetadata == 1
-						? privatePropertiesMasterJson
-						: privatePropertiesNonMasterJson)
-					: friendsJson);
+					type == DataPacketType.PrivateProperties
+							? (typeMetadata == 1
+									? privatePropertiesMasterJson
+									: privatePropertiesNonMasterJson)
+							: type == DataPacketType.Broadcast
+									? broadcastMessage
+									: friendsJson);
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];

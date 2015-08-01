@@ -11,6 +11,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.input.Keyboard;
@@ -108,6 +109,9 @@ public class ClientEnforcer extends Enforcer {
 					case Friends:
 						updateFriends(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case Broadcast:
+						onClientBroadcastReceivedEvent(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case Unknown:
 					default:
 						break;
@@ -127,134 +131,160 @@ public class ClientEnforcer extends Enforcer {
 		final int usernameIndex = message.indexOf("<");
 		if (usernameIndex > -1) {
 			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
-			final EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
+			EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
+
 			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
+			if (receivingPlayer.capabilities.isCreativeMode)
+				return;
+
 			if (sendingPlayer != null)
 			{
 				//calculate distance and save
-				//send message to anyone within 32 blocks
-
-				if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-						Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-						Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximity)
+				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
 				{
 					return;
 				}
-				//if greater than 32 blocks
-				//test to see if you holding voice cone (item)
-				//send message 48 blocks
-				int recFreqWT = -1;
-				int sendFreqWT = -2;
-				int recFreqHR = -1;
-				int sendFreqHR = -2;
-				for (int i = 0; i < 36; i++)
+
+				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
+
+				//is the sender holding a voice cone
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
 				{
-					ItemStack itemStackSend = sendingPlayer.inventory.getStackInSlot(i); //TODO: why isnt this working?
-					ItemStack itemStackRec = receivingPlayer.inventory.getStackInSlot(i);
-
-					if (i < 9)
+					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
 					{
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
-						{
-							if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityVoiceCone)
-							{
-								return;
-							}
-						}
-
-						//test to see if you holding a mega phone
-						//send message 64 blocks
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
-						{
-							if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityMegaphone)
-							{
-								return;
-							}
-						}
-
-						//test if sending and receiving player have walky talky on same frequency on the hotbar
-						//send message if within 1024 blocks
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-						{
-							sendFreqWT = itemStackSend.getItemDamage();
-						}
-
-						if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-						{
-							recFreqWT = itemStackRec.getItemDamage();
-						}
-
-						if (recFreqWT == sendFreqWT)
-						{
-							if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-									Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-									Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityWalkyTalky)
-							{
-								return;
-							}
-						}
+						return;
 					}
+				}
 
-					//test if sending and receiving player have ham radios on same frequency
-					//send message to within 8096
-
-					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+				//is the sender holding a megaphone
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
+				{
+					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
 					{
-						sendFreqHR = itemStackSend.getItemDamage();
+						return;
 					}
+				}
 
-					if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+			}
+			event.setCanceled(true);
+
+		}
+	}
+
+	public void onClientBroadcastReceivedEvent(String complexMessage) throws IOException
+	{
+		String[] parsed = complexMessage.split(":");
+		if (parsed.length > 5)
+		{
+			final int frequency = Integer.parseInt(parsed[0]);
+			final double sourceX = Double.parseDouble(parsed[1]);
+			final double sourceY = Double.parseDouble(parsed[2]);
+			final double sourceZ = Double.parseDouble(parsed[3]);
+			final String itemName = parsed[4].trim();
+			final ItemStack itemStackSend = CustomObject.registry.get(itemName).getItemStack();
+			final String username = parsed[5];
+			String message = "";
+			for (int i = 6; i < parsed.length; i++)
+			{
+				message += parsed[i];
+				if (i < parsed.length - 1)
+					message += ":";
+			}
+
+			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
+			if (receivingPlayer.capabilities.isCreativeMode) //dont need to broadcast in creative mode, because normal chat will
+				return;
+
+			if (receivingPlayer.getDisplayName().equalsIgnoreCase(username)) //don't need to broadcast to yourself
+				return;
+
+			//see what the receiver is holding
+
+			for (int i = 0; i < 36; i++)
+			{
+				int recFreq = -1;
+				ItemStack itemStackRec = receivingPlayer.inventory.getStackInSlot(i);
+
+				if (i < 9)
+				{
+					//test if  receiving player has walky talky on the hotbar	
+					if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
 					{
-						recFreqHR = itemStackRec.getItemDamage();
+						recFreq = itemStackRec.getItemDamage();
+						if (recFreq == frequency)
+							if (arePlayersWithinBroadcastRange(sourceX, sourceY, sourceZ, receivingPlayer, PolycraftMod.maxChatBlockProximityWalkyTalky))
+								printBroadcastOnClient(receivingPlayer, username, message);
 					}
-					if (recFreqWT == sendFreqWT)
+				}
+
+				//test if sending and receiving player have ham radios on same frequency
+				if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+				{
+					recFreq = itemStackRec.getItemDamage();
+					if (recFreq == frequency)
+						if (arePlayersWithinBroadcastRange(sourceX, sourceY, sourceZ, receivingPlayer, PolycraftMod.maxChatBlockProximityHAMRadio))
+							printBroadcastOnClient(receivingPlayer, username, message);
+				}
+
+				//test if sending player holding phone and receiving player has a cell phone on hotbar and they are friends
+				//send message to a specific user (tell command)
+				//if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
+				//{
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+				{
+					if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
 					{
-						if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
-								Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
-								Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= PolycraftMod.maxChatBlockProximityHAMRadio)
+						final int beginIndex = message.indexOf(":") + 1;
+						final String[] textStream = message.split(":");
+						if (textStream != null && textStream.length > 1)
 						{
-							return;
-						}
-					}
-					//test if sending and receiving player have a cell phone and are friends
-					//send message to a specific user (tell command)
-					if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
-					{
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-						{
-							if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+							if (receivingPlayer.getDisplayName().equalsIgnoreCase(textStream[0]))
 							{
-								final int beginIndex = message.indexOf(">");
-								final String[] textStream = event.message.getUnformattedText().substring(beginIndex).split(" ");
-								if (textStream.length > 1)
-								{
-									if (receivingPlayer.getDisplayName() == textStream[1])
-									{
-										return;
-									}
-								}
-							}
-						}
-					}
-					if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
-					{
-						if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-						{
-							if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-							{
-								return;
+								printBroadcastOnClient(receivingPlayer, username, message.substring(beginIndex).trim());
 							}
 						}
 					}
 				}
+				//}
 
-				event.setCanceled(true);
+				//if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
+				//{
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+				{
+					if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+					{
+						printBroadcastOnClient(receivingPlayer, username, message);
+					}
+				}
+				//}
 			}
 		}
+
+	}
+
+	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
+
+		receivingPlayer.addChatMessage(new ChatComponentText("<" + username + "> " + message));
+	}
+
+	private boolean arePlayersWithinBroadcastRange(double sourceX, double sourceY, double sourceZ, EntityPlayer receivingPlayer, int distanceBlocks) {
+
+		if (Math.sqrt(Math.pow(sourceX - receivingPlayer.posX, 2) +
+				Math.pow(sourceZ - receivingPlayer.posZ, 2) +
+				Math.pow(sourceY - receivingPlayer.posY, 2)) <= distanceBlocks)
+			return true;
+
+		return false;
+	}
+
+	private boolean arePlayersWithinDistance(EntityPlayer sendingPlayer, EntityPlayer receivingPlayer, int distanceBlocks) {
+
+		if (Math.sqrt(Math.pow(sendingPlayer.posX - receivingPlayer.posX, 2) +
+				Math.pow(sendingPlayer.posZ - receivingPlayer.posZ, 2) +
+				Math.pow(sendingPlayer.posY - receivingPlayer.posY, 2)) <= distanceBlocks)
+			return true;
+
+		return false;
 	}
 
 	@SubscribeEvent
