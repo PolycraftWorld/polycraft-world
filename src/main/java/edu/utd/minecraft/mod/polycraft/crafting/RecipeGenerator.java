@@ -57,39 +57,39 @@ public class RecipeGenerator {
 		ColoringPolycraftRecipeFactory coloringFactory = new ColoringPolycraftRecipeFactory();
 
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					compressedBlock.getItemStack(),
 					PolycraftMod.recipeUpcycleOre,
 					ImmutableMap.of('x', compressedBlock.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapelessRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					compressedBlock.source.getItemStack(PolycraftMod.recipeItemsPerCompressedBlock),
 					ImmutableList.of(compressedBlock.getItemStack()));
 		}
 
 		for (final Nugget nugget : Nugget.registry.values()) {
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					((Ingot) nugget.source).getItemStack(),
 					PolycraftMod.recipeUpcycleOre,
 					ImmutableMap.of('x', nugget.getItemStack()));
-			PolycraftMod.recipeManager.addShapelessRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					nugget.getItemStack(PolycraftMod.recipeItemsPerCompressedBlock),
 					ImmutableList.of(((Ingot) nugget.source).getItemStack()));
 		}
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
-			PolycraftMod.recipeManager.addShapelessRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.FURNACE,
 					polymerBlock.getItemStack(),
 					ImmutableList.of(polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock)));
-			PolycraftMod.recipeManager.addShapelessRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock),
 					ImmutableList.of(polymerBlock.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(polymerBlock.getItemStack(8)),
@@ -100,25 +100,25 @@ public class RecipeGenerator {
 		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerSlab.getItemStack(6),
 					new String[] { "   ", "xxx", "   " },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerSlab.getItemStack(6),
 					new String[] { "   ", "   ", "xxx" },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerSlab.getItemStack(6),
 					new String[] { "xxx", "   ", "   " },
 					ImmutableMap.of('x', polymerSlab.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(polymerSlab.getItemStack(8)),
@@ -129,12 +129,12 @@ public class RecipeGenerator {
 		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerStairs.getItemStack(6),
 					new String[] { "x ", "xx ", "xxx" },
 					ImmutableMap.of('x', polymerStairs.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(polymerStairs.getItemStack(8)),
@@ -145,19 +145,19 @@ public class RecipeGenerator {
 		}
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerWall.getItemStack(6),
 					new String[] { "xxx", "xxx", "   " },
 					ImmutableMap.of('x', polymerWall.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerWall.getItemStack(6),
 					new String[] { "   ", "xxx", "xxx" },
 					ImmutableMap.of('x', polymerWall.source.getItemStack()));
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(polymerWall.getItemStack(8)),
@@ -171,11 +171,11 @@ public class RecipeGenerator {
 			if (largerElementVessel.vesselType.smallerType != null) {
 				final ElementVessel smallerElementVessel = ElementVessel.registry.find(largerElementVessel.source, largerElementVessel.vesselType.smallerType);
 				if (smallerElementVessel != null) {
-					PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
 							smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType),
 							ImmutableList.of(largerElementVessel.getItemStack()));
-					PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
 							largerElementVessel.getItemStack(),
 							ImmutableList.of(smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType)));
@@ -187,11 +187,11 @@ public class RecipeGenerator {
 			if (largerCompoundVessel.vesselType.smallerType != null) {
 				final CompoundVessel smallerCompoundVessel = CompoundVessel.registry.find(largerCompoundVessel.source, largerCompoundVessel.vesselType.smallerType);
 				if (smallerCompoundVessel != null) {
-					PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
 							smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType),
 							ImmutableList.of(largerCompoundVessel.getItemStack()));
-					PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
 							largerCompoundVessel.getItemStack(),
 							ImmutableList.of(smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType)));
@@ -203,11 +203,11 @@ public class RecipeGenerator {
 			if (largerPolymerPelletsVessel.vesselType.smallerType != null) {
 				final PolymerPellets smallerPolymerPelletsVessel = PolymerPellets.registry.find(largerPolymerPelletsVessel.source, largerPolymerPelletsVessel.vesselType.smallerType);
 				if (smallerPolymerPelletsVessel != null) {
-					PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
 							smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType),
 							ImmutableList.of(largerPolymerPelletsVessel.getItemStack()));
-					PolycraftMod.recipeManager.addShapelessRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
 							largerPolymerPelletsVessel.getItemStack(),
 							ImmutableList.of(smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType)));
@@ -220,7 +220,7 @@ public class RecipeGenerator {
 
 			if (waferItem.sourceWafer != null)
 			{
-				PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
 						waferItem.getItemStack(),
 						new String[] { "x  ", "y  ", "z  " },
@@ -228,7 +228,7 @@ public class RecipeGenerator {
 								'x', waferItem.source.getItemStack(),
 								'y', waferItem.photoresist.getItemStack(),
 								'z', waferItem.sourceWafer.getItemStack()));
-				PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
 						waferItem.getItemStack(),
 						new String[] { " x ", " y ", " z " },
@@ -236,7 +236,7 @@ public class RecipeGenerator {
 								'x', waferItem.source.getItemStack(),
 								'y', waferItem.photoresist.getItemStack(),
 								'z', waferItem.sourceWafer.getItemStack()));
-				PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
 						waferItem.getItemStack(),
 						new String[] { "  x", "  y", "  z" },
@@ -245,7 +245,7 @@ public class RecipeGenerator {
 								'y', waferItem.photoresist.getItemStack(),
 								'z', waferItem.sourceWafer.getItemStack()));
 
-				PolycraftMod.recipeManager.addShapedRecipe(
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CONTACT_PRINTER,
 						ImmutableList.of(CustomObject.registry.get("254 nm UV Bulbs").getItemStack(), waferItem.source.getItemStack(), waferItem.getItemStack()),
 						new String[] { "xy", "za" },
@@ -261,7 +261,7 @@ public class RecipeGenerator {
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
 		{
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 					moldedItem.getItemStack(),
 					new String[] { "xy" },
@@ -275,7 +275,7 @@ public class RecipeGenerator {
 				{
 					if (name.contains("Source"))
 					{
-						PolycraftMod.recipeManager.addShapedRecipe(
+						PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 								moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 								moldedItem.getItemStack(),
 								new String[] { "xy" },
@@ -292,7 +292,7 @@ public class RecipeGenerator {
 		}
 
 		for (final PolymerBrick brickItem : PolymerBrick.registry.values())
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					PolycraftContainerType.INJECTION_MOLDER,
 					brickItem.getItemStack(),
 					new String[] { "xy" },
@@ -301,7 +301,7 @@ public class RecipeGenerator {
 							'y', brickItem.brickMold.getItemStack()));
 
 		for (final PolymerBrick brickItem : PolymerBrick.registry.values()) {
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(brickItem.getItemStack(8)),
@@ -312,39 +312,39 @@ public class RecipeGenerator {
 		}
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
-			PolycraftMod.recipeManager.addShapelessRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					grippedTool.getItemStack(),
 					ImmutableList.of(grippedTool.source.getItemStack(), grippedTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
 
 		for (final PogoStick pogoStick : PogoStick.registry.values())
 			if (pogoStick.source != null && pogoStick.grip != null)
-				PolycraftMod.recipeManager.addShapelessRecipe(
+				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
 						pogoStick.getItemStack(),
 						ImmutableList.of(pogoStick.source.getItemStack(), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
 
 		for (final Armor armor : Armor.registry.values()) {
 			final ItemStack craftingItemStack = PolycraftRegistry.getItemStack(armor.craftingItemName, 1);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.HEAD), 1)),
 					new String[] { "xxx", "x x", "   " },
 					ImmutableMap.of('x', craftingItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.CHEST), 1)),
 					new String[] { "x x", "xxx", "xxx" },
 					ImmutableMap.of('x', craftingItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.LEGS), 1)),
 					new String[] { "xxx", "x x", "x x" },
 					ImmutableMap.of('x', craftingItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.FEET), 1)),
@@ -355,43 +355,43 @@ public class RecipeGenerator {
 		for (final Tool tool : Tool.registry.values()) {
 			final ItemStack craftingHeadItemStack = PolycraftRegistry.getItemStack(tool.craftingHeadItemName, 1);
 			final ItemStack craftingShaftItemStack = PolycraftRegistry.getItemStack(tool.craftingShaftItemName, 1);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.HOE), 1)),
 					new String[] { "xx ", " y ", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.HOE), 1)),
 					new String[] { " xx", " y ", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.SWORD), 1)),
 					new String[] { " x ", " x ", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.SHOVEL), 1)),
 					new String[] { " x ", " y ", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.PICKAXE), 1)),
 					new String[] { "xxx", " y ", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.AXE), 1)),
 					new String[] { " xx", " yx", " y " },
 					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManager.addShapedRecipe(
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
 					PolycraftContainerType.CRAFTING_TABLE,
 					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.AXE), 1)),
@@ -404,7 +404,7 @@ public class RecipeGenerator {
 			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>) furnaceRecipeEntry;
 			try
 			{
-				PolycraftMod.recipeManager.addShapelessRecipe(
+				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 						PolycraftContainerType.INDUSTRIAL_OVEN,
 						furnaceRecipe.getValue(),
 						ImmutableList.of(furnaceRecipe.getKey()));
@@ -484,7 +484,7 @@ public class RecipeGenerator {
 						continue;
 					}
 
-					PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 							PolycraftContainerType.TRADING_HOUSE,
 							outputItems,
 							new String[] { inputShape.toString() },
@@ -564,7 +564,7 @@ public class RecipeGenerator {
 					final String inputShapeRow1 = inputShape.toString();
 					final String inputShapeRow2 = inputShape.toString();
 
-					PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 							PolycraftContainerType.CONTACT_PRINTER,
 							outputItems,
 							inputShapes,
@@ -608,7 +608,7 @@ public class RecipeGenerator {
 							continue;
 
 						if (shapeless)
-							PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE, outputItemStack, inputItems);
+							PolycraftMod.recipeManagerRuntime.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE, outputItemStack, inputItems);
 						else {
 							final Map<Character, ItemStack> inputItemStacks = Maps.newHashMap();
 							final String[] shape = new String[3];
@@ -626,7 +626,7 @@ public class RecipeGenerator {
 								}
 								shape[r] = shapeRow.toString();
 							}
-							PolycraftMod.recipeManager.addShapedRecipe(PolycraftContainerType.CRAFTING_TABLE, outputItemStack, shape, inputItemStacks);
+							PolycraftMod.recipeManagerRuntime.addShapedRecipe(PolycraftContainerType.CRAFTING_TABLE, outputItemStack, shape, inputItemStacks);
 						}
 					}
 				}
@@ -650,7 +650,7 @@ public class RecipeGenerator {
 						logger.warn("Unable to find input item for smelting recipe ({}): {}", outputItemName, inputItemName);
 						continue;
 					}
-					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.FURNACE, outputItemStack, ImmutableList.of(inputItemStack));
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(PolycraftContainerType.FURNACE, outputItemStack, ImmutableList.of(inputItemStack));
 				}
 			}
 		}
@@ -686,7 +686,7 @@ public class RecipeGenerator {
 				if (currentRow == 5) {
 					for (final Ingot ingot : Ingot.registry.values()) {
 						if (ingot.moldDamagePerUse > 0) {
-							PolycraftMod.recipeManager.addShapedRecipe(
+							PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 									PolycraftContainerType.MACHINING_MILL,
 									currentMold.getItemStack(ingot),
 									currentMoldShape,
@@ -728,7 +728,7 @@ public class RecipeGenerator {
 				if (currentRow == 5) {
 					for (final Nugget nugget : Nugget.registry.values()) {
 						if (nugget.maskDamagePerUse > 0) {
-							PolycraftMod.recipeManager.addShapedRecipe(
+							PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 									PolycraftContainerType.MASK_WRITER,
 									currentMask.getItemStack(nugget),
 									currentMaskShape,
@@ -776,7 +776,7 @@ public class RecipeGenerator {
 						continue;
 					}
 
-					PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.DISTILLATION_COLUMN, ImmutableList.of(inputItemStack), outputItems);
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(PolycraftContainerType.DISTILLATION_COLUMN, ImmutableList.of(inputItemStack), outputItems);
 				}
 			}
 		}
@@ -827,7 +827,7 @@ public class RecipeGenerator {
 						continue;
 					}
 
-					PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 							PolycraftContainerType.STEAM_CRACKER,
 							outputItems,
 							new String[] { inputShape.toString() },
@@ -894,7 +894,7 @@ public class RecipeGenerator {
 						continue;
 					}
 
-					PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 							PolycraftContainerType.MEROX_TREATMENT_UNIT,
 							outputItems,
 							new String[] { inputShape.toString() },
@@ -973,7 +973,7 @@ public class RecipeGenerator {
 					final String inputShapeRow1 = inputShape.toString();
 					final String inputShapeRow2 = inputShape.toString();
 
-					PolycraftMod.recipeManager.addShapedRecipe(
+					PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 							PolycraftContainerType.CHEMICAL_PROCESSOR,
 							outputItems,
 							inputShapes,
@@ -1011,6 +1011,6 @@ public class RecipeGenerator {
 
 		int intputs = 1;
 		for (final ItemStack output : recipeCheatDirtOutputs)
-			PolycraftMod.recipeManager.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE, output, ImmutableList.of(new ItemStack(Blocks.dirt, intputs++)));
+			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(PolycraftContainerType.CRAFTING_TABLE, output, ImmutableList.of(new ItemStack(Blocks.dirt, intputs++)));
 	}
 }

@@ -29,7 +29,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventor
 import edu.utd.minecraft.mod.polycraft.inventory.printingpress.PrintingPressInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
@@ -65,7 +65,7 @@ public enum PolycraftContainerType {
 	INDUSTRIAL_OVEN("Industrial Oven"),
 	PUMP("Pump"),
 	MASK_WRITER("Mask Writer"),
-	SOLAR_PLANT("Solar Plant"),
+	SOLAR_ARRAY("Solar Array"),
 	PORTAL_CHEST("Portal Chest"),
 	TRADING_HOUSE("Trading House"),
 	PRINTING_PRESS("Printing Press"),
@@ -147,7 +147,7 @@ public enum PolycraftContainerType {
 		OIL_DERRICK.initialize(OilDerrickInventory.guiSlots);
 		INDUSTRIAL_OVEN.initialize(IndustrialOvenInventory.guiSlots);
 		CONDENSER.initialize(CondenserInventory.guiSlots);
-		SOLAR_PLANT.initialize(SolarPlantInventory.guiSlots);
+		SOLAR_ARRAY.initialize(SolarArrayInventory.guiSlots);
 		PLASTIC_CHEST.initialize(PlasticChestInventory.guiSlots);
 		PORTAL_CHEST.initialize(PortalChestInventory.guiSlots);
 		PUMP.initialize(PumpInventory.guiSlots);

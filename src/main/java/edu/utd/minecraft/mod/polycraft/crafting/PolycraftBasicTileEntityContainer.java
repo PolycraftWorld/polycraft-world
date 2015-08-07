@@ -119,7 +119,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 */
 	public void craftItems(boolean createOutputs) {
 		Set<RecipeComponent> inputs = getMaterials();
-		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, inputs);
+		final PolycraftRecipe recipe = PolycraftMod.recipeManagerRuntime.findRecipe(containerType, inputs);
 		if (recipe != null) {
 			recipe.process(inputs, this, createOutputs);
 		}
@@ -131,7 +131,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	public boolean canProcess() {
 		// Check that the inputs are valid
 		Set<RecipeComponent> materials = getMaterials();
-		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, materials);
+		final PolycraftRecipe recipe = PolycraftMod.recipeManagerRuntime.findRecipe(containerType, materials);
 		if (recipe == null) {
 			return false;
 		}

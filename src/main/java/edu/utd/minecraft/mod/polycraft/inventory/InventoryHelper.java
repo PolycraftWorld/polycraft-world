@@ -7,6 +7,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.ExplicitTerminal;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.FuelTerminal;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.InputTerminal;
+import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 
@@ -15,17 +16,29 @@ public class InventoryHelper {
 	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, int side) {
 		ItemStack itemstack = source.getStackInSlot(sourceSlotIndex);
 
-		if (itemstack != null && (!(source instanceof ISidedInventory) || ((ISidedInventory) source).canExtractItem(sourceSlotIndex, itemstack, side))) {
-			ItemStack itemstack1 = itemstack.copy();
-			ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, 1), -1);
+		if (itemstack != null)
+		{
+			//need to return here if this is not an output slot if this is a solar array
+			if (source instanceof SolarArrayInventory)
+				if (!((SolarArrayInventory) source).isOutputSlot(sourceSlotIndex)) //this should only pull from output slots (may need to extend to other inventories)
+					return false;
 
-			if (itemstack2 == null || itemstack2.stackSize == 0)
-			{
-				source.markDirty();
-				return true;
+			//if (target instanceof ContactPrinterInventory)
+			//if (!((ContactPrinterInventory) target).itemInCorrectSlot(itemstack, sourceSlotIndex)) //this should only push to specific input slots slots (may need to extend to other inventories)
+			//return false;
+
+			if ((!(source instanceof ISidedInventory) || ((ISidedInventory) source).canExtractItem(sourceSlotIndex, itemstack, side))) {
+				ItemStack itemstack1 = itemstack.copy();
+				ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, 1), -1);
+
+				if (itemstack2 == null || itemstack2.stackSize == 0)
+				{
+					source.markDirty();
+					return true;
+				}
+
+				source.setInventorySlotContents(sourceSlotIndex, itemstack1);
 			}
-
-			source.setInventorySlotContents(sourceSlotIndex, itemstack1);
 		}
 
 		return false;

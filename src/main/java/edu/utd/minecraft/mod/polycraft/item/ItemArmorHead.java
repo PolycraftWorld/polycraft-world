@@ -1,7 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import java.io.IOException;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

@@ -45,7 +45,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingHandler;
-import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -647,11 +647,12 @@ public class ClientProxy extends CommonProxy {
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new OilDerrickRenderingHandler(inventory));
 			else if (GameID.InventoryCondenser.matches(inventory))
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new CondenserRenderingHandler(inventory));
-			else if (GameID.InventorySolarPlant.matches(inventory))
-				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new SolarPlantRenderingHandler(inventory));
+			else if (GameID.InventorySolarArray.matches(inventory))
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new SolarArrayRenderingHandler(inventory));
 			else
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new PolycraftInventoryBlock.BasicRenderingHandler(inventory));
 
+			//TODO: figure out why this is commented out and if it is needed 8.5.2015
 			if (inventory.render3D)
 				ClientRegistry.bindTileEntitySpecialRenderer(inventoryBlock.tileEntityClass, renderingHandler);
 

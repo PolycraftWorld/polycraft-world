@@ -81,7 +81,7 @@ public abstract class MolderInventory extends HeatedInventory {
 
 	@Override
 	protected int getTotalProcessingTicksForCurrentInputs() {
-		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, getMaterials());
+		final PolycraftRecipe recipe = PolycraftMod.recipeManagerRuntime.findRecipe(containerType, getMaterials());
 		if (recipe == null) {
 			return 0;
 		}

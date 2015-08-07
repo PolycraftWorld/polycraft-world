@@ -1,8 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.worldgen;
 
+import net.minecraftforge.event.terraingen.WorldTypeEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import net.minecraftforge.event.terraingen.WorldTypeEvent;
 
 public class BiomeInitializer {
 

@@ -232,7 +232,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 
 	protected void finishProcessing() {
 		Set<RecipeComponent> inputs = getMaterials();
-		final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, inputs);
+		final PolycraftRecipe recipe = PolycraftMod.recipeManagerRuntime.findRecipe(containerType, inputs);
 		if (recipe != null) {
 			for (final RecipeComponent output : recipe.getOutputs(this)) {
 				if (getStackInSlot(output.slot) == null)

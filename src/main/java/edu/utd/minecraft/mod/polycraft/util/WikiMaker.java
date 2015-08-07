@@ -41,6 +41,7 @@ import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Element;
+import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel.QuantifiedFuel;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
@@ -48,7 +49,6 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftBlock;
 import edu.utd.minecraft.mod.polycraft.config.MinecraftItem;
 import edu.utd.minecraft.mod.polycraft.config.Mineral;
-import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Polymer;
 import edu.utd.minecraft.mod.polycraft.config.SourcedConfig;
 import edu.utd.minecraft.mod.polycraft.config.SourcedVesselConfig;
@@ -156,6 +156,14 @@ public class WikiMaker {
 			// NO_BLACKLIST, false);
 			// wikiMaker.createRecipePage(PolycraftContainerType.CHEMICAL_PROCESSOR,
 			// NO_BLACKLIST, false);
+			//wikiMaker.createRecipePage(PolycraftContainerType.CONTACT_PRINTER,
+			//		NO_BLACKLIST, false);
+
+			//wikiMaker.createRecipePage(PolycraftContainerType.MASK_WRITER,
+			//		NO_BLACKLIST, false);
+
+			//wikiMaker.createRecipePage(PolycraftContainerType.PRINTING_PRESS,
+			//		NO_BLACKLIST, false);
 
 			//			wikiMaker.createFuelPage();
 			//			wikiMaker.createItemTypesPage(ImmutableList.of(
@@ -168,22 +176,23 @@ public class WikiMaker {
 			//					Mold.class, MoldedItem.class, GrippedTool.class, PogoStick.class,
 			//					Inventory.class, CustomObject.class));
 			//
-			//wikiMaker.createItemPages(CompressedBlock.registry);
+
+			//			wikiMaker.createItemPages(CompressedBlock.registry);
 			//			wikiMaker.createItemPages(Inventory.registry);
-			//wikiMaker.createItemPages(Ore.registry);
-			//wikiMaker.createItemPages(Ingot.registry);
-			//wikiMaker.createItemPages(Catalyst.registry);
-			//wikiMaker.createItemPages(ElementVessel.registry);
-			//wikiMaker.createItemPages(CompoundVessel.registry);
-			//wikiMaker.createItemPages(PolymerPellets.registry);
-			//wikiMaker.createItemPages(PolymerBlock.registry);
-			//wikiMaker.createItemPages(PolymerSlab.registry);
-			//wikiMaker.createItemPages(PolymerStairs.registry);
-			//wikiMaker.createItemPages(PolymerBrick.registry);
-			//wikiMaker.createItemPages(PolymerWall.registry);
-			//wikiMaker.createItemPages(Mold.registry);
-			wikiMaker.createItemPages(MoldedItem.registry);
-			//			wikiMaker.createItemPages(GrippedTool.registry);
+			//			wikiMaker.createItemPages(Ore.registry);
+			//			wikiMaker.createItemPages(Ingot.registry);
+			//			wikiMaker.createItemPages(Catalyst.registry);
+			wikiMaker.createItemPages(ElementVessel.registry);
+			//			wikiMaker.createItemPages(CompoundVessel.registry);
+			//			wikiMaker.createItemPages(PolymerPellets.registry);
+			//			wikiMaker.createItemPages(PolymerBlock.registry);
+			//			wikiMaker.createItemPages(PolymerSlab.registry);
+			//			wikiMaker.createItemPages(PolymerStairs.registry);
+			//			wikiMaker.createItemPages(PolymerBrick.registry);
+			//			wikiMaker.createItemPages(PolymerWall.registry);
+			//			wikiMaker.createItemPages(Mold.registry);
+			//			wikiMaker.createItemPages(MoldedItem.registry);
+			//wikiMaker.createItemPages(GrippedTool.registry);
 			//			wikiMaker.createItemPages(PogoStick.registry);
 			//wikiMaker.createItemPages(CustomObject.registry);
 			//			wikiMaker.createArmor(Armor.registry);
@@ -623,7 +632,7 @@ public class WikiMaker {
 		this.overwritePages = overwritePages
 				|| !StringUtils.isEmpty(debugOutputDirectory);
 		this.debugOutputDirectory = debugOutputDirectory;
-		this.recipesByIngredientContainerType = PolycraftMod.recipeManager
+		this.recipesByIngredientContainerType = PolycraftMod.recipeManagerRuntime
 				.getRecipesByIngredientContainerType();
 	}
 
@@ -710,7 +719,7 @@ public class WikiMaker {
 			final PolycraftContainerType forceIncludeType)
 			throws LoginException, IOException {
 		final Collection<PolycraftRecipe> forceIncludedRecipes = forceIncludeType == null ? null
-				: PolycraftMod.recipeManager
+				: PolycraftMod.recipeManagerRuntime
 						.getRecipesByContainerType(forceIncludeType);
 		final Map<PolycraftContainerType, Collection<PolycraftRecipe>> recipesByContainerType = recipesByIngredientContainerType
 				.get(ingredient.getItem());
@@ -768,7 +777,7 @@ public class WikiMaker {
 			final String[] filters, final boolean sortByInput)
 			throws LoginException, IOException {
 		final List<PolycraftRecipe> recipes = Lists
-				.newArrayList(PolycraftMod.recipeManager
+				.newArrayList(PolycraftMod.recipeManagerRuntime
 						.getRecipesByContainerType(containerType));
 		Collections.sort(recipes, new Comparator<PolycraftRecipe>() {
 			@Override
@@ -846,7 +855,7 @@ public class WikiMaker {
 	private <C extends GameIdentifiedConfig> void createItemPages(
 			final ConfigRegistry<C> registry) throws LoginException,
 			IOException {
-		createItemPageList(registry);
+		//createItemPageList(registry);
 		boolean stopped = true;
 		for (final C config : registry.values())
 			if (gameIdentifiedConfigHasItem(config)) {

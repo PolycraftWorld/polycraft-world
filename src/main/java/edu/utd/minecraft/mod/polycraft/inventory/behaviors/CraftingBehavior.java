@@ -20,7 +20,7 @@ public class CraftingBehavior<I extends PolycraftInventory> extends InventoryBeh
 	public boolean setInventorySlotContents(I inventory, ContainerSlot slot, ItemStack item) {
 		if (!isUpdating) {
 			if (!slot.getSlotType().equals(SlotType.OUTPUT)) {
-				updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
+				updateOutputsForRecipe(inventory, PolycraftMod.recipeManagerRuntime.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
 			}
 		}
 		return false;
@@ -40,7 +40,7 @@ public class CraftingBehavior<I extends PolycraftInventory> extends InventoryBeh
 		} finally {
 			isUpdating = false;
 		}
-		updateOutputsForRecipe(inventory, PolycraftMod.recipeManager.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
+		updateOutputsForRecipe(inventory, PolycraftMod.recipeManagerRuntime.findRecipe(inventory.getContainerType(), inventory.getMaterials()));
 		return false;
 	}
 

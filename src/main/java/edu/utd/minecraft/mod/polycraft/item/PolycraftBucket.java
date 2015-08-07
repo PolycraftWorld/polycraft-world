@@ -1,13 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class PolycraftBucket extends ItemBucket implements PolycraftItem {
 	public PolycraftBucket(Block block) {

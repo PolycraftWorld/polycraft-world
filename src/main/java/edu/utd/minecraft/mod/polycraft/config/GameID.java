@@ -52,13 +52,13 @@ public enum GameID {
 	InventoryPlasticChest("3L"),
 	InventoryPortalChest("1ed"),
 	InventoryCondenser("20"),
-	InventorySolarPlant("1el"),
+	InventorySolarArray("1el"),
 	InventoryFlowRegulator("5j"),
 	InventoryPump("4i"),
 	InventoryMaskWriter("1eu"),
 	InventoryTradingHouse("1fo"),
 	InventoryTerritoryFlag("1fq"),
-	InventoryPrintingPress("1fs"),
+	InventoryPrintingPress("1fr"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),
@@ -99,4 +99,9 @@ public enum GameID {
 	public boolean matches(final GameIdentifiedConfig config) {
 		return config.gameID.equals(id);
 	}
+
+	public boolean matches(final int inputId) {
+		return String.valueOf(inputId).equals(id);
+	}
+
 }

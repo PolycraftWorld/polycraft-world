@@ -136,7 +136,8 @@ public class PolycraftMod {
 	public static Block blockCollision;
 	public static Block blockPureAir;
 
-	public static final PolycraftRecipeManager recipeManager = new PolycraftRecipeManager();
+	public static final PolycraftRecipeManager recipeManagerRuntime = new PolycraftRecipeManager();
+	public static final PolycraftRecipeManager recipeManagerRealtime = new PolycraftRecipeManager();
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {

@@ -75,7 +75,7 @@ public class IndustrialOvenInventory extends HeatedInventory {
 		Map<Integer, PolycraftRecipe> recipes = null;
 		for (final RecipeComponent component : getMaterials()) {
 			Set<RecipeComponent> materials = Sets.newHashSet(component);
-			final PolycraftRecipe recipe = PolycraftMod.recipeManager.findRecipe(containerType, materials);
+			final PolycraftRecipe recipe = PolycraftMod.recipeManagerRuntime.findRecipe(containerType, materials);
 			if (recipe != null) {
 				if (recipes == null)
 					recipes = Maps.newHashMap();

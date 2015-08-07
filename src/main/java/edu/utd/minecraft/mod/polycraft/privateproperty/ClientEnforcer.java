@@ -182,7 +182,7 @@ public class ClientEnforcer extends Enforcer {
 			final double sourceZ = Double.parseDouble(parsed[3]);
 			final String itemName = parsed[4].trim();
 			final ItemStack itemStackSend = CustomObject.registry.get(itemName).getItemStack();
-			final String username = parsed[5];
+			final String usernameSender = parsed[5];
 			String message = "";
 			for (int i = 6; i < parsed.length; i++)
 			{
@@ -195,7 +195,7 @@ public class ClientEnforcer extends Enforcer {
 			if (receivingPlayer.capabilities.isCreativeMode) //dont need to broadcast in creative mode, because normal chat will
 				return;
 
-			if (receivingPlayer.getDisplayName().equalsIgnoreCase(username)) //don't need to broadcast to yourself
+			if (receivingPlayer.getDisplayName().equalsIgnoreCase(usernameSender)) //don't need to broadcast to yourself
 				return;
 
 			//see what the receiver is holding
@@ -213,7 +213,7 @@ public class ClientEnforcer extends Enforcer {
 						recFreq = itemStackRec.getItemDamage();
 						if (recFreq == frequency)
 							if (arePlayersWithinBroadcastRange(sourceX, sourceY, sourceZ, receivingPlayer, PolycraftMod.maxChatBlockProximityWalkyTalky))
-								printBroadcastOnClient(receivingPlayer, username, message);
+								printBroadcastOnClient(receivingPlayer, usernameSender, message);
 					}
 				}
 
@@ -223,12 +223,12 @@ public class ClientEnforcer extends Enforcer {
 					recFreq = itemStackRec.getItemDamage();
 					if (recFreq == frequency)
 						if (arePlayersWithinBroadcastRange(sourceX, sourceY, sourceZ, receivingPlayer, PolycraftMod.maxChatBlockProximityHAMRadio))
-							printBroadcastOnClient(receivingPlayer, username, message);
+							printBroadcastOnClient(receivingPlayer, usernameSender, message);
 				}
 
 				//test if sending player holding phone and receiving player has a cell phone on hotbar and they are friends
 				//send message to a specific user (tell command)
-				//if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
+				//if (friends.contains(getFriendPairKey(whitelist.get(usernameSender), whitelist.get(receivingPlayer.getDisplayName()))))
 				//{
 				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
 				{
@@ -240,20 +240,20 @@ public class ClientEnforcer extends Enforcer {
 						{
 							if (receivingPlayer.getDisplayName().equalsIgnoreCase(textStream[0]))
 							{
-								printBroadcastOnClient(receivingPlayer, username, message.substring(beginIndex).trim());
+								printBroadcastOnClient(receivingPlayer, usernameSender, message.substring(beginIndex).trim());
 							}
 						}
 					}
 				}
 				//}
 
-				//if (friends.contains(getFriendPairKey(whitelist.get(sendingPlayer.getDisplayName()), whitelist.get(receivingPlayer.getDisplayName()))))
+				//if (friends.contains(getFriendPairKey(whitelist.get(usernameSender), whitelist.get(receivingPlayer.getDisplayName()))))
 				//{
 				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
 				{
 					if (itemStackRec != null && ((itemStackRec.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
 					{
-						printBroadcastOnClient(receivingPlayer, username, message);
+						printBroadcastOnClient(receivingPlayer, usernameSender, message);
 					}
 				}
 				//}

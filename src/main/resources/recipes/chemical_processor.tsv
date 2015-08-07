@@ -1301,4 +1301,23 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.3.2				Block (n-PR)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Block (p-PR)	1									Cartridge (Carbon Monoxide)	1																
 1.3.2				Titanium Nugget	1	Flask (Chlorine)	4	Magnesium Nugget	1	Flask (Chlorine)	2	Sand	1	Ziegler-Natta Catalyst	32																
-																															
+1.3.3				Vial (Epoxy Resin)	1									Vial (Negative Photoresist)	1																
+1.3.3				Vial (Epoxy Resin)	4									Vial (Negative Photoresist)	4																
+1.3.3				Vial (Epoxy Resin)	16									Vial (Negative Photoresist)	16																
+1.3.3				Beaker (Epoxy Resin)	1									Beaker (Negative Photoresist)	1																
+1.3.3				Beaker (Epoxy Resin)	4									Beaker (Negative Photoresist)	4																
+1.3.3				Beaker (Epoxy Resin)	16									Beaker (Negative Photoresist)	16																
+1.3.3				Drum (Epoxy Resin)	1									Drum (Negative Photoresist)	1																
+1.3.3				Drum (Epoxy Resin)	4									Drum (Negative Photoresist)	4																
+1.3.3				Drum (Epoxy Resin)	16									Drum (Negative Photoresist)	16																
+1.3.3				Drum (Epoxy Resin)	64									Drum (Negative Photoresist)	64																
+1.3.3				Vial (Phenol Formaldehyde)	1									Vial (Positive Photoresist)	1																
+1.3.3				Vial (Phenol Formaldehyde)	4									Vial (Positive Photoresist)	4																
+1.3.3				Vial (Phenol Formaldehyde)	16									Vial (Positive Photoresist)	16																
+1.3.3				Beaker (Phenol Formaldehyde)	1									Beaker (Positive Photoresist)	1																
+1.3.3				Beaker (Phenol Formaldehyde)	4									Beaker (Positive Photoresist)	4																
+1.3.3				Beaker (Phenol Formaldehyde)	16									Beaker (Positive Photoresist)	16																
+1.3.3				Drum (Phenol Formaldehyde)	1									Drum (Positive Photoresist)	1																
+1.3.3				Drum (Phenol Formaldehyde)	4									Drum (Positive Photoresist)	4																
+1.3.3				Drum (Phenol Formaldehyde)	16									Drum (Positive Photoresist)	16																
+1.3.3				Drum (Phenol Formaldehyde)	64									Drum (Positive Photoresist)	64																

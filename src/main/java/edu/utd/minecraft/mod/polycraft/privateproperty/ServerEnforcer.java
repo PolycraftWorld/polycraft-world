@@ -19,7 +19,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
@@ -43,44 +42,50 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
-	@SubscribeEvent
-	public void onServerChatEvent(final ServerChatEvent event)
-	{
+	//	@SubscribeEvent
+	//	public void onServerChatEvent(final ServerChatEvent event)
+	//	{
+	//		if (event.message.startsWith(chatCommandPrefix)) {
+	//			return;
+	//		}
+	//
+	//		if (event.message.startsWith("//"))
+	//			return;
+	//
+	//		for (int i = 0; i < 36; i++)
+	//		{
+	//			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
+	//
+	//			if (itemStackSend != null)
+	//			{
+	//				if (i < 9)
+	//				{
+	//					//test if  receiving player has walky talky on the hotbar	
+	//					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
+	//						broadcastFromSender(event, itemStackSend);
+	//
+	//					//test if  receiving player has cell phone on the hotbar	
+	//					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+	//						broadcastFromSender(event, itemStackSend);
+	//
+	//				}
+	//
+	//				//test if sending and receiving player have ham radios on same frequency
+	//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+	//					broadcastFromSender(event, itemStackSend);
+	//
+	//				//test if sending player holding phone broadcast the message
+	//				//send message to a specific user (tell command)
+	//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+	//					broadcastFromSender(event, itemStackSend);
+	//
+	//			}
+	//
+	//		}
+	//
+	//	}
 
-		for (int i = 0; i < 36; i++)
-		{
-			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
-
-			if (itemStackSend != null)
-			{
-				if (i < 9)
-				{
-					//test if  receiving player has walky talky on the hotbar	
-					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-						broadcastFromSender(event, itemStackSend);
-
-					//test if  receiving player has cell phone on the hotbar	
-					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-						broadcastFromSender(event, itemStackSend);
-
-				}
-
-				//test if sending and receiving player have ham radios on same frequency
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
-					broadcastFromSender(event, itemStackSend);
-
-				//test if sending player holding phone broadcast the message
-				//send message to a specific user (tell command)
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-					broadcastFromSender(event, itemStackSend);
-
-			}
-
-		}
-
-	}
-
-	private void broadcastFromSender(ServerChatEvent event, ItemStack itemStack)
+	public void broadcastFromSender(ServerChatEvent event, ItemStack itemStack)
 	{
 		//somehow we need to send a broadcast event now...
 		//		int i = 0;

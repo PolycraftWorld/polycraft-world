@@ -100,7 +100,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventor
 import edu.utd.minecraft.mod.polycraft.inventory.printingpress.PrintingPressInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.solarplant.SolarPlantInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
@@ -693,8 +693,8 @@ public class PolycraftRegistry {
 					OilDerrickInventory.register(inventory);
 				else if (GameID.InventoryCondenser.matches(inventory))
 					CondenserInventory.register(inventory);
-				else if (GameID.InventorySolarPlant.matches(inventory))
-					SolarPlantInventory.register(inventory);
+				else if (GameID.InventorySolarArray.matches(inventory))
+					SolarArrayInventory.register(inventory);
 				else if (GameID.InventoryPlasticChest.matches(inventory))
 					PlasticChestInventory.register(inventory);
 				else if (GameID.InventoryPortalChest.matches(inventory))

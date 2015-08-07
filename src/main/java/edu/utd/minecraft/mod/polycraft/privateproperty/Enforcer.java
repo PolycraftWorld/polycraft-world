@@ -49,6 +49,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
@@ -77,8 +78,8 @@ public abstract class Enforcer {
 		Unknown, PrivateProperties, Friends, Broadcast
 	}
 
-	private static final String chatCommandPrefix = "~";
-	private static final String chatCommandTeleport = "tp";
+	protected static final String chatCommandPrefix = "~";
+	protected static final String chatCommandTeleport = "tp";
 	private static final String chatCommandTeleportArgPrivateProperty = "pp";
 	private static final String chatCommandTeleportArgUser = "user";
 	private static final String chatCommandTeleportArgUTD = "utd";
@@ -523,7 +524,43 @@ public abstract class Enforcer {
 			if (command.startsWith(chatCommandTeleport)) {
 				handleChatCommandTeleport(event.player, command.substring(chatCommandTeleport.length() + 1).split(" "));
 			}
+			return;
 		}
+
+		if (event.player.worldObj.isRemote)
+			return;
+
+		for (int i = 0; i < 36; i++)
+		{
+			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
+
+			if (itemStackSend != null)
+			{
+				if (i < 9)
+				{
+					//test if  receiving player has walky talky on the hotbar	
+					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
+						((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+
+					//test if  receiving player has cell phone on the hotbar	
+					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+						((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+
+				}
+
+				//test if sending and receiving player have ham radios on same frequency
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+					((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+
+				//test if sending player holding phone broadcast the message
+				//send message to a specific user (tell command)
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+					((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+
+			}
+
+		}
+
 	}
 
 	public void handleChatCommandTeleport(final EntityPlayer player, final String[] args) {

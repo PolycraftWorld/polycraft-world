@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
@@ -18,6 +22,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedGui;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
+import edu.utd.minecraft.mod.polycraft.item.ItemMask;
+import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
 
 public class ContactPrinterInventory extends HeatedInventory {
 
@@ -56,6 +62,55 @@ public class ContactPrinterInventory extends HeatedInventory {
 
 	public ContactPrinterInventory() {
 		super(PolycraftContainerType.CONTACT_PRINTER, config, 84, slotIndexHeatSource, -1, -1);
+	}
+
+	public static boolean isUVBulbSlot(int slotIndex)
+	{
+		return ((slotIndex == slotIndexUVLight));
+	}
+
+	public static boolean isMaskSlot(int slotIndex)
+	{
+		return ((slotIndex == slotIndexChromeMask));
+	}
+
+	public static boolean isPhotoresistSlot(int slotIndex)
+	{
+		return ((slotIndex == slotIndexPhotoresist));
+	}
+
+	public static boolean isWaferSlot(int slotIndex)
+	{
+		return ((slotIndex == slotIndexWafer));
+	}
+
+	public static boolean isFuelSlot(int slotIndex)
+	{
+		return ((slotIndex == slotIndexHeatSource));
+	}
+
+	public static boolean isOutputSlot(int slotIndex)
+	{
+		return ((slotIndex >= slotIndexFirstOutput) && (slotIndex <= slotIndexLastOutput));
+	}
+
+	public boolean itemInCorrectSlot(ItemStack itemStack, int slotIndex)
+	{
+		if ((GameID.Custom254nmUVLight.matches(Item.getIdFromItem(itemStack.getItem()))) && (this.isUVBulbSlot(slotIndex))) //this should only pull from output slots (may need to extend to other inventories)
+			return true;
+		else if ((itemStack.getItem() instanceof ItemMask) && (this.isMaskSlot(slotIndex))) //this should only pull from output slots (may need to extend to other inventories)
+			return true;
+		else if (((Fuel.getFuel(itemStack.getItem()) != null)) && (this.isFuelSlot(slotIndex))) //this should only pull from output slots (may need to extend to other inventories)
+			return true;
+		else if ((PolymerPellets.registry.get(itemStack) != null) && (this.isPhotoresistSlot(slotIndex))) //this should only pull from output slots (may need to extend to other inventories)
+			return true;
+		else if ((itemStack.getItem() instanceof ItemWafer) && (this.isWaferSlot(slotIndex))) //this should only pull from output slots (may need to extend to other inventories)
+			return true;
+		else if (this.isOutputSlot(slotIndex))
+			return true;
+
+		return false;
+
 	}
 
 	@Override

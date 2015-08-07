@@ -440,7 +440,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 							PolycraftInventory pi = ((PolycraftInventory) inventory);
 							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
 
-							if (pib.config.inputBlockOffset != null)
+							if (pib.config.fuelBlockOffset != null)
 							{
 								Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.fuelBlockOffset);
 
@@ -449,11 +449,13 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 									//need to return a class that contains the slot as well
 									return new FuelTerminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
 								}
-
+							}
+							if (pib.config.inputBlockOffset != null)
+							{
 								//iterate through the five slots: can this be more generic?
 								for (int offsetIndex = 0; offsetIndex < pib.config.inputBlockOffset.size(); offsetIndex++)
 								{
-									input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.inputBlockOffset.get(offsetIndex));
+									Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.inputBlockOffset.get(offsetIndex));
 
 									if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
 									{
