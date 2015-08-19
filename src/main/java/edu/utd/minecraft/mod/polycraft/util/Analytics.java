@@ -174,7 +174,7 @@ public class Analytics {
 		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),
-				playerID == null ? "" : playerID.toString(),
+				playerID == null ? "-1" : playerID.toString(),
 				(int) player.posX, (int) player.posY, (int) player.posZ,
 				data.replace(DELIMETER_SEGMENT, " ")));
 	}

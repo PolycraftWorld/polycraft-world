@@ -247,10 +247,20 @@ public class RecipeGenerator {
 
 				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CONTACT_PRINTER,
-						ImmutableList.of(CustomObject.registry.get("254 nm UV Bulbs").getItemStack(), waferItem.source.getItemStack(), waferItem.getItemStack()),
+						ImmutableList.of(/*CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),*/waferItem.source.getItemStack(), waferItem.getItemStack()),
 						new String[] { "xy", "za" },
 						ImmutableMap.of(
 								'x', CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),
+								'y', waferItem.source.getItemStack(),
+								'z', waferItem.photoresist.getItemStack(),
+								'a', waferItem.sourceWafer.getItemStack()));
+
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CONTACT_PRINTER,
+						ImmutableList.of(/*CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),*/waferItem.source.getItemStack(), waferItem.getItemStack()),
+						new String[] { "xy", "za" },
+						ImmutableMap.of(
+								'x', CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),
 								'y', waferItem.source.getItemStack(),
 								'z', waferItem.photoresist.getItemStack(),
 								'a', waferItem.sourceWafer.getItemStack()));
