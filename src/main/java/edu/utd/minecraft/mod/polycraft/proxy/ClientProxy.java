@@ -42,11 +42,13 @@ import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.item.ItemAirQualityDetector;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
@@ -76,6 +78,7 @@ public class ClientProxy extends CommonProxy {
 	private KeyBinding keyBindingCheatInfo1;
 	private KeyBinding keyBindingCheatInfo2;
 	private KeyBinding keyBindingCheatInfo3;
+	private KeyBinding keyBindingCheckAir;
 
 	@Override
 	public void preInit() {
@@ -86,6 +89,7 @@ public class ClientProxy extends CommonProxy {
 		keyBindingCheatInfo1 = new KeyBinding("key.cheat.info.1", Keyboard.KEY_J, "key.categories.gameplay");
 		keyBindingCheatInfo2 = new KeyBinding("key.cheat.info.2", Keyboard.KEY_I, "key.categories.gameplay");
 		keyBindingCheatInfo3 = new KeyBinding("key.cheat.info.3", Keyboard.KEY_M, "key.categories.gameplay");
+		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
 	}
 
 	public void postInit() {
@@ -112,7 +116,9 @@ public class ClientProxy extends CommonProxy {
 		private float bouncyBlockBounceHeight = 0;
 		private boolean placeBrickBackwards = false;
 		private int cheatInfoTicksRemaining = 0;
+		private int airQualityTicksRemaining = 0;
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
+		private boolean airQualityClean = true;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -396,6 +402,34 @@ public class ClientProxy extends CommonProxy {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemScubaTank.getEquippedItemStack(player), ItemScubaTank.getAirRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
+
+			else if (ItemAirQualityDetector.isEquipped(player)) {
+				if (isKeyDown(keyBindingCheckAir))
+				{
+					if (playerState.airQualityTicksRemaining == 0)
+					{
+						playerState.airQualityTicksRemaining = PolycraftMod.convertSecondsToGameTicks(10);
+						playerState.airQualityClean = PolycraftCleanroom.isLocationClean(player.worldObj, (int) (player.posX) - 1, (int) (player.posY), (int) (player.posZ) - 1);
+
+					}
+					else
+					{
+
+						client.fontRenderer.drawStringWithShadow(playerState.airQualityClean ? "Clean" : "Dirty", x, y, 16777215);
+						y += statusOverlayDistanceBetweenY;
+
+					}
+
+				}
+				else
+				{
+					playerState.airQualityTicksRemaining = 0;
+
+				}
+			}
+
+			if (playerState.airQualityTicksRemaining > 0)
+				playerState.airQualityTicksRemaining--;
 
 			if (ItemFlameThrower.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);

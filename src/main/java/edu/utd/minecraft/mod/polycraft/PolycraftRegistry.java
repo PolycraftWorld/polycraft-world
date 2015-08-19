@@ -105,6 +105,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInve
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
+import edu.utd.minecraft.mod.polycraft.item.ItemAirQualityDetector;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorChest;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorFeet;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorHead;
@@ -898,6 +899,9 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.CustomSmartPhone.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
+				}
+				else if (GameID.CustomAirQualityDetecctor.matches(customObject)) {
+					registerItem(customObject, new ItemAirQualityDetector(customObject));
 				}
 				else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
