@@ -89,7 +89,8 @@ public enum GameID {
 	CustomSmartPhone("1eq"),
 	CustomFlagEmpty("1bZ"),
 	CustomBillStackEmpty("1fx"),
-	CustomAirQualityDetecctor("1fv");
+	CustomAirQualityDetecctor("1fv"),
+	CustomRipstopNylonSheet("1fw");
 
 	public final String id;
 

@@ -56,7 +56,8 @@ public class Mask extends GameIdentifiedConfig {
 		return ItemMask.setDamagePerUse(new ItemStack(PolycraftRegistry.getItem(this)), nugget.maskDamagePerUse);
 	}
 
-	public List<String> PROPERTY_NAMES = ImmutableList.of("Polymer Pellets", "Crafting Pellets", "Crafting Duration (sec)", "Max Stack Size");
+	public List<String> PROPERTY_NAMES = ImmutableList.of(
+			"Mask Type");
 
 	@Override
 	public List<String> getPropertyNames() {
@@ -65,11 +66,7 @@ public class Mask extends GameIdentifiedConfig {
 
 	@Override
 	public List<String> getPropertyValues() {
-		//		return ImmutableList.of(
-		//				polymerPellets.name,
-		//				PolycraftMod.numFormat.format(craftingPellets),
-		//				PolycraftMod.numFormat.format(craftingDurationSeconds),
-		//				PolycraftMod.numFormat.format(maxStackSize));
-		return null;
+		return ImmutableList.of(
+				this.maskType.name());
 	}
 }

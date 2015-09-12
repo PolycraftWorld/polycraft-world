@@ -315,23 +315,41 @@ public abstract class Enforcer {
 		}
 	}
 
-	private boolean forcePlayerToExitProperty(final EntityPlayer player, int targetOffsetX, double targetOffsetZ, final PrivateProperty privateProperty) {
-		final int x = (int) (player.posX + targetOffsetX);
-		final int y = (int) player.posY;
-		final int z = (int) (player.posZ + targetOffsetZ);
-		if (player.worldObj.isAirBlock(x, y, z)) {
-			final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
-			final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
-			if (targetPrivateProperty == null || (targetPrivateProperty != privateProperty && targetPrivateProperty.actionEnabled(player, Action.Enter))) {
-				//just teleport them out now
-				player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z);
-				/* Old method where they user would be "pushed" out
-				player.motionX = targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ? -forceExitSpeed : 0;
-				player.motionY = 0;
-				player.motionZ = targetOffsetZ > 0 ? forceExitSpeed : targetOffsetZ < 0 ? -forceExitSpeed : 0;
-				*/
-				return true;
+	private boolean forcePlayerToExitProperty(final EntityPlayer player, double targetOffsetX, double targetOffsetZ, final PrivateProperty privateProperty) {
+		if (!player.worldObj.isRemote)
+			return true;
+		final double x = player.posX + targetOffsetX;
+		final double y = player.posY - 2;
+		final double z = player.posZ + targetOffsetZ;
+
+		final int xAbs, zAbs;
+		if (x > 0)
+			xAbs = (int) Math.ceil(x);
+		else
+			xAbs = (int) Math.floor(x);
+		if (z > 0)
+			zAbs = (int) Math.ceil(z);
+		else
+			zAbs = (int) Math.floor(z);
+
+		//if (player.worldObj.isAirBlock(x, y, z) || (player.worldObj.getBlock(x, y, z) == Blocks.water)) {
+		final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(xAbs, zAbs);
+		final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
+		if (targetPrivateProperty == null || (targetPrivateProperty != privateProperty && targetPrivateProperty.actionEnabled(player, Action.Enter))) {
+			//just teleport them out now
+			if (targetOffsetX + targetOffsetZ > 2)
+				player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock((int) x, (int) z) + 3, z);
+			else
+			{
+				player.setPositionAndUpdate(x, y, z);
 			}
+			/* Old method where they user would be "pushed" out
+			player.motionX = targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ? -forceExitSpeed : 0;
+			player.motionY = 0;
+			player.motionZ = targetOffsetZ > 0 ? forceExitSpeed : targetOffsetZ < 0 ? -forceExitSpeed : 0;
+			*/
+			return true;
+			//	}
 		}
 		return false;
 	}

@@ -69,7 +69,13 @@ public class WaferItem extends SourcedConfig<Mask> {
 		return new ItemStack(PolycraftRegistry.getItem(this), size);
 	}
 
-	public List<String> PROPERTY_NAMES = ImmutableList.of("Polymer Pellets", "Crafting Pellets", "Crafting Duration (sec)", "Max Stack Size");
+	public List<String> PROPERTY_NAMES = ImmutableList.of(
+			"Electronic Object",
+			"Layer Name",
+			"Must Keep Clean",
+			"Source Wafer",
+			"Photoresist",
+			"Nugget");
 
 	@Override
 	public List<String> getPropertyNames() {
@@ -78,12 +84,14 @@ public class WaferItem extends SourcedConfig<Mask> {
 
 	@Override
 	public List<String> getPropertyValues() {
-		//		return ImmutableList.of(
-		//				polymerPellets.name,
-		//				PolycraftMod.numFormat.format(craftingPellets),
-		//				PolycraftMod.numFormat.format(craftingDurationSeconds),
-		//				PolycraftMod.numFormat.format(maxStackSize));
-		return null;
-	}
+		return ImmutableList.of(
+				this.electronicObject,
+				this.layerName,
+				String.valueOf(this.mustBeInCleanroom),
+				this.sourceWafer != null ? this.sourceWafer.name : "null",
+				this.photoresist != null ? this.photoresist.name : "null",
+				this.nugget != null ? this.nugget.name : "null");
 
+		//return null;
+	}
 }
