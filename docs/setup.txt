@@ -14,7 +14,7 @@ https://github.com/WalterVoit/polycraft
 Copy polycraft_git into polycraft and delete the example file
 Load the local repo in eclipse to link the project
 
-./eclispse/server.properties
+./eclipse/server.properties
 	online-mode=false
 	op-permission-level=2
 	gamemode=0
