@@ -170,7 +170,7 @@ public class Analytics {
 
 	private synchronized void log(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-		final Long playerID = Enforcer.whitelist.get(player.getDisplayName());
+		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
 		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),
