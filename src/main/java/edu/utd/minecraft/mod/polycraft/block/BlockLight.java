@@ -9,6 +9,7 @@ import net.minecraft.block.BlockAir;
 //import javax.vecmath.Point3i;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -118,8 +119,14 @@ public class BlockLight extends BlockAir {
 						throw new Error("Invalid direction");
 					}
 					if (world.getBlock(point.x, point.y, point.z).getMaterial() != Material.air)
-						break;
-					points.add(point);
+					{
+						if (world.isSideSolid(point.x, point.y, point.z, ForgeDirection.getOrientation(direction).getOpposite()))
+							break;
+
+						//if it is a transparent block, skip and keep going
+					}
+					else
+						points.add(point);
 				}
 			}
 		}
@@ -217,6 +224,10 @@ public class BlockLight extends BlockAir {
 								if (entry.getValue()) {
 									if (worldState.world.isAirBlock(point.x, point.y, point.z)) {
 										worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
+										blocksSet++;
+									}
+									else if (worldState.world.isSideSolid(point.x, point.y, point.z, ForgeDirection.EAST)) {
+										//worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
 										blocksSet++;
 									}
 
