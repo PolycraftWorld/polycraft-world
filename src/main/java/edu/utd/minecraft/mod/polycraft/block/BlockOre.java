@@ -6,9 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,10 +37,10 @@ public class BlockOre extends net.minecraft.block.BlockOre {
 		this.setStepSound(Block.soundTypePiston);
 	}
 
-	@Override
-	public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_) {
-		return MathHelper.getRandomIntegerInRange(rand, ore.dropExperienceMin, ore.dropExperienceMax);
-	}
+	//	@Override
+	//	public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_) {
+	//		return MathHelper.getRandomIntegerInRange(rand, ore.dropExperienceMin, ore.dropExperienceMax);
+	//	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -3,10 +3,13 @@ package edu.utd.minecraft.mod.polycraft.inventory.heated;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.collect.ImmutableList;
@@ -18,6 +21,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
@@ -28,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 
 public abstract class HeatedInventory extends WateredInventory<HeatedInventoryState> implements ISidedInventory {
 
@@ -145,6 +150,50 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		if (total > 0)
 			return (int) ((getState(HeatedInventoryState.ProcessingTicks) / total) * scale);
 		return 0;
+	}
+
+	@Override
+	public void onPickupFromSlot(EntityPlayer player, ContainerSlot slot, ItemStack itemStack) {
+		if (slot.getSlotType() == SlotType.OUTPUT)
+		{
+			super.onPickupFromSlot(player, slot, itemStack);
+			int lower = 1;
+			int upper = 3; //defaults for vials, flasks and bags and normal MC items
+
+			if (MathHelper.getRandomIntegerInRange(random, 1, 200) >= 198)
+			{
+				lower = 300;
+				upper = 500;
+				//sometimes randomly, you get lots of experience
+			}
+			else
+			{
+				Item item = itemStack.getItem();
+
+				if (item instanceof ItemVessel)
+				{
+					if ((((ItemVessel) (item)).config.vesselType == Vessel.Type.Sack) ||
+							(((ItemVessel) (item)).config.vesselType == Vessel.Type.Cartridge) ||
+							(((ItemVessel) (item)).config.vesselType == Vessel.Type.Beaker))
+					{
+						lower = 6;
+						upper = 12;
+					}
+					else if ((((ItemVessel) (item)).config.vesselType == Vessel.Type.PowderKeg) ||
+							(((ItemVessel) (item)).config.vesselType == Vessel.Type.Canister) ||
+							(((ItemVessel) (item)).config.vesselType == Vessel.Type.Drum))
+					{
+						lower = 36;
+						upper = 50;
+					}
+
+				}
+
+			}
+
+			player.addExperience(MathHelper.getRandomIntegerInRange(random, lower * (itemStack.stackSize / 8 + 1), upper * (itemStack.stackSize / 8 + 1)));
+		}
+
 	}
 
 	@Override

@@ -2,11 +2,13 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.MathHelper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +47,7 @@ import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String ItemPolymerBrick = null;
+	private final static Random rand = new Random();
 
 	public static void generateRecipes() {
 		generateFileRecipes("recipes");
@@ -84,7 +87,8 @@ public class RecipeGenerator {
 			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.FURNACE,
 					polymerBlock.getItemStack(),
-					ImmutableList.of(polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock)));
+					ImmutableList.of(polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock)),
+					MathHelper.getRandomIntegerInRange(rand, 2, 5));
 			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
 					polymerBlock.source.getItemStack(PolycraftMod.recipePolymerPelletsPerBlock),
@@ -417,7 +421,8 @@ public class RecipeGenerator {
 				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 						PolycraftContainerType.INDUSTRIAL_OVEN,
 						furnaceRecipe.getValue(),
-						ImmutableList.of(furnaceRecipe.getKey()));
+						ImmutableList.of(furnaceRecipe.getKey()),
+						MathHelper.getRandomIntegerInRange(rand, 3, 7));
 			} catch (final Exception e)
 			{
 				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
@@ -660,7 +665,7 @@ public class RecipeGenerator {
 						logger.warn("Unable to find input item for smelting recipe ({}): {}", outputItemName, inputItemName);
 						continue;
 					}
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(PolycraftContainerType.FURNACE, outputItemStack, ImmutableList.of(inputItemStack));
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(PolycraftContainerType.FURNACE, outputItemStack, ImmutableList.of(inputItemStack), MathHelper.getRandomIntegerInRange(new Random(), 2, 5));
 				}
 			}
 		}
