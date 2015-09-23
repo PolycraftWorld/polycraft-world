@@ -274,15 +274,15 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.3.2	TRUE	FALSE	2	Bars (Copper)	9	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64	Coins (Copper)	64						
 1.3.2	TRUE	FALSE	2	Stacks (Copper)	9	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64	Bars (Copper)	64						
 1.3.2	TRUE	FALSE	2	Trove (Copper)	9	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64	Stacks (Copper)	64						
-1.3.2	TRUE	FALSE	8	Solar Cell	1	Wafer (Solar Cell)	1																						
-1.3.2	TRUE	FALSE	8	Processor	8	Wafer (Processor)	1																						
-1.3.2	TRUE	FALSE	8	Temperature Sensor	32	Wafer (Temperature Sensor)	1																						
-1.3.2	TRUE	FALSE	8	Pressure Sensor	32	Wafer (Pressure Sensor)	1																						
-1.3.2	TRUE	FALSE	8	Low Power Radio	8	Wafer (Low Power Radio)	1																						
-1.3.2	TRUE	FALSE	8	DSP	16	Wafer (DSP)	1																						
-1.3.2	TRUE	FALSE	8	Digital Analog Convertor	16	Wafer (Digital Analog Convertor)	1																						
-1.3.2	TRUE	FALSE	8	Amplifier	32	Wafer (Amplifier)	1																						
-1.3.2	TRUE	FALSE	8	OLED Array	1	Wafer (OLED Array)	1																						
+1.3.2	TRUE	TRUE	8	Solar Cell	1	Wafer (Solar Cell)	1																						
+1.3.2	TRUE	TRUE	8	Processor	8	Wafer (Processor)	1																						
+1.3.2	TRUE	TRUE	8	Temperature Sensor	32	Wafer (Temperature Sensor)	1																						
+1.3.2	TRUE	TRUE	8	Pressure Sensor	32	Wafer (Pressure Sensor)	1																						
+1.3.2	TRUE	TRUE	8	Low Power Radio	8	Wafer (Low Power Radio)	1																						
+1.3.2	TRUE	TRUE	8	DSP	16	Wafer (DSP)	1																						
+1.3.2	TRUE	TRUE	8	Digital Analog Convertor	16	Wafer (Digital Analog Convertor)	1																						
+1.3.2	TRUE	TRUE	8	Amplifier	32	Wafer (Amplifier)	1																						
+1.3.2	TRUE	TRUE	8	OLED Array	1	Wafer (OLED Array)	1																						
 1.3.2	TRUE	FALSE	8	Solar Array	1	Solar Cell	1	Solar Cell	1	Solar Cell	1			Redstone Block	1														
 1.3.2	TRUE	FALSE	8	254 nm UV Bulbs	32	Glass Pane	1	Glass Pane	1	Glass Pane	1	Hose (Low Pressure)	1	Vial (Mercury)	1	Redstone	1	Glass Pane	1	Glass Pane	1	Glass Pane	1						
 1.3.2	TRUE	FALSE	8	365 nm UV Bulbs	32	Glass Pane	1	Glass Pane	1	Glass Pane	1	Hose (Medium Pressure)	1	Vial (Mercury)	1	Redstone	1	Glass Pane	1	Glass Pane	1	Glass Pane	1						

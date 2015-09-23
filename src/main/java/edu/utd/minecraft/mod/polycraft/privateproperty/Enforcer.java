@@ -610,7 +610,7 @@ public abstract class Enforcer {
 				//teleport to a private property
 				else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
 					if (args.length < 3) {
-						final List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(player.getDisplayName());
+						final List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(player.getDisplayName().toLowerCase());
 						if (ownerPrivateProperties != null) {
 							int index = 0;
 							try {

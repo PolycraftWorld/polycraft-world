@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,13 +16,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
+import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
+import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
+import edu.utd.minecraft.mod.polycraft.config.Vessel;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftBasicTileEntityContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 
@@ -135,4 +143,101 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 		}
 		return false;
 	}
+
+	protected static boolean downcycle(IInventory iinventory, ItemVessel newVessel, int slotIndex, int slotIndexMin, int slotIndexMax)
+	{
+
+		if (newVessel.config.vesselType == Vessel.Type.Vial)
+			return false;
+		if (newVessel.config.vesselType == Vessel.Type.Beaker)
+		{
+
+			for (int y = slotIndexMin; y <= slotIndexMax; y++)
+			{
+				if (y != slotIndex)
+				{
+					if (iinventory.getStackInSlot(y) == null)
+					{
+
+						GameIdentifiedConfig smallerConfig = null;
+						ItemVessel smallerItem = null;
+
+						if (newVessel.config instanceof ElementVessel)
+							smallerConfig = ElementVessel.registry.find(((ElementVessel) newVessel.config).source, newVessel.config.vesselType.smallerType);
+						if (newVessel.config instanceof CompoundVessel)
+							smallerConfig = CompoundVessel.registry.find(((CompoundVessel) newVessel.config).source, newVessel.config.vesselType.smallerType);
+						else if (newVessel.config instanceof PolymerPellets)
+							smallerConfig = PolymerPellets.registry.find(((PolymerPellets) newVessel.config).source, newVessel.config.vesselType.smallerType);
+						if (smallerConfig != null)
+							smallerItem = (ItemVessel) PolycraftRegistry.getItem(smallerConfig);
+
+						ItemStack smallStack = new ItemStack(smallerItem, 63);
+						ItemStack largerStack = iinventory.getStackInSlot(slotIndex).copy();
+						PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(smallStack);
+						PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(largerStack);
+						largerStack.stackSize -= 1;
+						if (largerStack.stackSize > 0)
+							iinventory.setInventorySlotContents(slotIndex, largerStack);
+						else
+							iinventory.setInventorySlotContents(slotIndex, null);
+						iinventory.setInventorySlotContents(y, smallStack);
+						return true;
+
+					}
+
+				}
+			}
+
+		}
+		//dont combine these yet, so we look first for beakers
+		if (newVessel.config.vesselType == Vessel.Type.Drum)
+		{
+
+			for (int y = slotIndexMin; y <= slotIndexMax; y++)
+			{
+				if (y != slotIndex)
+				{
+					if (iinventory.getStackInSlot(y) == null)
+					{
+						if (iinventory.getStackInSlot(slotIndex) != null)
+						{
+
+							GameIdentifiedConfig smallerConfig = null;
+							ItemVessel smallerItem = null;
+
+							if (newVessel.config instanceof ElementVessel)
+								smallerConfig = ElementVessel.registry.find(((ElementVessel) newVessel.config).source, newVessel.config.vesselType.smallerType);
+							if (newVessel.config instanceof CompoundVessel)
+								smallerConfig = CompoundVessel.registry.find(((CompoundVessel) newVessel.config).source, newVessel.config.vesselType.smallerType);
+							else if (newVessel.config instanceof PolymerPellets)
+								smallerConfig = PolymerPellets.registry.find(((PolymerPellets) newVessel.config).source, newVessel.config.vesselType.smallerType);
+							if (smallerConfig != null)
+								smallerItem = (ItemVessel) PolycraftRegistry.getItem(smallerConfig);
+
+							ItemStack smallStack = new ItemStack(smallerItem, 64);
+
+							ItemStack largerStack = iinventory.getStackInSlot(slotIndex).copy();
+							PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(smallStack);
+							PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(largerStack);
+							largerStack.stackSize -= 1;
+							if (largerStack.stackSize > 0)
+								iinventory.setInventorySlotContents(slotIndex, largerStack);
+							else
+								iinventory.setInventorySlotContents(slotIndex, null);
+							iinventory.setInventorySlotContents(y, smallStack);
+							return downcycle(iinventory, ((ItemVessel) smallStack.getItem()), y, slotIndexMin, slotIndexMax);
+						}
+						return false;
+
+					}
+
+				}
+			}
+
+		}
+
+		return false;
+
+	}
+
 }

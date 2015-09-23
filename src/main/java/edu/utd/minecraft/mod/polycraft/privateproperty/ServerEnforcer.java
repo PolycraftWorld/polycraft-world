@@ -259,7 +259,7 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.Friends);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
-					NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
+					NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName().toLowerCase()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
 				} catch (final IOException e) {
 					PolycraftMod.logger.error("Unable to log player last world seen", e);
 				}
