@@ -49,10 +49,12 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
+import edu.utd.minecraft.mod.polycraft.config.CellCultureDish;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.DNASampler;
 import edu.utd.minecraft.mod.polycraft.config.Electronics;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
@@ -111,8 +113,10 @@ import edu.utd.minecraft.mod.polycraft.item.ItemArmorFeet;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorHead;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
+import edu.utd.minecraft.mod.polycraft.item.ItemCellCultureDish;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
+import edu.utd.minecraft.mod.polycraft.item.ItemDNASampler;
 import edu.utd.minecraft.mod.polycraft.item.ItemElectronics;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
@@ -169,6 +173,7 @@ public class PolycraftRegistry {
 
 	public static ItemStack getItemStack(final String name, final int size) {
 		final int metadataSeparatorIndex = name.indexOf(":");
+		//final int damageSeparatorIndex = name.indexOf(";");
 		if (metadataSeparatorIndex > -1) {
 			final String nameClean = name.substring(0, metadataSeparatorIndex);
 			final int metadata = Integer.parseInt(name.substring(
@@ -176,6 +181,14 @@ public class PolycraftRegistry {
 			final Item item = getItem(nameClean);
 			if (item != null)
 				return new ItemStack(item, size, metadata);
+			//		} else if (damageSeparatorIndex > -1) {
+			//			final String nameClean = name.substring(0, damageSeparatorIndex);
+			//			final int damage = Integer.parseInt(name.substring(
+			//					damageSeparatorIndex + 1, name.length()));
+			//			final Item item = getItem(nameClean);
+			//			if (item != null)
+			//				return new ItemStack(item, size, damage);
+
 		} else {
 			final Item item = getItem(name);
 			if (item != null)
@@ -185,6 +198,7 @@ public class PolycraftRegistry {
 		if (block != null)
 			return new ItemStack(block, size);
 		return null;
+
 	}
 
 	public static Object getItemOrBlock(final String name) {
@@ -306,6 +320,8 @@ public class PolycraftRegistry {
 			registerMaskItems();
 			registerWaferItems();
 			registerElectronics();
+			registerDNASamplers();
+			registerCellCultureDishes();
 			Fuel.registerQuantifiedFuels();
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
@@ -574,6 +590,28 @@ public class PolycraftRegistry {
 			if (isTargetVersion(electronics.version))
 			{
 				registerItem(electronics, new ItemElectronics(electronics));
+			}
+		}
+
+	}
+
+	private static void registerDNASamplers() {
+		for (final DNASampler dnaSampler : DNASampler.registry.values())
+		{
+			if (isTargetVersion(dnaSampler.version))
+			{
+				registerItem(dnaSampler, new ItemDNASampler(dnaSampler));
+			}
+		}
+
+	}
+
+	private static void registerCellCultureDishes() {
+		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values())
+		{
+			if (isTargetVersion(cellCultureDish.version))
+			{
+				registerItem(cellCultureDish, new ItemCellCultureDish(cellCultureDish));
 			}
 		}
 
@@ -956,6 +994,12 @@ public class PolycraftRegistry {
 
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format(itemFormat, catalyst.gameID, catalyst.name));
+
+		for (final DNASampler dnaSampler : DNASampler.registry.values())
+			langEntries.add(String.format(itemFormat, dnaSampler.gameID, dnaSampler.name));
+
+		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values())
+			langEntries.add(String.format(itemFormat, cellCultureDish.gameID, cellCultureDish.name));
 
 		for (final ElementVessel vessel : ElementVessel.registry.values())
 			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));

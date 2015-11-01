@@ -64,6 +64,8 @@ public abstract class Config {
 		Mask.registerFromResource(directory);
 		WaferItem.registerFromResource(directory);
 		Electronics.registerFromResource(directory);
+		DNASampler.registerFromResource(directory);
+		CellCultureDish.registerFromResource(directory);
 		InternalObject.registerFromResource(directory);
 		Armor.registerFromResource(directory);
 		Tool.registerFromResource(directory);
@@ -98,6 +100,8 @@ public abstract class Config {
 		registriesByType.put(Mask.class.getSimpleName(), Mask.registry);
 		registriesByType.put(WaferItem.class.getSimpleName(), WaferItem.registry);
 		registriesByType.put(Electronics.class.getSimpleName(), Electronics.registry);
+		registriesByType.put(DNASampler.class.getSimpleName(), DNASampler.registry);
+		registriesByType.put(CellCultureDish.class.getSimpleName(), CellCultureDish.registry);
 		registriesByType.put(GrippedTool.class.getSimpleName(), GrippedTool.registry);
 		registriesByType.put(PogoStick.class.getSimpleName(), PogoStick.registry);
 		registriesByType.put(Inventory.class.getSimpleName(), Inventory.registry);

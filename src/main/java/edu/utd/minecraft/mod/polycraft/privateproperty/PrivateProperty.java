@@ -23,36 +23,36 @@ public class PrivateProperty {
 			DestroyBlock,
 			AttackEntity,
 			OpenChest,
-			OpenEnderChest,
+			OpenEnderChest, //5
 			OpenPlasticChest,
 			UseCraftingTable,
-			UseFurnace,
+			UseFurnace, //8
 			UseTreeTap,
-			UseMachiningMill,
+			UseMachiningMill, //10
 			UseInjectionMolder,
 			UseExtruder,
 			UseDistillationColumn,
 			UseSteamCracker,
-			UseMeroxTreatmentUnit,
+			UseMeroxTreatmentUnit, //15
 			UseChemicalProcessor,
 			UseFloodlight, //FIXME renamed from UseFueledLamp
 			UseSpotlight,
 			UsePump,
-			UseOilDerrick,
+			UseOilDerrick, //20
 			UseButton,
 			UseLever,
 			UsePressurePlate,
-			UseFlowRegulator,
+			UseFlowRegulator, //25
 			UseCondenser,
 			UseFlameThrower,
 			UseBucket,
 			UseFreezeRay,
-			UseWaterCannon,
+			UseWaterCannon, //30
 			UseGaslamp,
 			SpawnEntity,
 			MountEntity, //horse, donkey, mule, pig, minecart, boat, etc
 			UseDoor,
-			UseTrapDoor,
+			UseTrapDoor, //35
 			UseFenceGate,
 			UseFlintAndSteel,
 			AddBlockTNT,
@@ -71,6 +71,16 @@ public class PrivateProperty {
 				enabled[action.getAsInt()] = true;
 			}
 		}
+
+		public PermissionSet(final int[] permissions) {
+			enabled = new boolean[Action.values().length];
+			user = null;
+			for (int action : permissions)
+			{
+				enabled[action] = true;
+			}
+		}
+
 	}
 
 	public static class Chunk {
@@ -91,6 +101,7 @@ public class PrivateProperty {
 	public final Chunk boundTopLeft;
 	public final Chunk boundBottomRight;
 	public final PermissionSet defaultPermissions;
+	public final PermissionSet masterPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
 
 	public PrivateProperty(
@@ -110,6 +121,14 @@ public class PrivateProperty {
 		this.boundTopLeft = this.bounds[0];
 		this.boundBottomRight = this.bounds[1];
 		this.defaultPermissions = new PermissionSet(permissions.get(0).getAsJsonObject());
+		this.masterPermissions = new PermissionSet(new int[] {
+				0, //"Enter",
+				24, //"UsePressurePlate"
+				34, //"UseDoor",			
+				35, //"UseTrapDoor",
+				36, //"UseFenceGate",
+				7 //"UseCraftingTable",				
+		});
 		this.permissionOverridesByUser = Maps.newHashMap();
 		for (int i = 1; i < permissions.size(); i++) {
 			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());
@@ -152,7 +171,8 @@ public class PrivateProperty {
 			//otherwise just use the default permissions
 			return defaultPermissions.enabled[action.ordinal()];
 		}
-		return action == Action.Enter;
+		//return action == Action.Enter;
+		return masterPermissions.enabled[action.ordinal()];
 	}
 
 	public boolean actionEnabled(final Action action) {

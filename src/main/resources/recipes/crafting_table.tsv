@@ -1,5 +1,4 @@
 Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Input 6	I6#	Input 7	I7#	Input 8	I8#	Input 9	I9#						
-1.0.0	TRUE	FALSE	1	Magic Pogo Stick	1	Stick	1	Stick	1	Stick	1	Nether Star	1	Stick	1	Nether Star	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	FALSE	1	Tree Tap	1	Planks	1	Stick	1	Planks	1	Planks	1			Planks	1			Planks	1								
 1.0.0	TRUE	FALSE	1	Wooden Pogo Stick	1	Stick	1	Stick	1	Stick	1	Planks	1	Stick	1	Planks	1			Sack (PolyIsoPrene Pellets)	1								
 1.0.0	TRUE	TRUE	2	Antimony Trioxide Catalyst	1	Antimony Nugget	1																						
@@ -187,7 +186,6 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	TRUE	8	The Emperor's New Kevlar Vest	1	Kevlar Vest	1	The Emperor's New Jacket	1																				
 1.0.0	TRUE	FALSE	9	Jet Pack (Beginner)	1	Hose (Low Pressure)	1	Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
 1.0.0	TRUE	FALSE	9	Laser	1			Nether Star	1			Nether Star	1	Redstone Block	1	Nether Star	1			Nether Star	1								
-1.0.0	TRUE	FALSE	9	Phase Shifter	1	Nether Star	1			Nether Star	1			Redstone Block	1			Nether Star	1			Nether Star	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1			Aluminum Ingot	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1			Brass Ingot	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1			Bronze Ingot	1						
@@ -310,36 +308,44 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.3.5	TRUE	FALSE	4	Air Quality Detector	1	Processor	1	Air Quality Detector Case (PS)	1	Low Power Radio	1																		
 1.3.6	TRUE	FALSE	8	Parachute	1			Ripstop Nylon Sheet	1			Fibers (Nylon 6)	1			Fibers (Nylon 6)	1	Fibers (Nylon 6)	1			Fibers (Nylon 6)	1						
 1.3.6	TRUE	FALSE	8	Ripstop Nylon Sheet	1	Fibers (Nylon 6)	1			Fibers (Nylon 6)	1			Fibers (Nylon 6)	1			Fibers (Nylon 6)	1			Fibers (Nylon 6)	1						
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
-																													
+1.3.8	TRUE	FALSE	2	Spawn Egg:90	1	Porkchop	1	Porkchop	1	Porkchop	1	Egg	1	Cell Culture Dish (Pig)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	2	Spawn Egg:91	1	Wool	1	Wool	1	Wool	1	Egg	1	Cell Culture Dish (Sheep)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	2	Spawn Egg:92	1	Beef	1	Beef	1	Beef	1	Egg	1	Cell Culture Dish (Cow)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	2	Spawn Egg:93	1	Chicken	1	Chicken	1	Chicken	1	Egg	1	Cell Culture Dish (Chicken)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	4	Spawn Egg:94	1	Dye	1	Dye	1	Dye	1	Egg	1	Cell Culture Dish (Squid)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	4	Spawn Egg:95	1	Bag (Potassium)	3	Bag (Potassium)	3	Bag (Potassium)	3	Egg	1	Cell Culture Dish (Wolf)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	4	Spawn Egg:98	1	Iron Ingot	1	Iron Ingot	1	Iron Ingot	1	Egg	1	Cell Culture Dish (Ocelot)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	4	Spawn Egg:65	1	Guano	1	Guano	1	Guano	1	Egg	1	Cell Culture Dish (Bat)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:52	1	Spider Eye	3	Spider Eye	2	Spider Eye	3	Egg	1	Cell Culture Dish (Spider)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:54	1	Rotten Flesh	1	Cell Culture Dish (Person)	1	Rotten Flesh	1	Egg	1	Cell Culture Dish (Zombie)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:51	1	Bow	1	Cell Culture Dish (Person)	1	Arrow	1	Egg	1	Cell Culture Dish (Skeleton)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:100	1	Ender Eye	1	Golden Apple	1	Ender Eye	1	Egg	1	Cell Culture Dish (Horse)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:66	1	Vanadium Pentoxide Catalyst	1	Cell Culture Dish (Person)	1	Glowstone Dust	1	Egg	1	Cell Culture Dish (Witch)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:50	1	Wool	1	Tnt	1	Dye:10	1	Egg	1	Cell Culture Dish (Creeper)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:60	1	Fish	1	Silver Ingot	1	Fish	1	Egg	1	Cell Culture Dish (Silverfish)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:59	1	Spider Eye	4	Bag (Arsenic)	1	Spider Eye	4	Egg	1	Cell Culture Dish (Cave Spider)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:56	1	Fire Charge	1	Ghast Tear	1	Fire Charge	1	Egg	1	Cell Culture Dish (Ghast)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:61	1	Fire Charge	1	Blaze Rod	1	Fire Charge	1	Egg	1	Cell Culture Dish (Blaze)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:57	1	Cell Culture Dish (Pig)	1	Gold Nugget	1	Cell Culture Dish (Person)	1	Egg	1	Cell Culture Dish (Zombie Pigman)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	8	Spawn Egg:62	1	Slime Ball	1	Lava Bucket	1	Slime Ball	1	Egg	1	Cell Culture Dish (Magma Cube)	1	Egg	1	Sugar	1	Sugar	1	Sugar	1						
+1.3.8	TRUE	FALSE	2	Guano	1	Dye:15	1	Bag (Potassium Hydroxide)	1																				
+1.3.8	TRUE	FALSE	2	DNA sampler (Beginner)	4			String	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	4	DNA sampler (Intermediate)	4			Fibers (LDPE)	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	4	DNA sampler (Intermediate)	4			Fibers (PP)	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	4	DNA sampler (Intermediate)	4			Fibers (PS)	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	4	DNA sampler (Advanced)	4			Fibers (PC)	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	4	DNA sampler (Advanced)	4			Fibers (PMMA)	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	4	DNA sampler (Advanced)	4			Fibers (PI)	1					Stick	1					Stick	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Expert)	4			"Fibers (Nylon 6,7)"	1					Tool Shaft (PEEK)	1					Tool Shaft (PEEK)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Expert)	4			"Fibers (Nylon 6,7)"	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Expert)	4			"Fibers (Nylon 6,10)"	1					Tool Shaft (PEEK)	1					Tool Shaft (PEEK)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Expert)	4			"Fibers (Nylon 6,10)"	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Expert)	4			Fibers (Nylon 6)	1					Tool Shaft (PEEK)	1					Tool Shaft (PEEK)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Expert)	4			Fibers (Nylon 6)	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (nomex)	1					Tool Shaft (PEEK)	1					Tool Shaft (PEEK)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (nomex)	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (kevlar)	1					Tool Shaft (PEEK)	1					Tool Shaft (PEEK)	1								
+1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (kevlar)	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
 																													
 																													
 																													

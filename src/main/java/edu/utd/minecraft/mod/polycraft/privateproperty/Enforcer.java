@@ -19,6 +19,15 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -26,9 +35,11 @@ import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.AllowDespawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -470,6 +481,7 @@ public abstract class Enforcer {
 				final Item equippedItem = equippedItemStack.getItem();
 				if (equippedItem instanceof ItemMonsterPlacer) {
 					possiblyPreventAction(event, event.entityPlayer, Action.SpawnEntity);
+					preventActionIfOverPopulated(event, event.entityPlayer, Action.SpawnEntity, equippedItem);
 				}
 				else if (equippedItem instanceof ItemFlintAndSteel) {
 					possiblyPreventAction(event, event.entityPlayer, Action.UseFlintAndSteel);
@@ -527,6 +539,77 @@ public abstract class Enforcer {
 				event.setResult(Result.DENY);
 			}
 		}
+		if (event.entity instanceof EntityCow ||
+				event.entity instanceof EntityPig ||
+				event.entity instanceof EntitySheep ||
+				event.entity instanceof EntityMooshroom ||
+				event.entity instanceof EntityWolf ||
+				event.entity instanceof EntityOcelot ||
+				event.entity instanceof EntityHorse ||
+				event.entity instanceof EntityChicken)
+		{
+			preventActionIfOverPopulated(event);
+		}
+	}
+
+	private void preventActionIfOverPopulated(final CheckSpawn event)
+	{
+		preventOverPopulationHelper(event.world, event.entity, null, event, (double) (event.x), (double) (event.y), (double) (event.z));
+
+	}
+
+	private void preventActionIfOverPopulated(final PlayerInteractEvent event, final EntityPlayer player, final Action action, final Item spawnEgg)
+	{
+		Entity entity = EntityList.createEntityByID(spawnEgg.getDamage(player.getCurrentEquippedItem()), event.world);
+
+		preventOverPopulationHelper(event.world, entity, event, null, (double) (event.x), (double) (event.y), (double) (event.z));
+
+	}
+
+	private void preventOverPopulationHelper(World world, Entity entity, Event placeEggEvent, CheckSpawn spawnEvent, double xCoord, double yCoord, double zCoord)
+	{
+		List entities = world.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox(
+				xCoord - 8.0, yCoord - 8.0, zCoord - 8.0,
+				xCoord + 8.0, yCoord + 8.0, zCoord + 8.0));
+		if (entities.size() >= 16)
+		{
+			if (placeEggEvent != null)
+				placeEggEvent.setCanceled(true);
+			if (spawnEvent != null)
+				spawnEvent.setResult(Result.DENY);
+			setActionPrevented(Action.SpawnEntity, null);
+		}
+
+	}
+
+	//TODO: Jim and Walter to Discuss
+	@SubscribeEvent
+	public synchronized void onAllowDespawn(final AllowDespawn event)
+	{
+		//only run this once every morning; leave for a few ticks in case of lag
+		if (event.world.getWorldTime() % 24000 < 10)
+		{
+
+			if (event.entity instanceof EntityCow ||
+					event.entity instanceof EntityPig ||
+					event.entity instanceof EntitySheep ||
+					event.entity instanceof EntityMooshroom ||
+					event.entity instanceof EntityWolf ||
+					event.entity instanceof EntityOcelot ||
+					event.entity instanceof EntityHorse ||
+					event.entity instanceof EntityChicken)
+			{
+
+				List entities = event.world.getEntitiesWithinAABB(event.entity.getClass(), AxisAlignedBB.getBoundingBox(
+						event.x - 16.0, event.y - 16.0, event.z - 16.0,
+						event.x + 16.0, event.y + 16.0, event.z + 16.0));
+				if (entities.size() >= 32)
+				{
+					event.setResult(Result.ALLOW);
+				}
+			}
+		}
+
 	}
 
 	@SubscribeEvent

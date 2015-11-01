@@ -26,6 +26,7 @@ public enum ItemCategory {
 	MATERIALS_INGOT("Materials/Ingot"),
 	MATERIALS_NUGGET("Materials/Nugget"),
 	MATERIALS_PELLET("Materials/Pellet"),
+	MATERIALS_CELL_CULTURE_DISH("Materials/CellCultureDish"),
 	TOOLS("Tools"),
 	TOOLS_AXES("Tools/Axes"),
 	TOOLS_HOES("Tools/Hoes"),
