@@ -87,8 +87,8 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Nether Wart	64	Beaker (Gin)	1																											
 1.0.0	1	1	10	4	Cactus	1	Vial (Tequila)	1																											
 1.0.0	2	1	10	4	Cactus	64	Beaker (Tequila)	1																											
-1.0.0	1	1	10	4	Reeds	1	Vial (Rum)	1																											
-1.0.0	2	1	10	4	Reeds	64	Beaker (Rum)	1																											
+1.0.0	1	1	10	4	Reeds	1	Vial (Rum)	4	Vial (Glycolic Acid)	4																									
+1.0.0	2	1	10	4	Reeds	64	Beaker (Rum)	4	Beaker (Glycolic Acid)	4																									
 1.0.0	1	1	10	4	Wheat	1	Vial (Whiskey)	1																											
 1.0.0	2	1	10	4	Wheat	64	Beaker (Whiskey)	1																											
 1.0.0	1	1	10	4	Carrot	1	Vial (Carrot Wine)	1																											

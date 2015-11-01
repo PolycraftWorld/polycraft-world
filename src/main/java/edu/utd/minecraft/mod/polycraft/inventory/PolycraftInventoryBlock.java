@@ -308,6 +308,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				this.dropAllItems(world, inventory, x, y, z);
 				world.removeTileEntity(x, y, z);
 			}
+			else if (config.containerType == PolycraftContainerType.TREE_TAP)
+			{
+				this.dropAllItems(world, inventory, x, y, z);
+				world.removeTileEntity(x, y, z);
+			}
 
 			else if (this.config.render3D)
 			{

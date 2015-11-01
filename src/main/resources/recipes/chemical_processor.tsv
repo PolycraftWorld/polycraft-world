@@ -6,8 +6,9 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0		Heat	Armor Feet	Bag (PolyPropylene Pellets)	8									Flask (Propylene)	7																
 1.0.0		Heat	Armor Feet	Sack (PolyPropylene Pellets)	8									Cartridge (Propylene)	7																
 1.0.0		Heat	Armor Feet	Powder Keg (PolyPropylene Pellets)	8									Canister (Propylene)	7																
-1.0.0		Heat	Armor Feet	Fibers (PP)	8									Cartridge (Propylene)	7																
-		Heat	Armor Feet	Block (PP)	8									Cartridge (Propylene)	7																
+1.3.8		Heat	Armor Feet	Fibers (PP)	1									Flask (Propylene)	16																
+1.3.8		Heat	Armor Feet	Fibers (PP)	4									Cartridge (Propylene)	1																
+1.3.8		Heat	Armor Feet	Fibers (PP)	64									Cartridge (Propylene)	16																
 1.0.0		Heat	Armor Feet	Slab (PP)	16									Cartridge (Propylene)	7																
 1.0.0		Heat	Armor Feet	Stairs (PP)	8									Cartridge (Propylene)	7																
 1.0.0		Heat	Armor Feet	Bag (Amorphous PolyEthylene Terephthalate Pellets)	1									Vial (Terephthalic Acid)	2	Vial (Ethylene Glycol)	4	Vial (Dimethyl Terephthalate)	1												
@@ -16,8 +17,9 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0		Heat	Armor Feet	Bag (Low Density PolyEthylene Pellets)	8									Flask (Ethylene)	7																
 1.0.0		Heat	Armor Feet	Sack (Low Density PolyEthylene Pellets)	8									Cartridge (Ethylene)	7																
 1.0.0		Heat	Armor Feet	Powder Keg (Low Density PolyEthylene Pellets)	8									Canister (Ethylene)	7																
-1.0.0		Heat	Armor Feet	Fibers (LDPE)	8									Cartridge (Ethylene)	7																
-		Heat	Armor Feet	Block (LDPE)	8									Cartridge (Ethylene)	7																
+1.0.0		Heat	Armor Feet	Fibers (LDPE)	1									Flask (Ethylene)	16																
+1.0.0		Heat	Armor Feet	Fibers (LDPE)	16									Cartridge (Ethylene)	1																
+1.0.0		Heat	Armor Feet	Fibers (LDPE)	64									Cartridge (Ethylene)	16																
 1.0.0		Heat	Armor Feet	Slab (LDPE)	16									Cartridge (Ethylene)	7																
 1.0.0		Heat	Armor Feet	Stairs (LDPE)	8									Cartridge (Ethylene)	7																
 1.0.0	FALSE	UV	Armor Chest	Flask (Ethylene)	1									Bag (Low Density PolyEthylene Pellets)	1																
@@ -1329,3 +1331,33 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.3.7				Wheat	64	Wheat	64	Wheat	64	Wheat	64			Beaker (Ethanol)	4																
 1.3.7				Wheat	64	Wheat	64	Wheat	64					Beaker (Ethanol)	3																
 1.3.7				Wheat	64	Wheat	64							Beaker (Ethanol)	2																
+1.3.8				Vial (Formaldehyde)	1	Flask (Hydrogen)	1							Vial (Glycolic Acid)	2																
+1.3.8				Vial (Formaldehyde)	4	Flask (Hydrogen)	4							Vial (Glycolic Acid)	8																
+1.3.8				Vial (Formaldehyde)	16	Flask (Hydrogen)	16							Vial (Glycolic Acid)	32																
+1.3.8				Beaker (Formaldehyde)	1	Cartridge (Hydrogen)	1							Beaker (Glycolic Acid)	2																
+1.3.8				Beaker (Formaldehyde)	4	Cartridge (Hydrogen)	4							Beaker (Glycolic Acid)	8																
+1.3.8				Beaker (Formaldehyde)	16	Cartridge (Hydrogen)	16							Beaker (Glycolic Acid)	32																
+1.3.8				Drum (Formaldehyde)	1	Canister (Hydrogen)	1							Drum (Glycolic Acid)	2																
+1.3.8				Drum (Formaldehyde)	4	Canister (Hydrogen)	4							Drum (Glycolic Acid)	8																
+1.3.8				Drum (Formaldehyde)	16	Canister (Hydrogen)	16							Drum (Glycolic Acid)	32																
+1.3.8				Drum (Formaldehyde)	64	Canister (Hydrogen)	64							Drum (Glycolic Acid)	64	Drum (Glycolic Acid)	64														
+1.3.8				Flask (Ethylene)	1	Flask (Propylene)	1	Vial (Butadiene)	1					Bag (Ethylene-Propylene-Diene Monomer Pellets)	3																
+1.3.8				Flask (Ethylene)	4	Flask (Propylene)	4	Vial (Butadiene)	4					Bag (Ethylene-Propylene-Diene Monomer Pellets)	12																
+1.3.8				Flask (Ethylene)	16	Flask (Propylene)	16	Vial (Butadiene)	16					Bag (Ethylene-Propylene-Diene Monomer Pellets)	48																
+1.3.8				Cartridge (Ethylene)	1	Cartridge (Propylene)	1	Beaker (Butadiene)	1					Sack (Ethylene-Propylene-Diene Monomer Pellets)	3																
+1.3.8				Cartridge (Ethylene)	4	Cartridge (Propylene)	4	Beaker (Butadiene)	4					Sack (Ethylene-Propylene-Diene Monomer Pellets)	12																
+1.3.8				Cartridge (Ethylene)	16	Cartridge (Propylene)	16	Beaker (Butadiene)	16					Sack (Ethylene-Propylene-Diene Monomer Pellets)	48																
+1.3.8				Canister (Ethylene)	1	Canister (Propylene)	1	Drum (Butadiene)	1					Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	3																
+1.3.8				Canister (Ethylene)	4	Canister (Propylene)	4	Drum (Butadiene)	4					Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	12																
+1.3.8				Canister (Ethylene)	16	Canister (Propylene)	16	Drum (Butadiene)	16					Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	48																
+1.3.8				Canister (Ethylene)	64	Canister (Propylene)	64	Drum (Butadiene)	64					Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	64	Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	64	Powder Keg (Ethylene-Propylene-Diene Monomer Pellets)	64												
+1.3.8				Flask (Ethylene)	1	Flask (Propylene)	1							Bag (Ethylene-Propylene Monomer Pellets)	2																
+1.3.8				Flask (Ethylene)	4	Flask (Propylene)	4							Bag (Ethylene-Propylene Monomer Pellets)	8																
+1.3.8				Flask (Ethylene)	16	Flask (Propylene)	16							Bag (Ethylene-Propylene Monomer Pellets)	32																
+1.3.8				Cartridge (Ethylene)	1	Cartridge (Propylene)	1							Sack (Ethylene-Propylene Monomer Pellets)	2																
+1.3.8				Cartridge (Ethylene)	4	Cartridge (Propylene)	4							Sack (Ethylene-Propylene Monomer Pellets)	8																
+1.3.8				Cartridge (Ethylene)	16	Cartridge (Propylene)	16							Sack (Ethylene-Propylene Monomer Pellets)	32																
+1.3.8				Canister (Ethylene)	1	Canister (Propylene)	1							Powder Keg (Ethylene-Propylene Monomer Pellets)	2																
+1.3.8				Canister (Ethylene)	4	Canister (Propylene)	4							Powder Keg (Ethylene-Propylene Monomer Pellets)	8																
+1.3.8				Canister (Ethylene)	16	Canister (Propylene)	16							Powder Keg (Ethylene-Propylene Monomer Pellets)	32																
+1.3.8				Canister (Ethylene)	64	Canister (Propylene)	64							Powder Keg (Ethylene-Propylene Monomer Pellets)	64	Powder Keg (Ethylene-Propylene Monomer Pellets)	64														
