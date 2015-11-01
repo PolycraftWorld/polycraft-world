@@ -19,15 +19,6 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -35,11 +26,9 @@ import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent.AllowDespawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -73,7 +62,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.Injectio
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
@@ -95,7 +84,8 @@ public abstract class Enforcer {
 	private static final String chatCommandTeleportArgUser = "user";
 	private static final String chatCommandTeleportArgUTD = "utd";
 	private static final double forceExitSpeed = .2;
-	private static final int propertyDimension = 0; //you can only own property in the surface dimension
+	private static final int propertyDimension = 0; // you can only own property
+													// in the surface dimension
 	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
 
 	protected static final int getPacketsRequired(int bytes) {
@@ -109,10 +99,13 @@ public abstract class Enforcer {
 	protected String broadcastMessage = null;
 	protected String whitelistJson = null;
 	protected String friendsJson = null;
-	protected final Collection<PrivateProperty> privateProperties = Lists.newLinkedList();
-	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps.newHashMap();
-	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps.newHashMap();
-	//polycraft user ids by minecraft username
+	protected final Collection<PrivateProperty> privateProperties = Lists
+			.newLinkedList();
+	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps
+			.newHashMap();
+	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
+			.newHashMap();
+	// polycraft user ids by minecraft username
 	public static Map<String, Long> whitelist = Maps.newHashMap();
 	public static Set<String> friends = Sets.newHashSet();
 	protected Action actionPrevented = null;
@@ -127,57 +120,64 @@ public abstract class Enforcer {
 	}
 
 	public Enforcer() {
-		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
+		netChannel = NetworkRegistry.INSTANCE
+				.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonGeneric = gsonBuilder.create();
 	}
 
-	protected int updatePrivateProperties(final String privatePropertiesJson, final boolean master) {
+	protected int updatePrivateProperties(final String privatePropertiesJson,
+			final boolean master) {
 		if (master) {
 			this.privatePropertiesMasterJson = privatePropertiesJson;
-		}
-		else {
+		} else {
 			this.privatePropertiesNonMasterJson = privatePropertiesJson;
 		}
 		final GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(PrivateProperty.class, new PrivateProperty.Deserializer(master));
+		gsonBuilder.registerTypeAdapter(PrivateProperty.class,
+				new PrivateProperty.Deserializer(master));
 		final Gson gson = gsonBuilder.create();
-		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(privatePropertiesJson, new TypeToken<Collection<PrivateProperty>>() {
-		}.getType());
+		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(
+				privatePropertiesJson,
+				new TypeToken<Collection<PrivateProperty>>() {
+				}.getType());
 
-		//java 7 version
-		final Collection<PrivateProperty> removePrivateProperties = Lists.newLinkedList();
+		// java 7 version
+		final Collection<PrivateProperty> removePrivateProperties = Lists
+				.newLinkedList();
 		for (final PrivateProperty privateProperty : privateProperties) {
 			if (privateProperty.master == master) {
 				removePrivateProperties.add(privateProperty);
 			}
 		}
 		privateProperties.removeAll(removePrivateProperties);
-		//java 8 version
+		// java 8 version
 		/*
-		privateProperties.removeIf(new Predicate<PrivateProperty>() {
-			@Override
-			public boolean test(final PrivateProperty t) {
-				return t.master == master;
-			}
-		});
-		*/
+		 * privateProperties.removeIf(new Predicate<PrivateProperty>() {
+		 * 
+		 * @Override public boolean test(final PrivateProperty t) { return
+		 * t.master == master; } });
+		 */
 		privatePropertiesByChunk.clear();
 		privatePropertiesByOwner.clear();
 		if (newPrivateProperties != null) {
 			privateProperties.addAll(newPrivateProperties);
 			for (final PrivateProperty privateProperty : privateProperties) {
 				for (int x = privateProperty.boundTopLeft.x; x <= privateProperty.boundBottomRight.x; x++) {
-					//z coords go pos from north to south: http://minecraft.gamepedia.com/coordinates
+					// z coords go pos from north to south:
+					// http://minecraft.gamepedia.com/coordinates
 					for (int z = privateProperty.boundTopLeft.z; z <= privateProperty.boundBottomRight.z; z++) {
-						privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+						privatePropertiesByChunk.put(getChunkKey(x, z),
+								privateProperty);
 					}
 				}
-				List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(privateProperty.owner);
+				List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner
+						.get(privateProperty.owner);
 				if (ownerPrivateProperties == null) {
 					ownerPrivateProperties = Lists.newLinkedList();
-					privatePropertiesByOwner.put(privateProperty.owner, ownerPrivateProperties);
+					privatePropertiesByOwner.put(privateProperty.owner,
+							ownerPrivateProperties);
 				}
 				ownerPrivateProperties.add(privateProperty);
 			}
@@ -188,8 +188,9 @@ public abstract class Enforcer {
 
 	protected void updateWhitelist(final String whitelistJson) {
 		this.whitelistJson = whitelistJson;
-		whitelist = gsonGeneric.fromJson(whitelistJson, new TypeToken<Map<String, Long>>() {
-		}.getType());
+		whitelist = gsonGeneric.fromJson(whitelistJson,
+				new TypeToken<Map<String, Long>>() {
+				}.getType());
 	}
 
 	protected String getFriendPairKey(final Long friend1, final Long friend2) {
@@ -205,8 +206,9 @@ public abstract class Enforcer {
 
 	protected void updateFriends(final String friendsJson) {
 		this.friendsJson = friendsJson;
-		final long[][] friendsRaw = gsonGeneric.fromJson(friendsJson, new TypeToken<long[][]>() {
-		}.getType());
+		final long[][] friendsRaw = gsonGeneric.fromJson(friendsJson,
+				new TypeToken<long[][]>() {
+				}.getType());
 		friends.clear();
 		for (final long[] friendPair : friendsRaw) {
 			if (friendPair.length == 2) {
@@ -219,53 +221,74 @@ public abstract class Enforcer {
 		return String.format("%d,%d", x, z);
 	}
 
-	protected PrivateProperty findPrivateProperty(final Entity entity, final int chunkX, final int chunkZ) {
+	protected PrivateProperty findPrivateProperty(final Entity entity,
+			final int chunkX, final int chunkZ) {
 		if (entity.dimension == propertyDimension)
 			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
 		return null;
 	}
 
 	protected PrivateProperty findPrivateProperty(final Entity entity) {
-		return findPrivateProperty(entity, entity.chunkCoordX, entity.chunkCoordZ);
+		return findPrivateProperty(entity, entity.chunkCoordX,
+				entity.chunkCoordZ);
 	}
 
-	public PrivateProperty findPrivatePropertyByBlockCoords(final Entity entity, final int x, final int z) {
+	public PrivateProperty findPrivatePropertyByBlockCoords(
+			final Entity entity, final int x, final int z) {
 		if (entity.dimension == propertyDimension) {
-			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj.getChunkFromBlockCoords(x, z);
-			return privatePropertiesByChunk.get(getChunkKey(chunk.xPosition, chunk.zPosition));
+			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
+					.getChunkFromBlockCoords(x, z);
+			return privatePropertiesByChunk.get(getChunkKey(chunk.xPosition,
+					chunk.zPosition));
 		}
 		return null;
 	}
 
-	protected void setActionPrevented(final Action action, final PrivateProperty privateProperty) {
+	protected void setActionPrevented(final Action action,
+			final PrivateProperty privateProperty) {
 		actionPrevented = action;
 		actionPreventedPrivateProperty = privateProperty;
 	}
 
-	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final PrivateProperty privateProperty) {
-		//if the player is not in private property, they can do anything
-		if (privateProperty != null && !privateProperty.actionEnabled(player, action)) {
+	private void possiblyPreventAction(final Event event,
+			final EntityPlayer player, final Action action,
+			final PrivateProperty privateProperty) {
+		// if the player is not in private property, they can do anything
+		if (privateProperty != null
+				&& !privateProperty.actionEnabled(player, action)) {
 			event.setCanceled(true);
 			setActionPrevented(action, privateProperty);
 		}
 	}
 
-	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final int chunkX, final int chunkZ) {
-		possiblyPreventAction(event, player, action, findPrivateProperty(player, chunkX, chunkZ));
+	private void possiblyPreventAction(final Event event,
+			final EntityPlayer player, final Action action, final int chunkX,
+			final int chunkZ) {
+		possiblyPreventAction(event, player, action,
+				findPrivateProperty(player, chunkX, chunkZ));
 	}
 
-	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action, final net.minecraft.world.chunk.Chunk chunk) {
-		possiblyPreventAction(event, player, action, chunk.xPosition, chunk.zPosition);
+	private void possiblyPreventAction(final Event event,
+			final EntityPlayer player, final Action action,
+			final net.minecraft.world.chunk.Chunk chunk) {
+		possiblyPreventAction(event, player, action, chunk.xPosition,
+				chunk.zPosition);
 	}
 
-	private void possiblyPreventAction(final Event event, final EntityPlayer player, final Action action) {
-		possiblyPreventAction(event, player, action, findPrivateProperty(player));
+	private void possiblyPreventAction(final Event event,
+			final EntityPlayer player, final Action action) {
+		possiblyPreventAction(event, player, action,
+				findPrivateProperty(player));
 	}
 
-	public boolean possiblyKillProjectile(final EntityPlayer player, final Entity projectile, final MovingObjectPosition position, final Action action) {
-		final PrivateProperty privateProperty = findPrivatePropertyByBlockCoords(projectile, position.blockX, position.blockZ);
-		//if the entity is not in private property, they can do anything
-		if (privateProperty != null && !privateProperty.actionEnabled(player, action)) {
+	public boolean possiblyKillProjectile(final EntityPlayer player,
+			final Entity projectile, final MovingObjectPosition position,
+			final Action action) {
+		final PrivateProperty privateProperty = findPrivatePropertyByBlockCoords(
+				projectile, position.blockX, position.blockZ);
+		// if the entity is not in private property, they can do anything
+		if (privateProperty != null
+				&& !privateProperty.actionEnabled(player, action)) {
 			projectile.setDead();
 			setActionPrevented(action, privateProperty);
 			return true;
@@ -275,19 +298,23 @@ public abstract class Enforcer {
 
 	@SubscribeEvent
 	public void onBlockBreak(final BreakEvent event) {
-		//TODO what happens if they use dynamite? other ways?
-		//TODO why is this not happening on the client?
-		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
+		// TODO what happens if they use dynamite? other ways?
+		// TODO why is this not happening on the client?
+		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
+				event.world.getChunkFromBlockCoords(event.x, event.z));
 	}
 
 	@SubscribeEvent
 	public void onAttackEntity(final AttackEntityEvent event) {
-		possiblyPreventAction(event, event.entityPlayer, Action.AttackEntity, event.target.chunkCoordX, event.target.chunkCoordZ);
+		possiblyPreventAction(event, event.entityPlayer, Action.AttackEntity,
+				event.target.chunkCoordX, event.target.chunkCoordZ);
 	}
 
 	@SubscribeEvent
 	public void onFillBucket(final FillBucketEvent event) {
-		possiblyPreventAction(event, event.entityPlayer, Action.UseBucket, event.world.getChunkFromBlockCoords(event.target.blockX, event.target.blockZ));
+		possiblyPreventAction(event, event.entityPlayer, Action.UseBucket,
+				event.world.getChunkFromBlockCoords(event.target.blockX,
+						event.target.blockZ));
 	}
 
 	@SubscribeEvent
@@ -298,7 +325,9 @@ public abstract class Enforcer {
 				final PrivateProperty privateProperty = findPrivateProperty(player);
 				if (privateProperty != null) {
 
-					if (player.ridingEntity != null && !privateProperty.actionEnabled(player, Action.MountEntity)) {
+					if (player.ridingEntity != null
+							&& !privateProperty.actionEnabled(player,
+									Action.MountEntity)) {
 						setActionPrevented(Action.MountEntity, privateProperty);
 						player.mountEntity(null);
 						return;
@@ -307,15 +336,20 @@ public abstract class Enforcer {
 					if (!privateProperty.actionEnabled(player, Action.Enter)) {
 						setActionPrevented(Action.Enter, privateProperty);
 						int i = 1;
-						//find the first position that is not in the property, and reset the player's location to it
+						// find the first position that is not in the property,
+						// and reset the player's location to it
 						while (true) {
-							if (forcePlayerToExitProperty(player, i, 0, privateProperty))
+							if (forcePlayerToExitProperty(player, i, 0,
+									privateProperty))
 								break;
-							if (forcePlayerToExitProperty(player, -i, 0, privateProperty))
+							if (forcePlayerToExitProperty(player, -i, 0,
+									privateProperty))
 								break;
-							if (forcePlayerToExitProperty(player, 0, i, privateProperty))
+							if (forcePlayerToExitProperty(player, 0, i,
+									privateProperty))
 								break;
-							if (forcePlayerToExitProperty(player, 0, -i, privateProperty))
+							if (forcePlayerToExitProperty(player, 0, -i,
+									privateProperty))
 								break;
 							i++;
 						}
@@ -326,7 +360,9 @@ public abstract class Enforcer {
 		}
 	}
 
-	private boolean forcePlayerToExitProperty(final EntityPlayer player, double targetOffsetX, double targetOffsetZ, final PrivateProperty privateProperty) {
+	private boolean forcePlayerToExitProperty(final EntityPlayer player,
+			double targetOffsetX, double targetOffsetZ,
+			final PrivateProperty privateProperty) {
 		if (!player.worldObj.isRemote)
 			return true;
 		final double x = player.posX + targetOffsetX;
@@ -343,24 +379,31 @@ public abstract class Enforcer {
 		else
 			zAbs = (int) Math.floor(z);
 
-		//if (player.worldObj.isAirBlock(x, y, z) || (player.worldObj.getBlock(x, y, z) == Blocks.water)) {
-		final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(xAbs, zAbs);
-		final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
-		if (targetPrivateProperty == null || (targetPrivateProperty != privateProperty && targetPrivateProperty.actionEnabled(player, Action.Enter))) {
-			//just teleport them out now
+		// if (player.worldObj.isAirBlock(x, y, z) ||
+		// (player.worldObj.getBlock(x, y, z) == Blocks.water)) {
+		final net.minecraft.world.chunk.Chunk chunk = player.worldObj
+				.getChunkFromBlockCoords(xAbs, zAbs);
+		final PrivateProperty targetPrivateProperty = findPrivateProperty(
+				player, chunk.xPosition, chunk.zPosition);
+		if (targetPrivateProperty == null
+				|| (targetPrivateProperty != privateProperty && targetPrivateProperty
+						.actionEnabled(player, Action.Enter))) {
+			// just teleport them out now
 			if (targetOffsetX + targetOffsetZ > 2)
-				player.setPositionAndUpdate(x, player.worldObj.getTopSolidOrLiquidBlock((int) x, (int) z) + 3, z);
-			else
-			{
+				player.setPositionAndUpdate(x, player.worldObj
+						.getTopSolidOrLiquidBlock((int) x, (int) z) + 3, z);
+			else {
 				player.setPositionAndUpdate(x, y, z);
 			}
-			/* Old method where they user would be "pushed" out
-			player.motionX = targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ? -forceExitSpeed : 0;
-			player.motionY = 0;
-			player.motionZ = targetOffsetZ > 0 ? forceExitSpeed : targetOffsetZ < 0 ? -forceExitSpeed : 0;
-			*/
+			/*
+			 * Old method where they user would be "pushed" out player.motionX =
+			 * targetOffsetX > 0 ? forceExitSpeed : targetOffsetX < 0 ?
+			 * -forceExitSpeed : 0; player.motionY = 0; player.motionZ =
+			 * targetOffsetZ > 0 ? forceExitSpeed : targetOffsetZ < 0 ?
+			 * -forceExitSpeed : 0;
+			 */
 			return true;
-			//	}
+			// }
 		}
 		return false;
 	}
@@ -369,92 +412,101 @@ public abstract class Enforcer {
 	public void onPlayerInteract(final PlayerInteractEvent event) {
 		switch (event.action) {
 		case LEFT_CLICK_BLOCK:
-			//TODO why is this not happening on the client?
-			possiblyPreventAction(event, event.entityPlayer, Action.DestroyBlock, event.world.getChunkFromBlockCoords(event.x, event.z));
+			// TODO why is this not happening on the client?
+			possiblyPreventAction(event, event.entityPlayer,
+					Action.DestroyBlock,
+					event.world.getChunkFromBlockCoords(event.x, event.z));
 			break;
 		case RIGHT_CLICK_AIR:
 			possiblyPreventUseEquippedItem(event);
 			break;
 		case RIGHT_CLICK_BLOCK:
-			final net.minecraft.world.chunk.Chunk blockChunk = event.world.getChunkFromBlockCoords(event.x, event.z);
+			final net.minecraft.world.chunk.Chunk blockChunk = event.world
+					.getChunkFromBlockCoords(event.x, event.z);
 			final Block block = event.world.getBlock(event.x, event.y, event.z);
 			if (block instanceof BlockWorkbench) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseCraftingTable, blockChunk);
-			}
-			else if (block instanceof BlockFurnace) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseFurnace, blockChunk);
-			}
-			else if (block instanceof BlockContainer) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseCraftingTable, blockChunk);
+			} else if (block instanceof BlockFurnace) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseFurnace, blockChunk);
+			} else if (block instanceof BlockContainer) {
 				if (block instanceof BlockChest) {
-					possiblyPreventAction(event, event.entityPlayer, Action.OpenChest, blockChunk);
-				}
-				else if (block instanceof BlockEnderChest) {
-					possiblyPreventAction(event, event.entityPlayer, Action.OpenEnderChest, blockChunk);
-				}
-				else if (block instanceof PolycraftInventoryBlock) {
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.OpenChest, blockChunk);
+				} else if (block instanceof BlockEnderChest) {
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.OpenEnderChest, blockChunk);
+				} else if (block instanceof PolycraftInventoryBlock) {
 					if (block instanceof TreeTapBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UseTreeTap, blockChunk);
-					}
-					else if (block instanceof CondenserBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UseCondenser, blockChunk);
-					}
-					else if (block instanceof PumpBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UsePump, blockChunk);
-					}
-					else if (block instanceof FlowRegulatorBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UseFlowRegulator, blockChunk);
-					}
-					else if (block instanceof CondenserBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UseCondenser, blockChunk);
-					}
-					else if (block instanceof OilDerrickBlock) {
-						possiblyPreventAction(event, event.entityPlayer, Action.UseOilDerrick, blockChunk);
-					}
-					else {
-						possiblyPreventAction(event, (PolycraftInventoryBlock) block, blockChunk);
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.UseTreeTap, blockChunk);
+					} else if (block instanceof CondenserBlock) {
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.UseCondenser, blockChunk);
+					} else if (block instanceof PumpBlock) {
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.UsePump, blockChunk);
+					} else if (block instanceof FlowRegulatorBlock) {
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.UseFlowRegulator, blockChunk);
+					} else if (block instanceof CondenserBlock) {
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.UseCondenser, blockChunk);
+						// } else if (block instanceof OilDerrickBlock) {
+						// possiblyPreventAction(event, event.entityPlayer,
+						// Action.UseOilDerrick, blockChunk);
+					} else {
+						possiblyPreventAction(event,
+								(PolycraftInventoryBlock) block, blockChunk);
 					}
 				}
-			}
-			else if (block instanceof BlockButton) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseButton, blockChunk);
-			}
-			else if (block instanceof BlockLever) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseLever, blockChunk);
-			}
-			else if (block instanceof BlockPressurePlate) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UsePressurePlate, blockChunk);
-			}
-			else if (block instanceof BlockDoor) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseDoor, blockChunk);
-			}
-			else if (block instanceof BlockTrapDoor) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseTrapDoor, blockChunk);
-			}
-			else if (block instanceof BlockFenceGate) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseFenceGate, blockChunk);
-			}
-			else if (block instanceof BlockCollision) {
-				final TileEntity tileEntity = BlockCollision.findConnectedInventory(event.world, event.x, event.y, event.z);
+			} else if (block instanceof BlockButton) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseButton, blockChunk);
+			} else if (block instanceof BlockLever) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseLever, blockChunk);
+			} else if (block instanceof BlockPressurePlate) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UsePressurePlate, blockChunk);
+			} else if (block instanceof BlockDoor) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseDoor, blockChunk);
+			} else if (block instanceof BlockTrapDoor) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseTrapDoor, blockChunk);
+			} else if (block instanceof BlockFenceGate) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseFenceGate, blockChunk);
+			} else if (block instanceof BlockCollision) {
+				final TileEntity tileEntity = BlockCollision
+						.findConnectedInventory(event.world, event.x, event.y,
+								event.z);
 				if (tileEntity != null) {
-					final Block pBlock = event.world.getBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+					final Block pBlock = event.world.getBlock(
+							tileEntity.xCoord, tileEntity.yCoord,
+							tileEntity.zCoord);
 					if (pBlock instanceof PolycraftInventoryBlock) {
-						possiblyPreventAction(event, (PolycraftInventoryBlock) pBlock, blockChunk);
+						possiblyPreventAction(event,
+								(PolycraftInventoryBlock) pBlock, blockChunk);
 					}
 				}
-			}
-			else {
-				final ItemStack equippedItem = event.entityPlayer.getCurrentEquippedItem();
+			} else {
+				final ItemStack equippedItem = event.entityPlayer
+						.getCurrentEquippedItem();
 				if (equippedItem != null) {
 					if (equippedItem.getItem() instanceof ItemBlock) {
-						final Block equippedBlock = ((ItemBlock) equippedItem.getItem()).field_150939_a;
+						final Block equippedBlock = ((ItemBlock) equippedItem
+								.getItem()).field_150939_a;
 						if (equippedBlock instanceof BlockTNT) {
-							possiblyPreventAction(event, event.entityPlayer, Action.AddBlockTNT, blockChunk);
+							possiblyPreventAction(event, event.entityPlayer,
+									Action.AddBlockTNT, blockChunk);
+						} else {
+							possiblyPreventAction(event, event.entityPlayer,
+									Action.AddBlock, blockChunk);
 						}
-						else {
-							possiblyPreventAction(event, event.entityPlayer, Action.AddBlock, blockChunk);
-						}
-					}
-					else {
+					} else {
 						possiblyPreventUseEquippedItem(event);
 					}
 				}
@@ -466,150 +518,86 @@ public abstract class Enforcer {
 	}
 
 	private void possiblyPreventUseEquippedItem(final PlayerInteractEvent event) {
-		final ItemStack equippedItemStack = event.entityPlayer.getCurrentEquippedItem();
+		final ItemStack equippedItemStack = event.entityPlayer
+				.getCurrentEquippedItem();
 		if (equippedItemStack != null) {
 			if (ItemFlameThrower.isEquipped(event.entityPlayer)) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseFlameThrower);
-			}
-			else if (ItemFreezeRay.isEquipped(event.entityPlayer)) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseFreezeRay);
-			}
-			else if (ItemWaterCannon.isEquipped(event.entityPlayer)) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseWaterCannon);
-			}
-			else {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseFlameThrower);
+			} else if (ItemFreezeRay.isEquipped(event.entityPlayer)) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseFreezeRay);
+			} else if (ItemWaterCannon.isEquipped(event.entityPlayer)) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseWaterCannon);
+			} else {
 				final Item equippedItem = equippedItemStack.getItem();
 				if (equippedItem instanceof ItemMonsterPlacer) {
-					possiblyPreventAction(event, event.entityPlayer, Action.SpawnEntity);
-					preventActionIfOverPopulated(event, event.entityPlayer, Action.SpawnEntity, equippedItem);
-				}
-				else if (equippedItem instanceof ItemFlintAndSteel) {
-					possiblyPreventAction(event, event.entityPlayer, Action.UseFlintAndSteel);
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.SpawnEntity);
+				} else if (equippedItem instanceof ItemFlintAndSteel) {
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.UseFlintAndSteel);
 				}
 			}
 		}
 	}
 
-	private void possiblyPreventAction(final PlayerInteractEvent event, final PolycraftInventoryBlock polycraftInventoryBlock, final net.minecraft.world.chunk.Chunk blockChunk) {
+	private void possiblyPreventAction(final PlayerInteractEvent event,
+			final PolycraftInventoryBlock polycraftInventoryBlock,
+			final net.minecraft.world.chunk.Chunk blockChunk) {
 		if (polycraftInventoryBlock != null) {
 			if (polycraftInventoryBlock.tileEntityClass == PlasticChestInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.OpenPlasticChest, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseMachiningMill, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == InjectionMolderInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseInjectionMolder, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == ExtruderInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseExtruder, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == DistillationColumnInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseDistillationColumn, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == SteamCrackerInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseSteamCracker, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == MeroxTreatmentUnitInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseMeroxTreatmentUnit, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == ChemicalProcessorInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseChemicalProcessor, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == SpotlightInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseSpotlight, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == FloodlightInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseFloodlight, blockChunk);
-			}
-			else if (polycraftInventoryBlock.tileEntityClass == GaslampInventory.class) {
-				possiblyPreventAction(event, event.entityPlayer, Action.UseGaslamp, blockChunk);
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.OpenPlasticChest, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == MachiningMillInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseMachiningMill, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == InjectionMolderInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseInjectionMolder, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == ExtruderInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseExtruder, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == DistillationColumnInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseDistillationColumn, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == SteamCrackerInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseSteamCracker, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == MeroxTreatmentUnitInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseMeroxTreatmentUnit, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == ChemicalProcessorInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseChemicalProcessor, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == SpotlightInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseSpotlight, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == FloodlightInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseFloodlight, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == GaslampInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseGaslamp, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == OilDerrickInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseOilDerrick, blockChunk);
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public synchronized void onEntityCheckSpawn(final CheckSpawn event) {
-		final PrivateProperty privateProperty = this.findPrivatePropertyByBlockCoords(event.entity, (int) event.x, (int) event.z);
-		if (privateProperty != null)
-		{
-			if (!privateProperty.actionEnabled(Action.SpawnEntity))
-			{
+		final PrivateProperty privateProperty = this
+				.findPrivatePropertyByBlockCoords(event.entity, (int) event.x,
+						(int) event.z);
+		if (privateProperty != null) {
+			if (!privateProperty.actionEnabled(Action.SpawnEntity)) {
 				setActionPrevented(Action.SpawnEntity, privateProperty);
 				event.setResult(Result.DENY);
 			}
 		}
-		if (event.entity instanceof EntityCow ||
-				event.entity instanceof EntityPig ||
-				event.entity instanceof EntitySheep ||
-				event.entity instanceof EntityMooshroom ||
-				event.entity instanceof EntityWolf ||
-				event.entity instanceof EntityOcelot ||
-				event.entity instanceof EntityHorse ||
-				event.entity instanceof EntityChicken)
-		{
-			preventActionIfOverPopulated(event);
-		}
-	}
-
-	private void preventActionIfOverPopulated(final CheckSpawn event)
-	{
-		preventOverPopulationHelper(event.world, event.entity, null, event, (double) (event.x), (double) (event.y), (double) (event.z));
-
-	}
-
-	private void preventActionIfOverPopulated(final PlayerInteractEvent event, final EntityPlayer player, final Action action, final Item spawnEgg)
-	{
-		Entity entity = EntityList.createEntityByID(spawnEgg.getDamage(player.getCurrentEquippedItem()), event.world);
-
-		preventOverPopulationHelper(event.world, entity, event, null, (double) (event.x), (double) (event.y), (double) (event.z));
-
-	}
-
-	private void preventOverPopulationHelper(World world, Entity entity, Event placeEggEvent, CheckSpawn spawnEvent, double xCoord, double yCoord, double zCoord)
-	{
-		List entities = world.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox(
-				xCoord - 8.0, yCoord - 8.0, zCoord - 8.0,
-				xCoord + 8.0, yCoord + 8.0, zCoord + 8.0));
-		if (entities.size() >= 16)
-		{
-			if (placeEggEvent != null)
-				placeEggEvent.setCanceled(true);
-			if (spawnEvent != null)
-				spawnEvent.setResult(Result.DENY);
-			setActionPrevented(Action.SpawnEntity, null);
-		}
-
-	}
-
-	//TODO: Jim and Walter to Discuss
-	@SubscribeEvent
-	public synchronized void onAllowDespawn(final AllowDespawn event)
-	{
-		//only run this once every morning; leave for a few ticks in case of lag
-		if (event.world.getWorldTime() % 24000 < 10)
-		{
-
-			if (event.entity instanceof EntityCow ||
-					event.entity instanceof EntityPig ||
-					event.entity instanceof EntitySheep ||
-					event.entity instanceof EntityMooshroom ||
-					event.entity instanceof EntityWolf ||
-					event.entity instanceof EntityOcelot ||
-					event.entity instanceof EntityHorse ||
-					event.entity instanceof EntityChicken)
-			{
-
-				List entities = event.world.getEntitiesWithinAABB(event.entity.getClass(), AxisAlignedBB.getBoundingBox(
-						event.x - 16.0, event.y - 16.0, event.z - 16.0,
-						event.x + 16.0, event.y + 16.0, event.z + 16.0));
-				if (entities.size() >= 32)
-				{
-					event.setResult(Result.ALLOW);
-				}
-			}
-		}
-
 	}
 
 	@SubscribeEvent
@@ -619,11 +607,13 @@ public abstract class Enforcer {
 			if (event.player.worldObj.isRemote) {
 				return;
 			}
-			//FIXME analytics?
+			// FIXME analytics?
 			final String command = event.message.substring(1);
-			//teleport to private property
+			// teleport to private property
 			if (command.startsWith(chatCommandTeleport)) {
-				handleChatCommandTeleport(event.player, command.substring(chatCommandTeleport.length() + 1).split(" "));
+				handleChatCommandTeleport(event.player,
+						command.substring(chatCommandTeleport.length() + 1)
+								.split(" "));
 			}
 			return;
 		}
@@ -631,32 +621,51 @@ public abstract class Enforcer {
 		if (event.player.worldObj.isRemote)
 			return;
 
-		for (int i = 0; i < 36; i++)
-		{
+		for (int i = 0; i < 36; i++) {
 			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
 
-			if (itemStackSend != null)
-			{
-				if (i < 9)
-				{
-					//test if  receiving player has walky talky on the hotbar	
-					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-						((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+			if (itemStackSend != null) {
+				if (i < 9) {
+					// test if receiving player has walky talky on the hotbar
+					if (itemStackSend != null
+							&& ((itemStackSend.getUnlocalizedName())
+									.equals(CustomObject.registry
+											.get("Walky Talky").getItemStack()
+											.getUnlocalizedName())))
+						((ServerEnforcer) this
+								.getInstance(event.player.worldObj))
+								.broadcastFromSender(event, itemStackSend);
 
-					//test if  receiving player has cell phone on the hotbar	
-					if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-						((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+					// test if receiving player has cell phone on the hotbar
+					if (itemStackSend != null
+							&& ((itemStackSend.getUnlocalizedName())
+									.equals(CustomObject.registry
+											.get("Cell Phone").getItemStack()
+											.getUnlocalizedName())))
+						((ServerEnforcer) this
+								.getInstance(event.player.worldObj))
+								.broadcastFromSender(event, itemStackSend);
 
 				}
 
-				//test if sending and receiving player have ham radios on same frequency
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
-					((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+				// test if sending and receiving player have ham radios on same
+				// frequency
+				if (itemStackSend != null
+						&& ((itemStackSend.getUnlocalizedName())
+								.equals(CustomObject.registry.get("HAM Radio")
+										.getItemStack().getUnlocalizedName())))
+					((ServerEnforcer) this.getInstance(event.player.worldObj))
+							.broadcastFromSender(event, itemStackSend);
 
-				//test if sending player holding phone broadcast the message
-				//send message to a specific user (tell command)
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-					((ServerEnforcer) this.getInstance(event.player.worldObj)).broadcastFromSender(event, itemStackSend);
+				// test if sending player holding phone broadcast the message
+				// send message to a specific user (tell command)
+				if (itemStackSend != null
+						&& ((itemStackSend.getUnlocalizedName())
+								.equals(CustomObject.registry
+										.get("Smart Phone").getItemStack()
+										.getUnlocalizedName())))
+					((ServerEnforcer) this.getInstance(event.player.worldObj))
+							.broadcastFromSender(event, itemStackSend);
 
 			}
 
@@ -664,46 +673,60 @@ public abstract class Enforcer {
 
 	}
 
-	public void handleChatCommandTeleport(final EntityPlayer player, final String[] args) {
+	public void handleChatCommandTeleport(final EntityPlayer player,
+			final String[] args) {
 		if (args.length > 0) {
-			//teleport to UTD
+			// teleport to UTD
 			if (chatCommandTeleportArgUTD.equalsIgnoreCase(args[0])) {
-				//only allow if the player is in a private property
+				// only allow if the player is in a private property
 				if (findPrivateProperty(player) != null) {
-					player.setPositionAndUpdate(1 + .5, player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3, 1 + .5);
+					player.setPositionAndUpdate(1 + .5,
+							player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3,
+							1 + .5);
 				}
 			}
-			//only allow if the player is in chunk 0,0 (center of UTD), or if they are in a private property already
-			else if ((Math.abs(player.chunkCoordX) <= 5 && Math.abs(player.chunkCoordZ) <= 5) || findPrivateProperty(player) != null) {
+			// only allow if the player is in chunk 0,0 (center of UTD), or if
+			// they are in a private property already
+			else if ((Math.abs(player.chunkCoordX) <= 5 && Math
+					.abs(player.chunkCoordZ) <= 5)
+					|| findPrivateProperty(player) != null) {
 				boolean valid = false;
 				int x = 0, z = 0;
-				//teleport to a user
+				// teleport to a user
 				if (chatCommandTeleportArgUser.equalsIgnoreCase(args[0])) {
 					if (args.length > 1) {
-						//teleport to a player
-						final EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(args[1]);
+						// teleport to a player
+						final EntityPlayer targetPlayer = player.worldObj
+								.getPlayerEntityByName(args[1]);
 						if (targetPlayer != null && targetPlayer != player) {
 							final PrivateProperty targetPrivateProperty = findPrivateProperty(targetPlayer);
-							valid = targetPrivateProperty != null && targetPrivateProperty.actionEnabled(player, Action.Enter);
+							valid = targetPrivateProperty != null
+									&& targetPrivateProperty.actionEnabled(
+											player, Action.Enter);
 							x = (int) targetPlayer.posX;
 							z = (int) targetPlayer.posZ;
 						}
 					}
 				}
-				//teleport to a private property
-				else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
+				// teleport to a private property
+				else if (chatCommandTeleportArgPrivateProperty
+						.equalsIgnoreCase(args[0])) {
 					if (args.length < 3) {
-						final List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner.get(player.getDisplayName().toLowerCase());
+						final List<PrivateProperty> ownerPrivateProperties = privatePropertiesByOwner
+								.get(player.getDisplayName().toLowerCase());
 						if (ownerPrivateProperties != null) {
 							int index = 0;
 							try {
 								index = Integer.parseInt(args[1]);
-								if (index < 0 || index >= ownerPrivateProperties.size())
+								if (index < 0
+										|| index >= ownerPrivateProperties
+												.size())
 									return;
 							} catch (final Exception e) {
 							}
 
-							final PrivateProperty targetPrivateProperty = ownerPrivateProperties.get(index);
+							final PrivateProperty targetPrivateProperty = ownerPrivateProperties
+									.get(index);
 							int minX = (targetPrivateProperty.boundTopLeft.x * 16) + 1;
 							int minZ = (targetPrivateProperty.boundTopLeft.z * 16) + 1;
 							int maxX = (targetPrivateProperty.boundBottomRight.x * 16) + 15;
@@ -712,21 +735,26 @@ public abstract class Enforcer {
 							z = (minZ + maxZ) / 2;
 							valid = true;
 						}
-					}
-					else {
+					} else {
 						try {
 							x = Integer.parseInt(args[1]);
 							z = Integer.parseInt(args[2]);
-							final net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(x, z);
-							final PrivateProperty targetPrivateProperty = findPrivateProperty(player, chunk.xPosition, chunk.zPosition);
-							valid = targetPrivateProperty != null && targetPrivateProperty.actionEnabled(player, Action.Enter);
+							final net.minecraft.world.chunk.Chunk chunk = player.worldObj
+									.getChunkFromBlockCoords(x, z);
+							final PrivateProperty targetPrivateProperty = findPrivateProperty(
+									player, chunk.xPosition, chunk.zPosition);
+							valid = targetPrivateProperty != null
+									&& targetPrivateProperty.actionEnabled(
+											player, Action.Enter);
 						} catch (final Exception e) {
 						}
 					}
 				}
 
 				if (valid) {
-					player.setPositionAndUpdate(x + .5, player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3, z + .5);
+					player.setPositionAndUpdate(x + .5,
+							player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3,
+							z + .5);
 				}
 			}
 		}
