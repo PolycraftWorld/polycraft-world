@@ -26,7 +26,7 @@ import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
 
-	private static final String portalRestUrl = System.getProperty("portal.rest.url");
+	public static final String portalRestUrl = System.getProperty("portal.rest.url");
 	//refresh once per minecraft day by default
 	private static final long portalRefreshTicksPrivateProperties = SystemUtil.getPropertyLong("portal.refresh.ticks.private.properties", 24000);
 	private static final long portalRefreshTicksWhitelist = SystemUtil.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
@@ -39,6 +39,8 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
+			onWorldTickInventories(event);
+
 		}
 	}
 
@@ -248,6 +250,11 @@ public class ServerEnforcer extends Enforcer {
 				}
 			}
 		}
+	}
+
+	private void onWorldTickInventories(final TickEvent.WorldTickEvent event) {
+		//if (portalRestUrl != null &&
+
 	}
 
 	@SubscribeEvent

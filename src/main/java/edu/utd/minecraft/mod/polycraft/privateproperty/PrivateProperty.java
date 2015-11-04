@@ -56,6 +56,13 @@ public class PrivateProperty {
 			UseFenceGate,
 			UseFlintAndSteel,
 			AddBlockTNT,
+			UseSolarArray, //added by Walter 11.3.2015 from here down...
+			UseContactPrinter,
+			UseTradingHouse,
+			UseMaskWriter,
+			UseHopper,
+			PlaceSign,
+			PlaceTorch,
 			//FIXME figure out how to add this
 			//UsePhaseShifter
 		}

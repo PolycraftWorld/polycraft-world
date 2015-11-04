@@ -75,9 +75,12 @@ public class ClientProxy extends CommonProxy {
 	private Minecraft client;
 	private GameSettings gameSettings;
 	private KeyBinding keyBindingToggleArmor;
-	private KeyBinding keyBindingCheatInfo1;
-	private KeyBinding keyBindingCheatInfo2;
-	private KeyBinding keyBindingCheatInfo3;
+	private KeyBinding keyBindingJ;
+	private KeyBinding keyBindingI;
+	private KeyBinding keyBindingM;
+	private KeyBinding keyBindingN;
+	private KeyBinding keyBindingV;
+	private KeyBinding keyBindingBackspace;
 	private KeyBinding keyBindingCheckAir;
 
 	@Override
@@ -86,9 +89,12 @@ public class ClientProxy extends CommonProxy {
 		client = FMLClientHandler.instance().getClient();
 		gameSettings = client.gameSettings;
 		keyBindingToggleArmor = new KeyBinding("key.toggle.armor", Keyboard.KEY_F, "key.categories.gameplay");
-		keyBindingCheatInfo1 = new KeyBinding("key.cheat.info.1", Keyboard.KEY_J, "key.categories.gameplay");
-		keyBindingCheatInfo2 = new KeyBinding("key.cheat.info.2", Keyboard.KEY_I, "key.categories.gameplay");
-		keyBindingCheatInfo3 = new KeyBinding("key.cheat.info.3", Keyboard.KEY_M, "key.categories.gameplay");
+		keyBindingJ = new KeyBinding("key.cheat.info.1", Keyboard.KEY_J, "key.categories.gameplay");
+		keyBindingM = new KeyBinding("key.cheat.info.3", Keyboard.KEY_M, "key.categories.gameplay");
+		keyBindingI = new KeyBinding("key.sync.info.1", Keyboard.KEY_I, "key.categories.gameplay");
+		keyBindingN = new KeyBinding("key.sync.info.2", Keyboard.KEY_N, "key.categories.gameplay");
+		keyBindingV = new KeyBinding("key.sync.info.3", Keyboard.KEY_V, "key.categories.gameplay");
+		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
 	}
 
@@ -104,6 +110,8 @@ public class ClientProxy extends CommonProxy {
 		private boolean flashlightEnabled = false;
 		private final Collection<PointLightSource> flashlightLightSources;
 		private boolean jetPackIsFlying = false;
+		private boolean choseToSyncInventory = false;
+		private boolean choseToSyncInventoryAgain = false;
 		private boolean jetPackLightsEnabled = false;
 		private final Collection<PointLightSource> jetPackLightSources;
 		private boolean flameThrowerLightsEnabled = false;
@@ -116,6 +124,7 @@ public class ClientProxy extends CommonProxy {
 		private float bouncyBlockBounceHeight = 0;
 		private boolean placeBrickBackwards = false;
 		private int cheatInfoTicksRemaining = 0;
+		private int syncCooldownRemaining = 0;
 		private int airQualityTicksRemaining = 0;
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
 		private boolean airQualityClean = true;
@@ -316,6 +325,7 @@ public class ClientProxy extends CommonProxy {
 				onClientTickPogoStick(player, playerState);
 				onClientTickBouncyBlock(player, playerState);
 				onClientTickCommDeviceToggled(player, playerState);
+				onClientTickSyncInventory(player, playerState);
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
 			}
@@ -326,6 +336,36 @@ public class ClientProxy extends CommonProxy {
 		if (keyBindingToggleArmor.isPressed())
 		{
 			//TODO: add in functionality for pushing F when comm. device is equipped
+		}
+
+	}
+
+	private void onClientTickSyncInventory(EntityPlayer player, PlayerState playerState) {
+
+		if (playerState.syncCooldownRemaining == 0) {
+			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
+			if (clientWantsToSyncInventory) {
+				playerState.syncCooldownRemaining = 1200;
+				playerState.choseToSyncInventory = true;
+				sendMessageToServerClientWantsToSync(playerState.choseToSyncInventory);
+			}
+			playerState.choseToSyncInventoryAgain = false;
+
+		}
+
+		else
+		{
+			playerState.syncCooldownRemaining--;
+			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV) && playerState.syncCooldownRemaining < 1100)
+			{
+				playerState.choseToSyncInventoryAgain = true;
+			}
+		}
+
+		if (isKeyDown(keyBindingBackspace))
+		{
+			playerState.choseToSyncInventoryAgain = false;
+			playerState.choseToSyncInventory = false;
 		}
 
 	}
@@ -450,8 +490,29 @@ public class ClientProxy extends CommonProxy {
 				y += statusOverlayDistanceBetweenY;
 			}
 
+			if (playerState.choseToSyncInventory) {
+				if (playerState.syncCooldownRemaining < 1100 && playerState.syncCooldownRemaining > 1000)
+				{
+					playerState.choseToSyncInventory = false;
+					playerState.choseToSyncInventoryAgain = false;
+				}
+
+				else
+				{
+					client.fontRenderer.drawStringWithShadow("Synced Inventory With Portal (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
+					y += statusOverlayDistanceBetweenY;
+
+				}
+
+			}
+			else if (playerState.choseToSyncInventoryAgain)
+			{
+				client.fontRenderer.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
+				y += statusOverlayDistanceBetweenY;
+			}
+
 			if (playerState.cheatInfoTicksRemaining == 0) {
-				final boolean cheatInfoActivated = isKeyDown(keyBindingCheatInfo1) && isKeyDown(keyBindingCheatInfo2) && isKeyDown(keyBindingCheatInfo3);
+				final boolean cheatInfoActivated = isKeyDown(keyBindingJ) && isKeyDown(keyBindingI) && isKeyDown(keyBindingM);
 				if (cheatInfoActivated) {
 					if (playerState.cheatInfoOreBlocksFound == null) {
 						playerState.cheatInfoOreBlocksFound = Maps.newLinkedHashMap();

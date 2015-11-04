@@ -71,11 +71,12 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-		Unknown, PrivateProperties, Friends, Broadcast
+		Unknown, PrivateProperties, Friends, Broadcast, InventorySync
 	}
 
 	protected static final String chatCommandPrefix = "~";
@@ -96,11 +97,19 @@ public abstract class Enforcer {
 	protected final String netChannelName = "polycraft.enforcer";
 	protected String privatePropertiesMasterJson = null;
 	protected String privatePropertiesNonMasterJson = null;
+	protected String playerItemstackSwitchJson = null;
 	protected String broadcastMessage = null;
 	protected String whitelistJson = null;
 	protected String friendsJson = null;
 	protected final Collection<PrivateProperty> privateProperties = Lists
 			.newLinkedList();
+	protected final Collection<ItemStackSwitch> itemsToSwitch = Lists
+			.newLinkedList();
+	//protected final Map<String, ItemStackSwitch> itemStackSwitchesByPlayer = Maps
+	//		.newHashMap();
+	protected final Map<String, List<ItemStackSwitch>> itemStackSwitchesByPlayer = Maps
+			.newHashMap();
+
 	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps
 			.newHashMap();
 	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
@@ -137,6 +146,7 @@ public abstract class Enforcer {
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(PrivateProperty.class,
 				new PrivateProperty.Deserializer(master));
+
 		final Gson gson = gsonBuilder.create();
 		final Collection<PrivateProperty> newPrivateProperties = gson.fromJson(
 				privatePropertiesJson,
@@ -228,7 +238,7 @@ public abstract class Enforcer {
 		return null;
 	}
 
-	protected PrivateProperty findPrivateProperty(final Entity entity) {
+	public PrivateProperty findPrivateProperty(final Entity entity) {
 		return findPrivateProperty(entity, entity.chunkCoordX,
 				entity.chunkCoordZ);
 	}

@@ -10,6 +10,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
@@ -45,6 +47,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
@@ -60,7 +63,8 @@ public abstract class CommonProxy {
 	private static final int flameSoundID = 1009;
 	private static final long flameThrowerSoundFrequencyTicks = 10;
 	private static final String netChannelName = PolycraftMod.MODID;
-	private static final int netMessageTypeJetPackIsFlying = 0;
+	private static final int netMessageTypeJetPackIsFlying = 0; //message number 0
+	private static final int netMessageClientWantsToSync = 1; //message number 1
 
 	private FMLEventChannel netChannel;
 
@@ -89,6 +93,10 @@ public abstract class CommonProxy {
 		sendMessageToServer(netMessageTypeJetPackIsFlying, jetPackIsFlying ? 1 : 0);
 	}
 
+	protected void sendMessageToServerClientWantsToSync(final boolean clientWantsToSync) {
+		sendMessageToServer(netMessageClientWantsToSync, clientWantsToSync ? 1 : 0);
+	}
+
 	private void sendMessageToServer(final int type, final int value) {
 		netChannel.sendToServer(new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
 	}
@@ -101,6 +109,9 @@ public abstract class CommonProxy {
 		case netMessageTypeJetPackIsFlying:
 			playerState.jetPackIsFlying = (payload.readInt() == 1);
 			break;
+		case netMessageClientWantsToSync:
+			playerState.choseToSyncInventory = (payload.readInt() == 1);
+			break;
 		default:
 			break;
 		}
@@ -110,6 +121,7 @@ public abstract class CommonProxy {
 
 	private class PlayerState {
 		private boolean jetPackIsFlying = false;
+		private boolean choseToSyncInventory = false;
 		private long jetPackLastSoundTicks = 0;
 		private long flameThrowerLastSoundTicks = 0;
 		private ItemPhaseShifter phaseShifterEquipped = null;
@@ -230,8 +242,48 @@ public abstract class CommonProxy {
 				onPlayerTickServerScubaFins(tick.player);
 				onPlayerTickServerScubaTank(tick.player, playerState);
 				onPlayerTickServerPhaseShifter(tick.player, playerState);
+				onPlayerTickServerSyncInventory(tick.player, playerState);
 			}
 		}
+	}
+
+	private void onPlayerTickServerSyncInventory(final EntityPlayer player, final PlayerState playerState) {
+		final boolean clientWantsToSync = playerState.choseToSyncInventory; //and make sure they are in PP
+
+		if (clientWantsToSync)
+		{
+			InventorySwap is = new InventorySwap(player);
+
+			playerState.choseToSyncInventory = false;
+
+			int stackSize = 0;
+			int damage = 0;
+			int invSlot;
+			int id = 0;
+			ItemStack itemstack;
+			String enchantments = "";
+			NBTTagList enchantmentList;
+
+			//pull the list into memory from the server
+			//is.pullPlayerInventoryFromPortal(player); //TODO: uncomment when we fix...
+
+			for (invSlot = player.inventory.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot)
+			{
+				itemstack = player.inventory.mainInventory[invSlot];
+
+				//is.pushItemToPortal(new ItemStackSwitch(player, itemstack));
+
+				//if (is.doesNextItemFromPortalExist())
+				//	player.inventory.setInventorySlotContents(invSlot, is.pullNextItemFromPortal());
+				//else
+				player.inventory.setInventorySlotContents(invSlot, null);
+
+			}
+
+			//is.pushPlayerInventoryToPortal(player);
+
+		}
+
 	}
 
 	private void onPlayerTickServerJetPack(final EntityPlayer player, final PlayerState playerState) {
