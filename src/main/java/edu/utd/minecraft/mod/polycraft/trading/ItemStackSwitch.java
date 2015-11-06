@@ -10,6 +10,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
@@ -52,11 +54,9 @@ public class ItemStackSwitch {
 	public static class Deserializer implements JsonDeserializer<ItemStackSwitch> {
 
 		private final EntityPlayer player;
-		private final ItemStack itemStack;
 
-		public Deserializer(final EntityPlayer player, final ItemStack itemStack) {
+		public Deserializer(final EntityPlayer player) {
 			this.player = player;
-			this.itemStack = itemStack;
 		}
 
 		@Override
@@ -69,6 +69,22 @@ public class ItemStackSwitch {
 					jobject.get("stacksize"),
 					jobject.get("damage"),
 					jobject.get("enchantments"));
+		}
+	}
+
+	public static class Serializer implements JsonSerializer<ItemStackSwitch> {
+
+		@Override
+		public JsonElement serialize(ItemStackSwitch src, Type typeOfSrc, JsonSerializationContext context) {
+
+			JsonObject itemInfo = new JsonObject();
+			itemInfo.addProperty("id", src.itemStack.getUnlocalizedName());
+			itemInfo.addProperty("stacksize", src.itemStack.stackSize);
+			itemInfo.addProperty("damage", src.itemStack.getItemDamage());
+			itemInfo.add("enchantments", new JsonObject());
+
+			// TODO Auto-generated method stub
+			return itemInfo;
 		}
 	}
 

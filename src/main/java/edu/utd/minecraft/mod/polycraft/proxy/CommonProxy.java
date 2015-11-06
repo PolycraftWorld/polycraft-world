@@ -48,6 +48,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
+import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
@@ -265,22 +266,29 @@ public abstract class CommonProxy {
 			NBTTagList enchantmentList;
 
 			//pull the list into memory from the server
-			//is.pullPlayerInventoryFromPortal(player); //TODO: uncomment when we fix...
 
 			for (invSlot = player.inventory.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot)
 			{
 				itemstack = player.inventory.mainInventory[invSlot];
 
-				//is.pushItemToPortal(new ItemStackSwitch(player, itemstack));
-
-				//if (is.doesNextItemFromPortalExist())
-				//	player.inventory.setInventorySlotContents(invSlot, is.pullNextItemFromPortal());
-				//else
-				player.inventory.setInventorySlotContents(invSlot, null);
+				is.pushItemToPortal(new ItemStackSwitch(player, itemstack));
 
 			}
 
-			//is.pushPlayerInventoryToPortal(player);
+			if (is.swapPlayerInventoryWithPortal(player))
+			{
+
+				// make sure it went through
+				for (invSlot = player.inventory.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot)
+				{
+					itemstack = player.inventory.mainInventory[invSlot];
+
+					if (is.doesNextItemFromPortalExist())
+						player.inventory.setInventorySlotContents(invSlot, is.pullNextItemFromPortal());
+					else
+						player.inventory.setInventorySlotContents(invSlot, null);
+				}
+			}
 
 		}
 

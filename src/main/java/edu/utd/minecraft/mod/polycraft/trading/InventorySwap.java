@@ -18,7 +18,7 @@ import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 
 public class InventorySwap {
 
-	protected final Collection<ItemStackSwitch> itemsToPull = Lists.newLinkedList();
+	protected Collection<ItemStackSwitch> itemsToPull = Lists.newLinkedList();
 	protected final Collection<ItemStackSwitch> itemsToPush = Lists.newLinkedList();
 	protected final GsonBuilder gsonBuilder;
 
@@ -26,8 +26,9 @@ public class InventorySwap {
 	{
 		gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(ItemStackSwitch.class,
-				new ItemStackSwitch.Deserializer(player, null));
-
+				new ItemStackSwitch.Deserializer(player));
+		gsonBuilder.registerTypeAdapter(ItemStackSwitch.class,
+				new ItemStackSwitch.Serializer());
 	}
 
 	public void pushItemToPortal(final ItemStackSwitch itemStackSwitch)
@@ -46,50 +47,31 @@ public class InventorySwap {
 		return itemsToPull.iterator().hasNext();
 	}
 
-	public int pullPlayerInventoryFromPortal(final EntityPlayer player)
+	public boolean swapPlayerInventoryWithPortal(final EntityPlayer player)
 	{
-		if (ServerEnforcer.portalRestUrl != null) {
-			try {
-				String url = ServerEnforcer.portalRestUrl.startsWith("file:")
-						? ServerEnforcer.portalRestUrl + "playerinventoryswap.json"
-						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
-						: String.format("%s/private_properties/worlds/include/", ServerEnforcer.portalRestUrl);
-				String playerItemStackSwitchJson = NetUtil.getText(url);
 
-				final Gson gson = gsonBuilder.create();
-				final Collection<ItemStackSwitch> pulledItemStackSwitches = gson.fromJson(
-						playerItemStackSwitchJson,
-						new TypeToken<Collection<ItemStackSwitch>>() {
-						}.getType());
+		try {
 
-				if (pulledItemStackSwitches != null) {
-					itemsToPull.addAll(pulledItemStackSwitches);
-				}
+			String contentFromPortal = NetUtil.post(String.format("%s/players/%s/", ServerEnforcer.portalRestUrl, player.getDisplayName().toLowerCase()), ImmutableMap.of(player.getDisplayName().toLowerCase(),
+					gsonBuilder.create().toJson(itemsToPush, new TypeToken<Collection<ItemStackSwitch>>() {
+					}.getType())));
 
-				return pulledItemStackSwitches.size();
+			final Gson gson = gsonBuilder.create();
+			final Collection<ItemStackSwitch> pulledItemStackSwitches = gson.fromJson(
+					contentFromPortal,
+					new TypeToken<Collection<ItemStackSwitch>>() {
+					}.getType());
 
-			} catch (final Exception e) {
-				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
-				PolycraftMod.logger.error("Unable to sync inventory", e);
-				return -1;
-
+			if (pulledItemStackSwitches != null) {
+				itemsToPull.addAll(pulledItemStackSwitches);
 			}
+
+			return true;
+
+		} catch (final IOException e) {
+			PolycraftMod.logger.error("Unable to sync items", e);
+			return false;
 		}
-		return -1;
-
-	}
-
-	public int pushPlayerInventoryToPortal(final EntityPlayer player)
-	{
-		if (!ServerEnforcer.portalRestUrl.startsWith("file:")) {
-			try {
-				NetUtil.post(String.format("%s/players/%s/", ServerEnforcer.portalRestUrl, player.getDisplayName().toLowerCase()), ImmutableMap.of(player.getDisplayName().toLowerCase(), itemsToPush.toString()));
-			} catch (final IOException e) {
-				PolycraftMod.logger.error("Unable to log player last world seen", e);
-			}
-		}
-
-		return itemsToPush.size();
 
 	}
 
