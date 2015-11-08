@@ -1,10 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.trading;
 
 import java.lang.reflect.Type;
+import java.util.Iterator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -13,6 +17,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 
@@ -28,27 +33,57 @@ public class ItemStackSwitch {
 	}
 
 	public ItemStackSwitch(final EntityPlayer player,
-			final JsonElement id,
-			final JsonElement stacksize,
-			final JsonElement damage,
-			final JsonElement enchantments)
+			final String itemId,
+			final int damage,
+			final int stacksize,
+			final NBTTagCompound enchantments)
 	{
 		this.player = player;
-		this.itemStack = new ItemStack(PolycraftRegistry.items.get(Integer.parseInt(id.toString())), Integer.parseInt(stacksize.toString())); //create ItemStack here		
-		PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(this.itemStack); //add polycraft-recipe NBTTag
-		this.itemStack.setItemDamage(Integer.parseInt(damage.toString()));
+		//Item item = PolycraftRegistry.items.get(PolycraftRegistry.getRegistryNameFromId(itemId));
+		//Block block = PolycraftRegistry.blocks.get(PolycraftRegistry.getRegistryNameFromId(itemId));
+		boolean isBlock = false;
 
-		//parse these out of the enchantment string
-		//		 NBTTagList nbttaglist = this.itemStack.stackTagCompound.getTagList("ench", 10);
-		//	        NBTTagCompound nbttagcompound = new NBTTagCompound();
-		//	        nbttagcompound.setShort("id", (short)1);
-		//	        nbttagcompound.setShort("lvl", (short)1);
-		//	        
-		//	        nbttaglist.appendTag(nbttagcompound);
-		//		
-		//		
-		//		
-		//		this.itemStack.stackTagCompound.setTag(p_74782_1_, p_74782_2_);
+		//Note: you have to test items first because of the dual name mapping from base MC
+		// thus if we find an item, we never have to look for the block...
+		if (PolycraftRegistry.isIdItemId(itemId))
+		{
+			this.itemStack = new ItemStack(PolycraftRegistry.items.get(PolycraftRegistry.getRegistryNameFromId(itemId)),
+					stacksize);
+		}
+		else if (PolycraftRegistry.isIdBlockId(itemId))
+		{
+			this.itemStack = new ItemStack(PolycraftRegistry.blocks.get(PolycraftRegistry.getRegistryNameFromId(itemId)),
+					stacksize);
+			isBlock = true;
+		}
+		else if (itemId.startsWith(PolycraftMod.MC_PREFIX + "112"))
+		{
+			this.itemStack = new ItemStack(PolycraftRegistry.blocks.get("Nether Brick"), stacksize);
+			//hack because it is the exact same name as the item once no spaces/underscores
+			isBlock = true;
+		}
+		else
+		{
+			this.itemStack = null;
+			return;
+		}
+
+		if (this.itemStack != null)
+		{
+			if (!(itemId.startsWith(PolycraftMod.MC_PREFIX)))
+				PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(this.itemStack); //add polycraft-recipe NBTTag
+
+			if (damage > 0)
+			{
+				this.itemStack.setItemDamage(damage);
+			}
+
+			if ((enchantments != null) && (stacksize == 1))
+				this.itemStack.setTagCompound(enchantments);
+
+			return;
+		}
+
 	}
 
 	public static class Deserializer implements JsonDeserializer<ItemStackSwitch> {
@@ -63,12 +98,28 @@ public class ItemStackSwitch {
 		public ItemStackSwitch deserialize(final JsonElement json, final Type typeOfT,
 				final JsonDeserializationContext context) throws JsonParseException {
 			JsonObject jobject = (JsonObject) json;
+			JsonArray jarray = jobject.get("enchantments").getAsJsonArray();
+
+			NBTTagCompound enchantments = new NBTTagCompound();
+			NBTTagList enchList = new NBTTagList();
+
+			Iterator i = jarray.iterator();
+			while (i.hasNext())
+			{
+				JsonObject specificEnchantment = ((JsonElement) i.next()).getAsJsonObject();
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setShort("id", specificEnchantment.get("id").getAsShort());
+				tag.setShort("lvl", specificEnchantment.get("level").getAsShort());
+				enchList.appendTag(tag);
+			}
+			enchantments.setTag("StoredEnchantments", enchList);
+
 			return new ItemStackSwitch(
 					player,
-					jobject.get("id"),
-					jobject.get("stacksize"),
-					jobject.get("damage"),
-					jobject.get("enchantments"));
+					jobject.get("name").getAsString(),
+					jobject.get("damage").getAsInt(),
+					jobject.get("stacksize").getAsInt(),
+					enchantments);
 		}
 	}
 
@@ -78,10 +129,28 @@ public class ItemStackSwitch {
 		public JsonElement serialize(ItemStackSwitch src, Type typeOfSrc, JsonSerializationContext context) {
 
 			JsonObject itemInfo = new JsonObject();
-			itemInfo.addProperty("id", src.itemStack.getUnlocalizedName());
-			itemInfo.addProperty("stacksize", src.itemStack.stackSize);
+			itemInfo.addProperty("name", PolycraftRegistry.getRegistryIdFromItemStack(src.itemStack));
 			itemInfo.addProperty("damage", src.itemStack.getItemDamage());
-			itemInfo.add("enchantments", new JsonObject());
+			itemInfo.addProperty("stacksize", src.itemStack.stackSize);
+
+			NBTTagCompound list;
+			if ((list = src.itemStack.getTagCompound()) != null)
+			{
+				JsonArray enchantArray = new JsonArray();
+
+				for (int i = 0; i < list.getTagList("StoredEnchantments", 10).tagCount(); i++)
+				{
+					JsonObject specificEnchantment = new JsonObject();
+
+					NBTTagCompound tag = list.getTagList("StoredEnchantments", 10).getCompoundTagAt(i);
+					specificEnchantment.addProperty("level", tag.getShort("lvl"));
+					specificEnchantment.addProperty("id", tag.getShort("id"));
+					enchantArray.add(specificEnchantment);
+				}
+				itemInfo.add("enchantments", enchantArray);
+			}
+			else
+				itemInfo.add("enchantments", new JsonArray());
 
 			// TODO Auto-generated method stub
 			return itemInfo;

@@ -90,7 +90,7 @@ public class LogUtil {
 			return "null";
 		}
 		return itemStack.getItem().getUnlocalizedName() +
-				"(" + PolycraftRegistry.registryNames.get( itemStack.getItem().getUnlocalizedName().replaceAll("item.", "")) + ")" +
+				"(" + PolycraftRegistry.registryIdToNameUpper.get( itemStack.getItem().getUnlocalizedName().replaceAll("item.", "")) + ")" +
 				": " + itemStack.stackSize + ":" + itemStack.getItemDamage();
 	}
 	

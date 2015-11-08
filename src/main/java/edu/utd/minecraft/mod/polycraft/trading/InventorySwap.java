@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,16 +16,18 @@ import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 
 public class InventorySwap {
 
-	protected Collection<ItemStackSwitch> itemsToPull = Lists.newLinkedList();
+	public Collection<ItemStackSwitch> itemsToPull = Lists.newLinkedList();
 	protected final Collection<ItemStackSwitch> itemsToPush = Lists.newLinkedList();
-	protected final GsonBuilder gsonBuilder;
+	protected final GsonBuilder gsonBuilderPull;
+	protected final GsonBuilder gsonBuilderPush;
 
 	public InventorySwap(EntityPlayer player)
 	{
-		gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(ItemStackSwitch.class,
+		gsonBuilderPull = new GsonBuilder();
+		gsonBuilderPull.registerTypeAdapter(ItemStackSwitch.class,
 				new ItemStackSwitch.Deserializer(player));
-		gsonBuilder.registerTypeAdapter(ItemStackSwitch.class,
+		gsonBuilderPush = new GsonBuilder();
+		gsonBuilderPush.registerTypeAdapter(ItemStackSwitch.class,
 				new ItemStackSwitch.Serializer());
 	}
 
@@ -37,36 +37,45 @@ public class InventorySwap {
 			itemsToPush.add(itemStackSwitch);
 	}
 
-	public ItemStack pullNextItemFromPortal()
-	{
-		return itemsToPull.iterator().next().itemStack;
-	}
-
-	public boolean doesNextItemFromPortalExist()
-	{
-		return itemsToPull.iterator().hasNext();
-	}
+	//	public ItemStack pullNextItemFromPortal()
+	//	{
+	//		return itemsToPull.iterator().next().itemStack;
+	//	}
+	//
+	//	public boolean doesNextItemFromPortalExist()
+	//	{
+	//		return itemsToPull.iterator().hasNext();
+	//	}
 
 	public boolean swapPlayerInventoryWithPortal(final EntityPlayer player)
 	{
 
 		try {
 
-			String contentFromPortal = NetUtil.post(String.format("%s/players/%s/", ServerEnforcer.portalRestUrl, player.getDisplayName().toLowerCase()), ImmutableMap.of(player.getDisplayName().toLowerCase(),
-					gsonBuilder.create().toJson(itemsToPush, new TypeToken<Collection<ItemStackSwitch>>() {
-					}.getType())));
+			if (ServerEnforcer.portalRestUrl != null)
+			{
+				String jsonToSend = gsonBuilderPush.create().toJson(itemsToPush, new TypeToken<Collection<ItemStackSwitch>>() {
+				}.getType());
+				String sendString = String.format("%s/players/%s/inventory/",
+						ServerEnforcer.portalRestUrl,
+						player.getDisplayName().toLowerCase());
 
-			final Gson gson = gsonBuilder.create();
-			final Collection<ItemStackSwitch> pulledItemStackSwitches = gson.fromJson(
-					contentFromPortal,
-					new TypeToken<Collection<ItemStackSwitch>>() {
-					}.getType());
+				String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
 
-			if (pulledItemStackSwitches != null) {
-				itemsToPull.addAll(pulledItemStackSwitches);
+				final Gson gson = gsonBuilderPull.create();
+				final Collection<ItemStackSwitch> pulledItemStackSwitches = gson.fromJson(
+						contentFromPortal,
+						new TypeToken<Collection<ItemStackSwitch>>() {
+						}.getType());
+
+				if (pulledItemStackSwitches != null) {
+					itemsToPull.addAll(pulledItemStackSwitches);
+				}
+
+				return true;
 			}
-
-			return true;
+			else
+				return false;
 
 		} catch (final IOException e) {
 			PolycraftMod.logger.error("Unable to sync items", e);
@@ -74,5 +83,4 @@ public class InventorySwap {
 		}
 
 	}
-
 }

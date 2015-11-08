@@ -50,8 +50,9 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
-	public static final String VERSION = "1.3.8";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 3, 8 };
+	public static final String MC_PREFIX = "MC-";
+	public static final String VERSION = "1.3.9";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 3, 9 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -233,6 +234,65 @@ public class PolycraftMod {
 		return name.replaceAll("[()]", "").replaceAll("[^_A-Za-z0-9]", "_").toLowerCase();
 	}
 
+	public final static String getSafeRegistryName(final String name) {
+		return name.replaceAll("[()]", "").replaceAll("[^_A-Za-z0-9]", "").toLowerCase();
+	}
+
+	public final static String getRegistryName(final Item item)
+	{
+		return item.getUnlocalizedName().substring(item.getUnlocalizedName().lastIndexOf('.') + 1);
+	}
+
+	public final static String getRegistryName(final Block block)
+	{
+		return block.getUnlocalizedName().substring(block.getUnlocalizedName().lastIndexOf('.') + 1);
+	}
+
+	public final static String getRegistryName(final ItemStack itemStack)
+	{
+		//		if (itemStack.getItem().hashCode() == 1844350239) //red mushroom - note this is awful coding!
+		//		{
+		//			return ("Red " + PolycraftMod.getRegistryName(itemStack.getItem()));
+		//		}
+		if (itemStack.getItem().getUnlocalizedName().contains("mushroom")) //carrot - note this is awful coding!
+		{
+			if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("red_mushroom"))).hashCode() == itemStack.getItem().hashCode())
+				return ("Red " + PolycraftMod.getRegistryName(itemStack.getItem()));
+			else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("red_mushroom_block"))).hashCode() == itemStack.getItem().hashCode())
+				return ("Red " + PolycraftMod.getRegistryName(itemStack.getItem()) + " Block");
+			else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("brown_mushroom_block"))).hashCode() == itemStack.getItem().hashCode())
+				return ("Brown " + PolycraftMod.getRegistryName(itemStack.getItem()) + " Block");
+		}
+
+		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("wooden_pressure_plate"))).hashCode() == itemStack.getItem().hashCode())
+		{
+			return ("Wooden " + PolycraftMod.getRegistryName(itemStack.getItem()));
+		}
+		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("snow_layer"))).hashCode() == itemStack.getItem().hashCode())
+		{
+			return PolycraftMod.getRegistryName(itemStack.getItem()) + "Layer";
+		}
+		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("melon_block"))).hashCode() == itemStack.getItem().hashCode())
+		{
+			return PolycraftMod.getRegistryName(itemStack.getItem()) + " Block";
+		}
+		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("quartz_ore"))).hashCode() == itemStack.getItem().hashCode())
+		{
+			return "Quartz Ore";
+		}
+		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("nether_brick"))).hashCode() == itemStack.getItem().hashCode())
+		{
+			return "Nether Brick (Block)"; //in conjunction with PolycraftRegistry.registerMinecraftBlocks
+		}
+
+		else if (itemStack.getItem().getUnlocalizedName().contains("carrots")) //carrot - note this is awful coding!
+		{
+			return "Carrot";
+		}
+
+		return PolycraftMod.getRegistryName(itemStack.getItem());
+	}
+
 	private static final float minecraftPlayerGravity = .08f;
 
 	public static double getVelocityRequiredToReachHeight(double height) {
@@ -312,4 +372,14 @@ public class PolycraftMod {
 		}
 		return iinventory;
 	}
+
+	//public static String getItemStackID(ItemStack itemStack) {
+
+	//		int itemID = Item.getIdFromItem(itemStack.getItem());
+	//		if (itemID != 0)
+	//			return String.valueOf(itemID);
+	//		else
+	//return itemStack.getUnlocalizedName().substring(itemStack.getUnlocalizedName().lastIndexOf('.') + 1);
+
+	//}
 }

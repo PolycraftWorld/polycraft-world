@@ -6,7 +6,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 public class InternalObject extends GameIdentifiedConfig {
 
 	public static final ConfigRegistry<InternalObject> registry = new ConfigRegistry<InternalObject>();
-	
+
 	public final String display;
 	public final String tileEntityGameID;
 	public int renderID;
@@ -35,16 +35,16 @@ public class InternalObject extends GameIdentifiedConfig {
 		else
 			this.tileEntityGameID = "NA";
 		this.renderID = renderID; //0 means standard block
-		
+
 		if (itemID != null)
 		{
 			this.itemID = itemID;
-			this.itemName = name.toLowerCase();
+			this.itemName = name + " Item";
 		}
 		else
 		{
 			this.itemID = "NA";
-			this.itemName = "NA";			
+			this.itemName = "NA";
 		}
 	}
 

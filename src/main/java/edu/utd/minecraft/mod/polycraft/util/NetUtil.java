@@ -18,28 +18,49 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 public class NetUtil {
 	public static String getText(String url) throws IOException {
-        URL website = new URL(url);
-        URLConnection connection = website.openConnection();
-        BufferedReader in = new BufferedReader(
-                                new InputStreamReader(
-                                    connection.getInputStream()));
+		URL website = new URL(url);
+		URLConnection connection = website.openConnection();
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(
+						connection.getInputStream()));
 
-        StringBuilder response = new StringBuilder();
-        String inputLine;
+		StringBuilder response = new StringBuilder();
+		String inputLine;
 
-        while ((inputLine = in.readLine()) != null) 
-            response.append(inputLine);
+		while ((inputLine = in.readLine()) != null)
+			response.append(inputLine);
 
-        in.close();
+		in.close();
 
-        return response.toString();
-    }
-	
+		return response.toString();
+	}
+
+	public static String postInventory(final String url, final String message) throws IOException {
+		final HttpClient httpclient = HttpClients.createDefault();
+		final HttpPost httpPost = new HttpPost(url);
+		if (message != null) {
+
+			httpPost.setEntity(new ByteArrayEntity(message.getBytes("UTF-8")));
+		}
+		final HttpResponse response = httpclient.execute(httpPost);
+		final HttpEntity entity = response.getEntity();
+		if (entity != null) {
+			final InputStream instream = entity.getContent();
+			try {
+				return IOUtils.toString(instream);
+			} finally {
+				instream.close();
+			}
+		}
+		return null;
+	}
+
 	public static String post(final String url, final Map<String, String> params) throws IOException {
 		final HttpClient httpclient = HttpClients.createDefault();
 		final HttpPost httpPost = new HttpPost(url);
@@ -48,17 +69,18 @@ public class NetUtil {
 			for (final Entry<String, String> param : params.entrySet()) {
 				paramPairs.add(new BasicNameValuePair(param.getKey(), param.getValue()));
 			}
+
 			httpPost.setEntity(new UrlEncodedFormEntity(paramPairs, "UTF-8"));
 		}
 		final HttpResponse response = httpclient.execute(httpPost);
 		final HttpEntity entity = response.getEntity();
 		if (entity != null) {
-		    final InputStream instream = entity.getContent();
-		    try {
-		        return IOUtils.toString(instream);
-		    } finally {
-		        instream.close();
-		    }
+			final InputStream instream = entity.getContent();
+			try {
+				return IOUtils.toString(instream);
+			} finally {
+				instream.close();
+			}
 		}
 		return null;
 	}

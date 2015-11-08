@@ -345,7 +345,7 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.syncCooldownRemaining == 0) {
 			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
 			if (clientWantsToSyncInventory) {
-				playerState.syncCooldownRemaining = 1200;
+				playerState.syncCooldownRemaining = 120;
 				playerState.choseToSyncInventory = true;
 				sendMessageToServerClientWantsToSync(playerState.choseToSyncInventory);
 			}

@@ -159,16 +159,63 @@ public class PolycraftRegistry {
 
 	private static final Logger logger = LogManager.getLogger();
 
-	public static final Map<String, String> registryNames = Maps.newHashMap();
+	public static final Map<String, String> registryIdToNameUpper = Maps.newHashMap();
+	public static final Map<String, String> registrySafeNameToId = Maps.newHashMap();
 	public static final Map<String, Block> blocks = Maps.newHashMap();
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
 
 	private static void registerName(final String registryName, final String name) {
-		if (registryNames.containsKey(registryName))
+		if (registryIdToNameUpper.containsKey(registryName))
 			throw new Error("Registry name already used: " + registryName + " (" + name + ")");
-		registryNames.put(registryName, name);
+		registryIdToNameUpper.put(registryName, name);
+
+		if (registrySafeNameToId.containsKey(PolycraftMod.getSafeRegistryName(name)))
+			throw new Error("Registry name already used: " + PolycraftMod.getSafeRegistryName(name) + " (" + registryName + ")");
+		registrySafeNameToId.put(PolycraftMod.getSafeRegistryName(name), registryName);
+	}
+
+	private static void registerSpecialNames(final String registryName, final String name) {
+		if (registrySafeNameToId.containsKey(PolycraftMod.getSafeRegistryName(name)))
+			throw new Error("Registry name already used: " + PolycraftMod.getSafeRegistryName(name) + " (" + registryName + ")");
+		registrySafeNameToId.put(PolycraftMod.getSafeRegistryName(name), registryName);
+	}
+
+	public static String getRegistryIdFromName(String name)
+	{
+		return registrySafeNameToId.get(PolycraftMod.getSafeRegistryName(name));
+	}
+
+	public static String getRegistryIdFromItem(Item item)
+	{
+		return getRegistryIdFromName(PolycraftMod.getRegistryName(item));
+	}
+
+	public static String getRegistryIdFromBlock(Block block)
+	{
+		return getRegistryIdFromName(PolycraftMod.getRegistryName(block));
+	}
+
+	public static String getRegistryIdFromItemStack(ItemStack itemStack)
+	{
+		String s = PolycraftRegistry.getRegistryIdFromName(PolycraftMod.getRegistryName(itemStack));
+		return (s == null) ? PolycraftMod.getRegistryName(itemStack) : s; //for polycraft items, unlocalized name is already the ID
+	}
+
+	public static String getRegistryNameFromId(String id)
+	{
+		return registryIdToNameUpper.get(id);
+	}
+
+	public static boolean isIdBlockId(String id)
+	{
+		return (blocks.get(getRegistryNameFromId(id)) == null) ? false : true;
+	}
+
+	public static boolean isIdItemId(String id)
+	{
+		return (items.get(getRegistryNameFromId(id)) == null) ? false : true;
 	}
 
 	public static ItemStack getItemStack(final String name, final int size) {
@@ -231,10 +278,10 @@ public class PolycraftRegistry {
 		return registerBlock(config.gameID, config.name, block);
 	}
 
-	private static Block registerBlock(final String registryName, final String name, final Block block) {
-		registerName(registryName, name);
-		block.setBlockName(registryName);
-		GameRegistry.registerBlock(block, registryName);
+	private static Block registerBlock(final String gameID, final String name, final Block block) {
+		registerName(gameID, name);
+		block.setBlockName(gameID);
+		GameRegistry.registerBlock(block, gameID);
 		blocks.put(name, block);
 		return block;
 	}
@@ -246,12 +293,12 @@ public class PolycraftRegistry {
 		return registerItem(config.gameID, config.name, item);
 	}
 
-	private static Item registerItem(final String registryName, final String name, final Item item) {
-		registerName(registryName, name);
+	private static Item registerItem(final String gameID, final String name, final Item item) {
+		registerName(gameID, name);
 		if (!(item instanceof PolycraftItem))
 			throw new IllegalArgumentException("Item " + name + " must implement PolycraftItem (" + item.toString() + ")");
-		item.setUnlocalizedName(registryName);
-		GameRegistry.registerItem(item, registryName);
+		item.setUnlocalizedName(gameID);
+		GameRegistry.registerItem(item, gameID);
 		items.put(name, item);
 		return item;
 	}
@@ -261,6 +308,8 @@ public class PolycraftRegistry {
 		block.setBlockName(blockGameID);
 		GameRegistry.registerBlock(block, itemBlockClass, blockGameID, null, itemCtorArgs);
 		blocks.put(blockName, block);
+		registerName(itemBlockGameID, itemBlockName);
+		registerName(blockGameID, blockName);
 
 		final Item itemBlock = Item.getItemFromBlock(block);
 		itemBlock.setUnlocalizedName(itemBlockGameID);
@@ -338,6 +387,24 @@ public class PolycraftRegistry {
 					logger.debug("Found item: {}", minecraftItem.name);
 					items.put(minecraftItem.name, item);
 					minecraftItems.add(item);
+
+					//					if ((minecraftItem.id == 405) || //Nether brick
+					//							(minecraftItem.id == 404) || //Comparator
+					//							(minecraftItem.id == 397) || //Skull
+					//							(minecraftItem.id == 390) || //Flower Pot
+					//							(minecraftItem.id == 380) || //Cauldron 
+					//							(minecraftItem.id == 379) || //Brewing Stand
+					//							(minecraftItem.id == 372) || //Nether Wart
+					//							(minecraftItem.id == 355) || //Bed
+					//							(minecraftItem.id == 354) || //Cake
+					//							(minecraftItem.id == 338) || //Reeds
+					//							(minecraftItem.id == 330) || //Iron Door
+					//							(minecraftItem.id == 324) || //Wooden Door
+					//							(minecraftItem.id == 296)) //Wheat
+					//						registerName(PolycraftMod.MC_PREFIX + String.valueOf(minecraftItem.id), minecraftItem.name + "(Item)");
+					//					else
+					registerName(PolycraftMod.MC_PREFIX + String.valueOf(minecraftItem.id), minecraftItem.name);
+
 				}
 			}
 		}
@@ -354,9 +421,186 @@ public class PolycraftRegistry {
 					logger.debug("Found block: {}", minecraftBlock.name);
 					blocks.put(minecraftBlock.name, block);
 					minecraftItems.add(Item.getItemFromBlock(block));
+
+					if ((minecraftBlock.id == 112) || //Nether brick
+							(minecraftBlock.id == 144) || //Skull
+							(minecraftBlock.id == 140) || //Flower Pot
+							(minecraftBlock.id == 118) || //Cauldron 
+							(minecraftBlock.id == 117) || //Brewing Stand
+							(minecraftBlock.id == 115) || //Nether Wart
+							(minecraftBlock.id == 26) || //Bed
+							(minecraftBlock.id == 92) || //Cake
+							(minecraftBlock.id == 83) || //Reeds
+							(minecraftBlock.id == 71) || //Iron Door
+							(minecraftBlock.id == 64) || //Wooden Door
+							(minecraftBlock.id == 59)) //Wheat
+						registerName(PolycraftMod.MC_PREFIX + String.valueOf(minecraftBlock.id), minecraftBlock.name + "(Block)");
+					else
+
+						registerName(PolycraftMod.MC_PREFIX + String.valueOf(minecraftBlock.id), minecraftBlock.name);
+
 				}
 			}
 		}
+		if (isTargetVersion(new int[] { 1, 0, 0 }))
+		{
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(2256), "record");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(420), "leash");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(419), "horsearmordiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(418), "horsearmorgold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(417), "horsearmormetal");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(408), "minecartHopper");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(407), "minecartTNT");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(406), "netherquartz");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(402), "fireworksCharge");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(396), "carrotGolden");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(395), "emptyMap");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(394), "potatoPoisonous");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(393), "potatoBaked");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(389), "frame");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(386), "writingBook");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(385), "fireball");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(384), "expBottle");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(383), "monsterPlacer");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(381), "eyeOfEnder");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(372), "netherStalkSeeds");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(366), "chickenCooked");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(365), "chickenRaw");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(364), "beefCooked");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(363), "beefRaw");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(362), "seeds_melon");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(361), "seeds_pumpkin");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(356), "diode");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(350), "dyePowder");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(348), "yellowDust");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(343), "minecartFurnace");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(342), "minecartChest");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(335), "milk");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(330), "doorIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(327), "bucketLava");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(326), "bucketWater");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(324), "doorWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(322), "appleGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(319), "porkchopCooked");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(320), "porkchopRaw");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(317), "bootsGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(316), "leggingsGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(315), "helmetGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(314), "chestplateGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(313), "bootsDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(312), "leggingsDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(311), "helmetDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(310), "chestplateDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(309), "bootsIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(308), "leggingsIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(307), "helmetIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(306), "chestplateIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(305), "bootsChain");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(304), "leggingsChain");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(303), "helmetChain");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(302), "chestplateChain");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(301), "bootsCloth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(300), "leggingsCloth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(299), "helmetCloth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(298), "chestplateCloth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(295), "seeds");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(294), "hoeGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(293), "hoeDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(292), "hoeIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(291), "hoeStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(290), "hoeWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(289), "sulphur");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(286), "pickaxeGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(285), "hatchetGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(284), "shovelGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(283), "swordGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(279), "pickaxeDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(278), "hatchetDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(277), "shovelDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(276), "swordDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(275), "pickaxeStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(274), "hatchetStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(273), "shovelStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(272), "swordStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(271), "hatchetWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(270), "pickaxeWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(269), "shovelWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(268), "swordWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(267), "swordIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(266), "ingotGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(265), "ingotIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(174), "icePacked");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(173), "blockCoal");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(172), "clayHardened");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(171), "woolCarpet");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(164), "stairsWoodDarkOak");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(163), "stairsWoodAcacia");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(159), "clayHardenedStained");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(156), "stairsQuartz");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(152), "blockRedstone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(148), "weightedPlate_heavy");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(147), "weightedPlate_light");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(146), "chestTrap");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(139), "cobbleWall");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(136), "stairsWoodJungle");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(135), "stairsWoodBirch");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(134), "stairsWoodSpruce");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(133), "blockEmerald");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(131), "tripWireSource");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(129), "oreEmerald");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(128), "stairsSandStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(126), "woodSlab");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(123), "redstoneLight");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(121), "whiteStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(116), "enchantmentTable");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(114), "stairsNetherBrick");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(113), "netherFence");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(110), "mycel");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(109), "stairsStoneBrickSmooth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(108), "stairsBrick");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(102), "thinGlass");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(101), "fenceIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(97), "monsterStoneEgg");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(95), "thinStainedGlass");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(89), "lightgem");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(88), "hellsand");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(87), "hellrock");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(84), "musicBlock");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(77), "button");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(76), "notGate");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(73), "oreRedstone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(70), "pressurePlate");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(67), "stairsStone");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(58), "workbench");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(57), "blockDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(56), "oreDiamond");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(53), "stairsWood");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(48), "stoneMoss");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(45), "stonebricksmooth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(42), "blockIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(41), "blockGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(40), "mushroom_red");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(39), "mushroom");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(38), "flower2");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(37), "flower1");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(35), "cloth");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(33), "pistonBase");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(29), "pistonStickyBase");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(22), "blockLapis");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(21), "oreLapis");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(16), "oreCoal");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(15), "oreIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(14), "oreGold");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.valueOf(5), "wood");
+
+			//problem with snow packed to unpacked
+			//problem with melon
+			//carrots to tops
+			//pressure plates
+			//mushrooms
+
+		}
+
 	}
 
 	private static void registerBiomes() {

@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.proxy;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
@@ -248,7 +249,7 @@ public abstract class CommonProxy {
 		}
 	}
 
-	private void onPlayerTickServerSyncInventory(final EntityPlayer player, final PlayerState playerState) {
+	private boolean onPlayerTickServerSyncInventory(final EntityPlayer player, final PlayerState playerState) {
 		final boolean clientWantsToSync = playerState.choseToSyncInventory; //and make sure they are in PP
 
 		if (clientWantsToSync)
@@ -279,18 +280,22 @@ public abstract class CommonProxy {
 			{
 
 				// make sure it went through
+
+				Iterator it = is.itemsToPull.iterator();
 				for (invSlot = player.inventory.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot)
 				{
 					itemstack = player.inventory.mainInventory[invSlot];
 
-					if (is.doesNextItemFromPortalExist())
-						player.inventory.setInventorySlotContents(invSlot, is.pullNextItemFromPortal());
+					if (it.hasNext())
+						player.inventory.setInventorySlotContents(invSlot, ((ItemStackSwitch) (it.next())).itemStack);
 					else
 						player.inventory.setInventorySlotContents(invSlot, null);
 				}
+				return true;
 			}
 
 		}
+		return false;
 
 	}
 
