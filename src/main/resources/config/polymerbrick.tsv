@@ -5,9 +5,9 @@ Version	Block Game ID	Item Game ID	TileEntity ID	Brick	Source	Polymer	Width	Leng
 1.0.0	5y	5B	1bF	ABS Brick (1 x 4)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	1	4	ABS Brick (1 x 1)	Mold (Plastic Brick (1 x 4))	2	8	
 1.0.0	5z	5C	1bG	ABS Brick (2 x 2)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	2	2	ABS Brick (1 x 1)	Mold (Plastic Brick (2 x 2))	2	8	
 1.0.0	5A	5D	1bH	ABS Brick (2 x 3)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	2	3	ABS Brick (1 x 1)	Mold (Plastic Brick (2 x 3))	3	10	
-1.0.0	5t	5y	1bI	ABS Brick (2 x 4)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	2	4	ABS Brick (1 x 1)	Mold (Plastic Brick (2 x 4))	3	10	
-1.0.0	5u	5z	1bJ	ABS Brick (3 x 3)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	3	3	ABS Brick (1 x 1)	Mold (Plastic Brick (3 x 3))	3	10	
-1.0.0	5v	5A	1bK	ABS Brick (3 x 4)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	3	4	ABS Brick (1 x 1)	Mold (Plastic Brick (3 x 4))	3	10	
+1.0.0	5t	1fY	1bI	ABS Brick (2 x 4)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	2	4	ABS Brick (1 x 1)	Mold (Plastic Brick (2 x 4))	3	10	
+1.0.0	5u	1fZ	1bJ	ABS Brick (3 x 3)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	3	3	ABS Brick (1 x 1)	Mold (Plastic Brick (3 x 3))	3	10	
+1.0.0	5v	1g0	1bK	ABS Brick (3 x 4)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	3	4	ABS Brick (1 x 1)	Mold (Plastic Brick (3 x 4))	3	10	
 1.0.0	5c	5g	1bL	ABS Brick (4 x 4)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	4	4	ABS Brick (1 x 1)	Mold (Plastic Brick (4 x 4))	4	12	
 1.0.0	5h	5i	1bM	ABS Brick (1 x 8)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	1	8	ABS Brick (1 x 1)	Mold (Plastic Brick (1 x 8))	3	10	
 1.0.0	5k	5l	1bN	ABS Brick (2 x 8)	Sack (Acrylonitrile-Butadiene-Styrene Pellets)	ABS	2	8	ABS Brick (1 x 1)	Mold (Plastic Brick (2 x 8))	4	12	
