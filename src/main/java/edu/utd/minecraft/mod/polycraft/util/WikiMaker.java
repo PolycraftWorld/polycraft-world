@@ -36,8 +36,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Alloy;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
+import edu.utd.minecraft.mod.polycraft.config.CellCultureDish;
 import edu.utd.minecraft.mod.polycraft.config.Compound;
-import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Config;
 import edu.utd.minecraft.mod.polycraft.config.ConfigRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -183,7 +183,7 @@ public class WikiMaker {
 			//wikiMaker.createItemPages(Nugget.registry);
 			//wikiMaker.createItemPages(Catalyst.registry);
 			//wikiMaker.createItemPages(ElementVessel.registry);
-			wikiMaker.createItemPages(CompoundVessel.registry);
+			//wikiMaker.createItemPages(CompoundVessel.registry);
 			//wikiMaker.createItemPages(PolymerPellets.registry);
 			//wikiMaker.createItemPages(PolymerBlock.registry);
 			//wikiMaker.createItemPages(PolymerSlab.registry);
@@ -194,18 +194,70 @@ public class WikiMaker {
 			//wikiMaker.createItemPages(MoldedItem.registry);
 			//wikiMaker.createItemPages(WaferItem.registry);
 			//wikiMaker.createItemPages(Mask.registry);
+			//wikiMaker.createItemPages(DNASampler.registry);
+			wikiMaker.createItemPages(CellCultureDish.registry);
 
 			//wikiMaker.createItemPages(GrippedTool.registry);
 			//			wikiMaker.createItemPages(PogoStick.registry);
 			//wikiMaker.createItemPages(CustomObject.registry);
 			//			wikiMaker.createArmor(Armor.registry);
 			//wikiMaker.createTools(Tool.registry);
+			//wikiMaker.createPortalMap(PolycraftRegistry.registryIdToNameUpper);
 
 			wikiMaker.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			logger.error("Failed: {}", ex.getMessage());
 		}
+	}
+
+	private void createPortalMap(Map<String, String> registry)
+			throws LoginException, IOException {
+		final StringBuilder list = new StringBuilder();
+
+		final Collection<String> headers = Lists.newLinkedList();
+
+		final Collection<Collection<String>> data = Lists.newLinkedList();
+		final Collection<Collection<String>> data2 = Lists.newLinkedList();
+		final Collection<String> categories = Sets.newLinkedHashSet();
+
+		headers.add("Minecraft-ID");
+		headers.add("Display Name");
+		headers.add("Portal Image Name");
+		categories.add("Portal");
+		categories.add("Economics");
+
+		for (Entry<String, String> e : registry.entrySet())
+		{
+			if (e.getKey().startsWith(PolycraftMod.MC_PREFIX))
+			{
+				final Collection<String> row = Lists.newLinkedList();
+				row.add(e.getKey());
+				row.add(e.getValue());
+				row.add(PolycraftMod.getFileSafeName(e.getValue()));
+				data.add(row);
+			}
+			else
+			{
+				final Collection<String> row = Lists.newLinkedList();
+				row.add(e.getKey());
+				row.add(e.getValue());
+				row.add(PolycraftMod.getFileSafeName(e.getValue()));
+				data2.add(row);
+			}
+
+		}
+
+		final StringBuilder page = new StringBuilder(
+				getTable(headers, data));
+		page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
+		edit("Minecraft Mapping", page.toString(), editSummary);
+
+		final StringBuilder page2 = new StringBuilder(
+				getTable(headers, data2));
+		page.append(WIKI_NEWLINE).append(getCategoriesAsString(categories));
+		edit("Polycraft Mapping", page2.toString(), editSummary);
+
 	}
 
 	private static String[] HEADING_FORMATS = new String[] {

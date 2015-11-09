@@ -56,7 +56,7 @@ public class ItemStackSwitch {
 					stacksize);
 			isBlock = true;
 		}
-		else if (itemId.startsWith(PolycraftMod.MC_PREFIX + "112"))
+		else if (itemId.startsWith(PolycraftMod.MC_PREFIX + String.format("%04d", 112)))
 		{
 			this.itemStack = new ItemStack(PolycraftRegistry.blocks.get("Nether Brick"), stacksize);
 			//hack because it is the exact same name as the item once no spaces/underscores
