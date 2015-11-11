@@ -62,6 +62,9 @@ public class InventorySwap {
 
 				String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
 
+				if (contentFromPortal == null)
+					return false; //did not get a confirm string from the portal - don't sync
+
 				final Gson gson = gsonBuilderPull.create();
 				final Collection<ItemStackSwitch> pulledItemStackSwitches = gson.fromJson(
 						contentFromPortal,

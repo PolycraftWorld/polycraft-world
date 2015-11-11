@@ -49,13 +49,16 @@ public class NetUtil {
 			httpPost.setEntity(new ByteArrayEntity(message.getBytes("UTF-8")));
 		}
 		final HttpResponse response = httpclient.execute(httpPost);
-		final HttpEntity entity = response.getEntity();
-		if (entity != null) {
-			final InputStream instream = entity.getContent();
-			try {
-				return IOUtils.toString(instream);
-			} finally {
-				instream.close();
+		if (response.getStatusLine().toString().contains("200 OK"))
+		{
+			final HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				final InputStream instream = entity.getContent();
+				try {
+					return IOUtils.toString(instream);
+				} finally {
+					instream.close();
+				}
 			}
 		}
 		return null;

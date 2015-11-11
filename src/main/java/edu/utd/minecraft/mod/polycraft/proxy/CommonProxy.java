@@ -293,6 +293,10 @@ public abstract class CommonProxy {
 				}
 				return true;
 			}
+			else
+			{
+				//send message to say that the sync failed
+			}
 
 		}
 		return false;

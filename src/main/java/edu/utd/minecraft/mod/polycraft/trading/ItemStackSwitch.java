@@ -116,7 +116,7 @@ public class ItemStackSwitch {
 
 			return new ItemStackSwitch(
 					player,
-					jobject.get("name").getAsString(),
+					jobject.get("id").getAsString(),
 					jobject.get("damage").getAsInt(),
 					jobject.get("stacksize").getAsInt(),
 					enchantments);
@@ -129,7 +129,7 @@ public class ItemStackSwitch {
 		public JsonElement serialize(ItemStackSwitch src, Type typeOfSrc, JsonSerializationContext context) {
 
 			JsonObject itemInfo = new JsonObject();
-			itemInfo.addProperty("name", PolycraftRegistry.getRegistryIdFromItemStack(src.itemStack));
+			itemInfo.addProperty("id", PolycraftRegistry.getRegistryIdFromItemStack(src.itemStack));
 			itemInfo.addProperty("damage", src.itemStack.getItemDamage());
 			itemInfo.addProperty("stacksize", src.itemStack.stackSize);
 
