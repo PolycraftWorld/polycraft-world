@@ -112,7 +112,7 @@ public class ItemStackSwitch {
 				tag.setShort("lvl", specificEnchantment.get("level").getAsShort());
 				enchList.appendTag(tag);
 			}
-			enchantments.setTag("StoredEnchantments", enchList);
+			enchantments.setTag("ench", enchList);
 
 			return new ItemStackSwitch(
 					player,
@@ -136,7 +136,7 @@ public class ItemStackSwitch {
 			NBTTagCompound list;
 			if ((list = src.itemStack.getTagCompound()) != null)
 			{
-				JsonArray enchantArray = new JsonArray();
+				JsonObject enchantArray = new JsonObject();
 
 				for (int i = 0; i < list.getTagList("StoredEnchantments", 10).tagCount(); i++)
 				{
@@ -145,8 +145,18 @@ public class ItemStackSwitch {
 					NBTTagCompound tag = list.getTagList("StoredEnchantments", 10).getCompoundTagAt(i);
 					specificEnchantment.addProperty("level", tag.getShort("lvl"));
 					specificEnchantment.addProperty("id", tag.getShort("id"));
-					enchantArray.add(specificEnchantment);
+					enchantArray.add("StoredEnchantments", specificEnchantment);
 				}
+				for (int i = 0; i < list.getTagList("ench", 10).tagCount(); i++)
+				{
+					JsonObject specificEnchantment = new JsonObject();
+
+					NBTTagCompound tag = list.getTagList("ench", 10).getCompoundTagAt(i);
+					specificEnchantment.addProperty("level", tag.getShort("lvl"));
+					specificEnchantment.addProperty("id", tag.getShort("id"));
+					enchantArray.add(String.valueOf(i), specificEnchantment);
+				}
+
 				itemInfo.add("enchantments", enchantArray);
 			}
 			else
