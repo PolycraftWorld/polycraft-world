@@ -36,6 +36,7 @@ public class ItemStackSwitch {
 			final String itemId,
 			final int damage,
 			final int stacksize,
+			final String enchantmentType,
 			final NBTTagCompound enchantments)
 	{
 		this.player = player;
@@ -112,13 +113,14 @@ public class ItemStackSwitch {
 				tag.setShort("lvl", specificEnchantment.get("level").getAsShort());
 				enchList.appendTag(tag);
 			}
-			enchantments.setTag("ench", enchList);
+			enchantments.setTag(jobject.get("enchantment_type").getAsString(), enchList);
 
 			return new ItemStackSwitch(
 					player,
 					jobject.get("id").getAsString(),
 					jobject.get("damage").getAsInt(),
 					jobject.get("stacksize").getAsInt(),
+					jobject.get("enchantment_type").getAsString(),
 					enchantments);
 		}
 	}
@@ -136,26 +138,32 @@ public class ItemStackSwitch {
 			NBTTagCompound list;
 			if ((list = src.itemStack.getTagCompound()) != null)
 			{
-				JsonObject enchantArray = new JsonObject();
+				JsonArray enchantArray = new JsonArray();
+				int storedTagCount = list.getTagList("StoredEnchantments", 10).tagCount();
+				int userTagCount = list.getTagList("ench", 10).tagCount();
 
-				for (int i = 0; i < list.getTagList("StoredEnchantments", 10).tagCount(); i++)
+				for (int i = 0; i < storedTagCount; i++)
 				{
 					JsonObject specificEnchantment = new JsonObject();
 
 					NBTTagCompound tag = list.getTagList("StoredEnchantments", 10).getCompoundTagAt(i);
 					specificEnchantment.addProperty("level", tag.getShort("lvl"));
 					specificEnchantment.addProperty("id", tag.getShort("id"));
-					enchantArray.add("StoredEnchantments", specificEnchantment);
+					enchantArray.add(specificEnchantment);
 				}
-				for (int i = 0; i < list.getTagList("ench", 10).tagCount(); i++)
+				for (int i = 0; i < userTagCount; i++)
 				{
 					JsonObject specificEnchantment = new JsonObject();
 
 					NBTTagCompound tag = list.getTagList("ench", 10).getCompoundTagAt(i);
 					specificEnchantment.addProperty("level", tag.getShort("lvl"));
 					specificEnchantment.addProperty("id", tag.getShort("id"));
-					enchantArray.add(String.valueOf(i), specificEnchantment);
+					enchantArray.add(specificEnchantment);
 				}
+				if (storedTagCount > 0)
+					itemInfo.addProperty("enchantment_type", "StoredEnchantment");
+				else if (userTagCount > 0)
+					itemInfo.addProperty("enchantment_type", "ench");
 
 				itemInfo.add("enchantments", enchantArray);
 			}

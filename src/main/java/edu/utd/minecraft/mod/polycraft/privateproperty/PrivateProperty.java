@@ -63,6 +63,7 @@ public class PrivateProperty {
 			UseHopper,
 			PlaceSign,
 			PlaceTorch,
+			UseDispenser,
 			//FIXME figure out how to add this
 			//UsePhaseShifter
 		}

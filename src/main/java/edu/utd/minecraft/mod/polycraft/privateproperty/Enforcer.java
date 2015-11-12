@@ -9,13 +9,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockFurnace;
+import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockPressurePlate;
+import net.minecraft.block.BlockSign;
 import net.minecraft.block.BlockTNT;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.Entity;
@@ -33,6 +37,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.ItemSign;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -67,16 +72,20 @@ import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.contactprinter.ContactPrinterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -506,13 +515,19 @@ public abstract class Enforcer {
 			if (block instanceof BlockWorkbench) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseCraftingTable, blockChunk);
-			} else if (block instanceof BlockFurnace) {
-				possiblyPreventAction(event, event.entityPlayer,
-						Action.UseFurnace, blockChunk);
 			} else if (block instanceof BlockContainer) {
 				if (block instanceof BlockChest) {
 					possiblyPreventAction(event, event.entityPlayer,
 							Action.OpenChest, blockChunk);
+				} else if (block instanceof BlockFurnace) {
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.UseFurnace, blockChunk);
+				} else if (block instanceof BlockHopper) {
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.UseHopper, blockChunk);
+				} else if (block instanceof BlockDispenser) {
+					possiblyPreventAction(event, event.entityPlayer,
+							actionPrevented.UseDispenser, blockChunk);
 				} else if (block instanceof BlockEnderChest) {
 					possiblyPreventAction(event, event.entityPlayer,
 							Action.OpenEnderChest, blockChunk);
@@ -529,18 +544,13 @@ public abstract class Enforcer {
 					} else if (block instanceof FlowRegulatorBlock) {
 						possiblyPreventAction(event, event.entityPlayer,
 								Action.UseFlowRegulator, blockChunk);
-					} else if (block instanceof CondenserBlock) {
-						possiblyPreventAction(event, event.entityPlayer,
-								Action.UseCondenser, blockChunk);
-						// } else if (block instanceof OilDerrickBlock) {
-						// possiblyPreventAction(event, event.entityPlayer,
-						// Action.UseOilDerrick, blockChunk);
 					} else {
 						possiblyPreventAction(event,
 								(PolycraftInventoryBlock) block, blockChunk);
 					}
 				}
-			} else if (block instanceof BlockButton) {
+			}
+			else if (block instanceof BlockButton) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseButton, blockChunk);
 			} else if (block instanceof BlockLever) {
@@ -555,6 +565,12 @@ public abstract class Enforcer {
 			} else if (block instanceof BlockTrapDoor) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseTrapDoor, blockChunk);
+			} else if (block instanceof BlockTorch) {
+				possiblyPreventAction(event, event.entityPlayer,
+						actionPrevented.PlaceTorch, blockChunk);
+			} else if (block instanceof BlockSign) {
+				possiblyPreventAction(event, event.entityPlayer,
+						actionPrevented.PlaceSign, blockChunk);
 			} else if (block instanceof BlockFenceGate) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseFenceGate, blockChunk);
@@ -571,25 +587,27 @@ public abstract class Enforcer {
 								(PolycraftInventoryBlock) pBlock, blockChunk);
 					}
 				}
-			} else {
-				final ItemStack equippedItem = event.entityPlayer
-						.getCurrentEquippedItem();
-				if (equippedItem != null) {
-					if (equippedItem.getItem() instanceof ItemBlock) {
-						final Block equippedBlock = ((ItemBlock) equippedItem
-								.getItem()).field_150939_a;
-						if (equippedBlock instanceof BlockTNT) {
-							possiblyPreventAction(event, event.entityPlayer,
-									Action.AddBlockTNT, blockChunk);
-						} else {
-							possiblyPreventAction(event, event.entityPlayer,
-									Action.AddBlock, blockChunk);
-						}
+			}
+			//this should not be an else...this should also happen, so you cant place a block on a sign, torch, etc...
+
+			final ItemStack equippedItem = event.entityPlayer
+					.getCurrentEquippedItem();
+			if (equippedItem != null) {
+				if (equippedItem.getItem() instanceof ItemBlock) {
+					final Block equippedBlock = ((ItemBlock) equippedItem
+							.getItem()).field_150939_a;
+					if (equippedBlock instanceof BlockTNT) {
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.AddBlockTNT, blockChunk);
 					} else {
-						possiblyPreventUseEquippedItem(event);
+						possiblyPreventAction(event, event.entityPlayer,
+								Action.AddBlock, blockChunk);
 					}
+				} else {
+					possiblyPreventUseEquippedItem(event);
 				}
 			}
+
 			break;
 		default:
 			break;
@@ -618,6 +636,9 @@ public abstract class Enforcer {
 				} else if (equippedItem instanceof ItemFlintAndSteel) {
 					possiblyPreventAction(event, event.entityPlayer,
 							Action.UseFlintAndSteel);
+				} else if (equippedItem instanceof ItemSign) {
+					possiblyPreventAction(event, event.entityPlayer,
+							Action.PlaceSign);
 				}
 			}
 		}
@@ -663,6 +684,18 @@ public abstract class Enforcer {
 			} else if (polycraftInventoryBlock.tileEntityClass == OilDerrickInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseOilDerrick, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == ContactPrinterInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseContactPrinter, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == SolarArrayInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseSolarArray, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == TradingHouseInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseTradingHouse, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == MaskWriterInventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UseMaskWriter, blockChunk);
 			}
 		}
 	}
