@@ -35,7 +35,8 @@ public class ServerEnforcer extends Enforcer {
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
 		//TODO not sure why this is getting called multiple times with different world java objects for the same world
-		if (event.phase == TickEvent.Phase.END) {
+		if ((event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0))
+		{
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
@@ -115,20 +116,20 @@ public class ServerEnforcer extends Enforcer {
 
 	private void onWorldTickPrivateProperties(final TickEvent.WorldTickEvent event) {
 		//refresh private property permissions at the start of each day, or if we haven't loaded them yet
-		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 0 || privatePropertiesMasterJson == null || privatePropertiesNonMasterJson == null)) {
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksPrivateProperties == 1 || privatePropertiesMasterJson == null || privatePropertiesNonMasterJson == null)) {
 			try {
 				String url = portalRestUrl.startsWith("file:")
 						? portalRestUrl + "privatepropertiesinclude.json"
 						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
 						: String.format("%s/private_properties/worlds/include/%s/", portalRestUrl, event.world.getWorldInfo().getWorldName());
-				updatePrivateProperties(NetUtil.getText(url), true);
+				updatePrivateProperties(NetUtil.getText(url), true, true);
 				sendDataPackets(DataPacketType.PrivateProperties, 1);
 
 				url = portalRestUrl.startsWith("file:")
 						? portalRestUrl + "privatepropertiesexclude.json"
 						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
 						: String.format("%s/private_properties/worlds/exclude/%s/", portalRestUrl, event.world.getWorldInfo().getWorldName());
-				updatePrivateProperties(NetUtil.getText(url), false);
+				updatePrivateProperties(NetUtil.getText(url), false, true);
 				sendDataPackets(DataPacketType.PrivateProperties, 0);
 			} catch (final Exception e) {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)

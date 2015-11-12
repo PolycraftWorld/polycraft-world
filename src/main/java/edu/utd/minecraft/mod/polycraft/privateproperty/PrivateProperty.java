@@ -101,6 +101,7 @@ public class PrivateProperty {
 	}
 
 	public final boolean master;
+	public boolean keepMasterWorldSame;
 	public final String owner;
 	public final String name;
 	public final String message;
@@ -119,6 +120,7 @@ public class PrivateProperty {
 			final JsonArray chunks,
 			final JsonArray permissions) {
 		this.master = master;
+		this.keepMasterWorldSame = false;
 		this.owner = owner.getAsString();
 		this.name = name.getAsString();
 		this.message = message.getAsString();
