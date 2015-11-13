@@ -42,28 +42,28 @@ public class PrivateProperty {
 			UseButton,
 			UseLever,
 			UsePressurePlate,
-			UseFlowRegulator, //25
-			UseCondenser,
+			UseFlowRegulator,
+			UseCondenser, //25
 			UseFlameThrower,
 			UseBucket,
 			UseFreezeRay,
-			UseWaterCannon, //30
-			UseGaslamp,
+			UseWaterCannon,
+			UseGaslamp, //30
 			SpawnEntity,
 			MountEntity, //horse, donkey, mule, pig, minecart, boat, etc
 			UseDoor,
-			UseTrapDoor, //35
-			UseFenceGate,
+			UseTrapDoor, //34
+			UseFenceGate, //35
 			UseFlintAndSteel,
 			AddBlockTNT,
 			UseSolarArray, //added by Walter 11.3.2015 from here down...
 			UseContactPrinter,
-			UseTradingHouse,
+			UseTradingHouse, //40
 			UseMaskWriter,
 			UseHopper,
 			PlaceSign,
 			PlaceTorch,
-			UseDispenser,
+			UseDispenser, //45
 			//FIXME figure out how to add this
 			//UsePhaseShifter
 		}
@@ -133,10 +133,11 @@ public class PrivateProperty {
 		this.defaultPermissions = new PermissionSet(permissions.get(0).getAsJsonObject());
 		this.masterPermissions = new PermissionSet(new int[] {
 				0, //"Enter",
-				24, //"UsePressurePlate"
-				34, //"UseDoor",			
-				35, //"UseTrapDoor",
-				36, //"UseFenceGate",
+				5, //"OpenEnderChest"
+				23, //"UsePressurePlate"
+				33, //"UseDoor",			
+				34, //"UseTrapDoor",
+				35, //"UseFenceGate",
 				7 //"UseCraftingTable",				
 		});
 		this.permissionOverridesByUser = Maps.newHashMap();
