@@ -71,6 +71,7 @@ public class ClientProxy extends CommonProxy {
 	private static final int statusOverlayStartX = 5;
 	private static final int statusOverlayStartY = 5;
 	private static final int statusOverlayDistanceBetweenY = 10;
+	private static final int swapCooldownTime = 1200; //60 seconds x 20 ticks per sec
 
 	private Minecraft client;
 	private GameSettings gameSettings;
@@ -345,7 +346,7 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.syncCooldownRemaining == 0) {
 			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
 			if (clientWantsToSyncInventory) {
-				playerState.syncCooldownRemaining = 120;
+				playerState.syncCooldownRemaining = swapCooldownTime;
 				playerState.choseToSyncInventory = true;
 				sendMessageToServerClientWantsToSync(playerState.choseToSyncInventory);
 			}
@@ -356,7 +357,7 @@ public class ClientProxy extends CommonProxy {
 		else
 		{
 			playerState.syncCooldownRemaining--;
-			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV) && playerState.syncCooldownRemaining < 1100)
+			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV) && playerState.syncCooldownRemaining < swapCooldownTime - 100)
 			{
 				playerState.choseToSyncInventoryAgain = true;
 			}

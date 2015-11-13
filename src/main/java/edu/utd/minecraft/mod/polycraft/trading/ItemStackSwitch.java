@@ -113,7 +113,10 @@ public class ItemStackSwitch {
 				tag.setShort("lvl", specificEnchantment.get("level").getAsShort());
 				enchList.appendTag(tag);
 			}
-			enchantments.setTag(jobject.get("enchantment_type").getAsString(), enchList);
+			if ((jobject.get("enchantment_type").getAsString()).equals("StoredEnchantment"))
+				enchantments.setTag("StoredEnchantments", enchList);
+			else if ((jobject.get("enchantment_type").getAsString()).equals("ench"))
+				enchantments.setTag("ench", enchList);
 
 			return new ItemStackSwitch(
 					player,
@@ -161,14 +164,21 @@ public class ItemStackSwitch {
 					enchantArray.add(specificEnchantment);
 				}
 				if (storedTagCount > 0)
+				{
 					itemInfo.addProperty("enchantment_type", "StoredEnchantment");
+					itemInfo.add("enchantments", enchantArray);
+					return itemInfo;
+				}
 				else if (userTagCount > 0)
+				{
 					itemInfo.addProperty("enchantment_type", "ench");
-
-				itemInfo.add("enchantments", enchantArray);
+					itemInfo.add("enchantments", enchantArray);
+					return itemInfo;
+				}
 			}
-			else
-				itemInfo.add("enchantments", new JsonArray());
+			//if (src.itemStack.getMaxStackSize() == 1)
+			itemInfo.add("enchantments", new JsonArray());
+			itemInfo.addProperty("enchantment_type", "");
 
 			// TODO Auto-generated method stub
 			return itemInfo;
