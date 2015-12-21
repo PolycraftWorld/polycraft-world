@@ -65,6 +65,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
@@ -574,6 +575,9 @@ public abstract class Enforcer {
 			} else if (block instanceof BlockFenceGate) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseFenceGate, blockChunk);
+			} else if (block instanceof BlockPipe) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.UsePipe, blockChunk);
 			} else if (block instanceof BlockCollision) {
 				final TileEntity tileEntity = BlockCollision
 						.findConnectedInventory(event.world, event.x, event.y,

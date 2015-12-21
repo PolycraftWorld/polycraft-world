@@ -29,11 +29,11 @@
     	"targetFile": "Polycraft 1.3.0 Resource Pack.zip"
     },
     {
-    	"name": "com.polycraftworld:polycraft-1.4.0",
-    	"url": "https://polycraft.utdallas.edu/downloads/polycraft-1.4.0.jar",
+    	"name": "com.polycraftworld:polycraft-1.4.2",
+    	"url": "https://polycraft.utdallas.edu/downloads/polycraft-1.4.2.jar",
     	"clientreq": true,
     	"target": "mods",
-    	"targetFile": "polycraft-1.4.0.jar",
+    	"targetFile": "polycraft-1.4.2.jar",
     	"deleteOthers": true,
     	"deleteFilesWithPrefix": "polycraft-",
     	"deleteFilesWithSuffix": ".jar",

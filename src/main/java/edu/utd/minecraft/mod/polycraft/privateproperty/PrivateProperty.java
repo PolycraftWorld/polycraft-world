@@ -64,6 +64,7 @@ public class PrivateProperty {
 			PlaceSign,
 			PlaceTorch,
 			UseDispenser, //45
+			UsePipe,
 			//FIXME figure out how to add this
 			//UsePhaseShifter
 		}

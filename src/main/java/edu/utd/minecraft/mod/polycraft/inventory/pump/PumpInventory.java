@@ -213,6 +213,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		public Terminal source;
 		public Terminal defaultTarget;
 		public Map<Item, Terminal> regulatedTargets;
+		public boolean pumpShutOffValve;
 
 		public FlowNetwork(final Vec3 pumpCoords)
 		{
@@ -220,12 +221,14 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			pumpFlowDirection = worldObj.getBlockMetadata((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord);
 			coordsUsed.add(getHashVec3(pumpCoords));
 			//find the source (going the opposite direction of the flow, starting at the pump)
+
 			source = findNetworkSource(pumpCoords, pumpFlowDirection);
 			if (source != null) {
 				//find the targets (going the direction of the flow, starting at the pump)
 				regulatedTargets = new HashMap<Item, Terminal>();
 				defaultTarget = findNetworkTargetInventories(pumpCoords, pumpFlowDirection, false, 0);
 			}
+
 		}
 
 		public int flow(int numItems)
@@ -325,6 +328,14 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 		public boolean isValid()
 		{
+			if (worldObj.isBlockIndirectlyGettingPowered((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord))
+			{
+				pumpShutOffValve = true;
+				return false;
+			}
+			else
+				pumpShutOffValve = false;
+
 			return source != null && defaultTarget != null && regulatedTargets != null;
 		}
 

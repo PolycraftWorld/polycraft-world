@@ -1157,13 +1157,13 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				"Vial (4,4-Difluorobenzophenone)"	1	Bag (Disodium Hydroquinone)	1							Bag (PolyEther Ether Ketone Pellets)	2																
 1.1.2				"Vial (4,4-Difluorobenzophenone)"	4	Bag (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8																
 1.1.2				"Vial (4,4-Difluorobenzophenone)"	16	Bag (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32																
-1.1.2				"Beaker (4,4-Difluorobenzophenone)"	1	Sack (Disodium Hydroquinone)	1							Bag (PolyEther Ether Ketone Pellets)	2																
-1.1.2				"Beaker (4,4-Difluorobenzophenone)"	4	Sack (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8																
-1.1.2				"Beaker (4,4-Difluorobenzophenone)"	16	Sack (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32																
-1.1.2				"Drum (4,4-Difluorobenzophenone)"	1	Powder Keg (Disodium Hydroquinone)	1							Bag (PolyEther Ether Ketone Pellets)	2																
-1.1.2				"Drum (4,4-Difluorobenzophenone)"	4	Powder Keg (Disodium Hydroquinone)	4							Bag (PolyEther Ether Ketone Pellets)	8																
-1.1.2				"Drum (4,4-Difluorobenzophenone)"	16	Powder Keg (Disodium Hydroquinone)	16							Bag (PolyEther Ether Ketone Pellets)	32																
-1.1.2				"Drum (4,4-Difluorobenzophenone)"	64	Powder Keg (Disodium Hydroquinone)	64							Bag (PolyEther Ether Ketone Pellets)	64	Bag (PolyEther Ether Ketone Pellets)	64														
+1.1.2				"Beaker (4,4-Difluorobenzophenone)"	1	Sack (Disodium Hydroquinone)	1							Sack (PolyEther Ether Ketone Pellets)	2																
+1.1.2				"Beaker (4,4-Difluorobenzophenone)"	4	Sack (Disodium Hydroquinone)	4							Sack (PolyEther Ether Ketone Pellets)	8																
+1.1.2				"Beaker (4,4-Difluorobenzophenone)"	16	Sack (Disodium Hydroquinone)	16							Sack (PolyEther Ether Ketone Pellets)	32																
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	1	Powder Keg (Disodium Hydroquinone)	1							Powder Keg (PolyEther Ether Ketone Pellets)	2																
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	4	Powder Keg (Disodium Hydroquinone)	4							Powder Keg (PolyEther Ether Ketone Pellets)	8																
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	16	Powder Keg (Disodium Hydroquinone)	16							Powder Keg (PolyEther Ether Ketone Pellets)	32																
+1.1.2				"Drum (4,4-Difluorobenzophenone)"	64	Powder Keg (Disodium Hydroquinone)	64							Powder Keg (PolyEther Ether Ketone Pellets)	64	Powder Keg (PolyEther Ether Ketone Pellets)	64														
 1.1.2				Flask (Carbon Monoxide)	1	Flask (Hydrogen)	2	Zinc Nitrate Catalyst	1					Vial (Methanol)	1																
 1.1.2				Flask (Carbon Monoxide)	4	Flask (Hydrogen)	8	Zinc Nitrate Catalyst	2					Vial (Methanol)	4																
 1.1.2				Flask (Carbon Monoxide)	16	Flask (Hydrogen)	32	Zinc Nitrate Catalyst	3					Vial (Methanol)	16																
