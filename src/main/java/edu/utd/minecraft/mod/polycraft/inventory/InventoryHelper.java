@@ -68,74 +68,198 @@ public class InventoryHelper {
 
 		ItemStack sourceItemStack = source.getStackInSlot(sourceSlotIndex);
 		ItemStack targetItemStack = target.inventory.getStackInSlot(targetSlotIndex);
-		ItemStack prototypeStack = target.itemStack;
+		ItemStack regulatedItemStack = target.itemStack;
 
-		if ((sourceItemStack == null) || (targetItemStack != null))
+		if (sourceItemStack == null)
 			return false;
 
-		if (sourceItemStack.getItem() instanceof ItemVessel)
+		if ((regulatedItemStack != null) && (sourceItemStack.getItem() == regulatedItemStack.getItem()))
 		{
-			if (!(prototypeStack.getItem() instanceof ItemVessel))
+			if (sourceItemStack.stackSize < regulatedItemStack.stackSize)
 			{
 				return false;
 			}
-
-			ItemVessel sourceVessel = (ItemVessel) sourceItemStack.getItem();
-			ItemVessel prototypeVessel = (ItemVessel) prototypeStack.getItem();
-
-			if (sourceVessel.config.vesselType == prototypeVessel.config.vesselType)
+			else if (regulatedItemStack.stackSize > 1)
 			{
-				if (sourceItemStack.stackSize < prototypeStack.stackSize)
+				if (targetItemStack != null)
 				{
 					return false;
 				}
+				else //limit the flow to the stack number
+				{
+					targetItemStack = new ItemStack(sourceItemStack.getItem(), regulatedItemStack.stackSize);
 
-				ItemStack splitStack = new ItemStack(prototypeVessel, prototypeStack.stackSize);
-				PolycraftItemHelper.createTagCompound(splitStack);
-				splitStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
-				target.inventory.setInventorySlotContents(targetSlotIndex, splitStack);
+					if (sourceItemStack.hasTagCompound())
+					{
+						PolycraftItemHelper.createTagCompound(targetItemStack);
+						targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+					}
+					sourceItemStack.stackSize = sourceItemStack.stackSize - targetItemStack.stackSize;
+					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+					source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+				}
+			}
+			else //flow as many as possible even though it is regulated
+			{
+				if (targetItemStack == null)
+				{
+					targetItemStack = new ItemStack(sourceItemStack.getItem(), sourceItemStack.stackSize);
 
-				sourceItemStack.stackSize -= prototypeStack.stackSize;
-				if (sourceItemStack.stackSize == 0)
-					source.setInventorySlotContents(sourceSlotIndex, null);
-				else
+					if (sourceItemStack.hasTagCompound())
+					{
+						PolycraftItemHelper.createTagCompound(targetItemStack);
+						targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+					}
+					sourceItemStack = null;
+					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
 					source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
 
+				}
+				else
+				{
+					if (targetItemStack.getItem() != sourceItemStack.getItem())
+						return false;
+
+					else if (sourceItemStack.stackSize + targetItemStack.stackSize > targetItemStack.getMaxStackSize())
+					{
+						targetItemStack.stackSize = targetItemStack.getMaxStackSize();
+						sourceItemStack.stackSize = sourceItemStack.stackSize + targetItemStack.stackSize - targetItemStack.getMaxStackSize();
+						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+						source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+					}
+					else
+					{
+						targetItemStack.stackSize += sourceItemStack.stackSize;
+						sourceItemStack = null;
+						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+						source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+					}
+				}
+
 			}
-			else if (!sourceVessel.config.vesselType.isLarger(prototypeVessel.config.vesselType))
+
+		}
+		else if ((regulatedItemStack != null) && (sourceItemStack.getItem() != regulatedItemStack.getItem()))
+		{
+			if (!(sourceItemStack.getItem() instanceof ItemVessel))
 				return false;
+			if (!(regulatedItemStack.getItem() instanceof ItemVessel))
+				return false;
+
+			ItemVessel sourceVessel = (ItemVessel) sourceItemStack.getItem();
+			ItemVessel regulatedVessel = (ItemVessel) regulatedItemStack.getItem();
+
+			if (sourceVessel.config.vesselType.isLarger(regulatedVessel.config.vesselType))
+			{
+
+				if (regulatedItemStack.stackSize > 1)
+				{
+					if (targetItemStack != null)
+					{
+						return false;
+					}
+
+					targetItemStack = new ItemStack(regulatedVessel, regulatedItemStack.stackSize);
+					if (sourceItemStack.hasTagCompound())
+					{
+						PolycraftItemHelper.createTagCompound(targetItemStack);
+						targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+					}
+
+					sourceItemStack.stackSize--;
+
+					if (sourceItemStack.stackSize == 0)
+						source.setInventorySlotContents(sourceSlotIndex, null);
+
+					//deal with the waste
+					ItemStack splitStack = new ItemStack(regulatedVessel, targetItemStack.getMaxStackSize() - targetItemStack.stackSize);
+					if (sourceItemStack.hasTagCompound())
+					{
+						PolycraftItemHelper.createTagCompound(splitStack);
+						splitStack.stackTagCompound = sourceItemStack.getTagCompound();
+					}
+					transferItemToNextValidSlot(source, splitStack, 0); //transfers the remainder into the next open slot in the source
+
+					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+				}
+				else //regulatedItemStack.stackSize == 1 so 
+				{
+
+					if (targetItemStack != null)
+					{
+						if (targetItemStack.stackSize == targetItemStack.getMaxStackSize())
+							return false;
+						sourceItemStack.stackSize--;
+						if (sourceItemStack.stackSize == 0)
+							source.setInventorySlotContents(sourceSlotIndex, null);
+
+						//deal with the waste
+						ItemStack splitStack = new ItemStack(regulatedVessel, targetItemStack.getMaxStackSize() - targetItemStack.stackSize);
+						if (sourceItemStack.hasTagCompound())
+						{
+							PolycraftItemHelper.createTagCompound(splitStack);
+							splitStack.stackTagCompound = sourceItemStack.getTagCompound();
+						}
+						transferItemToNextValidSlot(source, splitStack, 0); //transfers the remainder into the next open slot in the source					
+						targetItemStack.stackSize = targetItemStack.getMaxStackSize();
+						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+					}
+					else //target was null so fill it up
+					{
+						sourceItemStack.stackSize--;
+						if (sourceItemStack.stackSize == 0)
+							source.setInventorySlotContents(sourceSlotIndex, null);
+						targetItemStack = new ItemStack(regulatedVessel, sourceItemStack.getMaxStackSize());
+						if (sourceItemStack.hasTagCompound())
+						{
+							PolycraftItemHelper.createTagCompound(targetItemStack);
+							targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+						}
+						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+					}
+
+				}
+
+			}
+		}
+
+		else //not flow regulated
+		{
+			if (targetItemStack == null)
+			{
+				targetItemStack = new ItemStack(sourceItemStack.getItem(), sourceItemStack.stackSize);
+
+				if (sourceItemStack.hasTagCompound())
+				{
+					PolycraftItemHelper.createTagCompound(targetItemStack);
+					targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+				}
+				sourceItemStack = null;
+				target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+				source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+
+			}
 			else
 			{
-				sourceItemStack.stackSize--;
-				targetItemStack = new ItemStack(prototypeVessel, prototypeStack.stackSize);
-				PolycraftItemHelper.createTagCompound(targetItemStack);
-				targetItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+				if (targetItemStack.getItem() != sourceItemStack.getItem())
+					return false;
 
-				target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
-
-				if (sourceItemStack.stackSize == 0)
-					source.setInventorySlotContents(sourceSlotIndex, null);
-
-				//deal with the waste
-				ItemStack splitStack = new ItemStack(prototypeVessel, targetItemStack.getMaxStackSize() - targetItemStack.stackSize);
-				PolycraftItemHelper.createTagCompound(splitStack);
-				splitStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
-				transferItemToNextValidSlot(source, splitStack, 0); //transfers the remainder into the next open slot in the source
-
+				else if (sourceItemStack.stackSize + targetItemStack.stackSize > targetItemStack.getMaxStackSize())
+				{
+					targetItemStack.stackSize = targetItemStack.getMaxStackSize();
+					sourceItemStack.stackSize = sourceItemStack.stackSize + targetItemStack.stackSize - targetItemStack.getMaxStackSize();
+					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+					source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+				}
+				else
+				{
+					targetItemStack.stackSize += sourceItemStack.stackSize;
+					sourceItemStack = null;
+					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
+					source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
+				}
 			}
-		}
-		else if (sourceItemStack.stackSize < prototypeStack.stackSize)
-		{
-			return false;
-		}
-		else if (sourceItemStack.getItem() != prototypeStack.getItem())
-		{
-			return false;
-		}
-		else
-		{
-			target.inventory.setInventorySlotContents(targetSlotIndex, sourceItemStack);
-			target.inventory.setInventorySlotContents(sourceSlotIndex, null);
+
 		}
 
 		source.markDirty();

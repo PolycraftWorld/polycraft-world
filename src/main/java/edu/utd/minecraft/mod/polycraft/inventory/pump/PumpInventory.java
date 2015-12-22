@@ -176,7 +176,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 		public class ExplicitTerminal extends Terminal
 		{
-			public ItemStack itemStack;
+			public ItemStack itemStack; //this is set when the target is regulated to a certain direction
 
 			public ExplicitTerminal(Vec3 coords, IInventory inventory, int distanceFromPump) {
 				super(coords, inventory, distanceFromPump);
@@ -213,6 +213,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		public Terminal source;
 		public Terminal defaultTarget;
 		public Map<Item, Terminal> regulatedTargets;
+		public boolean flowDistributor = false;
 		public boolean pumpShutOffValve;
 
 		public FlowNetwork(final Vec3 pumpCoords)
@@ -243,7 +244,15 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						ItemStack itemstack = source.inventory.getStackInSlot(i);
 						if (itemstack != null) {
 							boolean defaultTransfer = false;
-							Terminal target = regulatedTargets.get(itemstack.getItem());
+							Terminal target;
+							//if (!flowDistributor)
+							target = regulatedTargets.get(itemstack.getItem());
+							//							else
+							//							{
+							//								Item distributeAll = new Item();
+							//								distributeAll.setUnlocalizedName("Distributor" + String.valueOf(i));
+							//								target = regulatedTargets.get(distributeAll);
+							//							}
 
 							if (target == null)
 							{
@@ -292,9 +301,10 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 									}
 								}
-								else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
-									numItems--;
-									itemsFlowed++;
+								//else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
+								else if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+									numItems--; //this may be misleading
+									itemsFlowed++; //TODO: this may be misleading now 12.20.15 WV
 									//go back out the while loop to ensure we are supposed to send more items,
 									//and to keep trying if there are more that we can send from this slot
 									break;
@@ -421,11 +431,14 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 					//WEST, EAST, BOTTOM, TOP
 					for (int i = 0; i < regulatorInventory.getSizeInventory(); i++)
 					{
+						//Item distributeAll = new Item();
 						final ItemStack regulatorItemStack = regulatorInventory.getStackInSlot(i);
 						if (regulatorItemStack != null) {
-							//if we have already regulated this item, this is an invalid network
+							//if we have already regulated this item, the regulator becomes a distribution hub
 							if (regulatedTargets.containsKey(regulatorItemStack.getItem())) {
 								regulatedTargets = null;
+								//distributeAll.setUnlocalizedName("Distributor" + String.valueOf(i));
+								//flowDistributor = true;
 								return null;
 							}
 							final Terminal regulatedTarget = findNetworkTargetInventories(coords, REGULATED_DIRECTIONS[flowDirection][i].ordinal(), true, distanceFromPump);
@@ -435,8 +448,11 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 								{
 									((ExplicitTerminal) regulatedTarget).itemStack = regulatorItemStack;
 								}
+								//if (flowDistributor)
+								//	regulatedTargets.put(distributeAll, regulatedTarget);
+								//else
 								regulatedTargets.put(regulatorItemStack.getItem(), regulatedTarget);
-
+								//flowDistributor = false;
 							}
 						}
 					}
