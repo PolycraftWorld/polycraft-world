@@ -13,7 +13,7 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 
 public class InventoryHelper {
 
-	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, int side) {
+	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, int side, int size) {
 		ItemStack itemstack = source.getStackInSlot(sourceSlotIndex);
 
 		if (itemstack != null)
@@ -29,7 +29,7 @@ public class InventoryHelper {
 
 			if ((!(source instanceof ISidedInventory) || ((ISidedInventory) source).canExtractItem(sourceSlotIndex, itemstack, side))) {
 				ItemStack itemstack1 = itemstack.copy();
-				ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, 1), -1);
+				ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, size), -1);
 
 				if (itemstack2 == null || itemstack2.stackSize == 0)
 				{
@@ -68,7 +68,7 @@ public class InventoryHelper {
 
 		ItemStack sourceItemStack = source.getStackInSlot(sourceSlotIndex);
 		ItemStack targetItemStack = target.inventory.getStackInSlot(targetSlotIndex);
-		ItemStack regulatedItemStack = target.itemStack;
+		ItemStack regulatedItemStack = target.itemStackInFlowRegulator;
 
 		if (sourceItemStack == null)
 			return false;

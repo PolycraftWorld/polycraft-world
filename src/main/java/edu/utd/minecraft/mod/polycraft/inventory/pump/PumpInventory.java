@@ -1,7 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.inventory.pump;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,14 +22,9 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
-import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
-import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
-import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -37,7 +34,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
-import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 
 public class PumpInventory extends StatefulInventory<PumpState> implements ISidedInventory {
 
@@ -165,6 +161,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			public final Vec3 coords;
 			public final IInventory inventory;
 			public final int distanceFromPump;
+			public ItemStack itemStackInFlowRegulator; //this is set when the target is regulated to a certain direction
 
 			public Terminal(final Vec3 coords, final IInventory inventory, final int distanceFromPump)
 			{
@@ -176,7 +173,6 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 		public class ExplicitTerminal extends Terminal
 		{
-			public ItemStack itemStack; //this is set when the target is regulated to a certain direction
 
 			public ExplicitTerminal(Vec3 coords, IInventory inventory, int distanceFromPump) {
 				super(coords, inventory, distanceFromPump);
@@ -212,8 +208,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		public final Set<String> coordsUsed = new HashSet<String>();
 		public Terminal source;
 		public Terminal defaultTarget;
-		public Map<Item, Terminal> regulatedTargets;
-		public boolean flowDistributor = false;
+		public Map<Item, ArrayList<Terminal>> regulatedTargets;
 		public boolean pumpShutOffValve;
 
 		public FlowNetwork(final Vec3 pumpCoords)
@@ -226,7 +221,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			source = findNetworkSource(pumpCoords, pumpFlowDirection);
 			if (source != null) {
 				//find the targets (going the direction of the flow, starting at the pump)
-				regulatedTargets = new HashMap<Item, Terminal>();
+				regulatedTargets = new HashMap<Item, ArrayList<Terminal>>();
 				defaultTarget = findNetworkTargetInventories(pumpCoords, pumpFlowDirection, false, 0);
 			}
 
@@ -236,101 +231,196 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		{
 			int itemsFlowed = 0;
 			if (isValid()) {
-				//explicit calls here
 
 				while (numItems > 0) {
 					int i = 0;
+					boolean breakTransfer = false;
 					for (; i < source.inventory.getSizeInventory(); ++i) {
-						ItemStack itemstack = source.inventory.getStackInSlot(i);
-						if (itemstack != null) {
-							boolean defaultTransfer = false;
-							Terminal target;
-							//if (!flowDistributor)
-							target = regulatedTargets.get(itemstack.getItem());
-							//							else
-							//							{
-							//								Item distributeAll = new Item();
-							//								distributeAll.setUnlocalizedName("Distributor" + String.valueOf(i));
-							//								target = regulatedTargets.get(distributeAll);
-							//							}
-
-							if (target == null)
-							{
-								if (itemstack.getItem() instanceof ItemVessel)
-								{
-									ItemVessel regulatedVessel = (ItemVessel) itemstack.getItem();
-									ItemVessel smallerVessel = null;
-
-									if (regulatedVessel.config.vesselType.smallerType != null) {
-										GameIdentifiedConfig smallerConfig = null;
-										if (regulatedVessel.config instanceof ElementVessel)
-											smallerConfig = ElementVessel.registry.find(((ElementVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
-										if (regulatedVessel.config instanceof CompoundVessel)
-											smallerConfig = CompoundVessel.registry.find(((CompoundVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
-										else if (regulatedVessel.config instanceof PolymerPellets)
-											smallerConfig = PolymerPellets.registry.find(((PolymerPellets) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
-										if (smallerConfig != null)
-										{
-											smallerVessel = (ItemVessel) PolycraftRegistry.getItem(smallerConfig);
-											target = regulatedTargets.get(smallerVessel);
-										}
+						ItemStack regulatedItemStack = source.inventory.getStackInSlot(i); //number of items in the source			
+						if (regulatedItemStack != null) {
+							ArrayList<Terminal> targets = regulatedTargets.get(regulatedItemStack.getItem());
+							if (targets == null) {
+								if ((defaultTarget instanceof ExplicitTerminal)) {
+									if (InventoryHelper.transferExplicit(((ExplicitTerminal) defaultTarget), source.inventory, i)) {
+										numItems--;
+										itemsFlowed++;
+										break;
 									}
 								}
-
-								if (target == null) // if it still is null 
-								{
-									target = defaultTarget;
-									defaultTransfer = true;
+								else {
+									if (InventoryHelper.transfer(defaultTarget.inventory, source.inventory, i, 0, 1)) {
+										numItems--;
+										itemsFlowed++;
+										break;
+									}
 								}
-
 							}
-							if ((target instanceof ExplicitTerminal))
+							else
 							{
-								ItemStack regulatedItemStack = ((ExplicitTerminal) target).itemStack;
-								if (regulatedItemStack != null)
+								Iterator<Terminal> targetIter = targets.iterator();
+								breakTransfer = false;
+								while (targetIter.hasNext())
 								{
-									if (numItems >= regulatedItemStack.stackSize)
-									{
-										if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
-											numItems -= regulatedItemStack.stackSize;
-											itemsFlowed += regulatedItemStack.stackSize;
-											//go back out the while loop to ensure we are supposed to send more items,
-											//and to keep trying if there are more that we can send from this slot
-											break;
-										}
+									Terminal target = targetIter.next();
+									if (target.itemStackInFlowRegulator != null) {
+										if ((numItems >= target.itemStackInFlowRegulator.stackSize) && (regulatedItemStack.stackSize >= target.itemStackInFlowRegulator.stackSize)) {
+											if ((target instanceof ExplicitTerminal)) {
+												if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+													numItems -= target.itemStackInFlowRegulator.stackSize;
+													itemsFlowed += target.itemStackInFlowRegulator.stackSize;
+													breakTransfer = true;
+												}
+											}
+											else {
+												if (InventoryHelper.transfer(((Terminal) target).inventory, source.inventory, i, 0, target.itemStackInFlowRegulator.stackSize)) {
+													numItems -= target.itemStackInFlowRegulator.stackSize;
+													itemsFlowed += target.itemStackInFlowRegulator.stackSize;
+													breakTransfer = true;
+												}
+											}
 
+										}
 									}
 								}
-								//else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
-								else if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
-									numItems--; //this may be misleading
-									itemsFlowed++; //TODO: this may be misleading now 12.20.15 WV
-									//go back out the while loop to ensure we are supposed to send more items,
-									//and to keep trying if there are more that we can send from this slot
+								if (breakTransfer)
 									break;
-								}
-
-							}
-
-							else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
-								//else if ((defaultTransfer) && (InventoryHelper.transfer(target.inventory, source.inventory, i, 0))) {
-								numItems--;
-								itemsFlowed++;
-								//go back out the while loop to ensure we are supposed to send more items,
-								//and to keep trying if there are more that we can send from this slot
-								break;
 							}
 						}
 					}
-					//there are no (more) items to flow, so stop trying
 					if (i == source.inventory.getSizeInventory())
 						break;
 				}
 			}
-
 			return itemsFlowed;
-
 		}
+
+		//										}
+		//
+		//										else if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+		//											numItems--; //this may be misleading
+		//											itemsFlowed++; //TODO: this may be misleading now 12.20.15 WV
+		//											//go back out the while loop to ensure we are supposed to send more items,
+		//											//and to keep trying if there are more that we can send from this slot
+		//	
+		//										}
+		//	
+		//									}
+		//									else if (numItems >= regulatedItemStack.stackSize) //TODO finish this line
+		//									{
+		//										if (InventoryHelper.transfer(((Terminal)target).inventory, source.inventory, i, 0, regulatedItemStack.stackSize)) {
+		//											//else if ((defaultTransfer) && (InventoryHelper.transfer(target.inventory, source.inventory, i, 0))) {
+		//											numItems -= regulatedItemStack.stackSize;
+		//											itemsFlowed += regulatedItemStack.stackSize;
+		//											//go back out the while loop to ensure we are supposed to send more items,
+		//											//and to keep trying if there are more that we can send from this slot												
+		//										}
+		//									}
+		//
+		//							}
+		//
+		//						}
+		//						break;
+		//
+		//						//}
+		//					}
+		//
+		//				}
+		//				//there are no (more) items to flow, so stop trying
+		//				if (i == source.inventory.getSizeInventory())
+		//					break;
+		//			}
+		//
+		//			}
+		//
+		//				else
+		//				{
+		//
+		//					while (numItems > 0) {
+		//						int i = 0;
+		//						for (; i < source.inventory.getSizeInventory(); ++i) {
+		//							ItemStack itemstack = source.inventory.getStackInSlot(i);
+		//							if (itemstack != null) {
+		//								boolean defaultTransfer = false;
+		//								Terminal target = regulatedTargets.get(itemstack.getItem());
+		//
+		//								if (target == null)
+		//								{
+		//									if (itemstack.getItem() instanceof ItemVessel)
+		//									{
+		//										ItemVessel regulatedVessel = (ItemVessel) itemstack.getItem();
+		//										ItemVessel smallerVessel = null;
+		//
+		//										if (regulatedVessel.config.vesselType.smallerType != null) {
+		//											GameIdentifiedConfig smallerConfig = null;
+		//											if (regulatedVessel.config instanceof ElementVessel)
+		//												smallerConfig = ElementVessel.registry.find(((ElementVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
+		//											if (regulatedVessel.config instanceof CompoundVessel)
+		//												smallerConfig = CompoundVessel.registry.find(((CompoundVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
+		//											else if (regulatedVessel.config instanceof PolymerPellets)
+		//												smallerConfig = PolymerPellets.registry.find(((PolymerPellets) regulatedVessel.config).source, regulatedVessel.config.vesselType.smallerType);
+		//											if (smallerConfig != null)
+		//											{
+		//												smallerVessel = (ItemVessel) PolycraftRegistry.getItem(smallerConfig);
+		//												target = regulatedTargets.get(smallerVessel);
+		//											}
+		//										}
+		//									}
+		//
+		//									if (target == null) // if it still is null 
+		//									{
+		//										target = defaultTarget;
+		//										defaultTransfer = true;
+		//									}
+		//
+		//								}
+		//								if ((target instanceof ExplicitTerminal))
+		//								{
+		//									ItemStack regulatedItemStack = ((ExplicitTerminal) target).itemStack;
+		//									if (regulatedItemStack != null)
+		//									{
+		//										if (numItems >= regulatedItemStack.stackSize)
+		//										{
+		//											if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+		//												numItems -= regulatedItemStack.stackSize;
+		//												itemsFlowed += regulatedItemStack.stackSize;
+		//												//go back out the while loop to ensure we are supposed to send more items,
+		//												//and to keep trying if there are more that we can send from this slot
+		//												break;
+		//											}
+		//
+		//										}
+		//									}
+		//									//else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0)) {
+		//									else if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+		//										numItems--; //this may be misleading
+		//										itemsFlowed++; //TODO: this may be misleading now 12.20.15 WV
+		//										//go back out the while loop to ensure we are supposed to send more items,
+		//										//and to keep trying if there are more that we can send from this slot
+		//										break;
+		//									}
+		//
+		//								}
+		//
+		//								else if (InventoryHelper.transfer(target.inventory, source.inventory, i, 0, 1)) {
+		//									//else if ((defaultTransfer) && (InventoryHelper.transfer(target.inventory, source.inventory, i, 0))) {
+		//									numItems--;
+		//									itemsFlowed++;
+		//									//go back out the while loop to ensure we are supposed to send more items,
+		//									//and to keep trying if there are more that we can send from this slot
+		//									break;
+		//								}
+		//							}
+		//						}
+		//						//there are no (more) items to flow, so stop trying
+		//						if (i == source.inventory.getSizeInventory())
+		//							break;
+		//					}
+		//				}
+		//			}
+		//
+		//			return itemsFlowed;
+		//
+		//		}
 
 		public String getHashVec3(final Vec3 vec3) {
 			return (int) vec3.xCoord + "." + (int) vec3.yCoord + "." + (int) vec3.zCoord;
@@ -405,6 +495,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 		private Terminal findNetworkTargetInventories(Vec3 coords, int flowDirection, final boolean regulatorPath, final int regulatorDistanceFromPump) {
 			int distanceFromPump = 0;
+			//flowDistributor = false;
 			while (regulatedTargets != null) {
 				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, false);
 				final String hash = getHashVec3(coords);
@@ -431,28 +522,27 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 					//WEST, EAST, BOTTOM, TOP
 					for (int i = 0; i < regulatorInventory.getSizeInventory(); i++)
 					{
+						ArrayList terminalsList = null;
 						//Item distributeAll = new Item();
 						final ItemStack regulatorItemStack = regulatorInventory.getStackInSlot(i);
 						if (regulatorItemStack != null) {
+
 							//if we have already regulated this item, the regulator becomes a distribution hub
 							if (regulatedTargets.containsKey(regulatorItemStack.getItem())) {
-								regulatedTargets = null;
-								//distributeAll.setUnlocalizedName("Distributor" + String.valueOf(i));
-								//flowDistributor = true;
-								return null;
+								terminalsList = regulatedTargets.get(regulatorItemStack.getItem());
+								if (terminalsList == null)
+									terminalsList = new ArrayList();
 							}
+							else
+								terminalsList = new ArrayList();
+
 							final Terminal regulatedTarget = findNetworkTargetInventories(coords, REGULATED_DIRECTIONS[flowDirection][i].ordinal(), true, distanceFromPump);
 							if (regulatedTarget != null)
 							{
-								if (regulatedTarget instanceof ExplicitTerminal)
-								{
-									((ExplicitTerminal) regulatedTarget).itemStack = regulatorItemStack;
-								}
-								//if (flowDistributor)
-								//	regulatedTargets.put(distributeAll, regulatedTarget);
-								//else
-								regulatedTargets.put(regulatorItemStack.getItem(), regulatedTarget);
-								//flowDistributor = false;
+								regulatedTarget.itemStackInFlowRegulator = regulatorItemStack;
+								terminalsList.add(regulatedTarget);
+								regulatedTargets.put(regulatorItemStack.getItem(), terminalsList);
+
 							}
 						}
 					}

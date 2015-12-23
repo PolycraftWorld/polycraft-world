@@ -50,7 +50,7 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 						int[] aint = isidedinventory.getAccessibleSlotsFromSide(0);
 						if (aint != null)
 							for (int k = 0; k < aint.length; ++k)
-								if (InventoryHelper.transfer(inventory, isidedinventory, aint[k], 0))
+								if (InventoryHelper.transfer(inventory, isidedinventory, aint[k], 0, 1))
 									return;
 					}
 				}
