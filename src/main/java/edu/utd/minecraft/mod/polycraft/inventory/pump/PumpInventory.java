@@ -22,9 +22,14 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
+import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -34,6 +39,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
+import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 
 public class PumpInventory extends StatefulInventory<PumpState> implements ISidedInventory {
 
@@ -235,23 +241,39 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 				while (numItems > 0) {
 					int i = 0;
 					boolean breakTransfer = false;
+					boolean waitForUpcycling = false;
 					for (; i < source.inventory.getSizeInventory(); ++i) {
 						ItemStack regulatedItemStack = source.inventory.getStackInSlot(i); //number of items in the source			
 						if (regulatedItemStack != null) {
 							ArrayList<Terminal> targets = regulatedTargets.get(regulatedItemStack.getItem());
-							if (targets == null) {
-								if ((defaultTarget instanceof ExplicitTerminal)) {
-									if (InventoryHelper.transferExplicit(((ExplicitTerminal) defaultTarget), source.inventory, i)) {
-										numItems--;
-										itemsFlowed++;
-										break;
-									}
+							if (targets == null) { //check to see if we can find a larger version of this vessel		
+								ItemVessel largerVessel = getLargerVessel(regulatedItemStack.getItem());
+								targets = regulatedTargets.get(largerVessel);
+								if (targets == null) { //check to see if we can find a yet larger version of this vessel	
+									largerVessel = getLargerVessel(largerVessel);
+									targets = regulatedTargets.get(largerVessel);
 								}
+
+								if (targets != null) {
+									//this means we have found a larger vessel and want to hold smaller vessels upstream
+									waitForUpcycling = true;
+									continue;
+								}
+
 								else {
-									if (InventoryHelper.transfer(defaultTarget.inventory, source.inventory, i, 0, 1)) {
-										numItems--;
-										itemsFlowed++;
-										break;
+									if ((defaultTarget instanceof ExplicitTerminal)) {
+										if (InventoryHelper.transferExplicit(((ExplicitTerminal) defaultTarget), source.inventory, i)) {
+											numItems--;
+											itemsFlowed++;
+											break;
+										}
+									}
+									else {
+										if (InventoryHelper.transfer(defaultTarget.inventory, source.inventory, i, 0, 1)) {
+											numItems--;
+											itemsFlowed++;
+											break;
+										}
 									}
 								}
 							}
@@ -292,6 +314,29 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 				}
 			}
 			return itemsFlowed;
+		}
+
+		public ItemVessel getLargerVessel(Item item)
+		{
+			if (item instanceof ItemVessel)
+			{
+				ItemVessel regulatedVessel = (ItemVessel) item;
+				ItemVessel largerVessel = null;
+
+				if (regulatedVessel.config.vesselType.largerType != null) {
+					GameIdentifiedConfig largerConfig = null;
+					if (regulatedVessel.config instanceof ElementVessel)
+						largerConfig = ElementVessel.registry.find(((ElementVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.largerType);
+					else if (regulatedVessel.config instanceof CompoundVessel)
+						largerConfig = CompoundVessel.registry.find(((CompoundVessel) regulatedVessel.config).source, regulatedVessel.config.vesselType.largerType);
+					else if (regulatedVessel.config instanceof PolymerPellets)
+						largerConfig = PolymerPellets.registry.find(((PolymerPellets) regulatedVessel.config).source, regulatedVessel.config.vesselType.largerType);
+					if (largerConfig != null)
+						return (ItemVessel) PolycraftRegistry.getItem(largerConfig);
+
+				}
+			}
+			return null;
 		}
 
 		//										}
