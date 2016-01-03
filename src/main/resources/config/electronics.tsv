@@ -1,4 +1,4 @@
-Version	Game ID	Wafer	Mold Type	Electronics	Layers	Chips per Wafer								
+Version	Game ID	Wafer	Wafer	Electronics	Layers	Chips per Wafer								
 1.3.2	1ew	Wafer (Solar Cell)	Wafer	Solar Cell	5	4								
 1.3.2	1ex	Wafer (Processor)	Wafer	Processor	8	16								
 1.3.2	1ey	Wafer (Temperature Sensor)	Wafer	Temperature Sensor	5	32								

@@ -1,48 +1,48 @@
 Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input 5	I5#	Ouptut 1	O1#	Ouptut 2	O2#	Ouptut 3	O3#	Ouptut 4	O4#	Ouptut 5	O5#	Ouptut 6	O6#	Ouptut 7	O7#	Ouptut 8	O8#	Ouptut 9	O9#
-1.1.0		Heat	Armor Leggings	Aluminum Ingot	1	Vial (Salt Water)	1	Sand	1	Flask (Oxygen)	1			Zeolite Catalyst	16																
-1.1.0		Heat	Armor Leggings	Aluminum Ingot	4	Vial (Salt Water)	4	Sand	4	Flask (Oxygen)	4			Zeolite Catalyst	64																
-1.0.0		Heat	Armor Leggings	Quartz	1	Aluminum Ingot	1							Zeolite Catalyst	16																
-1.0.0		Heat	Armor Leggings	Quartz	4	Aluminum Ingot	4							Zeolite Catalyst	64																
-1.0.0		Heat	Armor Feet	Bag (PolyPropylene Pellets)	8									Flask (Propylene)	7																
-1.0.0		Heat	Armor Feet	Sack (PolyPropylene Pellets)	8									Cartridge (Propylene)	7																
-1.0.0		Heat	Armor Feet	Powder Keg (PolyPropylene Pellets)	8									Canister (Propylene)	7																
-1.3.8		Heat	Armor Feet	Fibers (PP)	1									Flask (Propylene)	16																
-1.3.8		Heat	Armor Feet	Fibers (PP)	4									Cartridge (Propylene)	1																
-1.3.8		Heat	Armor Feet	Fibers (PP)	64									Cartridge (Propylene)	16																
-1.0.0		Heat	Armor Feet	Slab (PP)	16									Cartridge (Propylene)	7																
-1.0.0		Heat	Armor Feet	Stairs (PP)	8									Cartridge (Propylene)	7																
-1.0.0		Heat	Armor Feet	Bag (Amorphous PolyEthylene Terephthalate Pellets)	1									Vial (Terephthalic Acid)	2	Vial (Ethylene Glycol)	4	Vial (Dimethyl Terephthalate)	1												
-1.0.0		Heat	Armor Feet	Sack (Amorphous PolyEthylene Terephthalate Pellets)	1									Beaker (Terephthalic Acid)	2	Beaker (Ethylene Glycol)	4	Beaker (Dimethyl Terephthalate)	1												
-1.0.0		Heat	Armor Feet	Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	1									Drum (Terephthalic Acid)	2	Drum (Ethylene Glycol)	4	Drum (Dimethyl Terephthalate)	1												
-1.0.0		Heat	Armor Feet	Bag (Low Density PolyEthylene Pellets)	8									Flask (Ethylene)	7																
-1.0.0		Heat	Armor Feet	Sack (Low Density PolyEthylene Pellets)	8									Cartridge (Ethylene)	7																
-1.0.0		Heat	Armor Feet	Powder Keg (Low Density PolyEthylene Pellets)	8									Canister (Ethylene)	7																
-1.0.0		Heat	Armor Feet	Fibers (LDPE)	1									Flask (Ethylene)	16																
-1.0.0		Heat	Armor Feet	Fibers (LDPE)	16									Cartridge (Ethylene)	1																
-1.0.0		Heat	Armor Feet	Fibers (LDPE)	64									Cartridge (Ethylene)	16																
-1.0.0		Heat	Armor Feet	Slab (LDPE)	16									Cartridge (Ethylene)	7																
-1.0.0		Heat	Armor Feet	Stairs (LDPE)	8									Cartridge (Ethylene)	7																
-1.0.0	FALSE	UV	Armor Chest	Flask (Ethylene)	1									Bag (Low Density PolyEthylene Pellets)	1																
-1.0.0	FALSE	Heat	Armor Chest	Flask (Ethylene)	1	Vial (Deionized Water)	1							Vial (Ethanol)	1																
-1.0.0	FALSE	Heat	Armor Chest	Flask (Ethylene)	1	Flask (Oxygen)	1	Palladium Catalyst	1					Vial (Ethylene Oxide)	1																
-1.0.0	FALSE	Heat	Armor Chest	Flask (Ethylene)	2	Vial (Acetic Acid)	2	Flask (Oxygen)	1	Palladium Catalyst	1			Vial (Vinyl Acetate)	2	Vial (Deionized Water)	2														
-1.0.0	FALSE	UV	Armor Chest	Cartridge (Ethylene)	1									Sack (Low Density PolyEthylene Pellets)	1																
-1.0.0	FALSE	Heat	Armor Chest	Cartridge (Ethylene)	1	Beaker (Deionized Water)	1							Beaker (Ethanol)	1																
-1.0.0	FALSE	Heat	Armor Chest	Cartridge (Ethylene)	1	Cartridge (Oxygen)	1	Palladium Catalyst	4					Beaker (Ethylene Oxide)	1																
-1.0.0	FALSE	Heat	Armor Chest	Cartridge (Ethylene)	2	Beaker (Acetic Acid)	2	Cartridge (Oxygen)	1	Palladium Catalyst	4			Beaker (Vinyl Acetate)	2	Beaker (Deionized Water)	2														
-1.0.0	FALSE	UV	Armor Chest	Canister (Ethylene)	1									Powder Keg (Low Density PolyEthylene Pellets)	1																
-1.0.0	FALSE	Heat	Armor Chest	Canister (Ethylene)	1	Drum (Deionized Water)	1							Drum (Ethanol)	1																
-1.0.0	FALSE	Heat	Armor Chest	Canister (Ethylene)	1	Canister (Oxygen)	1	Palladium Catalyst	16					Drum (Ethylene Oxide)	1																
-1.0.0	FALSE	Heat	Armor Chest	Canister (Ethylene)	2	Drum (Acetic Acid)	2	Canister (Oxygen)	1	Palladium Catalyst	16			Drum (Vinyl Acetate)	2	Drum (Deionized Water)	2														
-1.0.0	FALSE	Heat	Armor Chest	Vial (Ethylidene Diacetate)	1									Vial (Vinyl Acetate)	1	Vial (Acetic Acid)	1														
-1.0.0	FALSE	Heat	Armor Chest	Beaker (Ethylidene Diacetate)	1									Beaker (Vinyl Acetate)	1	Beaker (Acetic Acid)	1														
-1.0.0	FALSE	Heat	Armor Chest	Drum (Ethylidene Diacetate)	1									Drum (Vinyl Acetate)	1	Drum (Acetic Acid)	1														
-1.0.0	FALSE	Heat	Armor Chest	Vial (Acetic Acid)	1	Vial (Acetylene)	1	Palladium Catalyst	1					Vial (Vinyl Acetate)	1																
-1.0.0	FALSE	Heat	Armor Chest	Beaker (Acetic Acid)	1	Beaker (Acetylene)	1	Palladium Catalyst	4					Beaker (Vinyl Acetate)	1																
-1.0.0	FALSE	Heat	Armor Chest	Drum (Acetic Acid)	1	Drum (Acetylene)	1	Palladium Catalyst	16					Drum (Vinyl Acetate)	1																
+1.1.0		Heat		Aluminum Ingot	1	Vial (Salt Water)	1	Sand	1	Flask (Oxygen)	1			Zeolite Catalyst	16																
+1.1.0		Heat		Aluminum Ingot	4	Vial (Salt Water)	4	Sand	4	Flask (Oxygen)	4			Zeolite Catalyst	64																
+1.0.0		Heat		Quartz	1	Aluminum Ingot	1							Zeolite Catalyst	16																
+1.0.0		Heat		Quartz	4	Aluminum Ingot	4							Zeolite Catalyst	64																
+1.0.0		Heat		Bag (PolyPropylene Pellets)	8									Flask (Propylene)	7																
+1.0.0		Heat		Sack (PolyPropylene Pellets)	8									Cartridge (Propylene)	7																
+1.0.0		Heat		Powder Keg (PolyPropylene Pellets)	8									Canister (Propylene)	7																
+1.3.8		Heat		Fibers (PP)	1									Flask (Propylene)	16																
+1.3.8		Heat		Fibers (PP)	4									Cartridge (Propylene)	1																
+1.3.8		Heat		Fibers (PP)	64									Cartridge (Propylene)	16																
+1.0.0		Heat		Slab (PP)	16									Cartridge (Propylene)	7																
+1.0.0		Heat		Stairs (PP)	8									Cartridge (Propylene)	7																
+1.0.0		Heat		Bag (Amorphous PolyEthylene Terephthalate Pellets)	1									Vial (Terephthalic Acid)	2	Vial (Ethylene Glycol)	4	Vial (Dimethyl Terephthalate)	1												
+1.0.0		Heat		Sack (Amorphous PolyEthylene Terephthalate Pellets)	1									Beaker (Terephthalic Acid)	2	Beaker (Ethylene Glycol)	4	Beaker (Dimethyl Terephthalate)	1												
+1.0.0		Heat		Powder Keg (Amorphous PolyEthylene Terephthalate Pellets)	1									Drum (Terephthalic Acid)	2	Drum (Ethylene Glycol)	4	Drum (Dimethyl Terephthalate)	1												
+1.0.0		Heat		Bag (Low Density PolyEthylene Pellets)	8									Flask (Ethylene)	7																
+1.0.0		Heat		Sack (Low Density PolyEthylene Pellets)	8									Cartridge (Ethylene)	7																
+1.0.0		Heat		Powder Keg (Low Density PolyEthylene Pellets)	8									Canister (Ethylene)	7																
+1.0.0		Heat		Fibers (LDPE)	1									Flask (Ethylene)	16																
+1.0.0		Heat		Fibers (LDPE)	16									Cartridge (Ethylene)	1																
+1.0.0		Heat		Fibers (LDPE)	64									Cartridge (Ethylene)	16																
+1.0.0		Heat		Slab (LDPE)	16									Cartridge (Ethylene)	7																
+1.0.0		Heat		Stairs (LDPE)	8									Cartridge (Ethylene)	7																
+1.0.0	FALSE	UV		Flask (Ethylene)	1									Bag (Low Density PolyEthylene Pellets)	1																
+1.0.0	FALSE	Heat		Flask (Ethylene)	1	Vial (Deionized Water)	1							Vial (Ethanol)	1																
+1.0.0	FALSE	Heat		Flask (Ethylene)	1	Flask (Oxygen)	1	Palladium Catalyst	1					Vial (Ethylene Oxide)	1																
+1.0.0	FALSE	Heat		Flask (Ethylene)	2	Vial (Acetic Acid)	2	Flask (Oxygen)	1	Palladium Catalyst	1			Vial (Vinyl Acetate)	2	Vial (Deionized Water)	2														
+1.0.0	FALSE	UV		Cartridge (Ethylene)	1									Sack (Low Density PolyEthylene Pellets)	1																
+1.0.0	FALSE	Heat		Cartridge (Ethylene)	1	Beaker (Deionized Water)	1							Beaker (Ethanol)	1																
+1.0.0	FALSE	Heat		Cartridge (Ethylene)	1	Cartridge (Oxygen)	1	Palladium Catalyst	4					Beaker (Ethylene Oxide)	1																
+1.0.0	FALSE	Heat		Cartridge (Ethylene)	2	Beaker (Acetic Acid)	2	Cartridge (Oxygen)	1	Palladium Catalyst	4			Beaker (Vinyl Acetate)	2	Beaker (Deionized Water)	2														
+1.0.0	FALSE	UV		Canister (Ethylene)	1									Powder Keg (Low Density PolyEthylene Pellets)	1																
+1.0.0	FALSE	Heat		Canister (Ethylene)	1	Drum (Deionized Water)	1							Drum (Ethanol)	1																
+1.0.0	FALSE	Heat		Canister (Ethylene)	1	Canister (Oxygen)	1	Palladium Catalyst	16					Drum (Ethylene Oxide)	1																
+1.0.0	FALSE	Heat		Canister (Ethylene)	2	Drum (Acetic Acid)	2	Canister (Oxygen)	1	Palladium Catalyst	16			Drum (Vinyl Acetate)	2	Drum (Deionized Water)	2														
+1.0.0	FALSE	Heat		Vial (Ethylidene Diacetate)	1									Vial (Vinyl Acetate)	1	Vial (Acetic Acid)	1														
+1.0.0	FALSE	Heat		Beaker (Ethylidene Diacetate)	1									Beaker (Vinyl Acetate)	1	Beaker (Acetic Acid)	1														
+1.0.0	FALSE	Heat		Drum (Ethylidene Diacetate)	1									Drum (Vinyl Acetate)	1	Drum (Acetic Acid)	1														
+1.0.0	FALSE	Heat		Vial (Acetic Acid)	1	Vial (Acetylene)	1	Palladium Catalyst	1					Vial (Vinyl Acetate)	1																
+1.0.0	FALSE	Heat		Beaker (Acetic Acid)	1	Beaker (Acetylene)	1	Palladium Catalyst	4					Beaker (Vinyl Acetate)	1																
+1.0.0	FALSE	Heat		Drum (Acetic Acid)	1	Drum (Acetylene)	1	Palladium Catalyst	16					Drum (Vinyl Acetate)	1																
 1.0.0				Vial (Vinyl Acetate)	1									Bag (PolyVinyl Acetate Pellets)	1																
 1.0.0				Beaker (Vinyl Acetate)	1									Sack (PolyVinyl Acetate Pellets)	1																
-1.0.0	TRUE	UV	Armor Chest	Drum (Vinyl Acetate)	1									Powder Keg (PolyVinyl Acetate Pellets)	1																
+1.0.0	TRUE	UV		Drum (Vinyl Acetate)	1									Powder Keg (PolyVinyl Acetate Pellets)	1																
 1.0.0				Flask (Ethylene)	1	Vial (Vinyl Acetate)	1							Bag (Ethylene-Vinyl Acetate Pellets)	2																
 1.0.0				Cartridge (Ethylene)	1	Beaker (Vinyl Acetate)	1							Sack (Ethylene-Vinyl Acetate Pellets)	2																
 1.0.0				Canister (Ethylene)	1	Drum (Vinyl Acetate)	1							Powder Keg (Ethylene-Vinyl Acetate Pellets)	2																
@@ -116,9 +116,6 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Vial (Gas Oil)	1	Palladium Catalyst	1							Vial (Diesel)	1	Vial (Kerosene)	1														
 1.0.0				Beaker (Gas Oil)	1	Palladium Catalyst	4							Beaker (Diesel)	1	Beaker (Kerosene)	1														
 1.0.0				Drum (Gas Oil)	1	Palladium Catalyst	16							Drum (Diesel)	1	Drum (Kerosene)	1														
-				Vial (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	1							Vial (Terephthalic Acid)	16																
-				Beaker (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	4							Beaker (Terephthalic Acid)	16																
-				Drum (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	16							Drum (Terephthalic Acid)	16																
 1.0.0				Vial (Benzene-Toluene-Xylene)	16	Cobalt Catalyst	1							Vial (Terephthalic Acid)	16																
 1.0.0				Beaker (Benzene-Toluene-Xylene)	16	Cobalt Catalyst	4							Beaker (Terephthalic Acid)	16																
 1.0.0				Drum (Benzene-Toluene-Xylene)	16	Cobalt Catalyst	16							Drum (Terephthalic Acid)	16																
@@ -155,9 +152,6 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Vial (Ethylbenzene)	1	Vial (Deionized Water)	10	Coal	1	Iron III Oxide Catalyst	1			Vial (Styrene)	1	Vial (Deionized Water)	9	Vial (o-Xylene)	1												
 1.0.0				Beaker (Ethylbenzene)	1	Beaker (Deionized Water)	10	Coal	4	Iron III Oxide Catalyst	16			Beaker (Styrene)	1	Beaker (Deionized Water)	9	Beaker (o-Xylene)	1												
 1.0.0				Drum (Ethylbenzene)	1	Drum (Deionized Water)	10	Coal	16	Iron III Oxide Catalyst	64			Drum (Styrene)	1	Drum (Deionized Water)	9	Drum (o-Xylene)	1												
-				Vial (Styrene)	1									Bag (PolyStyrene Pellets)	16	Bitumen	1														
-				Beaker (Styrene)	1									Sack (PolyStyrene Pellets)	16	Bitumen	16														
-				Drum (Styrene)	1									Powder Keg (PolyStyrene Pellets)	16	Bitumen	64														
 1.0.0				Coal	1									Vial (Coke)	8	Vial (Naphtha)	8														
 1.0.0				Coal	16									Beaker (Coke)	2	Beaker (Naphtha)	2														
 1.0.0				Coal	64									Beaker (Coke)	32	Beaker (Naphtha)	32														
@@ -173,9 +167,6 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Vial (Glycolic Acid)	1									Bag (PolyGlycolic Acid Pellets)	1	Vial (Deionized Water)	1														
 1.0.0				Beaker (Glycolic Acid)	1									Sack (PolyGlycolic Acid Pellets)	1	Beaker (Deionized Water)	1														
 1.0.0				Drum (Glycolic Acid)	1									Powder Keg (PolyGlycolic Acid Pellets)	1	Drum (Deionized Water)	1														
-				Vial (Lactic Acid)	1									Bag (PolyLactic Acid Pellets)	1																
-				Beaker (Lactic Acid)	1									Sack (PolyLactic Acid Pellets)	1																
-				Drum (Lactic Acid)	1									Powder Keg (PolyLactic Acid Pellets)	1																
 1.0.0				Vial (Caprolactone)	1									Bag (PolyCaprolactone Pellets)	1																
 1.0.0				Beaker (Caprolactone)	1									Sack (PolyCaprolactone Pellets)	1																
 1.0.0				Drum (Caprolactone)	1									Powder Keg (PolyCaprolactone Pellets)	1																
@@ -203,9 +194,6 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Vial (Ethanol)	4	Copper II Chloride Catalyst	1							Vial (Acetaldehyde)	4	Flask (Hydrogen)	4														
 1.0.0				Beaker (Ethanol)	4	Copper II Chloride Catalyst	4							Beaker (Acetaldehyde)	4	Cartridge (Hydrogen)	4														
 1.0.0				Drum (Ethanol)	4	Copper II Chloride Catalyst	16							Drum (Acetaldehyde)	4	Canister (Hydrogen)	4														
-				Vial (Acetaldehyde)	1	Vial (Cyanide)	1	Flask (Ammonia)	1																						
-				Beaker (Acetaldehyde)	1	Beaker (Cyanide)	1	Cartridge (Ammonia)	1																						
-				Drum (Acetaldehyde)	1	Drum (Cyanide)	1	Canister (Ammonia)	1																						
 1.0.0				Vial (Acetaldehyde)	1	Vial (Cyclohexylamine)	1							Vial (N-Ethylidenecyclohexylamine)	1																
 1.0.0				Beaker (Acetaldehyde)	1	Beaker (Cyclohexylamine)	1							Beaker (N-Ethylidenecyclohexylamine)	1																
 1.0.0				Drum (Acetaldehyde)	1	Drum (Cyclohexylamine)	1							Drum (N-Ethylidenecyclohexylamine)	1																
@@ -277,18 +265,12 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Beaker (4-Hydroxybenzoic Acid)	1	Beaker (6-Hydroxynaphthalene-2-Carboxylic Acid)	1	Antimony Trioxide Catalyst	4					Sack (Liquid Crystal Polymer Pellets)	1																
 1.0.0				Drum (4-Hydroxybenzoic Acid)	1	Drum (6-Hydroxynaphthalene-2-Carboxylic Acid)	1	Antimony Trioxide Catalyst	16					Powder Keg (Liquid Crystal Polymer Pellets)	1																
 1.0.0				Drum (4-Hydroxybenzoic Acid)	64	Drum (6-Hydroxynaphthalene-2-Carboxylic Acid)	64	Antimony Trioxide Catalyst	64					Powder Keg (Liquid Crystal Polymer Pellets)	64																
-				Vial (Ethylene Glycol)	64																										
-				Beaker (Ethylene Glycol)	64																										
-				Drum (Ethylene Glycol)	64																										
 1.0.0				Flask (Ethylene)	32	Triethylaluminium Catalyst	2	Vial (Deionized Water)	3	Flask (Oxygen)	3			Vial (Stearyl Alcohol)	1	Vial (Lauryl Alcohol)	1														
 1.0.0				Cartridge (Ethylene)	32	Triethylaluminium Catalyst	8	Beaker (Deionized Water)	3	Cartridge (Oxygen)	3			Beaker (Stearyl Alcohol)	1	Beaker (Lauryl Alcohol)	1														
 1.0.0				Canister (Ethylene)	32	Triethylaluminium Catalyst	32	Drum (Deionized Water)	3	Canister (Oxygen)	3			Drum (Stearyl Alcohol)	1	Drum (Lauryl Alcohol)	1														
 1.0.0				Vial (Methacrylic Acid)	1	Vial (Methanol)	1							Vial (Methyl Methacrylate)	1																
 1.0.0				Beaker (Methacrylic Acid)	1	Beaker (Methanol)	1							Beaker (Methyl Methacrylate)	1																
 1.0.0				Drum (Methacrylic Acid)	1	Drum (Methanol)	1							Drum (Methyl Methacrylate)	1																
-				Vial (m-Xylene)	64	Flask (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	1					Vial (Isophthalic Acid)	64																
-				Beaker (m-Xylene)	64	Cartridge (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	4					Beaker (Isophthalic Acid)	64																
-				Drum (m-Xylene)	64	Canister (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	16					Drum (Isophthalic Acid)	64																
 1.0.0				Beaker (m-Xylene)	1	Flask (Oxygen)	1	Cobalt Catalyst	4					Beaker (Isophthalic Acid)	1																
 1.0.0				Drum (m-Xylene)	1	Cartridge (Oxygen)	1	Cobalt Catalyst	16					Drum (Isophthalic Acid)	1																
 1.0.0				Drum (m-Xylene)	64	Canister (Oxygen)	1	Cobalt Catalyst	64					Drum (Isophthalic Acid)	64																
@@ -1361,3 +1343,21 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.3.8				Canister (Ethylene)	4	Canister (Propylene)	4							Powder Keg (Ethylene-Propylene Monomer Pellets)	8																
 1.3.8				Canister (Ethylene)	16	Canister (Propylene)	16							Powder Keg (Ethylene-Propylene Monomer Pellets)	32																
 1.3.8				Canister (Ethylene)	64	Canister (Propylene)	64							Powder Keg (Ethylene-Propylene Monomer Pellets)	64	Powder Keg (Ethylene-Propylene Monomer Pellets)	64														
+				Vial (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	1							Vial (Terephthalic Acid)	16																
+				Beaker (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	4							Beaker (Terephthalic Acid)	16																
+				Drum (Benzene-Toluene-Xylene)	16	Cobalt-Manganese-Bromide Catalyst	16							Drum (Terephthalic Acid)	16																
+				Vial (Styrene)	1									Bag (PolyStyrene Pellets)	16	Bitumen	1														
+				Beaker (Styrene)	1									Sack (PolyStyrene Pellets)	16	Bitumen	16														
+				Drum (Styrene)	1									Powder Keg (PolyStyrene Pellets)	16	Bitumen	64														
+				Vial (Lactic Acid)	1									Bag (PolyLactic Acid Pellets)	1																
+				Beaker (Lactic Acid)	1									Sack (PolyLactic Acid Pellets)	1																
+				Drum (Lactic Acid)	1									Powder Keg (PolyLactic Acid Pellets)	1																
+				Vial (Acetaldehyde)	1	Vial (Cyanide)	1	Flask (Ammonia)	1																						
+				Beaker (Acetaldehyde)	1	Beaker (Cyanide)	1	Cartridge (Ammonia)	1																						
+				Drum (Acetaldehyde)	1	Drum (Cyanide)	1	Canister (Ammonia)	1																						
+				Vial (Ethylene Glycol)	64																										
+				Beaker (Ethylene Glycol)	64																										
+				Drum (Ethylene Glycol)	64																										
+				Vial (m-Xylene)	64	Flask (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	1					Vial (Isophthalic Acid)	64																
+				Beaker (m-Xylene)	64	Cartridge (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	4					Beaker (Isophthalic Acid)	64																
+				Drum (m-Xylene)	64	Canister (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	16					Drum (Isophthalic Acid)	64																

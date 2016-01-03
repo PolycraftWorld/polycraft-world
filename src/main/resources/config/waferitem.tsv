@@ -1,4 +1,4 @@
-Version	Game ID Wafer	Mask	Mold Type	Electronics	Layer	Layer Number	Wafer	Source	Resist	Custom Texture	Clean Environment												
+Version	Game ID Wafer	Mask	Mask	Electronics	Layer	Layer Number	Wafer	Source	Resist	Custom Texture	Clean Environment												
 1.3.2	1er				Silicon	0	Silicon Wafer			TRUE	FALSE												
 1.3.2	1em				Silicon	0	Silicon Wafer (Ruined)			TRUE	FALSE												
 1.3.2	1d3	Mask (Solar Cell)(PR Backplane)	Mask	Solar Cell	PR Backplane	1	Wafer (Solar Cell) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												

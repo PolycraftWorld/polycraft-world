@@ -393,7 +393,7 @@ Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	C
 	60	14g	15l	16q	Vial (Chrome Etchant)	Beaker (Chrome Etchant)	Drum (Chrome Etchant)	Chemical Vat (Chrome Etchant)	Chrome Etchant	Liquid	Vial	Beaker	Drum	Chemical Vat
 	61	14h	15m	16r	Vial (Gold Etchant)	Beaker (Gold Etchant)	Drum (Gold Etchant)	Chemical Vat (Gold Etchant)	Gold Etchant	Liquid	Vial	Beaker	Drum	Chemical Vat
 	62	14i	15n	16s	Vial (Nickel Etchant)	Beaker (Nickel Etchant)	Drum (Nickel Etchant)	Chemical Vat (Nickel Etchant)	Nickel Etchant	Liquid	Vial	Beaker	Drum	Chemical Vat
-	63	14j	15o	16t	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
-	64	14k	15p	16u	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
-	65	14l	15q	16v	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
-	66	14m	15r	16w	Bag (0)	Sack (0)	Powder Keg (0)	Chemical Silo (0)	0	0	Bag	Sack	Powder Keg	Chemical Silo
+	63	14j	15o	16t	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank
+	64	14k	15p	16u	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank
+	65	14l	15q	16v	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank
+	66	14m	15r	16w	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank

@@ -11,9 +11,9 @@ public enum BlockFace {
 	DEFAULT(-1),
 	// Special block face to represent the front face.
 	FRONT(-2);
-	
+
 	public static BlockFace getBlockFace(int value) {
-		switch(value) {
+		switch (value) {
 		case 0:
 			return DOWN;
 		case 1:
@@ -29,13 +29,13 @@ public enum BlockFace {
 		}
 		return DEFAULT;
 	}
-	
+
 	private final int value;
-	
+
 	public int getValue() {
 		return this.value;
 	}
-	
+
 	private BlockFace(int value) {
 		this.value = value;
 	}
