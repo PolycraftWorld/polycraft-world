@@ -69,6 +69,8 @@ public abstract class Config {
 		InternalObject.registerFromResource(directory);
 		Armor.registerFromResource(directory);
 		Tool.registerFromResource(directory);
+		Flashcard.registerFromResource(directory);
+		Exam.registerFromResource(directory);
 		Fuel.registerFromResource(directory);
 	}
 
@@ -106,6 +108,8 @@ public abstract class Config {
 		registriesByType.put(PogoStick.class.getSimpleName(), PogoStick.registry);
 		registriesByType.put(Inventory.class.getSimpleName(), Inventory.registry);
 		registriesByType.put(CustomObject.class.getSimpleName(), CustomObject.registry);
+		registriesByType.put(Flashcard.class.getSimpleName(), Flashcard.registry);
+		registriesByType.put(Exam.class.getSimpleName(), Exam.registry);
 		registriesByType.put(InternalObject.class.getSimpleName(), InternalObject.registry);
 	}
 

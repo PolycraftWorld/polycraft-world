@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -69,7 +70,8 @@ public enum PolycraftContainerType {
 	PORTAL_CHEST("Portal Chest"),
 	TRADING_HOUSE("Trading House"),
 	PRINTING_PRESS("Printing Press"),
-	TERRITORY_FLAG("Territory Flag");
+	TERRITORY_FLAG("Territory Flag"),
+	CHEM_2323("CHEM 2323");
 
 	private final String friendlyName;
 
@@ -156,6 +158,7 @@ public enum PolycraftContainerType {
 		TRADING_HOUSE.initialize(TradingHouseInventory.guiSlots);
 		PRINTING_PRESS.initialize(PrintingPressInventory.guiSlots);
 		TERRITORY_FLAG.initialize(TerritoryFlagInventory.guiSlots);
+		CHEM_2323.initialize(CHEM2323Inventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

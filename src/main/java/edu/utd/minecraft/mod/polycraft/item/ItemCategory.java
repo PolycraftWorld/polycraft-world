@@ -20,6 +20,8 @@ public enum ItemCategory {
 	ITEMS_MASK_ITEM("Items/MaskItem"),
 	ITEMS_UTILITY("Items/Utility"),
 	ITEMS_VESSEL("Items/Vessel"),
+	LEARNING_FLASHCARD("Learning/Flashard"),
+	LEARNING_EXAM("Learning/Exam"),
 	MATERIALS("Materials"),
 	MATERIALS_CATALYST("Materials/Catalyst"),
 	MATERIALS_FIBER("Materials/Fiber"),

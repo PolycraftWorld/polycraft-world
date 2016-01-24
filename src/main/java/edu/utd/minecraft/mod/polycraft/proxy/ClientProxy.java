@@ -81,6 +81,8 @@ public class ClientProxy extends CommonProxy {
 	private KeyBinding keyBindingM;
 	private KeyBinding keyBindingN;
 	private KeyBinding keyBindingV;
+	private KeyBinding keyBindingX;
+	private KeyBinding keyBindingP;
 	private KeyBinding keyBindingBackspace;
 	private KeyBinding keyBindingCheckAir;
 
@@ -95,6 +97,10 @@ public class ClientProxy extends CommonProxy {
 		keyBindingI = new KeyBinding("key.sync.info.1", Keyboard.KEY_I, "key.categories.gameplay");
 		keyBindingN = new KeyBinding("key.sync.info.2", Keyboard.KEY_N, "key.categories.gameplay");
 		keyBindingV = new KeyBinding("key.sync.info.3", Keyboard.KEY_V, "key.categories.gameplay");
+
+		keyBindingX = new KeyBinding("key.test.info.1", Keyboard.KEY_X, "key.categories.gameplay");
+		keyBindingP = new KeyBinding("key.test.info.2", Keyboard.KEY_P, "key.categories.gameplay");
+
 		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
 	}
@@ -125,6 +131,7 @@ public class ClientProxy extends CommonProxy {
 		private float bouncyBlockBounceHeight = 0;
 		private boolean placeBrickBackwards = false;
 		private int cheatInfoTicksRemaining = 0;
+		private int synchExam = 0;
 		private int syncCooldownRemaining = 0;
 		private int airQualityTicksRemaining = 0;
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;

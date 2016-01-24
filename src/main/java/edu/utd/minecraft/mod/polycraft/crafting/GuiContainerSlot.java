@@ -13,6 +13,14 @@ public class GuiContainerSlot implements ContainerSlot {
 		return new GuiContainerSlot(index, SlotType.INPUT, relativeX, relativeY, displayXOffset + relativeX * 18, displayYOffset + (relativeY + 1) * 18);
 	}
 
+	public static GuiContainerSlot createMisc(final int index, final int relativeX, final int relativeY, final int displayXOffset, final int displayYOffset) {
+		return new GuiContainerSlot(index, SlotType.MISC, relativeX, relativeY, displayXOffset + relativeX * 18, displayYOffset + (relativeY + 1) * 18);
+	}
+
+	public static GuiContainerSlot createOutput(final int index, final int relativeX, final int relativeY, final int displayXOffset, final int displayYOffset) {
+		return new GuiContainerSlot(index, SlotType.OUTPUT, relativeX, relativeY, displayXOffset + relativeX * 18, displayYOffset + (relativeY + 1) * 18);
+	}
+
 	private final int index;
 	private final SlotType type;
 	private final int relativeX;
@@ -85,7 +93,7 @@ public class GuiContainerSlot implements ContainerSlot {
 			return false;
 		return true;
 	}
-	
+
 	public Item getItem()
 	{
 		return this.validItem;

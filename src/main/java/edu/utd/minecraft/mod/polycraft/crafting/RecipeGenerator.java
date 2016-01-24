@@ -28,7 +28,6 @@ import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
-import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Mask;
 import edu.utd.minecraft.mod.polycraft.config.Mold;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
@@ -441,6 +440,74 @@ public class RecipeGenerator {
 		generateFileRecipesProcess(directory);
 		generateFileRecipesWrite(directory);
 		generateFileRecipesTrade(directory);
+		generateFileRecipesCHEM2323(directory);
+	}
+
+	private static void generateFileRecipesCHEM2323(String directory) {
+		final char[] shapedIdentifiers = new char[] { 'v', 'w', 'x', 'y', 'z', ' ' };
+		//		for (final String[] line : PolycraftMod.readResourceFileDelimeted(directory, PolycraftMod.getFileSafeName(PolycraftContainerType.CHEM_2323.toString()))) {
+		//			if (line.length > 12) {
+		//				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
+		//					Map<Character, ItemStack> shapedInputs = Maps.newHashMap();
+		//					final StringBuilder inputShape = new StringBuilder();
+		//					for (int i = 0; i < shapedIdentifiers.length - 1; i++) {
+		//						final String inputItemName = line[2 + (i * 2)];
+		//						if (!StringUtils.isEmpty(inputItemName))
+		//						{
+		//							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[3 + (i * 2)]));
+		//							if (inputItemStack == null) {
+		//								logger.warn("Unable to find input item for trading house recipe: {}", inputItemName);
+		//								shapedInputs.put(shapedIdentifiers[shapedIdentifiers.length - 1], null);
+		//								inputShape.append(shapedIdentifiers[shapedIdentifiers.length - 1]);
+		//							}
+		//							else
+		//							{
+		//								shapedInputs.put(shapedIdentifiers[i], inputItemStack);
+		//								inputShape.append(shapedIdentifiers[i]);
+		//							}
+		//						}
+		//						else
+		//						{
+		//							shapedInputs.put(shapedIdentifiers[shapedIdentifiers.length - 1], null);
+		//							inputShape.append(shapedIdentifiers[shapedIdentifiers.length - 1]);
+		//						}
+		//					}
+		//					if (shapedInputs == null)
+		//						continue;
+		//
+		//					List<ItemStack> outputItems = Lists.newArrayList();
+		//					for (int i = 12; i < 20 - 1; i += 2) {
+		//						final String outputItemName = line[i];
+		//						if (!StringUtils.isEmpty(outputItemName))
+		//						{
+		//							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+		//							if (outputItemStack == null) {
+		//								logger.warn("Unable to find output item for trading recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
+		//								outputItems = null;
+		//								break;
+		//							}
+		//							else
+		//								outputItems.add(outputItemStack);
+		//						}
+		//					}
+		//
+		//					if (outputItems == null)
+		//						continue;
+		//					if (outputItems.size() == 0)
+		//					{
+		//						logger.warn("Trading house recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
+		//						continue;
+		//					}
+		//
+		//					PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+		//							PolycraftContainerType.TRADING_HOUSE,
+		//							outputItems,
+		//							new String[] { inputShape.toString() },
+		//							shapedInputs);
+		//				}
+		//			}
+		//		}
+
 	}
 
 	private static void generateFileRecipesTrade(String directory) {
@@ -1002,26 +1069,26 @@ public class RecipeGenerator {
 		final ItemStack[] recipeCheatDirtOutputs = new ItemStack[] {
 				new ItemStack(Blocks.dirt, 64),
 				new ItemStack(Blocks.crafting_table),
-				CustomObject.registry.get("Flashlight").getItemStack(),
-				CustomObject.registry.get("Flame Thrower").getItemStack(),
-				CustomObject.registry.get("Jet Pack (Beginner)").getItemStack(),
-				PolymerSlab.registry.get("Slab (Natural Rubber)").getItemStack(),
-				PolymerBlock.registry.get("Block (Natural Rubber)").getItemStack(),
-				CustomObject.registry.get("Phase Shifter").getItemStack(),
-				MoldedItem.registry.get("Life Preserver (Natural Rubber)").getItemStack(),
-				MoldedItem.registry.get("Running Shoes (Walker)").getItemStack(),
-				MoldedItem.registry.get("Scuba Fins (Beginner)").getItemStack(),
-				MoldedItem.registry.get("Scuba Mask (Beginner)").getItemStack(),
-				CustomObject.registry.get("Scuba Tank (Beginner)").getItemStack(),
-				CustomObject.registry.get("Parachute").getItemStack(),
-				Inventory.registry.get("Injection Molder").getItemStack(),
-				PolymerPellets.registry.get("Bag (PolyIsoPrene Pellets)").getItemStack(),
-				Mold.registry.get("Mold (Grip)").getItemStack(),
-				new ItemStack(Items.water_bucket),
-				new ItemStack(Items.coal, 64),
-				new ItemStack(Blocks.furnace),
-				new ItemStack(Items.diamond_pickaxe),
-				new ItemStack(Blocks.torch, 64)
+				//CustomObject.registry.get("Flashlight").getItemStack(),
+				//CustomObject.registry.get("Flame Thrower").getItemStack(),
+				//				CustomObject.registry.get("Jet Pack (Beginner)").getItemStack(),
+				//				PolymerSlab.registry.get("Slab (Natural Rubber)").getItemStack(),
+				//				PolymerBlock.registry.get("Block (Natural Rubber)").getItemStack(),
+				//				CustomObject.registry.get("Phase Shifter").getItemStack(),
+				//				MoldedItem.registry.get("Life Preserver (Natural Rubber)").getItemStack(),
+				//				MoldedItem.registry.get("Running Shoes (Walker)").getItemStack(),
+				//				MoldedItem.registry.get("Scuba Fins (Beginner)").getItemStack(),
+				//				MoldedItem.registry.get("Scuba Mask (Beginner)").getItemStack(),
+				//				CustomObject.registry.get("Scuba Tank (Beginner)").getItemStack(),
+				//				CustomObject.registry.get("Parachute").getItemStack(),
+				//				Inventory.registry.get("Injection Molder").getItemStack(),
+				//				PolymerPellets.registry.get("Bag (PolyIsoPrene Pellets)").getItemStack(),
+				//				Mold.registry.get("Mold (Grip)").getItemStack(),
+				//				new ItemStack(Items.water_bucket),
+				//				new ItemStack(Items.coal, 64),
+				//				new ItemStack(Blocks.furnace),
+				//				new ItemStack(Items.diamond_pickaxe),
+				//				new ItemStack(Blocks.torch, 64)
 		};
 
 		int intputs = 1;

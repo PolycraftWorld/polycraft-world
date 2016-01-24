@@ -58,6 +58,8 @@ import edu.utd.minecraft.mod.polycraft.config.DNASampler;
 import edu.utd.minecraft.mod.polycraft.config.Electronics;
 import edu.utd.minecraft.mod.polycraft.config.Element;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
+import edu.utd.minecraft.mod.polycraft.config.Exam;
+import edu.utd.minecraft.mod.polycraft.config.Flashcard;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
@@ -83,6 +85,7 @@ import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -118,7 +121,9 @@ import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemDNASampler;
 import edu.utd.minecraft.mod.polycraft.item.ItemElectronics;
+import edu.utd.minecraft.mod.polycraft.item.ItemExam;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlashcard;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
@@ -334,7 +339,22 @@ public class PolycraftRegistry {
 	}
 
 	public static void registerFromResources() {
+		boolean foundVersions = false;
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted("config", "enums")) {
+			if (!foundVersions)
+			{
+				if (line.length == 0)
+					continue;
+				else if (!line[0].toString().equalsIgnoreCase("Version"))
+					continue;
+				else
+				{
+					foundVersions = true;
+					continue;
+				}
+
+			}
+
 			if (line.length == 0)
 				break;
 
@@ -371,6 +391,8 @@ public class PolycraftRegistry {
 			registerElectronics();
 			registerDNASamplers();
 			registerCellCultureDishes();
+			registerFlashcards();
+			registerExams();
 			Fuel.registerQuantifiedFuels();
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
@@ -678,6 +700,28 @@ public class PolycraftRegistry {
 			if (isTargetVersion(catalyst.version))
 			{
 				registerItem(catalyst, new ItemCatalyst(catalyst));
+			}
+		}
+
+	}
+
+	private static void registerFlashcards() {
+		for (final Flashcard flashcard : Flashcard.registry.values())
+		{
+			if (isTargetVersion(flashcard.version))
+			{
+				registerItem(flashcard, new ItemFlashcard(flashcard));
+			}
+		}
+
+	}
+
+	private static void registerExams() {
+		for (final Exam exam : Exam.registry.values())
+		{
+			if (isTargetVersion(exam.version))
+			{
+				registerItem(exam, new ItemExam(exam));
 			}
 		}
 
@@ -994,6 +1038,8 @@ public class PolycraftRegistry {
 					PrintingPressInventory.register(inventory);
 				else if (GameID.InventoryTerritoryFlag.matches(inventory))
 					TerritoryFlagInventory.register(inventory);
+				else if (GameID.InventoryCHEM2323.matches(inventory))
+					CHEM2323Inventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1238,6 +1284,12 @@ public class PolycraftRegistry {
 
 		for (final Catalyst catalyst : Catalyst.registry.values())
 			langEntries.add(String.format(itemFormat, catalyst.gameID, catalyst.name));
+
+		for (final Flashcard flashcard : Flashcard.registry.values())
+			langEntries.add(String.format(itemFormat, flashcard.gameID, flashcard.name));
+
+		for (final Exam exam : Exam.registry.values())
+			langEntries.add(String.format(itemFormat, exam.gameID, exam.name));
 
 		for (final DNASampler dnaSampler : DNASampler.registry.values())
 			langEntries.add(String.format(itemFormat, dnaSampler.gameID, dnaSampler.name));

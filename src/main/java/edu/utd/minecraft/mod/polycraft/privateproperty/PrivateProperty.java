@@ -65,6 +65,7 @@ public class PrivateProperty {
 			PlaceTorch,
 			UseDispenser, //45
 			UsePipe,
+			AccessCHEM2323,
 			//FIXME figure out how to add this
 			//UsePhaseShifter
 		}

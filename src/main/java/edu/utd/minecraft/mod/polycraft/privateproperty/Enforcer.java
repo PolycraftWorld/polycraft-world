@@ -39,6 +39,8 @@ import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemSign;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -67,8 +69,10 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.Exam;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -105,9 +109,11 @@ public abstract class Enforcer {
 
 	protected static final String chatCommandPrefix = "~";
 	protected static final String chatCommandTeleport = "tp";
+	protected static final String chatExamCommand = "exam";
 	private static final String chatCommandTeleportArgPrivateProperty = "pp";
 	private static final String chatCommandTeleportArgUser = "user";
 	private static final String chatCommandTeleportArgUTD = "utd";
+	private static final String chatExamCommandCHEM2323 = "chem2323";
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; // you can only own property
 													// in the surface dimension
@@ -697,6 +703,9 @@ public abstract class Enforcer {
 			} else if (polycraftInventoryBlock.tileEntityClass == TradingHouseInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseTradingHouse, blockChunk);
+			} else if (polycraftInventoryBlock.tileEntityClass == CHEM2323Inventory.class) {
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.AccessCHEM2323, blockChunk);
 			} else if (polycraftInventoryBlock.tileEntityClass == MaskWriterInventory.class) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseMaskWriter, blockChunk);
@@ -803,6 +812,12 @@ public abstract class Enforcer {
 						command.substring(chatCommandTeleport.length() + 1)
 								.split(" "));
 			}
+			else if (command.startsWith(chatExamCommand)) {
+				handleChatExamCommand(event.player,
+						command.substring(chatExamCommand.length() + 1)
+								.split(" "));
+			}
+
 			return;
 		}
 
@@ -859,6 +874,68 @@ public abstract class Enforcer {
 
 		}
 
+	}
+
+	public void handleChatExamCommand(final EntityPlayer player,
+			final String[] args) {
+		if (args.length > 0) {
+			// where to add to spawn different exams (test)
+			if (chatExamCommandCHEM2323.equalsIgnoreCase(args[0])) {
+				int slotIndex = player.inventory.getFirstEmptyStack();
+
+				if (Exam.registry.get("CHEM 2323 Exam 1") != null)
+				{
+					ItemStack itemStackExam = Exam.registry.get("CHEM 2323 Exam 1").getItemStack();
+
+					NBTTagCompound examQuestions = new NBTTagCompound();
+					NBTTagList questionList = new NBTTagList();
+
+					NBTTagCompound question1 = new NBTTagCompound();
+					question1.setShort("number", (short) 1);
+					question1.setString("image", "chem2323-chem_2323_exam_1");
+					question1.setString("TB1", "flashcard_0");
+					question1.setString("TB2", "flashcard_1");
+					question1.setString("TB3", "flashcard_2");
+					question1.setString("TB4", "flashcard_3");
+					question1.setString("TB5", "flashcard_4");
+					question1.setString("TB6", "flashcard_5");
+					question1.setString("TB7", "flashcard_6");
+					question1.setString("TB8", "flashcard_7");
+					question1.setString("TB9", "flashcard_8");
+					question1.setString("TB10", "flashcard_9");
+					question1.setString("TB11", "flashcard_cis");
+					question1.setString("TB12", "flashcard_trans");
+					questionList.appendTag(question1);
+
+					NBTTagCompound question2 = new NBTTagCompound();
+					question2.setShort("number", (short) 2);
+					question2.setString("image", "chem2323-chem_2323_exam_1");
+					question2.setString("TB1", "flashcard_a");
+					question2.setString("TB2", "flashcard_b");
+					question2.setString("TB3", "flashcard_c");
+					question2.setString("TB4", "flashcard_d");
+					question2.setString("TB5", "flashcard_e");
+					question2.setString("TB6", "flashcard_f");
+					question2.setString("TB7", "flashcard_g");
+					question2.setString("TB8", "flashcard_h");
+					question2.setString("TB9", "flashcard_i");
+					question2.setString("TB10", "flashcard_j");
+					question2.setString("TB11", "flashcard_k");
+					question2.setString("TB12", "flashcard_l");
+					questionList.appendTag(question2);
+
+					examQuestions.setTag("Questions", questionList);
+					examQuestions.setInteger("Bookmark", 0);
+					itemStackExam.setTagCompound(examQuestions);
+
+					if (slotIndex >= 0)
+					{
+						player.inventory.setInventorySlotContents(slotIndex, itemStackExam);
+					}
+				}
+
+			}
+		}
 	}
 
 	public void handleChatCommandTeleport(final EntityPlayer player,
