@@ -1,4 +1,4 @@
-http://www.minecraftforge.net/wiki/Installation/Source
+http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.7.10.html
 Download and then extract to D:\Workspaces\UTD\PolyCraft
 Open command line and run gradlew setupDecompWorkspace --refresh-dependencies
 Then run gradlew eclipse
