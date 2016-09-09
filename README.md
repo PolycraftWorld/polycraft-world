@@ -23,7 +23,7 @@ Load the local repo in eclipse to link the project
 	gamemode=0
 	allow-flight=true
 	and ops.txt
-
+	
 -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.dynamiclights.DLFMLCorePlugin
 -DcheatRecipes=true
 -username=a
