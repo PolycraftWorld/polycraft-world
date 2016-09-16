@@ -9,7 +9,7 @@ http://git-scm.com/download/win
 Install EGit plugin: http://download.eclipse.org/egit/updates
 
 Clone the polycraft repo to D:\Workspaces\UTD\polycraft_git
-https://github.com/WalterVoit/polycraft
+https://github.com/StephenGss/polycraft.git
 
 Copy polycraft_git into polycraft and delete the example file
 Load the local repo in eclipse to link the project
