@@ -2,7 +2,7 @@ http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.7.10.html
 Download and then extract to D:\Workspaces\UTD\PolyCraft
 Open command line and run gradlew setupDecompWorkspace --refresh-dependencies
 Then run gradlew eclipse
-Run eclipse (kepler) and point workspace to D:\Workspaces\UTD\polycraft\eclipse
+Run eclipse (kepler) and point workspace to D:\Workspaces\UTD
 Window > Preferences > Java > Editor > Save Actions > Perform actions on save (format all lines, organize imports)
 Download and install git
 http://git-scm.com/download/win
