@@ -7,17 +7,23 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
 /**
  * Creates and registers handlers for Not Enough Items so that you don't have to
- * browse the gosh darn wiki every few minutes to make Polypropylene...
+ * browse the gosh darn wiki every few minutes to make polypropylene...
  * 
  * @author Cappycot
  */
 public class NEIPolycraftConfig implements IConfigureNEI {
 
+	/**
+	 * lol
+	 */
 	@Override
 	public String getName() {
 		return "Cappycot's Polycraft Plugin";
 	}
 
+	/**
+	 * lol
+	 */
 	@Override
 	public String getVersion() {
 		return PolycraftMod.VERSION;
@@ -31,14 +37,31 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 	 * <br>
 	 * Precedence List:
 	 * <ol>
+	 * <li>Production: Tree Tap, Condenser, Oil Derrick</li>
+	 * <li>Industrial Oven</li>
 	 * <li>Levels 1-8 of Polycraft Machinery</li>
 	 * <li>Crafting Table Recipes</li>
-	 * <li>Industrial Oven/Smelting</li>
+	 * <li>Mask Writer and Contact Printer</li>
 	 * <li>All fuel GUIs</li>
 	 * </ol>
 	 */
 	@Override
 	public void loadConfig() {
+		API.registerRecipeHandler(new TreeTapRecipeHandler()); // "treetap"
+		// API.registerUsageHandler(new TreeTapRecipeHandler());
+
+		API.registerRecipeHandler(new CondenserRecipeHandler()); // "condenser"
+		// API.registerUsageHandler(new CondenserRecipeHandler());
+
+		API.registerRecipeHandler(new OilDerrickRecipeHandler()); // "oilderrick"
+		// API.registerUsageHandler(new OilDerrickRecipeHandler());
+
+		API.registerRecipeHandler(new IndustrialOvenRecipeHandler()); // "industrialoven"
+		API.registerUsageHandler(new IndustrialOvenRecipeHandler());
+
+		API.registerRecipeHandler(new DistillationColumnRecipeHandler()); // "distillationcolumn"
+		API.registerUsageHandler(new DistillationColumnRecipeHandler());
+
 		API.registerRecipeHandler(new ChemicalProcessorRecipeHandler()); // "chemicalprocessor"
 		API.registerUsageHandler(new ChemicalProcessorRecipeHandler());
 
@@ -51,12 +74,8 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 		API.registerRecipeHandler(new PolycraftColoringRecipeHandler());
 		API.registerUsageHandler(new PolycraftColoringRecipeHandler());
 
-		API.registerRecipeHandler(new IndustrialOvenRecipeHandler()); // "industrialoven"
-		API.registerUsageHandler(new IndustrialOvenRecipeHandler());
-
 		API.registerRecipeHandler(new PolycraftIOFuelRecipeHandler()); // "fuel"
 		API.registerUsageHandler(new PolycraftIOFuelRecipeHandler());
-		// Named such because Industrial Oven is near-identical to smelting.
 	}
 
 }
