@@ -54,6 +54,22 @@ public class PolycraftColoringRecipeHandler extends PolycraftShapedRecipeHandler
 		return "Polycraft Coloring";
 	}
 
+	public static int checkOutput(PolycraftRecipe recipe, ItemStack result) {
+		if (result == null)
+			return -1;
+		for (RecipeComponent comp : recipe.getOutputs(null)) {
+			ArrayList<ItemStack> types = new ArrayList<ItemStack>();
+			if (comp.itemStack.getHasSubtypes())
+				comp.itemStack.getItem().getSubItems(comp.itemStack.getItem(), null, types);
+			else
+				types.add(comp.itemStack);
+			for (ItemStack item : types)
+				if (result.getUnlocalizedName().equals(item.getUnlocalizedName()))
+					return result.getItemDamage();
+		}
+		return -2;
+	}
+
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals("item")) {
@@ -76,9 +92,18 @@ public class PolycraftColoringRecipeHandler extends PolycraftShapedRecipeHandler
 			for (RecipeComponent comp : recipe.getOutputs(null)) {
 				res = comp.itemStack;
 			}
-			if (result != null && !res.getUnlocalizedName().equals(result.getUnlocalizedName()))
-				continue;
-			addPColoringRecipe((ColoringPolycraftRecipe) recipe, res);
+			int chk = checkOutput(recipe, result);
+			switch (chk) {
+			case -2:
+				break;
+			case -1:
+				addPColoringRecipe((ColoringPolycraftRecipe) recipe, res);
+				break;
+			default:
+				addPColoringRecipe((ColoringPolycraftRecipe) recipe, res, chk);
+				break;
+			}
+
 		}
 	}
 

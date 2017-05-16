@@ -74,7 +74,6 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 			stacks.addAll(buckets);
 			return stacks;
 		}
-
 	}
 
 	public static class FuelPair {
@@ -116,15 +115,14 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		// TODO: Change "polycraftiofuel" to "polycraftcpfuel" and make
+		// TODO: Change "polycraftiofuel" to "polycraftcmpfuel" and make
 		// according fuel handler...
-		transferRects.add(new RecipeTransferRect(new Rectangle(21, 25, 18, 18), "polycraftiofuel"));
+		transferRects.add(new RecipeTransferRect(new Rectangle(21, 25, 18, 18), "polycraftcmpfuel"));
 		transferRects.add(new RecipeTransferRect(new Rectangle(84, 24, 24, 18), "chemicalprocessor"));
 	}
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		System.out.println(outputId);
 		if (outputId.equals("item")) {
 			for (Object res : results)
 				if (res instanceof ItemStack)
@@ -138,7 +136,6 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		Collection<PolycraftRecipe> recipes = PolycraftMod.recipeManagerRuntime
 				.getRecipesByContainerType(PolycraftContainerType.CHEMICAL_PROCESSOR);
-		System.out.println("Found " + recipes.size() + " chemical processor recipes.");
 		for (PolycraftRecipe recipe : recipes) {
 			if (checkOutput(recipe, result))
 				arecipes.add(new ChemProcRecipe(recipe));
@@ -151,7 +148,6 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 		Collection<PolycraftRecipe> recipes = PolycraftMod.recipeManagerRuntime
 				.getRecipesByContainerType(PolycraftContainerType.CHEMICAL_PROCESSOR);
 		for (PolycraftRecipe recipe : recipes) {
-			boolean found = false;
 			for (RecipeInput input : recipe.getInputs())
 				if (checkInput(recipe, ingredient))
 					arecipes.add(new ChemProcRecipe(recipe));
@@ -186,9 +182,7 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 	private static void findFuels() {
 		afuels = new ArrayList<FuelPair>();
 		for (ItemStack item : ItemList.items) {
-			// Dunno how to calculate actual burnTime but it doesn't matter too
-			// much here I think. Given that 1 tick is 1/20th of a second, we'll
-			// just multiply by 20.
+			// 20 ticks = 1 second, NEI burnTime is measured in ticks.
 			if (Fuel.getHeatIntensity(item.getItem()) > 0) {
 				int burnTime = (int) Fuel.getHeatDurationSeconds(item.getItem()) * 20;
 				afuels.add(new FuelPair(item.copy(), burnTime));

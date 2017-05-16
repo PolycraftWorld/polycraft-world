@@ -121,7 +121,6 @@ public class DistillationColumnRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		System.out.println(outputId);
 		if (outputId.equals("item")) {
 			for (Object res : results)
 				if (res instanceof ItemStack)

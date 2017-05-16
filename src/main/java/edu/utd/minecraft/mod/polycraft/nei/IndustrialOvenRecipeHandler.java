@@ -93,11 +93,6 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	@Override
-	public Class<? extends GuiContainer> getGuiClass() {
-		return PolycraftInventoryGui.class;
-	}
-
-	@Override
 	public String getRecipeName() {
 		return "Industrial Oven";
 	}
