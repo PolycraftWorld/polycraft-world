@@ -1,0 +1,75 @@
+Considering minecraft client jar
+Downloading minecraft client version 1.7.10
+  Temp File: d:\temp\appdata\minecraft_client6940031489627690447.jar
+  ETag: e6b7a531b95d0c172acb704d1f54d1b3
+  MD5:  e6b7a531b95d0c172acb704d1f54d1b3
+Copying minecraft client jar
+Considering library net.minecraftforge:forge:1.7.10-10.13.2.1291: Not Downloading
+Considering library net.minecraft:launchwrapper:1.11: Not Downloading
+Considering library org.ow2.asm:asm-all:5.0.3: Not Downloading
+Considering library com.typesafe.akka:akka-actor_2.11:2.3.3
+Checking "D:\home\chris\AppData\.minecraft\libraries\com\typesafe\akka\akka-actor_2.11\2.3.3\akka-actor_2.11-2.3.3.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\com\typesafe\akka\akka-actor_2.11\2.3.3\akka-actor_2.11-2.3.3.jar
+Considering library com.typesafe:config:1.2.1
+Checking "D:\home\chris\AppData\.minecraft\libraries\com\typesafe\config\1.2.1\config-1.2.1.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\com\typesafe\config\1.2.1\config-1.2.1.jar
+Considering library org.scala-lang:scala-actors-migration_2.11:1.1.0
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-actors-migration_2.11\1.1.0\scala-actors-migration_2.11-1.1.0.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-actors-migration_2.11\1.1.0\scala-actors-migration_2.11-1.1.0.jar
+Considering library org.scala-lang:scala-compiler:2.11.1
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-compiler\2.11.1\scala-compiler-2.11.1.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-compiler\2.11.1\scala-compiler-2.11.1.jar
+Considering library org.scala-lang.plugins:scala-continuations-library_2.11:1.0.2
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\plugins\scala-continuations-library_2.11\1.0.2\scala-continuations-library_2.11-1.0.2.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\plugins\scala-continuations-library_2.11\1.0.2\scala-continuations-library_2.11-1.0.2.jar
+Considering library org.scala-lang.plugins:scala-continuations-plugin_2.11.1:1.0.2
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\plugins\scala-continuations-plugin_2.11.1\1.0.2\scala-continuations-plugin_2.11.1-1.0.2.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\plugins\scala-continuations-plugin_2.11.1\1.0.2\scala-continuations-plugin_2.11.1-1.0.2.jar
+Considering library org.scala-lang:scala-library:2.11.1
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-library\2.11.1\scala-library-2.11.1.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-library\2.11.1\scala-library-2.11.1.jar
+Considering library org.scala-lang:scala-parser-combinators_2.11:1.0.1
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-parser-combinators_2.11\1.0.1\scala-parser-combinators_2.11-1.0.1.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-parser-combinators_2.11\1.0.1\scala-parser-combinators_2.11-1.0.1.jar
+Considering library org.scala-lang:scala-reflect:2.11.1
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-reflect\2.11.1\scala-reflect-2.11.1.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-reflect\2.11.1\scala-reflect-2.11.1.jar
+Considering library org.scala-lang:scala-swing_2.11:1.0.1
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-swing_2.11\1.0.1\scala-swing_2.11-1.0.1.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-swing_2.11\1.0.1\scala-swing_2.11-1.0.1.jar
+Considering library org.scala-lang:scala-xml_2.11:1.0.2
+Checking "D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-xml_2.11\1.0.2\scala-xml_2.11-1.0.2.jar" internal checksums
+    checksums.sha1 validated successfully
+    Jar contents validated successfully
+Library already exists at D:\home\chris\AppData\.minecraft\libraries\org\scala-lang\scala-xml_2.11\1.0.2\scala-xml_2.11-1.0.2.jar
+Considering library lzma:lzma:0.0.1: Not Downloading
+Considering library net.sf.jopt-simple:jopt-simple:4.5: Not Downloading
+Considering library com.google.guava:guava:17.0: Not Downloading
+Considering library org.apache.commons:commons-lang3:3.3.2: Not Downloading
+Considering resource Polycraft 1.3.0 Resource Pack.zip
+Deleting polycraft mod polycraft-1.3.1.jar
+DELETINGD:\home\chris\AppData\.minecraft\mods\polycraft-1.3.1.jar
+File polycraft-1.3.0.jar
+Considering resource polycraft-1.3.0.jar
+Extracting D:\home\chris\AppData\.minecraft\libraries\net\minecraftforge\forge\1.7.10-10.13.2.1291\forge-1.7.10-10.13.2.1291.jar
+Reading resource stream file forge-1.7.10-10.13.2.1291-universal.jar

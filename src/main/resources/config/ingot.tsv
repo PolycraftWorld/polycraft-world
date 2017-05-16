@@ -1,0 +1,27 @@
+Version	Game ID	Ingot	Source Type	Source Name	Mold Damage Per Use
+1.0.0	k	Magnesium Ingot	Element	Magnesium	128
+1.0.0	l	Titanium Ingot	Element	Titanium	8
+1.0.0	m	Manganese Ingot	Element	Manganese	128
+1.0.0	n	Cobalt Ingot	Element	Cobalt	128
+1.0.0	o	Nickel Ingot	Element	Nickel	64
+1.0.0	p	Copper Ingot	Element	Copper	0
+1.0.0	q	Zinc Ingot	Element	Zinc	0
+1.0.0	r	Palladium Ingot	Element	Palladium	0
+1.0.0	s	Silver Ingot	Element	Silver	0
+1.0.0	t	Antimony Ingot	Element	Antimony	64
+1.0.0	u	Tungsten Ingot	Element	Tungsten	32
+1.0.0	v	Platinum Ingot	Element	Platinum	4
+1.1.0	w	Plumbum (Lead) Ingot	Element	Plumbum (Lead)	0
+1.0.0	x	Bismuth Ingot	Element	Bismuth	16
+1.0.0	y	Aluminum Ingot	Element	Aluminum	64
+1.0.4	z	Steel Ingot	Alloy	Steel	8
+1.0.4	A	Stainless Steel Ingot	Alloy	Stainless Steel	4
+1.0.0	B	Brass Ingot	Alloy	Brass	16
+1.0.0	C	Bronze Ingot	Alloy	Bronze	128
+1.0.0	4k	Tin Ingot	Element	Tin	0
+1.0.4	4l	Chrome Ingot	Mineral	Chromite	0
+1.1.0	2u	Tungsten Carbide Ingot	Alloy	Tungsten Carbide	2
+1.1.0	2R	Nichrome Ingot	Alloy	Nichrome	16
+1.1.0	2T	Antimony-Lead Ingot	Alloy	Antimony-Lead	32
+1.3.2	1e5	Silicon Ingot	Element	Silicon	0
+1.3.2	1eI	Mercury Sulfide Ingot	Mineral	Cinnabar	0

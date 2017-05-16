@@ -1,0 +1,399 @@
+Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Compound Small	Compound Medium	Compound Large	Compound Industrial	Compound	State	Vessel 1	Vessel 2	Vessel 3	Vessel 4
+	dJ	j7	ov	tT	"Flask (1,1,1,2-Tetrafluoroethane)"	"Cartridge (1,1,1,2-Tetrafluoroethane)"	"Canister (1,1,1,2-Tetrafluoroethane)"	"Chemical Tank (1,1,1,2-Tetrafluoroethane)"	"1,1,1,2-Tetrafluoroethane"	Gas	Flask	Cartridge	Canister	Chemical Tank
+	dK	j8	ow	tU	"Vial (1,1,1-Trichloroethane)"	"Beaker (1,1,1-Trichloroethane)"	"Drum (1,1,1-Trichloroethane)"	"Chemical Vat (1,1,1-Trichloroethane)"	"1,1,1-Trichloroethane"	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dL	j9	ox	tV	"Vial (1,3-Propanediol)"	"Beaker (1,3-Propanediol)"	"Drum (1,3-Propanediol)"	"Chemical Vat (1,3-Propanediol)"	"1,3-Propanediol"	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dM	ja	oy	tW	"Vial (1,4-Butanediol)"	"Beaker (1,4-Butanediol)"	"Drum (1,4-Butanediol)"	"Chemical Vat (1,4-Butanediol)"	"1,4-Butanediol"	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dN	jb	oz	tX	"Vial (1,6-Hexamethylenediamine)"	"Beaker (1,6-Hexamethylenediamine)"	"Drum (1,6-Hexamethylenediamine)"	"Chemical Vat (1,6-Hexamethylenediamine)"	"1,6-Hexamethylenediamine"	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dO	jc	oA	tY	Vial (2-(2-Butoxyethoxy) Ethanol)	Beaker (2-(2-Butoxyethoxy) Ethanol)	Drum (2-(2-Butoxyethoxy) Ethanol)	Chemical Vat (2-(2-Butoxyethoxy) Ethanol)	2-(2-Butoxyethoxy) Ethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dP	jd	oB	tZ	"Vial (2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve)"	"Beaker (2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve)"	"Drum (2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve)"	"Chemical Vat (2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve)"	"2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve"	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dQ	je	oC	u0	"Vial (2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol)"	"Beaker (2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol)"	"Drum (2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol)"	"Chemical Vat (2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol)"	"2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol"	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dR	jf	oD	u1	"Vial (2,2-DiMethylButane)"	"Beaker (2,2-DiMethylButane)"	"Drum (2,2-DiMethylButane)"	"Chemical Vat (2,2-DiMethylButane)"	"2,2-DiMethylButane"	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dS	jg	oE	u2	"Vial (2,3-DiMethylButane)"	"Beaker (2,3-DiMethylButane)"	"Drum (2,3-DiMethylButane)"	"Chemical Vat (2,3-DiMethylButane)"	"2,3-DiMethylButane"	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dT	jh	oF	u3	Vial (2-Benzyloxyethanol)	Beaker (2-Benzyloxyethanol)	Drum (2-Benzyloxyethanol)	Chemical Vat (2-Benzyloxyethanol)	2-Benzyloxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dU	ji	oG	u4	Vial (2-Butoxyethanol)	Beaker (2-Butoxyethanol)	Drum (2-Butoxyethanol)	Chemical Vat (2-Butoxyethanol)	2-Butoxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dV	jj	oH	u5	Vial (2-Butoxyethyl Acetate)	Beaker (2-Butoxyethyl Acetate)	Drum (2-Butoxyethyl Acetate)	Chemical Vat (2-Butoxyethyl Acetate)	2-Butoxyethyl Acetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dW	jk	oI	u6	Vial (2C3 mercaptan)	Beaker (2C3 mercaptan)	Drum (2C3 mercaptan)	Chemical Vat (2C3 mercaptan)	2C3 mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	dX	jl	oJ	u7	Vial (2-Ethoxyethanol)	Beaker (2-Ethoxyethanol)	Drum (2-Ethoxyethanol)	Chemical Vat (2-Ethoxyethanol)	2-Ethoxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dY	jm	oK	u8	Vial (2-Ethoxyethyl Acetate)	Beaker (2-Ethoxyethyl Acetate)	Drum (2-Ethoxyethyl Acetate)	Chemical Vat (2-Ethoxyethyl Acetate)	2-Ethoxyethyl Acetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	dZ	jn	oL	u9	Vial (2-Isopropoxyethanol)	Beaker (2-Isopropoxyethanol)	Drum (2-Isopropoxyethanol)	Chemical Vat (2-Isopropoxyethanol)	2-Isopropoxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e0	jo	oM	ua	Vial (2-Methoxyethanol)	Beaker (2-Methoxyethanol)	Drum (2-Methoxyethanol)	Chemical Vat (2-Methoxyethanol)	2-Methoxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	e1	jp	oN	ub	Vial (2-Methoxyethyl Acetate)	Beaker (2-Methoxyethyl Acetate)	Drum (2-Methoxyethyl Acetate)	Chemical Vat (2-Methoxyethyl Acetate)	2-Methoxyethyl Acetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e2	jq	oO	uc	Vial (2-MethylPentane)	Beaker (2-MethylPentane)	Drum (2-MethylPentane)	Chemical Vat (2-MethylPentane)	2-MethylPentane	Liquid	Vial	Beaker	Drum	Chemical Vat
+	e3	jr	oP	ud	Vial (2-Phenoxyethanol)	Beaker (2-Phenoxyethanol)	Drum (2-Phenoxyethanol)	Chemical Vat (2-Phenoxyethanol)	2-Phenoxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	e4	js	oQ	ue	Vial (2-Propanol)	Beaker (2-Propanol)	Drum (2-Propanol)	Chemical Vat (2-Propanol)	2-Propanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e5	jt	oR	uf	Vial (2-Propoxyethanol)	Beaker (2-Propoxyethanol)	Drum (2-Propoxyethanol)	Chemical Vat (2-Propoxyethanol)	2-Propoxyethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e6	ju	oS	ug	Vial (3-Hydroxybutanoic Acid)	Beaker (3-Hydroxybutanoic Acid)	Drum (3-Hydroxybutanoic Acid)	Chemical Vat (3-Hydroxybutanoic Acid)	3-Hydroxybutanoic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e7	jv	oT	uh	Vial (3-Hydroxypentanoic Acid)	Beaker (3-Hydroxypentanoic Acid)	Drum (3-Hydroxypentanoic Acid)	Chemical Vat (3-Hydroxypentanoic Acid)	3-Hydroxypentanoic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e8	jw	oU	ui	Vial (3-MethylPentane)	Beaker (3-MethylPentane)	Drum (3-MethylPentane)	Chemical Vat (3-MethylPentane)	3-MethylPentane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	e9	jx	oV	uj	Vial (4-Hydroxybenzoic Acid)	Beaker (4-Hydroxybenzoic Acid)	Drum (4-Hydroxybenzoic Acid)	Chemical Vat (4-Hydroxybenzoic Acid)	4-Hydroxybenzoic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ea	jy	oW	uk	Vial (6-Hydroxynaphthalene-2-Carboxylic Acid)	Beaker (6-Hydroxynaphthalene-2-Carboxylic Acid)	Drum (6-Hydroxynaphthalene-2-Carboxylic Acid)	Chemical Vat (6-Hydroxynaphthalene-2-Carboxylic Acid)	6-Hydroxynaphthalene-2-Carboxylic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eb	jz	oX	ul	Vial (Acetaldehyde)	Beaker (Acetaldehyde)	Drum (Acetaldehyde)	Chemical Vat (Acetaldehyde)	Acetaldehyde	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ec	jA	oY	um	Vial (Acetic Acid)	Beaker (Acetic Acid)	Drum (Acetic Acid)	Chemical Vat (Acetic Acid)	Acetic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ed	jB	oZ	un	Vial (Acetone)	Beaker (Acetone)	Drum (Acetone)	Chemical Vat (Acetone)	Acetone	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ee	jC	p0	uo	Vial (Acetylene)	Beaker (Acetylene)	Drum (Acetylene)	Chemical Vat (Acetylene)	Acetylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ef	jD	p1	up	Vial (Acetylsalicylic Acid)	Beaker (Acetylsalicylic Acid)	Drum (Acetylsalicylic Acid)	Chemical Vat (Acetylsalicylic Acid)	Acetylsalicylic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eg	jE	p2	uq	Vial (Acrylic Acid)	Beaker (Acrylic Acid)	Drum (Acrylic Acid)	Chemical Vat (Acrylic Acid)	Acrylic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eh	jF	p3	ur	Vial (Adipic Acid)	Beaker (Adipic Acid)	Drum (Adipic Acid)	Chemical Vat (Adipic Acid)	Adipic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ei	jG	p4	us	Vial (Aldehyde-Collidine)	Beaker (Aldehyde-Collidine)	Drum (Aldehyde-Collidine)	Chemical Vat (Aldehyde-Collidine)	Aldehyde-Collidine	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ej	jH	p5	ut	Vial (Alkyd Resin)	Beaker (Alkyd Resin)	Drum (Alkyd Resin)	Chemical Vat (Alkyd Resin)	Alkyd Resin	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ek	jI	p6	uu	Bag (Aluminium Ammonium Sulfate)	Sack (Aluminium Ammonium Sulfate)	Powder Keg (Aluminium Ammonium Sulfate)	Chemical Silo (Aluminium Ammonium Sulfate)	Aluminium Ammonium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	el	jJ	p7	uv	Bag (Aluminium Hydroxide)	Sack (Aluminium Hydroxide)	Powder Keg (Aluminium Hydroxide)	Chemical Silo (Aluminium Hydroxide)	Aluminium Hydroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	em	jK	p8	uw	Bag (Aluminium Oxide)	Sack (Aluminium Oxide)	Powder Keg (Aluminium Oxide)	Chemical Silo (Aluminium Oxide)	Aluminium Oxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	en	jL	p9	ux	Bag (Aluminium Potassium Sulfate)	Sack (Aluminium Potassium Sulfate)	Powder Keg (Aluminium Potassium Sulfate)	Chemical Silo (Aluminium Potassium Sulfate)	Aluminium Potassium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eo	jM	pa	uy	Bag (Aluminium Sulfate)	Sack (Aluminium Sulfate)	Powder Keg (Aluminium Sulfate)	Chemical Silo (Aluminium Sulfate)	Aluminium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	ep	jN	pb	uz	Bag (Aluminoxane)	Sack (Aluminoxane)	Powder Keg (Aluminoxane)	Chemical Silo (Aluminoxane)	Aluminoxane	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	eq	jO	pc	uA	Flask (Ammonia)	Cartridge (Ammonia)	Canister (Ammonia)	Chemical Tank (Ammonia)	Ammonia	Gas	Flask	Cartridge	Canister	Chemical Tank
+	er	jP	pd	uB	Bag (Ammonium Bicarbonate)	Sack (Ammonium Bicarbonate)	Powder Keg (Ammonium Bicarbonate)	Chemical Silo (Ammonium Bicarbonate)	Ammonium Bicarbonate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	es	jQ	pe	uC	Bag (Ammonium Bifluoride)	Sack (Ammonium Bifluoride)	Powder Keg (Ammonium Bifluoride)	Chemical Silo (Ammonium Bifluoride)	Ammonium Bifluoride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	et	jR	pf	uD	Bag (Ammonium Bromide)	Sack (Ammonium Bromide)	Powder Keg (Ammonium Bromide)	Chemical Silo (Ammonium Bromide)	Ammonium Bromide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eu	jS	pg	uE	Bag (Ammonium Carbonate)	Sack (Ammonium Carbonate)	Powder Keg (Ammonium Carbonate)	Chemical Silo (Ammonium Carbonate)	Ammonium Carbonate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	ev	jT	ph	uF	Bag (Ammonium Chloride)	Sack (Ammonium Chloride)	Powder Keg (Ammonium Chloride)	Chemical Silo (Ammonium Chloride)	Ammonium Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	ew	jU	pi	uG	Bag (Ammonium Nitrate)	Sack (Ammonium Nitrate)	Powder Keg (Ammonium Nitrate)	Chemical Silo (Ammonium Nitrate)	Ammonium Nitrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	ex	jV	pj	uH	Bag (Ammonium Persulfate)	Sack (Ammonium Persulfate)	Powder Keg (Ammonium Persulfate)	Chemical Silo (Ammonium Persulfate)	Ammonium Persulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	ey	jW	pk	uI	Bag (Ammonium Phosphate)	Sack (Ammonium Phosphate)	Powder Keg (Ammonium Phosphate)	Chemical Silo (Ammonium Phosphate)	Ammonium Phosphate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	ez	jX	pl	uJ	Bag (Ammonium Hydroxide)	Sack (Ammonium Hydroxide)	Powder Keg (Ammonium Hydroxide)	Chemical Silo (Ammonium Hydroxide)	Ammonium Hydroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eA	jY	pm	uK	Bag (Amylose)	Sack (Amylose)	Powder Keg (Amylose)	Chemical Silo (Amylose)	Amylose	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eB	jZ	pn	uL	Vial (Anthocyanin)	Beaker (Anthocyanin)	Drum (Anthocyanin)	Chemical Vat (Anthocyanin)	Anthocyanin	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eC	k0	po	uM	Vial (Antimony Trioxide)	Beaker (Antimony Trioxide)	Drum (Antimony Trioxide)	Chemical Vat (Antimony Trioxide)	Antimony Trioxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eD	k1	pp	uN	Vial (Ascorbic Acid)	Beaker (Ascorbic Acid)	Drum (Ascorbic Acid)	Chemical Vat (Ascorbic Acid)	Ascorbic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eE	k2	pq	uO	Vial (Barium Carbonate)	Beaker (Barium Carbonate)	Drum (Barium Carbonate)	Chemical Vat (Barium Carbonate)	Barium Carbonate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eF	k3	pr	uP	Vial (Barium Sulfate)	Beaker (Barium Sulfate)	Drum (Barium Sulfate)	Chemical Vat (Barium Sulfate)	Barium Sulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eG	k4	ps	uQ	Vial (Beer)	Beaker (Beer)	Drum (Beer)	Chemical Vat (Beer)	Beer	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eH	k5	pt	uR	Vial (Benzene)	Beaker (Benzene)	Drum (Benzene)	Chemical Vat (Benzene)	Benzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eI	k6	pu	uS	Vial (Benzene-Toluene-Xylene)	Beaker (Benzene-Toluene-Xylene)	Drum (Benzene-Toluene-Xylene)	Chemical Vat (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eJ	k7	pv	uT	Vial (Benzoic Acid)	Beaker (Benzoic Acid)	Drum (Benzoic Acid)	Chemical Vat (Benzoic Acid)	Benzoic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eK	k8	pw	uU	Vial (Benzoyl Peroxide)	Beaker (Benzoyl Peroxide)	Drum (Benzoyl Peroxide)	Chemical Vat (Benzoyl Peroxide)	Benzoyl Peroxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eL	k9	px	uV	Vial (Bismuth Subsalicylate)	Beaker (Bismuth Subsalicylate)	Drum (Bismuth Subsalicylate)	Chemical Vat (Bismuth Subsalicylate)	Bismuth Subsalicylate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eM	ka	py	uW	Vial (Bisphenol A)	Beaker (Bisphenol A)	Drum (Bisphenol A)	Chemical Vat (Bisphenol A)	Bisphenol A	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eN	kb	pz	uX	Vial (Boric Acid)	Beaker (Boric Acid)	Drum (Boric Acid)	Chemical Vat (Boric Acid)	Boric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eO	kc	pA	uY	Vial (Bromthymol Blue)	Beaker (Bromthymol Blue)	Drum (Bromthymol Blue)	Chemical Vat (Bromthymol Blue)	Bromthymol Blue	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eP	kd	pB	uZ	Vial (Butadiene)	Beaker (Butadiene)	Drum (Butadiene)	Chemical Vat (Butadiene)	Butadiene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eQ	ke	pC	v0	Flask (Butane Isomers)	Cartridge (Butane Isomers)	Canister (Butane Isomers)	Chemical Tank (Butane Isomers)	Butane Isomers	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	eR	kf	pD	v1	Vial (Butanol)	Beaker (Butanol)	Drum (Butanol)	Chemical Vat (Butanol)	Butanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eS	kg	pE	v2	Vial (Butylene isomers)	Beaker (Butylene isomers)	Drum (Butylene isomers)	Chemical Vat (Butylene isomers)	Butylene isomers	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eT	kh	pF	v3	Vial (Butyrolactone)	Beaker (Butyrolactone)	Drum (Butyrolactone)	Chemical Vat (Butyrolactone)	Butyrolactone	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eU	ki	pG	v4	Vial (Cadmium Sulfide)	Beaker (Cadmium Sulfide)	Drum (Cadmium Sulfide)	Chemical Vat (Cadmium Sulfide)	Cadmium Sulfide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	eV	kj	pH	v5	Vial (Caffeine)	Beaker (Caffeine)	Drum (Caffeine)	Chemical Vat (Caffeine)	Caffeine	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	eW	kk	pI	v6	Bag (Calcium Carbide)	Sack (Calcium Carbide)	Powder Keg (Calcium Carbide)	Chemical Silo (Calcium Carbide)	Calcium Carbide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eX	kl	pJ	v7	Bag (Calcium Carbonate)	Sack (Calcium Carbonate)	Powder Keg (Calcium Carbonate)	Chemical Silo (Calcium Carbonate)	Calcium Carbonate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eY	km	pK	v8	Bag (Calcium Chloride)	Sack (Calcium Chloride)	Powder Keg (Calcium Chloride)	Chemical Silo (Calcium Chloride)	Calcium Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	eZ	kn	pL	v9	Bag (Calcium Hydride)	Sack (Calcium Hydride)	Powder Keg (Calcium Hydride)	Chemical Silo (Calcium Hydride)	Calcium Hydride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	f0	ko	pM	va	Bag (Calcium Hydroxide)	Sack (Calcium Hydroxide)	Powder Keg (Calcium Hydroxide)	Chemical Silo (Calcium Hydroxide)	Calcium Hydroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	f1	kp	pN	vb	Bag (Calcium Hypochlorite)	Sack (Calcium Hypochlorite)	Powder Keg (Calcium Hypochlorite)	Chemical Silo (Calcium Hypochlorite)	Calcium Hypochlorite	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	f2	kq	pO	vc	Bag (Calcium Monoxide)	Sack (Calcium Monoxide)	Powder Keg (Calcium Monoxide)	Chemical Silo (Calcium Monoxide)	Calcium Monoxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	f3	kr	pP	vd	Vial (Calcium Nitrate)	Beaker (Calcium Nitrate)	Drum (Calcium Nitrate)	Chemical Vat (Calcium Nitrate)	Calcium Nitrate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	f4	ks	pQ	ve	Vial (Calcium Oxide)	Beaker (Calcium Oxide)	Drum (Calcium Oxide)	Chemical Vat (Calcium Oxide)	Calcium Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	f5	kt	pR	vf	"Vial (Calcium Phosphate, Monobasic)"	"Beaker (Calcium Phosphate, Monobasic)"	"Drum (Calcium Phosphate, Monobasic)"	"Chemical Vat (Calcium Phosphate, Monobasic)"	"Calcium Phosphate, Monobasic"	Liquid	Vial	Beaker	Drum	Chemical Vat
+	f6	ku	pS	vg	Vial (Calcium Sulfate Anhydrous)	Beaker (Calcium Sulfate Anhydrous)	Drum (Calcium Sulfate Anhydrous)	Chemical Vat (Calcium Sulfate Anhydrous)	Calcium Sulfate Anhydrous	Liquid	Vial	Beaker	Drum	Chemical Vat
+	f7	kv	pT	vh	Vial (Calcium Sulfate Dihydrate)	Beaker (Calcium Sulfate Dihydrate)	Drum (Calcium Sulfate Dihydrate)	Chemical Vat (Calcium Sulfate Dihydrate)	Calcium Sulfate Dihydrate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	f8	kw	pU	vi	"Vial (Calcium Sulfate, Hemihydrate)"	"Beaker (Calcium Sulfate, Hemihydrate)"	"Drum (Calcium Sulfate, Hemihydrate)"	"Chemical Vat (Calcium Sulfate, Hemihydrate)"	"Calcium Sulfate, Hemihydrate"	Liquid	Vial	Beaker	Drum	Chemical Vat
+	f9	kx	pV	vj	Vial (Camphor)	Beaker (Camphor)	Drum (Camphor)	Chemical Vat (Camphor)	Camphor	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fa	ky	pW	vk	Vial (Caprolactone)	Beaker (Caprolactone)	Drum (Caprolactone)	Chemical Vat (Caprolactone)	Caprolactone	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fb	kz	pX	vl	Vial (Caprolactam)	Beaker (Caprolactam)	Drum (Caprolactam)	Chemical Vat (Caprolactam)	Caprolactam	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fc	kA	pY	vm	Flask (Carbon Dioxide)	Cartridge (Carbon Dioxide)	Canister (Carbon Dioxide)	Chemical Tank (Carbon Dioxide)	Carbon Dioxide	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	fd	kB	pZ	vn	Flask (Carbon Monoxide)	Cartridge (Carbon Monoxide)	Canister (Carbon Monoxide)	Chemical Tank (Carbon Monoxide)	Carbon Monoxide	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	fe	kC	q0	vo	Vial (Carbonic Acid)	Beaker (Carbonic Acid)	Drum (Carbonic Acid)	Chemical Vat (Carbonic Acid)	Carbonic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ff	kD	q1	vp	Vial (Carboxylates)	Beaker (Carboxylates)	Drum (Carboxylates)	Chemical Vat (Carboxylates)	Carboxylates	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fg	kE	q2	vq	Vial (Carrageenan)	Beaker (Carrageenan)	Drum (Carrageenan)	Chemical Vat (Carrageenan)	Carrageenan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fh	kF	q3	vr	Vial (Carrot Wine)	Beaker (Carrot Wine)	Drum (Carrot Wine)	Chemical Vat (Carrot Wine)	Carrot Wine	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fi	kG	q4	vs	Vial (Cellulose)	Beaker (Cellulose)	Drum (Cellulose)	Chemical Vat (Cellulose)	Cellulose	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fj	kH	q5	vt	Vial (Cellulose Acetate)	Beaker (Cellulose Acetate)	Drum (Cellulose Acetate)	Chemical Vat (Cellulose Acetate)	Cellulose Acetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fk	kI	q6	vu	Vial (Cellulose Nitrate)	Beaker (Cellulose Nitrate)	Drum (Cellulose Nitrate)	Chemical Vat (Cellulose Nitrate)	Cellulose Nitrate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fl	kJ	q7	vv	Vial (Chromium Oxide)	Beaker (Chromium Oxide)	Drum (Chromium Oxide)	Chemical Vat (Chromium Oxide)	Chromium Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fm	kK	q8	vw	Vial (Citric Acid)	Beaker (Citric Acid)	Drum (Citric Acid)	Chemical Vat (Citric Acid)	Citric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fn	kL	q9	vx	Bag (Cobalt-Manganese-Bromide)	Sack (Cobalt-Manganese-Bromide)	Powder Keg (Cobalt-Manganese-Bromide)	Chemical Silo (Cobalt-Manganese-Bromide)	Cobalt-Manganese-Bromide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	fo	kM	qa	vy	Vial (Coke)	Beaker (Coke)	Drum (Coke)	Chemical Vat (Coke)	Coke	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fp	kN	qb	vz	Bag (Copper II Chloride)	Sack (Copper II Chloride)	Powder Keg (Copper II Chloride)	Chemical Silo (Copper II Chloride)	Copper II Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	fq	kO	qc	vA	Bag (Copper II Sulfate)	Sack (Copper II Sulfate)	Powder Keg (Copper II Sulfate)	Chemical Silo (Copper II Sulfate)	Copper II Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	fr	kP	qd	vB	Vial (Copper Naphthenate)	Beaker (Copper Naphthenate)	Drum (Copper Naphthenate)	Chemical Vat (Copper Naphthenate)	Copper Naphthenate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fs	kQ	qe	vC	Vial (Copper Sulfate Pentahydrate)	Beaker (Copper Sulfate Pentahydrate)	Drum (Copper Sulfate Pentahydrate)	Chemical Vat (Copper Sulfate Pentahydrate)	Copper Sulfate Pentahydrate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ft	kR	qf	vD	Vial (Copper Sulfate (Anhydrous))	Beaker (Copper Sulfate (Anhydrous))	Drum (Copper Sulfate (Anhydrous))	Chemical Vat (Copper Sulfate (Anhydrous))	Copper Sulfate (Anhydrous)	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fu	kS	qg	vE	Vial (Crude Oil)	Beaker (Crude Oil)	Drum (Crude Oil)	Chemical Vat (Crude Oil)	Crude Oil	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fv	kT	qh	vF	Vial (Cyanide)	Beaker (Cyanide)	Drum (Cyanide)	Chemical Vat (Cyanide)	Cyanide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fw	kU	qi	vG	Vial (Cyanuric Acid)	Beaker (Cyanuric Acid)	Drum (Cyanuric Acid)	Chemical Vat (Cyanuric Acid)	Cyanuric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fx	kV	qj	vH	Vial (Cyclohexane)	Beaker (Cyclohexane)	Drum (Cyclohexane)	Chemical Vat (Cyclohexane)	Cyclohexane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fy	kW	qk	vI	Vial (Cyclohexane Dimethanol)	Beaker (Cyclohexane Dimethanol)	Drum (Cyclohexane Dimethanol)	Chemical Vat (Cyclohexane Dimethanol)	Cyclohexane Dimethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fz	kX	ql	vJ	Vial (Cyclohexanone)	Beaker (Cyclohexanone)	Drum (Cyclohexanone)	Chemical Vat (Cyclohexanone)	Cyclohexanone	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fA	kY	qm	vK	Vial (Cyclohexylamine)	Beaker (Cyclohexylamine)	Drum (Cyclohexylamine)	Chemical Vat (Cyclohexylamine)	Cyclohexylamine	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fB	kZ	qn	vL	Vial (Dextrose)	Beaker (Dextrose)	Drum (Dextrose)	Chemical Vat (Dextrose)	Dextrose	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fC	l0	qo	vM	Vial (Diamine)	Beaker (Diamine)	Drum (Diamine)	Chemical Vat (Diamine)	Diamine	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fD	l1	qp	vN	Vial (Dibutoxyethane)	Beaker (Dibutoxyethane)	Drum (Dibutoxyethane)	Chemical Vat (Dibutoxyethane)	Dibutoxyethane	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fE	l2	qq	vO	Vial (Dicarboxyllic Acid)	Beaker (Dicarboxyllic Acid)	Drum (Dicarboxyllic Acid)	Chemical Vat (Dicarboxyllic Acid)	Dicarboxyllic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fF	l3	qr	vP	Vial (Dichloromethane)	Beaker (Dichloromethane)	Drum (Dichloromethane)	Chemical Vat (Dichloromethane)	Dichloromethane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fG	l4	qs	vQ	Vial (Diesel)	Beaker (Diesel)	Drum (Diesel)	Chemical Vat (Diesel)	Diesel	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fH	l5	qt	vR	Vial (Diethoxyethane)	Beaker (Diethoxyethane)	Drum (Diethoxyethane)	Chemical Vat (Diethoxyethane)	Diethoxyethane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fI	l6	qu	vS	Vial (Diethylene Glycol)	Beaker (Diethylene Glycol)	Drum (Diethylene Glycol)	Chemical Vat (Diethylene Glycol)	Diethylene Glycol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fJ	l7	qv	vT	Vial (Dimethoxyethane)	Beaker (Dimethoxyethane)	Drum (Dimethoxyethane)	Chemical Vat (Dimethoxyethane)	Dimethoxyethane	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fK	l8	qw	vU	Vial (Dimethyl Sulfoxide)	Beaker (Dimethyl Sulfoxide)	Drum (Dimethyl Sulfoxide)	Chemical Vat (Dimethyl Sulfoxide)	Dimethyl Sulfoxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fL	l9	qx	vV	Vial (Dimethyl Terephthalate)	Beaker (Dimethyl Terephthalate)	Drum (Dimethyl Terephthalate)	Chemical Vat (Dimethyl Terephthalate)	Dimethyl Terephthalate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fM	la	qy	vW	Vial (Dioxane)	Beaker (Dioxane)	Drum (Dioxane)	Chemical Vat (Dioxane)	Dioxane	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fN	lb	qz	vX	Vial (Disodium Phosphate)	Beaker (Disodium Phosphate)	Drum (Disodium Phosphate)	Chemical Vat (Disodium Phosphate)	Disodium Phosphate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fO	lc	qA	vY	Vial (EDC)	Beaker (EDC)	Drum (EDC)	Chemical Vat (EDC)	EDC	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fP	ld	qB	vZ	Vial (e-Mercaptan)	Beaker (e-Mercaptan)	Drum (e-Mercaptan)	Chemical Vat (e-Mercaptan)	e-Mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fQ	le	qC	w0	Flask (Ethane)	Cartridge (Ethane)	Canister (Ethane)	Chemical Tank (Ethane)	Ethane	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	fR	lf	qD	w1	Vial (Ethanol)	Beaker (Ethanol)	Drum (Ethanol)	Chemical Vat (Ethanol)	Ethanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fS	lg	qE	w2	Vial (Ethanol/Ethyl Alcohol)	Beaker (Ethanol/Ethyl Alcohol)	Drum (Ethanol/Ethyl Alcohol)	Chemical Vat (Ethanol/Ethyl Alcohol)	Ethanol/Ethyl Alcohol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	fT	lh	qF	w3	Vial (Ether)	Beaker (Ether)	Drum (Ether)	Chemical Vat (Ether)	Ether	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fU	li	qG	w4	Vial (Ethylbenzene)	Beaker (Ethylbenzene)	Drum (Ethylbenzene)	Chemical Vat (Ethylbenzene)	Ethylbenzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fV	lj	qH	w5	Flask (Ethylene)	Cartridge (Ethylene)	Canister (Ethylene)	Chemical Tank (Ethylene)	Ethylene	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	fW	lk	qI	w6	Vial (Ethylene Carbonate)	Beaker (Ethylene Carbonate)	Drum (Ethylene Carbonate)	Chemical Vat (Ethylene Carbonate)	Ethylene Carbonate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fX	ll	qJ	w7	Vial (Ethylene Glycol)	Beaker (Ethylene Glycol)	Drum (Ethylene Glycol)	Chemical Vat (Ethylene Glycol)	Ethylene Glycol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fY	lm	qK	w8	Vial (Ethylene Oxide)	Beaker (Ethylene Oxide)	Drum (Ethylene Oxide)	Chemical Vat (Ethylene Oxide)	Ethylene Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	fZ	ln	qL	w9	Vial (Ethylidene Diacetate)	Beaker (Ethylidene Diacetate)	Drum (Ethylidene Diacetate)	Chemical Vat (Ethylidene Diacetate)	Ethylidene Diacetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	g0	lo	qM	wa	Vial (Eugenol)	Beaker (Eugenol)	Drum (Eugenol)	Chemical Vat (Eugenol)	Eugenol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	g1	lp	qN	wb	Vial (Ferric Chloride)	Beaker (Ferric Chloride)	Drum (Ferric Chloride)	Chemical Vat (Ferric Chloride)	Ferric Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+	g2	lq	qO	wc	Vial (Ferric Oxide (Iron III Oxide))	Beaker (Ferric Oxide (Iron III Oxide))	Drum (Ferric Oxide (Iron III Oxide))	Chemical Vat (Ferric Oxide (Iron III Oxide))	Ferric Oxide (Iron III Oxide)	Liquid	Vial	Beaker	Drum	Chemical Vat
+	g3	lr	qP	wd	Vial (Ferrous Ferric Oxide (Iron II-III Oxide))	Beaker (Ferrous Ferric Oxide (Iron II-III Oxide))	Drum (Ferrous Ferric Oxide (Iron II-III Oxide))	Chemical Vat (Ferrous Ferric Oxide (Iron II-III Oxide))	Ferrous Ferric Oxide (Iron II-III Oxide)	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	g4	ls	qQ	we	Vial (Formaldehyde)	Beaker (Formaldehyde)	Drum (Formaldehyde)	Chemical Vat (Formaldehyde)	Formaldehyde	Liquid	Vial	Beaker	Drum	Chemical Vat
+	g5	lt	qR	wf	Vial (Formic Acid)	Beaker (Formic Acid)	Drum (Formic Acid)	Chemical Vat (Formic Acid)	Formic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	g6	lu	qS	wg	Vial (Fructose)	Beaker (Fructose)	Drum (Fructose)	Chemical Vat (Fructose)	Fructose	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	g7	lv	qT	wh	Vial (Fruit Brandy)	Beaker (Fruit Brandy)	Drum (Fruit Brandy)	Chemical Vat (Fruit Brandy)	Fruit Brandy	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	g8	lw	qU	wi	Vial (Gas Oil)	Beaker (Gas Oil)	Drum (Gas Oil)	Chemical Vat (Gas Oil)	Gas Oil	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	g9	lx	qV	wj	Vial (Gin)	Beaker (Gin)	Drum (Gin)	Chemical Vat (Gin)	Gin	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ga	ly	qW	wk	Vial (Glucose)	Beaker (Glucose)	Drum (Glucose)	Chemical Vat (Glucose)	Glucose	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gb	lz	qX	wl	Vial (Glycerol)	Beaker (Glycerol)	Drum (Glycerol)	Chemical Vat (Glycerol)	Glycerol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gc	lA	qY	wm	Vial (Glycolic Acid)	Beaker (Glycolic Acid)	Drum (Glycolic Acid)	Chemical Vat (Glycolic Acid)	Glycolic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gd	lB	qZ	wn	Vial (Gum Arabic)	Beaker (Gum Arabic)	Drum (Gum Arabic)	Chemical Vat (Gum Arabic)	Gum Arabic	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ge	lC	r0	wo	Vial (Heavy Naphtha)	Beaker (Heavy Naphtha)	Drum (Heavy Naphtha)	Chemical Vat (Heavy Naphtha)	Heavy Naphtha	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gf	lD	r1	wp	Vial (Hexamine)	Beaker (Hexamine)	Drum (Hexamine)	Chemical Vat (Hexamine)	Hexamine	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gg	lE	r2	wq	Vial (Hexane Isomers)	Beaker (Hexane Isomers)	Drum (Hexane Isomers)	Chemical Vat (Hexane Isomers)	Hexane Isomers	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gh	lF	r3	wr	Vial (High Octane Gasoline)	Beaker (High Octane Gasoline)	Drum (High Octane Gasoline)	Chemical Vat (High Octane Gasoline)	High Octane Gasoline	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gi	lG	r4	ws	Vial (Hydrochloric Acid)	Beaker (Hydrochloric Acid)	Drum (Hydrochloric Acid)	Chemical Vat (Hydrochloric Acid)	Hydrochloric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	gj	lH	r5	wt	Vial (Hydrofluoric Acid)	Beaker (Hydrofluoric Acid)	Drum (Hydrofluoric Acid)	Chemical Vat (Hydrofluoric Acid)	Hydrofluoric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gk	lI	r6	wu	Vial (Hydrogen Peroxide)	Beaker (Hydrogen Peroxide)	Drum (Hydrogen Peroxide)	Chemical Vat (Hydrogen Peroxide)	Hydrogen Peroxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	gl	lJ	r7	wv	Vial (Hydroquinone)	Beaker (Hydroquinone)	Drum (Hydroquinone)	Chemical Vat (Hydroquinone)	Hydroquinone	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gm	lK	r8	ww	Vial (Hypochlorous Acid)	Beaker (Hypochlorous Acid)	Drum (Hypochlorous Acid)	Chemical Vat (Hypochlorous Acid)	Hypochlorous Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gn	lL	r9	wx	Bag (Iron III Chloride)	Sack (Iron III Chloride)	Powder Keg (Iron III Chloride)	Chemical Silo (Iron III Chloride)	Iron III Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	go	lM	ra	wy	Bag (Iron III Oxide)	Sack (Iron III Oxide)	Powder Keg (Iron III Oxide)	Chemical Silo (Iron III Oxide)	Iron III Oxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	gp	lN	rb	wz	Vial (Iron Sulfate)	Beaker (Iron Sulfate)	Drum (Iron Sulfate)	Chemical Vat (Iron Sulfate)	Iron Sulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gq	lO	rc	wA	Vial (IsoButane)	Beaker (IsoButane)	Drum (IsoButane)	Chemical Vat (IsoButane)	IsoButane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gr	lP	rd	wB	Vial (IsoPentane)	Beaker (IsoPentane)	Drum (IsoPentane)	Chemical Vat (IsoPentane)	IsoPentane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gs	lQ	re	wC	Vial (Isophthalic Acid)	Beaker (Isophthalic Acid)	Drum (Isophthalic Acid)	Chemical Vat (Isophthalic Acid)	Isophthalic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gt	lR	rf	wD	Vial (Kerosene)	Beaker (Kerosene)	Drum (Kerosene)	Chemical Vat (Kerosene)	Kerosene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gu	lS	rg	wE	Vial (Lactic Acid)	Beaker (Lactic Acid)	Drum (Lactic Acid)	Chemical Vat (Lactic Acid)	Lactic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gv	lT	rh	wF	Vial (Latex)	Beaker (Latex)	Drum (Latex)	Chemical Vat (Latex)	Latex	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gw	lU	ri	wG	Vial (Lauryl Alcohol)	Beaker (Lauryl Alcohol)	Drum (Lauryl Alcohol)	Chemical Vat (Lauryl Alcohol)	Lauryl Alcohol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gx	lV	rj	wH	Vial (Light Naphtha)	Beaker (Light Naphtha)	Drum (Light Naphtha)	Chemical Vat (Light Naphtha)	Light Naphtha	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gy	lW	rk	wI	Vial (Light Naphthenes)	Beaker (Light Naphthenes)	Drum (Light Naphthenes)	Chemical Vat (Light Naphthenes)	Light Naphthenes	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gz	lX	rl	wJ	Vial (Light Olefins)	Beaker (Light Olefins)	Drum (Light Olefins)	Chemical Vat (Light Olefins)	Light Olefins	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gA	lY	rm	wK	Vial (Light Parrafins)	Beaker (Light Parrafins)	Drum (Light Parrafins)	Chemical Vat (Light Parrafins)	Light Parrafins	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gB	lZ	rn	wL	Vial (Linseed Oil)	Beaker (Linseed Oil)	Drum (Linseed Oil)	Chemical Vat (Linseed Oil)	Linseed Oil	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gC	m0	ro	wM	Vial (Liquified Natural Gas)	Beaker (Liquified Natural Gas)	Drum (Liquified Natural Gas)	Chemical Vat (Liquified Natural Gas)	Liquified Natural Gas	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gD	m1	rp	wN	Vial (Magnesium Carbonate)	Beaker (Magnesium Carbonate)	Drum (Magnesium Carbonate)	Chemical Vat (Magnesium Carbonate)	Magnesium Carbonate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gE	m2	rq	wO	Vial (Magnesium Chloride)	Beaker (Magnesium Chloride)	Drum (Magnesium Chloride)	Chemical Vat (Magnesium Chloride)	Magnesium Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gF	m3	rr	wP	Vial (Magnesium Hydroxide)	Beaker (Magnesium Hydroxide)	Drum (Magnesium Hydroxide)	Chemical Vat (Magnesium Hydroxide)	Magnesium Hydroxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gG	m4	rs	wQ	Vial (Magnesium Silicate)	Beaker (Magnesium Silicate)	Drum (Magnesium Silicate)	Chemical Vat (Magnesium Silicate)	Magnesium Silicate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gH	m5	rt	wR	Vial (Magnesium Sulfate)	Beaker (Magnesium Sulfate)	Drum (Magnesium Sulfate)	Chemical Vat (Magnesium Sulfate)	Magnesium Sulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gI	m6	ru	wS	Bag (Magnesium Sulfate)	Sack (Magnesium Sulfate)	Powder Keg (Magnesium Sulfate)	Chemical Silo (Magnesium Sulfate)	Magnesium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	gJ	m7	rv	wT	Vial (Manganese Dioxide)	Beaker (Manganese Dioxide)	Drum (Manganese Dioxide)	Chemical Vat (Manganese Dioxide)	Manganese Dioxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gK	m8	rw	wU	Vial (Melamine)	Beaker (Melamine)	Drum (Melamine)	Chemical Vat (Melamine)	Melamine	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gL	m9	rx	wV	Vial (Melamine Formaldehyde)	Beaker (Melamine Formaldehyde)	Drum (Melamine Formaldehyde)	Chemical Vat (Melamine Formaldehyde)	Melamine Formaldehyde	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gM	ma	ry	wW	Vial (Mercaptans)	Beaker (Mercaptans)	Drum (Mercaptans)	Chemical Vat (Mercaptans)	Mercaptans	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gN	mb	rz	wX	Vial (Mercury (Liquid))	Beaker (Mercury (Liquid))	Drum (Mercury (Liquid))	Chemical Vat (Mercury (Liquid))	Mercury (Liquid)	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gO	mc	rA	wY	Vial (m-Xylene)	Beaker (m-Xylene)	Drum (m-Xylene)	Chemical Vat (m-Xylene)	m-Xylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gP	md	rB	wZ	Vial (Methacrylic Acid)	Beaker (Methacrylic Acid)	Drum (Methacrylic Acid)	Chemical Vat (Methacrylic Acid)	Methacrylic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gQ	me	rC	x0	Flask (Methane)	Cartridge (Methane)	Canister (Methane)	Chemical Tank (Methane)	Methane	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	gR	mf	rD	x1	Vial (Methanol)	Beaker (Methanol)	Drum (Methanol)	Chemical Vat (Methanol)	Methanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gS	mg	rE	x2	Vial (Methyl Ethyl Ketone)	Beaker (Methyl Ethyl Ketone)	Drum (Methyl Ethyl Ketone)	Chemical Vat (Methyl Ethyl Ketone)	Methyl Ethyl Ketone	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gT	mh	rF	x3	Vial (Methyl Ethyl Ketone Peroxide)	Beaker (Methyl Ethyl Ketone Peroxide)	Drum (Methyl Ethyl Ketone Peroxide)	Chemical Vat (Methyl Ethyl Ketone Peroxide)	Methyl Ethyl Ketone Peroxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gU	mi	rG	x4	Bag (Methyl Ethyl Ketone Peroxide)	Sack (Methyl Ethyl Ketone Peroxide)	Powder Keg (Methyl Ethyl Ketone Peroxide)	Chemical Silo (Methyl Ethyl Ketone Peroxide)	Methyl Ethyl Ketone Peroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	gV	mj	rH	x5	Vial (Methyl Isobutyl Ketone)	Beaker (Methyl Isobutyl Ketone)	Drum (Methyl Isobutyl Ketone)	Chemical Vat (Methyl Isobutyl Ketone)	Methyl Isobutyl Ketone	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	gW	mk	rI	x6	Vial (Methyl Methacrylate)	Beaker (Methyl Methacrylate)	Drum (Methyl Methacrylate)	Chemical Vat (Methyl Methacrylate)	Methyl Methacrylate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gX	ml	rJ	x7	Vial (Methyl Salicylate)	Beaker (Methyl Salicylate)	Drum (Methyl Salicylate)	Chemical Vat (Methyl Salicylate)	Methyl Salicylate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gY	mm	rK	x8	Vial (Methylene Blue)	Beaker (Methylene Blue)	Drum (Methylene Blue)	Chemical Vat (Methylene Blue)	Methylene Blue	Liquid	Vial	Beaker	Drum	Chemical Vat
+	gZ	mn	rL	x9	Vial (Methylene Chloride)	Beaker (Methylene Chloride)	Drum (Methylene Chloride)	Chemical Vat (Methylene Chloride)	Methylene Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h0	mo	rM	xa	Vial (Mineral Oil)	Beaker (Mineral Oil)	Drum (Mineral Oil)	Chemical Vat (Mineral Oil)	Mineral Oil	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h1	mp	rN	xb	Vial (m-Mercaptan)	Beaker (m-Mercaptan)	Drum (m-Mercaptan)	Chemical Vat (m-Mercaptan)	m-Mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h2	mq	rO	xc	Vial (Molasses)	Beaker (Molasses)	Drum (Molasses)	Chemical Vat (Molasses)	Molasses	Liquid	Vial	Beaker	Drum	Chemical Vat
+	h3	mr	rP	xd	Vial (Monosodium Glutamate)	Beaker (Monosodium Glutamate)	Drum (Monosodium Glutamate)	Chemical Vat (Monosodium Glutamate)	Monosodium Glutamate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h4	ms	rQ	xe	Vial (Naphtha)	Beaker (Naphtha)	Drum (Naphtha)	Chemical Vat (Naphtha)	Naphtha	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h5	mt	rR	xf	Vial (Naphthalene)	Beaker (Naphthalene)	Drum (Naphthalene)	Chemical Vat (Naphthalene)	Naphthalene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h6	mu	rS	xg	Vial (Naphthalenedicarboxylic Acid)	Beaker (Naphthalenedicarboxylic Acid)	Drum (Naphthalenedicarboxylic Acid)	Chemical Vat (Naphthalenedicarboxylic Acid)	Naphthalenedicarboxylic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h7	mv	rT	xh	Flask (Natural Gas)	Cartridge (Natural Gas)	Canister (Natural Gas)	Chemical Tank (Natural Gas)	Natural Gas	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	h8	mw	rU	xi	Vial (n-Butane)	Beaker (n-Butane)	Drum (n-Butane)	Chemical Vat (n-Butane)	n-Butane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	h9	mx	rV	xj	Vial (n-Butyl Mercaptan)	Beaker (n-Butyl Mercaptan)	Drum (n-Butyl Mercaptan)	Chemical Vat (n-Butyl Mercaptan)	n-Butyl Mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ha	my	rW	xk	Vial (NeoPentane)	Beaker (NeoPentane)	Drum (NeoPentane)	Chemical Vat (NeoPentane)	NeoPentane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hb	mz	rX	xl	Vial (N-Ethylidenecyclohexylamine)	Beaker (N-Ethylidenecyclohexylamine)	Drum (N-Ethylidenecyclohexylamine)	Chemical Vat (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hc	mA	rY	xm	Vial (n-Hexane)	Beaker (n-Hexane)	Drum (n-Hexane)	Chemical Vat (n-Hexane)	n-Hexane	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hd	mB	rZ	xn	Vial (Nitrous Oxide)	Beaker (Nitrous Oxide)	Drum (Nitrous Oxide)	Chemical Vat (Nitrous Oxide)	Nitrous Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	he	mC	s0	xo	Vial (n-p Mercaptan)	Beaker (n-p Mercaptan)	Drum (n-p Mercaptan)	Chemical Vat (n-p Mercaptan)	n-p Mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hf	mD	s1	xp	Vial (n-Pentane)	Beaker (n-Pentane)	Drum (n-Pentane)	Chemical Vat (n-Pentane)	n-Pentane	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hg	mE	s2	xq	Vial (Olefins)	Beaker (Olefins)	Drum (Olefins)	Chemical Vat (Olefins)	Olefins	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hh	mF	s3	xr	Vial (Oleyl Alcohol)	Beaker (Oleyl Alcohol)	Drum (Oleyl Alcohol)	Chemical Vat (Oleyl Alcohol)	Oleyl Alcohol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hi	mG	s4	xs	Vial (o-Xylene)	Beaker (o-Xylene)	Drum (o-Xylene)	Chemical Vat (o-Xylene)	o-Xylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hj	mH	s5	xt	Vial (Oxalic Acid)	Beaker (Oxalic Acid)	Drum (Oxalic Acid)	Chemical Vat (Oxalic Acid)	Oxalic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hk	mI	s6	xu	Vial (p-Dichlorobenzene)	Beaker (p-Dichlorobenzene)	Drum (p-Dichlorobenzene)	Chemical Vat (p-Dichlorobenzene)	p-Dichlorobenzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hl	mJ	s7	xv	Vial (Paraffin)	Beaker (Paraffin)	Drum (Paraffin)	Chemical Vat (Paraffin)	Paraffin	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hm	mK	s8	xw	Vial (p-Xylene)	Beaker (p-Xylene)	Drum (p-Xylene)	Chemical Vat (p-Xylene)	p-Xylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hn	mL	s9	xx	Vial (Pentane Isomers)	Beaker (Pentane Isomers)	Drum (Pentane Isomers)	Chemical Vat (Pentane Isomers)	Pentane Isomers	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ho	mM	sa	xy	Vial (Pentyl Mercaptan)	Beaker (Pentyl Mercaptan)	Drum (Pentyl Mercaptan)	Chemical Vat (Pentyl Mercaptan)	Pentyl Mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hp	mN	sb	xz	Vial (Peracetic Acid)	Beaker (Peracetic Acid)	Drum (Peracetic Acid)	Chemical Vat (Peracetic Acid)	Peracetic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	hq	mO	sc	xA	Vial (Phenol)	Beaker (Phenol)	Drum (Phenol)	Chemical Vat (Phenol)	Phenol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	hr	mP	sd	xB	Vial (Phenol Formaldehyde)	Beaker (Phenol Formaldehyde)	Drum (Phenol Formaldehyde)	Chemical Vat (Phenol Formaldehyde)	Phenol Formaldehyde	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hs	mQ	se	xC	Vial (Phenol Red)	Beaker (Phenol Red)	Drum (Phenol Red)	Chemical Vat (Phenol Red)	Phenol Red	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ht	mR	sf	xD	Vial (Phenolphthalein)	Beaker (Phenolphthalein)	Drum (Phenolphthalein)	Chemical Vat (Phenolphthalein)	Phenolphthalein	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hu	mS	sg	xE	Vial (Phosgene)	Beaker (Phosgene)	Drum (Phosgene)	Chemical Vat (Phosgene)	Phosgene	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hv	mT	sh	xF	Vial (Phosphoric Acid)	Beaker (Phosphoric Acid)	Drum (Phosphoric Acid)	Chemical Vat (Phosphoric Acid)	Phosphoric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hw	mU	si	xG	Bag (Phosphorus Pentoxide)	Sack (Phosphorus Pentoxide)	Powder Keg (Phosphorus Pentoxide)	Chemical Silo (Phosphorus Pentoxide)	Phosphorus Pentoxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hx	mV	sj	xH	Bag (Potassium Aluminium Sulfate)	Sack (Potassium Aluminium Sulfate)	Powder Keg (Potassium Aluminium Sulfate)	Chemical Silo (Potassium Aluminium Sulfate)	Potassium Aluminium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hy	mW	sk	xI	Bag (Potassium Bitartrate)	Sack (Potassium Bitartrate)	Powder Keg (Potassium Bitartrate)	Chemical Silo (Potassium Bitartrate)	Potassium Bitartrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hz	mX	sl	xJ	Bag (Potassium Bromide)	Sack (Potassium Bromide)	Powder Keg (Potassium Bromide)	Chemical Silo (Potassium Bromide)	Potassium Bromide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	hA	mY	sm	xK	Bag (Potassium Carbonate)	Sack (Potassium Carbonate)	Powder Keg (Potassium Carbonate)	Chemical Silo (Potassium Carbonate)	Potassium Carbonate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	hB	mZ	sn	xL	Bag (Potassium Chloride)	Sack (Potassium Chloride)	Powder Keg (Potassium Chloride)	Chemical Silo (Potassium Chloride)	Potassium Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hC	n0	so	xM	Bag (Potassium Chromium Sulfate)	Sack (Potassium Chromium Sulfate)	Powder Keg (Potassium Chromium Sulfate)	Chemical Silo (Potassium Chromium Sulfate)	Potassium Chromium Sulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hD	n1	sp	xN	Bag (Potassium Dichromate)	Sack (Potassium Dichromate)	Powder Keg (Potassium Dichromate)	Chemical Silo (Potassium Dichromate)	Potassium Dichromate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	hE	n2	sq	xO	Bag (Potassium Hydroxide)	Sack (Potassium Hydroxide)	Powder Keg (Potassium Hydroxide)	Chemical Silo (Potassium Hydroxide)	Potassium Hydroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hG	n4	ss	xQ	Bag (Potassium Iodide)	Sack (Potassium Iodide)	Powder Keg (Potassium Iodide)	Chemical Silo (Potassium Iodide)	Potassium Iodide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hH	n5	st	xR	Bag (Potassium Iron (II) Hexacyanoferrate(III))	Sack (Potassium Iron (II) Hexacyanoferrate(III))	Powder Keg (Potassium Iron (II) Hexacyanoferrate(III))	Chemical Silo (Potassium Iron (II) Hexacyanoferrate(III))	Potassium Iron (II) Hexacyanoferrate(III)	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hI	n6	su	xS	Bag (Potassium Metabisulfite)	Sack (Potassium Metabisulfite)	Powder Keg (Potassium Metabisulfite)	Chemical Silo (Potassium Metabisulfite)	Potassium Metabisulfite	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hJ	n7	sv	xT	Bag (Potassium Nitrate)	Sack (Potassium Nitrate)	Powder Keg (Potassium Nitrate)	Chemical Silo (Potassium Nitrate)	Potassium Nitrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hK	n8	sw	xU	Bag (Potassium Permanganate)	Sack (Potassium Permanganate)	Powder Keg (Potassium Permanganate)	Chemical Silo (Potassium Permanganate)	Potassium Permanganate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hL	n9	sx	xV	Bag (Potassium Phenoxide)	Sack (Potassium Phenoxide)	Powder Keg (Potassium Phenoxide)	Chemical Silo (Potassium Phenoxide)	Potassium Phenoxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hM	na	sy	xW	Bag (Potassium Sodium Tartrate)	Sack (Potassium Sodium Tartrate)	Powder Keg (Potassium Sodium Tartrate)	Chemical Silo (Potassium Sodium Tartrate)	Potassium Sodium Tartrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	hN	nb	sz	xX	Flask (Propane)	Cartridge (Propane)	Canister (Propane)	Chemical Tank (Propane)	Propane	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	hO	nc	sA	xY	Vial (Propanol)	Beaker (Propanol)	Drum (Propanol)	Chemical Vat (Propanol)	Propanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hP	nd	sB	xZ	Flask (Propylene)	Cartridge (Propylene)	Canister (Propylene)	Chemical Tank (Propylene)	Propylene	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	hQ	ne	sC	y0	Vial (Rum)	Beaker (Rum)	Drum (Rum)	Chemical Vat (Rum)	Rum	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hR	nf	sD	y1	Bag (Samarium III Chloride)	Sack (Samarium III Chloride)	Powder Keg (Samarium III Chloride)	Chemical Silo (Samarium III Chloride)	Samarium III Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	hS	ng	sE	y2	Vial (Silicon Carbide)	Beaker (Silicon Carbide)	Drum (Silicon Carbide)	Chemical Vat (Silicon Carbide)	Silicon Carbide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hT	nh	sF	y3	Vial (Silicon Dioxide)	Beaker (Silicon Dioxide)	Drum (Silicon Dioxide)	Chemical Vat (Silicon Dioxide)	Silicon Dioxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hU	ni	sG	y4	Vial (Sodium Acetate)	Beaker (Sodium Acetate)	Drum (Sodium Acetate)	Chemical Vat (Sodium Acetate)	Sodium Acetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hV	nj	sH	y5	Vial (Sodium Bicarbonate)	Beaker (Sodium Bicarbonate)	Drum (Sodium Bicarbonate)	Chemical Vat (Sodium Bicarbonate)	Sodium Bicarbonate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hW	nk	sI	y6	Vial (Sodium Bisulfate)	Beaker (Sodium Bisulfate)	Drum (Sodium Bisulfate)	Chemical Vat (Sodium Bisulfate)	Sodium Bisulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	hX	nl	sJ	y7	Vial (Sodium Borate)	Beaker (Sodium Borate)	Drum (Sodium Borate)	Chemical Vat (Sodium Borate)	Sodium Borate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hY	nm	sK	y8	Vial (Sodium Bromide)	Beaker (Sodium Bromide)	Drum (Sodium Bromide)	Chemical Vat (Sodium Bromide)	Sodium Bromide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	hZ	nn	sL	y9	Vial (Sodium Carbonate)	Beaker (Sodium Carbonate)	Drum (Sodium Carbonate)	Chemical Vat (Sodium Carbonate)	Sodium Carbonate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	i0	no	sM	ya	Vial (Sodium Chlorate)	Beaker (Sodium Chlorate)	Drum (Sodium Chlorate)	Chemical Vat (Sodium Chlorate)	Sodium Chlorate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	i1	np	sN	yb	Bag (Sodium Chloride)	Sack (Sodium Chloride)	Powder Keg (Sodium Chloride)	Chemical Silo (Sodium Chloride)	Sodium Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	i2	nq	sO	yc	Vial (Sodium Fluoride)	Beaker (Sodium Fluoride)	Drum (Sodium Fluoride)	Chemical Vat (Sodium Fluoride)	Sodium Fluoride	Liquid	Vial	Beaker	Drum	Chemical Vat
+	i3	nr	sP	yd	Vial (Sodium Hexametaphosphate)	Beaker (Sodium Hexametaphosphate)	Drum (Sodium Hexametaphosphate)	Chemical Vat (Sodium Hexametaphosphate)	Sodium Hexametaphosphate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	i4	ns	sQ	ye	Bag (Sodium Hydroxide)	Sack (Sodium Hydroxide)	Powder Keg (Sodium Hydroxide)	Chemical Silo (Sodium Hydroxide)	Sodium Hydroxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	i5	nt	sR	yf	Vial (Sodium Hypochlorite)	Beaker (Sodium Hypochlorite)	Drum (Sodium Hypochlorite)	Chemical Vat (Sodium Hypochlorite)	Sodium Hypochlorite	Liquid	Vial	Beaker	Drum	Chemical Vat
+	i6	nu	sS	yg	Vial (Sodium Metabisulfite)	Beaker (Sodium Metabisulfite)	Drum (Sodium Metabisulfite)	Chemical Vat (Sodium Metabisulfite)	Sodium Metabisulfite	Liquid	Vial	Beaker	Drum	Chemical Vat
+	i7	nv	sT	yh	Vial (Sodium Nitrate)	Beaker (Sodium Nitrate)	Drum (Sodium Nitrate)	Chemical Vat (Sodium Nitrate)	Sodium Nitrate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	i8	nw	sU	yi	Vial (Sodium Percarbonate)	Beaker (Sodium Percarbonate)	Drum (Sodium Percarbonate)	Chemical Vat (Sodium Percarbonate)	Sodium Percarbonate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	i9	nx	sV	yj	Vial (Sodium Phenoxide)	Beaker (Sodium Phenoxide)	Drum (Sodium Phenoxide)	Chemical Vat (Sodium Phenoxide)	Sodium Phenoxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ia	ny	sW	yk	Vial (Sodium Phosphate)	Beaker (Sodium Phosphate)	Drum (Sodium Phosphate)	Chemical Vat (Sodium Phosphate)	Sodium Phosphate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ib	nz	sX	yl	Vial (Sodium Silicate)	Beaker (Sodium Silicate)	Drum (Sodium Silicate)	Chemical Vat (Sodium Silicate)	Sodium Silicate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ic	nA	sY	ym	Vial (Sodium Sulfate)	Beaker (Sodium Sulfate)	Drum (Sodium Sulfate)	Chemical Vat (Sodium Sulfate)	Sodium Sulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	id	nB	sZ	yn	Vial (Sodium Sulfite)	Beaker (Sodium Sulfite)	Drum (Sodium Sulfite)	Chemical Vat (Sodium Sulfite)	Sodium Sulfite	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ie	nC	t0	yo	Vial (Sodium Tetraborate Decahydrate)	Beaker (Sodium Tetraborate Decahydrate)	Drum (Sodium Tetraborate Decahydrate)	Chemical Vat (Sodium Tetraborate Decahydrate)	Sodium Tetraborate Decahydrate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	if	nD	t1	yp	Vial (Sodium Thiosulfate)	Beaker (Sodium Thiosulfate)	Drum (Sodium Thiosulfate)	Chemical Vat (Sodium Thiosulfate)	Sodium Thiosulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ig	nE	t2	yq	Vial (Stearic Acid)	Beaker (Stearic Acid)	Drum (Stearic Acid)	Chemical Vat (Stearic Acid)	Stearic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ih	nF	t3	yr	Vial (Stearyl Alcohol)	Beaker (Stearyl Alcohol)	Drum (Stearyl Alcohol)	Chemical Vat (Stearyl Alcohol)	Stearyl Alcohol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ii	nG	t4	ys	Vial (Styrene)	Beaker (Styrene)	Drum (Styrene)	Chemical Vat (Styrene)	Styrene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ij	nH	t5	yt	Vial (Succinic Acid)	Beaker (Succinic Acid)	Drum (Succinic Acid)	Chemical Vat (Succinic Acid)	Succinic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ik	nI	t6	yu	Vial (Sucrose)	Beaker (Sucrose)	Drum (Sucrose)	Chemical Vat (Sucrose)	Sucrose	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	il	nJ	t7	yv	Vial (Sulfuric Acid)	Beaker (Sulfuric Acid)	Drum (Sulfuric Acid)	Chemical Vat (Sulfuric Acid)	Sulfuric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	im	nK	t8	yw	Flask (Sweet Butane Fuel)	Cartridge (Sweet Butane Fuel)	Canister (Sweet Butane Fuel)	Chemical Tank (Sweet Butane Fuel)	Sweet Butane Fuel	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	in	nL	t9	yx	Vial (Sweet Light Naphtha)	Beaker (Sweet Light Naphtha)	Drum (Sweet Light Naphtha)	Chemical Vat (Sweet Light Naphtha)	Sweet Light Naphtha	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	io	nM	ta	yy	Flask (Sweet Propane Fuel)	Cartridge (Sweet Propane Fuel)	Canister (Sweet Propane Fuel)	Chemical Tank (Sweet Propane Fuel)	Sweet Propane Fuel	Gas	Flask	Cartridge	Canister	Chemical Tank
+	ip	nN	tb	yz	Vial (Tannic Acid)	Beaker (Tannic Acid)	Drum (Tannic Acid)	Chemical Vat (Tannic Acid)	Tannic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iq	nO	tc	yA	Vial (Tartaric Acid)	Beaker (Tartaric Acid)	Drum (Tartaric Acid)	Chemical Vat (Tartaric Acid)	Tartaric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	ir	nP	td	yB	Vial (t-Butyl Mercaptan)	Beaker (t-Butyl Mercaptan)	Drum (t-Butyl Mercaptan)	Chemical Vat (t-Butyl Mercaptan)	t-Butyl Mercaptan	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	is	nQ	te	yC	Vial (Tequila)	Beaker (Tequila)	Drum (Tequila)	Chemical Vat (Tequila)	Tequila	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	it	nR	tf	yD	Vial (Terephthalic Acid)	Beaker (Terephthalic Acid)	Drum (Terephthalic Acid)	Chemical Vat (Terephthalic Acid)	Terephthalic Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iu	nS	tg	yE	Vial (Tetrachloroethylene)	Beaker (Tetrachloroethylene)	Drum (Tetrachloroethylene)	Chemical Vat (Tetrachloroethylene)	Tetrachloroethylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iv	nT	th	yF	Vial (Tetraethylene Glycol)	Beaker (Tetraethylene Glycol)	Drum (Tetraethylene Glycol)	Chemical Vat (Tetraethylene Glycol)	Tetraethylene Glycol	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iw	nU	ti	yG	Vial (Thiourea)	Beaker (Thiourea)	Drum (Thiourea)	Chemical Vat (Thiourea)	Thiourea	Liquid	Vial	Beaker	Drum	Chemical Vat
+	ix	nV	tj	yH	Vial (Thymolphthalein)	Beaker (Thymolphthalein)	Drum (Thymolphthalein)	Chemical Vat (Thymolphthalein)	Thymolphthalein	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iy	nW	tk	yI	Vial (Titanium Dioxide)	Beaker (Titanium Dioxide)	Drum (Titanium Dioxide)	Chemical Vat (Titanium Dioxide)	Titanium Dioxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iz	nX	tl	yJ	Vial (Toluene)	Beaker (Toluene)	Drum (Toluene)	Chemical Vat (Toluene)	Toluene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iA	nY	tm	yK	Vial (Toluene Diisocyanate)	Beaker (Toluene Diisocyanate)	Drum (Toluene Diisocyanate)	Chemical Vat (Toluene Diisocyanate)	Toluene Diisocyanate	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iB	nZ	tn	yL	Flask (Town Gas)	Cartridge (Town Gas)	Canister (Town Gas)	Chemical Tank (Town Gas)	Town Gas	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	iC	o0	to	yM	Vial (Trichloroethylene)	Beaker (Trichloroethylene)	Drum (Trichloroethylene)	Chemical Vat (Trichloroethylene)	Trichloroethylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iD	o1	tp	yN	Bag (Triethylaluminium)	Sack (Triethylaluminium)	Powder Keg (Triethylaluminium)	Chemical Silo (Triethylaluminium)	Triethylaluminium	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	iE	o2	tq	yO	Vial (Triethylene Glycol)	Beaker (Triethylene Glycol)	Drum (Triethylene Glycol)	Chemical Vat (Triethylene Glycol)	Triethylene Glycol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iF	o3	tr	yP	Bag (Trimethyl Orthoformate)	Sack (Trimethyl Orthoformate)	Powder Keg (Trimethyl Orthoformate)	Chemical Silo (Trimethyl Orthoformate)	Trimethyl Orthoformate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	iG	o4	ts	yQ	Vial (Trioxane)	Beaker (Trioxane)	Drum (Trioxane)	Chemical Vat (Trioxane)	Trioxane	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iH	o5	tt	yR	Bag (Tungsten VI Chloride )	Sack (Tungsten VI Chloride )	Powder Keg (Tungsten VI Chloride )	Chemical Silo (Tungsten VI Chloride )	Tungsten VI Chloride 	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	iI	o6	tu	yS	Vial (Turpentine)	Beaker (Turpentine)	Drum (Turpentine)	Chemical Vat (Turpentine)	Turpentine	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iJ	o7	tv	yT	Vial (Urea)	Beaker (Urea)	Drum (Urea)	Chemical Vat (Urea)	Urea	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iK	o8	tw	yU	Vial (Urea Formaldehyde)	Beaker (Urea Formaldehyde)	Drum (Urea Formaldehyde)	Chemical Vat (Urea Formaldehyde)	Urea Formaldehyde	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iL	o9	tx	yV	Vial (Valerolactone)	Beaker (Valerolactone)	Drum (Valerolactone)	Chemical Vat (Valerolactone)	Valerolactone	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iM	oa	ty	yW	Vial (Vinyl Acetate)	Beaker (Vinyl Acetate)	Drum (Vinyl Acetate)	Chemical Vat (Vinyl Acetate)	Vinyl Acetate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iN	ob	tz	yX	Vial (Vinyl Chloride)	Beaker (Vinyl Chloride)	Drum (Vinyl Chloride)	Chemical Vat (Vinyl Chloride)	Vinyl Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iO	oc	tA	yY	Vial (Vodka)	Beaker (Vodka)	Drum (Vodka)	Chemical Vat (Vodka)	Vodka	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iP	od	tB	yZ	Vial (Deionized Water)	Beaker (Deionized Water)	Drum (Deionized Water)	Chemical Vat (Deionized Water)	Deionized Water	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iQ	oe	tC	z0	Vial (Whiskey)	Beaker (Whiskey)	Drum (Whiskey)	Chemical Vat (Whiskey)	Whiskey	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iR	of	tD	z1	Vial (Wine)	Beaker (Wine)	Drum (Wine)	Chemical Vat (Wine)	Wine	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iS	og	tE	z2	Vial (Xylene)	Beaker (Xylene)	Drum (Xylene)	Chemical Vat (Xylene)	Xylene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	iT	oh	tF	z3	Bag (Zeolite)	Sack (Zeolite)	Powder Keg (Zeolite)	Chemical Silo (Zeolite)	Zeolite	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	iU	oi	tG	z4	Bag (Ziegler-Natta)	Sack (Ziegler-Natta)	Powder Keg (Ziegler-Natta)	Chemical Silo (Ziegler-Natta)	Ziegler-Natta	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	iW	ok	tI	z6	Vial (Zinc Chloride)	Beaker (Zinc Chloride)	Drum (Zinc Chloride)	Chemical Vat (Zinc Chloride)	Zinc Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iX	ol	tJ	z7	Bag (Zinc II Chloride)	Sack (Zinc II Chloride)	Powder Keg (Zinc II Chloride)	Chemical Silo (Zinc II Chloride)	Zinc II Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	iY	om	tK	z8	Vial (Zinc Oxide)	Beaker (Zinc Oxide)	Drum (Zinc Oxide)	Chemical Vat (Zinc Oxide)	Zinc Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+	iZ	on	tL	z9	Vial (Zinc Sulfate)	Beaker (Zinc Sulfate)	Drum (Zinc Sulfate)	Chemical Vat (Zinc Sulfate)	Zinc Sulfate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	j0	oo	tM	za	Vial (Antifreeze)	Beaker (Antifreeze)	Drum (Antifreeze)	Chemical Vat (Antifreeze)	Antifreeze	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	j1	op	tN	zb	Bag (Chromia Alumina)	Sack (Chromia Alumina)	Powder Keg (Chromia Alumina)	Chemical Silo (Chromia Alumina)	Chromia Alumina	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	j2	oq	tO	zc	Vial (Acrylonitrile)	Beaker (Acrylonitrile)	Drum (Acrylonitrile)	Chemical Vat (Acrylonitrile)	Acrylonitrile	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	j3	or	tP	zd	Vial (Acetonitrile)	Beaker (Acetonitrile)	Drum (Acetonitrile)	Chemical Vat (Acetonitrile)	Acetonitrile	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.4	j4	os	tQ	ze	Vial (Sweet Kerosene)	Beaker (Sweet Kerosene)	Drum (Sweet Kerosene)	Chemical Vat (Sweet Kerosene)	Sweet Kerosene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.4	j5	ot	tR	zf	Vial (Sweet Diesel)	Beaker (Sweet Diesel)	Drum (Sweet Diesel)	Chemical Vat (Sweet Diesel)	Sweet Diesel	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	j6	ou	tS	zg	Vial (Lactide)	Beaker (Lactide)	Drum (Lactide)	Chemical Vat (Lactide)	Lactide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11r	11v	11z	11D	Bag (Cyclodextrin)	Sack (Cyclodextrin)	Powder Keg (Cyclodextrin)	Chemical Silo (Cyclodextrin)	Cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11s	11w	11A	11E	Bag (Alpha-cyclodextrin)	Sack (Alpha-cyclodextrin)	Powder Keg (Alpha-cyclodextrin)	Chemical Silo (Alpha-cyclodextrin)	Alpha-cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11t	11x	11B	11F	Bag (Beta-cyclodextrin)	Sack (Beta-cyclodextrin)	Powder Keg (Beta-cyclodextrin)	Chemical Silo (Beta-cyclodextrin)	Beta-cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11u	11y	11C	11G	Bag (Gamma-cyclodextrin)	Sack (Gamma-cyclodextrin)	Powder Keg (Gamma-cyclodextrin)	Chemical Silo (Gamma-cyclodextrin)	Gamma-cyclodextrin	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11H	11X	12d	12t	Bag (MOF-5)	Sack (MOF-5)	Powder Keg (MOF-5)	Chemical Silo (MOF-5)	MOF-5	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11I	11Y	12e	12u	Bag (CD-MOF)	Sack (CD-MOF)	Powder Keg (CD-MOF)	Chemical Silo (CD-MOF)	CD-MOF	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11J	11Z	12f	12v	Bag (Bucky Balls (C60))	Sack (Bucky Balls (C60))	Powder Keg (Bucky Balls (C60))	Chemical Silo (Bucky Balls (C60))	Bucky Balls (C60)	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	11K	120	12g	12w	Bag (Zinc Nitrate)	Sack (Zinc Nitrate)	Powder Keg (Zinc Nitrate)	Chemical Silo (Zinc Nitrate)	Zinc Nitrate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+	11L	121	12h	12x	Bag (Lead Oxide)	Sack (Lead Oxide)	Powder Keg (Lead Oxide)	Chemical Silo (Lead Oxide)	Lead Oxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11M	122	12i	12y	Bag (Lithium Hexafluorophosphate)	Sack (Lithium Hexafluorophosphate)	Powder Keg (Lithium Hexafluorophosphate)	Chemical Silo (Lithium Hexafluorophosphate)	Lithium Hexafluorophosphate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11N	123	12j	12z	Bag (Potassium Persulfate)	Sack (Potassium Persulfate)	Powder Keg (Potassium Persulfate)	Chemical Silo (Potassium Persulfate)	Potassium Persulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11O	124	12k	12A	Bag (Potassium Bisulfate)	Sack (Potassium Bisulfate)	Powder Keg (Potassium Bisulfate)	Chemical Silo (Potassium Bisulfate)	Potassium Bisulfate	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.0	11P	125	12l	12B	Vial (Salt Water)	Beaker (Salt Water)	Drum (Salt Water)	Chemical Vat (Salt Water)	Salt Water	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11Q	126	12m	12C	Vial (Isoprene)	Beaker (Isoprene)	Drum (Isoprene)	Chemical Vat (Isoprene)	Isoprene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11R	127	12n	12D	Vial (Epichlorohydrin)	Beaker (Epichlorohydrin)	Drum (Epichlorohydrin)	Chemical Vat (Epichlorohydrin)	Epichlorohydrin	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11S	128	12o	12E	Vial (Isopropanol)	Beaker (Isopropanol)	Drum (Isopropanol)	Chemical Vat (Isopropanol)	Isopropanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11T	129	12p	12F	Vial (Allyl Chloride)	Beaker (Allyl Chloride)	Drum (Allyl Chloride)	Chemical Vat (Allyl Chloride)	Allyl Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11U	12a	12q	12G	Vial (Propylene Oxide)	Beaker (Propylene Oxide)	Drum (Propylene Oxide)	Chemical Vat (Propylene Oxide)	Propylene Oxide	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11V	12b	12r	12H	Vial (Propylene Glycol)	Beaker (Propylene Glycol)	Drum (Propylene Glycol)	Chemical Vat (Propylene Glycol)	Propylene Glycol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.0	11W	12c	12s	12I	Vial (Cumene)	Beaker (Cumene)	Drum (Cumene)	Chemical Vat (Cumene)	Cumene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.1	28	16P	17t	187	Vial (Chlorobenzene)	Beaker (Chlorobenzene)	Drum (Chlorobenzene)	Chemical Vat (Chlorobenzene)	Chlorobenzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.1	2a	16R	17v	189	Bag (4-Nitrochlorobenzene)	Sack (4-Nitrochlorobenzene)	Powder Keg (4-Nitrochlorobenzene)	Chemical Silo (4-Nitrochlorobenzene)	4-Nitrochlorobenzene	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2b	16S	17w	18a	Bag (p-Phenylenediamine)	Sack (p-Phenylenediamine)	Powder Keg (p-Phenylenediamine)	Chemical Silo (p-Phenylenediamine)	p-Phenylenediamine	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2c	16T	17x	18b	Vial (Nitric Acid)	Beaker (Nitric Acid)	Drum (Nitric Acid)	Chemical Vat (Nitric Acid)	Nitric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.1	2d	16U	17y	18c	Bag (4-Nitroaniline)	Sack (4-Nitroaniline)	Powder Keg (4-Nitroaniline)	Chemical Silo (4-Nitroaniline)	4-Nitroaniline	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2e	16V	17z	18d	Flask (Nitric Oxide)	Cartridge (Nitric Oxide)	Canister (Nitric Oxide)	Chemical Tank (Nitric Oxide)	Nitric Oxide	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.1.1	2f	16W	17A	18e	Bag (p-Hexachloroxylene)	Sack (p-Hexachloroxylene)	Powder Keg (p-Hexachloroxylene)	Chemical Silo (p-Hexachloroxylene)	p-Hexachloroxylene	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2g	16X	17B	18f	Bag (m-Hexachloroxylene)	Sack (m-Hexachloroxylene)	Powder Keg (m-Hexachloroxylene)	Chemical Silo (m-Hexachloroxylene)	m-Hexachloroxylene	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2h	16Y	17C	18g	Bag (o-Hexachloroxylene)	Sack (o-Hexachloroxylene)	Powder Keg (o-Hexachloroxylene)	Chemical Silo (o-Hexachloroxylene)	o-Hexachloroxylene	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2i	16Z	17D	18h	Bag (Terephthaloyl Chloride)	Sack (Terephthaloyl Chloride)	Powder Keg (Terephthaloyl Chloride)	Chemical Silo (Terephthaloyl Chloride)	Terephthaloyl Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.1	2j	170	17E	18i	Bag (Isophthaloyl Chloride)	Sack (Isophthaloyl Chloride)	Powder Keg (Isophthaloyl Chloride)	Chemical Silo (Isophthaloyl Chloride)	Isophthaloyl Chloride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	2k	171	17F	18j	Vial (Cyclohexanol)	Beaker (Cyclohexanol)	Drum (Cyclohexanol)	Chemical Vat (Cyclohexanol)	Cyclohexanol	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2l	172	17G	18k	Vial (Nitrobenzene)	Beaker (Nitrobenzene)	Drum (Nitrobenzene)	Chemical Vat (Nitrobenzene)	Nitrobenzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2m	173	17H	18l	Vial (Aniline)	Beaker (Aniline)	Drum (Aniline)	Chemical Vat (Aniline)	Aniline	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2n	174	17I	18m	Vial (Diphenylmethane Diisocyanate)	Beaker (Diphenylmethane Diisocyanate)	Drum (Diphenylmethane Diisocyanate)	Chemical Vat (Diphenylmethane Diisocyanate)	Diphenylmethane Diisocyanate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2o	175	17J	18n	Vial (Toluene Diisocyanate)	Beaker (Toluene Diisocyanate)	Drum (Toluene Diisocyanate)	Chemical Vat (Toluene Diisocyanate)	Toluene Diisocyanate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2p	176	17K	18o	Vial (Hexamethylene Diisocyanate)	Beaker (Hexamethylene Diisocyanate)	Drum (Hexamethylene Diisocyanate)	Chemical Vat (Hexamethylene Diisocyanate)	Hexamethylene Diisocyanate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2q	177	17L	18p	Vial (Isopherone Diisocyanate)	Beaker (Isopherone Diisocyanate)	Drum (Isopherone Diisocyanate)	Chemical Vat (Isopherone Diisocyanate)	Isopherone Diisocyanate	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2r	178	17M	18q	"Vial (1,4-Diisopropylbenzene)"	"Beaker (1,4-Diisopropylbenzene)"	"Drum (1,4-Diisopropylbenzene)"	"Chemical Vat (1,4-Diisopropylbenzene)"	"1,4-Diisopropylbenzene"	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	2s	179	17N	18r	Bag (Catechol)	Sack (Catechol)	Powder Keg (Catechol)	Chemical Silo (Catechol)	Catechol	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	2t	17a	17O	18s	Bag (Anthracene)	Sack (Anthracene)	Powder Keg (Anthracene)	Chemical Silo (Anthracene)	Anthracene	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	18L	198	18R	19v	Bag (Chromium (VI) Oxide)	Sack (Chromium (VI) Oxide)	Powder Keg (Chromium (VI) Oxide)	Chemical Silo (Chromium (VI) Oxide)	Chromium (VI) Oxide	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	18M	199	18S	19w	"Bag (9,10-Anthraquinone)"	"Sack (9,10-Anthraquinone)"	"Powder Keg (9,10-Anthraquinone)"	"Chemical Silo (9,10-Anthraquinone)"	"9,10-Anthraquinone"	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	18N	19a	18T	19x	Bag (Phthalic Anhydride)	Sack (Phthalic Anhydride)	Powder Keg (Phthalic Anhydride)	Chemical Silo (Phthalic Anhydride)	Phthalic Anhydride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	18O	19b	18U	19y	Bag (Maleic Anhydride)	Sack (Maleic Anhydride)	Powder Keg (Maleic Anhydride)	Chemical Silo (Maleic Anhydride)	Maleic Anhydride	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	18P	19c	18V	19z	Bag (Disodium Hydroquinone)	Sack (Disodium Hydroquinone)	Powder Keg (Disodium Hydroquinone)	Chemical Silo (Disodium Hydroquinone)	Disodium Hydroquinone	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	18Q	19d	18W	19A	Vial (Cyclopentadiene)	Beaker (Cyclopentadiene)	Drum (Cyclopentadiene)	Chemical Vat (Cyclopentadiene)	Cyclopentadiene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19m	19e	18X	19B	Flask (Nitrogen Dioxide)	Cartridge (Nitrogen Dioxide)	Canister (Nitrogen Dioxide)	Chemical Tank (Nitrogen Dioxide)	Nitrogen Dioxide	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.1.2	19n	19f	18Y	19C	Bag (Sodium Nitrite)	Sack (Sodium Nitrite)	Powder Keg (Sodium Nitrite)	Chemical Silo (Sodium Nitrite)	Sodium Nitrite	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.1.2	19o	19g	18Z	19D	Vial (Dicyclopentadiene)	Beaker (Dicyclopentadiene)	Drum (Dicyclopentadiene)	Chemical Vat (Dicyclopentadiene)	Dicyclopentadiene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19p	19h	190	19E	Vial (Tetrafluoroboric Acid)	Beaker (Tetrafluoroboric Acid)	Drum (Tetrafluoroboric Acid)	Chemical Vat (Tetrafluoroboric Acid)	Tetrafluoroboric Acid	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19q	19i	191	19F	Vial (Fluorobenzene)	Beaker (Fluorobenzene)	Drum (Fluorobenzene)	Chemical Vat (Fluorobenzene)	Fluorobenzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19r	19j	192	19G	Vial (p-Fluorobenzoyl Chloride)	Beaker (p-Fluorobenzoyl Chloride)	Drum (p-Fluorobenzoyl Chloride)	Chemical Vat (p-Fluorobenzoyl Chloride)	p-Fluorobenzoyl Chloride	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19s	19k	193	19H	Vial (p-Nitrotoluene)	Beaker (p-Nitrotoluene)	Drum (p-Nitrotoluene)	Chemical Vat (p-Nitrotoluene)	p-Nitrotoluene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19t	196	194	19I	Vial (p-Aminotoluene)	Beaker (p-Aminotoluene)	Drum (p-Aminotoluene)	Chemical Vat (p-Aminotoluene)	p-Aminotoluene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	19u	19K	195	19J	Vial (p-Fluorotoluene)	Beaker (p-Fluorotoluene)	Drum (p-Fluorotoluene)	Chemical Vat (p-Fluorotoluene)	p-Fluorotoluene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	5X	14d	15i	16n	Vial (1-(Trichloromethyl)-4-Fluorobenzene)	Beaker (1-(Trichloromethyl)-4-Fluorobenzene)	Drum (1-(Trichloromethyl)-4-Fluorobenzene)	Chemical Vat (1-(Trichloromethyl)-4-Fluorobenzene)	1-(Trichloromethyl)-4-Fluorobenzene	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.1.2	5Y	14e	15j	16o	"Vial (4,4-Difluorobenzophenone)"	"Beaker (4,4-Difluorobenzophenone)"	"Drum (4,4-Difluorobenzophenone)"	"Chemical Vat (4,4-Difluorobenzophenone)"	"4,4-Difluorobenzophenone"	Liquid	Vial	Beaker	Drum	Chemical Vat
+	5Z	14f	15k	16p	Vial (PR Developer)	Beaker (PR Developer)	Drum (PR Developer)	Chemical Vat (PR Developer)	PR Developer	Liquid	Vial	Beaker	Drum	Chemical Vat
+	60	14g	15l	16q	Vial (Chrome Etchant)	Beaker (Chrome Etchant)	Drum (Chrome Etchant)	Chemical Vat (Chrome Etchant)	Chrome Etchant	Liquid	Vial	Beaker	Drum	Chemical Vat
+	61	14h	15m	16r	Vial (Gold Etchant)	Beaker (Gold Etchant)	Drum (Gold Etchant)	Chemical Vat (Gold Etchant)	Gold Etchant	Liquid	Vial	Beaker	Drum	Chemical Vat
+	62	14i	15n	16s	Vial (Nickel Etchant)	Beaker (Nickel Etchant)	Drum (Nickel Etchant)	Chemical Vat (Nickel Etchant)	Nickel Etchant	Liquid	Vial	Beaker	Drum	Chemical Vat
+	63	14j	15o	16t	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank
+	64	14k	15p	16u	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank
+	65	14l	15q	16v	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank
+	66	14m	15r	16w	Flask (0)	Cartridge (0)	Canister (0)	Chemical Tank (0)	0	0	Flask	Cartridge	Canister	Chemical Tank

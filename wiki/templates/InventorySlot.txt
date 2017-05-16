@@ -1,0 +1,5 @@
+<includeonly><div class="slot index-{{{index|}}}">[[Image:{{{image|}}}|link={{{link|}}}|32px|{{{title|}}}]]{{#if:{{{amount|}}}|<div class="amount">{{{amount|}}}</div>}}</div></includeonly><noinclude>
+  {{documentation}}
+  [[Category:Image templates|C]]
+  [[Category:Grid Templates]]
+</noinclude>

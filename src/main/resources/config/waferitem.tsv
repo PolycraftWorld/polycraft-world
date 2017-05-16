@@ -1,0 +1,57 @@
+Version	Game ID Wafer	Mask	Mask	Electronics	Layer	Layer Number	Wafer	Source	Resist	Custom Texture	Clean Environment												
+1.3.2	1er				Silicon	0	Silicon Wafer			TRUE	FALSE												
+1.3.2	1em				Silicon	0	Silicon Wafer (Ruined)			TRUE	FALSE												
+1.3.2	1d3	Mask (Solar Cell)(PR Backplane)	Mask	Solar Cell	PR Backplane	1	Wafer (Solar Cell) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1d4	Mask (Solar Cell)(PR Semiconductor)	Mask	Solar Cell	PR Semiconductor	2	Wafer (Solar Cell) (2 of 5)	Wafer (Solar Cell) (1 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1d5	Mask (Solar Cell)(PR Dielectric)	Mask	Solar Cell	PR Dielectric	3	Wafer (Solar Cell) (3 of 5)	Wafer (Solar Cell) (2 of 5)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1d6	Mask (Solar Cell)(PR Traces)	Mask	Solar Cell	PR Traces	4	Wafer (Solar Cell) (4 of 5)	Wafer (Solar Cell) (3 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1d7	Mask (Solar Cell)(PR Encapsulation)	Mask	Solar Cell	PR Encapsulation	5	Wafer (Solar Cell)	Wafer (Solar Cell) (4 of 5)	Vial (Negative Photoresist)	FALSE	FALSE												
+1.3.2	1d8	Mask (Processor)(PR Backplane)	Mask	Processor	PR Backplane	1	Wafer (Processor) (1 of 8)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1d9	Mask (Processor)(PR n-Type Semiconductor)	Mask	Processor	PR n-Type Semiconductor	2	Wafer (Processor) (2 of 8)	Wafer (Processor) (1 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1da	Mask (Processor)(PR p-Type Semiconductor)	Mask	Processor	PR p-Type Semiconductor	3	Wafer (Processor) (3 of 8)	Wafer (Processor) (2 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1db	Mask (Processor)(PR Dielectric)	Mask	Processor	PR Dielectric	4	Wafer (Processor) (4 of 8)	Wafer (Processor) (3 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dc	Mask (Processor)(PR Inner Traces)	Mask	Processor	PR Inner Traces	5	Wafer (Processor) (5 of 8)	Wafer (Processor) (4 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dd	Mask (Processor)(PR Through Vias)	Mask	Processor	PR Through Vias	6	Wafer (Processor) (6 of 8)	Wafer (Processor) (5 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1de	Mask (Processor)(PR Outer Traces)	Mask	Processor	PR Outer Traces	7	Wafer (Processor) (7 of 8)	Wafer (Processor) (6 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1df	Mask (Processor)(PR Encapsulation)	Mask	Processor	PR Encapsulation	8	Wafer (Processor)	Wafer (Processor) (7 of 8)	Vial (Positive Photoresist)	FALSE	FALSE												
+1.3.2	1dg	Mask (Temperature Sensor)(PR Backplane)	Mask	Temperature Sensor	PR Backplane	1	Wafer (Temperature Sensor) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dh	Mask (Temperature Sensor)(PR Semiconductor)	Mask	Temperature Sensor	PR Semiconductor	2	Wafer (Temperature Sensor) (2 of 5)	Wafer (Temperature Sensor) (1 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1di	Mask (Temperature Sensor)(PR Dielectric)	Mask	Temperature Sensor	PR Dielectric	3	Wafer (Temperature Sensor) (3 of 5)	Wafer (Temperature Sensor) (2 of 5)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dj	Mask (Temperature Sensor)(PR Traces)	Mask	Temperature Sensor	PR Traces	4	Wafer (Temperature Sensor) (4 of 5)	Wafer (Temperature Sensor) (3 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dk	Mask (Temperature Sensor)(PR Encapsulation)	Mask	Temperature Sensor	PR Encapsulation	5	Wafer (Temperature Sensor)	Wafer (Temperature Sensor) (4 of 5)	Vial (Negative Photoresist)	FALSE	FALSE												
+1.3.2	1dl	Mask (Pressure Sensor)(PR Backplane)	Mask	Pressure Sensor	PR Backplane	1	Wafer (Pressure Sensor) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dm	Mask (Pressure Sensor)(PR Semiconductor)	Mask	Pressure Sensor	PR Semiconductor	2	Wafer (Pressure Sensor) (2 of 5)	Wafer (Pressure Sensor) (1 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dn	Mask (Pressure Sensor)(PR Dielectric)	Mask	Pressure Sensor	PR Dielectric	3	Wafer (Pressure Sensor) (3 of 5)	Wafer (Pressure Sensor) (2 of 5)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1do	Mask (Pressure Sensor)(PR Traces)	Mask	Pressure Sensor	PR Traces	4	Wafer (Pressure Sensor) (4 of 5)	Wafer (Pressure Sensor) (3 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dp	Mask (Pressure Sensor)(PR Encapsulation)	Mask	Pressure Sensor	PR Encapsulation	5	Wafer (Pressure Sensor)	Wafer (Pressure Sensor) (4 of 5)	Vial (Negative Photoresist)	FALSE	FALSE												
+1.3.2	1dq	Mask (Low Power Radio)(PR Backplane)	Mask	Low Power Radio	PR Backplane	1	Wafer (Low Power Radio) (1 of 8)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dr	Mask (Low Power Radio)(PR n-Type Semiconductor)	Mask	Low Power Radio	PR n-Type Semiconductor	2	Wafer (Low Power Radio) (2 of 8)	Wafer (Low Power Radio) (1 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1ds	Mask (Low Power Radio)(PR p-Type Semiconductor)	Mask	Low Power Radio	PR p-Type Semiconductor	3	Wafer (Low Power Radio) (3 of 8)	Wafer (Low Power Radio) (2 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dt	Mask (Low Power Radio)(PR Dielectric)	Mask	Low Power Radio	PR Dielectric	4	Wafer (Low Power Radio) (4 of 8)	Wafer (Low Power Radio) (3 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1du	Mask (Low Power Radio)(PR Inner Traces)	Mask	Low Power Radio	PR Inner Traces	5	Wafer (Low Power Radio) (5 of 8)	Wafer (Low Power Radio) (4 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dv	Mask (Low Power Radio)(PR Through Vias)	Mask	Low Power Radio	PR Through Vias	6	Wafer (Low Power Radio) (6 of 8)	Wafer (Low Power Radio) (5 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dw	Mask (Low Power Radio)(PR Outer Traces)	Mask	Low Power Radio	PR Outer Traces	7	Wafer (Low Power Radio) (7 of 8)	Wafer (Low Power Radio) (6 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dx	Mask (Low Power Radio)(PR Encapsulation)	Mask	Low Power Radio	PR Encapsulation	8	Wafer (Low Power Radio)	Wafer (Low Power Radio) (7 of 8)	Vial (Positive Photoresist)	FALSE	FALSE												
+1.3.2	1dy	Mask (DSP)(PR Backplane)	Mask	DSP	PR Backplane	1	Wafer (DSP) (1 of 8)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dz	Mask (DSP)(PR n-Type Semiconductor)	Mask	DSP	PR n-Type Semiconductor	2	Wafer (DSP) (2 of 8)	Wafer (DSP) (1 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dA	Mask (DSP)(PR p-Type Semiconductor)	Mask	DSP	PR p-Type Semiconductor	3	Wafer (DSP) (3 of 8)	Wafer (DSP) (2 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dB	Mask (DSP)(PR Dielectric)	Mask	DSP	PR Dielectric	4	Wafer (DSP) (4 of 8)	Wafer (DSP) (3 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dC	Mask (DSP)(PR Inner Traces)	Mask	DSP	PR Inner Traces	5	Wafer (DSP) (5 of 8)	Wafer (DSP) (4 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dD	Mask (DSP)(PR Through Vias)	Mask	DSP	PR Through Vias	6	Wafer (DSP) (6 of 8)	Wafer (DSP) (5 of 8)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dE	Mask (DSP)(PR Outer Traces)	Mask	DSP	PR Outer Traces	7	Wafer (DSP) (7 of 8)	Wafer (DSP) (6 of 8)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dF	Mask (DSP)(PR Encapsulation)	Mask	DSP	PR Encapsulation	8	Wafer (DSP)	Wafer (DSP) (7 of 8)	Vial (Positive Photoresist)	FALSE	FALSE												
+1.3.2	1dG	Mask (Digital Analog Convertor)(PR Backplane)	Mask	Digital Analog Convertor	PR Backplane	1	Wafer (Digital Analog Convertor) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dH	Mask (Digital Analog Convertor)(PR Semiconductor)	Mask	Digital Analog Convertor	PR Semiconductor	2	Wafer (Digital Analog Convertor) (2 of 5)	Wafer (Digital Analog Convertor) (1 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dI	Mask (Digital Analog Convertor)(PR Dielectric)	Mask	Digital Analog Convertor	PR Dielectric	3	Wafer (Digital Analog Convertor) (3 of 5)	Wafer (Digital Analog Convertor) (2 of 5)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dJ	Mask (Digital Analog Convertor)(PR Traces)	Mask	Digital Analog Convertor	PR Traces	4	Wafer (Digital Analog Convertor) (4 of 5)	Wafer (Digital Analog Convertor) (3 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dK	Mask (Digital Analog Convertor)(PR Encapsulation)	Mask	Digital Analog Convertor	PR Encapsulation	5	Wafer (Digital Analog Convertor)	Wafer (Digital Analog Convertor) (4 of 5)	Vial (Negative Photoresist)	FALSE	FALSE												
+1.3.2	1dL	Mask (Amplifier)(PR Backplane)	Mask	Amplifier	PR Backplane	1	Wafer (Amplifier) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dM	Mask (Amplifier)(PR Semiconductor)	Mask	Amplifier	PR Semiconductor	2	Wafer (Amplifier) (2 of 5)	Wafer (Amplifier) (1 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dN	Mask (Amplifier)(PR Dielectric)	Mask	Amplifier	PR Dielectric	3	Wafer (Amplifier) (3 of 5)	Wafer (Amplifier) (2 of 5)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dO	Mask (Amplifier)(PR Traces)	Mask	Amplifier	PR Traces	4	Wafer (Amplifier) (4 of 5)	Wafer (Amplifier) (3 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dP	Mask (Amplifier)(PR Encapsulation)	Mask	Amplifier	PR Encapsulation	5	Wafer (Amplifier)	Wafer (Amplifier) (4 of 5)	Vial (Negative Photoresist)	FALSE	FALSE												
+1.3.2	1dQ	Mask (OLED Array)(PR Backplane)	Mask	OLED Array	PR Backplane	1	Wafer (OLED Array) (1 of 5)	Silicon Wafer	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dR	Mask (OLED Array)(PR Semiconductor)	Mask	OLED Array	PR Semiconductor	2	Wafer (OLED Array) (2 of 5)	Wafer (OLED Array) (1 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dS	Mask (OLED Array)(PR Dielectric)	Mask	OLED Array	PR Dielectric	3	Wafer (OLED Array) (3 of 5)	Wafer (OLED Array) (2 of 5)	Vial (Negative Photoresist)	FALSE	TRUE												
+1.3.2	1dT	Mask (OLED Array)(PR Traces)	Mask	OLED Array	PR Traces	4	Wafer (OLED Array) (4 of 5)	Wafer (OLED Array) (3 of 5)	Vial (Positive Photoresist)	FALSE	TRUE												
+1.3.2	1dU	Mask (OLED Array)(PR Encapsulation)	Mask	OLED Array	PR Encapsulation	5	Wafer (OLED Array)	Wafer (OLED Array) (4 of 5)	Vial (Negative Photoresist)	FALSE	FALSE												

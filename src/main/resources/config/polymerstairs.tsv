@@ -1,0 +1,333 @@
+Version	Block Game ID	Item Game ID	Stairs	Source	Version	Bounce Height
+1.3.2	Xb	Z1	Stairs (AF Resin)	Block (AF Resin)	AF Resin	0
+1.0.0	Xc	Z2	Stairs (ABS)	Block (ABS)	ABS	0
+0	Xd	Z3	Stairs (Alkyd Resin)	Block (Alkyd Resin)	Alkyd Resin	0
+1.0.0	Xe	Z4	Stairs (A-PET)	Block (A-PET)	A-PET	0
+1.1.0	Xf	Z5	Stairs (BIIR)	Block (BIIR)	BIIR	6
+1.1.0	Xg	Z6	Stairs (Carbon Fiber)	Block (Carbon Fiber)	Carbon Fiber	0
+0	Xh	Z7	Stairs (CTAP)	Block (CTAP)	CTAP	0
+1.0.0	Xi	Z8	Stairs (Cellulose)	Block (Cellulose)	Cellulose	0
+1.1.0	Xj	Z9	Stairs (Chitin)	Block (Chitin)	Chitin	0
+1.1.0	Xk	Za	Stairs (CIIR)	Block (CIIR)	CIIR	6
+1.1.2	Xl	Zb	Stairs (Epoxy Resin)	Block (Epoxy Resin)	Epoxy Resin	0
+0	Xm	Zc	Stairs (NRE)	Block (NRE)	NRE	0
+1.1.0	Xn	Zd	Stairs (EPM)	Block (EPM)	EPM	0
+1.1.0	Xo	Ze	Stairs (EPDM)	Block (EPDM)	EPDM	9
+1.1.0	Xp	Zf	Stairs (EVA)	Block (EVA)	EVA	9
+1.0.0	Xq	Zg	Stairs (HDPE)	Block (HDPE)	HDPE	0
+1.1.0	Xr	Zh	Stairs (HNBR)	Block (HNBR)	HNBR	6
+1.1.0	Xs	Zi	Stairs (Butyl Rubber)	Block (Butyl Rubber)	Butyl Rubber	4
+0	Xt	Zj	Stairs (Lignin)	Block (Lignin)	Lignin	0
+1.0.0	Xu	Zk	Stairs (LLDPE)	Block (LLDPE)	LLDPE	0
+1.0.0	Xv	Zl	Stairs (LCP)	Block (LCP)	LCP	0
+1.0.0	Xw	Zm	Stairs (LDPE)	Block (LDPE)	LDPE	0
+1.0.0	Xx	Zn	Stairs (MDPE)	Block (MDPE)	MDPE	0
+0	Xy	Zo	Stairs (MFP)	Block (MFP)	MFP	0
+1.0.0	Xz	Zp	Stairs (MALD)	Block (MALD)	MALD	0
+1.1.0	XA	Zq	Stairs (NBR)	Block (NBR)	NBR	6
+1.0.0	XB	Zr	Stairs (PFA)	Block (PFA)	PFA	0
+1.0.0	XC	Zs	Stairs (PALD)	Block (PALD)	PALD	0
+1.1.2	XD	Zt	Stairs (Phenol Formaldehydes)	Block (Phenol Formaldehydes)	Phenol Formaldehydes	0
+1.0.0	XE	Zu	Stairs (PHBV)	Block (PHBV)	PHBV	0
+1.3.2	XF	Zv	Stairs (P1B)	Block (P1B)	P1B	0
+1.3.2	XG	Zw	Stairs (PDPE)	Block (PDPE)	PDPE	0
+1.3.2	XH	Zx	Stairs (PHB)	Block (PHB)	PHB	0
+1.3.2	XI	Zy	Stairs (PHEMA)	Block (PHEMA)	PHEMA	0
+1.1.2	XJ	Zz	Stairs (PAA)	Block (PAA)	PAA	0
+1.0.0	XK	ZA	Stairs (PAN)	Block (PAN)	PAN	0
+1.0.0	XL	ZB	Stairs (PBR (low grade))	Block (PBR (low grade))	PBR (low grade)	3
+1.1.0	XM	ZC	Stairs (PBR (high grade))	Block (PBR (high grade))	PBR (high grade)	4
+1.0.0	XN	ZD	Stairs (PBS)	Block (PBS)	PBS	0
+1.0.0	XP	ZF	Stairs (PBT)	Block (PBT)	PBT	0
+1.0.0	XQ	ZG	Stairs (PCL)	Block (PCL)	PCL	0
+1.0.0	XR	ZH	Stairs (PC)	Block (PC)	PC	0
+1.3.2	XS	ZI	Stairs (PCHL)	Block (PCHL)	PCHL	0
+0	XT	ZJ	Stairs (PCTFE)	Block (PCTFE)	PCTFE	0
+1.0.0	XU	ZK	Stairs (PDMS)	Block (PDMS)	PDMS	0
+1.0.0	XV	ZL	Stairs (PEEK)	Block (PEEK)	PEEK	0
+1.0.0	XW	ZM	Stairs (PEI)	Block (PEI)	PEI	0
+0	XX	ZN	Stairs (PEA)	Block (PEA)	PEA	0
+0	XY	ZO	Stairs (PEAd)	Block (PEAd)	PEAd	0
+1.0.0	XZ	ZP	Stairs (PEG)	Block (PEG)	PEG	0
+0	Y0	ZQ	Stairs (PEHD)	Block (PEHD)	PEHD	0
+1.0.0	Y1	ZR	Stairs (PEN)	Block (PEN)	PEN	0
+1.0.0	Y2	ZS	Stairs (PEO)	Block (PEO)	PEO	0
+1.1.0	Y3	ZT	Stairs (PES)	Block (PES)	PES	0
+1.0.0	Y4	ZU	Stairs (PET)	Block (PET)	PET	0
+1.0.0	Y5	ZV	Stairs (PETG)	Block (PETG)	PETG	0
+1.0.0	Y6	ZW	Stairs (PGA)	Block (PGA)	PGA	0
+1.1.0	Y7	ZX	"Stairs (Nylon 6,7)"	"Block (Nylon 6,7)"	"Nylon 6,7"	0
+1.1.0	Y8	ZY	"Stairs (Nylon 6,10)"	"Block (Nylon 6,10)"	"Nylon 6,10"	0
+1.0.0	Y9	ZZ	Stairs (PHA)	Block (PHA)	PHA	0
+0	Ya	100	Stairs (PHBV)	Block (PHBV)	PHBV	0
+1.0.0	Yb	101	Stairs (PI)	Block (PI)	PI	0
+0	Yc	102	Stairs (PIBOA)	Block (PIBOA)	PIBOA	0
+0	Yd	103	Stairs (PIBA)	Block (PIBA)	PIBA	0
+1.0.0	Ye	104	Stairs (PIB)	Block (PIB)	PIB	0
+1.0.0	Yf	105	Stairs (Natural Rubber)	Block (Natural Rubber)	Natural Rubber	3
+1.0.0	Yg	106	Stairs (PLA)	Block (PLA)	PLA	0
+0	Yh	107	Stairs (PLGA)	Block (PLGA)	PLGA	0
+1.3.2	Yi	108	Stairs (PMA)	Block (PMA)	PMA	0
+0	Yj	109	Stairs (PMCA)	Block (PMCA)	PMCA	0
+1.3.2	Yk	10a	Stairs (PMMA)	Block (PMMA)	PMMA	0
+1.3.2	Yl	10b	Stairs (PMMS)	Block (PMMS)	PMMS	0
+1.1.1	Ym	10c	Stairs (nomex)	Block (nomex)	nomex	0
+0	Yn	10d	Stairs (PNBA)	Block (PNBA)	PNBA	0
+1.0.0	Yo	10e	Stairs (POM)	Block (POM)	POM	0
+0	Yp	10f	Stairs (PPHD)	Block (PPHD)	PPHD	0
+1.3.2	Yq	10g	Stairs (Polyphenol)	Block (Polyphenol)	Polyphenol	0
+0	Yr	10h	Stairs (PPO)	Block (PPO)	PPO	0
+0	Ys	10i	Stairs (PPPHAZ)	Block (PPPHAZ)	PPPHAZ	0
+0	Yt	10j	Stairs (PPMS)	Block (PPMS)	PPMS	0
+0	Yu	10k	Stairs (PPS)	Block (PPS)	PPS	0
+1.1.0	Yv	10l	Stairs (kevlar)	Block (kevlar)	kevlar	0
+1.0.0	Yw	10m	Stairs (PP)	Block (PP)	PP	0
+0	Yx	10n	Stairs (PPG)	Block (PPG)	PPG	0
+0	Yy	10o	Stairs (PPOX)	Block (PPOX)	PPOX	0
+1.0.0	Yz	10p	Stairs (PS)	Block (PS)	PS	0
+0	YA	10q	Stairs (PTBA)	Block (PTBA)	PTBA	0
+1.0.0	YB	10r	Stairs (PTFE)	Block (PTFE)	PTFE	0
+0	YC	10s	Stairs (PTMEG)	Block (PTMEG)	PTMEG	0
+0	YD	10t	Stairs (PTMG)	Block (PTMG)	PTMG	0
+0	YE	10u	Stairs (PTA)	Block (PTA)	PTA	0
+1.0.0	YF	10v	Stairs (PTT)	Block (PTT)	PTT	0
+1.0.0	YG	10w	Stairs (PU)	Block (PU)	PU	9
+1.0.0	YH	10x	Stairs (PVAC)	Block (PVAC)	PVAC	0
+1.0.0	YI	10y	Stairs (PVA)	Block (PVA)	PVA	0
+0	YJ	10z	Stairs (PVB)	Block (PVB)	PVB	0
+1.0.0	YK	10A	Stairs (PVC)	Block (PVC)	PVC	0
+1.0.0	YL	10B	Stairs (PVCA)	Block (PVCA)	PVCA	0
+0	YM	10C	Stairs (PVF)	Block (PVF)	PVF	0
+0	YN	10D	Stairs (PVFO)	Block (PVFO)	PVFO	0
+0	YO	10E	Stairs (PVME)	Block (PVME)	PVME	0
+0	YP	10F	Stairs (PVDC)	Block (PVDC)	PVDC	0
+0	YQ	10G	Stairs (PVDF)	Block (PVDF)	PVDF	0
+0	YR	10H	Stairs (PVDF-TRFE)	Block (PVDF-TRFE)	PVDF-TRFE	0
+1.1.0	YS	10I	Stairs (SAN)	Block (SAN)	SAN	0
+1.0.0	YT	10J	Stairs (SBR)	Block (SBR)	SBR	6
+1.1.0	YU	10K	Stairs (SBS)	Block (SBS)	SBS	0
+1.3.2	YV	10L	Stairs (SIS)	Block (SIS)	SIS	0
+0	YW	10M	Stairs (SMAC)	Block (SMAC)	SMAC	0
+1.0.0	YX	10N	Stairs (UHMWPE)	Block (UHMWPE)	UHMWPE	0
+0	YY	10O	Stairs (UFP)	Block (UFP)	UFP	0
+1.0.0	YZ	10P	Stairs (VLDPE)	Block (VLDPE)	VLDPE	0
+1.0.0	Z0	10Q	Stairs (VA/AA)	Block (VA/AA)	VA/AA	0
+1.1.0	2K	2L	Stairs (Nylon 6)	Block (Nylon 6)	Nylon 6	0
+1.1.2	1bv	1bx	Stairs (Carbon Fiber Resin (E))	Block (Carbon Fiber Resin (E))	Carbon Fiber Resin (E)	0
+1.1.2	1bw	1by	Stairs (Carbon Fiber Resin (P))	Block (Carbon Fiber Resin (P))	Carbon Fiber Resin (P)	0
+1.3.2	1cX	1dZ	Stairs (n-PR)	Block (n-PR)	n-PR	0
+1.3.2	1cY	1e0	Stairs (p-PR)	Block (p-PR)	p-PR	0
+	1cZ	1e1	#N/A	0	#N/A	0
+	1d0	1e2	#N/A	0	#N/A	0
+	1d1	1e3	#N/A	0	#N/A	0
+	1d2	1e4	#N/A	0	#N/A	0
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						

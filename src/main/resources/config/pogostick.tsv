@@ -1,0 +1,26 @@
+Version	Game ID	Pogo Stick	Synthetic Gripped	Max Bounces	Stable Bounce Height	Jump Movement Buff	Restrict Jump to Ground	Pogo Stick Gripped From	Grip Molded Item	Level	First Release	Notes
+1.0.0	37	Wooden Pogo Stick	Wooden	64	3	1.5	TRUE			1	TRUE	
+1.0.0	36	Stone Pogo Stick	Stone	256	4	1.75	TRUE			1	TRUE	
+1.0.0	38	Iron Pogo Stick	Iron	1024	5	2	TRUE			2	TRUE	
+1.0.0	39	Golden Pogo Stick	Golden	1024	6	2.25	TRUE			2	TRUE	
+1.0.0	3a	Diamond Pogo Stick	Diamond	8192	10	3	TRUE			2	TRUE	
+1.0.0	3O	Magic Pogo Stick	Magic	100000	100	10	FALSE			10	TRUE	
+1.0.0	3b	Gripped Wooden Pogo Stick	Wooden	128	4	1.75	TRUE	Wooden Pogo Stick	Grip (Natural Rubber)	3	TRUE	
+1.0.0	3c	Gripped Stone Pogo Stick	Stone	512	5	2	TRUE	Stone Pogo Stick	Grip (Natural Rubber)	3	TRUE	
+1.0.0	3d	Gripped Iron Pogo Stick	Iron	2048	6	2.25	TRUE	Iron Pogo Stick	Grip (Natural Rubber)	3	TRUE	
+1.0.0	3e	Gripped Golden Pogo Stick	Golden	2048	8	2.5	TRUE	Golden Pogo Stick	Grip (Natural Rubber)	3	TRUE	
+1.0.0	3f	Gripped Diamond Pogo Stick	Diamond	16384	12	3.25	TRUE	Diamond Pogo Stick	Grip (Natural Rubber)	3	TRUE	
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												

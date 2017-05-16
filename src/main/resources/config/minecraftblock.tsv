@@ -1,0 +1,193 @@
+Version	Minecraft Block							
+1.0.0	Air	air	air	air	0	0	minecraft:air	Air
+1.0.0	Stone	stone	stone	stone	1	1	minecraft:stone	Stone D B
+1.0.0	Grass	grass	grass	grass	2	2	minecraft:grass	Grass Block
+1.0.0	Dirt	dirt	dirt	dirt	3	3	minecraft:dirt	Dirt D B
+1.0.0	Cobblestone	cobblestone	cobblestone	cobblestone	4	4	minecraft:cobblestone	Cobblestone
+1.0.0	Planks	planks	planks	planks	5	5	minecraft:planks	Wood Planks D B
+1.0.0	Sapling	sapling	sapling	sapling	6	6	minecraft:sapling	Saplings D B
+1.0.0	Bedrock	bedrock	bedrock	bedrock	7	7	minecraft:bedrock	Bedrock
+1.0.0	Flowing Water	flowing water	flowing water	flowing_water	8	8	minecraft:flowing_water	Water D
+1.0.0	Water	water	water	water	9	9	minecraft:water	Stationary water D
+1.0.0	Flowing Lava	flowing lava	flowing lava	flowing_lava	10	A	minecraft:flowing_lava	Lava D
+1.0.0	Lava	lava	lava	lava	11	B	minecraft:lava	Stationary lava D
+1.0.0	Sand	sand	sand	sand	12	C	minecraft:sand	Sand D B
+1.0.0	Gravel	gravel	gravel	gravel	13	D	minecraft:gravel	Gravel
+1.0.0	Gold Ore	gold ore	gold ore	gold_ore	14	E	minecraft:gold_ore	Gold Ore
+1.0.0	Iron Ore	iron ore	iron ore	iron_ore	15	F	minecraft:iron_ore	Iron Ore
+1.0.0	Coal Ore	coal ore	coal ore	coal_ore	16	10	minecraft:coal_ore	Coal Ore
+1.0.0	Log	log	log	log	17	11	minecraft:log	Wood D B
+1.0.0	Leaves	leaves	leaves	leaves	18	12	minecraft:leaves	Leaves D B
+1.0.0	Sponge	sponge	sponge	sponge	19	13	minecraft:sponge	Sponge
+1.0.0	Glass	glass	glass	glass	20	14	minecraft:glass	Glass
+1.0.0	Lapis Ore	lapis ore	lapis ore	lapis_ore	21	15	minecraft:lapis_ore	Lapis Lazuli Ore
+1.0.0	Lapis Block	lapis block	lapis block	lapis_block	22	16	minecraft:lapis_block	Lapis Lazuli Block
+1.0.0	Dispenser	dispenser	dispenser	dispenser	23	17	minecraft:dispenser	Dispenser D T
+1.0.0	Sandstone	sandstone	sandstone	sandstone	24	18	minecraft:sandstone	Sandstone D B
+1.0.0	Noteblock	noteblock	noteblock	noteblock	25	19	minecraft:noteblock	Note Block T
+1.0.0	Bed	bed	bed	bed	26	1A	minecraft:bed	Bed D I
+1.0.0	Golden Rail	golden rail	golden rail	golden_rail	27	1B	minecraft:golden_rail	Powered Rail D
+1.0.0	Detector Rail	detector rail	detector rail	detector_rail	28	1C	minecraft:detector_rail	Detector Rail D
+1.0.0	Sticky Piston	sticky piston	sticky piston	sticky_piston	29	1D	minecraft:sticky_piston	Sticky Piston D
+1.0.0	Web	web	web	web	30	1E	minecraft:web	Cobweb
+1.0.0	Tallgrass	tallgrass	tallgrass	tallgrass	31	1F	minecraft:tallgrass	Grass D B
+1.0.0	Deadbush	deadbush	deadbush	deadbush	32	20	minecraft:deadbush	Dead Bush
+1.0.0	Piston	piston	piston	piston	33	21	minecraft:piston	Piston D
+1.0.0	Piston Head	piston head	piston head	piston_head	34	22	minecraft:piston_head	Piston Extension D
+1.0.0	Wool	wool	wool	wool	35	23	minecraft:wool	Wool D B
+1.0.0	Piston Extension	piston extension	piston extension	piston_extension	36	24	minecraft:piston_extension	Block moved by Piston T
+1.0.0	Yellow Flower	yellow flower	yellow flower	yellow_flower	37	25	minecraft:yellow_flower	Dandelion
+1.0.0	Red Flower	red flower	red flower	red_flower	38	26	minecraft:red_flower	Poppy D B
+1.0.0	Brown Mushroom	brown mushroom	brown mushroom	brown_mushroom	39	27	minecraft:brown_mushroom	Brown Mushroom
+1.0.0	Red Mushroom	red mushroom	red mushroom	red_mushroom	40	28	minecraft:red_mushroom	Red Mushroom
+1.0.0	Gold Block	gold block	gold block	gold_block	41	29	minecraft:gold_block	Block of Gold
+1.0.0	Iron Block	iron block	iron block	iron_block	42	2A	minecraft:iron_block	Block of Iron
+1.0.0	Double Stone Slab	double stone slab	double stone_slab	double_stone_slab	43	2B	minecraft:double_stone_slab	Double Stone Slab D B
+1.0.0	Stone Slab	stone slab	stone slab	stone_slab	44	2C	minecraft:stone_slab	Stone Slab D B
+1.0.0	Brick Block	brick block	brick block	brick_block	45	2D	minecraft:brick_block	Bricks
+1.0.0	Tnt	tnt	tnt	tnt	46	2E	minecraft:tnt	TNT
+1.0.0	Bookshelf	bookshelf	bookshelf	bookshelf	47	2F	minecraft:bookshelf	Bookshelf
+1.0.0	Mossy Cobblestone	mossy cobblestone	mossy cobblestone	mossy_cobblestone	48	30	minecraft:mossy_cobblestone	Moss Stone
+1.0.0	Obsidian	obsidian	obsidian	obsidian	49	31	minecraft:obsidian	Obsidian
+1.0.0	Torch	torch	torch	torch	50	32	minecraft:torch	Torch D
+1.0.0	Fire	fire	fire	fire	51	33	minecraft:fire	Fire D
+1.0.0	Mob Spawner	mob spawner	mob spawner	mob_spawner	52	34	minecraft:mob_spawner	Monster Spawner T
+1.0.0	Oak Stairs	oak stairs	oak stairs	oak_stairs	53	35	minecraft:oak_stairs	Oak Wood Stairs D
+1.0.0	Chest	chest	chest	chest	54	36	minecraft:chest	Chest D T
+1.0.0	Redstone Wire	redstone wire	redstone wire	redstone_wire	55	37	minecraft:redstone_wire	Redstone Wire D I
+1.0.0	Diamond Ore	diamond ore	diamond ore	diamond_ore	56	38	minecraft:diamond_ore	Diamond Ore
+1.0.0	Diamond Block	diamond block	diamond block	diamond_block	57	39	minecraft:diamond_block	Block of Diamond
+1.0.0	Crafting Table	crafting table	crafting table	crafting_table	58	3A	minecraft:crafting_table	Crafting Table
+1.0.0	Wheat	wheat	wheat	wheat	59	3B	minecraft:wheat	Wheat D
+1.0.0	Farmland	farmland	farmland	farmland	60	3C	minecraft:farmland	Farmland D
+1.0.0	Furnace	furnace	furnace	furnace	61	3D	minecraft:furnace	Furnace D T
+1.0.0	Lit Furnace	lit furnace	lit furnace	lit_furnace	62	3E	minecraft:lit_furnace	Burning Furnace D T
+1.0.0	Standing Sign	standing sign	standing sign	standing_sign	63	3F	minecraft:standing_sign	Sign Post D I T
+1.0.0	Wooden Door	wooden door	wooden door	wooden_door	64	40	minecraft:wooden_door	Wooden Door D I
+1.0.0	Ladder	ladder	ladder	ladder	65	41	minecraft:ladder	Ladders D
+1.0.0	Rail	rail	rail	rail	66	42	minecraft:rail	Rail D
+1.0.0	Stone Stairs	stone stairs	stone stairs	stone_stairs	67	43	minecraft:stone_stairs	Cobblestone Stairs D
+1.0.0	Wall Sign	wall sign	wall sign	wall_sign	68	44	minecraft:wall_sign	Wall Sign D T
+1.0.0	Lever	lever	lever	lever	69	45	minecraft:lever	Lever D
+1.0.0	Stone Pressure Plate	stone pressure plate	stone pressure_plate	stone_pressure_plate	70	46	minecraft:stone_pressure_plate	Stone Pressure Plate D
+1.0.0	Iron Door	iron door	iron door	iron_door	71	47	minecraft:iron_door	Iron Door D I
+1.0.0	Wooden Pressure Plate	wooden pressure plate	wooden pressure_plate	wooden_pressure_plate	72	48	minecraft:wooden_pressure_plate	Wooden Pressure Plate D
+1.0.0	Redstone Ore	redstone ore	redstone ore	redstone_ore	73	49	minecraft:redstone_ore	Redstone Ore
+1.0.0	Lit Redstone Ore	lit redstone ore	lit redstone_ore	lit_redstone_ore	74	4A	minecraft:lit_redstone_ore	Glowing Redstone Ore
+1.0.0	Unlit Redstone Torch	unlit redstone torch	unlit redstone_torch	unlit_redstone_torch	75	4B	minecraft:unlit_redstone_torch	Redstone Torch (inactive) D
+1.0.0	Redstone Torch	redstone torch	redstone torch	redstone_torch	76	4C	minecraft:redstone_torch	Redstone Torch (active) D
+1.0.0	Stone Button	stone button	stone button	stone_button	77	4D	minecraft:stone_button	Stone Button D
+1.0.0	Snow Layer	snow layer	snow layer	snow_layer	78	4E	minecraft:snow_layer	Snow D B
+1.0.0	Ice	ice	ice	ice	79	4F	minecraft:ice	Ice
+1.0.0	Snow	snow	snow	snow	80	50	minecraft:snow	Snow
+1.0.0	Cactus	cactus	cactus	cactus	81	51	minecraft:cactus	Cactus D
+1.0.0	Clay	clay	clay	clay	82	52	minecraft:clay	Clay
+1.0.0	Reeds	reeds	reeds	reeds	83	53	minecraft:reeds	Sugar Cane D I
+1.0.0	Jukebox	jukebox	jukebox	jukebox	84	54	minecraft:jukebox	Jukebox D T
+1.0.0	Fence	fence	fence	fence	85	55	minecraft:fence	Fence
+1.0.0	Pumpkin	pumpkin	pumpkin	pumpkin	86	56	minecraft:pumpkin	Pumpkin D
+1.0.0	Netherrack	netherrack	netherrack	netherrack	87	57	minecraft:netherrack	Netherrack
+1.0.0	Soul Sand	soul sand	soul sand	soul_sand	88	58	minecraft:soul_sand	Soul Sand
+1.0.0	Glowstone	glowstone	glowstone	glowstone	89	59	minecraft:glowstone	Glowstone
+1.0.0	Portal	portal	portal	portal	90	5A	minecraft:portal	Nether Portal
+1.0.0	Lit Pumpkin	lit pumpkin	lit pumpkin	lit_pumpkin	91	5B	minecraft:lit_pumpkin	Jack 'o' Lantern D
+1.0.0	Cake	cake	cake	cake	92	5C	minecraft:cake	Cake Block D I
+1.0.0	Unpowered Repeater	unpowered repeater	unpowered repeater	unpowered_repeater	93	5D	minecraft:unpowered_repeater	Redstone Repeater (inactive) D I
+1.0.0	Powered Repeater	powered repeater	powered repeater	powered_repeater	94	5E	minecraft:powered_repeater	Redstone Repeater (active) D I
+1.0.0	Stained Glass	stained glass	stained glass	stained_glass	95	5F	minecraft:stained_glass	Stained Glass
+1.0.0	Trapdoor	trapdoor	trapdoor	trapdoor	96	60	minecraft:trapdoor	Trapdoor D
+1.0.0	Monster Egg	monster egg	monster egg	monster_egg	97	61	minecraft:monster_egg	Monster Egg D B
+1.0.0	Stonebrick	stonebrick	stonebrick	stonebrick	98	62	minecraft:stonebrick	Stone Bricks D B
+1.0.0	Brown Mushroom Block	brown mushroom block	brown mushroom_block	brown_mushroom_block	99	63	minecraft:brown_mushroom_block	Huge Brown Mushroom D
+1.0.0	Red Mushroom Block	red mushroom block	red mushroom_block	red_mushroom_block	100	64	minecraft:red_mushroom_block	Huge Red Mushroom D
+1.0.0	Iron Bars	iron bars	iron bars	iron_bars	101	65	minecraft:iron_bars	Iron Bars
+1.0.0	Glass Pane	glass pane	glass pane	glass_pane	102	66	minecraft:glass_pane	Glass Pane
+1.0.0	Melon Block	melon block	melon block	melon_block	103	67	minecraft:melon_block	Melon
+1.0.0	Pumpkin Stem	pumpkin stem	pumpkin stem	pumpkin_stem	104	68	minecraft:pumpkin_stem	Pumpkin Stem D
+1.0.0	Melon Stem	melon stem	melon stem	melon_stem	105	69	minecraft:melon_stem	Melon Stem D
+1.0.0	Vine	vine	vine	vine	106	6A	minecraft:vine	Vines D
+1.0.0	Fence Gate	fence gate	fence gate	fence_gate	107	6B	minecraft:fence_gate	Fence Gate D
+1.0.0	Brick Stairs	brick stairs	brick stairs	brick_stairs	108	6C	minecraft:brick_stairs	Brick Stairs D
+1.0.0	Stone Brick Stairs	stone brick stairs	stone brick_stairs	stone_brick_stairs	109	6D	minecraft:stone_brick_stairs	Stone Brick Stairs D
+1.0.0	Mycelium	mycelium	mycelium	mycelium	110	6E	minecraft:mycelium	Mycelium
+1.0.0	Waterlily	waterlily	waterlily	waterlily	111	6F	minecraft:waterlily	Lily Pad
+1.0.0	Nether Brick	nether brick	nether brick	nether_brick	112	70	minecraft:nether_brick	Nether Brick
+1.0.0	Nether Brick Fence	nether brick fence	nether brick_fence	nether_brick_fence	113	71	minecraft:nether_brick_fence	Nether Brick Fence
+1.0.0	Nether Brick Stairs	nether brick stairs	nether brick_stairs	nether_brick_stairs	114	72	minecraft:nether_brick_stairs	Nether Brick Stairs D
+1.0.0	Nether Wart	nether wart	nether wart	nether_wart	115	73	minecraft:nether_wart	Nether Wart D I
+1.0.0	Enchanting Table	enchanting table	enchanting table	enchanting_table	116	74	minecraft:enchanting_table	Enchantment Table T
+1.0.0	Brewing Stand	brewing stand	brewing stand	brewing_stand	117	75	minecraft:brewing_stand	Brewing Stand D T I
+1.0.0	Cauldron	cauldron	cauldron	cauldron	118	76	minecraft:cauldron	Cauldron D I
+1.0.0	End Portal	end portal	end portal	end_portal	119	77	minecraft:end_portal	End Portal T
+1.0.0	End Portal Frame	end portal frame	end portal_frame	end_portal_frame	120	78	minecraft:end_portal_frame	End Portal Block D
+1.0.0	End Stone	end stone	end stone	end_stone	121	79	minecraft:end_stone	End Stone
+1.0.0	Dragon Egg	dragon egg	dragon egg	dragon_egg	122	7A	minecraft:dragon_egg	Dragon Egg
+1.0.0	Redstone Lamp	redstone lamp	redstone lamp	redstone_lamp	123	7B	minecraft:redstone_lamp	Redstone Lamp (inactive)
+1.0.0	Lit Redstone Lamp	lit redstone lamp	lit redstone_lamp	lit_redstone_lamp	124	7C	minecraft:lit_redstone_lamp	Redstone Lamp (active)
+1.0.0	Double Wooden Slab	double wooden slab	double wooden_slab	double_wooden_slab	125	7D	minecraft:double_wooden_slab	Wooden Double Slab D B
+1.0.0	Wooden Slab	wooden slab	wooden slab	wooden_slab	126	7E	minecraft:wooden_slab	Wooden Slab D B
+1.0.0	Cocoa	cocoa	cocoa	cocoa	127	7F	minecraft:cocoa	Cocoa D I
+1.0.0	Sandstone Stairs	sandstone stairs	sandstone stairs	sandstone_stairs	128	80	minecraft:sandstone_stairs	Sandstone Stairs D
+1.0.0	Emerald Ore	emerald ore	emerald ore	emerald_ore	129	81	minecraft:emerald_ore	Emerald Ore
+1.0.0	Ender Chest	ender chest	ender chest	ender_chest	130	82	minecraft:ender_chest	Ender Chest D T
+1.0.0	Tripwire Hook	tripwire hook	tripwire hook	tripwire_hook	131	83	minecraft:tripwire_hook	Tripwire Hook D
+1.0.0	Tripwire	tripwire	tripwire	tripwire	132	84	minecraft:tripwire	Tripwire D I
+1.0.0	Emerald Block	emerald block	emerald block	emerald_block	133	85	minecraft:emerald_block	Block of Emerald
+1.0.0	Spruce Stairs	spruce stairs	spruce stairs	spruce_stairs	134	86	minecraft:spruce_stairs	Spruce Wood Stairs D
+1.0.0	Birch Stairs	birch stairs	birch stairs	birch_stairs	135	87	minecraft:birch_stairs	Birch Wood Stairs D
+1.0.0	Jungle Stairs	jungle stairs	jungle stairs	jungle_stairs	136	88	minecraft:jungle_stairs	Jungle Wood Stairs D
+1.0.0	Command Block	command block	command block	command_block	137	89	minecraft:command_block	Command Block T
+1.0.0	Beacon	beacon	beacon	beacon	138	8A	minecraft:beacon	Beacon T
+1.0.0	Cobblestone Wall	cobblestone wall	cobblestone wall	cobblestone_wall	139	8B	minecraft:cobblestone_wall	Cobblestone Wall D B
+1.0.0	Flower Pot	flower pot	flower pot	flower_pot	140	8C	minecraft:flower_pot	Flower Pot D I
+1.0.0	Carrots	carrots	carrots	carrots	141	8D	minecraft:carrots	Carrots D I
+1.0.0	Potatoes	potatoes	potatoes	potatoes	142	8E	minecraft:potatoes	Potatoes D I
+1.0.0	Wooden Button	wooden button	wooden button	wooden_button	143	8F	minecraft:wooden_button	Wooden Button D
+1.0.0	Skull	skull	skull	skull	144	90	minecraft:skull	Mob Head D T I
+1.0.0	Anvil	anvil	anvil	anvil	145	91	minecraft:anvil	Anvil D B
+1.0.0	Trapped Chest	trapped chest	trapped chest	trapped_chest	146	92	minecraft:trapped_chest	Trapped Chest D T
+1.0.0	Light Weighted Pressure Plate	light weighted pressure_plate	light weighted_pressure_plate	light_weighted_pressure_plate	147	93	minecraft:light_weighted_pressure_plate	Weighted Pressure Plate (Light) D
+1.0.0	Heavy Weighted Pressure Plate	heavy weighted pressure_plate	heavy weighted_pressure_plate	heavy_weighted_pressure_plate	148	94	minecraft:heavy_weighted_pressure_plate	Weighted Pressure Plate (Heavy) D
+1.0.0	Unpowered Comparator	unpowered comparator	unpowered comparator	unpowered_comparator	149	95	minecraft:unpowered_comparator	Redstone Comparator (inactive) D I
+1.0.0	Powered Comparator	powered comparator	powered comparator	powered_comparator	150	96	minecraft:powered_comparator	Redstone Comparator (active) D I
+1.0.0	Daylight Detector	daylight detector	daylight detector	daylight_detector	151	97	minecraft:daylight_detector	Daylight Sensor
+1.0.0	Redstone Block	redstone block	redstone block	redstone_block	152	98	minecraft:redstone_block	Block of Redstone
+1.0.0	Quartz Ore	quartz ore	quartz ore	quartz_ore	153	99	minecraft:quartz_ore	Nether Quartz Ore
+1.0.0	Hopper	hopper	hopper	hopper	154	9A	minecraft:hopper	Hopper D T
+1.0.0	Quartz Block	quartz block	quartz block	quartz_block	155	9B	minecraft:quartz_block	Block of Quartz D B
+1.0.0	Quartz Stairs	quartz stairs	quartz stairs	quartz_stairs	156	9C	minecraft:quartz_stairs	Quartz Stairs D
+1.0.0	Activator Rail	activator rail	activator rail	activator_rail	157	9D	minecraft:activator_rail	Activator Rail D
+1.0.0	Dropper	dropper	dropper	dropper	158	9E	minecraft:dropper	Dropper D T
+1.0.0	Stained Hardened Clay	stained hardened clay	stained hardened_clay	stained_hardened_clay	159	9F	minecraft:stained_hardened_clay	Stained Clay D B
+1.0.0	Stained Glass Pane	stained glass pane	stained glass_pane	stained_glass_pane	160	A0	minecraft:stained_glass_pane	Stained Glass Pane D
+1.0.0	Leaves2	leaves2	leaves2	leaves2	161	A1	minecraft:leaves2	Leaves (Acacia/Dark Oak) D B
+1.0.0	Log2	log2	log2	log2	162	A2	minecraft:log2	Wood (Acacia/Dark Oak) D B
+1.0.0	Acacia Stairs	acacia stairs	acacia stairs	acacia_stairs	163	A3	minecraft:acacia_stairs	Acacia Wood Stairs D
+1.0.0	Dark Oak Stairs	dark oak stairs	dark oak_stairs	dark_oak_stairs	164	A4	minecraft:dark_oak_stairs	Dark Oak Wood Stairs D
+1.0.0	Slime	slime	slime	slime	165	A5	minecraft:slime	Slime Block
+1.0.0	Barrier	barrier	barrier	barrier	166	A6	minecraft:barrier	Barrier
+1.0.0	Iron Trapdoor	iron trapdoor	iron trapdoor	iron_trapdoor	167	A7	minecraft:iron_trapdoor	Iron Trapdoor
+1.0.0	0	0	0	0	168	A8		(unused)
+1.0.0	0	0	0	0	169	A9		(unused)
+1.0.0	Hay Block	hay block	hay block	hay_block	170	AA	minecraft:hay_block	Hay Block D
+1.0.0	Carpet	carpet	carpet	carpet	171	AB	minecraft:carpet	Carpet D B
+1.0.0	Hardened Clay	hardened clay	hardened clay	hardened_clay	172	AC	minecraft:hardened_clay	Hardened Clay
+1.0.0	Coal Block	coal block	coal block	coal_block	173	AD	minecraft:coal_block	Block of Coal
+1.0.0	Packed Ice	packed ice	packed ice	packed_ice	174	AE	minecraft:packed_ice	Packed Ice
+1.0.0	Double Plant	double plant	double plant	double_plant	175	AF	minecraft:double_plant	Large Flowers D B
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								

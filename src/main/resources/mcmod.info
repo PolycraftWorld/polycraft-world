@@ -1,0 +1,16 @@
+[
+{
+  "modid": "polycraft",
+  "name": "Polycraft",
+  "description": "Polycraft",
+  "version": "1.0.0",
+  "mcversion": "${mcversion}",
+  "url": "http://www.polycraftworld.com/",
+  "updateUrl": "",
+  "authorList": [ "Jim McAndrew", "Walter Voit", "Chris Wahlen" ],
+  "credits": "UTD, Redshift Development",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

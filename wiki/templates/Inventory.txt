@@ -1,0 +1,8 @@
+<includeonly><div class="inventory {{{type|}}}" style="float:{{{float|left}}};">
+<div style="position: relative;">{{#switch: {{lc:{{{shapeless|}}}}}|yes|true|1=<div class="shapeless">Shapeless</div>}}
+{{{1}}}
+</div></div>{{#if:{{{nobreak|}}}||<br style="clear: left" />}}</includeonly><noinclude>
+  {{documentation}}
+  [[Category:Image templates|C]]
+  [[Category:Grid Templates]]
+</noinclude>

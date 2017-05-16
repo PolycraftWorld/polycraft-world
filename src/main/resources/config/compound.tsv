@@ -1,0 +1,405 @@
+Version	Compound	Formula	State of Matter	First Release	Nicknames	Notes	Uses		
+1.0.0	"1,1,1-Trichloroethane"	CCl3CH3	Liquid		"cleaning fluid, degreaser"		hardware store		
+1.0.0	"1,1,1,2-Tetrafluoroethane"	CF3CH2F	Gas		—		Most canned air products contain this gas under pressure. Read the labels as some contain other solvents.		
+1.0.0	"1,3-Propanediol"	CH2(CH2OH)2	Liquid						
+1.0.0	"1,4-Butanediol"	HOCH2CH2CH2CH2OH	Liquid						
+1.0.0	"1,6-Hexamethylenediamine"		Liquid						
+1.0.0	"2,2-DiMethylButane"	C6H14	Liquid	TRUE		Isomer of Hexane			
+1.0.0	"2,3-DiMethylButane"	C6H14	Liquid	TRUE		Isomer of Hexane			
+1.0.0	2-(2-Butoxyethoxy) Ethanol	CH3CH2CH2CH2OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol mono-n-butyl ether				Glycol Ether Solvent
+1.0.0	"2-(2-Ethoxyethoxy) Ethanol, Carbitol Cellosolve"	CH3CH2OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol monoethyl ether				Glycol Ether Solvent
+1.0.0	"2-(2-Methoxyethoxy) Ethanol, Methyl Carbitol"	CH3OCH2CH2OCH2CH2OH	Liquid		Diethylene glycol monomethyl ether				Glycol Ether Solvent
+1.0.0	2-Benzyloxyethanol	C6H5CH2OCH2CH2OH	Liquid		Ethylene glycol monobenzyl ether				Glycol Ether Solvent
+1.0.0	2-Butoxyethanol	CH3CH2CH2CH2OCH2CH2OH	Liquid		Ethylene glycol monobutyl ether		"a widely used solvent in paintings and surface coatings, cleaning products and inks"		Glycol Ether Solvent
+1.0.0	2-Butoxyethyl Acetate	CH3CH2CH2CH2OCH2CH2OCOCH3	Liquid		Ethylene glycol monobutyl ether acetate				Esters
+1.0.0	2-Ethoxyethanol	CH3CH2OCH2CH2OH	Liquid		Ethylene glycol monoethyl ether		"It will dissolve oils, resins, grease, waxes, nitrocellulose, and lacquers"		Glycol Ether Solvent
+1.0.0	2-Ethoxyethyl Acetate	CH3CH2OCH2CH2OCOCH3	Liquid		Ethylene glycol monoethyl ether acetate				Esters
+1.0.0	2-Isopropoxyethanol	(CH3)2CHOCH2CH2OH	Liquid		Ethylene glycol monoisopropyl ether				Glycol Ether Solvent
+1.0.0	2-Methoxyethanol	CH3OCH2CH2OH	Liquid		Ethylene glycol monomethyl ether		"solvent for many different purposes such as varnishes, dyes, and resins. It is also used as an additive in airplane deicing solutions"		Glycol Ether Solvent
+1.0.0	2-Methoxyethyl Acetate	CH3OCH2CH2OCOCH3	Liquid		Ethylene glycol methyl ether acetate				Esters
+1.0.0	2-MethylPentane	C6H14	Liquid	TRUE		Isomer of Hexane			
+1.0.0	2-Phenoxyethanol	C6H5OCH2CH2OH	Liquid		Ethylene glycol monophenyl ether				Glycol Ether Solvent
+1.0.0	2-Propanol	CH3CHOHCH3	Liquid		rubbing alcohol		Rubbing alcohol (isopropyl alcohol) is a concentrated solution of 2-propanol and may be found in most drug stores. Supermarkets owned by Safeway carry a 99% pure version.		
+1.0.0	2-Propoxyethanol	CH3CH2CH2OCH2CH2OH	Liquid		Ethylene glycol monopropyl ether				Glycol Ether Solvent
+1.0.0	3-Hydroxybutanoic Acid		Liquid						
+1.0.0	3-Hydroxypentanoic Acid		Liquid						
+1.0.0	3-MethylPentane	C6H14	Liquid	TRUE		Isomer of Hexane			
+1.0.0	4-Hydroxybenzoic Acid		Liquid						
+1.0.0	6-Hydroxynaphthalene-2-Carboxylic Acid		Liquid						
+1.0.0	Acetaldehyde		Liquid						
+1.0.0	Acetic Acid	CH3COOH + H2O	Liquid		5% Solution: White vinegar		Grocery store; white vinegar—5% Photography supply store; Indicator Stop Bath—89% (with Bromocresol Purple dye) or Glacial Acetic Acid 99.5–100%		
+1.0.0	Acetone	CH3COCH3	Liquid		Acetone		General; nail polish remover		
+1.0.0	Acetylene	C2H2	Liquid		Ethyne		Hardware store or Welding supply; acetylene		
+1.0.0	Acetylsalicylic Acid	C9H8O4	Liquid		Aspirin		Pharmacy; Aspirin		
+1.0.0	Acrylic Acid	C3H4O2	Liquid		Prop-2-enoic acid		Plastics manufacturing		
+1.0.0	Adipic Acid		Liquid						
+1.0.0	Aldehyde-Collidine		Liquid						
+1.0.0	Alkyd Resin		Liquid						
+1.0.0	Aluminium Ammonium Sulfate	AlNH4(SO4)2	Solid		ammonium alum		General; styptic pencils for shaving		
+1.0.0	Aluminium Hydroxide	Al(OH)3	Solid		alumina hydrate		General; antacid tablets—blended with magnesium hydroxide		
+1.0.0	Aluminium Oxide	Al2O3	Solid		alumina		Welding/Industrial supply; sandblasting sand—graded sizes of crystals		
+1.0.0	Aluminium Potassium Sulfate	KAl(SO4)212H2O	Solid		"Alum, potassium aluminium sulphate"		General; astringent to shrink mucus membranes		
+1.0.0	Aluminium Sulfate	Al2(SO4)3	Solid		Flocculating Powder		Pool supply; by name		
+1.0.0	Ammonia	NH3(aq); NH4OH	Gas		"Ammonia,Ammonium Hydroxide"		Grocery store; household ammonia—ammonium hydroxide—10% solution.		
+1.0.0	Ammonium Bicarbonate	(NH4)HCO3	Solid		"Salt of Hartshorn,Baker's Ammonia"		Scandinavian baking ingredient		
+1.0.0	Ammonium Bifluoride	NH4HF2	Solid		Ammonium hydrogen fluoride		"Hardware store; toilet bowl cleaner, rust stain remover"		
+1.0.0	Ammonium Bromide	NH4Br	Solid		—		Photography store/Darkroom; bleach bath for photograph development		
+1.0.0	Ammonium Carbonate	(NH4)2CO3	Solid		"Smelling Salts,Salt of Hartshorn,Baker's Ammonia"		Grocery/Drug store; smelling salts (first-aid section)		
+1.0.0	Ammonium Chloride	NH4Cl	Solid		Soldering Flux		"Hardware store (plumbing); Salt of Ammon, Sal Ammoniac (soldering flux/soldering iron cleaner)"		
+1.0.0	Ammonium Nitrate	NH4NO3	Solid		Ammonium Nitrate		Garden supply; Nitrate of Ammonia (fertilizer)		
+1.0.0	Ammonium Persulfate	(NH4)2S2O8	Solid		"Etching Solution,Ammonium Peroxodisulphate"		Electronics supply; circuit board etching solution		
+1.0.0	Ammonium Phosphate	(NH4)3PO4	Solid		Fertilizer		Garden/Agricultural supply; by name		
+1.1.2	Ammonium Hydroxide	(NH4)OH	Solid		—				
+1.0.0	Amylose	(C6H9O5)n	Solid		Cornstarch		Grocery store; corn starch		
+1.0.0	Anthocyanin	—	Liquid		—		"Extraction from Red Cabbage: Cut, boil, then filter"		
+1.0.0	Argon Gas	Ar	Gas		—		Welding supply; by name		
+1.0.0	Ascorbic Acid	C6H8O6	Liquid		Vitamin C		General; Vitamin C tablets		
+1.0.0	Barium Carbonate	BaCO3	Liquid		—		Difficult to find. Sometimes available from pottery and ceramic supply stores.		
+1.0.0	Barium Sulfate	BaSO4	Liquid		Lithopone		Available from fine art supply houses in a compound with zinc oxide. This compound is known as Lithipone pigment. Also available in very pure form from radiology labs and medical supply as a radio contrast agent for x-rays and CAT scans—here it may be scented or even flavoured. May be available from a well-stocked pottery and ceramics supply store.		
+1.0.0	Benzene		Liquid						
+1.0.0	Benzene-Toluene-Xylene	BTX	Liquid	TRUE	BTX				
+1.0.0	Benzoic Acid		Liquid						
+1.0.0	Benzoyl Peroxide	C14H10O4	Liquid		benzoic acid peroxide		"Concentrations as high as 10% are available in the US at drug stores in cream form for treatment of acne. A paste containing 50% benzoyl peroxide, is available from some hardware stores under the brand name Minwax High Performance Wood Filler."		
+1.0.0	Bismuth Subsalicylate	C7H5BiO4	Liquid		Pepto-Bismol		The active ingredient in Pepto-bismol and Kaopectate.		
+1.0.0	Bisphenol A	(CH3)2C(C6H4OH)2	Liquid						
+1.0.0	Boric Acid	H3BO3	Liquid		Ant/Roach Killer		"Grocery, drug store, hardware stores; pest control section."		
+1.0.0	Bromthymol Blue	C27H28Br2O5S	Liquid		pH Test		Aquarium pH test kits often employ bromthymol blue because it changes color in the 6.0–7.6 range.		
+1.0.0	Butadiene	C4H6	Liquid						
+1.0.0	Butane Isomers	C4H10	Gas	TRUE	Butane		"The lighter fluid in hand-held fire starters or cigarette lighters is usually liquid butane. Also available in sporting goods & camping stores as a stove fuel. Many similar fuels use propane, so be sure to read the labeling."		
+1.0.0	Butanol		Liquid						
+1.0.0	Butylene isomers	C4H8	Liquid	TRUE			It is a colourless gas that is present in crude oil as a minor constituent in quantities that are too small for viable extraction		
+1.0.0	Butyrolactone		Liquid						
+1.0.0	Cadmium Sulfide	CdS	Liquid		Cadmium Yellow		"Fine art supply house. Available as a yellow powder. Sometimes pure, sometimes blended with zinc sulfide to create alternative hues."		
+1.0.0	Caffeine	C8H10N4O2	Liquid		No-Doz		Grocery or drug store. Often in formulation with corn starch as a binder.		
+1.0.0	Calcium Carbide	CaC2	Solid		—		Still used by cavers and spelunkers to generate acetylene gas for miner's lamps. May be found through a local caver organization (grotto) or at some non-chain camping/outdoor supply stores.		
+1.0.0	Calcium Carbonate	CaCO3	Solid		"Limestone, Carbonate of Lime"		"Chunks: Marble, limestone. Powder: Precipitated chalk."		
+1.0.0	Calcium Chloride	CaCl2	Solid		Laundry Aid/Road Salt/De-Icer		"Supermarket, Hardware store; much road salt (de-icer) used to de-ice roads in cold climates."		
+1.0.0	Calcium Hydroxide	Ca(OH)2	Solid		"Slaked Lime,garden lime"		Gardening department; used to reduce acidity in soil.		
+1.0.0	Calcium Hypochlorite	Ca(ClO)2	Solid		—		Bleaching powder and some swimming pool disinfectants contain calcium hypochlorite. Available from cleaning or swimming pool supply companies. Keep in mind that some formulations contain cyanuric acid as a stabilizer against UV light.		
+1.0.0	Calcium Monoxide		Solid						
+1.0.0	Calcium Nitrate	Ca(NO3)2·4H2O	Liquid		Norwegian saltpeter		Available from garden supply and agricultural supply stores as a fertilizer.		
+1.0.0	Calcium Oxide	CaO	Liquid		"Lime, Quicklime"		Builder's supply; used to make plaster.		
+1.0.0	"Calcium Phosphate, Monobasic"	Ca(H2PO4)2	Liquid		superphosphate		Available as a fertilizer from garden supply stores. Also sometimes available as a nutritional supplement at health food stores.		
+1.0.0	Calcium Sulfate Anhydrous	CaSO4	Liquid		—		Can be made from commonly available plaster of paris by additional heating to above 180C. Also available at fine art supply stores as Terra Alba.		
+1.0.0	Calcium Sulfate Dihydrate	CaSO4·2H20	Liquid		Gypsum		Can be made from the reaction of Plaster of Paris with Water.		
+1.0.0	"Calcium Sulfate, Hemihydrate"	CaSO4·1/2H20	Liquid		Plaster of Paris		"Hardware stores, arts and craft stores, and hobby shops."		
+1.0.0	Camphor	C10H16O	Liquid		—		Can be found as a flavor additive at some Chinese grocery stores. Sometimes found in the drugstore as a cream or oral remedy. It feels cool like menthol on the skin.		
+1.0.0	Caprolactone		Liquid						
+1.0.0	Caprolactam		Liquid						
+1.0.0	Carbon Dioxide	CO2	Gas	TRUE	—		"Dry ice is available from party stores, supermarkets, refrigeration supply companies and ice cream companies. Nationally distributed by Airgas through Penguin Brand Dry Ice. Gaseous form available in small canisters at sporting goods stores. Used in air guns and in paintball."		
+1.0.0	Carbon Monoxide		Gas						
+1.0.0	Carbonic Acid	H2CO3	Liquid		—		"Soda water is simply carbonated water, a dilute solution of carbonic acid. A Soda Club home soda maker is a good way to make your own carbonic acid in varying strengths."		
+1.0.0	Carboxylates	M(RCOO)n	Liquid				Make with Sodium and Acrylic Acid?		
+1.0.0	Carrageenan	—	Liquid		—		Available in some health food stores as a food additive. Used in many commercial food preparations as a thickener and gelling agent. Available at fine art supply stores for use in molding and marbling.		
+1.0.0	Cellulose	(C6H10O5)n	Liquid		—		Processed cotton fiber is almost pure cellulose making many undyed clothing articles an excellent source of cellulose. 100% cotton paper is also a good source of this material.		
+1.0.0	Cellulose Acetate		Liquid						
+1.0.0	Cellulose Nitrate		Liquid						
+1.0.0	Chromium Oxide	Cr2O3	Liquid		Chrome Green		Used as a green pigment for fine art paints. It is available as a powder from most fine art supply stores.		
+1.0.0	Citric Acid	C6H8O7	Liquid		Sour Salt		Available at the grocery store as Sour Salt. Also used for home soap making and also in photographic development.		
+1.0.0	Coke		Liquid				Used when you refine coal		
+1.0.0	Copper Naphthenate	Cu(C11H10O2)2	Liquid		cupric naphthenate		"Used as a wood preservative to protect lumber from termites, ants, and other burrowing insects. Brands including Wolman and Jasco are up to 25% copper naphthenate with the remainder composed of linseed oil and petroleum distillate-based solvents."		
+1.0.0	Copper Sulfate Pentahydrate	CuSO25H2O	Liquid		"cupric sulfate, blue vitriol, bluestone"		"Hardware store; rootkiller (Zep Root Kill, Rooto Root Kill)"		
+1.0.0	Copper Sulfate (Anhydrous)	CuSO4	Liquid		cupric sulfate(anhydrous)		Available from garden supply or pond supply stores as an algaecide and rootkiller.		
+1.0.0	Crude Oil	Complex	Liquid	TRUE	"Oil, Black Gold, "				
+1.0.0	Cyanide		Liquid						
+1.0.0	Cyanuric Acid	C3H3N3O3	Liquid		isocyanuric acid		Available from swimming pool and lawn/yard supply stores as a chlorine stabilizer. A pure tablet form sells under the brand name Kem Tek.		
+1.0.0	Cyclohexane		Liquid						
+1.0.0	Cyclohexane Dimethanol	C6H10(CH2OH)2	Liquid						
+1.0.0	Cyclohexanone		Liquid						
+1.0.0	Cyclohexylamine		Liquid						
+1.0.0	Dextrose	C6H12O6	Liquid		"glucose, corn syrup"		"Grocery; corn syrup, some throat lozenges are pure dextrose."		
+1.0.0	Diamine		Liquid						
+1.0.0	Dibutoxyethane	CH3CH2CH2CH2OCH2CH2OCH2CH2CH2CH3	Liquid		Ethylene glycol dibutyl ether				Dialkyl ether
+1.0.0	Dicarboxyllic Acid		Liquid						
+1.0.0	Dichloromethane	CH2Cl2	Liquid		methylene chloride		"Used as a solvent, degreaser and adhesive remover, it is available from hardware, automotive, and sometimes craft stores. Purity of commercial products can approach 90% with the remainder being composed of alcohols and petroleum distillates. Common brands include Champion Paint Off, many choke and valve cleaners, and Klean Strip Graffiti Remover."		
+1.0.0	Diesel		Liquid						
+1.0.0	Diethoxyethane	CH3CH2OCH2CH2OCH2CH3	Liquid		Ethylene glycol diethyl ether				Dialkyl ether
+1.0.0	Diethylene Glycol	(HOCH2CH2)2O	Liquid						
+1.0.0	Dimethoxyethane	CH3OCH2CH2OCH3	Liquid		Ethylene glycol dimethyl ether		"a higher boiling alternative to diethyl etherand THF, also used as a solvent for polysaccharides, a reagent in organometallic chemistry and in some electrolytes of lithium batteries"		Dialkyl ether
+1.0.0	Dimethyl Sulfoxide	(CH3)2SO	Liquid		DMSO		Available from health food and naturopathic supply stores for treating injuries. Warning: DMSO will allow anything it has dissolved to pass directly through your skin into your bloodstream. Use gloves and skin protection when working with this chemical.		
+1.0.0	Dimethyl Terephthalate	C6H4(CO2CH3)2	Liquid						
+1.0.0	Dioxane		Liquid						
+1.0.0	Disodium Phosphate	Na2HPO4	Liquid		pH Down		Found at pet stores and used to lower the pH of aquarium water.		
+1.0.0	EDC		Liquid						
+1.0.0	Ethane	C2H6	Gas				Saved for cracking into Ethylene		
+1.0.0	Ethanol	C2H3OH	Liquid						
+1.0.0	Ethanol/Ethyl Alcohol	C2H5OH	Liquid		Everclear		Available as 95% pure ethanol and 5% water from liquor stores in most states. Also available in denaturedform from hardware stores. Grocery and drug stores may carry it as ethyl rubbing alcohol.		
+1.0.0	Ether	(C2H5)2O	Liquid		"diethyl ether,ethoxyethane"		Sold at auto supply stores in aerosol cans as Starter Fluid or Cold Start Spray. Used to help start damp or inefficient old engines.		
+1.0.0	Ethylbenzene		Liquid						
+1.0.0	Ethylene	C2H4	Gas						
+1.0.0	Ethylene Carbonate	C3H4O3	Liquid						
+1.0.0	Ethylene Glycol	CH2OHCH2OH	Liquid		"1,2-ethanediol"		Some engine antifreezes are primarily ethylene glycol and can be obtained at an automotive supply store.		
+1.0.0	Ethylene Oxide	C2H4O	Liquid						
+1.0.0	Ethylidene Diacetate	C6H10O4	Liquid		"1,1-Diacetoxyethane, 1,1-Ethanediol diacetate"				
+1.0.0	Eugenol	CH2CH2CH2C6H3(OCH3)OH	Liquid		"oil of clove, 2-methoxy-4-(2-propenyl)phenol"		Available at most health food and natural healing stores as clove oil. Note that organically derived oil of clove will have numerous impurities from the distillation process. Synthetic oil of clove is generally pure but more difficult to find.		
+1.0.0	Ferric Chloride	FeCl3	Liquid		Etching Solution		Available in solution from Radio Shack and other electronics suppliers as an etching solution for circuit boards. Also available in solution from fine art supply stores.		
+1.0.0	Ferric Oxide (Iron III Oxide)	Fe2O3	Liquid		Rust		Common rust. Reddish in color. Can be scraped off of rusted iron objects or purchased in a purified form as the artists pigment Red Iron Oxide from fine art supply stores.		
+1.0.0	Ferrous Ferric Oxide (Iron II-III Oxide)	Fe3O4	Liquid		Magnetite		Used as the artists pigment Mars Black and can be purchased from fine art supply stores.		
+1.0.0	Formaldehyde		Liquid						
+1.0.0	Formic Acid	CH2O2	Liquid		methanoic acid		Available in some stain removers at the hardware store. A fairly pure 5% concentration can be obtained from the blue chamber of Clorox Dual Action Toilet Bowl Cleanser.		
+1.0.0	Fructose	C6H12O6	Liquid		Fruit Sugar		Easily available from most grocery stores.		
+1.0.0	Gas Oil	Complex	Liquid						
+1.0.0	Glucose	C6H12O6	Liquid		"Dextrose, corn syrup"		Grocery; corn syrup. Some throat lozenges are pure dextrose.		
+1.0.0	Glycerol	C3H8O3	Liquid		"1,2,3-propanetriol"		Glycerin is an emollient used to soften skin by delaying the evaporation of water. It is available at most drug stores.		
+1.0.0	Glycolic Acid		Liquid						
+1.0.0	Gum Arabic	CH4O3S	Liquid		gum acacia		Available at arts & crafts stores and at fine art supply stores as a binder for turning pigments into paints. In solution with water.		
+1.0.0	Heavy Naphtha	Complex	Liquid	TRUE					
+	Helium Gas	He2	Liquid		—		Helium can be obtained from party stores or wherever helium balloons are available. Small disposable containers are available for long-term storage. Containers made by Worthington Industries are 99% pure helium. Note that balloon gas is a mixture of helium and normal air.		
+1.0.0	Hexamine	C6H12N4	Liquid		Hexamethylenetetramine		"Sold as solid fuel tablets in camping and outdoor stores, in combination with 1,3,5-trioxane."		
+1.0.0	Hexane Isomers	C6H14	Liquid	TRUE					
+1.0.0	High Octane Gasoline	8-16 carbon alkanes	Liquid						
+1.0.0	Hydrochloric Acid	HCl	Liquid		"Masonry Cleaner,Muriatic acid"		"Hardware store; used in swimming pool maintenance, as masonry cleaner and in silverware cleaner."		
+1.0.0	Hydrofluoric Acid	HF	Liquid		Glass Etching Solution		Hardware store; Aluminum brightener & tire cleaner		
+	Hydrogen Gas	H2	Gas		Hydrogen		Can be generated and captured from electrolysis of water and a wide variety of inorganic chemical reactions. Adding aluminium foil to a solution of Sodium Hydroxide will generate hydrogen gas. Highly flammable and explosive under pressure or in quantity.		
+1.0.0	Hydrogen Peroxide	H2O2	Liquid		Peroxide		Hydrogen peroxide antiseptic (3%)or even (6%) is available from the drug store. Clairoxide hair bleach by Clairol is much more concentrated (12%) and is available from beauty supply stores. Concentrations as high as 35% may be available at health food stores and natural medicine stores as a source of natural oxygen. Swimming pool and spa suppliers often carry concentrations as high as 27% but these usually contain preservatives/stabilizers. Note: Do not heat. Do not store in metal containers.		
+1.0.0	Hydroquinone	C6H6O2	Liquid		—		Photography store catering to the at-home darkroom crowd.		
+1.0.0	Hypochlorous Acid	HClO	Liquid		Laundry Bleach		Grocery store.		
+1.0.0	Iodine Gas	I2	Liquid		Iodide		"Tincture of iodine, a topical antiseptic used for treating wounds, is a solution of iodine dissolved in ethyl alcohol. It is available at most drug stores. Available from camping stores as crystals for sterilizing water. Crystal Iodine can also be synthesized from Potassium Iodide as radiation pills, utilizing laboratory methods. Certain laboratory methods can be considerably hazardous. Iodine is illicitly used in the production of methamphetamine, making iodine somewhat difficult to obtain. In the United States, it is illegal to sell, purchase, transport, or possess iodine with the knowledge or intention of its use for producing methamphetamine. Small quantities, such as those used in chemistry experiments such as the Briggs–Rauscher reaction, are legal to obtain and require no permits nor record-keeping.[3]"		
+1.0.0	Iron Sulfate	FeSO4	Liquid		"Ferrous sulfate, Sulfate of iron, Copperas"		Available from garden supply stores as a nutrient. Also available as a mordant for pigments from stores that carry dyeing and textile supplies.		
+1.0.0	IsoButane	C4H10	Liquid	TRUE					
+1.0.0	IsoPentane	C5H12	Liquid	TRUE					
+1.0.0	Isophthalic Acid	C6H4(CO2H)2	Liquid						
+1.0.0	Kerosene	CnH2n+1(n=12–16)	Liquid		Aviation Fuel		Lamp oil or kerosene is sold in the paint departments of most hardware stores. Also available in larger quantities from gas stations in many parts of the country.		
+1.0.0	Lactic Acid	C3H6O3	Liquid		Milk Acid		Available from grocery stores and health food stores.		
+1.0.0	Latex	C3H6O3	Liquid		Liquid Latex Body Paint		"Available from adult toy stores as a novelty item and from select hobby shops. Compositions vary in the amount of ammonia and fillers they contain. Also costume/magic shops, as liquid skin/liquid latex."		
+1.0.0	Lauryl Alcohol	CH3(CH2)10CH2OH	Liquid		"Fatty Alcohol, Dodecanol"		"surfactants, lubricating oils,pharmaceuticals, in the formation of monolithic polymers and as a flavor enhancing food additive. In cosmetics, dodecanol is used as an emollient"		
+1.0.0	Light Naphtha	Complex	Liquid	TRUE					
+1.0.0	Light Naphthenes	Complex	Liquid	TRUE					
+1.0.0	Light Olefins	Complex	Liquid	TRUE					
+1.0.0	Light Parrafins	Complex	Liquid	TRUE					
+1.0.0	Liquified Natural Gas	Complex	Liquid	TRUE	LNG				
+1.0.0	Linseed Oil	—	Liquid		—		"Used as a binder in paints and as a finish for wood. Available at hardware stores and fine art supply stores. Boiled linseed oil contains Lead Oxide (boiled with PbO), which speeds hardening (oxidizing) on contact with oxygen."		
+1.0.0	Magnesium Carbonate	MgCO3	Liquid		Athlete's chalk		"Often sold as a powder in sporting goods stores for gymnastics, weightlifting, and climbing to help keep hands dry. Sometimes it is combined with calcium carbonate in this use. Available in tablet form as an antacid. Some antacids are pure while others are blended with calcium carbonate."		
+1.0.0	Magnesium Chloride	MgCl2	Liquid		Nigari or Lushui		"Asian markets; Nigari, as it's called in Japan, or Lushui, as it's called in China. Used to make tofu from soy milk."		
+1.0.0	Magnesium Hydroxide	Mg(OH)2	Liquid		Milk of Magnesia		Milk of Magnesia is an antacid used to settle sour (acidic) stomachs. Some antacid tablets also contain magnesium hydroxide.		
+1.0.0	Magnesium Silicate	Mg3Si4O10(OH)2	Liquid		Talc		"Talcum powder comes from talc, the softest of all minerals, and is used as a dusting powder for babies. It is available in the body care section of the drug store."		
+1.0.0	Magnesium Sulfate	MgSO47H2O	Liquid		Epsom Salt		Drug store; epsom salt is sold as a laxative or as an anti-inflammatory soak. Also available as a chemical for photographic development.		
+1.0.0	Manganese Dioxide	MnO2	Liquid		Pyrolusite		Hardware store; available as the black powder in unused alkaline or carbon-zinc batteries. By extensively washing this powder in distilled water you can remove the embedded Zinc Chloride solution.		
+1.0.0	Melamine		Liquid						
+1.0.0	Melamine Formaldehyde		Liquid						
+1.0.0	Mercaptans	Short Thiols	Liquid						
+1.0.0	m-Mercaptan	CH3SH	Liquid		Methanethiol				
+1.0.0	e-Mercaptan	C2H5SH	Liquid		Ethanethiol				
+1.0.0	n-p Mercaptan	C3H7SH	Liquid		1-Propanethiol				
+1.0.0	2C3 mercaptan	CH3CH(SH)CH3	Liquid		2-Propanethiol				
+1.0.0	n-Butyl Mercaptan	C4H9SH	Liquid		Butanethiol				
+1.0.0	t-Butyl Mercaptan	C(CH3)3SH	Liquid		tert-Butyl mercaptan				
+1.0.0	Pentyl Mercaptan	C5H11SH	Liquid		Pentanethiol				
+	Mercury (Liquid)	Hg	Liquid		quicksilver		Becoming difficult to find due to fears of toxicity and environmental contamination. Old mercury switches can be found in many thermostats. Old-style thermometers contain mercury. Fluorescent light tubes contain a small amount of mercury though it can be difficult to extract. Specialty occult stores may carry it as quicksilver. Ben-Wha balls at sex toy shops.		
+1.0.0	m-Xylene	C8H10	Liquid						
+1.0.0	Methacrylic Acid	C4H6O2	Liquid		2-methylpropenoic acid				
+1.0.0	Methyl Methacrylate		Liquid						
+1.0.0	Methane	CH4	Gas		Natural Gas		Gas line in many homes.		
+1.0.0	Methanol	CH3OH	Liquid		Methyl Alcohol		Methanol is sold as a solvent in paint supply stores under the names wood alcohol or methyl alcohol. Available from automotive supply as a gasoline line anti-freeze.		
+1.0.0	Methyl Ethyl Ketone	CH3COC2H5	Liquid		MEK		Available from most hardware stores as a solvent.		
+1.0.0	Methyl Ethyl Ketone Peroxide	C8H16O4	Liquid		MEKP		Available in dilute solution from hardware and boating supply stores as a catalyst for the polymerization of polyester resins.		
+1.0.0	Methyl Isobutyl Ketone	CH3COCH2CH(CH3)2	Liquid		MIBK		Available from many hardware stores as a solvent.		
+1.0.0	Methyl Salicylate	C6H4(OH)COOCH3	Liquid		Oil of Wintergreen		Drug store		
+1.0.0	Methylene Blue	C16H18ClN3S	Liquid		Methidote		Methylene blue (Methidote antiseptic) is used to treat small injured fish and is available at pet stores.		
+1.0.0	Methylene Chloride	CH2Cl2	Liquid		dichloromethane		"Used as a solvent, degreaser and adhesive remover, it is available from hardware, automotive, and sometimes craft stores. Purity of commercial products can approach 90% with the remainder being composed of alcohols and petroleum distillates. Common brands include Champion Paint Off, many choke and valve cleaners, and Klean Strip Graffiti Remover."		
+1.0.0	Mineral Oil	complex mixture of hydrocarbons	Liquid		—		Mineral oil is sold in drug stores as an emollient. Some baby oils are essentially mineral oil and fragrance.		
+1.0.0	Molasses		Liquid						
+1.0.0	Monosodium Glutamate	C5H8NNaO4	Liquid		MSG		Widely used as a condiment in many parts of Asia. Can be purchased from Chinese or Japanese grocery stores. Also easily acquired in many supermarkets as a flavor enhancer.		
+1.0.0	n-Butane	C4H10	Liquid	TRUE					
+1.0.0	N-Ethylidenecyclohexylamine		Liquid						
+1.0.0	n-Hexane	C6H14	Liquid	TRUE					
+1.0.0	n-Pentane	C5H12	Liquid	TRUE					
+1.0.0	Naphtha	Complex	Liquid						
+1.0.0	Naphthalene	C10H8	Liquid		moth balls		"Hardware store, grocery store."		
+1.0.0	Naphthalenedicarboxylic Acid		Liquid						
+1.0.0	Natural Gas		Gas						
+1.0.0	NeoPentane	C5H12	Liquid	TRUE					
+	Nitrogen Gas	N2	Gas		liquid nitrogen		"Hospital, laboratory, university, welding supply house, and industrial gas supplier can all provide liquid or gaseous nitrogen."		
+1.0.0	Nitrous Oxide	N2O	Liquid		"whipping gas,laughing gas"		Whipped cream canisters from the grocery store. Or in larger canisters from commercial restaurant supply houses. When packaged for automotive use it is usually contaminated with hydrogen sulfide to discourage inhalation. Industrial (welding supply) Nitrous Oxide contains NO and NO2 (can be removed with moist steel wool)which makes Nitric acid in your lungs so use with good ventilation. (Heating Ammonium Nitrate generates an industrial grade of Nitrous Oxide at the risk of explosion.)		
+1.0.0	Olefins		Liquid						
+1.0.0	Oleyl Alcohol	CH3(CH2)7-CH=CH-(CH2)8OH	Liquid		"Fatty Alcohol, Oleyl alcohol, octadecenol, cis-9-octadecen-1-ol"		"surfactant, skin cream, moisturizer, shampoo"		
+1.0.0	o-Xylene		Liquid						
+1.0.0	Oxalic Acid	C2H2O4	Liquid		"rust remover, non-chlorine bleach powder cleanser"		"Grocery, drug, hardware stores. Bar Keeper's Friend."		
+	Oxygen Gas	O2	Gas		—		Portable welding oxygen tanks are available at welding shops and some hardware stores. Can be generated in small quantities from the electrolysisof water.		
+1.0.0	p-Dichlorobenzene	C6H4Cl2	Liquid		"moth flakes, moth crystals"		Hardware or grocery store.		
+1.0.0	p-Xylene		Liquid						
+1.0.0	Paraffin	CnH2n+2 (n>19)	Liquid		—		"Unless otherwise labeled, candle wax is made of paraffin. Some grocery stores sell paraffin as a sealant for home canning. Many arts and crafts stores sell paraffin for at-home candle makers. Vaseline brand is also paraffin, albeit with molecules that are slightly shorter."		
+1.0.0	Pentane Isomers	C5H12	Liquid	TRUE			"Used as refrigerant, blowing agent for making styrofoam, working fluid in geothermal stations"		
+1.0.0	Peracetic Acid		Liquid						
+1.0.0	Phenol	C6H5OH	Liquid		—		Phenol can be found in small amounts (~1–2%) in analgesic sore throat spray.		
+1.0.0	Phenol Formaldehyde		Liquid						
+1.0.0	Phenol Red	C19H19SO5	Liquid		phenolsulfonephthalein		Used as a pH tester for swimming pools. Available at swimming pool supply stores.		
+1.0.0	Phenolphthalein	C20H14O4	Liquid		—		Magic shops might carry it as a pinkish disappearing ink. Blue disappearing ink is not phenolphthalein but thymolphthalein. Difficult to find outside of chemical supply.		
+1.0.0	Phosgene		Liquid						
+1.0.0	Phosphoric Acid	H3PO4	Liquid		pH Down		Some pH reducers (available at pet stores) used in fish tanks are simply dilute solutions (up to 30%) of phosphoric acid. Also available in gel form at hardware stores as a rust remover. Naval Jelly in a spray bottle at hardware stores. Also used as asolder flux.		
+1.0.0	Potassium Aluminium Sulfate	KAl(SO4)2·12H2O	Solid		"Alum, aluminium potassium sulfate"		It is used as an astringent to shrinkmucous membranes. Some styptic pencils use it in their formulation. Often sold as a deodorant stone at natural health stores. Also available as a mordant for clothing dyes (RIT brand and others).		
+1.0.0	Potassium Bitartrate	KHC4H4O6	Solid		Cream of Tartar		Cream of Tartar is available at the grocery store and is used to stabilize delicate foods like meringue toppings and other baked egg-white products.		
+1.0.0	Potassium Bromide	KBr	Solid		—		Photography store catering to the at-home darkroom crowd.		
+1.0.0	Potassium Carbonate	K2CO3	Solid		Potash		Available at some garden supply and agricultural stores.		
+1.0.0	Potassium Chloride	KCl	Solid		Salt substitute		"Available as a salt substitute by people who must limit their sodium intake, and is available at most supermarkets. Also available in larger, though slightly less pure, quantities as a road salt de-icer."		
+1.0.0	Potassium Chromium Sulfate	KCr(SO4)2·12H20	Solid		potassium chrome alum		Photography store catering to the at-home darkroom crowd.		
+1.0.0	Potassium Dichromate	K2Cr2O7	Solid		—		Photography store catering to the at-home darkroom crowd. Also used as a mordant (Chrome Mordant) for textiles and may be available at a dyeing and fabric store.		
+1.0.0	Potassium Hydroxide	KOH	Solid		Caustic potash		Available at some ceramic supply houses and from arts and crafts stores for soap making. Difficult to find. May be the active ingredient in some drain cleaning solutions. Kodak SII Activator is 10% Potassium Hydroxide with various sulfites and bromides in the mixture. Veterinary supply houses may carry it for dissolving hair and horns in animals.		
+1.0.0	Potassium Iodide	KI	Solid		Radiation Pills		Available sometimes as a photographic development chemical. Also from outdoor/survivalist stores in pill form to avoid the uptake of radioactive iodine during a nuclear accident.		
+1.0.0	Potassium Iron (II) Hexacyanoferrate(III)	KFe[Fe(CN)6]	Solid		"potassium iron ferricyanide, potassium ferroferricyanide"		Mrs. Stewart's liquid laundry bluing is used to whiten clothes and may be found in the detergents section of the supermarket.		
+1.0.0	Potassium Metabisulfite	K2S3O5	Solid		Campden tablets		"Used as a sterilizing agent in winemaking and brewing processes. Sold as tablets which may be pure, blended with sodium metabisulfite, or contain only sodium metabisulfite."		
+1.0.0	Potassium Nitrate	KNO3	Solid		"Saltpeter, saltpetre"		Supermarket; saltpeter or quick salt is used to cure home-made sausagesand corned beef. May be available at independent butcher shops.		
+1.0.0	Potassium Permanganate	KMnO4	Solid		Clearwater		"Clearwater is a solution of approximately 50% potassium permanganate and is used to remove odors and cloudiness from water to be used in aquariums and garden ponds. Also used to treat diseases in fish. Used as ~98% pure powder for treatment of hard well water in water softeners. Potassium Permanganate in a dilute solution form can also be found in certain fish water additive sometimes labelled as Gill, Fungus, Parasite's Special, One sure way to test is to put some onto your skin and leave it there for a while, then see if there's a brownish coloration/stain. The color of the solution is colored as normal permanganate in solution."		
+1.0.0	Potassium Phenoxide	KOC6H5	Solid						
+1.0.0	Potassium Sodium Tartrate	NaKC4H4O6 * 4H2O	Solid		Rochelle salt		Drug store		
+1.0.0	Propane	C3H8	Gas		—		Gas barbecue fuel is generally made of propane and is available at many gasoline stations or picnic supply stores.		
+1.0.0	Propanol		Liquid						
+1.0.0	Propylene	C3H6	Gas		Propene		Precursor for made modern polymers		
+1.0.0	Silicon Carbide	SiC	Liquid		Carborundum		"This hard, abrasive powder is often found sorted by particle size for use in sandblasting and industrial supply houses."		
+1.0.0	Silicon Dioxide	SiO2	Liquid		"Sand, silica"		"Quartz sand is relatively pure silicon dioxide and is available at many building supply stores and also aquarium shops. Often found sorted by particle size for use in sandblasting. Micrometre sized particles are used as a filler in rubbers, plastics, and mold making materials and may be available in hobby shops as Min-u-Sil brand."		
+1.0.0	Sodium Acetate	NaC2H3O2	Liquid		Hand Warmer		Main ingredient in hand-warmers that are available at sporting goods stores. Can also be made through the reaction of baking soda and vinegar.		
+1.0.0	Sodium Bicarbonate	NaHCO3	Liquid		"Baking Soda, Bicarbonate of Soda"		Grocery baking section; single action baking soda		
+1.0.0	Sodium Bisulfate	NaHSO4	Liquid		pH Down		Pool supply store. Crystal Vanish drain cleaner.		
+1.0.0	Sodium Borate	Na2B4O710H2O	Liquid		—		The water can be driven off of grocery store Borax by heating to 200C to create pure sodium borate (although it will begin absorbing atmospheric moisture again when cooled and left in the open).		
+1.0.0	Sodium Bromide	NaBr	Liquid		Hot Tub Salt		Pool supply store		
+1.0.0	Sodium Carbonate	Na2CO3	Liquid		"Washing soda,soda ash"		Grocery; Arm & Hammer		
+1.0.0	Sodium Chlorate	NaClO3	Liquid		—		"Available from gardening and agricultural stores. This herbicide is toxic to all green plants and, as such, is becoming less available as more selective herbicides some onto the market. Some brand names are Atlacide, Defol, Drop-Leaf, and Tumbleaf. Read product labeling to deduce the particular purity of any of these brands."		
+1.0.0	Sodium Chloride	NaCl	Solid		Salt		"Grocery; Table salt used in cooking is sodium chloride, usually with anti-caking agents such as magnesium carbonate. Iodized salt contains traces of sodium iodide."		
+1.0.0	Sodium Fluoride	NaF	Liquid		—		"Used in toothpastes and mouthwashes to prevent cavities. Difficult to obtain in pure form. Most dental solutions contain a laundry list of inert ingredients to provide coloring, flavor, foaming, and other aesthetic properties."		
+1.0.0	Sodium Hexametaphosphate	(NaPO3)6	Liquid		"Sodium polymetaphosphate,Calgon water softener"		"This water softener, surfactant and detergent is the primary ingredient in Calgon water softener. It is available at the grocery and hardware store. It is also known by other names including: glassy sodium, Graham's Salt, and hexasodium salt."		
+1.0.0	Sodium Hydroxide	NaOH	Solid		"Lye, Caustic Soda"		"Grocery, hardware; Known also as caustic soda and lye, sodium hydroxide is used in many commercial drain cleaners/openers."		
+1.0.0	Sodium Hypochlorite	NaClO	Liquid		Bleach		Household bleach is generally a 5% solution of sodium hypochlorite.		
+1.0.0	Sodium Metabisulfite	Na2S2O5	Liquid		Campden tablets		"Used as a sterilizing agent in winemaking and brewing processes. Sold as tablets which may be pure, blended withpotassium metabisulfite, or contain onlypotassium metabisulfite."		
+1.0.0	Sodium Nitrate	NaNO3	Liquid		Chile saltpeter		Garden supply store		
+1.0.0	Sodium Percarbonate	2Na2CO3·3H2O2	Liquid		sodium carbonate peroxyhydrate		"A combination of sodium carbonate and hydrogen peroxide in solution, this is often sold as a wood bleach for use on decks and outdoor wood furniture. Available at many hardware and home improvement stores. Sometimes referred to as oxygenated bleach."		
+1.0.0	Sodium Phenoxide	NaOC6H5	Liquid						
+1.0.0	Sodium Phosphate	Na3PO4	Liquid		Tri Sodium Phosphate		"Tri-sodium phosphate, commonly known as TSP, is available at hardware stores and is used to clean walls prior to painting."		
+1.0.0	Sodium Silicate	"Na2SiO3, Na2Si3O7"	Liquid		"water glass, egg preserver, magic rocks"		Can be found at some hardware stores and drug stores. Available from ceramic suppliers as a flocculent in clay slip casting. Non-phosphate TSP substitute. Liquid sold with muffler bandage at auto stores.		
+1.0.0	Sodium Sulfate	Na2SO4	Liquid		—		Photography store catering to the at-home darkroom crowd.		
+1.0.0	Sodium Sulfite	Na2SO3	Liquid		—		Photography store catering to the at-home darkroom crowd.		
+1.0.0	Sodium Tetraborate Decahydrate	Na2B4O710H2O	Liquid		Borax		"Market, drug store; Borax, such asTwenty-Mule-Team Borax Laundry Booster."		
+1.0.0	Sodium Thiosulfate	Na2S2O3	Liquid		Hypo		Photographer's hypo is used in photograph development and is available at photography supply stores. Also available from pet shops as a de-chlorination additive to fish water.		
+1.0.0	Stearic Acid	C17H35CO2H	Liquid		candle hardener		Some arts and crafts stores will carry this item. It is used by do-it-yourself candle makers.		
+1.0.0	Stearyl Alcohol	CH3(CH2)16CH2OH	Liquid		"Fatty Alcohol, Stearyl alcohol"		"lubricants, resins, perfumes and cosmetics. It is used as an emollient, emulsifier, and thickener in ointments of various sorts, and is widely used as a hair coating in shampoos"		
+1.0.0	Styrene		Liquid						
+1.0.0	Succinic Acid		Liquid						
+1.0.0	Sucrose	C12H22O11	Liquid		Sugar		Grocery; Table sugar is available in large or small bags and in a variety of particle sizes.		
+1.0.0	Sulfuric Acid	H2SO4	Liquid		"vitriol, oil of vitriol"		Hardware store; battery acid. May also be obtained at some auto supply stores.		
+1.0.0	Sweet Butane Fuel		Gas						
+1.0.0	Sweet Propane Fuel		Gas						
+1.0.0	Sweet Light Naphtha		Liquid						
+1.0.0	Tannic Acid	C76H52O46	Liquid		tannin		Arts and crafts store in the dyes and fabric section. Some photography stores and drug stores may carry it.		
+1.0.0	Tartaric Acid	C4H6O6	Liquid		wine preservative		Sold in wine-making supply stores and sometimes in the grocery store.		
+1.0.0	Terephthalic Acid	C6H4(COOH)2	Liquid						
+1.0.0	Tetrachloroethylene	C2Cl4	Liquid		tetrachloroethene		"The most common solvent for dry cleaning, it is available in aerosol form from hardware, auto supply, and home improvement stores. Brands like Lectra Motive Auto Care and Gummout Professional Brake Parts Cleaner contain as much as 99% with methylene chloride as the only major contaminant."		
+1.0.0	Tetraethylene Glycol	C8H18O5	Liquid						
+1.0.0	Thiourea	CS(NH2)2	Liquid		Thiocarbamide		Many silver cleaning products including Hagerty and Tarn-X contain thiourea as the only active ingredient. Other brands may use other active compounds in combination.		
+1.0.0	Thymolphthalein	C28H30O4	Liquid		disappearing ink		It is the blue disappearing ink available at magic supply stores.		
+1.0.0	Titanium Dioxide	TiO2	Liquid		Titanium White		Available as a fine powder for use as a pure white pigment from fine art supply stores.		
+1.0.0	Toluene	C6H5CH3	Liquid		"Methylbenzene,cellulose thinner"		Available from most hardware stores as a solvent.		
+1.0.0	Toluene Diisocyanate		Liquid						
+1.0.0	Town Gas		Gas		Nil.		"A mixture mainly consists ofhydrogen,carbon monoxideandmethane. Available from households in urban area. Toxic and explosive. The carbon monoxide can be removed from the mixture by passing the gas through large quantity of citrated chicken blood."		
+1.0.0	Trichloroethylene	CHClCCl2	Liquid		trichloroethene		Available as a fairly pure aerosol from hardware and auto supply stores. Brand names include Lectra Clean and Trouble Free Rust Buster.		
+1.0.0	Triethylene Glycol	C6H14O4	Liquid		"triglycol, TEG"		HOCH2CH2OCH2CH2OCH2CH2OH		
+1.0.0	Trioxane		Liquid						
+1.0.0	Turpentine	—	Liquid		—		Available at hardware stores and fine art supply stores.		
+1.0.0	Urea	H2NCONH2	Liquid		"ice melter,fertilizer"		Available at some hardware stores and at garden supply stores. Bonide Azalea fertilizer is 99% urea.		
+1.0.0	Urea Formaldehyde		Liquid						
+1.0.0	Valerolactone		Liquid						
+1.0.0	Vinyl Acetate	CH3CO2CHCH2	Liquid		"Ethenyl acetate, Ethenyl ethanoate"				
+1.0.0	Vinyl Chloride	H2CHCl	Liquid				Precursor to PVC		
+1.0.0	Deionized Water	H2O	Liquid		—		"Distilled (pure) water, is available in most grocery stores. This and deionized water are sufficient for most chemical reactions. Spring water or tap water have numerous minerals in solution. For certain, extremely sensitive experiments, contamination from plasticizers in the bottle may affect your reactions."		
+1.0.0	Xylene	C8H10	Liquid		dimethylbenzene		"Available at hardware stores, paint stores, and fine art supply stores."		
+1.0.0	Zinc Chloride	ZnClf + H2O	Liquid		"Tinner's Fluid, killed acid"		Hardware store; used for cleaning copper.		
+1.0.0	Zinc Oxide	ZnO	Liquid		pompholyx		Found in opaque sunscreens for its UV opacity. Chinese White fine arts pigment is very pure.		
+1.0.0	Zinc Sulfate	ZnSO4	Liquid		zinc sulfate		Moss Killer for use on roofs and concrete. (Moss killer for grass lawns is Ferrous Ammonium Sulfate.)		
+1.0.0	Antimony Trioxide	SbO3	Liquid			Catalyst			
+1.0.0	Copper II Chloride	CuCl2	Solid			Catalyst			
+1.0.0	Iron III Chloride	FeCl3	Solid			Catalyst			
+1.0.0	Iron III Oxide	Fe2O3	Solid			Catalyst			
+1.0.0	Ziegler-Natta	Cp2Zr+?CH3	Solid			Catalyst			
+1.0.0	Cobalt-Manganese-Bromide	CoMnBr4	Solid			Catalyst			
+1.0.0	Zeolite	Na2Al2Si3O10	Solid			Catalyst			
+1.0.0	Zinc II Chloride	ZnCl2	Solid			Catalyst	Lewis Acid		
+1.0.0	Tungsten VI Chloride 	WCl6	Solid			Catalyst	Lewis Acid		
+1.0.0	Samarium III Chloride	SmCl3	Solid			Catalyst	Lewis Acid		
+1.0.0	Magnesium Oxide		Solid						
+1.0.0	Magnesium Sulfate	MgSO4	Solid			Catalyst	dehydrating agent		
+1.0.0	Copper II Sulfate	CuSO4	Solid			Catalyst	dehydrating agent		
+1.0.0	Calcium Hydride	CaH2	Solid			Catalyst	dehydrating agent		
+1.0.0	Phosphorus Pentoxide	PO5	Solid			Catalyst	dehydrating agent		
+1.0.0	Trimethyl Orthoformate	C4H10O3	Solid			Catalyst	dehydrating agent		
+1.0.0	Aluminoxane	(Al(CH3)O)n	Solid			Catalyst			
+1.0.0	Sodium Hydroxide	NAOH	Solid			Catalyst			
+1.0.0	Triethylaluminium	Al(C2H5)3	Solid			Catalyst			
+1.0.0	Methyl Ethyl Ketone Peroxide	C8H16O4	Solid			Catalyst			
+1.0.0	Fruit Brandy		Liquid						
+1.0.0	Vodka		Liquid						
+1.0.0	Gin		Liquid						
+1.0.0	Tequila		Liquid						
+1.0.0	Rum		Liquid						
+1.0.0	Whiskey		Liquid						
+1.0.0	Carrot Wine		Liquid						
+1.0.0	Wine		Liquid						
+1.0.0	Beer		Liquid						
+1.0.0	Antifreeze		Liquid						
+1.0.0	Chromia Alumina	Cr2O3-Al2O3	Solid			Catalyst			
+1.0.0	Acrylonitrile	C3H3N	Liquid						
+1.0.0	Acetonitrile	CH3CN	Liquid						
+1.0.4	Sweet Kerosene	CnH2n+1(n=12–16)	Liquid						
+1.0.4	Sweet Diesel		Liquid						
+1.1.0	Lactide		Liquid						
+1.1.0	Cyclodextrin		Solid						
+1.1.0	Alpha-cyclodextrin		Solid						
+1.1.0	Beta-cyclodextrin		Solid						
+1.1.0	Gamma-cyclodextrin		Solid						
+1.1.0	MOF-5		Solid						
+1.1.0	CD-MOF		Solid						
+1.1.0	Bucky Balls (C60)		Solid						
+1.1.0	Zinc Nitrate		Solid			Catalyst			
+1.1.0	Lead Oxide		Solid			Catalyst			
+1.1.0	Lithium Hexafluorophosphate	LiPF6	Solid						
+1.1.0	Potassium Persulfate	K2S2O8	Solid			Catalyst			
+1.1.0	Potassium Bisulfate	KHSO4	Solid			Catalyst			
+1.1.0	Salt Water	H20	Liquid						
+1.1.0	Isoprene	CH2=C(CH3)CH=CH2	Liquid						
+1.1.0	Epichlorohydrin		Liquid						
+1.1.0	Isopropanol		Liquid						
+1.1.0	Allyl Chloride		Liquid						
+1.1.0	Propylene Oxide		Liquid						
+1.1.0	Propylene Glycol		Liquid						
+1.1.0	Cumene		Liquid						
+1.1.1	Chlorobenzene		Liquid						
+1.1.1	4-Nitrochlorobenzene		Solid						
+1.1.1	p-Phenylenediamine		Solid						
+1.1.1	Nitric Acid		Liquid						
+1.1.1	4-Nitroaniline		Solid						
+1.1.1	Nitric Oxide		Gas						
+1.1.1	p-Hexachloroxylene		Solid						
+1.1.1	m-Hexachloroxylene		Solid						
+1.1.1	o-Hexachloroxylene		Solid						
+1.1.1	Terephthaloyl Chloride		Solid						
+1.1.1	Isophthaloyl Chloride		Solid						
+1.1.2	Cyclohexanol		Liquid						
+1.1.2	Nitrobenzene		Liquid						
+1.1.2	Aniline		Liquid						
+1.1.2	Diphenylmethane Diisocyanate		Liquid						
+1.1.2	Toluene Diisocyanate		Liquid						
+1.1.2	Hexamethylene Diisocyanate		Liquid						
+1.1.2	Isopherone Diisocyanate		Liquid						
+1.1.2	"1,4-Diisopropylbenzene"		Liquid						
+1.1.2	Catechol		Solid						
+1.1.2	Anthracene		Solid						
+1.1.2	Chromium (VI) Oxide		Solid			Catalyst			
+1.1.2	"9,10-Anthraquinone"		Solid			Catalyst			
+1.1.2	Phthalic Anhydride		Solid						
+1.1.2	Maleic Anhydride		Solid						
+1.1.2	Disodium Hydroquinone		Solid						
+1.1.2	Cyclopentadiene		Liquid						
+1.1.2	Nitrogen Dioxide		Gas						
+1.1.2	Sodium Nitrite	NaNO2	Solid						
+1.1.2	Dicyclopentadiene		Liquid						
+1.1.2	Tetrafluoroboric Acid	HBF4	Liquid						
+1.1.2	Fluorobenzene	C6H5F	Liquid						
+1.1.2	p-Fluorobenzoyl Chloride	C7H4ClFO	Liquid						
+1.1.2	p-Nitrotoluene		Liquid						
+1.1.2	p-Aminotoluene		Liquid						
+1.1.2	p-Fluorotoluene		Liquid						
+1.1.2	1-(Trichloromethyl)-4-Fluorobenzene		Liquid						
+1.1.2	"4,4-Difluorobenzophenone"		Liquid						
+1.3.2	PR Developer		Liquid						
+1.3.2	Chrome Etchant		Liquid						
+1.3.2	Gold Etchant		Liquid						
+1.3.2	Nickel Etchant		Liquid						
+									
+									

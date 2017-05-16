@@ -1,0 +1,22 @@
+[
+   {
+      "owner":"walter",
+      "name":"Beware of Doggies",
+      "message":"Stay out, boom!!!",
+      "chunks":[
+         [ 0, 0 ],
+         [ 0, 1 ]
+      ],
+      "permissions":
+      [
+         {
+            "user": null,
+            "enabled": []
+         },
+         {
+            "user":"a",
+            "enabled":[ 0, 1, 2 ]
+         }
+      ]
+   }
+]

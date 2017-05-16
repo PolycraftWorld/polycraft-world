@@ -1,0 +1,68 @@
+Version	Leggings ID	Feet ID	Chest ID	Headgear ID	Base Material	Armor Material Name	Leggings	Feet	Chest	Headgear	Durability (Int)	Enchantability (Int)	Reduction Headgear (Int)	Reduction Chest (Int)	Reduction Leggings (Int)	Reduction Feet (Int)	
+1.1.0	2Z	13i	14n	15s	Fibers (Natural Rubber)	Rubber	Pants	Shoes	Vest	Helmet	20	10	3	8	6	3	
+2.0.0	30	13j	14o	15t	Fibers (Natural Rubber)	Rubber					20	10					
+2.0.0	31	13k	14p	15u	Fibers (Natural Rubber)	Rubber					20	10					
+2.0.0	32	13l	14q	15v	Fibers (Natural Rubber)	Rubber	Socks				20	10					
+2.0.0	33	13m	14r	15w	Fibers (PVC)	Pleather	Pants				20	10					
+2.0.0	34	13n	14s	15x	Fibers (PVC)	Pleather	Shoes				20	10					
+2.0.0	35	13o	14t	15y	Fibers (PVC)	Pleather	Vest				20	10					
+2.0.0	4x	13p	14u	15z	Fibers (PVC)	Pleather	Socks				20	10					
+2.0.0	4y	13q	14v	15A	Fibers (Nylon 6)	Nylon	Pants				20	10					
+2.0.0	4z	13r	14w	15B	Fibers (Nylon 6)	Nylon	Shoes				20	10					
+2.0.0	4A	13s	14x	15C	Fibers (Nylon 6)	Nylon	Vest				20	10					
+2.0.0	4B	13t	14y	15D	Fibers (Nylon 6)	Nylon	Socks				20	10					
+2.0.0	4C	13u	14z	15E	Fibers (kevlar)	Kevlar	Pants				40	10					
+2.0.0	4D	13v	14A	15F	Fibers (kevlar)	Kevlar	Shoes				40	10					
+2.0.0	4E	13w	14B	15G	Fibers (kevlar)	Kevlar	Vest				40	10					
+2.0.0	4F	13x	14C	15H	Fibers (kevlar)	Kevlar	Socks				40	10					
+2.0.0	4G	13y	14D	15I													
+2.0.0	4H	13z	14E	15J													
+2.0.0	4I	13A	14F	15K													
+2.0.0	4J	13B	14G	15L													
+2.0.0	4K	13C	14H	15M													
+2.0.0	4L	13D	14I	15N													
+2.0.0	4M	13E	14J	15O													
+2.0.0	4N	13F	14K	15P													
+2.0.0	4O	13G	14L	15Q													
+2.0.0	4P	13H	14M	15R													
+2.0.0	4Q	13I	14N	15S													
+2.0.0	4R	13J	14O	15T													
+2.0.0	43	13K	14P	15U													
+2.0.0	44	13L	14Q	15V													
+2.0.0	45	13M	14R	15W													
+2.0.0	46	13N	14S	15X													
+2.0.0	47	13O	14T	15Y													
+2.0.0	48	13P	14U	15Z													
+2.0.0	49	13Q	14V	160													
+2.0.0	4a	13R	14W	161													
+2.0.0	4b	13S	14X	162													
+2.0.0	4c	13T	14Y	163													
+2.0.0	4d	13U	14Z	164													
+2.0.0	4e	13V	150	165													
+2.0.0	4f	13W	151	166													
+2.0.0	4g	13X	152	167													
+2.0.0	4h	13Y	153	168													
+2.0.0	5f	13Z	154	169													
+2.0.0	5w	140	155	16a													
+2.0.0	5x	141	156	16b													
+2.0.0	5K	142	157	16c													
+2.0.0	5L	143	158	16d													
+2.0.0	5M	144	159	16e													
+2.0.0	5P	145	15a	16f													
+2.0.0	5Q	146	15b	16g													
+2.0.0	5R	147	15c	16h													
+2.0.0	5S	148	15d	16i													
+2.0.0	5T	149	15e	16j													
+2.0.0	5U	14a	15f	16k													
+2.0.0	5V	14b	15g	16l													
+2.0.0	5W	14c	15h	16m													
+2.0.0	5X	14d	15i	16n													
+2.0.0	5Y	14e	15j	16o													
+2.0.0	5Z	14f	15k	16p													
+2.0.0	60	14g	15l	16q													
+2.0.0	61	14h	15m	16r													
+2.0.0	62	14i	15n	16s													
+2.0.0	63	14j	15o	16t													
+2.0.0	64	14k	15p	16u													
+2.0.0	65	14l	15q	16v													
+2.0.0	66	14m	15r	16w													

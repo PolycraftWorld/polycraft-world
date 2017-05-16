@@ -1,0 +1,12 @@
+https://www.youtube.com/watch?v=uwh0xMJLv4A
+http://www.wuppy29.com/minecraft/modding-tutorials/wuppys-minecraft-forge-modding-tutorials-for-1-7-releasing-your-mod-standard-setup/
+Instructions:
+build.gradle (update version)
+	maybe auto gen this file from the code
+gradlew build
+Copy manifest into jar
+	polycraft\src\main\resources\META-INF\MANIFEST.MF
+	polycraft\build\libs\polycraft-1.7.2-1.0.0.zip\META-INF
+Copy libs jar to %AppData%/.mincraft/mods
+
+***Replace the log4j2.xml file in the forge universal server jar with the one in the polycraft jar

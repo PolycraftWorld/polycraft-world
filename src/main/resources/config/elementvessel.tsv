@@ -1,0 +1,119 @@
+Version	Game ID 1	Game ID 2	Game ID 3	Game ID 4	Element Small	Element Medium	Element Large	Element Industrial	Element	Symbol	State	Vessel 1	Vessel 2	Vessel 3	Vessel 4
+1.0.0	67	81	9V	bP	Flask (Hydrogen)	Cartridge (Hydrogen)	Canister (Hydrogen)	Chemical Tank (Hydrogen)	Hydrogen	H	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	68	82	9W	bQ	Flask (Helium)	Cartridge (Helium)	Canister (Helium)	Chemical Tank (Helium)	Helium	He	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	69	83	9X	bR	Bag (Lithium)	Sack (Lithium)	Powder Keg (Lithium)	Chemical Silo (Lithium)	Lithium	Li	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6a	84	9Y	bS	Bag (Beryllium)	Sack (Beryllium)	Powder Keg (Beryllium)	Chemical Silo (Beryllium)	Beryllium	Be	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6b	85	9Z	bT	Bag (Boron)	Sack (Boron)	Powder Keg (Boron)	Chemical Silo (Boron)	Boron	B	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6c	86	a0	bU	Bag (Carbon)	Sack (Carbon)	Powder Keg (Carbon)	Chemical Silo (Carbon)	Carbon	C	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6d	87	a1	bV	Flask (Nitrogen)	Cartridge (Nitrogen)	Canister (Nitrogen)	Chemical Tank (Nitrogen)	Nitrogen	N	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6e	88	a2	bW	Flask (Oxygen)	Cartridge (Oxygen)	Canister (Oxygen)	Chemical Tank (Oxygen)	Oxygen	O	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6f	89	a3	bX	Flask (Fluorine)	Cartridge (Fluorine)	Canister (Fluorine)	Chemical Tank (Fluorine)	Fluorine	F	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6g	8a	a4	bY	Flask (Neon)	Cartridge (Neon)	Canister (Neon)	Chemical Tank (Neon)	Neon	Ne	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6h	8b	a5	bZ	Bag (Sodium)	Sack (Sodium)	Powder Keg (Sodium)	Chemical Silo (Sodium)	Sodium	Na	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6i	8c	a6	c0	Bag (Magnesium)	Sack (Magnesium)	Powder Keg (Magnesium)	Chemical Silo (Magnesium)	Magnesium	Mg	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6j	8d	a7	c1	Bag (Aluminum)	Sack (Aluminum)	Powder Keg (Aluminum)	Chemical Silo (Aluminum)	Aluminum	Al	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6k	8e	a8	c2	Bag (Silicon)	Sack (Silicon)	Powder Keg (Silicon)	Chemical Silo (Silicon)	Silicon	Si	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6l	8f	a9	c3	Bag (Phosphorus)	Sack (Phosphorus)	Powder Keg (Phosphorus)	Chemical Silo (Phosphorus)	Phosphorus	P	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6m	8g	aa	c4	Bag (Sulfur)	Sack (Sulfur)	Powder Keg (Sulfur)	Chemical Silo (Sulfur)	Sulfur	S	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6n	8h	ab	c5	Flask (Chlorine)	Cartridge (Chlorine)	Canister (Chlorine)	Chemical Tank (Chlorine)	Chlorine	Cl	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6o	8i	ac	c6	Flask (Argon)	Cartridge (Argon)	Canister (Argon)	Chemical Tank (Argon)	Argon	Ar	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6p	8j	ad	c7	Bag (Potassium)	Sack (Potassium)	Powder Keg (Potassium)	Chemical Silo (Potassium)	Potassium	K	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6q	8k	ae	c8	Bag (Calcium)	Sack (Calcium)	Powder Keg (Calcium)	Chemical Silo (Calcium)	Calcium	Ca	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6r	8l	af	c9	Bag (Scandium)	Sack (Scandium)	Powder Keg (Scandium)	Chemical Silo (Scandium)	Scandium	Sc	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6s	8m	ag	ca	Bag (Titanium)	Sack (Titanium)	Powder Keg (Titanium)	Chemical Silo (Titanium)	Titanium	Ti	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6t	8n	ah	cb	Bag (Vanadium)	Sack (Vanadium)	Powder Keg (Vanadium)	Chemical Silo (Vanadium)	Vanadium	V	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6u	8o	ai	cc	Bag (Chromium)	Sack (Chromium)	Powder Keg (Chromium)	Chemical Silo (Chromium)	Chromium	Cr	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6v	8p	aj	cd	Bag (Manganese)	Sack (Manganese)	Powder Keg (Manganese)	Chemical Silo (Manganese)	Manganese	Mn	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6w	8q	ak	ce	Bag (Iron)	Sack (Iron)	Powder Keg (Iron)	Chemical Silo (Iron)	Iron	Fe	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6x	8r	al	cf	Bag (Cobalt)	Sack (Cobalt)	Powder Keg (Cobalt)	Chemical Silo (Cobalt)	Cobalt	Co	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6y	8s	am	cg	Bag (Nickel)	Sack (Nickel)	Powder Keg (Nickel)	Chemical Silo (Nickel)	Nickel	Ni	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6z	8t	an	ch	Bag (Copper)	Sack (Copper)	Powder Keg (Copper)	Chemical Silo (Copper)	Copper	Cu	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6A	8u	ao	ci	Bag (Zinc)	Sack (Zinc)	Powder Keg (Zinc)	Chemical Silo (Zinc)	Zinc	Zn	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6B	8v	ap	cj	Bag (Gallium)	Sack (Gallium)	Powder Keg (Gallium)	Chemical Silo (Gallium)	Gallium	Ga	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6C	8w	aq	ck	Bag (Germanium)	Sack (Germanium)	Powder Keg (Germanium)	Chemical Silo (Germanium)	Germanium	Ge	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6D	8x	ar	cl	Bag (Arsenic)	Sack (Arsenic)	Powder Keg (Arsenic)	Chemical Silo (Arsenic)	Arsenic	As	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6E	8y	as	cm	Bag (Selenium)	Sack (Selenium)	Powder Keg (Selenium)	Chemical Silo (Selenium)	Selenium	Se	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6F	8z	at	cn	Vial (Bromine)	Beaker (Bromine)	Drum (Bromine)	Chemical Vat (Bromine)	Bromine	Br	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	6G	8A	au	co	Flask (Krypton)	Cartridge (Krypton)	Canister (Krypton)	Chemical Tank (Krypton)	Krypton	Kr	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6H	8B	av	cp	Bag (Rubidium)	Sack (Rubidium)	Powder Keg (Rubidium)	Chemical Silo (Rubidium)	Rubidium	Rb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6I	8C	aw	cq	Bag (Strontium)	Sack (Strontium)	Powder Keg (Strontium)	Chemical Silo (Strontium)	Strontium	Sr	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6J	8D	ax	cr	Bag (Yttrium)	Sack (Yttrium)	Powder Keg (Yttrium)	Chemical Silo (Yttrium)	Yttrium	Y	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6K	8E	ay	cs	Bag (Zirconium)	Sack (Zirconium)	Powder Keg (Zirconium)	Chemical Silo (Zirconium)	Zirconium	Zr	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6L	8F	az	ct	Bag (Niobium)	Sack (Niobium)	Powder Keg (Niobium)	Chemical Silo (Niobium)	Niobium	Nb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6M	8G	aA	cu	Bag (Molybdenum)	Sack (Molybdenum)	Powder Keg (Molybdenum)	Chemical Silo (Molybdenum)	Molybdenum	Mo	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6N	8H	aB	cv	Bag (Technetium)	Sack (Technetium)	Powder Keg (Technetium)	Chemical Silo (Technetium)	Technetium	Tc	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6O	8I	aC	cw	Bag (Ruthenium)	Sack (Ruthenium)	Powder Keg (Ruthenium)	Chemical Silo (Ruthenium)	Ruthenium	Ru	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6P	8J	aD	cx	Bag (Rhodium)	Sack (Rhodium)	Powder Keg (Rhodium)	Chemical Silo (Rhodium)	Rhodium	Rh	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6Q	8K	aE	cy	Bag (Palladium)	Sack (Palladium)	Powder Keg (Palladium)	Chemical Silo (Palladium)	Palladium	Pd	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6R	8L	aF	cz	Bag (Silver)	Sack (Silver)	Powder Keg (Silver)	Chemical Silo (Silver)	Silver	Ag	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6S	8M	aG	cA	Bag (Cadmium)	Sack (Cadmium)	Powder Keg (Cadmium)	Chemical Silo (Cadmium)	Cadmium	Cd	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6T	8N	aH	cB	Bag (Indium)	Sack (Indium)	Powder Keg (Indium)	Chemical Silo (Indium)	Indium	In	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6U	8O	aI	cC	Bag (Tin)	Sack (Tin)	Powder Keg (Tin)	Chemical Silo (Tin)	Tin	Sn	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6V	8P	aJ	cD	Bag (Antimony)	Sack (Antimony)	Powder Keg (Antimony)	Chemical Silo (Antimony)	Antimony	Sb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6W	8Q	aK	cE	Bag (Tellurium)	Sack (Tellurium)	Powder Keg (Tellurium)	Chemical Silo (Tellurium)	Tellurium	Te	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6X	8R	aL	cF	Bag (Iodine)	Sack (Iodine)	Powder Keg (Iodine)	Chemical Silo (Iodine)	Iodine	I	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	6Y	8S	aM	cG	Flask (Xenon)	Cartridge (Xenon)	Canister (Xenon)	Chemical Tank (Xenon)	Xenon	Xe	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	6Z	8T	aN	cH	Bag (Caesium)	Sack (Caesium)	Powder Keg (Caesium)	Chemical Silo (Caesium)	Caesium	Cs	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	70	8U	aO	cI	Bag (Barium)	Sack (Barium)	Powder Keg (Barium)	Chemical Silo (Barium)	Barium	Ba	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	71	8V	aP	cJ	Bag (Lanthanum)	Sack (Lanthanum)	Powder Keg (Lanthanum)	Chemical Silo (Lanthanum)	Lanthanum	La	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	72	8W	aQ	cK	Bag (Cerium)	Sack (Cerium)	Powder Keg (Cerium)	Chemical Silo (Cerium)	Cerium	Ce	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	73	8X	aR	cL	Bag (Praseodymium)	Sack (Praseodymium)	Powder Keg (Praseodymium)	Chemical Silo (Praseodymium)	Praseodymium	Pr	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	74	8Y	aS	cM	Bag (Neodymium)	Sack (Neodymium)	Powder Keg (Neodymium)	Chemical Silo (Neodymium)	Neodymium	Nd	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	75	8Z	aT	cN	Bag (Promethium)	Sack (Promethium)	Powder Keg (Promethium)	Chemical Silo (Promethium)	Promethium	Pm	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	76	90	aU	cO	Bag (Samarium)	Sack (Samarium)	Powder Keg (Samarium)	Chemical Silo (Samarium)	Samarium	Sm	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	77	91	aV	cP	Bag (Europium)	Sack (Europium)	Powder Keg (Europium)	Chemical Silo (Europium)	Europium	Eu	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	78	92	aW	cQ	Bag (Gadolinium)	Sack (Gadolinium)	Powder Keg (Gadolinium)	Chemical Silo (Gadolinium)	Gadolinium	Gd	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	79	93	aX	cR	Bag (Terbium)	Sack (Terbium)	Powder Keg (Terbium)	Chemical Silo (Terbium)	Terbium	Tb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7a	94	aY	cS	Bag (Dysprosium)	Sack (Dysprosium)	Powder Keg (Dysprosium)	Chemical Silo (Dysprosium)	Dysprosium	Dy	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7b	95	aZ	cT	Bag (Holmium)	Sack (Holmium)	Powder Keg (Holmium)	Chemical Silo (Holmium)	Holmium	Ho	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7c	96	b0	cU	Bag (Erbium)	Sack (Erbium)	Powder Keg (Erbium)	Chemical Silo (Erbium)	Erbium	Er	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7d	97	b1	cV	Bag (Thulium)	Sack (Thulium)	Powder Keg (Thulium)	Chemical Silo (Thulium)	Thulium	Tm	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7e	98	b2	cW	Bag (Ytterbium)	Sack (Ytterbium)	Powder Keg (Ytterbium)	Chemical Silo (Ytterbium)	Ytterbium	Yb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7f	99	b3	cX	Bag (Lutetium)	Sack (Lutetium)	Powder Keg (Lutetium)	Chemical Silo (Lutetium)	Lutetium	Lu	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7g	9a	b4	cY	Bag (Hafnium)	Sack (Hafnium)	Powder Keg (Hafnium)	Chemical Silo (Hafnium)	Hafnium	Hf	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7h	9b	b5	cZ	Bag (Tantalum)	Sack (Tantalum)	Powder Keg (Tantalum)	Chemical Silo (Tantalum)	Tantalum	Ta	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7i	9c	b6	d0	Bag (Tungsten)	Sack (Tungsten)	Powder Keg (Tungsten)	Chemical Silo (Tungsten)	Tungsten	W	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7j	9d	b7	d1	Bag (Rhenium)	Sack (Rhenium)	Powder Keg (Rhenium)	Chemical Silo (Rhenium)	Rhenium	Re	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7k	9e	b8	d2	Bag (Osmium)	Sack (Osmium)	Powder Keg (Osmium)	Chemical Silo (Osmium)	Osmium	Os	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7l	9f	b9	d3	Bag (Iridium)	Sack (Iridium)	Powder Keg (Iridium)	Chemical Silo (Iridium)	Iridium	Ir	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7m	9g	ba	d4	Bag (Platinum)	Sack (Platinum)	Powder Keg (Platinum)	Chemical Silo (Platinum)	Platinum	Pt	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7n	9h	bb	d5	Bag (Gold)	Sack (Gold)	Powder Keg (Gold)	Chemical Silo (Gold)	Gold	Au	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7o	9i	bc	d6	Vial (Mercury)	Beaker (Mercury)	Drum (Mercury)	Chemical Vat (Mercury)	Mercury	Hg	Liquid	Vial	Beaker	Drum	Chemical Vat
+1.0.0	7p	9j	bd	d7	Bag (Thallium)	Sack (Thallium)	Powder Keg (Thallium)	Chemical Silo (Thallium)	Thallium	Tl	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7q	9k	be	d8	Bag (Plumbum (Lead))	Sack (Plumbum (Lead))	Powder Keg (Plumbum (Lead))	Chemical Silo (Plumbum (Lead))	Plumbum (Lead)	Pb	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7r	9l	bf	d9	Bag (Bismuth)	Sack (Bismuth)	Powder Keg (Bismuth)	Chemical Silo (Bismuth)	Bismuth	Bi	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7s	9m	bg	da	Bag (Polonium)	Sack (Polonium)	Powder Keg (Polonium)	Chemical Silo (Polonium)	Polonium	Po	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7t	9n	bh	db	Bag (Astatine)	Sack (Astatine)	Powder Keg (Astatine)	Chemical Silo (Astatine)	Astatine	At	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7u	9o	bi	dc	Flask (Radon)	Cartridge (Radon)	Canister (Radon)	Chemical Tank (Radon)	Radon	Rn	Gas	Flask	Cartridge	Canister	Chemical Tank
+1.0.0	7v	9p	bj	dd	Bag (Francium)	Sack (Francium)	Powder Keg (Francium)	Chemical Silo (Francium)	Francium	Fr	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7w	9q	bk	de	Bag (Radium)	Sack (Radium)	Powder Keg (Radium)	Chemical Silo (Radium)	Radium	Ra	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7x	9r	bl	df	Bag (Actinium)	Sack (Actinium)	Powder Keg (Actinium)	Chemical Silo (Actinium)	Actinium	Ac	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7y	9s	bm	dg	Bag (Thorium)	Sack (Thorium)	Powder Keg (Thorium)	Chemical Silo (Thorium)	Thorium	Th	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7z	9t	bn	dh	Bag (Protactinium)	Sack (Protactinium)	Powder Keg (Protactinium)	Chemical Silo (Protactinium)	Protactinium	Pa	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7A	9u	bo	di	Bag (Uranium)	Sack (Uranium)	Powder Keg (Uranium)	Chemical Silo (Uranium)	Uranium	U	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7B	9v	bp	dj	Bag (Neptunium)	Sack (Neptunium)	Powder Keg (Neptunium)	Chemical Silo (Neptunium)	Neptunium	Np	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7C	9w	bq	dk	Bag (Plutonium)	Sack (Plutonium)	Powder Keg (Plutonium)	Chemical Silo (Plutonium)	Plutonium	Pu	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7D	9x	br	dl	Bag (Americium)	Sack (Americium)	Powder Keg (Americium)	Chemical Silo (Americium)	Americium	Am	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7E	9y	bs	dm	Bag (Curium)	Sack (Curium)	Powder Keg (Curium)	Chemical Silo (Curium)	Curium	Cm	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7F	9z	bt	dn	Bag (Berkelium)	Sack (Berkelium)	Powder Keg (Berkelium)	Chemical Silo (Berkelium)	Berkelium	Bk	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7G	9A	bu	do	Bag (Californium)	Sack (Californium)	Powder Keg (Californium)	Chemical Silo (Californium)	Californium	Cf	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7H	9B	bv	dp	Bag (Einsteinium)	Sack (Einsteinium)	Powder Keg (Einsteinium)	Chemical Silo (Einsteinium)	Einsteinium	Es	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7I	9C	bw	dq	Bag (Fermium)	Sack (Fermium)	Powder Keg (Fermium)	Chemical Silo (Fermium)	Fermium	Fm	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7J	9D	bx	dr	Bag (Mendelevium)	Sack (Mendelevium)	Powder Keg (Mendelevium)	Chemical Silo (Mendelevium)	Mendelevium	Md	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7K	9E	by	ds	Bag (Nobelium)	Sack (Nobelium)	Powder Keg (Nobelium)	Chemical Silo (Nobelium)	Nobelium	No	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7L	9F	bz	dt	Bag (Lawrencium)	Sack (Lawrencium)	Powder Keg (Lawrencium)	Chemical Silo (Lawrencium)	Lawrencium	Lr	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7M	9G	bA	du	Bag (Rutherfordium)	Sack (Rutherfordium)	Powder Keg (Rutherfordium)	Chemical Silo (Rutherfordium)	Rutherfordium	Rf	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7N	9H	bB	dv	Bag (Dubnium)	Sack (Dubnium)	Powder Keg (Dubnium)	Chemical Silo (Dubnium)	Dubnium	Db	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7O	9I	bC	dw	Bag (Seaborgium)	Sack (Seaborgium)	Powder Keg (Seaborgium)	Chemical Silo (Seaborgium)	Seaborgium	Sg	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7P	9J	bD	dx	Bag (Bohrium)	Sack (Bohrium)	Powder Keg (Bohrium)	Chemical Silo (Bohrium)	Bohrium	Bh	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7Q	9K	bE	dy	Bag (Hassium)	Sack (Hassium)	Powder Keg (Hassium)	Chemical Silo (Hassium)	Hassium	Hs	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7R	9L	bF	dz	Bag (Meitnerium)	Sack (Meitnerium)	Powder Keg (Meitnerium)	Chemical Silo (Meitnerium)	Meitnerium	Mt	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7S	9M	bG	dA	Bag (Darmstadtium)	Sack (Darmstadtium)	Powder Keg (Darmstadtium)	Chemical Silo (Darmstadtium)	Darmstadtium	Ds	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7T	9N	bH	dB	Bag (Roentgenium)	Sack (Roentgenium)	Powder Keg (Roentgenium)	Chemical Silo (Roentgenium)	Roentgenium	Rg	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7U	9O	bI	dC	Bag (Copernicium)	Sack (Copernicium)	Powder Keg (Copernicium)	Chemical Silo (Copernicium)	Copernicium	Cn	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7V	9P	bJ	dD	Bag (Ununtrium)	Sack (Ununtrium)	Powder Keg (Ununtrium)	Chemical Silo (Ununtrium)	Ununtrium	Uut	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7W	9Q	bK	dE	Bag (Flerovium)	Sack (Flerovium)	Powder Keg (Flerovium)	Chemical Silo (Flerovium)	Flerovium	Fl	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7X	9R	bL	dF	Bag (Ununpentium)	Sack (Ununpentium)	Powder Keg (Ununpentium)	Chemical Silo (Ununpentium)	Ununpentium	Uup	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7Y	9S	bM	dG	Bag (Livermorium)	Sack (Livermorium)	Powder Keg (Livermorium)	Chemical Silo (Livermorium)	Livermorium	Lv	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	7Z	9T	bN	dH	Bag (Ununseptium)	Sack (Ununseptium)	Powder Keg (Ununseptium)	Chemical Silo (Ununseptium)	Ununseptium	Uus	Solid	Bag	Sack	Powder Keg	Chemical Silo
+1.0.0	80	9U	bO	dI	Bag (Ununoctium)	Sack (Ununoctium)	Powder Keg (Ununoctium)	Chemical Silo (Ununoctium)	Ununoctium	Uuo	Solid	Bag	Sack	Powder Keg	Chemical Silo

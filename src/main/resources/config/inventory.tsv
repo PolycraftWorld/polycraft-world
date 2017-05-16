@@ -1,0 +1,27 @@
+Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Render 3D OBJ	Depth	Width	Height	Fuel	Input	Output	Icon Inventory	Icon Down	Icon Up	Icon North	Icon South	Icon West	Icon East	Icon Default	Icon Front	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
+1.0.0	3h	1F	Tree Tap	0	2000	FALSE	1	1	1			"0,0,0"										"PolymerToSpawn, AmountToSpawn, DefaultSpawnFreq (sec), JungleSpawnFreq (sec) "	Bag (PolyIsoPrene Pellets)	1	120	60					
+1.0.0	3i	1G	Machining Mill	1	2001	TRUE	1	2	2			"0,1,1"	front		top					side	front										
+1.0.0	3j	1E	Extruder	2	2002	TRUE	1	4	2	"0,0,0"	"0,1,1"	"0,3,1"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
+1.0.0	3k	1H	Injection Molder	3	2003	TRUE	1	4	2	"0,0,0"	"0,1,1"	"0,2,0"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
+1.0.0	3D	1I	Steam Cracker	4	2004	TRUE	4	4	4	"0,0,0"	"0,0,1;0,0,2"	"0,3,3"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
+1.0.0	3E	1J	Distillation Column	5	2005	TRUE	2	2	8	"1,0,0"	"1,0,1"	"0,-1,0"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
+1.0.0	3F	1K	Industrial Oven	6	2006	TRUE	1	3	3	"0,0,0"	"0,1,1"	"0,1,1"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	15	1	10	1					
+1.0.0	3V	40	Flood Light	7	2007	TRUE	1	1	1			"0,0,0"	side		top					side	side	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	3.6	1							
+1.0.0	3J	1L	Chemical Processor	8	2008	TRUE	1	4	3	"0,0,0"	"0,0,2;0,1,2;0,2,2;0,0,1;0,3,2"	"0,3,1"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	15	1	10	1					
+1.0.0	3K	3Y	Oil Derrick	9	2009	TRUE	2	2	7			"0,0,0"	front							side	front	"CompoundVesselToSpawn, AmountToSpawn, SpawnFromOre, SpawnFreq (sec)"	Drum (Crude Oil)	1	OilField	90					
+1.0.0	3L	3Z	Plastic Chest	10	2010	FALSE	1	1	1			"0,0,0"	front							side	front										
+	4v	4w	Wine Press	11	2011	FALSE	1	1	1			"0,0,0"																			
+1.0.0	41	5E	Spotlight	12	2012	FALSE	1	1	1			"0,0,0"	front							side	front	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	50	1							
+1.0.0	5N	5O	Merox Treatment Unit	13	2013	TRUE	2	2	4	"0,0,0"	"0,0,1;0,0,2;0,0,3"	"0,1,3"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
+1.0.0	5j	5m	Flow Regulator	14	2014	FALSE	1	1	1			"0,0,0"	front							side	front										
+1.0.0	20	1A	Condenser	15	2015	TRUE	1	1	1			"0,0,0"	front	side	top					side	front	"CompoundVesselToSpawn, AmountToSpawn, SpawnFreq (sec), InWaterSpawnVessel"	Flask (Nitrogen)	1	10	Vial (Salt Water)					
+1.1.2	4i	1Y	Pump	16	2016	FALSE	1	1	1			"0,0,0"	front							side	front	"FlowTickHeatIntensityRatio, FlowItemsPerHeatIntensity, AutomaticInputCooldownSecs"	500	10	1						
+1.2.5	1bW	1bX	Gaslamp	17	2017	TRUE	1	1	1			"0,0,0"	side		top					side	side	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	1.2	1							
+1.3.2	1eu	1ev	Mask Writer	18	2018	TRUE	1	2	2			"0,1,1"	front		top					side	front										
+1.3.2	1ed	1eh	Portal Chest	19	2019	FALSE	1	1	1			"0,0,0"	front							side	front										
+1.3.2	1el	1ep	Solar Array	20	2020	TRUE	8	8	1		"0,0,0"	"0,7,0"	front	side	top					side	front	"ElementVesselAToSpawn, ElementVesselBToSpawn, AmountToSpawnA, AmountToSpawnB, SpawnFreq (sec)"	Flask (Hydrogen)	Flask (Oxygen)	2	1	10				
+1.3.2	1ee	1ei	Contact Printer	21	2021	TRUE	1	3	3		"0,0,0"	"0,2,0"	front		top					side	front	"DefaultReactionSecs, DefaultHeatMin, DefaultHeatMax, AutomaticInputCooldownSecs"	30	1	10	1					
+1.3.2	1fo	1fp	Trading House	22	2022	TRUE	1	3	3		"0,0,0"	"0,2,0"	front		top					side	front										
+1.3.3	1fq	1fs	Territory Flag	23	2023	TRUE	1	1	8			"0,0,0"	front	side	top																
+1.3.3	1fr	1ft	Printing Press	24	2024	TRUE	1	3	3		"0,0,0"	"0,2,0"	front	side	top																
+1.4.3	1gm	1gn	CHEM2323	25	2025	FALSE	1	1	1			"0,0,0"	front		top					side	front										
