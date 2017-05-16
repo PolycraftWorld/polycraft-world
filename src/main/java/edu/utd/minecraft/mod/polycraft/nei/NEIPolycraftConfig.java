@@ -55,6 +55,9 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 
 		API.registerRecipeHandler(new OilDerrickRecipeHandler()); // "oilderrick"
 		// API.registerUsageHandler(new OilDerrickRecipeHandler());
+		
+		API.registerRecipeHandler(new MachiningMillRecipeHandler()); // "industrialoven"
+		API.registerUsageHandler(new MachiningMillRecipeHandler());
 
 		API.registerRecipeHandler(new IndustrialOvenRecipeHandler()); // "industrialoven"
 		API.registerUsageHandler(new IndustrialOvenRecipeHandler());

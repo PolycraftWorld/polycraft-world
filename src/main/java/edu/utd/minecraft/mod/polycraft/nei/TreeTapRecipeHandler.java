@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.nei;
 
+import static codechicken.lib.gui.GuiDraw.changeTexture;
+import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
+
 import java.util.List;
+
+import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
@@ -66,7 +71,7 @@ public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 		// new
 		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
 		// PolycraftMod.getFileSafeName(config.name))));
-		return PolycraftMod.getAssetName("textures/gui/container/tree_tap_nei.png");
+		return PolycraftMod.getAssetName("textures/gui/container/tree_tap.png");
 	}
 
 	@Override
@@ -81,12 +86,18 @@ public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
-		if (treeTap != null) {
-			currenttip.add("Generates 1 every 2 minutes");
-			if (gui.isMouseOver(treeTap.generated, recipe))
+		if (treeTap != null)
+			if (gui.isMouseOver(treeTap.generated, recipe)) {
+				currenttip.add("Generates 1 every 2 minutes");
 				currenttip.add("(1 every minute in Jungle biomes)");
-		}
+			}
 		return currenttip;
 	}
 
+	@Override
+	public void drawBackground(int recipe) {
+		GL11.glColor4f(1, 1, 1, 1);
+		changeTexture(getGuiTexture());
+		drawTexturedModalRect(0, 0, 5, 11, 166, 32);
+	}
 }
