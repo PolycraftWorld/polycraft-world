@@ -139,7 +139,6 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 		for (PolycraftRecipe recipe : recipes) {
 			if (checkOutput(recipe, result))
 				arecipes.add(new ChemProcRecipe(recipe));
-			// addPCraftingRecipe(recipe, res);
 		}
 	}
 
