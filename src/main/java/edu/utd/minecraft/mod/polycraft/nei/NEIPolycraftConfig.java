@@ -38,10 +38,8 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 	 * Precedence List:
 	 * <ol>
 	 * <li>Production: Tree Tap, Condenser, Oil Derrick</li>
-	 * <li>Industrial Oven</li>
 	 * <li>Levels 1-8 of Polycraft Machinery</li>
 	 * <li>Crafting Table Recipes</li>
-	 * <li>Mask Writer and Contact Printer</li>
 	 * <li>All fuel GUIs</li>
 	 * </ol>
 	 */
@@ -58,6 +56,9 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 		
 		API.registerRecipeHandler(new MachiningMillRecipeHandler()); // "machiningmill"
 		API.registerUsageHandler(new MachiningMillRecipeHandler());
+		
+		API.registerRecipeHandler(new MaskWriterRecipeHandler()); // "maskwriter"
+		API.registerUsageHandler(new MaskWriterRecipeHandler());
 		
 		API.registerRecipeHandler(new InjectionMolderRecipeHandler()); // "injectionmolder"
 		API.registerUsageHandler(new InjectionMolderRecipeHandler());
