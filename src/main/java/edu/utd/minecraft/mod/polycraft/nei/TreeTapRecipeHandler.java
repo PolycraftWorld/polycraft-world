@@ -89,7 +89,7 @@ public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 		if (treeTap != null)
 			if (gui.isMouseOver(treeTap.generated, recipe)) {
 				currenttip.add("Generates 1 every 2 minutes");
-				currenttip.add("(1 every minute in Jungle biomes)");
+				currenttip.add("(1 every minute on Jungle trees)");
 			}
 		return currenttip;
 	}
