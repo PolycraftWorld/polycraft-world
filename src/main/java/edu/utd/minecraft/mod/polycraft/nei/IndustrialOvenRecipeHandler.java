@@ -12,8 +12,6 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -106,6 +104,7 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
+		System.out.println(outputId);
 		if ((outputId.equals("smelting") || outputId.equals("industrialoven"))
 				&& getClass() == IndustrialOvenRecipeHandler.class) {
 			Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
@@ -117,9 +116,11 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
+		System.out.println("Load recipes for " + result);
 		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
 		for (Entry<ItemStack, ItemStack> recipe : recipes.entrySet())
-			if (NEIServerUtils.areStacksSameType(recipe.getValue(), result))
+			if (recipe.getValue().getUnlocalizedName().equals(result.getUnlocalizedName()))
+				// NEIServerUtils.areStacksSameType(recipe.getValue(), result))
 				arecipes.add(new SmeltingPair(recipe.getKey(), recipe.getValue()));
 	}
 

@@ -80,6 +80,12 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 
 		API.registerRecipeHandler(new ChemicalProcessorRecipeHandler()); // "chemicalprocessor"
 		API.registerUsageHandler(new ChemicalProcessorRecipeHandler());
+		
+		API.registerRecipeHandler(new ContactPrinterRecipeHandler()); // "contactprinter"
+		API.registerUsageHandler(new ContactPrinterRecipeHandler());
+		
+		API.registerRecipeHandler(new SolarArrayRecipeHandler()); // "solararray"
+		API.registerUsageHandler(new SolarArrayRecipeHandler());
 
 		API.registerRecipeHandler(new PolycraftShapedRecipeHandler()); // "polycraftcrafting"
 		API.registerUsageHandler(new PolycraftShapedRecipeHandler());
