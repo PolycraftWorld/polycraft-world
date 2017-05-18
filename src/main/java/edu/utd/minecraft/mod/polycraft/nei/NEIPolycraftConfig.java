@@ -62,11 +62,20 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 		API.registerRecipeHandler(new InjectionMolderRecipeHandler()); // "injectionmolder"
 		API.registerUsageHandler(new InjectionMolderRecipeHandler());
 
-		API.registerRecipeHandler(new IndustrialOvenRecipeHandler()); // "industrialoven"
-		API.registerUsageHandler(new IndustrialOvenRecipeHandler());
+		API.registerRecipeHandler(new ExtruderRecipeHandler()); // "extruder"
+		API.registerUsageHandler(new ExtruderRecipeHandler());
 
 		API.registerRecipeHandler(new DistillationColumnRecipeHandler()); // "distillationcolumn"
 		API.registerUsageHandler(new DistillationColumnRecipeHandler());
+		
+		API.registerRecipeHandler(new IndustrialOvenRecipeHandler()); // "industrialoven"
+		API.registerUsageHandler(new IndustrialOvenRecipeHandler());
+		
+		API.registerRecipeHandler(new SteamCrackerRecipeHandler()); // "steamcracker"
+		API.registerUsageHandler(new SteamCrackerRecipeHandler());
+		
+		API.registerRecipeHandler(new MeroxTreatmentUnitRecipeHandler()); // "steamcracker"
+		API.registerUsageHandler(new MeroxTreatmentUnitRecipeHandler());
 
 		API.registerRecipeHandler(new ChemicalProcessorRecipeHandler()); // "chemicalprocessor"
 		API.registerUsageHandler(new ChemicalProcessorRecipeHandler());
@@ -83,5 +92,4 @@ public class NEIPolycraftConfig implements IConfigureNEI {
 		API.registerRecipeHandler(new PolycraftIOFuelRecipeHandler()); // "fuel"
 		API.registerUsageHandler(new PolycraftIOFuelRecipeHandler());
 	}
-
 }

@@ -80,7 +80,6 @@ public class PolycraftIOFuelRecipeHandler extends IndustrialOvenRecipeHandler {
 		for (FuelPair fuel : afuels)
 			if (fuel.stack.contains(ingredient)) {
 				arecipes.add(new CachedFuelRecipe(fuel));
-				System.out.println("added arecipe");
 			}
 	}
 

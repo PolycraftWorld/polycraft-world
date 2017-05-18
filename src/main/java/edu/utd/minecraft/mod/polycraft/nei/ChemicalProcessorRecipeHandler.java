@@ -147,9 +147,8 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 		Collection<PolycraftRecipe> recipes = PolycraftMod.recipeManagerRuntime
 				.getRecipesByContainerType(PolycraftContainerType.CHEMICAL_PROCESSOR);
 		for (PolycraftRecipe recipe : recipes) {
-			for (RecipeInput input : recipe.getInputs())
-				if (checkInput(recipe, ingredient))
-					arecipes.add(new ChemProcRecipe(recipe));
+			if (checkInput(recipe, ingredient))
+				arecipes.add(new ChemProcRecipe(recipe));
 		}
 	}
 
