@@ -159,7 +159,6 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		GaslampInventory lightInv = (GaslampInventory) light.getInventory(world, x + 8, y + 1, z + 7);
 		lightInv.setInventorySlotContents(0,
 				new ItemStack(random.nextFloat() > 0.5 ? KERO : DIESEL, 1 + random.nextInt(3)));
-		lightInv.updateEntity();
 
 		/*
 		 * 0: 1 - Crafting table 1: 1 - Tree with taps 2: 2 - Machining mill 3:
