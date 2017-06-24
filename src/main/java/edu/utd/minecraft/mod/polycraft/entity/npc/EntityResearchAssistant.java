@@ -26,14 +26,17 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EntityMadScientist extends EntityMob {
+public class EntityResearchAssistant extends EntityMob {
 
 	private static Random rngesus = new Random();
 	private static ArrayList<ItemSword> swords = null;
 	private static ArrayList<ItemArmor[]> armors = null;
 
-	public EntityMadScientist(World p_i1738_1_) {
+	private boolean inLab;
+
+	public EntityResearchAssistant(World p_i1738_1_, boolean lab) {
 		super(p_i1738_1_);
+		this.inLab = lab;
 		this.getNavigator().setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
@@ -60,11 +63,20 @@ public class EntityMadScientist extends EntityMob {
 		this.equipmentDropChances = new float[] { 0.5F, 0.1F, 0.1F, 0.1F, 0.1F };
 	}
 
+	public EntityResearchAssistant(World world) {
+		this(world, false);
+	}
+
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+	}
+
+	@Override
+	public boolean canDespawn() {
+		return !inLab;
 	}
 
 	/**

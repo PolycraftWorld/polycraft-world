@@ -5312,3 +5312,6 @@ item.1bY.name=Trove (Copper)
 item.1fv.name=Air Quality Detector
 item.1fw.name=Ripstop Nylon Sheet
 item.1fW.name=Guano
+
+# Entity
+entity.researchAssistant.name=Research Assistant

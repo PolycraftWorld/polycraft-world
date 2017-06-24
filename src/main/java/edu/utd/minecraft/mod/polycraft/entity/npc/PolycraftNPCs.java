@@ -11,11 +11,16 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class PolycraftNPCs {
 
 	public static void mainRegistry() {
-		registerEntity();
+		// registerEntity();
+		int id = EntityRegistry.findGlobalUniqueEntityId();
+		EntityRegistry.registerGlobalEntityID(EntityResearchAssistant.class, "researchAssistant", id);
+		EntityRegistry.registerModEntity(EntityResearchAssistant.class, "researchAssistant", id, PolycraftMod.instance,
+				64, 1, true);
+		EntityList.entityEggs.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, 0xEEEEEE, 0x111111));
 	}
 
 	public static void registerEntity() {
-		createNPC(EntityMadScientist.class, "Mad Scientist", 0x00AACC, 0x001010);
+		createNPC(EntityResearchAssistant.class, "Research Assistant", 0x00AACC, 0x001010);
 	}
 
 	public static void createNPC(Class entityClass, String entityName, int solidColor, int spotColor) {
@@ -37,8 +42,8 @@ public class PolycraftNPCs {
 	}
 
 	public static void registerRenderers() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityMadScientist.class,
-				new RenderMadScientist(new ModelMadScientist(), 0));
+		RenderingRegistry.registerEntityRenderingHandler(EntityResearchAssistant.class,
+				new RenderResearchAssistant(new ModelResearchAssistant(), 0));
 	}
 
 }

@@ -3,17 +3,17 @@ package edu.utd.minecraft.mod.polycraft.entity.npc;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 
-public class ModelMadScientist extends ModelBiped {
+public class ModelResearchAssistant extends ModelBiped {
 
-	public ModelMadScientist() {
+	public ModelResearchAssistant() {
 		this(0.0F);
 	}
 
-	public ModelMadScientist(float p_i1148_1_) {
+	public ModelResearchAssistant(float p_i1148_1_) {
 		this(p_i1148_1_, 0.0F, 64, 64);
 	}
 
-	public ModelMadScientist(float p_i1149_1_, float p_i1149_2_, int p_i1149_3_, int p_i1149_4_) {
+	public ModelResearchAssistant(float p_i1149_1_, float p_i1149_2_, int p_i1149_3_, int p_i1149_4_) {
 		super(p_i1149_1_, p_i1149_2_, p_i1149_3_, p_i1149_4_);
 	}
 

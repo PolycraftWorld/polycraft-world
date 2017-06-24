@@ -6,22 +6,22 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderMadScientist extends RenderBiped {
+public class RenderResearchAssistant extends RenderBiped {
 
 	private static final ResourceLocation mobTexture = new ResourceLocation(
 			PolycraftMod.getAssetName("textures/entity/testmob.png"));
 
-	public RenderMadScientist(ModelBase p_i1262_1_, float p_i1262_2_) {
-		super((ModelMadScientist) p_i1262_1_, p_i1262_2_, 1.0F);
+	public RenderResearchAssistant(ModelBase p_i1262_1_, float p_i1262_2_) {
+		super((ModelResearchAssistant) p_i1262_1_, p_i1262_2_, 1.0F);
 	}
 
-	protected ResourceLocation getEntityTexture(EntityMadScientist entity) {
+	protected ResourceLocation getEntityTexture(EntityResearchAssistant entity) {
 		return mobTexture;
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return this.getEntityTexture((EntityMadScientist) entity);
+		return this.getEntityTexture((EntityResearchAssistant) entity);
 	}
 
 }
