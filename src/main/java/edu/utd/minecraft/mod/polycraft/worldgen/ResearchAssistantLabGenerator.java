@@ -22,7 +22,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ResearchAssistantLabGenerator extends WorldGenerator implements IWorldGenerator {
 
-	public static final float CHUNK_PROB = 0.05F;
+	public static final float CHUNK_PROB = 0.005F;
 	public static final int[][] DIRECTIONS = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
 	public static final Item DIESEL = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("tR"));
 	public static final Item KERO = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("tQ"));
@@ -63,10 +63,6 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 	}
 
 	public void spawnResearchAssistant(World world, int x, int y, int z) {
-		// EntityResearchAssistant testra = new EntityResearchAssistant(world,
-		// true);
-		// testra.setLocationAndAngles(x + 2, y + 8, z + 2, 0, 0);
-		// world.spawnEntityInWorld(testra);
 		EntityResearchAssistant ra = new EntityResearchAssistant(world, true);
 		ra.setLocationAndAngles(x, y, z, 0, 0);
 		world.spawnEntityInWorld(ra);
@@ -78,10 +74,11 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		if (world.provider.dimensionId != 0 || random.nextFloat() > CHUNK_PROB)
 			return;
 		int x = chunkX * 16;
-		int y = 6 + random.nextInt(80);
 		int z = chunkZ * 16;
-
-		// Checks
+		int y = world.getTopSolidOrLiquidBlock(x, z) - 1;
+		if (y - 20 < 1)
+			return;
+		y = random.nextInt(y - 20) + 5;
 
 		// Floor
 		for (int i = 0; i < 16; i++)
@@ -173,10 +170,15 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		world.setBlock(x + 1, y + 1, z + 3, Blocks.cauldron, random.nextInt(4), 2);
 		ItemDoor.placeDoorBlock(world, x + 5, y + 1, z + 6, 3, Blocks.iron_door);
 		world.setBlock(x + 4, y + 2, z + 5, Blocks.lever, 4, 2);
+		spawnResearchAssistant(world, x + 11, y + 1, z + 3);
+		spawnResearchAssistant(world, x + 13, y + 1, z + 3);
+		for (int i = 3; i < 8; i += 2)
+			spawnResearchAssistant(world, x + i, y + 1, z + 3);
 
 		// PolycraftInventoryBlocks only override placement by entity method.
 		EntityResearchAssistant helper = new EntityResearchAssistant(world, true);
-		helper.setPositionAndRotation(x + 1, y + 1, z + 8, 0, 0);
+		helper.setPositionAndRotation(x + 2, y + 2, z + 8, 0, 0);
+		// helper.setCustomNameTag("helper");
 		world.setBlock(x + 8, y + 1, z + 7, LIGHT, 0, 2);
 		FueledLampBlock light = (FueledLampBlock) world.getBlock(x + 8, y + 1, z + 7);
 		light.onBlockPlacedBy(world, x + 8, y + 1, z + 7, helper, new ItemStack(LIGHT));
@@ -231,7 +233,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		 */
 		int loot = random.nextInt(NUM_SPAWNS.length);
 		for (int i = 0; i < NUM_SPAWNS[loot] - 1; i++)
-			spawnResearchAssistant(world, x + 2 + i, y + 1, z + 7 + (i % 2));
+			spawnResearchAssistant(world, x + 2 + i, y + 1, z + 8);
 		switch (loot) {
 		case 0:
 			world.setBlock(x + 4, y + 1, z + 10, Blocks.crafting_table);
