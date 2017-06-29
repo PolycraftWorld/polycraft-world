@@ -32,7 +32,6 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 	public static final Block COLUMN = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3E"));
 	public static final Block CONDENSER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("20"));
 	public static final Block CRACKER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3D"));
-	public static final Block DERRICK = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3K"));
 	public static final Block EXTRUDER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3j"));
 	public static final BlockContainer LIGHT = (BlockContainer) GameData.getBlockRegistry()
 			.getObject(PolycraftMod.getAssetName("1bW"));
@@ -41,7 +40,6 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 	public static final Block MOLDER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3k"));
 	public static final Block OVEN = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3F"));
 	public static final Block PP = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("JO"));
-	public static final Block PROCESSOR = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3J"));
 	public static final Block PVC = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("K2"));
 	public static final Block STAIRS = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("YK"));
 	public static final BlockContainer TREE_TAP = (BlockContainer) GameData.getBlockRegistry()
