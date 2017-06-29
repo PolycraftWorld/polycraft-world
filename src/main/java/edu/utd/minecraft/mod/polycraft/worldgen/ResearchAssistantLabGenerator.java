@@ -22,12 +22,14 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ResearchAssistantLabGenerator extends WorldGenerator implements IWorldGenerator {
 
+	
 	public static final float CHUNK_PROB = 0.005F;
 	public static final int[][] DIRECTIONS = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
-	public static final Item DIESEL = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("tR"));
-	public static final Item KERO = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("tQ"));
 	public static final int[] NUM_SPAWNS = { 1, 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7 };
-
+	
+	public static final Item BTX = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("qU"));
+	public static final Item GAS_OIL = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("pu"));
+	
 	public static final Block COLUMN = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3E"));
 	public static final Block CONDENSER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("20"));
 	public static final Block CRACKER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3D"));
@@ -184,7 +186,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		light.onBlockPlacedBy(world, x + 8, y + 1, z + 7, helper, new ItemStack(LIGHT));
 		GaslampInventory lightInv = (GaslampInventory) light.getInventory(world, x + 8, y + 1, z + 7);
 		lightInv.setInventorySlotContents(0,
-				new ItemStack(random.nextFloat() > 0.5 ? KERO : DIESEL, 1 + random.nextInt(3)));
+				new ItemStack(random.nextFloat() > 0.5 ? BTX : GAS_OIL, 1 + random.nextInt(3)));
 
 		// Roofing
 		for (int i = 0; i < 16; i++)
