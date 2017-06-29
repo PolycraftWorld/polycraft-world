@@ -649,6 +649,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
+				
+				else if (config.containerType == PolycraftContainerType.HOSPITAL)
+				{
+					GL11.glScalef(1.2F, 1.2F, 1.2F);
+					GL11.glTranslatef(.8F, 0.25F, 0F);
+				}
+
 
 				else if (config.containerType == PolycraftContainerType.SOLAR_ARRAY)
 				{

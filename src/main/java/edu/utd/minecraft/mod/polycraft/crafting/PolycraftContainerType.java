@@ -73,7 +73,8 @@ public enum PolycraftContainerType {
 	PRINTING_PRESS("Printing Press"),
 	TERRITORY_FLAG("Territory Flag"),
 	CHEM_2323("CHEM 2323"),
-	COMPUTER("Computer");
+	COMPUTER("Computer"), 
+	HOSPITAL("Hospital");
 
 	private final String friendlyName;
 
