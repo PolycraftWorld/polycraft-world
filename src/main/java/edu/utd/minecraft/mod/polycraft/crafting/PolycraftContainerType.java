@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 
 /**
  * Enumeration of Polycraft container types.
@@ -71,7 +72,8 @@ public enum PolycraftContainerType {
 	TRADING_HOUSE("Trading House"),
 	PRINTING_PRESS("Printing Press"),
 	TERRITORY_FLAG("Territory Flag"),
-	CHEM_2323("CHEM 2323");
+	CHEM_2323("CHEM 2323"),
+	COMPUTER("Computer");
 
 	private final String friendlyName;
 
@@ -159,6 +161,7 @@ public enum PolycraftContainerType {
 		PRINTING_PRESS.initialize(PrintingPressInventory.guiSlots);
 		TERRITORY_FLAG.initialize(TerritoryFlagInventory.guiSlots);
 		CHEM_2323.initialize(CHEM2323Inventory.guiSlots);
+		COMPUTER.initialize(ComputerInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

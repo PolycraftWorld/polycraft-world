@@ -40,6 +40,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerTab;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
@@ -51,8 +52,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.3";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 3 };
+	public static final String VERSION = "1.4.4";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 4 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -87,6 +88,9 @@ public class PolycraftMod {
 	public static final String getVersionText(final int[] version) {
 		return String.format("%d.%d.%d", version[0], version[1], version[2]);
 	}
+	
+	//TODO:not yet finished
+//	public static final ComputerTab tabComputer = new ComputerTab("tabComputer");
 
 	@Instance(value = MODID)
 	public static PolycraftMod instance;
