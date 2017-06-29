@@ -22,14 +22,13 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ResearchAssistantLabGenerator extends WorldGenerator implements IWorldGenerator {
 
-	
 	public static final float CHUNK_PROB = 0.005F;
 	public static final int[][] DIRECTIONS = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
-	public static final int[] NUM_SPAWNS = { 1, 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7 };
-	
-	public static final Item BTX = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("qU"));
-	public static final Item GAS_OIL = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("pu"));
-	
+	public static final int[] NUM_SPAWNS = { 1, 1, 2, 3, 3, 3, 4, 4, 5, 6 };
+
+	public static final Item BUTANOL = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("pD"));
+	public static final Item ETHANOL = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("qD"));
+
 	public static final Block COLUMN = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3E"));
 	public static final Block CONDENSER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("20"));
 	public static final Block CRACKER = GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("3D"));
@@ -103,7 +102,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 			for (int k = 7; k < 15; k++) {
 				for (int j = 1; j < 9; j++)
 					world.setBlockToAir(x + i, y + j, z + k);
-				world.setBlock(x + i, y + 9, z + k, PP, 15, 2);
+				world.setBlock(x + i, y + 9, z + k, PP, random.nextInt(16), 2);
 			}
 		}
 
@@ -186,15 +185,15 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		light.onBlockPlacedBy(world, x + 8, y + 1, z + 7, helper, new ItemStack(LIGHT));
 		GaslampInventory lightInv = (GaslampInventory) light.getInventory(world, x + 8, y + 1, z + 7);
 		lightInv.setInventorySlotContents(0,
-				new ItemStack(random.nextFloat() > 0.5 ? BTX : GAS_OIL, 1 + random.nextInt(3)));
+				new ItemStack(random.nextFloat() > 0.5 ? BUTANOL : ETHANOL, 1 + random.nextInt(3)));
 
 		// Roofing
 		for (int i = 0; i < 16; i++)
 			for (int k = 0; k < 6; k++)
-				world.setBlock(x + i, y + 5, z + k, PVC, 15, 2);
+				world.setBlock(x + i, y + 5, z + k, PVC, random.nextInt(16), 2);
 		for (int i = 10; i < 16; i++)
 			for (int k = 6; k < 16; k++)
-				world.setBlock(x + i, y + 5, z + k, PVC, 15, 2);
+				world.setBlock(x + i, y + 5, z + k, PVC, random.nextInt(16), 2);
 
 		// Entrance hole
 		int top = world.getTopSolidOrLiquidBlock(x + 12, z + 14);
@@ -227,11 +226,8 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		 * 
 		 * 8: 5 - Merox
 		 * 
-		 * 9: 6 - Chemical Processor
+		 * 9: 6 - condensers
 		 * 
-		 * 10: 6 - condensers
-		 * 
-		 * 11: 7 - Oil derrick
 		 */
 		int loot = random.nextInt(NUM_SPAWNS.length);
 		for (int i = 0; i < NUM_SPAWNS[loot] - 1; i++)
@@ -286,20 +282,10 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 			merox.onBlockPlacedBy(world, x + 5, y + 1, z + 10, helper, new ItemStack(MEROX));
 			break;
 		case 9:
-			world.setBlock(x + 6, y + 1, z + 11, PROCESSOR, 0, 2);
-			BlockContainer chem = (BlockContainer) world.getBlock(x + 6, y + 1, z + 11);
-			chem.onBlockPlacedBy(world, x + 6, y + 1, z + 11, helper, new ItemStack(PROCESSOR));
-			break;
-		case 10:
 			placeCondenser(world, x + 4, y + 1, z + 10, helper);
 			placeCondenser(world, x + 4, y + 1, z + 11, helper);
 			placeCondenser(world, x + 5, y + 1, z + 10, helper);
 			placeCondenser(world, x + 5, y + 1, z + 11, helper);
-			break;
-		case 11:
-			world.setBlock(x + 5, y + 1, z + 10, DERRICK, 0, 2);
-			BlockContainer derrick = (BlockContainer) world.getBlock(x + 5, y + 1, z + 10);
-			derrick.onBlockPlacedBy(world, x + 5, y + 1, z + 10, helper, new ItemStack(DERRICK));
 			break;
 		default:
 			break;
