@@ -60,6 +60,7 @@ public enum GameID {
 	InventoryTerritoryFlag("1fq"),
 	InventoryPrintingPress("1fr"),
 	InventoryCHEM2323("1gm"),
+	InventoryComputer("1hb"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),

@@ -84,6 +84,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
@@ -394,6 +395,7 @@ public class PolycraftRegistry {
 			registerFlashcards();
 			registerExams();
 			Fuel.registerQuantifiedFuels();
+			
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
 	}
@@ -1040,6 +1042,8 @@ public class PolycraftRegistry {
 					TerritoryFlagInventory.register(inventory);
 				else if (GameID.InventoryCHEM2323.matches(inventory))
 					CHEM2323Inventory.register(inventory);
+				else if (GameID.InventoryComputer.matches(inventory))
+					ComputerInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
