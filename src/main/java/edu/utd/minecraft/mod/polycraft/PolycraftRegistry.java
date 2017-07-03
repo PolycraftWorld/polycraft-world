@@ -84,6 +84,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
@@ -97,6 +98,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.Industria
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.hospital.HospitalInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
@@ -394,6 +396,7 @@ public class PolycraftRegistry {
 			registerFlashcards();
 			registerExams();
 			Fuel.registerQuantifiedFuels();
+			
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
 	}
@@ -1040,6 +1043,10 @@ public class PolycraftRegistry {
 					TerritoryFlagInventory.register(inventory);
 				else if (GameID.InventoryCHEM2323.matches(inventory))
 					CHEM2323Inventory.register(inventory);
+				else if (GameID.InventoryComputer.matches(inventory))
+					ComputerInventory.register(inventory);
+				else if (GameID.InventoryHospital.matches(inventory))
+					HospitalInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
