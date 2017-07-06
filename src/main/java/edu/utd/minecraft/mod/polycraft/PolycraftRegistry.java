@@ -25,6 +25,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import scala.actors.threadpool.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -361,6 +362,7 @@ public class PolycraftRegistry {
 				break;
 
 			targetVersion = PolycraftMod.getVersionNumeric(line[0]);
+			System.out.println("Target Version: " + Arrays.toString(targetVersion));
 			if (!PolycraftMod.isVersionCompatible(targetVersion)) {
 				break;
 			}

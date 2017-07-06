@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class HospitalBlock extends PolycraftInventoryBlock {
+public class HospitalBlock extends PolycraftInventoryBlock<HospitalInventory> {
 
 	@SideOnly(Side.CLIENT)
 	public IIcon iconOutside;

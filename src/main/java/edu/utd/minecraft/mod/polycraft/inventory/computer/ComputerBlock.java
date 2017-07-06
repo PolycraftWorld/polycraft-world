@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class ComputerBlock extends PolycraftInventoryBlock {
+public class ComputerBlock extends PolycraftInventoryBlock<ComputerInventory> {
 
 	@SideOnly(Side.CLIENT)
 	public IIcon iconOutside;
