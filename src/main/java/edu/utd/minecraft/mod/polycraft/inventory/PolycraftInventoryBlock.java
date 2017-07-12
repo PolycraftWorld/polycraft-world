@@ -79,6 +79,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return (TileEntity) tileEntityClass.newInstance();
 		} catch (Exception e) {
 			logger.error("Can't create an instance of your tile entity: " + e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
