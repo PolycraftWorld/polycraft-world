@@ -361,7 +361,7 @@ public class PolycraftRegistry {
 				break;
 
 			targetVersion = PolycraftMod.getVersionNumeric(line[0]);
-			System.out.println("Target Version: " + Arrays.toString(targetVersion));
+			// System.out.println("Target Version: " + Arrays.toString(targetVersion));
 			if (!PolycraftMod.isVersionCompatible(targetVersion)) {
 				break;
 			}
