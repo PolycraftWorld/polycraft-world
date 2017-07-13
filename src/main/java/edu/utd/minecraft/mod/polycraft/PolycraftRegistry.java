@@ -25,6 +25,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import scala.actors.threadpool.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -98,6 +99,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.Industria
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.hospital.HospitalInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
@@ -360,6 +362,7 @@ public class PolycraftRegistry {
 				break;
 
 			targetVersion = PolycraftMod.getVersionNumeric(line[0]);
+			System.out.println("Target Version: " + Arrays.toString(targetVersion));
 			if (!PolycraftMod.isVersionCompatible(targetVersion)) {
 				break;
 			}
@@ -1044,6 +1047,8 @@ public class PolycraftRegistry {
 					CHEM2323Inventory.register(inventory);
 				else if (GameID.InventoryComputer.matches(inventory))
 					ComputerInventory.register(inventory);
+				else if (GameID.InventoryHospital.matches(inventory))
+					HospitalInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}

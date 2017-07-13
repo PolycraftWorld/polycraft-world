@@ -1,24 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 import com.google.common.collect.Maps;
 
@@ -37,6 +21,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
+import edu.utd.minecraft.mod.polycraft.entity.npc.PolycraftNPCs;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -54,6 +39,21 @@ import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
+import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 public abstract class CommonProxy {
 
@@ -65,8 +65,10 @@ public abstract class CommonProxy {
 	private static final int flameSoundID = 1009;
 	private static final long flameThrowerSoundFrequencyTicks = 10;
 	private static final String netChannelName = PolycraftMod.MODID;
-	private static final int netMessageTypeJetPackIsFlying = 0; //message number 0
-	private static final int netMessageClientWantsToSync = 1; //message number 1
+	private static final int netMessageTypeJetPackIsFlying = 0; // message
+																// number 0
+	private static final int netMessageClientWantsToSync = 1; // message number
+																// 1
 
 	private FMLEventChannel netChannel;
 
@@ -74,6 +76,7 @@ public abstract class CommonProxy {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
 		PolycraftRegistry.registerFromResources();
+		PolycraftNPCs.mainRegistry();
 	}
 
 	public void init() {
@@ -81,6 +84,8 @@ public abstract class CommonProxy {
 		netChannel.register(this);
 		RecipeGenerator.generateRecipes();
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
+		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
+		GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 	}
 
@@ -100,7 +105,8 @@ public abstract class CommonProxy {
 	}
 
 	private void sendMessageToServer(final int type, final int value) {
-		netChannel.sendToServer(new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
+		netChannel.sendToServer(
+				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
 	}
 
 	@SubscribeEvent
@@ -155,35 +161,44 @@ public abstract class CommonProxy {
 	}
 
 	protected static Block getBlockUnderEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX),
+				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
 
 	protected static Block getBlockUnderNorthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ - 1));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX),
+				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ - 1));
 	}
 
 	protected static Block getBlockUnderSouthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ + 1));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX),
+				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ + 1));
 	}
 
 	protected static Block getBlockUnderEastOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX + 1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX + 1),
+				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
 
 	protected static Block getBlockUnderWestOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX - 1), (int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlock((int) Math.floor(entity.posX - 1),
+				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
 	}
 
 	protected static boolean isEntityOnBouncyBlock(final Entity entity) {
 		if (getBlockUnderEntity(entity) instanceof BlockBouncy)
 			return true;
-		else if ((getBlockUnderNorthOfEntity(entity) instanceof BlockBouncy) || (getBlockUnderNorthOfEntity(entity) instanceof BlockBed))
+		else if ((getBlockUnderNorthOfEntity(entity) instanceof BlockBouncy)
+				|| (getBlockUnderNorthOfEntity(entity) instanceof BlockBed))
 			return true;
-		else if ((getBlockUnderSouthOfEntity(entity) instanceof BlockBouncy) || (getBlockUnderSouthOfEntity(entity) instanceof BlockBed))
+		else if ((getBlockUnderSouthOfEntity(entity) instanceof BlockBouncy)
+				|| (getBlockUnderSouthOfEntity(entity) instanceof BlockBed))
 			return true;
-		else if ((getBlockUnderEastOfEntity(entity) instanceof BlockBouncy) || (getBlockUnderEastOfEntity(entity) instanceof BlockBed))
+		else if ((getBlockUnderEastOfEntity(entity) instanceof BlockBouncy)
+				|| (getBlockUnderEastOfEntity(entity) instanceof BlockBed))
 			return true;
-		else if ((getBlockUnderWestOfEntity(entity) instanceof BlockBouncy) || (getBlockUnderWestOfEntity(entity) instanceof BlockBed))
+		else if ((getBlockUnderWestOfEntity(entity) instanceof BlockBouncy)
+				|| (getBlockUnderWestOfEntity(entity) instanceof BlockBed))
 			return true;
 		else
 			return false;
@@ -214,17 +229,16 @@ public abstract class CommonProxy {
 			final EntityPlayer player = (EntityPlayer) event.entity;
 			if (ItemParachute.isEquipped(player)) {
 				event.distance = 0;
-			}
-			else {
+			} else {
 				final boolean entityOnBouncyBlock = isEntityOnBouncyBlock(player);
 				if (ItemPogoStick.isEquipped(player)) {
-					if (entityOnBouncyBlock || event.distance < ItemPogoStick.getEquippedItem(player).config.maxFallNoDamageHeight)
+					if (entityOnBouncyBlock
+							|| event.distance < ItemPogoStick.getEquippedItem(player).config.maxFallNoDamageHeight)
 						event.distance = 0;
 					else
 						event.distance *= PolycraftMod.itemPogoStickMaxFallExcedeDamageReduction;
 					ItemPogoStick.damage(player, random);
-				}
-				else if (entityOnBouncyBlock) {
+				} else if (entityOnBouncyBlock) {
 					event.distance = 0;
 				}
 			}
@@ -250,10 +264,10 @@ public abstract class CommonProxy {
 	}
 
 	private boolean onPlayerTickServerSyncInventory(final EntityPlayer player, final PlayerState playerState) {
-		final boolean clientWantsToSync = playerState.choseToSyncInventory; //and make sure they are in PP
+		final boolean clientWantsToSync = playerState.choseToSyncInventory;
+		// and make sure they are in PP
 
-		if (clientWantsToSync)
-		{
+		if (clientWantsToSync) {
 			InventorySwap is = new InventorySwap(player);
 
 			playerState.choseToSyncInventory = false;
@@ -266,24 +280,23 @@ public abstract class CommonProxy {
 			String enchantments = "";
 			NBTTagList enchantmentList;
 
-			//pull the list into memory from the server
+			// pull the list into memory from the server
 
-			for (invSlot = player.inventory.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot)
-			{
+			for (invSlot = player.inventory
+					.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot) {
 				itemstack = player.inventory.mainInventory[invSlot];
 
 				is.pushItemToPortal(new ItemStackSwitch(player, itemstack));
 
 			}
 
-			if (is.swapPlayerInventoryWithPortal(player))
-			{
+			if (is.swapPlayerInventoryWithPortal(player)) {
 
 				// make sure it went through
 
 				Iterator it = is.itemsToPull.iterator();
-				for (invSlot = player.inventory.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot)
-				{
+				for (invSlot = player.inventory
+						.getHotbarSize(); invSlot < player.inventory.mainInventory.length; ++invSlot) {
 					itemstack = player.inventory.mainInventory[invSlot];
 
 					if (it.hasNext())
@@ -292,10 +305,8 @@ public abstract class CommonProxy {
 						player.inventory.setInventorySlotContents(invSlot, null);
 				}
 				return true;
-			}
-			else
-			{
-				//send message to say that the sync failed
+			} else {
+				// send message to say that the sync failed
 			}
 
 		}
@@ -304,12 +315,16 @@ public abstract class CommonProxy {
 	}
 
 	private void onPlayerTickServerJetPack(final EntityPlayer player, final PlayerState playerState) {
-		final boolean jetPackIgnited = ItemJetPack.allowsFlying(player) && !player.onGround && playerState.jetPackIsFlying;
+		final boolean jetPackIgnited = ItemJetPack.allowsFlying(player) && !player.onGround
+				&& playerState.jetPackIsFlying;
 		if (jetPackIgnited) {
 			if (playerState.jetPackLastSoundTicks++ > jetPackSoundFrequencyTicks) {
 				playerState.jetPackLastSoundTicks = 0;
-				//TODO this causes performance problems, find a better way to have jet pack sounds
-				//player.worldObj.playAuxSFXAtEntity((EntityPlayer)null, flameSoundID, (int)player.posX, (int)player.posY, (int)player.posZ, 0);
+				// TODO this causes performance problems, find a better way to
+				// have jet pack sounds
+				// player.worldObj.playAuxSFXAtEntity((EntityPlayer)null,
+				// flameSoundID, (int)player.posX, (int)player.posY,
+				// (int)player.posZ, 0);
 			}
 			ItemJetPack.burnFuel(player);
 			ItemJetPack.dealExhaustDamage(player, player.worldObj);
@@ -331,8 +346,11 @@ public abstract class CommonProxy {
 		if (flameThrowerActivated) {
 			if (playerState.flameThrowerLastSoundTicks++ > flameThrowerSoundFrequencyTicks) {
 				playerState.flameThrowerLastSoundTicks = 0;
-				//TODO this causes performance problems, find a better way to have jet pack sounds
-				//player.worldObj.playAuxSFXAtEntity((EntityPlayer)null, flameSoundID, (int)player.posX, (int)player.posY, (int)player.posZ, 0);
+				// TODO this causes performance problems, find a better way to
+				// have jet pack sounds
+				// player.worldObj.playAuxSFXAtEntity((EntityPlayer)null,
+				// flameSoundID, (int)player.posX, (int)player.posY,
+				// (int)player.posZ, 0);
 			}
 			ItemFlameThrower.burnFuel(player);
 			ItemFlameThrower.getEquippedItem(player).spawnProjectiles(player, player.worldObj, random);

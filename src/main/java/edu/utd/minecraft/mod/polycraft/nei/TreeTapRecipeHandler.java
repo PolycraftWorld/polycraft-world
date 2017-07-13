@@ -20,20 +20,16 @@ import net.minecraft.item.ItemStack;
 
 public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 
+	private static final String RUBBER = "Al"; // Item ID for Bag (PolyIsoPrene
+												// Pellets)
+
 	public class TreeTapRecipe extends CachedRecipe {
 
 		PositionedStack generated = null;
 
 		public TreeTapRecipe() {
-			// F*ckin' hell why isn't it named PolymerVessel or something like
-			// that like the other children?
-			for (PolymerPellets vessel : PolymerPellets.registry.values()) {
-				if (vessel.vesselType == Vessel.Type.Bag && vessel.name.equals("Bag (PolyIsoPrene Pellets)")) {
-					Item bag = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(vessel.gameID));
-					generated = new PositionedStack(new ItemStack(bag), 39, 9);
-					break;
-				}
-			}
+			Item bag = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(RUBBER));
+			generated = new PositionedStack(new ItemStack(bag), 39, 9);
 		}
 
 		@Override
@@ -41,8 +37,6 @@ public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 			return generated;
 		}
 	}
-
-	private static TreeTapRecipe treeTap = null;
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
@@ -57,20 +51,13 @@ public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		if (result.getItem() instanceof ItemVessel) {
 			ItemVessel vessel = (ItemVessel) result.getItem();
-			if (vessel.config.vesselType == Vessel.Type.Bag
-					&& vessel.config.name.equals("Bag (PolyIsoPrene Pellets)")) {
-				if (treeTap == null)
-					treeTap = new TreeTapRecipe();
-				arecipes.add(treeTap);
-			}
+			if (vessel.config.gameID.equals(RUBBER))
+				arecipes.add(new TreeTapRecipe());
 		}
 	}
 
 	@Override
 	public String getGuiTexture() {
-		// new
-		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
-		// PolycraftMod.getFileSafeName(config.name))));
 		return PolycraftMod.getAssetName("textures/gui/container/tree_tap.png");
 	}
 
@@ -86,8 +73,9 @@ public class TreeTapRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
-		if (treeTap != null)
-			if (gui.isMouseOver(treeTap.generated, recipe)) {
+		TreeTapRecipe trecipe = (TreeTapRecipe) arecipes.get(0);
+		if (trecipe != null)
+			if (gui.isMouseOver(trecipe.generated, recipe)) {
 				currenttip.add("Generates 1 every 2 minutes");
 				currenttip.add("(1 every minute on Jungle trees)");
 			}

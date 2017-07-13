@@ -4,6 +4,23 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Maps;
+
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
+import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.Ore;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -31,23 +48,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.ObjModelLoader;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
-import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
-import edu.utd.minecraft.mod.polycraft.block.BlockOre;
-import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.config.Ore;
-import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 
 public class PolycraftInventoryBlock<I extends PolycraftInventory> extends BlockContainer {
 
@@ -79,6 +79,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return (TileEntity) tileEntityClass.newInstance();
 		} catch (Exception e) {
 			logger.error("Can't create an instance of your tile entity: " + e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -251,7 +252,8 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 
-		if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+		// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
+		if (config.containerType == PolycraftContainerType.OIL_DERRICK && (!(this instanceof OilDerrickBlock) || ((OilDerrickBlock) this).placed))
 		{
 			final Block oreBlock = world.getBlock(x, y - 1, z);
 			int metaOre = world.getBlockMetadata(x, y - 1, z);
@@ -649,6 +651,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
+				
+				else if (config.containerType == PolycraftContainerType.HOSPITAL)
+				{
+					GL11.glScalef(1.2F, 1.2F, 1.2F);
+					GL11.glTranslatef(.8F, 0.25F, 0F);
+				}
+
 
 				else if (config.containerType == PolycraftContainerType.SOLAR_ARRAY)
 				{
@@ -1465,6 +1474,9 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 				else //block cannot be placed
 				{
+					// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
+					if (this instanceof OilDerrickBlock)
+						((OilDerrickBlock) this).placed = false;
 					worldObj.setBlock(xPos, yPos, zPos, Blocks.air);
 					itemToPlace.stackSize += 1;
 				}

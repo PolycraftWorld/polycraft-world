@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.Disti
 import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.IndustrialOvenInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.hospital.HospitalInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
@@ -73,7 +74,8 @@ public enum PolycraftContainerType {
 	PRINTING_PRESS("Printing Press"),
 	TERRITORY_FLAG("Territory Flag"),
 	CHEM_2323("CHEM 2323"),
-	COMPUTER("Computer");
+	COMPUTER("Computer"), 
+	HOSPITAL("Hospital");
 
 	private final String friendlyName;
 
@@ -162,6 +164,7 @@ public enum PolycraftContainerType {
 		TERRITORY_FLAG.initialize(TerritoryFlagInventory.guiSlots);
 		CHEM_2323.initialize(CHEM2323Inventory.guiSlots);
 		COMPUTER.initialize(ComputerInventory.guiSlots);
+		HOSPITAL.initialize(HospitalInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

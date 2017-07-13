@@ -20,18 +20,15 @@ import net.minecraft.item.ItemStack;
 
 public class OilDerrickRecipeHandler extends TemplateRecipeHandler {
 
+	private static final String OIL = "qg"; // Item ID for Drum (Crude Oil)
+
 	public class OilDerrickRecipe extends CachedRecipe {
 
 		PositionedStack generated = null;
 
 		public OilDerrickRecipe() {
-			for (CompoundVessel vessel : CompoundVessel.registry.values()) {
-				if (vessel.vesselType == Vessel.Type.Drum && vessel.name.equals("Drum (Crude Oil)")) {
-					Item drum = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(vessel.gameID));
-					generated = new PositionedStack(new ItemStack(drum), 39, 9);
-					break;
-				}
-			}
+			Item drum = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(OIL));
+			generated = new PositionedStack(new ItemStack(drum), 39, 9);
 		}
 
 		@Override
@@ -39,8 +36,6 @@ public class OilDerrickRecipeHandler extends TemplateRecipeHandler {
 			return generated;
 		}
 	}
-
-	private static OilDerrickRecipe oilDerrick = null;
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
@@ -55,19 +50,13 @@ public class OilDerrickRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		if (result.getItem() instanceof ItemVessel) {
 			ItemVessel vessel = (ItemVessel) result.getItem();
-			if (vessel.config.vesselType == Vessel.Type.Drum && vessel.config.name.equals("Drum (Crude Oil)")) {
-				if (oilDerrick == null)
-					oilDerrick = new OilDerrickRecipe();
-				arecipes.add(oilDerrick);
-			}
+			if (vessel.config.gameID.equals(OIL))
+				arecipes.add(new OilDerrickRecipe());
 		}
 	}
 
 	@Override
 	public String getGuiTexture() {
-		// new
-		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
-		// PolycraftMod.getFileSafeName(config.name))));
 		return PolycraftMod.getAssetName("textures/gui/container/oil_derrick.png");
 	}
 
@@ -83,8 +72,9 @@ public class OilDerrickRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
-		if (oilDerrick != null)
-			if (gui.isMouseOver(oilDerrick.generated, recipe)) {
+		OilDerrickRecipe orecipe = (OilDerrickRecipe) arecipes.get(recipe);
+		if (orecipe != null)
+			if (gui.isMouseOver(orecipe.generated, recipe)) {
 				currenttip.add("Generates 1 every 30 seconds");
 				currenttip.add("(placed on an OilField block)");
 			}

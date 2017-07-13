@@ -61,6 +61,7 @@ public enum GameID {
 	InventoryPrintingPress("1fr"),
 	InventoryCHEM2323("1gm"),
 	InventoryComputer("1hb"),
+	InventoryHospital("1hd"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),

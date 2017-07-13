@@ -17,6 +17,15 @@ import net.minecraft.item.ItemStack;
 
 public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 
+	private static final String HYDROGEN = "67"; // Item ID for Flask (Hydrogen)
+	private static final String OXYGEN = "6e"; // Item ID for Flask (Oxygen)
+	private static final String WATER_VIAL = "iP"; // Item ID for Vial
+													// (Deionized Water)
+	private static final String WATER_BEAKER = "od"; // Item ID for Beaker
+														// (Deionized Water)
+	private static final String WATER_DRUM = "tB"; // Item ID for Drum
+													// (Deionized Water)
+
 	public class SolArrayRecipe extends CachedRecipe {
 
 		ArrayList<PositionedStack> ingreds = new ArrayList<PositionedStack>(3);
@@ -24,35 +33,16 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 		PositionedStack hydrogen;
 
 		public SolArrayRecipe() {
-			for (CompoundVessel vessel : CompoundVessel.registry.values()) {
-				if (vessel.name.endsWith("(Deionized Water)")) {
-					Item water = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(vessel.gameID));
-					switch (vessel.vesselType) {
-					case Vial:
-						ingreds.add(0, new PositionedStack(new ItemStack(water), 12, 7));
-						break;
-					case Beaker:
-						ingreds.add(1, new PositionedStack(new ItemStack(water), 30, 7));
-						break;
-					default:
-						ingreds.add(2, new PositionedStack(new ItemStack(water), 48, 7));
-						break;
-					}
-				}
-			}
-			// ingred = new PositionedStack(waters, 12, 7);
-			for (ElementVessel vessel : ElementVessel.registry.values()) {
-				if (vessel.vesselType == Vessel.Type.Flask) {
-					if (vessel.name.equals("Flask (Oxygen)")) {
-						Item flask = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(vessel.gameID));
-						oxygen = new PositionedStack(new ItemStack(flask), 111, 7);
-					} else if (vessel.name.equals("Flask (Hydrogen)")) {
-						Item flask = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(vessel.gameID));
-						hydrogen = new PositionedStack(new ItemStack(flask, 2), 111, 25);
-					}
-				}
-			}
-
+			Item flask = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(HYDROGEN));
+			hydrogen = new PositionedStack(new ItemStack(flask, 2), 111, 25);
+			flask = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(OXYGEN));
+			oxygen = new PositionedStack(new ItemStack(flask), 111, 7);
+			Item water = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(WATER_VIAL));
+			ingreds.add(new PositionedStack(new ItemStack(water), 12, 7));
+			water = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(WATER_BEAKER));
+			ingreds.add(new PositionedStack(new ItemStack(water), 30, 7));
+			water = GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(WATER_DRUM));
+			ingreds.add(new PositionedStack(new ItemStack(water), 48, 7));
 		}
 
 		@Override
@@ -71,8 +61,6 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
-	private static SolArrayRecipe solarArray = null;
-
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals("item"))
@@ -86,11 +74,8 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 		if (result.getItem() instanceof ItemVessel) {
 			ItemVessel vessel = (ItemVessel) result.getItem();
 			if (vessel.config.vesselType == Vessel.Type.Flask
-					&& (vessel.config.name.equals("Flask (Hydrogen)") || vessel.config.name.equals("Flask (Oxygen)"))) {
-				if (solarArray == null)
-					solarArray = new SolArrayRecipe();
-				arecipes.add(solarArray);
-			}
+					&& (vessel.config.gameID.equals(HYDROGEN) || vessel.config.gameID.equals(OXYGEN)))
+				arecipes.add(new SolArrayRecipe());
 		}
 	}
 
@@ -98,11 +83,8 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 	public void loadUsageRecipes(ItemStack ingredient) {
 		if (ingredient.getItem() instanceof ItemVessel) {
 			ItemVessel vessel = (ItemVessel) ingredient.getItem();
-			if (vessel.config.name.endsWith("(Deionized Water)")) {
-				if (solarArray == null)
-					solarArray = new SolArrayRecipe();
-				arecipes.add(solarArray);
-			}
+			if (vessel.config.name.endsWith("(Deionized Water)"))
+				arecipes.add(new SolArrayRecipe());
 		}
 	}
 
@@ -113,9 +95,6 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		// new
-		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
-		// PolycraftMod.getFileSafeName(config.name))));
 		return PolycraftMod.getAssetName("textures/gui/container/solar_array.png");
 	}
 
@@ -123,8 +102,8 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 	public String getOverlayIdentifier() {
 		return "solararray";
 	}
-	
-	private static String[] tips = {"1 processed every 10 seconds", "Scaled down to vials", "Scaled down to beakers"};
+
+	private static String[] tips = { "1 processed every 10 seconds", "Scaled down to vials", "Scaled down to beakers" };
 
 	@Override
 	public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
