@@ -2,30 +2,11 @@ package edu.utd.minecraft.mod.polycraft;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.BlockWall;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import scala.actors.threadpool.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -162,6 +143,24 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockWall;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class PolycraftRegistry {
 
