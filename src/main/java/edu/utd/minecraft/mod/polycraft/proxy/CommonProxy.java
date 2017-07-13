@@ -76,6 +76,7 @@ public abstract class CommonProxy {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
 		PolycraftRegistry.registerFromResources();
+		System.out.println("Now call PNPCs...");
 		PolycraftNPCs.mainRegistry();
 	}
 
