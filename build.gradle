@@ -15,14 +15,22 @@ buildscript {
     }
 }
 
+repositories {
+	maven { // NEI Integration files requred for successful gradle build
+		name "chickenbones"
+		url "http://chickenbones.net/maven/"
+	}
+}
+
 apply plugin: 'forge'
 
-version = "1.4.3"
+version = "1.4.4"
 group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "polycraft"
 
 minecraft {
-    version = "1.7.10-10.13.2.1291"
+    // version = "1.7.10-10.13.2.1291"
+    version = "1.7.10-10.13.4.1614-1.7.10"
     assetDir = "eclipse/assets"
 }
 
@@ -34,6 +42,12 @@ configurations {
 dependencies {
 
     compile group: 'com.microsoft.azure', name: 'azure-storage', version: '2.2.0'
+    
+    // NEI Integration files requred for successful gradle build
+    compile 'codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev'
+    compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.138:dev'
+    compile 'codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev'
+    
     external 'org.apache.httpcomponents:httpclient:4.3.3'
     external 'org.apache.httpcomponents:httpcore:4.3.2'
 }
