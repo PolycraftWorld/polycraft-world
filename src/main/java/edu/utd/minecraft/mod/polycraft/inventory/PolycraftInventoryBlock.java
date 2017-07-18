@@ -651,7 +651,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
 				
-				else if (config.containerType == PolycraftContainerType.HOSPITAL)
+				else if (config.containerType == PolycraftContainerType.HOSPITAL_GENERATOR)
 				{
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
