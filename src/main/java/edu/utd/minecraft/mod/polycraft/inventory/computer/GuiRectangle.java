@@ -14,12 +14,6 @@ public class GuiRectangle {
 	
 	public boolean inRect(ComputerGui gui, int mouseX, int mouseY, int side){
 		
-//		mouseX -= gui.getLeft();
-//		mouseY -= gui.getTop();
-//		int temp1 = x + gui.getXSize();
-//		int temp2 = x + w + gui.getXSize();
-//		System.out.println("left: " + temp1 + " | " + mouseX + " | " + temp2);
-//		System.out.println(gui.getTop());
 		if (side == 2){
 			//right side of GUI
 			
@@ -32,15 +26,10 @@ public class GuiRectangle {
 					mouseX <= rightBorder &&
 					topBorder < mouseY &&
 					mouseY < bottomBorder;
-			
-//			return x + gui.getXSize() <= mouseX &&
-//					mouseX <= x + w + gui.getXSize() &&
-//					y < mouseY &&
-//					mouseY < y + h;
-					
+								
 	}
 		else {
-			System.out.println("using side " + side);
+//			System.out.println("using side " + side);
 			return (x <= mouseX) &&
 					(mouseX <= x + w ) &&
 					(y < mouseY) &&
