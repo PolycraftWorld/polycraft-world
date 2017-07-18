@@ -37,8 +37,8 @@ public class ComputerInventory extends PolycraftInventory {
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-//		return new ComputerContainer(playerInventory);
-		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128);
+		return new ComputerContainer(playerInventory, this);
+//		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128);
 	}
 
 	@Override
