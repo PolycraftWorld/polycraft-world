@@ -54,14 +54,58 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 			GuiRectangle rectangle = tabs[i];
 			srcX = 342/2;
 			srcY = 145/2;
-			if ((rectangle.inRect(this, mouseX, mouseY, side) && tabs[i] != activeTab) || false)
-				srcY = 84/2;
+			if ((rectangle.inRect(this, mouseX, mouseY, side) && tabs[i] != activeTab))
+				srcY = 84/2; //darken tab when hovering over it
 			if (tabs[i] == activeTab)
 				srcY = 23/2;
 			rectangle.draw(this, srcX, srcY, side);
 		}
 		//endregion Draw Basic Tabs
+		
+		//region icons on tabs 
+			//41:00 on youtube
+		//endregion icons on tabs
+		
+		//region Tab Contents
+		if (activeTab == tabs[0]){
+			System.out.println("first tab");
+			//draw this tab's stuff
+//			Minecraft.getMinecraft().getTextureManager().bindTexture(appleIcon);
+//			drawTexturedModalRect(guiLeft + 3, guiTop + 3,0,0,170,90);
+		}
+		if (activeTab == tabs[1]){
+			System.out.println("second tab");
+			//draw this tab's stuff
+		}
+		if (activeTab == tabs[2]){
+			System.out.println("third tab");
+			//draw this tab's stuff		
+		}
+		if (activeTab == tabs[3]){
+			System.out.println("fourth tab");
+			//draw this tab's stuff		
+		}
+		//endregion Tab Contents
+
 	}
+	
+	@Override
+	protected void mouseClicked ( int mouseX, int mouseY, int mouseButton){
+		
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		GuiRectangle rectangle;
+		for (int i = 0; i<tabs.length; i++){
+			rectangle = tabs[i];
+			int side = 2;
+//			if (i>2)
+//				side =2;
+			if(rectangle.inRect(this, mouseX, mouseY, side)){
+				activeTab = tabs[i];
+				break;
+			}
+		}
+	}
+	
 	
 	@Override
 	public void initGui () {
