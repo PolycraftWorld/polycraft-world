@@ -1,11 +1,11 @@
-package edu.utd.minecraft.mod.polycraft.inventory.hospital;
+package edu.utd.minecraft.mod.polycraft.inventory.hospitalgenerator;
 
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class HospitalRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
+public class HospitalGeneratorRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
 
-	public HospitalRenderingHandler(final Inventory config) {
+	public HospitalGeneratorRenderingHandler(final Inventory config) {
 		super(config);
 	}
 

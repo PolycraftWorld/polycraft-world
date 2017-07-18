@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.inventory.hospital;
+package edu.utd.minecraft.mod.polycraft.inventory.hospitalgenerator;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGener
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
-public class HospitalInventory extends PolycraftInventory {
+public class HospitalGeneratorInventory extends PolycraftInventory {
 
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
@@ -26,13 +26,13 @@ public class HospitalInventory extends PolycraftInventory {
 	private static Inventory config;
 
 	public static final void register(final Inventory config) {
-		HospitalInventory.config = config;
-		config.containerType = PolycraftContainerType.HOSPITAL;
-		PolycraftInventory.register(new HospitalBlock(config, HospitalInventory.class));
+		HospitalGeneratorInventory.config = config;
+		config.containerType = PolycraftContainerType.HOSPITAL_GENERATOR;
+		PolycraftInventory.register(new HospitalGeneratorBlock(config, HospitalGeneratorInventory.class));
 	}
 
-	public HospitalInventory() {
-		super(PolycraftContainerType.HOSPITAL, config);
+	public HospitalGeneratorInventory() {
+		super(PolycraftContainerType.HOSPITAL_GENERATOR, config);
 	}
 
 	@Override
