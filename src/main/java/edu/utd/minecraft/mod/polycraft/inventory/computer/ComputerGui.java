@@ -45,6 +45,7 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 		glColor4f(1,1,1,1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(computerBaseGui);
 		drawTexturedModalRect(guiLeft,guiTop,0,0,xSize,ySize);
+		//region Draw Basic Tabs
 		int srcX,srcY;
 		for (int i = 0; i<tabs.length; i++){
 			int side = 2;
@@ -59,6 +60,7 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 				srcY = 23/2;
 			rectangle.draw(this, srcX, srcY, side);
 		}
+		//endregion Draw Basic Tabs
 	}
 	
 	@Override
