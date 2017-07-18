@@ -2,18 +2,23 @@ package edu.utd.minecraft.mod.polycraft.inventory.computer;
 
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class ComputerContainer extends /*Container */PolycraftCraftingContainer{
+public class ComputerContainer extends /*Container */PolycraftCraftingContainerGeneric<ComputerInventory>{
 	
-	private ComputerInventory computer;
+	private static ComputerInventory computer;
 	
+	public ComputerContainer(InventoryPlayer playerInventory){
+		this(playerInventory, computer);
+	}
 	
-	public ComputerContainer(InventoryPlayer invPlayer, PolycraftContainerType computer) {
+	public ComputerContainer(InventoryPlayer invPlayer, ComputerInventory computer) {
 
-		super(invPlayer, computer);
-//		this.computer=computer;
+		super(computer, invPlayer);
+		this.computer=computer;
 		
 
 	}
@@ -25,7 +30,6 @@ public class ComputerContainer extends /*Container */PolycraftCraftingContainer{
 
 	@Override
 	public PolycraftContainerType getContainerType() {
-		// TODO Auto-generated method stub
 		return PolycraftContainerType.COMPUTER;
 	}
 
