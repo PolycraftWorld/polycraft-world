@@ -44,7 +44,11 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
 		glColor4f(1,1,1,1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(computerBaseGui);
-		drawTexturedModalRect(guiLeft,guiTop,0,0,xSize,ySize);
+
+		int k = (this.width - this.xSize) / 2;
+		int l = (this.height - this.ySize) / 2;
+		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+
 		//region Draw Basic Tabs
 		int srcX,srcY;
 		for (int i = 0; i<tabs.length; i++){
