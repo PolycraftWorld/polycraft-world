@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -53,8 +54,6 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 		int srcX,srcY;
 		for (int i = 0; i<tabs.length; i++){
 			int side = 2;
-//			if (i>2)
-//				side = 2;
 			GuiRectangle rectangle = tabs[i];
 			srcX = 342/2;
 			srcY = 145/2;
@@ -74,7 +73,7 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 		if (activeTab == tabs[0]){
 			System.out.println("first tab");
 			//draw this tab's stuff
-//			Minecraft.getMinecraft().getTextureManager().bindTexture(appleIcon);
+//			Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 //			drawTexturedModalRect(guiLeft + 3, guiTop + 3,0,0,170,90);
 		}
 		if (activeTab == tabs[1]){
@@ -91,6 +90,13 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 		}
 		//endregion Tab Contents
 
+	}
+
+	@Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
+		String s = I18n.format(inventory.getInventoryName(), new Object[0]);
+		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+//		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 	}
 	
 	@Override
@@ -111,12 +117,6 @@ public class ComputerGui extends /*GuiContainer */ PolycraftInventoryGui<Compute
 	}
 	
 	
-	@Override
-	public void initGui () {
-		
-		super.initGui();
-	}
-
 	public int getLeft(){
 		return guiLeft;
 	}
