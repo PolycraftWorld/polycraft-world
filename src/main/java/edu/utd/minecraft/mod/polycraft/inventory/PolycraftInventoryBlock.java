@@ -21,6 +21,7 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -253,25 +254,31 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 
 		// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
-		if (config.containerType == PolycraftContainerType.OIL_DERRICK && (!(this instanceof OilDerrickBlock) || ((OilDerrickBlock) this).placed))
+		if (config.containerType == PolycraftContainerType.OIL_DERRICK)
 		{
-			final Block oreBlock = world.getBlock(x, y - 1, z);
-			int metaOre = world.getBlockMetadata(x, y - 1, z);
-			if (oreBlock != null && oreBlock instanceof BlockOre) {
-				if (config.params != null)
-				{
-					if (config.params.get(2) != null)
+			PolycraftInventory inv = this.getInventory(world, x, y, z);
+			if (inv instanceof OilDerrickInventory && ((OilDerrickInventory) inv).placed)
+			{ 
+				final Block oreBlock = world.getBlock(x, y - 1, z);
+				int metaOre = world.getBlockMetadata(x, y - 1, z);
+				if (oreBlock != null && oreBlock instanceof BlockOre) {
+					if (config.params != null)
 					{
-						if (((BlockOre) oreBlock).ore.gameID.equals(Ore.registry.get(config.params.get(2)).gameID)) {
-							if (metaOre > 0)
-								world.setBlock(x, y - 1, z, oreBlock, metaOre - 1, 2); // remove the rest of the oil in this meta level
-							else
-								world.setBlock(x, y - 1, z, oreBlock, 0, 2); // no more oil
+						if (config.params.get(2) != null)
+						{
+							if (((BlockOre) oreBlock).ore.gameID.equals(Ore.registry.get(config.params.get(2)).gameID)) {
+								if (metaOre > 0)
+									world.setBlock(x, y - 1, z, oreBlock, metaOre - 1, 2); // remove the rest of the oil in this meta level
+								else
+									world.setBlock(x, y - 1, z, oreBlock, 0, 2); // no more oil
+								if (metaOre > 1)
+									metaOre--;
+								System.out.println("Oil decremented to " + metaOre);
+							}
 						}
 					}
 				}
 			}
-
 		}
 
 		final I inventory = (I) world.getTileEntity(x, y, z);
@@ -1476,7 +1483,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
 					if (this instanceof OilDerrickBlock)
-						((OilDerrickBlock) this).placed = false;
+						((OilDerrickInventory) this.getInventory(worldObj, xPos, yPos, zPos)).placed = false;
 					worldObj.setBlock(xPos, yPos, zPos, Blocks.air);
 					itemToPlace.stackSize += 1;
 				}

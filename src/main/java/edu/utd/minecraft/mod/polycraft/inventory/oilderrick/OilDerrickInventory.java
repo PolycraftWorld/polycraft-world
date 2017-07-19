@@ -63,6 +63,8 @@ public class OilDerrickInventory extends PolycraftInventory {
 	private int amountOfOilHarvested;
 	private boolean oilRemains;
 	private final int oilPerMetaDatavalue = 64;
+	
+	public boolean placed = true;
 
 	public OilDerrickInventory() {
 		super(PolycraftContainerType.OIL_DERRICK, config);
