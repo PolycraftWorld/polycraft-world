@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
@@ -35,7 +37,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 
 /**
  * Enumeration of Polycraft container types.
@@ -190,6 +191,15 @@ public enum PolycraftContainerType {
 		this.friendlyName = friendlyName;
 	}
 
+	/**
+	 * Returns whether or not the player's inventory should be displayed in this inventory's gui.
+	 */
+	public boolean displayPlayerInventory(PolycraftContainerType inventoryType){
+		return  !(inventoryType.equals(COMPUTER) || 
+				  inventoryType.equals(HOSPITAL_GENERATOR));
+	}
+
+	
 	/**
 	 * Returns the enumerated version of the container slot by index, or null if the index is not valid.
 	 */
