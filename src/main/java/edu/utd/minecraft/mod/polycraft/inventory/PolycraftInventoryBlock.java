@@ -257,7 +257,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		if (config.containerType == PolycraftContainerType.OIL_DERRICK)
 		{
 			PolycraftInventory inv = this.getInventory(world, x, y, z);
-			if (inv instanceof OilDerrickInventory && ((OilDerrickInventory) inv).placed)
+			if (inv instanceof OilDerrickInventory && ((OilDerrickInventory) inv).isPlaced())
 			{ 
 				final Block oreBlock = world.getBlock(x, y - 1, z);
 				int metaOre = world.getBlockMetadata(x, y - 1, z);
@@ -1483,7 +1483,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
 					if (this instanceof OilDerrickBlock)
-						((OilDerrickInventory) this.getInventory(worldObj, xPos, yPos, zPos)).placed = false;
+						((OilDerrickInventory) this.getInventory(worldObj, xPos, yPos, zPos)).setPlaced(false);
 					worldObj.setBlock(xPos, yPos, zPos, Blocks.air);
 					itemToPlace.stackSize += 1;
 				}

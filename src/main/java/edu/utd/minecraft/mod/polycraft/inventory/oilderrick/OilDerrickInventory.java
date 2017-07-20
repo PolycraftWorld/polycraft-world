@@ -63,8 +63,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 	private int amountOfOilHarvested;
 	private boolean oilRemains;
 	private final int oilPerMetaDatavalue = 64;
-	
-	public boolean placed = true;
+	private boolean placed = true;
 
 	public OilDerrickInventory() {
 		super(PolycraftContainerType.OIL_DERRICK, config);
@@ -389,6 +388,14 @@ public class OilDerrickInventory extends PolycraftInventory {
 
 	static int getDirectionFromMetadata(int p_149918_0_) {
 		return p_149918_0_ & 7;
+	}
+	
+	public void setPlaced(boolean placed) {
+		this.placed = placed;
+	}
+	
+	public boolean isPlaced() {
+		return placed;
 	}
 
 	public void setTransferCooldown(int transferCooldown) {
