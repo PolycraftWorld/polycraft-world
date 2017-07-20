@@ -1,13 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.Armor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.Armor;
 
 public class ItemArmorLegs extends PolycraftArmorLeggings {
 
@@ -44,7 +44,9 @@ public class ItemArmorLegs extends PolycraftArmorLeggings {
 	@Override
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer player) {
 		if (armor.aquaAffinityLevel > 0) {
-			itemStack.addEnchantment(Enchantment.aquaAffinity, armor.aquaAffinityLevel);
+			if (!itemStack.isItemEnchanted())
+				itemStack.addEnchantment(Enchantment.aquaAffinity, armor.aquaAffinityLevel);
 		}
 	}
+
 }
