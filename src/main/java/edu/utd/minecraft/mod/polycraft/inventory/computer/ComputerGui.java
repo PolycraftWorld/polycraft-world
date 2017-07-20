@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 public class ComputerGui extends /* GuiContainer */ PolycraftInventoryGui<ComputerInventory> {
 
 	public static final ResourceLocation computerBaseGui = new ResourceLocation(PolycraftMod.MODID,
-			"textures/gui/computer_stuff/newer_computer_with_active_tabs_separated_darkened.png");
+			"textures/gui/computer_stuff/large_computer.png");
 	public static final ResourceLocation computerTabIcons = new ResourceLocation(PolycraftMod.MODID,
 			"textures/gui/computer_stuff/icons.png");
 
@@ -61,7 +61,7 @@ public class ComputerGui extends /* GuiContainer */ PolycraftInventoryGui<Comput
 		for (int i = 0; i < tabs.length; i++) {
 			int side = 2;
 			GuiRectangle rectangle = tabs[i];
-			srcX = 342 / 2;
+			srcX = 460 / 2;
 			srcY = 145 / 2;
 			if ((rectangle.inRect(this, mouseX, mouseY, side) && tabs[i] != activeTab))
 				srcY = 84 / 2; // darken tab when hovering over it

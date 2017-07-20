@@ -44,7 +44,8 @@ public class ComputerInventory extends PolycraftInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new ComputerGui(this, playerInventory, 342/2, 330/2);
+		return new ComputerGui(this, playerInventory, 459/2, 511/2);
+//		return new ComputerGui(this, playerInventory, 342/2, 330/2);
 		//return new PolycraftInventoryGui(this, playerInventory, 200, 208, true);
 	}
 
