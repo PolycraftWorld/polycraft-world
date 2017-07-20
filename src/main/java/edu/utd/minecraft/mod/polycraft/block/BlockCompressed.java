@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -7,10 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 
 public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 
@@ -21,6 +21,8 @@ public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 		final String texture = PolycraftMod.getFileSafeName(compressedBlock.name);
 		this.labelTexture = new LabelTexture(texture, texture); // + "_flipped");
 		this.setStepSound(Block.soundTypeMetal);
+		this.setHardness(3);
+		this.setResistance(5);
 	}
 
 	@Override
@@ -36,15 +38,13 @@ public class BlockCompressed extends net.minecraft.block.BlockCompressed {
 	}
 
 	@Override
-	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
-	{
+	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack) {
 		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
 		super.dropBlockAsItem(world, x, y, z, itemstack);
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
 		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
 		return polycraftItemStack;
