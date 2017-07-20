@@ -90,9 +90,6 @@ public class PolycraftMod {
 		return String.format("%d.%d.%d", version[0], version[1], version[2]);
 	}
 	
-	//TODO:not yet finished. currently adds a new tab to creative inventory
-	public static CreativeTabs tabComputer = new ComputerTab("tabComputer");
-
 	@Instance(value = MODID)
 	public static PolycraftMod instance;
 
