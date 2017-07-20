@@ -7,19 +7,18 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class ComputerContainer extends /*Container */PolycraftCraftingContainerGeneric<ComputerInventory>{
-	
+public class ComputerContainer extends /* Container */PolycraftCraftingContainerGeneric<ComputerInventory> {
+
 	private static ComputerInventory computer;
-	
-	public ComputerContainer(InventoryPlayer playerInventory){
+
+	public ComputerContainer(InventoryPlayer playerInventory) {
 		this(playerInventory, computer);
 	}
-	
+
 	public ComputerContainer(InventoryPlayer invPlayer, ComputerInventory computer) {
 
 		super(computer, invPlayer);
-		this.computer=computer;
-		
+		this.computer = computer;
 
 	}
 
@@ -32,6 +31,5 @@ public class ComputerContainer extends /*Container */PolycraftCraftingContainerG
 	public PolycraftContainerType getContainerType() {
 		return PolycraftContainerType.COMPUTER;
 	}
-
 
 }
