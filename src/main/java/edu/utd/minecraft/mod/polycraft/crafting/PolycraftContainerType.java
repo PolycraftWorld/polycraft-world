@@ -195,8 +195,7 @@ public enum PolycraftContainerType {
 	 * Returns whether or not the player's inventory should be displayed in this inventory's gui.
 	 */
 	public boolean displayPlayerInventory(PolycraftContainerType inventoryType){
-		return  !(inventoryType.equals(COMPUTER) || 
-				  inventoryType.equals(HOSPITAL_GENERATOR));
+		return  !(inventoryType.equals(COMPUTER));
 	}
 
 	

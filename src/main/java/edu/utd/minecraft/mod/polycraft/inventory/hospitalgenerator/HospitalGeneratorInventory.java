@@ -43,7 +43,7 @@ public class HospitalGeneratorInventory extends PolycraftInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 404/2, 443/2, true);
+		return new PolycraftInventoryGui(this, playerInventory, 200, 208, true);
 	}
 
 }
