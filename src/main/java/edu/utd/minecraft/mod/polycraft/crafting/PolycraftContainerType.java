@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
@@ -22,7 +24,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.Disti
 import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.IndustrialOvenInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.hospital.HospitalInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.hospitalgenerator.HospitalGeneratorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
@@ -35,7 +37,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 
 /**
  * Enumeration of Polycraft container types.
@@ -75,7 +76,7 @@ public enum PolycraftContainerType {
 	TERRITORY_FLAG("Territory Flag"),
 	CHEM_2323("CHEM 2323"),
 	COMPUTER("Computer"), 
-	HOSPITAL("Hospital");
+	HOSPITAL_GENERATOR("Hospital Generator");
 
 	private final String friendlyName;
 
@@ -164,7 +165,7 @@ public enum PolycraftContainerType {
 		TERRITORY_FLAG.initialize(TerritoryFlagInventory.guiSlots);
 		CHEM_2323.initialize(CHEM2323Inventory.guiSlots);
 		COMPUTER.initialize(ComputerInventory.guiSlots);
-		HOSPITAL.initialize(HospitalInventory.guiSlots);
+		HOSPITAL_GENERATOR.initialize(HospitalGeneratorInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {
@@ -190,6 +191,14 @@ public enum PolycraftContainerType {
 		this.friendlyName = friendlyName;
 	}
 
+	/**
+	 * Returns whether or not the player's inventory should be displayed in this inventory's gui.
+	 */
+	public boolean displayPlayerInventory(PolycraftContainerType inventoryType){
+		return  !(inventoryType.equals(COMPUTER));
+	}
+
+	
 	/**
 	 * Returns the enumerated version of the container slot by index, or null if the index is not valid.
 	 */

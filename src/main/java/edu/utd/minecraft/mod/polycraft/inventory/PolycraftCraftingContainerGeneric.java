@@ -1,16 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> extends PolycraftCraftingContainer {
 	protected final I inventory;
@@ -27,7 +27,13 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 
 	public PolycraftCraftingContainerGeneric(final I inventory, final InventoryPlayer playerInventory, final int playerInventoryOffset) {
 		super(inventory, inventory.getContainerType());
-		this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);
+		
+		//TODO: this part might need to be cleaned up
+		if (inventory.getContainerType().displayPlayerInventory(inventory.getContainerType()))
+			this.firstPlayerInventorySlot = addPlayerInventorySlots(playerInventory, playerInventoryOffset);		
+		else
+			firstPlayerInventorySlot = 0;
+		
 		this.firstPlayerHotbarSlot = firstPlayerInventorySlot + 27;
 		this.lastPlayerInventorySlot = firstPlayerInventorySlot + totalPlayerInventoryAndHotbarSlots;
 		this.inventory = inventory;

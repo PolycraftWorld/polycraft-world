@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
