@@ -87,7 +87,8 @@ public class InventoryHelper {
 				}
 				else //limit the flow to the stack number
 				{
-					targetItemStack = new ItemStack(sourceItemStack.getItem(), regulatedItemStack.stackSize);
+					// TODO: Not sure if we need to copy damage values here but just in case I'll put it in (PM-55)
+					targetItemStack = new ItemStack(sourceItemStack.getItem(), regulatedItemStack.stackSize, sourceItemStack.getItemDamage());
 
 					if (sourceItemStack.hasTagCompound())
 					{
@@ -103,7 +104,8 @@ public class InventoryHelper {
 			{
 				if (targetItemStack == null)
 				{
-					targetItemStack = new ItemStack(sourceItemStack.getItem(), sourceItemStack.stackSize);
+					// TODO: This is just a marker for the item repair glitch (PM-55)
+					targetItemStack = new ItemStack(sourceItemStack.getItem(), sourceItemStack.stackSize, sourceItemStack.getItemDamage());
 
 					if (sourceItemStack.hasTagCompound())
 					{
@@ -122,8 +124,9 @@ public class InventoryHelper {
 
 					else if (sourceItemStack.stackSize + targetItemStack.stackSize > targetItemStack.getMaxStackSize())
 					{
-						targetItemStack.stackSize = targetItemStack.getMaxStackSize();
+						// TODO: This is just a marker for the item dupe glitch (PM-55)
 						sourceItemStack.stackSize = sourceItemStack.stackSize + targetItemStack.stackSize - targetItemStack.getMaxStackSize();
+						targetItemStack.stackSize = targetItemStack.getMaxStackSize();
 						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
 						source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
 					}
@@ -227,7 +230,8 @@ public class InventoryHelper {
 		{
 			if (targetItemStack == null)
 			{
-				targetItemStack = new ItemStack(sourceItemStack.getItem(), sourceItemStack.stackSize);
+				// TODO: This is just a marker for the item repair glitch (PM-55)
+				targetItemStack = new ItemStack(sourceItemStack.getItem(), sourceItemStack.stackSize, sourceItemStack.getItemDamage());
 
 				if (sourceItemStack.hasTagCompound())
 				{
@@ -246,8 +250,9 @@ public class InventoryHelper {
 
 				else if (sourceItemStack.stackSize + targetItemStack.stackSize > targetItemStack.getMaxStackSize())
 				{
-					targetItemStack.stackSize = targetItemStack.getMaxStackSize();
+					// TODO: This is just a marker for the item dupe glitch (PM-55)
 					sourceItemStack.stackSize = sourceItemStack.stackSize + targetItemStack.stackSize - targetItemStack.getMaxStackSize();
+					targetItemStack.stackSize = targetItemStack.getMaxStackSize();
 					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
 					source.setInventorySlotContents(sourceSlotIndex, sourceItemStack);
 				}
