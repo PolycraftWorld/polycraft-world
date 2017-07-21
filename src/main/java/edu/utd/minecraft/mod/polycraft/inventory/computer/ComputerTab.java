@@ -11,17 +11,25 @@ import net.minecraft.item.Item;
 //TODO:not yet finished
 public class ComputerTab extends CreativeTabs {
 
+/*	public final String label;
+	
+	public ComputerTab() {
+		this("");
+	}
+*/	
+	
 	public ComputerTab(String label) {
-		super(label);
-		this.setBackgroundImageName("inventory.png");
+		super("Computer " + label);
+		//this.label=label;
+		this.setBackgroundImageName("temp.png");
 	}
 
 	@Override
 	public Item getTabIconItem() {
-		return null;//TODO: icon on tab
+		return Items.apple;//TODO: icon on tab
 	}
 	
-    public static final CreativeTabs tabMisc = (new CreativeTabs(4, "misc")
+/*    public static final CreativeTabs tabMisc = (new CreativeTabs(4, "misc")
     {
         private static final String __OBFID = "CL_00000014";
         @SideOnly(Side.CLIENT)
@@ -30,6 +38,6 @@ public class ComputerTab extends CreativeTabs {
             return Items.lava_bucket;
         }
     }).func_111229_a(new EnumEnchantmentType[] {EnumEnchantmentType.all});
-
+*/
 
 }

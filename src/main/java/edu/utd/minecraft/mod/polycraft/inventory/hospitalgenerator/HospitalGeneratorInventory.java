@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.inventory.computer;
+package edu.utd.minecraft.mod.polycraft.inventory.hospitalgenerator;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGener
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
-public class ComputerInventory extends PolycraftInventory {
+public class HospitalGeneratorInventory extends PolycraftInventory {
 
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
@@ -26,27 +26,24 @@ public class ComputerInventory extends PolycraftInventory {
 	private static Inventory config;
 
 	public static final void register(final Inventory config) {
-		ComputerInventory.config = config;
-		config.containerType = PolycraftContainerType.COMPUTER;
-		PolycraftInventory.register(new ComputerBlock(config, ComputerInventory.class));
+		HospitalGeneratorInventory.config = config;
+		config.containerType = PolycraftContainerType.HOSPITAL_GENERATOR;
+		PolycraftInventory.register(new HospitalGeneratorBlock(config, HospitalGeneratorInventory.class));
 	}
 
-	public ComputerInventory() {
-		super(PolycraftContainerType.COMPUTER, config);
+	public HospitalGeneratorInventory() {
+		super(PolycraftContainerType.HOSPITAL_GENERATOR, config);
 	}
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		return new ComputerContainer(playerInventory, this);
-//		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128);
+		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new ComputerGui(this, playerInventory, 459/2, 511/2);
-//		return new ComputerGui(this, playerInventory, 342/2, 330/2);
-		//return new PolycraftInventoryGui(this, playerInventory, 200, 208, true);
+		return new PolycraftInventoryGui(this, playerInventory, 200, 208, true);
 	}
 
 }
