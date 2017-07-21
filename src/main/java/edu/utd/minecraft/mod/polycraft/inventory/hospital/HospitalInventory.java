@@ -45,5 +45,11 @@ public class HospitalInventory extends PolycraftInventory {
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		return new PolycraftInventoryGui(this, playerInventory, 200, 208, true);
 	}
+	
+	@Override
+	public synchronized void updateEntity() {
+		super.updateEntity();
+		
+	}
 
 }
