@@ -25,10 +25,6 @@ import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
-import edu.utd.minecraft.mod.polycraft.entity.npc.EntityResearchAssistant;
-import edu.utd.minecraft.mod.polycraft.entity.npc.ModelResearchAssistant;
-import edu.utd.minecraft.mod.polycraft.entity.npc.PolycraftNPCs;
-import edu.utd.minecraft.mod.polycraft.entity.npc.RenderResearchAssistant;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -74,8 +70,7 @@ public class ClientProxy extends CommonProxy {
 	private static final int statusOverlayStartX = 5;
 	private static final int statusOverlayStartY = 5;
 	private static final int statusOverlayDistanceBetweenY = 10;
-	private static final int swapCooldownTime = 1200; // 60 seconds x 20 ticks
-														// per sec
+	private static final int swapCooldownTime = 1200; //60 seconds x 20 ticks per sec
 
 	private Minecraft client;
 	private GameSettings gameSettings;
@@ -107,17 +102,13 @@ public class ClientProxy extends CommonProxy {
 
 		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
-
-		// TODO: Move rendering registry lines to a new handler...
-		RenderingRegistry.registerEntityRenderingHandler(EntityResearchAssistant.class,
-				new RenderResearchAssistant(new ModelResearchAssistant(), 0));
 	}
 
 	public void postInit() {
 		super.postInit();
 		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
-		// TODO: Walter add in 3D rendering code
+		//TODO: Walter add in 3D rendering code
 		registerRenderers();
 	}
 
@@ -230,8 +221,7 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity,
-			final boolean cancelGravity) {
+	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
 		if (isKeyDown(gameSettings.keyBindJump)) {
 			if (ItemJetPack.isEquipped(player)) {
 				if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
@@ -245,6 +235,11 @@ public class ClientProxy extends CommonProxy {
 		else if (cancelGravity && player.motionY < 0)
 			player.motionY = 0;
 	}
+
+	//	@SubscribeEvent TODO create a message upon logging into the server
+	//	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+	//		event.player.addChatMessage(new ChatComponentText("Welcome To Polycraft!"));
+	//	}
 
 	@Override
 	@SubscribeEvent
@@ -267,23 +262,17 @@ public class ClientProxy extends CommonProxy {
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-					// if we are supposed to return momentum while not actively
-					// jumping (or sneaking)
-					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0
-							&& !isKeyDown(gameSettings.keyBindSneak))
-						playerState.bouncyBlockBounceHeight = event.distance
-								* bouncyBlock.getMomentumReturnedOnPassiveFall();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				} else if (getBlockUnderNorthOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderNorthOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-					// if we are supposed to return momentum while not actively
-					// jumping (or sneaking)
-					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0
-							&& !isKeyDown(gameSettings.keyBindSneak))
-						playerState.bouncyBlockBounceHeight = event.distance
-								* bouncyBlock.getMomentumReturnedOnPassiveFall();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				}
 
 				else if (getBlockUnderSouthOfEntity(player) instanceof BlockBouncy) {
@@ -291,42 +280,30 @@ public class ClientProxy extends CommonProxy {
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-					// if we are supposed to return momentum while not actively
-					// jumping (or sneaking)
-					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0
-							&& !isKeyDown(gameSettings.keyBindSneak))
-						playerState.bouncyBlockBounceHeight = event.distance
-								* bouncyBlock.getMomentumReturnedOnPassiveFall();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				} else if (getBlockUnderEastOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEastOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-					// if we are supposed to return momentum while not actively
-					// jumping (or sneaking)
-					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0
-							&& !isKeyDown(gameSettings.keyBindSneak))
-						playerState.bouncyBlockBounceHeight = event.distance
-								* bouncyBlock.getMomentumReturnedOnPassiveFall();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				} else if (getBlockUnderWestOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderWestOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
 						playerState.bouncyBlockBounceHeight = bouncyBlock.getActiveBounceHeight();
-					// if we are supposed to return momentum while not actively
-					// jumping (or sneaking)
-					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0
-							&& !isKeyDown(gameSettings.keyBindSneak))
-						playerState.bouncyBlockBounceHeight = event.distance
-								* bouncyBlock.getMomentumReturnedOnPassiveFall();
+					// if we are supposed to return momentum while not actively jumping (or sneaking)
+					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
+						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				} else if (getBlockUnderEntity(player) instanceof BlockBed) {
 					final BlockBed bouncyBed = (BlockBed) getBlockUnderEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
-						playerState.bouncyBlockBounceHeight = 3; // hard coded
-																	// bed value
-																	// spring
-																	// height
+						playerState.bouncyBlockBounceHeight = 3; //hard coded bed value spring height
 				}
 
 			}
@@ -349,7 +326,7 @@ public class ClientProxy extends CommonProxy {
 				onClientTickBouncyBlock(player, playerState);
 				onClientTickCommDeviceToggled(player, playerState);
 				onClientTickSyncInventory(player, playerState);
-				// onClientTickPlasticBrick(player, playerState);
+				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
 			}
 		}
@@ -357,8 +334,7 @@ public class ClientProxy extends CommonProxy {
 
 	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {
 		if (keyBindingToggleArmor.isPressed()) {
-			// TODO: add in functionality for pushing F when comm. device is
-			// equipped
+			//TODO: add in functionality for pushing F when comm. device is equipped
 		}
 
 	}
@@ -366,8 +342,7 @@ public class ClientProxy extends CommonProxy {
 	private void onClientTickSyncInventory(EntityPlayer player, PlayerState playerState) {
 
 		if (playerState.syncCooldownRemaining == 0) {
-			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN)
-					&& isKeyDown(keyBindingV); // TODO and in PP
+			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
 			if (clientWantsToSyncInventory) {
 				playerState.syncCooldownRemaining = swapCooldownTime;
 				playerState.choseToSyncInventory = true;
@@ -379,8 +354,7 @@ public class ClientProxy extends CommonProxy {
 
 		else {
 			playerState.syncCooldownRemaining--;
-			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV)
-					&& playerState.syncCooldownRemaining < swapCooldownTime - 100) {
+			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV) && playerState.syncCooldownRemaining < swapCooldownTime - 100) {
 				playerState.choseToSyncInventoryAgain = true;
 			}
 		}
@@ -438,8 +412,7 @@ public class ClientProxy extends CommonProxy {
 			return "";
 		}
 
-		return String.format("%1$s: %2$.1f MHz", itemStack.getItem().getItemStackDisplayName(itemStack),
-				frequency / 10);
+		return String.format("%1$s: %2$.1f MHz", itemStack.getItem().getItemStackDisplayName(itemStack), frequency / 10);
 	}
 
 	private void onRenderTickItemStatusOverlays(final EntityPlayer player, final PlayerState playerState) {
@@ -448,8 +421,7 @@ public class ClientProxy extends CommonProxy {
 			int y = statusOverlayStartY;
 			if (ItemJetPack.isEquipped(player)) {
 				final double fuelRemainingPercent = ItemJetPack.getFuelRemainingPercent(player);
-				String message = getOverlayStatusPercent(ItemJetPack.getEquippedItemStack(player),
-						fuelRemainingPercent);
+				String message = getOverlayStatusPercent(ItemJetPack.getEquippedItemStack(player), fuelRemainingPercent);
 				for (final Entry<Integer, String> warningEntry : PolycraftMod.itemJetPackLandingWarnings.entrySet()) {
 					if ((fuelRemainingPercent * 100) <= warningEntry.getKey()) {
 						message += " " + warningEntry.getValue();
@@ -459,9 +431,7 @@ public class ClientProxy extends CommonProxy {
 				client.fontRenderer.drawStringWithShadow(message, x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			} else if (ItemScubaTank.isEquipped(player)) {
-				client.fontRenderer
-						.drawStringWithShadow(getOverlayStatusPercent(ItemScubaTank.getEquippedItemStack(player),
-								ItemScubaTank.getAirRemainingPercent(player)), x, y, 16777215);
+				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemScubaTank.getEquippedItemStack(player), ItemScubaTank.getAirRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
@@ -469,13 +439,11 @@ public class ClientProxy extends CommonProxy {
 				if (isKeyDown(keyBindingCheckAir)) {
 					if (playerState.airQualityTicksRemaining == 0) {
 						playerState.airQualityTicksRemaining = PolycraftMod.convertSecondsToGameTicks(10);
-						playerState.airQualityClean = PolycraftCleanroom.isLocationClean(player.worldObj,
-								(int) (player.posX) - 1, (int) (player.posY), (int) (player.posZ) - 1);
+						playerState.airQualityClean = PolycraftCleanroom.isLocationClean(player.worldObj, (int) (player.posX) - 1, (int) (player.posY), (int) (player.posZ) - 1);
 
 					} else {
 
-						client.fontRenderer.drawStringWithShadow(playerState.airQualityClean ? "Clean" : "Dirty", x, y,
-								16777215);
+						client.fontRenderer.drawStringWithShadow(playerState.airQualityClean ? "Clean" : "Dirty", x, y, 16777215);
 						y += statusOverlayDistanceBetweenY;
 
 					}
@@ -490,26 +458,19 @@ public class ClientProxy extends CommonProxy {
 				playerState.airQualityTicksRemaining--;
 
 			if (ItemFlameThrower.isEquipped(player)) {
-				client.fontRenderer
-						.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player),
-								ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
+				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			} else if (ItemFreezeRay.isEquipped(player)) {
-				client.fontRenderer
-						.drawStringWithShadow(getOverlayStatusPercent(ItemFreezeRay.getEquippedItemStack(player),
-								ItemFreezeRay.getFuelRemainingPercent(player)), x, y, 16777215);
+				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFreezeRay.getEquippedItemStack(player), ItemFreezeRay.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			} else if (ItemWaterCannon.isEquipped(player)) {
-				client.fontRenderer
-						.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player),
-								ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
+				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player), ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
 			else if (ItemCommunication.isEquipped(player)) {
 
-				client.fontRenderer.drawStringWithShadow(getFrequency(ItemCommunication.getEquippedItemStack(player),
-						ItemCommunication.getFrequency(player)), x, y, 16777215);
+				client.fontRenderer.drawStringWithShadow(getFrequency(ItemCommunication.getEquippedItemStack(player), ItemCommunication.getFrequency(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
@@ -520,23 +481,18 @@ public class ClientProxy extends CommonProxy {
 				}
 
 				else {
-					client.fontRenderer.drawStringWithShadow("Synced Inventory With Portal ("
-							+ playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y,
-							16777215);
+					client.fontRenderer.drawStringWithShadow("Synced Inventory With Portal (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 					y += statusOverlayDistanceBetweenY;
 
 				}
 
 			} else if (playerState.choseToSyncInventoryAgain) {
-				client.fontRenderer.drawStringWithShadow(
-						"Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)",
-						x, y, 16777215);
+				client.fontRenderer.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
 			if (playerState.cheatInfoTicksRemaining == 0) {
-				final boolean cheatInfoActivated = isKeyDown(keyBindingJ) && isKeyDown(keyBindingI)
-						&& isKeyDown(keyBindingM);
+				final boolean cheatInfoActivated = isKeyDown(keyBindingJ) && isKeyDown(keyBindingI) && isKeyDown(keyBindingM);
 				if (cheatInfoActivated) {
 					if (playerState.cheatInfoOreBlocksFound == null) {
 						playerState.cheatInfoOreBlocksFound = Maps.newLinkedHashMap();
@@ -567,12 +523,10 @@ public class ClientProxy extends CommonProxy {
 					}
 				}
 			} else {
-				client.fontRenderer.drawStringWithShadow("Cheat Info (" + playerState.cheatInfoTicksRemaining + ")", x,
-						y, 16777215);
+				client.fontRenderer.drawStringWithShadow("Cheat Info (" + playerState.cheatInfoTicksRemaining + ")", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 				for (final Entry<Ore, Integer> foundOre : playerState.cheatInfoOreBlocksFound.entrySet()) {
-					client.fontRenderer.drawStringWithShadow(foundOre.getValue() + " " + foundOre.getKey().name, x, y,
-							16777215);
+					client.fontRenderer.drawStringWithShadow(foundOre.getValue() + " " + foundOre.getKey().name, x, y, 16777215);
 					y += statusOverlayDistanceBetweenY;
 				}
 				y += statusOverlayDistanceBetweenY;
@@ -581,17 +535,16 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	// private void onClientTickPlasticBrick(EntityPlayer player, PlayerState
-	// playerState) {
-	// boolean placeBrickBackwards = false;
-	// if (isKeyDown(gameSettings.keyBindSneak))
-	// {
-	// playerState.placeBrickBackwards = true;
-	// }
-	// else
-	// playerState.placeBrickBackwards = false;
-	//
-	// }
+	//	private void onClientTickPlasticBrick(EntityPlayer player, PlayerState playerState) {
+	//		boolean placeBrickBackwards = false;
+	//		if (isKeyDown(gameSettings.keyBindSneak))
+	//		{
+	//			playerState.placeBrickBackwards = true;
+	//		}
+	//		else
+	//			playerState.placeBrickBackwards = false;
+	//		
+	//	}
 
 	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
 		boolean jetPackIsFlying = false;
@@ -613,13 +566,12 @@ public class ClientProxy extends CommonProxy {
 			setPlayerVelocityFromInputXZ(player, velocityInAir);
 			setPlayerVelocityFromInputY(player, velocityInAir, true);
 
-			// cause an unstable motion to simulate the unpredictability of the
-			// exhaust direction
+			// cause an unstable motion to simulate the unpredictability of the exhaust direction
 			ItemJetPack.randomizePosition(player, random);
 		}
-		// TODO: Jim, inspect code to respect the altitudeLimit of the jet pack
+		//TODO: Jim, inspect code to respect the altitudeLimit of the jet pack
 		// The jet pack should still be able to move in the XZ plane and in -Y
-		// simply disallow climbing
+		// simply disallow climbing 
 		// the variable in ItemJetPack is called altitudeMaximum
 		// just want you to be aware that I am monkeying with your code
 	}
@@ -633,9 +585,7 @@ public class ClientProxy extends CommonProxy {
 
 	private void onPlayerTickClientFlameThrower(final EntityPlayer player, final PlayerState playerState) {
 		final boolean playerOnCurrentClient = client.thePlayer.equals(player);
-		final boolean flameThrowerIgnited = playerOnCurrentClient
-				? ItemFlameThrower.allowsActivation(player) && player.isUsingItem()
-				: ItemFlameThrower.getActivated(player);
+		final boolean flameThrowerIgnited = playerOnCurrentClient ? ItemFlameThrower.allowsActivation(player) && player.isUsingItem() : ItemFlameThrower.getActivated(player);
 		playerState.setFlameThrowerLightsEnabled(flameThrowerIgnited);
 	}
 
@@ -688,13 +638,9 @@ public class ClientProxy extends CommonProxy {
 			final ItemPogoStick pogoStick = ItemPogoStick.getEquippedItem(player);
 			jumpMovementFactor *= pogoStick.config.jumpMovementFactorBuff;
 			if (!pogoStick.config.restrictJumpToGround || player.onGround) {
-				final boolean playerActivelyBouncing = isKeyDown(gameSettings.keyBindUseItem) && noScreenOverlay()
-						&& !isPlayerLookingAtPogoCancellingBlock();
-				final boolean playerActivelySupressing = !playerActivelyBouncing && isKeyDown(gameSettings.keyBindSneak)
-						&& noScreenOverlay();
-				final double motionY = pogoStick.config.getMotionY(
-						playerActivelySupressing ? 0 : playerState.pogoStickLastFallDistance,
-						playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
+				final boolean playerActivelyBouncing = isKeyDown(gameSettings.keyBindUseItem) && noScreenOverlay() && !isPlayerLookingAtPogoCancellingBlock();
+				final boolean playerActivelySupressing = !playerActivelyBouncing && isKeyDown(gameSettings.keyBindSneak) && noScreenOverlay();
+				final double motionY = pogoStick.config.getMotionY(playerActivelySupressing ? 0 : playerState.pogoStickLastFallDistance, playerState.pogoStickPreviousContinuousActiveBounces, playerActivelyBouncing);
 				if (motionY > 0)
 					player.motionY = motionY;
 				if (playerActivelyBouncing)
@@ -713,23 +659,22 @@ public class ClientProxy extends CommonProxy {
 
 	private boolean isPlayerLookingAtPogoCancellingBlock() {
 		if (client.objectMouseOver != null) {
-			final Block block = client.theWorld.getBlock(client.objectMouseOver.blockX, client.objectMouseOver.blockY,
-					client.objectMouseOver.blockZ);
-			return block instanceof BlockContainer || block instanceof BlockWorkbench || block instanceof BlockDoor
-					|| block instanceof BlockButton || block == Blocks.bed;
+			final Block block = client.theWorld.getBlock(client.objectMouseOver.blockX, client.objectMouseOver.blockY, client.objectMouseOver.blockZ);
+			return block instanceof BlockContainer
+					|| block instanceof BlockWorkbench
+					|| block instanceof BlockDoor
+					|| block instanceof BlockButton
+					|| block == Blocks.bed;
 		}
 		return false;
 	}
 
 	private void onClientTickBouncyBlock(final EntityPlayer player, final PlayerState playerState) {
 		if (playerState.bouncyBlockBounceHeight > 0) {
-			// if the player is on the ground and holding down jump, then wait
-			// for the jump to occur
-			// (if we try to set the y velocity before the game jumps, it will
-			// override our velocity)
+			// if the player is on the ground and holding down jump, then wait for the jump to occur
+			// (if we try to set the y velocity before the game jumps, it will override our velocity)
 			if (!(player.onGround && isKeyDown(gameSettings.keyBindJump))) {
-				final double motionY = PolycraftMod
-						.getVelocityRequiredToReachHeight(playerState.bouncyBlockBounceHeight);
+				final double motionY = PolycraftMod.getVelocityRequiredToReachHeight(playerState.bouncyBlockBounceHeight);
 				if (motionY > .2)
 					player.motionY = motionY;
 				playerState.bouncyBlockBounceHeight = 0;
@@ -755,10 +700,8 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerRenderers() {
-		// RenderIDs.PolymerBrickID =
-		// RenderingRegistry.getNextAvailableRenderId();
-		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPolymerBrick.class,
-		// new TileEntityPolymerBrickRenderer());
+		//RenderIDs.PolymerBrickID = RenderingRegistry.getNextAvailableRenderId();
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPolymerBrick.class, new TileEntityPolymerBrickRenderer());
 		for (final Inventory inventory : Inventory.registry.values()) {
 			PolycraftInventoryBlock inventoryBlock = (PolycraftInventoryBlock) PolycraftRegistry.getBlock(inventory);
 			PolycraftInventoryBlock.BasicRenderingHandler renderingHandler;
@@ -766,23 +709,17 @@ public class ClientProxy extends CommonProxy {
 				inventory.renderID = RenderingRegistry.getNextAvailableRenderId();
 
 			if (GameID.InventoryTreeTap.matches(inventory))
-				RenderingRegistry.registerBlockHandler(inventory.renderID,
-						renderingHandler = new TreeTapRenderingHandler(inventory));
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new TreeTapRenderingHandler(inventory));
 			else if (GameID.InventoryOilDerrick.matches(inventory))
-				RenderingRegistry.registerBlockHandler(inventory.renderID,
-						renderingHandler = new OilDerrickRenderingHandler(inventory));
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new OilDerrickRenderingHandler(inventory));
 			else if (GameID.InventoryCondenser.matches(inventory))
-				RenderingRegistry.registerBlockHandler(inventory.renderID,
-						renderingHandler = new CondenserRenderingHandler(inventory));
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new CondenserRenderingHandler(inventory));
 			else if (GameID.InventorySolarArray.matches(inventory))
-				RenderingRegistry.registerBlockHandler(inventory.renderID,
-						renderingHandler = new SolarArrayRenderingHandler(inventory));
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new SolarArrayRenderingHandler(inventory));
 			else
-				RenderingRegistry.registerBlockHandler(inventory.renderID,
-						renderingHandler = new PolycraftInventoryBlock.BasicRenderingHandler(inventory));
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new PolycraftInventoryBlock.BasicRenderingHandler(inventory));
 
-			// TODO: figure out why this is commented out and if it is needed
-			// 8.5.2015
+			//TODO: figure out why this is commented out and if it is needed 8.5.2015
 			if (inventory.render3D)
 				ClientRegistry.bindTileEntitySpecialRenderer(inventoryBlock.tileEntityClass, renderingHandler);
 
