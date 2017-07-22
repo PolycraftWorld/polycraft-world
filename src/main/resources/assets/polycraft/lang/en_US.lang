@@ -4563,7 +4563,8 @@ item.K.name=Metal Die (Fibers)
 item.L.name=Metal Die (Tether)
 item.M.name=Metal Die (Cord)
 item.N.name=Metal Die (Hose)
-item.3g.name=Mold (Pipe Segment)
+# item.3g.name=Mold (Pipe Segment)
+item.3g.name=Metal Die (Pipe Segment)
 item.5I.name=Mold (Flashlight Shaft)
 item.10S.name=Mold (Plastic Brick (1 x 1))
 item.10T.name=Mold (Plastic Brick (1 x 2))
@@ -5229,6 +5230,10 @@ container.1fo=Trading House
 tile.1fo.name=Trading House
 container.1fq=Territory Flag
 tile.1fq.name=Territory Flag
+container.1hb=Computer
+tile.1hb.name=Computer
+container.1hd=Hospital
+tile.1hd.name=Hospital
 container.1fr=Printing Press
 tile.1fr.name=Printing Press
 container.1gm=CHEM2323
@@ -5312,3 +5317,6 @@ item.1bY.name=Trove (Copper)
 item.1fv.name=Air Quality Detector
 item.1fw.name=Ripstop Nylon Sheet
 item.1fW.name=Guano
+
+# Entity
+entity.researchAssistant.name=Research Assistant

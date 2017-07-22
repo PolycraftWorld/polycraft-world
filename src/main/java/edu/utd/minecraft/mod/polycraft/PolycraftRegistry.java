@@ -2,29 +2,11 @@ package edu.utd.minecraft.mod.polycraft;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.BlockWall;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,6 +66,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
@@ -97,6 +80,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.industrialoven.Industria
 import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.hospitalgenerator.HospitalGeneratorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
@@ -159,6 +143,24 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockWall;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class PolycraftRegistry {
 
@@ -359,6 +361,7 @@ public class PolycraftRegistry {
 				break;
 
 			targetVersion = PolycraftMod.getVersionNumeric(line[0]);
+			// System.out.println("Target Version: " + Arrays.toString(targetVersion));
 			if (!PolycraftMod.isVersionCompatible(targetVersion)) {
 				break;
 			}
@@ -394,6 +397,7 @@ public class PolycraftRegistry {
 			registerFlashcards();
 			registerExams();
 			Fuel.registerQuantifiedFuels();
+			
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
 	}
@@ -1040,6 +1044,10 @@ public class PolycraftRegistry {
 					TerritoryFlagInventory.register(inventory);
 				else if (GameID.InventoryCHEM2323.matches(inventory))
 					CHEM2323Inventory.register(inventory);
+				else if (GameID.InventoryComputer.matches(inventory))
+					ComputerInventory.register(inventory);
+				else if (GameID.InventoryHospital.matches(inventory))
+					HospitalGeneratorInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}

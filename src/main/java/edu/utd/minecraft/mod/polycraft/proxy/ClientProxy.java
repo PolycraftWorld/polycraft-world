@@ -4,23 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockButton;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockWorkbench;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Maps;
@@ -65,6 +48,22 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockButton;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockWorkbench;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 public class ClientProxy extends CommonProxy {
 
@@ -223,8 +222,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
-		if (isKeyDown(gameSettings.keyBindJump))
-		{
+		if (isKeyDown(gameSettings.keyBindJump)) {
 			if (ItemJetPack.isEquipped(player)) {
 				if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
 					player.motionY = velocity;
@@ -232,12 +230,16 @@ public class ClientProxy extends CommonProxy {
 					player.motionY = 0;
 			}
 
-		}
-		else if (isKeyDown(gameSettings.keyBindSneak))
+		} else if (isKeyDown(gameSettings.keyBindSneak))
 			player.motionY = -velocity;
 		else if (cancelGravity && player.motionY < 0)
 			player.motionY = 0;
 	}
+
+	//	@SubscribeEvent TODO create a message upon logging into the server
+	//	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+	//		event.player.addChatMessage(new ChatComponentText("Welcome To Polycraft!"));
+	//	}
 
 	@Override
 	@SubscribeEvent
@@ -255,8 +257,7 @@ public class ClientProxy extends CommonProxy {
 			if (ItemPogoStick.isEquipped(player))
 				playerState.pogoStickLastFallDistance = event.distance;
 			else if (isEntityOnBouncyBlock(player)) {
-				if (getBlockUnderEntity(player) instanceof BlockBouncy)
-				{
+				if (getBlockUnderEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
@@ -264,9 +265,7 @@ public class ClientProxy extends CommonProxy {
 					// if we are supposed to return momentum while not actively jumping (or sneaking)
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
-				}
-				else if (getBlockUnderNorthOfEntity(player) instanceof BlockBouncy)
-				{
+				} else if (getBlockUnderNorthOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderNorthOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
@@ -276,8 +275,7 @@ public class ClientProxy extends CommonProxy {
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
 				}
 
-				else if (getBlockUnderSouthOfEntity(player) instanceof BlockBouncy)
-				{
+				else if (getBlockUnderSouthOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderSouthOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
@@ -285,9 +283,7 @@ public class ClientProxy extends CommonProxy {
 					// if we are supposed to return momentum while not actively jumping (or sneaking)
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
-				}
-				else if (getBlockUnderEastOfEntity(player) instanceof BlockBouncy)
-				{
+				} else if (getBlockUnderEastOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderEastOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
@@ -295,9 +291,7 @@ public class ClientProxy extends CommonProxy {
 					// if we are supposed to return momentum while not actively jumping (or sneaking)
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
-				}
-				else if (getBlockUnderWestOfEntity(player) instanceof BlockBouncy)
-				{
+				} else if (getBlockUnderWestOfEntity(player) instanceof BlockBouncy) {
 					final BlockBouncy bouncyBlock = (BlockBouncy) getBlockUnderWestOfEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
@@ -305,9 +299,7 @@ public class ClientProxy extends CommonProxy {
 					// if we are supposed to return momentum while not actively jumping (or sneaking)
 					else if (bouncyBlock.getMomentumReturnedOnPassiveFall() > 0 && !isKeyDown(gameSettings.keyBindSneak))
 						playerState.bouncyBlockBounceHeight = event.distance * bouncyBlock.getMomentumReturnedOnPassiveFall();
-				}
-				else if (getBlockUnderEntity(player) instanceof BlockBed)
-				{
+				} else if (getBlockUnderEntity(player) instanceof BlockBed) {
 					final BlockBed bouncyBed = (BlockBed) getBlockUnderEntity(player);
 					// if we are actively jumping
 					if (noScreenOverlay() && isKeyDown(gameSettings.keyBindJump))
@@ -341,8 +333,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {
-		if (keyBindingToggleArmor.isPressed())
-		{
+		if (keyBindingToggleArmor.isPressed()) {
 			//TODO: add in functionality for pushing F when comm. device is equipped
 		}
 
@@ -361,17 +352,14 @@ public class ClientProxy extends CommonProxy {
 
 		}
 
-		else
-		{
+		else {
 			playerState.syncCooldownRemaining--;
-			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV) && playerState.syncCooldownRemaining < swapCooldownTime - 100)
-			{
+			if (isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV) && playerState.syncCooldownRemaining < swapCooldownTime - 100) {
 				playerState.choseToSyncInventoryAgain = true;
 			}
 		}
 
-		if (isKeyDown(keyBindingBackspace))
-		{
+		if (isKeyDown(keyBindingBackspace)) {
 			playerState.choseToSyncInventoryAgain = false;
 			playerState.choseToSyncInventory = false;
 		}
@@ -418,12 +406,9 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private static String getFrequency(final ItemStack itemStack, final double frequency) {
-		if (itemStack.getDisplayName().equalsIgnoreCase("voice cone"))
-		{
+		if (itemStack.getDisplayName().equalsIgnoreCase("voice cone")) {
 			return "";
-		}
-		else if (itemStack.getDisplayName().equalsIgnoreCase("megaphone"))
-		{
+		} else if (itemStack.getDisplayName().equalsIgnoreCase("megaphone")) {
 			return "";
 		}
 
@@ -445,32 +430,25 @@ public class ClientProxy extends CommonProxy {
 				}
 				client.fontRenderer.drawStringWithShadow(message, x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
-			}
-			else if (ItemScubaTank.isEquipped(player)) {
+			} else if (ItemScubaTank.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemScubaTank.getEquippedItemStack(player), ItemScubaTank.getAirRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
 			else if (ItemAirQualityDetector.isEquipped(player)) {
-				if (isKeyDown(keyBindingCheckAir))
-				{
-					if (playerState.airQualityTicksRemaining == 0)
-					{
+				if (isKeyDown(keyBindingCheckAir)) {
+					if (playerState.airQualityTicksRemaining == 0) {
 						playerState.airQualityTicksRemaining = PolycraftMod.convertSecondsToGameTicks(10);
 						playerState.airQualityClean = PolycraftCleanroom.isLocationClean(player.worldObj, (int) (player.posX) - 1, (int) (player.posY), (int) (player.posZ) - 1);
 
-					}
-					else
-					{
+					} else {
 
 						client.fontRenderer.drawStringWithShadow(playerState.airQualityClean ? "Clean" : "Dirty", x, y, 16777215);
 						y += statusOverlayDistanceBetweenY;
 
 					}
 
-				}
-				else
-				{
+				} else {
 					playerState.airQualityTicksRemaining = 0;
 
 				}
@@ -482,12 +460,10 @@ public class ClientProxy extends CommonProxy {
 			if (ItemFlameThrower.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
-			}
-			else if (ItemFreezeRay.isEquipped(player)) {
+			} else if (ItemFreezeRay.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFreezeRay.getEquippedItemStack(player), ItemFreezeRay.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
-			}
-			else if (ItemWaterCannon.isEquipped(player)) {
+			} else if (ItemWaterCannon.isEquipped(player)) {
 				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player), ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
@@ -499,22 +475,18 @@ public class ClientProxy extends CommonProxy {
 			}
 
 			if (playerState.choseToSyncInventory) {
-				if (playerState.syncCooldownRemaining < 1100 && playerState.syncCooldownRemaining > 1000)
-				{
+				if (playerState.syncCooldownRemaining < 1100 && playerState.syncCooldownRemaining > 1000) {
 					playerState.choseToSyncInventory = false;
 					playerState.choseToSyncInventoryAgain = false;
 				}
 
-				else
-				{
+				else {
 					client.fontRenderer.drawStringWithShadow("Synced Inventory With Portal (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 					y += statusOverlayDistanceBetweenY;
 
 				}
 
-			}
-			else if (playerState.choseToSyncInventoryAgain)
-			{
+			} else if (playerState.choseToSyncInventoryAgain) {
 				client.fontRenderer.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
@@ -550,12 +522,10 @@ public class ClientProxy extends CommonProxy {
 						}
 					}
 				}
-			}
-			else {
+			} else {
 				client.fontRenderer.drawStringWithShadow("Cheat Info (" + playerState.cheatInfoTicksRemaining + ")", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
-				for (final Entry<Ore, Integer> foundOre : playerState.cheatInfoOreBlocksFound.entrySet())
-				{
+				for (final Entry<Ore, Integer> foundOre : playerState.cheatInfoOreBlocksFound.entrySet()) {
 					client.fontRenderer.drawStringWithShadow(foundOre.getValue() + " " + foundOre.getKey().name, x, y, 16777215);
 					y += statusOverlayDistanceBetweenY;
 				}
@@ -587,12 +557,10 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.jetPackIsFlying != jetPackIsFlying) {
 			playerState.jetPackIsFlying = jetPackIsFlying;
 			sendMessageToServerJetPackIsFlying(jetPackIsFlying);
-			if ((jetPackIsFlying) && (ItemJetPack.getEquippedItem(player).altitudeMaximum < player.posY))
-			{
+			if ((jetPackIsFlying) && (ItemJetPack.getEquippedItem(player).altitudeMaximum < player.posY)) {
 				player.motionY = 1; // takeoff
 			}
-		}
-		else if (playerState.jetPackIsFlying) {
+		} else if (playerState.jetPackIsFlying) {
 			final float velocityInAir = ItemJetPack.getEquippedItem(player).velocityInAir;
 
 			setPlayerVelocityFromInputXZ(player, velocityInAir);
@@ -648,8 +616,7 @@ public class ClientProxy extends CommonProxy {
 				final float velocityInWater = ItemScubaFins.getEquippedItem(player).velocityInWater;
 				setPlayerVelocityFromInputXZ(player, velocityInWater);
 				setPlayerVelocityFromInputY(player, velocityInWater, false);
-			}
-			else if (player.onGround) {
+			} else if (player.onGround) {
 				setPlayerVelocityFromInputXZ(player, ItemScubaFins.getEquippedItem(player).velocityOnGround);
 			}
 		}
@@ -681,8 +648,7 @@ public class ClientProxy extends CommonProxy {
 				else
 					playerState.pogoStickPreviousContinuousActiveBounces = 0;
 			}
-		}
-		else {
+		} else {
 			playerState.pogoStickPreviousContinuousActiveBounces = 0;
 		}
 		playerState.pogoStickLastFallDistance = 0;
@@ -691,10 +657,8 @@ public class ClientProxy extends CommonProxy {
 			player.jumpMovementFactor = jumpMovementFactor;
 	}
 
-	private boolean isPlayerLookingAtPogoCancellingBlock()
-	{
-		if (client.objectMouseOver != null)
-		{
+	private boolean isPlayerLookingAtPogoCancellingBlock() {
+		if (client.objectMouseOver != null) {
 			final Block block = client.theWorld.getBlock(client.objectMouseOver.blockX, client.objectMouseOver.blockY, client.objectMouseOver.blockZ);
 			return block instanceof BlockContainer
 					|| block instanceof BlockWorkbench

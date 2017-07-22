@@ -1,7 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.inventory.oilderrick;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -16,6 +18,8 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 	public IIcon iconTop;
 	@SideOnly(Side.CLIENT)
 	public IIcon iconInside;
+	
+	public boolean placed = true;
 
 	public OilDerrickBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass, Material.iron, 7.5F);

@@ -4,12 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.util.MathHelper;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +36,11 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.MathHelper;
 
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
@@ -99,7 +98,8 @@ public class RecipeGenerator {
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', polymerBlock.getItemStack(),
-							'y', new ItemStack(Items.dye)), 0);
+							'y', new ItemStack(Items.dye)),
+					0);
 		}
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
@@ -128,7 +128,8 @@ public class RecipeGenerator {
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', polymerSlab.getItemStack(),
-							'y', new ItemStack(Items.dye)), 0);
+							'y', new ItemStack(Items.dye)),
+					0);
 		}
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
@@ -144,7 +145,8 @@ public class RecipeGenerator {
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', polymerStairs.getItemStack(),
-							'y', new ItemStack(Items.dye)), 0);
+							'y', new ItemStack(Items.dye)),
+					0);
 		}
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
@@ -167,7 +169,8 @@ public class RecipeGenerator {
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', polymerWall.getItemStack(),
-							'y', new ItemStack(Items.dye)), 0);
+							'y', new ItemStack(Items.dye)),
+					0);
 		}
 
 		for (final ElementVessel largerElementVessel : ElementVessel.registry.values()) {
@@ -218,11 +221,9 @@ public class RecipeGenerator {
 			}
 		}
 
-		for (final WaferItem waferItem : WaferItem.registry.values())
-		{
+		for (final WaferItem waferItem : WaferItem.registry.values()) {
 
-			if (waferItem.sourceWafer != null)
-			{
+			if (waferItem.sourceWafer != null) {
 				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CRAFTING_TABLE,
 						waferItem.getItemStack(),
@@ -272,8 +273,7 @@ public class RecipeGenerator {
 
 		}
 
-		for (final MoldedItem moldedItem : MoldedItem.registry.values())
-		{
+		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 					moldedItem.getItemStack(),
@@ -281,13 +281,10 @@ public class RecipeGenerator {
 					ImmutableMap.of(
 							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
 							'y', moldedItem.source.getItemStack()));
-			if ((moldedItem.params != null) && (moldedItem.params.names.length > 1))
-			{
+			if ((moldedItem.params != null) && (moldedItem.params.names.length > 1)) {
 				int count = 0;
-				for (final String name : moldedItem.params.names)
-				{
-					if (name.contains("Source"))
-					{
+				for (final String name : moldedItem.params.names) {
+					if (name.contains("Source")) {
 						PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 								moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
 								moldedItem.getItemStack(),
@@ -321,7 +318,8 @@ public class RecipeGenerator {
 					new String[] { "xxx", "xyx", "xxx" },
 					ImmutableMap.of(
 							'x', brickItem.getItemStack(),
-							'y', new ItemStack(Items.dye)), 0);
+							'y', new ItemStack(Items.dye)),
+					0);
 		}
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
@@ -415,15 +413,13 @@ public class RecipeGenerator {
 		//add all furnace recipes to the industrial oven
 		for (final Object furnaceRecipeEntry : FurnaceRecipes.smelting().getSmeltingList().entrySet()) {
 			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>) furnaceRecipeEntry;
-			try
-			{
+			try {
 				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 						PolycraftContainerType.INDUSTRIAL_OVEN,
 						furnaceRecipe.getValue(),
 						ImmutableList.of(furnaceRecipe.getKey()),
 						MathHelper.getRandomIntegerInRange(rand, 3, 7));
-			} catch (final Exception e)
-			{
+			} catch (final Exception e) {
 				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
 				System.err.println(e.getMessage());
 			}
@@ -519,22 +515,17 @@ public class RecipeGenerator {
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length - 1; i++) {
 						final String inputItemName = line[2 + (i * 2)];
-						if (!StringUtils.isEmpty(inputItemName))
-						{
+						if (!StringUtils.isEmpty(inputItemName)) {
 							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[3 + (i * 2)]));
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for trading house recipe: {}", inputItemName);
 								shapedInputs.put(shapedIdentifiers[shapedIdentifiers.length - 1], null);
 								inputShape.append(shapedIdentifiers[shapedIdentifiers.length - 1]);
-							}
-							else
-							{
+							} else {
 								shapedInputs.put(shapedIdentifiers[i], inputItemStack);
 								inputShape.append(shapedIdentifiers[i]);
 							}
-						}
-						else
-						{
+						} else {
 							shapedInputs.put(shapedIdentifiers[shapedIdentifiers.length - 1], null);
 							inputShape.append(shapedIdentifiers[shapedIdentifiers.length - 1]);
 						}
@@ -545,23 +536,20 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 12; i < 20 - 1; i += 2) {
 						final String outputItemName = line[i];
-						if (!StringUtils.isEmpty(outputItemName))
-						{
+						if (!StringUtils.isEmpty(outputItemName)) {
 							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for trading recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
 								break;
-							}
-							else
+							} else
 								outputItems.add(outputItemStack);
 						}
 					}
 
 					if (outputItems == null)
 						continue;
-					if (outputItems.size() == 0)
-					{
+					if (outputItems.size() == 0) {
 						logger.warn("Trading house recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
 						continue;
 					}
@@ -586,17 +574,13 @@ public class RecipeGenerator {
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						if (StringUtils.isEmpty(inputItemName))
-						{
-							if (i == 0)
-							{
+						if (StringUtils.isEmpty(inputItemName)) {
+							if (i == 0) {
 								logger.warn("Processing recipe missing first input!");
 								shapedInputs = null;
 								break;
 							}
-						}
-						else
-						{
+						} else {
 							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for processing recipe: {}", inputItemName);
@@ -613,23 +597,20 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 14; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						if (!StringUtils.isEmpty(outputItemName))
-						{
+						if (!StringUtils.isEmpty(outputItemName)) {
 							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for processing recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
 								break;
-							}
-							else
+							} else
 								outputItems.add(outputItemStack);
 						}
 					}
 
 					if (outputItems == null)
 						continue;
-					if (outputItems.size() == 0)
-					{
+					if (outputItems.size() == 0) {
 						logger.warn("Processing recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
 						continue;
 					}
@@ -637,8 +618,7 @@ public class RecipeGenerator {
 					final String[] inputShapes = new String[inputShape.length() > 3 ? 2 : 1];
 					if (inputShapes.length == 1)
 						inputShapes[0] = inputShape.toString();
-					else
-					{
+					else {
 						inputShapes[0] = inputShape.substring(0, 3);
 						inputShapes[1] = inputShape.substring(3);
 					}
@@ -667,8 +647,7 @@ public class RecipeGenerator {
 					if (outputItemStack == null) {
 						logger.warn("Unable to find output item for crafting recipe: {}", outputItemName);
 						continue;
-					}
-					else {
+					} else {
 						List<ItemStack> inputItems = Lists.newArrayList();
 						for (int i = 6; i < 24; i += 2) {
 							final String inputItemName = line.length > i ? line[i] : "";
@@ -837,23 +816,20 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 7; i < line.length; i += 2) {
 						final String outputItemName = line[i];
-						if (!StringUtils.isEmpty(outputItemName))
-						{
+						if (!StringUtils.isEmpty(outputItemName)) {
 							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for distillation recipe ({}): {}", inputItemName, outputItemName);
 								outputItems = null;
 								break;
-							}
-							else
+							} else
 								outputItems.add(outputItemStack);
 						}
 					}
 
 					if (outputItems == null)
 						continue;
-					if (outputItems.size() == 0)
-					{
+					if (outputItems.size() == 0) {
 						logger.warn("Distillation recipe missing outputs: {}", inputItemName);
 						continue;
 					}
@@ -888,23 +864,20 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 8; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						if (!StringUtils.isEmpty(outputItemName))
-						{
+						if (!StringUtils.isEmpty(outputItemName)) {
 							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for cracking recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
 								break;
-							}
-							else
+							} else
 								outputItems.add(outputItemStack);
 						}
 					}
 
 					if (outputItems == null)
 						continue;
-					if (outputItems.size() == 0)
-					{
+					if (outputItems.size() == 0) {
 						logger.warn("Cracking recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
 						continue;
 					}
@@ -928,17 +901,13 @@ public class RecipeGenerator {
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						if (StringUtils.isEmpty(inputItemName))
-						{
-							if (i == 0)
-							{
+						if (StringUtils.isEmpty(inputItemName)) {
+							if (i == 0) {
 								logger.warn("Treating recipe missing first input!");
 								shapedInputs = null;
 								break;
 							}
-						}
-						else
-						{
+						} else {
 							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for treating recipe: {}", inputItemName);
@@ -955,23 +924,20 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 10; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						if (!StringUtils.isEmpty(outputItemName))
-						{
+						if (!StringUtils.isEmpty(outputItemName)) {
 							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for treating recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
 								break;
-							}
-							else
+							} else
 								outputItems.add(outputItemStack);
 						}
 					}
 
 					if (outputItems == null)
 						continue;
-					if (outputItems.size() == 0)
-					{
+					if (outputItems.size() == 0) {
 						logger.warn("Treating recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
 						continue;
 					}
@@ -995,17 +961,13 @@ public class RecipeGenerator {
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						if (StringUtils.isEmpty(inputItemName))
-						{
-							if (i == 0)
-							{
+						if (StringUtils.isEmpty(inputItemName)) {
+							if (i == 0) {
 								logger.warn("Processing recipe missing first input!");
 								shapedInputs = null;
 								break;
 							}
-						}
-						else
-						{
+						} else {
 							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for processing recipe: {}", inputItemName);
@@ -1022,23 +984,20 @@ public class RecipeGenerator {
 					List<ItemStack> outputItems = Lists.newArrayList();
 					for (int i = 14; i < line.length - 1; i += 2) {
 						final String outputItemName = line[i];
-						if (!StringUtils.isEmpty(outputItemName))
-						{
+						if (!StringUtils.isEmpty(outputItemName)) {
 							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for processing recipe ({}): {}", shapedInputs.values().toArray()[0], outputItemName);
 								outputItems = null;
 								break;
-							}
-							else
+							} else
 								outputItems.add(outputItemStack);
 						}
 					}
 
 					if (outputItems == null)
 						continue;
-					if (outputItems.size() == 0)
-					{
+					if (outputItems.size() == 0) {
 						logger.warn("Processing recipe missing outputs: {}", shapedInputs.values().toArray()[0]);
 						continue;
 					}
@@ -1046,8 +1005,7 @@ public class RecipeGenerator {
 					final String[] inputShapes = new String[inputShape.length() > 3 ? 2 : 1];
 					if (inputShapes.length == 1)
 						inputShapes[0] = inputShape.toString();
-					else
-					{
+					else {
 						inputShapes[0] = inputShape.substring(0, 3);
 						inputShapes[1] = inputShape.substring(3);
 					}

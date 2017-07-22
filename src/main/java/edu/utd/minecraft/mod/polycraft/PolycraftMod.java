@@ -9,22 +9,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.common.util.ForgeDirection;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,14 +29,30 @@ import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.common.util.ForgeDirection;
 
 // The ultimate minecraft mod.
 @Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.3";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 3 };
+	public static final String VERSION = "1.4.5";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 5 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -87,6 +87,9 @@ public class PolycraftMod {
 	public static final String getVersionText(final int[] version) {
 		return String.format("%d.%d.%d", version[0], version[1], version[2]);
 	}
+
+	//TODO:not yet finished
+	//	public static final ComputerTab tabComputer = new ComputerTab("tabComputer");
 
 	@Instance(value = MODID)
 	public static PolycraftMod instance;
@@ -238,18 +241,15 @@ public class PolycraftMod {
 		return name.replaceAll("[()]", "").replaceAll("[^_A-Za-z0-9]", "").toLowerCase();
 	}
 
-	public final static String getRegistryName(final Item item)
-	{
+	public final static String getRegistryName(final Item item) {
 		return item.getUnlocalizedName().substring(item.getUnlocalizedName().lastIndexOf('.') + 1);
 	}
 
-	public final static String getRegistryName(final Block block)
-	{
+	public final static String getRegistryName(final Block block) {
 		return block.getUnlocalizedName().substring(block.getUnlocalizedName().lastIndexOf('.') + 1);
 	}
 
-	public final static String getRegistryName(final ItemStack itemStack)
-	{
+	public final static String getRegistryName(final ItemStack itemStack) {
 		//		if (itemStack.getItem().hashCode() == 1844350239) //red mushroom - note this is awful coding!
 		//		{
 		//			return ("Red " + PolycraftMod.getRegistryName(itemStack.getItem()));
@@ -264,24 +264,15 @@ public class PolycraftMod {
 				return ("Brown " + PolycraftMod.getRegistryName(itemStack.getItem()) + " Block");
 		}
 
-		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("wooden_pressure_plate"))).hashCode() == itemStack.getItem().hashCode())
-		{
+		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("wooden_pressure_plate"))).hashCode() == itemStack.getItem().hashCode()) {
 			return ("Wooden " + PolycraftMod.getRegistryName(itemStack.getItem()));
-		}
-		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("snow_layer"))).hashCode() == itemStack.getItem().hashCode())
-		{
+		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("snow_layer"))).hashCode() == itemStack.getItem().hashCode()) {
 			return PolycraftMod.getRegistryName(itemStack.getItem()) + "Layer";
-		}
-		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("melon_block"))).hashCode() == itemStack.getItem().hashCode())
-		{
+		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("melon_block"))).hashCode() == itemStack.getItem().hashCode()) {
 			return PolycraftMod.getRegistryName(itemStack.getItem()) + " Block";
-		}
-		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("quartz_ore"))).hashCode() == itemStack.getItem().hashCode())
-		{
+		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("quartz_ore"))).hashCode() == itemStack.getItem().hashCode()) {
 			return "Quartz Ore";
-		}
-		else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("nether_brick"))).hashCode() == itemStack.getItem().hashCode())
-		{
+		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry.getObject("nether_brick"))).hashCode() == itemStack.getItem().hashCode()) {
 			return "Nether Brick (Block)"; //in conjunction with PolycraftRegistry.registerMinecraftBlocks
 		}
 
@@ -319,11 +310,9 @@ public class PolycraftMod {
 		return config;
 	}
 
-	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack)
-	{
+	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack) {
 		//TODO: this may not be the best way to do things, but works by overiding 
-		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
-		{
+		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null)) {
 			PolycraftItemHelper.createTagCompound(par1ItemStack);
 			par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
 		}
@@ -335,8 +324,7 @@ public class PolycraftMod {
 		return (x < y) ? -1 : ((x == y) ? 0 : 1);
 	}
 
-	public static Vec3 getAdjacentCoords(final Vec3 currentCoords, final int direction, final boolean opposite)
-	{
+	public static Vec3 getAdjacentCoords(final Vec3 currentCoords, final int direction, final boolean opposite) {
 		ForgeDirection forgeDirection = ForgeDirection.values()[direction];
 		if (opposite)
 			forgeDirection = forgeDirection.getOpposite();
@@ -364,8 +352,7 @@ public class PolycraftMod {
 				if (block instanceof BlockChest)
 					iinventory = ((BlockChest) block).func_149951_m(world, i, j, k);
 			}
-		} else if (world.getBlock(i, j, k) instanceof BlockCollision)
-		{
+		} else if (world.getBlock(i, j, k) instanceof BlockCollision) {
 			tileentity = BlockCollision.findConnectedInventory(world, i, j, k);
 			return getInventoryAt(world, tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
 

@@ -17,7 +17,8 @@ public class ConfigRegistry<C extends Config> extends LinkedHashMap<String, C> {
 				throw new RuntimeException("Registry already contains " + config.name);
 			put(config.name, config);
 			if (config instanceof GameIdentifiedConfig)
-				logger.debug("Registered {} {}: {} ({})", config.getClass().getSimpleName(), size(), config.name, ((GameIdentifiedConfig) config).gameID);
+				logger.debug("Registered {} {}: {} ({})", config.getClass().getSimpleName(), size(), config.name,
+						((GameIdentifiedConfig) config).gameID);
 			else
 				logger.debug("Registered {} {}: {}", config.getClass().getSimpleName(), size(), config.name);
 		}
