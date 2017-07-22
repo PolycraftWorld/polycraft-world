@@ -27,7 +27,7 @@ Version	Game ID	Molded Item	Mold	Bag (Pellets)	Version	Crafting Pellets	Crafting
 1.1.0	12W	Hose (Medium Pressure)	Metal Die (Hose)	Bag (PolyButadiene (low-cis) Pellets)	Medium Pressure	16	10	64	TRUE	"Source 1, Source 2"	Bag (Isobutylene-Isoprene Rubber Pellets)	Bag (PolyButadiene (high-cis) Pellets)								
 1.1.0	12X	Hose (High Pressure)	Metal Die (Hose)	Bag (Styrene-Butadiene Rubber Pellets)	High Pressure	16	15	64	TRUE	"Source 1, Source 2, Source 3, Source 4"	Bag (Nitrile-Butadiene Rubber Pellets)	Bag (Hydrogenated Nitrile-Butadiene Rubber Pellets)	Bag (Chlorine Isobutylene-Isoprene Rubber Pellets)	Bag (Bromine Isobutylene-Isoprene Rubber Pellets)						
 1.1.0	12Y	Hose (Extreme Pressure)	Metal Die (Hose)	Bag (Ethylene-Propylene-Diene Monomer Pellets)	Extreme Pressure	16	20	64	TRUE	"Source 1, Source 2 "	Bag (Ethylene-Vinyl Acetate Pellets)	Bag (PolyUrethane Pellets)								
-1.0.0	42	Pipe Segment (PP)	Metal Die (Pipe Segment)	Bag (PolyPropylene Pellets)	PP	32	10	64	FALSE									3	TRUE	
+1.0.0	42	Pipe Segment (PP)	Mold (Pipe Segment)	Bag (PolyPropylene Pellets)	PP	32	10	64	FALSE									3	TRUE	
 1.0.0	5J	Flashlight Shaft (PS)	Mold (Flashlight Shaft)	Bag (PolyStyrene Pellets)	PS	16	10	64	FALSE											
 1.0.3	11b	Heated Knife Handle (PP)	Mold (Heated Knife Handle)	Bag (PolyPropylene Pellets)	PP	16	10	64	FALSE											
 1.0.3	11c	Heated Knife Handle (Natural Rubber)	Mold (Heated Knife Handle)	Bag (PolyIsoPrene Pellets)	Natural Rubber	16	10	64	FALSE											
