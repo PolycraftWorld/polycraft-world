@@ -105,8 +105,8 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Wheat	16									Vial (Ethanol)	16																
 1.0.0				Wheat	64									Beaker (Ethanol)	1																
 1.0.0				Vial (Salt Water)	32	Platinum Catalyst	1							Flask (Chlorine)	1	Vial (Bromine)	1	Bag (Sodium)	1	Vial (Sodium Borate)	1	Vial (Deionized Water)	28								
-1.3.8				Beaker (Salt Water)	32	Platinum Catalyst	2							Cartridge (Chlorine)	1	Beaker (Bromine)	1	Sack (Sodium)	1	Beaker (Sodium Borate)	1	Beaker (Deionized Water)	28	Platinum Catalyst	1	Bag (Arsenic)	1	Platinum Catalyst	1		
-1.3.8				Drum (Salt Water)	32	Platinum Catalyst	3							Canister (Chlorine)	1	Drum (Bromine)	1	Powder Keg (Sodium)	1	Drum (Sodium Borate)	1	Drum (Deionized Water)	28	Platinum Catalyst	2	Sack (Arsenic)	1	Platinum Catalyst	2		
+1.3.8				Beaker (Salt Water)	32	Platinum Catalyst	2							Cartridge (Chlorine)	1	Beaker (Bromine)	1	Sack (Sodium)	1	Beaker (Sodium Borate)	1	Beaker (Deionized Water)	28	Platinum Catalyst	1	Bag (Arsenic)	1				
+1.3.8				Drum (Salt Water)	32	Platinum Catalyst	3							Canister (Chlorine)	1	Drum (Bromine)	1	Powder Keg (Sodium)	1	Drum (Sodium Borate)	1	Drum (Deionized Water)	28	Platinum Catalyst	2	Sack (Arsenic)	1				
 1.3.8				Flask (Hydrogen)	2	Flask (Oxygen)	1							Vial (Deionized Water)	1																
 1.0.0				Cartridge (Hydrogen)	2	Cartridge (Oxygen)	1							Beaker (Deionized Water)	1																
 1.0.0				Canister (Hydrogen)	2	Canister (Oxygen)	1							Drum (Deionized Water)	1																
@@ -600,7 +600,7 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.1.2				Drum (Nitrobenzene)	1	Canister (Hydrogen)	3	Platinum Catalyst	7					Drum (Aniline)	1	Drum (Deionized Water)	2	Platinum Catalyst	6												
 1.1.2				Drum (Nitrobenzene)	4	Canister (Hydrogen)	12	Platinum Catalyst	8					Drum (Aniline)	4	Drum (Deionized Water)	8	Platinum Catalyst	7												
 1.1.2				Drum (Nitrobenzene)	16	Canister (Hydrogen)	48	Platinum Catalyst	9					Drum (Aniline)	16	Drum (Deionized Water)	32	Platinum Catalyst	8												
-1.1.2				Drum (Nitrobenzene)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10	Drum (Aniline)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64												
+1.1.2				Drum (Nitrobenzene)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Platinum Catalyst	10	Drum (Aniline)	64	Drum (Deionized Water)	64	Drum (Deionized Water)	64	Platinum Catalyst	9										
 1.1.2				Vial (Aniline)	1	Vial (Formaldehyde)	1							Vial (Diphenylmethane Diisocyanate)	1	Vial (Deionized Water)	1														
 1.1.2				Vial (Aniline)	4	Vial (Formaldehyde)	4							Vial (Diphenylmethane Diisocyanate)	4	Vial (Deionized Water)	4														
 1.1.2				Vial (Aniline)	16	Vial (Formaldehyde)	16							Vial (Diphenylmethane Diisocyanate)	16	Vial (Deionized Water)	16														
