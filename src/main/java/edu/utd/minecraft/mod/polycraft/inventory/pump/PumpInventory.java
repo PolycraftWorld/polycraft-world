@@ -263,6 +263,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 								else {
 									if ((defaultTarget instanceof ExplicitTerminal)) {
 										if (InventoryHelper.transferExplicit(((ExplicitTerminal) defaultTarget), source.inventory, i)) {
+											// System.out.println("Transfer to explicit default.");
 											numItems--;
 											itemsFlowed++;
 											break;
@@ -270,6 +271,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 									}
 									else {
 										if (InventoryHelper.transfer(defaultTarget.inventory, source.inventory, i, 0, 1)) {
+											// System.out.println("Transfer to default.");
 											numItems--;
 											itemsFlowed++;
 											break;
@@ -288,6 +290,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 										if ((numItems >= target.itemStackInFlowRegulator.stackSize) && (regulatedItemStack.stackSize >= target.itemStackInFlowRegulator.stackSize)) {
 											if ((target instanceof ExplicitTerminal)) {
 												if (InventoryHelper.transferExplicit(((ExplicitTerminal) target), source.inventory, i)) {
+													// System.out.println("Transfer to explicit regulated.");
 													numItems -= target.itemStackInFlowRegulator.stackSize;
 													itemsFlowed += target.itemStackInFlowRegulator.stackSize;
 													breakTransfer = true;
@@ -295,6 +298,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 											}
 											else {
 												if (InventoryHelper.transfer(((Terminal) target).inventory, source.inventory, i, 0, target.itemStackInFlowRegulator.stackSize)) {
+													// System.out.println("Transfer to regulated.");
 													numItems -= target.itemStackInFlowRegulator.stackSize;
 													itemsFlowed += target.itemStackInFlowRegulator.stackSize;
 													breakTransfer = true;
