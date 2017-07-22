@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.inventory.computer;
 
-import scala.actors.threadpool.Arrays;
+import java.util.Arrays;
 
 public class GuiRectangle {
 
