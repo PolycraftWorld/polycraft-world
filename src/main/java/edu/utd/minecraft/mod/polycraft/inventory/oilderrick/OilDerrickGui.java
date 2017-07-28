@@ -10,15 +10,16 @@ import net.minecraft.world.World;
 public class OilDerrickGui extends PolycraftInventoryGui<OilDerrickInventory> {
 
 	private static final String OIL_DERRICK = "Oil Derrick";
-	private static final String OIL_HARVESTED = "Drums Extracted: ";
-	private static final String INVALID_BLOCK = "Not placed on an oil block";
-	private static final String TAPPED_OUT = "No more oil at this location";
 
 	public OilDerrickGui(final OilDerrickInventory inventory, final InventoryPlayer playerInventory) {
 		// 133 (y-size), false (allow user input)
 		super(inventory, playerInventory, 133, false);
 	}
 
+	/**
+	 * Create a red or green "Oil Derrick" overlay text based on if the
+	 * conditions for oil drilling are met.
+	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
 		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
