@@ -273,7 +273,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 									world.setBlock(x, y - 1, z, oreBlock, 0, 2); // no more oil
 								if (metaOre > 1)
 									metaOre--;
-								System.out.println("Oil decremented to " + metaOre);
+								// System.out.println("Oil decremented to " + metaOre);
 							}
 						}
 					}
