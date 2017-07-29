@@ -112,10 +112,10 @@ public class OilDerrickInventory extends PolycraftInventory {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
+		
 		if (this.worldObj != null && !this.worldObj.isRemote) {
 			--this.transferCooldown;
-
+			
 			if (!this.isTransferCoolingDown()) {
 				this.setTransferCooldown(0);
 				this.func_145887_i();
@@ -158,10 +158,12 @@ public class OilDerrickInventory extends PolycraftInventory {
 	 */
 	public boolean func_145887_i() {
 		if (this.worldObj != null && !this.worldObj.isRemote) {
+			// TODO: When inventory is placed while sneaking, func_149917_c fails the check because of metadata.
+			// System.out.println(this.getBlockMetadata());
+			// System.out.println(func_149917_c(this.getBlockMetadata()));
 			if (!this.isTransferCoolingDown() && func_149917_c(this.getBlockMetadata())) {
 				boolean flag = this.func_145883_k();
 				flag = func_145891_a(this) || flag;
-
 				if (flag) {
 					this.setTransferCooldown(8);
 					this.markDirty();

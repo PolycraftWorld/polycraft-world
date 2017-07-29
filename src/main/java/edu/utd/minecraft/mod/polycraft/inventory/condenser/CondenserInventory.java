@@ -66,7 +66,7 @@ public class CondenserInventory extends PolycraftInventory {
 	/**
 	 * Leave false please.
 	 */
-	private static final boolean CONDENSER_DEBUG = true;
+	private static final boolean CONDENSER_DEBUG = false;
 
 	public CondenserInventory() {
 		super(PolycraftContainerType.CONDENSER, config);
