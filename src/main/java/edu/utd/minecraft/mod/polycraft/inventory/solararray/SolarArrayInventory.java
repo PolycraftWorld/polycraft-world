@@ -83,6 +83,10 @@ public class SolarArrayInventory extends PolycraftInventory {
 	private final int spawnFrequencyTicks;
 	private int amountOfCompoundHarvested;
 	public boolean inWater = false;
+	/**
+	 * Leave false please.
+	 */
+	private static final boolean SOLAR_DEBUG = false;
 
 	public SolarArrayInventory() {
 		super(PolycraftContainerType.SOLAR_ARRAY, config);
@@ -90,7 +94,7 @@ public class SolarArrayInventory extends PolycraftInventory {
 		this.elementVesselBToSpawn = ElementVessel.registry.get(config.params.get(1));
 		this.amountToSpawnA = config.params.getInt(2);
 		this.amountToSpawnB = config.params.getInt(3);
-		this.spawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(4));
+		this.spawnFrequencyTicks = SOLAR_DEBUG ? 1 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(4));
 		this.amountOfCompoundHarvested = 0;
 		this.addBehavior(new VesselUpcycler());
 		this.addBehavior(new VesselMerger());
@@ -104,7 +108,8 @@ public class SolarArrayInventory extends PolycraftInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 166, false);
+		// return new PolycraftInventoryGui(this, playerInventory, 166, false);
+		return new SolarArrayGui(this, playerInventory);
 	}
 
 	@Override
