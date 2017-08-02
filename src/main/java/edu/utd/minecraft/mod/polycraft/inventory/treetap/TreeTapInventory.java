@@ -79,7 +79,8 @@ public class TreeTapInventory extends PolycraftInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		return new TreeTapGui(this, playerInventory);
 	}
 
 	@Override
@@ -117,7 +118,8 @@ public class TreeTapInventory extends PolycraftInventory {
 			final Block treeBlock = getWorldObj().getBlock(x, yCoord, z);
 			//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
 			if (treeBlock != null && ((treeBlock instanceof BlockOldLog) || (treeBlock instanceof BlockNewLog))) {
-				if (spawnAttempts++ >= (getWorldObj().getBlockMetadata(x, yCoord, z) == 3 ? jungleSpawnFrequencyTicks : defaultSpawnFrequencyTicks)) {
+				// Changed "metadata == 3" to "(metadata & 3) == 3" to account for log rotations. - Chris
+				if (spawnAttempts++ >= ((getWorldObj().getBlockMetadata(x, yCoord, z) & 3) == 3 ? jungleSpawnFrequencyTicks : defaultSpawnFrequencyTicks)) {
 					spawnAttempts = 0;
 					return polymerPelletsToSpawn.getItemStack(amountToSpawn);
 				}
