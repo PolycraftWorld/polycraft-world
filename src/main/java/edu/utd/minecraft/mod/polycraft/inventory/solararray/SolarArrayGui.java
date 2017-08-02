@@ -16,12 +16,19 @@ public class SolarArrayGui extends PolycraftInventoryGui<SolarArrayInventory> {
 		super(inventory, playerInventory, 166, false);
 	}
 
+	/**
+	 * Change the overlay color of "Solar Array" to red if it is night time or
+	 * raining and yellow if it is clear day and there is water loaded.
+	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
 		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
 		if (inventory.hasWorldObj()) {
 			World world = inventory.getWorldObj();
-			if (world.getWorldInfo().getWorldTime() % 24000 < 12000 && !world.isRaining()) {
+			int color = -1;
+			if (world.getWorldInfo().getWorldTime() % 24000 > 12000 || world.isRaining())
+				color = 0x9E0300; // Red color.
+			else {
 				int xWeight;
 				int zWeight;
 				if (inventory.blockMetadata == ForgeDirection.NORTH.ordinal()) {
@@ -82,8 +89,10 @@ public class SolarArrayGui extends PolycraftInventoryGui<SolarArrayInventory> {
 				boolean match3 = inputStack3 != null && inputStack3.getItem() instanceof ItemVessel
 						&& ((ItemVessel) inputStack3.getItem()).config.gameID.equals(vialWater);
 				if (match1 || match2 || match3)
-					this.fontRendererObj.drawString(SOLAR_ARRAY, 58, 6, 0x9E9E12);
+					color = 0x9E9E12; // Yellow color.
 			}
+			if (color > 0)
+				this.fontRendererObj.drawString(SOLAR_ARRAY, 58, 6, color);
 		}
 	}
 }
