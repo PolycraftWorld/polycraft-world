@@ -18,7 +18,7 @@ public class CondenserBlock extends PolycraftInventoryBlock {
 
 	public CondenserBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass, Material.iron, 7.5F);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
 	}
 
 	/**
