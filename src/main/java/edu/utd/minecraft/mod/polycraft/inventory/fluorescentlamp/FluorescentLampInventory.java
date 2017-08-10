@@ -22,6 +22,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
+import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -31,9 +33,12 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 
 	private static int bulbSlot = 0;
 	private static int[] fuelSlots = new int[7];
-	private static Item BULB_ITEM = (Item) GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1xn"));
+	private static Item BULB_ITEM;
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
+		BULB_ITEM = (Item) GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1xn"));
+		System.out.println(BULB_ITEM);
+		System.out.println("asdf");
 		guiSlots.add(new GuiContainerSlot(0, SlotType.MISC, -1, -1, 8, 20, BULB_ITEM)); // Bulb
 		// slot
 		for (int i = 0; i < fuelSlots.length; i++) {
@@ -78,6 +83,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3) {
+		System.out.println("Check can extract.");
 		return false;
 	}
 
@@ -93,6 +99,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	public synchronized void updateEntity() {
 		super.updateEntity();
 		if (worldObj != null && !worldObj.isRemote) {
+			ItemStack bulb = getStackInSlot(0);
 			if (getState(FluorescentLampState.FuelTicksRemaining) == 0) {
 
 				if (getState(FluorescentLampState.FuelTicksRemainingEpochs) > 0) // decrement
@@ -132,10 +139,17 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 						// occlusions on fuel switch (as good a time as any)
 						setState(FluorescentLampState.FuelHeatIntensity, fuel.heatIntensity);
 						removeCurrentLightSource();
-						final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
-						currentLightSource = newLightSource;
+						// Redundant lines covered on last else if in
+						// updateEntity...
+						// final BlockLight.Source newLightSource =
+						// addLightSource(fuel.heatIntensity);
+						// currentLightSource = newLightSource;
 					}
 				}
+			} else if (bulb == null || !(bulb.getItem() instanceof ItemCustom)) { // ||
+																					// !bulb.getItem().equals(BULB_ITEM))
+																					// {
+				removeCurrentLightSource();
 			} else if (currentLightSource == null) {
 				currentLightSource = addLightSource(getState(FluorescentLampState.FuelHeatIntensity));
 			}

@@ -69,6 +69,7 @@ import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fluorescentlamp.FluorescentLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -1048,6 +1049,8 @@ public class PolycraftRegistry {
 					ComputerInventory.register(inventory);
 				else if (GameID.InventoryHospital.matches(inventory))
 					HospitalGeneratorInventory.register(inventory);
+				else if (GameID.InventoryFluorescentLamp.matches(inventory))
+					FluorescentLampInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}

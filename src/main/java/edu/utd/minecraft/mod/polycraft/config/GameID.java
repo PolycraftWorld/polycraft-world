@@ -62,6 +62,7 @@ public enum GameID {
 	InventoryCHEM2323("1gm"),
 	InventoryComputer("1hb"),
 	InventoryHospital("1hd"),
+	InventoryFluorescentLamp("1xl"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),
