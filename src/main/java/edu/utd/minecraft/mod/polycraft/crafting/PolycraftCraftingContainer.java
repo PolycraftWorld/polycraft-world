@@ -26,7 +26,7 @@ public abstract class PolycraftCraftingContainer extends Container {
 	}
 
 	public PolycraftCraftingContainer(final IInventory inventory, final PolycraftContainerType containerType) {
-		for (final ContainerSlot slot : containerType.getSlots()) {
+		for (final ContainerSlot slot : containerType.getSlotsByIndex()) { // containerType.getSlots()) {
 			if (slot instanceof GuiContainerSlot) {
 				addInventorySlot(inventory, (GuiContainerSlot) slot);
 			}
