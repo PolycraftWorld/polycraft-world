@@ -11,6 +11,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.LabelTexture;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
+import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
@@ -77,7 +78,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	public boolean canInsertItem(int var1, ItemStack var2, int var3) {
 		System.out.println("Check can insert.");
 		if (var1 == 0) // Bulb slot
-			return var2.getItem().equals(BULB_ITEM);
+		 	return var2.getItem().equals(BULB_ITEM);
 		return Fuel.getFuel(var2.getItem()) != null;
 	}
 
@@ -146,9 +147,8 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 						// currentLightSource = newLightSource;
 					}
 				}
-			} else if (bulb == null || !(bulb.getItem() instanceof ItemCustom)) { // ||
-																					// !bulb.getItem().equals(BULB_ITEM))
-																					// {
+			} else if (bulb == null || !(bulb.getItem() instanceof ItemCustom)
+					|| !((ItemCustom) bulb.getItem()).config.gameID.equals("1xn")) {
 				removeCurrentLightSource();
 			} else if (currentLightSource == null) {
 				currentLightSource = addLightSource(getState(FluorescentLampState.FuelHeatIntensity));
@@ -173,11 +173,11 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	@Override
 	public boolean isItemValidForSlot(int var1, ItemStack var2) {
 		// TODO Auto-generated method stub
-		// return super.isItemValidForSlot(var1, var2);
-		System.out.println("Check valid");
-		if (var1 == 0)
-			return var2.getItem().equals(BULB_ITEM);
-		return !var2.getItem().equals(BULB_ITEM);
+		return super.isItemValidForSlot(var1, var2);
+		// System.out.println("Check valid");
+		// if (var1 == 0)
+			// return var2.getItem().equals(BULB_ITEM);
+		// return !var2.getItem().equals(BULB_ITEM);
 	}
 
 	protected BlockLight.Source addLightSource(final int heatIntensity) {
