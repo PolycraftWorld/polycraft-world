@@ -24,6 +24,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavio
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
+import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -78,7 +79,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	public boolean canInsertItem(int var1, ItemStack var2, int var3) {
 		System.out.println("Check can insert.");
 		if (var1 == 0) // Bulb slot
-		 	return var2.getItem().equals(BULB_ITEM);
+			return var2.getItem().equals(BULB_ITEM);
 		return Fuel.getFuel(var2.getItem()) != null;
 	}
 
@@ -95,6 +96,28 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	}
 
 	private static final int maxTicksPerEpoch = (int) Math.pow(2, 15);
+
+	private boolean isBulbInserted() {
+		ItemStack bulb = getStackInSlot(0);
+		return bulb != null && bulb.getItem() instanceof ItemFluorescentBulbs
+				&& bulb.getItemDamage() < bulb.getMaxDamage();
+	}
+
+	private boolean damageBulb() {
+		if (!isBulbInserted())
+			return false;
+		ItemStack bulb = getStackInSlot(0);
+		bulb.setItemDamage(bulb.getItemDamage() + 1);
+		return true;
+	}
+
+	@Override
+	public void onPickupFromSlot(EntityPlayer player, ContainerSlot slot, ItemStack bulb) {
+		super.onPickupFromSlot(player, slot, bulb);
+		if (slot.getSlotIndex() == 0 && bulb.getItem() instanceof ItemFluorescentBulbs
+				&& bulb.getItemDamage() < bulb.getMaxDamage() && currentLightSource != null)
+			bulb.setItemDamage(bulb.getItemDamage() + 1);
+	}
 
 	@Override
 	public synchronized void updateEntity() {
@@ -118,6 +141,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 							setState(FluorescentLampState.FuelIndex, -1);
 							setState(FluorescentLampState.FuelTicksTotal, 0);
 							setState(FluorescentLampState.FuelHeatIntensity, -1);
+							damageBulb();
 						}
 					} else {
 						final ItemStack fuelStack = getStackInSlot(fuelSlot);
@@ -147,8 +171,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 						// currentLightSource = newLightSource;
 					}
 				}
-			} else if (bulb == null || !(bulb.getItem() instanceof ItemCustom)
-					|| !((ItemCustom) bulb.getItem()).config.gameID.equals("1xn")) {
+			} else if (!isBulbInserted()) {
 				removeCurrentLightSource();
 			} else if (currentLightSource == null) {
 				currentLightSource = addLightSource(getState(FluorescentLampState.FuelHeatIntensity));
@@ -176,7 +199,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 		return super.isItemValidForSlot(var1, var2);
 		// System.out.println("Check valid");
 		// if (var1 == 0)
-			// return var2.getItem().equals(BULB_ITEM);
+		// return var2.getItem().equals(BULB_ITEM);
 		// return !var2.getItem().equals(BULB_ITEM);
 	}
 

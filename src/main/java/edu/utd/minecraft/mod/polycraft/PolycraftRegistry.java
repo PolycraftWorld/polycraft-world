@@ -110,6 +110,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemExam;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashcard;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
+import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
@@ -1241,6 +1242,9 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.CustomAirQualityDetecctor.matches(customObject)) {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
+				}
+				else if (GameID.FluorescentBulbs.matches(customObject)) {
+					registerItem(customObject, new ItemFluorescentBulbs(customObject));
 				}
 				else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)

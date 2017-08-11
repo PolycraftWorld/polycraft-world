@@ -94,7 +94,8 @@ public enum GameID {
 	CustomFlagEmpty("1bZ"),
 	CustomBillStackEmpty("1fx"),
 	CustomAirQualityDetecctor("1fv"),
-	CustomRipstopNylonSheet("1fw");
+	CustomRipstopNylonSheet("1fw"),
+	FluorescentBulbs("1xn");
 
 	public final String id;
 
