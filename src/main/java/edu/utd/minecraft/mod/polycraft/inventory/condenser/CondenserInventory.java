@@ -35,6 +35,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselMerger;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpGui;
 
 public class CondenserInventory extends PolycraftInventory {
 
@@ -62,12 +63,16 @@ public class CondenserInventory extends PolycraftInventory {
 	private final int spawnFrequencyTicks;
 	private int amountOfCompoundHarvested;
 	public boolean inWater = false;
+	/**
+	 * Leave false please.
+	 */
+	private static final boolean CONDENSER_DEBUG = false;
 
 	public CondenserInventory() {
 		super(PolycraftContainerType.CONDENSER, config);
 		this.compoundVesselToSpawn = ElementVessel.registry.get(config.params.get(0));
 		this.amountToSpawn = config.params.getInt(1);
-		this.spawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(2));
+		this.spawnFrequencyTicks = CONDENSER_DEBUG ? 1 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(2));
 		this.inWaterSpawnVessel = CompoundVessel.registry.get(config.params.get(3));
 		this.amountOfCompoundHarvested = 0;
 		this.addBehavior(new VesselUpcycler());
@@ -82,7 +87,8 @@ public class CondenserInventory extends PolycraftInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		return new CondenserGui(this, playerInventory);
 	}
 
 	@Override
@@ -128,7 +134,7 @@ public class CondenserInventory extends PolycraftInventory {
 
 	}
 
-	private boolean blockNeighborsWater()
+	public boolean blockNeighborsWater()
 	{
 		if ((this.worldObj.getBlock(this.xCoord + 1, this.yCoord, this.zCoord)) == Blocks.water)
 			return true;

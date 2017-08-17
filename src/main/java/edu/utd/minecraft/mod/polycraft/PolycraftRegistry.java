@@ -69,6 +69,7 @@ import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fluorescentlamp.FluorescentLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -109,6 +110,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemExam;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashcard;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
+import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
@@ -1048,6 +1050,8 @@ public class PolycraftRegistry {
 					ComputerInventory.register(inventory);
 				else if (GameID.InventoryHospital.matches(inventory))
 					HospitalGeneratorInventory.register(inventory);
+				else if (GameID.InventoryFluorescentLamp.matches(inventory))
+					FluorescentLampInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1238,6 +1242,9 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.CustomAirQualityDetecctor.matches(customObject)) {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
+				}
+				else if (GameID.FluorescentBulbs.matches(customObject)) {
+					registerItem(customObject, new ItemFluorescentBulbs(customObject));
 				}
 				else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)

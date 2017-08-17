@@ -62,6 +62,7 @@ public enum GameID {
 	InventoryCHEM2323("1gm"),
 	InventoryComputer("1hb"),
 	InventoryHospital("1hd"),
+	InventoryFluorescentLamp("1xl"),
 	CustomHeatedKnifeDiamondPolyIsoPrene("114"),
 	CustomHeatedKnifeDiamondPolyPropylene("115"),
 	CustomHeatedKnifeDiamondPEEK("116"),
@@ -93,7 +94,8 @@ public enum GameID {
 	CustomFlagEmpty("1bZ"),
 	CustomBillStackEmpty("1fx"),
 	CustomAirQualityDetecctor("1fv"),
-	CustomRipstopNylonSheet("1fw");
+	CustomRipstopNylonSheet("1fw"),
+	FluorescentBulbs("1xn");
 
 	public final String id;
 

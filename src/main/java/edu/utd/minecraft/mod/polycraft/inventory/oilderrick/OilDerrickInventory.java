@@ -63,14 +63,21 @@ public class OilDerrickInventory extends PolycraftInventory {
 	private int amountOfOilHarvested;
 	private boolean oilRemains;
 	private final int oilPerMetaDatavalue = 64;
+	/**
+	 * Set to false when the Oil Derrick fails to place so that block metadata does not get decremented.
+	 */
 	private boolean placed = true;
+	/**
+	 * Leave false please.
+	 */
+	private static final boolean OIL_DEBUG = false;
 
 	public OilDerrickInventory() {
 		super(PolycraftContainerType.OIL_DERRICK, config);
 		this.compoundVesselToSpawn = CompoundVessel.registry.get(config.params.get(0));
 		this.amountToSpawn = config.params.getInt(1);
 		this.spawnFromOre = Ore.registry.get(config.params.get(2));
-		this.spawnFrequencyTicks = PolycraftMod.convertSecondsToGameTicks(config.params.getInt(3));
+		this.spawnFrequencyTicks = OIL_DEBUG ? 1 : PolycraftMod.convertSecondsToGameTicks(config.params.getInt(3));
 		this.amountOfOilHarvested = 0;
 		this.addBehavior(new VesselUpcycler());
 		this.addBehavior(new VesselMerger());
@@ -84,7 +91,8 @@ public class OilDerrickInventory extends PolycraftInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		return new OilDerrickGui(this, playerInventory);
 	}
 
 	@Override
@@ -104,10 +112,10 @@ public class OilDerrickInventory extends PolycraftInventory {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
+		
 		if (this.worldObj != null && !this.worldObj.isRemote) {
 			--this.transferCooldown;
-
+			
 			if (!this.isTransferCoolingDown()) {
 				this.setTransferCooldown(0);
 				this.func_145887_i();
@@ -145,12 +153,17 @@ public class OilDerrickInventory extends PolycraftInventory {
 		return null;
 	}
 
+	/**
+	 * Called every few ticks to update entity...
+	 */
 	public boolean func_145887_i() {
 		if (this.worldObj != null && !this.worldObj.isRemote) {
+			// TODO: When inventory is placed while sneaking, func_149917_c fails the check because of metadata.
+			// System.out.println(this.getBlockMetadata());
+			// System.out.println(func_149917_c(this.getBlockMetadata()));
 			if (!this.isTransferCoolingDown() && func_149917_c(this.getBlockMetadata())) {
 				boolean flag = this.func_145883_k();
 				flag = func_145891_a(this) || flag;
-
 				if (flag) {
 					this.setTransferCooldown(8);
 					this.markDirty();
@@ -388,6 +401,10 @@ public class OilDerrickInventory extends PolycraftInventory {
 
 	static int getDirectionFromMetadata(int p_149918_0_) {
 		return p_149918_0_ & 7;
+	}
+	
+	public Ore getSpawnFromOre() {
+		return spawnFromOre;
 	}
 	
 	public void setPlaced(boolean placed) {

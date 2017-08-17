@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fluorescentlamp.FluorescentLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
@@ -76,7 +78,8 @@ public enum PolycraftContainerType {
 	TERRITORY_FLAG("Territory Flag"),
 	CHEM_2323("CHEM 2323"),
 	COMPUTER("Computer"), 
-	HOSPITAL_GENERATOR("Hospital Generator");
+	HOSPITAL_GENERATOR("Hospital Generator"),
+	FLUORESCENT_LAMP("Fluorescent Lamp");
 
 	private final String friendlyName;
 
@@ -166,6 +169,7 @@ public enum PolycraftContainerType {
 		CHEM_2323.initialize(CHEM2323Inventory.guiSlots);
 		COMPUTER.initialize(ComputerInventory.guiSlots);
 		HOSPITAL_GENERATOR.initialize(HospitalGeneratorInventory.guiSlots);
+		FLUORESCENT_LAMP.initialize(FluorescentLampInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {
@@ -248,6 +252,17 @@ public enum PolycraftContainerType {
 		Collection<ContainerSlot> slots = Lists.newArrayList();
 		for (SlotType slotType : EnumSet.allOf(SlotType.class)) {
 			slots.addAll(getSlots(slotType));
+		}
+		return slots;
+	}
+	
+	/**
+	 * Get slots in the original order from which they were made in the Inventory.
+	 */
+	public Collection<ContainerSlot> getSlotsByIndex() {
+		ArrayList<ContainerSlot> slots = Lists.newArrayList();
+		for (Integer index : slotsByIndex.keySet()) {
+			slots.add(index, slotsByIndex.get(index));
 		}
 		return slots;
 	}

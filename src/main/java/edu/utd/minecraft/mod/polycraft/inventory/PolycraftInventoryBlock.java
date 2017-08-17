@@ -273,7 +273,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 									world.setBlock(x, y - 1, z, oreBlock, 0, 2); // no more oil
 								if (metaOre > 1)
 									metaOre--;
-								System.out.println("Oil decremented to " + metaOre);
+								// System.out.println("Oil decremented to " + metaOre);
 							}
 						}
 					}
@@ -728,6 +728,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(0.24F, 0.24F, 0.24F);
 
 				}
+				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
+				{
+					// TODO: Scale GL11 accordingly to future fluorescent lamp model.
+					GL11.glScalef(1.2F, 1.2F, 1.2F);
+					GL11.glTranslatef(.8F, 0.25F, 0F);
+				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
 				this.inventoryModel.renderAll();
@@ -835,6 +841,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
 					GL11.glTranslated(0, 0, -3F);
+				}
+				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
+				{
+					// TODO: Modify fluorescent lamp tile entity code when new model is made.
+					GL11.glRotatef(180f, 1f, 0, 0);
+					GL11.glRotatef(90f, 0, 1f, 0);
+					GL11.glTranslated(1, -1, 0);
 				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);

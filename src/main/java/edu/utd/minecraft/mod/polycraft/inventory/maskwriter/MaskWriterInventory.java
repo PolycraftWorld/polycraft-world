@@ -2,8 +2,6 @@ package edu.utd.minecraft.mod.polycraft.inventory.maskwriter;
 
 import java.util.List;
 
-import net.minecraft.entity.player.InventoryPlayer;
-
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,12 +11,14 @@ import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
+import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventoryState;
+import edu.utd.minecraft.mod.polycraft.inventory.WateredContainer;
 import edu.utd.minecraft.mod.polycraft.inventory.WateredInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
+import net.minecraft.entity.player.InventoryPlayer;
 
 public class MaskWriterInventory extends WateredInventory {
 
@@ -50,7 +50,8 @@ public class MaskWriterInventory extends WateredInventory {
 
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		return new PolycraftCraftingContainerGeneric(this, playerInventory, playerInventoryOffset, true);
+		return new WateredContainer(this, playerInventory, playerInventoryOffset, new StatefulInventoryState[0]);
+		// return new PolycraftCraftingContainerGeneric(this, playerInventory, playerInventoryOffset, true);
 	}
 
 	@Override

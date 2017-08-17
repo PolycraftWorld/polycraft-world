@@ -171,4 +171,16 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 	public PolycraftContainerType getContainerType() {
 		return inventory.getContainerType();
 	}
+
+	public int getFirstPlayerInventorySlot() {
+		return firstPlayerInventorySlot;
+	}
+
+	public int getLastPlayerInventorySlot() {
+		return lastPlayerInventorySlot;
+	}
+
+	public int getFirstPlayerHotbarSlot() {
+		return firstPlayerHotbarSlot;
+	}
 }
