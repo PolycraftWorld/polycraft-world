@@ -38,7 +38,7 @@ public class WateredContainer<I extends WateredInventory, S extends StatefulInve
 				itemstack = itemstack1.copy();
 				int cool = inventory.slotIndexCoolingWater;
 				int heat = inventory.slotIndexHeatingWater;
-				System.out.println("Cool: " + cool + ". Heat: " + heat + ".");
+				// System.out.println("Cool: " + cool + ". Heat: " + heat + ".");
 				boolean merge = cool != -1 && mergeItemStack(itemstack1, cool, cool + 1, false)
 						|| heat != -1 && mergeItemStack(itemstack1, heat, heat + 1, false);
 				if (merge && itemstack1.stackSize == 0) {

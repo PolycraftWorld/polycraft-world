@@ -11,11 +11,11 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.LabelTexture;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
-import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.SlotType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
@@ -23,7 +23,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
-import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -73,6 +72,14 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
 		return fuelSlots;
+	}
+
+	@Override
+	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
+		if (playerInventoryOffset > 0)
+			return new FluorescentLampContainer(this, playerInventory, playerInventoryOffset,
+					FluorescentLampState.values());
+		return new FluorescentLampContainer(this, playerInventory, FluorescentLampState.values());
 	}
 
 	@Override
