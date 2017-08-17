@@ -21,24 +21,18 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.0.0	5	Heat 	Cracking	Coal Block	4	Platinum Catalyst	3	Cartridge (Hydrogen)	16	Block of Bitumen	1	Cartridge (Carbon Dioxide)	8	Cartridge (Carbon Monoxide)	8	Platinum Catalyst	2					
 1.0.0	5	Heat 	Cracking	Coal Block	16	Platinum Catalyst	4	Canister (Hydrogen)	1	Block of Bitumen	4	Cartridge (Carbon Dioxide)	32	Cartridge (Carbon Monoxide)	32	Platinum Catalyst	3					
 1.0.0	5	Heat 	Cracking	Coal Block	64	Platinum Catalyst	5	Canister (Hydrogen)	4	Block of Bitumen	16	Canister (Carbon Dioxide)	2	Canister (Carbon Monoxide)	2	Platinum Catalyst	4					
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	4	Palladium Catalyst	2	Vial (Butadiene)	3	Vial (Dicyclopentadiene)	1	Palladium Catalyst	1									
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Palladium Catalyst	3	Vial (Butadiene)	12	Vial (Dicyclopentadiene)	3	Vial (Benzene-Toluene-Xylene)	2	Vial (Light Olefins)	2	Palladium Catalyst	2					
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Palladium Catalyst	4	Vial (Butadiene)	48	Vial (Dicyclopentadiene)	16	Vial (Benzene-Toluene-Xylene)	8	Vial (Light Olefins)	8	Palladium Catalyst	3					
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	4	Palladium Catalyst	5	Beaker (Butadiene)	3	Beaker (Dicyclopentadiene)	1	Vial (Benzene-Toluene-Xylene)	32	Vial (Light Olefins)	32	Palladium Catalyst	4					
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Palladium Catalyst	6	Beaker (Butadiene)	12	Beaker (Dicyclopentadiene)	3	Beaker (Benzene-Toluene-Xylene)	2	Beaker (Light Olefins)	2	Palladium Catalyst	5					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Palladium Catalyst	8	Beaker (Butadiene)	48	Beaker (Dicyclopentadiene)	16	Beaker (Benzene-Toluene-Xylene)	8	Beaker (Light Olefins)	8	Palladium Catalyst	7					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Palladium Catalyst	10	Drum (Butadiene)	3	Drum (Dicyclopentadiene)	1	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32	Palladium Catalyst	9					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Palladium Catalyst	12	Drum (Butadiene)	12	Drum (Dicyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2	Palladium Catalyst	11					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Palladium Catalyst	16	Drum (Butadiene)	48	Drum (Dicyclopentadiene)	16	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8	Palladium Catalyst	15					
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	4	Platinum Catalyst	2	Vial (Butadiene)	3	Vial (Dicyclopentadiene)	1	Platinum Catalyst	1									
-1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Platinum Catalyst	3	Vial (Butadiene)	12	Vial (Dicyclopentadiene)	3	Vial (Benzene-Toluene-Xylene)	2	Vial (Light Olefins)	2	Platinum Catalyst	2					
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Platinum Catalyst	4	Vial (Butadiene)	48	Vial (Dicyclopentadiene)	16	Vial (Benzene-Toluene-Xylene)	8	Vial (Light Olefins)	8	Platinum Catalyst	3					
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	4	Platinum Catalyst	5	Beaker (Butadiene)	3	Beaker (Dicyclopentadiene)	1	Vial (Benzene-Toluene-Xylene)	32	Vial (Light Olefins)	32	Platinum Catalyst	4					
-1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Platinum Catalyst	6	Beaker (Butadiene)	12	Beaker (Dicyclopentadiene)	3	Beaker (Benzene-Toluene-Xylene)	2	Beaker (Light Olefins)	2	Platinum Catalyst	5					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Platinum Catalyst	8	Beaker (Butadiene)	48	Beaker (Dicyclopentadiene)	16	Beaker (Benzene-Toluene-Xylene)	8	Beaker (Light Olefins)	8	Platinum Catalyst	7					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	4	Platinum Catalyst	10	Drum (Butadiene)	3	Drum (Dicyclopentadiene)	1	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32	Platinum Catalyst	9					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Platinum Catalyst	12	Drum (Butadiene)	12	Drum (Dicyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2	Platinum Catalyst	11					
-1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Platinum Catalyst	16	Drum (Butadiene)	48	Drum (Dicyclopentadiene)	16	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8	Platinum Catalyst	15					
+1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Palladium Catalyst	3	Vial (Butadiene)	9	Vial (Dicyclopentadiene)	3	Vial (Benzene-Toluene-Xylene)	3	Vial (Light Olefins)	1	Palladium Catalyst	2					
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Palladium Catalyst	4	Vial (Butadiene)	36	Vial (Dicyclopentadiene)	12	Vial (Benzene-Toluene-Xylene)	12	Vial (Light Olefins)	4	Palladium Catalyst	3					
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Palladium Catalyst	6	Beaker (Butadiene)	9	Beaker (Dicyclopentadiene)	3	Beaker (Benzene-Toluene-Xylene)	3	Beaker (Light Olefins)	1	Palladium Catalyst	5					
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Palladium Catalyst	8	Beaker (Butadiene)	36	Beaker (Dicyclopentadiene)	12	Beaker (Benzene-Toluene-Xylene)	12	Beaker (Light Olefins)	4	Palladium Catalyst	7					
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Palladium Catalyst	12	Drum (Butadiene)	9	Drum (Dicyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	3	Drum (Light Olefins)	1	Palladium Catalyst	11					
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Palladium Catalyst	16	Drum (Butadiene)	36	Drum (Dicyclopentadiene)	12	Drum (Benzene-Toluene-Xylene)	12	Drum (Light Olefins)	4	Palladium Catalyst	15					
+1.0.0	5	Heat 	Cracking	Vial (Heavy Naphtha)	16	Platinum Catalyst	3	Vial (Butadiene)	9	Vial (Dicyclopentadiene)	3	Vial (Benzene-Toluene-Xylene)	3	Vial (Light Olefins)	1	Platinum Catalyst	2					
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	1	Platinum Catalyst	4	Vial (Butadiene)	36	Vial (Dicyclopentadiene)	12	Vial (Benzene-Toluene-Xylene)	12	Vial (Light Olefins)	4	Platinum Catalyst	3					
+1.0.0	5	Heat 	Cracking	Beaker (Heavy Naphtha)	16	Platinum Catalyst	6	Beaker (Butadiene)	9	Beaker (Dicyclopentadiene)	3	Beaker (Benzene-Toluene-Xylene)	3	Beaker (Light Olefins)	1	Platinum Catalyst	5					
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	1	Platinum Catalyst	8	Beaker (Butadiene)	36	Beaker (Dicyclopentadiene)	12	Beaker (Benzene-Toluene-Xylene)	12	Beaker (Light Olefins)	4	Platinum Catalyst	7					
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	16	Platinum Catalyst	12	Drum (Butadiene)	9	Drum (Dicyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	3	Drum (Light Olefins)	1	Platinum Catalyst	11					
+1.0.0	5	Heat 	Cracking	Drum (Heavy Naphtha)	64	Platinum Catalyst	16	Drum (Butadiene)	36	Drum (Dicyclopentadiene)	12	Drum (Benzene-Toluene-Xylene)	12	Drum (Light Olefins)	4	Platinum Catalyst	15					
 1.1.0	5	Heat 	Cracking	Vial (Light Naphthenes)	4	Platinum Catalyst	2	Flask (Ethylene)	1	Flask (Propylene)	1	Vial (Butylene isomers)	1	Vial (Isoprene)	1	Platinum Catalyst	1					
 1.1.0	5	Heat 	Cracking	Vial (Light Naphthenes)	16	Platinum Catalyst	3	Flask (Ethylene)	4	Flask (Propylene)	4	Vial (Butylene isomers)	4	Vial (Isoprene)	4	Platinum Catalyst	2					
 1.1.0	5	Heat 	Cracking	Beaker (Light Naphthenes)	1	Platinum Catalyst	4	Flask (Ethylene)	16	Flask (Propylene)	16	Vial (Butylene isomers)	16	Vial (Isoprene)	16	Platinum Catalyst	3					
@@ -111,36 +105,42 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.1.2	5	Heat 	Cracking	Drum (Light Naphtha)	4	Platinum Catalyst	10	Canister (Ethylene)	2	Drum (Cyclopentadiene)	1	Beaker (Benzene-Toluene-Xylene)	32	Beaker (Light Olefins)	32	Platinum Catalyst	9					
 1.1.2	5	Heat 	Cracking	Drum (Light Naphtha)	16	Platinum Catalyst	12	Canister (Ethylene)	8	Drum (Cyclopentadiene)	3	Drum (Benzene-Toluene-Xylene)	2	Drum (Light Olefins)	2	Platinum Catalyst	11					
 1.1.2	5	Heat 	Cracking	Drum (Light Naphtha)	64	Platinum Catalyst	16	Canister (Ethylene)	32	Drum (Cyclopentadiene)	16	Drum (Benzene-Toluene-Xylene)	8	Drum (Light Olefins)	8	Platinum Catalyst	15					
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
-																						
+1.4.4	5	Heat 	Cracking	Vial (Naphthalene)	4	Palladium Catalyst	1	Vial (Benzene-Toluene-Xylene)	3	Vial (Light Olefins)	1											
+1.4.4	5	Heat 	Cracking	Vial (Naphthalene)	16	Palladium Catalyst	1	Vial (Benzene-Toluene-Xylene)	12	Vial (Light Olefins)	4											
+1.4.4	5	Heat 	Cracking	Beaker (Naphthalene)	1	Palladium Catalyst	2	Vial (Benzene-Toluene-Xylene)	48	Vial (Light Olefins)	16	Palladium Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Naphthalene)	4	Palladium Catalyst	2	Beaker (Benzene-Toluene-Xylene)	3	Beaker (Light Olefins)	1	Palladium Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Naphthalene)	16	Palladium Catalyst	3	Beaker (Benzene-Toluene-Xylene)	12	Beaker (Light Olefins)	4	Palladium Catalyst	2									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	1	Palladium Catalyst	4	Beaker (Benzene-Toluene-Xylene)	48	Beaker (Light Olefins)	16	Palladium Catalyst	3									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	4	Palladium Catalyst	5	Drum (Benzene-Toluene-Xylene)	3	Drum (Light Olefins)	1	Palladium Catalyst	4									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	16	Palladium Catalyst	6	Drum (Benzene-Toluene-Xylene)	12	Drum (Light Olefins)	4	Palladium Catalyst	5									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	64	Palladium Catalyst	8	Drum (Benzene-Toluene-Xylene)	48	Drum (Light Olefins)	16	Palladium Catalyst	7									
+1.4.4	5	Heat 	Cracking	Vial (Heavy Naphthenes)	4	Palladium Catalyst	1	Vial (Butadiene)	3	Vial (Dicyclopentadiene)	1											
+1.4.4	5	Heat 	Cracking	Vial (Heavy Naphthenes)	16	Palladium Catalyst	1	Vial (Butadiene)	12	Vial (Dicyclopentadiene)	4											
+1.4.4	5	Heat 	Cracking	Beaker (Heavy Naphthenes)	1	Palladium Catalyst	2	Vial (Butadiene)	48	Vial (Dicyclopentadiene)	16	Palladium Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Heavy Naphthenes)	4	Palladium Catalyst	2	Beaker (Butadiene)	3	Beaker (Dicyclopentadiene)	1	Palladium Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Heavy Naphthenes)	16	Palladium Catalyst	3	Beaker (Butadiene)	12	Beaker (Dicyclopentadiene)	4	Palladium Catalyst	2									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	1	Palladium Catalyst	4	Beaker (Butadiene)	48	Beaker (Dicyclopentadiene)	16	Palladium Catalyst	3									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	4	Palladium Catalyst	5	Drum (Butadiene)	3	Drum (Dicyclopentadiene)	1	Palladium Catalyst	4									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	16	Palladium Catalyst	6	Drum (Butadiene)	12	Drum (Dicyclopentadiene)	4	Palladium Catalyst	5									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	64	Palladium Catalyst	8	Drum (Butadiene)	48	Drum (Dicyclopentadiene)	16	Palladium Catalyst	7									
+1.4.4	5	Heat 	Cracking	Vial (Naphthalene)	4	Platinum Catalyst	1	Vial (Benzene-Toluene-Xylene)	3	Vial (Light Olefins)	1											
+1.4.4	5	Heat 	Cracking	Vial (Naphthalene)	16	Platinum Catalyst	1	Vial (Benzene-Toluene-Xylene)	12	Vial (Light Olefins)	4											
+1.4.4	5	Heat 	Cracking	Beaker (Naphthalene)	1	Platinum Catalyst	2	Vial (Benzene-Toluene-Xylene)	48	Vial (Light Olefins)	16	Platinum Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Naphthalene)	4	Platinum Catalyst	2	Beaker (Benzene-Toluene-Xylene)	3	Beaker (Light Olefins)	1	Platinum Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Naphthalene)	16	Platinum Catalyst	3	Beaker (Benzene-Toluene-Xylene)	12	Beaker (Light Olefins)	4	Platinum Catalyst	2									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	1	Platinum Catalyst	4	Beaker (Benzene-Toluene-Xylene)	48	Beaker (Light Olefins)	16	Platinum Catalyst	3									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	4	Platinum Catalyst	5	Drum (Benzene-Toluene-Xylene)	3	Drum (Light Olefins)	1	Platinum Catalyst	4									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	16	Platinum Catalyst	6	Drum (Benzene-Toluene-Xylene)	12	Drum (Light Olefins)	4	Platinum Catalyst	5									
+1.4.4	5	Heat 	Cracking	Drum (Naphthalene)	64	Platinum Catalyst	8	Drum (Benzene-Toluene-Xylene)	48	Drum (Light Olefins)	16	Platinum Catalyst	7									
+1.4.4	5	Heat 	Cracking	Vial (Heavy Naphthenes)	4	Platinum Catalyst	1	Vial (Butadiene)	3	Vial (Dicyclopentadiene)	1											
+1.4.4	5	Heat 	Cracking	Vial (Heavy Naphthenes)	16	Platinum Catalyst	1	Vial (Butadiene)	12	Vial (Dicyclopentadiene)	4											
+1.4.4	5	Heat 	Cracking	Beaker (Heavy Naphthenes)	1	Platinum Catalyst	2	Vial (Butadiene)	48	Vial (Dicyclopentadiene)	16	Platinum Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Heavy Naphthenes)	4	Platinum Catalyst	2	Beaker (Butadiene)	3	Beaker (Dicyclopentadiene)	1	Platinum Catalyst	1									
+1.4.4	5	Heat 	Cracking	Beaker (Heavy Naphthenes)	16	Platinum Catalyst	3	Beaker (Butadiene)	12	Beaker (Dicyclopentadiene)	4	Platinum Catalyst	2									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	1	Platinum Catalyst	4	Beaker (Butadiene)	48	Beaker (Dicyclopentadiene)	16	Platinum Catalyst	3									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	4	Platinum Catalyst	5	Drum (Butadiene)	3	Drum (Dicyclopentadiene)	1	Platinum Catalyst	4									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	16	Platinum Catalyst	6	Drum (Butadiene)	12	Drum (Dicyclopentadiene)	4	Platinum Catalyst	5									
+1.4.4	5	Heat 	Cracking	Drum (Heavy Naphthenes)	64	Platinum Catalyst	8	Drum (Butadiene)	48	Drum (Dicyclopentadiene)	16	Platinum Catalyst	7									
 																						
 																						
 																						

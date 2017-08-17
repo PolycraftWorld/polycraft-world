@@ -5,6 +5,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.FMLEventChannel;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.config.Exam;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.contactprinter.ContactPrinterInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
+import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
+import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockChest;
@@ -52,51 +96,6 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
-import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.config.Exam;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FloodlightInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.SpotlightInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.chemicalprocessor.ChemicalProcessorInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.contactprinter.ContactPrinterInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.distillationcolumn.DistillationColumnInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.extruder.ExtruderInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.injectionmolder.InjectionMolderInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.meroxtreatmentunit.MeroxTreatmentUnitInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.heated.steamcracker.SteamCrackerInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
-import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
-import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
-import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
-import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
-import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 
 public abstract class Enforcer {
 
@@ -146,6 +145,7 @@ public abstract class Enforcer {
 			.newHashMap();
 	// polycraft user ids by minecraft username
 	public static Map<String, Long> whitelist = Maps.newHashMap();
+	public static Map<String, String> whitelist_uuid = Maps.newHashMap();
 	public static Set<String> friends = Sets.newHashSet();
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
@@ -195,25 +195,18 @@ public abstract class Enforcer {
 		//this is the current List of private properties
 		for (final PrivateProperty privateProperty : privateProperties) {
 
-			if (master)
-			{
-				if (updatedMasterForTheDay && (privateProperty.master == false))
-				{
+			if (master) {
+				if (updatedMasterForTheDay && (privateProperty.master == false)) {
 					privateProperty.keepMasterWorldSame = true;
 					dontChangeMasterStatusOfPrivateProperties.add(privateProperty);
-				}
-				else if (privateProperty.master == master) {
+				} else if (privateProperty.master == master) {
 					removePrivateProperties.add(privateProperty);
 				}
-			}
-			else
-			{
-				if (updatedNonMasterForTheDay && (privateProperty.master == true))
-				{
+			} else {
+				if (updatedNonMasterForTheDay && (privateProperty.master == true)) {
 					privateProperty.keepMasterWorldSame = true;
 					dontChangeMasterStatusOfPrivateProperties.add(privateProperty);
-				}
-				else if ((privateProperty.master == master) && (!(privateProperty.keepMasterWorldSame))) {
+				} else if ((privateProperty.master == master) && (!(privateProperty.keepMasterWorldSame))) {
 					removePrivateProperties.add(privateProperty);
 				}
 			}
@@ -243,8 +236,7 @@ public abstract class Enforcer {
 						if ((newPrivateProperty.boundBottomRight.x == dontChangePrivateProperty.boundBottomRight.x) &&
 								(newPrivateProperty.boundBottomRight.z == dontChangePrivateProperty.boundBottomRight.z) &&
 								(newPrivateProperty.boundTopLeft.x == dontChangePrivateProperty.boundTopLeft.x) &&
-								(newPrivateProperty.boundTopLeft.z == dontChangePrivateProperty.boundTopLeft.z))
-						{
+								(newPrivateProperty.boundTopLeft.z == dontChangePrivateProperty.boundTopLeft.z)) {
 							dontChangePPs.add(newPrivateProperty);
 						}
 					}
@@ -285,6 +277,13 @@ public abstract class Enforcer {
 		this.whitelistJson = whitelistJson;
 		whitelist = gsonGeneric.fromJson(whitelistJson,
 				new TypeToken<Map<String, Long>>() {
+				}.getType());
+	}
+
+	protected void updateUUIDWhitelist(final String whitelistJson) {
+		this.whitelistJson = whitelistJson;
+		whitelist_uuid = gsonGeneric.fromJson(whitelistJson,
+				new TypeToken<Map<String, String>>() {
 				}.getType());
 	}
 
@@ -556,8 +555,7 @@ public abstract class Enforcer {
 								(PolycraftInventoryBlock) block, blockChunk);
 					}
 				}
-			}
-			else if (block instanceof BlockButton) {
+			} else if (block instanceof BlockButton) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseButton, blockChunk);
 			} else if (block instanceof BlockLever) {
@@ -731,33 +729,28 @@ public abstract class Enforcer {
 				event.entity instanceof EntityWolf ||
 				event.entity instanceof EntityOcelot ||
 				event.entity instanceof EntityHorse ||
-				event.entity instanceof EntityChicken)
-		{
+				event.entity instanceof EntityChicken) {
 			preventActionIfOverPopulated(event);
 		}
 	}
 
-	private void preventActionIfOverPopulated(final CheckSpawn event)
-	{
+	private void preventActionIfOverPopulated(final CheckSpawn event) {
 		preventOverPopulationHelper(event.world, event.entity, null, event, (double) (event.x), (double) (event.y), (double) (event.z));
 
 	}
 
-	private void preventActionIfOverPopulated(final PlayerInteractEvent event, final EntityPlayer player, final Action action, final Item spawnEgg)
-	{
+	private void preventActionIfOverPopulated(final PlayerInteractEvent event, final EntityPlayer player, final Action action, final Item spawnEgg) {
 		Entity entity = EntityList.createEntityByID(spawnEgg.getDamage(player.getCurrentEquippedItem()), event.world);
 
 		preventOverPopulationHelper(event.world, entity, event, null, (double) (event.x), (double) (event.y), (double) (event.z));
 
 	}
 
-	private void preventOverPopulationHelper(World world, Entity entity, Event placeEggEvent, CheckSpawn spawnEvent, double xCoord, double yCoord, double zCoord)
-	{
+	private void preventOverPopulationHelper(World world, Entity entity, Event placeEggEvent, CheckSpawn spawnEvent, double xCoord, double yCoord, double zCoord) {
 		List entities = world.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox(
 				xCoord - 8.0, yCoord - 8.0, zCoord - 8.0,
 				xCoord + 8.0, yCoord + 8.0, zCoord + 8.0));
-		if (entities.size() >= 16)
-		{
+		if (entities.size() >= 16) {
 			if (placeEggEvent != null)
 				placeEggEvent.setCanceled(true);
 			if (spawnEvent != null)
@@ -769,11 +762,9 @@ public abstract class Enforcer {
 
 	//TODO: Jim and Walter to Discuss
 	@SubscribeEvent
-	public synchronized void onAllowDespawn(final AllowDespawn event)
-	{
+	public synchronized void onAllowDespawn(final AllowDespawn event) {
 		//only run this once every morning; leave for a few ticks in case of lag
-		if (event.world.getWorldTime() % 24000 < 10)
-		{
+		if (event.world.getWorldTime() % 24000 < 10) {
 
 			if (event.entity instanceof EntityCow ||
 					event.entity instanceof EntityPig ||
@@ -782,14 +773,12 @@ public abstract class Enforcer {
 					event.entity instanceof EntityWolf ||
 					event.entity instanceof EntityOcelot ||
 					event.entity instanceof EntityHorse ||
-					event.entity instanceof EntityChicken)
-			{
+					event.entity instanceof EntityChicken) {
 
 				List entities = event.world.getEntitiesWithinAABB(event.entity.getClass(), AxisAlignedBB.getBoundingBox(
 						event.x - 16.0, event.y - 16.0, event.z - 16.0,
 						event.x + 16.0, event.y + 16.0, event.z + 16.0));
-				if (entities.size() >= 32)
-				{
+				if (entities.size() >= 32) {
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -811,8 +800,7 @@ public abstract class Enforcer {
 				handleChatCommandTeleport(event.player,
 						command.substring(chatCommandTeleport.length() + 1)
 								.split(" "));
-			}
-			else if (command.startsWith(chatExamCommand)) {
+			} else if (command.startsWith(chatExamCommand)) {
 				handleChatExamCommand(event.player,
 						command.substring(chatExamCommand.length() + 1)
 								.split(" "));
@@ -837,7 +825,7 @@ public abstract class Enforcer {
 											.getUnlocalizedName())))
 						((ServerEnforcer) this
 								.getInstance(event.player.worldObj))
-								.broadcastFromSender(event, itemStackSend);
+										.broadcastFromSender(event, itemStackSend);
 
 					// test if receiving player has cell phone on the hotbar
 					if (itemStackSend != null
@@ -847,7 +835,7 @@ public abstract class Enforcer {
 											.getUnlocalizedName())))
 						((ServerEnforcer) this
 								.getInstance(event.player.worldObj))
-								.broadcastFromSender(event, itemStackSend);
+										.broadcastFromSender(event, itemStackSend);
 
 				}
 
@@ -883,8 +871,7 @@ public abstract class Enforcer {
 			if (chatExamCommandCHEM2323.equalsIgnoreCase(args[0])) {
 				int slotIndex = player.inventory.getFirstEmptyStack();
 
-				if (Exam.registry.get("CHEM 2323 Exam 1") != null)
-				{
+				if (Exam.registry.get("CHEM 2323 Exam 1") != null) {
 					ItemStack itemStackExam = Exam.registry.get("CHEM 2323 Exam 1").getItemStack();
 
 					NBTTagCompound examQuestions = new NBTTagCompound();
@@ -928,8 +915,7 @@ public abstract class Enforcer {
 					examQuestions.setInteger("Bookmark", 0);
 					itemStackExam.setTagCompound(examQuestions);
 
-					if (slotIndex >= 0)
-					{
+					if (slotIndex >= 0) {
 						player.inventory.setInventorySlotContents(slotIndex, itemStackExam);
 					}
 				}
