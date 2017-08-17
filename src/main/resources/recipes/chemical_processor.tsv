@@ -1363,3 +1363,25 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.4.2				Vial (Mercaptans)	1	Flask (Oxygen)	1	Vanadium Pentoxide Catalyst	1					Vial (Sulfuric Acid)	1	Flask (Carbon Monoxide)	1														
 1.4.2				Beaker (Mercaptans)	1	Cartridge (Oxygen)	1	Vanadium Pentoxide Catalyst	4					Beaker (Sulfuric Acid)	1	Cartridge (Carbon Monoxide)	1	Vanadium Pentoxide Catalyst	3												
 1.4.2				Drum (Mercaptans)	1	Canister (Oxygen)	1	Vanadium Pentoxide Catalyst	7					Drum (Sulfuric Acid)	1	Canister (Carbon Monoxide)	1	Vanadium Pentoxide Catalyst	6												
+1.4.4				Vial (Methanol)	1	Flask (Carbon Monoxide)	1	Iridium Catalyst	1					Vial (Acetic Acid)	1																
+1.4.4				Vial (Methanol)	4	Flask (Carbon Monoxide)	4	Iridium Catalyst	2					Vial (Acetic Acid)	4																
+1.4.4				Vial (Methanol)	16	Flask (Carbon Monoxide)	16	Iridium Catalyst	3					Vial (Acetic Acid)	16																
+1.4.4				Beaker (Methanol)	1	Cartridge (Carbon Monoxide)	1	Iridium Catalyst	4					Beaker (Acetic Acid)	1																
+1.4.4				Beaker (Methanol)	4	Cartridge (Carbon Monoxide)	4	Iridium Catalyst	5					Beaker (Acetic Acid)	4																
+1.4.4				Beaker (Methanol)	16	Cartridge (Carbon Monoxide)	16	Iridium Catalyst	6					Beaker (Acetic Acid)	16																
+1.4.4				Drum (Methanol)	1	Canister (Carbon Monoxide)	1	Iridium Catalyst	7					Drum (Acetic Acid)	1																
+1.4.4				Drum (Methanol)	4	Canister (Carbon Monoxide)	4	Iridium Catalyst	8					Drum (Acetic Acid)	4																
+1.4.4				Drum (Methanol)	16	Canister (Carbon Monoxide)	16	Iridium Catalyst	9					Drum (Acetic Acid)	16																
+1.4.4				Drum (Methanol)	64	Canister (Carbon Monoxide)	64	Iridium Catalyst	10					Drum (Acetic Acid)	64																
+1.4.4				Vial (Acetaldehyde)	1	Flask (Oxygen)	1	Manganese Catalyst	1					Vial (Acetic Acid)	1																
+1.4.4				Beaker (Acetaldehyde)	1	Cartridge (Oxygen)	1	Manganese Catalyst	4					Beaker (Acetic Acid)	1																
+1.4.4				Drum (Acetaldehyde)	1	Canister (Oxygen)	1	Manganese Catalyst	7					Drum (Acetic Acid)	1																
+1.4.4				Vial (Acetaldehyde)	1	Flask (Oxygen)	1	Cobalt Catalyst	1					Vial (Acetic Acid)	1																
+1.4.4				Beaker (Acetaldehyde)	1	Cartridge (Oxygen)	1	Cobalt Catalyst	4					Beaker (Acetic Acid)	1																
+1.4.4				Drum (Acetaldehyde)	1	Canister (Oxygen)	1	Cobalt Catalyst	7					Drum (Acetic Acid)	1																
+1.4.4				Vial (Acetaldehyde)	1	Flask (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	1					Vial (Acetic Acid)	1																
+1.4.4				Beaker (Acetaldehyde)	1	Cartridge (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	4					Beaker (Acetic Acid)	1																
+1.4.4				Drum (Acetaldehyde)	1	Canister (Oxygen)	1	Cobalt-Manganese-Bromide Catalyst	7					Drum (Acetic Acid)	1																
+1.4.4				Vial (Acetaldehyde)	1	Flask (Oxygen)	1	Chromium (VI) Oxide Catalyst	1					Vial (Acetic Acid)	1																
+1.4.4				Beaker (Acetaldehyde)	1	Cartridge (Oxygen)	1	Chromium (VI) Oxide Catalyst	4					Beaker (Acetic Acid)	1																
+1.4.4				Drum (Acetaldehyde)	1	Canister (Oxygen)	1	Chromium (VI) Oxide Catalyst	7					Drum (Acetic Acid)	1																
