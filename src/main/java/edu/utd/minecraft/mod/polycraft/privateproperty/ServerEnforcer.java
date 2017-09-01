@@ -1,15 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
-import io.netty.buffer.Unpooled;
-
 import java.io.IOException;
 import java.util.Set;
-
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import java.util.UUID;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
@@ -22,6 +15,12 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
+import io.netty.buffer.Unpooled;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
@@ -35,8 +34,7 @@ public class ServerEnforcer extends Enforcer {
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
 		//TODO not sure why this is getting called multiple times with different world java objects for the same world
-		if ((event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0))
-		{
+		if ((event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0)) {
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
@@ -88,8 +86,7 @@ public class ServerEnforcer extends Enforcer {
 	//
 	//	}
 
-	public void broadcastFromSender(ServerChatEvent event, ItemStack itemStack)
-	{
+	public void broadcastFromSender(ServerChatEvent event, ItemStack itemStack) {
 		//somehow we need to send a broadcast event now...
 		//		int i = 0;
 		//		ClientBroadcastReceivedEvent broadcast =
@@ -99,14 +96,13 @@ public class ServerEnforcer extends Enforcer {
 
 		//MinecraftForge.EVENT_BUS.post(broadcast);
 
-		broadcastMessage =
-				String.valueOf(itemStack.getItemDamage()) + ":" +
-						String.valueOf(event.player.posX) + ":" +
-						String.valueOf(event.player.posY) + ":" +
-						String.valueOf(event.player.posZ) + ":" +
-						itemStack.getDisplayName() + ":" +
-						event.username + ":" +
-						event.message;
+		broadcastMessage = String.valueOf(itemStack.getItemDamage()) + ":" +
+				String.valueOf(event.player.posX) + ":" +
+				String.valueOf(event.player.posY) + ":" +
+				String.valueOf(event.player.posZ) + ":" +
+				itemStack.getDisplayName() + ":" +
+				event.username + ":" +
+				event.message;
 
 		sendDataPackets(DataPacketType.Broadcast, 1);
 
@@ -136,8 +132,7 @@ public class ServerEnforcer extends Enforcer {
 				if (privatePropertiesMasterJson == null || privatePropertiesNonMasterJson == null) {
 					PolycraftMod.logger.error("Unable to load private properties", e);
 					System.exit(-1);
-				}
-				else {
+				} else {
 					PolycraftMod.logger.error("Unable to refresh private properties", e);
 				}
 			}
@@ -158,8 +153,7 @@ public class ServerEnforcer extends Enforcer {
 			for (final FMLProxyPacket packet : packets) {
 				if (player == null) {
 					netChannel.sendToAll(packet);
-				}
-				else {
+				} else {
 					netChannel.sendTo(packet, player);
 				}
 			}
@@ -202,14 +196,29 @@ public class ServerEnforcer extends Enforcer {
 						: String.format("%s/worlds/%s/whitelist/", portalRestUrl, event.world.getWorldInfo().getWorldName());
 				final Set<String> previousWhitelist = Sets.newHashSet(whitelist.keySet());
 				updateWhitelist(NetUtil.getText(url));
+
+				final String url_uuid = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "whitelist.json"
+						: String.format("%s/worlds/%s/whitelist_uuid/", portalRestUrl, event.world.getWorldInfo().getWorldName());
+				updateUUIDWhitelist(NetUtil.getText(url_uuid));
+
 				//reconcile whitelists
 				final MinecraftServer minecraftserver = MinecraftServer.getServer();
+				UUID userID;
+
 				for (final String usernameToAdd : whitelist.keySet()) {
 					//if the user is new, add to the whitelist
 					if (!previousWhitelist.remove(usernameToAdd)) {
-						final GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
-						if (gameprofile != null)
-							minecraftserver.getConfigurationManager().func_152601_d(gameprofile);
+						//final GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
+						try {
+							userID = UUID.fromString(whitelist_uuid.get(usernameToAdd));
+							final GameProfile gameprofile = new GameProfile(userID, usernameToAdd);
+							if (gameprofile != null)
+								minecraftserver.getConfigurationManager().func_152601_d(gameprofile);
+						} catch (IllegalArgumentException e) {
+							System.out.println("Could not add to whitelist: " + usernameToAdd);
+						}
+
 					}
 				}
 				//remove users from the whitelist that were not in the new whitelist
@@ -224,8 +233,7 @@ public class ServerEnforcer extends Enforcer {
 				if (whitelistJson == null) {
 					PolycraftMod.logger.error("Unable to load whitelist", e);
 					System.exit(-1);
-				}
-				else {
+				} else {
 					PolycraftMod.logger.error("Unable to refresh whitelist", e);
 				}
 			}
@@ -245,8 +253,7 @@ public class ServerEnforcer extends Enforcer {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
 				if (friendsJson == null) {
 					PolycraftMod.logger.error("Unable to load friends", e);
-				}
-				else {
+				} else {
 					PolycraftMod.logger.error("Unable to refresh friends", e);
 				}
 			}
