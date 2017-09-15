@@ -1,21 +1,23 @@
 polycraft
 =========
 
-http://www.minecraftforge.net/wiki/Installation/Source
-Download and then extract to D:\Workspaces\UTD\PolyCraft
-Open command line and run gradlew setupDecompWorkspace --refresh-dependencies
-Then run gradlew eclipse
-Run eclipse (kepler) and point workspace to D:\Workspaces\UTD\polycraft\eclipse
-Window > Preferences > Java > Editor > Save Actions > Perform actions on save (format all lines, organize imports)
-Download and install git
-http://git-scm.com/download/win
-Install EGit plugin: http://download.eclipse.org/egit/updates
+Install Java version of eclipse (kepler or newer)
+Downlaod RECOMMENDED VERSION of forge: http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.7.10.html 
+extract to C:\Users\[username]\polycraftForge
+open command line in C:\Users\[username]\polycraftForge
+run "gradlew setupDecompWorkspace --refresh-dependencies" or "./gradlew setupDecompWorkspace --refresh-dependencies" depending on environment. This step may take a few minutes.
+Then run "gradlew eclipse" or "./gradlew eclipse"
+Run eclipse and point workspace to C:\Users\[username]\polycraftForge\eclipse
 
-Clone the polycraft repo to D:\Workspaces\UTD\polycraft_git
-https://github.com/WalterVoit/polycraft
+open the Git perspective: Window > Perspective > Open Perspective > Git
+clone the repo to an arbitrary folder C:\Users\[username]\temp
+cut the contents from the cloned repo into your C:\Users\[username]\polycraftForge (you may need to close eclipse) Make sure you are copying hidden folders as well, you need the .git folder to add the repo back.
+Delete C:\Users\[username]\temp
 
-Copy polycraft_git into polycraft and delete the example file
-Load the local repo in eclipse to link the project
+open eclipse again. Get to the Git screen. 
+add local repository, select folder C:\Users\[username]\polycraftForge and check the file that pops up. should be a .git file.
+Go to java perspective, right click main folder in project expolorer > build path > Configure Build Path > Libraries > Add JARs  Select all JAR files in the Lib folder.
+modify eclipse setting: Window > Preferences > Java > Editor > Save Actions > Perform actions on save (format all lines, organize imports)
 
 ./eclipse/server.properties
 	online-mode=false
