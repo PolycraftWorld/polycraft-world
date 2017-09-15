@@ -19,6 +19,8 @@ add local repository, select folder C:\Users\[username]\polycraftForge and check
 Go to java perspective, right click main folder in project expolorer > build path > Configure Build Path > Libraries > Add JARs  Select all JAR files in the Lib folder.
 modify eclipse setting: Window > Preferences > Java > Editor > Save Actions > Perform actions on save (format all lines, organize imports)
 
+MCP conf folder is in you(user)\.gradle\caches\minecraft\net\minecraftforge\forge\1.7.10-10.13.2.1291(your forge version here)\unpacked\conf
+
 ./eclipse/server.properties
 	online-mode=false
 	op-permission-level=2
