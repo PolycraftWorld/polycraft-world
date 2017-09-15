@@ -10,7 +10,7 @@ public class ItemFluorescentBulbs extends ItemCustom {
 
 	public ItemFluorescentBulbs(CustomObject config) {
 		super(config);
-		this.setMaxDamage(100);
+		this.setMaxDamage(101);
 	}
 
 }

@@ -38,8 +38,9 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 		BULB_ITEM = (Item) GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1xn"));
-		System.out.println(BULB_ITEM);
-		System.out.println("asdf");
+		// System.out.println(BULB_ITEM); // Is null for now because inventories
+		// are init before special items.
+		// System.out.println("asdf");
 		guiSlots.add(new GuiContainerSlot(0, SlotType.MISC, -1, -1, 8, 20, BULB_ITEM)); // Bulb
 		// slot
 		for (int i = 0; i < fuelSlots.length; i++) {
@@ -118,13 +119,14 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 		return true;
 	}
 
-	@Override
-	public void onPickupFromSlot(EntityPlayer player, ContainerSlot slot, ItemStack bulb) {
-		super.onPickupFromSlot(player, slot, bulb);
-		if (slot.getSlotIndex() == 0 && bulb.getItem() instanceof ItemFluorescentBulbs
-				&& bulb.getItemDamage() < bulb.getMaxDamage() && currentLightSource != null)
-			bulb.setItemDamage(bulb.getItemDamage() + 1);
-	}
+	/*
+	 * @Override public void onPickupFromSlot(EntityPlayer player, ContainerSlot
+	 * slot, ItemStack bulb) { super.onPickupFromSlot(player, slot, bulb); if
+	 * (slot.getSlotIndex() == 0 && bulb.getItem() instanceof
+	 * ItemFluorescentBulbs && bulb.getItemDamage() < bulb.getMaxDamage() &&
+	 * currentLightSource != null) bulb.setItemDamage(bulb.getItemDamage() + 1);
+	 * }
+	 */
 
 	@Override
 	public synchronized void updateEntity() {
@@ -148,13 +150,13 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 							setState(FluorescentLampState.FuelIndex, -1);
 							setState(FluorescentLampState.FuelTicksTotal, 0);
 							setState(FluorescentLampState.FuelHeatIntensity, -1);
-							damageBulb();
 						}
 					} else {
 						final ItemStack fuelStack = getStackInSlot(fuelSlot);
 						fuelStack.stackSize--;
 						if (fuelStack.stackSize == 0)
 							clearSlotContents(fuelSlot);
+						damageBulb();
 
 						final Fuel fuel = Fuel.getFuel(fuelStack.getItem());
 						final int fuelTicksTotal = PolycraftMod
@@ -171,10 +173,9 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 						// occlusions on fuel switch (as good a time as any)
 						setState(FluorescentLampState.FuelHeatIntensity, fuel.heatIntensity);
 						removeCurrentLightSource();
-						// Redundant lines covered on last else if in
-						// updateEntity...
-						// final BlockLight.Source newLightSource =
-						// addLightSource(fuel.heatIntensity);
+						if (isBulbInserted())
+							currentLightSource = addLightSource(fuel.heatIntensity);
+						// final BlockLight.Source newLightSource = addLightSource(fuel.heatIntensity);
 						// currentLightSource = newLightSource;
 					}
 				}
