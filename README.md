@@ -61,12 +61,12 @@ In the bottom-left corner, select "Add an existing local Git repository" and nav
 At the top of Eclipse select the menu item "Run" -> "Run Configurations...".<br>
 Alternatively, next to the green play button, select the drop down arrow and select "Run Configurations...".
 
-In the "Java Application" drop down, select the first "Client" icon, select the "Arguments" tab and paste the following in the "Program arguments" textbox:<br>
+In the "Java Application" drop down, select the first "Client" icon, select the "Arguments" tab and paste the following in the "Program arguments" textbox:
 ```
 -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.dynamiclights.DLFMLCorePlugin
 -DcheatRecipes=true
 -username=a
-```<br>
+```
 Replace "a" with whatever username you want to use. Now you can run the client. Select "Proceed" when asked about errors. It's only because the some third-party libraries aren't linked.
 
 Optionally if you want to login as your actual character, you can add "-password=pass" your password to complete authentication to Minecraft and have your skin in the test environment.<br>
@@ -76,7 +76,7 @@ IF YOUR ACCOUNT IS MIGRATED: Change the "-username" parameter to your Mojang acc
 To run the server, you need to run it once and let it crash. The error is due to a "eula.txt" being created and set to false.<br>
 Once it runs and stops, navigate to directory A/eclipse/eula.txt and change the "eula=false" to “eula=true”. You can now run a local server.
 
-Configuration for "A/eclipse/server.properties" file:<br>
+Configuration for "A/eclipse/server.properties" file:
 ```
 online-mode=false
 op-permission-level=2
