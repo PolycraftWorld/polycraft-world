@@ -26,8 +26,11 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.entity.npc.EntityResearchAssistant;
+import edu.utd.minecraft.mod.polycraft.entity.npc.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.npc.ModelResearchAssistant;
+import edu.utd.minecraft.mod.polycraft.entity.npc.ModelTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.npc.RenderResearchAssistant;
+import edu.utd.minecraft.mod.polycraft.entity.npc.RenderTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -108,6 +111,9 @@ public class ClientProxy extends CommonProxy {
 		
 		// TODO: Move rendering registry lines to a new handler...
 		RenderingRegistry.registerEntityRenderingHandler(EntityResearchAssistant.class, new RenderResearchAssistant(new ModelResearchAssistant(), 0));
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityTerritoryFlag.class, new RenderTerritoryFlag());
+	
 	}
 
 	public void postInit() {

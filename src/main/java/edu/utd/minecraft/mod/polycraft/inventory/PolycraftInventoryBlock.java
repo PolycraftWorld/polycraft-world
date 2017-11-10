@@ -649,8 +649,8 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
 				{
-					GL11.glScalef(1.2F, 1.2F, 1.2F);
-					GL11.glTranslatef(.8F, 0.25F, 0F);
+					GL11.glScalef(0.05F, 0.05F, 0.05F);
+					GL11.glTranslatef(-11.1F, 1.1F, -10.1F);
 				}
 
 				else if (config.containerType == PolycraftContainerType.COMPUTER)
@@ -830,7 +830,9 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
 				{
-					GL11.glTranslated(1F, 0, 0);
+					GL11.glScalef(.2F, .2F, .2F);
+					GL11.glTranslated(-22.5F, 20F, -35F);
+					GL11.glRotatef(270, 0F, 0F, 1F);
 				}
 				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
 				{

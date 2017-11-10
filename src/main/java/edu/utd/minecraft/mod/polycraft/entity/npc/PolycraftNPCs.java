@@ -17,5 +17,13 @@ public class PolycraftNPCs {
 		EntityRegistry.registerModEntity(EntityResearchAssistant.class, "researchAssistant", id, PolycraftMod.instance,
 				64, 1, true);
 		EntityList.entityEggs.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, 0xEEEEEE, 0x111111));
+		
+		id = EntityRegistry.findGlobalUniqueEntityId();
+		EntityRegistry.registerGlobalEntityID(EntityTerritoryFlag.class, "TerritoryFlag", id);
+		EntityRegistry.registerModEntity(EntityTerritoryFlag.class, "TerritoryFlag", id, PolycraftMod.instance,
+				64, 1, true);
+		EntityList.entityEggs.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, 0x000000, 0x000000));
+		
+
 	}
 }
