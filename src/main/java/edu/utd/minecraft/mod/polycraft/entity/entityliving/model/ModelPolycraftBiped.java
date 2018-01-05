@@ -1,19 +1,19 @@
-package edu.utd.minecraft.mod.polycraft.entity.npc;
+package edu.utd.minecraft.mod.polycraft.entity.entityliving.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 
-public class ModelResearchAssistant extends ModelBiped {
+public class ModelPolycraftBiped extends ModelBiped {
 
-	public ModelResearchAssistant() {
+	public ModelPolycraftBiped() {
 		this(0.0F);
 	}
 
-	public ModelResearchAssistant(float p_i1148_1_) {
+	public ModelPolycraftBiped(float p_i1148_1_) {
 		this(p_i1148_1_, 0.0F, 64, 64);
 	}
 
-	public ModelResearchAssistant(float p_i1149_1_, float p_i1149_2_, int p_i1149_3_, int p_i1149_4_) {
+	public ModelPolycraftBiped(float p_i1149_1_, float p_i1149_2_, int p_i1149_3_, int p_i1149_4_) {
 		super(p_i1149_1_, p_i1149_2_, p_i1149_3_, p_i1149_4_);
 	}
 
