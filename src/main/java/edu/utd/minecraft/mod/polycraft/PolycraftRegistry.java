@@ -2,7 +2,6 @@ package edu.utd.minecraft.mod.polycraft;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
@@ -57,6 +56,7 @@ import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Nugget;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
+import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
@@ -65,6 +65,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
@@ -191,39 +192,32 @@ public class PolycraftRegistry {
 		registrySafeNameToId.put(PolycraftMod.getSafeRegistryName(name), registryName);
 	}
 
-	public static String getRegistryIdFromName(String name)
-	{
+	public static String getRegistryIdFromName(String name) {
 		return registrySafeNameToId.get(PolycraftMod.getSafeRegistryName(name));
 	}
 
-	public static String getRegistryIdFromItem(Item item)
-	{
+	public static String getRegistryIdFromItem(Item item) {
 		return getRegistryIdFromName(PolycraftMod.getRegistryName(item));
 	}
 
-	public static String getRegistryIdFromBlock(Block block)
-	{
+	public static String getRegistryIdFromBlock(Block block) {
 		return getRegistryIdFromName(PolycraftMod.getRegistryName(block));
 	}
 
-	public static String getRegistryIdFromItemStack(ItemStack itemStack)
-	{
+	public static String getRegistryIdFromItemStack(ItemStack itemStack) {
 		String s = PolycraftRegistry.getRegistryIdFromName(PolycraftMod.getRegistryName(itemStack));
 		return (s == null) ? PolycraftMod.getRegistryName(itemStack) : s; //for polycraft items, unlocalized name is already the ID
 	}
 
-	public static String getRegistryNameFromId(String id)
-	{
+	public static String getRegistryNameFromId(String id) {
 		return registryIdToNameUpper.get(id);
 	}
 
-	public static boolean isIdBlockId(String id)
-	{
+	public static boolean isIdBlockId(String id) {
 		return (blocks.get(getRegistryNameFromId(id)) == null) ? false : true;
 	}
 
-	public static boolean isIdItemId(String id)
-	{
+	public static boolean isIdItemId(String id) {
 		return (items.get(getRegistryNameFromId(id)) == null) ? false : true;
 	}
 
@@ -345,14 +339,12 @@ public class PolycraftRegistry {
 	public static void registerFromResources() {
 		boolean foundVersions = false;
 		for (final String[] line : PolycraftMod.readResourceFileDelimeted("config", "enums")) {
-			if (!foundVersions)
-			{
+			if (!foundVersions) {
 				if (line.length == 0)
 					continue;
 				else if (!line[0].toString().equalsIgnoreCase("Version"))
 					continue;
-				else
-				{
+				else {
 					foundVersions = true;
 					continue;
 				}
@@ -399,15 +391,15 @@ public class PolycraftRegistry {
 			registerFlashcards();
 			registerExams();
 			Fuel.registerQuantifiedFuels();
-			
+			registerPolycraftEntities();
+
 		}
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
 	}
 
 	private static void registerMinecraftItems() {
 		for (final MinecraftItem minecraftItem : MinecraftItem.registry.values()) {
-			if (isTargetVersion(minecraftItem.version))
-			{
+			if (isTargetVersion(minecraftItem.version)) {
 				final Item item = GameData.itemRegistry.get(minecraftItem.id);
 				if (item == null)
 					logger.warn("Missing item: {}", minecraftItem.name);
@@ -440,8 +432,7 @@ public class PolycraftRegistry {
 
 	private static void registerMinecraftBlocks() {
 		for (final MinecraftBlock minecraftBlock : MinecraftBlock.registry.values()) {
-			if (isTargetVersion(minecraftBlock.version))
-			{
+			if (isTargetVersion(minecraftBlock.version)) {
 				final Block block = GameData.blockRegistry.get(minecraftBlock.id);
 				if (block == null)
 					logger.warn("Missing block: {}", minecraftBlock.name);
@@ -470,8 +461,7 @@ public class PolycraftRegistry {
 				}
 			}
 		}
-		if (isTargetVersion(new int[] { 1, 0, 0 }))
-		{
+		if (isTargetVersion(new int[] { 1, 0, 0 })) {
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 2256), "record");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 420), "leash");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 419), "horsearmordiamond");
@@ -632,8 +622,7 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerBiomes() {
-		if (isTargetVersion(new int[] { 1, 0, 0 }))
-		{
+		if (isTargetVersion(new int[] { 1, 0, 0 })) {
 			class BiomeIdException extends RuntimeException {
 				public BiomeIdException(String biome, int id) {
 					super(String.format("You have a Biome Id conflict at %d for %s", id, biome));
@@ -657,10 +646,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerOres() {
-		for (final Ore ore : Ore.registry.values())
-		{
-			if (isTargetVersion(ore.version))
-			{
+		for (final Ore ore : Ore.registry.values()) {
+			if (isTargetVersion(ore.version)) {
 				registerBlock(ore, new BlockOre(ore));
 			}
 		}
@@ -668,10 +655,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerIngots() {
-		for (final Ingot ingot : Ingot.registry.values())
-		{
-			if (isTargetVersion(ingot.version))
-			{
+		for (final Ingot ingot : Ingot.registry.values()) {
+			if (isTargetVersion(ingot.version)) {
 				registerItem(ingot, new ItemIngot(ingot));
 			}
 		}
@@ -679,10 +664,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerNuggets() {
-		for (final Nugget nugget : Nugget.registry.values())
-		{
-			if (isTargetVersion(nugget.version))
-			{
+		for (final Nugget nugget : Nugget.registry.values()) {
+			if (isTargetVersion(nugget.version)) {
 				registerItem(nugget, new ItemNugget(nugget));
 			}
 		}
@@ -690,10 +673,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerCompressedBlocks() {
-		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-		{
-			if (isTargetVersion(compressedBlock.version))
-			{
+		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
+			if (isTargetVersion(compressedBlock.version)) {
 				registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
 			}
 		}
@@ -701,10 +682,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerCatalysts() {
-		for (final Catalyst catalyst : Catalyst.registry.values())
-		{
-			if (isTargetVersion(catalyst.version))
-			{
+		for (final Catalyst catalyst : Catalyst.registry.values()) {
+			if (isTargetVersion(catalyst.version)) {
 				registerItem(catalyst, new ItemCatalyst(catalyst));
 			}
 		}
@@ -712,10 +691,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerFlashcards() {
-		for (final Flashcard flashcard : Flashcard.registry.values())
-		{
-			if (isTargetVersion(flashcard.version))
-			{
+		for (final Flashcard flashcard : Flashcard.registry.values()) {
+			if (isTargetVersion(flashcard.version)) {
 				registerItem(flashcard, new ItemFlashcard(flashcard));
 			}
 		}
@@ -723,10 +700,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerExams() {
-		for (final Exam exam : Exam.registry.values())
-		{
-			if (isTargetVersion(exam.version))
-			{
+		for (final Exam exam : Exam.registry.values()) {
+			if (isTargetVersion(exam.version)) {
 				registerItem(exam, new ItemExam(exam));
 			}
 		}
@@ -734,18 +709,14 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerVessels() {
-		for (final ElementVessel vessel : ElementVessel.registry.values())
-		{
-			if (isTargetVersion(vessel.version))
-			{
+		for (final ElementVessel vessel : ElementVessel.registry.values()) {
+			if (isTargetVersion(vessel.version)) {
 				registerItem(vessel, new ItemVessel<ElementVessel>(vessel));
 			}
 		}
 
-		for (final CompoundVessel vessel : CompoundVessel.registry.values())
-		{
-			if (isTargetVersion(vessel.version))
-			{
+		for (final CompoundVessel vessel : CompoundVessel.registry.values()) {
+			if (isTargetVersion(vessel.version)) {
 				registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 			}
 		}
@@ -753,18 +724,15 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerPolymers() {
-		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
-		{
-			if (isTargetVersion(polymerPellets.version))
-			{
+		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values()) {
+			if (isTargetVersion(polymerPellets.version)) {
 				registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 			}
 		}
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			{
-				if (isTargetVersion(polymerBlock.version))
-				{
+				if (isTargetVersion(polymerBlock.version)) {
 					final BlockPolymer block = new BlockPolymer(polymerBlock);
 					registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
 							ItemPolymerBlock.class, new Object[] {});
@@ -775,8 +743,7 @@ public class PolycraftRegistry {
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			{
-				if (isTargetVersion(polymerSlab.version))
-				{
+				if (isTargetVersion(polymerSlab.version)) {
 					final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
 					final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
 					registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
@@ -789,8 +756,7 @@ public class PolycraftRegistry {
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			{
-				if (isTargetVersion(polymerStairs.version))
-				{
+				if (isTargetVersion(polymerStairs.version)) {
 					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 15);
 					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
 							ItemPolymerStairs.class, new Object[] {});
@@ -801,8 +767,7 @@ public class PolycraftRegistry {
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
 			{
-				if (isTargetVersion(polymerWall.version))
-				{
+				if (isTargetVersion(polymerWall.version)) {
 					final BlockWall wall = new BlockPolymerWall(polymerWall);
 					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
 							ItemPolymerWall.class, new Object[] {});
@@ -815,10 +780,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerMolds() {
-		for (final Mold mold : Mold.registry.values())
-		{
-			if (isTargetVersion(mold.version))
-			{
+		for (final Mold mold : Mold.registry.values()) {
+			if (isTargetVersion(mold.version)) {
 				registerItem(mold, new ItemMold(mold));
 			}
 		}
@@ -828,8 +791,7 @@ public class PolycraftRegistry {
 	private static void registerMoldedItems() {
 		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
 
-			if (isTargetVersion(moldedItem.version))
-			{
+			if (isTargetVersion(moldedItem.version)) {
 				Item item = null;
 				if (GameID.MoldRunningShoes.matches(moldedItem.source))
 					item = new ItemRunningShoes(moldedItem);
@@ -845,8 +807,7 @@ public class PolycraftRegistry {
 		}
 
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
-			if (isTargetVersion(brick.version))
-			{
+			if (isTargetVersion(brick.version)) {
 				final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
 				registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
 						ItemPolymerBrick.class, new Object[] {});
@@ -857,10 +818,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerMaskItems() {
-		for (final Mask maskItem : Mask.registry.values())
-		{
-			if (isTargetVersion(maskItem.version))
-			{
+		for (final Mask maskItem : Mask.registry.values()) {
+			if (isTargetVersion(maskItem.version)) {
 				registerItem(maskItem, new ItemMask(maskItem));
 			}
 		}
@@ -868,10 +827,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerWaferItems() {
-		for (final WaferItem waferItem : WaferItem.registry.values())
-		{
-			if (isTargetVersion(waferItem.version))
-			{
+		for (final WaferItem waferItem : WaferItem.registry.values()) {
+			if (isTargetVersion(waferItem.version)) {
 				registerItem(waferItem, new ItemWafer(waferItem));
 			}
 		}
@@ -879,10 +836,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerElectronics() {
-		for (final Electronics electronics : Electronics.registry.values())
-		{
-			if (isTargetVersion(electronics.version))
-			{
+		for (final Electronics electronics : Electronics.registry.values()) {
+			if (isTargetVersion(electronics.version)) {
 				registerItem(electronics, new ItemElectronics(electronics));
 			}
 		}
@@ -890,10 +845,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerDNASamplers() {
-		for (final DNASampler dnaSampler : DNASampler.registry.values())
-		{
-			if (isTargetVersion(dnaSampler.version))
-			{
+		for (final DNASampler dnaSampler : DNASampler.registry.values()) {
+			if (isTargetVersion(dnaSampler.version)) {
 				registerItem(dnaSampler, new ItemDNASampler(dnaSampler));
 			}
 		}
@@ -901,10 +854,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerCellCultureDishes() {
-		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values())
-		{
-			if (isTargetVersion(cellCultureDish.version))
-			{
+		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values()) {
+			if (isTargetVersion(cellCultureDish.version)) {
 				registerItem(cellCultureDish, new ItemCellCultureDish(cellCultureDish));
 			}
 		}
@@ -912,10 +863,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerGrippedTools() {
-		for (final GrippedTool grippedTool : GrippedTool.registry.values())
-		{
-			if (isTargetVersion(grippedTool.version))
-			{
+		for (final GrippedTool grippedTool : GrippedTool.registry.values()) {
+			if (isTargetVersion(grippedTool.version)) {
 				registerItem(grippedTool, ItemGripped.create(grippedTool));
 			}
 		}
@@ -923,10 +872,8 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerPogoSticks() {
-		for (final PogoStick pogoStick : PogoStick.registry.values())
-		{
-			if (isTargetVersion(pogoStick.version))
-			{
+		for (final PogoStick pogoStick : PogoStick.registry.values()) {
+			if (isTargetVersion(pogoStick.version)) {
 				registerItem(pogoStick, new ItemPogoStick(pogoStick));
 			}
 		}
@@ -935,8 +882,7 @@ public class PolycraftRegistry {
 
 	private static void registerArmors() {
 		for (final Armor armor : Armor.registry.values()) {
-			if (isTargetVersion(armor.version))
-			{
+			if (isTargetVersion(armor.version)) {
 
 				final ArmorMaterial material = EnumHelper.addArmorMaterial(
 						armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
@@ -963,8 +909,7 @@ public class PolycraftRegistry {
 
 	private static void registerTools() {
 		for (final Tool tool : Tool.registry.values()) {
-			if (isTargetVersion(tool.version))
-			{
+			if (isTargetVersion(tool.version)) {
 				final ToolMaterial material = EnumHelper.addToolMaterial(
 						tool.name, tool.harvestLevel, tool.maxUses, tool.efficiency, tool.damage, tool.enchantability);
 				material.customCraftingMaterial = PolycraftRegistry.getItem(tool.craftingHeadItemName);
@@ -994,8 +939,7 @@ public class PolycraftRegistry {
 
 	private static void registerInventories() {
 		for (final Inventory inventory : Inventory.registry.values()) {
-			if (isTargetVersion(inventory.version))
-			{
+			if (isTargetVersion(inventory.version)) {
 				if (GameID.InventoryTreeTap.matches(inventory))
 					TreeTapInventory.register(inventory);
 				else if (GameID.InventoryMachiningMill.matches(inventory))
@@ -1063,35 +1007,45 @@ public class PolycraftRegistry {
 		GameRegistry.registerTileEntity(tileEntity, PolycraftMod.MODID + ":" + id);
 	}
 
+	private static void registerPolycraftEntities() {
+		for (final PolycraftEntity polycraftEntity : PolycraftEntity.registry.values()) {
+			if (isTargetVersion(polycraftEntity.version)) {
+				if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
+					ResearchAssistantEntity.register(polycraftEntity);
+				}
+					
+				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
+				//	TerritoryFlagEntity.register(polycraftEntity);
+				else
+					logger.warn("Unhandled inventory: {} ({})", polycraftEntity.name, polycraftEntity.gameID);
+			}
+		}
+	}
+
 	private static void registerCustom() {
 		final InternalObject light = InternalObject.registry.get("BlockLight");
-		if (light != null && isTargetVersion(light.version))
-		{
+		if (light != null && isTargetVersion(light.version)) {
 			PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
 		}
 
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		Fluid fluidOil = null;
-		if (oil != null && isTargetVersion(oil.version))
-		{
+		if (oil != null && isTargetVersion(oil.version)) {
 			fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 			FluidRegistry.registerFluid(fluidOil);
 		}
 
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
-		if (blockPipe != null && isTargetVersion(blockPipe.version))
-		{
+		if (blockPipe != null && isTargetVersion(blockPipe.version)) {
 			TileEntityBlockPipe.register(blockPipe);
 		}
 
 		final InternalObject collision = InternalObject.registry.get("BlockCollision");
-		if (collision != null && isTargetVersion(collision.version))
-		{
+		if (collision != null && isTargetVersion(collision.version)) {
 			PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
 		}
 
-		if (isTargetVersion(new int[] { 1, 0, 0 }))
-		{
+		if (isTargetVersion(new int[] { 1, 0, 0 })) {
 			registerTileEntity(TileEntityPolymerBrick.class, "model_of_brick");// + id);
 		}
 
@@ -1106,8 +1060,7 @@ public class PolycraftRegistry {
 		}
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
-			if (isTargetVersion(customObject.version))
-			{
+			if (isTargetVersion(customObject.version)) {
 				if (GameID.CustomBucketOil.matches(customObject)) {
 					PolycraftMod.itemOilBucket = registerItem(customObject,
 							new PolycraftBucket(PolycraftMod.blockOil)
@@ -1119,134 +1072,91 @@ public class PolycraftRegistry {
 							new ItemStack(Items.bucket));
 					BucketHandler.INSTANCE.buckets.put(PolycraftMod.blockOil, PolycraftMod.itemOilBucket);
 					MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
-				}
-				else if (GameID.CustomFlameThrower.matches(customObject)) {
+				} else if (GameID.CustomFlameThrower.matches(customObject)) {
 					registerItem(customObject, new ItemFlameThrower(customObject, "flame_thrower"));
-				}
-				else if (GameID.CustomFlameTosser.matches(customObject)) {
+				} else if (GameID.CustomFlameTosser.matches(customObject)) {
 					registerItem(customObject, new ItemFlameThrower(customObject, "flame_tosser"));
-				}
-				else if (GameID.CustomFlameHurler.matches(customObject)) {
+				} else if (GameID.CustomFlameHurler.matches(customObject)) {
 					registerItem(customObject, new ItemFlameThrower(customObject, "flame_hurler"));
-				}
-				else if (GameID.CustomFlameChucker.matches(customObject)) {
+				} else if (GameID.CustomFlameChucker.matches(customObject)) {
 					registerItem(customObject, new ItemFlameThrower(customObject, "flame_chucker"));
-				}
-				else if (GameID.CustomFreezeRayBeginner.matches(customObject)) {
+				} else if (GameID.CustomFreezeRayBeginner.matches(customObject)) {
 					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_beginner"));
-				}
-				else if (GameID.CustomFreezeRayIntermediate.matches(customObject)) {
+				} else if (GameID.CustomFreezeRayIntermediate.matches(customObject)) {
 					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_intermediate"));
-				}
-				else if (GameID.CustomFreezeRayAdvanced.matches(customObject)) {
+				} else if (GameID.CustomFreezeRayAdvanced.matches(customObject)) {
 					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_advanced"));
-				}
-				else if (GameID.CustomFreezeRayPro.matches(customObject)) {
+				} else if (GameID.CustomFreezeRayPro.matches(customObject)) {
 					registerItem(customObject, new ItemFreezeRay(customObject, "freeze_ray_pro"));
-				}
-				else if (GameID.CustomWaterCannonBeginner.matches(customObject)) {
+				} else if (GameID.CustomWaterCannonBeginner.matches(customObject)) {
 					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_beginner"));
-				}
-				else if (GameID.CustomWaterCannonIntermediate.matches(customObject)) {
+				} else if (GameID.CustomWaterCannonIntermediate.matches(customObject)) {
 					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_intermediate"));
-				}
-				else if (GameID.CustomWaterCannonAdvanced.matches(customObject)) {
+				} else if (GameID.CustomWaterCannonAdvanced.matches(customObject)) {
 					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_advanced"));
-				}
-				else if (GameID.CustomWaterCannonPro.matches(customObject)) {
+				} else if (GameID.CustomWaterCannonPro.matches(customObject)) {
 					registerItem(customObject, new ItemWaterCannon(customObject, "water_cannon_pro"));
-				}
-				else if (GameID.CustomFlashlight.matches(customObject)) {
+				} else if (GameID.CustomFlashlight.matches(customObject)) {
 					registerItem(customObject, new ItemFlashlight(customObject));
-				}
-				else if (GameID.CustomJetPackBeginner.matches(customObject)) {
+				} else if (GameID.CustomJetPackBeginner.matches(customObject)) {
 					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomJetPackIntermediate.matches(customObject)) {
+				} else if (GameID.CustomJetPackIntermediate.matches(customObject)) {
 					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomJetPackAdvanced.matches(customObject)) {
+				} else if (GameID.CustomJetPackAdvanced.matches(customObject)) {
 					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomJetPackPro.matches(customObject)) {
+				} else if (GameID.CustomJetPackPro.matches(customObject)) {
 					registerItem(customObject, new ItemJetPack(customObject));
-				}
-				else if (GameID.CustomParachute.matches(customObject)) {
+				} else if (GameID.CustomParachute.matches(customObject)) {
 					registerItem(customObject, new ItemParachute(customObject));
-				}
-				else if (GameID.CustomPhaseShifter.matches(customObject)) {
+				} else if (GameID.CustomPhaseShifter.matches(customObject)) {
 					registerItem(customObject, new ItemPhaseShifter(customObject));
-				}
-				else if (GameID.CustomScubaTankBeginner.matches(customObject)) {
+				} else if (GameID.CustomScubaTankBeginner.matches(customObject)) {
 					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_beginner"));
-				}
-				else if (GameID.CustomScubaTankIntermediate.matches(customObject)) {
+				} else if (GameID.CustomScubaTankIntermediate.matches(customObject)) {
 					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_intermediate"));
-				}
-				else if (GameID.CustomScubaTankAdvanced.matches(customObject)) {
+				} else if (GameID.CustomScubaTankAdvanced.matches(customObject)) {
 					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_advanced"));
-				}
-				else if (GameID.CustomScubaTankPro.matches(customObject)) {
+				} else if (GameID.CustomScubaTankPro.matches(customObject)) {
 					registerItem(customObject, new ItemScubaTank(customObject, "scuba_tank_pro"));
-				}
-				else if (GameID.CustomHeatedKnifeDiamondPolyIsoPrene.matches(customObject)) {
+				} else if (GameID.CustomHeatedKnifeDiamondPolyIsoPrene.matches(customObject)) {
 					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_NR"));
-				}
-				else if (GameID.CustomHeatedKnifeDiamondPolyPropylene.matches(customObject)) {
+				} else if (GameID.CustomHeatedKnifeDiamondPolyPropylene.matches(customObject)) {
 					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PP"));
-				}
-				else if (GameID.CustomHeatedKnifeDiamondPEEK.matches(customObject)) {
+				} else if (GameID.CustomHeatedKnifeDiamondPEEK.matches(customObject)) {
 					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_diamond_PEEK"));
-				}
-				else if (GameID.CustomHeatedKnifeStainlessPolyIsoPrene.matches(customObject)) {
+				} else if (GameID.CustomHeatedKnifeStainlessPolyIsoPrene.matches(customObject)) {
 					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_NR"));
-				}
-				else if (GameID.CustomHeatedKnifeStainlessPolyPropylene.matches(customObject)) {
+				} else if (GameID.CustomHeatedKnifeStainlessPolyPropylene.matches(customObject)) {
 					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PP"));
-				}
-				else if (GameID.CustomHeatedKnifeStainlessPEEK.matches(customObject)) {
+				} else if (GameID.CustomHeatedKnifeStainlessPEEK.matches(customObject)) {
 					registerItem(customObject, new ItemHeatedKnife(customObject, "heated_knife_stainless_PEEK"));
-				}
-				else if (GameID.CustomRunningShoesSprinter.matches(customObject)) {
+				} else if (GameID.CustomRunningShoesSprinter.matches(customObject)) {
 					registerItem(customObject, new ItemRunningShoes(customObject, "running_shoes_sprinter"));
-				}
-				else if (GameID.CustomScubaMaskLightBeginner.matches(customObject)) {
+				} else if (GameID.CustomScubaMaskLightBeginner.matches(customObject)) {
 					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Beginner)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomScubaMaskLightIntermediate.matches(customObject)) {
+				} else if (GameID.CustomScubaMaskLightIntermediate.matches(customObject)) {
 					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Intermediate)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomScubaMaskLightAdvanced.matches(customObject)) {
+				} else if (GameID.CustomScubaMaskLightAdvanced.matches(customObject)) {
 					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Advanced)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomScubaMaskLightPro.matches(customObject)) {
+				} else if (GameID.CustomScubaMaskLightPro.matches(customObject)) {
 					registerItem(customObject, new ItemScubaMask(MoldedItem.registry.get("Scuba Mask (Pro)"), "scuba_mask_light"));
-				}
-				else if (GameID.CustomVoiceCone.matches(customObject)) {
+				} else if (GameID.CustomVoiceCone.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomMegaphone.matches(customObject)) {
+				} else if (GameID.CustomMegaphone.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomWalkyTalky.matches(customObject)) {
+				} else if (GameID.CustomWalkyTalky.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomHAMRadio.matches(customObject)) {
+				} else if (GameID.CustomHAMRadio.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomCellPhone.matches(customObject)) {
+				} else if (GameID.CustomCellPhone.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomSmartPhone.matches(customObject)) {
+				} else if (GameID.CustomSmartPhone.matches(customObject)) {
 					registerItem(customObject, new ItemCommunication(customObject));
-				}
-				else if (GameID.CustomAirQualityDetecctor.matches(customObject)) {
+				} else if (GameID.CustomAirQualityDetecctor.matches(customObject)) {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
-				}
-				else if (GameID.FluorescentBulbs.matches(customObject)) {
+				} else if (GameID.FluorescentBulbs.matches(customObject)) {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
-				}
-				else
+				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
 			}
@@ -1267,23 +1177,17 @@ public class PolycraftRegistry {
 			if (GameID.InternalOil.matches(internalObject)) {
 				langEntries.add(String.format(fluidFormat, internalObject.name.toLowerCase(), internalObject.display));
 				langEntries.add(String.format(blockFormat, internalObject.gameID, internalObject.display));
-			}
-			else if (GameID.InternalBlockPipe.matches(internalObject)) {
+			} else if (GameID.InternalBlockPipe.matches(internalObject)) {
 				langEntries.add(String.format(baseFormat, internalObject.gameID, internalObject.display));
-			}
-			else if (GameID.InternalItemPipe.matches(internalObject)) {
+			} else if (GameID.InternalItemPipe.matches(internalObject)) {
 				langEntries.add(String.format(itemFormat, internalObject.gameID, internalObject.display));
 			}
 		}
 
-		for (final Ore ore : Ore.registry.values())
-		{
-			if (ore.source instanceof Element)
-			{
+		for (final Ore ore : Ore.registry.values()) {
+			if (ore.source instanceof Element) {
 				langEntries.add(String.format(blockFormat, ore.gameID, "[" + ((Element) ore.source).symbol + " " + ((Element) ore.source).atomicNumber + "]  " + ore.name));
-			}
-			else
-			{
+			} else {
 				langEntries.add(String.format(blockFormat, ore.gameID, ore.name));
 			}
 		}
