@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.entity.npc;
+package edu.utd.minecraft.mod.polycraft.entity;
 
 
 import cpw.mods.fml.relauncher.Side;

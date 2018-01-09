@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.entity.npc;
+package edu.utd.minecraft.mod.polycraft.entity;
 
 import java.util.ArrayList;
 import java.util.Iterator;

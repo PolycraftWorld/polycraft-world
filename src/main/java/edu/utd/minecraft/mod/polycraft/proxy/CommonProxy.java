@@ -21,7 +21,6 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
-import edu.utd.minecraft.mod.polycraft.entity.npc.PolycraftNPCs;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -76,7 +75,6 @@ public abstract class CommonProxy {
 		// TODO: Only enable on debug mode
 		DynamicValue.start();
 		PolycraftRegistry.registerFromResources();
-		PolycraftNPCs.mainRegistry();
 	}
 
 	public void init() {
