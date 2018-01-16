@@ -1,9 +1,11 @@
-package edu.utd.minecraft.mod.polycraft.entity;
+package edu.utd.minecraft.mod.polycraft.entity.entityliving.render;
 
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelTerritoryFlag;
 import net.minecraft.block.Block;
 
 import net.minecraft.client.renderer.RenderBlocks;

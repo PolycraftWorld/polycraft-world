@@ -27,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.entity.EntityTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -107,8 +107,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 					
 					
 					
-					////////////////////////////////////////////////////////////////////////
-					/*
+					
 					try {
 
 						if (ServerEnforcer.portalRestUrl != null)
@@ -142,7 +141,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 						PolycraftMod.logger.error("Unable to send territoryFlag info", e);
 						//return false;
 					}
-					*/
+					
 					///////////////////////////////////////////////////////////////////////
 					
 					

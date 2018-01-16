@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.inventory.territoryflag;
 
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.entity.EntityTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

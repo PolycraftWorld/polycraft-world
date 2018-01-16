@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.entity;
+package edu.utd.minecraft.mod.polycraft.entity.entityliving;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -68,6 +68,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.ai.PolyEntityAIArrowAttack;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
@@ -80,6 +81,8 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 	
 	public static final BlockContainer TERRITORY_FLAG = (BlockContainer) GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("1fq"));
 	//TODO EDIT these for balancing
+
+	private static PolycraftEntity config;
 	
 	//private int maxNearbyEntities = 32;
     public int spawnDelay = 50; 
@@ -196,11 +199,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 			}
 			else
 			{
-			
-
 				if(activated) {
-						
-						
 						if(spawnDelay>0)
 						{
 							spawnDelay--;
@@ -220,7 +219,6 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 							}
 							this.resetTimer();
 						}
-					
 				}
 				if(activated && ((23450-x)<=0))
 				{
@@ -461,8 +459,8 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 		                    entityTerritoryFlag.setEquipmentDropChance(0,0.0F);
 		                    for(int e=0; e<4;e++)
 		                    {
-		                    	//ItemStack itemstack = entityTerritoryFlag.func_130225_q(e);
-		                        //itemstack.addEnchantment(Enchantment.thorns, 2);
+		                    	ItemStack itemstack = entityTerritoryFlag.func_130225_q(e);
+		                        itemstack.addEnchantment(Enchantment.thorns, 2);
 		                    	entityTerritoryFlag.setEquipmentDropChance(e+1,0.0F);//possible to add Eq w/o drops
 		                    }
 	                        t = MathHelper.getRandomIntegerInRange(this.rand, 1, 2);
@@ -537,6 +535,9 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 	            }
 	}
 
-
+	public static final void register(final PolycraftEntity polycraftEntity) {
+		EntityTerritoryFlag.config = polycraftEntity;
+		PolycraftEntityLiving.register(EntityTerritoryFlag.class, config.entityID, config.name, 0x0004FF, 0xFF00E1);
+	}
 
 }

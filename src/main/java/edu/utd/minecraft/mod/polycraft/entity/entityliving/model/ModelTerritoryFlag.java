@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.entity;
+package edu.utd.minecraft.mod.polycraft.entity.entityliving.model;
 
 
 import org.lwjgl.opengl.GL11;
