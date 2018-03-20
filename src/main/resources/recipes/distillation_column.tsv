@@ -2,7 +2,7 @@ Version	Energy	Heat Min	Heat Max	Level	Input 1 (max)	1#	Ouptut 1	O1#	Ouptut 2	O2
 1.0.0	2	1	10	4	Water Bucket	1	Beaker (Salt Water)	1	Bucket	1																									
 1.0.0	2	1	10	4	Bucket (Crude Oil)	1	Beaker (Crude Oil)	1	Bucket	1																									
 1.0.0	2	1	10	4	Tar Sand	4	Bitumen	3	Sand	1	Bag (Anthracene)	4																							
-1.0.0	2	1	10	4	Shale	4	Beaker (NeoPentane)	3	Gravel	1																									
+1.0.0	2	1	10	4	Shale	8	Beaker (NeoPentane)	3	Gravel	1																									
 1.0.0	2	1	10	4	Bitumen	4	Beaker (Crude Oil)	1	Gravel	3																									
 1.0.0	2	1	10	4	Block of Bitumen	4	Beaker (Crude Oil)	11	Gravel	32																									
 1.0.0	1	1	10	4	Vial (Crude Oil)	8	Vial (Naphthalene)	6	Vial (Benzene-Toluene-Xylene)	1	Vial (Gas Oil)	1																							
