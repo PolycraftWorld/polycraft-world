@@ -112,6 +112,11 @@ public class ClientEnforcer extends Enforcer {
 					case Broadcast:
 						onClientBroadcastReceivedEvent(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case Governments:
+						final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);
+						final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);
+						break;
 					case Unknown:
 					default:
 						break;

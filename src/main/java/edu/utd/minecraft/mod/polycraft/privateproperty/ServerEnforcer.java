@@ -30,6 +30,7 @@ public class ServerEnforcer extends Enforcer {
 	private static final long portalRefreshTicksPrivateProperties = SystemUtil.getPropertyLong("portal.refresh.ticks.private.properties", 24000);
 	private static final long portalRefreshTicksWhitelist = SystemUtil.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
 	private static final long portalRefreshTicksFriends = SystemUtil.getPropertyLong("portal.refresh.ticks.friends", 24000);
+	private static final long portalRefreshTicksGovernments = SystemUtil.getPropertyLong("portal.refresh.ticks.governments", 24000);
 
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
@@ -39,6 +40,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
+			onWorldTickGovernments(event);
 
 		}
 	}
@@ -170,6 +172,8 @@ public class ServerEnforcer extends Enforcer {
 									: privatePropertiesNonMasterJson)
 							: type == DataPacketType.Broadcast
 									? broadcastMessage
+							: type == DataPacketType.Governments
+									? GovernmentsJson
 									: friendsJson);
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
@@ -277,6 +281,29 @@ public class ServerEnforcer extends Enforcer {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl, player.getDisplayName().toLowerCase()), ImmutableMap.of("last_world_seen", player.worldObj.getWorldInfo().getWorldName()));
 				} catch (final IOException e) {
 					PolycraftMod.logger.error("Unable to log player last world seen", e);
+				}
+			}
+		}
+	}
+	
+	private void onWorldTickGovernments(final TickEvent.WorldTickEvent event) {
+		//refresh private property permissions at the start of each day, or if we haven't loaded them yet
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksGovernments == 1 || GovernmentsJson == null)) {
+			try {
+				String url = portalRestUrl.startsWith("file:")
+						? portalRestUrl + "Governments.json"
+						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)
+						: String.format("%s/governments", portalRestUrl);
+				updateGovernments(NetUtil.getText(url), true);
+				sendDataPackets(DataPacketType.Governments);
+
+			} catch (final Exception e) {
+				//TODO set up a log4j mapping to send emails on error messages (via mandrill)
+				if (GovernmentsJson == null) {
+					PolycraftMod.logger.error("Unable to load Governments", e);
+					System.exit(-1);
+				} else {
+					PolycraftMod.logger.error("Unable to refresh Governments", e);
 				}
 			}
 		}
