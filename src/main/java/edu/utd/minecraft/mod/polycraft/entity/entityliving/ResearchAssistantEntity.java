@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.entity.npc;
+package edu.utd.minecraft.mod.polycraft.entity.entityliving;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -6,7 +6,13 @@ import java.util.Random;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
+import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -26,15 +32,17 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EntityResearchAssistant extends EntityMob {
+public class ResearchAssistantEntity extends EntityMob{
 
+	private static PolycraftEntity config;
+	
 	private static Random rngesus = new Random();
 	private static ArrayList<ItemSword> swords = null;
 	private static ArrayList<ItemArmor[]> armors = null;
 
 	private boolean inLab;
-
-	public EntityResearchAssistant(World p_i1738_1_, boolean lab) {
+	
+	public ResearchAssistantEntity(World p_i1738_1_, boolean lab) {
 		super(p_i1738_1_);
 		this.inLab = lab;
 		this.getNavigator().setBreakDoors(true);
@@ -62,11 +70,12 @@ public class EntityResearchAssistant extends EntityMob {
 				this.setCurrentItemOrArmor(i + 1, new ItemStack(wear[i]));
 		this.equipmentDropChances = new float[] { 0.5F, 0.1F, 0.1F, 0.1F, 0.1F };
 	}
-
-	public EntityResearchAssistant(World world) {
-		this(world, false);
+	
+	
+	public ResearchAssistantEntity(World p_i1738_1_) {
+		this(p_i1738_1_, false);
 	}
-
+	
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
@@ -119,4 +128,10 @@ public class EntityResearchAssistant extends EntityMob {
 			swords.add(sword);
 		}
 	}
+	
+	public static final void register(final PolycraftEntity polycraftEntity) {
+		ResearchAssistantEntity.config = polycraftEntity;
+		PolycraftEntityLiving.register(ResearchAssistantEntity.class, config.entityID, config.name, 0x0004FF, 0xFF00E1);
+	}
+
 }

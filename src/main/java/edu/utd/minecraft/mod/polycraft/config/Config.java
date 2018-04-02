@@ -72,6 +72,7 @@ public abstract class Config {
 		Flashcard.registerFromResource(directory);
 		Exam.registerFromResource(directory);
 		Fuel.registerFromResource(directory);
+		PolycraftEntity.registerFromResource(directory);
 	}
 
 	private static Map<String, ConfigRegistry<? extends Config>> registriesByType = new HashMap<String, ConfigRegistry<? extends Config>>();

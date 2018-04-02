@@ -5,7 +5,7 @@ import java.util.Random;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.entity.npc.EntityResearchAssistant;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
@@ -49,7 +49,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		super();
 	}
 
-	public void placeCondenser(World world, int x, int y, int z, EntityResearchAssistant helper) {
+	public void placeCondenser(World world, int x, int y, int z, ResearchAssistantEntity helper) {
 		world.setBlock(x, y, z, CONDENSER, 0, 2);
 		CondenserBlock cond = (CondenserBlock) world.getBlock(x, y, z);
 		cond.onBlockPlacedBy(world, x, y, z, helper, new ItemStack(CONDENSER));
@@ -62,7 +62,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 	}
 
 	public void spawnResearchAssistant(World world, int x, int y, int z) {
-		EntityResearchAssistant ra = new EntityResearchAssistant(world, true);
+		ResearchAssistantEntity ra = new ResearchAssistantEntity(world, true);
 		ra.setLocationAndAngles(x, y, z, 0, 0);
 		world.spawnEntityInWorld(ra);
 	}
@@ -175,7 +175,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 			spawnResearchAssistant(world, x + i, y + 1, z + 3);
 
 		// PolycraftInventoryBlocks only override placement by entity method.
-		EntityResearchAssistant helper = new EntityResearchAssistant(world, true);
+		ResearchAssistantEntity helper = new ResearchAssistantEntity(world, true);
 		helper.setPositionAndRotation(x + 2, y + 2, z + 8, 0, 0);
 		// helper.setCustomNameTag("helper");
 		world.setBlock(x + 8, y + 1, z + 7, LIGHT, 0, 2);
