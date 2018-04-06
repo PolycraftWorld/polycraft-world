@@ -44,6 +44,7 @@ import edu.utd.minecraft.mod.polycraft.config.Flashcard;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
+import edu.utd.minecraft.mod.polycraft.config.GrippedSyntheticTool;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
@@ -133,6 +134,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemSyntheticGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolAxe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolHoe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolPickaxe;
@@ -381,6 +383,7 @@ public class PolycraftRegistry {
 			registerPogoSticks();
 			registerArmors();
 			registerTools();
+			registerGrippedSyntheticTools();
 			registerInventories();
 			registerCustom();
 			registerMaskItems();
@@ -870,6 +873,22 @@ public class PolycraftRegistry {
 		}
 
 	}
+	
+	private static void registerGrippedSyntheticTools() {
+		
+
+		
+		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values()) {
+			if (isTargetVersion(grippedSyntheticTool.version)) {
+				final ToolMaterial material = EnumHelper.addToolMaterial(
+						grippedSyntheticTool.name, grippedSyntheticTool.harvestLevel, grippedSyntheticTool.maxUses, 
+						grippedSyntheticTool.efficiency, grippedSyntheticTool.damage, grippedSyntheticTool.enchantability);
+				//material.customCraftingMaterial = PolycraftRegistry.getItem(grippedSyntheticTool.craftingHeadItemName);
+				registerItem(grippedSyntheticTool, ItemSyntheticGripped.create(grippedSyntheticTool, material));
+			}
+		}
+
+	}
 
 	private static void registerPogoSticks() {
 		for (final PogoStick pogoStick : PogoStick.registry.values()) {
@@ -1260,6 +1279,9 @@ public class PolycraftRegistry {
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));
+		
+		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values())
+			langEntries.add(String.format(itemFormat, grippedSyntheticTool.gameID, grippedSyntheticTool.name));
 
 		for (final Armor armor : Armor.registry.values()) {
 			for (final ArmorSlot armorSlot : ArmorSlot.values()) {

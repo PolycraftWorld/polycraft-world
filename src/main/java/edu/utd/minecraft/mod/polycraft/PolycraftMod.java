@@ -51,8 +51,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.6";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 6 };
+	public static final String VERSION = "1.4.8";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 8 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -100,7 +100,7 @@ public class PolycraftMod {
 	public static CommonProxy proxy;
 
 	public static final ArmorMaterial armorMaterialNone = EnumHelper
-			.addArmorMaterial("none", 0, new int[] { 0, 0, 0, 0 }, 0);
+			.addArmorMaterial("none", 0, new int[] { 3, 8, 6, 3 }, 0);
 
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;

@@ -20,6 +20,7 @@ import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.CompressedBlock;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
+import edu.utd.minecraft.mod.polycraft.config.GrippedSyntheticTool;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.Mask;
@@ -36,11 +37,24 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
+import edu.utd.minecraft.mod.polycraft.item.ItemAxeSyntheticGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemHoeSyntheticGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemPickaxeSyntheticGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemShovelSyntheticGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemSwordSyntheticGripped;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolAxe;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolHoe;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolPickaxe;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolShovel;
+import edu.utd.minecraft.mod.polycraft.item.ItemToolSword;
+import edu.utd.minecraft.mod.polycraft.item.PolycraftPickaxe;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.EnumHelper;
 
 public class RecipeGenerator {
 	private static final Logger logger = LogManager.getLogger();
@@ -328,6 +342,25 @@ public class RecipeGenerator {
 					grippedTool.getItemStack(),
 					ImmutableList.of(grippedTool.source.getItemStack(), grippedTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
 
+		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values())
+		{				
+			for (String id: grippedSyntheticTool.source.typeGameIDs)
+			{
+				String s = PolycraftRegistry.getRegistryNameFromId(id);
+				if ((s.contains("Axe") && grippedSyntheticTool.name.contains("Axe")) ||
+					(s.contains("Pickaxe") && grippedSyntheticTool.name.contains("Pickaxe")) ||
+					(s.contains("Shovel") && grippedSyntheticTool.name.contains("Shovel")) ||
+					(s.contains("Hoe") && grippedSyntheticTool.name.contains("Hoe")) ||
+					(s.contains("Sword") && grippedSyntheticTool.name.contains("Sword")))
+					
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+								PolycraftContainerType.CRAFTING_TABLE,
+								grippedSyntheticTool.getItemStack(),
+								ImmutableList.of(PolycraftRegistry.getItemStack(s,1), grippedSyntheticTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
+
+			}
+		}
+		
 		for (final PogoStick pogoStick : PogoStick.registry.values())
 			if (pogoStick.source != null && pogoStick.grip != null)
 				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
