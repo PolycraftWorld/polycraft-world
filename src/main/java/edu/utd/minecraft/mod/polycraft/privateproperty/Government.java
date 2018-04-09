@@ -24,6 +24,7 @@ public class Government {
 	public final String name;
 	public final Set<Integer> members = Sets.newHashSet();
 	public final Set<Role> roles = Sets.newHashSet();
+	public final Set<Zone> zones = Sets.newHashSet();
 	
 	public Government(
 			final JsonElement id,
@@ -48,6 +49,15 @@ public class Government {
 					jobject.get("parent_id"), //must check in case null 
 					jobject.get("is_sub").getAsBoolean(), 
 					jobject.get("members")));
+		}
+		for(JsonElement zone: zones.getAsJsonArray())
+		{
+			JsonObject jobject = zone.getAsJsonObject();
+			this.zones.add(new Zone(jobject.get("id").getAsInt(), 
+					jobject.get("name").getAsString(), 
+					jobject.get("parent_id"),  //must check in case null
+					jobject.get("override").getAsBoolean(), 
+					jobject.get("permission_sets")));
 		}
 	}
 	
