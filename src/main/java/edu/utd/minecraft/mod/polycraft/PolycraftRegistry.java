@@ -20,6 +20,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
@@ -125,6 +126,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolycraftDoor;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
@@ -153,6 +155,7 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -1175,6 +1178,10 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
 				} else if (GameID.FluorescentBulbs.matches(customObject)) {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
+				} else if (GameID.BlockPasswordDoor.matches(customObject)) {
+					BlockPasswordDoor passwordDoor = new BlockPasswordDoor(customObject, Material.iron, "test");
+					registerBlock(customObject, passwordDoor);
+					registerItem(customObject.params.get(0), "item" + customObject.name, new ItemPolycraftDoor(Material.iron, passwordDoor));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

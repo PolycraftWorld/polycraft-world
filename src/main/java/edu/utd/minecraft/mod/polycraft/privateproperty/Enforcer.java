@@ -49,6 +49,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockChest;
@@ -77,6 +78,7 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFlintAndSteel;
@@ -89,6 +91,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.AllowDespawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
@@ -109,6 +112,7 @@ public abstract class Enforcer {
 	protected static final String chatCommandPrefix = "~";
 	protected static final String chatCommandTeleport = "tp";
 	protected static final String chatExamCommand = "exam";
+	protected static final String chatChallengeCommand = "challenge";
 	private static final String chatCommandTeleportArgPrivateProperty = "pp";
 	private static final String chatCommandTeleportArgUser = "user";
 	private static final String chatCommandTeleportArgUTD = "utd";
@@ -804,6 +808,10 @@ public abstract class Enforcer {
 				handleChatExamCommand(event.player,
 						command.substring(chatExamCommand.length() + 1)
 								.split(" "));
+			} else if (command.startsWith(chatChallengeCommand)) {
+				handleChatChallengeCommand(event.player,
+						command.substring(chatChallengeCommand.length() + 1)
+						.split(" "));
 			}
 
 			return;
@@ -923,7 +931,19 @@ public abstract class Enforcer {
 			}
 		}
 	}
+	
+	public void handleChatChallengeCommand(final EntityPlayer player,
+			final String[] args) {
+		if (args.length > 0)
+		{
+			WorldServer worldserver = (WorldServer) player.getEntityWorld();
+			EntityPlayerMP playerMP = (EntityPlayerMP) player;
+			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, Integer.parseInt(args[0]),	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8)));
 
+		}
+		
+	}
+	
 	public void handleChatCommandTeleport(final EntityPlayer player,
 			final String[] args) {
 		if (args.length > 0) {

@@ -20,7 +20,6 @@ public class ItemSyntheticGripped {
 		Preconditions.checkNotNull(grippedSyntheticTool);
 		Preconditions.checkNotNull(grippedSyntheticTool);
 
-		System.out.println(grippedSyntheticTool.name);
 		
 		Item itemSyntheticGripped = null;
 		if (grippedSyntheticTool.name.contains("Shovel"))

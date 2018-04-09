@@ -20,6 +20,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -737,5 +739,11 @@ public class ClientProxy extends CommonProxy {
 			
 		}
 
+	}
+	
+	@Override
+	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
+	{
+		Minecraft.getMinecraft().displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
 	}
 }

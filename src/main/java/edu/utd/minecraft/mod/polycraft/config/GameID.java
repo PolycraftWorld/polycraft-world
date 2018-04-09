@@ -97,7 +97,8 @@ public enum GameID {
 	CustomRipstopNylonSheet("1fw"),
 	FluorescentBulbs("1xn"),
 	EntityTerritoryFlag("1hg"),
-	EntityResearchAssistant("1hf");
+	EntityResearchAssistant("1hf"),
+	BlockPasswordDoor("1hY");
 
 	public final String id;
 
