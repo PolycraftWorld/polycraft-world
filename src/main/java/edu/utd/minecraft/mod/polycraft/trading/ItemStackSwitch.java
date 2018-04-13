@@ -37,7 +37,8 @@ public class ItemStackSwitch {
 			final int damage,
 			final int stacksize,
 			final String enchantmentType,
-			final NBTTagCompound enchantments)
+			final NBTTagCompound enchantments,
+			final NBTTagCompound NBT1)
 	{
 		this.player = player;
 		//Item item = PolycraftRegistry.items.get(PolycraftRegistry.getRegistryNameFromId(itemId));
@@ -81,6 +82,9 @@ public class ItemStackSwitch {
 
 			if ((enchantments != null) && (stacksize == 1))
 				this.itemStack.setTagCompound(enchantments);
+			
+			if ((NBT1 != null) && (stacksize == 1))
+				this.itemStack.setTagCompound(NBT1);
 
 			return;
 		}
@@ -100,9 +104,13 @@ public class ItemStackSwitch {
 				final JsonDeserializationContext context) throws JsonParseException {
 			JsonObject jobject = (JsonObject) json;
 			JsonArray jarray = jobject.get("enchantments").getAsJsonArray();
-
+			
 			NBTTagCompound enchantments = new NBTTagCompound();
 			NBTTagList enchList = new NBTTagList();
+			
+			JsonObject jobj = jobject.get("government_id").getAsJsonObject();
+			NBTTagCompound NBT1 = new NBTTagCompound();
+		//	NBT1.setInteger("government_id", );
 
 			Iterator i = jarray.iterator();
 			while (i.hasNext())
@@ -117,6 +125,8 @@ public class ItemStackSwitch {
 				enchantments.setTag("StoredEnchantments", enchList);
 			else if ((jobject.get("enchantment_type").getAsString()).equals("ench"))
 				enchantments.setTag("ench", enchList);
+			
+			
 
 			return new ItemStackSwitch(
 					player,
@@ -124,7 +134,8 @@ public class ItemStackSwitch {
 					jobject.get("damage").getAsInt(),
 					jobject.get("stacksize").getAsInt(),
 					jobject.get("enchantment_type").getAsString(),
-					enchantments);
+					enchantments,
+					NBT1);
 		}
 	}
 
@@ -175,10 +186,17 @@ public class ItemStackSwitch {
 					itemInfo.add("enchantments", enchantArray);
 					return itemInfo;
 				}
+				
+				if(list.hasKey("government_id")){
+					itemInfo.addProperty("government_id",list.getInteger("government_id"));
+					
+				}
+				
 			}
 			//if (src.itemStack.getMaxStackSize() == 1)
 			itemInfo.add("enchantments", new JsonArray());
 			itemInfo.addProperty("enchantment_type", "");
+			
 
 			// TODO Auto-generated method stub
 			return itemInfo;

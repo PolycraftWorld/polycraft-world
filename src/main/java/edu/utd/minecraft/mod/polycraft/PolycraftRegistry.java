@@ -66,6 +66,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
@@ -1031,6 +1032,9 @@ public class PolycraftRegistry {
 			if (isTargetVersion(polycraftEntity.version)) {
 				if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
 					ResearchAssistantEntity.register(polycraftEntity);
+				}
+				else if(GameID.EntityTerritoryFlag.matches(polycraftEntity)){
+					EntityTerritoryFlag.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))

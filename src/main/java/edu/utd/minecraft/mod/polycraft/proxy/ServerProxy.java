@@ -1,10 +1,15 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
+import net.minecraftforge.common.ForgeChunkManager;
+
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
+
 
 public class ServerProxy extends CommonProxy {
 
@@ -16,5 +21,6 @@ public class ServerProxy extends CommonProxy {
 		}
 		FMLCommonHandler.instance().bus().register(ServerEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ServerEnforcer.INSTANCE);
+		ForgeChunkManager.setForcedChunkLoadingCallback(PolycraftMod.instance, null);
 	}
 }

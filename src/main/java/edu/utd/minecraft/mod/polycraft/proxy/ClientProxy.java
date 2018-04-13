@@ -26,9 +26,12 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolycraftBiped;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -106,6 +109,7 @@ public class ClientProxy extends CommonProxy {
 
 		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
+		
 		
 	}
 
@@ -731,11 +735,14 @@ public class ClientProxy extends CommonProxy {
 		}
 		
 		for (final PolycraftEntity polycraftEntity : PolycraftEntity.registry.values()) {
-			if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
-				RenderingRegistry.registerEntityRenderingHandler(ResearchAssistantEntity.class, new RenderPolycraftBiped(new ModelPolycraftBiped(), 0));
-			}
-			
-		}
+            if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
+                RenderingRegistry.registerEntityRenderingHandler(ResearchAssistantEntity.class, new RenderPolycraftBiped(new ModelPolycraftBiped(), 0));
+            }
+            else if (GameID.EntityTerritoryFlag.matches(polycraftEntity)){
+                RenderingRegistry.registerEntityRenderingHandler(EntityTerritoryFlag.class, new RenderTerritoryFlag());
+            }
+
+        }
 
 	}
 }
