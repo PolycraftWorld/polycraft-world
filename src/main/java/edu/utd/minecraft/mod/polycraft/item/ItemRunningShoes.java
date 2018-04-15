@@ -10,12 +10,14 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 
-public class ItemRunningShoes extends PolycraftArmorFeet implements PolycraftMoldedItem {
+public class ItemRunningShoes extends PolycraftArmorFeet implements
+		PolycraftMoldedItem {
 
 	private static final ArmorSlot armorSlot = ArmorSlot.FEET;
 
 	public static boolean isEquipped(final EntityPlayer player) {
-		return PolycraftItemHelper.checkArmor(player, armorSlot, ItemRunningShoes.class);
+		return PolycraftItemHelper.checkArmor(player, armorSlot,
+				ItemRunningShoes.class);
 	}
 
 	public static ItemRunningShoes getEquippedItem(final EntityPlayer player) {
@@ -27,14 +29,20 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements PolycraftMol
 	}
 
 	public static boolean allowsRunning(final EntityPlayer player) {
-		return isEquipped(player) && PolycraftItemHelper.checkArmor(player, armorSlot, ItemRunningShoes.class, true);
+		return isEquipped(player)
+				&& PolycraftItemHelper.checkArmor(player, armorSlot,
+						ItemRunningShoes.class, true);
 	}
 
-	public static void damageIfMovingOnGround(final EntityPlayer player, final Random random) {
-		if (player.onGround && (player.posX != player.lastTickPosX || player.posZ != player.lastTickPosZ)) {
+	public static void damageIfMovingOnGround(final EntityPlayer player,
+			final Random random) {
+		if (player.onGround
+				&& (player.posX != player.lastTickPosX || player.posZ != player.lastTickPosZ)) {
 			getEquippedItemStack(player).attemptDamageItem(1, random);
-			if (!PolycraftItemHelper.checkArmor(player, armorSlot, ItemRunningShoes.class, true))
-				player.setCurrentItemOrArmor(1 + armorSlot.getInventoryArmorSlot(), null);
+			if (!PolycraftItemHelper.checkArmor(player, armorSlot,
+					ItemRunningShoes.class, true))
+				player.setCurrentItemOrArmor(
+						1 + armorSlot.getInventoryArmorSlot(), null);
 		}
 	}
 
@@ -43,30 +51,34 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements PolycraftMol
 
 	public ItemRunningShoes(final MoldedItem moldedItem) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(moldedItem.source.polymerObject.name)));
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod
+				.getFileSafeName(moldedItem.source.polymerObject.name)));
 		this.setCreativeTab(CreativeTabs.tabTransport);
-		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(moldedItem.params.getInt(1) * 60));
+		this.setMaxDamage(PolycraftMod
+				.convertSecondsToGameTicks(moldedItem.params.getInt(1) * 60));
 		if (moldedItem.maxStackSize > 0)
 			this.setMaxStackSize(moldedItem.maxStackSize);
 		this.moldedItem = moldedItem;
 		this.velocityOnGround = moldedItem.params.getFloat(0);
 	}
-	
-	public ItemRunningShoes(final CustomObject config, String iconName)
-    {
-        //super(2.0F, p_i45347_1_, field_150915_c);
+
+	public ItemRunningShoes(final CustomObject config, String iconName) {
+		// super(2.0F, p_i45347_1_, field_150915_c);
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(iconName)));
+		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod
+				.getFileSafeName(iconName)));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.velocityOnGround = config.params.getFloat(0);
-		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(config.params.getInt(1) * 60));
-		this.moldedItem = null; //TODO: unsure if this causes bugs...walter
-    }
-	
+		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(config.params
+				.getInt(1) * 60));
+		this.moldedItem = null; // TODO: unsure if this causes bugs...walter
+	}
 
 	@Override
-	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getAssetName("textures/models/armor/track_suit_layer_1.png");
+	public String getArmorTexture(final ItemStack stack, final Entity entity,
+			final int slot, final String type) {
+		return PolycraftMod
+				.getAssetName("textures/models/armor/running_shoes_layer_1.png");
 	}
 
 	@Override
