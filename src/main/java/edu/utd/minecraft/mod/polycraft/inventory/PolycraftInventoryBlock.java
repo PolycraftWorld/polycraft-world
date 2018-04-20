@@ -59,7 +59,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	public final Class tileEntityClass;
 
 	public final Map<BlockFace, IIcon> blockFaceIcons = Maps.newHashMap();
-	private IIcon inventoryIcon;
+	protected IIcon inventoryIcon;
 
 	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass, final Material material, final float hardness) {
 		super(material);
@@ -492,7 +492,8 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		if (side == front && blockFaceIcons.containsKey(BlockFace.FRONT)) {
 			return blockFaceIcons.get(BlockFace.FRONT);
 		}
-
+		
+		
 		// If the block's side is explicitly defined, show that icon.
 		BlockFace face = BlockFace.getBlockFace(side);
 		if (blockFaceIcons.containsKey(face)) {
