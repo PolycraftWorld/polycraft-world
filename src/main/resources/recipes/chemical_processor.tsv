@@ -290,8 +290,8 @@ Version	 Chain	Source	Task	Input 1	I1#	Input 2	I2#	Input 3	I3#	Input 4	I4#	Input
 1.0.0				Cartridge (Nitrogen)	1	Cartridge (Hydrogen)	3	Iron III Oxide Catalyst	4					Cartridge (Ammonia)	2	Iron III Oxide Catalyst	3														
 1.1.0				Cartridge (Nitrogen)	4	Cartridge (Hydrogen)	12	Iron III Oxide Catalyst	8					Cartridge (Ammonia)	8	Iron III Oxide Catalyst	7														
 1.0.0				Cartridge (Nitrogen)	16	Cartridge (Hydrogen)	48	Iron III Oxide Catalyst	12					Cartridge (Ammonia)	32	Iron III Oxide Catalyst	11														
-1.0.0				Canister (Nitrogen)	1	Canister (Hydrogen)	3	Iron III Oxide Catalyst	16					Canister (Ammonia)	2	Iron III Oxide Catalyst	15														
-1.1.0				Canister (Nitrogen)	4	Canister (Hydrogen)	12	Iron III Oxide Catalyst	32					Canister (Ammonia)	8	Iron III Oxide Catalyst	31														
+1.0.0				Canister (Nitrogen)	1	Canister (Hydrogen)	3	Iron III Oxide Catalyst	16					Cartridge (Ammonia)	2	Iron III Oxide Catalyst	15														
+1.1.0				Canister (Nitrogen)	4	Canister (Hydrogen)	12	Iron III Oxide Catalyst	32					Cartridge (Ammonia)	8	Iron III Oxide Catalyst	31														
 1.0.0				Canister (Nitrogen)	16	Canister (Hydrogen)	48	Iron III Oxide Catalyst	48					Canister (Ammonia)	32	Iron III Oxide Catalyst	47														
 1.1.0				Canister (Nitrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Canister (Hydrogen)	64	Iron III Oxide Catalyst	64	Canister (Ammonia)	64	Canister (Ammonia)	64	Iron III Oxide Catalyst	63												
 1.0.0				Flask (Propylene)	1	Flask (Ammonia)	1							Vial (Acrylonitrile)	2																
