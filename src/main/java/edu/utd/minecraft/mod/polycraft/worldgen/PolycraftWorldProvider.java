@@ -22,5 +22,13 @@ public class PolycraftWorldProvider extends WorldProvider{
 	{
 		return new PolycraftChunkProvider(this.worldObj, this.worldObj.getSeed(), true);
 	}
+	
+	/**
+     * True if the player can respawn in this dimension (true = overworld, false = nether).
+     */
+    public boolean canRespawnHere()
+    {
+        return false;
+    }
 
 }
