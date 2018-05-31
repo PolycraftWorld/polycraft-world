@@ -38,7 +38,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
@@ -233,6 +235,14 @@ public class PolycraftMod {
 		}
 	}
 
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+	    // register server commands
+
+		event.registerServerCommand(new CommandTP());
+	}
+	
 	public static String getAssetName(final String name) {
 		return PolycraftMod.MODID + ":" + name;
 	}

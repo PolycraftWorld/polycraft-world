@@ -22,5 +22,7 @@ public class ServerProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(ServerEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ServerEnforcer.INSTANCE);
 		ForgeChunkManager.setForcedChunkLoadingCallback(PolycraftMod.instance, null);
+		
+		
 	}
 }

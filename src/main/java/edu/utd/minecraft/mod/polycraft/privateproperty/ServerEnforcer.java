@@ -333,7 +333,7 @@ public class ServerEnforcer extends Enforcer {
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-			ChatComponentText welcomeMessage = new ChatComponentText("Welcome to PolycraftWorld!");
+			ChatComponentText welcomeMessage = new ChatComponentText("Welcome to PolycraftWorld!\nType \"~help\" for a list of commands");
 			player.addChatMessage(welcomeMessage);
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);

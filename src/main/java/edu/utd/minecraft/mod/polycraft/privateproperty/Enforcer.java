@@ -139,9 +139,9 @@ public abstract class Enforcer {
 	protected final Map<String, List<ItemStackSwitch>> itemStackSwitchesByPlayer = Maps
 			.newHashMap();
 
-	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps
+	protected final static Map<String, PrivateProperty> privatePropertiesByChunk = Maps
 			.newHashMap();
-	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
+	protected final static Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
 			.newHashMap();
 	// polycraft user ids by minecraft username
 	public static Map<String, Long> whitelist = Maps.newHashMap();
@@ -315,14 +315,14 @@ public abstract class Enforcer {
 		return String.format("%d,%d", x, z);
 	}
 
-	protected PrivateProperty findPrivateProperty(final Entity entity,
+	public static PrivateProperty findPrivateProperty(final Entity entity,
 			final int chunkX, final int chunkZ) {
 		if (entity.dimension == propertyDimension)
 			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
 		return null;
 	}
 
-	public PrivateProperty findPrivateProperty(final Entity entity) {
+	public static PrivateProperty findPrivateProperty(final Entity entity) {
 		return findPrivateProperty(entity, entity.chunkCoordX,
 				entity.chunkCoordZ);
 	}
@@ -1009,5 +1009,9 @@ public abstract class Enforcer {
 				}
 			}
 		}
+	}
+	
+	public static Map<String, List<PrivateProperty>> getPrivatePropertiesByOwner(){
+		return privatePropertiesByOwner;
 	}
 }
