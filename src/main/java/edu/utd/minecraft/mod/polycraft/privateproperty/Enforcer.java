@@ -457,7 +457,7 @@ public abstract class Enforcer {
 	private boolean forcePlayerToExitProperty(final EntityPlayer player,
 			double targetOffsetX, double targetOffsetZ,
 			final PrivateProperty privateProperty) {
-		if (!player.worldObj.isRemote)
+		if (player.worldObj.isRemote)
 			return true;
 		final double x = player.posX + targetOffsetX;
 		final double y = player.posY - 2;
