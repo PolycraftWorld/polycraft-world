@@ -131,7 +131,7 @@ public class ResearchAssistantEntity extends EntityMob{
 	
 	public static final void register(final PolycraftEntity polycraftEntity) {
 		ResearchAssistantEntity.config = polycraftEntity;
-		PolycraftEntityLiving.register(ResearchAssistantEntity.class, config.entityID, config.name, 0x0004FF, 0xFF00E1);
+		PolycraftEntityLiving.register(ResearchAssistantEntity.class, config.entityID, config.name, 0xFFFFFF, 0x88D7FC);
 	}
 
 }

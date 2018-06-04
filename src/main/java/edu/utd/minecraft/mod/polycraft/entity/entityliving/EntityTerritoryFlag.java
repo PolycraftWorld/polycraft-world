@@ -537,7 +537,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 
 	public static final void register(final PolycraftEntity polycraftEntity) {
 		EntityTerritoryFlag.config = polycraftEntity;
-		PolycraftEntityLiving.register(EntityTerritoryFlag.class, config.entityID, config.name, 0x0004FF, 0xFF00E1);
+		PolycraftEntityLiving.register(EntityTerritoryFlag.class, config.entityID, config.name, 0xFFFFFF, 0xFFFFFF);
 	}
 
 }

@@ -20,16 +20,22 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolySlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
@@ -62,12 +68,26 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelIronGolem;
+import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -91,6 +111,7 @@ public class ClientProxy extends CommonProxy {
 	private KeyBinding keyBindingP;
 	private KeyBinding keyBindingBackspace;
 	private KeyBinding keyBindingCheckAir;
+	
 
 	@Override
 	public void preInit() {
@@ -392,6 +413,8 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 	}
+	
+	
 
 	@SubscribeEvent
 	public synchronized void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -399,9 +422,11 @@ public class ClientProxy extends CommonProxy {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
 				onRenderTickItemStatusOverlays(player, getPlayerState(player));
+				
 			}
 		}
 	}
+	
 
 	private void onPlayerTickClientFlashlight(final EntityPlayer player, final PlayerState playerState) {
 		int equippedFlashlightRange = CustomObject.getEquippedFlashlightRange(player);
@@ -740,6 +765,12 @@ public class ClientProxy extends CommonProxy {
             }
             else if (GameID.EntityTerritoryFlag.matches(polycraftEntity)){
                 RenderingRegistry.registerEntityRenderingHandler(EntityTerritoryFlag.class, new RenderTerritoryFlag());
+            }
+            else if (GameID.EntityOilSlime.matches(polycraftEntity)){
+                RenderingRegistry.registerEntityRenderingHandler(EntityOilSlime.class, new RenderOilSlime(new ModelPolySlime(16), new ModelPolySlime(0), 0.25F));
+            }
+            else if (GameID.EntityDummy.matches(polycraftEntity)){
+                RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy((ModelBase)new ModelIronGolem(), 0.25F));
             }
 
         }

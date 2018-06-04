@@ -27,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -66,6 +67,8 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
@@ -1036,6 +1039,12 @@ public class PolycraftRegistry {
 				else if(GameID.EntityTerritoryFlag.matches(polycraftEntity)){
 					EntityTerritoryFlag.register(polycraftEntity);
 				}
+				else if(GameID.EntityOilSlime.matches(polycraftEntity)){
+					EntityOilSlime.register(polycraftEntity);
+				}
+				else if(GameID.EntityDummy.matches(polycraftEntity)){
+					EntityDummy.register(polycraftEntity);
+				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
 				//	TerritoryFlagEntity.register(polycraftEntity);
@@ -1075,7 +1084,7 @@ public class PolycraftRegistry {
 		if (fluidOil != null) //do not reorder this even though it seems more efficient, because registration order matters!
 		{
 			PolycraftMod.blockOil = registerBlock(oil,
-					new BlockFluid(fluidOil, Material.water)
+					new BlockFluid(fluidOil, Material.water) 
 							.setFlammable(true)
 							.setFlammability(PolycraftMod.oilBlockFlammability)
 							.setParticleColor(0.7F, 0.7F, 0.0F));

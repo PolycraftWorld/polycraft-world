@@ -5,6 +5,7 @@ import net.minecraft.block.material.MapColor;
 public class PolycraftMaterialLiquid extends PolycraftMaterial{
 	
 	
+	
 	public PolycraftMaterialLiquid(MapColor par1MapColor) {
 		super(par1MapColor);
 		// TODO Auto-generated constructor stub

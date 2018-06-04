@@ -19,6 +19,8 @@ import net.minecraftforge.client.model.obj.ObjModelLoader;
 @SideOnly(Side.CLIENT)
 public class ModelTerritoryFlag extends ModelBase
 {
+	boolean inColor;
+	int color;
     public ModelRenderer part1;
     public ModelRenderer part2;
     public ModelRenderer part3;
@@ -140,6 +142,13 @@ public class ModelTerritoryFlag extends ModelBase
         float f7 = MathHelper.cos(this.part1.rotateAngleY);
 
     }
+    
+    public void setColor(int color)
+    {
+    	inColor=true;
+    	this.color=color;
+    }
+    
 
     /**
      * Sets the models various rotation angles then renders the model.
@@ -152,6 +161,16 @@ public class ModelTerritoryFlag extends ModelBase
 		GL11.glTranslatef(-12.45F, -25.0F, -37.5F);
     	Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
 		this.inventoryModel.renderAll();
+		
+		
+		if(inColor)
+        {
+            float r = (float)(color >> 16 & 0xff) / 255F;
+            float g = (float)(color >> 8 & 0xff) / 255F;
+            float b = (float)(color & 0xff) / 255F;
+            GL11.glColor4f(r, g, b, 1.0F);
+        }
+		
 //        this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_, p_78088_1_);
 //        this.part1.render(p_78088_7_);
 //        this.part2.render(p_78088_7_);
