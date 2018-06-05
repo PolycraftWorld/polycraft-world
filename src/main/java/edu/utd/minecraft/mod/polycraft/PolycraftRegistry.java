@@ -1202,6 +1202,7 @@ public class PolycraftRegistry {
 		final String colorFormat = "%s.%d.name=%s %s";
 		final String blockFormat = "tile." + baseFormat;
 		final String itemFormat = "item." + baseFormat;
+		final String entityFormat = "entity.polycraft." + baseFormat;
 
 		final Collection<String> langEntries = new LinkedList<String>();
 
@@ -1318,6 +1319,9 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values())
 			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
+		
+		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
+			langEntries.add(String.format(entityFormat, entity.name, entity.name));
 
 		final PrintWriter writer = new PrintWriter(exportFile);
 		for (final String line : langEntries) {
