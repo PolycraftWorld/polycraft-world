@@ -99,7 +99,9 @@ public enum GameID {
 	EntityTerritoryFlag("1hg"),
 	EntityResearchAssistant("1hf"), 
 	EntityOilSlime("1hi"),
-	EntityDummy("1hj");
+	EntityDummy("1hj"),
+	CustomOilSlimeBall("1hl"),
+	EntityOilSlimeBall("1hm");
 	
 	public final String id;
 

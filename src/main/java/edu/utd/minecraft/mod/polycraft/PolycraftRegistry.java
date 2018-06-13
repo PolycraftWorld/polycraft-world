@@ -67,6 +67,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
+import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
@@ -126,6 +127,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
+import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -1042,6 +1044,9 @@ public class PolycraftRegistry {
 				else if(GameID.EntityOilSlime.matches(polycraftEntity)){
 					EntityOilSlime.register(polycraftEntity);
 				}
+				else if(GameID.EntityOilSlimeBall.matches(polycraftEntity)){
+					EntityOilSlimeBallProjectile.register(polycraftEntity);
+				}
 				else if(GameID.EntityDummy.matches(polycraftEntity)){
 					EntityDummy.register(polycraftEntity);
 				}
@@ -1188,6 +1193,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
 				} else if (GameID.FluorescentBulbs.matches(customObject)) {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
+				} else if (GameID.CustomOilSlimeBall.matches(customObject)) {
+					registerItem(customObject, new ItemOilSlimeBall(customObject, "Oil_Slime_Ball"));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

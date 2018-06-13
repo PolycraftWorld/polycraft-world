@@ -4,3 +4,4 @@ Version	  Game ID	Entity ID	Entity	Render ID	Depth	Width	Height	Type	Render Type
 1.4.7	1hh	2002	Comet	3002	1	1	1	Passive	Model										
 1.4.7	1hi	2003	OilSlime	3003	1	1	1	Passive	Model										
 1.4.7	1hj	2004	Dummy	3004	1	1	1	Passive	Model										
+1.4.7	1hm	2006	OilSlimeBallProjectile	3006	1	1	1	Custom	Model										

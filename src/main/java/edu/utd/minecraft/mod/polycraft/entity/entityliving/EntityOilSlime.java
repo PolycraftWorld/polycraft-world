@@ -8,8 +8,11 @@ import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
+import edu.utd.minecraft.mod.polycraft.render.PolyParticleSpawner;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityBreakingFX;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -33,7 +36,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
 {
 	private static PolycraftEntity config;
 	public final static BiomeGenBase[] biomes = new BiomeGenBase[] {BiomeGenBase.desert,BiomeGenBase.plains,BiomeGenBase.beach,BiomeGenBase.birchForest,BiomeGenBase.birchForestHills,BiomeGenBase.coldBeach,BiomeGenBase.coldTaiga,BiomeGenBase.coldTaigaHills,BiomeGenBase.deepOcean,BiomeGenBase.desertHills,BiomeGenBase.extremeHills,BiomeGenBase.extremeHillsEdge,BiomeGenBase.extremeHillsPlus,BiomeGenBase.forest,BiomeGenBase.forestHills,BiomeGenBase.frozenOcean,BiomeGenBase.frozenRiver,BiomeGenBase.iceMountains,BiomeGenBase.icePlains,BiomeGenBase.jungle,BiomeGenBase.jungleEdge,BiomeGenBase.jungleHills,BiomeGenBase.megaTaiga,BiomeGenBase.megaTaigaHills,BiomeGenBase.mesa,BiomeGenBase.mesaPlateau,BiomeGenBase.mesaPlateau_F,BiomeGenBase.mushroomIsland,BiomeGenBase.mushroomIslandShore,BiomeGenBase.ocean,BiomeGenBase.river,BiomeGenBase.roofedForest,BiomeGenBase.stoneBeach,BiomeGenBase.swampland,BiomeGenBase.taiga,BiomeGenBase.taigaHills};
-	private final static String CRUDE_OIL_BEAKER_GAME_ID = "kS";
+	private final static String OIL_SLIME_BALL = "1hl";
 	
 	public Block oil = PolycraftMod.blockOil;
     public float squishAmount;
@@ -42,6 +45,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
     /** ticks until this slime jumps again */
     private int slimeJumpDelay;
     private static final String __OBFID = "CL_00001698";
+    private int healDelay;
 
     public EntityOilSlime(World p_i1742_1_)
     {
@@ -51,6 +55,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
         this.slimeJumpDelay = this.rand.nextInt(20) + 10;
         this.setSlimeSize(i);
         this.getNavigator().setAvoidsWater(true);
+        this.healDelay=0;
     }
 
     protected void entityInit()
@@ -70,6 +75,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
         this.setHealth(this.getMaxHealth());
         this.fireResistance=p_70799_1_*10;
         this.experienceValue = p_70799_1_;
+        this.healDelay=0;
     }
     
 
@@ -125,15 +131,40 @@ public class EntityOilSlime extends EntityLiving implements IMob
     /**
      * Called to update the entity's position/logic.
      */
+    public void heal()
+    {
+    	if(this.healDelay<=0)
+    	{
+    		this.heal(3);
+    		this.healDelay=30;
+    		if(this.worldObj.isRemote)
+            {
+        		int i = this.getSlimeSize();
+        		for (int j = 0; j < i * 8; ++j)
+	            {
+	                float f = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+	                float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
+	                float f2 = MathHelper.sin(f) * (float)i * 0.5F * f1;
+	                float f3 = MathHelper.cos(f) * (float)i * 0.5F * f1;
+	                PolyParticleSpawner.EntityHeal(this.posX + (double)f2, this.boundingBox.minY+.6, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
+	            }
+            }
+    	}
+    }
     public void onUpdate()
     {
+    	if(this.healDelay>0)
+    	{
+    		this.healDelay--;
+    	}
         if (!this.worldObj.isRemote && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL && this.getSlimeSize() > 0)
         {
             this.isDead = true;
         }
         if(worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ)==oil)
         {
-        	//can heal if implemented.
+        	this.heal();
+        	
         }
 
         this.squishFactor += (this.squishAmount - this.squishFactor) * 0.5F;
@@ -145,14 +176,18 @@ public class EntityOilSlime extends EntityLiving implements IMob
         if (this.onGround && !flag)
         {
             i = this.getSlimeSize();
-
-            for (int j = 0; j < i * 8; ++j)
+            if(this.worldObj.isRemote)
             {
-                float f = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
-                float f2 = MathHelper.sin(f) * (float)i * 0.5F * f1;
-                float f3 = MathHelper.cos(f) * (float)i * 0.5F * f1;
-                this.worldObj.spawnParticle(this.getSlimeParticle(), this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
+	            for (int j = 0; j < i * 8; ++j)
+	            {
+	                float f = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+	                float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
+	                float f2 = MathHelper.sin(f) * (float)i * 0.5F * f1;
+	                float f3 = MathHelper.cos(f) * (float)i * 0.5F * f1;
+	                //this.worldObj.spawnParticle(this.getSlimeParticle(), this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
+	                //Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBreakingFX(this.worldObj, this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, Items.slime_ball));
+	                PolyParticleSpawner.EntityBreakingParticle(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(OIL_SLIME_BALL)), this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
+	            }
             }
 
             if (this.makesSoundOnLand())
@@ -334,7 +369,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
 
     protected Item getDropItem()
     {
-        return this.getSlimeSize() == 1 ?  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(CRUDE_OIL_BEAKER_GAME_ID)) : Item.getItemById(0);
+        return this.getSlimeSize() == 1 ?  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(OIL_SLIME_BALL)) : Item.getItemById(0);
     }
 
     /**
