@@ -51,7 +51,6 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
         // DEBUG
         System.out.println("Spawn egg constructor for "+entityToSpawnName);
     }
-
     /**
      * Callback for item usage. If the item does something special on right clicking, 
      * he will have one of those. Return
@@ -236,7 +235,9 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
     public void registerIcons(IIconRegister par1IconRegister)
     {
         super.registerIcons(par1IconRegister);
-        theIcon = par1IconRegister.registerIcon(getIconString() + "_overlay");
+        this.itemIcon = par1IconRegister.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("polyspawn_egg")));
+        theIcon = par1IconRegister.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("polyspawn_egg_overlay")));
+        //theIcon = par1IconRegister.registerIcon(getIconString() + "_overlay");
     }
     
     /**

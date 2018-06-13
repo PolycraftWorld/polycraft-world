@@ -28,6 +28,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -67,6 +68,10 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
+import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
@@ -123,6 +128,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
+import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -1035,6 +1041,18 @@ public class PolycraftRegistry {
 				if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
 					ResearchAssistantEntity.register(polycraftEntity);
 				}
+				else if(GameID.EntityTerritoryFlag.matches(polycraftEntity)){
+					EntityTerritoryFlag.register(polycraftEntity);
+				}
+				else if(GameID.EntityOilSlime.matches(polycraftEntity)){
+					EntityOilSlime.register(polycraftEntity);
+				}
+				else if(GameID.EntityOilSlimeBall.matches(polycraftEntity)){
+					EntityOilSlimeBallProjectile.register(polycraftEntity);
+				}
+				else if(GameID.EntityDummy.matches(polycraftEntity)){
+					EntityDummy.register(polycraftEntity);
+				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
 				//	TerritoryFlagEntity.register(polycraftEntity);
@@ -1074,7 +1092,7 @@ public class PolycraftRegistry {
 		if (fluidOil != null) //do not reorder this even though it seems more efficient, because registration order matters!
 		{
 			PolycraftMod.blockOil = registerBlock(oil,
-					new BlockFluid(fluidOil, Material.water)
+					new BlockFluid(fluidOil, Material.water) 
 							.setFlammable(true)
 							.setFlammability(PolycraftMod.oilBlockFlammability)
 							.setParticleColor(0.7F, 0.7F, 0.0F));
@@ -1178,8 +1196,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
 				} else if (GameID.FluorescentBulbs.matches(customObject)) {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
-				} else if (GameID.BlockPasswordDoor.matches(customObject)) {
-					BlockPasswordDoor passwordDoor = new BlockPasswordDoor(customObject, Material.iron, "test");
+				} else if (GameID.CustomOilSlimeBall.matches(customObject)) {
+					registerItem(customObject, new ItemOilSlimeBall(customObject, "Oil_Slime_Ball"));
 					registerBlock(customObject, passwordDoor);
 					registerItem(customObject.params.get(0), "item" + customObject.name, new ItemPolycraftDoor(Material.iron, passwordDoor));
 				} else
@@ -1196,6 +1214,7 @@ public class PolycraftRegistry {
 		final String colorFormat = "%s.%d.name=%s %s";
 		final String blockFormat = "tile." + baseFormat;
 		final String itemFormat = "item." + baseFormat;
+		final String entityFormat = "entity.polycraft." + baseFormat;
 
 		final Collection<String> langEntries = new LinkedList<String>();
 
@@ -1312,6 +1331,9 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values())
 			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
+		
+		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
+			langEntries.add(String.format(entityFormat, entity.name, entity.name));
 
 		final PrintWriter writer = new PrintWriter(exportFile);
 		for (final String line : langEntries) {

@@ -17,6 +17,7 @@ public class ItemGripped {
 		Preconditions.checkNotNull(grippedTool);
 		Preconditions.checkNotNull(grippedTool);
 
+		//System.out.println(grippedTool.name);
 		Item itemGripped = null;
 		if (grippedTool.source.name.contains("Shovel"))
 			itemGripped = new ItemShovelGripped(grippedTool.toolMaterial.minecraftMaterial);

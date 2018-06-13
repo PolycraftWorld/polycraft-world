@@ -3,11 +3,15 @@ package edu.utd.minecraft.mod.polycraft.inventory.territoryflag;
 import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -18,6 +22,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 
 public class TerritoryFlagInventory extends PolycraftInventory {
 
+	Ticket ticket;
+	
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
 	}
@@ -33,7 +39,25 @@ public class TerritoryFlagInventory extends PolycraftInventory {
 	public TerritoryFlagInventory() {
 		super(PolycraftContainerType.TERRITORY_FLAG, config);
 	}
-
+	/*
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+		System.out.println("TEST");
+		if (!this.worldObj.isRemote && this.ticket == null) 
+		 {
+				//ticketFlag=true;
+	            this.ticket = ForgeChunkManager.requestTicket(PolycraftMod.instance, this.worldObj, ForgeChunkManager.Type.NORMAL);
+	            if (this.ticket != null) 
+	            {
+	                ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord/16, this.zCoord/16));
+	                //FMLLog.info("Forcing chunk ( %d , %d )", 0, 0);
+	            }
+	    }
+		
+	}
+*/
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
 		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128);

@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.block.material;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
 
 public class PolycraftMaterial extends Material {
 
@@ -21,6 +22,8 @@ public class PolycraftMaterial extends Material {
 	public final static PolycraftMaterial plasticMagenta = (new PolycraftMaterial(MapColor.magentaColor)).setRequiresTool();
 	public final static PolycraftMaterial plasticAdobe = (new PolycraftMaterial(MapColor.adobeColor)).setRequiresTool();
 	public final static PolycraftMaterial plasticWhite = (new PolycraftMaterial(MapColor.snowColor)).setRequiresTool();
+	public static final Material oil = (new PolycraftMaterialLiquid(MapColor.blackColor)).setNoPushMobility();
+	    
 	
 	private boolean requiresNoTool;	
 		

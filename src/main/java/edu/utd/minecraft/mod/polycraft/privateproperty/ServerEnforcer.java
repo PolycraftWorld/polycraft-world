@@ -9,6 +9,8 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
@@ -328,8 +330,11 @@ public class ServerEnforcer extends Enforcer {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
+		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
+			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
