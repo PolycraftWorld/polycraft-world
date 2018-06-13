@@ -1198,6 +1198,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
 				} else if (GameID.CustomOilSlimeBall.matches(customObject)) {
 					registerItem(customObject, new ItemOilSlimeBall(customObject, "Oil_Slime_Ball"));
+				} else if (GameID.PasswordDoor.matches(customObject)) {
+					BlockPasswordDoor passwordDoor = new BlockPasswordDoor(customObject, Material.iron, "test");
 					registerBlock(customObject, passwordDoor);
 					registerItem(customObject.params.get(0), "item" + customObject.name, new ItemPolycraftDoor(Material.iron, passwordDoor));
 				} else

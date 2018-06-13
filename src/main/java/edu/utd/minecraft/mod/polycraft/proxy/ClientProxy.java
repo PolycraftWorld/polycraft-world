@@ -21,6 +21,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
