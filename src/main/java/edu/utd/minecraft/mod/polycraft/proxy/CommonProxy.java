@@ -38,6 +38,7 @@ import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeHouseDim;
+import edu.utd.minecraft.mod.polycraft.worldgen.ChallengesGenerator;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
@@ -90,6 +91,7 @@ public abstract class CommonProxy {
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
 		GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
+		GameRegistry.registerWorldGenerator(new ChallengesGenerator(), 1);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 		
 		ChallengeHouseDim.init();

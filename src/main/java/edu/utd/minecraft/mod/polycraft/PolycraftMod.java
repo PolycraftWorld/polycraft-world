@@ -38,7 +38,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
@@ -51,8 +53,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.8";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 8 };
+	public static final String VERSION = "1.4.9";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 9 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -233,6 +235,14 @@ public class PolycraftMod {
 		}
 	}
 
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+	    // register server commands
+
+		event.registerServerCommand(new CommandTP());
+	}
+	
 	public static String getAssetName(final String name) {
 		return PolycraftMod.MODID + ":" + name;
 	}
