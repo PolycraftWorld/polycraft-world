@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
@@ -101,6 +102,10 @@ public class PrivateProperty {
 			this.x = chunk.get(0).getAsInt();
 			this.z = chunk.get(1).getAsInt();
 		}
+		public Chunk(final int chunkX, final int chunkZ) {
+			this.x = chunkX;
+			this.z = chunkZ;
+		}
 	}
 
 	public final boolean master;
@@ -147,6 +152,49 @@ public class PrivateProperty {
 			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());
 			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
 		}
+	}
+	
+	//constructor for manually adding private properties
+	public PrivateProperty(
+			final boolean master,
+			final EntityPlayerMP owner,
+			final String name,
+			final String message,
+			final int chunkX,
+			final int chunkZ,
+			final int[] permissions) {
+		this.master = master;
+		this.keepMasterWorldSame = false;
+		this.owner = owner.getCommandSenderName();
+		this.name = name;
+		this.message = message;
+		this.bounds = new Chunk[1];
+		this.bounds[0] = new Chunk(chunkX, chunkZ);
+		this.boundTopLeft = this.bounds[0];
+		this.boundBottomRight = this.bounds[0];
+		this.defaultPermissions = new PermissionSet(new int[] {
+				0, //"Enter",
+				5, //"OpenEnderChest"
+				23, //"UsePressurePlate"
+				33, //"UseDoor",			
+				34, //"UseTrapDoor",
+				35, //"UseFenceGate",
+				7 //"UseCraftingTable",				
+		});
+		this.masterPermissions = new PermissionSet(new int[] {
+				0, //"Enter",
+				5, //"OpenEnderChest"
+				23, //"UsePressurePlate"
+				33, //"UseDoor",			
+				34, //"UseTrapDoor",
+				35, //"UseFenceGate",
+				7 //"UseCraftingTable",				
+		});
+		this.permissionOverridesByUser = Maps.newHashMap();
+//		for (int i = 1; i < permissions.size(); i++) {
+//			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());
+//			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
+//		}
 	}
 
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {

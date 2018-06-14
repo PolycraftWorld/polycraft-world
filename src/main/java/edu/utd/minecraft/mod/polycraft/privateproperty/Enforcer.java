@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +104,7 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-		Unknown, PrivateProperties, Friends, Broadcast, InventorySync
+		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync
 	}
 
 	protected static boolean updatedMasterForTheDay = false;
@@ -136,6 +137,8 @@ public abstract class Enforcer {
 	protected String friendsJson = null;
 	protected final Collection<PrivateProperty> privateProperties = Lists
 			.newLinkedList();
+	protected final static Collection<PrivateProperty> tempPrivateProperties = Lists
+			.newLinkedList();	//temporary PPs for PPs that are not kept after Server restarts (added by blocks or dimensions)
 	protected final Collection<ItemStackSwitch> itemsToSwitch = Lists
 			.newLinkedList();
 	//protected final Map<String, ItemStackSwitch> itemStackSwitchesByPlayer = Maps
@@ -168,6 +171,28 @@ public abstract class Enforcer {
 		netChannel.register(this);
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonGeneric = gsonBuilder.create();
+	}
+	
+	public static void addPrivateProperty(PrivateProperty privateProperty) {
+		int x = privateProperty.boundTopLeft.x;
+		int z = privateProperty.boundTopLeft.z;
+		privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+		tempPrivateProperties.add(privateProperty);
+	}
+	
+	public static int updateTempPrivateProperties(final String privatePropertiesJson) {
+		int count = 0;
+		Gson gson = new Gson();
+		Type typeOfPrivatePropertyList = new TypeToken<Collection<PrivateProperty>>() {}.getType();
+		Collection<PrivateProperty> temp = gson.fromJson(privatePropertiesJson, typeOfPrivatePropertyList);
+		for(PrivateProperty privateProperty: temp) {
+			int x = privateProperty.boundTopLeft.x;
+			int z = privateProperty.boundTopLeft.z;
+			privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+			tempPrivateProperties.add(privateProperty);
+			count++;
+		}
+		return count;
 	}
 
 	protected int updatePrivateProperties(final String privatePropertiesJson,

@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
+import com.sun.security.ntlm.Client;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -111,6 +112,12 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case Broadcast:
 						onClientBroadcastReceivedEvent(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case TempPrivatProperties:
+						final int countPP = updateTempPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
+								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
 						break;
 					case Unknown:
 					default:
