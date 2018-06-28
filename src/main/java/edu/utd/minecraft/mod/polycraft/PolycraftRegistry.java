@@ -15,6 +15,7 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockChallengeBlock;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
@@ -113,6 +114,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemCellCultureDish;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemDNASampler;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemElectronics;
 import edu.utd.minecraft.mod.polycraft.item.ItemExam;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -1202,6 +1204,10 @@ public class PolycraftRegistry {
 					BlockPasswordDoor passwordDoor = new BlockPasswordDoor(customObject, Material.iron, "test");
 					registerBlock(customObject, passwordDoor);
 					registerItem(customObject.params.get(0), "item" + customObject.name, new ItemPolycraftDoor(Material.iron, passwordDoor));
+				} else if (GameID.CustomDevTool.matches(customObject)) {
+					registerItem(customObject, new ItemDevTool(customObject));
+				} else if (GameID.CustomChallengeBlock.matches(customObject)) {
+					registerBlock(customObject, new BlockChallengeBlock(customObject));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
