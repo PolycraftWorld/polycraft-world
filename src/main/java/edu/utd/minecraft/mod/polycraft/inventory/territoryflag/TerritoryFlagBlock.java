@@ -25,17 +25,16 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
-import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import ibxm.Player;
-
 public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 	
 	public Collection<String> itemsToPull = Lists.newLinkedList();
@@ -188,6 +187,22 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 				super.onBlockPlacedBy(worldObj, xPos, yPos, zPos, entity, itemToPlace);
 			}
 		}
+	}
+	
+	@Override
+	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+	{
+		PolycraftItemHelper.createTagCompound(itemstack);
+		itemstack.stackTagCompound.setInteger("government_id", 1337);
+		super.dropBlockAsItem(world, x, y, z, itemstack);
+	}
+	
+	//@Override
+	public void onBlockPlacedBy(World worldObj, int xPos, int yPos, int zPos, EntityLivingBase player, ItemStack itemToPlace) {
+		if(itemToPlace.stackTagCompound.hasKey("government_id")) {
+			System.out.println(itemToPlace.stackTagCompound.getInteger("government_id"));
+		}
+		super.onBlockPlacedBy(worldObj, xPos, yPos, zPos, player, itemToPlace);
 	}
 
 }
