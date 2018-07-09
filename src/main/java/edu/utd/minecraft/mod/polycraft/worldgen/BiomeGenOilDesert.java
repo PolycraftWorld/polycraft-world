@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.worldgen;
 
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenDesert;
 import net.minecraftforge.common.BiomeDictionary;
@@ -13,6 +14,7 @@ public class BiomeGenOilDesert extends BiomeGenDesert {
 		BiomeDictionary.registerBiomeType(biome, BiomeDictionary.Type.DESERT);
 		OilPopulate.INSTANCE.excessiveBiomes.add(biome.biomeID);
 		OilPopulate.INSTANCE.surfaceDepositBiomes.add(biome.biomeID);
+	
 		return biome;
 	}
 
@@ -23,5 +25,6 @@ public class BiomeGenOilDesert extends BiomeGenDesert {
 		setDisableRain();
 		setTemperatureRainfall(2.0F, 0.0F);
 		setHeight(HEIGHT_OIL_DESERT);
+		this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 100, 4, 4));
 	}
 }

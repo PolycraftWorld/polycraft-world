@@ -100,7 +100,7 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-		Unknown, PrivateProperties, Friends, Broadcast, InventorySync, Governments
+		Unknown, PrivateProperties, Friends, Broadcast, InventorySync
 	}
 
 	protected static boolean updatedMasterForTheDay = false;
@@ -130,10 +130,7 @@ public abstract class Enforcer {
 	protected String broadcastMessage = null;
 	protected String whitelistJson = null;
 	protected String friendsJson = null;
-	protected String GovernmentsJson = null;
 	protected final Collection<PrivateProperty> privateProperties = Lists
-			.newLinkedList();
-	protected final Collection<Government> governments = Lists
 			.newLinkedList();
 	protected final Collection<ItemStackSwitch> itemsToSwitch = Lists
 			.newLinkedList();
@@ -142,9 +139,9 @@ public abstract class Enforcer {
 	protected final Map<String, List<ItemStackSwitch>> itemStackSwitchesByPlayer = Maps
 			.newHashMap();
 
-	protected final Map<String, PrivateProperty> privatePropertiesByChunk = Maps
+	protected final static Map<String, PrivateProperty> privatePropertiesByChunk = Maps
 			.newHashMap();
-	protected final Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
+	protected final static Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
 			.newHashMap();
 	// polycraft user ids by minecraft username
 	public static Map<String, Long> whitelist = Maps.newHashMap();
@@ -289,45 +286,6 @@ public abstract class Enforcer {
 				new TypeToken<Map<String, String>>() {
 				}.getType());
 	}
-	
-	protected int updateGovernments(final String GovernmentsJson, final boolean serverSide) {
-
-		this.GovernmentsJson = GovernmentsJson;
-		
-		final GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(Government.class,
-				new Government.Deserializer());
-
-		final Gson gson = gsonBuilder.create();
-		//this is either the master worlds list or the non-master list
-		final Collection<Government> newGovernments = gson.fromJson(
-				GovernmentsJson,
-				new TypeToken<Collection<Government>>() {
-				}.getType());
-
-		// java 7 version
-		final Collection<Government> removeGovernments = Lists
-				.newLinkedList();
-
-		//this is the current List of private properties
-		for (final Government government : governments) {
-			removeGovernments.add(government);
-		}
-
-		governments.removeAll(removeGovernments);
-		// java 8 version
-		/*
-		 * privateProperties.removeIf(new Predicate<PrivateProperty>() {
-		 * 
-		 * @Override public boolean test(final PrivateProperty t) { return
-		 * t.master == master; } });
-		 */
-		if (newGovernments != null) {
-			governments.addAll(newGovernments);
-		}
-
-		return newGovernments.size();
-	}
 
 	protected String getFriendPairKey(final Long friend1, final Long friend2) {
 		if (friend1 == null || friend2 == null) {
@@ -357,14 +315,14 @@ public abstract class Enforcer {
 		return String.format("%d,%d", x, z);
 	}
 
-	protected PrivateProperty findPrivateProperty(final Entity entity,
+	public static PrivateProperty findPrivateProperty(final Entity entity,
 			final int chunkX, final int chunkZ) {
 		if (entity.dimension == propertyDimension)
 			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
 		return null;
 	}
 
-	public PrivateProperty findPrivateProperty(final Entity entity) {
+	public static PrivateProperty findPrivateProperty(final Entity entity) {
 		return findPrivateProperty(entity, entity.chunkCoordX,
 				entity.chunkCoordZ);
 	}
@@ -499,7 +457,7 @@ public abstract class Enforcer {
 	private boolean forcePlayerToExitProperty(final EntityPlayer player,
 			double targetOffsetX, double targetOffsetZ,
 			final PrivateProperty privateProperty) {
-		if (!player.worldObj.isRemote)
+		if (player.worldObj.isRemote)
 			return true;
 		final double x = player.posX + targetOffsetX;
 		final double y = player.posY - 2;
@@ -1051,5 +1009,9 @@ public abstract class Enforcer {
 				}
 			}
 		}
+	}
+	
+	public static Map<String, List<PrivateProperty>> getPrivatePropertiesByOwner(){
+		return privatePropertiesByOwner;
 	}
 }

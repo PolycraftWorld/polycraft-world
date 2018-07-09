@@ -1,14 +1,19 @@
 package edu.utd.minecraft.mod.polycraft.inventory.territoryflag;
 
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class TerritoryFlagRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
 
 	public TerritoryFlagRenderingHandler(final Inventory config) {
 		super(config);
 	}
-
+	
 	//	@Override
 	//	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 	//		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);

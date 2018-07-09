@@ -69,6 +69,7 @@ public abstract class Config {
 		InternalObject.registerFromResource(directory);
 		Armor.registerFromResource(directory);
 		Tool.registerFromResource(directory);
+		GrippedSyntheticTool.registerFromResource(directory);
 		Flashcard.registerFromResource(directory);
 		Exam.registerFromResource(directory);
 		Fuel.registerFromResource(directory);
@@ -106,6 +107,7 @@ public abstract class Config {
 		registriesByType.put(DNASampler.class.getSimpleName(), DNASampler.registry);
 		registriesByType.put(CellCultureDish.class.getSimpleName(), CellCultureDish.registry);
 		registriesByType.put(GrippedTool.class.getSimpleName(), GrippedTool.registry);
+		registriesByType.put(GrippedSyntheticTool.class.getSimpleName(), GrippedSyntheticTool.registry);
 		registriesByType.put(PogoStick.class.getSimpleName(), PogoStick.registry);
 		registriesByType.put(Inventory.class.getSimpleName(), Inventory.registry);
 		registriesByType.put(CustomObject.class.getSimpleName(), CustomObject.registry);

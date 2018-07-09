@@ -9,6 +9,6 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="GradleStart"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Minecraft"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin&#13;&#10;-Dnogui&#13;&#10;-DlangOutputFile=/Users/jmcandrew/Workspaces/UTD/polycraft/1.7.10/src/main/resources/assets/polycraft/lang/en_US.lang"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin&#13;&#10;-Dnogui&#13;&#10;-DlangOutputFile=&quot;C:/Users/Michael Seeligson/Desktop/PolycraftForge/src/main/resources/assets/polycraft/lang/en_US.lang&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc}"/>
 </launchConfiguration>

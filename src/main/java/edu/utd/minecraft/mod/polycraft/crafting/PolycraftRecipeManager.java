@@ -579,7 +579,7 @@ public class PolycraftRecipeManager {
 				//created items
 				//if (craftedItem.stackTagCompound.hasKey("is-recipe-null-tag-compound")) {
 				//if we had to create a tag compound just to store is-recipe (the tag compound didn't exist before we came along) then remove the whole thing
-				//otherwise minecraft will thing that two items are different, even if the tag compound on one is empty, and on the other it is null
+				//otherwise minecraft will think that two items are different, even if the tag compound on one is empty, and on the other it is null
 				//see net.minecraft.item.ItemStack.areItemStackTagsEqual(ItemStack, ItemStack) for more info
 				//	craftedItem.setTagCompound(null);
 				//}

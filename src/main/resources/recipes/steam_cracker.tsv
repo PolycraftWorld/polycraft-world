@@ -44,16 +44,16 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.1.0	5	Heat 	Cracking	Drum (Light Naphthenes)	64	Platinum Catalyst	16	Canister (Ethylene)	16	Canister (Propylene)	16	Drum (Butylene isomers)	16	Drum (Isoprene)	16	Platinum Catalyst	15					
 1.1.2	5	Heat 	Cracking	Vial (Xylene)	4	Flask (Hydrogen)	4	Vial (Butadiene)	4	Vial (Butylene isomers)	4											
 1.1.2	5	Heat 	Cracking	Vial (Xylene)	16	Flask (Hydrogen)	16	Vial (Butadiene)	16	Vial (Butylene isomers)	16											
-1.1.2	5	Heat 	Cracking	Beaker (Xylene)	1	Flask (Hydrogen)	1	Beaker (Butadiene)	1	Beaker (Butylene isomers)	1											
+1.1.2	5	Heat 	Cracking	Beaker (Xylene)	1	Cartridge (Hydrogen)	1	Beaker (Butadiene)	1	Beaker (Butylene isomers)	1											
 1.1.2	5	Heat 	Cracking	Beaker (Xylene)	4	Cartridge (Hydrogen)	4	Beaker (Butadiene)	4	Beaker (Butylene isomers)	4											
 1.1.2	5	Heat 	Cracking	Beaker (Xylene)	16	Cartridge (Hydrogen)	16	Beaker (Butadiene)	16	Beaker (Butylene isomers)	16											
-1.1.2	5	Heat 	Cracking	Drum (Xylene)	1	Cartridge (Hydrogen)	1	Drum (Butadiene)	1	Drum (Butylene isomers)	1											
+1.1.2	5	Heat 	Cracking	Drum (Xylene)	1	Canister (Hydrogen)	1	Drum (Butadiene)	1	Drum (Butylene isomers)	1											
 1.1.2	5	Heat 	Cracking	Drum (Xylene)	4	Canister (Hydrogen)	4	Drum (Butadiene)	4	Drum (Butylene isomers)	4											
 1.1.2	5	Heat 	Cracking	Drum (Xylene)	16	Canister (Hydrogen)	16	Drum (Butadiene)	16	Drum (Butylene isomers)	16											
 1.1.2	5	Heat 	Cracking	Drum (Xylene)	64	Canister (Hydrogen)	64	Drum (Butadiene)	64	Drum (Butylene isomers)	64											
 1.1.2	5	Heat 	Cracking	Vial (Toluene)	4	Flask (Hydrogen)	4	Vial (Butadiene)	2	Vial (Butylene isomers)	2	Flask (Propylene)	4									
 1.1.2	5	Heat 	Cracking	Vial (Toluene)	16	Flask (Hydrogen)	16	Vial (Butadiene)	8	Vial (Butylene isomers)	8	Flask (Propylene)	16									
-1.1.2	5	Heat 	Cracking	Beaker (Toluene)	1	Flask (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Cartridge (Propylene)	1									
+1.1.2	5	Heat 	Cracking	Beaker (Toluene)	1	Cartridge (Hydrogen)	1	Vial (Butadiene)	32	Vial (Butylene isomers)	32	Cartridge (Propylene)	1									
 1.1.2	5	Heat 	Cracking	Beaker (Toluene)	4	Cartridge (Hydrogen)	4	Beaker (Butadiene)	2	Beaker (Butylene isomers)	2	Cartridge (Propylene)	4									
 1.1.2	5	Heat 	Cracking	Beaker (Toluene)	16	Cartridge (Hydrogen)	16	Beaker (Butadiene)	8	Beaker (Butylene isomers)	8	Cartridge (Propylene)	16									
 1.1.2	5	Heat 	Cracking	Drum (Toluene)	1	Canister (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Canister (Propylene)	1									
@@ -62,7 +62,7 @@ Version	Level	Source	Task	Input 1	I1#	Input 2	I2#	Ouptut 1	O1#	Ouptut 2	O2#	Oupt
 1.1.2	5	Heat 	Cracking	Drum (Toluene)	64	Canister (Hydrogen)	64	Drum (Butadiene)	32	Drum (Butylene isomers)	32	Canister (Propylene)	64									
 1.1.2	5	Heat 	Cracking	Vial (Benzene)	4	Flask (Hydrogen)	4	Vial (Butadiene)	2	Vial (Butylene isomers)	2	Flask (Ethylene)	4									
 1.1.2	5	Heat 	Cracking	Vial (Benzene)	16	Flask (Hydrogen)	16	Vial (Butadiene)	8	Vial (Butylene isomers)	8	Flask (Ethylene)	16									
-1.1.2	5	Heat 	Cracking	Beaker (Benzene)	1	Flask (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Cartridge (Ethylene)	1									
+1.1.2	5	Heat 	Cracking	Beaker (Benzene)	1	Cartridge (Hydrogen)	1	Vial (Butadiene)	32	Vial (Butylene isomers)	32	Cartridge (Ethylene)	1									
 1.1.2	5	Heat 	Cracking	Beaker (Benzene)	4	Cartridge (Hydrogen)	4	Beaker (Butadiene)	2	Beaker (Butylene isomers)	2	Cartridge (Ethylene)	4									
 1.1.2	5	Heat 	Cracking	Beaker (Benzene)	16	Cartridge (Hydrogen)	16	Beaker (Butadiene)	8	Beaker (Butylene isomers)	8	Cartridge (Ethylene)	16									
 1.1.2	5	Heat 	Cracking	Drum (Benzene)	1	Canister (Hydrogen)	1	Beaker (Butadiene)	32	Beaker (Butylene isomers)	32	Canister (Ethylene)	1									

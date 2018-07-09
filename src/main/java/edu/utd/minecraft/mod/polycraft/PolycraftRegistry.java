@@ -27,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Catalyst;
@@ -44,6 +45,7 @@ import edu.utd.minecraft.mod.polycraft.config.Flashcard;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.GameIdentifiedConfig;
+import edu.utd.minecraft.mod.polycraft.config.GrippedSyntheticTool;
 import edu.utd.minecraft.mod.polycraft.config.GrippedTool;
 import edu.utd.minecraft.mod.polycraft.config.Ingot;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
@@ -65,6 +67,10 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerStairs;
 import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
+import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
@@ -121,6 +127,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
+import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -133,6 +140,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemSyntheticGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolAxe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolHoe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolPickaxe;
@@ -381,6 +389,7 @@ public class PolycraftRegistry {
 			registerPogoSticks();
 			registerArmors();
 			registerTools();
+			registerGrippedSyntheticTools();
 			registerInventories();
 			registerCustom();
 			registerMaskItems();
@@ -870,6 +879,22 @@ public class PolycraftRegistry {
 		}
 
 	}
+	
+	private static void registerGrippedSyntheticTools() {
+		
+
+		
+		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values()) {
+			if (isTargetVersion(grippedSyntheticTool.version)) {
+				final ToolMaterial material = EnumHelper.addToolMaterial(
+						grippedSyntheticTool.name, grippedSyntheticTool.harvestLevel, grippedSyntheticTool.maxUses, 
+						grippedSyntheticTool.efficiency, grippedSyntheticTool.damage, grippedSyntheticTool.enchantability);
+				//material.customCraftingMaterial = PolycraftRegistry.getItem(grippedSyntheticTool.craftingHeadItemName);
+				registerItem(grippedSyntheticTool, ItemSyntheticGripped.create(grippedSyntheticTool, material));
+			}
+		}
+
+	}
 
 	private static void registerPogoSticks() {
 		for (final PogoStick pogoStick : PogoStick.registry.values()) {
@@ -1013,6 +1038,18 @@ public class PolycraftRegistry {
 				if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
 					ResearchAssistantEntity.register(polycraftEntity);
 				}
+				else if(GameID.EntityTerritoryFlag.matches(polycraftEntity)){
+					EntityTerritoryFlag.register(polycraftEntity);
+				}
+				else if(GameID.EntityOilSlime.matches(polycraftEntity)){
+					EntityOilSlime.register(polycraftEntity);
+				}
+				else if(GameID.EntityOilSlimeBall.matches(polycraftEntity)){
+					EntityOilSlimeBallProjectile.register(polycraftEntity);
+				}
+				else if(GameID.EntityDummy.matches(polycraftEntity)){
+					EntityDummy.register(polycraftEntity);
+				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
 				//	TerritoryFlagEntity.register(polycraftEntity);
@@ -1052,7 +1089,7 @@ public class PolycraftRegistry {
 		if (fluidOil != null) //do not reorder this even though it seems more efficient, because registration order matters!
 		{
 			PolycraftMod.blockOil = registerBlock(oil,
-					new BlockFluid(fluidOil, Material.water)
+					new BlockFluid(fluidOil, Material.water) 
 							.setFlammable(true)
 							.setFlammability(PolycraftMod.oilBlockFlammability)
 							.setParticleColor(0.7F, 0.7F, 0.0F));
@@ -1156,6 +1193,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemAirQualityDetector(customObject));
 				} else if (GameID.FluorescentBulbs.matches(customObject)) {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
+				} else if (GameID.CustomOilSlimeBall.matches(customObject)) {
+					registerItem(customObject, new ItemOilSlimeBall(customObject, "Oil_Slime_Ball"));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
@@ -1170,6 +1209,7 @@ public class PolycraftRegistry {
 		final String colorFormat = "%s.%d.name=%s %s";
 		final String blockFormat = "tile." + baseFormat;
 		final String itemFormat = "item." + baseFormat;
+		final String entityFormat = "entity.polycraft." + baseFormat;
 
 		final Collection<String> langEntries = new LinkedList<String>();
 
@@ -1260,6 +1300,9 @@ public class PolycraftRegistry {
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));
+		
+		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values())
+			langEntries.add(String.format(itemFormat, grippedSyntheticTool.gameID, grippedSyntheticTool.name));
 
 		for (final Armor armor : Armor.registry.values()) {
 			for (final ArmorSlot armorSlot : ArmorSlot.values()) {
@@ -1283,6 +1326,9 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values())
 			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
+		
+		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
+			langEntries.add(String.format(entityFormat, entity.name, entity.name));
 
 		final PrintWriter writer = new PrintWriter(exportFile);
 		for (final String line : langEntries) {
