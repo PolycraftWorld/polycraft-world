@@ -16,6 +16,7 @@ import com.google.gson.JsonParseException;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 
 public class Government {
 	
@@ -127,7 +128,7 @@ public class Government {
 		public final String name;
 		public final int parentZoneID;
 		public final boolean override;
-		public final Set<Integer> permissionSets = Sets.newHashSet();
+		public final Map<Integer, GovPermissionSet> permissionSetsByRole;
 		
 		public Zone(final int id,  
 				final String name, 
@@ -142,27 +143,29 @@ public class Government {
 				this.parentZoneID = parentZoneID.getAsInt();
 			}
 			this.override = override;
-			for(JsonElement permissionSet: permissionSets.getAsJsonArray())
-			{
-				this.permissionSets.add(permissionSets.getAsInt());
+			this.permissionSetsByRole = Maps.newHashMap();
+			for(JsonElement govPermissionSet: permissionSets.getAsJsonArray()) {
+				final GovPermissionSet permissionSet = new GovPermissionSet(govPermissionSet.getAsJsonObject());
+				permissionSetsByRole.put(permissionSet.roleID, permissionSet);
 			}
+			
 		}
 		
 		public String toString(){
 			return this.name;
 		}
 		
-		public static class PermissionSet{
+		public static class GovPermissionSet extends PermissionSet{
+			
 			public final int id;
 			public final int roleID;
-			public final boolean[] permissions= new boolean[9];
 			
-			public PermissionSet(final int id,
-					final int roleID,
-					final JsonArray permissions){
-				this.id = id;
-				this.roleID = roleID;
-				
+			public GovPermissionSet(final JsonObject jsonObject) {
+				super(jsonObject, true);
+				final JsonElement idElement = jsonObject.get("id");
+				id = idElement.isJsonNull() ? null : idElement.getAsInt();
+				final JsonElement roleElement = jsonObject.get("role");
+				roleID = roleElement.isJsonNull() ? null : roleElement.getAsInt();
 			}
 			
 		}

@@ -90,6 +90,14 @@ public class PrivateProperty {
 				enabled[action] = true;
 			}
 		}
+		
+		public PermissionSet(final JsonObject jsonObject, final boolean govFlag) {
+			user = null;
+			enabled = new boolean[Action.values().length];
+			for (final JsonElement action : jsonObject.get("enabled").getAsJsonArray()) {
+				enabled[action.getAsInt()] = true;
+			}
+		}
 
 	}
 
