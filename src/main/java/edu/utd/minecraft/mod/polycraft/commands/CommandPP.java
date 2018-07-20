@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import net.minecraft.command.CommandBase;
@@ -71,7 +72,7 @@ private final List aliases;
 				};
 				for(int x=x0; x<=x0+1; x++) {
 					for(int z=z0; z<=z0+1; z++) {
-						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", x, z, permissions);
+						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", new Chunk(x,z), new Chunk(x,z), permissions);
 						Enforcer.addPrivateProperty(pp);
 						
 					}

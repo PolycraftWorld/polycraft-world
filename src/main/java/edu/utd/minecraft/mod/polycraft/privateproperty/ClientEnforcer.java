@@ -59,7 +59,7 @@ public class ClientEnforcer extends Enforcer {
 	}
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
-	private boolean showPrivateProperty = false;
+	private static boolean showPrivateProperty = false;
 	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
 	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
@@ -68,7 +68,12 @@ public class ClientEnforcer extends Enforcer {
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
 	}
-
+	
+	public static boolean getShowPP()
+	{
+		return showPrivateProperty;
+	}
+	
 	@SubscribeEvent
 	public void KeyInputEvent(cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent event) {
 		if (keyBindingPrivateProperty.isPressed()) {

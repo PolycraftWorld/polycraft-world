@@ -174,11 +174,31 @@ public abstract class Enforcer {
 	}
 	
 	public static void addPrivateProperty(PrivateProperty privateProperty) {
-		int x = privateProperty.boundTopLeft.x;
-		int z = privateProperty.boundTopLeft.z;
-		privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+		int xl = privateProperty.boundTopLeft.x;
+		int zl = privateProperty.boundTopLeft.z;
+		int xr =privateProperty.boundBottomRight.x;
+		int zr =privateProperty.boundBottomRight.z;
+		for(int x=xl;x<=xr;x++) {
+			for(int z=zr;z<=zl;z++) {
+			privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+			}
+		}
 		tempPrivateProperties.add(privateProperty);
 	}
+	
+	public static void removePrivateProperty(PrivateProperty privateProperty) {
+		int xl = privateProperty.boundTopLeft.x;
+		int zl = privateProperty.boundTopLeft.z;
+		int xr =privateProperty.boundBottomRight.x;
+		int zr =privateProperty.boundBottomRight.z;
+		for(int x=xl;x<=xr;x++) {
+			for(int z=zr;z<=zl;z++) {
+					privatePropertiesByChunk.remove(getChunkKey(x, z), privateProperty);
+			}
+		}
+		tempPrivateProperties.remove(privateProperty);
+	}
+	
 	
 	public static int updateTempPrivateProperties(final String privatePropertiesJson) {
 		int count = 0;
@@ -186,9 +206,15 @@ public abstract class Enforcer {
 		Type typeOfPrivatePropertyList = new TypeToken<Collection<PrivateProperty>>() {}.getType();
 		Collection<PrivateProperty> temp = gson.fromJson(privatePropertiesJson, typeOfPrivatePropertyList);
 		for(PrivateProperty privateProperty: temp) {
-			int x = privateProperty.boundTopLeft.x;
-			int z = privateProperty.boundTopLeft.z;
-			privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+			int xl = privateProperty.boundTopLeft.x;
+			int zl = privateProperty.boundTopLeft.z;
+			int xr =privateProperty.boundBottomRight.x;
+			int zr =privateProperty.boundBottomRight.z;
+			for(int x=xl;x<=xr;x++) {
+				for(int z=zr;z<=zl;z++) {
+					privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+				}
+			}
 			tempPrivateProperties.add(privateProperty);
 			count++;
 		}

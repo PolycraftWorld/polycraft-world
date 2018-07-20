@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.AxisAlignedBB;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
@@ -114,8 +115,8 @@ public class PrivateProperty {
 	public final String name;
 	public final String message;
 	public final Chunk[] bounds;
-	public final Chunk boundTopLeft;
-	public final Chunk boundBottomRight;
+	public Chunk boundTopLeft;
+	public Chunk boundBottomRight;
 	public final PermissionSet defaultPermissions;
 	public final PermissionSet masterPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
@@ -160,18 +161,19 @@ public class PrivateProperty {
 			final EntityPlayerMP owner,
 			final String name,
 			final String message,
-			final int chunkX,
-			final int chunkZ,
+			final Chunk topleft,
+			final Chunk bottomright,
 			final int[] permissions) {
 		this.master = master;
 		this.keepMasterWorldSame = false;
 		this.owner = owner.getCommandSenderName();
 		this.name = name;
 		this.message = message;
+		//bounds is not needed. just declaring it to not get an error
 		this.bounds = new Chunk[1];
-		this.bounds[0] = new Chunk(chunkX, chunkZ);
-		this.boundTopLeft = this.bounds[0];
-		this.boundBottomRight = this.bounds[0];
+		//this.bounds[0] = topleft;
+		this.boundTopLeft = topleft;
+		this.boundBottomRight = bottomright;
 		this.defaultPermissions = new PermissionSet(new int[] {
 				0, //"Enter",
 				5, //"OpenEnderChest"
@@ -239,4 +241,5 @@ public class PrivateProperty {
 	public boolean actionEnabled(final Action action) {
 		return defaultPermissions.enabled[action.ordinal()];
 	}
+	
 }
