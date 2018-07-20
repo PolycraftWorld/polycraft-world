@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -177,6 +178,10 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
+	public void sendTempPPDataPackets() {
+		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
+	}
+	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -203,15 +208,16 @@ public class ServerEnforcer extends Enforcer {
 	private FMLProxyPacket[] getDataPackets(final DataPacketType type,
 			final int typeMetadata) {
 		try {
+			Gson gson = new Gson();
 			// we have to split these up into smaller packets due to this issue:
 			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
 			final byte[] dataBytes = CompressUtil
 					.compress(type == DataPacketType.PrivateProperties ? (typeMetadata == 1 ? privatePropertiesMasterJson
 							: privatePropertiesNonMasterJson)
-							: type == DataPacketType.Broadcast	
-									? broadcastMessage	
-							: type == DataPacketType.Governments	
-									? GovernmentsJson : friendsJson);
+							: type == DataPacketType.Broadcast ? broadcastMessage
+									: type == DataPacketType.Friends ? friendsJson	
+                      : type == DataPacketType.Governments	
+									        ? GovernmentsJson : gson.toJson(tempPrivateProperties)); //This may need to be fixed.. Merged by Matthew.
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
