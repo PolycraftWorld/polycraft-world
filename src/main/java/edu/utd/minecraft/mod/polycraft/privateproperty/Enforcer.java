@@ -104,7 +104,9 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync
+
+		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments
+
 	}
 
 	protected static boolean updatedMasterForTheDay = false;
@@ -135,10 +137,16 @@ public abstract class Enforcer {
 	protected String broadcastMessage = null;
 	protected String whitelistJson = null;
 	protected String friendsJson = null;
+	protected String GovernmentsJson = null;
 	protected final Collection<PrivateProperty> privateProperties = Lists
 			.newLinkedList();
+
 	protected final static Collection<PrivateProperty> tempPrivateProperties = Lists
 			.newLinkedList();	//temporary PPs for PPs that are not kept after Server restarts (added by blocks or dimensions)
+
+	protected final Collection<Government> governments = Lists	
+			.newLinkedList();
+
 	protected final Collection<ItemStackSwitch> itemsToSwitch = Lists
 			.newLinkedList();
 	//protected final Map<String, ItemStackSwitch> itemStackSwitchesByPlayer = Maps
@@ -342,6 +350,45 @@ public abstract class Enforcer {
 				}.getType());
 	}
 
+	protected int updateGovernments(final String GovernmentsJson, final boolean serverSide) {
+
+		this.GovernmentsJson = GovernmentsJson;
+		
+		final GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Government.class,
+				new Government.Deserializer());
+
+		final Gson gson = gsonBuilder.create();
+		//this is either the master worlds list or the non-master list
+		final Collection<Government> newGovernments = gson.fromJson(
+				GovernmentsJson,
+				new TypeToken<Collection<Government>>() {
+				}.getType());
+
+		// java 7 version
+		final Collection<Government> removeGovernments = Lists
+				.newLinkedList();
+
+		//this is the current List of private properties
+		for (final Government government : governments) {
+			removeGovernments.add(government);
+		}
+
+		governments.removeAll(removeGovernments);
+		// java 8 version
+		/*
+		 * privateProperties.removeIf(new Predicate<PrivateProperty>() {
+		 * 
+		 * @Override public boolean test(final PrivateProperty t) { return
+		 * t.master == master; } });
+		 */
+		if (newGovernments != null) {
+			governments.addAll(newGovernments);
+		}
+
+		return newGovernments.size();
+	}
+	
 	protected String getFriendPairKey(final Long friend1, final Long friend2) {
 		if (friend1 == null || friend2 == null) {
 			return "";

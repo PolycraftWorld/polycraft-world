@@ -39,6 +39,8 @@ public class ServerEnforcer extends Enforcer {
 			.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
 	private static final long portalRefreshTicksFriends = SystemUtil
 			.getPropertyLong("portal.refresh.ticks.friends", 24000);
+	private static final long portalRefreshTicksGovernments = SystemUtil
+			.getPropertyLong("portal.refresh.ticks.governments", 24000);
 
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
@@ -50,6 +52,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
+			onWorldTickGovernments(event);
 
 		}
 	}
@@ -212,8 +215,9 @@ public class ServerEnforcer extends Enforcer {
 					.compress(type == DataPacketType.PrivateProperties ? (typeMetadata == 1 ? privatePropertiesMasterJson
 							: privatePropertiesNonMasterJson)
 							: type == DataPacketType.Broadcast ? broadcastMessage
-									: type == DataPacketType.Friends ? friendsJson
-											: gson.toJson(tempPrivateProperties));
+									: type == DataPacketType.Friends ? friendsJson	
+                      : type == DataPacketType.Governments	
+									        ? GovernmentsJson : gson.toJson(tempPrivateProperties)); //This may need to be fixed.. Merged by Matthew.
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
@@ -333,6 +337,29 @@ public class ServerEnforcer extends Enforcer {
 	private void onWorldTickInventories(final TickEvent.WorldTickEvent event) {
 		// if (portalRestUrl != null &&
 
+	}
+	
+	private void onWorldTickGovernments(final TickEvent.WorldTickEvent event) {	
+		//refresh private property permissions at the start of each day, or if we haven't loaded them yet	
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksGovernments == 1 || GovernmentsJson == null)) {	
+			try {	
+				String url = portalRestUrl.startsWith("file:")	
+						? portalRestUrl + "Governments.json"	
+						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)	
+						: String.format("%s/governments", portalRestUrl);	
+				updateGovernments(NetUtil.getText(url), true);	
+				sendDataPackets(DataPacketType.Governments);	
+	
+			} catch (final Exception e) {	
+				//TODO set up a log4j mapping to send emails on error messages (via mandrill)	
+				if (GovernmentsJson == null) {	
+					PolycraftMod.logger.error("Unable to load Governments", e);	
+					System.exit(-1);	
+				} else {	
+					PolycraftMod.logger.error("Unable to refresh Governments", e);	
+		 				}
+			}
+		}
 	}
 
 	@SubscribeEvent

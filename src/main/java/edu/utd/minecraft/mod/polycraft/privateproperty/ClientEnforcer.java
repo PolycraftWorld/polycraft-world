@@ -123,6 +123,10 @@ public class ClientEnforcer extends Enforcer {
 						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
 								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+					case Governments:	
+						final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
+						final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
+						showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	
 						break;
 					case Unknown:
 					default:
