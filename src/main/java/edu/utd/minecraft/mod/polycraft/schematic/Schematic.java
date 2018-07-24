@@ -16,15 +16,15 @@ public class Schematic {
         public  short width;
         public  short height;
         public short length;
-        public byte[] blocks;
-        public byte[] data;
-        public Schematic(NBTTagList tileentities, short width, short height, short length, byte[] blocks, byte[] data){
+        public int[] blocks;
+        public int[] data;
+        public Schematic(NBTTagList tileentities, short width, short height, short length, int[] blocks2, int[] data2){
             this.tileentities = tileentities;
             this.width = width;
             this.height = height;
             this.length = length;
-            this.blocks = blocks;
-            this.data = data;
+            this.blocks = blocks2;
+            this.data = data2;
         }
 
     
@@ -38,12 +38,12 @@ public class Schematic {
             short height = nbtdata.getShort("Height");
             short length = nbtdata.getShort("Length");
 
-            byte[] blocks = nbtdata.getByteArray("Blocks");
-            byte[] data = nbtdata.getByteArray("Data");
+            int[] blocks = nbtdata.getIntArray("Blocks");
+            int[] data = nbtdata.getIntArray("Data");
 
 
             System.out.println("schem size:" + width + " x " + height + " x " + length);
-            NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
+            NBTTagList tileentities = nbtdata.getTagList("TileEntity",10);
             is.close();
 
             return new Schematic(tileentities, width, height, length, blocks, data);

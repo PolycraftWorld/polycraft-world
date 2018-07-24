@@ -11,8 +11,12 @@ import edu.utd.minecraft.mod.polycraft.schematic.PolySchematic;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -46,26 +50,42 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 			int z = chunkZ * 16;
 			int y = 80;
 			short n = 0;
-			Schematic sch = new Schematic(new NBTTagList(), n, n, n, new byte[] {0}, new byte[] {0});
-			Schematic sh = sch.get("2x2puzzle.schematic");
+			Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new int[] {0});
+			Schematic sh = sch.get("testout.schematic");
 			
 			int count=0;
 			
-			for (int k = 0; k < (int)sh.height; k++) {
-				for (int j = 0; j < (int)sh.length; j++) {
+			for (int k = 0; k < (int)sh.length; k++) {
+				for (int j = 0; j < (int)sh.height; j++) {
 					for (int i = 0; i < (int)sh.width; i++)
 					{
 						if(count==15361)
 						{
 							System.out.println("too big");
 						}
-
-						world.setBlock(x + i, y + k , z + j, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
+						
+						world.setBlock(x + k, y + j , z + i, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
 						count++;
 						
 					}
 				}
 			}
+			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
+			{
+				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
+				if(nbt.getString("id").equals("Chest"))
+				{
+					TileEntityChest tile = new TileEntityChest();
+					for(int i=0;i<nbt.getTagList("Items", 10).tagCount();i++)
+					{
+						NBTTagCompound nbt2 = nbt.getTagList("Items", 10).getCompoundTagAt(i);
+						ItemStack stack = new ItemStack(Item.getItemById(nbt2.getShort("id")));
+						tile.setInventorySlotContents(i, stack);
+					}
+					world.setTileEntity(nbt.getInteger("x"), nbt.getInteger("y"), nbt.getInteger("z"), tile);
+				}
+			}
+			
 		}
 		return;
 		

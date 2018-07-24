@@ -112,6 +112,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCellCultureDish;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
+import edu.utd.minecraft.mod.polycraft.item.ItemConstitutionClaim;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemDNASampler;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
@@ -144,6 +145,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemSuperInk;
 import edu.utd.minecraft.mod.polycraft.item.ItemSyntheticGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolAxe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolHoe;
@@ -1208,6 +1210,10 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemDevTool(customObject));
 				} else if (GameID.CustomChallengeBlock.matches(customObject)) {
 					registerBlock(customObject, new BlockChallengeBlock(customObject));
+				} else if (GameID.CustomConstitutionClaim.matches(customObject)) {
+					registerItem(customObject, new ItemConstitutionClaim(customObject));
+				} else if (GameID.CustomSuperInk.matches(customObject)) {
+					registerItem(customObject, new ItemSuperInk(customObject));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
