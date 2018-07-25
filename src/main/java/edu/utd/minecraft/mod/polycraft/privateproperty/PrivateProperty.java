@@ -100,6 +100,14 @@ public class PrivateProperty {
 				enabled[action.getAsInt()] = true;
 			}
 		}
+		
+		public String toString() {
+			String temp = "";
+			for(boolean value: enabled) {
+				temp += value + " , ";
+			}
+			return temp;
+		}
 
 	}
 

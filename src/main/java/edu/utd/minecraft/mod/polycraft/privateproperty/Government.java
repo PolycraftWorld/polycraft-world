@@ -24,8 +24,9 @@ public class Government {
 	public final String type;
 	public final String name;
 	public final Set<Integer> members = Sets.newHashSet();
-	public final Set<Role> roles = Sets.newHashSet();
-	public final Set<Zone> zones = Sets.newHashSet();
+	public final Set<GovernmentRole> roles = Sets.newHashSet();
+	public final Set<GovernmentZone> zones = Sets.newHashSet();
+	public final Set<SuperChunk> super_chunks = Sets.newHashSet();
 	
 	public Government(
 			final JsonElement id,
@@ -33,7 +34,8 @@ public class Government {
 			final JsonElement name, 
 			final JsonElement members,
 			final JsonElement roles,
-			final JsonElement zones) {
+			final JsonElement zones,
+			final JsonElement properties) {
 		this.id = id.getAsInt();
 		this.type = type.getAsString();
 		this.name = name.getAsString();
@@ -44,7 +46,7 @@ public class Government {
 		for(JsonElement role: roles.getAsJsonArray())
 		{
 			JsonObject jobject = role.getAsJsonObject();
-			this.roles.add(new Role(jobject.get("id").getAsInt(), 
+			this.roles.add(new GovernmentRole(jobject.get("id").getAsInt(), 
 					jobject.get("type").getAsString(), 
 					jobject.get("name").getAsString(), 
 					jobject.get("parent_id"), //must check in case null 
@@ -54,11 +56,18 @@ public class Government {
 		for(JsonElement zone: zones.getAsJsonArray())
 		{
 			JsonObject jobject = zone.getAsJsonObject();
-			this.zones.add(new Zone(jobject.get("id").getAsInt(), 
+			this.zones.add(new GovernmentZone(jobject.get("id").getAsInt(), 
 					jobject.get("name").getAsString(), 
 					jobject.get("parent_id"),  //must check in case null
 					jobject.get("override").getAsBoolean(), 
-					jobject.get("permission_sets")));
+					jobject.get("permission_sets"),
+					jobject.get("chunks")));
+		}
+		for(JsonElement property: properties.getAsJsonArray()) 
+		{
+			JsonObject jobject = property.getAsJsonObject();
+			this.super_chunks.add(new SuperChunk(jobject.get("super_chunk_x").getAsInt(),
+					jobject.get("super_chunk_z").getAsInt()));
 		}
 	}
 	
@@ -84,94 +93,9 @@ public class Government {
 					jobject.get("name"),
 					jobject.get("members"),
 					jobject.get("roles"),
-					jobject.get("zones"));
+					jobject.get("zones"),
+					jobject.get("properties"));
 		}
-	}
-	
-	public static class Role{
-		public final int id;
-		public final String type;
-		public final String name;
-		public final int parentRoleID;
-		public final boolean isSubGroup;
-		public final Set<Integer> members = Sets.newHashSet();
-		
-		public Role(int id, 
-				final String type, 
-				final String name, 
-				final JsonElement parentRoleID, 
-				final boolean isSubGroup, 
-				final JsonElement members){
-			this.id = id;
-			this.type = type;
-			this.name = name;
-			if(parentRoleID.isJsonNull()){
-				this.parentRoleID = -1;
-			}else{
-				this.parentRoleID = parentRoleID.getAsInt();
-			}
-			this.isSubGroup = isSubGroup;
-			for(JsonElement member: members.getAsJsonArray())
-			{
-				this.members.add(member.getAsInt());
-			}
-		}
-		
-		public String toString(){
-			return this.name;
-		}
-		
-	}
-	
-	public static class Zone{
-		public final int id;
-		public final String name;
-		public final int parentZoneID;
-		public final boolean override;
-		public final Map<Integer, GovPermissionSet> permissionSetsByRole;
-		
-		public Zone(final int id,  
-				final String name, 
-				final JsonElement parentZoneID, 
-				final boolean override, 
-				final JsonElement permissionSets){
-			this.id = id;
-			this.name = name;
-			if(parentZoneID.isJsonNull()){
-				this.parentZoneID = -1;
-			}else{
-				this.parentZoneID = parentZoneID.getAsInt();
-			}
-			this.override = override;
-			this.permissionSetsByRole = Maps.newHashMap();
-			for(JsonElement govPermissionSet: permissionSets.getAsJsonArray()) {
-				final GovPermissionSet permissionSet = new GovPermissionSet(govPermissionSet.getAsJsonObject());
-				permissionSetsByRole.put(permissionSet.roleID, permissionSet);
-			}
-			
-		}
-		
-		public String toString(){
-			return this.name;
-		}
-		
-		public static class GovPermissionSet extends PermissionSet{
-			
-			public final int id;
-			public final int roleID;
-			
-			public GovPermissionSet(final JsonObject jsonObject) {
-				super(jsonObject, true);
-				final JsonElement idElement = jsonObject.get("id");
-				id = idElement.isJsonNull() ? null : idElement.getAsInt();
-				final JsonElement roleElement = jsonObject.get("role");
-				roleID = roleElement.isJsonNull() ? null : roleElement.getAsInt();
-			}
-			
-		}
-		
-	}
-	
-	
+	}	
 
 }
