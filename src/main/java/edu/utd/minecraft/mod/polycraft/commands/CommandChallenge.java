@@ -6,9 +6,12 @@ import java.util.List;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -58,29 +61,9 @@ private final List aliases;
 			WorldServer worldserver = (WorldServer) player.getEntityWorld();
 			EntityPlayerMP playerMP = (EntityPlayerMP) player;
 			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, Integer.parseInt(args[0]),	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8)));
-			/*
-			if(!worldserver.isRemote) {
-				player.addChatMessage(new ChatComponentText("Code works"));
-				int[] permissions = new int[] {
-					0, //"Enter",
-					5, //"OpenEnderChest"
-					23, //"UsePressurePlate"
-					33, //"UseDoor",			
-					34, //"UseTrapDoor",
-					35, //"UseFenceGate",
-					7 //"UseCraftingTable",				
-				};
-				for(int x=x0; x<=x0+1; x++) {
-					for(int z=z0; z<=z0+1; z++) {
-						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", x, z, permissions);
-						Enforcer.addPrivateProperty(pp);
-						
-					}
-				}
-				ServerEnforcer.INSTANCE.sendTempPPDataPackets();
-				
-			}
-			*/
+
+			
+			
 		}
 		
 	}

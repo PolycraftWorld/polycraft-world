@@ -153,8 +153,14 @@ private final List aliases;
 										tile = world.getTileEntity(minX+i, minY+j, minZ+k);
 										if(tile!=null){
 											NBTTagCompound tilenbt = new NBTTagCompound();
+											tile.xCoord=i;
+											tile.yCoord=j;
+											tile.zCoord=k;
 											tile.writeToNBT(tilenbt);
 											tiles.appendTag(tilenbt);
+											tile.xCoord=minX+i;
+											tile.yCoord=minY+j;
+											tile.zCoord=minZ+k;
 											
 										}
 											
