@@ -25,6 +25,7 @@ public class Government {
 	public final String name;
 	public final Set<Integer> members = Sets.newHashSet();
 	public final Set<GovernmentRole> roles = Sets.newHashSet();
+	public final static Map<Integer, GovernmentZone> zonesByID = Maps.newHashMap();
 	public final Set<GovernmentZone> zones = Sets.newHashSet();
 	public final Set<SuperChunk> super_chunks = Sets.newHashSet();
 	
@@ -62,6 +63,9 @@ public class Government {
 					jobject.get("override").getAsBoolean(), 
 					jobject.get("permission_sets"),
 					jobject.get("chunks")));
+		}
+		for(GovernmentZone zone: this.zones) { //put all zones into static for searching
+			zonesByID.put(zone.id, zone);
 		}
 		for(JsonElement property: properties.getAsJsonArray()) 
 		{

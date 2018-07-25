@@ -18,6 +18,7 @@ public class GovernmentZone{
 	public final boolean override;
 	public final Map<Integer, GovPermissionSet> permissionSetsByRole;
 	public final Set<Chunk> chunks = Sets.newHashSet();
+	public final GovernmentProperty property; //wrapper to work with current enforcer
 	
 	public GovernmentZone(final int id,  
 			final String name, 
@@ -41,6 +42,13 @@ public class GovernmentZone{
 		for(JsonElement chunk: chunksJson.getAsJsonArray()) {
 			this.chunks.add(new Chunk(chunk.getAsJsonObject().get("chunk_x").getAsInt(),
 					chunk.getAsJsonObject().get("chunk_z").getAsInt()));
+		}
+		
+		property = new GovernmentProperty(name, name+"message", this);
+		
+		//add property to enforcer
+		for(Chunk chunk: chunks) {
+			Enforcer.privatePropertiesByChunk.put(Enforcer.getChunkKey(chunk.x, chunk.z), property);
 		}
 		
 	}

@@ -40,7 +40,7 @@ public class ServerEnforcer extends Enforcer {
 	private static final long portalRefreshTicksFriends = SystemUtil
 			.getPropertyLong("portal.refresh.ticks.friends", 24000);
 	private static final long portalRefreshTicksGovernments = SystemUtil
-			.getPropertyLong("portal.refresh.ticks.governments", 24000);
+			.getPropertyLong("portal.refresh.ticks.governments", 12000);
 
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
@@ -354,7 +354,7 @@ public class ServerEnforcer extends Enforcer {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)	
 				if (GovernmentsJson == null) {	
 					PolycraftMod.logger.error("Unable to load Governments", e);	
-					System.exit(-1);	
+					System.exit(-1);
 				} else {	
 					PolycraftMod.logger.error("Unable to refresh Governments", e);	
 		 				}

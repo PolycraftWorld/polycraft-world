@@ -413,7 +413,7 @@ public abstract class Enforcer {
 		}
 	}
 
-	private static String getChunkKey(final int x, final int z) {
+	public static String getChunkKey(final int x, final int z) {
 		return String.format("%d,%d", x, z);
 	}
 

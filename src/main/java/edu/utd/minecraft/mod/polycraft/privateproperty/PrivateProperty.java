@@ -214,6 +214,29 @@ public class PrivateProperty {
 //			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
 //		}
 	}
+	
+	//constructor for government properties
+	public PrivateProperty(
+			final String name,
+			final String message) {
+		this.master = true;
+		this.keepMasterWorldSame = false;
+		this.owner = "";
+		this.name = name;
+		this.message = message;
+		//bounds is not needed. just declaring it to not get an error
+		this.bounds = new Chunk[0];
+		//this.bounds[0] = topleft;
+		this.boundTopLeft = null;
+		this.boundBottomRight = null;
+		this.defaultPermissions = new PermissionSet(new int[] {
+				31 //SpawnEntity			
+		});
+		this.masterPermissions = new PermissionSet(new int[] {
+				31 //SpawnEntity			
+		});
+		this.permissionOverridesByUser = null;
+	}
 
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {
 
