@@ -73,16 +73,6 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 		return;
 		
 	}
-	
-	public void splitSchematic(Schematic schem)
-	{
-		
-	}
-
-
-
-
-
 
 	@Override
 	public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_) {

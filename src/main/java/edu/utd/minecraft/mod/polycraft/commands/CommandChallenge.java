@@ -61,9 +61,7 @@ private final List aliases;
 			WorldServer worldserver = (WorldServer) player.getEntityWorld();
 			EntityPlayerMP playerMP = (EntityPlayerMP) player;
 			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, Integer.parseInt(args[0]),	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8)));
-
-			
-			
+	
 		}
 		
 	}

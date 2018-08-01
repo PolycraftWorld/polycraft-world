@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -147,7 +148,8 @@ public class ItemConstitutionClaim extends ItemCustom{
 
 	            	//p_77659_1_.getTagCompound().setString("Leader", p_77659_3_.getCommandSenderName());
 	            	NBTTagCompound nbt1 = new NBTTagCompound();
-	            	nbt1.setString("Player1",  p_77659_3_.getCommandSenderName());
+	            	nbt1.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
+	            	
 	            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt1);
 	            	p_77659_1_.stackTagCompound.setInteger("Signs", 1);
 	            
@@ -157,7 +159,7 @@ public class ItemConstitutionClaim extends ItemCustom{
 	            case 1:  //
 	            	if(isNewPlayer(p_77659_3_,p_77659_1_)){
 		            	NBTTagCompound nbt2 = new NBTTagCompound();
-		            	nbt2.setString("Player2",  p_77659_3_.getCommandSenderName());
+		            	nbt2.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
 		            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt2);
 		            	p_77659_1_.stackTagCompound.setInteger("Signs", 2);
 		            	
@@ -167,7 +169,7 @@ public class ItemConstitutionClaim extends ItemCustom{
 	            case 2:  //
 	            	if(isNewPlayer(p_77659_3_,p_77659_1_)){
 		            	NBTTagCompound nbt3 = new NBTTagCompound();
-		            	nbt3.setString("Player3",  p_77659_3_.getCommandSenderName());
+		            	nbt3.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
 		            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt3);
 		            	p_77659_1_.stackTagCompound.setInteger("Signs", 3);
 		            	
@@ -177,7 +179,7 @@ public class ItemConstitutionClaim extends ItemCustom{
 	            case 3:  //
 	            	if(isNewPlayer(p_77659_3_,p_77659_1_)){
 		            	NBTTagCompound nbt4 = new NBTTagCompound();
-		            	nbt4.setString("Player4",  p_77659_3_.getCommandSenderName());
+		            	nbt4.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
 		            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt4);
 		            	p_77659_1_.stackTagCompound.setInteger("Signs", 4);
 		            	

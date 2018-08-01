@@ -52,6 +52,30 @@ public class Schematic {
             return null;
         }
     }
+	
+	public Schematic getTMP(){
+        try {
+        	InputStream is = new FileInputStream("D:\\testout.schematic");
+
+            NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
+            short width = nbtdata.getShort("Width");
+            short height = nbtdata.getShort("Height");
+            short length = nbtdata.getShort("Length");
+
+            int[] blocks = nbtdata.getIntArray("Blocks");
+            int[] data = nbtdata.getIntArray("Data");
+
+
+            System.out.println("schem size:" + width + " x " + height + " x " + length);
+            NBTTagList tileentities = nbtdata.getTagList("TileEntity",10);
+            is.close();
+
+            return new Schematic(tileentities, width, height, length, blocks, data);
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.toString());
+            return null;
+        }
+    }
 
 
 }

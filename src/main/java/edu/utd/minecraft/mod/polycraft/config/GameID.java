@@ -106,7 +106,8 @@ public enum GameID {
 	CustomDevTool("1hn"),
 	CustomChallengeBlock("1ho"),
 	CustomConstitutionClaim("1hp"),
-	CustomSuperInk("1hr");
+	CustomSuperInk("1hr"),
+	CustomPolyPortal("1hs");
 	
 	public final String id;
 
