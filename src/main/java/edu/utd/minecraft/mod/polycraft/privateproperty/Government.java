@@ -24,6 +24,7 @@ public class Government {
 	public final String type;
 	public final String name;
 	public final Set<Integer> members = Sets.newHashSet();
+	public final static Map<Integer, GovernmentRole> rolesByID = Maps.newHashMap();
 	public final Set<GovernmentRole> roles = Sets.newHashSet();
 	public final static Map<Integer, GovernmentZone> zonesByID = Maps.newHashMap();
 	public final Set<GovernmentZone> zones = Sets.newHashSet();
@@ -53,6 +54,9 @@ public class Government {
 					jobject.get("parent_id"), //must check in case null 
 					jobject.get("is_sub").getAsBoolean(), 
 					jobject.get("members")));
+		}
+		for(GovernmentRole role: this.roles) { //put all zones into static for searching
+			rolesByID.put(role.id, role);
 		}
 		for(JsonElement zone: zones.getAsJsonArray())
 		{

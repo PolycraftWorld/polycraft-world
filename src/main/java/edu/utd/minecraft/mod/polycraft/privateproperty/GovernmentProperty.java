@@ -21,12 +21,12 @@ public class GovernmentProperty extends PrivateProperty{
 	}
 	
 	public boolean actionEnabled(final EntityPlayer player, final Action action) {
-		if (master) {
-			//otherwise just use the default permissions
-			return defaultPermissions.enabled[action.ordinal()];
-		}
-		//return action == Action.Enter;
-		return masterPermissions.enabled[action.ordinal()];
+		
+		long playerID;
+		//get user id
+		playerID = Enforcer.playerID;
+		
+		return zone.actionEnabled(playerID, action);
 	}
 
 }

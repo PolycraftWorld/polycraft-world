@@ -105,7 +105,7 @@ public abstract class Enforcer {
 
 	public enum DataPacketType {
 
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments
+		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, playerID
 
 	}
 
@@ -124,6 +124,8 @@ public abstract class Enforcer {
 	private static final int propertyDimension = 0; // you can only own property
 													// in the surface dimension
 	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
+
+	protected static long playerID; //temp storage for sending player IDs
 
 	protected static final int getPacketsRequired(int bytes) {
 		return (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
@@ -411,6 +413,14 @@ public abstract class Enforcer {
 				friends.add(getFriendPairKey(friendPair[0], friendPair[1]));
 			}
 		}
+	}
+	
+	protected long updatePlayerID(final String playerIDjson) {
+		final long playerIDRaw = gsonGeneric.fromJson(playerIDjson,
+				new TypeToken<Long>() {
+				}.getType());
+		friends.clear();
+		return playerIDRaw;
 	}
 
 	public static String getChunkKey(final int x, final int z) {

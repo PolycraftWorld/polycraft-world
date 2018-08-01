@@ -215,9 +215,10 @@ public class ServerEnforcer extends Enforcer {
 					.compress(type == DataPacketType.PrivateProperties ? (typeMetadata == 1 ? privatePropertiesMasterJson
 							: privatePropertiesNonMasterJson)
 							: type == DataPacketType.Broadcast ? broadcastMessage
-									: type == DataPacketType.Friends ? friendsJson	
-                      : type == DataPacketType.Governments	
-									        ? GovernmentsJson : gson.toJson(tempPrivateProperties)); //This may need to be fixed.. Merged by Matthew.
+							: type == DataPacketType.Friends ? friendsJson	
+							: type == DataPacketType.Governments ? GovernmentsJson 
+							: type == DataPacketType.TempPrivatProperties ? gson.toJson(tempPrivateProperties)
+									: gson.toJson(this.playerID)); 
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
@@ -372,6 +373,9 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
+			sendDataPackets(DataPacketType.Governments);
+			this.playerID = this.whitelist.get(player.getDisplayName());
+			sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,

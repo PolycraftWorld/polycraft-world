@@ -10,6 +10,8 @@ import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class GovernmentZone{
 	public final int id;
@@ -51,6 +53,21 @@ public class GovernmentZone{
 			Enforcer.privatePropertiesByChunk.put(Enforcer.getChunkKey(chunk.x, chunk.z), property);
 		}
 		
+		
+		
+	}
+	
+	public boolean actionEnabled(final long playerID, final Action action) {
+		
+		for(int roleID: permissionSetsByRole.keySet()) {
+			if(Government.rolesByID.get(roleID).members.contains((int)playerID)) {
+				if(permissionSetsByRole.get(roleID).enabled[action.ordinal()]) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public String toString(){

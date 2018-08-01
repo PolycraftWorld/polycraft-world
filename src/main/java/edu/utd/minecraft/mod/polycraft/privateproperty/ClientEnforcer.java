@@ -128,6 +128,9 @@ public class ClientEnforcer extends Enforcer {
 						final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
 						showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	
 						break;
+					case playerID:
+						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case Unknown:
 					default:
 						break;
