@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
@@ -1214,6 +1215,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemConstitutionClaim(customObject));
 				} else if (GameID.CustomSuperInk.matches(customObject)) {
 					registerItem(customObject, new ItemSuperInk(customObject));
+				} else if (GameID.CustomPolyPortal.matches(customObject)) {
+					registerBlock(customObject, new BlockPolyPortal(customObject));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

@@ -237,6 +237,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 				{
 
 					//wincase
+					/*
 					try {
 
 						if (ServerEnforcer.portalRestUrl != null)
@@ -268,7 +269,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 						PolycraftMod.logger.error("Unable to send territoryFlag info", e);
 						//return false;
 					}
-
+					*/
 					if(this.posX>0)
 		        		u=1;
 		        	if(this.posZ>0)
@@ -349,6 +350,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 	        if (!this.worldObj.isRemote)
 	        {
 				// lose case
+	        	/*
 				try {
 					if (ServerEnforcer.portalRestUrl != null){
 						
@@ -376,7 +378,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 				} catch (final IOException e) {
 					PolycraftMod.logger.error("Unable to send territoryFlag info", e);
 					//return false;
-				}
+				}*/
 
 	        	if(this.posX>0)
 	        		u=1;
