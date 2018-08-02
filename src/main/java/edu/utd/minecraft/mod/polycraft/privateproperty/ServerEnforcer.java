@@ -374,7 +374,7 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
 			sendDataPackets(DataPacketType.Governments);
-			this.playerID = this.whitelist.get(player.getDisplayName());
+			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
 			sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
