@@ -1,10 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +26,7 @@ public class ItemDevTool extends ItemCustom  {
 	int[] block2xyz = new int[3];
 	String tool;
 	boolean setting;
+	
 	
 
 	public ItemDevTool(CustomObject config) {
@@ -50,15 +55,7 @@ public class ItemDevTool extends ItemCustom  {
 	 @Override
 	 public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
 	 {
-		 if(!p_77659_2_.isRemote)
-		 {
-			 this.setting= !setting;
-			 if(!setting){
-				 ((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Set Position 1"));
-			 }else {
-				 ((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Set Position 2"));
-			 }
-		 }
+		
 		     return p_77659_1_;
 	 }
 	
