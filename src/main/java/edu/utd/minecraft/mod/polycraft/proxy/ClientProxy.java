@@ -484,7 +484,7 @@ public class ClientProxy extends CommonProxy {
 		                double x2 = x1 + 16;
 		                double z2 = z1 + 16;
 		                if(Enforcer.findPrivateProperty(entity, (entity.chunkCoordX + cx), (entity.chunkCoordZ + cz)) != null) {
-			                double dy = 64;
+			                double dy = 32;
 			                double y1 = Math.floor(entity.posY - dy / 2);
 			                double y2 = y1 + dy;
 			                if (y1 < 0) {

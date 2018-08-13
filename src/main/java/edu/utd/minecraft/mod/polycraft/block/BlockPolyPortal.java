@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
@@ -186,9 +187,9 @@ public class BlockPolyPortal extends BlockBreakable {
             WorldServer worldserver = (WorldServer) ((EntityPlayerMP)p_149670_5_).getEntityWorld();
 			EntityPlayerMP playerMP = (EntityPlayerMP) p_149670_5_;
 			if(playerMP.dimension==8){
-				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
+				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new ChallengeTeleporter(playerMP.mcServer.worldServerForDimension(0),false));			
 			}else if(playerMP.dimension==0) {
-				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8)));
+				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new ChallengeTeleporter(playerMP.mcServer.worldServerForDimension(8),true));
 			}
 		}
     }

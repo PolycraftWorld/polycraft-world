@@ -128,6 +128,7 @@ public class PrivateProperty {
 	public final PermissionSet defaultPermissions;
 	public final PermissionSet masterPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
+	public final int dimension;
 
 	public PrivateProperty(
 			final boolean master,
@@ -136,6 +137,7 @@ public class PrivateProperty {
 			final JsonElement message,
 			final JsonArray chunks,
 			final JsonArray permissions) {
+		this.dimension=0;
 		this.master = master;
 		this.keepMasterWorldSame = false;
 		this.owner = owner.getAsString();
@@ -171,7 +173,9 @@ public class PrivateProperty {
 			final String message,
 			final Chunk topleft,
 			final Chunk bottomright,
-			final int[] permissions) {
+			final int[] permissions,
+			final int dim) {
+		this.dimension=dim;
 		this.master = master;
 		this.keepMasterWorldSame = false;
 		this.owner = owner.getCommandSenderName();

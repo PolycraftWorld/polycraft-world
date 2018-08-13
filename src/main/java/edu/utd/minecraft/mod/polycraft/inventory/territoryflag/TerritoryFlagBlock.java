@@ -212,7 +212,8 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 					"Temp",
 					new Chunk(c[0][3],c[1][3]),
 					new Chunk(c[0][1],c[1][1]),
-					new int[] {0,3,4,5,6,44} );
+					new int[] {0,3,4,5,6,44},
+					0);
 			//int[] perms = new int[] {0,3};
 			//PermissionSet ps = new PermissionSet(perms);
 			//pp.permissionOverridesByUser

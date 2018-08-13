@@ -105,7 +105,7 @@ public abstract class Enforcer {
 
 	public enum DataPacketType {
 
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments
+		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, Challenge
 
 	}
 
@@ -123,6 +123,7 @@ public abstract class Enforcer {
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; // you can only own property
 													// in the surface dimension
+	private static final int challengeDimension = 8;//Implemented properties in challenge dimension -matt
 	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
 
 	protected static final int getPacketsRequired(int bytes) {
@@ -143,6 +144,8 @@ public abstract class Enforcer {
 
 	protected final static Collection<PrivateProperty> tempPrivateProperties = Lists
 			.newLinkedList();	//temporary PPs for PPs that are not kept after Server restarts (added by blocks or dimensions)
+	protected final static Collection<PrivateProperty> tempChallengeProperties = Lists
+			.newLinkedList();	//temporary PPs for PPs that are not kept after Server restarts (added by blocks or dimensions)
 
 	protected final Collection<Government> governments = Lists	
 			.newLinkedList();
@@ -155,6 +158,8 @@ public abstract class Enforcer {
 			.newHashMap();
 
 	protected final static Map<String, PrivateProperty> privatePropertiesByChunk = Maps
+			.newHashMap();
+	protected final static Map<String, PrivateProperty> challengePropertiesByChunk = Maps
 			.newHashMap();
 	protected final static Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
 			.newHashMap();
@@ -194,6 +199,29 @@ public abstract class Enforcer {
 		tempPrivateProperties.add(privateProperty);
 	}
 	
+	public static void addChallengeProperty(PrivateProperty privateProperty) {
+		int xl = privateProperty.boundTopLeft.x;
+		int zl = privateProperty.boundTopLeft.z;
+		int xr =privateProperty.boundBottomRight.x;
+		int zr =privateProperty.boundBottomRight.z;
+		for(int x=xl;x<=xr;x++) {
+			for(int z=zr;z<=zl;z++) {
+			challengePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+			}
+		}
+		tempChallengeProperties.add(privateProperty);
+	}
+	
+	public static void addChallengePropertyByChunk(PrivateProperty privateProperty, int x, int z) {
+		challengePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+		tempChallengeProperties.add(privateProperty);
+	}
+	
+	public static void removeChallengePropertyByChunk(PrivateProperty privateProperty, int x, int z) {
+		challengePropertiesByChunk.remove(getChunkKey(x, z), privateProperty);
+		tempChallengeProperties.remove(privateProperty);
+	}
+	
 	public static void removePrivateProperty(PrivateProperty privateProperty) {
 		int xl = privateProperty.boundTopLeft.x;
 		int zl = privateProperty.boundTopLeft.z;
@@ -205,6 +233,19 @@ public abstract class Enforcer {
 			}
 		}
 		tempPrivateProperties.remove(privateProperty);
+	}
+	
+	public static void removeChallengeProperty(PrivateProperty privateProperty) {
+		int xl = privateProperty.boundTopLeft.x;
+		int zl = privateProperty.boundTopLeft.z;
+		int xr =privateProperty.boundBottomRight.x;
+		int zr =privateProperty.boundBottomRight.z;
+		for(int x=xl;x<=xr;x++) {
+			for(int z=zr;z<=zl;z++) {
+				challengePropertiesByChunk.remove(getChunkKey(x, z), privateProperty);
+			}
+		}
+		tempChallengeProperties.remove(privateProperty);
 	}
 	
 	
@@ -221,9 +262,32 @@ public abstract class Enforcer {
 			for(int x=xl;x<=xr;x++) {
 				for(int z=zr;z<=zl;z++) {
 					privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+					//challengePropertiesByChunk.put(getChunkKey(x, z), privateProperty);//--matt
 				}
 			}
 			tempPrivateProperties.add(privateProperty);
+			count++;
+		}
+		return count;
+	}
+	
+	public static int updateTempChallengeProperties(final String privatePropertiesJson) {
+		int count = 0;
+		Gson gson = new Gson();
+		Type typeOfPrivatePropertyList = new TypeToken<Collection<PrivateProperty>>() {}.getType();
+		Collection<PrivateProperty> temp = gson.fromJson(privatePropertiesJson, typeOfPrivatePropertyList);
+		for(PrivateProperty privateProperty: temp) {
+			int xl = privateProperty.boundTopLeft.x;
+			int zl = privateProperty.boundTopLeft.z;
+			int xr =privateProperty.boundBottomRight.x;
+			int zr =privateProperty.boundBottomRight.z;
+			for(int x=xl;x<=xr;x++) {
+				for(int z=zr;z<=zl;z++) {
+					//privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+					challengePropertiesByChunk.put(getChunkKey(x, z), privateProperty);//--matt
+				}
+			}
+			tempChallengeProperties.add(privateProperty);
 			count++;
 		}
 		return count;
@@ -419,8 +483,10 @@ public abstract class Enforcer {
 
 	public static PrivateProperty findPrivateProperty(final Entity entity,
 			final int chunkX, final int chunkZ) {
-		if (entity.dimension == propertyDimension)
+		if (entity.dimension == propertyDimension) 
 			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
+		if (entity.dimension == challengeDimension) 
+			return challengePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
 		return null;
 	}
 
@@ -435,6 +501,11 @@ public abstract class Enforcer {
 			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
 					.getChunkFromBlockCoords(x, z);
 			return privatePropertiesByChunk.get(getChunkKey(chunk.xPosition,
+					chunk.zPosition));
+		}else if(entity.dimension == propertyDimension) {
+			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
+					.getChunkFromBlockCoords(x, z);
+			return challengePropertiesByChunk.get(getChunkKey(chunk.xPosition,
 					chunk.zPosition));
 		}
 		return null;
@@ -547,6 +618,18 @@ public abstract class Enforcer {
 							if (forcePlayerToExitProperty(player, 0, -i,
 									privateProperty))
 								break;
+							if (forcePlayerToExitProperty(player, i, i,
+									privateProperty))
+								break;
+							if (forcePlayerToExitProperty(player, -i, i,
+									privateProperty))
+								break;
+							if (forcePlayerToExitProperty(player, -i, -i,
+									privateProperty))
+								break;
+							if (forcePlayerToExitProperty(player, i, -i,// added i i and -i -i and -i i and i -i --matt
+									privateProperty))
+								break;
 							i++;
 						}
 						return;
@@ -562,7 +645,7 @@ public abstract class Enforcer {
 		if (player.worldObj.isRemote)
 			return true;
 		final double x = player.posX + targetOffsetX;
-		final double y = player.posY - 2;
+		final double y = player.posY;
 		final double z = player.posZ + targetOffsetZ;
 
 		final int xAbs, zAbs;

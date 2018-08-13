@@ -72,7 +72,7 @@ private final List aliases;
 				};
 				for(int x=x0; x<=x0+1; x++) {
 					for(int z=z0; z<=z0+1; z++) {
-						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", new Chunk(x,z), new Chunk(x,z), permissions);
+						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", new Chunk(x,z), new Chunk(x,z), permissions,0);
 						Enforcer.addPrivateProperty(pp);
 						
 					}

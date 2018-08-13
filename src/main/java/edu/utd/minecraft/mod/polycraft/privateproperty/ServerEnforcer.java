@@ -47,7 +47,7 @@ public class ServerEnforcer extends Enforcer {
 		// TODO not sure why this is getting called multiple times with
 		// different world java objects for the same world
 		if ((event.phase == TickEvent.Phase.END)
-				&& (event.world.provider.dimensionId == 0)) {
+				&& (event.world.provider.dimensionId == 0 || event.world.provider.dimensionId == 8)) { //added properties to challenge dimension --matt
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
@@ -182,6 +182,10 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
 	}
 	
+	public void sendTempCPDataPackets(EntityPlayerMP player) {
+		sendDataPackets(DataPacketType.Challenge, 0, player);
+	}
+	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -215,9 +219,10 @@ public class ServerEnforcer extends Enforcer {
 					.compress(type == DataPacketType.PrivateProperties ? (typeMetadata == 1 ? privatePropertiesMasterJson
 							: privatePropertiesNonMasterJson)
 							: type == DataPacketType.Broadcast ? broadcastMessage
-									: type == DataPacketType.Friends ? friendsJson	
-                      : type == DataPacketType.Governments	
-									        ? GovernmentsJson : gson.toJson(tempPrivateProperties)); //This may need to be fixed.. Merged by Matthew.
+							: type == DataPacketType.Friends ? friendsJson	
+							: type == DataPacketType.Governments ? GovernmentsJson 
+							: type == DataPacketType.Challenge ? gson.toJson(tempChallengeProperties) 
+							: gson.toJson(tempPrivateProperties)); 
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
