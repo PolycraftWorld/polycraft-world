@@ -38,7 +38,6 @@ public class BlockPolyPortal extends BlockBreakable {
 		this.config=config;
 		this.setLightLevel(1.0F);
 		this.setTickRandomly(true);
-		
 	}
 
 	//@Override
@@ -46,7 +45,6 @@ public class BlockPolyPortal extends BlockBreakable {
 		
 	//	return new TileEntityEndPortal();
 	//}
-	
 	
 
     public static int func_149999_b(int p_149999_0_)
@@ -260,8 +258,7 @@ public class BlockPolyPortal extends BlockBreakable {
     public void registerBlockIcons(IIconRegister p_149651_1_)
     {
     	this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("Poly_Portal")));
-    	
-       // this.blockIcon = p_149651_1_.registerIcon("Poly_Portal");
+
         
     }
 
