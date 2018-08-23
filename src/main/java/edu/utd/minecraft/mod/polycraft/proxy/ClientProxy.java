@@ -5,9 +5,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 
+import codechicken.lib.render.RenderUtils;
+import codechicken.nei.NEIClientConfig;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -61,7 +64,11 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 import net.minecraft.block.Block;
@@ -86,13 +93,16 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -419,7 +429,66 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 	
-	
+	 @SubscribeEvent
+	 public void renderLastEvent(RenderWorldLastEvent event) {
+	     if (NEIClientConfig.isEnabled()) {
+	    	 if(ClientEnforcer.getShowPP()) {
+		    		render(event.partialTicks);
+		     }
+	     }
+
+	 }
+	 
+	 public static void render(float frame) {
+	        GL11.glPushMatrix();
+	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+	        RenderUtils.translateToWorldCoords(entity, frame);
+	        
+	        renderKillWallBounds(entity);
+	        
+	        GL11.glPopMatrix();
+	    }
+	 private static void renderKillWallBounds(Entity entity) {
+		 if (entity.worldObj.isRemote){
+			 	GL11.glDisable(GL11.GL_TEXTURE_2D);
+		        GL11.glEnable(GL11.GL_BLEND);
+		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		        GL11.glDisable(GL11.GL_LIGHTING);
+		        GL11.glLineWidth(1.5F);
+		        GL11.glBegin(GL11.GL_LINE_LOOP);
+                double dy = 16;
+                double y1 = Math.floor(entity.posY - dy / 2);
+                double y2 = y1 + dy;
+                if (y1 < 0) {
+                    y1 = 0;
+                    y2 = dy;
+                }
+                if (y1 > entity.worldObj.getHeight()) {
+                    y2 = entity.worldObj.getHeight();
+                    y1 = y2 - dy;
+                }
+                
+                
+                float DEG2RAD = (float) (3.14159/180);
+                float radius=(float)KillWall.getKillWallDistance();
+                GL11.glColor4d(0.9, 0, 0, .5);
+                for (double y = (int) y1; y <= y2; y++) {
+                	
+                	for (int i=0; i<360 ; i+=4)
+	                {
+	                	double degInRad = i*DEG2RAD;
+	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
+	                }
+	                
+                }  	
+		 
+		        GL11.glEnd();
+		        GL11.glEnable(GL11.GL_LIGHTING);
+		        GL11.glEnable(GL11.GL_TEXTURE_2D);
+		        GL11.glDisable(GL11.GL_BLEND);
+		 }
+	 }
+
 
 	@SubscribeEvent
 	public synchronized void onRenderTick(final TickEvent.RenderTickEvent tick) {
