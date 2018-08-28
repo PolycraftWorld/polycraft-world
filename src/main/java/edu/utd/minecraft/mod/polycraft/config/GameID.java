@@ -101,7 +101,8 @@ public enum GameID {
 	EntityOilSlime("1hi"),
 	EntityDummy("1hj"),
 	CustomOilSlimeBall("1hl"),
-	EntityOilSlimeBall("1hm");
+	EntityOilSlimeBall("1hm"),
+	CustomGameBlock("1hA");
 	
 	public final String id;
 

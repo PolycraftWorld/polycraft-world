@@ -64,6 +64,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.minigame.BlockGameBlock;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -455,7 +456,7 @@ public class ClientProxy extends CommonProxy {
 		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		        GL11.glDisable(GL11.GL_LIGHTING);
 		        GL11.glLineWidth(1.5F);
-		        GL11.glBegin(GL11.GL_LINE_LOOP);
+		        GL11.glBegin(GL11.GL_LINES);//Gl_Line_Loop
                 double dy = 16;
                 double y1 = Math.floor(entity.posY - dy / 2);
                 double y2 = y1 + dy;
@@ -467,20 +468,42 @@ public class ClientProxy extends CommonProxy {
                     y2 = entity.worldObj.getHeight();
                     y1 = y2 - dy;
                 }
+                double radius;
+                if(entity.worldObj.getBlock(0, 0, 0) instanceof BlockGameBlock)
+                {
+                	radius=((BlockGameBlock) entity.worldObj.getBlock(0, 0, 0)).getRadius();
+                }
+                else
+                {
+                	radius=0;
+                }
                 
                 
-                float DEG2RAD = (float) (3.14159/180);
-                float radius=(float)KillWall.getKillWallDistance();
                 GL11.glColor4d(0.9, 0, 0, .5);
+//                for (double y = (int) y1; y <= y2; y++) {
+//                	
+//                	for (int i=0; i<360 ; i+=4)
+//	                {
+//	                	double degInRad = i*DEG2RAD;
+//	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
+//	                }
+//	                
+//                }
+                
                 for (double y = (int) y1; y <= y2; y++) {
+                	GL11.glVertex3d(radius, y, radius);
+                	GL11.glVertex3d(-radius, y, radius);
                 	
-                	for (int i=0; i<360 ; i+=4)
-	                {
-	                	double degInRad = i*DEG2RAD;
-	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
-	                }
-	                
-                }  	
+                	GL11.glVertex3d(-radius, y, radius);
+                	GL11.glVertex3d(-radius, y, -radius);
+                	
+                	GL11.glVertex3d(-radius, y, -radius);
+                	GL11.glVertex3d(radius, y, -radius);
+                	
+                	GL11.glVertex3d(radius, y, -radius);
+                	GL11.glVertex3d(radius, y, radius);
+                	
+                }
 		 
 		        GL11.glEnd();
 		        GL11.glEnable(GL11.GL_LIGHTING);

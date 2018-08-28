@@ -43,6 +43,8 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
+import edu.utd.minecraft.mod.polycraft.minigame.CommandGame;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
@@ -241,6 +243,8 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
+		event.registerServerCommand(new KillWall());
+		event.registerServerCommand(new CommandGame());
 	}
 	
 	public static String getAssetName(final String name) {
