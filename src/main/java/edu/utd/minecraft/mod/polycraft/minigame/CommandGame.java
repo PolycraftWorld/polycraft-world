@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 public class CommandGame extends CommandBase{
 	private final List aliases;
 	
+	
 	public CommandGame(){
 		aliases = new ArrayList(); 
         aliases.add("Game"); 
@@ -48,17 +49,33 @@ public class CommandGame extends CommandBase{
 
 					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+tool[0]));
 					if(tool[0].equals("start")) {
-						world.setBlock(0, 0, 0, GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("1hA")));
-						int rad=(int)((BlockGameBlock) world.getBlock(0, 0, 0)).getRadius();
+						
+						KillWall.active=true;
+						int rad=(int) KillWall.radius;
 						 
 						for(int i=0;i<world.playerEntities.size();i++)
 						{
 							EntityPlayer p =(EntityPlayer) world.playerEntities.get(i);
 							int x = ThreadLocalRandom.current().nextInt(-rad+20, rad-20 + 1);
 							int z = ThreadLocalRandom.current().nextInt(-rad+20, rad-20 + 1);
-							p.setPositionAndUpdate(x, world.getTopSolidOrLiquidBlock(x, z), z);
-							p.setCurrentItemOrArmor(3, new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));
-							p.setCurrentItemOrArmor(0,  new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
+							
+							//p.setCurrentItemOrArmor(3, new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));
+							//p.setCurrentItemOrArmor(0,  new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
+							p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("5a"))));
+							p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
+							p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));
+							p.setPositionAndUpdate(x, 200, z);
+						}
+					}
+					else if(tool[0].equals("stop")) {
+						KillWall.active=false;
+					}
+					else if(tool[0].equals("set")) {
+						if(value.length>0)
+						{
+							
+							KillWall.radius=((double)Integer.parseInt(value[0]));
+							
 						}
 					}
 					

@@ -151,7 +151,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
-import edu.utd.minecraft.mod.polycraft.minigame.BlockGameBlock;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -1196,8 +1195,6 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
 				} else if (GameID.CustomOilSlimeBall.matches(customObject)) {
 					registerItem(customObject, new ItemOilSlimeBall(customObject, "Oil_Slime_Ball"));
-				} else if (GameID.CustomGameBlock.matches(customObject)) {
-					registerBlock(customObject, new BlockGameBlock(customObject));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

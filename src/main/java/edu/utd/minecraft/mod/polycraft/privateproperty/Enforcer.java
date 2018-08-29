@@ -100,7 +100,7 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-		Unknown, PrivateProperties, Friends, Broadcast, InventorySync
+		Unknown, PrivateProperties, Friends, Broadcast, InventorySync, GenericMinigame
 	}
 
 	protected static boolean updatedMasterForTheDay = false;

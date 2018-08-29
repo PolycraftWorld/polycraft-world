@@ -64,7 +64,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.minigame.BlockGameBlock;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -455,7 +454,7 @@ public class ClientProxy extends CommonProxy {
 		        GL11.glEnable(GL11.GL_BLEND);
 		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		        GL11.glDisable(GL11.GL_LIGHTING);
-		        GL11.glLineWidth(1.5F);
+		        GL11.glLineWidth(3.0F);
 		        GL11.glBegin(GL11.GL_LINES);//Gl_Line_Loop
                 double dy = 16;
                 double y1 = Math.floor(entity.posY - dy / 2);
@@ -469,14 +468,9 @@ public class ClientProxy extends CommonProxy {
                     y1 = y2 - dy;
                 }
                 double radius;
-                if(entity.worldObj.getBlock(0, 0, 0) instanceof BlockGameBlock)
-                {
-                	radius=((BlockGameBlock) entity.worldObj.getBlock(0, 0, 0)).getRadius();
-                }
-                else
-                {
-                	radius=0;
-                }
+               
+                radius=KillWall.radius;
+                
                 
                 
                 GL11.glColor4d(0.9, 0, 0, .5);

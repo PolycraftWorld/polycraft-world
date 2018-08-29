@@ -243,7 +243,6 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
-		event.registerServerCommand(new KillWall());
 		event.registerServerCommand(new CommandGame());
 	}
 	

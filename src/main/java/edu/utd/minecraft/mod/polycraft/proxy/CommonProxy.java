@@ -32,7 +32,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.minigame.BlockGameBlock;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
@@ -268,27 +267,23 @@ public abstract class CommonProxy {
 	}
 	
 	private void onPlayerTickServerKillWall(final EntityPlayer player) {
-		if(player.worldObj.getBlock(0, 0, 0) instanceof BlockGameBlock)
+		
+		if (KillWall.isInKillWall(player))
 		{
-			if (((BlockGameBlock) (player.worldObj.getBlock(0, 0, 0))).isInKillWall(player))
+			
+			if(player.ticksExisted%20==0 && !player.worldObj.isRemote)
 			{
-				
-				if(player.ticksExisted%20==0 && !player.worldObj.isRemote)
-				{
-					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("Past Kill Wall"));
-					player.setHealth(player.getHealth()-2);
-				}
+				((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("Past Kill Wall"));
+				player.setHealth(player.getHealth()-2);
 			}
 		}
+	
 	}
 	
 	private void onPlayerTickServerKillWallShrink(final EntityPlayer player) {
 		if(!player.worldObj.isRemote)
 		{
-			if(player.worldObj.getBlock(0, 0, 0) instanceof BlockGameBlock)
-			{
-				((BlockGameBlock) player.worldObj.getBlock(0, 0, 0)).shrinkKillWall();
-			}
+			KillWall.shrinkKillWall();
 		}
 	}
 
