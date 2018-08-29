@@ -69,10 +69,6 @@ public class ClientEnforcer extends Enforcer {
 		client = FMLClientHandler.instance().getClient();
 	}
 	
-	public static boolean getShowPP()
-	{
-		return showPrivateProperty;
-	}
 	
 	@SubscribeEvent
 	public void KeyInputEvent(cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent event) {

@@ -440,25 +440,7 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 	
-	 @SubscribeEvent
-	 public void renderLastEvent(RenderWorldLastEvent event) {
-	     if (NEIClientConfig.isEnabled()) {
-	    	 if(ClientEnforcer.getShowPP()) {
-		    		render(event.partialTicks);
-		     }
-	     }
 
-	 }
-	 
-	 public static void render(float frame) {
-	        GL11.glPushMatrix();
-	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
-	        RenderUtils.translateToWorldCoords(entity, frame);
-	        
-	        renderKillWallBounds(entity);
-	        
-	        GL11.glPopMatrix();
-	    }
 	 private static void renderKillWallBounds(Entity entity) {
 		 if (entity.worldObj.isRemote){
 			 	GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -533,6 +515,7 @@ public class ClientProxy extends CommonProxy {
 	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
 	        RenderUtils.translateToWorldCoords(entity, frame);
 	        renderPPBounds(entity);
+	        renderKillWallBounds(entity);
 	        GL11.glPopMatrix();
 	    }
 	 
