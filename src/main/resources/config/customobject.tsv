@@ -80,3 +80,6 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.3.8	1fW	Guano	PC Item	2	FALSE		64											
 1.4.6	1xn	Flourescent Bulbs	PC Item	8	FALSE		1											
 1.4.9	1hl	Oil Slime Ball	PC Item		FALSE		64											
+1.4.9	1hY	Password Door	PC Block		FALSE		64		ItemID	1hX								
+1.4.9	1hn	Dev Tool	PC Item		FALSE		1											
+1.4.9	1ho	Challenge Block	PC Block		FALSE		64											

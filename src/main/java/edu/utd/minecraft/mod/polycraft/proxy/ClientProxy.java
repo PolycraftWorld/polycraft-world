@@ -1,11 +1,18 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
+import java.awt.Color;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+
+import org.lwjgl.opengl.GL15;
+
 
 import com.google.common.collect.Maps;
 
@@ -24,7 +31,9 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
+import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -87,6 +96,7 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
@@ -100,6 +110,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -513,11 +524,226 @@ public class ClientProxy extends CommonProxy {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
 				onRenderTickItemStatusOverlays(player, getPlayerState(player));
-				
 			}
 		}
 	}
-	
+
+	 public static void render(float frame) {
+	        GL11.glPushMatrix();
+	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+	        RenderUtils.translateToWorldCoords(entity, frame);
+	        renderPPBounds(entity);
+	        GL11.glPopMatrix();
+	    }
+	 
+	 @SubscribeEvent
+	 public void renderLastEvent(RenderWorldLastEvent event) {
+	     if (NEIClientConfig.isEnabled()) {
+	    	if(ClientEnforcer.getShowPP()) {
+	    		render(event.partialTicks);
+	     	}
+	     }
+
+	 }
+	 private static void renderPPBounds(Entity entity) {
+		 if (entity.worldObj.isRemote){
+			 	GL11.glDisable(GL11.GL_TEXTURE_2D);
+		        GL11.glEnable(GL11.GL_BLEND);
+		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		        GL11.glDisable(GL11.GL_LIGHTING);
+		        GL11.glLineWidth(1.5F);
+		        GL11.glBegin(GL11.GL_LINES);
+		        
+		        PrivateProperty playerPP = (Enforcer.findPrivateProperty(entity, (entity.chunkCoordX), (entity.chunkCoordZ)));
+		        
+		        for (int cx = -4; cx <= 4; cx++)
+		            for (int cz = -4; cz <= 4; cz++) {
+		            	
+		                double x1 = (entity.chunkCoordX + cx) << 4;
+		                double z1 = (entity.chunkCoordZ + cz) << 4;
+		                double x2 = x1 + 16;
+		                double z2 = z1 + 16;
+		                if(Enforcer.findPrivateProperty(entity, (entity.chunkCoordX + cx), (entity.chunkCoordZ + cz)) != null) {
+			                double dy = 64;
+			                double y1 = Math.floor(entity.posY - dy / 2);
+			                double y2 = y1 + dy;
+			                if (y1 < 0) {
+			                    y1 = 0;
+			                    y2 = dy;
+			                }
+			                if (y1 > entity.worldObj.getHeight()) {
+			                    y2 = entity.worldObj.getHeight();
+			                    y1 = y2 - dy;
+			                }
+			                double dist = (((double)entity.ticksExisted %120.00));
+			                if(dist>=60)
+			                {
+			                	dist=120-dist;
+			                }
+			                dist=dist/120+.2;
+			                
+			                boolean northPP=(Enforcer.findPrivateProperty(entity, (int)(x1/16)+1, (int)(z1/16)) != null);
+			                boolean southPP=(Enforcer.findPrivateProperty(entity, (int)(x1/16)-1, (int)(z1/16)) != null);
+			                boolean eastPP=(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16)+1) != null);
+			                boolean westPP=(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16)-1) != null);
+			                
+			                
+			                boolean northOPP=false;
+			                boolean southOPP=false;
+			                boolean eastOPP=false;
+			                boolean westOPP=false;
+			              
+			                if(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16))!=null)
+			                {
+			                	if(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16)).actionEnabled((EntityPlayer) entity, Action.Enter))
+			                	{
+			                		if(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16)).equals(playerPP))
+			                		{
+			                			GL11.glColor4d(0.2, 0.2, 0.8, dist);
+			                		}else
+			                		{
+			                			GL11.glColor4d(0.1, 0.7, 0.1, dist);
+			                		}
+			                		
+			                	}
+			                	else
+			                	{
+			                		GL11.glColor4d(0.9, 0, 0, dist);
+			                	}
+			                	if(northPP){
+				                	northOPP =(Enforcer.findPrivateProperty(entity, (int)(x1/16)+1, (int)(z1/16)).equals(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16))));
+				                }
+			                	if(southPP){
+				                southOPP =(Enforcer.findPrivateProperty(entity, (int)(x1/16)-1, (int)(z1/16)).equals(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16))));
+			                	}
+				                if(eastPP){
+				                eastOPP =(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16)+1).equals(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16))));
+				                }
+				                if(westPP){
+				                westOPP =(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16)-1).equals(Enforcer.findPrivateProperty(entity, (int)(x1/16), (int)(z1/16))));
+				                }
+			                	
+			               
+			                
+				                for (double y = (int) y1; y <= y2; y++) {
+			                    	
+			                    	
+				                	 if ( (!northPP) ) 
+				                	 {
+			                    		GL11.glVertex3d(x2, y, z1);//north w..
+			                    		GL11.glVertex3d(x2, y, z2);//north e..
+				                	 }
+				                	 else if(!northOPP)
+				                	 {
+				                		GL11.glVertex3d(x2, y, z1);//north w..
+				                    	GL11.glVertex3d(x2, y, z2);//north e..
+				                	 }
+				                	 if ( (!southPP) ) 
+				                	 {
+				                		 GL11.glVertex3d(x1, y, z1);//south w..
+				                		 GL11.glVertex3d(x1, y, z2);//south e..
+				                	 }
+				                	 else if(!southOPP)
+				                	 {
+				                		 GL11.glVertex3d(x1, y, z1);//south w..
+				                		 GL11.glVertex3d(x1, y, z2);//south e..
+				                	 }
+				                	 if ( (!eastPP) ) 
+				                	 {
+				                		 GL11.glVertex3d(x1, y, z2);//east  s..
+				                		 GL11.glVertex3d(x2, y, z2);//east  n..
+				                	 }
+				                	 else if(!eastOPP)
+				                	 {
+				                		 GL11.glVertex3d(x1, y, z2);//east  s..
+				                		 GL11.glVertex3d(x2, y, z2);//east  n..
+				                	 }
+				                	 if ( (!westPP) ) 
+				                	 {
+				                		 GL11.glVertex3d(x1, y, z1);//west  s..
+				                		 GL11.glVertex3d(x2, y, z1);//west  n..
+				                	 }
+				                	 else if(!westOPP)
+				                	 {
+				                		 GL11.glVertex3d(x1, y, z1);//west  s..
+				                		 GL11.glVertex3d(x2, y, z1);//west  n..
+				                	 }
+			                    }
+			                    
+				                	
+				                for (double h = 1; h <= 15; h++) {
+			                    	
+			                    	
+			                    	if ( (!westPP) ) 
+				                	{
+			                    		GL11.glVertex3d(x1 + h, y1, z1);
+			                    		GL11.glVertex3d(x1 + h, y2, z1);
+				                	}
+			                    	else if(!westOPP)
+				                	 {
+			                    		GL11.glVertex3d(x1 + h, y1, z1);
+			                    		GL11.glVertex3d(x1 + h, y2, z1);
+				                	 }
+			                    	if ( (!eastPP) ) 
+				                	{
+			                    		GL11.glVertex3d(x1 + h, y1, z2);
+			                    		GL11.glVertex3d(x1 + h, y2, z2);
+				                	}
+			                    	else if(!eastOPP)
+				                	 {
+			                    		GL11.glVertex3d(x1 + h, y1, z2);
+			                    		GL11.glVertex3d(x1 + h, y2, z2);
+				                	 }
+			                        
+			                    	if ( (!southPP) ) 
+				                	{ 
+			                    		GL11.glVertex3d(x1, y1, z1 + h);
+			                    		GL11.glVertex3d(x1, y2, z1 + h);
+				                	}
+			                    	else if(!southOPP)
+				                	 {
+			                    		GL11.glVertex3d(x1, y1, z1 + h);
+			                    		GL11.glVertex3d(x1, y2, z1 + h);
+				                	 }
+			                    	if ( (!northPP) ) 
+				                	{
+			                    		GL11.glVertex3d(x2, y1, z1 + h);
+			                    		GL11.glVertex3d(x2, y2, z1 + h);
+				                	}
+			                    	else if(!northOPP)
+				                	 {
+			                    		GL11.glVertex3d(x2, y1, z1 + h);
+			                    		GL11.glVertex3d(x2, y2, z1 + h);
+				                	 }
+			                    }
+			                
+			                }
+			                GL11.glColor4d(0, 0, 0.9, dist);
+			                if ( (!northPP || !eastPP) ) {
+			                    GL11.glVertex3d(x2, y1, z2);
+			                    GL11.glVertex3d(x2, y2, z2);
+			                }
+			                if ( (!northPP || !westPP)) {
+			                    GL11.glVertex3d(x2, y1, z1);
+			                    GL11.glVertex3d(x2, y2, z1);
+			                }
+			                if ( (!southPP || !eastPP)) {
+			                    GL11.glVertex3d(x1, y1, z2);
+			                    GL11.glVertex3d(x1, y2, z2);
+			                }
+			                if ((!southPP || !westPP)) {
+			                    GL11.glVertex3d(x1, y1, z1);
+			                    GL11.glVertex3d(x1, y2, z1);
+			                }
+			                
+		                } 
+		            }   
+		        GL11.glEnd();
+		        GL11.glEnable(GL11.GL_LIGHTING);
+		        GL11.glEnable(GL11.GL_TEXTURE_2D);
+		        GL11.glDisable(GL11.GL_BLEND);
+		  }
+	 }
 
 	private void onPlayerTickClientFlashlight(final EntityPlayer player, final PlayerState playerState) {
 		int equippedFlashlightRange = CustomObject.getEquippedFlashlightRange(player);
@@ -869,5 +1095,11 @@ public class ClientProxy extends CommonProxy {
 
         }
 
+	}
+	
+	@Override
+	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
+	{
+		Minecraft.getMinecraft().displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
 	}
 }

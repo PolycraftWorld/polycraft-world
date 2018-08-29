@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
+import com.sun.security.ntlm.Client;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -67,7 +68,12 @@ public class ClientEnforcer extends Enforcer {
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
 	}
-
+	
+	public static boolean getShowPP()
+	{
+		return showPrivateProperty;
+	}
+	
 	@SubscribeEvent
 	public void KeyInputEvent(cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent event) {
 		if (keyBindingPrivateProperty.isPressed()) {
@@ -111,6 +117,19 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case Broadcast:
 						onClientBroadcastReceivedEvent(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case TempPrivatProperties:
+						final int countPP = updateTempPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
+								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+					case Governments:	
+						final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
+						final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
+						showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	
+						break;
+					case playerID:
+						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
 					case Unknown:
 					default:

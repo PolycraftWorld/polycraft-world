@@ -4,6 +4,8 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.AxisAlignedBB;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
@@ -90,6 +92,22 @@ public class PrivateProperty {
 				enabled[action] = true;
 			}
 		}
+		
+		public PermissionSet(final JsonObject jsonObject, final boolean govFlag) {
+			user = null;
+			enabled = new boolean[Action.values().length];
+			for (final JsonElement action : jsonObject.get("enabled").getAsJsonArray()) {
+				enabled[action.getAsInt()] = true;
+			}
+		}
+		
+		public String toString() {
+			String temp = "";
+			for(boolean value: enabled) {
+				temp += value + " , ";
+			}
+			return temp;
+		}
 
 	}
 
@@ -101,6 +119,10 @@ public class PrivateProperty {
 			this.x = chunk.get(0).getAsInt();
 			this.z = chunk.get(1).getAsInt();
 		}
+		public Chunk(final int chunkX, final int chunkZ) {
+			this.x = chunkX;
+			this.z = chunkZ;
+		}
 	}
 
 	public final boolean master;
@@ -109,8 +131,8 @@ public class PrivateProperty {
 	public final String name;
 	public final String message;
 	public final Chunk[] bounds;
-	public final Chunk boundTopLeft;
-	public final Chunk boundBottomRight;
+	public Chunk boundTopLeft;
+	public Chunk boundBottomRight;
 	public final PermissionSet defaultPermissions;
 	public final PermissionSet masterPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
@@ -147,6 +169,73 @@ public class PrivateProperty {
 			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());
 			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
 		}
+	}
+	
+	//constructor for manually adding private properties
+	public PrivateProperty(
+			final boolean master,
+			final EntityPlayerMP owner,
+			final String name,
+			final String message,
+			final Chunk topleft,
+			final Chunk bottomright,
+			final int[] permissions) {
+		this.master = master;
+		this.keepMasterWorldSame = false;
+		this.owner = owner.getCommandSenderName();
+		this.name = name;
+		this.message = message;
+		//bounds is not needed. just declaring it to not get an error
+		this.bounds = new Chunk[1];
+		//this.bounds[0] = topleft;
+		this.boundTopLeft = topleft;
+		this.boundBottomRight = bottomright;
+		this.defaultPermissions = new PermissionSet(new int[] {
+				0, //"Enter",
+				5, //"OpenEnderChest"
+				23, //"UsePressurePlate"
+				33, //"UseDoor",			
+				34, //"UseTrapDoor",
+				35, //"UseFenceGate",
+				7 //"UseCraftingTable",				
+		});
+		this.masterPermissions = new PermissionSet(new int[] {
+				0, //"Enter",
+				5, //"OpenEnderChest"
+				23, //"UsePressurePlate"
+				33, //"UseDoor",			
+				34, //"UseTrapDoor",
+				35, //"UseFenceGate",
+				7 //"UseCraftingTable",				
+		});
+		this.permissionOverridesByUser = Maps.newHashMap();
+//		for (int i = 1; i < permissions.size(); i++) {
+//			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());
+//			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
+//		}
+	}
+	
+	//constructor for government properties
+	public PrivateProperty(
+			final String name,
+			final String message) {
+		this.master = true;
+		this.keepMasterWorldSame = false;
+		this.owner = "";
+		this.name = name;
+		this.message = message;
+		//bounds is not needed. just declaring it to not get an error
+		this.bounds = new Chunk[0];
+		//this.bounds[0] = topleft;
+		this.boundTopLeft = null;
+		this.boundBottomRight = null;
+		this.defaultPermissions = new PermissionSet(new int[] {
+				31 //SpawnEntity			
+		});
+		this.masterPermissions = new PermissionSet(new int[] {
+				31 //SpawnEntity			
+		});
+		this.permissionOverridesByUser = null;
 	}
 
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {
@@ -191,4 +280,5 @@ public class PrivateProperty {
 	public boolean actionEnabled(final Action action) {
 		return defaultPermissions.enabled[action.ordinal()];
 	}
+	
 }
