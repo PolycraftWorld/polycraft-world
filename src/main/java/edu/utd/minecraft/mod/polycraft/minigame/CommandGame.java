@@ -6,6 +6,10 @@ import java.util.Random;
 
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -40,46 +44,47 @@ public class CommandGame extends CommandBase{
 			System.out.println("Processing on Server side"); 
 			if (args.length > 0) {
 
-				String tool[] = args[0].split("\\s+");
-				String value[] = null;
+				String value = null;
 				if(args.length>1) {
-					value = args[1].split("\\s+");
+					value = args[1];
 				}
-				if(tool.length>0){
 
-					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+tool[0]));
-					if(tool[0].equals("start")) {
+				((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+args[0]));
+				if(args[0].equals("start")) {
+					if(args.length>2)
+					{
+						int speed= Integer.parseInt(args[1]);
+						int radius= Integer.parseInt(args[2]);
+						KillWall.INSTANCE.start(world,speed,radius);
+						ServerEnforcer.INSTANCE.minigameStart();
 						
-						KillWall.active=true;
-						int rad=(int) KillWall.radius;
-						 
-						for(int i=0;i<world.playerEntities.size();i++)
-						{
-							EntityPlayer p =(EntityPlayer) world.playerEntities.get(i);
-							int x = ThreadLocalRandom.current().nextInt(-rad+20, rad-20 + 1);
-							int z = ThreadLocalRandom.current().nextInt(-rad+20, rad-20 + 1);
-							
-							//p.setCurrentItemOrArmor(3, new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));
-							//p.setCurrentItemOrArmor(0,  new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
-							p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("5a"))));
-							p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
-							p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));
-							p.setPositionAndUpdate(x, 200, z);
-						}
-					}
-					else if(tool[0].equals("stop")) {
-						KillWall.active=false;
-					}
-					else if(tool[0].equals("set")) {
-						if(value.length>0)
-						{
-							
-							KillWall.radius=((double)Integer.parseInt(value[0]));
-							
-						}
+						PrivateProperty pp =  new PrivateProperty(
+								true,
+								(EntityPlayerMP) null,
+								"Challenge",
+								"Good Luck!",
+								new Chunk(-4,4),
+								new Chunk(4,-4),
+								new int[] {0,3,4,23,26});
+				
+					 Enforcer.addPrivateProperty(pp);
+					 ServerEnforcer.INSTANCE.sendTempPPDataPackets();
 					}
 					
 				}
+				else if(args[0].equals("stop")) {
+					KillWall.INSTANCE.active=false;
+				}
+//				else if(args[0].equals("set")) {
+//					if(value.length>0)
+//					{
+//						
+//						KillWall.INSTANCE.radius=((double)Integer.parseInt(value[0]));
+//						
+//					}
+//					
+//					
+//				}
 			}
 		}
 	}

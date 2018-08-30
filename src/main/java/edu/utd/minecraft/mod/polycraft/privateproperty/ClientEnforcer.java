@@ -29,6 +29,7 @@ import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 
@@ -119,6 +120,7 @@ public class ClientEnforcer extends Enforcer {
 						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
 								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+						break;
 					case Governments:	
 						final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
 						final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
@@ -126,6 +128,9 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case playerID:
 						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case GenericMinigame:
+						KillWall.INSTANCE.UpdateKillWall(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
 					case Unknown:
 					default:

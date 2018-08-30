@@ -182,7 +182,11 @@ public class PrivateProperty {
 			final int[] permissions) {
 		this.master = master;
 		this.keepMasterWorldSame = false;
-		this.owner = owner.getCommandSenderName();
+		if (owner == null) {
+			this.owner = "null";
+		}else {
+			this.owner = owner.getCommandSenderName();
+		}
 		this.name = name;
 		this.message = message;
 		//bounds is not needed. just declaring it to not get an error

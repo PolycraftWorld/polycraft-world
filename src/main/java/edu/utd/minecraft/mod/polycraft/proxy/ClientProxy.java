@@ -462,7 +462,7 @@ public class ClientProxy extends CommonProxy {
                 }
                 double radius;
                
-                radius=KillWall.radius;
+                radius=KillWall.INSTANCE.radius;
                 
                 
                 
