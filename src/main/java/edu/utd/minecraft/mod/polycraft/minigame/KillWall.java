@@ -72,8 +72,6 @@ public class KillWall{
 				//p.inventory.dropAllItems();
 				p.inventory.mainInventory= new ItemStack[36];
 				p.inventory.armorInventory = new ItemStack[4];
-				
-	
 				p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("5a"))));
 				p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
 				p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));

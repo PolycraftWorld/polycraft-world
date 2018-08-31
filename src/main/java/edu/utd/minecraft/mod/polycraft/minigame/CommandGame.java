@@ -118,9 +118,14 @@ public class CommandGame extends CommandBase{
 	
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
-		// TODO Auto-generated method stub
 		return true;
 	}
+	
+	@Override
+	 public int getRequiredPermissionLevel()
+    {
+        return 3;
+    }
 
 	@Override
 	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
