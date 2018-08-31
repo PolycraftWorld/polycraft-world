@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 
@@ -132,6 +133,8 @@ public class ClientEnforcer extends Enforcer {
 					case GenericMinigame:
 						KillWall.INSTANCE.UpdateKillWall(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case RaceMinigame:
+						RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 					case Unknown:
 					default:
 						break;
