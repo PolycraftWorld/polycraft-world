@@ -39,7 +39,7 @@ public class KillWall{
 	
 
 	public boolean active=false;
-	public double radius=200;
+	public double radius=0;
 	public int speed=2;
 	public String envoker;
 	
