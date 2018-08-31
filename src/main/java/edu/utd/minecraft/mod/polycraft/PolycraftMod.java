@@ -44,6 +44,7 @@ import edu.utd.minecraft.mod.polycraft.commands.CommandChallenge;
 import edu.utd.minecraft.mod.polycraft.commands.CommandDev;
 import edu.utd.minecraft.mod.polycraft.commands.CommandPP;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
+import edu.utd.minecraft.mod.polycraft.commands.CommandUpdateWhitelist;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.CommandGame;
@@ -247,12 +248,12 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
-
 		event.registerServerCommand(new CommandGame());
 		event.registerServerCommand(new CommandRace());
 		//event.registerServerCommand(new CommandPP());
 		event.registerServerCommand(new CommandChallenge());
 		event.registerServerCommand(new CommandDev());
+		event.registerServerCommand(new CommandUpdateWhitelist());
 	}
 	
 	public static String getAssetName(final String name) {
