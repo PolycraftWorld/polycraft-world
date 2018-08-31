@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
@@ -229,6 +230,82 @@ public class ServerEnforcer extends Enforcer {
 			return null;
 		}
 	}
+	
+	public String forceUpdateWhitelist(final World world) {
+		// refresh the whitelist at the start of each day, or if we haven't it
+		// yet
+		String result = "added ";
+		if (portalRestUrl != null) {
+			try {
+				final String url = portalRestUrl.startsWith("file:") ? portalRestUrl
+						+ "whitelist.json"
+						: String.format("%s/worlds/%s/whitelist/",
+								portalRestUrl, world.getWorldInfo()
+										.getWorldName());
+				final Set<String> previousWhitelist = Sets.newHashSet(whitelist
+						.keySet());
+				updateWhitelist(NetUtil.getText(url));
+
+				final String url_uuid = portalRestUrl.startsWith("file:") ? portalRestUrl
+						+ "whitelist.json"
+						: String.format("%s/worlds/%s/whitelist_uuid/",
+								portalRestUrl, world.getWorldInfo()
+										.getWorldName());
+				updateUUIDWhitelist(NetUtil.getText(url_uuid));
+
+				// reconcile whitelists
+				final MinecraftServer minecraftserver = MinecraftServer
+						.getServer();
+				UUID userID;
+
+				for (final String usernameToAdd : whitelist.keySet()) {
+					// if the user is new, add to the whitelist
+					if (!previousWhitelist.remove(usernameToAdd)) {
+						// final GameProfile gameprofile =
+						// minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
+						try {
+							userID = UUID.fromString(whitelist_uuid
+									.get(usernameToAdd));
+							final GameProfile gameprofile = new GameProfile(
+									userID, usernameToAdd);
+							if (gameprofile != null)
+								minecraftserver.getConfigurationManager()
+										.func_152601_d(gameprofile);
+							result += usernameToAdd + ",";
+						} catch (IllegalArgumentException e) {
+							System.out.println("Could not add to whitelist: "
+									+ usernameToAdd);
+						}
+
+					}
+				}
+				result += ",,, Removed";
+				// remove users from the whitelist that were not in the new
+				// whitelist
+				for (final String usernameToRemove : previousWhitelist) {
+					final GameProfile gameprofile = minecraftserver
+							.getConfigurationManager().func_152599_k()
+							.func_152706_a(usernameToRemove);
+					if (gameprofile != null)
+						minecraftserver.getConfigurationManager()
+								.func_152597_c(gameprofile);
+					result += usernameToRemove + ",";
+					// TODO don't worry about kicking them right now
+				}
+			} catch (final Exception e) {
+				// TODO set up a log4j mapping to send emails on error messages
+				// (via mandrill)
+				if (whitelistJson == null) {
+					PolycraftMod.logger.error("Unable to load whitelist", e);
+					System.exit(-1);
+				} else {
+					PolycraftMod.logger.error("Unable to refresh whitelist", e);
+				}
+			}
+		}
+		return result;
+	}
+	
 
 	private void onWorldTickWhitelist(final TickEvent.WorldTickEvent event) {
 		// refresh the whitelist at the start of each day, or if we haven't it
