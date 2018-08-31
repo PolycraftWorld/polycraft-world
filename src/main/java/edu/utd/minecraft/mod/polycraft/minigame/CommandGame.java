@@ -55,16 +55,17 @@ public class CommandGame extends CommandBase{
 					{
 						int speed= Integer.parseInt(args[1]);
 						int radius= Integer.parseInt(args[2]);
-						KillWall.INSTANCE.start(world,speed,radius);
-						ServerEnforcer.INSTANCE.minigameStart();
-						
+						String envoker=player.getCommandSenderName();
+						KillWall.INSTANCE.start(world,speed,radius,envoker);
+						ServerEnforcer.INSTANCE.minigameUpdate();
+						int chunks = (radius/16)+4;
 						PrivateProperty pp =  new PrivateProperty(
 								true,
 								(EntityPlayerMP) null,
 								"Challenge",
 								"Good Luck!",
-								new Chunk(-4,4),
-								new Chunk(4,-4),
+								new Chunk(-chunks,chunks),
+								new Chunk(chunks,-chunks),
 								new int[] {0,3,4,23,26});
 				
 					 Enforcer.addPrivateProperty(pp);

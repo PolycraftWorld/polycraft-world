@@ -276,33 +276,13 @@ public abstract class CommonProxy {
 				onPlayerTickServerScubaTank(tick.player, playerState);
 				onPlayerTickServerPhaseShifter(tick.player, playerState);
 				onPlayerTickServerSyncInventory(tick.player, playerState);
-				onPlayerTickServerKillWall(tick.player);
 				
 				
 			}
 		}
-		onPlayerTickServerKillWallShrink(tick.player);
+		KillWall.INSTANCE.onTickUpdate(tick);
 	}
 	
-	private void onPlayerTickServerKillWall(final EntityPlayer player) {
-		if(!player.worldObj.isRemote)
-		{
-			if (KillWall.INSTANCE.isInKillWall(player) && KillWall.INSTANCE.active)
-			{
-				
-				if(player.ticksExisted%20==0)
-				{
-					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("Past Kill Wall"));
-					player.setHealth(player.getHealth()-2);
-				}
-			}
-		}
-	
-	}
-	
-	private void onPlayerTickServerKillWallShrink(final EntityPlayer player) {
-		KillWall.INSTANCE.shrinkKillWall();
-	}
 
 	private boolean onPlayerTickServerSyncInventory(final EntityPlayer player, final PlayerState playerState) {
 		final boolean clientWantsToSync = playerState.choseToSyncInventory;

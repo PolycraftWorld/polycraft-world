@@ -194,24 +194,8 @@ public class PrivateProperty {
 		//this.bounds[0] = topleft;
 		this.boundTopLeft = topleft;
 		this.boundBottomRight = bottomright;
-		this.defaultPermissions = new PermissionSet(new int[] {
-				0, //"Enter",
-				5, //"OpenEnderChest"
-				23, //"UsePressurePlate"
-				33, //"UseDoor",			
-				34, //"UseTrapDoor",
-				35, //"UseFenceGate",
-				7 //"UseCraftingTable",				
-		});
-		this.masterPermissions = new PermissionSet(new int[] {
-				0, //"Enter",
-				5, //"OpenEnderChest"
-				23, //"UsePressurePlate"
-				33, //"UseDoor",			
-				34, //"UseTrapDoor",
-				35, //"UseFenceGate",
-				7 //"UseCraftingTable",				
-		});
+		this.defaultPermissions = new PermissionSet(permissions);
+		this.masterPermissions = new PermissionSet(permissions);
 		this.permissionOverridesByUser = Maps.newHashMap();
 //		for (int i = 1; i < permissions.size(); i++) {
 //			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());

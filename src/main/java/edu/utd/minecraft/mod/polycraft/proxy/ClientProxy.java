@@ -514,7 +514,9 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glPushMatrix();
 	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
 	        RenderUtils.translateToWorldCoords(entity, frame);
-	        renderPPBounds(entity);
+	        if(ClientEnforcer.getShowPP()) {
+	        	renderPPBounds(entity);
+	        }
 	        renderKillWallBounds(entity);
 	        GL11.glPopMatrix();
 	    }
@@ -522,9 +524,7 @@ public class ClientProxy extends CommonProxy {
 	 @SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
 	     if (NEIClientConfig.isEnabled()) {
-	    	if(ClientEnforcer.getShowPP()) {
-	    		render(event.partialTicks);
-	     	}
+	    	render(event.partialTicks);
 	     }
 
 	 }

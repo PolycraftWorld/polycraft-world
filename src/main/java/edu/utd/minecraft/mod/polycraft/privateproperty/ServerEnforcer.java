@@ -183,7 +183,7 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
 	}
 	
-	public void minigameStart() {
+	public void minigameUpdate() {
 		sendDataPackets(DataPacketType.GenericMinigame, 0, null);
 	}
 	
