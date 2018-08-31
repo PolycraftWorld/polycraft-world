@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -281,6 +282,7 @@ public abstract class CommonProxy {
 			}
 		}
 		KillWall.INSTANCE.onTickUpdate(tick);
+		RaceGame.INSTANCE.onPlayerTick(tick);
 	}
 	
 
