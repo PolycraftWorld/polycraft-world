@@ -49,11 +49,18 @@ public class RaceGame {
 		System.out.println(player.getDisplayName());
 		completed++;
 		places.put(player.getDisplayName(), completed);
-		//player.addChatComponentMessage(new ChatComponentText(String.format("You are #%d!", completed)));
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(String.format(player.getDisplayName()+" is #%d!", completed)));;
+		// player.addChatComponentMessage(new ChatComponentText(String.format("You are
+		// #%d!", completed)));
+		MinecraftServer.getServer().getConfigurationManager()
+				.sendChatMsg(new ChatComponentText(String.format(player.getDisplayName() + " is #%d!", completed)));
+		;
 	}
 
 	public void start(World world, int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
+		int sx1 = Math.min(x1, x2);
+		int sz1 = Math.min(z1, z2);
+		int sx2 = Math.max(x1, x2);
+		int sz2 = Math.max(z1, z2);
 		gx1 = Math.min(x3, x4);
 		gz1 = Math.min(z3, z4);
 		gx2 = Math.max(x3, x4);
@@ -64,12 +71,18 @@ public class RaceGame {
 			// int x = ThreadLocalRandom.current().nextInt(-radius+20, radius-20 + 1);
 			// int z = ThreadLocalRandom.current().nextInt(-radius+20, radius-20 + 1);
 
-			int x = ThreadLocalRandom.current().nextInt(x1, x2);
-			int z = ThreadLocalRandom.current().nextInt(z1, z2);
-			p.inventory.mainInventory= new ItemStack[36];
+			int x = ThreadLocalRandom.current().nextInt(sx1, sx2);
+			int z = ThreadLocalRandom.current().nextInt(sz1, sz2);
+			p.inventory.mainInventory = new ItemStack[36];
 			p.inventory.armorInventory = new ItemStack[4];
 			p.inventory.addItemStackToInventory(
 					new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("38"))));
+			p.getFoodStats().addExhaustion(40F);
+			p.getFoodStats().addExhaustion(-40F);
+			p.getFoodStats().setFoodSaturationLevel(5F);
+			p.getFoodStats().setFoodLevel(20);
+			p.setHealth(p.getMaxHealth());
+
 			p.setPositionAndUpdate(x, p.worldObj.getTopSolidOrLiquidBlock(x, z) + 4, z);
 		}
 		active = true;
