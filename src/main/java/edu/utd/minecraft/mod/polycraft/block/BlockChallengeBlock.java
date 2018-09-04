@@ -30,7 +30,7 @@ public class BlockChallengeBlock extends Block {
 		super(Material.glass);
 		this.config = config;
 		//super(PolycraftMaterial.plasticWhite);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		//this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setHardness(5);
 	}
 
