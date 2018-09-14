@@ -25,6 +25,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
@@ -185,8 +186,8 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
 	}
 	
-	public void minigameUpdate() {
-		sendDataPackets(DataPacketType.GenericMinigame, 0, null);
+	public void minigameUpdate(int meta) {
+		sendDataPackets(DataPacketType.GenericMinigame, meta, null);
 	}
 	
 	public void raceGameUpdate() {
@@ -229,7 +230,7 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
 							: type == DataPacketType.TempPrivatProperties ? gson.toJson(tempPrivateProperties)
-							: type == DataPacketType.GenericMinigame ? gson.toJson(KillWall.INSTANCE)
+							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
 									: gson.toJson(this.playerID)); 
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);

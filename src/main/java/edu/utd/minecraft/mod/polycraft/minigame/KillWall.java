@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,20 +34,36 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class KillWall{
+public class KillWall extends PolycraftMinigame{
 	
-
-	
-
-	public boolean active=false;
+	public static final int id=1;
+	//public boolean active=false;
 	public double radius=0;
 	public int speed=2;
 	public String envoker;
 	
-	public static KillWall INSTANCE= new KillWall();
+	//public static KillWall INSTANCE= new KillWall();
 	
 	public KillWall(){
 		
+	}
+	
+	@Override
+	public void init()
+	{
+		//PolycraftMinigameManager.INSTANCE=this.INSTANCE;
+	}
+	
+	@Override
+	public double getDouble() // this is not correct. we need a system to Get specific Minigame Information.
+	{
+		return radius;
+	}
+	
+	@Override
+	public void start(World world, int[] args, String envoker)
+	{
+		start(world,args[0],args[1],envoker);
 	}
 	
 	public void start(World world, int speed, int radius, String envoker) {
@@ -67,8 +84,8 @@ public class KillWall{
 			EntityPlayer p =(EntityPlayer) world.playerEntities.get(i);
 			if(!(p.getCommandSenderName()==envoker))
 			{
-				int x = ThreadLocalRandom.current().nextInt(-radius+30, radius-30 + 1);
-				int z = ThreadLocalRandom.current().nextInt(-radius+30, radius-30 + 1);
+				int x = ThreadLocalRandom.current().nextInt(30-radius, radius-30 + 1);
+				int z = ThreadLocalRandom.current().nextInt(30-radius, radius-30 + 1);
 				//p.inventory.dropAllItems();
 				p.inventory.mainInventory= new ItemStack[36];
 				p.inventory.armorInventory = new ItemStack[4];
@@ -80,17 +97,17 @@ public class KillWall{
 		}
 	}
 	
-	public void UpdateKillWall(final String killWallJson) {
-		Gson gson = new Gson();
-		Type typeOfKillWall = new TypeToken<KillWall>() {}.getType();
-		KillWall temp = gson.fromJson(killWallJson, typeOfKillWall);
-		
-		KillWall.INSTANCE.active = temp.active;
-		KillWall.INSTANCE.radius = temp.radius;
-		KillWall.INSTANCE.speed = temp.speed;
-		KillWall.INSTANCE.envoker = temp.envoker;
-	}
-	
+//	public void Update(final String killWallJson) {
+//		Gson gson = new Gson();
+//		Type typeOfKillWall = new TypeToken<KillWall>() {}.getType();
+//		KillWall temp = gson.fromJson(killWallJson, typeOfKillWall);
+//		
+//		KillWall.INSTANCE.active = temp.active;
+//		KillWall.INSTANCE.radius = temp.radius;
+//		KillWall.INSTANCE.speed = temp.speed;
+//		KillWall.INSTANCE.envoker = temp.envoker;
+//	}
+//	
 	
 	public void shrinkKillWall()
 	{
@@ -103,7 +120,16 @@ public class KillWall{
 		}
 	}
 	
-	public void onTickUpdate(final TickEvent.PlayerTickEvent event)
+	public void onServerTick(ServerTickEvent event) {
+		if(true)
+		{
+			this.shrinkKillWall();
+		}
+		
+	}
+	
+	@Override
+	public void onPlayerTick(final TickEvent.PlayerTickEvent event)
 	{
 		if (event.side == Side.SERVER) {
 
@@ -121,7 +147,7 @@ public class KillWall{
 	        if(aliveCount <= 1) {
 	        	
 				active=false;
-				ServerEnforcer.INSTANCE.minigameUpdate();
+				ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 			}
 			if (event.player.isEntityAlive() && !(event.player.getCommandSenderName()==envoker)) {
 				if (this.isInKillWall(event.player) && active)
@@ -137,7 +163,7 @@ public class KillWall{
 		}
 		if(true)
 		{
-			this.shrinkKillWall();
+			//this.shrinkKillWall();
 		}
 		
 	}
@@ -148,6 +174,26 @@ public class KillWall{
 			return true;
 		else
 			return false;
+	}
+	
+	
+	@Override
+	public boolean shouldUpdatePackets()//true if is on tick that needs to update packets
+	{
+		return true;
+	}
+
+	@Override
+	public Type getType()
+	{
+		Type t = new TypeToken<KillWall>() {}.getType();
+		return t;
+	}
+	
+	public static void register(int id,Class c)
+	{
+		
+		PolycraftMinigameManager.registerMinigame(id, c);
 	}
 
 	

@@ -1,8 +1,9 @@
-package edu.utd.minecraft.mod.polycraft.minigame;
+package edu.utd.minecraft.mod.polycraft.commands;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;

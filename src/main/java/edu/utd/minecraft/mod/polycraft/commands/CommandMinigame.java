@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.minigame;
+package edu.utd.minecraft.mod.polycraft.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.Random;
 
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
@@ -20,13 +22,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class CommandGame extends CommandBase{
+public class CommandMinigame extends CommandBase{
 	private final List aliases;
 	
 	
-	public CommandGame(){
+	public CommandMinigame(){
 		aliases = new ArrayList(); 
-        aliases.add("Game"); 
+        aliases.add("minigame"); 
 	}
 	
 	@Override
@@ -43,38 +45,26 @@ public class CommandGame extends CommandBase{
 		{
 			System.out.println("Processing on Server side"); 
 			if (args.length > 0) {
-
-				String value = null;
-				if(args.length>1) {
-					value = args[1];
-				}
-
 				((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+args[0]));
 				if(args[0].equals("start")) {
-					if(args.length>2)
+					int[] argsArray;
+					if(args.length>1)
 					{
-						int speed= Integer.parseInt(args[1]);
-						int radius= Integer.parseInt(args[2]);
-						String envoker=player.getCommandSenderName();
-						KillWall.INSTANCE.start(world,speed,radius,envoker);
-						ServerEnforcer.INSTANCE.minigameUpdate();
-						int chunks = (radius/16)+4;
-						PrivateProperty pp =  new PrivateProperty(
-								true,
-								(EntityPlayerMP) null,
-								"Challenge",
-								"Good Luck!",
-								new Chunk(-chunks,chunks),
-								new Chunk(chunks,-chunks),
-								new int[] {0,3,4,23,26});
-				
-					 Enforcer.addPrivateProperty(pp);
-					 ServerEnforcer.INSTANCE.sendTempPPDataPackets();
+						argsArray = new int[args.length-1];
+						for(int i=1;i<args.length;i++)
+						{
+							argsArray[i-1]=Integer.parseInt(args[i]);
+						}
 					}
-					
+					else
+					{
+						argsArray=null;
+					}
+					String envoker = player.getDisplayName();
+					PolycraftMinigameManager.INSTANCE.start(world,argsArray,envoker);
 				}
 				else if(args[0].equals("stop")) {
-					KillWall.INSTANCE.active=false;
+					//KillWall.INSTANCE.active=false;
 				}
 //				else if(args[0].equals("set")) {
 //					if(value.length>0)
@@ -99,7 +89,7 @@ public class CommandGame extends CommandBase{
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/Game <command> <value>";
+		return "/minigame <command> <values>";
 	}
 
 	@Override

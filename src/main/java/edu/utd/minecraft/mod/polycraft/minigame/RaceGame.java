@@ -20,10 +20,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class RaceGame {
+public class RaceGame extends PolycraftMinigame{
 
+	public static final int id=2;
 	public static final RaceGame INSTANCE = new RaceGame();
-	private boolean active = false;
+	//private boolean active = false;
 	private int completed = 0;
 	private HashMap<String, Integer> places;
 	private int gx1 = 0;
@@ -55,6 +56,12 @@ public class RaceGame {
 				.sendChatMsg(new ChatComponentText(String.format(player.getDisplayName() + " is #%d!", completed)));
 		;
 	}
+	
+	public void start(World world, int[] args, String envoker) {
+		if(args.length>=8)
+			start(world,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7]);
+		
+	}
 
 	public void start(World world, int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
 		int sx1 = Math.min(x1, x2);
@@ -79,8 +86,8 @@ public class RaceGame {
 					new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("38"))));
 			p.getFoodStats().addExhaustion(40F);
 			p.getFoodStats().addExhaustion(-40F);
-			p.getFoodStats().setFoodSaturationLevel(5F);
-			p.getFoodStats().setFoodLevel(20);
+			//p.getFoodStats().setFoodSaturationLevel(5F); //no such method error?
+			//p.getFoodStats().setFoodLevel(20);
 			p.setHealth(p.getMaxHealth());
 
 			p.setPositionAndUpdate(x, p.worldObj.getTopSolidOrLiquidBlock(x, z) + 4, z);
@@ -88,6 +95,7 @@ public class RaceGame {
 		active = true;
 	}
 
+	@Override
 	public void onPlayerTick(final TickEvent.PlayerTickEvent event) {
 		if (event.side == Side.SERVER) {
 			EntityPlayer player = event.player;
@@ -133,5 +141,16 @@ public class RaceGame {
 
 	public int getGz2() {
 		return gz2;
+	}
+	
+	@Override
+	public Type getType()
+	{
+		Type t = new TypeToken<RaceGame>() {}.getType();
+		return t;
+	}
+	public static void register(int id, Class c) {
+		
+		PolycraftMinigameManager.registerMinigame(id, c);
 	}
 }

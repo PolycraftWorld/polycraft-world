@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
@@ -98,6 +99,7 @@ public abstract class CommonProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 		
 		ChallengeHouseDim.init();
+		PolycraftMinigameManager.init();
 	}
 
 	public void postInit() {
@@ -281,7 +283,12 @@ public abstract class CommonProxy {
 				
 			}
 		}
-		KillWall.INSTANCE.onTickUpdate(tick);
+		if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
+		{
+			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
+		}
+		
+		//KillWall.INSTANCE.onPlayerTick(tick);
 		RaceGame.INSTANCE.onPlayerTick(tick);
 	}
 	
@@ -361,6 +368,10 @@ public abstract class CommonProxy {
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
 		if (tick.phase == Phase.END) {
 			BlockLight.processPendingUpdates(16);
+			if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
+			{
+				PolycraftMinigameManager.INSTANCE.onServerTick(tick);
+			}
 		}
 	}
 
