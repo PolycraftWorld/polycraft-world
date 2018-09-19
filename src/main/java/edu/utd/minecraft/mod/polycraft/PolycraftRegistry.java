@@ -15,11 +15,14 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockChallengeBlock;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
+import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
@@ -99,6 +102,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tierchest.TierChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -110,8 +114,10 @@ import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCellCultureDish;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
+import edu.utd.minecraft.mod.polycraft.item.ItemConstitutionClaim;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
 import edu.utd.minecraft.mod.polycraft.item.ItemDNASampler;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemElectronics;
 import edu.utd.minecraft.mod.polycraft.item.ItemExam;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -131,6 +137,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
+import edu.utd.minecraft.mod.polycraft.item.ItemPolycraftDoor;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.item.ItemPolymerSlab;
@@ -140,6 +147,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.item.ItemSuperInk;
 import edu.utd.minecraft.mod.polycraft.item.ItemSyntheticGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolAxe;
 import edu.utd.minecraft.mod.polycraft.item.ItemToolHoe;
@@ -159,6 +167,7 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -1021,6 +1030,8 @@ public class PolycraftRegistry {
 					HospitalGeneratorInventory.register(inventory);
 				else if (GameID.InventoryFluorescentLamp.matches(inventory))
 					FluorescentLampInventory.register(inventory);
+				else if (GameID.InventoryTierChest.matches(inventory))
+					TierChestInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1195,6 +1206,20 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemFluorescentBulbs(customObject));
 				} else if (GameID.CustomOilSlimeBall.matches(customObject)) {
 					registerItem(customObject, new ItemOilSlimeBall(customObject, "Oil_Slime_Ball"));
+				} else if (GameID.PasswordDoor.matches(customObject)) {
+					BlockPasswordDoor passwordDoor = new BlockPasswordDoor(customObject, Material.iron, "test");
+					registerBlock(customObject, passwordDoor);
+					registerItem(customObject.params.get(0), "item" + customObject.name, new ItemPolycraftDoor(Material.iron, passwordDoor));
+				} else if (GameID.CustomDevTool.matches(customObject)) {
+					registerItem(customObject, new ItemDevTool(customObject));
+				} else if (GameID.CustomChallengeBlock.matches(customObject)) {
+					registerBlock(customObject, new BlockChallengeBlock(customObject));
+				} else if (GameID.CustomConstitutionClaim.matches(customObject)) {
+					registerItem(customObject, new ItemConstitutionClaim(customObject));
+				} else if (GameID.CustomSuperInk.matches(customObject)) {
+					registerItem(customObject, new ItemSuperInk(customObject));
+				} else if (GameID.CustomPolyPortal.matches(customObject)) {
+					registerBlock(customObject, new BlockPolyPortal(customObject));
 				} else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

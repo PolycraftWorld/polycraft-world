@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -39,17 +40,20 @@ public class ServerEnforcer extends Enforcer {
 			.getPropertyLong("portal.refresh.ticks.whitelist", 24000);
 	private static final long portalRefreshTicksFriends = SystemUtil
 			.getPropertyLong("portal.refresh.ticks.friends", 24000);
+	private static final long portalRefreshTicksGovernments = SystemUtil
+			.getPropertyLong("portal.refresh.ticks.governments", 24000);
 
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
 		// TODO not sure why this is getting called multiple times with
 		// different world java objects for the same world
 		if ((event.phase == TickEvent.Phase.END)
-				&& (event.world.provider.dimensionId == 0)) {
+				&& (event.world.provider.dimensionId == 0 || event.world.provider.dimensionId == 8)) { //added properties to challenge dimension --matt
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
+			onWorldTickGovernments(event);
 
 		}
 	}
@@ -175,6 +179,14 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
+	public void sendTempPPDataPackets() {
+		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
+	}
+	
+	public void sendTempCPDataPackets(EntityPlayerMP player) {
+		sendDataPackets(DataPacketType.Challenge, 0, player);
+	}
+	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -201,13 +213,17 @@ public class ServerEnforcer extends Enforcer {
 	private FMLProxyPacket[] getDataPackets(final DataPacketType type,
 			final int typeMetadata) {
 		try {
+			Gson gson = new Gson();
 			// we have to split these up into smaller packets due to this issue:
 			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
 			final byte[] dataBytes = CompressUtil
 					.compress(type == DataPacketType.PrivateProperties ? (typeMetadata == 1 ? privatePropertiesMasterJson
 							: privatePropertiesNonMasterJson)
 							: type == DataPacketType.Broadcast ? broadcastMessage
-									: friendsJson);
+							: type == DataPacketType.Friends ? friendsJson	
+							: type == DataPacketType.Governments ? GovernmentsJson 
+							: type == DataPacketType.Challenge ? gson.toJson(tempChallengeProperties) 
+							: gson.toJson(tempPrivateProperties)); 
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
@@ -403,6 +419,29 @@ public class ServerEnforcer extends Enforcer {
 	private void onWorldTickInventories(final TickEvent.WorldTickEvent event) {
 		// if (portalRestUrl != null &&
 
+	}
+	
+	private void onWorldTickGovernments(final TickEvent.WorldTickEvent event) {	
+		//refresh private property permissions at the start of each day, or if we haven't loaded them yet	
+		if (portalRestUrl != null && (event.world.getWorldTime() % portalRefreshTicksGovernments == 1 || GovernmentsJson == null)) {	
+			try {	
+				String url = portalRestUrl.startsWith("file:")	
+						? portalRestUrl + "Governments.json"	
+						//TODO eventually send a timestamp of the last successful pull, so the server can return no-change (which is probably most of the time)	
+						: String.format("%s/governments", portalRestUrl);	
+				updateGovernments(NetUtil.getText(url), true);	
+				sendDataPackets(DataPacketType.Governments);	
+	
+			} catch (final Exception e) {	
+				//TODO set up a log4j mapping to send emails on error messages (via mandrill)	
+				if (GovernmentsJson == null) {	
+					PolycraftMod.logger.error("Unable to load Governments", e);	
+					System.exit(-1);	
+				} else {	
+					PolycraftMod.logger.error("Unable to refresh Governments", e);	
+		 				}
+			}
+		}
 	}
 
 	@SubscribeEvent

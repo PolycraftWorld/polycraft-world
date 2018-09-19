@@ -20,6 +20,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
+import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
@@ -36,6 +37,8 @@ import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
+import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeHouseDim;
+import edu.utd.minecraft.mod.polycraft.worldgen.ChallengesGenerator;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
@@ -45,10 +48,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -68,6 +73,8 @@ public abstract class CommonProxy {
 																// number 0
 	private static final int netMessageClientWantsToSync = 1; // message number
 																// 1
+	private static final int netMessageClientFailedDoorPass = 2; // message number
+																// 2
 
 	private FMLEventChannel netChannel;
 
@@ -84,7 +91,10 @@ public abstract class CommonProxy {
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
 		GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
+		GameRegistry.registerWorldGenerator(new ChallengesGenerator(), 1);
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
+		
+		ChallengeHouseDim.init();
 	}
 
 	public void postInit() {
@@ -100,6 +110,10 @@ public abstract class CommonProxy {
 
 	protected void sendMessageToServerClientWantsToSync(final boolean clientWantsToSync) {
 		sendMessageToServer(netMessageClientWantsToSync, clientWantsToSync ? 1 : 0);
+	}
+	
+	public void sendMessageToServerClientFailedDoorPass(final boolean ClientFailedPass) {
+		sendMessageToServer(netMessageClientFailedDoorPass, ClientFailedPass ? 1 : 0);
 	}
 
 	private void sendMessageToServer(final int type, final int value) {
@@ -118,6 +132,9 @@ public abstract class CommonProxy {
 		case netMessageClientWantsToSync:
 			playerState.choseToSyncInventory = (payload.readInt() == 1);
 			break;
+		case netMessageClientFailedDoorPass:
+			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
+			player.worldObj.setBlock((int)player.posX, (int)player.posY, (int)player.posZ, Blocks.lava, 0, 3);
 		default:
 			break;
 		}
@@ -412,5 +429,10 @@ public abstract class CommonProxy {
 
 	public void registerRenderers() {
 
+	}
+	
+	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
+	{
+		
 	}
 }

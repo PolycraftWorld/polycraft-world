@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.network.IGuiHandler;
+import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 
 public class GuiHandler implements IGuiHandler {
@@ -27,7 +28,9 @@ public class GuiHandler implements IGuiHandler {
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if (tileEntity instanceof PolycraftInventory) {
 			return ((PolycraftInventory) tileEntity).getGui(player.inventory);
-		}
+		} 
+		
+		
 		return null;
 
 	}
