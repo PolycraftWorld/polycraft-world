@@ -59,11 +59,11 @@ public class CommandTP extends CommandBase{
 		
 		if (world.isRemote) 
         { 
-            System.out.println("Not processing on Client side"); 
+            //System.out.println("Not processing on Client side"); 
         } 
 		else
 		{
-			System.out.println("Processing on Server side"); 
+			//System.out.println("Processing on Server side"); 
 			if (args.length > 0) {
 				// teleport to UTD
 				if (chatCommandTeleportArgUTD.equalsIgnoreCase(args[0])) {
