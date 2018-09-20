@@ -5,6 +5,8 @@ import java.util.Hashtable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -24,7 +26,8 @@ public class ExperimentManager {
 		}
 	}
 	
-	public void onTickUpdate(){
+	@SubscribeEvent
+	public void onWorldTick(final TickEvent.WorldTickEvent event){
 		for(Experiment ex: experiments.values()){
 			ex.onTickUpdate();
 		}

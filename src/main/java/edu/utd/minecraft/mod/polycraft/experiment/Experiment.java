@@ -23,6 +23,7 @@ public abstract class Experiment {
 	public enum State{
 		PreInit,
 		Initializing, 
+		WaitingToStart,
 		Starting,
 		Running,
 		Ending,
@@ -52,6 +53,8 @@ public abstract class Experiment {
 	
 	public void init(){
 		generateArea(xPos, yPos, zPos, world);
+		currentState = State.WaitingToStart;
+		
 	}
 	
 	protected void generateArea(int xPos, int yPos, int zPos, World world){
