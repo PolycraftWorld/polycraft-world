@@ -57,9 +57,10 @@ public abstract class ScoreboardManager {
 	}
 
 	public ScoreboardManager() {
-		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
-		netChannel.register(this);
-		// final GsonBuilder gsonBuilder = new GsonBuilder();
+		netChannel = null;
+		//netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
+		//netChannel.register(this);
+		final GsonBuilder gsonBuilder = new GsonBuilder();
 		// gsonGeneric = gsonBuilder.create();
 	}
 

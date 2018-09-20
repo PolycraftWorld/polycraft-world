@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ClientScoreboard extends ScoreboardManager {
 
@@ -58,34 +59,34 @@ public class ClientScoreboard extends ScoreboardManager {
 		this.teamList = new HashMap<String, Float>();
 	}
 
-	@SubscribeEvent
-	public void onClientPacket(final ClientCustomPacketEvent event) {
-		try {
-			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
-			if (pendingDataPacketType == DataType.Unknown) {
-				pendingDataPacketType = DataType.values()[payload.getInt()];
-				pendingDataPacketsBytes = payload.getInt();
-				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
-			}
-			else {
-				pendingDataPacketsBytes -= payload.array().length;
-				pendingDataPacketsBuffer.put(payload);
-				if (pendingDataPacketsBytes == 0) {
-					switch (pendingDataPacketType) {
-						case UpdateScore:
-							this.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-							break;
-						case UpdatePlayer:
-							this.updatePlayerTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						default:
-							break;
-					}
-				}
-			}
-		} catch (IOException e) {
-			
-		}
-	}
+//	@SubscribeEvent
+//	public void onClientPacket(final ClientCustomPacketEvent event) {
+//		try {
+//			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
+//			if (pendingDataPacketType == DataType.Unknown) {
+//				pendingDataPacketType = DataType.values()[payload.getInt()];
+//				pendingDataPacketsBytes = payload.getInt();
+//				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
+//			}
+//			else {
+//				pendingDataPacketsBytes -= payload.array().length;
+//				pendingDataPacketsBuffer.put(payload);
+//				if (pendingDataPacketsBytes == 0) {
+//					switch (pendingDataPacketType) {
+//						case UpdateScore:
+//							this.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//							break;
+//						case UpdatePlayer:
+//							this.updatePlayerTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//						default:
+//							break;
+//					}
+//				}
+//			}
+//		} catch (IOException e) {
+//			
+//		}
+//	}
 	
 	private void updatePlayerTeam(String decompress) {
 		// TODO Auto-generated method stub
@@ -96,7 +97,7 @@ public class ClientScoreboard extends ScoreboardManager {
 
 	public void updateScore(final String decompressedJson) {
 		Gson gson = new Gson();
-		this.teamList = gson.fromJson(decompressedJson, new TypeToken<Map<String, Float>>() {}.getType());
+		this.teamList = gson.fromJson(decompressedJson, new TypeToken<HashMap<String, Float>>() {}.getType());
 		
 	}
 	
@@ -154,15 +155,35 @@ public class ClientScoreboard extends ScoreboardManager {
 
 					}
 				} else {
-					//show this anyways?? even on menu pause??
-					int x = overlayStartX;
-					int y = overlayStartY;
-					client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
-					y += overlayDistanceBetweenY;
-					client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
-					y += overlayDistanceBetweenY;
-					client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
-					y += overlayDistanceBetweenY;
+					
+					if(player instanceof EntityPlayerMP) {
+						if(player.getDisplayName().equalsIgnoreCase("Sabateur") || player.getDisplayName().equalsIgnoreCase("ProfessorVoit")) {
+							int x = overlayStartX;
+							int y = overlayStartY;
+							client.fontRenderer.drawStringWithShadow("Hello, Father :)", x, y, overlayColor);
+							y += overlayDistanceBetweenY;
+						}
+					} else if (player.getDisplayName().equalsIgnoreCase("CmdtBojangles")) {
+						int x = overlayStartX;
+						int y = overlayStartY;
+						client.fontRenderer.drawStringWithShadow("Bet you $1", x, y, overlayColor);
+						y += overlayDistanceBetweenY;
+						client.fontRenderer.drawStringWithShadow("that you will", x, y, overlayColor);
+						y += overlayDistanceBetweenY;
+						client.fontRenderer.drawStringWithShadow("read this.", x, y, overlayColor);
+						y += overlayDistanceBetweenY;
+					}
+		
+//					//show this anyways?? even on menu pause??
+//					int x = overlayStartX;
+//					int y = overlayStartY;
+//					client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
+//					y += overlayDistanceBetweenY;
+//					client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
+//					y += overlayDistanceBetweenY;
+//					client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
+//					y += overlayDistanceBetweenY;
+					
 				}
 
 			}

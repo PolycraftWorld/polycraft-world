@@ -105,7 +105,7 @@ public abstract class Enforcer {
 
 	public enum DataPacketType {
 
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, Challenge
+		Unknown, PrivateProperties, TempPrivateProperties, Friends, Broadcast, InventorySync, Governments, Challenge, Scoreboard
 
 	}
 

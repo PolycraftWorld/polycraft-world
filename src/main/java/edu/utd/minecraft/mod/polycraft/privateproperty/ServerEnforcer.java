@@ -178,9 +178,20 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	public void sendScoreboardUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		final FMLProxyPacket[] packetList = getDataPackets(DataPacketType.Scoreboard, 0, jsonStringToSend);
+		if(packetList != null) {
+			for (final FMLProxyPacket packet : packetList) {
+				netChannel.sendTo(packet, player);
+			}
+			
+		}
+	}
 
 	public void sendTempPPDataPackets() {
-		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
+		sendDataPackets(DataPacketType.TempPrivateProperties, 0, null);
 	}
 	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
@@ -210,6 +221,33 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
+	private FMLProxyPacket[] getDataPackets(final DataPacketType type, final int typeMetadata, final String jsonData) {
+		try {
+			Gson gson = new Gson();
+			// we have to split these up into smaller packets due to this issue:
+			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
+			final byte[] dataBytes = CompressUtil.compress(jsonData); 
+			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
+			final int controlPacketsRequired = 1;
+			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata)
+					.writeInt(dataBytes.length).copy(), netChannelName);
+			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
+				int startDataIndex = payloadIndex * maxPacketSizeBytes;
+				int length = Math.min(dataBytes.length - startDataIndex,
+						maxPacketSizeBytes);
+				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
+						Unpooled.buffer()
+								.writeBytes(dataBytes, startDataIndex, length)
+								.copy(), netChannelName);
+			}
+			return packets;
+		} catch (IOException e) {
+			PolycraftMod.logger.error("Unable to compress packet data", e);
+			return null;
+		}
+	}
+	
 	private FMLProxyPacket[] getDataPackets(final DataPacketType type,
 			final int typeMetadata) {
 		try {

@@ -83,6 +83,7 @@ public class CustomScoreboard {
 		return new ArrayList<Float>(teamScores.values());
 	}
 
+	//This function increments the score by the input value. You can input negative values!
 	@SuppressWarnings("unlikely-arg-type")
 	public void updateScore(String team, float value) {
 		for (Team tm : teamNames) {

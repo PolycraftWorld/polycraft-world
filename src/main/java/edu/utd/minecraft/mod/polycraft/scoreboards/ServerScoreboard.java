@@ -18,6 +18,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import io.netty.buffer.Unpooled;
@@ -64,7 +65,7 @@ public class ServerScoreboard extends ScoreboardManager {
 	private void sendDataPackets(final DataType type, CustomScoreboard board) {
 		//FMLProxyPacket[] packets = null;
 		Gson gson = new Gson();
-		Type top = new TypeToken<Map<String, Float>>() {}.getType();
+		Type top = new TypeToken<HashMap<String, Float>>() {}.getType();
 		System.out.println("I am able to get here, inside sendDataPackets");
 		switch (type) {
 		case UpdatePlayer:
@@ -88,8 +89,8 @@ public class ServerScoreboard extends ScoreboardManager {
 				testing.put(tm.toString(), teamScores.get(tm));
 			}
 			final String updateScoreJson = gson.toJson(testing, top);
-			System.out.println("This is the value of the encoded String" + updateScoreJson);
-			final FMLProxyPacket[] packets = getDataPackets(type, updateScoreJson);
+		//	System.out.println("This is the value of the encoded String" + updateScoreJson);
+		//	final FMLProxyPacket[] packets = getDataPackets(type, updateScoreJson);
 			
 //				final int payloadPacketsRequired = teamScores.size();
 //
@@ -104,11 +105,13 @@ public class ServerScoreboard extends ScoreboardManager {
 //					counter++;
 //				}
 			for (EntityPlayerMP player : board.getPlayers()) {
-				if (packets != null) {
-					for (final FMLProxyPacket pkt : packets) {
-						System.out.println(pkt.payload().toString());
-						netChannel.sendTo(pkt, player);
-					}
+				if (updateScoreJson != null & player != null & player.isEntityAlive()) {
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, player);
+//					for (final FMLProxyPacket pkt : packets) {
+//						//System.out.println(pkt.payload().toString());
+//						//ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(jsonStringToSend, player);
+//						//netChannel.sendTo(pkt, player);
+//					}
 				}
 			}
 			break;

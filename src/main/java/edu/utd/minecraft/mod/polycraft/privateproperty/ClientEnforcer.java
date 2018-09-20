@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 
 public class ClientEnforcer extends Enforcer {
@@ -118,7 +119,7 @@ public class ClientEnforcer extends Enforcer {
 					case Broadcast:
 						onClientBroadcastReceivedEvent(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
-					case TempPrivatProperties:
+					case TempPrivateProperties:
 						final int countPP = updateTempPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
@@ -134,6 +135,9 @@ public class ClientEnforcer extends Enforcer {
 						showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
 								+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
 						break;
+					case Scoreboard:
+						System.out.println("Packets have all been sent to the client!");
+						ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 					case Unknown:
 					default:
 						break;
