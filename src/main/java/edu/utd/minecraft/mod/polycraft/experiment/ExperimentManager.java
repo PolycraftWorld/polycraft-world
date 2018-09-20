@@ -20,7 +20,7 @@ public class ExperimentManager {
 	public static void init(){					
 		World world = DimensionManager.getWorld(8);
 		for(Experiment ex: experiments.values()){
-			ex.init(0,90,144,world);
+			ex.init();
 		}
 	}
 	

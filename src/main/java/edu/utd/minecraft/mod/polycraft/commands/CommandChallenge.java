@@ -78,7 +78,7 @@ public class CommandChallenge  extends CommandBase{
 				if (chatCommandChallengeGen.equalsIgnoreCase(args[0])) {
 					generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
 				}else if (chatCommandChallengereg.equalsIgnoreCase(args[0])){
-					ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 4, 0, 144,DimensionManager.getWorld(8)));
+					ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 8, 0, 144,DimensionManager.getWorld(8)));
 				}else if(chatCommandChallengeinit.equalsIgnoreCase(args[0])){
 					ExperimentManager.INSTANCE.init();
 				}else if(chatCommandChallengeAdd.equalsIgnoreCase(args[0])){

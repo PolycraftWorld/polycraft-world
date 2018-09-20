@@ -15,18 +15,30 @@ public abstract class Experiment {
 	public final int size; 	//total size of experiment area size chunks by size chunks
 	public final int id;	//id of the experiment. Should be unique
 	public final int xPos;	//starting xPos of experiment area
+	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	protected final static Collection<EntityPlayerMP> players = Lists
 			.newLinkedList();	//List of players participating in experiment instance
+	public enum State{
+		PreInit,
+		Initializing, 
+		Starting,
+		Running,
+		Ending,
+		Done;
+		}
+	public State currentState;
 	
 	
 	public Experiment(int id, int size, int xPos, int zPos, World world){
 		this.id = id;
 		this.size = size;
 		this.xPos = xPos;
+		this.yPos = 90;
 		this.zPos = zPos;
 		this.world = world;
+		this.currentState = State.PreInit;
 	}
 	
 	public boolean addPlayer(EntityPlayerMP player){
@@ -38,11 +50,11 @@ public abstract class Experiment {
 		}
 	}
 	
-	public void init(int xPos, int yPos, int zPos, World world){
+	public void init(){
 		generateArea(xPos, yPos, zPos, world);
 	}
 	
-	private void generateArea(int xPos, int yPos, int zPos, World world){
+	protected void generateArea(int xPos, int yPos, int zPos, World world){
 		Block bedrock = Block.getBlockFromName("bedrock");
 		Block dirt = Block.getBlockFromName("dirt");
 		Block grass = Block.getBlockFromName("grass");
