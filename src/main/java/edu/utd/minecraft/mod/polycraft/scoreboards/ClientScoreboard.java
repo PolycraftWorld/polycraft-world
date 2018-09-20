@@ -5,6 +5,11 @@ import java.nio.ByteBuffer;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -12,6 +17,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
@@ -41,6 +47,7 @@ public class ClientScoreboard extends ScoreboardManager {
 	// update packet params
 	private DataType pendingDataPacketType = DataType.Unknown;
 	private int pendingDataPacketsBytes = 0;
+	private ByteBuffer pendingDataPacketsBuffer = null;
 
 	// private ByteBuffer pendingDataPacketsBuffer = null;
 
@@ -55,31 +62,73 @@ public class ClientScoreboard extends ScoreboardManager {
 	public void onClientPacket(final ClientCustomPacketEvent event) {
 		try {
 			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
-			pendingDataPacketType = DataType.values()[payload.getInt()];
-			switch (pendingDataPacketType) {
-			case UpdatePlayer:
-				byte[] b = new byte[payload.remaining()];
-
-				playerTeam = CompressUtil.decompress(payload.get(b).array());
-				System.out.println("incoming data: " + playerTeam); // TODO: comment this.
-				DisplayScoreboard = true;
-				break;
-			case UpdateScore:
-				float val = payload.getFloat();
-				byte[] c = new byte[payload.remaining()];
-				String currentTeamName = CompressUtil.decompress(payload.get(c).array());
-				teamList.put(currentTeamName, val);
-				DisplayScoreboard = true;
-				break;
-			default:
-				DisplayScoreboard = false;
-				break;
+			if (pendingDataPacketType == DataType.Unknown) {
+				pendingDataPacketType = DataType.values()[payload.getInt()];
+				pendingDataPacketsBytes = payload.getInt();
+				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
 			}
-
+			else {
+				pendingDataPacketsBytes -= payload.array().length;
+				pendingDataPacketsBuffer.put(payload);
+				if (pendingDataPacketsBytes == 0) {
+					switch (pendingDataPacketType) {
+						case UpdateScore:
+							this.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case UpdatePlayer:
+							this.updatePlayerTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						default:
+							break;
+					}
+				}
+			}
 		} catch (IOException e) {
-			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+			
 		}
 	}
+	
+	private void updatePlayerTeam(String decompress) {
+		// TODO Auto-generated method stub
+		Gson gson = new Gson();
+		this.playerTeam = gson.fromJson(decompress, new TypeToken<String>() {}.getType());
+		
+	}
+
+	public void updateScore(final String decompressedJson) {
+		Gson gson = new Gson();
+		this.teamList = gson.fromJson(decompressedJson, new TypeToken<Map<String, Float>>() {}.getType());
+		
+	}
+	
+//	@SubscribeEvent
+//	public void onClientPacket(final ClientCustomPacketEvent event) {
+//		try {
+//			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
+//			pendingDataPacketType = DataType.values()[payload.getInt()];
+//			switch (pendingDataPacketType) {
+//			case UpdatePlayer:
+//				byte[] b = new byte[payload.remaining()];
+//
+//				playerTeam = CompressUtil.decompress(payload.get(b).array());
+//				System.out.println("incoming data: " + playerTeam); // TODO: comment this.
+//				DisplayScoreboard = true;
+//				break;
+//			case UpdateScore:
+//				float val = payload.getFloat();
+//				byte[] c = new byte[payload.remaining()];
+//				String currentTeamName = CompressUtil.decompress(payload.get(c).array());
+//				teamList.put(currentTeamName, val);
+//				DisplayScoreboard = true;
+//				break;
+//			default:
+//				DisplayScoreboard = false;
+//				break;
+//			}
+//
+//		} catch (IOException e) {
+//			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+//		}
+//	}
 
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {

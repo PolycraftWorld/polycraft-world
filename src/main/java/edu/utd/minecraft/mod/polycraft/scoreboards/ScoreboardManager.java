@@ -6,8 +6,15 @@ package edu.utd.minecraft.mod.polycraft.scoreboards;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -29,11 +36,14 @@ public abstract class ScoreboardManager {
 	}
 
 	protected ArrayList<CustomScoreboard> managedScoreboards;
+	//protected static Map<String, Float> onScreenValues = Maps.newHashMap();
 
-	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
+	protected static final int maxPacketSizeBytes = 10;//(int) Math.pow(2, 16) - 1;
 
 	protected static final int getPacketsRequired(int bytes) {
-		return (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
+		int value =  (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
+		System.out.println(String.format("Value: %d Bytes: %d", value, bytes));
+		return value;
 	}
 
 	protected final FMLEventChannel netChannel;

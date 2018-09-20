@@ -53,7 +53,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
-			onWorldTickGovernments(event);
+		//onWorldTickGovernments(event);
 
 		}
 	}

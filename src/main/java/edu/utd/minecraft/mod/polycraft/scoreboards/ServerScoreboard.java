@@ -1,10 +1,18 @@
 package edu.utd.minecraft.mod.polycraft.scoreboards;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -54,147 +62,148 @@ public class ServerScoreboard extends ScoreboardManager {
 	// }
 
 	private void sendDataPackets(final DataType type, CustomScoreboard board) {
-		FMLProxyPacket[] packets = null;
-		try {
-			switch (type) {
-			case UpdatePlayer:
-				for (EntityPlayerMP player : board.getPlayers()) {
-					packets = new FMLProxyPacket[1];
-					String teamPlayerIsOn = board.getPlayerTeam(player).toString();
-					packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal())
-							.writeBytes(CompressUtil.compress(teamPlayerIsOn)).copy(), netChannelName);
-					if (packets != null) {
-						for (final FMLProxyPacket pkt : packets) {
-							netChannel.sendTo(pkt, player);
-						}
-					}
-				}
-				break;
-			case UpdateScore:
-				HashMap<Team, Float> teamScores = board.getTeamScores();
-				final int payloadPacketsRequired = teamScores.size();
-
-				packets = new FMLProxyPacket[payloadPacketsRequired];
-
-				// send the string of data to the client.
-				int counter = 0;
-				for (Team tm : teamScores.keySet()) {
-					packets[counter] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal())
-							.writeFloat(teamScores.get(tm)).writeBytes(CompressUtil.compress(tm.toString())).copy(),
-							netChannelName);
-					counter++;
-				}
-				for (EntityPlayerMP player : board.getPlayers()) {
-					if (packets != null) {
-						for (final FMLProxyPacket pkt : packets) {
-							// System.out.println(pkt.payload().size);
-							netChannel.sendTo(pkt, player);
-
-						}
-					}
-				}
-				break;
-
-			default:
-				break;
+		//FMLProxyPacket[] packets = null;
+		Gson gson = new Gson();
+		Type top = new TypeToken<Map<String, Float>>() {}.getType();
+		System.out.println("I am able to get here, inside sendDataPackets");
+		switch (type) {
+		case UpdatePlayer:
+			for (EntityPlayerMP player : board.getPlayers()) {
+//					packets = new FMLProxyPacket[1];
+//					String teamPlayerIsOn = board.getPlayerTeam(player).toString();
+//					packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal())
+//							.writeBytes(CompressUtil.compress(teamPlayerIsOn)).copy(), netChannelName);
+//					if (packets != null) {
+//						for (final FMLProxyPacket pkt : packets) {
+//							netChannel.sendTo(pkt, player);
+//						}
+//					}
+				
 			}
-		} catch (IOException e) {
-			PolycraftMod.logger.error("Unable to compress scoreboard packets", e);
-		}
-	}
-
-	private FMLProxyPacket[] buildDataPackets(final DataType type, final HashMap<Team, Float> teamScores,
-			final String teamPlayerIsOn) {
-		final int payloadPacketsRequired = teamScores.size();
-		final int controlPacketsRequired = 1;
-
-		final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
-
-		try {
-			// send the control packet containing meta-data
-			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(payloadPacketsRequired)
-					.writeBytes(CompressUtil.compress(teamPlayerIsOn)).copy(), netChannelName);
-
-			// send the string of data to the client.
-			int counter = 0;
+			break;
+		case UpdateScore:
+			HashMap<Team, Float> teamScores = board.getTeamScores();
+			HashMap<String, Float> testing = new HashMap<String, Float>();
 			for (Team tm : teamScores.keySet()) {
-				packets[controlPacketsRequired + counter] = new FMLProxyPacket(Unpooled.buffer()
-						.writeFloat(teamScores.get(tm)).writeBytes(CompressUtil.compress(tm.toString())).copy(),
-						netChannelName);
-				counter++;
+				testing.put(tm.toString(), teamScores.get(tm));
 			}
-			return packets;
-		} catch (IOException e) {
-			PolycraftMod.logger.error("Unable to compress scoreboard packets", e);
-			return null;
-		}
-	}
-
-	private void sendDataPackets(final DataType type, final ArrayList<EntityPlayerMP> playerList,
-			final ArrayList<Float> scoreSet) {
-		final FMLProxyPacket[] packets = getDataPackets(type, scoreSet);
-		if (packets != null) {
-			for (EntityPlayerMP player : playerList) {
-				for (final FMLProxyPacket packet : packets) {
-					if (player == null) {
-						System.out.println("Potato.");// netChannel.sendToAll(packet); //TODO: Remove this.
-					} else {
-						netChannel.sendTo(packet, player);
+			final String updateScoreJson = gson.toJson(testing, top);
+			System.out.println("This is the value of the encoded String" + updateScoreJson);
+			final FMLProxyPacket[] packets = getDataPackets(type, updateScoreJson);
+			
+//				final int payloadPacketsRequired = teamScores.size();
+//
+//				packets = new FMLProxyPacket[payloadPacketsRequired];
+//
+//				// send the string of data to the client.
+//				int counter = 0;
+//				for (Team tm : teamScores.keySet()) {
+//					packets[counter] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal())
+//							.writeFloat(teamScores.get(tm)).writeBytes(CompressUtil.compress(tm.toString())).copy(),
+//							netChannelName);
+//					counter++;
+//				}
+			for (EntityPlayerMP player : board.getPlayers()) {
+				if (packets != null) {
+					for (final FMLProxyPacket pkt : packets) {
+						System.out.println(pkt.payload().toString());
+						netChannel.sendTo(pkt, player);
 					}
 				}
 			}
+			break;
+		default:
+			break;
 		}
 	}
 
-	private FMLProxyPacket[] getDataPackets(final DataType type, final ArrayList<Float> scoreSet) {
-		final int payloadPacketsRequired = scoreSet.size();
-		final int controlPacketsRequired = 1;
+//	private FMLProxyPacket[] buildDataPackets(final DataType type, final HashMap<Team, Float> teamScores,
+//			final String teamPlayerIsOn) {
+//		final int payloadPacketsRequired = teamScores.size();
+//		final int controlPacketsRequired = 1;
+//
+//		final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+//
+//		try {
+//			// send the control packet containing meta-data
+//			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(payloadPacketsRequired)
+//					.writeBytes(CompressUtil.compress(teamPlayerIsOn)).copy(), netChannelName);
+//
+//			// send the string of data to the client.
+//			int counter = 0;
+//			for (Team tm : teamScores.keySet()) {
+//				packets[controlPacketsRequired + counter] = new FMLProxyPacket(Unpooled.buffer()
+//						.writeFloat(teamScores.get(tm)).writeBytes(CompressUtil.compress(tm.toString())).copy(),
+//						netChannelName);
+//				counter++;
+//			}
+//			return packets;
+//		} catch (IOException e) {
+//			PolycraftMod.logger.error("Unable to compress scoreboard packets", e);
+//			return null;
+//		}
+//	}
 
-		final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+//	private void sendDataPackets(final DataType type, final ArrayList<EntityPlayerMP> playerList,
+//			final ArrayList<Float> scoreSet) {
+//		final FMLProxyPacket[] packets = getDataPackets(type, scoreSet);
+//		if (packets != null) {
+//			for (EntityPlayerMP player : playerList) {
+//				for (final FMLProxyPacket packet : packets) {
+//					if (player == null) {
+//						System.out.println("Potato.");// netChannel.sendToAll(packet); //TODO: Remove this.
+//					} else {
+//						netChannel.sendTo(packet, player);
+//					}
+//				}
+//			}
+//		}
+//	}
 
-		// send the control packet containing meta-data
-		packets[0] = new FMLProxyPacket(
-				Unpooled.buffer().writeInt(type.ordinal()).writeInt(payloadPacketsRequired).copy(), netChannelName);
+//	private FMLProxyPacket[] getDataPackets(final DataType type, final ArrayList<Float> scoreSet) {
+//		final int payloadPacketsRequired = scoreSet.size();
+//		final int controlPacketsRequired = 1;
+//
+//		final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+//
+//		// send the control packet containing meta-data
+//		packets[0] = new FMLProxyPacket(
+//				Unpooled.buffer().writeInt(type.ordinal()).writeInt(payloadPacketsRequired).copy(), netChannelName);
+//
+//		// send the string of data to the client.
+//		for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
+//			packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
+//					Unpooled.buffer().writeFloat(scoreSet.get(payloadIndex)).copy(), netChannelName);
+//		}
+//		return packets;
+//	}
 
-		// send the string of data to the client.
-		for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
-			packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
-					Unpooled.buffer().writeFloat(scoreSet.get(payloadIndex)).copy(), netChannelName);
-		}
-		return packets;
-	}
-
-	// private FMLProxyPacket[] getDataPackets(final DataType type, final String
-	// data) {
-	// try {
-	// //we have to split these up into smaller packets due to this issue:
-	// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
-	// final byte[] dataBytes = CompressUtil.compress(data);
-	// final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
-	// final int controlPacketsRequired = 1;
-	// final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired +
-	// payloadPacketsRequired];
-	//
-	// //send the control packet containing meta-data
-	// packets[0] = new
-	// FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(dataBytes.length).copy(),
-	// netChannelName);
-	//
-	// //send the string of data to the client.
-	// for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired;
-	// payloadIndex++) {
-	// int startDataIndex = payloadIndex * maxPacketSizeBytes;
-	// int length = Math.min(dataBytes.length - startDataIndex, maxPacketSizeBytes);
-	// packets[controlPacketsRequired + payloadIndex] = new
-	// FMLProxyPacket(Unpooled.buffer().writeBytes(dataBytes, startDataIndex,
-	// length).copy(), netChannelName);
-	// }
-	// return packets;
-	// } catch (IOException e) {
-	// PolycraftMod.logger.error("Unable to compress packet data", e);
-	// return null;
-	// }
-	// }
+	 private FMLProxyPacket[] getDataPackets(final DataType type, final String data) {
+		 try {
+			 //we have to split these up into smaller packets due to this issue:
+			 //https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
+			 final byte[] dataBytes = CompressUtil.compress(data);
+			 final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
+			 final int controlPacketsRequired = 1;
+			 final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+			
+			 //send the control packet containing meta-data
+			 packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(dataBytes.length).copy(),netChannelName);
+			
+			 //send the string of data to the client.
+			 for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
+				 int startDataIndex = payloadIndex * maxPacketSizeBytes;
+				 int length = Math.min(dataBytes.length - startDataIndex, maxPacketSizeBytes);
+				 packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(Unpooled.buffer().writeBytes(dataBytes, startDataIndex,length).copy(), netChannelName);
+			 }
+			 //TODO: Remove.
+			 System.out.println("Size of Total packets: " + packets.length);
+			 return packets;
+			} catch (IOException e) {
+				 PolycraftMod.logger.error("Unable to compress packet data", e);
+				 return null;
+			}
+	 	}
 
 	@SubscribeEvent
 	public void onPlayerTick(final TickEvent.PlayerTickEvent event) {
