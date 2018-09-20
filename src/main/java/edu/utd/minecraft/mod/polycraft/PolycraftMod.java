@@ -245,7 +245,7 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
-		event.registerServerCommand(new CommandUpdateWhitelist());
+    event.registerServerCommand(new CommandUpdateWhitelist());
 		event.registerServerCommand(new CommandPP());
 		event.registerServerCommand(new CommandChallenge());
 		event.registerServerCommand(new CommandDev());
