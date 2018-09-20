@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
@@ -52,7 +53,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
-			onWorldTickGovernments(event);
+		//onWorldTickGovernments(event);
 
 		}
 	}
@@ -177,9 +178,20 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	public void sendScoreboardUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		final FMLProxyPacket[] packetList = getDataPackets(DataPacketType.Scoreboard, 0, jsonStringToSend);
+		if(packetList != null) {
+			for (final FMLProxyPacket packet : packetList) {
+				netChannel.sendTo(packet, player);
+			}
+			
+		}
+	}
 
 	public void sendTempPPDataPackets() {
-		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
+		sendDataPackets(DataPacketType.TempPrivateProperties, 0, null);
 	}
 	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
@@ -209,6 +221,33 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
+	private FMLProxyPacket[] getDataPackets(final DataPacketType type, final int typeMetadata, final String jsonData) {
+		try {
+			Gson gson = new Gson();
+			// we have to split these up into smaller packets due to this issue:
+			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
+			final byte[] dataBytes = CompressUtil.compress(jsonData); 
+			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
+			final int controlPacketsRequired = 1;
+			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata)
+					.writeInt(dataBytes.length).copy(), netChannelName);
+			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
+				int startDataIndex = payloadIndex * maxPacketSizeBytes;
+				int length = Math.min(dataBytes.length - startDataIndex,
+						maxPacketSizeBytes);
+				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
+						Unpooled.buffer()
+								.writeBytes(dataBytes, startDataIndex, length)
+								.copy(), netChannelName);
+			}
+			return packets;
+		} catch (IOException e) {
+			PolycraftMod.logger.error("Unable to compress packet data", e);
+			return null;
+		}
+	}
+	
 	private FMLProxyPacket[] getDataPackets(final DataPacketType type,
 			final int typeMetadata) {
 		try {
@@ -245,6 +284,82 @@ public class ServerEnforcer extends Enforcer {
 			return null;
 		}
 	}
+	
+	public String forceUpdateWhitelist(final World world) {
+		// refresh the whitelist at the start of each day, or if we haven't it
+		// yet
+		String result = "added ";
+		if (portalRestUrl != null) {
+			try {
+				final String url = portalRestUrl.startsWith("file:") ? portalRestUrl
+						+ "whitelist.json"
+						: String.format("%s/worlds/%s/whitelist/",
+								portalRestUrl, world.getWorldInfo()
+										.getWorldName());
+				final Set<String> previousWhitelist = Sets.newHashSet(whitelist
+						.keySet());
+				updateWhitelist(NetUtil.getText(url));
+
+				final String url_uuid = portalRestUrl.startsWith("file:") ? portalRestUrl
+						+ "whitelist.json"
+						: String.format("%s/worlds/%s/whitelist_uuid/",
+								portalRestUrl, world.getWorldInfo()
+										.getWorldName());
+				updateUUIDWhitelist(NetUtil.getText(url_uuid));
+
+				// reconcile whitelists
+				final MinecraftServer minecraftserver = MinecraftServer
+						.getServer();
+				UUID userID;
+
+				for (final String usernameToAdd : whitelist.keySet()) {
+					// if the user is new, add to the whitelist
+					if (!previousWhitelist.remove(usernameToAdd)) {
+						// final GameProfile gameprofile =
+						// minecraftserver.func_152358_ax().func_152655_a(usernameToAdd);
+						try {
+							userID = UUID.fromString(whitelist_uuid
+									.get(usernameToAdd));
+							final GameProfile gameprofile = new GameProfile(
+									userID, usernameToAdd);
+							if (gameprofile != null)
+								minecraftserver.getConfigurationManager()
+										.func_152601_d(gameprofile);
+							result += usernameToAdd + ",";
+						} catch (IllegalArgumentException e) {
+							System.out.println("Could not add to whitelist: "
+									+ usernameToAdd);
+						}
+
+					}
+				}
+				result += ",,, Removed";
+				// remove users from the whitelist that were not in the new
+				// whitelist
+				for (final String usernameToRemove : previousWhitelist) {
+					final GameProfile gameprofile = minecraftserver
+							.getConfigurationManager().func_152599_k()
+							.func_152706_a(usernameToRemove);
+					if (gameprofile != null)
+						minecraftserver.getConfigurationManager()
+								.func_152597_c(gameprofile);
+					result += usernameToRemove + ",";
+					// TODO don't worry about kicking them right now
+				}
+			} catch (final Exception e) {
+				// TODO set up a log4j mapping to send emails on error messages
+				// (via mandrill)
+				if (whitelistJson == null) {
+					PolycraftMod.logger.error("Unable to load whitelist", e);
+					System.exit(-1);
+				} else {
+					PolycraftMod.logger.error("Unable to refresh whitelist", e);
+				}
+			}
+		}
+		return result;
+	}
+	
 
 	private void onWorldTickWhitelist(final TickEvent.WorldTickEvent event) {
 		// refresh the whitelist at the start of each day, or if we haven't it

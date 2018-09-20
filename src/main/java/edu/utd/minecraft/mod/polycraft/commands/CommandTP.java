@@ -42,7 +42,7 @@ public class CommandTP extends CommandBase{
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/goto <utdpp>";
+		return "/goto <utd|pp> [x-coord] [y-coord]";
 	}
 
 	@Override

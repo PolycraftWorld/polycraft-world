@@ -75,6 +75,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 import net.minecraft.block.Block;
@@ -160,6 +161,10 @@ public class ClientProxy extends CommonProxy {
 		super.postInit();
 		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
+		
+		//register scoreboard handlers
+		FMLCommonHandler.instance().bus().register(ClientScoreboard.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ClientScoreboard.INSTANCE);
 		//TODO: Walter add in 3D rendering code
 		registerRenderers();
 	}
