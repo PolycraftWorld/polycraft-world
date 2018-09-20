@@ -42,11 +42,15 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.commands.CommandChallenge;
 import edu.utd.minecraft.mod.polycraft.commands.CommandDev;
+import edu.utd.minecraft.mod.polycraft.commands.CommandGame;
+import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandPP;
+import edu.utd.minecraft.mod.polycraft.commands.CommandRace;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.commands.CommandUpdateWhitelist;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
@@ -245,10 +249,13 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
-		event.registerServerCommand(new CommandUpdateWhitelist());
 		event.registerServerCommand(new CommandPP());
+		event.registerServerCommand(new CommandGame());
+		event.registerServerCommand(new CommandRace());
+		event.registerServerCommand(new CommandMinigame());
 		event.registerServerCommand(new CommandChallenge());
 		event.registerServerCommand(new CommandDev());
+		event.registerServerCommand(new CommandUpdateWhitelist());
 	}
 	
 	public static String getAssetName(final String name) {

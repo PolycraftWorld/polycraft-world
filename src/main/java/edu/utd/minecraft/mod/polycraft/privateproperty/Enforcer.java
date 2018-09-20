@@ -104,9 +104,18 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-
-		Unknown, PrivateProperties, TempPrivateProperties, Friends, Broadcast, InventorySync, Governments, Challenge, Scoreboard
-
+		Unknown, 
+		PrivateProperties, 
+		TempPrivateProperties, 
+		Friends, 
+		Broadcast, 
+		InventorySync, 
+		Governments, 
+		Challenge, 
+		Scoreboard, 
+		playerID, 
+		GenericMinigame, 
+		RaceMinigame
 	}
 
 	protected static boolean updatedMasterForTheDay = false;
@@ -125,6 +134,8 @@ public abstract class Enforcer {
 													// in the surface dimension
 	private static final int challengeDimension = 8;//Implemented properties in challenge dimension -matt
 	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
+
+	protected static long playerID; //temp storage for sending player IDs
 
 	protected static final int getPacketsRequired(int bytes) {
 		return (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
@@ -476,8 +487,16 @@ public abstract class Enforcer {
 			}
 		}
 	}
+	
+	protected long updatePlayerID(final String playerIDjson) {
+		final long playerIDRaw = gsonGeneric.fromJson(playerIDjson,
+				new TypeToken<Long>() {
+				}.getType());
+		friends.clear();
+		return playerIDRaw;
+	}
 
-	private static String getChunkKey(final int x, final int z) {
+	public static String getChunkKey(final int x, final int z) {
 		return String.format("%d,%d", x, z);
 	}
 

@@ -1,6 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
+
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -8,6 +19,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -16,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
@@ -25,9 +39,11 @@ import net.minecraft.world.storage.MapData;
 
 public class ItemConstitutionClaim extends ItemCustom{
 	
-	
+	protected  GsonBuilder gsonBuilderPull;// were changed to not final
+	protected  GsonBuilder gsonBuilderPush;// were changed to not final
 	
 	private IIcon[] iconArray;
+	private int maxSigners;
 	
 	public ItemConstitutionClaim(CustomObject config) {
 		super(config);
@@ -35,6 +51,11 @@ public class ItemConstitutionClaim extends ItemCustom{
 		this.setCreativeTab(CreativeTabs.tabMisc); //TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
+		
+		gsonBuilderPull= new GsonBuilder();
+		gsonBuilderPush= new GsonBuilder();
+		
+		this.maxSigners=1;
 		
 	}
 	
@@ -57,11 +78,11 @@ public class ItemConstitutionClaim extends ItemCustom{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-		if(!stack.stackTagCompound.hasKey("Signs"))
+		if(!stack.stackTagCompound.hasKey("signers"))
 		{
 			return iconArray[0];
 		}
-		   return this.iconArray[stack.stackTagCompound.getInteger("Signs")];
+		   return this.iconArray[stack.stackTagCompound.getTagList("signers", 10).tagCount()];
 	}
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -79,11 +100,11 @@ public class ItemConstitutionClaim extends ItemCustom{
     {
 		if(p_77650_1_.stackTagCompound!=null)
 		{
-			if(!p_77650_1_.stackTagCompound.hasKey("Signs"))
+			if(!p_77650_1_.stackTagCompound.hasKey("signers"))
 			{
 				return iconArray[0];
 			}
-			   return this.iconArray[p_77650_1_.stackTagCompound.getInteger("Signs")];
+			return this.iconArray[p_77650_1_.stackTagCompound.getTagList("signers", 10).tagCount()];
 		}
 		return iconArray[0];
 		   
@@ -100,11 +121,11 @@ public class ItemConstitutionClaim extends ItemCustom{
         /**
          * Gets an icon index based on an item's damage value and the given render pass
          */
-		if(!stack.stackTagCompound.hasKey("Signs"))
+		if(!stack.stackTagCompound.hasKey("signers"))
 		{
 			return iconArray[0];
 		}
-		   return this.iconArray[stack.stackTagCompound.getInteger("Signs")];
+		   return this.iconArray[stack.stackTagCompound.getTagList("signers", 10).tagCount()];
     }
 
 	
@@ -121,9 +142,6 @@ public class ItemConstitutionClaim extends ItemCustom{
 	 @SideOnly(Side.CLIENT)
 	    public boolean hasEffect(ItemStack p_77636_1_)
 	    {
-		 	if(p_77636_1_.stackTagCompound!=null) {
-	        	return (p_77636_1_.stackTagCompound.getInteger("Signs")==4);
-		 	}
 		 	return false;
 	    }
 
@@ -134,65 +152,74 @@ public class ItemConstitutionClaim extends ItemCustom{
 		 if(!p_77659_2_.isRemote)
 		 {
 			 
-			 if(!p_77659_1_.stackTagCompound.hasKey("Signs"))
+			 if(!p_77659_1_.stackTagCompound.hasKey("signers"))
 			 {
 				 NBTTagList nbtList = new NBTTagList();
-				 p_77659_1_.stackTagCompound.setTag("constitution", nbtList);
-				 p_77659_1_.stackTagCompound.setInteger("Signs", 0);
+				 p_77659_1_.stackTagCompound.setTag("signers", nbtList);
+				
 				
 			 }
 			
-			 
-			 switch (p_77659_1_.stackTagCompound.getInteger("Signs")) {
-	            case 0:  //
+			 if( ((NBTTagList)p_77659_1_.stackTagCompound.getTagList("signers", 10)).tagCount()<maxSigners)
+			 {
+				 if(isNewPlayer(p_77659_3_,p_77659_1_)){
+					 NBTTagCompound nbt = new NBTTagCompound();
+					 nbt.setLong("id", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName().toLowerCase()));
+					 ((NBTTagList) p_77659_1_.stackTagCompound.getTag("signers")).appendTag(nbt);
+					 ((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Player Signed"));
+				 }
+			 }else if(((NBTTagList)p_77659_1_.stackTagCompound.getTagList("signers", 10)).tagCount()==maxSigners)
+			 {
+				 if(!isNewPlayer(p_77659_3_,p_77659_1_)){
+	            		try {
 
-	            	//p_77659_1_.getTagCompound().setString("Leader", p_77659_3_.getCommandSenderName());
-	            	NBTTagCompound nbt1 = new NBTTagCompound();
-	            	nbt1.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
-	            	
-	            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt1);
-	            	p_77659_1_.stackTagCompound.setInteger("Signs", 1);
-	            
-	            	
-	            	 ((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Player1 has signed the Constitution"));
-	            	break;
-	            case 1:  //
-	            	if(isNewPlayer(p_77659_3_,p_77659_1_)){
-		            	NBTTagCompound nbt2 = new NBTTagCompound();
-		            	nbt2.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
-		            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt2);
-		            	p_77659_1_.stackTagCompound.setInteger("Signs", 2);
-		            	
-		            	((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Player2 has signed the Constitution"));
-			 		}
-		            break;
-	            case 2:  //
-	            	if(isNewPlayer(p_77659_3_,p_77659_1_)){
-		            	NBTTagCompound nbt3 = new NBTTagCompound();
-		            	nbt3.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
-		            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt3);
-		            	p_77659_1_.stackTagCompound.setInteger("Signs", 3);
-		            	
-		            	((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Player3 has signed the Constitution"));
-	            	}	
-		            break;
-	            case 3:  //
-	            	if(isNewPlayer(p_77659_3_,p_77659_1_)){
-		            	NBTTagCompound nbt4 = new NBTTagCompound();
-		            	nbt4.setLong("Player1", Enforcer.whitelist.get(p_77659_3_.getCommandSenderName()));
-		            	((NBTTagList) p_77659_1_.stackTagCompound.getTag("constitution")).appendTag(nbt4);
-		            	p_77659_1_.stackTagCompound.setInteger("Signs", 4);
-		            	
-		            	((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Player4 has signed the Constitution"));
+							if (ServerEnforcer.portalRestUrl != null)
+							{
+								
+								
+								JsonObject info = new JsonObject();
+								JsonArray arr = new JsonArray();
+								for(int c=0;c<((NBTTagList)p_77659_1_.stackTagCompound.getTag("signers")).tagCount();c++)
+								{
+									arr.add(new JsonPrimitive(((NBTTagList)p_77659_1_.stackTagCompound.getTag("signers")).getCompoundTagAt(c).getLong("id")));
+								}
+								
+								info.add("signers", arr);
+								
+								String jsonToSend = gsonBuilderPush.create().toJson(info, new TypeToken<JsonObject>() {
+								}.getType());
+								String sendString = String.format("%s/players/%s/create_constitution/",
+										ServerEnforcer.portalRestUrl,
+										Enforcer.whitelist.get(p_77659_3_.getCommandSenderName().toLowerCase()));
+								
+					            System.out.println(jsonToSend);
+
+								
+								String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
+
+								if (contentFromPortal == null)
+								{
+									//return false
+								}//did not get a confirm string from the portal - don't sync
+
+								//return true;
+							}
+
+						} catch (final IOException e) {
+							PolycraftMod.logger.error("Unable to send constitution info", e);
+							//return false;
+						}
+	            		
+	            		
+	            		
+	            		
+	            		((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("Sending to Portal"));
 	            	}
-		            break;
-	            case 4:  //
-	            	((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("No more players can sign the Constitution"));
-	                
-	                break;
-	            default: //
-                break;
+			 }else
+			 {
+				 ((EntityPlayer) p_77659_3_).addChatComponentMessage(new ChatComponentText("no"));
 			 }
+			 
 		 }
 		     return p_77659_1_;
 	 }
@@ -201,19 +228,22 @@ public class ItemConstitutionClaim extends ItemCustom{
 	 
 		
 	private boolean isNewPlayer(EntityPlayer player,ItemStack stack) {
-		 NBTTagList nbtList = (NBTTagList)stack.stackTagCompound.getTag("constitution");
-		for(int i =1;i<=nbtList.tagCount();i++)
-		{
-			
-			if(nbtList.getCompoundTagAt(i-1).getString("Player"+i).equals(player.getCommandSenderName()))
+		if(stack.stackTagCompound.hasKey("signers")) {
+			NBTTagList nbtList = (NBTTagList)stack.stackTagCompound.getTag("signers");
+			for(int i =1;i<=nbtList.tagCount();i++)
 			{
-				((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("This player has already signed"));
-                
-				return false;
+				
+				if(nbtList.getCompoundTagAt(i-1).getLong("id")==Enforcer.whitelist.get(player.getCommandSenderName().toLowerCase()))
+				{
+					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("This player has already signed"));
+	                
+					return false;
+				}
 			}
+			
+			
+			return true;
 		}
-		
-		
 		return true;
 	}
 

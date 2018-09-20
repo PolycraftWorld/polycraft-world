@@ -45,7 +45,7 @@ public class EntityOilSlimeBallProjectile extends EntitySnowball{
     
     public static final void register(final PolycraftEntity polycraftEntity) {
 		EntityOilSlimeBallProjectile.config = polycraftEntity;
-		PolycraftEntityLiving.register(EntityOilSlimeBallProjectile.class, config.entityID, config.name, 0x777777, 0x888888);
+		PolycraftEntityLiving.register(EntityOilSlimeBallProjectile.class, config.entityID, config.name);
 	}
 
     

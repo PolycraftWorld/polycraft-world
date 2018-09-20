@@ -100,6 +100,14 @@ public class PrivateProperty {
 				enabled[action.getAsInt()] = true;
 			}
 		}
+		
+		public String toString() {
+			String temp = "";
+			for(boolean value: enabled) {
+				temp += value + " , ";
+			}
+			return temp;
+		}
 
 	}
 
@@ -178,7 +186,11 @@ public class PrivateProperty {
 		this.dimension=dim;
 		this.master = master;
 		this.keepMasterWorldSame = false;
-		this.owner = owner.getCommandSenderName();
+		if (owner == null) {
+			this.owner = "null";
+		}else {
+			this.owner = owner.getCommandSenderName();
+		}
 		this.name = name;
 		this.message = message;
 		//bounds is not needed. just declaring it to not get an error
@@ -193,6 +205,30 @@ public class PrivateProperty {
 			final PermissionSet overridePermissionSet = new PermissionSet(permissions);
 			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
 		}
+	}
+	
+	//constructor for government properties
+	public PrivateProperty(
+			final String name,
+			final String message) {
+		this.master = true;
+		this.keepMasterWorldSame = false;
+		this.owner = "";
+		this.name = name;
+		this.message = message;
+		//bounds is not needed. just declaring it to not get an error
+		this.bounds = new Chunk[0];
+		//this.bounds[0] = topleft;
+		this.boundTopLeft = null;
+		this.boundBottomRight = null;
+		this.defaultPermissions = new PermissionSet(new int[] {
+				31 //SpawnEntity			
+		});
+		this.masterPermissions = new PermissionSet(new int[] {
+				31 //SpawnEntity			
+		});
+		this.permissionOverridesByUser = null;
+		this.dimension = 0;
 	}
 
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {

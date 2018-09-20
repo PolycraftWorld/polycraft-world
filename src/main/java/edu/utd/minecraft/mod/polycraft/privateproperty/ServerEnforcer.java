@@ -24,6 +24,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
@@ -41,7 +44,7 @@ public class ServerEnforcer extends Enforcer {
 	private static final long portalRefreshTicksFriends = SystemUtil
 			.getPropertyLong("portal.refresh.ticks.friends", 24000);
 	private static final long portalRefreshTicksGovernments = SystemUtil
-			.getPropertyLong("portal.refresh.ticks.governments", 24000);
+			.getPropertyLong("portal.refresh.ticks.governments", 12000);
 
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
@@ -198,6 +201,14 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.Challenge, 0, player);
 	}
 	
+	public void minigameUpdate(int meta) {
+		sendDataPackets(DataPacketType.GenericMinigame, meta, null);
+	}
+	
+	public void raceGameUpdate() {
+		sendDataPackets(DataPacketType.RaceMinigame, 0, null);
+	}
+	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -261,7 +272,10 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
 							: type == DataPacketType.Challenge ? gson.toJson(tempChallengeProperties) 
-							: gson.toJson(tempPrivateProperties)); 
+							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
+							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
+							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
+									: gson.toJson(this.playerID)); 
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
@@ -474,7 +488,7 @@ public class ServerEnforcer extends Enforcer {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)	
 				if (GovernmentsJson == null) {	
 					PolycraftMod.logger.error("Unable to load Governments", e);	
-					System.exit(-1);	
+					System.exit(-1);
 				} else {	
 					PolycraftMod.logger.error("Unable to refresh Governments", e);	
 		 				}
@@ -492,6 +506,9 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
+			sendDataPackets(DataPacketType.Governments);
+			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+			sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,

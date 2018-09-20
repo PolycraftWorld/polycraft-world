@@ -33,6 +33,9 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -52,6 +55,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -95,6 +99,7 @@ public abstract class CommonProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 		
 		ChallengeHouseDim.init();
+		PolycraftMinigameManager.init();
 	}
 
 	public void postInit() {
@@ -274,9 +279,19 @@ public abstract class CommonProxy {
 				onPlayerTickServerScubaTank(tick.player, playerState);
 				onPlayerTickServerPhaseShifter(tick.player, playerState);
 				onPlayerTickServerSyncInventory(tick.player, playerState);
+				
+				
 			}
 		}
+		if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
+		{
+			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
+		}
+		
+		//KillWall.INSTANCE.onPlayerTick(tick);
+		RaceGame.INSTANCE.onPlayerTick(tick);
 	}
+	
 
 	private boolean onPlayerTickServerSyncInventory(final EntityPlayer player, final PlayerState playerState) {
 		final boolean clientWantsToSync = playerState.choseToSyncInventory;
@@ -353,6 +368,10 @@ public abstract class CommonProxy {
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
 		if (tick.phase == Phase.END) {
 			BlockLight.processPendingUpdates(16);
+			if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
+			{
+				PolycraftMinigameManager.INSTANCE.onServerTick(tick);
+			}
 		}
 	}
 

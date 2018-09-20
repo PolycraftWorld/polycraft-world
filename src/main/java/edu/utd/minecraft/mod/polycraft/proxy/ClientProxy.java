@@ -10,12 +10,12 @@ import java.util.Map.Entry;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+
 import org.lwjgl.opengl.GL15;
+
 
 import com.google.common.collect.Maps;
 
-import codechicken.lib.render.RenderUtils;
-import codechicken.nei.NEIClientConfig;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -71,6 +71,9 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
@@ -107,6 +110,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
@@ -441,7 +445,121 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 	
-	
+
+	 private static void renderKillWallBounds(Entity entity) {
+		 if (entity.worldObj.isRemote ){				//&& PolycraftMinigameManager.INSTANCE!=null
+			 if(true)//PolycraftMinigameManager.INSTANCE.active
+			 {
+				 	GL11.glDisable(GL11.GL_TEXTURE_2D);
+			        GL11.glEnable(GL11.GL_BLEND);
+			        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			        GL11.glDisable(GL11.GL_LIGHTING);
+			        GL11.glLineWidth(3.0F);
+			        GL11.glBegin(GL11.GL_LINES);//Gl_Line_Loop
+	                double dy = 16;
+	                double y1 = Math.floor(entity.posY - dy / 2);
+	                double y2 = y1 + dy;
+	                if (y1 < 0) {
+	                    y1 = 0;
+	                    y2 = dy;
+	                }
+	                if (y1 > entity.worldObj.getHeight()) {
+	                    y2 = entity.worldObj.getHeight();
+	                    y1 = y2 - dy;
+	                }
+	                double radius;
+	                if(PolycraftMinigameManager.INSTANCE!=null)
+	                	radius=PolycraftMinigameManager.INSTANCE.getDouble();
+	                else
+	                	radius=0;
+	                
+	                //radius=KillWall.INSTANCE.radius;
+	                
+	                
+	                
+	                GL11.glColor4d(0.9, 0, 0, .5);
+	//                for (double y = (int) y1; y <= y2; y++) {
+	//                	
+	//                	for (int i=0; i<360 ; i+=4)
+	//	                {
+	//	                	double degInRad = i*DEG2RAD;
+	//	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
+	//	                }
+	//	                
+	//                }
+	                
+	                for (double y = (int) y1; y <= y2; y++) {
+	                	GL11.glVertex3d(radius, y, radius);
+	                	GL11.glVertex3d(-radius, y, radius);
+	                	
+	                	GL11.glVertex3d(-radius, y, radius);
+	                	GL11.glVertex3d(-radius, y, -radius);
+	                	
+	                	GL11.glVertex3d(-radius, y, -radius);
+	                	GL11.glVertex3d(radius, y, -radius);
+	                	
+	                	GL11.glVertex3d(radius, y, -radius);
+	                	GL11.glVertex3d(radius, y, radius);
+	                	
+	                }
+			 
+			        GL11.glEnd();
+			        GL11.glEnable(GL11.GL_LIGHTING);
+			        GL11.glEnable(GL11.GL_TEXTURE_2D);
+			        GL11.glDisable(GL11.GL_BLEND);
+			        
+			 }
+		 }
+	 }
+	 
+	private static void renderRaceGameGoal(Entity entity) {
+		if (entity.worldObj.isRemote && RaceGame.INSTANCE.isActive()) {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glLineWidth(4.0F);
+			GL11.glBegin(GL11.GL_LINES);// Gl_Line_Loop
+			double dy = 64; // 16;
+			double y1 = Math.floor(entity.posY - dy / 2);
+			double y2 = y1 + dy;
+			if (y1 < 0) {
+				y1 = 0;
+				y2 = dy;
+			}
+			if (y1 > entity.worldObj.getHeight()) {
+				y2 = entity.worldObj.getHeight();
+				y1 = y2 - dy;
+			}
+
+			int gx1 = RaceGame.INSTANCE.getGx1();
+			int gx2 = RaceGame.INSTANCE.getGx2();
+			int gz1 = RaceGame.INSTANCE.getGz1();
+			int gz2 = RaceGame.INSTANCE.getGz2();
+
+			GL11.glColor4d(0, 0.9, 0, 0.5);
+			double offset = (entity.ticksExisted % 20) / 20D;
+			for (double y = (int) y1; y <= y2; y++) {
+				GL11.glVertex3d(gx1, y - offset, gz1);
+				GL11.glVertex3d(gx2, y - offset, gz1);
+
+				GL11.glVertex3d(gx2, y - offset, gz1);
+				GL11.glVertex3d(gx2, y - offset, gz2);
+
+				GL11.glVertex3d(gx2, y - offset, gz2);
+				GL11.glVertex3d(gx1, y - offset, gz2);
+
+				GL11.glVertex3d(gx1, y - offset, gz2);
+				GL11.glVertex3d(gx1, y - offset, gz1);
+			}
+
+			GL11.glEnd();
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_BLEND);
+		}
+	}
+
 
 	@SubscribeEvent
 	public synchronized void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -456,19 +574,23 @@ public class ClientProxy extends CommonProxy {
 	 public static void render(float frame) {
 	        GL11.glPushMatrix();
 	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
-	        RenderUtils.translateToWorldCoords(entity, frame);
-	        renderPPBounds(entity);
+	        double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * frame;
+	        double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * frame;
+	        double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * frame;
+	        
+	        GL11.glTranslated(-interpPosX, -interpPosY, -interpPosZ);
+	        if(ClientEnforcer.getShowPP()) {
+	        	renderPPBounds(entity);
+	        }
+	        //PolycraftMinigameManager.INSTANCE.render(entity);
+	        //renderKillWallBounds(entity);
+	        renderRaceGameGoal(entity);
 	        GL11.glPopMatrix();
 	    }
 	 
 	 @SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
-	     if (NEIClientConfig.isEnabled()) {
-	    	if(ClientEnforcer.getShowPP()) {
-	    		render(event.partialTicks);
-	     	}
-	     }
-
+	    render(event.partialTicks);
 	 }
 	 private static void renderPPBounds(Entity entity) {
 		 if (entity.worldObj.isRemote){

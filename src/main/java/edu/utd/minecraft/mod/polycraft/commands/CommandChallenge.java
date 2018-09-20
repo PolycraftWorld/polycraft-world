@@ -106,6 +106,7 @@ public class CommandChallenge  extends CommandBase{
 				sender.addChatMessage(new ChatComponentText("Result: " + result + "::X:" + x + "::Y:" + yPos + "::Z:" + z));
 			}
 		}
+
 	}
 
 	@Override

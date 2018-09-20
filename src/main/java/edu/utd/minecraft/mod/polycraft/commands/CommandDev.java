@@ -11,7 +11,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
-import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
@@ -63,7 +62,7 @@ private final List aliases;
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/dev <tool> <value>";
+		return "/dev <tool>";
 	}
 
 	@Override
@@ -84,10 +83,6 @@ private final List aliases;
 		
 			if (args.length > 0){
 				String tool[] = args[0].split("\\s+");
-				String value[] = null;
-				if(args.length>1) {
-					value = args[1].split("\\s+");
-				}
 				if(tool.length>0){
 					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+tool[0]));
 					if(tool[0].equals("pos1")) {
@@ -105,40 +100,6 @@ private final List aliases;
 						String s="Position 2: "+x2+", " +y2+", "+z2;
 				        ((EntityPlayer) player).addChatComponentMessage(new ChatComponentText(s));
 				        this.pos2=true;
-						
-					}else if(tool[0].equals("paste")) {
-						if(pos1)
-						{
-							short n = 0;
-							Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new int[] {0});
-							Schematic sh = sch.getTMP();
-							
-							int count=0;
-							
-							for (int k = 0; k < (int)sh.length; k++) {
-								for (int j = 0; j < (int)sh.height; j++) {
-									for (int i = 0; i < (int)sh.width; i++)
-									{
-										if(count==15361)
-										{
-											System.out.println("too big");
-										}
-										
-										world.setBlock(x1 + k, y1 + j , z1 + i, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
-										count++;
-										
-									}
-								}
-							}
-							for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
-							{
-								NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
-								TileEntity tile = world.getTileEntity(nbt.getInteger("x")+x1, nbt.getInteger("y")+y1, nbt.getInteger("z")+z1);
-								tile.readFromNBT(nbt);
-								world.setTileEntity(nbt.getInteger("x")+x1, nbt.getInteger("y")+y1, nbt.getInteger("z")+z1, tile);
-							}
-							
-						}
 						
 					}else if(tool[0].equals("print")) {
 						if(pos1 && pos2)
@@ -192,14 +153,8 @@ private final List aliases;
 										tile = world.getTileEntity(minX+i, minY+j, minZ+k);
 										if(tile!=null){
 											NBTTagCompound tilenbt = new NBTTagCompound();
-											tile.xCoord=i;
-											tile.yCoord=j;
-											tile.zCoord=k;
 											tile.writeToNBT(tilenbt);
 											tiles.appendTag(tilenbt);
-											tile.xCoord=minX+i;
-											tile.yCoord=minY+j;
-											tile.zCoord=minZ+k;
 											
 										}
 											
@@ -215,7 +170,7 @@ private final List aliases;
 							nbt.setTag("TileEntity", tiles);
 							FileOutputStream fout = null;
 							try {
-								fout = new FileOutputStream("D:\\testout.schematic");
+								fout = new FileOutputStream("D:\\testout.txt");
 							} catch (FileNotFoundException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -237,66 +192,7 @@ private final List aliases;
 							}
 							
 						}
-					}else if(tool[0].equals("fill")) {
-						if(value.length>0)
-						{
-							if(pos1 && pos2)
-							{
-								int minX;
-								int maxX;
-								int minY;
-								int maxY;
-								int minZ;
-								int maxZ;
-								int[] intArray;
-								short height;
-								short length;
-								short width;
-								
-								if(x1<x2) {
-									minX=x1;
-									maxX=x2;
-								}else{
-									minX=x2;
-									maxX=x1;
-								}
-								if(y1<y2) {
-									minY=y1;
-									maxY=y2;
-								}else{
-									minY=y2;
-									maxY=y1;
-								}
-								if(z1<z2) {
-									minZ=z1;
-									maxZ=z2;
-								}else{
-									minZ=z2;
-									maxZ=z1;
-								}
-								length=(short)(maxX-minX+1);
-								height=(short)(maxY-minY+1);
-								width=(short)(maxZ-minZ+1);
-								
-								for(int i=0;i<length;i++) {
-									for(int j=0;j<height;j++) {
-										for(int k=0;k<width;k++) {
-											int id= Integer.parseInt(value[0]);
-											world.setBlock(minX+i, minY+j, minZ+k,Block.getBlockById(id));
-											
-										}
-									}
-								}
-								
-								
-							}
-							
-						}
-					
 					}
-					
-					
-					//
 				}
 			}
 		}

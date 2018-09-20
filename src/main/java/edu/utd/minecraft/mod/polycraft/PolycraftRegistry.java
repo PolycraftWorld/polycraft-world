@@ -159,6 +159,9 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
+import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -411,8 +414,17 @@ public class PolycraftRegistry {
 			Fuel.registerQuantifiedFuels();
 			registerPolycraftEntities();
 
+
 		}
+		registerMinigames();
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
+	}
+	
+	private static void registerMinigames()
+	{
+		KillWall.register(KillWall.id,KillWall.class);
+		RaceGame.register(RaceGame.id,RaceGame.class);
+		
 	}
 
 	private static void registerMinecraftItems() {
