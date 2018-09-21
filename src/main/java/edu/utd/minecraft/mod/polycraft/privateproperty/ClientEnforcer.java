@@ -134,8 +134,6 @@ public class ClientEnforcer extends Enforcer {
 					case GenericMinigame:
 						PolycraftMinigameManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
 						break;
-					case RaceMinigame:
-						RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 					case Unknown:
 					default:
 						break;
