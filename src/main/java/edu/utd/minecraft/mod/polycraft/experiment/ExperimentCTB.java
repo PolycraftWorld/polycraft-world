@@ -25,9 +25,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ExperimentCTB extends Experiment{
-	protected int[][] bases;
-	protected ArrayList<BoundingBox> boundingBoxes= new ArrayList<BoundingBox>();
-	protected ArrayList<Color> boxColor = new ArrayList<Color>();
+	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected ArrayList<String> teamNames = new ArrayList<String>();
 	protected int tickCount = 0;
 
@@ -37,17 +35,14 @@ public class ExperimentCTB extends Experiment{
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard(teamNames);
 		this.playersNeeded = 1;
 		int maxBases = 20;
-		bases = new int[maxBases][2];
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
 		int counter = 0;
 		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
 			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
-				bases[counter][0] = x;
-				bases[counter][1] = z;
 				counter++;
-				boundingBoxes.add(new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+11, Color.GRAY));
-				boxColor.add(Color.GRAY);
+				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+11, Color.GRAY);
+				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 			}
 		}
 	}
@@ -57,8 +52,8 @@ public class ExperimentCTB extends Experiment{
 		PolycraftMod.logger.debug("Experiment 1 Started");
 		currentState = State.Starting;
 		tickCount = 0;
-		for(BoundingBox box: boundingBoxes){
-			box.setRendering(true);
+		for(Base base: bases){
+			base.setRendering(true);
 		}
 	}
 	
@@ -99,7 +94,7 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= 200){
 				for(EntityPlayerMP player: players){
 					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
+					player.addChatMessage(new ChatComponentText("§aSTART"));
 					this.scoreboard.updateScore(player.getDisplayName(), 0);
 				}
 				//this.scoreboard.resetScores(0);
@@ -113,12 +108,11 @@ public class ExperimentCTB extends Experiment{
 					//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(null, player);
 					//return;
 				}
-				BoundingBox box = isPlayerInBox(player);
-				if(box != null) {
+				Base base = isPlayerInBase(player);
+				if(base != null) {
  					this.scoreboard.updateScore(player.getDisplayName(), 1);
-						if(box.getColor() == Color.GRAY){
-						boxColor.set(boundingBoxes.indexOf(box), Color.blue);
-						box.setColor(Color.BLUE);
+						if(base.getColor() == Color.GRAY){
+						base.setColor(Color.blue);
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 						//ServerEnforcer.INSTANCE.experimentUpdate(); //what the hell?
 					
@@ -130,8 +124,8 @@ public class ExperimentCTB extends Experiment{
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();
-		Type gsonType = new TypeToken<ArrayList<BoundingBox>>() {}.getType();
-		final String updateScoreJson = gson.toJson(this.boundingBoxes, gsonType);
+		Type gsonType = new TypeToken<ArrayList<Base>>() {}.getType();
+		final String updateScoreJson = gson.toJson(this.bases, gsonType);
 		return updateScoreJson;
 	}
 	
@@ -139,75 +133,28 @@ public class ExperimentCTB extends Experiment{
 	protected void generateArea(int xPos, int yPos, int zPos, World world){
 		super.generateArea(xPos, yPos, zPos, world);	//generate the base flat area
 		super.generateSpectatorBox(xPos, yPos, zPos, world);
-		for(int i = 0; i < bases.length;i++){	//generate bases
-			int x = bases[i][0];
-			int z = bases[i][1];
-			generateBase(x,z);
+		for(Base base: bases){	//generate bases
+			base.generate(world);
 		}
 	}
 	
-	private void generateBase(int x, int z){
-		Block stairs = PolycraftRegistry.getBlock("Stairs (PVC)");
-		Block pvc = PolycraftRegistry.getBlock("Block (PVC)");
-		world.setBlock(x, yPos, z, pvc, 1, 3);
-		world.setBlock(x, yPos+1, z, pvc, 1, 3);
-		world.setBlock(x, yPos+2, z, pvc, 1, 3);
-		world.setBlock(x, yPos+3, z, pvc, 1, 3);
-		world.setBlock(x, yPos+4, z, pvc, 1, 3);
-		world.setBlock(x, yPos+5, z, pvc, 1, 3);
-		world.setBlock(x, yPos+6, z, pvc, 1, 3);
-		world.setBlock(x, yPos+7, z, pvc, 1, 3);
-		world.setBlock(x, yPos+7, z+1, pvc, 1, 3);
-		world.setBlock(x, yPos+7, z-1, pvc, 1, 3);
-		world.setBlock(x+1, yPos+7, z, pvc, 1, 3);
-		world.setBlock(x-1, yPos+7, z, pvc, 1, 3);
-		world.setBlock(x, yPos+8, z, pvc, 1, 3);
-		world.setBlock(x, yPos+8, z+1, pvc, 1, 3);
-		world.setBlock(x, yPos+8, z-1, pvc, 1, 3);
-		world.setBlock(x+1, yPos+8, z, pvc, 1, 3);
-		world.setBlock(x-1, yPos+8, z, pvc, 1, 3);
-		world.setBlock(x, yPos+9, z, pvc, 1, 3);
-		world.setBlock(x, yPos+9, z+1, pvc, 1, 3);
-		world.setBlock(x, yPos+9, z-1, pvc, 1, 3);
-		world.setBlock(x+1, yPos+9, z, pvc, 1, 3);
-		world.setBlock(x-1, yPos+9, z, pvc, 1, 3);
-		world.setBlock(x, yPos+9, z, pvc, 1, 3);
-		world.setBlock(x-1, yPos+1, z, stairs, 0, 3);
-		world.setBlock(x-1, yPos+1, z-1, stairs, 0, 3);
-		world.setBlock(x-1, yPos+1, z+1, stairs, 0, 3);
-		world.setBlock(x+1, yPos+1, z, stairs, 1, 3);
-		world.setBlock(x+1, yPos+1, z+1, stairs, 1, 3);
-		world.setBlock(x+1, yPos+1, z-1, stairs, 1, 3);
-		world.setBlock(x, yPos+1, z-1, stairs, 2, 3);
-		world.setBlock(x, yPos+1, z+1, stairs, 3, 3);
-		world.setBlock(x-1, yPos+6, z, stairs, 4, 3);
-		world.setBlock(x-1, yPos+6, z+1, stairs, 4, 3);
-		world.setBlock(x-1, yPos+6, z-1, stairs, 4, 3);
-		world.setBlock(x+1, yPos+6, z, stairs, 5, 3);
-		world.setBlock(x+1, yPos+6, z+1, stairs, 5, 3);
-		world.setBlock(x+1, yPos+6, z-1, stairs, 5, 3);
-		world.setBlock(x, yPos+6, z-1, stairs, 6, 3);
-		world.setBlock(x, yPos+6, z+1, stairs, 7, 3);
-	}
-	
-	private BoundingBox isPlayerInBox(EntityPlayerMP player){
-		for(BoundingBox box: boundingBoxes){
-			if(box.isInBox((player)))
-				return box;
+	private Base isPlayerInBase(EntityPlayerMP player){
+		for(Base base: bases){
+			if(base.isInBase((Entity) player))
+				return base;
 		}
 		return null;
 	}
 	
 	@Override
 	public void render(Entity entity){
-		for(BoundingBox box: boundingBoxes){
-			if(box.isInBox(entity)){
-				box.setColor(Color.BLUE);
+		for(Base base: bases){
+			if(base.isInBase(entity)){
+				base.setColor(Color.BLUE);
 			}else{
-				box.setColor(boxColor.get(boundingBoxes.indexOf(box)));
+				base.resetColor();
 			}
-			//moving this call to the Client? 
-			//box.render(entity);
+			base.render(entity);
 		}
 	}
 
