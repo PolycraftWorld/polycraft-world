@@ -6,7 +6,9 @@ import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -97,4 +99,15 @@ public abstract class Experiment {
 		
 	}
 	
+	public boolean isPlayerInExperiment(String playerName){
+		for(EntityPlayerMP player: players){
+			if(player.getDisplayName().equalsIgnoreCase(playerName))
+				return true;
+		}
+		return false;
+	}
+	
+	public void render(Entity entity){
+		
+	}
 }

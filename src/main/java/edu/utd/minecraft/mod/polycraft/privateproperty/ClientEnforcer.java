@@ -26,6 +26,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -130,14 +131,19 @@ public class ClientEnforcer extends Enforcer {
 						//showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	// commited out for a second -matt
 						break;
 					case Challenge:
-						final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
-						showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
-								+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+						if(pendingDataPacketTypeMetadata == 1){
+							ExperimentManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
+						}else{
+							final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
+							showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
+									+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+						}
 						break;
 					case Scoreboard:
 						System.out.println("Packets have all been sent to the client!");
 						ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case playerID:
 						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
@@ -146,6 +152,7 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case RaceMinigame:
 						RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case Unknown:
 					default:
 						break;

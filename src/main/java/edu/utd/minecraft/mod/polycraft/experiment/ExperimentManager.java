@@ -7,6 +7,10 @@ import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -26,10 +30,11 @@ public class ExperimentManager {
 		}
 	}
 	
-	@SubscribeEvent
-	public void onWorldTick(final TickEvent.WorldTickEvent event){
-		for(Experiment ex: experiments.values()){
-			ex.onTickUpdate();
+	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
+		if(tick.side == Side.SERVER){
+			for(Experiment ex: experiments.values()){
+				ex.onTickUpdate();
+			}
 		}
 	}
 	
@@ -38,11 +43,11 @@ public class ExperimentManager {
 	}
 	
 	public static void UpdatePackets(String experimentJson,int id){
-//		Gson gson = new Gson();
-//		TypeToken<?> typeToken = TypeToken.get(experiments.get(id));
-//		ExperimentManager temp = gson.fromJson(experimentJson, typeToken.getType());
-//		
-//		INSTANCE=temp;
+		Gson gson = new Gson();
+		TypeToken<?> typeToken = TypeToken.get(ExperimentManager.class);
+		ExperimentManager temp = gson.fromJson(experimentJson, typeToken.getType());
+		
+		INSTANCE=temp;
 	}
 	
 	public void start(int expID){
@@ -61,6 +66,18 @@ public class ExperimentManager {
 		
 	}
 	
+	
+	//I need things.
+		public int[] playerAttemptToConnect(EntityPlayerMP player, int experimentId) {
+			//check if experimentId is valid
+			//check if experimentId can take in player
+			//check if any other issues exist. 
+			
+			//return an integer (or maybe enum?) that will display to the client the error/success message. Maybe it could also just return a string...
+			
+			return new int[]{255, 60, 255};
+		}
+	
 	//Queue system/lobby for players entering experiment n
 	//needs to be able to add and remove players from queue; + detect disconnections
 	public void queue(){
@@ -78,5 +95,16 @@ public class ExperimentManager {
 	public static void registerExperimentTypes()
 	{
 		experimentTypes.put(1, ExperimentCTB.class);
+	}
+	
+	public static void render(Entity entity) {
+		if (entity instanceof EntityPlayer && entity.worldObj.isRemote) {
+			EntityPlayer player = (EntityPlayer) entity;
+			for(Experiment ex: experiments.values()){
+				if(ex.isPlayerInExperiment(player.getDisplayName())){
+					ex.render(entity);
+				}
+			}
+		}
 	}
 }

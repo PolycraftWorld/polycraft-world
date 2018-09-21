@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -279,7 +280,7 @@ public abstract class CommonProxy {
 				onPlayerTickServerScubaTank(tick.player, playerState);
 				onPlayerTickServerPhaseShifter(tick.player, playerState);
 				onPlayerTickServerSyncInventory(tick.player, playerState);
-				
+				ExperimentManager.INSTANCE.onPlayerTick(tick);
 				
 			}
 		}

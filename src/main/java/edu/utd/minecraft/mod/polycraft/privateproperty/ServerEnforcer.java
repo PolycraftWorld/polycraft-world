@@ -24,6 +24,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
@@ -56,7 +57,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
-		//onWorldTickGovernments(event);
+			//onWorldTickGovernments(event);
 
 		}
 	}
@@ -209,6 +210,10 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.RaceMinigame, 0, null);
 	}
 	
+	public void experimentUpdate() {
+		sendDataPackets(DataPacketType.Challenge, 1, null);
+	}
+	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -267,11 +272,12 @@ public class ServerEnforcer extends Enforcer {
 			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
 			final byte[] dataBytes = CompressUtil
 					.compress(type == DataPacketType.PrivateProperties ? (typeMetadata == 1 ? privatePropertiesMasterJson
-							: privatePropertiesNonMasterJson)
+																		: privatePropertiesNonMasterJson)
 							: type == DataPacketType.Broadcast ? broadcastMessage
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
-							: type == DataPacketType.Challenge ? gson.toJson(tempChallengeProperties) 
+							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1? gson.toJson(ExperimentManager.INSTANCE)
+																		:tempChallengeProperties) 
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)

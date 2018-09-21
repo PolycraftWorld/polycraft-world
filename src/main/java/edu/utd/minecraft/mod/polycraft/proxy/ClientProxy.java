@@ -50,6 +50,7 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -582,9 +583,11 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
+	        
 	        //PolycraftMinigameManager.INSTANCE.render(entity);
 	        //renderKillWallBounds(entity);
 	        renderRaceGameGoal(entity);
+	        ExperimentManager.INSTANCE.render(entity);
 	        GL11.glPopMatrix();
 	    }
 	 

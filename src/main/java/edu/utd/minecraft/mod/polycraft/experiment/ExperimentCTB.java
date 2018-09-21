@@ -1,18 +1,25 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
 public class ExperimentCTB extends Experiment{
 	protected int[][] bases;
+	protected ArrayList<BoundingBox> boundingBoxes= new ArrayList<BoundingBox>();
+	protected ArrayList<Color> boxColor = new ArrayList<Color>();
 	protected int tickCount = 0;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
@@ -27,15 +34,21 @@ public class ExperimentCTB extends Experiment{
 				bases[counter][0] = x;
 				bases[counter][1] = z;
 				counter++;
+				boundingBoxes.add(new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+11, Color.GRAY));
+				boxColor.add(Color.GRAY);
 			}
 		}
 	}
 	
 	@Override
 	public void start(){
+		currentState = State.Starting;
 		for(EntityPlayerMP player: players){
-			spawnPlayer(player);
+			//spawnPlayer(player);
 			tickCount = 0;
+		}
+		for(BoundingBox box: boundingBoxes){
+			box.setRendering(true);
 		}
 	}
 	
@@ -50,15 +63,28 @@ public class ExperimentCTB extends Experiment{
 	public void onTickUpdate() {
 		super.onTickUpdate();
 		if(currentState == State.Starting){
-			if(tickCount >= 100){
+			if(tickCount == 40){
+				for(EntityPlayerMP player: players){
+					spawnPlayer(player);
+				}
+			}else if(tickCount >= 100){
 				for(EntityPlayerMP player: players){
 					double x = Math.random()*(size*16 - 10) + xPos + 5;
 					double z = Math.random()*size*16 + zPos;
-					player.setLocationAndAngles(x, 93, z, player.rotationYaw, 0.0F);;
+					player.setLocationAndAngles(x, 93, z, player.rotationYaw, 0.0F);
 				}
 				currentState = State.Running;
 			}
 			tickCount++;
+		}else if(currentState == State.Running){
+			for(EntityPlayerMP player: players){
+				BoundingBox box = isPlayerInBox(player);
+				if(box != null && box.getColor() == Color.GRAY){
+					boxColor.set(boundingBoxes.indexOf(box), Color.blue);
+					box.setColor(Color.BLUE);
+					ServerEnforcer.INSTANCE.experimentUpdate();
+				}
+			}
 		}
 	}
 	
@@ -114,6 +140,26 @@ public class ExperimentCTB extends Experiment{
 		world.setBlock(x+1, yPos+6, z-1, stairs, 5, 3);
 		world.setBlock(x, yPos+6, z-1, stairs, 6, 3);
 		world.setBlock(x, yPos+6, z+1, stairs, 7, 3);
+	}
+	
+	private BoundingBox isPlayerInBox(EntityPlayerMP player){
+		for(BoundingBox box: boundingBoxes){
+			if(box.isInBox((player)))
+				return box;
+		}
+		return null;
+	}
+	
+	@Override
+	public void render(Entity entity){
+		for(BoundingBox box: boundingBoxes){
+			if(box.isInBox(entity)){
+				box.setColor(Color.BLUE);
+			}else{
+				box.setColor(boxColor.get(boundingBoxes.indexOf(box)));
+			}
+			box.render(entity);
+		}
 	}
 
 
