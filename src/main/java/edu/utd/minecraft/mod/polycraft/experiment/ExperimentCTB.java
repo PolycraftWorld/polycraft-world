@@ -83,8 +83,8 @@ public class ExperimentCTB extends Experiment{
 	}
 	
 	@Override
-	public void onTickUpdate() {
-		super.onTickUpdate();
+	public void onServerTickUpdate() {
+		super.onServerTickUpdate();
 		if(currentState == State.Starting){
 			if(tickCount == 0){
 				for(EntityPlayerMP player: players){
@@ -120,6 +120,18 @@ public class ExperimentCTB extends Experiment{
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void onClientTickUpdate(){
+		if(currentState == State.Starting){
+			if(tickCount == 0){
+				for(Base base: bases)
+					base.setRendering(true);
+				tickCount++;
+			}
+		}
+				
 	}
 	
 	private final String prepBoundingBoxUpdates() {

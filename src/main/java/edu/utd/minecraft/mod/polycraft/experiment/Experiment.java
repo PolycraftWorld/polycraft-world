@@ -119,7 +119,12 @@ public abstract class Experiment {
 	}
 	
 	//Main update function for Experiments
-	public void onTickUpdate(){
+	public void onServerTickUpdate(){
+		
+	}
+	
+	//Main update function for client sided events in Experiments
+	public void onClientTickUpdate(){
 		
 	}
 	
