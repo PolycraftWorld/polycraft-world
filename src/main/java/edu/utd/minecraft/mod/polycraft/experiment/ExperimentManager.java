@@ -66,24 +66,6 @@ public class ExperimentManager {
 		
 	}
 	
-	
-	//I need things.
-		public int[] playerAttemptToConnect(EntityPlayerMP player, int experimentId) {
-			//check if experimentId is valid
-			//check if experimentId can take in player
-			//check if any other issues exist. 
-			
-			//return an integer (or maybe enum?) that will display to the client the error/success message. Maybe it could also just return a string...
-			
-			return new int[]{255, 60, 255};
-		}
-	
-	//Queue system/lobby for players entering experiment n
-	//needs to be able to add and remove players from queue; + detect disconnections
-	public void queue(){
-		
-	}
-	
 	//I need things.
 	public int[] playerAttemptToConnect(EntityPlayerMP player, int experimentId) {
 		//check if experimentId is valid
