@@ -98,38 +98,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	public void updateScore(final String decompressedJson) {
 		Gson gson = new Gson();
 		this.teamList = gson.fromJson(decompressedJson, new TypeToken<HashMap<String, Float>>() {}.getType());
-		
+		PolycraftMod.logger.debug(this.teamList.toString());
 	}
-	
-//	@SubscribeEvent
-//	public void onClientPacket(final ClientCustomPacketEvent event) {
-//		try {
-//			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
-//			pendingDataPacketType = DataType.values()[payload.getInt()];
-//			switch (pendingDataPacketType) {
-//			case UpdatePlayer:
-//				byte[] b = new byte[payload.remaining()];
-//
-//				playerTeam = CompressUtil.decompress(payload.get(b).array());
-//				System.out.println("incoming data: " + playerTeam); // TODO: comment this.
-//				DisplayScoreboard = true;
-//				break;
-//			case UpdateScore:
-//				float val = payload.getFloat();
-//				byte[] c = new byte[payload.remaining()];
-//				String currentTeamName = CompressUtil.decompress(payload.get(c).array());
-//				teamList.put(currentTeamName, val);
-//				DisplayScoreboard = true;
-//				break;
-//			default:
-//				DisplayScoreboard = false;
-//				break;
-//			}
-//
-//		} catch (IOException e) {
-//			PolycraftMod.logger.error("Unable to decompress data packetes", e);
-//		}
-//	}
 
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -148,7 +118,7 @@ public class ClientScoreboard extends ScoreboardManager {
 						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
 						y += overlayDistanceBetweenY;
 						for (String st : teamList.keySet()) {
-							client.fontRenderer.drawStringWithShadow(String.format("%s\t\t%f", st, teamList.get(st)), x,
+							client.fontRenderer.drawStringWithShadow(String.format("|%-12s| %3.1f", st, teamList.get(st)), x,
 									y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}
@@ -172,17 +142,18 @@ public class ClientScoreboard extends ScoreboardManager {
 						y += overlayDistanceBetweenY;
 						client.fontRenderer.drawStringWithShadow("read this.", x, y, overlayColor);
 						y += overlayDistanceBetweenY;
-					}
+					} else {
 		
-//					//show this anyways?? even on menu pause??
-//					int x = overlayStartX;
-//					int y = overlayStartY;
-//					client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
-//					y += overlayDistanceBetweenY;
-//					client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
-//					y += overlayDistanceBetweenY;
-//					client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
-//					y += overlayDistanceBetweenY;
+						//show this anyways?? even on menu pause??
+						int x = overlayStartX;
+						int y = overlayStartY;
+						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
+						y += overlayDistanceBetweenY;
+						client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
+						y += overlayDistanceBetweenY;
+						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
+						y += overlayDistanceBetweenY;
+					}
 					
 				}
 

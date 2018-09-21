@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,6 +21,7 @@ public abstract class Experiment {
 	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
+	protected CustomScoreboard scoreboard;
 	protected final static Collection<EntityPlayerMP> players = Lists
 			.newLinkedList();	//List of players participating in experiment instance
 	protected int playersNeeded = 4;

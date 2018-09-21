@@ -1,8 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -17,6 +21,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sun.security.ntlm.Client;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -30,6 +36,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
@@ -50,7 +57,9 @@ public class ClientEnforcer extends Enforcer {
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
-
+	
+	private ArrayList<BoundingBox> boxList = new ArrayList<BoundingBox>();
+	
 	private final Minecraft client;
 
 	private static class StatusMessage {
@@ -92,6 +101,15 @@ public class ClientEnforcer extends Enforcer {
 		statusMessages.add(new StatusMessage(message, PolycraftMod.convertSecondsToGameTicks(seconds)));
 	}
 
+	private boolean isByteArrayEmpty(final byte[] array) {
+        for (byte b : array) {
+            if (b != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+	
 	@SubscribeEvent
 	public void onClientPacket(final ClientCustomPacketEvent event) {
 		try {
@@ -105,7 +123,7 @@ public class ClientEnforcer extends Enforcer {
 			else {
 				pendingDataPacketsBytes -= payload.array().length;
 				pendingDataPacketsBuffer.put(payload);
-				if (pendingDataPacketsBytes == 0) {
+				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
 					switch (pendingDataPacketType) {
 					case PrivateProperties:
 						final int count = updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1, false);
@@ -131,9 +149,17 @@ public class ClientEnforcer extends Enforcer {
 						//showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	// commited out for a second -matt
 						break;
 					case Challenge:
-						if(pendingDataPacketTypeMetadata == 1){
-							ExperimentManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
-						}else{
+						if(pendingDataPacketTypeMetadata == 2){
+							System.out.println("CLient is trying to tell the ExperimentManager something -> this isn't possible");
+							//ExperimentManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
+							PolycraftMod.logger.debug("Sending bounding box data...");
+							this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						} else if(pendingDataPacketTypeMetadata == 3) {
+							PolycraftMod.logger.info("User has left the dimension");
+							this.boxList.clear();
+						}
+						
+						else{
 							final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
 							showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
@@ -158,6 +184,7 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					}
 					pendingDataPacketType = DataPacketType.Unknown;
+					pendingDataPacketTypeMetadata = 0; //is this a problem?
 					pendingDataPacketsBuffer = null;
 				}
 			}
@@ -303,6 +330,24 @@ public class ClientEnforcer extends Enforcer {
 
 	}
 
+	private void updateExperimentalBoundingBox(String decompressedJson) {
+		Gson gson = new Gson();
+		this.boxList = gson.fromJson(decompressedJson, new TypeToken<ArrayList<BoundingBox>>() {}.getType());
+		PolycraftMod.logger.debug(this.boxList.toString());
+		final EntityPlayer player = client.thePlayer;
+		if(!boxList.isEmpty() && player.dimension == 8) {
+		for(BoundingBox box: boxList){
+			if(box.isInBox(player)){
+				box.setColor(Color.BLUE);
+			}else{
+				box.setColor(Color.GRAY);
+			}
+			//moving this call to the Client.
+			box.render(player);
+		}
+	}
+	}
+	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
 
 		receivingPlayer.addChatMessage(new ChatComponentText("<" + username + "> " + message));
@@ -334,6 +379,19 @@ public class ClientEnforcer extends Enforcer {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
 				final PrivateProperty insidePrivateProperty = findPrivateProperty(player);
+//				//TODO: Make the rendering work on multiplayer. Maybe this should not be run every tick? 
+				//if(!boxList.isEmpty() && player.dimension == 8) {
+//					for(BoundingBox box: boxList){
+//						if(box.isInBox(player)){
+//							box.setColor(Color.BLUE);
+//						}else{
+//							box.setColor(Color.GRAY);
+//						}
+//						//moving this call to the Client.
+//						box.render(player);
+//					}
+//				}
+				
 				if (client.currentScreen == null)
 				{
 					final PrivateProperty targetPrivateProperty = actionPreventedPrivateProperty == null ? insidePrivateProperty : actionPreventedPrivateProperty;

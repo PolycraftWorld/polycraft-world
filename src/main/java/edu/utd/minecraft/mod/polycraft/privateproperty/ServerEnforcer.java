@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
@@ -53,6 +54,7 @@ public class ServerEnforcer extends Enforcer {
 		// different world java objects for the same world
 		if ((event.phase == TickEvent.Phase.END)
 				&& (event.world.provider.dimensionId == 0 || event.world.provider.dimensionId == 8)) { //added properties to challenge dimension --matt
+			//System.out.println("I have done this");
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
@@ -184,6 +186,7 @@ public class ServerEnforcer extends Enforcer {
 	}
 	
 	public void sendScoreboardUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+		PolycraftMod.logger.debug("Scoreboard update sending...");
 		//TODO: add meta-data parsing.
 		final FMLProxyPacket[] packetList = getDataPackets(DataPacketType.Scoreboard, 0, jsonStringToSend);
 		if(packetList != null) {
@@ -199,7 +202,7 @@ public class ServerEnforcer extends Enforcer {
 	}
 	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
-		sendDataPackets(DataPacketType.Challenge, 0, player);
+		sendDataPackets(DataPacketType.Challenge, 2, player);
 	}
 	
 	public void minigameUpdate(int meta) {
@@ -210,8 +213,25 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.RaceMinigame, 0, null);
 	}
 	
+	public void sendExperimentUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+			FMLProxyPacket[] packetList = null;
+				if(jsonStringToSend == null) {
+					packetList = getDataPackets(DataPacketType.Challenge, 3, "");
+				} else {
+					packetList = getDataPackets(DataPacketType.Challenge, 2, jsonStringToSend);
+				}
+				if(packetList != null) {
+					for (final FMLProxyPacket packet : packetList) {
+						netChannel.sendTo(packet, player);
+					}
+					
+				}
+	}
+	
 	public void experimentUpdate() {
-		sendDataPackets(DataPacketType.Challenge, 1, null);
+		//sendDataPackets(DataPacketType.Challenge, 1, null); //what?? if it's 1, then you're telling the server to tell the client to tell the server to update itself. why this.
+		sendDataPackets(DataPacketType.Challenge, 0, null); //is this necessary? Also, How are we rendering the bounding boxes? I don't see them :(
 	}
 	
 	private void sendDataPackets(final DataPacketType type) {
@@ -261,6 +281,9 @@ public class ServerEnforcer extends Enforcer {
 		} catch (IOException e) {
 			PolycraftMod.logger.error("Unable to compress packet data", e);
 			return null;
+		} catch (NullPointerException e) {
+			PolycraftMod.logger.error("Null pointer exception encountered... returning a null packet.");
+			return null;
 		}
 	}
 	
@@ -276,7 +299,7 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Broadcast ? broadcastMessage
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
-							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1? gson.toJson(ExperimentManager.INSTANCE)
+							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1 ? gson.toJson(ExperimentManager.INSTANCE)
 																		:tempChallengeProperties) 
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
@@ -515,8 +538,26 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.Friends);
 			
 			//sendDataPackets(DataPacketType.Governments);
-			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-			sendDataPackets(DataPacketType.playerID, 0, player);
+			try {
+				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+				sendDataPackets(DataPacketType.playerID, 0, player);
+			} catch (NullPointerException ex) {
+				//TODO: DELET THIS.
+				try {
+					final MinecraftServer minecraftserver = MinecraftServer
+							.getServer();
+					final GameProfile gameprofile = new GameProfile(
+							player.getUniqueID(), player.getDisplayName());
+					if (gameprofile != null)
+						minecraftserver.getConfigurationManager()
+								.func_152601_d(gameprofile);
+				} catch (IllegalArgumentException e) {
+					System.out.println("Could not add to whitelist: "
+							+ player.getDisplayName());
+				}
+				//this.whitelist.add(player.getDisplayName().toLowerCase(), player.getUniqueID().toLong());
+			}
+				sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
@@ -528,6 +569,10 @@ public class ServerEnforcer extends Enforcer {
 							"Unable to log player last world seen", e);
 				}
 			}
+//			//If player tries to spawn in experiments division, send them to UTD!
+//			if(player.dimension==8) {
+//				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
+//			}
 		}
 	}
 }

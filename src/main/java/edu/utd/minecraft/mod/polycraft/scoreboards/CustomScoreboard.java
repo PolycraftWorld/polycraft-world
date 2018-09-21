@@ -60,9 +60,10 @@ public class CustomScoreboard {
 				playerList.put(player, team);
 				break;
 			}
-			if (team == null) {
-				throw new IOException();
-			}
+			
+		}
+		if (team == null) {
+			throw new IOException();
 		}
 		this.needToSendUpdate = true;
 	}

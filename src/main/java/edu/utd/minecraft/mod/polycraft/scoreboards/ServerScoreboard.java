@@ -89,21 +89,7 @@ public class ServerScoreboard extends ScoreboardManager {
 				testing.put(tm.toString(), teamScores.get(tm));
 			}
 			final String updateScoreJson = gson.toJson(testing, top);
-		//	System.out.println("This is the value of the encoded String" + updateScoreJson);
-		//	final FMLProxyPacket[] packets = getDataPackets(type, updateScoreJson);
-			
-//				final int payloadPacketsRequired = teamScores.size();
-//
-//				packets = new FMLProxyPacket[payloadPacketsRequired];
-//
-//				// send the string of data to the client.
-//				int counter = 0;
-//				for (Team tm : teamScores.keySet()) {
-//					packets[counter] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal())
-//							.writeFloat(teamScores.get(tm)).writeBytes(CompressUtil.compress(tm.toString())).copy(),
-//							netChannelName);
-//					counter++;
-//				}
+
 			for (EntityPlayerMP player : board.getPlayers()) {
 				if (updateScoreJson != null & player != null & player.isEntityAlive()) {
 					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, player);
@@ -119,67 +105,6 @@ public class ServerScoreboard extends ScoreboardManager {
 			break;
 		}
 	}
-
-//	private FMLProxyPacket[] buildDataPackets(final DataType type, final HashMap<Team, Float> teamScores,
-//			final String teamPlayerIsOn) {
-//		final int payloadPacketsRequired = teamScores.size();
-//		final int controlPacketsRequired = 1;
-//
-//		final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
-//
-//		try {
-//			// send the control packet containing meta-data
-//			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(payloadPacketsRequired)
-//					.writeBytes(CompressUtil.compress(teamPlayerIsOn)).copy(), netChannelName);
-//
-//			// send the string of data to the client.
-//			int counter = 0;
-//			for (Team tm : teamScores.keySet()) {
-//				packets[controlPacketsRequired + counter] = new FMLProxyPacket(Unpooled.buffer()
-//						.writeFloat(teamScores.get(tm)).writeBytes(CompressUtil.compress(tm.toString())).copy(),
-//						netChannelName);
-//				counter++;
-//			}
-//			return packets;
-//		} catch (IOException e) {
-//			PolycraftMod.logger.error("Unable to compress scoreboard packets", e);
-//			return null;
-//		}
-//	}
-
-//	private void sendDataPackets(final DataType type, final ArrayList<EntityPlayerMP> playerList,
-//			final ArrayList<Float> scoreSet) {
-//		final FMLProxyPacket[] packets = getDataPackets(type, scoreSet);
-//		if (packets != null) {
-//			for (EntityPlayerMP player : playerList) {
-//				for (final FMLProxyPacket packet : packets) {
-//					if (player == null) {
-//						System.out.println("Potato.");// netChannel.sendToAll(packet); //TODO: Remove this.
-//					} else {
-//						netChannel.sendTo(packet, player);
-//					}
-//				}
-//			}
-//		}
-//	}
-
-//	private FMLProxyPacket[] getDataPackets(final DataType type, final ArrayList<Float> scoreSet) {
-//		final int payloadPacketsRequired = scoreSet.size();
-//		final int controlPacketsRequired = 1;
-//
-//		final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
-//
-//		// send the control packet containing meta-data
-//		packets[0] = new FMLProxyPacket(
-//				Unpooled.buffer().writeInt(type.ordinal()).writeInt(payloadPacketsRequired).copy(), netChannelName);
-//
-//		// send the string of data to the client.
-//		for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
-//			packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
-//					Unpooled.buffer().writeFloat(scoreSet.get(payloadIndex)).copy(), netChannelName);
-//		}
-//		return packets;
-//	}
 
 	 private FMLProxyPacket[] getDataPackets(final DataType type, final String data) {
 		 try {
@@ -225,17 +150,17 @@ public class ServerScoreboard extends ScoreboardManager {
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-			ArrayList<String> demo = new ArrayList<String>();
-			demo.add("Dhruv");
-			demo.add("Eric");
-			CustomScoreboard abc = addNewScoreboard(demo);
-			try {
-				abc.addPlayer(player, "Dhruv");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("ERROR.");
-			}
-			abc.updateScore("Dhruv", 100f);
+//			ArrayList<String> demo = new ArrayList<String>();
+//			demo.add("Dhruv");
+//			demo.add("Eric");
+//			CustomScoreboard abc = addNewScoreboard(demo);
+//			try {
+//				abc.addPlayer(player, "Dhruv");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				System.out.println("ERROR.");
+//			}
+//			abc.updateScore("Dhruv", 100f);
 			// sendDataPackets(DataType.PrivateProperties, 1);
 
 		}

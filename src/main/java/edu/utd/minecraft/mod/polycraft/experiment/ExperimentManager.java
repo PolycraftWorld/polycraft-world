@@ -44,6 +44,7 @@ public class ExperimentManager {
 	}
 	
 	public static void UpdatePackets(String experimentJson,int id){
+		//System.out.println("This is a test");
 		Gson gson = new Gson();
 		TypeToken<?> typeToken = TypeToken.get(ExperimentManager.class);
 		ExperimentManager temp = gson.fromJson(experimentJson, typeToken.getType());
