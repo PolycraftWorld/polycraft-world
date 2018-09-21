@@ -7,6 +7,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -29,6 +31,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
 public class BlockPolyPortal extends BlockBreakable {
 	public final CustomObject config;
@@ -195,12 +198,23 @@ public class BlockPolyPortal extends BlockBreakable {
 			if(playerMP.dimension==8){
 				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
 			}else if(playerMP.dimension==0) {
-				
-				int [] whereToTeleport = ExperimentManager.INSTANCE.playerAttemptToConnect(playerMP, this.ExperimentId);
-				if(whereToTeleport != null &&  whereToTeleport.length == 3) {
-					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8),whereToTeleport[0], whereToTeleport[1], whereToTeleport[2]));
-				} else {
-					playerMP.addChatComponentMessage(new ChatComponentText("Error! Something went wrong..."));
+				//test to see if experiment 1 has bee created yet
+				int id = ExperimentManager.getNextID();
+				if(id == 1){
+					ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 8, 0, 144,DimensionManager.getWorld(8)));
+					ExperimentManager.INSTANCE.init();
+				}else{		//experiment has already been initialized
+					if(ExperimentManager.INSTANCE.getExperimentStatus(1) == Experiment.State.WaitingToStart){
+						int [] whereToTeleport = ExperimentManager.INSTANCE.playerAttemptToConnect(playerMP, this.ExperimentId);
+						if(whereToTeleport != null &&  whereToTeleport.length == 3) {
+							//playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8),whereToTeleport[0], whereToTeleport[1], whereToTeleport[2]));
+							ExperimentManager.INSTANCE.addPlayerToExperiment(1, playerMP);
+						} else {
+							playerMP.addChatComponentMessage(new ChatComponentText("Error! Something went wrong..."));
+						}
+					}else{
+						playerMP.addChatComponentMessage(new ChatComponentText("Sorry! Enrollment for this Experiment is no longer available"));
+					}
 				}
 				
 			}

@@ -14,6 +14,7 @@ import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ExperimentCTB extends Experiment{
@@ -24,6 +25,7 @@ public class ExperimentCTB extends Experiment{
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
+		this.playersNeeded = 1;
 		int maxBases = 20;
 		bases = new int[maxBases][2];
 		int workarea = size*16;
@@ -43,35 +45,32 @@ public class ExperimentCTB extends Experiment{
 	@Override
 	public void start(){
 		currentState = State.Starting;
-		for(EntityPlayerMP player: players){
-			//spawnPlayer(player);
-			tickCount = 0;
-		}
+		tickCount = 0;
 		for(BoundingBox box: boundingBoxes){
 			box.setRendering(true);
 		}
 	}
 	
-	private void spawnPlayer(EntityPlayerMP player){
+	private void spawnPlayer(EntityPlayerMP player, int y){
 		double x = Math.random()*(size*16 - 10) + xPos + 5;
-		double z = Math.random()*size*16 + zPos;
+		double z = Math.random()*(size*16 - 10) + zPos + 5;
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 8,	
-				new PolycraftTeleporter(player.mcServer.worldServerForDimension(8), (int)x, 93, (int)z));
+				new PolycraftTeleporter(player.mcServer.worldServerForDimension(8), (int)x, y, (int)z));
 	}
 	
 	@Override
 	public void onTickUpdate() {
 		super.onTickUpdate();
 		if(currentState == State.Starting){
-			if(tickCount == 40){
+			if(tickCount == 0){
 				for(EntityPlayerMP player: players){
-					spawnPlayer(player);
+					player.addChatMessage(new ChatComponentText("Experiment Will be starting in 10 seconds!"));
+					spawnPlayer(player, 126);
 				}
-			}else if(tickCount >= 100){
+			}else if(tickCount >= 200){
 				for(EntityPlayerMP player: players){
-					double x = Math.random()*(size*16 - 10) + xPos + 5;
-					double z = Math.random()*size*16 + zPos;
-					player.setLocationAndAngles(x, 93, z, player.rotationYaw, 0.0F);
+					spawnPlayer(player, 93);
+					player.addChatMessage(new ChatComponentText("§aSTART"));
 				}
 				currentState = State.Running;
 			}
@@ -91,6 +90,7 @@ public class ExperimentCTB extends Experiment{
 	@Override
 	protected void generateArea(int xPos, int yPos, int zPos, World world){
 		super.generateArea(xPos, yPos, zPos, world);	//generate the base flat area
+		super.generateSpectatorBox(xPos, yPos, zPos, world);
 		for(int i = 0; i < bases.length;i++){	//generate bases
 			int x = bases[i][0];
 			int z = bases[i][1];

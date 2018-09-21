@@ -19,6 +19,7 @@ import net.minecraftforge.common.DimensionManager;
 public class ExperimentManager {
 
 	public static ExperimentManager INSTANCE = new ExperimentManager();
+	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
 
@@ -67,14 +68,19 @@ public class ExperimentManager {
 	}
 	
 	//I need things.
-	public int[] playerAttemptToConnect(EntityPlayerMP player, int experimentId) {
+	public int[] playerAttemptToConnect(EntityPlayerMP player, int experimentID) {
 		//check if experimentId is valid
-		//check if experimentId can take in player
-		//check if any other issues exist. 
-		
-		//return an integer (or maybe enum?) that will display to the client the error/success message. Maybe it could also just return a string...
-		
-		return new int[]{255, 60, 255};
+		if(experiments.containsKey(experimentID)){
+			//check if experimentId can take in player
+			if(ExperimentManager.INSTANCE.getExperimentStatus(experimentID) == Experiment.State.WaitingToStart){
+				return experiments.get(experimentID).getSpectatorLocation();
+			}
+		}
+		return null;
+	}
+	
+	public Experiment.State getExperimentStatus(int id){
+		return experiments.get(id).currentState;
 	}
 	
 	
@@ -83,11 +89,21 @@ public class ExperimentManager {
 	{
 		if (experiments.containsKey(id))
 		{
-			//you can just call put? 
+			//for debugging purposes as errors in commands do not natively print to console
 		    throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, One is already registered", id));
 		}
-		experiments.put(id, ex);
+		if(id == nextAvailableExperimentID){
+			experiments.put(id, ex);
+			nextAvailableExperimentID++;
+		}else{
+			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
+		}
 	}
+	
+	public static int getNextID(){
+		return nextAvailableExperimentID;
+	}
+	
 	public static void registerExperimentTypes()
 	{
 		experimentTypes.put(1, ExperimentCTB.class);

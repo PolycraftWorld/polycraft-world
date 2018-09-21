@@ -25,9 +25,8 @@ import net.minecraftforge.common.DimensionManager;
 public class CommandChallenge  extends CommandBase{
 
 	private static final String chatCommandChallengeGen = "gen";
-	private static final String chatCommandChallengereg = "reg";
-	private static final String chatCommandChallengeinit = "init";
-	private static final String chatCommandChallengeAdd = "add";
+	private static final String chatCommandChallengenew = "new";
+	private static final String chatCommandChallengejoin = "join";
 	private static final String chatCommandChallengeStart = "start";
 	private final List aliases;
   
@@ -77,12 +76,14 @@ public class CommandChallenge  extends CommandBase{
 				// generate the challenge room 
 				if (chatCommandChallengeGen.equalsIgnoreCase(args[0])) {
 					generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
-				}else if (chatCommandChallengereg.equalsIgnoreCase(args[0])){
+				}else if (chatCommandChallengenew.equalsIgnoreCase(args[0])){
+					int id = ExperimentManager.getNextID();
 					ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 8, 0, 144,DimensionManager.getWorld(8)));
-				}else if(chatCommandChallengeinit.equalsIgnoreCase(args[0])){
 					ExperimentManager.INSTANCE.init();
-				}else if(chatCommandChallengeAdd.equalsIgnoreCase(args[0])){
-					ExperimentManager.INSTANCE.addPlayerToExperiment(1, player);
+				}else if(chatCommandChallengejoin.equalsIgnoreCase(args[0])){
+					if(args.length > 1){
+						ExperimentManager.INSTANCE.addPlayerToExperiment(Integer.parseInt(args[1]), player);
+					}
 				}else if(chatCommandChallengeStart.equalsIgnoreCase(args[0])){
 					ExperimentManager.INSTANCE.start(1);
 				}else{

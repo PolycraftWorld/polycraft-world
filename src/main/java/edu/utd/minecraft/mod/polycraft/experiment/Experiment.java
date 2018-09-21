@@ -22,6 +22,7 @@ public abstract class Experiment {
 	public final World world;
 	protected final static Collection<EntityPlayerMP> players = Lists
 			.newLinkedList();	//List of players participating in experiment instance
+	protected int playersNeeded = 4;
 	public enum State{
 		PreInit,
 		Initializing, 
@@ -49,6 +50,9 @@ public abstract class Experiment {
 			return false;
 		}else{
 			players.add(player);
+			if(players.size() == playersNeeded){
+				start();
+			}
 			return true;
 		}
 	}
@@ -76,6 +80,24 @@ public abstract class Experiment {
 					world.setBlock(x, yPos - 2, z, dirt, 0, 3);
 					world.setBlock(x, yPos - 1, z, dirt, 0, 3);
 					world.setBlock(x, yPos, z, grass, 0, 3);
+				}
+			}
+		}
+	}
+	
+	protected void generateSpectatorBox(int xPos, int yPos, int zPos, World world){
+		Block glass = Block.getBlockFromName("stained_glass");
+		boolean result = false;
+		int y = yPos +30;
+		for(int x = xPos; x < xPos + 16*size; x++){
+			for(int z = zPos; z < zPos + 16*size; z++){
+				if(posIsWall(x, z)){
+					for(int i = -18; i < 6; i++){
+						world.setBlock(x, y + i, z, glass, 0, 3);
+					}
+				}else{
+					world.setBlock(x, y, z, glass, 0, 3);
+					world.setBlock(x, y + 6, z, glass, 0, 3);
 				}
 			}
 		}
@@ -109,5 +131,9 @@ public abstract class Experiment {
 	
 	public void render(Entity entity){
 		
+	}
+	
+	public int[] getSpectatorLocation(){
+		return new int[]{xPos + (size*8), yPos + 33, zPos + (size*8)};
 	}
 }
