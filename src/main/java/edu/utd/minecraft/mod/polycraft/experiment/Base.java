@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -16,6 +17,11 @@ public class Base {
 		Occupied,	//Occupied by Team that already Owns Base
 		Claimed;	//claimed and unoccupied
 	}
+	
+	public State currentState;
+	
+	private Team currentTeam;
+	
 	private BoundingBox box;
 	private Color color;
 	private int xPos,yPos,zPos;
@@ -26,6 +32,7 @@ public class Base {
 		this.yPos = y;
 		this.zPos = z;
 		this.color = color;
+		this.currentState = State.Free;
 	}
 	
 	public void setRendering(boolean rendering){
@@ -95,6 +102,14 @@ public class Base {
 		world.setBlock(xPos+1, yPos+6, zPos-1, stairs, 5, 3);
 		world.setBlock(xPos, yPos+6, zPos-1, stairs, 6, 3);
 		world.setBlock(xPos, yPos+6, zPos+1, stairs, 7, 3);
+	}
+
+	public Team getCurrentTeam() {
+		return currentTeam;
+	}
+
+	public void setCurrentTeam(Team currentTeam) {
+		this.currentTeam = currentTeam;
 	}
 	
 }

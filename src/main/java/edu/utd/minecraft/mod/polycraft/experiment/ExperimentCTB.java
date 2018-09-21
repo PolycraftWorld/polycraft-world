@@ -16,6 +16,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
@@ -28,6 +29,7 @@ public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected ArrayList<String> teamNames = new ArrayList<String>();
 	protected int tickCount = 0;
+	private final float MAXSCORE = 500;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
@@ -94,7 +96,7 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= 200){
 				for(EntityPlayerMP player: players){
 					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("§aSTART"));
+					player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
 					this.scoreboard.updateScore(player.getDisplayName(), 0);
 				}
 				//this.scoreboard.resetScores(0);
@@ -102,25 +104,85 @@ public class ExperimentCTB extends Experiment{
 			}
 			tickCount++;
 		}else if(currentState == State.Running){
+			tickCount++;
+			updateBaseStates();
 			for(EntityPlayerMP player: players){
 				if(player.dimension != 8) {
 					players.remove(player);
+					break; //protect the iterator?? Not sure if we can mutate players... Let more people be removed in future ticks.
 					//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(null, player);
 					//return;
 				}
+				
+				if(tickCount % 20 == 0) {
+					//every 1 second, add points to each base that is occupied.
+					for(Base base : bases) {
+						if(base.currentState == Base.State.Claimed) {
+							this.scoreboard.updateScore(base.getCurrentTeam().toString(), 1);
+						}else if(base.currentState == Base.State.Occupied) {
+							this.scoreboard.updateScore(base.getCurrentTeam().toString(), 1);
+						}
+					}
+					for(Float score : this.scoreboard.getScores()) {
+						if (score > MAXSCORE) {
+							currentState = State.Ending;
+							return;
+						}
+					}
+				}
 				Base base = isPlayerInBase(player);
 				if(base != null) {
- 					this.scoreboard.updateScore(player.getDisplayName(), 1);
 						if(base.getColor() == Color.GRAY){
 						base.setColor(Color.blue);
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
-						//ServerEnforcer.INSTANCE.experimentUpdate(); //what the hell?
-					
 					}
 				}
+			} //end of check for each player-entity on the server
+		//End of Running state
+		} else if(currentState == State.Ending) {
+			for(Team tm : this.scoreboard.getTeamScores().keySet()) {
+				
 			}
 		}
 	}
+	
+	private void updateBaseStates() {
+		for (Base base : bases) {
+			//assume no players are in any base. we will check for players later.
+			if(base.currentState == Base.State.Occupied) {
+				base.currentState = Base.State.Claimed;
+			} else if (base.currentState == Base.State.Contested) {
+				//assume that the original owners won the battle (this can be checked later):
+				base.currentState = Base.State.Occupied;
+			}
+			
+			//now, check for conflicts
+			
+			//check to see if bases are occupied
+			//TODO: add the "occupied flag" to the BoundingBox class.
+			for(EntityPlayerMP player : players) {
+				if(base.isInBase(player)) {
+					if(base.currentState == Base.State.Occupied) {
+						if (!this.scoreboard.getPlayerTeam(player).equals(base.getCurrentTeam())) {
+							base.currentState = Base.State.Contested;
+							//base.setCurrentTeam(null);
+							//now, for any future players that are checked, this if statement will not trigger.
+						}
+					}
+					//if player enters a free base or they're actually inside their own base:
+					else if(base.currentState == Base.State.Free) {
+						base.currentState = Base.State.Occupied;
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player)); //assign the team to the first player in the list.
+					} else if(base.currentState == Base.State.Claimed) {
+						base.currentState = Base.State.Occupied;
+						//if (!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam(player))) {	
+						}
+					}
+					//if player enters 
+				}
+			}
+		}
+
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();

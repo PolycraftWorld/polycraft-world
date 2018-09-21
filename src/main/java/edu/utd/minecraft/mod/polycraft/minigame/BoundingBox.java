@@ -19,7 +19,7 @@ public class BoundingBox {
 	private double x1, z1, x2, z2; // The (x, z) coordinates of the northwest and southeast corners.
 	private float y1 = 0, y2 = 256; // The lowest and highest points of the bounding box.
 	private boolean rendering = true; // True if the bounding box is visible to clients.
-
+	
 	/**
 	 * <pre>
 	 * BoundingBox(&lt;x1&gt;, &lt;z1&gt;, &lt;x2&gt;, &lt;z2&gt;, [y1], [y2], [{@link Color}])
