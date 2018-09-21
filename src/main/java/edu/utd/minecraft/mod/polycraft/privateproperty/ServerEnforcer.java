@@ -56,7 +56,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
-		//onWorldTickGovernments(event);
+			//onWorldTickGovernments(event);
 
 		}
 	}
@@ -276,6 +276,7 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
 									: gson.toJson(this.playerID)); 
+			//System.out.println("type: " + DataPacketType.);
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
@@ -506,7 +507,8 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
-			sendDataPackets(DataPacketType.Governments);
+			
+			//sendDataPackets(DataPacketType.Governments);
 			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
 			sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {

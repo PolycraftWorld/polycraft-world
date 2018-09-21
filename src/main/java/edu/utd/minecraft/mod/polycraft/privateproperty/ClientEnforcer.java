@@ -138,6 +138,7 @@ public class ClientEnforcer extends Enforcer {
 					case Scoreboard:
 						System.out.println("Packets have all been sent to the client!");
 						ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case playerID:
 						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
@@ -146,6 +147,7 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case RaceMinigame:
 						RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case Unknown:
 					default:
 						break;
