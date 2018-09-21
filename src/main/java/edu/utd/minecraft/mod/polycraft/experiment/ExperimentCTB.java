@@ -114,7 +114,7 @@ public class ExperimentCTB extends Experiment{
 					//return;
 				}
 				BoundingBox box = isPlayerInBox(player);
-				if(box != null && world.getWorldTime() % 20 == 0) {
+				if(box != null) {
  					this.scoreboard.updateScore(player.getDisplayName(), 1);
 						if(box.getColor() == Color.GRAY){
 						boxColor.set(boundingBoxes.indexOf(box), Color.blue);
