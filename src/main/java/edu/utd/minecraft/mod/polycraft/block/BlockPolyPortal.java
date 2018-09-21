@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
@@ -23,6 +24,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -31,6 +33,7 @@ import net.minecraft.world.WorldServer;
 public class BlockPolyPortal extends BlockBreakable {
 	public final CustomObject config;
 	private IIcon icon;
+	private int ExperimentId;
 	
 	public BlockPolyPortal(CustomObject config) {
 		super("portal", Material.portal, false);
@@ -38,6 +41,8 @@ public class BlockPolyPortal extends BlockBreakable {
 		this.config=config;
 		this.setLightLevel(1.0F);
 		this.setTickRandomly(true);
+		this.ExperimentId = 1;
+		this.setBlockName("Experiments Portal");
 	}
 
 	//@Override
@@ -177,17 +182,27 @@ public class BlockPolyPortal extends BlockBreakable {
 
     /**
      * Triggered whenever an entity collides with this block (enters into the block). Args: world, x, y, z, entity
+     * This means the player wants to teleport! If the player is on dimension==0, they will be teleported to the spectator zone associated
+     * with the block's experiment ID. In the future, the player may have a GUI that passes this desired experiment
+     * id to the server; however, for now, this is hard-coded. 
      */
-    public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
+    public void onEntityCollidedWithBlock(World world, int xpos, int ypos, int zpos, Entity possiblePlayer)
     {
-    	if (p_149670_5_.ridingEntity == null && p_149670_5_.riddenByEntity == null && !p_149670_1_.isRemote && p_149670_5_ instanceof EntityPlayerMP )
+    	if (possiblePlayer instanceof EntityPlayerMP && possiblePlayer.ridingEntity == null && possiblePlayer.riddenByEntity == null && !world.isRemote )
         {
-            WorldServer worldserver = (WorldServer) ((EntityPlayerMP)p_149670_5_).getEntityWorld();
-			EntityPlayerMP playerMP = (EntityPlayerMP) p_149670_5_;
+            WorldServer worldserver = (WorldServer) ((EntityPlayerMP)possiblePlayer).getEntityWorld();
+			EntityPlayerMP playerMP = (EntityPlayerMP) possiblePlayer;
 			if(playerMP.dimension==8){
-				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new ChallengeTeleporter(playerMP.mcServer.worldServerForDimension(0),false));			
+				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
 			}else if(playerMP.dimension==0) {
-				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new ChallengeTeleporter(playerMP.mcServer.worldServerForDimension(8),true));
+				
+				int [] whereToTeleport = ExperimentManager.INSTANCE.playerAttemptToConnect(playerMP, this.ExperimentId);
+				if(whereToTeleport != null &&  whereToTeleport.length == 3) {
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8),whereToTeleport[0], whereToTeleport[1], whereToTeleport[2]));
+				} else {
+					playerMP.addChatComponentMessage(new ChatComponentText("Error! Something went wrong..."));
+				}
+				
 			}
 		}
     }
@@ -196,12 +211,12 @@ public class BlockPolyPortal extends BlockBreakable {
      * A randomly called display update to be able to add particles or other items for display
      */
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
+    public void randomDisplayTick(World world, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
 
         if (p_149734_5_.nextInt(100) == 0)
         {
-            p_149734_1_.playSound((double)p_149734_2_ + 0.5D, (double)p_149734_3_ + 0.5D, (double)p_149734_4_ + 0.5D, "portal.portal", 0.5F, p_149734_5_.nextFloat() * 0.4F + 0.8F, false);
+            world.playSound((double)p_149734_2_ + 0.5D, (double)p_149734_3_ + 0.5D, (double)p_149734_4_ + 0.5D, "portal.portal", 0.5F, p_149734_5_.nextFloat() * 0.4F + 0.8F, false);
         }
 
         for (int l = 0; l < 4; ++l)
@@ -217,7 +232,7 @@ public class BlockPolyPortal extends BlockBreakable {
             d4 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
             d5 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
 
-            if (p_149734_1_.getBlock(p_149734_2_ - 1, p_149734_3_, p_149734_4_) != this && p_149734_1_.getBlock(p_149734_2_ + 1, p_149734_3_, p_149734_4_) != this)
+            if (world.getBlock(p_149734_2_ - 1, p_149734_3_, p_149734_4_) != this && world.getBlock(p_149734_2_ + 1, p_149734_3_, p_149734_4_) != this)
             {
                 d0 = (double)p_149734_2_ + 0.5D + 0.25D * (double)i1;
                 d3 = (double)(p_149734_5_.nextFloat() * 2.0F * (float)i1);
@@ -228,7 +243,7 @@ public class BlockPolyPortal extends BlockBreakable {
                 d5 = (double)(p_149734_5_.nextFloat() * 2.0F * (float)i1);
             }
 
-            p_149734_1_.spawnParticle("portal", d0, d1, d2, d3, d4, d5);
+            world.spawnParticle("portal", d0, d1, d2, d3, d4, d5);
         }
     }
 
@@ -243,7 +258,7 @@ public class BlockPolyPortal extends BlockBreakable {
     
 	
     @SideOnly(Side.CLIENT)
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItem(World world, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Item.getItemById(0);
     }

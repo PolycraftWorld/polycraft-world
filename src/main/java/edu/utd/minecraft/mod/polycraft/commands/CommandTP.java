@@ -11,6 +11,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class CommandTP extends CommandBase{
@@ -66,19 +67,21 @@ public class CommandTP extends CommandBase{
 			//System.out.println("Processing on Server side"); 
 			if (args.length > 0) {
 				// teleport to UTD
+				
 				if (chatCommandTeleportArgUTD.equalsIgnoreCase(args[0])) {
 					// only allow if the player is in a private property
 					if (Enforcer.findPrivateProperty(player) != null) {
 						player.setPositionAndUpdate(1 + .5,
 								player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3,
 								1 + .5);
+					}else {
+						player.addChatComponentMessage(new ChatComponentText("You need to be in a Private Property!"));
+						return;
 					}
 				}
 				// only allow if the player is in chunk 0,0 (center of UTD), or if
 				// they are in a private property already
-				else if ((Math.abs(player.chunkCoordX) <= 5 && Math
-						.abs(player.chunkCoordZ) <= 5)
-						|| Enforcer.findPrivateProperty(player) != null) {
+				else if ((Math.abs(player.chunkCoordX) <= 5 && Math.abs(player.chunkCoordZ) <= 5 || Enforcer.findPrivateProperty(player) != null)){
 					boolean valid = false;
 					int x = 0, z = 0;
 					// teleport to a user
@@ -87,14 +90,29 @@ public class CommandTP extends CommandBase{
 							// teleport to a player
 							final EntityPlayer targetPlayer = player.worldObj
 									.getPlayerEntityByName(args[1]);
-							if (targetPlayer != null && targetPlayer != player) {
-								final PrivateProperty targetPrivateProperty = Enforcer.findPrivateProperty(targetPlayer);
-								valid = targetPrivateProperty != null
-										&& targetPrivateProperty.actionEnabled(
-												player, Action.Enter);
-								x = (int) targetPlayer.posX;
-								z = (int) targetPlayer.posZ;
+							if (targetPlayer != null) {
+								if (targetPlayer != player) {
+									final PrivateProperty targetPrivateProperty = Enforcer.findPrivateProperty(targetPlayer);
+									valid = targetPrivateProperty != null
+											&& targetPrivateProperty.actionEnabled(
+													player, Action.Enter);
+									x = (int) targetPlayer.posX;
+									z = (int) targetPlayer.posZ;
+									if(!valid) {
+										player.addChatComponentMessage(new ChatComponentText("Selected user is not in a Private Property."));
+										return;
+									}
+								} else {
+									player.addChatComponentMessage(new ChatComponentText("You are here!"));
+									return;
+								}
+							} else {
+								player.addChatComponentMessage(new ChatComponentText("Selected user is unavailable."));
+								return;
 							}
+						} else {
+							player.addChatComponentMessage(new ChatComponentText("Enter a username!"));
+							return;
 						}
 					}
 					// teleport to a private property
@@ -106,11 +124,14 @@ public class CommandTP extends CommandBase{
 								int index = 0;
 								try {
 									index = Integer.parseInt(args[1]);
-									if (index < 0
-											|| index >= ownerPrivateProperties
-													.size())
+									//check to see what argument they passed in (i.e. which private property)
+									if (index < 0 || index >= ownerPrivateProperties.size()) {
+										player.addChatComponentMessage(new ChatComponentText("Error: Invalid Private Property."));
 										return;
+									}
+										
 								} catch (final Exception e) {
+								//edo nothibf	
 								}
 
 								final PrivateProperty targetPrivateProperty = ownerPrivateProperties
@@ -122,11 +143,16 @@ public class CommandTP extends CommandBase{
 								x = (minX + maxX) / 2;
 								z = (minZ + maxZ) / 2;
 								valid = true;
+							} else { 
+								//player doesn't own private properties lol.
+								player.addChatComponentMessage(new ChatComponentText("Error: You don't own any Private Property."));
+								return;
 							}
-						} else {
+							
+						} else { 
 							try {
 								x = Integer.parseInt(args[1]);
-								z = Integer.parseInt(args[2]);
+								z = Integer.parseInt(args[2]); 
 								final net.minecraft.world.chunk.Chunk chunk = player.worldObj
 										.getChunkFromBlockCoords(x, z);
 								final PrivateProperty targetPrivateProperty = Enforcer.findPrivateProperty(
@@ -135,6 +161,9 @@ public class CommandTP extends CommandBase{
 										&& targetPrivateProperty.actionEnabled(
 												player, Action.Enter);
 							} catch (final Exception e) {
+								//catch a parsing error and just say you dun goofed.
+								player.addChatComponentMessage(new ChatComponentText("Error: Invalid Private Property."));
+								return;
 							}
 						}
 					}
@@ -143,7 +172,11 @@ public class CommandTP extends CommandBase{
 						player.setPositionAndUpdate(x + .5,
 								player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3,
 								z + .5);
+					} else {
+						player.addChatComponentMessage(new ChatComponentText("Error: Invalid Private Property."));
 					}
+				}else {
+					player.addChatComponentMessage(new ChatComponentText("Error: You need to be inside a Private Property!"));
 				}
 			}
 		}		
