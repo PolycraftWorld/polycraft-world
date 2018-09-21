@@ -34,7 +34,11 @@ public class ExperimentManager {
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
 		if(tick.side == Side.SERVER){
 			for(Experiment ex: experiments.values()){
-				ex.onTickUpdate();
+				ex.onServerTickUpdate();
+			}
+		}else{
+			for(Experiment ex: experiments.values()){
+				ex.onClientTickUpdate();
 			}
 		}
 	}
