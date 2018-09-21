@@ -5,15 +5,19 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.lwjgl.opengl.GL11;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import io.netty.util.internal.ThreadLocalRandom;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -23,21 +27,35 @@ import net.minecraft.world.World;
 public class RaceGame extends PolycraftMinigame{
 
 	public static final int id=2;
-	public static final RaceGame INSTANCE = new RaceGame();
+	//public static final RaceGame INSTANCE = new RaceGame();
 	//private boolean active = false;
 	private int completed = 0;
-	private HashMap<String, Integer> places;
+	private HashMap<String, Integer> places  = new HashMap<String, Integer>();;
 	private int gx1 = 0;
 	private int gz1 = 0;
 	private int gx2 = 0;
 	private int gz2 = 0;
 
-	private RaceGame() {
-		places = new HashMap<String, Integer>();
+	public RaceGame() {
+		
 	}
+	
+	@Override
+	public void init()
+	{
+		PolycraftMinigameManager.INSTANCE= new RaceGame();
+		//ServerEnforcer.INSTANCE.minigameUpdate(this.id);
+	}
+	
+	@Override
+	public double getDouble() // this is not correct. we need a system to Get specific Minigame Information.
+	{
+		return 0;
+	}
+	
 
 	public boolean isActive() {
-		return active;
+		return this.active;
 	}
 
 	public boolean isInGoal(EntityPlayer player) {
@@ -57,6 +75,7 @@ public class RaceGame extends PolycraftMinigame{
 		;
 	}
 	
+	@Override
 	public void start(World world, int[] args, String envoker) {
 		if(args.length>=8)
 			start(world,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7]);
@@ -98,29 +117,32 @@ public class RaceGame extends PolycraftMinigame{
 	@Override
 	public void onPlayerTick(final TickEvent.PlayerTickEvent event) {
 		if (event.side == Side.SERVER) {
+			
 			EntityPlayer player = event.player;
-			if (INSTANCE.active && INSTANCE.isInGoal(player)) {
-				INSTANCE.markCompleted(player);
+			if (PolycraftMinigameManager.INSTANCE.active && ((RaceGame) PolycraftMinigameManager.INSTANCE).isInGoal(player)) {
+				((RaceGame) PolycraftMinigameManager.INSTANCE).markCompleted(player);
+				ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 			}
 		}
 	}
 
-	public void updateRaceGame(final String raceGameJSON) {
-		Gson gson = new Gson();
-		Type typeOfKillWall = new TypeToken<RaceGame>() {
-		}.getType();
-		RaceGame temp = gson.fromJson(raceGameJSON, typeOfKillWall);
-
-		RaceGame.INSTANCE.active = temp.active;
-		RaceGame.INSTANCE.gx1 = temp.gx1;
-		RaceGame.INSTANCE.gx2 = temp.gx2;
-		RaceGame.INSTANCE.gz1 = temp.gz1;
-		RaceGame.INSTANCE.gz2 = temp.gz2;
-	}
+//	public void updateRaceGame(final String raceGameJSON) {
+//		Gson gson = new Gson();
+//		Type typeOfKillWall = new TypeToken<RaceGame>() {
+//		}.getType();
+//		RaceGame temp = gson.fromJson(raceGameJSON, typeOfKillWall);
+//
+//		PolycraftMinigameManager.INSTANCE.active = temp.active;
+//		((RaceGame) PolycraftMinigameManager.INSTANCE).gx1 = temp.gx1;
+//		((RaceGame) PolycraftMinigameManager.INSTANCE).gx2 = temp.gx2;
+//		((RaceGame) PolycraftMinigameManager.INSTANCE).gz1 = temp.gz1;
+//		((RaceGame) PolycraftMinigameManager.INSTANCE).gz2 = temp.gz2;
+//	}
 
 	/**
 	 * Stop and clear race data.
 	 */
+	@Override
 	public void stop() {
 		active = false;
 		completed = 0;
@@ -142,6 +164,74 @@ public class RaceGame extends PolycraftMinigame{
 	public int getGz2() {
 		return gz2;
 	}
+	
+	@Override
+	public void onServerTick(ServerTickEvent event) {
+		ServerEnforcer.INSTANCE.minigameUpdate(this.id);
+	}
+	
+	
+	@Override
+	public boolean shouldUpdatePackets()//true if is on tick that needs to update packets
+	{
+		
+		return true;
+	}
+	
+	@Override
+	public void render(Entity entity) {
+		renderRaceGameGoal(entity);
+		
+	}
+	
+	private static void renderRaceGameGoal(Entity entity) {
+		if (entity.worldObj.isRemote) {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glLineWidth(4.0F);
+			GL11.glBegin(GL11.GL_LINES);// Gl_Line_Loop
+			double dy = 64; // 16;
+			double y1 = Math.floor(entity.posY - dy / 2);
+			double y2 = y1 + dy;
+			if (y1 < 0) {
+				y1 = 0;
+				y2 = dy;
+			}
+			if (y1 > entity.worldObj.getHeight()) {
+				y2 = entity.worldObj.getHeight();
+				y1 = y2 - dy;
+			}
+
+			int gx1 = ((RaceGame) PolycraftMinigameManager.INSTANCE).getGx1();
+			int gx2 = ((RaceGame) PolycraftMinigameManager.INSTANCE).getGx2();
+			int gz1 = ((RaceGame) PolycraftMinigameManager.INSTANCE).getGz1();
+			int gz2 = ((RaceGame) PolycraftMinigameManager.INSTANCE).getGz2();
+
+			GL11.glColor4d(0, 0.9, 0, 0.5);
+			double offset = (entity.ticksExisted % 20) / 20D;
+			for (double y = (int) y1; y <= y2; y++) {
+				GL11.glVertex3d(gx1, y - offset, gz1);
+				GL11.glVertex3d(gx2, y - offset, gz1);
+
+				GL11.glVertex3d(gx2, y - offset, gz1);
+				GL11.glVertex3d(gx2, y - offset, gz2);
+
+				GL11.glVertex3d(gx2, y - offset, gz2);
+				GL11.glVertex3d(gx1, y - offset, gz2);
+
+				GL11.glVertex3d(gx1, y - offset, gz2);
+				GL11.glVertex3d(gx1, y - offset, gz1);
+			}
+
+			GL11.glEnd();
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_BLEND);
+		}
+	}
+
 	
 	@Override
 	public Type getType()

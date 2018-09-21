@@ -107,7 +107,7 @@ public abstract class Enforcer {
 
 
 
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, playerID, GenericMinigame, RaceMinigame
+		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, playerID, GenericMinigame
 
 
 	}

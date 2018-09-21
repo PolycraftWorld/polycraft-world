@@ -52,13 +52,13 @@ public class CommandRace extends CommandBase {
 			System.out.println("Processing on Server side");
 
 			if (args[0].equals("start") && args.length >= 9) {
-				RaceGame.INSTANCE.start(world, Integer.parseInt(args[1]), Integer.parseInt(args[2]),
-						Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]),
-						Integer.parseInt(args[6]), Integer.parseInt(args[7]), Integer.parseInt(args[8]));
-				ServerEnforcer.INSTANCE.raceGameUpdate();
+//				RaceGame.INSTANCE.start(world, Integer.parseInt(args[1]), Integer.parseInt(args[2]),
+//						Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]),
+//						Integer.parseInt(args[6]), Integer.parseInt(args[7]), Integer.parseInt(args[8]));
+//				ServerEnforcer.INSTANCE.raceGameUpdate();
 			} else if (args[0].equals("stop")) {
-				RaceGame.INSTANCE.stop();
-				ServerEnforcer.INSTANCE.raceGameUpdate();
+//				RaceGame.INSTANCE.stop();
+//				ServerEnforcer.INSTANCE.raceGameUpdate();
 			}
 		}
 	}

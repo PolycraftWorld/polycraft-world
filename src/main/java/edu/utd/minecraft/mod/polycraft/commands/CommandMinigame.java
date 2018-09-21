@@ -7,6 +7,7 @@ import java.util.Random;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
@@ -47,6 +48,7 @@ public class CommandMinigame extends CommandBase{
 			if (args.length > 0) {
 				((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+args[0]));
 				if(args[0].equals("start")) {
+					
 					int[] argsArray;
 					if(args.length>1)
 					{
@@ -61,10 +63,15 @@ public class CommandMinigame extends CommandBase{
 						argsArray=null;
 					}
 					String envoker = player.getDisplayName();
-					PolycraftMinigameManager.INSTANCE.start(world,argsArray,envoker);
+					//PolycraftMinigame test =PolycraftMinigameManager.INSTANCE;
+					if(PolycraftMinigameManager.INSTANCE!=null)
+					{
+						PolycraftMinigameManager.INSTANCE.start(world,argsArray,envoker);
+					}
 				}
 				else if(args[0].equals("stop")) {
-					//KillWall.INSTANCE.active=false;
+					PolycraftMinigameManager.INSTANCE.stop();
+					PolycraftMinigameManager.INSTANCE.active=false;
 				}
 //				else if(args[0].equals("set")) {
 //					if(value.length>0)

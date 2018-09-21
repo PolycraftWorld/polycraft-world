@@ -190,10 +190,6 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.GenericMinigame, meta, null);
 	}
 	
-	public void raceGameUpdate() {
-		sendDataPackets(DataPacketType.RaceMinigame, 0, null);
-	}
-	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -231,7 +227,7 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Governments ? GovernmentsJson 
 							: type == DataPacketType.TempPrivatProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
-							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
+
 									: gson.toJson(this.playerID)); 
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;

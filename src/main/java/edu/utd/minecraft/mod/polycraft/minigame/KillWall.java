@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -51,7 +54,8 @@ public class KillWall extends PolycraftMinigame{
 	@Override
 	public void init()
 	{
-		//PolycraftMinigameManager.INSTANCE=this.INSTANCE;
+		PolycraftMinigameManager.INSTANCE= new KillWall();
+		//ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 	}
 	
 	@Override
@@ -120,7 +124,9 @@ public class KillWall extends PolycraftMinigame{
 		}
 	}
 	
+	@Override
 	public void onServerTick(ServerTickEvent event) {
+		ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 		if(true)
 		{
 			this.shrinkKillWall();
@@ -180,6 +186,7 @@ public class KillWall extends PolycraftMinigame{
 	@Override
 	public boolean shouldUpdatePackets()//true if is on tick that needs to update packets
 	{
+		
 		return true;
 	}
 
@@ -189,6 +196,78 @@ public class KillWall extends PolycraftMinigame{
 		Type t = new TypeToken<KillWall>() {}.getType();
 		return t;
 	}
+	
+	@Override
+	public void render(Entity entity) {
+		renderKillWallBounds(entity);
+		
+	}
+	
+	private static void renderKillWallBounds(Entity entity) {
+		 if (entity.worldObj.isRemote ){				//&& PolycraftMinigameManager.INSTANCE!=null
+			 if(true)//PolycraftMinigameManager.INSTANCE.active
+			 {
+				 	GL11.glDisable(GL11.GL_TEXTURE_2D);
+			        GL11.glEnable(GL11.GL_BLEND);
+			        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			        GL11.glDisable(GL11.GL_LIGHTING);
+			        GL11.glLineWidth(3.0F);
+			        GL11.glBegin(GL11.GL_LINES);//Gl_Line_Loop
+	                double dy = 16;
+	                double y1 = Math.floor(entity.posY - dy / 2);
+	                double y2 = y1 + dy;
+	                if (y1 < 0) {
+	                    y1 = 0;
+	                    y2 = dy;
+	                }
+	                if (y1 > entity.worldObj.getHeight()) {
+	                    y2 = entity.worldObj.getHeight();
+	                    y1 = y2 - dy;
+	                }
+	                double radius;
+	                if(PolycraftMinigameManager.INSTANCE!=null)
+	                	radius=PolycraftMinigameManager.INSTANCE.getDouble();
+	                else
+	                	radius=0;
+	                
+	                //radius=KillWall.INSTANCE.radius;
+	                
+	                
+	                
+	                GL11.glColor4d(0.9, 0, 0, .5);
+	//                for (double y = (int) y1; y <= y2; y++) {
+	//                	
+	//                	for (int i=0; i<360 ; i+=4)
+	//	                {
+	//	                	double degInRad = i*DEG2RAD;
+	//	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
+	//	                }
+	//	                
+	//                }
+	                
+	                for (double y = (int) y1; y <= y2; y++) {
+	                	GL11.glVertex3d(radius, y, radius);
+	                	GL11.glVertex3d(-radius, y, radius);
+	                	
+	                	GL11.glVertex3d(-radius, y, radius);
+	                	GL11.glVertex3d(-radius, y, -radius);
+	                	
+	                	GL11.glVertex3d(-radius, y, -radius);
+	                	GL11.glVertex3d(radius, y, -radius);
+	                	
+	                	GL11.glVertex3d(radius, y, -radius);
+	                	GL11.glVertex3d(radius, y, radius);
+	                	
+	                }
+			 
+			        GL11.glEnd();
+			        GL11.glEnable(GL11.GL_LIGHTING);
+			        GL11.glEnable(GL11.GL_TEXTURE_2D);
+			        GL11.glDisable(GL11.GL_BLEND);
+			        
+			 }
+		 }
+	 }
 	
 	public static void register(int id,Class c)
 	{

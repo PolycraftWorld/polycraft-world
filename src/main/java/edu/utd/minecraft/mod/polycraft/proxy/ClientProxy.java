@@ -384,8 +384,15 @@ public class ClientProxy extends CommonProxy {
 				onClientTickSyncInventory(player, playerState);
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
+				onClientTickMinigame(player,playerState);
+				
 			}
 		}
+	}
+
+	private void onClientTickMinigame(EntityPlayer player, PlayerState playerState) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {
@@ -435,126 +442,16 @@ public class ClientProxy extends CommonProxy {
 					onPlayerTickClientFlameThrower(tick.player, playerState);
 					onPlayerTickClientPhaseShifter(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
+					
 				}
 			}
 		}
 	}
 	
 
-	 private static void renderKillWallBounds(Entity entity) {
-		 if (entity.worldObj.isRemote ){				//&& PolycraftMinigameManager.INSTANCE!=null
-			 if(true)//PolycraftMinigameManager.INSTANCE.active
-			 {
-				 	GL11.glDisable(GL11.GL_TEXTURE_2D);
-			        GL11.glEnable(GL11.GL_BLEND);
-			        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			        GL11.glDisable(GL11.GL_LIGHTING);
-			        GL11.glLineWidth(3.0F);
-			        GL11.glBegin(GL11.GL_LINES);//Gl_Line_Loop
-	                double dy = 16;
-	                double y1 = Math.floor(entity.posY - dy / 2);
-	                double y2 = y1 + dy;
-	                if (y1 < 0) {
-	                    y1 = 0;
-	                    y2 = dy;
-	                }
-	                if (y1 > entity.worldObj.getHeight()) {
-	                    y2 = entity.worldObj.getHeight();
-	                    y1 = y2 - dy;
-	                }
-	                double radius;
-	                if(PolycraftMinigameManager.INSTANCE!=null)
-	                	radius=PolycraftMinigameManager.INSTANCE.getDouble();
-	                else
-	                	radius=0;
-	                
-	                //radius=KillWall.INSTANCE.radius;
-	                
-	                
-	                
-	                GL11.glColor4d(0.9, 0, 0, .5);
-	//                for (double y = (int) y1; y <= y2; y++) {
-	//                	
-	//                	for (int i=0; i<360 ; i+=4)
-	//	                {
-	//	                	double degInRad = i*DEG2RAD;
-	//	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
-	//	                }
-	//	                
-	//                }
-	                
-	                for (double y = (int) y1; y <= y2; y++) {
-	                	GL11.glVertex3d(radius, y, radius);
-	                	GL11.glVertex3d(-radius, y, radius);
-	                	
-	                	GL11.glVertex3d(-radius, y, radius);
-	                	GL11.glVertex3d(-radius, y, -radius);
-	                	
-	                	GL11.glVertex3d(-radius, y, -radius);
-	                	GL11.glVertex3d(radius, y, -radius);
-	                	
-	                	GL11.glVertex3d(radius, y, -radius);
-	                	GL11.glVertex3d(radius, y, radius);
-	                	
-	                }
-			 
-			        GL11.glEnd();
-			        GL11.glEnable(GL11.GL_LIGHTING);
-			        GL11.glEnable(GL11.GL_TEXTURE_2D);
-			        GL11.glDisable(GL11.GL_BLEND);
-			        
-			 }
-		 }
-	 }
 	 
-	private static void renderRaceGameGoal(Entity entity) {
-		if (entity.worldObj.isRemote && RaceGame.INSTANCE.isActive()) {
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glLineWidth(4.0F);
-			GL11.glBegin(GL11.GL_LINES);// Gl_Line_Loop
-			double dy = 64; // 16;
-			double y1 = Math.floor(entity.posY - dy / 2);
-			double y2 = y1 + dy;
-			if (y1 < 0) {
-				y1 = 0;
-				y2 = dy;
-			}
-			if (y1 > entity.worldObj.getHeight()) {
-				y2 = entity.worldObj.getHeight();
-				y1 = y2 - dy;
-			}
-
-			int gx1 = RaceGame.INSTANCE.getGx1();
-			int gx2 = RaceGame.INSTANCE.getGx2();
-			int gz1 = RaceGame.INSTANCE.getGz1();
-			int gz2 = RaceGame.INSTANCE.getGz2();
-
-			GL11.glColor4d(0, 0.9, 0, 0.5);
-			double offset = (entity.ticksExisted % 20) / 20D;
-			for (double y = (int) y1; y <= y2; y++) {
-				GL11.glVertex3d(gx1, y - offset, gz1);
-				GL11.glVertex3d(gx2, y - offset, gz1);
-
-				GL11.glVertex3d(gx2, y - offset, gz1);
-				GL11.glVertex3d(gx2, y - offset, gz2);
-
-				GL11.glVertex3d(gx2, y - offset, gz2);
-				GL11.glVertex3d(gx1, y - offset, gz2);
-
-				GL11.glVertex3d(gx1, y - offset, gz2);
-				GL11.glVertex3d(gx1, y - offset, gz1);
-			}
-
-			GL11.glEnd();
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glDisable(GL11.GL_BLEND);
-		}
-	}
-
+	 
+	
 
 	@SubscribeEvent
 	public synchronized void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -577,15 +474,22 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
-	        //PolycraftMinigameManager.INSTANCE.render(entity);
+	        if(PolycraftMinigameManager.INSTANCE!=null)
+	        {
+	        	if(PolycraftMinigameManager.INSTANCE.active && entity.worldObj.isRemote)
+	        	{
+	        		PolycraftMinigameManager.INSTANCE.render(entity);
+	        	}
+	        }
 	        //renderKillWallBounds(entity);
-	        renderRaceGameGoal(entity);
+	        //renderRaceGameGoal(entity);
 	        GL11.glPopMatrix();
 	    }
 	 
 	 @SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
 	    render(event.partialTicks);
+	    
 	 }
 	 private static void renderPPBounds(Entity entity) {
 		 if (entity.worldObj.isRemote){
