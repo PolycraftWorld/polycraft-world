@@ -11,6 +11,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,6 +87,7 @@ public class ExperimentManager {
 	
 	public void reset(){
 		experiments.clear();
+		ServerScoreboard.INSTANCE.clear();
 		 //reset this to 1 for the polyBlockPortal to work again. 
 		//TODO: allow the polyblockportal to create new experiments in the future.
 	}

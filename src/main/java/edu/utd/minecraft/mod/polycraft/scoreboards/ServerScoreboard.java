@@ -166,4 +166,10 @@ public class ServerScoreboard extends ScoreboardManager {
 		}
 	}
 
+	public void clear() {
+		// TODO Auto-generated method stub
+		this.managedScoreboards.clear();
+		
+	}
+
 }
