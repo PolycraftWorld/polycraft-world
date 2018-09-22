@@ -51,6 +51,10 @@ public class Base {
 		box.setColor(color);
 	}
 	
+	public void setHardColor(Color color){
+		this.color = color;
+	}
+	
 	public void resetColor(){
 		box.setColor(color);
 	}

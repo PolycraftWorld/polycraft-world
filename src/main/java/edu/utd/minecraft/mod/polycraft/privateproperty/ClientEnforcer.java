@@ -12,6 +12,7 @@ import java.util.Locale;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -59,7 +60,7 @@ public class ClientEnforcer extends Enforcer {
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
-	private ArrayList<Base> baseList = new ArrayList<Base>();
+	public ArrayList<Base> baseList = new ArrayList<Base>();
 	
 	private final Minecraft client;
 
@@ -347,15 +348,6 @@ public class ClientEnforcer extends Enforcer {
 				base.render(client.thePlayer);
 				base.setRendering(true);
 			}
-//		for(BoundingBox box: baseList){
-//			if(box.isInBox(player)){
-//				box.setColor(Color.BLUE);
-//			}else{
-//				box.setColor(Color.GRAY);
-//			}
-//			//moving this call to the Client.
-//			box.render(player);
-//		}
 		}
 	}
 	
@@ -389,31 +381,19 @@ public class ClientEnforcer extends Enforcer {
 		if (tick.phase == Phase.END && client.theWorld != null) {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
-				if(!this.baseList.isEmpty()) {
-					if (player.dimension == 8) {
-						for (Base base : baseList) {
-							base.render(player);
-							base.setRendering(true);
-						}
-					} else {
-						for (Base base : baseList) {
-							base.setRendering(false);
-						}
-					}
-				}
-				final PrivateProperty insidePrivateProperty = findPrivateProperty(player);
-//				//TODO: Make the rendering work on multiplayer. Maybe this should not be run every tick? 
-				//if(!boxList.isEmpty() && player.dimension == 8) {
-//					for(BoundingBox box: boxList){
-//						if(box.isInBox(player)){
-//							box.setColor(Color.BLUE);
-//						}else{
-//							box.setColor(Color.GRAY);
+//				if(!this.baseList.isEmpty()) {
+//					if (player.dimension == 8) {
+//						for (Base base : baseList) {
+//							base.render((Entity)player);
+//							base.setRendering(true);
 //						}
-//						//moving this call to the Client.
-//						box.render(player);
+//					} else {
+//						for (Base base : baseList) {
+//							//base.setRendering(false);
+//						}
 //					}
 //				}
+				final PrivateProperty insidePrivateProperty = findPrivateProperty(player);
 				
 				if (client.currentScreen == null)
 				{

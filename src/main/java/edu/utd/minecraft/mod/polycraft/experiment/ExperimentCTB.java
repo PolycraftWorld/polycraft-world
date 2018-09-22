@@ -36,7 +36,7 @@ public class ExperimentCTB extends Experiment{
 		super(id, size, xPos, zPos, world);
 		//teamNames.add("testing");
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard(teamNames);
-		this.playersNeeded = 1;
+		this.playersNeeded = 2;
 		int maxBases = 20;
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
@@ -97,12 +97,13 @@ public class ExperimentCTB extends Experiment{
 			if(tickCount == 0){
 				for(EntityPlayerMP player: players){
 					player.addChatMessage(new ChatComponentText("Experiment Will be starting in 10 seconds!"));
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					spawnPlayer(player, 126);
 				}
 			}else if(tickCount >= 200){
 				for(EntityPlayerMP player: players){
 					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
+					player.addChatMessage(new ChatComponentText("§aSTART"));
 					this.scoreboard.updateScore(player.getDisplayName(), 0);
 				}
 				//this.scoreboard.resetScores(0);
@@ -141,6 +142,7 @@ public class ExperimentCTB extends Experiment{
 				if(base != null) {
 						if(base.getColor() == Color.GRAY){
 						base.setColor(Color.blue);
+						base.setHardColor(Color.blue);
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					}
 				}
