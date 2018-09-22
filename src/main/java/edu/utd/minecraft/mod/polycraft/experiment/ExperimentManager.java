@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -40,6 +41,9 @@ public class ExperimentManager {
 		if(tick.side == Side.SERVER){
 			for(Experiment ex: experiments.values()){
 				ex.onServerTickUpdate();
+				if(ex.currentState == State.Done){
+					stop(ex.id);
+				}
 			}
 		}else{
 			for(Experiment ex: experiments.values()){
