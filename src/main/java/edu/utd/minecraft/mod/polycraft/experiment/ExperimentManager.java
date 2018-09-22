@@ -1,5 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 
 import com.google.gson.Gson;
@@ -9,10 +11,12 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -60,12 +64,30 @@ public class ExperimentManager {
 		experiments.get(expID).start();
 	}
 	
-	public void stop(){
+	public void stop(int id){
+		Experiment ex = experiments.get(id);
+		ArrayList<EntityPlayerMP> playerList = new ArrayList<EntityPlayerMP>(ex.players);
+		for(EntityPlayerMP playerMP : ex.players) {
+			playerMP.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
+			//playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
+		}
+		ex.players.clear(); //prevent Scoreboard updates from continuing to send.
 		
+		//TODO: clear the scoreboard.
+		ex.currentState = Experiment.State.Done;
+		this.nextAvailableExperimentID = 1; //reset this to 1 for the polyBlockPortal to work again //TODO: this is a hotfix!!
+		//TODO: fix this:
+		reset(); //remove the above experiment.
+		for (EntityPlayerMP playerMP : playerList) {
+			//todo: Clear the scoreboard for each player here by sending a "CLEAR SCOREBOARD" message.
+			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
+		}
 	}
 	
 	public void reset(){
-		
+		experiments.clear();
+		 //reset this to 1 for the polyBlockPortal to work again. 
+		//TODO: allow the polyblockportal to create new experiments in the future.
 	}
 	//Use to sync with minigame clients
 	public void timer(){

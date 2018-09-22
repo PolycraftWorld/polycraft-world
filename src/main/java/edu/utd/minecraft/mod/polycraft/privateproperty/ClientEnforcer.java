@@ -32,6 +32,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -58,7 +59,7 @@ public class ClientEnforcer extends Enforcer {
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
-	private ArrayList<BoundingBox> boxList = new ArrayList<BoundingBox>();
+	private ArrayList<Base> baseList = new ArrayList<Base>();
 	
 	private final Minecraft client;
 
@@ -156,7 +157,7 @@ public class ClientEnforcer extends Enforcer {
 							this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						} else if(pendingDataPacketTypeMetadata == 3) {
 							PolycraftMod.logger.info("User has left the dimension");
-							this.boxList.clear();
+							this.baseList.clear();
 						}
 						
 						else{
@@ -332,20 +333,30 @@ public class ClientEnforcer extends Enforcer {
 
 	private void updateExperimentalBoundingBox(String decompressedJson) {
 		Gson gson = new Gson();
-		this.boxList = gson.fromJson(decompressedJson, new TypeToken<ArrayList<BoundingBox>>() {}.getType());
-		PolycraftMod.logger.debug(this.boxList.toString());
+		this.baseList = gson.fromJson(decompressedJson, new TypeToken<ArrayList<Base>>() {}.getType());
+		PolycraftMod.logger.debug(this.baseList.toString());
 		final EntityPlayer player = client.thePlayer;
-		if(!boxList.isEmpty() && player.dimension == 8) {
-		for(BoundingBox box: boxList){
-			if(box.isInBox(player)){
-				box.setColor(Color.BLUE);
-			}else{
-				box.setColor(Color.GRAY);
+		if(!baseList.isEmpty() && player.dimension == 8) {
+			//
+			for(Base base: this.baseList){
+				if(base.isInBase(client.thePlayer)){
+					base.setColor(Color.BLUE);
+				}else{
+					base.resetColor();
+				}
+				base.render(client.thePlayer);
+				base.setRendering(true);
 			}
-			//moving this call to the Client.
-			box.render(player);
+//		for(BoundingBox box: baseList){
+//			if(box.isInBox(player)){
+//				box.setColor(Color.BLUE);
+//			}else{
+//				box.setColor(Color.GRAY);
+//			}
+//			//moving this call to the Client.
+//			box.render(player);
+//		}
 		}
-	}
 	}
 	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
@@ -378,6 +389,18 @@ public class ClientEnforcer extends Enforcer {
 		if (tick.phase == Phase.END && client.theWorld != null) {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
+				if(!this.baseList.isEmpty()) {
+					if (player.dimension == 8) {
+						for (Base base : baseList) {
+							base.render(player);
+							base.setRendering(true);
+						}
+					} else {
+						for (Base base : baseList) {
+							base.setRendering(false);
+						}
+					}
+				}
 				final PrivateProperty insidePrivateProperty = findPrivateProperty(player);
 //				//TODO: Make the rendering work on multiplayer. Maybe this should not be run every tick? 
 				//if(!boxList.isEmpty() && player.dimension == 8) {

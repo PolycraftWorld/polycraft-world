@@ -23,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
 public class ExperimentCTB extends Experiment{
@@ -87,7 +88,12 @@ public class ExperimentCTB extends Experiment{
 	@Override
 	public void onServerTickUpdate() {
 		super.onServerTickUpdate();
-		if(currentState == State.Starting){
+		if(currentState == State.Done) {
+			//TODO: delete scoreboard from scoreboard manager.
+			bases=null;
+			teamNames=null;
+		}
+		else if(currentState == State.Starting){
 			if(tickCount == 0){
 				for(EntityPlayerMP player: players){
 					player.addChatMessage(new ChatComponentText("Experiment Will be starting in 10 seconds!"));
@@ -126,6 +132,7 @@ public class ExperimentCTB extends Experiment{
 					for(Float score : this.scoreboard.getScores()) {
 						if (score > MAXSCORE) {
 							currentState = State.Ending;
+							//this.scoreboard.getTeamScores().
 							return;
 						}
 					}
@@ -140,9 +147,27 @@ public class ExperimentCTB extends Experiment{
 			} //end of check for each player-entity on the server
 		//End of Running state
 		} else if(currentState == State.Ending) {
-			for(Team tm : this.scoreboard.getTeamScores().keySet()) {
+			
+			
+			Map.Entry<Team, Float> maxEntry = null;
+
+			for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet())
+			{
+			    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
+			    {
+			        maxEntry = entry;
+			    }
+			}
+			
+			for(EntityPlayerMP player : players) {
+				if(this.scoreboard.getPlayerTeam(player).equals(maxEntry.getKey())) {
+					player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
+				} else {
+					player.addChatComponentMessage(new ChatComponentText("You Lost! Boooooooo."));
+				}
 				
 			}
+			ExperimentManager.INSTANCE.stop(this.id); //End the experiment and kill this.
 		}
 	}
 	
