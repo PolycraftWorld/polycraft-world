@@ -221,7 +221,8 @@ public class BlockPolyPortal extends BlockBreakable {
 						}
 					}
 			} catch (Exception e) {
-				playerMP.addChatComponentMessage(new ChatComponentText("Sorry! Enrollment for this Experiment is no longer available"));
+				playerMP.addChatComponentMessage(new ChatComponentText("Exception!!"));
+				e.printStackTrace();
 			}
 		}
     }

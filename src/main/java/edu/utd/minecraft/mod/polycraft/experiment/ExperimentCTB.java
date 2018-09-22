@@ -161,9 +161,9 @@ public class ExperimentCTB extends Experiment{
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam((EntityPlayerMP) player));
 						base.currentState = Base.State.Occupied;
-						Color newBaseColor = new Color(base.getCurrentTeam().getColor().getRed(),
-								base.getCurrentTeam().getColor().getGreen(),
-								base.getCurrentTeam().getColor().getBlue(),
+						Color newBaseColor = new Color(base.getCurrentTeam().getColor().getRed()/255.0f,
+								base.getCurrentTeam().getColor().getGreen()/255.0f,
+								base.getCurrentTeam().getColor().getBlue()/255.0f,
 								0.5f);
 						
 						base.setHardColor(newBaseColor);
