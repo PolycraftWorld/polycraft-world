@@ -12,11 +12,13 @@ import net.minecraft.world.World;
 public class Base {
 
 	public enum State{ //TODO: to be used after adding teams
-		Free,	//unclaimed base
+		Neutral,	//unclaimed base
 		Contested,	//claimed but Occupied by another Team
 		Occupied,	//Occupied by Team that already Owns Base
 		Claimed;	//claimed and unoccupied
 	}
+	
+	public int tickCount = 0;
 	
 	public State currentState;
 	
@@ -32,7 +34,7 @@ public class Base {
 		this.yPos = y;
 		this.zPos = z;
 		this.color = color;
-		this.currentState = State.Free;
+		this.currentState = State.Neutral;
 	}
 	
 	public void setRendering(boolean rendering){

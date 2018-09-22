@@ -30,7 +30,13 @@ public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected ArrayList<String> teamNames = new ArrayList<String>();
 	protected int tickCount = 0;
+	
+	//experimental params
 	private final float MAXSCORE = 500;
+	private final int ticksToClaimBase = 100;
+	private final float claimBaseScoreBonus = 50;
+	private final int updateScoreOnTickRate = 20;
+	private final int scoreIncrementOnUpdate = 1;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
@@ -103,60 +109,29 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= 200){
 				for(EntityPlayerMP player: players){
 					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("§aSTART"));
+					player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
 					this.scoreboard.updateScore(player.getDisplayName(), 0);
 				}
 				//this.scoreboard.resetScores(0);
 				currentState = State.Running;
+				tickCount = 0; //does this matter??
 			}
 			tickCount++;
 		}else if(currentState == State.Running){
 			tickCount++;
-			updateBaseStates();
-			for(EntityPlayerMP player: players){
-				if(player.dimension != 8) {
-					players.remove(player);
-					break; //protect the iterator?? Not sure if we can mutate players... Let more people be removed in future ticks.
-					//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(null, player);
-					//return;
+			updateBaseStates2();
+			for(Float score : this.scoreboard.getScores()) {
+				if (score > MAXSCORE) {
+					currentState = State.Ending;
+					break;
 				}
-				
-				if(tickCount % 20 == 0) {
-					//every 1 second, add points to each base that is occupied.
-					for(Base base : bases) {
-						if(base.currentState == Base.State.Claimed) {
-							this.scoreboard.updateScore(base.getCurrentTeam().toString(), 1);
-						}else if(base.currentState == Base.State.Occupied) {
-							this.scoreboard.updateScore(base.getCurrentTeam().toString(), 1);
-						}
-					}
-					for(Float score : this.scoreboard.getScores()) {
-						if (score > MAXSCORE) {
-							currentState = State.Ending;
-							//this.scoreboard.getTeamScores().
-							return;
-						}
-					}
-				}
-				Base base = isPlayerInBase(player);
-				if(base != null) {
-						if(base.getColor() == Color.GRAY){
-						base.setColor(Color.blue);
-						base.setHardColor(Color.blue);
-						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
-					}
-				}
-			} //end of check for each player-entity on the server
+			}
 		//End of Running state
 		} else if(currentState == State.Ending) {
-			
-			
-			Map.Entry<Team, Float> maxEntry = null;
 
-			for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet())
-			{
-			    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
-			    {
+			Map.Entry<Team, Float> maxEntry = null;
+			for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet()) {
+			    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
 			        maxEntry = entry;
 			    }
 			}
@@ -173,42 +148,147 @@ public class ExperimentCTB extends Experiment{
 		}
 	}
 	
-	private void updateBaseStates() {
-		for (Base base : bases) {
-			//assume no players are in any base. we will check for players later.
-			if(base.currentState == Base.State.Occupied) {
-				base.currentState = Base.State.Claimed;
-			} else if (base.currentState == Base.State.Contested) {
-				//assume that the original owners won the battle (this can be checked later):
-				base.currentState = Base.State.Occupied;
-			}
+	private void updateBaseStates2() {
+		for(Base base : bases) {
 			
-			//now, check for conflicts
-			
-			//check to see if bases are occupied
-			//TODO: add the "occupied flag" to the BoundingBox class.
-			for(EntityPlayerMP player : players) {
-				if(base.isInBase(player)) {
-					if(base.currentState == Base.State.Occupied) {
-						if (!this.scoreboard.getPlayerTeam(player).equals(base.getCurrentTeam())) {
-							base.currentState = Base.State.Contested;
-							//base.setCurrentTeam(null);
-							//now, for any future players that are checked, this if statement will not trigger.
-						}
-					}
-					//if player enters a free base or they're actually inside their own base:
-					else if(base.currentState == Base.State.Free) {
+			int playerCount = 0;
+			switch(base.currentState) {
+			case Neutral:
+				base.setHardColor(Color.GRAY);
+				base.tickCount = 0;
+				for(Entity player : players) {
+					if(base.isInBase(player)) {
+						//base.tickCount++;
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam((EntityPlayerMP) player));
 						base.currentState = Base.State.Occupied;
-						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player)); //assign the team to the first player in the list.
-					} else if(base.currentState == Base.State.Claimed) {
-						base.currentState = Base.State.Occupied;
-						//if (!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam(player))) {	
-						}
+						base.setHardColor(new Color(base.getCurrentTeam().getColor().getColorSpace(),
+								base.getCurrentTeam().getColor().getRGBComponents(null), 0.5f));
+						
 					}
-					//if player enters 
 				}
+				if(base.currentState!=Base.State.Neutral) {
+					for(EntityPlayerMP player : players) {
+						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
+					}
+				}
+				break;
+			
+			case Occupied:
+				
+				base.tickCount++;
+				//boolean noPlayers = true;
+				//int playerCount = 0;
+				for(Entity player : players) {
+					if(base.isInBase(player)) {
+						//noPlayers = false;
+						playerCount++;
+						if (!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) { 
+								//reset case
+								base.currentState = Base.State.Neutral;
+								base.setHardColor(Color.GRAY);
+								base.setCurrentTeam(null);
+								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
+						} else {
+							//teammates entered the base.
+							//TODO: do something.
+						}
+	
+					}
+				}
+				if(playerCount==0) {
+					//case no one in the previously occupied base:
+					base.currentState = Base.State.Neutral;
+					base.setHardColor(Color.GRAY);
+					base.setCurrentTeam(null);
+					break;
+				}if(base.tickCount >= ticksToClaimBase) {
+					base.currentState = Base.State.Claimed;
+					base.setHardColor(base.getCurrentTeam().getColor());
+					base.tickCount=0;
+					//TODO: send score update for claiming here.
+					this.scoreboard.updateScore(base.getCurrentTeam().toString(), this.claimBaseScoreBonus);
+				}
+				if(base.currentState != Base.State.Occupied) {
+					for(EntityPlayerMP player : players) {
+						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
+					}
+				}
+				break;
+			case Claimed:
+				base.setHardColor(base.getCurrentTeam().getColor());
+				//TODO: send score update
+				if(this.tickCount%this.updateScoreOnTickRate == 0) {
+					this.scoreboard.updateScore(base.getCurrentTeam().toString(), this.scoreIncrementOnUpdate);
+				}
+				//playerCount = 0;
+				for(Entity player : players) {
+					if(base.isInBase(player)) {
+						playerCount++;
+						if(!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) {
+							base.tickCount++; //this goes faster for two players!
+						}
+					}
+				}
+				if(playerCount==0) {
+					base.tickCount = 0;
+				}
+				if(base.tickCount>=this.ticksToClaimBase) {
+					base.currentState = Base.State.Neutral;
+					base.setHardColor(Color.GRAY);
+					base.tickCount=0;
+				}
+				if(base.currentState != Base.State.Claimed) {
+					for(EntityPlayerMP player : players) {
+						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
+					}
+				}
+				
+				break;
+			default:
+				break;
 			}
+			
 		}
+	}
+	
+//	private void updateBaseStates() {
+//		for (Base base : bases) {
+//			//assume no players are in any base. we will check for players later.
+//			if(base.currentState == Base.State.Occupied) {
+//				base.currentState = Base.State.Claimed;
+//			} else if (base.currentState == Base.State.Contested) {
+//				//assume that the original owners won the battle (this can be checked later):
+//				base.currentState = Base.State.Occupied;
+//			}
+//			
+//			//now, check for conflicts
+//			
+//			//check to see if bases are occupied
+//			//TODO: add the "occupied flag" to the BoundingBox class.
+//			for(EntityPlayerMP player : players) {
+//				if(base.isInBase(player)) {
+//					if(base.currentState == Base.State.Occupied) {
+//						if (!this.scoreboard.getPlayerTeam(player).equals(base.getCurrentTeam())) {
+//							base.currentState = Base.State.Contested;
+//							//base.setCurrentTeam(null);
+//							//now, for any future players that are checked, this if statement will not trigger.
+//						}
+//					}
+//					//if player enters a free base or they're actually inside their own base:
+//					else if(base.currentState == Base.State.Neutral) {
+//						base.currentState = Base.State.Occupied;
+//						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player)); //assign the team to the first player in the list.
+//						base.setHardColor(this.scoreboard.getPlayerTeam(player).getColor());
+//						System.out.println("Team assigned: " + base.getCurrentTeam().toString());
+//					} else if(base.currentState == Base.State.Claimed) {
+//						base.currentState = Base.State.Occupied;
+//						//if (!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam(player))) {	
+//						}
+//					}
+//					//if player enters 
+//				}
+//			}
+//		}
 
 	@Override
 	public void onClientTickUpdate(){
@@ -238,7 +318,7 @@ public class ExperimentCTB extends Experiment{
 		}
 	}
 	
-	private Base isPlayerInBase(EntityPlayerMP player){
+	private Base isPlayerInAnyBase(EntityPlayerMP player){
 		for(Base base: bases){
 			if(base.isInBase((Entity) player))
 				return base;
