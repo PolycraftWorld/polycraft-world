@@ -24,7 +24,7 @@ public abstract class Experiment {
 	protected CustomScoreboard scoreboard;
 	protected final static Collection<EntityPlayerMP> players = Lists
 			.newLinkedList();	//List of players participating in experiment instance
-	protected int playersNeeded = 1;
+	protected int playersNeeded = 2;
 	public enum State{
 		PreInit,
 		Initializing, 
@@ -56,6 +56,9 @@ public abstract class Experiment {
 	
 	public boolean addPlayer(EntityPlayerMP player){
 		if (players.contains(player)){
+			if(players.size() == playersNeeded){
+				start();
+			}
 			return false;
 		}else{
 			players.add(player);

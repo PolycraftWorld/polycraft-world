@@ -30,6 +30,7 @@ public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected ArrayList<String> teamNames = new ArrayList<String>();
 	protected int tickCount = 0;
+	private final int WAITSPAWNTICKS = 400;
 	
 	//experimental params
 	private final float MAXSCORE = 500;
@@ -42,7 +43,7 @@ public class ExperimentCTB extends Experiment{
 		super(id, size, xPos, zPos, world);
 		//teamNames.add("testing");
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard(teamNames);
-		this.playersNeeded = 1;
+		this.playersNeeded = 2;
 		int maxBases = 20;
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
@@ -102,14 +103,14 @@ public class ExperimentCTB extends Experiment{
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
 				for(EntityPlayerMP player: players){
-					player.addChatMessage(new ChatComponentText("Experiment Will be starting in 10 seconds!"));
+					player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
 					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					spawnPlayer(player, 126);
 				}
-			}else if(tickCount >= 200){
+			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(EntityPlayerMP player: players){
 					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("�aSTART"));
+					player.addChatMessage(new ChatComponentText("§aSTART"));
 					this.scoreboard.updateScore(player.getDisplayName(), 0);
 				}
 				//this.scoreboard.resetScores(0);
