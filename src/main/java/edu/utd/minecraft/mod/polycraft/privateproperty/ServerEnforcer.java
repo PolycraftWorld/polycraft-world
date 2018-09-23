@@ -185,10 +185,10 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 	
-	public void sendScoreboardUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+	public void sendScoreboardUpdatePackets(final String jsonStringToSend, EntityPlayerMP player, final int metadata) {
 		PolycraftMod.logger.debug("Scoreboard update sending...");
 		//TODO: add meta-data parsing.
-		final FMLProxyPacket[] packetList = getDataPackets(DataPacketType.Scoreboard, 0, jsonStringToSend);
+		final FMLProxyPacket[] packetList = getDataPackets(DataPacketType.Scoreboard, metadata, jsonStringToSend);
 		if(packetList != null) {
 			for (final FMLProxyPacket packet : packetList) {
 				netChannel.sendTo(packet, player);

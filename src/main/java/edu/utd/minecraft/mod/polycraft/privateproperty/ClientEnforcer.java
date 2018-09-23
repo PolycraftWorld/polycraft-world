@@ -170,7 +170,12 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case Scoreboard:
 						System.out.println("Packets have all been sent to the client!");
-						ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						if(this.pendingDataPacketTypeMetadata == 0) { //update the scoreboard
+							ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == 1) { //update the player team
+							ClientScoreboard.INSTANCE.updateTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}
+						
 						break;
 					case playerID:
 						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
@@ -341,7 +346,7 @@ public class ClientEnforcer extends Enforcer {
 			//
 			for(Base base: this.baseList){
 				if(base.isInBase(client.thePlayer)){
-					base.setColor(Color.BLUE);
+					base.setColor(base.getColor());
 				}else{
 					base.resetColor();
 				}

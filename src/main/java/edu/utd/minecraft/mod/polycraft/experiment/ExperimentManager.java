@@ -79,8 +79,9 @@ public class ExperimentManager {
 		ex.players.clear(); //prevent Scoreboard updates from continuing to send.
 		
 		//TODO: clear the scoreboard.
-		ex.currentState = Experiment.State.Done;
-		this.nextAvailableExperimentID = 1; //reset this to 1 for the polyBlockPortal to work again //TODO: this is a hotfix!!
+		//ex.currentState = Experiment.State.Done; //null pointer exception??
+		experiments.remove(id);
+		//this.nextAvailableExperimentID = 1; //reset this to 1 for the polyBlockPortal to work again //TODO: this is a hotfix!!
 		//TODO: fix this:
 		reset(); //remove the above experiment.
 		for (EntityPlayerMP playerMP : playerList) {
@@ -90,7 +91,6 @@ public class ExperimentManager {
 	}
 	
 	public void reset(){
-		experiments.clear();
 		ServerScoreboard.INSTANCE.clear();
 		 //reset this to 1 for the polyBlockPortal to work again. 
 		//TODO: allow the polyblockportal to create new experiments in the future.

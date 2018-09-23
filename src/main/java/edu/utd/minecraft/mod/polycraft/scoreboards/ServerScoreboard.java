@@ -66,19 +66,18 @@ public class ServerScoreboard extends ScoreboardManager {
 		//FMLProxyPacket[] packets = null;
 		Gson gson = new Gson();
 		Type top = new TypeToken<HashMap<String, Float>>() {}.getType();
+		Type playerTeamString = new TypeToken<Team>() {}.getType();
+		//DO I need to do it this way?
 		System.out.println("I am able to get here, inside sendDataPackets");
 		switch (type) {
 		case UpdatePlayer:
 			for (EntityPlayerMP player : board.getPlayers()) {
-//					packets = new FMLProxyPacket[1];
-//					String teamPlayerIsOn = board.getPlayerTeam(player).toString();
-//					packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal())
-//							.writeBytes(CompressUtil.compress(teamPlayerIsOn)).copy(), netChannelName);
-//					if (packets != null) {
-//						for (final FMLProxyPacket pkt : packets) {
-//							netChannel.sendTo(pkt, player);
-//						}
-//					}
+				
+				Team teamPlayerIsOn = board.getPlayerTeam(player);
+				final String updateStringJson = gson.toJson(teamPlayerIsOn, playerTeamString);
+				if(updateStringJson != null && player != null && player.isEntityAlive()) {
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, player, 1); //Send 1 for team update
+				}
 				
 			}
 			break;
@@ -92,7 +91,7 @@ public class ServerScoreboard extends ScoreboardManager {
 
 			for (EntityPlayerMP player : board.getPlayers()) {
 				if (updateScoreJson != null & player != null & player.isEntityAlive()) {
-					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, player);
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, player, 0);//metadata is 0 for UpdateScore
 //					for (final FMLProxyPacket pkt : packets) {
 //						//System.out.println(pkt.payload().toString());
 //						//ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(jsonStringToSend, player);
@@ -139,6 +138,7 @@ public class ServerScoreboard extends ScoreboardManager {
 			for (CustomScoreboard scoreboard : this.managedScoreboards) {
 				if (scoreboard.needToSendUpdate) {
 					this.sendDataPackets(DataType.UpdateScore, scoreboard);
+					this.sendDataPackets(DataType.UpdatePlayer, scoreboard); //TODO: distinguish and send appropriate packet.
 				}
 				scoreboard.needToSendUpdate = false;
 			}

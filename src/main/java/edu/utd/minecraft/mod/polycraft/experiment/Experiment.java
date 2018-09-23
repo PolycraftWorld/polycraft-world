@@ -24,7 +24,7 @@ public abstract class Experiment {
 	protected CustomScoreboard scoreboard;
 	protected final static Collection<EntityPlayerMP> players = Lists
 			.newLinkedList();	//List of players participating in experiment instance
-	protected int playersNeeded = 4;
+	protected int playersNeeded = 1;
 	public enum State{
 		PreInit,
 		Initializing, 
@@ -36,7 +36,14 @@ public abstract class Experiment {
 		}
 	public State currentState;
 	
-	
+	/**
+	 * Creates the experimentation zone.
+	 * @param id 	id of the experiment that is indexed in experiment manager
+	 * @param size 	square size (in chunks) of the experimentation zone
+	 * @param xPos 	One corner (not sure which one, I'm guessing it's the lowest xPos value, as blocks get filled from XPos to XPos + 16*size.
+	 * @param zPos 	Other Corner (lowest Zpos, as zpos gets incremented z++).
+	 * @param world reference to the world.
+	 */
 	public Experiment(int id, int size, int xPos, int zPos, World world){
 		this.id = id;
 		this.size = size;
@@ -95,11 +102,11 @@ public abstract class Experiment {
 			for(int z = zPos; z < zPos + 16*size; z++){
 				if(posIsWall(x, z)){
 					for(int i = -18; i < 6; i++){
-						world.setBlock(x, y + i, z, glass, 0, 3);
+						world.setBlock(x, y + i, z, glass, 0, 7);
 					}
 				}else{
-					world.setBlock(x, y, z, glass, 0, 3);
-					world.setBlock(x, y + 6, z, glass, 0, 3);
+					world.setBlock(x, y, z, glass, 0, 7);
+					world.setBlock(x, y + 6, z, glass, 0, 7);
 				}
 			}
 		}

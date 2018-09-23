@@ -38,7 +38,7 @@ public abstract class ScoreboardManager {
 	protected ArrayList<CustomScoreboard> managedScoreboards;
 	//protected static Map<String, Float> onScreenValues = Maps.newHashMap();
 
-	protected static final int maxPacketSizeBytes = 10;//(int) Math.pow(2, 16) - 1;
+	protected static final int maxPacketSizeBytes = 10;//(int) Math.pow(2, 16) - 1; //TODO: update this?
 
 	protected static final int getPacketsRequired(int bytes) {
 		int value =  (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);

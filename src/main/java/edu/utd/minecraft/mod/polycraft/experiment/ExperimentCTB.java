@@ -42,7 +42,7 @@ public class ExperimentCTB extends Experiment{
 		super(id, size, xPos, zPos, world);
 		//teamNames.add("testing");
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard(teamNames);
-		this.playersNeeded = 2;
+		this.playersNeeded = 1;
 		int maxBases = 20;
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));

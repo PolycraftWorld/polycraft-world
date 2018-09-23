@@ -190,42 +190,82 @@ public class BlockPolyPortal extends BlockBreakable {
      * id to the server; however, for now, this is hard-coded. 
      */
     public void onEntityCollidedWithBlock(World world, int xpos, int ypos, int zpos, Entity possiblePlayer)
-    {
-    	
-	    	if (possiblePlayer instanceof EntityPlayerMP && possiblePlayer.ridingEntity == null && possiblePlayer.riddenByEntity == null && !world.isRemote )
-	        {
-	    		
-	            WorldServer worldserver = (WorldServer) ((EntityPlayerMP)possiblePlayer).getEntityWorld();
-				EntityPlayerMP playerMP = (EntityPlayerMP) possiblePlayer;
-				try {
-					if(playerMP.dimension==8){
-						playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
-					} else if(playerMP.dimension==0) {
-						//test to see if experiment 1 has bee created yet
-						int id = ExperimentManager.getNextID();
-						if(id == 1){
-							ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 8, 0, 144,DimensionManager.getWorld(8)));
-							ExperimentManager.INSTANCE.init();
-						}else{		//experiment has already been initialized
-							if(ExperimentManager.INSTANCE.getExperimentStatus(1) == Experiment.State.WaitingToStart){
-								int [] whereToTeleport = ExperimentManager.INSTANCE.playerAttemptToConnect(playerMP, this.ExperimentId);
-								if(whereToTeleport != null &&  whereToTeleport.length == 3) {
-									//playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8),whereToTeleport[0], whereToTeleport[1], whereToTeleport[2]));
-									ExperimentManager.INSTANCE.addPlayerToExperiment(1, playerMP);
-								} else {
-									playerMP.addChatComponentMessage(new ChatComponentText("Error! Something went wrong..."));
-								}
-							}else{
-								playerMP.addChatComponentMessage(new ChatComponentText("Sorry! Enrollment for this Experiment is no longer available"));
+    {    	
+    	if (possiblePlayer instanceof EntityPlayerMP && possiblePlayer.ridingEntity == null && possiblePlayer.riddenByEntity == null && !world.isRemote )
+        {
+            WorldServer worldserver = (WorldServer) ((EntityPlayerMP)possiblePlayer).getEntityWorld();
+			EntityPlayerMP playerMP = (EntityPlayerMP) possiblePlayer;
+			try {
+				if(playerMP.dimension==8){
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
+				} else if(playerMP.dimension==0) {
+					//test to see if experiment 1 has bee created yet
+					//int id = this.ExperimentId;
+					int numChunks = 8;
+					//int startX = 1;
+					//int startZ = 144;
+					
+					try {
+						//current experiment id has not yet been created.
+						ExperimentManager.INSTANCE.registerExperiment(this.ExperimentId, new ExperimentCTB(this.ExperimentId, numChunks, this.ExperimentId*16*numChunks + 16, this.ExperimentId*16*numChunks + 144,DimensionManager.getWorld(8)));
+						ExperimentManager.INSTANCE.init();
+					
+					} catch (IllegalArgumentException ex) {
+						//experiment is already created. Try to join the experiment.
+						
+						//check to see if Experiment with that ID is made/ready
+						if(ExperimentManager.INSTANCE.getExperimentStatus(this.ExperimentId) == Experiment.State.WaitingToStart) {
+							
+							//if so, teleport the player to that location
+							int [] whereToTeleport = ExperimentManager.INSTANCE.playerAttemptToConnect(playerMP, this.ExperimentId);
+							if(whereToTeleport != null &&  whereToTeleport.length == 3) {
+								//attempt to teleport the player to this location.
+								ExperimentManager.INSTANCE.addPlayerToExperiment(this.ExperimentId, playerMP);
+							} else {
+								//if something went wrong, let the player know. Also, re-download the experimentID - maybe that'll fix it.
+								playerMP.addChatComponentMessage(new ChatComponentText("Error! Experiment is Unavailable."));
+								this.ExperimentId = ExperimentManager.getNextID();
 							}
-						}
+						}else{
+							//
+							playerMP.addChatComponentMessage(new ChatComponentText("Please wait as the next experiment loads..."));
+							this.ExperimentId = ExperimentManager.getNextID();
+						}	
+						
 					}
+					
+				}
+				
 			} catch (Exception e) {
-				playerMP.addChatComponentMessage(new ChatComponentText("Exception!!"));
+				System.out.println("ERROR!!");
 				e.printStackTrace();
 			}
-		}
+        }
     }
+						
+						
+//						if(id == 1){
+//							ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 8, 0, 144,DimensionManager.getWorld(8)));
+//							ExperimentManager.INSTANCE.init();
+//						}else{		//experiment has already been initialized
+//							if(ExperimentManager.INSTANCE.getExperimentStatus(1) == Experiment.State.WaitingToStart){
+//								int [] whereToTeleport = ExperimentManager.INSTANCE.playerAttemptToConnect(playerMP, this.ExperimentId);
+//								if(whereToTeleport != null &&  whereToTeleport.length == 3) {
+//									//playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 8,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8),whereToTeleport[0], whereToTeleport[1], whereToTeleport[2]));
+//									ExperimentManager.INSTANCE.addPlayerToExperiment(1, playerMP);
+//								} else {
+//									playerMP.addChatComponentMessage(new ChatComponentText("Error! Something went wrong..."));
+//								}
+//							}else{
+//								playerMP.addChatComponentMessage(new ChatComponentText("Sorry! Enrollment for this Experiment is no longer available"));
+//							}
+//						}
+//					}
+//			} catch (Exception e) {
+//				playerMP.addChatComponentMessage(new ChatComponentText("Exception!!"));
+//				e.printStackTrace();
+//			}
+//		}
 
     /**
      * A randomly called display update to be able to add particles or other items for display

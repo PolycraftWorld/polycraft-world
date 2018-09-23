@@ -42,6 +42,9 @@ public class ClientScoreboard extends ScoreboardManager {
 	private boolean isTimeExpiredForScoreUpdates = true;
 
 	private String playerTeam = "TRIFORCE";
+	private Team currentTeam = null;
+
+
 	private HashMap<String, Float> teamList;
 	private boolean DisplayScoreboard = true;
 
@@ -50,55 +53,38 @@ public class ClientScoreboard extends ScoreboardManager {
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
 
-	// private ByteBuffer pendingDataPacketsBuffer = null;
-
 	public final Minecraft client;
 
 	public ClientScoreboard() {
 		client = FMLClientHandler.instance().getClient();
 		this.teamList = new HashMap<String, Float>();
 	}
-
-//	@SubscribeEvent
-//	public void onClientPacket(final ClientCustomPacketEvent event) {
-//		try {
-//			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
-//			if (pendingDataPacketType == DataType.Unknown) {
-//				pendingDataPacketType = DataType.values()[payload.getInt()];
-//				pendingDataPacketsBytes = payload.getInt();
-//				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
-//			}
-//			else {
-//				pendingDataPacketsBytes -= payload.array().length;
-//				pendingDataPacketsBuffer.put(payload);
-//				if (pendingDataPacketsBytes == 0) {
-//					switch (pendingDataPacketType) {
-//						case UpdateScore:
-//							this.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-//							break;
-//						case UpdatePlayer:
-//							this.updatePlayerTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-//						default:
-//							break;
-//					}
-//				}
-//			}
-//		} catch (IOException e) {
-//			
-//		}
-//	}
 	
-	private void updatePlayerTeam(String decompress) {
-		// TODO Auto-generated method stub
+	public void updateTeam(final String decompressedJson) {
 		Gson gson = new Gson();
-		this.playerTeam = gson.fromJson(decompress, new TypeToken<String>() {}.getType());
-		
+		this.currentTeam = gson.fromJson(decompressedJson, new TypeToken<Team>() {}.getType());
+		if(!this.DisplayScoreboard) {
+			this.DisplayScoreboard = true;
+		}
+		PolycraftMod.logger.debug(this.currentTeam.toString());
 	}
 
 	public void updateScore(final String decompressedJson) {
 		Gson gson = new Gson();
 		this.teamList = gson.fromJson(decompressedJson, new TypeToken<HashMap<String, Float>>() {}.getType());
 		PolycraftMod.logger.debug(this.teamList.toString());
+	}
+	
+	private String getBinaryFromInt(int n) {
+		//Integer.parseInt("1001", 2);
+		String finalResult = "";
+		while(n > 0)
+	       {
+	           int a = n % 2;
+	           finalResult = a + finalResult;
+	           n = n / 2;
+	       }
+		return finalResult;
 	}
 
 	@SubscribeEvent
@@ -112,11 +98,25 @@ public class ClientScoreboard extends ScoreboardManager {
 
 					if (DisplayScoreboard) {
 						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
-						client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
+						y += overlayDistanceBetweenY;//line break
+						if(this.currentTeam != null) {
+							try {
+								//prep the integer:
+								int red = this.currentTeam.getColor().getRed();
+								int green = this.currentTeam.getColor().getGreen();
+								int blue = this.currentTeam.getColor().getBlue();//can't multiply by 0
+								int finalColor = Integer.parseInt(this.getBinaryFromInt(red) + this.getBinaryFromInt(green) + this.getBinaryFromInt(blue), 2);
+								client.fontRenderer.drawStringWithShadow(this.currentTeam.toString(), x, y, finalColor);
+							}catch (Exception e){
+								System.out.println("oops");
+							}
+						}else {
+							client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);	
+						}
+						y += overlayDistanceBetweenY;//line break
+						
 						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
+						y += overlayDistanceBetweenY;//line break
 						for (String st : teamList.keySet()) {
 							client.fontRenderer.drawStringWithShadow(String.format("|%-12s| %3.1f", st, teamList.get(st)), x,
 									y, overlayColor);
@@ -160,6 +160,10 @@ public class ClientScoreboard extends ScoreboardManager {
 			}
 
 		}
+	}
+	
+	public Team getCurrentTeam() {
+		return currentTeam;
 	}
 
 }
