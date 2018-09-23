@@ -116,6 +116,7 @@ public abstract class Experiment {
 	}
 	
 	private boolean posIsWall(int x, int z){
+		
 		if(x==xPos||z==zPos||x==xPos + (16*size)-1||z==zPos + (16*size)-1){
 			return true;
 		}else{

@@ -79,11 +79,11 @@ public class ExperimentManager {
 		ex.players.clear(); //prevent Scoreboard updates from continuing to send.
 		
 		//TODO: clear the scoreboard.
-		//ex.currentState = Experiment.State.Done; //null pointer exception??
-		experiments.remove(id);
+		ex.currentState = Experiment.State.Done;
+		//experiments.remove(id);
 		//this.nextAvailableExperimentID = 1; //reset this to 1 for the polyBlockPortal to work again //TODO: this is a hotfix!!
 		//TODO: fix this:
-		reset(); //remove the above experiment.
+		reset(); //TODO: remove the above experiment.
 		for (EntityPlayerMP playerMP : playerList) {
 			//todo: Clear the scoreboard for each player here by sending a "CLEAR SCOREBOARD" message.
 			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
@@ -131,6 +131,7 @@ public class ExperimentManager {
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
 		}
+		ex.init(); //TODO: is this ok to leave? Do we need to move this somewhere else?
 	}
 	
 	public static int getNextID(){

@@ -33,7 +33,7 @@ public class ExperimentCTB extends Experiment{
 	private final int WAITSPAWNTICKS = 400;
 	
 	//experimental params
-	private final float MAXSCORE = 500;
+	private final float MAXSCORE = 1500;
 	private final int ticksToClaimBase = 100;
 	private final float claimBaseScoreBonus = 50;
 	private final int updateScoreOnTickRate = 20;
@@ -187,7 +187,7 @@ public class ExperimentCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
-						if (!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) { 
+						if (base.getCurrentTeam() != null && !base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) { 
 								//reset case
 								base.currentState = Base.State.Neutral;
 								base.setHardColor(Color.GRAY);

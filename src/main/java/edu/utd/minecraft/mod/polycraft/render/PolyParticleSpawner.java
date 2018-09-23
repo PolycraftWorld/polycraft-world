@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.render;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Particle;
+//import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityAuraFX;
