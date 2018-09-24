@@ -28,6 +28,7 @@ public class CommandChallenge  extends CommandBase{
 	private static final String chatCommandChallengenew = "new";
 	private static final String chatCommandChallengejoin = "join";
 	private static final String chatCommandChallengeStart = "start";
+	private static final String chatCommandChallengeMaxPlayers = "maxplayers";
 	private final List aliases;
   
 	public CommandChallenge(){
@@ -86,6 +87,12 @@ public class CommandChallenge  extends CommandBase{
 					}
 				}else if(chatCommandChallengeStart.equalsIgnoreCase(args[0])){
 					ExperimentManager.INSTANCE.start(1);
+				}else if(chatCommandChallengeMaxPlayers.equalsIgnoreCase(args[0])){
+					try{
+						ExperimentCTB.maxPlayersNeeded = Integer.parseInt(args[1]);
+					}catch(NumberFormatException e) {
+						//ERROR
+					}
 				}else{
 					WorldServer worldserver = (WorldServer) player.getEntityWorld();
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;

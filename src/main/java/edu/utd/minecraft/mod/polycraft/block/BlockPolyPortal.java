@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -37,7 +38,8 @@ import net.minecraftforge.common.DimensionManager;
 public class BlockPolyPortal extends BlockBreakable {
 	public final CustomObject config;
 	private IIcon icon;
-	private int ExperimentId;
+	private ArrayList<EntityPlayerMP> playersInteractedWith = new ArrayList<EntityPlayerMP>();
+	private int interactTickCooldown = 0;
 	
 	public BlockPolyPortal(CustomObject config) {
 		super("portal", Material.portal, false);
@@ -45,7 +47,6 @@ public class BlockPolyPortal extends BlockBreakable {
 		this.config=config;
 		this.setLightLevel(1.0F);
 		this.setTickRandomly(true);
-		this.ExperimentId = 1;
 		this.setBlockName("Experiments Portal");
 	}
 
@@ -191,60 +192,64 @@ public class BlockPolyPortal extends BlockBreakable {
      * id to the server; however, for now, this is hard-coded. 
      */
     public void onEntityCollidedWithBlock(World world, int xpos, int ypos, int zpos, Entity possiblePlayer)
-    {    	
+    {    
     	if (possiblePlayer instanceof EntityPlayerMP && possiblePlayer.ridingEntity == null && possiblePlayer.riddenByEntity == null && !world.isRemote )
         {
             WorldServer worldserver = (WorldServer) ((EntityPlayerMP)possiblePlayer).getEntityWorld();
 			EntityPlayerMP playerMP = (EntityPlayerMP) possiblePlayer;
-			try {
-				if(playerMP.dimension==8){
-					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
-				} else if(playerMP.dimension==0) {
-					int numChunks = 8;
-					int nextID = ExperimentManager.INSTANCE.getNextID();
-					
-					int currentID = nextID - 1;
-					if(nextID == 1) {
-						ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
-						System.out.println("Created a new Experiment: " + nextID);
-					}
-					
-					try {
-						switch(ExperimentManager.INSTANCE.getExperimentStatus(currentID)) {
-						case WaitingToStart:
-							ExperimentManager.INSTANCE.addPlayerToExperiment(this.ExperimentId, playerMP);
-							System.out.println("Add New Player");
-							break;
-						case Running:
-							
-							break;
-						case Done:
-							System.out.println("currentID is actually Done!");
+			if(!playersInteractedWith.contains(playerMP)) {
+				try {
+					if(playerMP.dimension==8){
+						playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));			
+					} else if(playerMP.dimension==0) {
+						int numChunks = 8;
+						int nextID = ExperimentManager.INSTANCE.getNextID();
+						
+						int currentID = nextID - 1;
+						if(nextID == 1) {
 							ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
-							System.out.println("Created a new Experiment: " + nextID);
-						default:
-							playerMP.addChatComponentMessage(new ChatComponentText("Error! Stephen & Dhruv messed up."));
-							break;
-						}
-						//if(ExperimentManager.INSTANCE.getExperimentStatus(currentID).equals(Experiment.State.WaitingToStart){
-							
-						//}
-					}catch(NullPointerException npe) {
-						//currentID is not initialized.
-						if(nextID==2) {
-							//do something
-							int x = 123;
-						}
-						if(DimensionManager.getWorld(8) == null) {
-							//ChallengeHouseDim.init();
-							
+							playerMP.addChatMessage(new ChatComponentText("Created a new Experiment: " + nextID));
 						}
 						
+						try {
+							switch(ExperimentManager.INSTANCE.getExperimentStatus(currentID)) {
+							case PreInit:
+								break;
+							case Initializing:
+								break;
+							case WaitingToStart:
+								ExperimentManager.INSTANCE.addPlayerToExperiment(currentID, playerMP);
+								break;
+							case Running:
+								break;
+							case Done:
+								System.out.println("currentID is actually Done!");
+								ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
+								System.out.println("Created a new Experiment: " + nextID);
+								break;
+							default:
+								playerMP.addChatComponentMessage(new ChatComponentText("Error! Stephen & Dhruv messed up." + ExperimentManager.INSTANCE.getExperimentStatus(currentID) + "::" + currentID));
+								break;
+							}
+							//if(ExperimentManager.INSTANCE.getExperimentStatus(currentID).equals(Experiment.State.WaitingToStart){
+								
+							//}
+						}catch(NullPointerException npe) {
+							System.out.println("ERROR:" + npe);
+						}
 					}
+				}catch(Exception e) {
+					e.printStackTrace();
 				}
-			}catch(Exception e) {
-				e.printStackTrace();
+				playersInteractedWith.add(playerMP);
+			}else {
+				interactTickCooldown++;
+				if(interactTickCooldown > 60) {
+					playersInteractedWith.clear();
+					interactTickCooldown = 0;
+				}
 			}
+			
         }
     }
 

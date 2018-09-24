@@ -68,7 +68,7 @@ public class ServerScoreboard extends ScoreboardManager {
 		Type top = new TypeToken<HashMap<String, Float>>() {}.getType();
 		Type playerTeamString = new TypeToken<Team>() {}.getType();
 		//DO I need to do it this way?
-		System.out.println("I am able to get here, inside sendDataPackets");
+		//System.out.println("I am able to get here, inside sendDataPackets");
 		switch (type) {
 		case UpdatePlayer:
 			for (EntityPlayerMP player : board.getPlayers()) {

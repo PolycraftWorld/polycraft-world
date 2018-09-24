@@ -8,10 +8,17 @@ public class Team {
 	private Color color;
 	private static ColorEnum colorlist = ColorEnum.Blue;
 	private static enum ColorEnum {
+		Cyan,
 		Blue,
-		Green,
 		Red,
-		Orange
+		Green,
+		Orange;
+		
+		public ColorEnum next() {
+		    if (ordinal() == values().length - 1)
+		    	return values()[0];
+		    return values()[ordinal() + 1];
+		}
 	}
 
 	public Team(String name) {
@@ -29,32 +36,36 @@ public class Team {
 			case Orange:
 				setColor(Color.ORANGE);
 				break;
+			case Cyan:
+				setColor(Color.CYAN);
 			default:
-				setColor(Color.BLUE);
+				setColor(Color.PINK);
 		}
-		colorlist = ColorEnum.values()[colorlist.ordinal() + 1];
+		colorlist = colorlist.next();
 	}
 
 	public Team(String name, int id) {
-		this.name = name;
 		this.id = id;
+		this.name = name;
 		switch(colorlist) {
-		case Blue:
-			setColor(Color.BLUE);
-			break;
-		case Green:
-			setColor(Color.GREEN);
-			break;
-		case Red:
-			setColor(Color.RED);
-			break;
-		case Orange:
-			setColor(Color.ORANGE);
-			break;
-		default:
-			setColor(Color.BLUE);
+			case Blue:
+				setColor(Color.BLUE);
+				break;
+			case Green:
+				setColor(Color.GREEN);
+				break;
+			case Red:
+				setColor(Color.RED);
+				break;
+			case Orange:
+				setColor(Color.ORANGE);
+				break;
+			case Cyan:
+				setColor(Color.CYAN);
+			default:
+				setColor(Color.PINK);
 		}
-		colorlist = ColorEnum.values()[colorlist.ordinal() + 1];
+		colorlist = colorlist.next();
 	}
 
 	public String getName() {

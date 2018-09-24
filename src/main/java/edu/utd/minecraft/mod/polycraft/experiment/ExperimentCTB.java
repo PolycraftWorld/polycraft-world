@@ -21,7 +21,10 @@ import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemFirework;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
@@ -38,12 +41,13 @@ public class ExperimentCTB extends Experiment{
 	private final float claimBaseScoreBonus = 50;
 	private final int updateScoreOnTickRate = 20;
 	private final int scoreIncrementOnUpdate = 1;
+	public static int maxPlayersNeeded = 4;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
 		//teamNames.add("testing");
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard(teamNames);
-		this.playersNeeded = 2;
+		this.playersNeeded = maxPlayersNeeded;
 		int maxBases = 20;
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
@@ -59,11 +63,13 @@ public class ExperimentCTB extends Experiment{
 	
 	@Override
 	public void start(){
-		PolycraftMod.logger.debug("Experiment 1 Started");
-		currentState = State.Starting;
-		tickCount = 0;
-		for(Base base: bases){
-			base.setRendering(true);
+		if(currentState == State.WaitingToStart) {
+			PolycraftMod.logger.debug("Experiment 1 Started");
+			currentState = State.Starting;
+			tickCount = 0;
+			for(Base base: bases){
+				base.setRendering(true);
+			}
 		}
 	}
 	
@@ -110,7 +116,7 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(EntityPlayerMP player: players){
 					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("Â§aSTART"));
+					player.addChatMessage(new ChatComponentText("§aSTART"));
 					this.scoreboard.updateScore(player.getDisplayName(), 0);
 				}
 				//this.scoreboard.resetScores(0);
@@ -165,13 +171,12 @@ public class ExperimentCTB extends Experiment{
 						Color newBaseColor = new Color(base.getCurrentTeam().getColor().getRed()/255.0f,
 								base.getCurrentTeam().getColor().getGreen()/255.0f,
 								base.getCurrentTeam().getColor().getBlue()/255.0f,
-								0.5f);
-						
-						base.setHardColor(newBaseColor);
-						
+								0.25f);
+						base.setHardColor(newBaseColor);	//sets perm color and resets current color
+						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base!"));
 					}
 				}
-				if(base.currentState!=Base.State.Neutral) {
+				if(base.currentState!=Base.State.Neutral) {	//push update to all players
 					for(EntityPlayerMP player : players) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					}
@@ -179,7 +184,6 @@ public class ExperimentCTB extends Experiment{
 				break;
 			
 			case Occupied:
-				
 				base.tickCount++;
 				//boolean noPlayers = true;
 				//int playerCount = 0;
@@ -194,8 +198,9 @@ public class ExperimentCTB extends Experiment{
 								base.setCurrentTeam(null);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
 						} else {
-							//teammates entered the base.
-							//TODO: do something.
+							if(base.tickCount % 20 == 0) {
+								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Captured in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
+							}
 						}
 	
 					}
@@ -212,6 +217,11 @@ public class ExperimentCTB extends Experiment{
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
 					this.scoreboard.updateScore(base.getCurrentTeam().toString(), this.claimBaseScoreBonus);
+					//TODO: Add Fireworks
+//					ItemStack item= new ItemStack(new ItemFirework());
+//					item.getItem().
+//					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
+//		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
 				if(base.currentState != Base.State.Occupied) {
 					for(EntityPlayerMP player : players) {

@@ -26,7 +26,7 @@ public class Base {
 	
 	private BoundingBox box;
 	private Color color;
-	private int xPos,yPos,zPos;
+	public int xPos,yPos,zPos;
 	
 	public Base(int x, int y, int z, BoundingBox box, Color color){
 		this.box = box;
@@ -55,6 +55,7 @@ public class Base {
 	
 	public void setHardColor(Color color){
 		this.color = color;
+		box.setColor(color);
 	}
 	
 	public void resetColor(){

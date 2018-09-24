@@ -41,9 +41,9 @@ public class ExperimentManager {
 		if(tick.side == Side.SERVER){
 			for(Experiment ex: experiments.values()){
 				ex.onServerTickUpdate();
-				if(ex.currentState == State.Done){
-					stop(ex.id);
-				}
+//				if(ex.currentState == State.Done){
+//					stop(ex.id);
+//				}
 			}
 		}else{
 			for(Experiment ex: experiments.values()){
@@ -79,9 +79,8 @@ public class ExperimentManager {
 		ex.players.clear(); //prevent Scoreboard updates from continuing to send.
 		
 		//TODO: clear the scoreboard.
-		ex.currentState = Experiment.State.Done;
+		ex.stop();
 		//experiments.remove(id);
-		//this.nextAvailableExperimentID = 1; //reset this to 1 for the polyBlockPortal to work again //TODO: this is a hotfix!!
 		//TODO: fix this:
 		reset(); //TODO: remove the above experiment.
 		for (EntityPlayerMP playerMP : playerList) {

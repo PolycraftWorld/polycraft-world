@@ -22,7 +22,7 @@ public abstract class Experiment {
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	protected CustomScoreboard scoreboard;
-	protected final static Collection<EntityPlayerMP> players = Lists
+	protected final Collection<EntityPlayerMP> players = Lists
 			.newLinkedList();	//List of players participating in experiment instance
 	protected int playersNeeded = 2;
 	public enum State{
@@ -59,17 +59,20 @@ public abstract class Experiment {
 			if(players.size() == playersNeeded){
 				start();
 			}
+			player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
 			return false;
 		}else{
 			players.add(player);
 			if(players.size() == playersNeeded){
 				start();
 			}
+			player.addChatMessage(new ChatComponentText("You joined this Experiment. Please wait to Begin."));
 			return true;
 		}
 	}
 	
 	public void init(){
+		System.out.println("CurrentState: " + currentState);
 		generateArea(xPos, yPos, zPos, world);
 		currentState = State.WaitingToStart;
 		
@@ -127,6 +130,12 @@ public abstract class Experiment {
 	//Challenge Starts. Should run some time after init
 	public void start(){
 		
+	}
+	
+	public void stop() {
+		this.currentState = State.Done;
+		this.players.clear();
+		this.scoreboard = null;
 	}
 	
 	//Main update function for Experiments
