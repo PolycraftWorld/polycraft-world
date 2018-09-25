@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.experiment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +16,7 @@ import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -29,7 +31,8 @@ public class ExperimentManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
-
+	private static List<EntityPlayer> globalPlayerList = Minecraft.getMinecraft().theWorld.playerEntities;
+	
 	//initialize new experiments before players join
 	public static void init(){					
 		World world = DimensionManager.getWorld(8);
@@ -70,12 +73,21 @@ public class ExperimentManager {
 		experiments.get(expID).start();
 	}
 	
+	private EntityPlayer getPlayerEntity(String playerName) {
+		for (EntityPlayer player : this.globalPlayerList) {
+			if(player.getDisplayName().equals(playerName)) return player;
+		}
+		
+		return null;
+	}
+	
 	public void stop(int id){
 		Experiment ex = experiments.get(id);
 		for(Team team: ex.scoreboard.getTeams()) {
-			for(EntityPlayerMP player: team.getPlayers()){
-				player.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
+			for(String player: team.getPlayers()){
+				EntityPlayerMP playerEntity = (EntityPlayerMP) this.getPlayerEntity(player);
+				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
+				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
 			}
 		}
 		//TODO: clear the scoreboard.

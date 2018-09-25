@@ -8,7 +8,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 public class CustomScoreboard {
 
 	private ArrayList<Team> teams;
-	private HashMap<EntityPlayerMP, Team> playerList; // TODO: can I replace playerENtity with UUID?
+	//private HashMap<EntityPlayerMP, Team> playerList; // TODO: can I replace playerENtity with UUID?
+	private HashMap<String, Team> playerList; // TODO: can I replace playerENtity with UUID?
 	private HashMap<Team, Float> teamScores;
 	public boolean needToSendUpdate = false;
 
@@ -23,7 +24,8 @@ public class CustomScoreboard {
 
 	public CustomScoreboard() {
 		teams = new ArrayList<Team>();
-		playerList = new HashMap<EntityPlayerMP, Team>();
+		//playerList = new HashMap<EntityPlayerMP, Team>();
+		playerList = new HashMap<String, Team>();
 		teamScores = new HashMap<Team, Float>();
 	}
 
@@ -33,7 +35,8 @@ public class CustomScoreboard {
 
 	public CustomScoreboard(ArrayList<String> teamNameInput) {
 		this.teams = new ArrayList<Team>();
-		this.playerList = new HashMap<EntityPlayerMP, Team>();
+		//this.playerList = new HashMap<EntityPlayerMP, Team>();
+		this.playerList = new HashMap<String, Team>();
 		this.teamScores = new HashMap<Team, Float>();
 
 		setTeams(teamNameInput);
@@ -60,8 +63,7 @@ public class CustomScoreboard {
 		this.needToSendUpdate = true;
 	}
 
-	@SuppressWarnings("unlikely-arg-type") // you can compare a Team to a String because that's easy.
-	public void addPlayer(EntityPlayerMP player, String teamName) throws IOException {
+	public void addPlayer(String player, String teamName) throws IOException {
 		Team team = null;
 		for (Team tm : this.teams) {
 			if (tm.equals(teamName)) {
@@ -75,6 +77,22 @@ public class CustomScoreboard {
 		}
 		this.needToSendUpdate = true;
 	}
+	
+//	@SuppressWarnings("unlikely-arg-type") // you can compare a Team to a String because that's easy.
+//	public void addPlayer(EntityPlayerMP player, String teamName) throws IOException {
+//		Team team = null;
+//		for (Team tm : this.teams) {
+//			if (tm.equals(teamName)) {
+//				team = tm;
+//				playerList.put(player, team);
+//				break;
+//			}
+//		}
+//		if (team == null) {
+//			throw new IOException();
+//		}
+//		this.needToSendUpdate = true;
+//	}
 
 	public void resetScores(float initialScore) {
 		for (Team tm : this.teams) {
@@ -84,9 +102,13 @@ public class CustomScoreboard {
 		}
 	}
 
-	public ArrayList<EntityPlayerMP> getPlayers() {
-		return new ArrayList<EntityPlayerMP>(playerList.keySet());
+	public ArrayList<String> getPlayers(){
+		return new ArrayList<String>(playerList.keySet());
 	}
+	
+//	public ArrayList<EntityPlayerMP> getPlayers() {
+//		return new ArrayList<EntityPlayerMP>(playerList.keySet());
+//	}
 
 	public ArrayList<Float> getScores() {
 		return new ArrayList<Float>(teamScores.values());
@@ -113,14 +135,18 @@ public class CustomScoreboard {
 		}
 	}
 
-	public Team getPlayerTeam(EntityPlayerMP player) {
+	public Team getPlayerTeam(String player) {
 		return this.playerList.get(player);
 	}
 	
-	public Team getTeam(String teamID) throws IllegalArgumentException {
+//	public Team getPlayerTeam(EntityPlayerMP player) {
+//		return this.playerList.get(player);
+//	}
+	
+	public Team getTeam(String teamName) throws IllegalArgumentException {
 		
 		for (Team tm : teams) {
-			if(tm.equals(teamID)){
+			if(tm.equals(teamName)){
 				return tm;
 			}
 		}

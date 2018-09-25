@@ -10,7 +10,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 public class Team {
 	private String name;
 	private int id;
-	protected final Collection<EntityPlayerMP> players = Lists.newLinkedList();	//List of players participating in experiment instance
+	//protected final Collection<EntityPlayerMP> players = Lists.newLinkedList();	//List of players participating in experiment instance
+	protected final Collection<String> players = Lists.newLinkedList();
 	private Color color;
 	private static ColorEnum colorlist = ColorEnum.Blue;
 	private static enum ColorEnum {
@@ -104,7 +105,7 @@ public class Team {
 		this.color = color;
 	}
 	
-	public Collection<EntityPlayerMP> getPlayers(){
+	public Collection<String> getPlayers(){
 		return players;
 	}
 	

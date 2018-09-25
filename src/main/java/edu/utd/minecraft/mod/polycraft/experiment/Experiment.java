@@ -29,6 +29,7 @@ public abstract class Experiment {
 	protected int teamSize = 1;
 	protected int genTick = 0;
 	
+	
 	public enum State{
 		PreInit,
 		Initializing, 
@@ -65,10 +66,21 @@ public abstract class Experiment {
 		currentState = State.WaitingToStart;
 	}
 	
+//	public boolean addPlayer(String player) {
+//		
+//		
+//		
+//	}
+	
+	/**
+	 * take in an Entity Player MP object and add JUST the player's name to the appropriate list.
+	 * @param player
+	 * @return
+	 */
 	public boolean addPlayer(EntityPlayerMP player){
 		int playerCount = 0;
 		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getPlayers().contains(player)) {
+			if(team.getPlayers().contains(player.getDisplayName())) { //check to see if the player's name 
 				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
 				return false;
 			}
@@ -76,7 +88,8 @@ public abstract class Experiment {
 		}
 		for(Team team: this.scoreboard.getTeams()) {
 			if(team.getSize() < teamSize) {
-				team.getPlayers().add(player);
+				//team.getPlayers()
+				team.getPlayers().add(player.getDisplayName());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
 				playerCount++;
 				if(playerCount == playersNeeded){
@@ -168,8 +181,8 @@ public abstract class Experiment {
 	
 	public boolean isPlayerInExperiment(String playerName){
 		for(Team team: this.scoreboard.getTeams()) {
-			for(EntityPlayerMP player: team.getPlayers()){
-				if(player.getDisplayName().equalsIgnoreCase(playerName))
+			for(String player: team.getPlayers()){
+				if(player.equalsIgnoreCase(playerName))
 					return true;
 			}
 		}

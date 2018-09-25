@@ -19,6 +19,7 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import javafx.util.Pair;
+import net.minecraft.client.
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFireworkRocket;
@@ -70,7 +71,7 @@ public class ExperimentCTB extends Experiment{
 				base.setRendering(true);
 			}
 			for(Team team: scoreboard.getTeams()) {
-				for(EntityPlayerMP player:team.getPlayers()) {
+				for(String player:team.getPlayers()) {
 					player.addChatMessage(new ChatComponentText("Expiriment will be starting Shortly. Please wait while the field is generated"));
 				}
 			}
