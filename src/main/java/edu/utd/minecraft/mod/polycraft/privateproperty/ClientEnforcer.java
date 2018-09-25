@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import scala.actors.threadpool.Arrays;
 
 import org.lwjgl.input.Keyboard;
 
@@ -338,7 +339,7 @@ public class ClientEnforcer extends Enforcer {
 
 	private void updateExperimentalBoundingBox(String decompressedJson) {
 		Gson gson = new Gson();
-		this.baseList = gson.fromJson(decompressedJson, new TypeToken<ArrayList<Base>>() {}.getType());
+		this.baseList = new ArrayList<Base>(Arrays.asList((Base[]) gson.fromJson(decompressedJson, new TypeToken<Base[]>() {}.getType())));
 		PolycraftMod.logger.debug(this.baseList.toString());
 		final EntityPlayer player = client.thePlayer;
 		if(!baseList.isEmpty() && player.dimension == 8) {

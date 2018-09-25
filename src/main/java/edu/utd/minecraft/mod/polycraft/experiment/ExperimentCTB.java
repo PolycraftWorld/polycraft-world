@@ -54,7 +54,7 @@ public class ExperimentCTB extends Experiment{
 		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
 			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
 				counter++;
-				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+11, Color.GRAY);
+				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
 				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 			}
 		}
@@ -329,8 +329,8 @@ public class ExperimentCTB extends Experiment{
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();
-		Type gsonType = new TypeToken<ArrayList<Base>>() {}.getType();
-		final String updateScoreJson = gson.toJson(this.bases, gsonType);
+		Type gsonType = new TypeToken<Base[]>(){}.getType();
+		final String updateScoreJson = gson.toJson(this.bases.toArray(), gsonType);
 		return updateScoreJson;
 	}
 	
