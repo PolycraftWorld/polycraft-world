@@ -95,7 +95,7 @@ public class ExperimentCTB extends Experiment{
 			if(genTick % 20 == 0) {
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayerMP player: team.getPlayers()) {
-						player.addChatMessage(new ChatComponentText("§aGenerating..."));
+						player.addChatMessage(new ChatComponentText("aGenerating..."));
 					}
 				}
 			}
@@ -118,7 +118,7 @@ public class ExperimentCTB extends Experiment{
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayerMP player: team.getPlayers()) {
 						spawnPlayer(player, 93);
-						player.addChatMessage(new ChatComponentText("§aSTART"));
+						player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -140,7 +140,7 @@ public class ExperimentCTB extends Experiment{
 				currentState = State.Ending;
 			}else if(tickCount % 600 == 0) {
 				for(EntityPlayerMP player: scoreboard.getPlayers()){
-					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+					player.addChatMessage(new ChatComponentText("Seconds remaining: ï¿½a" + (maxTicks-tickCount)/20));
 				}
 			}
 		//End of Running state
@@ -176,11 +176,11 @@ public class ExperimentCTB extends Experiment{
 				for(Entity player : scoreboard.getPlayers()) {
 					if(base.isInBase(player)) {
 						//base.tickCount++;
-						base.setCurrentTeam(this.scoreboard.getPlayerTeam((EntityPlayerMP) player));
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam((EntityPlayerMP) player).toString());
 						base.currentState = Base.State.Occupied;
-						Color newBaseColor = new Color(base.getCurrentTeam().getColor().getRed()/255.0f,
-								base.getCurrentTeam().getColor().getGreen()/255.0f,
-								base.getCurrentTeam().getColor().getBlue()/255.0f,
+						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getRed()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getGreen()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base!"));
@@ -201,7 +201,7 @@ public class ExperimentCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
-						if (base.getCurrentTeam() != null && !base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) { 
+						if (base.getCurrentTeam() != null && !this.scoreboard.getPlayerTeam((EntityPlayerMP) player).equals(base.getCurrentTeam())) { 
 								//reset case
 								base.currentState = Base.State.Neutral;
 								base.setHardColor(Color.GRAY);
@@ -223,7 +223,7 @@ public class ExperimentCTB extends Experiment{
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
 					base.currentState = Base.State.Claimed;
-					base.setHardColor(base.getCurrentTeam().getColor());
+					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
 					this.scoreboard.updateScore(base.getCurrentTeam(), this.claimBaseScoreBonus);
@@ -240,7 +240,7 @@ public class ExperimentCTB extends Experiment{
 				}
 				break;
 			case Claimed:
-				base.setHardColor(base.getCurrentTeam().getColor());
+				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
 					this.scoreboard.updateScore(base.getCurrentTeam(), this.scoreIncrementOnUpdate);
@@ -249,7 +249,7 @@ public class ExperimentCTB extends Experiment{
 				for(Entity player : scoreboard.getPlayers()) {
 					if(base.isInBase(player)) {
 						playerCount++;
-						if(!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) {
+						if(!this.scoreboard.getPlayerTeam((EntityPlayerMP) player).equals(base.getCurrentTeam())) {
 							base.tickCount++; //this goes faster for two players!
 						}
 					}

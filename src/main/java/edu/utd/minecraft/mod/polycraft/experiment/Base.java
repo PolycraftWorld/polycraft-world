@@ -22,7 +22,7 @@ public class Base {
 	
 	public State currentState;
 	
-	private Team currentTeam;
+	private String currentTeam;
 	
 	private BoundingBox box;
 	private Color color;
@@ -111,11 +111,11 @@ public class Base {
 		world.setBlock(xPos, yPos+6, zPos+1, stairs, 7, 3);
 	}
 
-	public Team getCurrentTeam() {
+	public String getCurrentTeam() {
 		return currentTeam;
 	}
 
-	public void setCurrentTeam(Team currentTeam) {
+	public void setCurrentTeam(String currentTeam) {
 		this.currentTeam = currentTeam;
 	}
 	

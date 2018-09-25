@@ -97,9 +97,35 @@ public class CustomScoreboard {
 		float val = teamScores.put(tm, teamScores.get(tm) + value);
 		this.needToSendUpdate = true;
 	}
+	
+	/**
+	 * Update score given the teamName as the input instead of a Team object.
+	 * @param tm
+	 * @param value
+	 */
+	public void updateScore(String tm, float value) {
+		try {
+			Team team = getTeam(tm);
+			this.updateScore(team, value);
+		}catch(IllegalArgumentException ex) {
+			System.out.println("Error, INVALID ARGUMENT!");
+			ex.printStackTrace();
+		}
+	}
 
 	public Team getPlayerTeam(EntityPlayerMP player) {
 		return this.playerList.get(player);
+	}
+	
+	public Team getTeam(String teamID) throws IllegalArgumentException {
+		
+		for (Team tm : teams) {
+			if(tm.equals(teamID)){
+				return tm;
+			}
+		}
+		throw new IllegalArgumentException();
+	
 	}
 	
 	public ArrayList<Team> getTeams(){
