@@ -31,22 +31,21 @@ import net.minecraft.world.World;
 
 public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
-	protected ArrayList<String> teamNames = new ArrayList<String>();
 	protected int tickCount = 0;
 	private final int WAITSPAWNTICKS = 400;
 	
 	//experimental params
 	private final float MAXSCORE = 1500;
+	public static int maxTicks = 6000;
 	private final int ticksToClaimBase = 100;
 	private final float claimBaseScoreBonus = 50;
 	private final int updateScoreOnTickRate = 20;
 	private final int scoreIncrementOnUpdate = 1;
-	public static int maxPlayersNeeded = 4;
+	public static int maxPlayersNeeded = 2;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
 		//teamNames.add("testing");
-		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard(teamNames);
 		this.playersNeeded = maxPlayersNeeded;
 		int maxBases = 20;
 		int workarea = size*16;
@@ -64,11 +63,16 @@ public class ExperimentCTB extends Experiment{
 	@Override
 	public void start(){
 		if(currentState == State.WaitingToStart) {
-			PolycraftMod.logger.debug("Experiment 1 Started");
-			currentState = State.Starting;
+			PolycraftMod.logger.debug("Experiment " + this.id +" Start Generation");
+			currentState = State.GeneratingArea;
 			tickCount = 0;
 			for(Base base: bases){
 				base.setRendering(true);
+			}
+			for(Team team: scoreboard.getTeams()) {
+				for(EntityPlayerMP player:team.getPlayers()) {
+					player.addChatMessage(new ChatComponentText("Expiriment will be starting Shortly. Please wait while the field is generated"));
+				}
 			}
 		}
 	}
@@ -78,24 +82,6 @@ public class ExperimentCTB extends Experiment{
 		double z = Math.random()*(size*16 - 10) + zPos + 5;
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 8,	
 				new PolycraftTeleporter(player.mcServer.worldServerForDimension(8), (int)x, y, (int)z));
-		String playerTeamName = player.getDisplayName();
-		//For now, each player is on their own team!
-		if(!this.teamNames.contains(playerTeamName)) {
-			this.teamNames.add(playerTeamName);
-			this.scoreboard.setTeams(teamNames);
-			this.scoreboard.resetScores(0);
-		}
-		
-		try {
-			System.out.println("We are spawning a player");
-			
-
-			this.scoreboard.addPlayer(player, playerTeamName);
-			//this.scoreboard.addPlayer(player, "testing");
-			//this.scoreboard.updateScore("testing", );
-		} catch (IOException e) {
-			System.out.println("Something went wrong in adding player to scoreboard...");
-		}
 	}
 	
 	@Override
@@ -104,20 +90,37 @@ public class ExperimentCTB extends Experiment{
 		if(currentState == State.Done) {
 			//TODO: delete scoreboard from scoreboard manager.
 			bases=null;
-			teamNames=null;
+			scoreboard=null;
+		}else if(currentState == State.GeneratingArea){
+			if(genTick % 20 == 0) {
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayerMP player: team.getPlayers()) {
+						player.addChatMessage(new ChatComponentText("§aGenerating..."));
+					}
+				}
+			}
+			generateArea();
+			genTick++;
+			if(genTick == size * size) {
+				currentState = State.Starting;
+			}
 		}
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
-				for(EntityPlayerMP player: players){
-					player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
-					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
-					spawnPlayer(player, 126);
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayerMP player: team.getPlayers()) {
+						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
+						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
+						spawnPlayer(player, 126);
+					}
 				}
 			}else if(tickCount >= this.WAITSPAWNTICKS){
-				for(EntityPlayerMP player: players){
-					spawnPlayer(player, 93);
-					player.addChatMessage(new ChatComponentText("§aSTART"));
-					this.scoreboard.updateScore(player.getDisplayName(), 0);
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayerMP player: team.getPlayers()) {
+						spawnPlayer(player, 93);
+						player.addChatMessage(new ChatComponentText("§aSTART"));
+					}
+					this.scoreboard.updateScore(team, 0);
 				}
 				//this.scoreboard.resetScores(0);
 				currentState = State.Running;
@@ -133,6 +136,13 @@ public class ExperimentCTB extends Experiment{
 					break;
 				}
 			}
+			if(tickCount >= maxTicks) {
+				currentState = State.Ending;
+			}else if(tickCount % 600 == 0) {
+				for(EntityPlayerMP player: scoreboard.getPlayers()){
+					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+				}
+			}
 		//End of Running state
 		} else if(currentState == State.Ending) {
 
@@ -143,7 +153,7 @@ public class ExperimentCTB extends Experiment{
 			    }
 			}
 			
-			for(EntityPlayerMP player : players) {
+			for(EntityPlayerMP player : scoreboard.getPlayers()) {
 				if(this.scoreboard.getPlayerTeam(player).equals(maxEntry.getKey())) {
 					player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
 				} else {
@@ -163,7 +173,7 @@ public class ExperimentCTB extends Experiment{
 			case Neutral:
 				base.setHardColor(Color.GRAY);
 				base.tickCount = 0;
-				for(Entity player : players) {
+				for(Entity player : scoreboard.getPlayers()) {
 					if(base.isInBase(player)) {
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam((EntityPlayerMP) player));
@@ -177,7 +187,7 @@ public class ExperimentCTB extends Experiment{
 					}
 				}
 				if(base.currentState!=Base.State.Neutral) {	//push update to all players
-					for(EntityPlayerMP player : players) {
+					for(EntityPlayerMP player : scoreboard.getPlayers()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					}
 				}
@@ -187,7 +197,7 @@ public class ExperimentCTB extends Experiment{
 				base.tickCount++;
 				//boolean noPlayers = true;
 				//int playerCount = 0;
-				for(Entity player : players) {
+				for(Entity player : scoreboard.getPlayers()) {
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
@@ -216,7 +226,7 @@ public class ExperimentCTB extends Experiment{
 					base.setHardColor(base.getCurrentTeam().getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
-					this.scoreboard.updateScore(base.getCurrentTeam().toString(), this.claimBaseScoreBonus);
+					this.scoreboard.updateScore(base.getCurrentTeam(), this.claimBaseScoreBonus);
 					//TODO: Add Fireworks
 //					ItemStack item= new ItemStack(new ItemFirework());
 //					item.getItem().
@@ -224,7 +234,7 @@ public class ExperimentCTB extends Experiment{
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
 				if(base.currentState != Base.State.Occupied) {
-					for(EntityPlayerMP player : players) {
+					for(EntityPlayerMP player : scoreboard.getPlayers()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					}
 				}
@@ -233,10 +243,10 @@ public class ExperimentCTB extends Experiment{
 				base.setHardColor(base.getCurrentTeam().getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
-					this.scoreboard.updateScore(base.getCurrentTeam().toString(), this.scoreIncrementOnUpdate);
+					this.scoreboard.updateScore(base.getCurrentTeam(), this.scoreIncrementOnUpdate);
 				}
 				//playerCount = 0;
-				for(Entity player : players) {
+				for(Entity player : scoreboard.getPlayers()) {
 					if(base.isInBase(player)) {
 						playerCount++;
 						if(!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam((EntityPlayerMP) player))) {
@@ -253,7 +263,7 @@ public class ExperimentCTB extends Experiment{
 					base.tickCount=0;
 				}
 				if(base.currentState != Base.State.Claimed) {
-					for(EntityPlayerMP player : players) {
+					for(EntityPlayerMP player : scoreboard.getPlayers()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), player);
 					}
 				}
@@ -325,9 +335,9 @@ public class ExperimentCTB extends Experiment{
 	}
 	
 	@Override
-	protected void generateArea(int xPos, int yPos, int zPos, World world){
-		super.generateArea(xPos, yPos, zPos, world);	//generate the base flat area
-		super.generateSpectatorBox(xPos, yPos, zPos, world);
+	protected void generateArea(){
+		super.generateArea();	//generate the base flat area
+		super.generateSpectatorBox();
 		for(Base base: bases){	//generate bases
 			base.generate(world);
 		}

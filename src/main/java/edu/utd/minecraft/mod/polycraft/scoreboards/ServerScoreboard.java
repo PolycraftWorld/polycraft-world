@@ -46,6 +46,12 @@ public class ServerScoreboard extends ScoreboardManager {
 		this.managedScoreboards.add(scoreboard);
 		return scoreboard;
 	}
+	
+	public CustomScoreboard addNewScoreboard() {
+		CustomScoreboard scoreboard = new CustomScoreboard();
+		this.managedScoreboards.add(scoreboard);
+		return scoreboard;
+	}
 
 	// private void sendDataPackets(final DataType type, final EntityPlayerMP
 	// player, final String data) {

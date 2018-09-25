@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,13 +24,16 @@ public abstract class Experiment {
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	protected CustomScoreboard scoreboard;
-	protected final Collection<EntityPlayerMP> players = Lists
-			.newLinkedList();	//List of players participating in experiment instance
-	protected int playersNeeded = 2;
+	protected int playersNeeded = 4;
+	protected int teamsNeeded = 2;
+	protected int teamSize = 1;
+	protected int genTick = 0;
+	
 	public enum State{
 		PreInit,
 		Initializing, 
 		WaitingToStart,
+		GeneratingArea,
 		Starting,
 		Running,
 		Ending,
@@ -52,39 +57,51 @@ public abstract class Experiment {
 		this.zPos = zPos;
 		this.world = world;
 		this.currentState = State.PreInit;
+		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
+		for(int x = 0; x < teamsNeeded;x++) {
+			this.scoreboard.addNewTeam();
+			this.scoreboard.resetScores(0);
+		}
+		currentState = State.WaitingToStart;
 	}
 	
 	public boolean addPlayer(EntityPlayerMP player){
-		if (players.contains(player)){
-			if(players.size() == playersNeeded){
-				start();
+		int playerCount = 0;
+		for(Team team: this.scoreboard.getTeams()) {
+			if(team.getPlayers().contains(player)) {
+				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
+				return false;
 			}
-			player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
-			return false;
-		}else{
-			players.add(player);
-			if(players.size() == playersNeeded){
-				start();
-			}
-			player.addChatMessage(new ChatComponentText("You joined this Experiment. Please wait to Begin."));
-			return true;
+			playerCount += team.getSize();
 		}
+		for(Team team: this.scoreboard.getTeams()) {
+			if(team.getSize() < teamSize) {
+				team.getPlayers().add(player);
+				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
+				playerCount++;
+				if(playerCount == playersNeeded){
+					start();
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void init(){
 		System.out.println("CurrentState: " + currentState);
-		generateArea(xPos, yPos, zPos, world);
 		currentState = State.WaitingToStart;
 		
 	}
 	
-	protected void generateArea(int xPos, int yPos, int zPos, World world){
+	protected void generateArea(){
 		Block bedrock = Block.getBlockFromName("bedrock");
 		Block dirt = Block.getBlockFromName("dirt");
 		Block grass = Block.getBlockFromName("grass");
-		boolean result = false;
-		for(int x = xPos; x < xPos + 16*size; x++){
-			for(int z = zPos; z < zPos + 16*size; z++){
+		int xChunk = Math.floorDiv(genTick,size);
+		int zChunk = genTick%size;
+		for(int x = (xChunk*16)+xPos; x < (xChunk*16)+xPos + 15; x++){
+			for(int z = (zChunk*16)+zPos; z < (zChunk*16)+zPos + 15; z++){
 				if(posIsWall(x, z)){
 					for(int i = -3; i < 12; i++){
 						world.setBlock(x, yPos + i, z, bedrock, 0, 3);
@@ -100,12 +117,14 @@ public abstract class Experiment {
 		}
 	}
 	
-	protected void generateSpectatorBox(int xPos, int yPos, int zPos, World world){
+	protected void generateSpectatorBox(){
 		Block glass = Block.getBlockFromName("stained_glass");
 		boolean result = false;
 		int y = yPos +30;
-		for(int x = xPos; x < xPos + 16*size; x++){
-			for(int z = zPos; z < zPos + 16*size; z++){
+		int xChunk = Math.floorDiv(genTick,size);
+		int zChunk = genTick%size;
+		for(int x = (xChunk*16)+xPos; x < (xChunk*16)+xPos + 15; x++){
+			for(int z = (zChunk*16)+zPos; z < (zChunk*16)+zPos + 15; z++){
 				if(posIsWall(x, z)){
 					for(int i = -18; i < 6; i++){
 						world.setBlock(x, y + i, z, glass, 0, 7);
@@ -134,7 +153,6 @@ public abstract class Experiment {
 	
 	public void stop() {
 		this.currentState = State.Done;
-		this.players.clear();
 		this.scoreboard = null;
 	}
 	
@@ -149,9 +167,11 @@ public abstract class Experiment {
 	}
 	
 	public boolean isPlayerInExperiment(String playerName){
-		for(EntityPlayerMP player: players){
-			if(player.getDisplayName().equalsIgnoreCase(playerName))
-				return true;
+		for(Team team: this.scoreboard.getTeams()) {
+			for(EntityPlayerMP player: team.getPlayers()){
+				if(player.getDisplayName().equalsIgnoreCase(playerName))
+					return true;
+			}
 		}
 		return false;
 	}

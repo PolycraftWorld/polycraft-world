@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class CustomScoreboard {
 
-	private ArrayList<Team> teamNames;
+	private ArrayList<Team> teams;
 	private HashMap<EntityPlayerMP, Team> playerList; // TODO: can I replace playerENtity with UUID?
 	private HashMap<Team, Float> teamScores;
 	public boolean needToSendUpdate = false;
@@ -22,7 +22,7 @@ public class CustomScoreboard {
 	 */
 
 	public CustomScoreboard() {
-		teamNames = new ArrayList<Team>();
+		teams = new ArrayList<Team>();
 		playerList = new HashMap<EntityPlayerMP, Team>();
 		teamScores = new HashMap<Team, Float>();
 	}
@@ -32,7 +32,7 @@ public class CustomScoreboard {
 	}
 
 	public CustomScoreboard(ArrayList<String> teamNameInput) {
-		this.teamNames = new ArrayList<Team>();
+		this.teams = new ArrayList<Team>();
 		this.playerList = new HashMap<EntityPlayerMP, Team>();
 		this.teamScores = new HashMap<Team, Float>();
 
@@ -42,25 +42,33 @@ public class CustomScoreboard {
 
 	public void setTeams(ArrayList<String> teamNameInput) {
 		int counter = 0;
-		this.teamNames.clear(); // Reset the teamNames!
+		this.teams.clear(); // Reset the teamNames!
 		for (String value : teamNameInput) {
-			this.teamNames.add(new Team(value, counter));
+			this.teams.add(new Team(value, counter));
 			counter++;
 		}
 		this.needToSendUpdate = true;
-
+	}
+	
+	public void addTeam(Team team) {
+		this.teams.add(team);
+		this.needToSendUpdate = true;
+	}
+	
+	public void addNewTeam() {
+		this.teams.add(new Team());
+		this.needToSendUpdate = true;
 	}
 
 	@SuppressWarnings("unlikely-arg-type") // you can compare a Team to a String because that's easy.
 	public void addPlayer(EntityPlayerMP player, String teamName) throws IOException {
 		Team team = null;
-		for (Team tm : this.teamNames) {
+		for (Team tm : this.teams) {
 			if (tm.equals(teamName)) {
 				team = tm;
 				playerList.put(player, team);
 				break;
 			}
-			
 		}
 		if (team == null) {
 			throw new IOException();
@@ -69,7 +77,7 @@ public class CustomScoreboard {
 	}
 
 	public void resetScores(float initialScore) {
-		for (Team tm : this.teamNames) {
+		for (Team tm : this.teams) {
 			if (tm != null) {
 				this.teamScores.put(tm, initialScore);
 			}
@@ -85,17 +93,16 @@ public class CustomScoreboard {
 	}
 
 	//This function increments the score by the input value. You can input negative values!
-	@SuppressWarnings("unlikely-arg-type")
-	public void updateScore(String team, float value) {
-		for (Team tm : teamNames) {
-			if (tm.equals(team)) {
-				float val = teamScores.put(tm, teamScores.get(tm) + value);
-			}
-		}
+	public void updateScore(Team tm, float value) {
+		float val = teamScores.put(tm, teamScores.get(tm) + value);
 		this.needToSendUpdate = true;
 	}
 
 	public Team getPlayerTeam(EntityPlayerMP player) {
 		return this.playerList.get(player);
+	}
+	
+	public ArrayList<Team> getTeams(){
+		return teams;
 	}
 }

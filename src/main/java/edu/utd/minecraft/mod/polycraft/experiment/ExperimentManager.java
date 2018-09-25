@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -71,22 +72,17 @@ public class ExperimentManager {
 	
 	public void stop(int id){
 		Experiment ex = experiments.get(id);
-		ArrayList<EntityPlayerMP> playerList = new ArrayList<EntityPlayerMP>(ex.players);
-		for(EntityPlayerMP playerMP : ex.players) {
-			playerMP.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
-			//playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
+		for(Team team: ex.scoreboard.getTeams()) {
+			for(EntityPlayerMP player: team.getPlayers()){
+				player.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
+				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
+			}
 		}
-		ex.players.clear(); //prevent Scoreboard updates from continuing to send.
-		
 		//TODO: clear the scoreboard.
 		ex.stop();
 		//experiments.remove(id);
 		//TODO: fix this:
 		reset(); //TODO: remove the above experiment.
-		for (EntityPlayerMP playerMP : playerList) {
-			//todo: Clear the scoreboard for each player here by sending a "CLEAR SCOREBOARD" message.
-			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
-		}
 	}
 	
 	public void reset(){
@@ -130,7 +126,6 @@ public class ExperimentManager {
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
 		}
-		ex.init(); //TODO: is this ok to leave? Do we need to move this somewhere else?
 	}
 	
 	public static int getNextID(){

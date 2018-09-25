@@ -220,6 +220,9 @@ public class BlockPolyPortal extends BlockBreakable {
 							case WaitingToStart:
 								ExperimentManager.INSTANCE.addPlayerToExperiment(currentID, playerMP);
 								break;
+							case GeneratingArea:
+								playerMP.addChatMessage(new ChatComponentText("Expeirment is currently Generating"));
+								break;
 							case Running:
 								break;
 							case Done:
@@ -235,7 +238,8 @@ public class BlockPolyPortal extends BlockBreakable {
 								
 							//}
 						}catch(NullPointerException npe) {
-							System.out.println("ERROR:" + npe);
+							System.out.println("ERROR:");
+							npe.printStackTrace();
 						}
 					}
 				}catch(Exception e) {

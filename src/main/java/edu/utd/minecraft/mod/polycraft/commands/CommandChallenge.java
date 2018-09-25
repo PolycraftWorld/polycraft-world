@@ -29,6 +29,7 @@ public class CommandChallenge  extends CommandBase{
 	private static final String chatCommandChallengejoin = "join";
 	private static final String chatCommandChallengeStart = "start";
 	private static final String chatCommandChallengeMaxPlayers = "maxplayers";
+	private static final String chatCommandChallengeMaxTicks = "maxticks";
 	private final List aliases;
   
 	public CommandChallenge(){
@@ -90,6 +91,12 @@ public class CommandChallenge  extends CommandBase{
 				}else if(chatCommandChallengeMaxPlayers.equalsIgnoreCase(args[0])){
 					try{
 						ExperimentCTB.maxPlayersNeeded = Integer.parseInt(args[1]);
+					}catch(NumberFormatException e) {
+						//ERROR
+					}
+				}else if(chatCommandChallengeMaxTicks.equalsIgnoreCase(args[0])){
+					try{
+						ExperimentCTB.maxTicks = Integer.parseInt(args[1]);
 					}catch(NumberFormatException e) {
 						//ERROR
 					}
