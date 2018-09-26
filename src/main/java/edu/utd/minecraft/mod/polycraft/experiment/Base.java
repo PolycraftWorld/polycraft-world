@@ -69,6 +69,39 @@ public class Base {
 	public void generate(World world){
 		Block stairs = PolycraftRegistry.getBlock("Stairs (PVC)");
 		Block pvc = PolycraftRegistry.getBlock("Block (PVC)");
+		world.setBlock(xPos, yPos, zPos, pvc, 15, 3);
+		world.setBlock(xPos, yPos+1, zPos, pvc, 15, 3);
+		world.setBlock(xPos, yPos+2, zPos, pvc, 15, 3);
+		world.setBlock(xPos, yPos+3, zPos, pvc, 15, 3);
+		world.setBlock(xPos, yPos+4, zPos, pvc, 15, 3);
+		world.setBlock(xPos, yPos+5, zPos, pvc, 15, 3);
+		world.setBlock(xPos, yPos+6, zPos, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos-1, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos+1, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos+2, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos-1, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos+1, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos+2, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos-1, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos+1, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos-2, pvc, 15, 3);
+		world.setBlock(xPos-2, yPos, zPos+2, pvc, 15, 3);
+		world.setBlock(xPos-1, yPos, zPos+2, pvc, 15, 3);
+		world.setBlock(xPos, yPos, zPos+2, pvc, 15, 3);
+		world.setBlock(xPos+1, yPos, zPos+2, pvc, 15, 3);
+		world.setBlock(xPos+2, yPos, zPos+2, pvc, 15, 3);
+		
+	}
+	
+	public void generate2(World world){
+		Block stairs = PolycraftRegistry.getBlock("Stairs (PVC)");
+		Block pvc = PolycraftRegistry.getBlock("Block (PVC)");
 		world.setBlock(xPos, yPos, zPos, pvc, 1, 3);
 		world.setBlock(xPos, yPos+1, zPos, pvc, 1, 3);
 		world.setBlock(xPos, yPos+2, zPos, pvc, 1, 3);
