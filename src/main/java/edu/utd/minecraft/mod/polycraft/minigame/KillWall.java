@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.minigame;
 
+import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +45,12 @@ public class KillWall extends PolycraftMinigame{
 	public double radius=0;
 	public int speed=2;
 	public String envoker;
+	public Color color= Color.red;
+	public float floor=(float) radius;
+	public float roof=(float) radius;
+	public BoundingBox box = new BoundingBox(0.0, 0.0,radius,floor ,roof, color);
+	
+	
 	
 	//public static KillWall INSTANCE= new KillWall();
 	
@@ -57,7 +64,8 @@ public class KillWall extends PolycraftMinigame{
 		PolycraftMinigameManager.INSTANCE= new KillWall();
 		//ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 	}
-	
+
+
 	@Override
 	public double getDouble() // this is not correct. we need a system to Get specific Minigame Information.
 	{
