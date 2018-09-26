@@ -30,8 +30,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	public static final ClientScoreboard INSTANCE = new ClientScoreboard();
 
 	// rendering params
-	private static final int overlayStartX = 5;
-	private static final int overlayStartY = 125;
+	private static final int overlayStartX = 175;
+	private static final int overlayStartY = 5;
 	private static final int overlayDistanceBetweenX = 125;
 	private static final int overlayDistanceBetweenY = 10;
 	private static final int overlayMaxY = 500;
@@ -46,7 +46,7 @@ public class ClientScoreboard extends ScoreboardManager {
 
 
 	private HashMap<String, Float> teamList;
-	private boolean DisplayScoreboard = true;
+	private boolean DisplayScoreboard = false;
 
 	// update packet params
 	private DataType pendingDataPacketType = DataType.Unknown;
@@ -118,7 +118,7 @@ public class ClientScoreboard extends ScoreboardManager {
 						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
 						for (String st : teamList.keySet()) {
-							client.fontRenderer.drawStringWithShadow(String.format("|%-12s| %3.1f", st, teamList.get(st)), x,
+							client.fontRenderer.drawStringWithShadow(String.format("|%-12s| %3.1f/1000", st, teamList.get(st)), x,
 									y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}

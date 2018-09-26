@@ -36,12 +36,13 @@ public class ExperimentCTB extends Experiment{
 	private final int WAITSPAWNTICKS = 400;
 	
 	//experimental params
-	private final float MAXSCORE = 1500;
+	private final float MAXSCORE = 1000;
 	public static int maxTicks = 6000;
 	private final int ticksToClaimBase = 100;
 	private final float claimBaseScoreBonus = 50;
+	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
-	private final int scoreIncrementOnUpdate = 1;
+	private final int scoreIncrementOnUpdate = 0;
 	public static int maxPlayersNeeded = 2;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
@@ -121,7 +122,7 @@ public class ExperimentCTB extends Experiment{
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						spawnPlayer((EntityPlayerMP)player, 93);
-						player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
+						player.addChatMessage(new ChatComponentText("§aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -143,7 +144,7 @@ public class ExperimentCTB extends Experiment{
 				currentState = State.Ending;
 			}else if(tickCount % 600 == 0) {
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-					player.addChatMessage(new ChatComponentText("Seconds remaining: ï¿½a" + (maxTicks-tickCount)/20));
+					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 				}
 			}
 		//End of Running state
@@ -254,17 +255,19 @@ public class ExperimentCTB extends Experiment{
 						playerCount++;
 						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) {
 							base.tickCount++; //this goes faster for two players!
+							if(base.tickCount>=this.ticksToClaimBase) {
+								base.currentState = Base.State.Neutral;
+								base.setHardColor(Color.GRAY);
+								base.tickCount=0;
+								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
+							}
 						}
 					}
 				}
 				if(playerCount==0) {
 					base.tickCount = 0;
 				}
-				if(base.tickCount>=this.ticksToClaimBase) {
-					base.currentState = Base.State.Neutral;
-					base.setHardColor(Color.GRAY);
-					base.tickCount=0;
-				}
+				
 				if(base.currentState != Base.State.Claimed) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
