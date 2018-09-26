@@ -43,7 +43,7 @@ public class ExperimentCTB extends Experiment{
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
 	private final int scoreIncrementOnUpdate = 0;
-	public static int maxPlayersNeeded = 2;
+	public static int maxPlayersNeeded = 4;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
@@ -122,7 +122,7 @@ public class ExperimentCTB extends Experiment{
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						spawnPlayer((EntityPlayerMP)player, 93);
-						player.addChatMessage(new ChatComponentText("§aSTART"));
+						player.addChatMessage(new ChatComponentText("ï¿½aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -144,7 +144,7 @@ public class ExperimentCTB extends Experiment{
 				currentState = State.Ending;
 			}else if(tickCount % 600 == 0) {
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+					player.addChatMessage(new ChatComponentText("Seconds remaining: ï¿½a" + (maxTicks-tickCount)/20));
 				}
 			}
 		//End of Running state

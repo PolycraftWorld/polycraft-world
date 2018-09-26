@@ -28,7 +28,8 @@ public class CommandChallenge  extends CommandBase{
 	private static final String chatCommandChallengenew = "new";
 	private static final String chatCommandChallengejoin = "join";
 	private static final String chatCommandChallengeStart = "start";
-	private static final String chatCommandChallengeMaxPlayers = "maxplayers";
+	private static final String chatCommandChallengeMaxTeams = "maxteams";
+	private static final String chatCommandChallengeMaxTeamSize = "teamsize";
 	private static final String chatCommandChallengeMaxTicks = "maxticks";
 	private final List aliases;
   
@@ -88,11 +89,21 @@ public class CommandChallenge  extends CommandBase{
 					}
 				}else if(chatCommandChallengeStart.equalsIgnoreCase(args[0])){
 					ExperimentManager.INSTANCE.start(1);
-				}else if(chatCommandChallengeMaxPlayers.equalsIgnoreCase(args[0])){
+				}else if(chatCommandChallengeMaxTeams.equalsIgnoreCase(args[0])){
+					if (args.length != 4) {
+						sender.addChatMessage(new ChatComponentText("Incorrect format: maxteams {#teams} teamsize {#players}"));
+						return;
+					}
 					try{
-						ExperimentCTB.maxPlayersNeeded = Integer.parseInt(args[1]);
+						int maxTeams = Integer.parseInt(args[1]);
+						int teamSize = Integer.parseInt(args[3]);
+						Experiment.setTeamsNeeded(maxTeams);
+						Experiment.setTeamSize(teamSize);
+						//ExperimentCTB.maxPlayersNeeded = Integer.parseInt(args[1]);
+						sender.addChatMessage(new ChatComponentText(String.format("Success: maxteams: %d teamsize: %d", maxTeams, teamSize)));
 					}catch(NumberFormatException e) {
 						//ERROR
+						sender.addChatMessage(new ChatComponentText("Incorrect format: maxteams {#teams} teamsize {#players}"));
 					}
 				}else if(chatCommandChallengeMaxTicks.equalsIgnoreCase(args[0])){
 					try{
