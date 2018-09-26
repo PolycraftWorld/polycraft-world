@@ -31,8 +31,15 @@ public class ExperimentManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
-	private static List<EntityPlayer> globalPlayerList = Minecraft.getMinecraft().theWorld.playerEntities;
+	private static List<EntityPlayer> globalPlayerList;
 	
+	public ExperimentManager() {
+		try {
+			globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+		}catch (NullPointerException e) {
+			globalPlayerList = null;
+		}
+	}
 	//initialize new experiments before players join
 	public static void init(){					
 		World world = DimensionManager.getWorld(8);
@@ -73,7 +80,7 @@ public class ExperimentManager {
 		experiments.get(expID).start();
 	}
 	
-	private EntityPlayer getPlayerEntity(String playerName) {
+	public EntityPlayer getPlayerEntity(String playerName) {
 		for (EntityPlayer player : this.globalPlayerList) {
 			if(player.getDisplayName().equals(playerName)) return player;
 		}

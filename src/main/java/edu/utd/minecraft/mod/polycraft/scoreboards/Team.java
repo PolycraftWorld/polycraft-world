@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import com.google.common.collect.Lists;
 
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class Team {
@@ -107,6 +109,14 @@ public class Team {
 	
 	public Collection<String> getPlayers(){
 		return players;
+	}
+	
+	public Collection<EntityPlayer> getPlayersAsEntity(){
+		Collection<EntityPlayer> playerEntities = Lists.newLinkedList();
+		for(String player: players) {
+			playerEntities.add(ExperimentManager.INSTANCE.getPlayerEntity(player));
+		}
+		return playerEntities;
 	}
 	
 	public int getSize(){

@@ -113,8 +113,8 @@ public abstract class Experiment {
 		Block grass = Block.getBlockFromName("grass");
 		int xChunk = Math.floorDiv(genTick,size);
 		int zChunk = genTick%size;
-		for(int x = (xChunk*16)+xPos; x < (xChunk*16)+xPos + 15; x++){
-			for(int z = (zChunk*16)+zPos; z < (zChunk*16)+zPos + 15; z++){
+		for(int x = (xChunk*16)+xPos; x < (xChunk*16)+xPos + 16; x++){
+			for(int z = (zChunk*16)+zPos; z < (zChunk*16)+zPos + 16; z++){
 				if(posIsWall(x, z)){
 					for(int i = -3; i < 12; i++){
 						world.setBlock(x, yPos + i, z, bedrock, 0, 3);

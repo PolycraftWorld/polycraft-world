@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import io.netty.buffer.Unpooled;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
@@ -77,12 +78,11 @@ public class ServerScoreboard extends ScoreboardManager {
 		//System.out.println("I am able to get here, inside sendDataPackets");
 		switch (type) {
 		case UpdatePlayer:
-			for (EntityPlayerMP player : board.getPlayers()) {
-				
-				Team teamPlayerIsOn = board.getPlayerTeam(player);
+			for (EntityPlayer player : board.getPlayersAsEntity()) {
+				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayName());
 				final String updateStringJson = gson.toJson(teamPlayerIsOn, playerTeamString);
 				if(updateStringJson != null && player != null && player.isEntityAlive()) {
-					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, player, 1); //Send 1 for team update
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, (EntityPlayerMP)player, 1); //Send 1 for team update
 				}
 				
 			}
@@ -95,9 +95,9 @@ public class ServerScoreboard extends ScoreboardManager {
 			}
 			final String updateScoreJson = gson.toJson(testing, top);
 
-			for (EntityPlayerMP player : board.getPlayers()) {
+			for (EntityPlayer player : board.getPlayersAsEntity()) {
 				if (updateScoreJson != null & player != null & player.isEntityAlive()) {
-					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, player, 0);//metadata is 0 for UpdateScore
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, (EntityPlayerMP)player, 0);//metadata is 0 for UpdateScore
 //					for (final FMLProxyPacket pkt : packets) {
 //						//System.out.println(pkt.payload().toString());
 //						//ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(jsonStringToSend, player);

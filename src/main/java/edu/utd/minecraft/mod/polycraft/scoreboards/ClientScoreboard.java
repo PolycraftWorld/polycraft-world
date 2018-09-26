@@ -66,7 +66,7 @@ public class ClientScoreboard extends ScoreboardManager {
 		if(!this.DisplayScoreboard) {
 			this.DisplayScoreboard = true;
 		}
-		PolycraftMod.logger.debug(this.currentTeam.toString());
+		//PolycraftMod.logger.debug(this.currentTeam.toString());
 	}
 
 	public void updateScore(final String decompressedJson) {

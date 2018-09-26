@@ -2,14 +2,20 @@ package edu.utd.minecraft.mod.polycraft.scoreboards;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+
+import com.google.common.collect.Lists;
+
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class CustomScoreboard {
 
 	private ArrayList<Team> teams;
 	//private HashMap<EntityPlayerMP, Team> playerList; // TODO: can I replace playerENtity with UUID?
-	private HashMap<String, Team> playerList; // TODO: can I replace playerENtity with UUID?
+	//private HashMap<String, Team> playerList; // TODO: can I replace playerENtity with UUID?
 	private HashMap<Team, Float> teamScores;
 	public boolean needToSendUpdate = false;
 
@@ -25,7 +31,7 @@ public class CustomScoreboard {
 	public CustomScoreboard() {
 		teams = new ArrayList<Team>();
 		//playerList = new HashMap<EntityPlayerMP, Team>();
-		playerList = new HashMap<String, Team>();
+		//playerList = new HashMap<String, Team>();
 		teamScores = new HashMap<Team, Float>();
 	}
 
@@ -36,7 +42,7 @@ public class CustomScoreboard {
 	public CustomScoreboard(ArrayList<String> teamNameInput) {
 		this.teams = new ArrayList<Team>();
 		//this.playerList = new HashMap<EntityPlayerMP, Team>();
-		this.playerList = new HashMap<String, Team>();
+		//this.playerList = new HashMap<String, Team>();
 		this.teamScores = new HashMap<Team, Float>();
 
 		setTeams(teamNameInput);
@@ -68,7 +74,7 @@ public class CustomScoreboard {
 		for (Team tm : this.teams) {
 			if (tm.equals(teamName)) {
 				team = tm;
-				playerList.put(player, team);
+				//playerList.put(player, team);
 				break;
 			}
 		}
@@ -103,7 +109,24 @@ public class CustomScoreboard {
 	}
 
 	public ArrayList<String> getPlayers(){
-		return new ArrayList<String>(playerList.keySet());
+		ArrayList<String> players = new ArrayList<String>();
+		for(Team team: teams) {
+			for(String player: team.getPlayers()) {
+				players.add(player);
+			}
+		}
+		return players;
+	}
+	
+	public Collection<EntityPlayer> getPlayersAsEntity(){
+		Collection<EntityPlayer> playerEntities = Lists.newLinkedList();
+		for(Team team: teams) {
+			for(String player: team.getPlayers()) {
+				playerEntities.add(ExperimentManager.INSTANCE.getPlayerEntity(player));
+			}
+		}
+			
+		return playerEntities;
 	}
 	
 //	public ArrayList<EntityPlayerMP> getPlayers() {
@@ -136,7 +159,11 @@ public class CustomScoreboard {
 	}
 
 	public Team getPlayerTeam(String player) {
-		return this.playerList.get(player);
+		for(Team team: teams) {
+			if(team.getPlayers().contains(player))
+				return team;
+		}
+		return null;
 	}
 	
 //	public Team getPlayerTeam(EntityPlayerMP player) {
