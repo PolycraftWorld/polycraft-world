@@ -100,6 +100,7 @@ public enum GameID {
 	EntityResearchAssistant("1hf"), 
 	EntityOilSlime("1hi"),
 	EntityDummy("1hj"),
+	EntityTestTerritoryFlagBoss("1hn"),
 	CustomOilSlimeBall("1hl"),
 	EntityOilSlimeBall("1hm"),
 	PasswordDoor("1hY"),

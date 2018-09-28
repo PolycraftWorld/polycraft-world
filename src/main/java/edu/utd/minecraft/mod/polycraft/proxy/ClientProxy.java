@@ -1,18 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
-import java.awt.Color;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-
-import org.lwjgl.opengl.GL15;
-
 
 import com.google.common.collect.Maps;
 
@@ -30,7 +23,6 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
-import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
@@ -39,17 +31,19 @@ import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolySlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolycraftBiped;
-import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -63,7 +57,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
-import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -71,9 +64,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
@@ -89,30 +80,14 @@ import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
-import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -481,6 +456,7 @@ public class ClientProxy extends CommonProxy {
 	        		PolycraftMinigameManager.INSTANCE.render(entity);
 	        	}
 	        }
+	        AttackWarning.renderAttackWarnings(entity);
 	        //renderKillWallBounds(entity);
 	        //renderRaceGameGoal(entity);
 	        GL11.glPopMatrix();
@@ -1037,6 +1013,9 @@ public class ClientProxy extends CommonProxy {
             }
             else if (GameID.EntityDummy.matches(polycraftEntity)){
                 RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy((ModelBase)new ModelIronGolem(), 0.25F));
+            }
+            else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
+            	RenderingRegistry.registerEntityRenderingHandler(TestTerritoryFlagBoss.class, new RenderTerritoryFlag2());
             }
 
         }
