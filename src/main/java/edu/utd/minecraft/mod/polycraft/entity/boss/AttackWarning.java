@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 
 public class AttackWarning {
 
+	private static final int MIN_VIEWING_RANGE = 16;
 	private static final int Y_TOP = 255;
 	private static LinkedList<AttackWarning> attackWarnings = new LinkedList<AttackWarning>();
 	private static Gson gson = new Gson();
@@ -54,6 +55,8 @@ public class AttackWarning {
 		this.zRange = z2 - z1;
 		this.range = Math.max(xRange, zRange);
 		this.range2 = Math.pow(range, 2);
+		if (this.range < MIN_VIEWING_RANGE)
+			this.range = MIN_VIEWING_RANGE;
 		if (this.range2 < this.range * 2)
 			this.range2 = this.range * 2;
 		this.xRange2 = xRange / 2;
@@ -173,28 +176,34 @@ public class AttackWarning {
 		toSend = warning;
 		ServerEnforcer.INSTANCE.sendAttackWarning();
 		System.out.println("Sent attack warning.");
-		attackWarnings.add(warning); // TODO: Delet this.
+		synchronized (attackWarnings) {
+			attackWarnings.add(warning); // TODO: Delet this.
+		}
 	}
 
 	public static void receivePackets(String attackWarningJSON) {
 		AttackWarning warning = gson.fromJson(attackWarningJSON, AttackWarning.class);
-		attackWarnings.add(warning);
+		synchronized (attackWarnings) {
+			attackWarnings.add(warning);
+		}
 		System.out.println("Received attack warning.");
 	}
 
 	private static int lastTicksExisted = 0;
 
 	public static void renderAttackWarnings(Entity entity) {
-		Iterator<AttackWarning> warnings = attackWarnings.iterator();
 		boolean dec = entity.ticksExisted != lastTicksExisted;
-		while (warnings.hasNext()) {
-			AttackWarning warning = warnings.next();
-			if (warning.warnTicks < 0)
-				warnings.remove();
-			else {
-				warning.render(entity);
-				if (dec)
-					warning.warnTicks--;
+		synchronized (attackWarnings) {
+			Iterator<AttackWarning> warnings = attackWarnings.iterator();
+			while (warnings.hasNext()) {
+				AttackWarning warning = warnings.next();
+				if (warning.warnTicks < 0)
+					warnings.remove();
+				else {
+					warning.render(entity);
+					if (dec)
+						warning.warnTicks--;
+				}
 			}
 		}
 		if (dec)
