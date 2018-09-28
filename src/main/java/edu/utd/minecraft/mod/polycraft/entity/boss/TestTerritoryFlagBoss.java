@@ -179,10 +179,12 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 					this.boundingBox.expand(DETECTION_RANGE, DETECTION_RANGE, DETECTION_RANGE), attackEntitySelector);
 			int numPlayers = victims.size();
 			// Reset accidental target.
-			if (this.getAITarget() instanceof TestTerritoryFlagBoss)
+			if (this.getAITarget() instanceof TestTerritoryFlagBoss) {
+				this.setAttackTarget(null);
+				this.setRevengeTarget(null);
 				this.setTarget(null);
 			// Siphoning health from other mobs.
-			else if ((this.getAITarget() instanceof EntityMob)) {
+			} else if ((this.getAITarget() instanceof EntityMob)) {
 				EntityMob victim = (EntityMob) this.getAITarget();
 				if (siphonCooldown == 0 && !victim.isDead) {
 					siphonTarget = victim;
@@ -200,7 +202,9 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 							height, SIPHON_CHARGE));
 					siphonCooldown = SIPHON_CHARGE + 1;
 				}
+				this.setAttackTarget(null);
 				this.setRevengeTarget(null);
+				this.setTarget(null);
 			} else { // Attacks on players.
 				if (lightningBolts >= victims.size() && lightningCooldown < 2) {
 					for (int i = 0; i < victims.size(); i++) {
