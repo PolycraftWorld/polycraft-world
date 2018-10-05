@@ -55,7 +55,7 @@ public class ModelTerritoryFlag extends ModelBase
     	this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/territory_flag.obj");
 		//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
 		this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
-		this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/territory_flag.png");
+		this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/corrupted_territory_flag.png");
 	
 //        float f = 4.0F;
 //        float f1 = 0.0F;
