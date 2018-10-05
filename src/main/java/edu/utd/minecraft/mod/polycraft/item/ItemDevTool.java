@@ -33,7 +33,7 @@ public class ItemDevTool extends ItemCustom  {
 	public ItemDevTool(CustomObject config) {
 		super(config);
 		this.setTextureName(PolycraftMod.getAssetName("gripped_engineered_diamond_axe"));
-		this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
+		//this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
 		this.setting =false;

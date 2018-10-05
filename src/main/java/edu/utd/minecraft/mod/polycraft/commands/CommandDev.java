@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameData;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
@@ -90,7 +92,11 @@ private final List aliases;
 				}
 				if(tool.length>0){
 					((EntityPlayer) player).addChatComponentMessage(new ChatComponentText("test: "+tool[0]));
-					if(tool[0].equals("pos1")) {
+					if(args[0].equals("tool"))
+					{
+						player.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1hn"))));
+					}
+					else if(tool[0].equals("pos1")) {
 						this.x1=(int)Math.floor(player.posX);
 						this.y1=(int)Math.floor(player.posY);
 						this.z1=(int)Math.floor(player.posZ);
