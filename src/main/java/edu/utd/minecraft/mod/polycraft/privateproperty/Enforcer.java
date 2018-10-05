@@ -130,8 +130,8 @@ public abstract class Enforcer {
 		return (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
 	}
 
-	protected final FMLEventChannel netChannel;
-	protected final String netChannelName = "polycraft.enforcer";
+	protected static final String netChannelName = "polycraft.enforcer";
+	protected static FMLEventChannel netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
 	protected String privatePropertiesMasterJson = null;
 	protected String privatePropertiesNonMasterJson = null;
 	protected String playerItemstackSwitchJson = null;
@@ -179,8 +179,6 @@ public abstract class Enforcer {
 	}
 
 	public Enforcer() {
-		netChannel = NetworkRegistry.INSTANCE
-				.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonGeneric = gsonBuilder.create();
