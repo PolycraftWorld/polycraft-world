@@ -493,8 +493,8 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
 			//sendDataPackets(DataPacketType.Governments);
-			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-			sendDataPackets(DataPacketType.playerID, 0, player);
+//			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+//			sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
@@ -529,6 +529,7 @@ public class ServerEnforcer extends Enforcer {
 							new TypeToken<PlayerHelper>() {
 							}.getType());
 					addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name, newPlayer.uuid);
+					sendDataPackets(DataPacketType.playerID, 0, player);
 				} catch (final IOException e) {
 					PolycraftMod.logger.error(
 							"Unable to log player last world seen", e);
