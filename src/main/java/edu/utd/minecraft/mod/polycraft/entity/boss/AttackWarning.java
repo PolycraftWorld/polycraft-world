@@ -170,15 +170,16 @@ public class AttackWarning {
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 
+	public static boolean clientRender = false;
 	public static AttackWarning toSend;
 
 	public static void sendPackets(AttackWarning warning) {
 		toSend = warning;
 		ServerEnforcer.INSTANCE.sendAttackWarning();
-		System.out.println("Sent attack warning.");
-		synchronized (attackWarnings) {
-			attackWarnings.add(warning); // TODO: Delet this.
-		}
+		/*if (clientRender)
+			synchronized (attackWarnings) {
+				attackWarnings.add(warning);
+			}*/
 	}
 
 	public static void receivePackets(String attackWarningJSON) {
@@ -186,11 +187,13 @@ public class AttackWarning {
 		synchronized (attackWarnings) {
 			attackWarnings.add(warning);
 		}
-		System.out.println("Received attack warning.");
 	}
 
 	private static int lastTicksExisted = 0;
 
+	/**
+	 * Render all Attack Warnings for a given client.
+	 */
 	public static void renderAttackWarnings(Entity entity) {
 		boolean dec = entity.ticksExisted != lastTicksExisted;
 		synchronized (attackWarnings) {
