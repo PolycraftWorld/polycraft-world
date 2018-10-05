@@ -575,7 +575,7 @@ public abstract class Enforcer {
 		if (player.worldObj.isRemote)
 			return true;
 		final double x = player.posX + targetOffsetX;
-		final double y = player.posY - 2;
+		final double y = player.posY ;//Hopefully Fixed Private Property Murder-Matt
 		final double z = player.posZ + targetOffsetZ;
 
 		final int xAbs, zAbs;
