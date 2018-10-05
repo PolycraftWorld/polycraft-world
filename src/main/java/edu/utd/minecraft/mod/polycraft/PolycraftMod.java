@@ -46,6 +46,7 @@ import edu.utd.minecraft.mod.polycraft.commands.CommandGame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandPP;
 import edu.utd.minecraft.mod.polycraft.commands.CommandRace;
+import edu.utd.minecraft.mod.polycraft.commands.CommandRaid;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.commands.CommandUpdateWhitelist;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
@@ -251,6 +252,7 @@ public class PolycraftMod {
 		event.registerServerCommand(new CommandTP());
 		event.registerServerCommand(new CommandGame());
 		event.registerServerCommand(new CommandRace());
+		event.registerServerCommand(new CommandRaid());
 		event.registerServerCommand(new CommandMinigame());
 		//event.registerServerCommand(new CommandPP());
 		event.registerServerCommand(new CommandChallenge());

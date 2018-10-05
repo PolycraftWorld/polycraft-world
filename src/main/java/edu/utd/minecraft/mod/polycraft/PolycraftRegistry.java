@@ -161,7 +161,9 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.minigame.RaidGame;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -424,6 +426,7 @@ public class PolycraftRegistry {
 	{
 		KillWall.register(KillWall.id,KillWall.class);
 		RaceGame.register(RaceGame.id,RaceGame.class);
+		PolycraftMinigameManager.registerMinigame(RaidGame.id, RaidGame.class);
 		
 	}
 
