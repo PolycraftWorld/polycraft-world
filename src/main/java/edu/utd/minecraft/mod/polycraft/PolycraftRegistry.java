@@ -71,6 +71,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
@@ -161,7 +162,9 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftBucket;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItem;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.minigame.RaidGame;
 import edu.utd.minecraft.mod.polycraft.render.TileEntityBlockPipe;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -424,6 +427,7 @@ public class PolycraftRegistry {
 	{
 		KillWall.register(KillWall.id,KillWall.class);
 		RaceGame.register(RaceGame.id,RaceGame.class);
+		PolycraftMinigameManager.registerMinigame(RaidGame.id, RaidGame.class);
 		
 	}
 
@@ -1072,6 +1076,9 @@ public class PolycraftRegistry {
 				}
 				else if(GameID.EntityDummy.matches(polycraftEntity)){
 					EntityDummy.register(polycraftEntity);
+				}
+				else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
+					TestTerritoryFlagBoss.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))

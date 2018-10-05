@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 import io.netty.buffer.Unpooled;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,16 +15,24 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import scala.util.parsing.json.JSON;
+import scala.util.parsing.json.JSONArray;
+import scala.util.parsing.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
@@ -56,7 +65,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
-			onWorldTickGovernments(event);
+			//onWorldTickGovernments(event);
 
 		}
 	}
@@ -190,6 +199,10 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.GenericMinigame, meta, null);
 	}
 	
+	public void sendAttackWarning() {
+		sendDataPackets(DataPacketType.AttackWarning, 0, null);
+	}
+	
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
@@ -228,7 +241,8 @@ public class ServerEnforcer extends Enforcer {
 
 							: type == DataPacketType.TempPrivatProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
-
+							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
+									
 									: gson.toJson(this.playerID)); 
 
 
@@ -401,6 +415,27 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	private void addUserToWhitelist(long ID, String usernameToAdd, String uuid) {
+		final MinecraftServer minecraftserver = MinecraftServer
+				.getServer();
+		UUID userID;
+		whitelist.put(usernameToAdd, ID);
+		whitelist_uuid.put(usernameToAdd, uuid);
+		
+		try {
+			userID = UUID.fromString(whitelist_uuid
+					.get(usernameToAdd));
+			final GameProfile gameprofile = new GameProfile(
+					userID, usernameToAdd);
+			if (gameprofile != null)
+				minecraftserver.getConfigurationManager()
+						.func_152601_d(gameprofile);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Could not add to whitelist: "
+					+ usernameToAdd);
+		}
+	}
 
 	private void onWorldTickFriends(final TickEvent.WorldTickEvent event) {
 		// refresh the friends at the start of each day, or if we haven't it yet
@@ -457,14 +492,15 @@ public class ServerEnforcer extends Enforcer {
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			System.out.println("this ran second???************************");
 			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
 			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
-			sendDataPackets(DataPacketType.Governments);
-			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-			sendDataPackets(DataPacketType.playerID, 0, player);
+			//sendDataPackets(DataPacketType.Governments);
+//			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+//			sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
@@ -475,6 +511,36 @@ public class ServerEnforcer extends Enforcer {
 					PolycraftMod.logger.error(
 							"Unable to log player last world seen", e);
 				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void ClientConnectedToServerEvent(final EntityJoinWorldEvent event) {
+		//Entity wolf cannot cast to player
+		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
+			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			if (!portalRestUrl.startsWith("file:")) {
+				try {
+					String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
+							ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
+					
+					final GsonBuilder gsonBuilder = new GsonBuilder();
+					gsonBuilder.registerTypeAdapter(PlayerHelper.class,
+							new PlayerHelper.Deserializer());
+
+					final Gson gson = gsonBuilder.create();
+					final PlayerHelper newPlayer = gson.fromJson(
+							response,
+							new TypeToken<PlayerHelper>() {
+							}.getType());
+					addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name, newPlayer.uuid);
+					sendDataPackets(DataPacketType.playerID, 0, player);
+				} catch (final IOException e) {
+					PolycraftMod.logger.error(
+							"Unable to log player last world seen", e);
+				}
+				
 			}
 		}
 	}
