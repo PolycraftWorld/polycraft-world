@@ -102,6 +102,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tierchest.TierChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -1041,6 +1042,8 @@ public class PolycraftRegistry {
 					HospitalGeneratorInventory.register(inventory);
 				else if (GameID.InventoryFluorescentLamp.matches(inventory))
 					FluorescentLampInventory.register(inventory);
+				else if (GameID.InventoryTierChest.matches(inventory))
+					TierChestInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}

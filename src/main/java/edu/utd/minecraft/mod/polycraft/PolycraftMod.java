@@ -249,6 +249,7 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
+<<<<<<< HEAD
 		event.registerServerCommand(new CommandGame());
 		event.registerServerCommand(new CommandRace());
 		event.registerServerCommand(new CommandMinigame());
@@ -256,6 +257,12 @@ public class PolycraftMod {
 		event.registerServerCommand(new CommandChallenge());
 		event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
+=======
+		event.registerServerCommand(new CommandUpdateWhitelist());
+		event.registerServerCommand(new CommandPP());
+		event.registerServerCommand(new CommandChallenge());
+		event.registerServerCommand(new CommandDev());
+>>>>>>> origin/BugFixes
 	}
 	
 	public static String getAssetName(final String name) {
