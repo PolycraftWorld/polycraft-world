@@ -206,26 +206,22 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 		if(!this.world.isRemote) {
 			int[][] c= sC.getChunks();
 			PrivateProperty pp =  new PrivateProperty(
-					true,
+					false,
 					(EntityPlayerMP) this.player,
 					"Territory",
 					"Temp",
 					new Chunk(c[0][3],c[1][3]),
 					new Chunk(c[0][1],c[1][1]),
-					new int[] {0, 5, 23, 33, 34, 35,7,31} );
-			//Enforcer.addPrivateProperty(pp);
+					new int[] {0,3,4,5,6,44},
+					0);
+			//int[] perms = new int[] {0,3};
+			//PermissionSet ps = new PermissionSet(perms);
+			//pp.permissionOverridesByUser
+			//pp.defaultPermissions
+			//pp.masterPermissions
 			
-			//privateProperty[0] = pp;
-			//for(int i=1;i<=3;i++)
-			//{
-				//pp.boundBottomRight= new Chunk(,);
-				//pp.boundTopLeft= new Chunk(c[0][3],c[1][3]);
-				//pp.actionEnabled(Action.SpawnEntity);
-				Enforcer.addPrivateProperty(pp);
-				
-				this.privateProperty=pp;
-				
-			//}
+			Enforcer.addPrivateProperty(pp);	
+			this.privateProperty=pp;	
 			ServerEnforcer.INSTANCE.sendTempPPDataPackets();
 		}
 		

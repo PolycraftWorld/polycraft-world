@@ -108,7 +108,8 @@ public enum GameID {
 	CustomChallengeBlock("1ho"),
 	CustomConstitutionClaim("1hp"),
 	CustomSuperInk("1hr"),
-	CustomPolyPortal("1hs");
+	CustomPolyPortal("1hs"),
+	InventoryTierChest("1ht");
 	
 	public final String id;
 

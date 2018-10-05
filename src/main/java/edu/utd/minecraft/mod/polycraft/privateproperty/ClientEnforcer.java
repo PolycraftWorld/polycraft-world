@@ -125,10 +125,16 @@ public class ClientEnforcer extends Enforcer {
 								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
 						break;
 					case Governments:	
-						final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
-						final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
-						showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	
+						//final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
+						//final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
+						//showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	// commited out for a second -matt
 						break;
+//					case Challenge:
+//						final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//						final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
+//						showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
+//								+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+//						break;
 					case playerID:
 						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;

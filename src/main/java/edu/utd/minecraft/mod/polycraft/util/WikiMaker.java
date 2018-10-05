@@ -563,6 +563,8 @@ public class WikiMaker {
 			break;
 		case PLASTIC_CHEST:
 			break;
+		case TIER_CHEST:
+			break;
 		default:
 			break;
 		}

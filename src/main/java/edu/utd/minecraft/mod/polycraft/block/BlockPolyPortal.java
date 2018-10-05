@@ -1,3 +1,4 @@
+
 package edu.utd.minecraft.mod.polycraft.block;
 
 import java.util.List;
@@ -268,3 +269,4 @@ public class BlockPolyPortal extends BlockBreakable {
     }
 
 }
+

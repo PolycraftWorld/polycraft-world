@@ -1,3 +1,4 @@
+
 package edu.utd.minecraft.mod.polycraft.worldgen;
 
 import java.util.Map;
@@ -23,19 +24,11 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ChallengesGenerator extends WorldGenerator implements IWorldGenerator {
-	
-	int [][] chunk1= new int[16][16];
-	int [][] chunk2= new int[16][16];
-	int [][] chunk3= new int[16][16];
-	int [][] chunk4= new int[16][16];
-	
+
 	public ChallengesGenerator() {
 		super();
 	}
-	
-	
-	
-	
+
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
 			IChunkProvider chunkProvider) {
@@ -44,8 +37,7 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 			return;
 		}else if( ((Math.abs(chunkX)%5==0) && (Math.abs(chunkZ)%5==0)))
 		{
-			
-			
+
 			int x = chunkX * 16;
 			int z = chunkZ * 16;
 			int y = 80;
@@ -73,33 +65,15 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
 			{
 				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
-				if(nbt.getString("id").equals("Chest"))
-				{
-					TileEntityChest tile = new TileEntityChest();
-					for(int i=0;i<nbt.getTagList("Items", 10).tagCount();i++)
-					{
-						NBTTagCompound nbt2 = nbt.getTagList("Items", 10).getCompoundTagAt(i);
-						ItemStack stack = new ItemStack(Item.getItemById(nbt2.getShort("id")));
-						tile.setInventorySlotContents(i, stack);
-					}
-					world.setTileEntity(nbt.getInteger("x"), nbt.getInteger("y"), nbt.getInteger("z"), tile);
-				}
+				TileEntity tile = world.getTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z);
+				tile.readFromNBT(nbt);
+				world.setTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z, tile);
 			}
 			
 		}
 		return;
 		
 	}
-	
-	public void splitSchematic(Schematic schem)
-	{
-		
-	}
-
-
-
-
-
 
 	@Override
 	public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_) {
@@ -108,3 +82,4 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 	}
 
 }
+

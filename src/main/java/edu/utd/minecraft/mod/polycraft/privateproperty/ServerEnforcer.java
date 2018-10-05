@@ -52,7 +52,7 @@ public class ServerEnforcer extends Enforcer {
 		// TODO not sure why this is getting called multiple times with
 		// different world java objects for the same world
 		if ((event.phase == TickEvent.Phase.END)
-				&& (event.world.provider.dimensionId == 0)) {
+				&& (event.world.provider.dimensionId == 0 || event.world.provider.dimensionId == 8)) { //added properties to challenge dimension --matt
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
 			onWorldTickFriends(event);
@@ -186,7 +186,7 @@ public class ServerEnforcer extends Enforcer {
 	public void sendTempPPDataPackets() {
 		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
 	}
-	
+
 	public void minigameUpdate(int meta) {
 		sendDataPackets(DataPacketType.GenericMinigame, meta, null);
 	}
@@ -230,11 +230,14 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Broadcast ? broadcastMessage
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
+
 							: type == DataPacketType.TempPrivatProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
 									
 									: gson.toJson(this.playerID)); 
+
+
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired

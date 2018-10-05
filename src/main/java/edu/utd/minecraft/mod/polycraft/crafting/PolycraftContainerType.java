@@ -37,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.tierchest.TierChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 
@@ -79,7 +80,8 @@ public enum PolycraftContainerType {
 	CHEM_2323("CHEM 2323"),
 	COMPUTER("Computer"), 
 	HOSPITAL_GENERATOR("Hospital Generator"),
-	FLUORESCENT_LAMP("Fluorescent Lamp");
+	FLUORESCENT_LAMP("Fluorescent Lamp"),
+	TIER_CHEST("Tier Chest");
 
 	private final String friendlyName;
 
@@ -170,6 +172,7 @@ public enum PolycraftContainerType {
 		COMPUTER.initialize(ComputerInventory.guiSlots);
 		HOSPITAL_GENERATOR.initialize(HospitalGeneratorInventory.guiSlots);
 		FLUORESCENT_LAMP.initialize(FluorescentLampInventory.guiSlots);
+		TIER_CHEST.initialize(TierChestInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

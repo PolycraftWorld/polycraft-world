@@ -136,6 +136,7 @@ public class PrivateProperty {
 	public final PermissionSet defaultPermissions;
 	public final PermissionSet masterPermissions;
 	public final Map<String, PermissionSet> permissionOverridesByUser;
+	public final int dimension;
 
 	public PrivateProperty(
 			final boolean master,
@@ -144,6 +145,7 @@ public class PrivateProperty {
 			final JsonElement message,
 			final JsonArray chunks,
 			final JsonArray permissions) {
+		this.dimension=0;
 		this.master = master;
 		this.keepMasterWorldSame = false;
 		this.owner = owner.getAsString();
@@ -179,7 +181,9 @@ public class PrivateProperty {
 			final String message,
 			final Chunk topleft,
 			final Chunk bottomright,
-			final int[] permissions) {
+			final int[] permissions,
+			final int dim) {
+		this.dimension=dim;
 		this.master = master;
 		this.keepMasterWorldSame = false;
 		if (owner == null) {
@@ -197,16 +201,17 @@ public class PrivateProperty {
 		this.defaultPermissions = new PermissionSet(permissions);
 		this.masterPermissions = new PermissionSet(permissions);
 		this.permissionOverridesByUser = Maps.newHashMap();
-//		for (int i = 1; i < permissions.size(); i++) {
-//			final PermissionSet overridePermissionSet = new PermissionSet(permissions.get(i).getAsJsonObject());
-//			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
-//		}
+		for (int i = 1; i < permissions.length; i++) {
+			final PermissionSet overridePermissionSet = new PermissionSet(permissions);
+			this.permissionOverridesByUser.put(overridePermissionSet.user, overridePermissionSet);
+		}
 	}
 	
 	//constructor for government properties
 	public PrivateProperty(
 			final String name,
 			final String message) {
+		this.dimension=0;
 		this.master = true;
 		this.keepMasterWorldSame = false;
 		this.owner = "";
