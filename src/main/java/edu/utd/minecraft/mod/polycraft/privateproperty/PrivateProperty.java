@@ -211,6 +211,7 @@ public class PrivateProperty {
 	public PrivateProperty(
 			final String name,
 			final String message) {
+		this.dimension=0;
 		this.master = true;
 		this.keepMasterWorldSame = false;
 		this.owner = "";

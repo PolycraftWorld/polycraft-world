@@ -105,14 +105,10 @@ public abstract class Enforcer {
 
 	public enum DataPacketType {
 
-<<<<<<< HEAD
+
+		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, playerID, GenericMinigame 
 
 
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, playerID, GenericMinigame
-
-=======
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, Challenge
->>>>>>> origin/BugFixes
 
 	}
 

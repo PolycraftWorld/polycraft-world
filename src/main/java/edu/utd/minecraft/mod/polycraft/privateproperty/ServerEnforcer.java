@@ -185,14 +185,9 @@ public class ServerEnforcer extends Enforcer {
 	public void sendTempPPDataPackets() {
 		sendDataPackets(DataPacketType.TempPrivatProperties, 0, null);
 	}
-	
-<<<<<<< HEAD
+
 	public void minigameUpdate(int meta) {
 		sendDataPackets(DataPacketType.GenericMinigame, meta, null);
-=======
-	public void sendTempCPDataPackets(EntityPlayerMP player) {
-		sendDataPackets(DataPacketType.Challenge, 0, player);
->>>>>>> origin/BugFixes
 	}
 	
 	private void sendDataPackets(final DataPacketType type) {
@@ -230,15 +225,13 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Broadcast ? broadcastMessage
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
-<<<<<<< HEAD
+
 							: type == DataPacketType.TempPrivatProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 
 									: gson.toJson(this.playerID)); 
-=======
-							: type == DataPacketType.Challenge ? gson.toJson(tempChallengeProperties) 
-							: gson.toJson(tempPrivateProperties)); 
->>>>>>> origin/BugFixes
+
+
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
