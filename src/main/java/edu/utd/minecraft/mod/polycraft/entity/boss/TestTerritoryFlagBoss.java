@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.entity.boss;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 
 	public static PolycraftEntity config;
 	public static final int DETECTION_RANGE = 64;
+	private int meleeCooldown = 10; // How many ticks a single player has to wait before being able to attack again.
 
 	private static final IEntitySelector attackEntitySelector = new IEntitySelector() {
 		public boolean isEntityApplicable(Entity entity) {
@@ -91,8 +93,8 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(DETECTION_RANGE);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0);
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(500D);
-		// maxHurtResistantTime = 10;
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(2000D);
+		maxHurtResistantTime = 0;
 	}
 
 	@Override
@@ -114,8 +116,8 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 	private boolean active = false;
 
 	// Arrow Attacks
-	private static final int ARROW_MAX_COOLDOWN = 40;
-	private static final int ARROW_MIN_COOLDOWN = 10;
+	private static final int ARROW_MAX_COOLDOWN = 20;
+	private static final int ARROW_MIN_COOLDOWN = 5;
 	private static final int ARROWS = 8;
 	private int arrowCooldown = ARROW_MAX_COOLDOWN;
 	private int arrows = ARROWS;
@@ -138,9 +140,9 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 
 	// Spawner Attacks
 	private static final int SUMMONING_RADIUS = 4;
-	private static final int SUMMON_MAX_COOLDOWN = 2400;
-	private static final int SUMMON_MIN_COOLDOWN = 1200;
-	private int summonCooldown = 0;
+	private static final int SUMMON_MAX_COOLDOWN = 1200;
+	private static final int SUMMON_MIN_COOLDOWN = 600;
+	private int summonCooldown = 20;
 
 	public float scaleToHealth(int min, int max) {
 		float fraction = getHealth() / getMaxHealth();
@@ -183,7 +185,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 				this.setAttackTarget(null);
 				this.setRevengeTarget(null);
 				this.setTarget(null);
-			// Siphoning health from other mobs.
+				// Siphoning health from other mobs.
 			} else if ((this.getAITarget() instanceof EntityMob)) {
 				EntityMob victim = (EntityMob) this.getAITarget();
 				if (siphonCooldown == 0 && !victim.isDead) {
@@ -193,8 +195,8 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 					siphonZ = victim.posZ;
 					victim.hurtResistantTime = 0;
 					float death = this.getAITarget().getMaxHealth();
-					int y = worldServer.getPrecipitationHeight((int) Math.round(victim.posX),
-							(int) Math.round(victim.posZ));
+					int y = worldServer.getPrecipitationHeight((int) Math.floor(victim.posX),
+							(int) Math.floor(victim.posZ));
 					double height = victim.height + Math.abs(victim.posY - y);
 					siphonAttacks.add(new Attack(victim.posX, y, victim.posZ, SIPHON_ATTACK_RADIUS, height, death,
 							SIPHON_CHARGE));
@@ -210,8 +212,8 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 					for (int i = 0; i < victims.size(); i++) {
 						EntityPlayer victim = (EntityPlayer) victims.get(i);
 						if (!victim.capabilities.isCreativeMode) {
-							int h = worldServer.getPrecipitationHeight((int) Math.round(victim.posX),
-									(int) Math.round(victim.posZ));
+							int h = worldServer.getPrecipitationHeight((int) Math.floor(victim.posX),
+									(int) Math.floor(victim.posZ));
 							castLightning(victim, h);
 						}
 					}
@@ -222,7 +224,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 					if (summonCooldown == 0 && victims.size() > 0) {
 						double xm = (this.posX + victim.posX) / 2;
 						double zm = (this.posZ + victim.posZ) / 2;
-						int h = worldServer.getPrecipitationHeight((int) Math.round(xm), (int) Math.round(zm));
+						int h = worldServer.getPrecipitationHeight((int) Math.floor(xm), (int) Math.floor(zm));
 						summonAttacks.add(
 								new Attack(xm, h, zm, SUMMONING_RADIUS, SUMMONING_RADIUS, 0, 60).setTarget(victim));
 						AttackWarning.sendPackets(new AttackWarning(xm, zm, SUMMONING_RADIUS, h, SUMMONING_RADIUS, 60)
@@ -343,8 +345,21 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 		}
 	}
 
+	// Manage individual damage cooldowns for each player.
+	private HashMap<String, Integer> lastPlayerAttacks = new HashMap<String, Integer>();
+
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float p_70097_2_) {
+		if (source.getSourceOfDamage() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) source.getSourceOfDamage();
+			String name = player.getDisplayName();
+			if (lastPlayerAttacks.containsKey(name)) {
+				int elapsed = player.ticksExisted - lastPlayerAttacks.get(name);
+				if (elapsed > 0 && elapsed < meleeCooldown)
+					return false;
+			}
+			lastPlayerAttacks.put(name, player.ticksExisted);
+		}
 		boolean result = super.attackEntityFrom(source, p_70097_2_);
 		if (result) {
 			if (!active) {
@@ -370,7 +385,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 
 			WorldServer worldServer = (WorldServer) world;
 
-			int h = worldServer.getPrecipitationHeight((int) Math.round(victim.posX), (int) Math.round(victim.posZ));
+			int h = worldServer.getPrecipitationHeight((int) Math.floor(victim.posX), (int) Math.floor(victim.posZ));
 			if (lightningCooldown == 0 && lightningBolts > 0 && h >= victim.posY
 					&& victim.posY <= h + LIGHTNING_ATTACK_RADIUS * 2) {
 				castLightning(victim, h);
