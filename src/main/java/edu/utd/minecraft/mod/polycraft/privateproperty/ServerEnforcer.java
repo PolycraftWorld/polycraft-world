@@ -4,6 +4,7 @@ import io.netty.buffer.Unpooled;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import scala.util.parsing.json.JSONArray;
 import scala.util.parsing.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -536,6 +538,20 @@ public class ServerEnforcer extends Enforcer {
 				}
 				
 			}
+		}
+	}
+	
+	public String AddEmail(String minecraftUserName, String email) {
+		try {
+			Map<String, String> params = Maps.newHashMap();
+			params.put("minecraft_user_name", minecraftUserName);
+			params.put("email", email);
+			return NetUtil.post(String.format("%s/add_email/", portalRestUrl),
+					params);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
 		}
 	}
 }

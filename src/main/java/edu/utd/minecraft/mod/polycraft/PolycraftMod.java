@@ -43,6 +43,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.commands.CommandChallenge;
 import edu.utd.minecraft.mod.polycraft.commands.CommandDev;
 import edu.utd.minecraft.mod.polycraft.commands.CommandPP;
+import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.commands.CommandUpdateWhitelist;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
@@ -254,6 +255,7 @@ public class PolycraftMod {
 		event.registerServerCommand(new CommandChallenge());
 		event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
+		event.registerServerCommand(new CommandReg());
 	}
 	
 	public static String getAssetName(final String name) {
