@@ -546,8 +546,11 @@ public class ServerEnforcer extends Enforcer {
 			Map<String, String> params = Maps.newHashMap();
 			params.put("minecraft_user_name", minecraftUserName);
 			params.put("email", email);
-			return NetUtil.post(String.format("%s/add_email/", portalRestUrl),
+			String response = NetUtil.post(String.format("%s/add_email/", portalRestUrl),
 					params);
+			if(response.length() > 500)
+				response = "Error processing command";
+			return response;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
