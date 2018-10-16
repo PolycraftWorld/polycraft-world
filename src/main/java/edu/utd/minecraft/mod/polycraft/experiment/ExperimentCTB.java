@@ -121,7 +121,7 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-						spawnPlayer((EntityPlayerMP)player, 93);
+						spawnPlayer((EntityPlayerMP)player, 93); 	//TODO: Change this to player.setpositionandupdate()
 						player.addChatMessage(new ChatComponentText("�aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
