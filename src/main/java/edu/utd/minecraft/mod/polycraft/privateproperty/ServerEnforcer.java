@@ -486,29 +486,28 @@ public class ServerEnforcer extends Enforcer {
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
-		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
-			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-			System.out.println("this ran second???************************");
-			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
-			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
-			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
-			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
-			sendDataPackets(DataPacketType.Friends);
-			//sendDataPackets(DataPacketType.Governments);
-//			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-//			sendDataPackets(DataPacketType.playerID, 0, player);
-			if (!portalRestUrl.startsWith("file:")) {
-				try {
-					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
-							player.getDisplayName().toLowerCase()),
-							ImmutableMap.of("last_world_seen", player.worldObj
-									.getWorldInfo().getWorldName()));
-				} catch (final IOException e) {
-					PolycraftMod.logger.error(
-							"Unable to log player last world seen", e);
-				}
-			}
-		}
+//		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
+//			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+//			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
+//			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
+//			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
+//			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
+//			sendDataPackets(DataPacketType.Friends);
+//			//sendDataPackets(DataPacketType.Governments);
+////			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+////			sendDataPackets(DataPacketType.playerID, 0, player);
+//			if (!portalRestUrl.startsWith("file:")) {
+//				try {
+//					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
+//							player.getDisplayName().toLowerCase()),
+//							ImmutableMap.of("last_world_seen", player.worldObj
+//									.getWorldInfo().getWorldName()));
+//				} catch (final IOException e) {
+//					PolycraftMod.logger.error(
+//							"Unable to log player last world seen", e);
+//				}
+//			}
+//		}
 	}
 	
 	@SubscribeEvent
@@ -534,7 +533,23 @@ public class ServerEnforcer extends Enforcer {
 					sendDataPackets(DataPacketType.playerID, 0, player);
 				} catch (final IOException e) {
 					PolycraftMod.logger.error(
-							"Unable to log player last world seen", e);
+							"Unable to create new player account or get player data", e);
+				}
+				player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
+				player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
+				sendDataPackets(DataPacketType.PrivateProperties, 1, player);
+				sendDataPackets(DataPacketType.PrivateProperties, 0, player);
+				sendDataPackets(DataPacketType.Friends);	//not sure if this is being used anywhere?
+				if (!portalRestUrl.startsWith("file:")) {
+					try {
+						NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
+								player.getDisplayName().toLowerCase()),
+								ImmutableMap.of("last_world_seen", player.worldObj
+										.getWorldInfo().getWorldName()));
+					} catch (final IOException e) {
+						PolycraftMod.logger.error(
+								"Unable to log player last world seen", e);
+					}
 				}
 				
 			}
