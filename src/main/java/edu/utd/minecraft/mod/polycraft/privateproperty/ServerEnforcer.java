@@ -537,6 +537,7 @@ public class ServerEnforcer extends Enforcer {
 				}
 				player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
 				player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
+				player.addChatMessage(new ChatComponentText("By playing on our servers, you accept our TOS and privacy policy available on polycraftworld.com"));
 				sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 				sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 				sendDataPackets(DataPacketType.Friends);	//not sure if this is being used anywhere?
