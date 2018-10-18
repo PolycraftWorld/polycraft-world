@@ -455,4 +455,9 @@ public abstract class CommonProxy {
 	{
 		
 	}
+	
+	public void openConsentGui(EntityPlayer player, int x, int y, int z)
+	{
+		
+	}
 }
