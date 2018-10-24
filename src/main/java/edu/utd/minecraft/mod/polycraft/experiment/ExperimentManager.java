@@ -32,6 +32,25 @@ public class ExperimentManager {
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
 	private static List<EntityPlayer> globalPlayerList;
+	private static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
+	
+	private class ExperimentListMetaData {
+		
+		String expName;
+		int playersNeeded;
+		int currentPlayers;
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+		}
+		
+		public void updateCurrentPlayers(int newPlayerCount) {
+			currentPlayers = newPlayerCount;
+		}
+		
+	}
 	
 	public ExperimentManager() {
 		try {
@@ -64,7 +83,9 @@ public class ExperimentManager {
 	}
 	
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
-		return experiments.get(expID).addPlayer(player);
+		boolean value = experiments.get(expID).addPlayer(player);
+		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
+		return value;
 	}
 	
 	public static void UpdatePackets(String experimentJson,int id){
@@ -142,6 +163,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.size, 0));
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
 		}

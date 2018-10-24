@@ -25,6 +25,7 @@ public abstract class Experiment {
 	public final World world;
 	protected CustomScoreboard scoreboard;
 	protected int playersNeeded = 4;
+	protected int awaitingNumPlayers = playersNeeded;
 	protected static int teamsNeeded = 2;
 	protected static int teamSize = 1;
 	protected int genTick = 0;
@@ -92,6 +93,7 @@ public abstract class Experiment {
 				team.getPlayers().add(player.getDisplayName());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
 				playerCount++;
+				awaitingNumPlayers--;
 				if(playerCount == Experiment.teamSize*Experiment.teamsNeeded){
 					start();
 				}
@@ -191,6 +193,14 @@ public abstract class Experiment {
 	
 	public void render(Entity entity){
 		
+	}
+	
+	public int getMaxPlayers() {
+		return playersNeeded;
+	}
+	
+	public int getNumPlayersAwaiting() {
+		return awaitingNumPlayers;
 	}
 	
 	public int[] getSpectatorLocation(){

@@ -60,11 +60,7 @@ public class GuiExperimentList extends GuiScreen {
         
         getExperimentsList();
         this.buttonList.addAll(this.experimentsButtonList);
-        //byte b0 = 15;
-        
-        //this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 + 62 + b0, 114, 20, I18n.format("Back", new Object[0])));
-        //this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height / 2 + 62 + b0, 114, 20, I18n.format("Next >", new Object[0])));
-    }
+   }
     
     /**
      * Get the list of experiments from the client-side experiments manager and display for the user
@@ -81,6 +77,9 @@ public class GuiExperimentList extends GuiScreen {
         int button_padding_y = 4;
         //+12 to account for the Title Text!
     	
+        
+        
+        
         //TODO: iterate through the experiments list to capture the correct button names and numbers of buttons
         GuiButton temp1 = new GuiButton(buttonCount++, x_pos, y_pos, screenContainerWidth - 20, buttonheight, "Experiment 1");
     	y_pos += (buttonheight + button_padding_y);

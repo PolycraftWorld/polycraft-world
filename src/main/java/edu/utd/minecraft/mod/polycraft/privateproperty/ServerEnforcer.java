@@ -217,9 +217,9 @@ public class ServerEnforcer extends Enforcer {
 		//TODO: add meta-data parsing.
 			FMLProxyPacket[] packetList = null;
 				if(jsonStringToSend == null) {
-					packetList = getDataPackets(DataPacketType.Challenge, 3, "");
+					packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "");
 				} else {
-					packetList = getDataPackets(DataPacketType.Challenge, 2, jsonStringToSend);
+					packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
 				}
 				if(packetList != null) {
 					for (final FMLProxyPacket packet : packetList) {
@@ -231,7 +231,7 @@ public class ServerEnforcer extends Enforcer {
 	
 	public void experimentUpdate() {
 		//sendDataPackets(DataPacketType.Challenge, 1, null); //what?? if it's 1, then you're telling the server to tell the client to tell the server to update itself. why this.
-		sendDataPackets(DataPacketType.Challenge, 0, null); //is this necessary? Also, How are we rendering the bounding boxes? I don't see them :(
+		sendDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), null); //is this necessary? Also, How are we rendering the bounding boxes? I don't see them :(
 	}
 	
 	private void sendDataPackets(final DataPacketType type) {

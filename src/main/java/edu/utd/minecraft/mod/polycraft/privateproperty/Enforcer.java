@@ -117,6 +117,16 @@ public abstract class Enforcer {
 		GenericMinigame, 
 		RaceMinigame
 	}
+	
+	public enum ExperimentsPacketType {
+		Unknown,
+		BoundingBoxUpdate,
+		PlayerLeftDimension,
+		ReceiveExperimentsList,
+		RequestJoinExperiment
+		//TODO: Stephen add your data types here.
+		
+	}
 
 	protected static boolean updatedMasterForTheDay = false;
 	protected static boolean updatedNonMasterForTheDay = false;
