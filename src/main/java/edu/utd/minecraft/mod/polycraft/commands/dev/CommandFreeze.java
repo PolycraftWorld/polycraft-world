@@ -1,29 +1,36 @@
-package edu.utd.minecraft.mod.polycraft.commands;
+package edu.utd.minecraft.mod.polycraft.commands.dev;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
-import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
-import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
-public class CommandPP extends CommandBase{
+public class CommandFreeze  extends CommandBase{
 
-private final List aliases;
+	private final List aliases;
   
-	
-	public CommandPP(){
+	public CommandFreeze(){
 		aliases = new ArrayList(); 
-        aliases.add("PrivateProperty"); 
-        aliases.add("PP"); 
+        aliases.add("freeze");
 	}
 	
 	@Override
@@ -35,13 +42,13 @@ private final List aliases;
 	@Override
 	public String getCommandName() {
 		// TODO Auto-generated method stub
-		return "PP";
+		return "freeze";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/pp";
+		return "/freeze";
 	}
 
 	@Override
@@ -52,45 +59,25 @@ private final List aliases;
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
-		if(args.length > 0) {
-			int x0 = Integer.parseInt(args[0]);
-			int z0 = Integer.parseInt(args[1]);
-			if(!world.isRemote) {
-				player.addChatMessage(new ChatComponentText("Code works"));
-				int[] permissions = new int[] {
-					0, //"Enter",
-					5, //"OpenEnderChest"
-					23, //"UsePressurePlate"
-					33, //"UseDoor",			
-					34, //"UseTrapDoor",
-					35, //"UseFenceGate",
-					7 //"UseCraftingTable",				
-				};
-				for(int x=x0; x<=x0+1; x++) {
-					for(int z=z0; z<=z0+1; z++) {
-						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", new Chunk(x,z), new Chunk(x,z), permissions, 0);
-						Enforcer.addPrivateProperty(pp);
-						
-					}
-				}
-				ServerEnforcer.INSTANCE.sendTempPPDataPackets();
-			}
+		if (!world.isRemote) 
+        { 
+            //Client Side
+			PolycraftMod.proxy.freeze(player, true);
+        } 
+		else
+		{
+			
 		}
-		
-		
-		
-		
 		
 	}
 
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

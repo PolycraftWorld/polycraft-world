@@ -145,6 +145,11 @@ public abstract class CommonProxy {
 			break;
 		}
 	}
+	
+	//Client sided function
+	public void freeze(EntityPlayer player, boolean flag) {
+		
+	}
 
 	protected static final Random random = new Random();
 
