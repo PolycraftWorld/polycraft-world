@@ -27,7 +27,7 @@ public abstract class Experiment {
 	protected int playersNeeded = 4;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected static int teamsNeeded = 2;
-	protected static int teamSize = 1;
+	protected static int teamSize = 2;
 	protected int genTick = 0;
 	
 	
@@ -67,15 +67,37 @@ public abstract class Experiment {
 		currentState = State.WaitingToStart;
 	}
 	
-//	public boolean addPlayer(String player) {
-//		
-//		
-//		
-//	}
+
+	/**
+	 * Removes a player from a team, if the player exists
+	 * @param player the EntityPlayerMP to be removed
+	 * @return true if the player existed and was removed. False if the player was not on a team.
+	 */
 	public boolean removePlayer(EntityPlayerMP player) {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
 				if(team.getPlayers().remove(player.getDisplayName())) {
+					awaitingNumPlayers++;
+					return true;
+				}
+				
+			}
+			return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/**
+	 * Removes a player from a team, if the player exists (visible to the Package only)
+	 * @param player the displayname of the player to be removed
+	 * @return true if the player existed and was removed. False if the player was not on a team.
+	 */
+	boolean removePlayer(String player) {
+		try {
+			for(Team team: this.scoreboard.getTeams()) {
+				if(team.getPlayers().remove(player)) {
 					awaitingNumPlayers++;
 					return true;
 				}

@@ -35,6 +35,8 @@ public class GuiExperimentList extends GuiScreen {
     private final int screenContainerWidth = 230;
     private final int screenContainerHeight = 130;
     private int buttonCount = 2;
+    private int buttonheight = 20;
+    private int button_padding_y = 4;
     
     private String userFeedbackText = "";
     
@@ -64,7 +66,7 @@ public class GuiExperimentList extends GuiScreen {
     public void initGui()
     {
         this.buttonList.clear();
-        
+       // System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
         getExperimentsList();
         this.buttonList.addAll(this.experimentsButtonList);
    }
@@ -81,25 +83,35 @@ public class GuiExperimentList extends GuiScreen {
     	//GuiButton Constructor with default Width/Height of 200/20: id, xPos, yPos, displayString
     	int x_pos = (this.width - 248) / 2 + 10; //magic numbers from Minecraft. 
         int y_pos = (this.height - 190) / 2 + 8 + 12; //magic numbers from minecraft
-        int buttonheight = 20;
-        int button_padding_y = 4;
         //+12 to account for the Title Text!
         GuiButton btnCancel = new GuiButton(1, x_pos+10, y_pos + screenContainerHeight - 12 - 24, screenContainerWidth-20, buttonheight, "Withdraw From Queue");
     	experimentsButtonList.add(btnCancel);
         
         for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
-        	GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-20, buttonheight, emd.expName);
-        	y_pos+=(buttonheight + button_padding_y);
-        	experimentsButtonList.add(temp);
+        	if(emd.isAvailable()) {
+	        	GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
+	        	y_pos+=(buttonheight + button_padding_y);
+	        	experimentsButtonList.add(temp);
+        	}
         }
+        
+      //if user has already registered for an experiment, show feedback on the screen.
+        if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
+        	GuiButton button = experimentsButtonList.get(ExperimentManager.INSTANCE.clientCurrentExperiment);
+        	button.enabled=false; //disable the "previously selected experiment"
+        	//alert the user of this:
+        	userFeedbackText = "You are in queue for: " + button.displayString;
+    	}
         
         if(experimentsButtonList.size() < 2) { //Only button that exists is the cancel button
         	userFeedbackText = "Sorry - no experiments are available";
         	btnCancel.enabled=false;
-        }else if(userFeedbackText.equals("")) {
+        }else if(userFeedbackText.equals("")) { //No experiment has been selected
         	btnCancel.enabled=false;
         }else {
-        	btnCancel.enabled=true;
+        	btnCancel.enabled=true; //One experiment has already been registered (buttonList > 2)
+        	
+        	
         }
     }
 
@@ -121,6 +133,7 @@ public class GuiExperimentList extends GuiScreen {
     	switch(button.id) {
     	case 1:
     		userFeedbackText = "";
+    		ExperimentManager.INSTANCE.clientCurrentExperiment = -1;
     		for(GuiButton gbtn : experimentsButtonList) {
     			if(!gbtn.enabled) {
         			gbtn.enabled=true;
@@ -130,9 +143,9 @@ public class GuiExperimentList extends GuiScreen {
         			try {
 	        			int id = Integer.parseInt(expList[expList.length - 1]);
 	        			this.sendExperimentUpdateToServer(id, false);
-	        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+	        			
         			}catch(NumberFormatException e) {
-        				e.printStackTrace();
+        				//e.printStackTrace();
         				System.out.println("unable to parse string - did we change how we render buttons?");
         			}
     			}
@@ -166,6 +179,8 @@ public class GuiExperimentList extends GuiScreen {
 			//id is what we want.
 			try {
     			int id = Integer.parseInt(expList[expList.length - 1]); //try to get ID and conver to an int
+    			ExperimentManager.INSTANCE.clientCurrentExperiment = this.experimentsButtonList.indexOf(button);
+    			System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
     			this.sendExperimentUpdateToServer(id, true);
     			//TODO: send trigger to server withdrawing request to be a part of this experiment.
 			}catch(NumberFormatException e) {
@@ -220,7 +235,16 @@ public class GuiExperimentList extends GuiScreen {
         GameSettings gamesettings = this.mc.gameSettings;
         this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.screenContainerWidth, y_pos + this.screenContainerHeight, 0x50A0A0A0);
         this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
-
+        y_pos += buttonheight/3;
+        //draw the Number of Players in Each experiment:
+        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
+        	
+        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ this.screenContainerWidth - 30, y_pos, 0xFFFFFFFF);
+        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
+        	y_pos+=((int)(buttonheight*1) + button_padding_y);
+        	//experimentsButtonList.add(temp);
+        }
+        
         //TODO: create a parser for the following function, so it's easy to set colors!
         /*p_78258_4_ is the integer that minecraft parses to get the color channels.
          * this.red = (float)(p_78258_4_ >> 16 & 255) / 255.0F;

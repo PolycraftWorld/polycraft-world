@@ -26,9 +26,12 @@ import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -175,11 +178,34 @@ public class ServerEnforcer extends Enforcer {
 					default:
 						break;
 					}
+				
+				pendingDataPacketType = DataPacketType.Unknown;
+				pendingDataPacketTypeMetadata = 0; //is this a problem?
+				pendingDataPacketsBuffer = null;
+					
 				}
+				
 			}
+			
+			
+			
 		}catch (Exception e) {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
+	}
+	
+	@SubscribeEvent
+	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
+		System.out.println("Client Disconnect from server");
+		System.out.println("Player: " + event.player.getDisplayName());
+		//ExperimentManager.INSTANCE.removePlayerFromExperiment(expID, player)
+		ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate(event.player);
+	}
+	
+	@SubscribeEvent
+	public void onClientDisconnectionFromServer(final ClientDisconnectionFromServerEvent event) {
+		System.out.println("Client Disconnect from server");
+		ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate();
 	}
 	
 	private void onClientExperimentSelection(final String decompressedJson) {
@@ -575,6 +601,10 @@ public class ServerEnforcer extends Enforcer {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
+		if(event.entity instanceof EntityPlayerMP) {
+			ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate();
+		}
+		
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
@@ -583,7 +613,8 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
-			
+			//ExperimentManager.sendExperimentUpdates(); //send updated experiments available list
+			 //send updated experiments available to everyone
 			//sendDataPackets(DataPacketType.Governments);
 			try {
 				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.

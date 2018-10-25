@@ -38,7 +38,7 @@ public class ExperimentManager {
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
 	private static List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
-	
+	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	/**
 	 * Internal class that keeps track of all experiments
 	 * A static arraylist of this class, called #metadata is transferred between Server & Client
@@ -67,6 +67,10 @@ public class ExperimentManager {
 		
 		public void deactivate() {
 			available = false;
+		}
+		
+		public boolean isAvailable() {
+			return available;
 		}
 		
 		@Override
@@ -123,19 +127,61 @@ public class ExperimentManager {
 			}
 		}
 	}
-	
+	@SideOnly(Side.SERVER)
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).addPlayer(player);
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
 	}
-	
+	@SideOnly(Side.SERVER)
 	public boolean removePlayerFromExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).removePlayer(player);
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
+	}
+	@SideOnly(Side.SERVER)
+	public boolean removePlayerFromExperiment(int expID, String player){
+		boolean value = experiments.get(expID).removePlayer(player);
+		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
+		sendExperimentUpdates();
+		return value;
+	}
+	
+	@SideOnly(Side.SERVER)
+	public boolean checkGlobalPlayerListAndUpdate(EntityPlayer player) {
+		for(Experiment ex : experiments.values()) {
+			for(String play : ex.scoreboard.getPlayers()) {
+				if(play.equals(player.getDisplayName())) {
+					removePlayerFromExperiment(ex.id, (EntityPlayerMP)player);
+					sendExperimentUpdates();
+					return true;
+				}
+			}
+		}
+		//sendExperimentUpdates();
+		return false;
+	}
+	
+	
+	@SideOnly(Side.SERVER)
+	public boolean checkGlobalPlayerListAndUpdate() {
+		for(Experiment ex : experiments.values()) {
+			for(String player : ex.scoreboard.getPlayers()) {
+				if(this.getPlayerEntity(player) == null) {
+					removePlayerFromExperiment(ex.id, player);
+					return true;
+				}
+			}
+		}
+		sendExperimentUpdates();
+		return true;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void resetClientExperimentManager() {
+		clientCurrentExperiment = -1;
 	}
 	
 	@SideOnly(Side.SERVER)
