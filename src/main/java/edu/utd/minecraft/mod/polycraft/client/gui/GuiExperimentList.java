@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -27,9 +28,9 @@ public class GuiExperimentList extends GuiScreen {
     private ArrayList<GuiButton> experimentsButtonList = new ArrayList<GuiButton>();
     private final int screenContainerWidth = 230;
     private final int screenContainerHeight = 130;
-    private int buttonCount = 1;
+    private int buttonCount = 2;
     
-    private String userFeedbackText = "This is a test";
+    private String userFeedbackText = "";
     
     public GuiExperimentList(EntityPlayer player, int x, int y, int z) {
         System.out.print("gui ExperimentList constructor.\n x, y, z: " + x + " " + y + " " + z);
@@ -40,19 +41,19 @@ public class GuiExperimentList extends GuiScreen {
         this.screenID = 0;
         
     }
-    
+   
+    /**
+     * Simpler constructor. Not sure if we care about the x,y,z of the player.
+     * @param player the player who called up this screen
+     */
     public GuiExperimentList(EntityPlayer player) {
-        //System.out.print("gui ExperimentList constructor.\n x, y, z: " + x + " " + y + " " + z);
         this.player = player;
-//        this.x = x;
-//        this.y = y;
-//        this.z = z;
         this.screenID = 0;
-        
     }
     
     /**
-     * Adds the buttons (and other controls) to the screen in question.
+     * Adds the buttons (and other controls) to the screen in question. This is run every time the screen 
+     * needs to be rendered.
      */
     public void initGui()
     {
@@ -64,9 +65,10 @@ public class GuiExperimentList extends GuiScreen {
     
     /**
      * Get the list of experiments from the client-side experiments manager and display for the user
-     * This class builds the button list and the initGui() function takes these values, adds the buttons to the GUI's button list, and renders them
+     * This class builds the button list and the initGui() function takes these values, 
+     * adds the buttons to the GUI's button list, and renders them
+     * This always contains builds an updated, synced view, but requires the player to close & re-open to see any updates.
      * TODO: add on the GUI the number of players waiting in each experiment room. 
-     * TODO: Make that a live-updating thing (technically, drawScreen is on client tick, but we need a way to refresh the info the experimentsList object provides 
      */
     private void getExperimentsList() {
     	//GuiButton Constructor: id, xPos, yPos, width, height, displayString
@@ -76,51 +78,58 @@ public class GuiExperimentList extends GuiScreen {
         int buttonheight = 20;
         int button_padding_y = 4;
         //+12 to account for the Title Text!
-    	
+        GuiButton btnCancel = new GuiButton(1, x_pos+10, y_pos + screenContainerHeight - 12 - 24, screenContainerWidth-20, buttonheight, "Withdraw From Queue");
+    	experimentsButtonList.add(btnCancel);
         
+        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
+        	GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-20, buttonheight, emd.expName);
+        	y_pos+=(buttonheight + button_padding_y);
+        	experimentsButtonList.add(temp);
+        }
         
-        
-        //TODO: iterate through the experiments list to capture the correct button names and numbers of buttons
-        GuiButton temp1 = new GuiButton(buttonCount++, x_pos, y_pos, screenContainerWidth - 20, buttonheight, "Experiment 1");
-    	y_pos += (buttonheight + button_padding_y);
-    	GuiButton temp2 = new GuiButton(buttonCount++, x_pos, y_pos, screenContainerWidth - 20, buttonheight, "Experiment 2");
-    	y_pos += (buttonheight + button_padding_y);
-    	GuiButton temp3 = new GuiButton(buttonCount++, x_pos, y_pos, screenContainerWidth - 20, buttonheight, "Experiment 3");
-    	y_pos += (buttonheight + button_padding_y);
-    	GuiButton temp4 = new GuiButton(buttonCount++, x_pos, y_pos, screenContainerWidth - 20, buttonheight, "Experiment 4");
-        
-    	experimentsButtonList.add(temp1);
-    	experimentsButtonList.add(temp2);
-    	experimentsButtonList.add(temp3);
-    	experimentsButtonList.add(temp4);
+        if(experimentsButtonList.size() < 2) { //Only button that exists is the cancel button
+        	userFeedbackText = "Sorry - no experiments are available";
+        	btnCancel.enabled=false;
+        }else if(userFeedbackText.equals("")) {
+        	btnCancel.enabled=false;
+        }else {
+        	btnCancel.enabled=true;
+        }
     }
 
+    /**
+     * Override functionality on base class
+     * This is what is triggered if any interaction happens on the Gui. Right now, it's only handling button events.
+     */
     protected void actionPerformed(GuiButton button) {
     	int x_pos = (this.width - 248) / 2 + 10;
-    	player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
+    	//player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
     	userFeedbackText = "You are in queue for: " + button.displayString;
-//    	
-//        switch (button.id)
-//        {
-//            case 1:
-//                button.enabled = false;
-//
-//                try
-//                {
-//                    Class oclass = Class.forName("java.awt.Desktop");
-//                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-//                    oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {new URI("http://www.minecraft.net/store?source=demo")});
-//                }
-//                catch (Throwable throwable)
-//                {
-//                    logger.error("Couldn\'t open link", throwable);
-//                }
-//
-//                break;
-//            case 2:
-//                this.mc.displayGuiScreen((GuiScreen)null);
-//                this.mc.setIngameFocus();
-//        }
+    	
+    	switch(button.id) {
+    	case 1:
+    		userFeedbackText = "";
+    		for(GuiButton gbtn : experimentsButtonList) {
+    			gbtn.enabled=true;
+    		}
+    		button.enabled=false;
+    		break;
+    	default:
+    		
+    		//for all other experiments, remove the user from the list!
+    		//Do this before a user is added to an experiment. Just in case.
+    		for(GuiButton gbtn : experimentsButtonList) {
+        		if(!gbtn.enabled) {
+        			gbtn.enabled=true;
+        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+        		}
+        	}
+    		button.enabled=false; //user has now selected this experiment - don't let them do it again.
+    		//TODO: trigger a message to the server that they want to be a part of this experiment.
+    		//player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
+        	userFeedbackText = "You are in queue for: " + button.displayString; //let the user know what experiment they're in
+  	
+    	}
     }
 
     /**

@@ -3,9 +3,11 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 import io.netty.buffer.Unpooled;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -227,6 +229,26 @@ public class ServerEnforcer extends Enforcer {
 					}
 					
 				}
+	}
+	/**
+	 * Send an updated list of experiments to all players in dimension 0
+	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 
+	 */
+	public void sendExperimentListUpdates(final String jsonStringToSend) {
+		FMLProxyPacket[] packetList = null;
+		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
+		System.out.println(packetList.toString());
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+//				List<EntityPlayer> playerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+//				for (EntityPlayer player : playerList) {
+//					netChannel.sendTo(packet, (EntityPlayerMP) player);
+//				}
+				System.out.println("Sending packet " + i);
+				netChannel.sendToAll(packet); //send to all players in dimension 0 (don't send to players in an experiment)
+			}
+		}
 	}
 	
 	public void experimentUpdate() {

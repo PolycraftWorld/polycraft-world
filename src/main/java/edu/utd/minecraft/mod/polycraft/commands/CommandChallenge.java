@@ -81,14 +81,21 @@ public class CommandChallenge  extends CommandBase{
 					generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
 				}else if (chatCommandChallengenew.equalsIgnoreCase(args[0])){
 					int id = ExperimentManager.getNextID();
-					ExperimentManager.INSTANCE.registerExperiment(1, new ExperimentCTB(1, 8, 0, 144,DimensionManager.getWorld(8)));
+					ExperimentManager.INSTANCE.registerExperiment(id, new ExperimentCTB(id, 8, 0, 144,DimensionManager.getWorld(8)));
 					ExperimentManager.INSTANCE.init();
 				}else if(chatCommandChallengejoin.equalsIgnoreCase(args[0])){
 					if(args.length > 1){
 						ExperimentManager.INSTANCE.addPlayerToExperiment(Integer.parseInt(args[1]), player);
 					}
 				}else if(chatCommandChallengeStart.equalsIgnoreCase(args[0])){
-					ExperimentManager.INSTANCE.start(1);
+					if(args.length > 1) {
+						try {
+							ExperimentManager.INSTANCE.start(Integer.parseInt(args[1]));
+						}catch(NumberFormatException e) {
+							sender.addChatMessage(new ChatComponentText("Incorrect format: enter Experiment ID to start"));
+						}
+					}
+						
 				}else if(chatCommandChallengeMaxTeams.equalsIgnoreCase(args[0])){
 					if (args.length != 4) {
 						sender.addChatMessage(new ChatComponentText("Incorrect format: maxteams {#teams} teamsize {#players}"));

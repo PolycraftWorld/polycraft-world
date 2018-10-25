@@ -151,22 +151,46 @@ public class ClientEnforcer extends Enforcer {
 						//showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	// commited out for a second -matt
 						break;
 					case Challenge:
-						if(pendingDataPacketTypeMetadata == 2){
-							System.out.println("CLient is trying to tell the ExperimentManager something -> this isn't possible");
-							//ExperimentManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
-							PolycraftMod.logger.debug("Sending bounding box data...");
-							this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						} else if(pendingDataPacketTypeMetadata == 3) {
-							PolycraftMod.logger.info("User has left the dimension");
-							this.baseList.clear();
+						System.out.println("Packet Received");
+						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
+						switch(tempMetaData) {
+							case BoundingBoxUpdate:
+								PolycraftMod.logger.debug("Sending bounding box data...");
+								this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case PlayerLeftDimension:
+								PolycraftMod.logger.info("User has left the dimension");
+								this.baseList.clear();
+								break;
+							case ReceiveExperimentsList:
+								System.out.println("Receiving update on the Client Enforcer...");
+								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							
+							default:
+								final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
+								showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
+										+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+					
 						}
 						
-						else{
-							final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-							final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
-							showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
-									+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
-						}
+//						if(pendingDataPacketTypeMetadata == 2){
+//							System.out.println("CLient is trying to tell the ExperimentManager something -> this isn't possible");
+//							//ExperimentManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
+//							PolycraftMod.logger.debug("Sending bounding box data...");
+//							this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//						} else if(pendingDataPacketTypeMetadata == 3) {
+//							PolycraftMod.logger.info("User has left the dimension");
+//							this.baseList.clear();
+//						}
+//						
+//						else{
+//							final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//							final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
+//							showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
+//									+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+//						}
 						break;
 					case Scoreboard:
 						System.out.println("Packets have all been sent to the client!");

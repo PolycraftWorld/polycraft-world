@@ -72,6 +72,21 @@ public abstract class Experiment {
 //		
 //		
 //	}
+	public boolean removePlayer(EntityPlayerMP player) {
+		try {
+			for(Team team: this.scoreboard.getTeams()) {
+				if(team.getPlayers().remove(player.getDisplayName())) {
+					awaitingNumPlayers++;
+					return true;
+				}
+				
+			}
+			return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	/**
 	 * take in an Entity Player MP object and add JUST the player's name to the appropriate list.
@@ -194,7 +209,10 @@ public abstract class Experiment {
 	public void render(Entity entity){
 		
 	}
-	
+	/**
+	 * Maximum number of players that can be in this experiment
+	 * @return Max Players. Used by the {@link ExperimentManager} for display in {@link GUIExperimentList}
+	 */
 	public int getMaxPlayers() {
 		return playersNeeded;
 	}
@@ -207,10 +225,19 @@ public abstract class Experiment {
 		return new int[]{xPos + (size*8), yPos + 33, zPos + (size*8)};
 	}
 	
+	/**
+	 * Debug parameters used by command functions right now
+	 * In the future, this should be pulled from the experiment dashboard on our polycraftworld.com website
+	 * @param num of teams needed
+	 */
 	public static void setTeamsNeeded(int num) {
 		Experiment.teamsNeeded=num;
 	}
 	
+	/**
+	 * Same as above. Teams are always filled on a first-come, first-serve basis, sequentially (team 1, then team 2, etc.)
+	 * @param num max players per team.
+	 */
 	public static void setTeamSize(int num) {
 		Experiment.teamSize = num;
 	}
