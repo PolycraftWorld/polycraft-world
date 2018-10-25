@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -7,8 +8,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -99,7 +105,13 @@ public class GuiExperimentList extends GuiScreen {
 
     /**
      * Override functionality on base class
-     * This is what is triggered if any interaction happens on the Gui. Right now, it's only handling button events.
+     * This is what is triggered if any interaction happens on the Gui. 
+     * This handles the various cases where a user wants to select an experiment and join it or withdraw
+     * from that queue.
+     * All user requests are currently relayed to the server. We can place a cooldown (in the future) that
+     * prevents a single user from continually switching between experiments. Right now, button is disabled after a user requests to join an experiment.
+     * we don't have enough users for this to be a problem
+     * TODO: Make this more idiot proof and prevent click-spamming. 
      */
     protected void actionPerformed(GuiButton button) {
     	int x_pos = (this.width - 248) / 2 + 10;
@@ -110,7 +122,20 @@ public class GuiExperimentList extends GuiScreen {
     	case 1:
     		userFeedbackText = "";
     		for(GuiButton gbtn : experimentsButtonList) {
-    			gbtn.enabled=true;
+    			if(!gbtn.enabled) {
+        			gbtn.enabled=true;
+        			//Update the server and let it know we no longer want to be a part of that experiment
+        			String expID = gbtn.displayString;
+        			String[] expList = expID.split("\\s");
+        			try {
+	        			int id = Integer.parseInt(expList[expList.length - 1]);
+	        			this.sendExperimentUpdateToServer(id, false);
+	        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+        			}catch(NumberFormatException e) {
+        				e.printStackTrace();
+        				System.out.println("unable to parse string - did we change how we render buttons?");
+        			}
+    			}
     		}
     		button.enabled=false;
     		break;
@@ -121,13 +146,35 @@ public class GuiExperimentList extends GuiScreen {
     		for(GuiButton gbtn : experimentsButtonList) {
         		if(!gbtn.enabled) {
         			gbtn.enabled=true;
-        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+        			//Update the server and let it know we no longer want to be a part of that experiment
+        			String expID = gbtn.displayString;
+        			String[] expList = expID.split("\\s");
+        			try {
+	        			int id = Integer.parseInt(expList[expList.length - 1]);
+	        			this.sendExperimentUpdateToServer(id, false);
+	        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+        			}catch(NumberFormatException e) {
+        				e.printStackTrace();
+        				System.out.println("unable to parse string - did we change how we render buttons?");
+        			}
         		}
         	}
     		button.enabled=false; //user has now selected this experiment - don't let them do it again.
-    		//TODO: trigger a message to the server that they want to be a part of this experiment.
-    		//player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
-        	userFeedbackText = "You are in queue for: " + button.displayString; //let the user know what experiment they're in
+    		//Update the server and let it know we no longer want to be a part of that experiment
+			String expID = button.displayString;
+			String[] expList = expID.split("\\s"); //assume the name convention is: "Experiment {ID}"
+			//id is what we want.
+			try {
+    			int id = Integer.parseInt(expList[expList.length - 1]); //try to get ID and conver to an int
+    			this.sendExperimentUpdateToServer(id, true);
+    			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+			}catch(NumberFormatException e) {
+				e.printStackTrace(); //if id collection fails, we need to update our parameters 
+				System.out.println("unable to parse string - did we change how we render buttons?");
+			}
+    		
+        	
+    		userFeedbackText = "You are in queue for: " + button.displayString; //let the user know what experiment they're in
   	
     	}
     }
@@ -183,6 +230,14 @@ public class GuiExperimentList extends GuiScreen {
          */
         
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
+    }
+    
+    private void sendExperimentUpdateToServer(int experimentID, boolean wantToJoin) {
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, wantToJoin);
+    	Gson gson = new Gson();
+		Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>(){}.getType();
+		final String experimentUpdates = gson.toJson(part, gsonType);
+		ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates);
     }
     
 }

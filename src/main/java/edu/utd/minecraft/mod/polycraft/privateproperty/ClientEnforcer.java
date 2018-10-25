@@ -31,6 +31,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.Base;
@@ -42,6 +43,8 @@ import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
@@ -102,15 +105,6 @@ public class ClientEnforcer extends Enforcer {
 	private void showStatusMessage(final String message, final int seconds) {
 		statusMessages.add(new StatusMessage(message, PolycraftMod.convertSecondsToGameTicks(seconds)));
 	}
-
-	private boolean isByteArrayEmpty(final byte[] array) {
-        for (byte b : array) {
-            if (b != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
 	
 	@SubscribeEvent
 	public void onClientPacket(final ClientCustomPacketEvent event) {
@@ -174,23 +168,6 @@ public class ClientEnforcer extends Enforcer {
 										+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
 					
 						}
-						
-//						if(pendingDataPacketTypeMetadata == 2){
-//							System.out.println("CLient is trying to tell the ExperimentManager something -> this isn't possible");
-//							//ExperimentManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
-//							PolycraftMod.logger.debug("Sending bounding box data...");
-//							this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-//						} else if(pendingDataPacketTypeMetadata == 3) {
-//							PolycraftMod.logger.info("User has left the dimension");
-//							this.baseList.clear();
-//						}
-//						
-//						else{
-//							final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-//							final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
-//							showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
-//									+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
-//						}
 						break;
 					case Scoreboard:
 						System.out.println("Packets have all been sent to the client!");
@@ -403,6 +380,19 @@ public class ClientEnforcer extends Enforcer {
 			return true;
 
 		return false;
+	}
+	
+	public void sendExperimentSelectionUpdate(String jsonData) {
+		FMLProxyPacket[] packetList = null;
+		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.RequestJoinExperiment.ordinal(), jsonData);
+		System.out.println(packetList.toString());
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
 	}
 
 	@SubscribeEvent

@@ -39,8 +39,17 @@ public class ExperimentManager {
 	private static List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
 	
-	public class ExperimentListMetaData {
-		
+	/**
+	 * Internal class that keeps track of all experiments
+	 * A static arraylist of this class, called #metadata is transferred between Server & Client
+	 * for synchronization. This contains relevant, condensed information enabling efficient info
+	 * transfer across the network. 
+	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
+	 * {@link ClientEnforcer}. It is currently rendered on {@link GuiExperimentList}
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentListMetaData {	
 		public String expName;
 		public int playersNeeded;
 		public int currentPlayers;
@@ -63,10 +72,26 @@ public class ExperimentManager {
 		@Override
 		public String toString() {
 			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d", expName, playersNeeded, currentPlayers);
+		}	
+	}
+	
+	/**
+	 * This class contains a request from the Client to the Server of a player wanting to join
+	 * or of a player wanting to be removed from a particular experiment list.
+	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
+	 * by {@link ServerEnforcer}).
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentParticipantMetaData {
+		public String playerName;
+		public int experimentID;
+		public boolean wantsToJoin;
+		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			wantsToJoin = join;
 		}
-		
-		
-		
 	}
 	
 	public ExperimentManager() {

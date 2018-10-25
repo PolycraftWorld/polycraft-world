@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 import io.netty.buffer.Unpooled;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -20,16 +22,22 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
@@ -50,6 +58,12 @@ public class ServerEnforcer extends Enforcer {
 	private static final long portalRefreshTicksGovernments = SystemUtil
 			.getPropertyLong("portal.refresh.ticks.governments", 12000);
 
+	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
+	private int pendingDataPacketTypeMetadata = 0;
+	private int pendingDataPacketsBytes = 0;
+	private ByteBuffer pendingDataPacketsBuffer = null;
+	
+	
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
 		// TODO not sure why this is getting called multiple times with
@@ -66,52 +80,53 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 
-	// @SubscribeEvent
-	// public void onServerChatEvent(final ServerChatEvent event)
-	// {
-	// if (event.message.startsWith(chatCommandPrefix)) {
-	// return;
-	// }
-	//
-	// if (event.message.startsWith("//"))
-	// return;
-	//
-	// for (int i = 0; i < 36; i++)
-	// {
-	// ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
-	//
-	// if (itemStackSend != null)
-	// {
-	// if (i < 9)
-	// {
-	// //test if receiving player has walky talky on the hotbar
-	// if (itemStackSend != null &&
-	// ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-	// broadcastFromSender(event, itemStackSend);
-	//
-	// //test if receiving player has cell phone on the hotbar
-	// if (itemStackSend != null &&
-	// ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-	// broadcastFromSender(event, itemStackSend);
-	//
-	// }
-	//
-	// //test if sending and receiving player have ham radios on same frequency
-	// if (itemStackSend != null &&
-	// ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
-	// broadcastFromSender(event, itemStackSend);
-	//
-	// //test if sending player holding phone broadcast the message
-	// //send message to a specific user (tell command)
-	// if (itemStackSend != null &&
-	// ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-	// broadcastFromSender(event, itemStackSend);
-	//
-	// }
-	//
-	// }
-	//
-	// }
+	//Is this supposed to be commented out?? 
+	//TODO: recomment this function before pushing to production.
+	 @SubscribeEvent
+	 public void onServerChatEvent(final ServerChatEvent event)
+	 {
+		 if (event.message.startsWith(chatCommandPrefix)) {
+		 return;
+		 }
+		
+		 if (event.message.startsWith("//"))
+		 return;
+		
+		 for (int i = 0; i < 36; i++)
+		 {
+			 ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
+			
+			 if (itemStackSend != null)
+			 {
+			 if (i < 9)
+			 {
+			 //test if receiving player has walky talky on the hotbar
+			 if (itemStackSend != null &&
+			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
+			 broadcastFromSender(event, itemStackSend);
+			
+			 //test if receiving player has cell phone on the hotbar
+			 if (itemStackSend != null &&
+			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+			 broadcastFromSender(event, itemStackSend);
+			
+			 }
+			
+			 //test if sending and receiving player have ham radios on same frequency
+			 if (itemStackSend != null &&
+			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+			 broadcastFromSender(event, itemStackSend);
+			
+			 //test if sending player holding phone broadcast the message
+			 //send message to a specific user (tell command)
+			 if (itemStackSend != null &&
+			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+			 broadcastFromSender(event, itemStackSend);
+			
+			 }
+		
+		 }
+	 }
 
 	public void broadcastFromSender(ServerChatEvent event, ItemStack itemStack) {
 		// somehow we need to send a broadcast event now...
@@ -137,6 +152,47 @@ public class ServerEnforcer extends Enforcer {
 		// of...sendDataPackets(DataPacketType.Broadcast, 1) which includes
 		// message;
 
+	}
+	
+	@SubscribeEvent
+	public void onServerPacket(final ServerCustomPacketEvent event) {
+		try {
+			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
+			if (pendingDataPacketType == DataPacketType.Unknown) {
+				pendingDataPacketType = DataPacketType.values()[payload.getInt()];
+				pendingDataPacketTypeMetadata = payload.getInt();
+				pendingDataPacketsBytes = payload.getInt();
+				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
+			}
+			else {
+				pendingDataPacketsBytes -= payload.array().length;
+				pendingDataPacketsBuffer.put(payload);
+				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
+					switch (pendingDataPacketType) {
+					case Challenge:
+						onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}catch (Exception e) {
+			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+		}
+	}
+	
+	private void onClientExperimentSelection(final String decompressedJson) {
+		Gson gson = new Gson();
+		ExperimentManager.ExperimentParticipantMetaData part = gson.fromJson(decompressedJson, new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType());
+		if(part.wantsToJoin) {
+			ExperimentManager.INSTANCE.addPlayerToExperiment(part.experimentID, (EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(part.playerName));
+		}else {
+			ExperimentManager.INSTANCE.removePlayerFromExperiment(part.experimentID, (EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(part.playerName));
+		}
+		PolycraftMod.logger.debug(part.toString());
+//		System.out.println("Receiving new Data...");
+//		System.out.println(metadata.toString());
 	}
 
 	private void onWorldTickPrivateProperties(
@@ -241,25 +297,24 @@ public class ServerEnforcer extends Enforcer {
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
-//				List<EntityPlayer> playerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
-//				for (EntityPlayer player : playerList) {
-//					netChannel.sendTo(packet, (EntityPlayerMP) player);
-//				}
 				System.out.println("Sending packet " + i);
-				netChannel.sendToAll(packet); //send to all players in dimension 0 (don't send to players in an experiment)
+				netChannel.sendToDimension(packet, 0); //send to all players in dimension 0 (don't send to players in an experiment)
 			}
 		}
 	}
 	
+	//TODO: refactor and remove this
 	public void experimentUpdate() {
 		//sendDataPackets(DataPacketType.Challenge, 1, null); //what?? if it's 1, then you're telling the server to tell the client to tell the server to update itself. why this.
 		sendDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), null); //is this necessary? Also, How are we rendering the bounding boxes? I don't see them :(
 	}
 	
+	//TODO: refactor and remove this.
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
 	}
 
+	//TODO: refactor and safely remove this
 	private void sendDataPackets(final DataPacketType type,
 			final int typeMetadata) {
 		sendDataPackets(type, typeMetadata, null);
@@ -276,36 +331,6 @@ public class ServerEnforcer extends Enforcer {
 					netChannel.sendTo(packet, player);
 				}
 			}
-		}
-	}
-
-	private FMLProxyPacket[] getDataPackets(final DataPacketType type, final int typeMetadata, final String jsonData) {
-		try {
-			Gson gson = new Gson();
-			// we have to split these up into smaller packets due to this issue:
-			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
-			final byte[] dataBytes = CompressUtil.compress(jsonData); 
-			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
-			final int controlPacketsRequired = 1;
-			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
-			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata)
-					.writeInt(dataBytes.length).copy(), netChannelName);
-			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
-				int startDataIndex = payloadIndex * maxPacketSizeBytes;
-				int length = Math.min(dataBytes.length - startDataIndex,
-						maxPacketSizeBytes);
-				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
-						Unpooled.buffer()
-								.writeBytes(dataBytes, startDataIndex, length)
-								.copy(), netChannelName);
-			}
-			return packets;
-		} catch (IOException e) {
-			PolycraftMod.logger.error("Unable to compress packet data", e);
-			return null;
-		} catch (NullPointerException e) {
-			PolycraftMod.logger.error("Null pointer exception encountered... returning a null packet.");
-			return null;
 		}
 	}
 	
