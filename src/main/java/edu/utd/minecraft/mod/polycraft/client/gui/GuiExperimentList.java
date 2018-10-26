@@ -31,14 +31,21 @@ public class GuiExperimentList extends GuiScreen {
     private int x, y, z;
     private int screenID; //current screen
     private static final String TITLE = "Experiments List: Select An Experiment!";
-    private ArrayList<GuiButton> experimentsButtonList = new ArrayList<GuiButton>();
+    private ArrayList<GuiButton> experimentsListButton = new ArrayList<GuiButton>();
     private final int screenContainerWidth = 230;
     private final int screenContainerHeight = 130;
     private int buttonCount = 2;
     private int buttonheight = 20;
     private int button_padding_y = 4;
+    private int currentExperimentDetailOnScreenID = -1;
+    
+    private enum WhichScreen {
+    		ExperimentList,
+    		ExperimentDetail
+    }
     
     private String userFeedbackText = "";
+    private WhichScreen screenSwitcher = WhichScreen.ExperimentList;
     
     public GuiExperimentList(EntityPlayer player, int x, int y, int z) {
         System.out.print("gui ExperimentList constructor.\n x, y, z: " + x + " " + y + " " + z);
@@ -65,10 +72,17 @@ public class GuiExperimentList extends GuiScreen {
      */
     public void initGui()
     {
-        this.buttonList.clear();
-       // System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
-        getExperimentsList();
-        this.buttonList.addAll(this.experimentsButtonList);
+    	if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
+    		this.currentExperimentDetailOnScreenID = ExperimentManager.INSTANCE.clientCurrentExperiment; //open to this screen!
+    		screenSwitcher = this.screenChange(WhichScreen.ExperimentDetail);
+    		
+    		//return;
+    	}else {
+	        this.buttonList.clear();
+	       // System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
+	        getExperimentsList();
+	        this.buttonList.addAll(this.experimentsListButton);
+    	}
    }
     
     /**
@@ -85,25 +99,26 @@ public class GuiExperimentList extends GuiScreen {
         int y_pos = (this.height - 190) / 2 + 8 + 12; //magic numbers from minecraft
         //+12 to account for the Title Text!
         GuiButton btnCancel = new GuiButton(1, x_pos+10, y_pos + screenContainerHeight - 12 - 24, screenContainerWidth-20, buttonheight, "Withdraw From Queue");
-    	experimentsButtonList.add(btnCancel);
+    	experimentsListButton.add(btnCancel);
         
         for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
         	if(emd.isAvailable()) {
 	        	GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
 	        	y_pos+=(buttonheight + button_padding_y);
-	        	experimentsButtonList.add(temp);
+	        	experimentsListButton.add(temp);
         	}
         }
         
       //if user has already registered for an experiment, show feedback on the screen.
         if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
-        	GuiButton button = experimentsButtonList.get(ExperimentManager.INSTANCE.clientCurrentExperiment);
+        	GuiButton button = experimentsListButton.get(ExperimentManager.INSTANCE.clientCurrentExperiment);
         	button.enabled=false; //disable the "previously selected experiment"
+        	//button.displayString = "Joined: " + button.displayString;
         	//alert the user of this:
         	userFeedbackText = "You are in queue for: " + button.displayString;
     	}
         
-        if(experimentsButtonList.size() < 2) { //Only button that exists is the cancel button
+        if(experimentsListButton.size() < 2) { //Only button that exists is the cancel button
         	userFeedbackText = "Sorry - no experiments are available";
         	btnCancel.enabled=false;
         }else if(userFeedbackText.equals("")) { //No experiment has been selected
@@ -126,71 +141,126 @@ public class GuiExperimentList extends GuiScreen {
      * TODO: Make this more idiot proof and prevent click-spamming. 
      */
     protected void actionPerformed(GuiButton button) {
-    	int x_pos = (this.width - 248) / 2 + 10;
+    	//int x_pos = (this.width - 248) / 2 + 10;
     	//player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
-    	userFeedbackText = "You are in queue for: " + button.displayString;
+    	//userFeedbackText = "You are in queue for: " + button.displayString;
     	
     	switch(button.id) {
+    	case 1000:
+    		//user selected "back"
+    		this.screenSwitcher = this.screenChange(WhichScreen.ExperimentList);
+    		this.currentExperimentDetailOnScreenID = -1; //no experiment selected
+    		break;
+    	case 2000:
+    		//user selected join experiment
+    		button.enabled = false;
+    		button.displayString = "In Queue";
+    		//TODO: disable this button when a user comes back
+    		if(ExperimentManager.INSTANCE.clientCurrentExperiment > 0) {
+    			if(	ExperimentManager.INSTANCE.clientCurrentExperiment != this.currentExperimentDetailOnScreenID) {
+    				//send server a "withdraw" request
+    				//TODO: set it up to only send join requests and let the server auto-withdraw a player if they're in another scoreboard.
+    				//TODO: Would that be in scoreboard manager?
+    		
+    				this.sendExperimentUpdateToServer(ExperimentManager.INSTANCE.clientCurrentExperiment, false);
+    			
+    			}else {
+    				//User has already joined!
+    				//TODO: display user feedback text on Experiment Detail screen
+    				break; //don't send an update.
+    			}
+    			
+    		}
+    		//Tell server player wants to join a new experiment.
+    		ExperimentManager.INSTANCE.clientCurrentExperiment = this.currentExperimentDetailOnScreenID;
+			this.sendExperimentUpdateToServer(ExperimentManager.INSTANCE.clientCurrentExperiment, true);
+			userFeedbackText = "You are in queue for: Experiment " + this.currentExperimentDetailOnScreenID; //let the user know what experiment they're in
+    			
+    		break;
+    		
+    		
+    		
     	case 1:
     		userFeedbackText = "";
-    		ExperimentManager.INSTANCE.clientCurrentExperiment = -1;
-    		for(GuiButton gbtn : experimentsButtonList) {
+    		
+    		if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
+    			this.sendExperimentUpdateToServer(ExperimentManager.INSTANCE.clientCurrentExperiment, false);
+    			
+    			ExperimentManager.INSTANCE.clientCurrentExperiment = -1; //set this to -1
+    		}
+    	
+    		//store the current joined experiment in clientCurrentExperiment
+    		//reset all experiment buttons
+    		for(GuiButton gbtn : experimentsListButton) {
     			if(!gbtn.enabled) {
         			gbtn.enabled=true;
-        			//Update the server and let it know we no longer want to be a part of that experiment
-        			String expID = gbtn.displayString;
-        			String[] expList = expID.split("\\s");
-        			try {
-	        			int id = Integer.parseInt(expList[expList.length - 1]);
-	        			this.sendExperimentUpdateToServer(id, false);
-	        			
-        			}catch(NumberFormatException e) {
-        				//e.printStackTrace();
-        				System.out.println("unable to parse string - did we change how we render buttons?");
-        			}
     			}
     		}
+//        			//Update the server and let it know we no longer want to be a part of that experiment
+//        			String expID = gbtn.displayString;
+//        			String[] expList = expID.split("\\s");
+//        			try {
+//	        			int id = Integer.parseInt(expList[expList.length - 1]);
+//	        			this.sendExperimentUpdateToServer(id, false);
+//	        			
+//        			}catch(NumberFormatException e) {
+//        				//e.printStackTrace();
+//        				System.out.println("unable to parse string - did we change how we render buttons?");
+//        			}
+//    			}
+//    		}
     		button.enabled=false;
     		break;
     	default:
-    		
-    		//for all other experiments, remove the user from the list!
-    		//Do this before a user is added to an experiment. Just in case.
-    		for(GuiButton gbtn : experimentsButtonList) {
-        		if(!gbtn.enabled) {
-        			gbtn.enabled=true;
-        			//Update the server and let it know we no longer want to be a part of that experiment
-        			String expID = gbtn.displayString;
-        			String[] expList = expID.split("\\s");
-        			try {
-	        			int id = Integer.parseInt(expList[expList.length - 1]);
-	        			this.sendExperimentUpdateToServer(id, false);
-	        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
-        			}catch(NumberFormatException e) {
-        				e.printStackTrace();
-        				System.out.println("unable to parse string - did we change how we render buttons?");
-        			}
-        		}
-        	}
-    		button.enabled=false; //user has now selected this experiment - don't let them do it again.
-    		//Update the server and let it know we no longer want to be a part of that experiment
-			String expID = button.displayString;
-			String[] expList = expID.split("\\s"); //assume the name convention is: "Experiment {ID}"
-			//id is what we want.
+    		//Open the Experiment Detail Screen:
+    		String expID = button.displayString;
+			String[] expList = expID.split("\\s");
 			try {
-    			int id = Integer.parseInt(expList[expList.length - 1]); //try to get ID and conver to an int
-    			ExperimentManager.INSTANCE.clientCurrentExperiment = this.experimentsButtonList.indexOf(button);
-    			System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
-    			this.sendExperimentUpdateToServer(id, true);
-    			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+				this.currentExperimentDetailOnScreenID = Integer.parseInt(expList[expList.length - 1]);
+    			this.screenSwitcher = this.screenChange(WhichScreen.ExperimentDetail);
 			}catch(NumberFormatException e) {
-				e.printStackTrace(); //if id collection fails, we need to update our parameters 
+				e.printStackTrace();
 				System.out.println("unable to parse string - did we change how we render buttons?");
 			}
-    		
-        	
-    		userFeedbackText = "You are in queue for: " + button.displayString; //let the user know what experiment they're in
-  	
+			break;
+
+//    		//for all other experiments, remove the user from the list!
+//    		//Do this before a user is added to an experiment. Just in case.
+//    		for(GuiButton gbtn : experimentsListButton) {
+//        		if(!gbtn.enabled) {
+//        			gbtn.enabled=true;
+//        			//Update the server and let it know we no longer want to be a part of that experiment
+//        			String expID = gbtn.displayString;
+//        			String[] expList = expID.split("\\s");
+//        			try {
+//	        			int id = Integer.parseInt(expList[expList.length - 1]);
+//	        			this.sendExperimentUpdateToServer(id, false);
+//	        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+//        			}catch(NumberFormatException e) {
+//        				e.printStackTrace();
+//        				System.out.println("unable to parse string - did we change how we render buttons?");
+//        			}
+//        		}
+//        	}
+//    		button.enabled=false; //user has now selected this experiment - don't let them do it again.
+//    		//Update the server and let it know we no longer want to be a part of that experiment
+//			String expID = button.displayString;
+//			String[] expList = expID.split("\\s"); //assume the name convention is: "Experiment {ID}"
+//			//id is what we want.
+//			try {
+//    			int id = Integer.parseInt(expList[expList.length - 1]); //try to get ID and conver to an int
+//    			ExperimentManager.INSTANCE.clientCurrentExperiment = id;//this.experimentsListButton.indexOf(button);
+//    			System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
+//    			this.sendExperimentUpdateToServer(id, true);
+//    			//TODO: send trigger to server withdrawing request to be a part of this experiment.
+//			}catch(NumberFormatException e) {
+//				e.printStackTrace(); //if id collection fails, we need to update our parameters 
+//				System.out.println("unable to parse string - did we change how we render buttons?");
+//			}
+//    		
+//        	
+//    		userFeedbackText = "You are in queue for: " + button.displayString; //let the user know what experiment they're in
+//  	
     	}
     }
 
@@ -225,24 +295,15 @@ public class GuiExperimentList extends GuiScreen {
     {
     	
         this.drawDefaultBackground();
-        //the below "magic numbers" come from Minecraft's Demo files.
-        //I'm using them unless there's better ideas in the future
-        //TODO: understand why these are the correct magic numbers
-        int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
-        y_pos += 12;
-        GameSettings gamesettings = this.mc.gameSettings;
-        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.screenContainerWidth, y_pos + this.screenContainerHeight, 0x50A0A0A0);
-        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
-        y_pos += buttonheight/3;
-        //draw the Number of Players in Each experiment:
-        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
-        	
-        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ this.screenContainerWidth - 30, y_pos, 0xFFFFFFFF);
-        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
-        	y_pos+=((int)(buttonheight*1) + button_padding_y);
-        	//experimentsButtonList.add(temp);
+        switch(screenSwitcher) {
+        	case ExperimentList:
+        		drawExperimentListScreen();
+        		break;
+        	case ExperimentDetail:
+        		drawExperimentInstructionScreen();
+        		break;
+        	default:
+        		//Do Nothing
         }
         
         //TODO: create a parser for the following function, so it's easy to set colors!
@@ -256,6 +317,100 @@ public class GuiExperimentList extends GuiScreen {
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }
     
+    public void drawExperimentListScreen() {
+    	//the below "magic numbers" come from Minecraft's Demo files.
+        //I'm using them unless there's better ideas in the future
+        //TODO: understand why these are the correct magic numbers
+        int x_pos = (this.width - 248) / 2 + 10;
+        int y_pos = (this.height - 190) / 2 + 8;
+        this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        //GameSettings gamesettings = this.mc.gameSettings;
+        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.screenContainerWidth, y_pos + this.screenContainerHeight, 0x50A0A0A0);
+        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
+        y_pos += buttonheight/3;
+        //draw the Number of Players in Each experiment:
+        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
+        	
+        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ this.screenContainerWidth - 30, y_pos, 0xFFFFFFFF);
+        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
+        	y_pos+=((int)(buttonheight*1) + button_padding_y);
+        	//experimentsButtonList.add(temp);
+        }
+    }
+    
+    private WhichScreen screenChange(WhichScreen newScreen) {
+    	//On screen change, we need to update the button list and have it re-drawn.
+    	switch(newScreen) {
+    		case ExperimentList:
+    			//this.buttonList.clear();
+    			this.experimentsListButton.clear();
+    			this.getExperimentsList();
+    			this.buttonList.clear();
+    			this.buttonList.addAll(this.experimentsListButton);
+    			break;
+    		case ExperimentDetail:
+    			//this.experimentsListButton.clear();
+    			this.buttonList.clear();
+    			this.buttonList.addAll(getExperimentsDetailButtons());
+    			break;
+    		default:
+    			break;
+    	}
+    	
+    	return newScreen;
+    }
+    
+    private ArrayList<GuiButton> getExperimentsDetailButtons(){
+    	ArrayList<GuiButton> buttons = new ArrayList<GuiButton>();
+    	int x_pos = (this.width - 248) / 2 + 10; //magic numbers from Minecraft. 
+        int y_pos = (this.height - 190) / 2 + 8 + 12; //magic numbers from minecraft
+        //+12 to account for the Title Text!
+        GuiButton back = new GuiButton(1000, x_pos, y_pos + screenContainerHeight - 12 - 24, screenContainerWidth/2 - 2, buttonheight, "< Back");
+        GuiButton join = new GuiButton(2000, x_pos + screenContainerWidth/2, y_pos + screenContainerHeight - 12 - 24, screenContainerWidth/2 - 2, buttonheight, "Join Experiment");
+        if(this.currentExperimentDetailOnScreenID == ExperimentManager.INSTANCE.clientCurrentExperiment) {
+        	join.enabled = false; //disable joining the same experiment twice.
+        	join.displayString = "In Queue";
+        }
+        buttons.add(back);
+        buttons.add(join);
+        
+        return buttons;
+    
+    }
+    
+    public void drawExperimentInstructionScreen() {
+    	//this.buttonList.clear();
+    	int x_pos = (this.width - 248) / 2 + 10;
+        int y_pos = (this.height - 190) / 2 + 8;
+        this.fontRendererObj.drawString(I18n.format("Experiment Instructions: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        //draw background rectangle
+        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.screenContainerWidth, y_pos + this.screenContainerHeight, 0x50A0A0A0);
+        //IMPORTANT: user feedback text goes here
+        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
+        
+        this.fontRendererObj.drawString(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        String objectiveString = "Work with your team to score the most points possible within 5 minutes.";
+        String scoringString = "50 points for each neutral (gray) base. 200 points for each enemy base.";
+        this.fontRendererObj.drawSplitString(I18n.format(objectiveString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
+        y_pos += 12;
+        y_pos += 12;
+        this.fontRendererObj.drawString(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        this.fontRendererObj.drawSplitString(I18n.format(scoringString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
+        y_pos += 12;
+        y_pos += 12;
+        this.fontRendererObj.drawString(I18n.format("Click Join Below!", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+    }
+    
+    /**
+     * Send a packet to the server requesting for a player to either Join or Withdraw from the queue for 
+     * a particular experiment
+     * @param experimentID The experiment in question
+     * @param wantToJoin True if player wants to join, False if they want to withdraw
+     */
     private void sendExperimentUpdateToServer(int experimentID, boolean wantToJoin) {
     	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, wantToJoin);
     	Gson gson = new Gson();

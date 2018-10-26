@@ -145,14 +145,14 @@ public class ClientScoreboard extends ScoreboardManager {
 					} else {
 		
 						//show this anyways?? even on menu pause??
-						int x = overlayStartX;
-						int y = overlayStartY;
-						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
-						client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
-						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
-						y += overlayDistanceBetweenY;
+//						int x = overlayStartX;
+//						int y = overlayStartY;
+//						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
+//						y += overlayDistanceBetweenY;
+//						client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);
+//						y += overlayDistanceBetweenY;
+//						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
+//						y += overlayDistanceBetweenY;
 					}
 					
 				}

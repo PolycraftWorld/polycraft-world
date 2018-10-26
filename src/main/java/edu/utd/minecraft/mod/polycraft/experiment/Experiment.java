@@ -24,10 +24,11 @@ public abstract class Experiment {
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	protected CustomScoreboard scoreboard;
-	protected int playersNeeded = 4;
-	protected int awaitingNumPlayers = playersNeeded;
+	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected static int teamsNeeded = 2;
 	protected static int teamSize = 2;
+	protected int playersNeeded = teamsNeeded*teamSize;
+	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
 	
 	
@@ -129,6 +130,8 @@ public abstract class Experiment {
 				//team.getPlayers()
 				team.getPlayers().add(player.getDisplayName());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
+				//TODO: Inform the player which team they're on over here instead of a chat
+				//Pass this info to the ExperimentListMetaData as its sent to the player
 				playerCount++;
 				awaitingNumPlayers--;
 				if(playerCount == Experiment.teamSize*Experiment.teamsNeeded){

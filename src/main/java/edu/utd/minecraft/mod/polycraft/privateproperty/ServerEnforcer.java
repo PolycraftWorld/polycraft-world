@@ -179,8 +179,9 @@ public class ServerEnforcer extends Enforcer {
 						break;
 					}
 				
+				//Flush the buffer. and reset for the next message coming from the client.
 				pendingDataPacketType = DataPacketType.Unknown;
-				pendingDataPacketTypeMetadata = 0; //is this a problem?
+				pendingDataPacketTypeMetadata = 0; 
 				pendingDataPacketsBuffer = null;
 					
 				}
@@ -194,20 +195,25 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 	
+	/**
+	 * On client disconnect, handle this gracefully by removing them from any experiments
+	 * they've joined or have queued for.
+	 * This will work even in a mini-game, but results may be un-expected! :) 
+	 * @param event the client that logged out (accessed by event.player)
+	 */
 	@SubscribeEvent
 	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
 		System.out.println("Client Disconnect from server");
 		System.out.println("Player: " + event.player.getDisplayName());
-		//ExperimentManager.INSTANCE.removePlayerFromExperiment(expID, player)
 		ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate(event.player);
+		//note: the global player list in ExperimentManager doesn't update fast enough - remove them using their player object.
 	}
 	
-	@SubscribeEvent
-	public void onClientDisconnectionFromServer(final ClientDisconnectionFromServerEvent event) {
-		System.out.println("Client Disconnect from server");
-		ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate();
-	}
-	
+	/**
+	 * Triggered when server receives a packet from the client
+	 * @param decompressedJson the JSON version of the ExperimentParticipantMetaData
+	 * object that indicates to the server which experiment a player wants to join or withdraw from.
+	 */
 	private void onClientExperimentSelection(final String decompressedJson) {
 		Gson gson = new Gson();
 		ExperimentManager.ExperimentParticipantMetaData part = gson.fromJson(decompressedJson, new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType());

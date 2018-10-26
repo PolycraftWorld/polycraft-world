@@ -43,12 +43,12 @@ public class ExperimentCTB extends Experiment{
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
 	private final int scoreIncrementOnUpdate = 0;
-	public static int maxPlayersNeeded = 4;
+	//public static int maxPlayersNeeded = 4;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
 		//teamNames.add("testing");
-		this.playersNeeded = maxPlayersNeeded;
+		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		int maxBases = 8;
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
@@ -80,11 +80,34 @@ public class ExperimentCTB extends Experiment{
 		}
 	}
 	
+	/**
+	 * Used to dimensionally transport a player into the Experiments dimension (dim. 8)
+	 * Player randomly is placed within the experiment zone using Math.random().
+	 * @param player player to be teleported
+	 * @param y height they should be dropped at.
+	 */
 	private void spawnPlayer(EntityPlayerMP player, int y){
 		double x = Math.random()*(size*16 - 10) + xPos + 5;
 		double z = Math.random()*(size*16 - 10) + zPos + 5;
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 8,	
 				new PolycraftTeleporter(player.mcServer.worldServerForDimension(8), (int)x, y, (int)z));
+//		player.setPositionAndUpdate(x + .5,
+//				player.worldObj.getTopSolidOrLiquidBlock((int)x, (int)z) + 3,
+//				z + .5);
+		player.setPositionAndUpdate(x + .5, y, z + .5);
+	}
+	
+	/**
+	 * Uses setPositionAndUpdate instead of the Dimensional Teleporter - hopefully this is faster and 
+	 * decreases the weird not-being-able-to-see players bug
+	 * Player randomly is placed within the experiment zone using Math.random().
+	 * @param player the player to be moved
+	 * @param y the height they should be dropped at (x & z are random)
+	 */
+	private void spawnPlayerInGame(EntityPlayerMP player, int y) {
+		double x = Math.random()*(size*16 - 10) + xPos + 5;
+		double z = Math.random()*(size*16 - 10) + zPos + 5;
+		player.setPositionAndUpdate(x + .5, y, z + .5);
 	}
 	
 	@Override
@@ -99,7 +122,7 @@ public class ExperimentCTB extends Experiment{
 				for(Team team: scoreboard.getTeams()) {
 					for(String player: team.getPlayers()) {
 						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-						playerEntity.addChatMessage(new ChatComponentText("aGenerating..."));
+						playerEntity.addChatMessage(new ChatComponentText("§Generating..."));
 					}
 				}
 			}
@@ -121,8 +144,8 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-						spawnPlayer((EntityPlayerMP)player, 93); 	//TODO: Change this to player.setpositionandupdate()
-						player.addChatMessage(new ChatComponentText("�aSTART"));
+						spawnPlayerInGame((EntityPlayerMP)player, 93); 	
+						player.addChatMessage(new ChatComponentText("§aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -144,7 +167,7 @@ public class ExperimentCTB extends Experiment{
 				currentState = State.Ending;
 			}else if(tickCount % 600 == 0) {
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-					player.addChatMessage(new ChatComponentText("Seconds remaining: �a" + (maxTicks-tickCount)/20));
+					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 				}
 			}
 		//End of Running state
@@ -161,7 +184,7 @@ public class ExperimentCTB extends Experiment{
 				if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 					player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
 				} else {
-					player.addChatComponentMessage(new ChatComponentText("You Lost! Boooooooo."));
+					player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 				}
 				
 			}
