@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiConsent extends GuiScreen{
 
 	private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation field_146348_f = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
     private static final String __OBFID = "CL_00000691";
     private EntityPlayer player;
     private int x, y, z;
@@ -89,7 +89,7 @@ public class GuiConsent extends GuiScreen{
         super.drawDefaultBackground();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(field_146348_f);
+        this.mc.getTextureManager().bindTexture(background_image);
         int i = (this.width - 248) / 2;
         int j = (this.height - 200) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, 248, 250);
@@ -100,21 +100,22 @@ public class GuiConsent extends GuiScreen{
      */
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
+    	
         this.drawDefaultBackground();
-        int k = (this.width - 248) / 2 + 10;
-        int l = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format("Polycraft World Experiments Server Terms, Conditions & User Agreement", new Object[0]), k, l, 0xFFFFFFFF);
-        l += 12;
+        int x_pos = (this.width - 248) / 2 + 10;
+        int y_pos = (this.height - 190) / 2 + 8;
+        this.fontRendererObj.drawString(I18n.format("Polycraft World Experiments Server Terms, Conditions & User Agreement", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
         GameSettings gamesettings = this.mc.gameSettings;
-        this.drawRect(k - 2, l - 2, k + 215, l + 130, 0x50A0A0A0);
+        this.drawRect(x_pos - 2, y_pos - 2, x_pos + 215, y_pos + 130, 0x50A0A0A0);
         GL11.glScalef(0.5F, 0.5F, 0.5F);
-        l*=2;
-        k*=2;
-        this.fontRendererObj.drawString(I18n.format("demo.help.movementShort", new Object[] {GameSettings.getKeyDisplayString(gamesettings.keyBindForward.getKeyCode()), GameSettings.getKeyDisplayString(gamesettings.keyBindLeft.getKeyCode()), GameSettings.getKeyDisplayString(gamesettings.keyBindBack.getKeyCode()), GameSettings.getKeyDisplayString(gamesettings.keyBindRight.getKeyCode())}), k, l, 5197647);
-        this.fontRendererObj.drawString(I18n.format("demo.help.movementMouse", new Object[0]), k, l + 12, 5197647);
-        this.fontRendererObj.drawString(I18n.format("demo.help.jump", new Object[] {GameSettings.getKeyDisplayString(gamesettings.keyBindJump.getKeyCode())}), k, l + 24, 5197647);
-        this.fontRendererObj.drawString(I18n.format("demo.help.inventory", new Object[] {GameSettings.getKeyDisplayString(gamesettings.keyBindInventory.getKeyCode())}), k, l + 36, 5197647);
-        this.fontRendererObj.drawSplitString(I18n.format("demo.help.fullWrapped", new Object[0]), k, l + 68, 218, 2039583);
+        y_pos*=2;
+        x_pos*=2;
+        this.fontRendererObj.drawString(I18n.format("demo.help.movementShort", new Object[] {GameSettings.getKeyDisplayString(gamesettings.keyBindForward.getKeyCode()), GameSettings.getKeyDisplayString(gamesettings.keyBindLeft.getKeyCode()), GameSettings.getKeyDisplayString(gamesettings.keyBindBack.getKeyCode()), GameSettings.getKeyDisplayString(gamesettings.keyBindRight.getKeyCode())}), x_pos, y_pos, 5197647);
+        this.fontRendererObj.drawString(I18n.format("demo.help.movementMouse", new Object[0]), x_pos, y_pos + 12, 5197647);
+        this.fontRendererObj.drawString(I18n.format("demo.help.jump", new Object[] {GameSettings.getKeyDisplayString(gamesettings.keyBindJump.getKeyCode())}), x_pos, y_pos + 24, 5197647);
+        this.fontRendererObj.drawString(I18n.format("demo.help.inventory", new Object[] {GameSettings.getKeyDisplayString(gamesettings.keyBindInventory.getKeyCode())}), x_pos, y_pos + 36, 5197647);
+        this.fontRendererObj.drawSplitString(I18n.format("demo.help.fullWrapped", new Object[0]), x_pos, y_pos + 68, 218, 2039583);
         GL11.glScalef(2F, 2F, 2F);
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }

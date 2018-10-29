@@ -32,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
@@ -141,6 +142,7 @@ public class ClientProxy extends CommonProxy {
 	private KeyBinding keyBindingP;
 	private KeyBinding keyBindingBackspace;
 	private KeyBinding keyBindingCheckAir;
+	private KeyBinding keyBindingExperiments;
 	
 
 	@Override
@@ -161,6 +163,7 @@ public class ClientProxy extends CommonProxy {
 		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
 		
+		keyBindingExperiments = new KeyBinding("key.experiment.list", Keyboard.KEY_R, "key.categories.gameplay");
 		
 	}
 
@@ -402,6 +405,8 @@ public class ClientProxy extends CommonProxy {
 				onClientTickSyncInventory(player, playerState);
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
+				onClientTickOpenExperimentsGui(player, playerState);
+				
 			}
 		}
 	}
@@ -1182,6 +1187,12 @@ public class ClientProxy extends CommonProxy {
 
         }
 
+	}
+	
+	private void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
+		if(keyBindingExperiments.isPressed()) {
+			Minecraft.getMinecraft().displayGuiScreen(new GuiExperimentList(player));
+		}
 	}
 	
 	@Override

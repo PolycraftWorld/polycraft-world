@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.commands.dev;
+package edu.utd.minecraft.mod.polycraft.commands;
 
 import java.util.ArrayList;
 import java.util.List;

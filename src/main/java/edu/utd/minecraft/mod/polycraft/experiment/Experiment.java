@@ -24,9 +24,11 @@ public abstract class Experiment {
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	protected CustomScoreboard scoreboard;
-	protected int playersNeeded = 4;
+	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected static int teamsNeeded = 2;
-	protected static int teamSize = 1;
+	protected static int teamSize = 2;
+	protected int playersNeeded = teamsNeeded*teamSize;
+	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
 	
 	
@@ -66,11 +68,48 @@ public abstract class Experiment {
 		currentState = State.WaitingToStart;
 	}
 	
-//	public boolean addPlayer(String player) {
-//		
-//		
-//		
-//	}
+
+	/**
+	 * Removes a player from a team, if the player exists
+	 * @param player the EntityPlayerMP to be removed
+	 * @return true if the player existed and was removed. False if the player was not on a team.
+	 */
+	public boolean removePlayer(EntityPlayerMP player) {
+		try {
+			for(Team team: this.scoreboard.getTeams()) {
+				if(team.getPlayers().remove(player.getDisplayName())) {
+					awaitingNumPlayers++;
+					return true;
+				}
+				
+			}
+			return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/**
+	 * Removes a player from a team, if the player exists (visible to the Package only)
+	 * @param player the displayname of the player to be removed
+	 * @return true if the player existed and was removed. False if the player was not on a team.
+	 */
+	boolean removePlayer(String player) {
+		try {
+			for(Team team: this.scoreboard.getTeams()) {
+				if(team.getPlayers().remove(player)) {
+					awaitingNumPlayers++;
+					return true;
+				}
+				
+			}
+			return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	/**
 	 * take in an Entity Player MP object and add JUST the player's name to the appropriate list.
@@ -91,7 +130,10 @@ public abstract class Experiment {
 				//team.getPlayers()
 				team.getPlayers().add(player.getDisplayName());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
+				//TODO: Inform the player which team they're on over here instead of a chat
+				//Pass this info to the ExperimentListMetaData as its sent to the player
 				playerCount++;
+				awaitingNumPlayers--;
 				if(playerCount == Experiment.teamSize*Experiment.teamsNeeded){
 					start();
 				}
@@ -192,15 +234,35 @@ public abstract class Experiment {
 	public void render(Entity entity){
 		
 	}
+	/**
+	 * Maximum number of players that can be in this experiment
+	 * @return Max Players. Used by the {@link ExperimentManager} for display in {@link GUIExperimentList}
+	 */
+	public int getMaxPlayers() {
+		return playersNeeded;
+	}
+	
+	public int getNumPlayersAwaiting() {
+		return awaitingNumPlayers;
+	}
 	
 	public int[] getSpectatorLocation(){
 		return new int[]{xPos + (size*8), yPos + 33, zPos + (size*8)};
 	}
 	
+	/**
+	 * Debug parameters used by command functions right now
+	 * In the future, this should be pulled from the experiment dashboard on our polycraftworld.com website
+	 * @param num of teams needed
+	 */
 	public static void setTeamsNeeded(int num) {
 		Experiment.teamsNeeded=num;
 	}
 	
+	/**
+	 * Same as above. Teams are always filled on a first-come, first-serve basis, sequentially (team 1, then team 2, etc.)
+	 * @param num max players per team.
+	 */
 	public static void setTeamSize(int num) {
 		Experiment.teamSize = num;
 	}

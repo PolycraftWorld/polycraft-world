@@ -1,7 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -11,8 +13,11 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -32,6 +37,66 @@ public class ExperimentManager {
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
 	private static List<EntityPlayer> globalPlayerList;
+	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
+	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
+	/**
+	 * Internal class that keeps track of all experiments
+	 * A static arraylist of this class, called #metadata is transferred between Server & Client
+	 * for synchronization. This contains relevant, condensed information enabling efficient info
+	 * transfer across the network. 
+	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
+	 * {@link ClientEnforcer}. It is currently rendered on {@link GuiExperimentList}
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentListMetaData {	
+		public String expName;
+		public int playersNeeded;
+		public int currentPlayers;
+		private boolean available = true;
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+		}
+		
+		public void updateCurrentPlayers(int newPlayerCount) {
+			currentPlayers = newPlayerCount;
+		}
+		
+		public void deactivate() {
+			available = false;
+		}
+		
+		public boolean isAvailable() {
+			return available;
+		}
+		
+		@Override
+		public String toString() {
+			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d", expName, playersNeeded, currentPlayers);
+		}	
+	}
+	
+	/**
+	 * This class contains a request from the Client to the Server of a player wanting to join
+	 * or of a player wanting to be removed from a particular experiment list.
+	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
+	 * by {@link ServerEnforcer}).
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentParticipantMetaData {
+		public String playerName;
+		public int experimentID;
+		public boolean wantsToJoin;
+		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			wantsToJoin = join;
+		}
+	}
 	
 	public ExperimentManager() {
 		try {
@@ -62,22 +127,85 @@ public class ExperimentManager {
 			}
 		}
 	}
-	
+	@SideOnly(Side.SERVER)
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
-		return experiments.get(expID).addPlayer(player);
+		boolean value = experiments.get(expID).addPlayer(player);
+		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
+		sendExperimentUpdates();
+		return value;
+	}
+	@SideOnly(Side.SERVER)
+	public boolean removePlayerFromExperiment(int expID, EntityPlayerMP player){
+		boolean value = experiments.get(expID).removePlayer(player);
+		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
+		sendExperimentUpdates();
+		return value;
+	}
+	@SideOnly(Side.SERVER)
+	public boolean removePlayerFromExperiment(int expID, String player){
+		boolean value = experiments.get(expID).removePlayer(player);
+		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
+		sendExperimentUpdates();
+		return value;
 	}
 	
-	public static void UpdatePackets(String experimentJson,int id){
-		//System.out.println("This is a test");
+	@SideOnly(Side.SERVER)
+	public boolean checkGlobalPlayerListAndUpdate(EntityPlayer player) {
+		for(Experiment ex : experiments.values()) {
+			for(String play : ex.scoreboard.getPlayers()) {
+				if(play.equals(player.getDisplayName())) {
+					removePlayerFromExperiment(ex.id, (EntityPlayerMP)player);
+					sendExperimentUpdates();
+					return true;
+				}
+			}
+		}
+		//sendExperimentUpdates();
+		return false;
+	}
+	
+	
+	@SideOnly(Side.SERVER)
+	public boolean checkGlobalPlayerListAndUpdate() {
+		for(Experiment ex : experiments.values()) {
+			for(String player : ex.scoreboard.getPlayers()) {
+				if(this.getPlayerEntity(player) == null) {
+					removePlayerFromExperiment(ex.id, player);
+					return true;
+				}
+			}
+		}
+		sendExperimentUpdates();
+		return true;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void resetClientExperimentManager() {
+		clientCurrentExperiment = -1;
+	}
+	
+	@SideOnly(Side.SERVER)
+	private static void sendExperimentUpdates() {
 		Gson gson = new Gson();
-		TypeToken<?> typeToken = TypeToken.get(ExperimentManager.class);
-		ExperimentManager temp = gson.fromJson(experimentJson, typeToken.getType());
-		
-		INSTANCE=temp;
+		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
+		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);
+		ServerEnforcer.INSTANCE.sendExperimentListUpdates(experimentUpdates);
+		System.out.println("Sending Update...");
+		//return updateScoreJson;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void updateExperimentMetadata(String experimentMetaDataJson) {
+		Gson gson = new Gson();
+		ExperimentManager.metadata = gson.fromJson(experimentMetaDataJson, new TypeToken<ArrayList<ExperimentListMetaData>>() {}.getType());
+		PolycraftMod.logger.debug(metadata.toString());
+		System.out.println("Receiving new Data...");
+		System.out.println(metadata.toString());
 	}
 	
 	public void start(int expID){
 		experiments.get(expID).start();
+		metadata.get(expID-1).deactivate(); //prevents this experiment from showing up on the list.
 	}
 	
 	public EntityPlayer getPlayerEntity(String playerName) {
@@ -99,6 +227,8 @@ public class ExperimentManager {
 		}
 		//TODO: clear the scoreboard.
 		ex.stop();
+		
+		
 		//experiments.remove(id);
 		//TODO: fix this:
 		reset(); //TODO: remove the above experiment.
@@ -142,6 +272,8 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0));
+			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
 		}
