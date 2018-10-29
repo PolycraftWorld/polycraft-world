@@ -341,6 +341,12 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), null); //is this necessary? Also, How are we rendering the bounding boxes? I don't see them :(
 	}
 	
+	public void freezePlayer(boolean flag, EntityPlayerMP player) {
+		//true flag will freeze player, false flag will unfreeze player
+		int f = flag? 0: 1; //0 freezes player, 1 thaws player
+		sendDataPackets(DataPacketType.FreezePlayer, f, player);
+	}
+	
 	//TODO: refactor and remove this.
 	private void sendDataPackets(final DataPacketType type) {
 		sendDataPackets(type, 0, null);
@@ -383,7 +389,8 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
-									: gson.toJson(this.playerID)); 
+							: type == DataPacketType.playerID ? gson.toJson(this.playerID)
+									: gson.toJson(""));	//default packet should be blank 
 			//System.out.println("type: " + DataPacketType.);
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;

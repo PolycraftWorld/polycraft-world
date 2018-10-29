@@ -61,15 +61,18 @@ public class CommandFreeze  extends CommandBase{
 	public void processCommand(ICommandSender sender, String[] args) {
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
-		
-		if (!world.isRemote) 
+		System.out.println("command1");
+		if (world.isRemote) 
         { 
             //Client Side
-			PolycraftMod.proxy.freeze(player, true);
         } 
 		else
 		{
-			
+			//server side
+			System.out.println("command2" + "::" + args.length);
+			ServerEnforcer.INSTANCE.freezePlayer(true, player);
+			if(args.length > 0)
+				ServerEnforcer.INSTANCE.freezePlayer(false, player);
 		}
 		
 	}
@@ -77,7 +80,7 @@ public class CommandFreeze  extends CommandBase{
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@Override

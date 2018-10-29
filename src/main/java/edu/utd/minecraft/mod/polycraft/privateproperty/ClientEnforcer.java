@@ -187,6 +187,17 @@ public class ClientEnforcer extends Enforcer {
 					case RaceMinigame:
 						RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case FreezePlayer:
+						switch(pendingDataPacketTypeMetadata) {
+						case 0:	//freeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true);
+							break;
+						case 1:	//unfreeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, false);
+							break;
+						default:
+							break;
+					}
 					case Unknown:
 					default:
 						break;

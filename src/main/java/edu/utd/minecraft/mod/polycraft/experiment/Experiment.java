@@ -26,7 +26,7 @@ public abstract class Experiment {
 	protected CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected static int teamsNeeded = 2;
-	protected static int teamSize = 2;
+	protected static int teamSize = 1;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;

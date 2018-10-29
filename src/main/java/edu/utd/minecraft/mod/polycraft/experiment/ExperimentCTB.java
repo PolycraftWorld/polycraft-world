@@ -139,12 +139,14 @@ public class ExperimentCTB extends Experiment{
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 						spawnPlayer((EntityPlayerMP)player, 126);
+						ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);	//freeze players while they wait for the game to begin
 					}
 				}
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						spawnPlayerInGame((EntityPlayerMP)player, 93); 	
+						ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);	//unfreeze players to start!
 						player.addChatMessage(new ChatComponentText("§aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
