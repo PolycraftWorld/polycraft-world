@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
@@ -49,6 +50,11 @@ public class ExperimentCTB extends Experiment{
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
+		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
+		for(int x = 0; x < teamsNeeded;x++) {
+			this.scoreboard.addNewTeam();
+			this.scoreboard.resetScores(0);
+		}
 		//teamNames.add("testing");
 		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		int maxBases = 8;
@@ -62,6 +68,8 @@ public class ExperimentCTB extends Experiment{
 				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 			}
 		}
+		
+		currentState = State.WaitingToStart;
 	}
 	
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
@@ -72,6 +80,12 @@ public class ExperimentCTB extends Experiment{
 		this.teamSize = teamsize;
 		this.playersNeeded = teamsNeeded * teamSize;
 		this.awaitingNumPlayers = this.playersNeeded;
+		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
+		for(int x = 0; x < teamsNeeded;x++) {
+			this.scoreboard.addNewTeam();
+			this.scoreboard.resetScores(0);
+		}
+		
 		int maxBases = 8;
 		int workarea = size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
@@ -83,6 +97,9 @@ public class ExperimentCTB extends Experiment{
 				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 			}
 		}
+	
+		currentState = State.WaitingToStart;
+		
 	}
 	
 	@Override

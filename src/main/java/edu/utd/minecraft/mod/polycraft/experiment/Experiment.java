@@ -26,8 +26,8 @@ public abstract class Experiment {
 	public final World world;
 	protected CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
-	protected int teamsNeeded = 1;
-	protected int teamSize = 1;
+	protected int teamsNeeded = 2;
+	protected int teamSize = 2;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
@@ -61,12 +61,7 @@ public abstract class Experiment {
 		this.zPos = zPos;
 		this.world = world;
 		this.currentState = State.PreInit;
-		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
-		for(int x = 0; x < teamsNeeded;x++) {
-			this.scoreboard.addNewTeam();
-			this.scoreboard.resetScores(0);
-		}
-		currentState = State.WaitingToStart;
+		
 	}
 	
 
