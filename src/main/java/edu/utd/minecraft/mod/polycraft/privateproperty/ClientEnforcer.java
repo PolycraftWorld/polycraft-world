@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
@@ -47,6 +48,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 
 public class ClientEnforcer extends Enforcer {
@@ -104,6 +106,14 @@ public class ClientEnforcer extends Enforcer {
 
 	private void showStatusMessage(final String message, final int seconds) {
 		statusMessages.add(new StatusMessage(message, PolycraftMod.convertSecondsToGameTicks(seconds)));
+	}
+	
+	@SubscribeEvent
+	public void onClientLogsOut(final PlayerEvent.PlayerLoggedOutEvent event) {
+		System.out.println("This is a client-side test. Does this server trip this??");
+		ExperimentManager.INSTANCE = new ExperimentManager();
+		ExperimentManager.metadata.clear();
+		
 	}
 	
 	@SubscribeEvent
@@ -175,6 +185,8 @@ public class ClientEnforcer extends Enforcer {
 							ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}else if(this.pendingDataPacketTypeMetadata == 1) { //update the player team
 							ClientScoreboard.INSTANCE.updateTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.GameOver.ordinal()) {
+							ClientScoreboard.INSTANCE.gameOver(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}
 						
 						break;

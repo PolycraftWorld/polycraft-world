@@ -36,7 +36,7 @@ public class ExperimentManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
-	private static List<EntityPlayer> globalPlayerList;
+	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	/**
@@ -75,7 +75,7 @@ public class ExperimentManager {
 		
 		@Override
 		public String toString() {
-			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d", expName, playersNeeded, currentPlayers);
+			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d Available? %s", expName, playersNeeded, currentPlayers, available);
 		}	
 	}
 	
@@ -101,25 +101,92 @@ public class ExperimentManager {
 	public ExperimentManager() {
 		try {
 			globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+			//MinecraftServer.getServer().getConfigurationManager().
 		}catch (NullPointerException e) {
+			e.printStackTrace();//TODO: Remove this.
 			globalPlayerList = null;
 		}
+		
+		clientCurrentExperiment = -1;
+		
 	}
 	//initialize new experiments before players join
 	public static void init(){					
 		World world = DimensionManager.getWorld(8);
 		for(Experiment ex: experiments.values()){
-			ex.init();
+			ex.init(); //this is not needed anymore, as Experiment sets this in its constructor (i.e. when creating a new experiment)
 		}
 	}
 	
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
 		if(tick.side == Side.SERVER){
+			boolean areAnyActive1x = false;
+			boolean areAnyActive = false;
+			boolean areAnyActive4x = false;
+			boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
 				ex.onServerTickUpdate();
-//				if(ex.currentState == State.Done){
-//					stop(ex.id);
-//				}
+			}
+			for(ExperimentListMetaData ex2 : metadata) {
+				if(ex2.isAvailable()) {
+					switch(ex2.playersNeeded) {
+					case 1:
+						areAnyActive1x = true;
+					case 2:
+						areAnyActive = true;
+						break;
+					case 4:
+						areAnyActive4x = true;
+						break;
+					case 8:
+						areAnyActive8x = true;
+						break;
+					default:
+						areAnyActive1x = true;
+						areAnyActive = true;
+						areAnyActive4x = true;
+						areAnyActive8x = true;
+						break;
+					}
+					
+				}
+			}
+			//TODO: remove this.
+			if(!areAnyActive1x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentCTB newExpCTB1 = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 1, 1);
+				//newExpCTB1.setTeamsNeeded(1);
+				//newExpCTB1.setTeamSize(1);
+				this.registerExperiment(nextID, newExpCTB1);
+				//sendExperimentUpdates();
+			}
+			if(!areAnyActive) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
+				//newExpCTB1.setTeamsNeeded(1);
+				//newExpCTB1.setTeamSize(1);
+				this.registerExperiment(nextID, newExpCTB2x);
+				//sendExperimentUpdates();
+			}
+			if(!areAnyActive4x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
+				//newExpCTB1.setTeamsNeeded(1);
+				//newExpCTB1.setTeamSize(1);
+				this.registerExperiment(nextID, newExpCTB4x);
+				//sendExperimentUpdates();
+			}
+			if(!areAnyActive8x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+				//newExpCTB1.setTeamsNeeded(1);
+				//newExpCTB1.setTeamSize(1);
+				this.registerExperiment(nextID, newExpCTB8x);
+				//sendExperimentUpdates(); //do we need this??
 			}
 		}else{
 			for(Experiment ex: experiments.values()){
@@ -150,17 +217,32 @@ public class ExperimentManager {
 	}
 	
 	@SideOnly(Side.SERVER)
-	public boolean checkGlobalPlayerListAndUpdate(EntityPlayer player) {
+	public boolean checkAndRemovePlayerFromExperimentLists(EntityPlayer player) {
 		for(Experiment ex : experiments.values()) {
-			for(String play : ex.scoreboard.getPlayers()) {
-				if(play.equals(player.getDisplayName())) {
-					removePlayerFromExperiment(ex.id, (EntityPlayerMP)player);
-					sendExperimentUpdates();
-					return true;
+			//skip the experiment if it's not waiting to start. We don't wanna accidentally remove a player...
+			//or... what if we need to when a player leaves?
+			//if(ex.currentState != Experiment.State.WaitingToStart) continue;
+			try {
+				for(String play : ex.scoreboard.getPlayers()) {
+					if(play.equals(player.getDisplayName())) {
+						removePlayerFromExperiment(ex.id, (EntityPlayerMP)player);
+						sendExperimentUpdates();
+						return true;
+					}
 				}
+			}catch(NullPointerException e) {
+				e.printStackTrace();
+				//continue();
 			}
 		}
-		//sendExperimentUpdates();
+		sendExperimentUpdates();
+		return false;
+	}
+	
+	@SideOnly(Side.SERVER)
+	public boolean checkGlobalPlayerListAndUpdate(EntityPlayer player) {
+
+		sendExperimentUpdates();
 		return false;
 	}
 	
@@ -185,7 +267,7 @@ public class ExperimentManager {
 	}
 	
 	@SideOnly(Side.SERVER)
-	private static void sendExperimentUpdates() {
+	static void sendExperimentUpdates() {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
 		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);
@@ -203,14 +285,31 @@ public class ExperimentManager {
 		System.out.println(metadata.toString());
 	}
 	
-	public void start(int expID){
+	/**
+	 * This is ONLY RUN by the command //challenge start
+	 * Finds the experiment id passed in by the user and tries to start.
+	 * @param expID the experiment to start.
+	 */
+	public void commandStart(int expID){
 		experiments.get(expID).start();
-		metadata.get(expID-1).deactivate(); //prevents this experiment from showing up on the list.
+		
 	}
 	
 	public EntityPlayer getPlayerEntity(String playerName) {
-		for (EntityPlayer player : this.globalPlayerList) {
-			if(player.getDisplayName().equals(playerName)) return player;
+		try {
+			if(this.globalPlayerList.isEmpty()) {
+				this.globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+			} else if(this.globalPlayerList == null) {
+				System.out.println("List is null, help pls");
+			}
+			for (EntityPlayer player : this.globalPlayerList) {
+				if(player.getDisplayName().equals(playerName)) {
+					return player;
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 		
 		return null;
@@ -225,13 +324,15 @@ public class ExperimentManager {
 				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
 			}
 		}
-		//TODO: clear the scoreboard.
-		ex.stop();
-		
-		
-		//experiments.remove(id);
-		//TODO: fix this:
-		reset(); //TODO: remove the above experiment.
+		//
+		ex.stop(); //this clears the scoreboard (removes players)
+		//reset(); //don't delete the scoreboard from the manager just yet.
+		sendExperimentUpdates();
+		System.out.println("Experiment Is Stopped. We're NOT adding a new Experiment");
+		//Add a new experiment to the experiments List.
+		int nextID = this.getNextID();
+		int numChunks = 8;
+		//this.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
 	}
 	
 	public void reset(){
@@ -261,7 +362,12 @@ public class ExperimentManager {
 	}
 	
 	
-	 
+	/**
+	 * Adds a new experiment to the experiment manager, increments the nextAvailableExperimentID and sends 
+	 * updates to all of the clients on world 0 (so that they can see the new experiment available on their GUI)
+	 * @param id the ID to add TODO: Should we hide this field and have the ID's be auto-incrementing??
+	 * @param ex the experiment to add 
+	 */
 	public static void registerExperiment(int id, Experiment ex)
 	{
 		if (experiments.containsKey(id))

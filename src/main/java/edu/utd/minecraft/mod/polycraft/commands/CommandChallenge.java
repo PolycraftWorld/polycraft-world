@@ -90,24 +90,25 @@ public class CommandChallenge  extends CommandBase{
 				}else if(chatCommandChallengeStart.equalsIgnoreCase(args[0])){
 					if(args.length > 1) {
 						try {
-							ExperimentManager.INSTANCE.start(Integer.parseInt(args[1]));
+							ExperimentManager.INSTANCE.commandStart(Integer.parseInt(args[1]));
 						}catch(NumberFormatException e) {
 							sender.addChatMessage(new ChatComponentText("Incorrect format: enter Experiment ID to start"));
 						}
 					}
 						
 				}else if(chatCommandChallengeMaxTeams.equalsIgnoreCase(args[0])){
-					if (args.length != 4) {
-						sender.addChatMessage(new ChatComponentText("Incorrect format: maxteams {#teams} teamsize {#players}"));
+					if (args.length != 5) {
+						sender.addChatMessage(new ChatComponentText("Incorrect format: id maxteams {#teams} teamsize {#players}"));
 						return;
 					}
 					try{
-						int maxTeams = Integer.parseInt(args[1]);
-						int teamSize = Integer.parseInt(args[3]);
-						Experiment.setTeamsNeeded(maxTeams);
-						Experiment.setTeamSize(teamSize);
+						int expID = Integer.parseInt(args[1]);
+						int maxTeams = Integer.parseInt(args[2]);
+						int teamSize = Integer.parseInt(args[4]);
+						sender.addChatMessage(new ChatComponentText(String.format("This command is deprecated")));
+						//Experiment.INSTANCE.setTeamSize(teamSize);
 						//ExperimentCTB.maxPlayersNeeded = Integer.parseInt(args[1]);
-						sender.addChatMessage(new ChatComponentText(String.format("Success: maxteams: %d teamsize: %d", maxTeams, teamSize)));
+						//sender.addChatMessage(new ChatComponentText(String.format("Success: added experiment with maxteams: %d teamsize: %d", maxTeams, teamSize)));
 					}catch(NumberFormatException e) {
 						//ERROR
 						sender.addChatMessage(new ChatComponentText("Incorrect format: maxteams {#teams} teamsize {#players}"));

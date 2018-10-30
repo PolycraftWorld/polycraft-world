@@ -17,6 +17,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import net.minecraft.client.Minecraft;
@@ -54,6 +55,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	private ByteBuffer pendingDataPacketsBuffer = null;
 
 	public final Minecraft client;
+
+	private int hideDisplayTimer = -1;
 
 	public ClientScoreboard() {
 		client = FMLClientHandler.instance().getClient();
@@ -97,6 +100,13 @@ public class ClientScoreboard extends ScoreboardManager {
 					int y = overlayStartY;
 
 					if (DisplayScoreboard) {
+						if(hideDisplayTimer > 0) {
+							hideDisplayTimer--;
+						}else if(hideDisplayTimer == 0) {
+							DisplayScoreboard = false;
+							hideDisplayTimer = -1;
+						}
+						
 						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
 						if(this.currentTeam != null) {
@@ -164,6 +174,20 @@ public class ClientScoreboard extends ScoreboardManager {
 	
 	public Team getCurrentTeam() {
 		return currentTeam;
+	}
+
+	public void gameOver(String decompress) {
+		
+		this.teamList = new HashMap<String, Float>();
+		this.currentTeam = new Team(decompress);
+		ExperimentManager.INSTANCE.clientCurrentExperiment = -1; //client is no longer in an experiment
+		startHideDisplayTimer();
+		
+	}
+
+	private void startHideDisplayTimer() {
+		this.hideDisplayTimer  = 1000;
+		
 	}
 
 }

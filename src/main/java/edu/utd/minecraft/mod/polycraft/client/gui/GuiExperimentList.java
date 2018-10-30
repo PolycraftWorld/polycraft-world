@@ -111,11 +111,18 @@ public class GuiExperimentList extends GuiScreen {
         
       //if user has already registered for an experiment, show feedback on the screen.
         if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
-        	GuiButton button = experimentsListButton.get(ExperimentManager.INSTANCE.clientCurrentExperiment);
-        	button.enabled=false; //disable the "previously selected experiment"
-        	//button.displayString = "Joined: " + button.displayString;
-        	//alert the user of this:
-        	userFeedbackText = "You are in queue for: " + button.displayString;
+        	//is the user currently in the experiment??
+        	//remember, the metadata list is 0-indexed.
+        	if(!ExperimentManager.metadata.get(ExperimentManager.INSTANCE.clientCurrentExperiment - 1).isAvailable()) {
+        		//if it's not available, then it won't be added to the list! 
+        		userFeedbackText = "You are currently in: Experiment " + ExperimentManager.INSTANCE.clientCurrentExperiment;
+        	}else {
+	        	//GuiButton button = experimentsListButton.get(ExperimentManager.INSTANCE.clientCurrentExperiment);
+	        	//button.enabled=false; //disable the "previously selected experiment"
+	        	//button.displayString = "Joined: " + button.displayString;
+	        	//alert the user of this:
+	        	userFeedbackText = "You are in queue for: Experiment " + ExperimentManager.INSTANCE.clientCurrentExperiment;
+        	}
     	}
         
         if(experimentsListButton.size() < 2) { //Only button that exists is the cancel button
@@ -196,19 +203,6 @@ public class GuiExperimentList extends GuiScreen {
         			gbtn.enabled=true;
     			}
     		}
-//        			//Update the server and let it know we no longer want to be a part of that experiment
-//        			String expID = gbtn.displayString;
-//        			String[] expList = expID.split("\\s");
-//        			try {
-//	        			int id = Integer.parseInt(expList[expList.length - 1]);
-//	        			this.sendExperimentUpdateToServer(id, false);
-//	        			
-//        			}catch(NumberFormatException e) {
-//        				//e.printStackTrace();
-//        				System.out.println("unable to parse string - did we change how we render buttons?");
-//        			}
-//    			}
-//    		}
     		button.enabled=false;
     		break;
     	default:
@@ -223,44 +217,6 @@ public class GuiExperimentList extends GuiScreen {
 				System.out.println("unable to parse string - did we change how we render buttons?");
 			}
 			break;
-
-//    		//for all other experiments, remove the user from the list!
-//    		//Do this before a user is added to an experiment. Just in case.
-//    		for(GuiButton gbtn : experimentsListButton) {
-//        		if(!gbtn.enabled) {
-//        			gbtn.enabled=true;
-//        			//Update the server and let it know we no longer want to be a part of that experiment
-//        			String expID = gbtn.displayString;
-//        			String[] expList = expID.split("\\s");
-//        			try {
-//	        			int id = Integer.parseInt(expList[expList.length - 1]);
-//	        			this.sendExperimentUpdateToServer(id, false);
-//	        			//TODO: send trigger to server withdrawing request to be a part of this experiment.
-//        			}catch(NumberFormatException e) {
-//        				e.printStackTrace();
-//        				System.out.println("unable to parse string - did we change how we render buttons?");
-//        			}
-//        		}
-//        	}
-//    		button.enabled=false; //user has now selected this experiment - don't let them do it again.
-//    		//Update the server and let it know we no longer want to be a part of that experiment
-//			String expID = button.displayString;
-//			String[] expList = expID.split("\\s"); //assume the name convention is: "Experiment {ID}"
-//			//id is what we want.
-//			try {
-//    			int id = Integer.parseInt(expList[expList.length - 1]); //try to get ID and conver to an int
-//    			ExperimentManager.INSTANCE.clientCurrentExperiment = id;//this.experimentsListButton.indexOf(button);
-//    			System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
-//    			this.sendExperimentUpdateToServer(id, true);
-//    			//TODO: send trigger to server withdrawing request to be a part of this experiment.
-//			}catch(NumberFormatException e) {
-//				e.printStackTrace(); //if id collection fails, we need to update our parameters 
-//				System.out.println("unable to parse string - did we change how we render buttons?");
-//			}
-//    		
-//        	
-//    		userFeedbackText = "You are in queue for: " + button.displayString; //let the user know what experiment they're in
-//  	
     	}
     }
 
@@ -331,11 +287,12 @@ public class GuiExperimentList extends GuiScreen {
         y_pos += buttonheight/3;
         //draw the Number of Players in Each experiment:
         for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
-        	
-        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ this.screenContainerWidth - 30, y_pos, 0xFFFFFFFF);
-        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
-        	y_pos+=((int)(buttonheight*1) + button_padding_y);
-        	//experimentsButtonList.add(temp);
+        	if(emd.isAvailable()) {
+	        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ this.screenContainerWidth - 30, y_pos, 0xFFFFFFFF);
+	        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
+	        	y_pos+=((int)(buttonheight*1) + button_padding_y);
+	        	//experimentsButtonList.add(temp);
+        	}
         }
     }
     
@@ -371,6 +328,9 @@ public class GuiExperimentList extends GuiScreen {
         if(this.currentExperimentDetailOnScreenID == ExperimentManager.INSTANCE.clientCurrentExperiment) {
         	join.enabled = false; //disable joining the same experiment twice.
         	join.displayString = "In Queue";
+        }
+        if(this.player.dimension == 8) {
+        	back.enabled = false;
         }
         buttons.add(back);
         buttons.add(join);

@@ -83,22 +83,6 @@ public class CustomScoreboard {
 		}
 		this.needToSendUpdate = true;
 	}
-	
-//	@SuppressWarnings("unlikely-arg-type") // you can compare a Team to a String because that's easy.
-//	public void addPlayer(EntityPlayerMP player, String teamName) throws IOException {
-//		Team team = null;
-//		for (Team tm : this.teams) {
-//			if (tm.equals(teamName)) {
-//				team = tm;
-//				playerList.put(player, team);
-//				break;
-//			}
-//		}
-//		if (team == null) {
-//			throw new IOException();
-//		}
-//		this.needToSendUpdate = true;
-//	}
 
 	public void resetScores(float initialScore) {
 		for (Team tm : this.teams) {
@@ -128,10 +112,6 @@ public class CustomScoreboard {
 			
 		return playerEntities;
 	}
-	
-//	public ArrayList<EntityPlayerMP> getPlayers() {
-//		return new ArrayList<EntityPlayerMP>(playerList.keySet());
-//	}
 
 	public ArrayList<Float> getScores() {
 		return new ArrayList<Float>(teamScores.values());
@@ -166,22 +146,22 @@ public class CustomScoreboard {
 		return null;
 	}
 	
-//	public Team getPlayerTeam(EntityPlayerMP player) {
-//		return this.playerList.get(player);
-//	}
-	
 	public Team getTeam(String teamName) throws IllegalArgumentException {
-		
 		for (Team tm : teams) {
 			if(tm.equals(teamName)){
 				return tm;
 			}
 		}
 		throw new IllegalArgumentException();
-	
 	}
 	
 	public ArrayList<Team> getTeams(){
 		return teams;
+	}
+	
+	public void clearPlayers() {
+		for(Team tm : teams) {
+			tm.getPlayers().clear();
+		}
 	}
 }

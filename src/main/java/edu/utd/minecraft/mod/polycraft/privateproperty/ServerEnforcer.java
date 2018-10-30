@@ -195,6 +195,16 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 	
+	@SubscribeEvent
+	public void onClientJoinsServer(final PlayerEvent.PlayerLoggedInEvent event) {
+		System.out.println("Player Logged in");
+		System.out.println("Player Dim:" + event.player.dimension);
+		if(event.player.dimension == 8) {//if player is in Experiments dimension, then they should not log in there
+			event.player.travelToDimension(0);	
+		}
+		
+	}
+	
 	/**
 	 * On client disconnect, handle this gracefully by removing them from any experiments
 	 * they've joined or have queued for.
@@ -205,7 +215,7 @@ public class ServerEnforcer extends Enforcer {
 	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
 		System.out.println("Client Disconnect from server");
 		System.out.println("Player: " + event.player.getDisplayName());
-		ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate(event.player);
+		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player);
 		//note: the global player list in ExperimentManager doesn't update fast enough - remove them using their player object.
 	}
 	
@@ -608,7 +618,8 @@ public class ServerEnforcer extends Enforcer {
 	@SubscribeEvent
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		if(event.entity instanceof EntityPlayerMP) {
-			ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate();
+			System.out.println(event.entity.getCommandSenderName());
+			ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate((EntityPlayer)event.entity); //send newly joined players an update
 		}
 		
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld

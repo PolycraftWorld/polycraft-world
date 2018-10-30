@@ -10,6 +10,7 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
@@ -25,8 +26,8 @@ public abstract class Experiment {
 	public final World world;
 	protected CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
-	protected static int teamsNeeded = 2;
-	protected static int teamSize = 2;
+	protected int teamsNeeded = 1;
+	protected int teamSize = 1;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
@@ -113,8 +114,8 @@ public abstract class Experiment {
 	
 	/**
 	 * take in an Entity Player MP object and add JUST the player's name to the appropriate list.
-	 * @param player
-	 * @return
+	 * @param player the player to add to the list
+	 * @return False if player is already in the list or could otherwise not be added; True if the player was added.
 	 */
 	public boolean addPlayer(EntityPlayerMP player){
 		int playerCount = 0;
@@ -134,7 +135,7 @@ public abstract class Experiment {
 				//Pass this info to the ExperimentListMetaData as its sent to the player
 				playerCount++;
 				awaitingNumPlayers--;
-				if(playerCount == Experiment.teamSize*Experiment.teamsNeeded){
+				if(playerCount == teamSize*teamsNeeded){
 					start();
 				}
 				return true;
@@ -146,8 +147,8 @@ public abstract class Experiment {
 	public void init(){
 		System.out.println("CurrentState: " + currentState);
 		currentState = State.WaitingToStart;
-		
 	}
+	
 	
 	protected void generateArea(){
 		Block bedrock = Block.getBlockFromName("bedrock");
@@ -202,13 +203,22 @@ public abstract class Experiment {
 	}
 	
 	//Challenge Starts. Should run some time after init
+	/**
+	 * Sends update packets to clients indicating that this experiment has begun
+	 * This needs to be overridden in experiment subclasses to actually initialize the experiment
+	 * override using super.start() 
+	 */
 	public void start(){
-		
+		ExperimentManager.metadata.get(this.id-1).deactivate(); //prevents this experiment from showing up on the list.
+		ExperimentManager.sendExperimentUpdates();
+		//todo: Override this 
 	}
 	
 	public void stop() {
 		this.currentState = State.Done;
-		this.scoreboard = null;
+		this.scoreboard.clearPlayers();
+		//ExperimentManager.INSTANCE.sendExperimentUpdates();
+		//this.scoreboard = null; //TODO: does this need to be null?
 	}
 	
 	//Main update function for Experiments
@@ -255,16 +265,19 @@ public abstract class Experiment {
 	 * In the future, this should be pulled from the experiment dashboard on our polycraftworld.com website
 	 * @param num of teams needed
 	 */
-	public static void setTeamsNeeded(int num) {
-		Experiment.teamsNeeded=num;
+	public void setTeamsNeeded(int num) {
+		teamsNeeded=num;
+		this.playersNeeded = teamsNeeded*teamSize;
 	}
 	
 	/**
 	 * Same as above. Teams are always filled on a first-come, first-serve basis, sequentially (team 1, then team 2, etc.)
 	 * @param num max players per team.
 	 */
-	public static void setTeamSize(int num) {
-		Experiment.teamSize = num;
+	public void setTeamSize(int num) {
+		teamSize = num;
+		this.playersNeeded = teamsNeeded*teamSize;
+		//this.awaitingNumPlayers = playersNeeded;
 	}
 	
 }

@@ -68,6 +68,14 @@ public class ServerScoreboard extends ScoreboardManager {
 	// }
 	// }
 	// }
+	
+	public void sendGameOverUpdatePacket(final CustomScoreboard board, final String stringToSend) {
+		for (EntityPlayer player : board.getPlayersAsEntity()) {
+			if (player != null & player.isEntityAlive()) {
+				ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(stringToSend, (EntityPlayerMP)player, DataType.GameOver.ordinal());//metadata is 0 for UpdateScore
+			}
+		}
+	}
 
 	private void sendDataPackets(final DataType type, CustomScoreboard board) {
 		//FMLProxyPacket[] packets = null;
@@ -98,13 +106,11 @@ public class ServerScoreboard extends ScoreboardManager {
 			for (EntityPlayer player : board.getPlayersAsEntity()) {
 				if (updateScoreJson != null & player != null & player.isEntityAlive()) {
 					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, (EntityPlayerMP)player, 0);//metadata is 0 for UpdateScore
-//					for (final FMLProxyPacket pkt : packets) {
-//						//System.out.println(pkt.payload().toString());
-//						//ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(jsonStringToSend, player);
-//						//netChannel.sendTo(pkt, player);
-//					}
 				}
 			}
+			break;
+		case GameOver:
+			
 			break;
 		default:
 			break;
@@ -151,26 +157,13 @@ public class ServerScoreboard extends ScoreboardManager {
 		}
 	}
 
-	// TODO: Remove this! Testing only.
-	@SubscribeEvent
-	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
-		if (event.entity instanceof EntityPlayerMP) {
-			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-//			ArrayList<String> demo = new ArrayList<String>();
-//			demo.add("Dhruv");
-//			demo.add("Eric");
-//			CustomScoreboard abc = addNewScoreboard(demo);
-//			try {
-//				abc.addPlayer(player, "Dhruv");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				System.out.println("ERROR.");
-//			}
-//			abc.updateScore("Dhruv", 100f);
-			// sendDataPackets(DataType.PrivateProperties, 1);
-
-		}
-	}
+//	// TODO: Remove this! Testing only.
+//	@SubscribeEvent
+//	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
+//		if (event.entity instanceof EntityPlayerMP) {
+//			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+//		}
+//	}
 
 	public void clear() {
 		// TODO Auto-generated method stub
