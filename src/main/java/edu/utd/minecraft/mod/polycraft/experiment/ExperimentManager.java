@@ -119,7 +119,7 @@ public class ExperimentManager {
 		}
 	}
 	
-	@SubscribeEvent
+	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
 		if(tick.phase == Phase.END) {
 			boolean areAnyActive1x = false;
@@ -196,8 +196,10 @@ public class ExperimentManager {
 		}
 	}
 	
-	
-	@SubscribeEvent
+	/**
+	 * This is called from Common Proxy
+	 * @param tick the input tick.
+	 */
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
 //		if(tick.side == Side.SERVER && tick.phase == Phase.END){
 //			boolean areAnyActive1x = false;

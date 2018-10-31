@@ -145,7 +145,6 @@ public class ServerScoreboard extends ScoreboardManager {
 			}
 	 	}
 
-	@SubscribeEvent
 	public void onServerTick(final TickEvent.ServerTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) {
 			for (CustomScoreboard scoreboard : this.managedScoreboards) {

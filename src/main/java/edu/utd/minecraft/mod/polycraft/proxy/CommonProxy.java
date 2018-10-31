@@ -37,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -373,6 +374,8 @@ public abstract class CommonProxy {
 	@SubscribeEvent
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
 		if (tick.phase == Phase.END) {
+			ExperimentManager.INSTANCE.onServerTickUpdate(tick);
+			ServerScoreboard.INSTANCE.onServerTick(tick);
 			BlockLight.processPendingUpdates(16);
 			if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
 			{
