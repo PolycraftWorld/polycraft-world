@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,10 +20,17 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import scala.util.parsing.json.JSON;
+import scala.util.parsing.json.JSONArray;
+import scala.util.parsing.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
@@ -573,6 +582,27 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	private void addUserToWhitelist(long ID, String usernameToAdd, String uuid) {
+		final MinecraftServer minecraftserver = MinecraftServer
+				.getServer();
+		UUID userID;
+		whitelist.put(usernameToAdd, ID);
+		whitelist_uuid.put(usernameToAdd, uuid);
+		
+		try {
+			userID = UUID.fromString(whitelist_uuid
+					.get(usernameToAdd));
+			final GameProfile gameprofile = new GameProfile(
+					userID, usernameToAdd);
+			if (gameprofile != null)
+				minecraftserver.getConfigurationManager()
+						.func_152601_d(gameprofile);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Could not add to whitelist: "
+					+ usernameToAdd);
+		}
+	}
 
 	private void onWorldTickFriends(final TickEvent.WorldTickEvent event) {
 		// refresh the friends at the start of each day, or if we haven't it yet
@@ -632,6 +662,33 @@ public class ServerEnforcer extends Enforcer {
 		}
 		
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
+//		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
+//			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+//			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
+//			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
+//			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
+//			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
+//			sendDataPackets(DataPacketType.Friends);
+//			//sendDataPackets(DataPacketType.Governments);
+////			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+////			sendDataPackets(DataPacketType.playerID, 0, player);
+//			if (!portalRestUrl.startsWith("file:")) {
+//				try {
+//					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
+//							player.getDisplayName().toLowerCase()),
+//							ImmutableMap.of("last_world_seen", player.worldObj
+//									.getWorldInfo().getWorldName()));
+//				} catch (final IOException e) {
+//					PolycraftMod.logger.error(
+//							"Unable to log player last world seen", e);
+//				}
+//			}
+//		}
+	}
+	
+	@SubscribeEvent
+	public void ClientConnectedToServerEvent(final EntityJoinWorldEvent event) {
+		//Entity wolf cannot cast to player
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
@@ -664,19 +721,64 @@ public class ServerEnforcer extends Enforcer {
 				sendDataPackets(DataPacketType.playerID, 0, player);
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
-					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
-							player.getDisplayName().toLowerCase()),
-							ImmutableMap.of("last_world_seen", player.worldObj
-									.getWorldInfo().getWorldName()));
+					String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
+							ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
+					
+					final GsonBuilder gsonBuilder = new GsonBuilder();
+					gsonBuilder.registerTypeAdapter(PlayerHelper.class,
+							new PlayerHelper.Deserializer());
+
+					final Gson gson = gsonBuilder.create();
+					final PlayerHelper newPlayer = gson.fromJson(
+							response,
+							new TypeToken<PlayerHelper>() {
+							}.getType());
+					addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name, newPlayer.uuid);
+					sendDataPackets(DataPacketType.playerID, 0, player);
 				} catch (final IOException e) {
 					PolycraftMod.logger.error(
-							"Unable to log player last world seen", e);
+							"Unable to create new player account or get player data", e);
 				}
+				player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
+				player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
+				player.addChatMessage(new ChatComponentText("By playing on our servers, you accept our TOS and privacy policy available on polycraftworld.com"));
+				sendDataPackets(DataPacketType.PrivateProperties, 1, player);
+				sendDataPackets(DataPacketType.PrivateProperties, 0, player);
+				sendDataPackets(DataPacketType.Friends);	//not sure if this is being used anywhere?
+				if (!portalRestUrl.startsWith("file:")) {
+					try {
+						NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
+								player.getDisplayName().toLowerCase()),
+								ImmutableMap.of("last_world_seen", player.worldObj
+										.getWorldInfo().getWorldName()));
+					} catch (final IOException e) {
+						PolycraftMod.logger.error(
+								"Unable to log player last world seen", e);
+					}
+				}
+				
 			}
 //			//If player tries to spawn in experiments division, send them to UTD!
 //			if(player.dimension==8) {
 //				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
 //			}
+		}
+	}
+	
+	public String AddEmail(String minecraftUserName, String email) {
+		try {
+			Map<String, String> params = Maps.newHashMap();
+			params.put("minecraft_user_name", minecraftUserName);
+			params.put("email", email);
+			String response = NetUtil.post(String.format("%s/add_email/", portalRestUrl),
+					params);
+			if(response.length() > 500)
+				response = "Error processing command";
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
 		}
 	}
 }

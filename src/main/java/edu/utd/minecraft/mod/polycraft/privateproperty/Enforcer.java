@@ -193,7 +193,7 @@ public abstract class Enforcer {
 			.newHashMap();
 	// polycraft user ids by minecraft username
 	public static Map<String, Long> whitelist = Maps.newHashMap();
-	public static Map<String, String> whitelist_uuid = Maps.newHashMap();
+	public static Map<String, String> whitelist_uuid = Maps.newHashMap(); //Map<MinecraftUserName, UUID>
 	public static Set<String> friends = Sets.newHashSet();
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
