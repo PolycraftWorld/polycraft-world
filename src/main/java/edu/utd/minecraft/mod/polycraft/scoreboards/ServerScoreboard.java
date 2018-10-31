@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
@@ -145,7 +146,7 @@ public class ServerScoreboard extends ScoreboardManager {
 	 	}
 
 	@SubscribeEvent
-	public void onPlayerTick(final TickEvent.PlayerTickEvent event) {
+	public void onServerTick(final TickEvent.ServerTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) {
 			for (CustomScoreboard scoreboard : this.managedScoreboards) {
 				if (scoreboard.needToSendUpdate) {

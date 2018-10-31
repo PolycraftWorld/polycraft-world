@@ -628,7 +628,7 @@ public class ServerEnforcer extends Enforcer {
 	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
 		if(event.entity instanceof EntityPlayerMP) {
 			System.out.println(event.entity.getCommandSenderName());
-			ExperimentManager.INSTANCE.checkGlobalPlayerListAndUpdate((EntityPlayer)event.entity); //send newly joined players an update
+			ExperimentManager.INSTANCE.onEntityJoinWorldEventSendUpdates((EntityPlayer)event.entity); //send newly joined players an update
 		}
 		
 		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld

@@ -161,8 +161,9 @@ public class ExperimentCTB extends Experiment{
 		super.onServerTickUpdate();
 		if(currentState == State.Done) {
 			//TODO: delete scoreboard from scoreboard manager.
-			bases=null;
-			scoreboard=null;
+			//This should NEVER run anymore.
+			//bases=null;
+			//scoreboard=null;
 		}
 		else if(currentState == State.GeneratingArea){
 			if(genTick % 20 == 0) {

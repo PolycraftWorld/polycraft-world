@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -118,14 +119,17 @@ public class ExperimentManager {
 		}
 	}
 	
-	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
-		if(tick.side == Side.SERVER){
+	@SubscribeEvent
+	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
+		if(tick.phase == Phase.END) {
 			boolean areAnyActive1x = false;
 			boolean areAnyActive = false;
 			boolean areAnyActive4x = false;
 			boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
-				ex.onServerTickUpdate();
+				if(ex.currentState != Experiment.State.Done) {
+					ex.onServerTickUpdate();
+				}
 			}
 			for(ExperimentListMetaData ex2 : metadata) {
 				if(ex2.isAvailable()) {
@@ -189,35 +193,117 @@ public class ExperimentManager {
 				this.registerExperiment(nextID, newExpCTB8x);
 				//sendExperimentUpdates(); //do we need this??
 			}
-		}else{
+		}
+	}
+	
+	
+	@SubscribeEvent
+	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
+//		if(tick.side == Side.SERVER && tick.phase == Phase.END){
+//			boolean areAnyActive1x = false;
+//			boolean areAnyActive = false;
+//			boolean areAnyActive4x = false;
+//			boolean areAnyActive8x = false;
+//			for(Experiment ex: experiments.values()){
+//				if(ex.currentState != Experiment.State.Done) {
+//					ex.onServerTickUpdate();
+//				}
+//			}
+//			for(ExperimentListMetaData ex2 : metadata) {
+//				if(ex2.isAvailable()) {
+//					switch(ex2.playersNeeded) {
+//					case 1:
+//						areAnyActive1x = true;
+//						break;
+//					case 2:
+//						areAnyActive = true;
+//						break;
+//					case 4:
+//						areAnyActive4x = true;
+//						break;
+//					case 8:
+//						areAnyActive8x = true;
+//						break;
+//					default:
+//						areAnyActive1x = true;
+//						areAnyActive = true;
+//						areAnyActive4x = true;
+//						areAnyActive8x = true;
+//						break;
+//					}
+//					
+//				}
+//			}
+//			//TODO: remove this.
+//			if(!areAnyActive1x) {
+//				int nextID = this.getNextID();
+//				int numChunks = 8;
+//				ExperimentCTB newExpCTB1 = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 1, 1);
+//				//newExpCTB1.setTeamsNeeded(1);
+//				//newExpCTB1.setTeamSize(1);
+//				this.registerExperiment(nextID, newExpCTB1);
+//				//sendExperimentUpdates();
+//			}
+//			if(!areAnyActive) {
+//				int nextID = this.getNextID();
+//				int numChunks = 8;
+//				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
+//				//newExpCTB1.setTeamsNeeded(1);
+//				//newExpCTB1.setTeamSize(1);
+//				this.registerExperiment(nextID, newExpCTB2x);
+//				//sendExperimentUpdates();
+//			}
+//			if(!areAnyActive4x) {
+//				int nextID = this.getNextID();
+//				int numChunks = 8;
+//				ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
+//				//newExpCTB1.setTeamsNeeded(1);
+//				//newExpCTB1.setTeamSize(1);
+//				this.registerExperiment(nextID, newExpCTB4x);
+//				//sendExperimentUpdates();
+//			}
+//			if(!areAnyActive8x) {
+//				int nextID = this.getNextID();
+//				int numChunks = 8;
+//				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+//				//newExpCTB1.setTeamsNeeded(1);
+//				//newExpCTB1.setTeamSize(1);
+//				this.registerExperiment(nextID, newExpCTB8x);
+//				//sendExperimentUpdates(); //do we need this??
+//			}
+//		}
+		if(tick.side == Side.CLIENT && tick.phase == Phase.END){
 			for(Experiment ex: experiments.values()){
-				ex.onClientTickUpdate();
+				if(ex.currentState != Experiment.State.Done) {
+					ex.onClientTickUpdate();
+				}
 			}
 		}
 	}
-	@SideOnly(Side.SERVER)
+	
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).addPlayer(player);
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
 	}
-	@SideOnly(Side.SERVER)
+	
 	public boolean removePlayerFromExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).removePlayer(player);
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
 	}
-	@SideOnly(Side.SERVER)
-	public boolean removePlayerFromExperiment(int expID, String player){
+	
+	private boolean removePlayerFromExperiment(int expID, String player){
 		boolean value = experiments.get(expID).removePlayer(player);
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
 	}
 	
-	@SideOnly(Side.SERVER)
+	
+	@Deprecated
 	public boolean checkAndRemovePlayerFromExperimentLists(EntityPlayer player) {
 		for(Experiment ex : experiments.values()) {
 			//skip the experiment if it's not waiting to start. We don't wanna accidentally remove a player...
@@ -240,12 +326,14 @@ public class ExperimentManager {
 		return false;
 	}
 	
-	@SideOnly(Side.SERVER)
+	/**
+	 * If player asks to be removed (using a command, withdrawing from the queue, disconnecting from the server)
+	 * Enable them to be removed from the queue. This method uses their display name to do so.
+	 * @param playerName
+	 * @return True if the player was successfully removed from an experiment
+	 */
 	public boolean checkAndRemovePlayerFromExperimentLists(String playerName) {
 		for(Experiment ex : experiments.values()) {
-			//skip the experiment if it's not waiting to start. We don't wanna accidentally remove a player...
-			//or... what if we need to when a player leaves?
-			//if(ex.currentState != Experiment.State.WaitingToStart) continue;
 			 
 			try {
 				if(ex.scoreboard.getPlayers().isEmpty()) continue;//skip experiments that are completed or have no players in them.
@@ -258,22 +346,25 @@ public class ExperimentManager {
 				}
 			}catch(NullPointerException e) {
 				e.printStackTrace();
-				//continue();
 			}
 		}
 		sendExperimentUpdates();
 		return false;
 	}
 	
-	@SideOnly(Side.SERVER)
-	public boolean checkGlobalPlayerListAndUpdate(EntityPlayer player) {
-
+	/**
+	 * When a player joins the World, send Experiment Updates to all players (doesn't hurt)
+	 * @param player
+	 * @return
+	 */
+	public boolean onEntityJoinWorldEventSendUpdates(EntityPlayer player) {
 		sendExperimentUpdates();
 		return false;
 	}
 	
 	
-	@SideOnly(Side.SERVER)
+	//@SideOnly(Side.SERVER)
+	@Deprecated
 	public boolean checkGlobalPlayerListAndUpdate() {
 		for(Experiment ex : experiments.values()) {
 			for(String player : ex.scoreboard.getPlayers()) {
@@ -287,12 +378,12 @@ public class ExperimentManager {
 		return true;
 	}
 	
-	@SideOnly(Side.CLIENT)
+	//@SideOnly(Side.CLIENT)
 	public void resetClientExperimentManager() {
 		clientCurrentExperiment = -1;
 	}
 	
-	@SideOnly(Side.SERVER)
+	//@SideOnly(Side.SERVER)
 	static void sendExperimentUpdates() {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
@@ -301,7 +392,7 @@ public class ExperimentManager {
 		System.out.println("Sending Update...");
 	}
 	
-	@SideOnly(Side.CLIENT)
+	//@SideOnly(Side.CLIENT)
 	public static void updateExperimentMetadata(String experimentMetaDataJson) {
 		Gson gson = new Gson();
 		ExperimentManager.metadata = gson.fromJson(experimentMetaDataJson, new TypeToken<ArrayList<ExperimentListMetaData>>() {}.getType());
