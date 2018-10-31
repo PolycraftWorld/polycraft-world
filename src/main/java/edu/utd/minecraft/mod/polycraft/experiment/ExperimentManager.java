@@ -103,7 +103,7 @@ public class ExperimentManager {
 			globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 			//MinecraftServer.getServer().getConfigurationManager().
 		}catch (NullPointerException e) {
-			e.printStackTrace();//TODO: Remove this.
+			//e.printStackTrace();//TODO: Remove this.
 			globalPlayerList = null;
 		}
 		
@@ -132,6 +132,7 @@ public class ExperimentManager {
 					switch(ex2.playersNeeded) {
 					case 1:
 						areAnyActive1x = true;
+						break;
 					case 2:
 						areAnyActive = true;
 						break;
@@ -240,6 +241,31 @@ public class ExperimentManager {
 	}
 	
 	@SideOnly(Side.SERVER)
+	public boolean checkAndRemovePlayerFromExperimentLists(String playerName) {
+		for(Experiment ex : experiments.values()) {
+			//skip the experiment if it's not waiting to start. We don't wanna accidentally remove a player...
+			//or... what if we need to when a player leaves?
+			//if(ex.currentState != Experiment.State.WaitingToStart) continue;
+			 
+			try {
+				if(ex.scoreboard.getPlayers().isEmpty()) continue;//skip experiments that are completed or have no players in them.
+				for(String play : ex.scoreboard.getPlayers()) {
+					if(play.equals(playerName)) {
+						removePlayerFromExperiment(ex.id, playerName);
+						sendExperimentUpdates();
+						return true;
+					}
+				}
+			}catch(NullPointerException e) {
+				e.printStackTrace();
+				//continue();
+			}
+		}
+		sendExperimentUpdates();
+		return false;
+	}
+	
+	@SideOnly(Side.SERVER)
 	public boolean checkGlobalPlayerListAndUpdate(EntityPlayer player) {
 
 		sendExperimentUpdates();
@@ -273,7 +299,6 @@ public class ExperimentManager {
 		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);
 		ServerEnforcer.INSTANCE.sendExperimentListUpdates(experimentUpdates);
 		System.out.println("Sending Update...");
-		//return updateScoreJson;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -315,6 +340,11 @@ public class ExperimentManager {
 		return null;
 	}
 	
+	/**
+	 * Stop the experiment in question, transfer players back to UTD, and send Experiment Updates
+	 * to all players.
+	 * @param id
+	 */
 	public void stop(int id){
 		Experiment ex = experiments.get(id);
 		for(Team team: ex.scoreboard.getTeams()) {
@@ -335,6 +365,7 @@ public class ExperimentManager {
 		//this.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
 	}
 	
+	@Deprecated
 	public void reset(){
 		ServerScoreboard.INSTANCE.clear();
 		 //reset this to 1 for the polyBlockPortal to work again. 

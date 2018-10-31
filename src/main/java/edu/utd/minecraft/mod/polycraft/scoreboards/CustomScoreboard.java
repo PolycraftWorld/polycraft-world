@@ -105,6 +105,7 @@ public class CustomScoreboard {
 	public Collection<EntityPlayer> getPlayersAsEntity(){
 		Collection<EntityPlayer> playerEntities = Lists.newLinkedList();
 		for(Team team: teams) {
+			if(team.getPlayers().isEmpty()) continue;
 			for(String player: team.getPlayers()) {
 				playerEntities.add(ExperimentManager.INSTANCE.getPlayerEntity(player));
 			}

@@ -32,6 +32,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -109,11 +110,11 @@ public class ClientEnforcer extends Enforcer {
 	}
 	
 	@SubscribeEvent
-	public void onClientLogsOut(final PlayerEvent.PlayerLoggedOutEvent event) {
+	public void onClientDisconnectsFromServer(final ClientDisconnectionFromServerEvent event) {
 		System.out.println("This is a client-side test. Does this server trip this??");
 		ExperimentManager.INSTANCE = new ExperimentManager();
 		ExperimentManager.metadata.clear();
-		
+		ClientScoreboard.INSTANCE.clearDisplay();
 	}
 	
 	@SubscribeEvent

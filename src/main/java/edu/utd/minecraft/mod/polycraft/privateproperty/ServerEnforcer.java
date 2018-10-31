@@ -200,7 +200,9 @@ public class ServerEnforcer extends Enforcer {
 		System.out.println("Player Logged in");
 		System.out.println("Player Dim:" + event.player.dimension);
 		if(event.player.dimension == 8) {//if player is in Experiments dimension, then they should not log in there
-			event.player.travelToDimension(0);	
+			EntityPlayerMP player = (EntityPlayerMP)event.player;
+			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
+			
 		}
 		
 	}
@@ -215,7 +217,7 @@ public class ServerEnforcer extends Enforcer {
 	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
 		System.out.println("Client Disconnect from server");
 		System.out.println("Player: " + event.player.getDisplayName());
-		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player);
+		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayName());
 		//note: the global player list in ExperimentManager doesn't update fast enough - remove them using their player object.
 	}
 	

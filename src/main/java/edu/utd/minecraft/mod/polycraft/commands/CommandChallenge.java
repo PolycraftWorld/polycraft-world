@@ -37,6 +37,7 @@ public class CommandChallenge  extends CommandBase{
 		aliases = new ArrayList(); 
         aliases.add("challenge"); 
         aliases.add("chal"); 
+        aliases.add("exit");
 	}
 	
 	@Override
@@ -122,9 +123,16 @@ public class CommandChallenge  extends CommandBase{
 				}else{
 					WorldServer worldserver = (WorldServer) player.getEntityWorld();
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, Integer.parseInt(args[0]),	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8)));
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, Integer.parseInt(args[0]),	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(Integer.parseInt(args[0]))));
 				}
 				
+			}else {
+				if(player.dimension == 8) {
+					//Remove the player from the experiment if no arguments are passed
+					ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayName());
+					EntityPlayerMP playerMP = (EntityPlayerMP) player;
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
+				}
 			}
 		}
 		

@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
@@ -22,6 +23,8 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +42,7 @@ public class ExperimentCTB extends Experiment{
 	
 	//experimental params
 	private final float MAXSCORE = 1000; 
-	public static int maxTicks = 24000; //Server drops ticks. let's increase by 4x to 24000 to make the game last longer.
+	public static int maxTicks = 10000; //Server drops ticks. let's increase by 4x to 24000 to make the game last longer.
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private final int ticksToClaimBase = 100;
 	private final float claimBaseScoreBonus = 50;
@@ -183,6 +186,15 @@ public class ExperimentCTB extends Experiment{
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 						spawnPlayer((EntityPlayerMP)player, 126);
+						
+						//clear player inventory
+						player.inventory.mainInventory = new ItemStack[36];
+						player.inventory.armorInventory = new ItemStack[4];
+						//give players a stick with knockback == 10.
+						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
+						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
+						//add to their inventories.
+						player.inventory.addItemStackToInventory(item);
 					}
 				}
 			}else if(tickCount % (this.WAITSPAWNTICKS/10) == 0) {
@@ -209,7 +221,7 @@ public class ExperimentCTB extends Experiment{
 			tickCount++;
 			updateBaseStates2();
 			for(Float score : this.scoreboard.getScores()) {
-				if (score > MAXSCORE) {
+				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
 					currentState = State.Ending;
 					break;
 				}
@@ -238,11 +250,14 @@ public class ExperimentCTB extends Experiment{
 			    }
 			}
 			
-			String stringToSend = maxEntry.getKey().getName() + " wins!";
+			String stringToSend = maxEntry.getKey().getName() + " Team wins!";
 			
 			ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
 			
 			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+				//clear player inventory
+				player.inventory.mainInventory = new ItemStack[36];
+				player.inventory.armorInventory = new ItemStack[4];
 				if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 					player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
 				} else {

@@ -175,6 +175,12 @@ public class ClientScoreboard extends ScoreboardManager {
 	public Team getCurrentTeam() {
 		return currentTeam;
 	}
+	
+	public void clearDisplay() {
+		this.teamList = new HashMap<String, Float>();
+		this.currentTeam = null;
+		this.DisplayScoreboard = false;
+	}
 
 	public void gameOver(String decompress) {
 		

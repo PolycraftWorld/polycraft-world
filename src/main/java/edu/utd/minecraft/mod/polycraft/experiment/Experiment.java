@@ -209,6 +209,9 @@ public abstract class Experiment {
 		//todo: Override this 
 	}
 	
+	/**
+	 * Set the state to done and remove players from the scoreboard, effectively removing all players.
+	 */
 	public void stop() {
 		this.currentState = State.Done;
 		this.scoreboard.clearPlayers();
