@@ -178,6 +178,11 @@ public class ClientProxy extends CommonProxy {
 		//TODO: Walter add in 3D rendering code
 		registerRenderers();
 	}
+	
+	@Override
+	public void freeze(EntityPlayer player, boolean flag) {
+		this.getPlayerState(player).isFrozen = flag;
+	}
 
 	private class PlayerState {
 		private boolean flashlightEnabled = false;
@@ -202,6 +207,7 @@ public class ClientProxy extends CommonProxy {
 		private int airQualityTicksRemaining = 0;
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
 		private boolean airQualityClean = true;
+		public boolean isFrozen = false;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -270,6 +276,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void setPlayerVelocityFromInputXZ(final EntityPlayer player, final float velocity) {
+		if(getPlayerState(player).isFrozen)
+			return;
 		double directionRadians = Math.toRadians(player.rotationYaw + 90);
 		final boolean forward = isKeyDown(gameSettings.keyBindForward);
 		final boolean back = isKeyDown(gameSettings.keyBindBack);
@@ -289,6 +297,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
+		if(getPlayerState(player).isFrozen)
+			return;
 		if (isKeyDown(gameSettings.keyBindJump)) {
 			if (ItemJetPack.isEquipped(player)) {
 				if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
@@ -434,6 +444,17 @@ public class ClientProxy extends CommonProxy {
 		}
 
 	}
+	
+	private void onClientTickFreeze(EntityPlayer player, PlayerState playerState) {
+
+		if (playerState.isFrozen) {
+			KeyBinding.unPressAllKeys();
+			player.motionX = 0;
+			player.motionY = 0;
+			player.motionZ = 0;
+		}
+
+	}
 
 	@Override
 	@SubscribeEvent
@@ -448,6 +469,7 @@ public class ClientProxy extends CommonProxy {
 					onPlayerTickClientFlameThrower(tick.player, playerState);
 					onPlayerTickClientPhaseShifter(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
+					onClientTickFreeze(tick.player, playerState);
 				}
 			}
 		}

@@ -121,7 +121,8 @@ public abstract class Enforcer {
 		Scoreboard, 
 		playerID, 
 		GenericMinigame, 
-		RaceMinigame
+		RaceMinigame,
+		FreezePlayer		//0 meta to freeze, 1 meta to unfreeze
 	}
 	
 	public enum ExperimentsPacketType {
