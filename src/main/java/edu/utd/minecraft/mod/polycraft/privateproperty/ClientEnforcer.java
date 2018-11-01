@@ -236,51 +236,51 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
-	@SubscribeEvent
-	public synchronized void onClientChatReceivedEvent(final ClientChatReceivedEvent event) {
-		final String message = event.message.getUnformattedText();
-		final int usernameIndex = message.indexOf("<");
-		if (usernameIndex > -1) {
-			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
-			EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
-
-			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
-			if (receivingPlayer.capabilities.isCreativeMode)
-				return;
-
-			if (sendingPlayer != null)
-			{
-				//calculate distance and save
-				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
-				{
-					return;
-				}
-
-				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
-
-				//is the sender holding a voice cone
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
-				{
-					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
-					{
-						return;
-					}
-				}
-
-				//is the sender holding a megaphone
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
-				{
-					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
-					{
-						return;
-					}
-				}
-
-			}
-			event.setCanceled(true);
-
-		}
-	}
+//	@SubscribeEvent
+//	public synchronized void onClientChatReceivedEvent(final ClientChatReceivedEvent event) {
+////		final String message = event.message.getUnformattedText();
+//		final int usernameIndex = message.indexOf("<");
+//		if (usernameIndex > -1) {
+//			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
+//			EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
+//
+//			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
+//			if (receivingPlayer.capabilities.isCreativeMode)
+//				return;
+//
+//			if (sendingPlayer != null)
+//			{
+//				//calculate distance and save
+//				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
+//				{
+//					return;
+//				}
+//
+//				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
+//
+//				//is the sender holding a voice cone
+//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
+//				{
+//					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
+//					{
+//						return;
+//					}
+//				}
+//
+//				//is the sender holding a megaphone
+//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
+//				{
+//					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
+//					{
+//						return;
+//					}
+//				}
+//
+//			}
+//			event.setCanceled(true);
+//
+//		}
+//	}
 
 	public void onClientBroadcastReceivedEvent(String complexMessage) throws IOException
 	{
@@ -292,7 +292,14 @@ public class ClientEnforcer extends Enforcer {
 			final double sourceY = Double.parseDouble(parsed[2]);
 			final double sourceZ = Double.parseDouble(parsed[3]);
 			final String itemName = parsed[4].trim();
-			final ItemStack itemStackSend = CustomObject.registry.get(itemName).getItemStack();
+			ItemStack itemStackSend = null;
+			try {
+				itemStackSend = CustomObject.registry.get(itemName).getItemStack();
+			}catch(NullPointerException e) {
+				//User used a custom name for their HAM radio (why would you do this....)
+				System.out.println("Why do you do this");
+				return; //DO NOTHING.
+			}
 			final String usernameSender = parsed[5];
 			String message = "";
 			for (int i = 6; i < parsed.length; i++)

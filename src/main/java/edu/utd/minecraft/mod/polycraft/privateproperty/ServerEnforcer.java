@@ -156,7 +156,7 @@ public class ServerEnforcer extends Enforcer {
 				+ String.valueOf(event.player.posX) + ":"
 				+ String.valueOf(event.player.posY) + ":"
 				+ String.valueOf(event.player.posZ) + ":"
-				+ itemStack.getDisplayName() + ":" + event.username + ":"
+				+ itemStack.getUnlocalizedName() + ":" + event.username + ":"
 				+ event.message;
 
 		sendDataPackets(DataPacketType.Broadcast, 1);

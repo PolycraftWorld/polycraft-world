@@ -1009,6 +1009,8 @@ public abstract class Enforcer {
 
 	@SubscribeEvent
 	public synchronized void onServerChatEvent(final ServerChatEvent event) {
+		
+		//handle chat command messages that start with the ~ prefix
 		if (event.message.startsWith(chatCommandPrefix)) {
 			event.setCanceled(true);
 			if (event.player.worldObj.isRemote) {
@@ -1034,8 +1036,8 @@ public abstract class Enforcer {
 			return;
 		}
 
-		if (event.player.worldObj.isRemote)
-			return;
+//		if (event.player.worldObj.isRemote)
+//			return;
 
 		for (int i = 0; i < 36; i++) {
 			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);

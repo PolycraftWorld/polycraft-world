@@ -39,7 +39,6 @@ public class CommandChallenge  extends CommandBase{
 		aliases = new ArrayList(); 
         aliases.add("challenge"); 
         aliases.add("chal"); 
-        aliases.add("exit");
 	}
 	
 	@Override

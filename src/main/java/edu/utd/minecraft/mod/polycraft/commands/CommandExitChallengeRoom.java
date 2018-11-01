@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -40,6 +41,8 @@ public class CommandExitChallengeRoom extends CommandBase {
 				//Remove the player from the experiment if no arguments are passed
 				//this will also remove their scoreboards now.
 				ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayName());
+				//unfreeze player
+				ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				//clear player inventory
 				player.inventory.mainInventory = new ItemStack[36];
 				player.inventory.armorInventory = new ItemStack[4];
