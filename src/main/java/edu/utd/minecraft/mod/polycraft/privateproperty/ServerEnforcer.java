@@ -20,6 +20,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import scala.util.parsing.json.JSON;
 import scala.util.parsing.json.JSONArray;
 import scala.util.parsing.json.JSONObject;
@@ -94,51 +95,51 @@ public class ServerEnforcer extends Enforcer {
 
 	//Is this supposed to be commented out?? 
 	//TODO: recomment this function before pushing to production.
-	 @SubscribeEvent
-	 public void onServerChatEvent(final ServerChatEvent event)
-	 {
-		 if (event.message.startsWith(chatCommandPrefix)) {
-		 return;
-		 }
-		
-		 if (event.message.startsWith("//"))
-		 return;
-		
-		 for (int i = 0; i < 36; i++)
-		 {
-			 ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
-			
-			 if (itemStackSend != null)
-			 {
-			 if (i < 9)
-			 {
-			 //test if receiving player has walky talky on the hotbar
-			 if (itemStackSend != null &&
-			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
-			 broadcastFromSender(event, itemStackSend);
-			
-			 //test if receiving player has cell phone on the hotbar
-			 if (itemStackSend != null &&
-			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
-			 broadcastFromSender(event, itemStackSend);
-			
-			 }
-			
-			 //test if sending and receiving player have ham radios on same frequency
-			 if (itemStackSend != null &&
-			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
-			 broadcastFromSender(event, itemStackSend);
-			
-			 //test if sending player holding phone broadcast the message
-			 //send message to a specific user (tell command)
-			 if (itemStackSend != null &&
-			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
-			 broadcastFromSender(event, itemStackSend);
-			
-			 }
-		
-		 }
-	 }
+//	 @SubscribeEvent
+//	 public void onServerChatEvent(final ServerChatEvent event)
+//	 {
+//		 if (event.message.startsWith(chatCommandPrefix)) {
+//		 return;
+//		 }
+//		
+//		 if (event.message.startsWith("//"))
+//		 return;
+//		
+//		 for (int i = 0; i < 36; i++)
+//		 {
+//			 ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
+//			
+//			 if (itemStackSend != null)
+//			 {
+//			 if (i < 9)
+//			 {
+//			 //test if receiving player has walky talky on the hotbar
+//			 if (itemStackSend != null &&
+//			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Walky Talky").getItemStack().getUnlocalizedName())))
+//			 broadcastFromSender(event, itemStackSend);
+//			
+//			 //test if receiving player has cell phone on the hotbar
+//			 if (itemStackSend != null &&
+//			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
+//			 broadcastFromSender(event, itemStackSend);
+//			
+//			 }
+//			
+//			 //test if sending and receiving player have ham radios on same frequency
+//			 if (itemStackSend != null &&
+//			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("HAM Radio").getItemStack().getUnlocalizedName())))
+//			 broadcastFromSender(event, itemStackSend);
+//			
+//			 //test if sending player holding phone broadcast the message
+//			 //send message to a specific user (tell command)
+//			 if (itemStackSend != null &&
+//			 ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
+//			 broadcastFromSender(event, itemStackSend);
+//			
+//			 }
+//		
+//		 }
+//	 }
 
 	public void broadcastFromSender(ServerChatEvent event, ItemStack itemStack) {
 		// somehow we need to send a broadcast event now...
@@ -210,10 +211,23 @@ public class ServerEnforcer extends Enforcer {
 		System.out.println("Player Dim:" + event.player.dimension);
 		if(event.player.dimension == 8) {//if player is in Experiments dimension, then they should not log in there
 			EntityPlayerMP player = (EntityPlayerMP)event.player;
-			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
-			
+			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));	
 		}
-		
+	}
+	
+	@SubscribeEvent
+	public void onEntityRespawn(final PlayerEvent.PlayerRespawnEvent event) {
+		System.out.println("I think this is server-side?");
+		//if the player dies, let the client know that.
+		//this.sendExperimentUpdatePackets(null, (EntityPlayerMP)event.player); //send a packet to the client saying they left the server.
+	}
+	
+	@SubscribeEvent
+	public void onPlayerDamage(final LivingHurtEvent event) {
+		if(event.entity.dimension == 8 && event.entity instanceof EntityPlayerMP  && (event.entityLiving.getHealth() - event.ammount <= 0)) {
+			event.entityLiving.setHealth(1); //prevent death in dimension 8. Set health to the lowest level.
+			event.setCanceled(true);
+		}
 	}
 	
 	/**
@@ -227,6 +241,11 @@ public class ServerEnforcer extends Enforcer {
 		System.out.println("Client Disconnect from server");
 		System.out.println("Player: " + event.player.getDisplayName());
 		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayName());
+		//clear player inventory, if they disconnected from dimension 8.
+		if(event.player.dimension == 8) {
+			event.player.inventory.mainInventory = new ItemStack[36];
+			event.player.inventory.armorInventory = new ItemStack[4];
+		}
 		//note: the global player list in ExperimentManager doesn't update fast enough - remove them using their player object.
 	}
 	
@@ -324,25 +343,49 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.RaceMinigame, 0, null);
 	}
 	
+	/**
+	 * Send experiment updates to players in the game
+	 * Sends 3 cases: 	ExperimentListMetaData updates to the Client (sent to all players in dimension 0)
+	 * 					ClientLeavesDimension update (hide scoreboard, reset GUI, etc.)
+	 * 					BoundingBox updates for client-side rendering handlers
+	 * @param jsonStringToSend if Null, then it is case 2 else, it's case 3
+	 * @param player if Null, then it is case 1 else, it's either case 2 or 3.
+	 */
 	public void sendExperimentUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
 		//TODO: add meta-data parsing.
-			FMLProxyPacket[] packetList = null;
-				if(jsonStringToSend == null) {
-					packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "");
-				} else {
-					packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
+		FMLProxyPacket[] packetList = null;
+		
+		if(player == null) { //case: Send Experiment List Updates
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
+			if(packetList != null) {
+				int i = 0;
+				for (final FMLProxyPacket packet : packetList) {
+					System.out.println("Sending packet " + i);
+					netChannel.sendToDimension(packet, 0); //send to all players in dimension 0 (don't send to players in an experiment)
+					i++;
 				}
-				if(packetList != null) {
-					for (final FMLProxyPacket packet : packetList) {
-						netChannel.sendTo(packet, player);
-					}
-					
-				}
+			}
+			return;
+		}
+		
+		if(jsonStringToSend == null) { //case: Player is leaving dimension
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
+			System.out.println("Player is Leaving Dimension");
+			
+		} else { //case: Bounding Box updates for client rendering
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
+		}
+		if(packetList != null) {
+			for (final FMLProxyPacket packet : packetList) {
+				netChannel.sendTo(packet, player);
+			}				
+		}
 	}
 	/**
 	 * Send an updated list of experiments to all players in dimension 0
 	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 
 	 */
+	@Deprecated
 	public void sendExperimentListUpdates(final String jsonStringToSend) {
 		FMLProxyPacket[] packetList = null;
 		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
@@ -352,14 +395,9 @@ public class ServerEnforcer extends Enforcer {
 			for (final FMLProxyPacket packet : packetList) {
 				System.out.println("Sending packet " + i);
 				netChannel.sendToDimension(packet, 0); //send to all players in dimension 0 (don't send to players in an experiment)
+				i++;
 			}
 		}
-	}
-	
-	//TODO: refactor and remove this
-	public void experimentUpdate() {
-		//sendDataPackets(DataPacketType.Challenge, 1, null); //what?? if it's 1, then you're telling the server to tell the client to tell the server to update itself. why this.
-		sendDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), null); //is this necessary? Also, How are we rendering the bounding boxes? I don't see them :(
 	}
 	
 	public void freezePlayer(boolean flag, EntityPlayerMP player) {
@@ -653,42 +691,17 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
-
-	@SubscribeEvent
-	public void onEntityJoinWorld(final EntityJoinWorldEvent event) {
-		if(event.entity instanceof EntityPlayerMP) {
-			System.out.println(event.entity.getCommandSenderName());
-			ExperimentManager.INSTANCE.onEntityJoinWorldEventSendUpdates((EntityPlayer)event.entity); //send newly joined players an update
-		}
-		
-		//TODO: change to ClientConnectedToServerEvent instead of onEntityJoinWorld
-//		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
-//			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
-//			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
-//			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
-//			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
-//			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
-//			sendDataPackets(DataPacketType.Friends);
-//			//sendDataPackets(DataPacketType.Governments);
-////			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-////			sendDataPackets(DataPacketType.playerID, 0, player);
-//			if (!portalRestUrl.startsWith("file:")) {
-//				try {
-//					NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
-//							player.getDisplayName().toLowerCase()),
-//							ImmutableMap.of("last_world_seen", player.worldObj
-//									.getWorldInfo().getWorldName()));
-//				} catch (final IOException e) {
-//					PolycraftMod.logger.error(
-//							"Unable to log player last world seen", e);
-//				}
-//			}
-//		}
-	}
 	
 	@SubscribeEvent
 	public void ClientConnectedToServerEvent(final EntityJoinWorldEvent event) {
 		//Entity wolf cannot cast to player
+		if(event.entity instanceof EntityPlayerMP) {
+			System.out.println(event.entity.getCommandSenderName());
+			ExperimentManager.INSTANCE.onEntityJoinWorldEventSendUpdates((EntityPlayer)event.entity); //send newly joined players an update
+			if(event.entity.dimension == 8) {
+				
+			}
+		}
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));

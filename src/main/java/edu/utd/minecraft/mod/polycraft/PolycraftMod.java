@@ -40,6 +40,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
@@ -64,7 +65,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.10_CarbonBeta5";
+	public static final String VERSION = "1.4.10_PreProduction";
 	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 10 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
@@ -252,16 +253,17 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
-		event.registerServerCommand(new CommandPP());
-		event.registerServerCommand(new CommandGame());
-		event.registerServerCommand(new CommandRace());
-		event.registerServerCommand(new CommandMinigame());
-		event.registerServerCommand(new CommandGUI());
-		event.registerServerCommand(new CommandFreeze());
-		event.registerServerCommand(new CommandChallenge());
-		event.registerServerCommand(new CommandDev());
+		//event.registerServerCommand(new CommandPP());
+		//event.registerServerCommand(new CommandGame());
+		//event.registerServerCommand(new CommandRace());
+		//event.registerServerCommand(new CommandMinigame());
+		//event.registerServerCommand(new CommandGUI());
+		//event.registerServerCommand(new CommandFreeze());
+		//event.registerServerCommand(new CommandChallenge());
+		//event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
 		event.registerServerCommand(new CommandReg());
+		event.registerServerCommand(new CommandExitChallengeRoom());
 	}
 	
 	public static String getAssetName(final String name) {
