@@ -39,6 +39,25 @@ public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected int tickCount = 0;
 	private final int WAITSPAWNTICKS = 400;
+	private static final ItemStack[] armors = {
+			new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
+			new ItemStack(PolycraftRegistry.getItem("Rubber Shower Cap")),
+			new ItemStack(PolycraftRegistry.getItem("Kevlar Helmet")),
+			new ItemStack(PolycraftRegistry.getItem("Sparkling Headgear")),
+			new ItemStack(PolycraftRegistry.getItem("Jeffersonian Wig")),
+			new ItemStack(PolycraftRegistry.getItem("Copper Cap")),
+			new ItemStack(PolycraftRegistry.getItem("Plumed Close Helm")),
+			new ItemStack(PolycraftRegistry.getItem("Pepto Bismal Pink Cap")),
+			new ItemStack(PolycraftRegistry.getItem("Fine Polyester Top Hat")),
+			new ItemStack(PolycraftRegistry.getItem("SuperB Barbute")),
+			new ItemStack(PolycraftRegistry.getItem("Spectra Helmet")),
+			new ItemStack(PolycraftRegistry.getItem("Wolfram Great Helm")),
+			new ItemStack(PolycraftRegistry.getItem("Brazen Bassinet")),
+			new ItemStack(PolycraftRegistry.getItem("Comfortable Cap")),
+			new ItemStack(PolycraftRegistry.getItem("Ripstop Nylon Beanie")),
+			new ItemStack(PolycraftRegistry.getItem("SBR Swim Cap"))
+	};
+	private static int currentArmor = 0;
 	
 	//experimental params
 	private final float MAXSCORE = 1000; 
@@ -183,15 +202,18 @@ public class ExperimentCTB extends Experiment{
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
 				for(Team team: scoreboard.getTeams()) {
+					ItemStack[] armor = new ItemStack[4];
+					armor[3] = armors[currentArmor];	//set current armor color to current team
+					incrementArmor();	//increment armor counter so next team gets a different armor
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 						spawnPlayer((EntityPlayerMP)player, 126);
 						ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);	//freeze players while they wait for the game to begin
-		
+						
 						//clear player inventory
 						player.inventory.mainInventory = new ItemStack[36];
-						player.inventory.armorInventory = new ItemStack[4];
+						player.inventory.armorInventory = armor;
 						//give players a stick with knockback == 10.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
 						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
@@ -434,6 +456,13 @@ public class ExperimentCTB extends Experiment{
 			}
 		}
 				
+	}
+	
+	private void incrementArmor() {
+		if(currentArmor < armors.length)
+			currentArmor++;
+		else
+			currentArmor = 0;
 	}
 	
 	private final String prepBoundingBoxUpdates() {

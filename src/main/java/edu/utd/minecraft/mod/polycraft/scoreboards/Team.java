@@ -15,7 +15,7 @@ public class Team {
 	//protected final Collection<EntityPlayerMP> players = Lists.newLinkedList();	//List of players participating in experiment instance
 	protected final Collection<String> players = Lists.newLinkedList();
 	private Color color;
-	private static ColorEnum colorlist = ColorEnum.Blue;
+	private static ColorEnum currentColor = ColorEnum.Blue;
 	private static enum ColorEnum {
 		Cyan,
 		Blue,
@@ -29,7 +29,7 @@ public class Team {
 		    return values()[ordinal() + 1];
 		}
 		
-		public ColorEnum previus() {
+		public ColorEnum previous() {
 		    if (ordinal() == 0)
 		    	return values()[values().length - 1];
 		    return values()[ordinal() - 1];
@@ -38,7 +38,7 @@ public class Team {
 	
 	public Team() {
 		initColor();
-		this.name = colorlist.previus().toString();
+		this.name = currentColor.next().toString();
 	}
 
 	public Team(String name) {
@@ -53,7 +53,7 @@ public class Team {
 	}
 	
 	private void initColor() {
-		switch(colorlist) {
+		switch(currentColor) {
 			case Blue:
 				setColor(Color.BLUE);
 				break;
@@ -71,7 +71,7 @@ public class Team {
 			default:
 				setColor(Color.PINK);
 		}
-		colorlist = colorlist.next();
+		currentColor = currentColor.next();
 	}
 
 	public String getName() {
