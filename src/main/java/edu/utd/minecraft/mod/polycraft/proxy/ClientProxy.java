@@ -406,7 +406,7 @@ public class ClientProxy extends CommonProxy {
 				onClientTickSyncInventory(player, playerState);
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
-				onClientTickOpenExperimentsGui(player, playerState);
+				//onClientTickOpenExperimentsGui(player, playerState); //Was moved to onPlayerTick
 				
 			}
 		}
@@ -474,6 +474,7 @@ public class ClientProxy extends CommonProxy {
 					onPlayerTickClientFlameThrower(tick.player, playerState);
 					//onPlayerTickClientPhaseShifter(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
+					onClientTickOpenExperimentsGui(tick.player, playerState);
 					onClientTickFreeze(tick.player, playerState);
 				}
 			}
