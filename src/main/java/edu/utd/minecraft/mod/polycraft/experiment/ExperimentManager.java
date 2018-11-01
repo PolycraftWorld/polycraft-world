@@ -290,15 +290,26 @@ public class ExperimentManager {
 		return value;
 	}
 	
+	//TODO: consolidate these functions and use only the display name OR the player object. I think it'd be cleaner to pass Player Objects?
 	public boolean removePlayerFromExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).removePlayer(player);
+		ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(null, player);
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
 	}
 	
+	/**
+	 * Removes the player from the given experiment. Sends an update packet to the player requesting the player
+	 * to clear their scoreboard display, if it's active, and to reset their Experiment Manager object
+	 * Sends experimentUpdates to re-populate their experiment manager object
+	 * @param expID the experiment to withdraw the player from
+	 * @param player the player in question
+	 * @return True if a player was successfully removed. False if not.
+	 */
 	private boolean removePlayerFromExperiment(int expID, String player){
 		boolean value = experiments.get(expID).removePlayer(player);
+		if(value) ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(null, (EntityPlayerMP)this.getPlayerEntity(player));
 		ExperimentManager.metadata.get(expID - 1).updateCurrentPlayers(experiments.get(expID).getMaxPlayers() - experiments.get(expID).getNumPlayersAwaiting());		
 		sendExperimentUpdates();
 		return value;
@@ -315,7 +326,7 @@ public class ExperimentManager {
 				for(String play : ex.scoreboard.getPlayers()) {
 					if(play.equals(player.getDisplayName())) {
 						removePlayerFromExperiment(ex.id, (EntityPlayerMP)player);
-						sendExperimentUpdates();
+						//sendExperimentUpdates();
 						return true;
 					}
 				}
@@ -342,7 +353,7 @@ public class ExperimentManager {
 				for(String play : ex.scoreboard.getPlayers()) {
 					if(play.equals(playerName)) {
 						removePlayerFromExperiment(ex.id, playerName);
-						sendExperimentUpdates();
+						//sendExperimentUpdates();
 						return true;
 					}
 				}

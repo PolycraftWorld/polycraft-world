@@ -86,6 +86,22 @@ public class GuiExperimentList extends GuiScreen {
    }
     
     /**
+     * Handle Key Presses by the user
+     * Superclass handles the escape key
+     * the keys are ordered from top left to bottom on the keyboard (1 = esc, 2 = 1, 3=2, etc... backspace=14, tab=15, q = 16, etc...)
+     * Capital keys (Shift/capslock) will change the char, but not the int
+     * for now, if user presses r when inside that window, it will close.
+     */
+    @Override
+    public void keyTyped(char abc, int one) {
+    	super.keyTyped(abc, one);
+    	if(one == 19) {
+    		 this.mc.displayGuiScreen((GuiScreen)null);
+             this.mc.setIngameFocus();
+    	}
+    }
+    
+    /**
      * Get the list of experiments from the client-side experiments manager and display for the user
      * This class builds the button list and the initGui() function takes these values, 
      * adds the buttons to the GUI's button list, and renders them
@@ -126,7 +142,7 @@ public class GuiExperimentList extends GuiScreen {
     	}
         
         if(experimentsListButton.size() < 2) { //Only button that exists is the cancel button
-        	userFeedbackText = "Sorry - no experiments are available";
+        	userFeedbackText = "Log in to our experiments server to learn more!";
         	btnCancel.enabled=false;
         }else if(userFeedbackText.equals("")) { //No experiment has been selected
         	btnCancel.enabled=false;
@@ -136,6 +152,7 @@ public class GuiExperimentList extends GuiScreen {
         	
         }
     }
+   
 
     /**
      * Override functionality on base class

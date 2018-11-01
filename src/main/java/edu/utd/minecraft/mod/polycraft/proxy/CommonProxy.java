@@ -284,9 +284,14 @@ public abstract class CommonProxy {
 				onPlayerTickServerRunningShoes(tick.player);
 				onPlayerTickServerScubaFins(tick.player);
 				onPlayerTickServerScubaTank(tick.player, playerState);
-				onPlayerTickServerPhaseShifter(tick.player, playerState);
+				//onPlayerTickServerPhaseShifter(tick.player, playerState);
+				
+				//Experiment Servers DO NOT allow for players to sync their inventories
+				if(System.getProperty("isExperimentServer") != null) {
+					ExperimentManager.INSTANCE.onPlayerTick(tick);
+				}else {
 				onPlayerTickServerSyncInventory(tick.player, playerState);
-				ExperimentManager.INSTANCE.onPlayerTick(tick);
+				}
 				
 			}
 		}
@@ -374,8 +379,10 @@ public abstract class CommonProxy {
 	@SubscribeEvent
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
 		if (tick.phase == Phase.END) {
-			ExperimentManager.INSTANCE.onServerTickUpdate(tick);
-			ServerScoreboard.INSTANCE.onServerTick(tick);
+			if(System.getProperty("isExperimentServer") != null) {
+				ExperimentManager.INSTANCE.onServerTickUpdate(tick);
+				ServerScoreboard.INSTANCE.onServerTick(tick);
+			}
 			BlockLight.processPendingUpdates(16);
 			if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
 			{

@@ -91,6 +91,12 @@ public class ClientEnforcer extends Enforcer {
 		client = FMLClientHandler.instance().getClient();
 	}
 	
+	@SubscribeEvent
+	public void onClientDies(final PlayerEvent.PlayerRespawnEvent event) {
+		System.out.println("this is a test event - when does this fire?");
+		
+	}
+	
 	
 	@SubscribeEvent
 	public void KeyInputEvent(cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent event) {
@@ -160,24 +166,29 @@ public class ClientEnforcer extends Enforcer {
 						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
 						switch(tempMetaData) {
 							case BoundingBoxUpdate:
-								PolycraftMod.logger.debug("Sending bounding box data...");
+								PolycraftMod.logger.debug("Receiving bounding box data...");
 								this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
 							case PlayerLeftDimension:
 								PolycraftMod.logger.info("User has left the dimension");
 								this.baseList.clear();
+								ExperimentManager.INSTANCE = new ExperimentManager();
+								ExperimentManager.metadata.clear();
+								ClientScoreboard.INSTANCE.clearDisplay();
+								
 								break;
 							case ReceiveExperimentsList:
-								System.out.println("Receiving update on the Client Enforcer...");
+								System.out.println("Receiving experiments list...");
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
 							
 							default:
-								final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-								final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
-								showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
-										+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
-					
+//								final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
+//								showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
+//										+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+//						}
+							break;
 						}
 						break;
 					case Scoreboard:

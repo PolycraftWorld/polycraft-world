@@ -11,12 +11,14 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -71,7 +73,13 @@ public class CommandChallenge  extends CommandBase{
 		
 		if (world.isRemote) 
         { 
-            //System.out.println("Not processing on Client side"); 
+            //processing on Client side - This isn't actually possible.
+//			if(args.length == 0) {
+//				//clear client side caches
+//				ExperimentManager.INSTANCE = new ExperimentManager();
+//				ExperimentManager.metadata.clear();
+//				ClientScoreboard.INSTANCE.clearDisplay();
+//			}
         } 
 		else
 		{
@@ -130,6 +138,9 @@ public class CommandChallenge  extends CommandBase{
 				if(player.dimension == 8) {
 					//Remove the player from the experiment if no arguments are passed
 					ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayName());
+					//clear player inventory
+					player.inventory.mainInventory = new ItemStack[36];
+					player.inventory.armorInventory = new ItemStack[4];
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
 					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
 				}

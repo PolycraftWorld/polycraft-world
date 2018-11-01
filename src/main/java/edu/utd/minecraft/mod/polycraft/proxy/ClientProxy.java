@@ -116,6 +116,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -419,10 +420,14 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onClientTickSyncInventory(EntityPlayer player, PlayerState playerState) {
-
+		
 		if (playerState.syncCooldownRemaining == 0) {
 			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
 			if (clientWantsToSyncInventory) {
+				if(System.getProperty("isExperimentServer") != null) { //Does NOT Work in an experiments server.
+					player.addChatMessage(new ChatComponentText("INV swap is unavailable on our experiments server"));
+					return;
+				}
 				playerState.syncCooldownRemaining = swapCooldownTime;
 				playerState.choseToSyncInventory = true;
 				sendMessageToServerClientWantsToSync(playerState.choseToSyncInventory);
@@ -467,7 +472,7 @@ public class ClientProxy extends CommonProxy {
 					onPlayerTickClientFlashlight(tick.player, playerState);
 					onPlayerTickClientJetPack(tick.player, playerState);
 					onPlayerTickClientFlameThrower(tick.player, playerState);
-					onPlayerTickClientPhaseShifter(tick.player, playerState);
+					//onPlayerTickClientPhaseShifter(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
 					onClientTickFreeze(tick.player, playerState);
 				}
@@ -1191,19 +1196,21 @@ public class ClientProxy extends CommonProxy {
 	
 	private void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
 		if(keyBindingExperiments.isPressed()) {
-			Minecraft.getMinecraft().displayGuiScreen(new GuiExperimentList(player));
+			if(this.noScreenOverlay()) {
+				client.displayGuiScreen(new GuiExperimentList(player));
+			}
 		}
 	}
 	
 	@Override
 	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
 	{
-		Minecraft.getMinecraft().displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
+		client.displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
 	}
 	
 	@Override
 	public void openConsentGui(EntityPlayer player, int x, int y, int z)
 	{
-		Minecraft.getMinecraft().displayGuiScreen(new GuiConsent(player, x, y, z));
+		client.displayGuiScreen(new GuiConsent(player, x, y, z));
 	}
 }
