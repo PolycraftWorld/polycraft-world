@@ -208,7 +208,7 @@ public class ExperimentCTB extends Experiment{
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
-						spawnPlayer((EntityPlayerMP)player, 126);
+						spawnPlayer((EntityPlayerMP)player, 124);
 						ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);	//freeze players while they wait for the game to begin
 						
 						//clear player inventory
