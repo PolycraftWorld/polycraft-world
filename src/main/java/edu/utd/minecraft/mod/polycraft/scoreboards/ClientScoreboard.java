@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.scoreboards;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
@@ -20,6 +21,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
+import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
@@ -112,23 +114,24 @@ public class ClientScoreboard extends ScoreboardManager {
 						if(this.currentTeam != null) {
 							try {
 								//prep the integer:
-								int red = this.currentTeam.getColor().getRed();
-								int green = this.currentTeam.getColor().getGreen();
-								int blue = this.currentTeam.getColor().getBlue();//can't multiply by 0
-								int finalColor = Integer.parseInt(this.getBinaryFromInt(red) + this.getBinaryFromInt(green) + this.getBinaryFromInt(blue), 2);
-								client.fontRenderer.drawStringWithShadow(this.currentTeam.toString(), x, y, finalColor);
+								//int red = this.currentTeam.getColor().getRed();
+								//int green = this.currentTeam.getColor().getGreen();
+								//int blue = this.currentTeam.getColor().getBlue();//can't multiply by 0
+								//int finalColor = Integer.parseInt(this.getBinaryFromInt(red) + this.getBinaryFromInt(green) + this.getBinaryFromInt(blue), 2);
+								int finalColor = Format.getIntegerFromColor(this.currentTeam.getColor());
+								client.fontRenderer.drawString(this.currentTeam.toString(), x, y, finalColor);
 							}catch (Exception e){
 								System.out.println("oops");
 							}
 						}else {
-							client.fontRenderer.drawStringWithShadow(playerTeam, x, y, overlayColor);	
+							client.fontRenderer.drawString(playerTeam, x, y, overlayColor);	
 						}
 						y += overlayDistanceBetweenY;//line break
 						
 						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
 						for (String st : teamList.keySet()) {
-							client.fontRenderer.drawStringWithShadow(String.format("|%-12s| %3.1f/1000", st, teamList.get(st)), x,
+							client.fontRenderer.drawString(String.format("|%-12s| %3.1f/1000", st, teamList.get(st)), x,
 									y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}
@@ -186,13 +189,15 @@ public class ClientScoreboard extends ScoreboardManager {
 		
 		this.teamList = new HashMap<String, Float>();
 		this.currentTeam = new Team(decompress);
+		this.currentTeam.setColor(Color.WHITE);
+		//this.currentTeam.setColor(Color.web(decompress.split("\\s")[0])))));
 		ExperimentManager.INSTANCE.clientCurrentExperiment = -1; //client is no longer in an experiment
 		startHideDisplayTimer();
 		
 	}
 
 	private void startHideDisplayTimer() {
-		this.hideDisplayTimer  = 1000;
+		this.hideDisplayTimer  = 600;
 		
 	}
 

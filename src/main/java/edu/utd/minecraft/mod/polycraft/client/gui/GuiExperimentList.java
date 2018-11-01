@@ -142,7 +142,7 @@ public class GuiExperimentList extends GuiScreen {
     	}
         
         if(experimentsListButton.size() < 2) { //Only button that exists is the cancel button
-        	userFeedbackText = "Log in to our experiments server to learn more!";
+        	userFeedbackText = "Log in to our experiments server to join!";
         	btnCancel.enabled=false;
         }else if(userFeedbackText.equals("")) { //No experiment has been selected
         	btnCancel.enabled=false;
@@ -278,14 +278,6 @@ public class GuiExperimentList extends GuiScreen {
         	default:
         		//Do Nothing
         }
-        
-        //TODO: create a parser for the following function, so it's easy to set colors!
-        /*p_78258_4_ is the integer that minecraft parses to get the color channels.
-         * this.red = (float)(p_78258_4_ >> 16 & 255) / 255.0F;
-            this.blue = (float)(p_78258_4_ >> 8 & 255) / 255.0F;
-            this.green = (float)(p_78258_4_ & 255) / 255.0F;
-            this.alpha = (float)(p_78258_4_ >> 24 & 255) / 255.0F;
-         */
         
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }

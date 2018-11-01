@@ -16,10 +16,10 @@ public class Team {
 	protected final Collection<String> players = Lists.newLinkedList();
 	private Color color;
 	private static ColorEnum currentColor = ColorEnum.Blue;
-	private static enum ColorEnum {
-		Cyan,
+	public static enum ColorEnum {
 		Blue,
 		Red,
+		Magenta,
 		Green,
 		Orange;
 		
@@ -37,8 +37,8 @@ public class Team {
 	}
 	
 	public Team() {
+		this.name = currentColor.toString();
 		initColor();
-		this.name = currentColor.next().toString();
 	}
 
 	public Team(String name) {
@@ -66,10 +66,12 @@ public class Team {
 			case Orange:
 				setColor(Color.ORANGE);
 				break;
-			case Cyan:
-				setColor(Color.CYAN);
+			case Magenta:
+				setColor(Color.MAGENTA);
+				break;
 			default:
 				setColor(Color.PINK);
+				break;
 		}
 		currentColor = currentColor.next();
 	}

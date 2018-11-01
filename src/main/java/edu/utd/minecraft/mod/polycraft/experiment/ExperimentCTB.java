@@ -63,7 +63,7 @@ public class ExperimentCTB extends Experiment{
 	private final float MAXSCORE = 1000; 
 	public static int maxTicks = 10000; //Server drops ticks. let's increase by 4x to 24000 to make the game last longer.
 	//TODO: can you use a real clock instead of "skippable" server ticks??
-	private final int ticksToClaimBase = 100;
+	private final int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
 	private final float claimBaseScoreBonus = 50;
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
@@ -380,11 +380,17 @@ public class ExperimentCTB extends Experiment{
 						playerCount++;
 						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) {
 							base.tickCount++; //this goes faster for two players!
+							//alert players that a user is stealing their base
+							if(base.tickCount%20==0) {
+								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Reset to Neutral in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
+								alertTeam(this.scoreboard.getTeam(base.getCurrentTeam()));
+							}
 							if(base.tickCount>=this.ticksToClaimBase) {
 								base.currentState = Base.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
 								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
+								//break;// (only allow one player to claim the team bonus) remove this if we want the bonuses to stack.
 							}
 						}
 					}
@@ -445,6 +451,13 @@ public class ExperimentCTB extends Experiment{
 //				}
 //			}
 //		}
+
+	private void alertTeam(Team team) {
+		for(String player: team.getPlayers()) {
+			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+			playerEntity.addChatMessage(new ChatComponentText("§4Alert: Someone is stealing your base!"));
+		}
+	}
 
 	@Override
 	public void onClientTickUpdate(){

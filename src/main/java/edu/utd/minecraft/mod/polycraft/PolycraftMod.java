@@ -132,7 +132,7 @@ public class PolycraftMod {
 	public static final int recipeSmallerVesselsPerLargerVessel = 64;
 	public static final int recipeGripsPerTool = 1;
 	public static final int recipeGripsPerPogoStick = 2;
-	public static final int maxChatBlockProximity = 32;
+	public static final int maxChatBlockProximity = 128; //Only enabled in dimension 8
 	public static final int maxChatBlockProximityVoiceCone = 64;
 	public static final int maxChatBlockProximityMegaphone = 128;
 	public static final int maxChatBlockProximityWalkyTalky = 1024;

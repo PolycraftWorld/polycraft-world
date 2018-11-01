@@ -112,6 +112,7 @@ public class ExperimentManager {
 		
 	}
 	//initialize new experiments before players join
+	@Deprecated
 	public static void init(){					
 		World world = DimensionManager.getWorld(8);
 		for(Experiment ex: experiments.values()){
@@ -201,80 +202,7 @@ public class ExperimentManager {
 	 * @param tick the input tick.
 	 */
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
-//		if(tick.side == Side.SERVER && tick.phase == Phase.END){
-//			boolean areAnyActive1x = false;
-//			boolean areAnyActive = false;
-//			boolean areAnyActive4x = false;
-//			boolean areAnyActive8x = false;
-//			for(Experiment ex: experiments.values()){
-//				if(ex.currentState != Experiment.State.Done) {
-//					ex.onServerTickUpdate();
-//				}
-//			}
-//			for(ExperimentListMetaData ex2 : metadata) {
-//				if(ex2.isAvailable()) {
-//					switch(ex2.playersNeeded) {
-//					case 1:
-//						areAnyActive1x = true;
-//						break;
-//					case 2:
-//						areAnyActive = true;
-//						break;
-//					case 4:
-//						areAnyActive4x = true;
-//						break;
-//					case 8:
-//						areAnyActive8x = true;
-//						break;
-//					default:
-//						areAnyActive1x = true;
-//						areAnyActive = true;
-//						areAnyActive4x = true;
-//						areAnyActive8x = true;
-//						break;
-//					}
-//					
-//				}
-//			}
-//			//TODO: remove this.
-//			if(!areAnyActive1x) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB1 = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 1, 1);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB1);
-//				//sendExperimentUpdates();
-//			}
-//			if(!areAnyActive) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB2x);
-//				//sendExperimentUpdates();
-//			}
-//			if(!areAnyActive4x) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB4x);
-//				//sendExperimentUpdates();
-//			}
-//			if(!areAnyActive8x) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB8x);
-//				//sendExperimentUpdates(); //do we need this??
-//			}
-//		}
-		if(tick.side == Side.CLIENT && tick.phase == Phase.END){
+		if(tick.side == Side.CLIENT && tick.phase == Phase.END){ //I think these are always true?
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onClientTickUpdate();

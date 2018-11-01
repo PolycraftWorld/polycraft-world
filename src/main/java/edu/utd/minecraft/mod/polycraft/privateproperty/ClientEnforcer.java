@@ -86,6 +86,7 @@ public class ClientEnforcer extends Enforcer {
 	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
+	
 
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
@@ -192,7 +193,7 @@ public class ClientEnforcer extends Enforcer {
 						}
 						break;
 					case Scoreboard:
-						System.out.println("Packets have all been sent to the client!");
+						//System.out.println("Packets have all been sent to the client!");
 						if(this.pendingDataPacketTypeMetadata == 0) { //update the scoreboard
 							ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}else if(this.pendingDataPacketTypeMetadata == 1) { //update the player team
@@ -236,51 +237,73 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
-//	@SubscribeEvent
-//	public synchronized void onClientChatReceivedEvent(final ClientChatReceivedEvent event) {
-////		final String message = event.message.getUnformattedText();
-//		final int usernameIndex = message.indexOf("<");
-//		if (usernameIndex > -1) {
-//			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
-//			EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
-//
-//			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
-//			if (receivingPlayer.capabilities.isCreativeMode)
-//				return;
-//
-//			if (sendingPlayer != null)
-//			{
-//				//calculate distance and save
-//				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
-//				{
-//					return;
+	@SubscribeEvent
+	public synchronized void onClientChatReceivedEvent(final ClientChatReceivedEvent event) {
+		final String message = event.message.getUnformattedText();
+		final int usernameIndex = message.indexOf("<");
+		if (usernameIndex > -1) {
+			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
+			
+			final EntityPlayer sendingPlayer = client.theWorld.getPlayerEntityByName(username);
+			
+			//			EntityPlayer sendingPlayer = null;
+//			//int ind = playerNames.indexOf(username);
+//			for(EntityPlayer player : (List<EntityPlayer>) client.theWorld.playerEntities) {
+//				if(username.equals(player.getDisplayName())) {
+//					sendingPlayer = player;
+//					break;
 //				}
-//
-//				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
-//
-//				//is the sender holding a voice cone
-//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
-//				{
-//					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
-//					{
-//						return;
-//					}
-//				}
-//
-//				//is the sender holding a megaphone
-//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
-//				{
-//					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
-//					{
-//						return;
-//					}
-//				}
-//
 //			}
-//			event.setCanceled(true);
-//
-//		}
-//	}
+			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
+			if (receivingPlayer.capabilities.isCreativeMode || ExperimentManager.metadata.isEmpty()) {
+				return; //enable global chat for creative mode players or if there are no experiments on the server.
+			}
+			if(receivingPlayer.dimension != 8) {
+				//only mess with this if the client is in dimension 8 (running experiments), otherwise, enable global chat.
+				//System.out.println("receiving player: " + receivingPlayer.getDisplayName() + " " + receivingPlayer.dimension);
+				if(sendingPlayer != null && sendingPlayer.dimension != 8) {
+					//System.out.println("Sending Player: " + sendingPlayer.getDisplayName() + " " + sendingPlayer.dimension);
+					return; //send the message to the player if the sender is rendered
+				}else {
+					//System.out.println("is sendingPlayer null? " + (sendingPlayer==null));
+					event.setCanceled(true); // Sender & Receiver are in different dimensions: prevent the message from coming to the player
+					return;
+				}
+			}
+			
+			if (sendingPlayer != null && sendingPlayer.dimension == 8)
+			{
+				//calculate distance and save
+				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
+				{
+					return;
+				}
+
+				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
+
+				//is the sender holding a voice cone
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
+				{
+					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
+					{
+						return;
+					}
+				}
+
+				//is the sender holding a megaphone
+				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
+				{
+					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
+					{
+						return;
+					}
+				}
+
+			}
+			event.setCanceled(true);
+
+		}
+	}
 
 	public void onClientBroadcastReceivedEvent(String complexMessage) throws IOException
 	{
