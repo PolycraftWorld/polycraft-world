@@ -216,7 +216,10 @@ public class ExperimentCTB extends Experiment{
 						//clear player inventory
 						player.inventory.mainInventory = new ItemStack[36];
 						player.inventory.armorInventory = armor;
-						//give players a stick with knockback == 10.
+						//set health and food for all players
+						player.setHealth(20); //provide players maximum health
+						player.getFoodStats().setFoodLevel(20);
+						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
 						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
 						//add to their inventories.
@@ -300,6 +303,8 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];
+					player.setHealth(20); //provide players maximum health
+					player.getFoodStats().setFoodLevel(20);
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
 				ExperimentManager.INSTANCE.stop(this.id); //End the experiment and kill this.

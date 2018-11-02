@@ -361,9 +361,10 @@ public class GuiExperimentList extends GuiScreen {
         
         this.fontRendererObj.drawString(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
-        String objectiveString = "Work with your team to score the most points possible within 5 minutes.";
-        String scoringString = "50 points for each neutral (gray) base. 200 points for each enemy base.";
+        String objectiveString = "Work with your team to score the most points possible within 5 minutes. It takes 5 seconds to capture or revert a base.";
+        String scoringString = "50 points for each neutral (gray) base. 200 points for reverting an enemy base to neutral.";
         this.fontRendererObj.drawSplitString(I18n.format(objectiveString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
+        y_pos += 12;
         y_pos += 12;
         y_pos += 12;
         this.fontRendererObj.drawString(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
@@ -371,7 +372,7 @@ public class GuiExperimentList extends GuiScreen {
         this.fontRendererObj.drawSplitString(I18n.format(scoringString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
         y_pos += 12;
         y_pos += 12;
-        this.fontRendererObj.drawString(I18n.format("Click Join Below!", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        //this.fontRendererObj.drawString(I18n.format("Click Join Below!", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
     }
     
     /**
