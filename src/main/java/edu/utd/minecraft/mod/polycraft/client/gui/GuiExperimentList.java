@@ -95,7 +95,7 @@ public class GuiExperimentList extends GuiScreen {
     @Override
     public void keyTyped(char abc, int one) {
     	super.keyTyped(abc, one);
-    	if(one == 19) {
+    	if(abc == 'x' || abc == 'X') {
     		 this.mc.displayGuiScreen((GuiScreen)null);
              this.mc.setIngameFocus();
     	}

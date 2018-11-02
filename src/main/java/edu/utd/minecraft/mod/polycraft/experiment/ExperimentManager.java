@@ -123,7 +123,7 @@ public class ExperimentManager {
 	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
 		if(tick.phase == Phase.END) {
-			boolean areAnyActive1x = false;
+		//	boolean areAnyActive1x = false;
 			boolean areAnyActive = false;
 			boolean areAnyActive4x = false;
 			boolean areAnyActive8x = false;
@@ -135,9 +135,9 @@ public class ExperimentManager {
 			for(ExperimentListMetaData ex2 : metadata) {
 				if(ex2.isAvailable()) {
 					switch(ex2.playersNeeded) {
-					case 1:
-						areAnyActive1x = true;
-						break;
+//					case 1:
+//						areAnyActive1x = true;
+//						break;
 					case 2:
 						areAnyActive = true;
 						break;
@@ -148,7 +148,7 @@ public class ExperimentManager {
 						areAnyActive8x = true;
 						break;
 					default:
-						areAnyActive1x = true;
+						//areAnyActive1x = true;
 						areAnyActive = true;
 						areAnyActive4x = true;
 						areAnyActive8x = true;
@@ -158,15 +158,15 @@ public class ExperimentManager {
 				}
 			}
 			//TODO: remove this.
-			if(!areAnyActive1x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentCTB newExpCTB1 = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 1, 1);
-				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
-				this.registerExperiment(nextID, newExpCTB1);
-				//sendExperimentUpdates();
-			}
+//			if(!areAnyActive1x) {
+//				int nextID = this.getNextID();
+//				int numChunks = 8;
+//				ExperimentCTB newExpCTB1 = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 1, 1);
+//				//newExpCTB1.setTeamsNeeded(1);
+//				//newExpCTB1.setTeamSize(1);
+//				this.registerExperiment(nextID, newExpCTB1);
+//				//sendExperimentUpdates();
+//			}
 			if(!areAnyActive) {
 				int nextID = this.getNextID();
 				int numChunks = 8;

@@ -164,7 +164,7 @@ public class ClientProxy extends CommonProxy {
 		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
 		
-		keyBindingExperiments = new KeyBinding("key.experiment.list", Keyboard.KEY_R, "key.categories.gameplay");
+		keyBindingExperiments = new KeyBinding("key.experiment.list", Keyboard.KEY_X, "key.categories.gameplay");
 		
 	}
 
