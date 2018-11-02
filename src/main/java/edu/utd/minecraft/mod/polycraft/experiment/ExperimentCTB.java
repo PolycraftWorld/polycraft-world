@@ -38,6 +38,7 @@ import net.minecraft.world.World;
 public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected int tickCount = 0;
+	private boolean hasGameEnded = false;
 	private final int WAITSPAWNTICKS = 400;
 	private static final ItemStack[] armors = {
 			new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
@@ -62,6 +63,7 @@ public class ExperimentCTB extends Experiment{
 	//experimental params
 	private final float MAXSCORE = 1000; 
 	public static int maxTicks = 10000; //Server drops ticks. let's increase by 4x to 24000 to make the game last longer.
+	private final int WAIT_TELEPORT_UTD_TICKS = 200;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private final int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
 	private final float claimBaseScoreBonus = 50;
@@ -267,30 +269,42 @@ public class ExperimentCTB extends Experiment{
 		//End of Running state
 		}
 		else if(currentState == State.Ending) {
-
-			Map.Entry<Team, Float> maxEntry = null;
-			for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet()) {
-			    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
-			        maxEntry = entry;
-			    }
-			}
-			
-			String stringToSend = maxEntry.getKey().getName() + " Team wins!";
-			
-			ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
-			
-			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-				//clear player inventory
-				player.inventory.mainInventory = new ItemStack[36];
-				player.inventory.armorInventory = new ItemStack[4];
-				if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-					player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
-				} else {
-					player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
+			if(!this.hasGameEnded) { //do this once only!
+				this.hasGameEnded = true;
+				Map.Entry<Team, Float> maxEntry = null;
+				for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet()) {
+				    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
+				        maxEntry = entry;
+				    }
 				}
 				
+				String stringToSend = maxEntry.getKey().getName() + " Team wins!";
+				
+				ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
+				
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
+					//clear player inventory
+					
+					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+						player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
+					} else {
+						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
+					}
+					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
+				}
+				tickCount = maxTicks;
 			}
-			ExperimentManager.INSTANCE.stop(this.id); //End the experiment and kill this.
+			tickCount++;
+			if(tickCount >= maxTicks + this.WAIT_TELEPORT_UTD_TICKS) {
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					player.inventory.mainInventory = new ItemStack[36];
+					player.inventory.armorInventory = new ItemStack[4];
+					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
+				}
+				ExperimentManager.INSTANCE.stop(this.id); //End the experiment and kill this.
+			}
+			
 		}
 	}
 	

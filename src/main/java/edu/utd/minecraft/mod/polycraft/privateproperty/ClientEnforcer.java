@@ -6,9 +6,12 @@ import java.nio.ByteBuffer;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
@@ -23,6 +26,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -50,6 +55,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacke
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
+import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 
 public class ClientEnforcer extends Enforcer {
@@ -122,6 +128,21 @@ public class ClientEnforcer extends Enforcer {
 		ExperimentManager.INSTANCE = new ExperimentManager();
 		ExperimentManager.metadata.clear();
 		ClientScoreboard.INSTANCE.clearDisplay();
+		this.privatePropertiesMasterJson = null;
+		this.privatePropertiesNonMasterJson = null;
+		this.playerItemstackSwitchJson = null;
+		this.broadcastMessage = null;
+		this.whitelistJson = null;
+		this.friendsJson = null;
+		this.GovernmentsJson = null;
+		this.privateProperties.clear();
+		this.governments.clear();
+		this.tempChallengeProperties.clear();
+		this.tempPrivateProperties.clear();
+		this.itemsToSwitch.clear();
+		this.privatePropertiesByChunk.clear();
+		this.challengePropertiesByChunk.clear();
+		this.privatePropertiesByOwner.clear();
 	}
 	
 	@SubscribeEvent
