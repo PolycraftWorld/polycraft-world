@@ -424,7 +424,7 @@ public class ClientProxy extends CommonProxy {
 		if (playerState.syncCooldownRemaining == 0) {
 			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
 			if (clientWantsToSyncInventory) {
-				if(System.getProperty("isExperimentServer") != null) { //Does NOT Work in an experiments server.
+				if(System.getProperty("isExperimentServer") != null || !ExperimentManager.metadata.isEmpty()) { //Does NOT Work in an experiments server.
 					player.addChatMessage(new ChatComponentText("INV swap is unavailable on our experiments server"));
 					return;
 				}
