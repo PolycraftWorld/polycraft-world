@@ -246,7 +246,7 @@ public class ClientEnforcer extends Enforcer {
 							break;
 						}
 					case AttackWarning:
-						AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						//AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
 					case Unknown:
 					default:
