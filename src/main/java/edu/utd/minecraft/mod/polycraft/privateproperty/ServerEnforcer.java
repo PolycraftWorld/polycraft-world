@@ -719,28 +719,30 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.Friends);
 			 //send updated experiments available to everyone
 			//sendDataPackets(DataPacketType.Governments);
-			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-			sendDataPackets(DataPacketType.playerID, 0, player);
-		
-			if (!portalRestUrl.startsWith("file:")) {
-				try {
-					String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
-							ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
-					
-					final GsonBuilder gsonBuilder = new GsonBuilder();
-					gsonBuilder.registerTypeAdapter(PlayerHelper.class,
-							new PlayerHelper.Deserializer());
+			if(this.whitelist.containsKey(player.getDisplayName().toLowerCase())) {
+				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+				sendDataPackets(DataPacketType.playerID, 0, player);
+			}else {
+				if (!portalRestUrl.startsWith("file:")) {
+					try {
+						String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
+								ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
+						
+						final GsonBuilder gsonBuilder = new GsonBuilder();
+						gsonBuilder.registerTypeAdapter(PlayerHelper.class,
+								new PlayerHelper.Deserializer());
 
-					final Gson gson = gsonBuilder.create();
-					final PlayerHelper newPlayer = gson.fromJson(
-							response,
-							new TypeToken<PlayerHelper>() {
-							}.getType());
-					addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name, newPlayer.uuid);
-					sendDataPackets(DataPacketType.playerID, 0, player);
-				} catch (final IOException e) {
-					PolycraftMod.logger.error(
-							"Unable to create new player account or get player data", e);
+						final Gson gson = gsonBuilder.create();
+						final PlayerHelper newPlayer = gson.fromJson(
+								response,
+								new TypeToken<PlayerHelper>() {
+								}.getType());
+						addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name, newPlayer.uuid);
+						sendDataPackets(DataPacketType.playerID, 0, player);
+					} catch (final IOException e) {
+						PolycraftMod.logger.error(
+								"Unable to create new player account or get player data", e);
+					}
 				}
 			}
 		}
