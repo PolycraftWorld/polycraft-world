@@ -10,6 +10,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class CommandExitChallengeRoom extends CommandBase {
@@ -28,7 +29,7 @@ public class CommandExitChallengeRoom extends CommandBase {
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 	
-		return "/exit if in an experiment";
+		return "/exit (out of an Experiment)";
 	}
 
 	@Override
@@ -48,9 +49,33 @@ public class CommandExitChallengeRoom extends CommandBase {
 				player.inventory.armorInventory = new ItemStack[4];
 				EntityPlayerMP playerMP = (EntityPlayerMP) player;
 				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
+			} else {
+				player.addChatComponentMessage(new ChatComponentText("You're not currently in an experiment room."));
 			}
 		}
+	}
+	
+	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

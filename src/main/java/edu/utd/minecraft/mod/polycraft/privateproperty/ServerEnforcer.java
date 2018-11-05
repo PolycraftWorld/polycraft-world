@@ -713,32 +713,15 @@ public class ServerEnforcer extends Enforcer {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
 			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
+			player.addChatMessage(new ChatComponentText("By playing on our servers, you accept our TOS and privacy policy available on polycraftworld.com"));
 			sendDataPackets(DataPacketType.PrivateProperties, 1, player);
 			sendDataPackets(DataPacketType.PrivateProperties, 0, player);
 			sendDataPackets(DataPacketType.Friends);
-			//ExperimentManager.sendExperimentUpdates(); //send updated experiments available list
 			 //send updated experiments available to everyone
 			//sendDataPackets(DataPacketType.Governments);
-			try {
-				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
-				sendDataPackets(DataPacketType.playerID, 0, player);
-			} catch (NullPointerException ex) {
-				//TODO: DELET THIS.
-				try {
-					final MinecraftServer minecraftserver = MinecraftServer
-							.getServer();
-					final GameProfile gameprofile = new GameProfile(
-							player.getUniqueID(), player.getDisplayName());
-					if (gameprofile != null)
-						minecraftserver.getConfigurationManager()
-								.func_152601_d(gameprofile);
-				} catch (IllegalArgumentException e) {
-					System.out.println("Could not add to whitelist: "
-							+ player.getDisplayName());
-				}
-				//this.whitelist.add(player.getDisplayName().toLowerCase(), player.getUniqueID().toLong());
-			}
-				sendDataPackets(DataPacketType.playerID, 0, player);
+			this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+			sendDataPackets(DataPacketType.playerID, 0, player);
+		
 			if (!portalRestUrl.startsWith("file:")) {
 				try {
 					String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
@@ -759,29 +742,7 @@ public class ServerEnforcer extends Enforcer {
 					PolycraftMod.logger.error(
 							"Unable to create new player account or get player data", e);
 				}
-				player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
-				player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
-				player.addChatMessage(new ChatComponentText("By playing on our servers, you accept our TOS and privacy policy available on polycraftworld.com"));
-				sendDataPackets(DataPacketType.PrivateProperties, 1, player);
-				sendDataPackets(DataPacketType.PrivateProperties, 0, player);
-				sendDataPackets(DataPacketType.Friends);	//not sure if this is being used anywhere?
-				if (!portalRestUrl.startsWith("file:")) {
-					try {
-						NetUtil.post(String.format("%s/players/%s/", portalRestUrl,
-								player.getDisplayName().toLowerCase()),
-								ImmutableMap.of("last_world_seen", player.worldObj
-										.getWorldInfo().getWorldName()));
-					} catch (final IOException e) {
-						PolycraftMod.logger.error(
-								"Unable to log player last world seen", e);
-					}
-				}
-				
 			}
-//			//If player tries to spawn in experiments division, send them to UTD!
-//			if(player.dimension==8) {
-//				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));
-//			}
 		}
 	}
 	
