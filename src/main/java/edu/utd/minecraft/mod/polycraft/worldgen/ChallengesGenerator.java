@@ -1,4 +1,3 @@
-
 package edu.utd.minecraft.mod.polycraft.worldgen;
 
 import java.util.Map;
@@ -37,38 +36,37 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 			return;
 		}else if( ((Math.abs(chunkX)%5==0) && (Math.abs(chunkZ)%5==0)))
 		{
-
-			int x = chunkX * 16;
-			int z = chunkZ * 16;
-			int y = 80;
-			short n = 0;
-			Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new int[] {0});
-			Schematic sh = sch.get("testout.schematic");
-			
-			int count=0;
-			
-			for (int k = 0; k < (int)sh.length; k++) {
-				for (int j = 0; j < (int)sh.height; j++) {
-					for (int i = 0; i < (int)sh.width; i++)
-					{
-						if(count==15361)
-						{
-							System.out.println("too big");
-						}
-						
-						world.setBlock(x + k, y + j , z + i, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
-						count++;
-						
-					}
-				}
-			}
-			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
-			{
-				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
-				TileEntity tile = world.getTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z);
-				tile.readFromNBT(nbt);
-				world.setTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z, tile);
-			}
+//			int x = chunkX * 16;
+//			int z = chunkZ * 16;
+//			int y = 80;
+//			short n = 0;
+//			Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new int[] {0});
+//			Schematic sh = sch.get("testout.schematic");
+//			
+//			int count=0;
+//			
+//			for (int k = 0; k < (int)sh.length; k++) {
+//				for (int j = 0; j < (int)sh.height; j++) {
+//					for (int i = 0; i < (int)sh.width; i++)
+//					{
+//						if(count==15361)
+//						{
+//							System.out.println("too big");
+//						}
+//						
+//						world.setBlock(x + k, y + j , z + i, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
+//						count++;
+//						
+//					}
+//				}
+//			}
+////			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
+////			{
+////				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
+////				TileEntity tile = world.getTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z);
+////				tile.readFromNBT(nbt);
+////				world.setTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z, tile);
+////			}
 			
 		}
 		return;
@@ -82,4 +80,3 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 	}
 
 }
-

@@ -1,4 +1,3 @@
-
 package edu.utd.minecraft.mod.polycraft.item;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -67,4 +66,3 @@ public class ItemDevTool extends ItemCustom  {
 	    return false;
 	}
 }
-

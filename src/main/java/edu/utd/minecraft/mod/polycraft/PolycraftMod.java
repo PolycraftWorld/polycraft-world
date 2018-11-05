@@ -40,15 +40,19 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
-import edu.utd.minecraft.mod.polycraft.commands.CommandChallenge;
-import edu.utd.minecraft.mod.polycraft.commands.CommandDev;
-import edu.utd.minecraft.mod.polycraft.commands.CommandGame;
+import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
-import edu.utd.minecraft.mod.polycraft.commands.CommandPP;
-import edu.utd.minecraft.mod.polycraft.commands.CommandRace;
+import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
 import edu.utd.minecraft.mod.polycraft.commands.CommandRaid;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
 import edu.utd.minecraft.mod.polycraft.commands.CommandUpdateWhitelist;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandChallenge;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandDev;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandFreeze;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandGUI;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandGame;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandPP;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandRace;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
@@ -62,8 +66,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.9";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 9 };
+	public static final String VERSION = "1.4.10_PreProduction";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 10 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -129,7 +133,7 @@ public class PolycraftMod {
 	public static final int recipeSmallerVesselsPerLargerVessel = 64;
 	public static final int recipeGripsPerTool = 1;
 	public static final int recipeGripsPerPogoStick = 2;
-	public static final int maxChatBlockProximity = 32;
+	public static final int maxChatBlockProximity = 128; //Only enabled in dimension 8
 	public static final int maxChatBlockProximityVoiceCone = 64;
 	public static final int maxChatBlockProximityMegaphone = 128;
 	public static final int maxChatBlockProximityWalkyTalky = 1024;
@@ -250,21 +254,17 @@ public class PolycraftMod {
 	    // register server commands
 
 		event.registerServerCommand(new CommandTP());
-
-		event.registerServerCommand(new CommandGame());
-		event.registerServerCommand(new CommandRace());
-		event.registerServerCommand(new CommandRaid());
-		event.registerServerCommand(new CommandMinigame());
 		//event.registerServerCommand(new CommandPP());
-		event.registerServerCommand(new CommandChallenge());
-		event.registerServerCommand(new CommandDev());
+		//event.registerServerCommand(new CommandGame());
+		//event.registerServerCommand(new CommandRace());
+		//event.registerServerCommand(new CommandMinigame());
+		//event.registerServerCommand(new CommandGUI());
+		//event.registerServerCommand(new CommandFreeze());
+		//event.registerServerCommand(new CommandChallenge());
+		//event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
-
-		event.registerServerCommand(new CommandUpdateWhitelist());
-		event.registerServerCommand(new CommandPP());
-		event.registerServerCommand(new CommandChallenge());
-		event.registerServerCommand(new CommandDev());
-
+		event.registerServerCommand(new CommandReg());
+		event.registerServerCommand(new CommandExitChallengeRoom());
 	}
 	
 	public static String getAssetName(final String name) {

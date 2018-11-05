@@ -1,4 +1,3 @@
-
 package edu.utd.minecraft.mod.polycraft.item;
 
 import java.util.List;
@@ -230,4 +229,3 @@ public class ItemConstitutionClaim extends ItemCustom{
 	}
 
 }
-

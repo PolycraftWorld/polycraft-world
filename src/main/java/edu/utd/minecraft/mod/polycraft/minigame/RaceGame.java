@@ -43,7 +43,7 @@ public class RaceGame extends PolycraftMinigame{
 	@Override
 	public void init()
 	{
-		PolycraftMinigameManager.INSTANCE= new RaceGame();
+		PolycraftMinigameManager.INSTANCE = new RaceGame();
 		//ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 	}
 	

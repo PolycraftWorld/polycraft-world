@@ -1,29 +1,36 @@
-
-package edu.utd.minecraft.mod.polycraft.commands;
+package edu.utd.minecraft.mod.polycraft.commands.dev;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
-public class CommandChallenge  extends CommandBase{
+public class CommandGUI  extends CommandBase{
 
-private final List aliases;
+	private final List aliases;
   
-	
-	public CommandChallenge(){
+	public CommandGUI(){
 		aliases = new ArrayList(); 
-        aliases.add("challenge"); 
-        aliases.add("chal"); 
+        aliases.add("gui");
 	}
 	
 	@Override
@@ -35,13 +42,13 @@ private final List aliases;
 	@Override
 	public String getCommandName() {
 		// TODO Auto-generated method stub
-		return "challenge";
+		return "gui";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/challenge <dim>";
+		return "/gui";
 	}
 
 	@Override
@@ -53,35 +60,16 @@ private final List aliases;
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
+		World world = sender.getEntityWorld();
 		
-		if (args.length > 0)
+		if (!world.isRemote) 
+        { 
+            //Client Side
+			PolycraftMod.proxy.openConsentGui((EntityPlayer) player, (int) player.posX, (int) player.posY, (int) player.posZ);
+        } 
+		else
 		{
-			WorldServer worldserver = (WorldServer) player.getEntityWorld();
-			EntityPlayerMP playerMP = (EntityPlayerMP) player;
-			playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, Integer.parseInt(args[0]),	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(8)));
-			/*
-			if(!worldserver.isRemote) {
-				player.addChatMessage(new ChatComponentText("Code works"));
-				int[] permissions = new int[] {
-					0, //"Enter",
-					5, //"OpenEnderChest"
-					23, //"UsePressurePlate"
-					33, //"UseDoor",			
-					34, //"UseTrapDoor",
-					35, //"UseFenceGate",
-					7 //"UseCraftingTable",				
-				};
-				for(int x=x0; x<=x0+1; x++) {
-					for(int z=z0; z<=z0+1; z++) {
-						PrivateProperty pp = new PrivateProperty(true, player, "testPP", "message", x, z, permissions);
-						Enforcer.addPrivateProperty(pp);
-						
-					}
-				}
-				ServerEnforcer.INSTANCE.sendTempPPDataPackets();
-				
-			}
-			*/
+			
 		}
 		
 	}

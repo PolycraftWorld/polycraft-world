@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -36,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
@@ -154,6 +156,11 @@ public abstract class CommonProxy {
 		default:
 			break;
 		}
+	}
+	
+	//Client sided function
+	public void freeze(EntityPlayer player, boolean flag) {
+		
 	}
 
 	protected static final Random random = new Random();
@@ -288,9 +295,14 @@ public abstract class CommonProxy {
 				onPlayerTickServerRunningShoes(tick.player);
 				onPlayerTickServerScubaFins(tick.player);
 				onPlayerTickServerScubaTank(tick.player, playerState);
-				onPlayerTickServerPhaseShifter(tick.player, playerState);
-				onPlayerTickServerSyncInventory(tick.player, playerState);
+				//onPlayerTickServerPhaseShifter(tick.player, playerState);
 				
+				//Experiment Servers DO NOT allow for players to sync their inventories
+				if(System.getProperty("isExperimentServer") != null) {
+					ExperimentManager.INSTANCE.onPlayerTick(tick);
+				}else {
+				onPlayerTickServerSyncInventory(tick.player, playerState);
+				}
 				
 			}
 		}
@@ -378,6 +390,10 @@ public abstract class CommonProxy {
 	@SubscribeEvent
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
 		if (tick.phase == Phase.END) {
+			if(System.getProperty("isExperimentServer") != null) {
+				ExperimentManager.INSTANCE.onServerTickUpdate(tick);
+				ServerScoreboard.INSTANCE.onServerTick(tick);
+			}
 			BlockLight.processPendingUpdates(16);
 			if(PolycraftMinigameManager.INSTANCE!=null && PolycraftMinigameManager.INSTANCE.shouldUpdatePackets())
 			{
@@ -462,6 +478,11 @@ public abstract class CommonProxy {
 	}
 	
 	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
+	{
+		
+	}
+	
+	public void openConsentGui(EntityPlayer player, int x, int y, int z)
 	{
 		
 	}

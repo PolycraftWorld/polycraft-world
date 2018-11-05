@@ -23,6 +23,9 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
@@ -43,6 +46,8 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.experiment.Base;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -69,6 +74,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
 import net.minecraft.block.Block;
@@ -88,6 +94,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -112,6 +123,7 @@ public class ClientProxy extends CommonProxy {
 	private KeyBinding keyBindingP;
 	private KeyBinding keyBindingBackspace;
 	private KeyBinding keyBindingCheckAir;
+	private KeyBinding keyBindingExperiments;
 	
 
 	@Override
@@ -132,6 +144,7 @@ public class ClientProxy extends CommonProxy {
 		keyBindingBackspace = new KeyBinding("key.sync.info.4", Keyboard.KEY_BACK, "key.categories.gameplay");
 		keyBindingCheckAir = new KeyBinding("key.check.air", Keyboard.KEY_C, "key.categories.gameplay");
 		
+		keyBindingExperiments = new KeyBinding("key.experiment.list", Keyboard.KEY_X, "key.categories.gameplay");
 		
 	}
 
@@ -139,8 +152,17 @@ public class ClientProxy extends CommonProxy {
 		super.postInit();
 		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
+		
+		//register scoreboard handlers
+		FMLCommonHandler.instance().bus().register(ClientScoreboard.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ClientScoreboard.INSTANCE);
 		//TODO: Walter add in 3D rendering code
 		registerRenderers();
+	}
+	
+	@Override
+	public void freeze(EntityPlayer player, boolean flag) {
+		this.getPlayerState(player).isFrozen = flag;
 	}
 
 	private class PlayerState {
@@ -166,6 +188,7 @@ public class ClientProxy extends CommonProxy {
 		private int airQualityTicksRemaining = 0;
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
 		private boolean airQualityClean = true;
+		public boolean isFrozen = false;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -234,6 +257,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void setPlayerVelocityFromInputXZ(final EntityPlayer player, final float velocity) {
+		if(getPlayerState(player).isFrozen)
+			return;
 		double directionRadians = Math.toRadians(player.rotationYaw + 90);
 		final boolean forward = isKeyDown(gameSettings.keyBindForward);
 		final boolean back = isKeyDown(gameSettings.keyBindBack);
@@ -253,6 +278,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void setPlayerVelocityFromInputY(final EntityPlayer player, final float velocity, final boolean cancelGravity) {
+		if(getPlayerState(player).isFrozen)
+			return;
 		if (isKeyDown(gameSettings.keyBindJump)) {
 			if (ItemJetPack.isEquipped(player)) {
 				if (ItemJetPack.getEquippedItem(player).altitudeMaximum > player.posY)
@@ -359,6 +386,7 @@ public class ClientProxy extends CommonProxy {
 				onClientTickSyncInventory(player, playerState);
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
+				//onClientTickOpenExperimentsGui(player, playerState); //Was moved to onPlayerTick
 				onClientTickMinigame(player,playerState);
 				
 			}
@@ -378,10 +406,14 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void onClientTickSyncInventory(EntityPlayer player, PlayerState playerState) {
-
+		
 		if (playerState.syncCooldownRemaining == 0) {
 			final boolean clientWantsToSyncInventory = isKeyDown(keyBindingI) && isKeyDown(keyBindingN) && isKeyDown(keyBindingV); //TODO and in PP
 			if (clientWantsToSyncInventory) {
+				if(System.getProperty("isExperimentServer") != null || !ExperimentManager.metadata.isEmpty()) { //Does NOT Work in an experiments server.
+					player.addChatMessage(new ChatComponentText("INV swap is unavailable on our experiments server"));
+					return;
+				}
 				playerState.syncCooldownRemaining = swapCooldownTime;
 				playerState.choseToSyncInventory = true;
 				sendMessageToServerClientWantsToSync(playerState.choseToSyncInventory);
@@ -403,6 +435,17 @@ public class ClientProxy extends CommonProxy {
 		}
 
 	}
+	
+	private void onClientTickFreeze(EntityPlayer player, PlayerState playerState) {
+
+		if (playerState.isFrozen) {
+			KeyBinding.unPressAllKeys();
+			player.motionX = 0;
+			player.motionY = 0;
+			player.motionZ = 0;
+		}
+
+	}
 
 	@Override
 	@SubscribeEvent
@@ -415,9 +458,10 @@ public class ClientProxy extends CommonProxy {
 					onPlayerTickClientFlashlight(tick.player, playerState);
 					onPlayerTickClientJetPack(tick.player, playerState);
 					onPlayerTickClientFlameThrower(tick.player, playerState);
-					onPlayerTickClientPhaseShifter(tick.player, playerState);
+					//onPlayerTickClientPhaseShifter(tick.player, playerState);
 					DynamicLights.updateLights(client.theWorld);
-					
+					onClientTickOpenExperimentsGui(tick.player, playerState);
+					onClientTickFreeze(tick.player, playerState);
 				}
 			}
 		}
@@ -449,6 +493,23 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
+	        if(!ClientEnforcer.INSTANCE.baseList.isEmpty()) {
+				if (entity.dimension == 8) {
+					for (Base base :ClientEnforcer.INSTANCE.baseList) {
+						base.render(entity);
+						base.setRendering(true);
+					}
+				} else {
+					for (Base base : ClientEnforcer.INSTANCE.baseList) {
+						//base.setRendering(false);
+					}
+				}
+			}
+	        //Chris or Matthew: this needs more comments.
+	        //PolycraftMinigameManager.INSTANCE.render(entity);
+	        //renderKillWallBounds(entity);
+	       // renderRaceGameGoal(entity);
+	        ExperimentManager.INSTANCE.render(entity);
 	        if(PolycraftMinigameManager.INSTANCE!=null)
 	        {
 	        	if(PolycraftMinigameManager.INSTANCE.active && entity.worldObj.isRemote)
@@ -1022,9 +1083,23 @@ public class ClientProxy extends CommonProxy {
 
 	}
 	
+	private void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
+		if(keyBindingExperiments.isPressed()) {
+			if(this.noScreenOverlay()) {
+				client.displayGuiScreen(new GuiExperimentList(player));
+			}
+		}
+	}
+	
 	@Override
 	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
 	{
-		Minecraft.getMinecraft().displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
+		client.displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
+	}
+	
+	@Override
+	public void openConsentGui(EntityPlayer player, int x, int y, int z)
+	{
+		client.displayGuiScreen(new GuiConsent(player, x, y, z));
 	}
 }

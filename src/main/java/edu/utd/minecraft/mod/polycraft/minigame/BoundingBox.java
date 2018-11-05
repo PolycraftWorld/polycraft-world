@@ -13,15 +13,13 @@ import net.minecraft.entity.Entity;
  */
 public class BoundingBox {
 
-	private static final int Y_TOP = 255;
-
 	private boolean yBound = false; // If the bounding box checks an entity's height for collisions.
-	private Color color = Color.WHITE; // The color of the rendered bounding box.
+	private Color color = Color.GREEN; // The color of the rendered bounding box.
 	private float lineWidth = 4; // The width of rendered bounding box lines.
 	private double x1, z1, x2, z2; // The (x, z) coordinates of the northwest and southeast corners.
-	private float y1 = 0, y2 = Y_TOP; // The lowest and highest points of the bounding box.
+	private float y1 = 0, y2 = 256; // The lowest and highest points of the bounding box.
 	private boolean rendering = true; // True if the bounding box is visible to clients.
-
+	
 	/**
 	 * <pre>
 	 * BoundingBox(&lt;x1&gt;, &lt;z1&gt;, &lt;x2&gt;, &lt;z2&gt;, [y1], [y2], [{@link Color}])
@@ -238,15 +236,6 @@ public class BoundingBox {
 	}
 
 	/**
-	 * True if the collision of the bounding box also checks for height.
-	 * 
-	 * @return boolean
-	 */
-	public boolean isYBound() {
-		return yBound;
-	}
-
-	/**
 	 * Set to true if the collision of the bounding box should also check for
 	 * height.
 	 * 
@@ -255,10 +244,6 @@ public class BoundingBox {
 	 */
 	public BoundingBox setYBound(boolean yBound) {
 		this.yBound = yBound;
-		if (yBound)
-			calculateAESTHETICS();
-		else
-			ySpacing = 1;
 		return this;
 	}
 
@@ -387,7 +372,6 @@ public class BoundingBox {
 					color.getAlpha() / 255F); // Set color to specified color.
 
 			float offset = (entity.ticksExisted % 20) / 20F; // For render animation.
-			float yh = y2;
 
 			if (yBound) { // Top and bottom of bounding box render.
 				for (int i = 0; i < hRange; i++) {
@@ -419,15 +403,11 @@ public class BoundingBox {
 					GL11.glVertex3d(x1o3, y1, z2o3);
 					GL11.glVertex3d(x1o3, y1, z1o3);
 				}
-			} else {
-				yh = (int) entity.posY + Y_TOP;
-				int yb = Math.max(0, (int) entity.posY - Y_TOP);
-				yRange = (int) yh - yb;
 			}
 
 			// Sides of bounding box render.
 			for (int i = 0; i < yRange; i++) {
-				float height = yh - ySpacing * (i + offset);
+				float height = y2 - ySpacing * (i + offset);
 				GL11.glVertex3d(x1, height, z1);
 				GL11.glVertex3d(x2, height, z1);
 

@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +20,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -48,9 +51,12 @@ import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
+import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockChest;
@@ -104,12 +110,29 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 public abstract class Enforcer {
 
 	public enum DataPacketType {
-
-
-
-		Unknown, PrivateProperties, TempPrivatProperties, Friends, Broadcast, InventorySync, Governments, playerID, GenericMinigame, AttackWarning
-
-
+		Unknown, 
+		PrivateProperties, 
+		TempPrivateProperties, 
+		Friends, 
+		Broadcast, 
+		InventorySync, 
+		Governments, 
+		Challenge, 
+		Scoreboard, 
+		playerID, 
+		GenericMinigame, 
+		RaceMinigame,
+		FreezePlayer,		//0 meta to freeze, 1 meta to unfreeze
+		AttackWarning
+	}
+	
+	public enum ExperimentsPacketType {
+		Unknown,
+		BoundingBoxUpdate,
+		PlayerLeftDimension,
+		ReceiveExperimentsList,
+		RequestJoinExperiment
+		//TODO: Stephen add your data types here.
 	}
 
 	protected static boolean updatedMasterForTheDay = false;
@@ -903,6 +926,8 @@ public abstract class Enforcer {
 
 	@SubscribeEvent
 	public synchronized void onServerChatEvent(final ServerChatEvent event) {
+		
+		//handle chat command messages that start with the ~ prefix
 		if (event.message.startsWith(chatCommandPrefix)) {
 			event.setCanceled(true);
 			if (event.player.worldObj.isRemote) {
@@ -928,8 +953,8 @@ public abstract class Enforcer {
 			return;
 		}
 
-		if (event.player.worldObj.isRemote)
-			return;
+//		if (event.player.worldObj.isRemote)
+//			return;
 
 		for (int i = 0; i < 36; i++) {
 			ItemStack itemStackSend = event.player.inventory.getStackInSlot(i);
@@ -1053,6 +1078,60 @@ public abstract class Enforcer {
 
 		}
 		
+	}
+	
+	/**
+	 * Use this helper function to quickly check if a byte array is empty during 
+	 * Server-Client packet transfers
+	 * @param array the payload (byte array) of the packet
+	 * @return true if empty, false if not.
+	 */
+	protected boolean isByteArrayEmpty(final byte[] array) {
+        for (byte b : array) {
+            if (b != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+	
+	/**
+	 * Helper function for message transfer between server and client
+	 * getDataPackets takes a large message and "slices" it into smaller packets to send over the network
+	 * 
+	 * @param type the {@link DataPacketType} the packet refers to
+	 * @param typeMetadata any relevant metaData. For some packet types, this is {@link ExperimentsPacketType}
+	 * @param jsonData The JSON string that needs to be parsed and sent to the Client/Server. prepared by Gson.
+	 * @return an arraylist of FMLProxyPackets that are sent using the 
+	 */
+	protected FMLProxyPacket[] getDataPackets(final DataPacketType type, final int typeMetadata, final String jsonData) {
+		try {
+			Gson gson = new Gson();
+			// we have to split these up into smaller packets due to this issue:
+			// https://github.com/MinecraftForge/MinecraftForge/issues/1207#issuecomment-48870313
+			final byte[] dataBytes = CompressUtil.compress(jsonData); 
+			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
+			final int controlPacketsRequired = 1;
+			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
+			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata)
+					.writeInt(dataBytes.length).copy(), netChannelName);
+			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
+				int startDataIndex = payloadIndex * maxPacketSizeBytes;
+				int length = Math.min(dataBytes.length - startDataIndex,
+						maxPacketSizeBytes);
+				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
+						Unpooled.buffer()
+								.writeBytes(dataBytes, startDataIndex, length)
+								.copy(), netChannelName);
+			}
+			return packets;
+		} catch (IOException e) {
+			PolycraftMod.logger.error("Unable to compress packet data", e);
+			return null;
+		} catch (NullPointerException e) {
+			PolycraftMod.logger.error("Null pointer exception encountered... returning a null packet.");
+			return null;
+		}
 	}
 	
 	public void handleChatCommandTeleport(final EntityPlayer player,

@@ -1,15 +1,24 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -17,23 +26,37 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
-import com.sun.security.ntlm.Client;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Base;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
+import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
+import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 
 public class ClientEnforcer extends Enforcer {
@@ -49,7 +72,9 @@ public class ClientEnforcer extends Enforcer {
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
-
+	
+	public ArrayList<Base> baseList = new ArrayList<Base>();
+	
 	private final Minecraft client;
 
 	private static class StatusMessage {
@@ -68,9 +93,16 @@ public class ClientEnforcer extends Enforcer {
 	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
+	
 
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
+	}
+	
+	@SubscribeEvent
+	public void onClientDies(final PlayerEvent.PlayerRespawnEvent event) {
+		System.out.println("this is a test event - when does this fire?");
+		
 	}
 	
 	
@@ -90,7 +122,30 @@ public class ClientEnforcer extends Enforcer {
 	private void showStatusMessage(final String message, final int seconds) {
 		statusMessages.add(new StatusMessage(message, PolycraftMod.convertSecondsToGameTicks(seconds)));
 	}
-
+	
+	@SubscribeEvent
+	public void onClientDisconnectsFromServer(final ClientDisconnectionFromServerEvent event) {
+		System.out.println("This is a client-side test. Does this server trip this??");
+		ExperimentManager.INSTANCE = new ExperimentManager();
+		ExperimentManager.metadata.clear();
+		ClientScoreboard.INSTANCE.clearDisplay();
+		this.privatePropertiesMasterJson = null;
+		this.privatePropertiesNonMasterJson = null;
+		this.playerItemstackSwitchJson = null;
+		this.broadcastMessage = null;
+		this.whitelistJson = null;
+		this.friendsJson = null;
+		this.GovernmentsJson = null;
+		this.privateProperties.clear();
+		this.governments.clear();
+		//this.tempChallengeProperties.clear();
+		this.tempPrivateProperties.clear();
+		this.itemsToSwitch.clear();
+		this.privatePropertiesByChunk.clear();
+		//this.challengePropertiesByChunk.clear();
+		this.privatePropertiesByOwner.clear();
+	}
+	
 	@SubscribeEvent
 	public void onClientPacket(final ClientCustomPacketEvent event) {
 		try {
@@ -104,7 +159,7 @@ public class ClientEnforcer extends Enforcer {
 			else {
 				pendingDataPacketsBytes -= payload.array().length;
 				pendingDataPacketsBuffer.put(payload);
-				if (pendingDataPacketsBytes == 0) {
+				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
 					switch (pendingDataPacketType) {
 					case PrivateProperties:
 						final int count = updatePrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()), pendingDataPacketTypeMetadata == 1, false);
@@ -118,7 +173,7 @@ public class ClientEnforcer extends Enforcer {
 					case Broadcast:
 						onClientBroadcastReceivedEvent(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
-					case TempPrivatProperties:
+					case TempPrivateProperties:
 						final int countPP = updateTempPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
@@ -129,18 +184,67 @@ public class ClientEnforcer extends Enforcer {
 						//final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
 						//showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	// commited out for a second -matt
 						break;
-//					case Challenge:
-//						final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-//						final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
-//						showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
-//								+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
-//						break;
+					case Challenge:
+						System.out.println("Packet Received");
+						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
+						switch(tempMetaData) {
+							case BoundingBoxUpdate:
+								PolycraftMod.logger.debug("Receiving bounding box data...");
+								this.updateExperimentalBoundingBox(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case PlayerLeftDimension:
+								PolycraftMod.logger.info("User has left the dimension");
+								this.baseList.clear();
+								ExperimentManager.INSTANCE = new ExperimentManager();
+								ExperimentManager.metadata.clear();
+								ClientScoreboard.INSTANCE.clearDisplay();
+								
+								break;
+							case ReceiveExperimentsList:
+								System.out.println("Receiving experiments list...");
+								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							
+							default:
+//								final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
+//								showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
+//										+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
+//						}
+							break;
+						}
+						break;
+					case Scoreboard:
+						//System.out.println("Packets have all been sent to the client!");
+						if(this.pendingDataPacketTypeMetadata == 0) { //update the scoreboard
+							ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == 1) { //update the player team
+							ClientScoreboard.INSTANCE.updateTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.GameOver.ordinal()) {
+							ClientScoreboard.INSTANCE.gameOver(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}
+						
+						break;
 					case playerID:
 						this.playerID = updatePlayerID(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
 					case GenericMinigame:
 						PolycraftMinigameManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
 						break;
+					case RaceMinigame:
+						//RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case FreezePlayer:
+						switch(pendingDataPacketTypeMetadata) {
+						case 0:	//freeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true);
+							break;
+						case 1:	//unfreeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, false);
+							break;
+						default:
+							break;
+						}
 					case AttackWarning:
 						AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
@@ -149,6 +253,7 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					}
 					pendingDataPacketType = DataPacketType.Unknown;
+					pendingDataPacketTypeMetadata = 0; //is this a problem?
 					pendingDataPacketsBuffer = null;
 				}
 			}
@@ -163,13 +268,35 @@ public class ClientEnforcer extends Enforcer {
 		final int usernameIndex = message.indexOf("<");
 		if (usernameIndex > -1) {
 			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
-			EntityPlayer sendingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
-
+			
+			final EntityPlayer sendingPlayer = client.theWorld.getPlayerEntityByName(username);
+			
+			//			EntityPlayer sendingPlayer = null;
+//			//int ind = playerNames.indexOf(username);
+//			for(EntityPlayer player : (List<EntityPlayer>) client.theWorld.playerEntities) {
+//				if(username.equals(player.getDisplayName())) {
+//					sendingPlayer = player;
+//					break;
+//				}
+//			}
 			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
-			if (receivingPlayer.capabilities.isCreativeMode)
-				return;
-
-			if (sendingPlayer != null)
+			if (receivingPlayer.capabilities.isCreativeMode || ExperimentManager.metadata.isEmpty()) {
+				return; //enable global chat for creative mode players or if there are no experiments on the server.
+			}
+			if(receivingPlayer.dimension != 8) {
+				//only mess with this if the client is in dimension 8 (running experiments), otherwise, enable global chat.
+				//System.out.println("receiving player: " + receivingPlayer.getDisplayName() + " " + receivingPlayer.dimension);
+				if(sendingPlayer != null && sendingPlayer.dimension != 8) {
+					//System.out.println("Sending Player: " + sendingPlayer.getDisplayName() + " " + sendingPlayer.dimension);
+					return; //send the message to the player if the sender is rendered
+				}else {
+					//System.out.println("is sendingPlayer null? " + (sendingPlayer==null));
+					event.setCanceled(true); // Sender & Receiver are in different dimensions: prevent the message from coming to the player
+					return;
+				}
+			}
+			
+			if (sendingPlayer != null && sendingPlayer.dimension == 8)
 			{
 				//calculate distance and save
 				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
@@ -213,7 +340,14 @@ public class ClientEnforcer extends Enforcer {
 			final double sourceY = Double.parseDouble(parsed[2]);
 			final double sourceZ = Double.parseDouble(parsed[3]);
 			final String itemName = parsed[4].trim();
-			final ItemStack itemStackSend = CustomObject.registry.get(itemName).getItemStack();
+			ItemStack itemStackSend = null;
+			try {
+				itemStackSend = CustomObject.registry.get(itemName).getItemStack();
+			}catch(NullPointerException e) {
+				//User used a custom name for their HAM radio (why would you do this....)
+				System.out.println("Why do you do this");
+				return; //DO NOTHING.
+			}
 			final String usernameSender = parsed[5];
 			String message = "";
 			for (int i = 6; i < parsed.length; i++)
@@ -294,6 +428,25 @@ public class ClientEnforcer extends Enforcer {
 
 	}
 
+	private void updateExperimentalBoundingBox(String decompressedJson) {
+		Gson gson = new Gson();
+		this.baseList = new ArrayList<Base>(Arrays.asList((Base[]) gson.fromJson(decompressedJson, new TypeToken<Base[]>() {}.getType())));
+		PolycraftMod.logger.debug(this.baseList.toString());
+		final EntityPlayer player = client.thePlayer;
+		if(!baseList.isEmpty() && player.dimension == 8) {
+			//
+			for(Base base: this.baseList){
+				if(base.isInBase(client.thePlayer)){
+					base.setColor(base.getColor());
+				}else{
+					base.resetColor();
+				}
+				base.render(client.thePlayer);
+				base.setRendering(true);
+			}
+		}
+	}
+	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
 
 		receivingPlayer.addChatMessage(new ChatComponentText("<" + username + "> " + message));
@@ -318,13 +471,39 @@ public class ClientEnforcer extends Enforcer {
 
 		return false;
 	}
+	
+	public void sendExperimentSelectionUpdate(String jsonData) {
+		FMLProxyPacket[] packetList = null;
+		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.RequestJoinExperiment.ordinal(), jsonData);
+		System.out.println(packetList.toString());
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
 		if (tick.phase == Phase.END && client.theWorld != null) {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
+//				if(!this.baseList.isEmpty()) {
+//					if (player.dimension == 8) {
+//						for (Base base : baseList) {
+//							base.render((Entity)player);
+//							base.setRendering(true);
+//						}
+//					} else {
+//						for (Base base : baseList) {
+//							//base.setRendering(false);
+//						}
+//					}
+//				}
 				final PrivateProperty insidePrivateProperty = findPrivateProperty(player);
+				
 				if (client.currentScreen == null)
 				{
 					final PrivateProperty targetPrivateProperty = actionPreventedPrivateProperty == null ? insidePrivateProperty : actionPreventedPrivateProperty;
