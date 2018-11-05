@@ -211,6 +211,7 @@ public class PrivateProperty {
 	public PrivateProperty(
 			final String name,
 			final String message) {
+		this.dimension=0;
 		this.master = true;
 		this.keepMasterWorldSame = false;
 		this.owner = "";
@@ -228,7 +229,6 @@ public class PrivateProperty {
 				31 //SpawnEntity			
 		});
 		this.permissionOverridesByUser = null;
-		this.dimension = 0;
 	}
 
 	public static class Deserializer implements JsonDeserializer<PrivateProperty> {

@@ -14,7 +14,7 @@ public abstract class PolycraftMinigame {
 	
 	public boolean active=false;
 	
-	PolycraftMinigame()
+	PolycraftMinigame() 
 	{
 		
 	}
@@ -35,7 +35,7 @@ public abstract class PolycraftMinigame {
 	
 	public void stop()
 	{
-		
+		this.active=false;
 	}
 	
 	public void onUpdate()

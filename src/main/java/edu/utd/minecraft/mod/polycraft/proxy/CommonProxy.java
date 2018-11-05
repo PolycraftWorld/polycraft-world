@@ -81,6 +81,8 @@ public abstract class CommonProxy {
 																// 1
 	private static final int netMessageClientFailedDoorPass = 2; // message number
 																// 2
+	private static final int netMessageMinigame = 3; // message number
+																// 3
 
 	private FMLEventChannel netChannel;
 
@@ -109,6 +111,11 @@ public abstract class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
+	}
+	
+	public void sendMessageToServerMinigame(final int minigameid)
+	{
+		sendMessageToServer(netMessageMinigame, minigameid);
 	}
 
 	protected void sendMessageToServerJetPackIsFlying(final boolean jetPackIsFlying) {
@@ -142,6 +149,10 @@ public abstract class CommonProxy {
 		case netMessageClientFailedDoorPass:
 			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
 			player.worldObj.setBlock((int)player.posX, (int)player.posY, (int)player.posZ, Blocks.lava, 0, 3);
+			break;
+		case netMessageMinigame:
+			
+			break;
 		default:
 			break;
 		}
@@ -300,8 +311,8 @@ public abstract class CommonProxy {
 			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
 		}
 		
-		//KillWall.INSTANCE.onPlayerTick(tick);
-		RaceGame.INSTANCE.onPlayerTick(tick);
+		//KillWall.onPlayerTick(tick);
+		//RaceGame.INSTANCE.onPlayerTick(tick);
 	}
 	
 

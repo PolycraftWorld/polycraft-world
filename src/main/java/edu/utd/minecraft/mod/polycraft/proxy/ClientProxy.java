@@ -1,18 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
-import java.awt.Color;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-
-import org.lwjgl.opengl.GL15;
-
 
 import com.google.common.collect.Maps;
 
@@ -41,19 +34,21 @@ import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolySlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelPolycraftBiped;
-import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -67,7 +62,6 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
-import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -75,9 +69,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
@@ -94,25 +86,13 @@ import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
-import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.AxisAlignedBB;
@@ -407,9 +387,15 @@ public class ClientProxy extends CommonProxy {
 				//onClientTickPlasticBrick(player, playerState);
 				onClientTickPhaseShifter(player, playerState);
 				//onClientTickOpenExperimentsGui(player, playerState); //Was moved to onPlayerTick
+				onClientTickMinigame(player,playerState);
 				
 			}
 		}
+	}
+
+	private void onClientTickMinigame(EntityPlayer player, PlayerState playerState) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {
@@ -482,120 +468,9 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 
-	 private static void renderKillWallBounds(Entity entity) {
-		 if (entity.worldObj.isRemote ){				//&& PolycraftMinigameManager.INSTANCE!=null
-			 if(true)//PolycraftMinigameManager.INSTANCE.active
-			 {
-				 	GL11.glDisable(GL11.GL_TEXTURE_2D);
-			        GL11.glEnable(GL11.GL_BLEND);
-			        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			        GL11.glDisable(GL11.GL_LIGHTING);
-			        GL11.glLineWidth(3.0F);
-			        GL11.glBegin(GL11.GL_LINES);//Gl_Line_Loop
-	                double dy = 16;
-	                double y1 = Math.floor(entity.posY - dy / 2);
-	                double y2 = y1 + dy;
-	                if (y1 < 0) {
-	                    y1 = 0;
-	                    y2 = dy;
-	                }
-	                if (y1 > entity.worldObj.getHeight()) {
-	                    y2 = entity.worldObj.getHeight();
-	                    y1 = y2 - dy;
-	                }
-	                double radius;
-	                if(PolycraftMinigameManager.INSTANCE!=null)
-	                	radius=PolycraftMinigameManager.INSTANCE.getDouble();
-	                else
-	                	radius=0;
-	                
-	                //radius=KillWall.INSTANCE.radius;
-	                
-	                
-	                
-	                GL11.glColor4d(0.9, 0, 0, .5);
-	//                for (double y = (int) y1; y <= y2; y++) {
-	//                	
-	//                	for (int i=0; i<360 ; i+=4)
-	//	                {
-	//	                	double degInRad = i*DEG2RAD;
-	//	                	GL11.glVertex3f((float)Math.cos(degInRad)*radius, (float) y,(float)Math.sin(degInRad)*radius);
-	//	                }
-	//	                
-	//                }
-	                
-	                for (double y = (int) y1; y <= y2; y++) {
-	                	GL11.glVertex3d(radius, y, radius);
-	                	GL11.glVertex3d(-radius, y, radius);
-	                	
-	                	GL11.glVertex3d(-radius, y, radius);
-	                	GL11.glVertex3d(-radius, y, -radius);
-	                	
-	                	GL11.glVertex3d(-radius, y, -radius);
-	                	GL11.glVertex3d(radius, y, -radius);
-	                	
-	                	GL11.glVertex3d(radius, y, -radius);
-	                	GL11.glVertex3d(radius, y, radius);
-	                	
-	                }
-			 
-			        GL11.glEnd();
-			        GL11.glEnable(GL11.GL_LIGHTING);
-			        GL11.glEnable(GL11.GL_TEXTURE_2D);
-			        GL11.glDisable(GL11.GL_BLEND);
-			        
-			 }
-		 }
-	 }
 	 
-	private static void renderRaceGameGoal(Entity entity) {
-		if (entity.worldObj.isRemote && RaceGame.INSTANCE.isActive()) {
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glLineWidth(4.0F);
-			GL11.glBegin(GL11.GL_LINES);// Gl_Line_Loop
-			double dy = 64; // 16;
-			double y1 = Math.floor(entity.posY - dy / 2);
-			double y2 = y1 + dy;
-			if (y1 < 0) {
-				y1 = 0;
-				y2 = dy;
-			}
-			if (y1 > entity.worldObj.getHeight()) {
-				y2 = entity.worldObj.getHeight();
-				y1 = y2 - dy;
-			}
-
-			int gx1 = RaceGame.INSTANCE.getGx1();
-			int gx2 = RaceGame.INSTANCE.getGx2();
-			int gz1 = RaceGame.INSTANCE.getGz1();
-			int gz2 = RaceGame.INSTANCE.getGz2();
-
-			GL11.glColor4d(0, 0.9, 0, 0.5);
-			double offset = (entity.ticksExisted % 20) / 20D;
-			for (double y = (int) y1; y <= y2; y++) {
-				GL11.glVertex3d(gx1, y - offset, gz1);
-				GL11.glVertex3d(gx2, y - offset, gz1);
-
-				GL11.glVertex3d(gx2, y - offset, gz1);
-				GL11.glVertex3d(gx2, y - offset, gz2);
-
-				GL11.glVertex3d(gx2, y - offset, gz2);
-				GL11.glVertex3d(gx1, y - offset, gz2);
-
-				GL11.glVertex3d(gx1, y - offset, gz2);
-				GL11.glVertex3d(gx1, y - offset, gz1);
-			}
-
-			GL11.glEnd();
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glDisable(GL11.GL_BLEND);
-		}
-	}
-
+	 
+	
 
 	@SubscribeEvent
 	public synchronized void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -618,7 +493,6 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
-	        
 	        if(!ClientEnforcer.INSTANCE.baseList.isEmpty()) {
 				if (entity.dimension == 8) {
 					for (Base base :ClientEnforcer.INSTANCE.baseList) {
@@ -631,17 +505,28 @@ public class ClientProxy extends CommonProxy {
 					}
 				}
 			}
-	        
+	        //Chris or Matthew: this needs more comments.
 	        //PolycraftMinigameManager.INSTANCE.render(entity);
 	        //renderKillWallBounds(entity);
-	        renderRaceGameGoal(entity);
+	       // renderRaceGameGoal(entity);
 	        ExperimentManager.INSTANCE.render(entity);
+	        if(PolycraftMinigameManager.INSTANCE!=null)
+	        {
+	        	if(PolycraftMinigameManager.INSTANCE.active && entity.worldObj.isRemote)
+	        	{
+	        		PolycraftMinigameManager.INSTANCE.render(entity);
+	        	}
+	        }
+	        AttackWarning.renderAttackWarnings(entity);
+	        //renderKillWallBounds(entity);
+	        //renderRaceGameGoal(entity);
 	        GL11.glPopMatrix();
 	    }
 	 
 	 @SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
 	    render(event.partialTicks);
+	    
 	 }
 	 private static void renderPPBounds(Entity entity) {
 		 if (entity.worldObj.isRemote){
@@ -662,7 +547,7 @@ public class ClientProxy extends CommonProxy {
 		                double x2 = x1 + 16;
 		                double z2 = z1 + 16;
 		                if(Enforcer.findPrivateProperty(entity, (entity.chunkCoordX + cx), (entity.chunkCoordZ + cz)) != null) {
-			                double dy = 32;
+			                double dy = 64;
 			                double y1 = Math.floor(entity.posY - dy / 2);
 			                double y2 = y1 + dy;
 			                if (y1 < 0) {
@@ -1189,6 +1074,9 @@ public class ClientProxy extends CommonProxy {
             }
             else if (GameID.EntityDummy.matches(polycraftEntity)){
                 RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy((ModelBase)new ModelIronGolem(), 0.25F));
+            }
+            else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
+            	RenderingRegistry.registerEntityRenderingHandler(TestTerritoryFlagBoss.class, new RenderTerritoryFlag2());
             }
 
         }

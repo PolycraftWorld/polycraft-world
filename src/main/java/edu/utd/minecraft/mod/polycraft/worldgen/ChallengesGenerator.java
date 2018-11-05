@@ -36,7 +36,6 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 			return;
 		}else if( ((Math.abs(chunkX)%5==0) && (Math.abs(chunkZ)%5==0)))
 		{
-
 //			int x = chunkX * 16;
 //			int z = chunkZ * 16;
 //			int y = 80;

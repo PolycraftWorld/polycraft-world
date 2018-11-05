@@ -43,6 +43,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -137,11 +138,11 @@ public class ClientEnforcer extends Enforcer {
 		this.GovernmentsJson = null;
 		this.privateProperties.clear();
 		this.governments.clear();
-		this.tempChallengeProperties.clear();
+		//this.tempChallengeProperties.clear();
 		this.tempPrivateProperties.clear();
 		this.itemsToSwitch.clear();
 		this.privatePropertiesByChunk.clear();
-		this.challengePropertiesByChunk.clear();
+		//this.challengePropertiesByChunk.clear();
 		this.privatePropertiesByOwner.clear();
 	}
 	
@@ -231,7 +232,7 @@ public class ClientEnforcer extends Enforcer {
 						PolycraftMinigameManager.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
 						break;
 					case RaceMinigame:
-						RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						//RaceGame.INSTANCE.updateRaceGame(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
 					case FreezePlayer:
 						switch(pendingDataPacketTypeMetadata) {
@@ -243,7 +244,10 @@ public class ClientEnforcer extends Enforcer {
 							break;
 						default:
 							break;
-					}
+						}
+					case AttackWarning:
+						AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					case Unknown:
 					default:
 						break;

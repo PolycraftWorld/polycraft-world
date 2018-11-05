@@ -69,7 +69,7 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 
 	public ItemPhaseShifter(final CustomObject config) {
 		this.setTextureName(PolycraftMod.getAssetName("phase_shifter"));
-		this.setCreativeTab(CreativeTabs.tabTools);
+		//this.setCreativeTab(CreativeTabs.tabTools);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
 		this.radius = config.params.getInt(0);

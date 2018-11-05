@@ -16,7 +16,10 @@ public class ItemCustom extends Item implements PolycraftItem {
 
 	public ItemCustom(final CustomObject config) {
 		Preconditions.checkNotNull(config);
-		this.setCreativeTab(CreativeTabs.tabMaterials);
+		if(!config.gameID.equals("1hn"))
+		{
+			this.setCreativeTab(CreativeTabs.tabMaterials);
+		}
 		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

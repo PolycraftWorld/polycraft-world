@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import net.minecraft.world.WorldProvider;
 
 public class PolycraftMinigameManager {
@@ -30,9 +31,7 @@ public class PolycraftMinigameManager {
 				Class<? extends PolycraftMinigame> mini= minigames.get(MINIGAME_ID);
 				
 				try {
-					INSTANCE=mini.newInstance();
-					INSTANCE.init();//?
-					
+					mini.newInstance().init();
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -40,6 +39,8 @@ public class PolycraftMinigameManager {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				//INSTANCE.init();//?
+				//ServerEnforcer.INSTANCE.minigameUpdate(MINIGAME_ID);
 			}
 			System.out
 					.println("***************************** Minigame Initialized ***************************** ");

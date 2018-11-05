@@ -47,6 +47,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
@@ -343,6 +344,10 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.RaceMinigame, 0, null);
 	}
 	
+	public void sendAttackWarning() {
+		sendDataPackets(DataPacketType.AttackWarning, 0, null);
+	}
+	
 	/**
 	 * Send experiment updates to players in the game
 	 * Sends 3 cases: 	ExperimentListMetaData updates to the Client (sent to all players in dimension 0)
@@ -443,14 +448,16 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.Broadcast ? broadcastMessage
 							: type == DataPacketType.Friends ? friendsJson	
 							: type == DataPacketType.Governments ? GovernmentsJson 
-							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1 ? gson.toJson(ExperimentManager.INSTANCE)
-																		:tempChallengeProperties) 
+//							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1 ? gson.toJson(ExperimentManager.INSTANCE)
+//																		:tempChallengeProperties) 
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
-							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
+//							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
+							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
 							: type == DataPacketType.playerID ? gson.toJson(this.playerID)
 									: gson.toJson(""));	//default packet should be blank 
 			//System.out.println("type: " + DataPacketType.);
+
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
