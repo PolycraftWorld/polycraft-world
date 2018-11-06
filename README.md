@@ -83,7 +83,10 @@ op-permission-level=2
 gamemode=0
 allow-flight=true
 ```
-
+If you would like to run an experiments server, duplicate the debug configuration of any pre-existing Server and add the following text to the *VM Arguments* textbox in the **Arguments** tab. Please note that it doesn't matter where in the textbox it goes, just separate it from other flags with a simple space or a line break:
+```
+-DisExperimentServer
+```
 ### (Optional) Not Enough Items Configuration:
 Right click the project "Minecraft" and navigate to "Build Path" -> "Configure Build Path...".<br>
 At the "Libraries" tab, select "Add External JARs..." and navigate to A/lib/ and select all the .jar files that contain the word "dev" in them. (After this there should be zero errors in your environment lol.)
