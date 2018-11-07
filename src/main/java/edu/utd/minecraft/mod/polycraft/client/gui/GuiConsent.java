@@ -79,7 +79,7 @@ public class GuiConsent extends GuiScreen {
 		answer.setVisible(true);
 		answer.setCanLoseFocus(false);
 		answer.setFocused(true);
-		Keyboard.enableRepeatEvents(true);
+		Keyboard.enableRepeatEvents(true); // Allow the keyboard to hold buttons.
 		switchScreen(); // Set up the first screen.
 	}
 
@@ -101,10 +101,10 @@ public class GuiConsent extends GuiScreen {
 		for (int i = this.buttonList.size() - 1; i > 1; i--)
 			this.buttonList.remove(i);
 		switch (screenID) {
-		case 0:
+		case 0: // If the player is not 18+.
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.minor"), X_WIDTH));
 			break;
-		case 1:
+		case 1: // Start of terms.
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.longassparagraph1"),
 					X_WIDTH));
 			break;
@@ -116,7 +116,7 @@ public class GuiConsent extends GuiScreen {
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.longassparagraph3"),
 					X_WIDTH));
 			break;
-		case 4:
+		case 4: // Contact information.
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.longassparagraph4"),
 					X_WIDTH));
 			lines.add("");
@@ -126,7 +126,7 @@ public class GuiConsent extends GuiScreen {
 			lines.add("");
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.contact3"), X_WIDTH));
 			break;
-		case 5:
+		case 5: // Question #1
 			lines.addAll(
 					this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.question1"), X_WIDTH));
 			this.buttonList.add(new GuiButton(0, this.width / 2 - 116, this.height / 2 - 34, 210, 20,
@@ -138,26 +138,27 @@ public class GuiConsent extends GuiScreen {
 			this.buttonList.add(new GuiButton(3, this.width / 2 - 116, this.height / 2 + 32, 210, 20,
 					I18n.format("gui.consent.question13")));
 			break;
-		case 6:
+		case 6: // Question #2
 			lines.addAll(
 					this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.question2"), X_WIDTH));
 			break;
-		case 7:
+		case 7: // Question #3
 			lines.addAll(
 					this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.question3"), X_WIDTH));
 			GuiButton yes = new GuiButton(0, this.width / 2 - 116, this.height / 2 - 12, 210, 20,
 					I18n.format("gui.yes"));
-			GuiButton no = new GuiButton(1, this.width / 2 - 116, this.height / 2 + 10, 210, 20, I18n.format("gui.no"));
+			GuiButton no = new GuiButton(1, this.width / 2 - 116, this.height / 2 + 10, 210, 20,
+					completed[7] ? "" : I18n.format("gui.no"));
 			yes.enabled = !completed[7];
 			no.enabled = !completed[7];
 			this.buttonList.add(yes);
 			this.buttonList.add(no);
 			break;
-		case 8:
+		case 8: // Question #4
 			lines.addAll(
 					this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.question4"), X_WIDTH));
 			break;
-		case 9:
+		case 9: // Question #5
 			lines.addAll(
 					this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.question5"), X_WIDTH));
 			this.buttonList.add(new GuiButton(0, this.width / 2 - 116, this.height / 2 - 34, 210, 20,
@@ -169,14 +170,18 @@ public class GuiConsent extends GuiScreen {
 			this.buttonList.add(new GuiButton(3, this.width / 2 - 116, this.height / 2 + 32, 210, 20,
 					I18n.format("gui.consent.question53")));
 			break;
-		case 10:
+		case 10: // Finishing screen.
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.finished"), X_WIDTH));
 			break;
 		}
+		// Calculate how many lines the title text will need.
 		ylines = Math.min(lines.size(), (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT);
 		extraLines = lines.size() - ylines;
 	}
 
+	/**
+	 * Disables other answer choices except for the specified button.
+	 */
 	private void disableOthers(GuiButton button) {
 		for (int i = this.buttonList.size() - 1; i > 1; i--) {
 			GuiButton other = (GuiButton) this.buttonList.get(i);
@@ -187,16 +192,28 @@ public class GuiConsent extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Fired when a button is pressed.<br>
+	 * Current setup: <br>
+	 * <ul>
+	 * <li>0 to 3 are answer choices A to D.</li>
+	 * <li>4 is the back button.</li>
+	 * <li>5 is the next button.</li>
+	 * <li>Nothing else is possible and will result in the GUI closing.</li>
+	 * </ul>
+	 */
 	protected void actionPerformed(GuiButton button) {
 		switch (button.id) {
 		case 0: // Button choice A or Yes
 			if (screenID == 7) { // Is 18+
 				completed[7] = true;
 				button.enabled = false;
+				((GuiButton) this.buttonList.get(3)).displayString = "";
 				((GuiButton) this.buttonList.get(3)).enabled = false;
 			} else {
 				// Mark button as incorrect.
-				button.displayString = I18n.format("gui.consent.tryagain");
+				button.displayString = screenID == 5 ? I18n.format("gui.consent.tryagain")
+						: I18n.format("gui.consent.more");
 				button.enabled = false;
 			}
 			break;
@@ -206,7 +223,8 @@ public class GuiConsent extends GuiScreen {
 				switchScreen();
 			} else {
 				// Mark button as incorrect.
-				button.displayString = I18n.format("gui.consent.tryagain");
+				button.displayString = screenID == 5 ? I18n.format("gui.consent.tryagain")
+						: I18n.format("gui.consent.more");
 				button.enabled = false;
 			}
 			break;
@@ -217,7 +235,7 @@ public class GuiConsent extends GuiScreen {
 				disableOthers(button);
 			} else {
 				// Mark button as incorrect.
-				button.displayString = I18n.format("gui.consent.tryagain");
+				button.displayString = I18n.format("gui.consent.more");
 				button.enabled = false;
 			}
 			break;
@@ -250,7 +268,7 @@ public class GuiConsent extends GuiScreen {
 	}
 
 	/**
-	 * Handles mouse input.
+	 * Handles mouse wheel scrolling.
 	 */
 	public void handleMouseInput() {
 		super.handleMouseInput();
@@ -297,7 +315,7 @@ public class GuiConsent extends GuiScreen {
 		super.drawDefaultBackground();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(BACKGROUND_IMAGE);
-		int i = (this.width - 248) / 2;
+		int i = (this.width - 248) / 2; // This GUI is 248 x 184.
 		int j = (this.height - 184) / 2;
 		this.drawTexturedModalRect(i, j, 0, 0, 248, 184);
 	}
@@ -312,19 +330,20 @@ public class GuiConsent extends GuiScreen {
 		int y_start = (this.height - 184) / 2;
 		// Operate the scroll bar.
 		boolean flag = Mouse.isButtonDown(0);
-		int i1 = x_start + 226;
+		int i1 = x_start + 226; // x and y of scroll bar.
 		int j1 = y_start + 8;
 		int k1 = i1 + 14;
 		int l1 = j1 + SCROLL_HEIGHT;
-
+		
+		// Start scrolling check.
 		if (!this.wasClicking && flag && mouseX >= i1 && mouseY >= j1 && mouseX < k1 && mouseY < l1 + 17)
 			this.scrolling = extraLines > 0;
-
+		// Stop scrolling check.
 		if (!flag)
 			this.scrolling = false;
-
+		// Set history of mouse clicking.
 		this.wasClicking = flag;
-
+		// Set scroll in progress.
 		if (this.scrolling) {
 			this.scroll = ((float) (mouseY - j1) - 7.5F) / ((float) (l1 - j1));
 			if (this.scroll < 0.0F) {
@@ -333,6 +352,7 @@ public class GuiConsent extends GuiScreen {
 				this.scroll = 1.0F;
 			}
 		}
+		
 		// Draw the background image.
 		this.drawDefaultBackground();
 		if (this.buttonList.size() < 2)
@@ -348,10 +368,13 @@ public class GuiConsent extends GuiScreen {
 		this.fontRendererObj.drawSplitString(I18n.format("gui.consent.title"), x_pos, y_pos, X_WIDTH, 0xFFFFFFFF);
 		y_pos += titleHeight;
 
+		// Set which line to start displaying text box to simulate scrolling.
 		int lineStart = Math.round(this.scroll * extraLines);
 		for (int i = 0; i < ylines; i++, y_pos += this.fontRendererObj.FONT_HEIGHT)
 			this.fontRendererObj.drawString(lines.get(lineStart + i), x_pos, y_pos, 0);
-		if (scroll == 1.0F && this.buttonList.size() == 2)
+		// Allow user to proceed if the bottom-most text line has been displayed.
+		// This is for reading the information before the questions.
+		if (screenID < 5 && lineStart == extraLines && this.buttonList.size() == 2)
 			completed[screenID] = true;
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -363,18 +386,20 @@ public class GuiConsent extends GuiScreen {
 
 		// Check text input for questions 2 and 4.
 		boolean match;
-		if (screenID == 6) {
+		if (screenID == 6) { // Question #2
 			match = answer.getText().equals("/exit");
 			if (match)
 				completed[6] = true;
-			answer.setTextColor(match ? 43520 : 16777215);
+			answer.setTextColor(match ? 43520 : 16777215); // Color text green.
 			answer.drawTextBox();
-		} else if (screenID == 8) {
+		} else if (screenID == 8) { // Question #4
+			// Remove phone number meta characters '+' and '-' to check the number.
 			String number = answer.getText().replaceAll("[+-]", "");
+			// Allow U.S. code.
 			match = number.equals("9728834579") || number.equals("19728834579");
 			if (match)
 				completed[8] = true;
-			answer.setTextColor(match ? 43520 : 16777215);
+			answer.setTextColor(match ? 43520 : 16777215); // Color text green.
 			answer.drawTextBox();
 		}
 		super.drawScreen(mouseX, mouseY, p_73863_3_);
