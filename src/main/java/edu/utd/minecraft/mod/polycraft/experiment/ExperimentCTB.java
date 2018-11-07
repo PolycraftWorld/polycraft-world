@@ -69,7 +69,7 @@ public class ExperimentCTB extends Experiment{
 	private final float claimBaseScoreBonus = 50;
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
-	private final int scoreIncrementOnUpdate = 0;
+	private final int scoreIncrementOnUpdate = 1;
 	//public static int maxPlayersNeeded = 4;
 
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
