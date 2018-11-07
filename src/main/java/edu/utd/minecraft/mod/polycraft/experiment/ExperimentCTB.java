@@ -62,8 +62,10 @@ public class ExperimentCTB extends Experiment{
 	
 	//experimental params
 	private final float MAXSCORE = 1000; 
-	public static int maxTicks = 10000; //Server drops ticks. let's increase by 4x to 24000 to make the game last longer.
-	private final int WAIT_TELEPORT_UTD_TICKS = 200;
+	private final int halfTimeTicks = maxTicks/2; //(5 minutes)
+	public static int maxTicks = 12000; //Server drops ticks?
+	private int halfTimeTicksRemaining = 2400; //2 minutes
+	private final int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private final int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
 	private final float claimBaseScoreBonus = 50;
@@ -71,7 +73,8 @@ public class ExperimentCTB extends Experiment{
 	private final int updateScoreOnTickRate = 20;
 	private final int scoreIncrementOnUpdate = 1;
 	//public static int maxPlayersNeeded = 4;
-
+	
+	@Deprecated
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
@@ -237,7 +240,7 @@ public class ExperimentCTB extends Experiment{
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						spawnPlayerInGame((EntityPlayerMP)player, 93); 	
 						ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);	//unfreeze players to start!
-						player.addChatMessage(new ChatComponentText("Â§aSTART"));
+						player.addChatMessage(new ChatComponentText("§aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -250,27 +253,83 @@ public class ExperimentCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
-			for(Float score : this.scoreboard.getScores()) {
-				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
-					currentState = State.Ending;
-					break;
-				}
+//			for(Float score : this.scoreboard.getScores()) {
+//				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
+//					currentState = State.Ending;
+//					break;
+//				}
+//			}
+			if(tickCount == this.halfTimeTicks) {
+				currentState = State.Halftime;
 			}
-			if(tickCount >= maxTicks) {
+			else if(tickCount >= maxTicks) {
+				
 				currentState = State.Ending;
+			
 			}else if(tickCount % 600 == 0) {
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-					player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+					if(tickCount < this.halfTimeTicks) {
+						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
+					}else {
+					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+					}
 				}
 			}else if(maxTicks-tickCount < 600) {
 				if(tickCount % 60 == 0) {
 					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-						player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 					}
 				}
 			}
 		//End of Running state
 		}
+		
+		else if(currentState == State.Halftime){
+			if(this.halfTimeTicksRemaining == 2400) {
+				Map.Entry<Team, Float> maxEntry = null;
+				for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet()) {
+				    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
+				        maxEntry = entry;
+				    }
+				}
+				
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
+					//clear player inventory
+					
+					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));
+					} else {
+						player.addChatComponentMessage(new ChatComponentText("Don't give up!"));
+					}
+					player.addChatComponentMessage(new ChatComponentText("It's Half-time! Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
+				}
+			}
+			
+			this.halfTimeTicksRemaining--; //use the halfTimeTicksRemaining counter to
+			
+			if(this.halfTimeTicksRemaining == 0) {
+				currentState = State.Running;
+				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+					player.addChatComponentMessage(new ChatComponentText("Game resuming... "));
+					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
+				}
+			}
+			else if(this.halfTimeTicksRemaining % 400 == 0) {
+				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+					player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
+				}
+			}
+			if(this.halfTimeTicksRemaining < 400) {
+				if(this.halfTimeTicksRemaining % 200 == 0) {
+					for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+						player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
+					}
+				}
+			}
+			
+		}
+		
 		else if(currentState == State.Ending) {
 			if(!this.hasGameEnded) { //do this once only!
 				this.hasGameEnded = true;
@@ -431,45 +490,6 @@ public class ExperimentCTB extends Experiment{
 			
 		}
 	}
-	
-//	private void updateBaseStates() {
-//		for (Base base : bases) {
-//			//assume no players are in any base. we will check for players later.
-//			if(base.currentState == Base.State.Occupied) {
-//				base.currentState = Base.State.Claimed;
-//			} else if (base.currentState == Base.State.Contested) {
-//				//assume that the original owners won the battle (this can be checked later):
-//				base.currentState = Base.State.Occupied;
-//			}
-//			
-//			//now, check for conflicts
-//			
-//			//check to see if bases are occupied
-//			//TODO: add the "occupied flag" to the BoundingBox class.
-//			for(EntityPlayerMP player : players) {
-//				if(base.isInBase(player)) {
-//					if(base.currentState == Base.State.Occupied) {
-//						if (!this.scoreboard.getPlayerTeam(player).equals(base.getCurrentTeam())) {
-//							base.currentState = Base.State.Contested;
-//							//base.setCurrentTeam(null);
-//							//now, for any future players that are checked, this if statement will not trigger.
-//						}
-//					}
-//					//if player enters a free base or they're actually inside their own base:
-//					else if(base.currentState == Base.State.Neutral) {
-//						base.currentState = Base.State.Occupied;
-//						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player)); //assign the team to the first player in the list.
-//						base.setHardColor(this.scoreboard.getPlayerTeam(player).getColor());
-//						System.out.println("Team assigned: " + base.getCurrentTeam().toString());
-//					} else if(base.currentState == Base.State.Claimed) {
-//						base.currentState = Base.State.Occupied;
-//						//if (!base.getCurrentTeam().equals(this.scoreboard.getPlayerTeam(player))) {	
-//						}
-//					}
-//					//if player enters 
-//				}
-//			}
-//		}
 
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {

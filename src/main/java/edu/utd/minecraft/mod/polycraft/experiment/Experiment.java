@@ -40,6 +40,7 @@ public abstract class Experiment {
 		GeneratingArea,
 		Starting,
 		Running,
+		Halftime,
 		Ending,
 		Done;
 		}
