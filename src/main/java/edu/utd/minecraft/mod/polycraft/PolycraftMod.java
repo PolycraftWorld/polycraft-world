@@ -257,7 +257,7 @@ public class PolycraftMod {
 		//event.registerServerCommand(new CommandGame());
 		//event.registerServerCommand(new CommandRace());
 		//event.registerServerCommand(new CommandMinigame());
-		//event.registerServerCommand(new CommandGUI());
+		event.registerServerCommand(new CommandGUI());
 		//event.registerServerCommand(new CommandFreeze());
 		//event.registerServerCommand(new CommandChallenge());
 		//event.registerServerCommand(new CommandDev());
