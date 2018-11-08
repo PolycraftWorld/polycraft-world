@@ -135,6 +135,7 @@ public class ExperimentCTB extends Experiment{
 		if(currentState == State.WaitingToStart) {
 			super.start(); //send the updates
 			PolycraftMod.logger.debug("Experiment " + this.id +" Start Generation");
+			this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
 			for(Base base: bases){

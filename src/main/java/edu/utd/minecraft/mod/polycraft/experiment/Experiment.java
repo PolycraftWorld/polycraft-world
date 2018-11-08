@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
@@ -12,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -145,6 +147,44 @@ public abstract class Experiment {
 		currentState = State.WaitingToStart;
 	}
 	
+	protected void generateStoop() {
+		int x = this.xPos;
+		int z = this.zPos;
+		int y = this.yPos;
+		int xChunk = Math.floorDiv(genTick,size);
+		int zChunk = genTick%size;
+		short n = 0;
+		Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new byte[] {0});
+		Schematic sh = sch.get("stoop.schematic");
+		System.out.println(String.format("Stoop Length, Height, & Width: %d %d %d", sh.length, sh.height, sh.width));
+		System.out.println(String.format("XChunk and zChunk: %d %d", xChunk, zChunk));
+//		int count=0;
+//		
+//		for (int k = 0; k < (int)sh.length; k++) {
+//			for (int j = 0; j < (int)sh.height; j++) {
+//				for (int i = 0; i < (int)sh.width; i++)
+//				{
+//					if(count==15361)
+//					{
+//						System.out.println("too big");
+//					}
+//					
+//					world.setBlock(x + k, y + j , z + i, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
+//					count++;
+//					
+//				}
+//			}
+//		}
+//		for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
+//		{
+//			NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
+//			TileEntity tile = world.getTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z);
+//			tile.readFromNBT(nbt);
+//			world.setTileEntity(nbt.getInteger("x")+x, nbt.getInteger("y")+y, nbt.getInteger("z")+z, tile);
+//		}
+		
+		
+	}
 	
 	protected void generateArea(){
 		Block bedrock = Block.getBlockFromName("bedrock");
