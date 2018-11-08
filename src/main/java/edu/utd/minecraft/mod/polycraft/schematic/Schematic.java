@@ -37,7 +37,7 @@ public class Schematic {
         	ResourceLocation schematicLocation = new ResourceLocation(PolycraftMod.getAssetName("schematics/" + schemname));
         			//PolycraftMod.getAssetName("textures/entity/OilSlime.png"));
         	
-        	InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/polycraft/schematics/stoop.schematic");
+        	InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/polycraft/schematics/stoop123.psm");
         	
         	System.out.println(is.available());
         	
@@ -55,7 +55,7 @@ public class Schematic {
             byte[] data = nbtdata.getByteArray("Data");
 
             System.out.println("schem size:" + width + " x " + height + " x " + length);
-            NBTTagList tileentities = nbtdata.getTagList("TileEntity",10);
+            NBTTagList tileentities = nbtdata.getTagList("TileEntity",10); //10 is actually Bytes (indicates that it is getting a list of "Short" entities)
             is.close();
 
             return new Schematic(tileentities, width, height, length, blocks, data);

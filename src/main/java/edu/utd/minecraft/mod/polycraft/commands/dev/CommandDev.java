@@ -179,6 +179,9 @@ private final List aliases;
 								nbt.setShort("Height", height);
 								nbt.setShort("Length", length);
 								nbt.setShort("Width", width);
+								nbt.setShort("OriginMinX", (short)minX);
+								nbt.setShort("OriginMinY", (short)minY);
+								nbt.setShort("OriginMinZ", (short)minZ);
 								nbt.setIntArray("Blocks", blocks);
 								nbt.setByteArray("Data", data);
 								

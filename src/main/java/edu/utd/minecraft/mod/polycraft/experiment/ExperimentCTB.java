@@ -42,11 +42,11 @@ public class ExperimentCTB extends Experiment{
 	private final int WAITSPAWNTICKS = 400;
 	private static final ItemStack[] armors = {
 			new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
-			new ItemStack(PolycraftRegistry.getItem("Rubber Shower Cap")),
 			new ItemStack(PolycraftRegistry.getItem("Kevlar Helmet")),
 			new ItemStack(PolycraftRegistry.getItem("Sparkling Headgear")),
 			new ItemStack(PolycraftRegistry.getItem("Jeffersonian Wig")),
 			new ItemStack(PolycraftRegistry.getItem("Copper Cap")),
+			new ItemStack(PolycraftRegistry.getItem("Rubber Shower Cap")),
 			new ItemStack(PolycraftRegistry.getItem("Plumed Close Helm")),
 			new ItemStack(PolycraftRegistry.getItem("Pepto Bismal Pink Cap")),
 			new ItemStack(PolycraftRegistry.getItem("Fine Polyester Top Hat")),
@@ -135,7 +135,7 @@ public class ExperimentCTB extends Experiment{
 		if(currentState == State.WaitingToStart) {
 			super.start(); //send the updates
 			PolycraftMod.logger.debug("Experiment " + this.id +" Start Generation");
-			this.generateStoop();
+			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
 			for(Base base: bases){
@@ -199,11 +199,13 @@ public class ExperimentCTB extends Experiment{
 					}
 				}
 			}
-			generateArea();
-			genTick++;
-			if(genTick >= size * size) {
+			
+			//generateArea();
+			
+			if(this.generateStoop()) {
 				currentState = State.Starting;
 			}
+			genTick++;
 		}
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
