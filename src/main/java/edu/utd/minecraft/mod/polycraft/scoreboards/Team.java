@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class Team {
 	private String name;
-	private int id;
+	private int id, x, y, z;;
 	//protected final Collection<EntityPlayerMP> players = Lists.newLinkedList();	//List of players participating in experiment instance
 	protected final Collection<String> players = Lists.newLinkedList();
 	private Color color;
@@ -50,6 +50,20 @@ public class Team {
 		this.id = id;
 		this.name = name;
 		initColor();
+	}
+	
+	public Team(String name, int id, int x, int y, int z) {
+		this.id = id;
+		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		initColor();
+	}
+	
+	public int[] getSpawn()
+	{
+		return new int[]{x, y, z};
 	}
 	
 	private void initColor() {
@@ -107,6 +121,12 @@ public class Team {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public void setSpawn(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 	
 	public Collection<String> getPlayers(){

@@ -157,11 +157,11 @@ public class ExperimentCTB extends Experiment{
 	 * @param player player to be teleported
 	 * @param y height they should be dropped at.
 	 */
-	private void spawnPlayer(EntityPlayerMP player, int y){
-		double x = Math.random()*(size*16 - 10) + xPos + 5;
-		double z = Math.random()*(size*16 - 10) + zPos + 5;
+	private void spawnPlayer(EntityPlayerMP player,int x, int y, int z){
+		double xOff = Math.random()*6 + x - 3;	//3 block radius
+		double zOff = Math.random()*6 + z - 3;	//3 block radius
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 8,	
-				new PolycraftTeleporter(player.mcServer.worldServerForDimension(8), (int)x, y, (int)z));
+				new PolycraftTeleporter(player.mcServer.worldServerForDimension(8), (int)xOff, y, (int)zOff));
 //		player.setPositionAndUpdate(x + .5,
 //				player.worldObj.getTopSolidOrLiquidBlock((int)x, (int)z) + 3,
 //				z + .5);
@@ -175,10 +175,10 @@ public class ExperimentCTB extends Experiment{
 	 * @param player the player to be moved
 	 * @param y the height they should be dropped at (x & z are random)
 	 */
-	private void spawnPlayerInGame(EntityPlayerMP player, int y) {
-		double x = Math.random()*(size*16 - 10) + xPos + 5;
-		double z = Math.random()*(size*16 - 10) + zPos + 5;
-		player.setPositionAndUpdate(x + .5, y, z + .5);
+	private void spawnPlayerInGame(EntityPlayerMP player, int x, int y, int z) {
+		double xOff = Math.random()*6 + x - 3;	//3 block radius
+		double zOff = Math.random()*6 + z - 3;	//3 block radius
+		player.setPositionAndUpdate(xOff + .5, y, zOff + .5);
 	}
 	
 	@Override
@@ -209,14 +209,18 @@ public class ExperimentCTB extends Experiment{
 		}
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
+				int index = 0;
 				for(Team team: scoreboard.getTeams()) {
 					ItemStack[] armor = new ItemStack[4];
 					armor[3] = armors[currentArmor];	//set current armor color to current team
 					incrementArmor();	//increment armor counter so next team gets a different armor
+					if(index > spawnlocations.length)	//reset spawn location index to prevent null pointer exceptions
+						index = 0;
+					team.setSpawn(spawnlocations[index][0], spawnlocations[index][1], spawnlocations[index][2]);
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
-						spawnPlayer((EntityPlayerMP)player, 124);
+						spawnPlayer((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
 						ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);	//freeze players while they wait for the game to begin
 						
 						//clear player inventory
@@ -231,6 +235,7 @@ public class ExperimentCTB extends Experiment{
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 					}
+					index++;
 				}
 			}else if(tickCount % (this.WAITSPAWNTICKS/10) == 0) {
 				for(Team team: scoreboard.getTeams()) {
@@ -241,7 +246,7 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-						spawnPlayerInGame((EntityPlayerMP)player, 93); 	
+						spawnPlayerInGame((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]); 	
 						ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);	//unfreeze players to start!
 						player.addChatMessage(new ChatComponentText("§aSTART"));
 					}

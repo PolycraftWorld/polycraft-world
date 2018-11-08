@@ -36,6 +36,7 @@ public abstract class Experiment {
 	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
+	protected int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	protected CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
@@ -79,6 +80,7 @@ public abstract class Experiment {
 		this.currentState = State.PreInit;
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
+		
 		
 	}
 	
@@ -254,6 +256,15 @@ public abstract class Experiment {
 //						
 //					}
 					
+					}else if(curblock == 19){
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = x + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = x + this.zPos;
+								i = spawnlocations.length; 	//exit for loop
+							}
+						}
 					}else {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 					}

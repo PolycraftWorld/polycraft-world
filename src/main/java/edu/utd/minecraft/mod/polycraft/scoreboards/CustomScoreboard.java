@@ -68,6 +68,14 @@ public class CustomScoreboard {
 		this.teams.add(new Team());
 		this.needToSendUpdate = true;
 	}
+	
+	/*
+	 * Adds a new team with set spawn position
+	 */
+	public void addNewTeam(int baseX, int baseY, int baseZ) {
+		this.teams.add(new Team());
+		this.needToSendUpdate = true;
+	}
 
 	public void addPlayer(String player, String teamName) throws IOException {
 		Team team = null;
