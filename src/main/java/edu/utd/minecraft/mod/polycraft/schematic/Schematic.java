@@ -37,7 +37,7 @@ public class Schematic {
         	ResourceLocation schematicLocation = new ResourceLocation(PolycraftMod.getAssetName("schematics/" + schemname));
         			//PolycraftMod.getAssetName("textures/entity/OilSlime.png"));
         	
-        	InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/polycraft/schematics/stoop123.psm");
+        	InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/polycraft/schematics/" + schemname);
         	
         	System.out.println(is.available());
         	

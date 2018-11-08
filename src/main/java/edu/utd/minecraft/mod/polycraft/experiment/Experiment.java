@@ -242,8 +242,25 @@ public abstract class Experiment {
 						//TileEntity te = new TileEntity(dummyPlacesBlock);
 						//world.setTileEntity(p_147455_1_, p_147455_2_, p_147455_3_, p_147455_4_);
 					}else if(curblock == 754) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
-//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);;
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println("Coordinates: ");
+						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+						
+						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+						lightInv.setInventorySlotContents(0,
+								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
+
+						
+						
+						
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+						
+						//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);;
 //						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 //						//System.out.println("Coordinates: ");
 //						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
