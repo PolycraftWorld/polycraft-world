@@ -277,8 +277,8 @@ public abstract class Experiment {
 						for(int i = 0; i < spawnlocations.length; i++) {
 							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
 								spawnlocations[i][0] = x + this.xPos;
-								spawnlocations[i][1] = x + this.yPos + 2; //add two because we hide the block underground
-								spawnlocations[i][2] = x + this.zPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
 								i = spawnlocations.length; 	//exit for loop
 							}
 						}
