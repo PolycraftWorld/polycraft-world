@@ -114,7 +114,7 @@ public class ExperimentCTB extends Experiment{
 		}
 		
 		int maxBases = 8;
-		int workarea = size*16;
+		int workarea = this.size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
 		int counter = 0;
 		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){

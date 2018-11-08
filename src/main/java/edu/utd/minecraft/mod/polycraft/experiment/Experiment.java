@@ -1,18 +1,25 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
 import java.util.Collection;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
@@ -36,6 +43,8 @@ public abstract class Experiment {
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
+	private Random random;
+	ResearchAssistantEntity dummy;
 	
 	
 	public enum State{
@@ -68,6 +77,8 @@ public abstract class Experiment {
 		this.zPos = zPos;
 		this.world = world;
 		this.currentState = State.PreInit;
+		random = new Random();
+		dummy = new ResearchAssistantEntity(world, true);
 		
 	}
 	
@@ -163,7 +174,7 @@ public abstract class Experiment {
 		//int y = this.yPos;
 		
 		final int maxBlocksPerTick = 65536;
-
+		
 		
 		Schematic sh = ExperimentManager.INSTANCE.stoop;
 		
@@ -185,14 +196,14 @@ public abstract class Experiment {
 		System.out.println(String.format("Generating Stoop: blockCount: %d, genTick: %d", count, genTick));
 		
 		if(count >= sh.blocks.length) { //we've generated all blocks already!
-			System.out.println("Setting tile entities...: " + sh.tileentities.tagCount());
-			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
-			{
-				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
-				//TileEntity tile = world.getTileEntity(nbt.getInteger("x")+this.xPos, nbt.getInteger("y")+this.yPos, nbt.getInteger("z")+this.zPos);
-				//tile.readFromNBT(nbt);
-				//world.setTileEntity(nbt.getInteger("x")+this.xPos, nbt.getInteger("y")+this.yPos, nbt.getInteger("z")+this.zPos, tile);
-			}
+//			System.out.println("Setting tile entities...: " + sh.tileentities.tagCount());
+//			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
+//			{
+//				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
+//				//TileEntity tile = world.getTileEntity(nbt.getInteger("x")+this.xPos, nbt.getInteger("y")+this.yPos, nbt.getInteger("z")+this.zPos);
+//				//tile.readFromNBT(nbt);
+//				//world.setTileEntity(nbt.getInteger("x")+this.xPos, nbt.getInteger("y")+this.yPos, nbt.getInteger("z")+this.zPos, tile);
+//			}
 			return true; 
 		}
 
@@ -203,7 +214,50 @@ public abstract class Experiment {
 					if(count>=sh.blocks.length) { //in case the array isn't perfectly square, but I'm not exactly sure why this is a problem lol...
 						return false;
 					}
-					world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
+					int curblock = (int)sh.blocks[count];
+					
+					//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+
+					
+					if(curblock == 759) {
+						//System.out.println("Why");										
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+//						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
+//						ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
+//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+//						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+//						//System.out.println("Coordinates: ");
+//						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+//						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+//						
+//						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+//						lightInv.setInventorySlotContents(0,
+//								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
+//
+//						
+						
+						//Block dummyPlacesBlock = Block.getBlockById((int)sh.blocks[count]);
+						//TileEntity te = new TileEntity(dummyPlacesBlock);
+						//world.setTileEntity(p_147455_1_, p_147455_2_, p_147455_3_, p_147455_4_);
+					}else if(curblock == 754) {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);;
+//						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+//						//System.out.println("Coordinates: ");
+//						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+//						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+//						
+//						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+//						lightInv.setInventorySlotContents(0,
+//								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
+//
+//						
+//					}
+					
+					}else {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+					}
+					
 					count++;
 				}
 			}
