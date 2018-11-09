@@ -55,20 +55,6 @@ public class ServerScoreboard extends ScoreboardManager {
 		return scoreboard;
 	}
 
-	// private void sendDataPackets(final DataType type, final EntityPlayerMP
-	// player, final String data) {
-	// final FMLProxyPacket[] packets = getDataPackets(type, data);
-	// if (packets != null) {
-	// for (final FMLProxyPacket packet : packets) {
-	// if (player == null) {
-	// System.out.println("Potato.");//netChannel.sendToAll(packet); //TODO: Remove
-	// this.
-	// } else {
-	// netChannel.sendTo(packet, player);
-	// }
-	// }
-	// }
-	// }
 	
 	public void sendGameOverUpdatePacket(final CustomScoreboard board, final String stringToSend) {
 		for (EntityPlayer player : board.getPlayersAsEntity()) {
@@ -112,7 +98,7 @@ public class ServerScoreboard extends ScoreboardManager {
 			break;
 		case GameOver:
 			
-			break;
+			break;		
 		default:
 			break;
 		}

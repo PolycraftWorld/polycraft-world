@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -23,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,8 +36,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	public static final ClientScoreboard INSTANCE = new ClientScoreboard();
 
 	// rendering params
-	private static final int overlayStartX = 175;
-	private static final int overlayStartY = 5;
+	private static int overlayStartX = 175;
+	private static int overlayStartY = 5;
 	private static final int overlayDistanceBetweenX = 125;
 	private static final int overlayDistanceBetweenY = 10;
 	private static final int overlayMaxY = 500;
@@ -44,12 +47,17 @@ public class ClientScoreboard extends ScoreboardManager {
 
 	private boolean isTimeExpiredForScoreUpdates = true;
 
+	//scoreboard formatting
+	private final String teamFormat = "|%1$-10s|%2$ 4d seconds";
+	private final String scoreFormat = "|%-12.11s|%3.0f";
+	//scoreboard params;
 	private String playerTeam = "TRIFORCE";
-	private Team currentTeam = null;
-
-
+	public Team currentTeam = null;
+	public ArrayList<String> teammates;
 	private HashMap<String, Float> teamList;
+	private int secondsRemaining = 0;
 	private boolean DisplayScoreboard = false;
+	
 
 	// update packet params
 	private DataType pendingDataPacketType = DataType.Unknown;
@@ -63,6 +71,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	public ClientScoreboard() {
 		client = FMLClientHandler.instance().getClient();
 		this.teamList = new HashMap<String, Float>();
+		this.teammates = new ArrayList<String>();
+		overlayStartX = new Integer(client.displayWidth / 4);
 	}
 	
 	public void updateTeam(final String decompressedJson) {
@@ -72,6 +82,17 @@ public class ClientScoreboard extends ScoreboardManager {
 			this.DisplayScoreboard = true;
 		}
 		//PolycraftMod.logger.debug(this.currentTeam.toString());
+	}
+	
+	public void updateTime(final String decompressedJson) {
+		Gson gson = new Gson();
+		this.secondsRemaining = gson.fromJson(decompressedJson, new TypeToken<Integer>() {}.getType()); 
+	}
+	
+	public void updateTeamMates(final String decompressedJson) {
+		Gson gson = new Gson();
+		this.teammates.clear();
+		this.teammates.addAll((ArrayList<String>) (gson.fromJson(decompressedJson, new TypeToken<ArrayList<String>>() {}.getType())));
 	}
 
 	public void updateScore(final String decompressedJson) {
@@ -91,7 +112,7 @@ public class ClientScoreboard extends ScoreboardManager {
 	       }
 		return finalResult;
 	}
-
+	
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
 		if (tick.phase == Phase.END && client.theWorld != null) {
@@ -111,13 +132,12 @@ public class ClientScoreboard extends ScoreboardManager {
 						
 						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
+						//Gui.drawCenteredString(client.fontRenderer, "test", client.displayWidth, 2, overlayColor);
+						
+						
+						
 						if(this.currentTeam != null) {
 							try {
-								//prep the integer:
-								//int red = this.currentTeam.getColor().getRed();
-								//int green = this.currentTeam.getColor().getGreen();
-								//int blue = this.currentTeam.getColor().getBlue();//can't multiply by 0
-								//int finalColor = Integer.parseInt(this.getBinaryFromInt(red) + this.getBinaryFromInt(green) + this.getBinaryFromInt(blue), 2);
 								int finalColor = Format.getIntegerFromColor(this.currentTeam.getColor());
 								client.fontRenderer.drawString(this.currentTeam.toString(), x, y, finalColor);
 							}catch (Exception e){
@@ -131,7 +151,7 @@ public class ClientScoreboard extends ScoreboardManager {
 						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
 						for (String st : teamList.keySet()) {
-							client.fontRenderer.drawString(String.format("|%-12s| %3.1f/1000", st, teamList.get(st)), x,
+							client.fontRenderer.drawString(String.format(this.scoreFormat, st, teamList.get(st)), x,
 									y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}

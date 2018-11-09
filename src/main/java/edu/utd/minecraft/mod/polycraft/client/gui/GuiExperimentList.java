@@ -25,7 +25,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiExperimentList extends GuiScreen {
 	private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background_old.png"));
     private static final String __OBFID = "CL_00000691";
     private EntityPlayer player;
     private int x, y, z;
@@ -38,6 +38,11 @@ public class GuiExperimentList extends GuiScreen {
     private int buttonheight = 20;
     private int button_padding_y = 4;
     private int currentExperimentDetailOnScreenID = -1;
+    private float scroll = 0.0F; // Amount of scroll, from 0.0 to 1.0 inclusive.
+	private boolean scrolling; // True if the scroll bar is being dragged.
+	private int ylines; // The number of buttons/lines the text space can accommodate.
+	private int extraLines; // How many buttons/lines are overflowing from the alloted text space.
+	
     
     private enum WhichScreen {
     		ExperimentList,

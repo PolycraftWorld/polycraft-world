@@ -32,7 +32,7 @@ import net.minecraft.scoreboard.*;
 public abstract class ScoreboardManager {
 
 	public enum DataType {
-		UpdateScore, UpdateNames, Unknown, UpdatePlayer, GameOver
+		UpdateScore, UpdateNames, Unknown, UpdatePlayer, GameOver, UpdateTeammates, UpdateTime
 	}
 
 	protected ArrayList<CustomScoreboard> managedScoreboards;

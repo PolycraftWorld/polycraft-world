@@ -18,6 +18,7 @@ public class CustomScoreboard {
 	//private HashMap<String, Team> playerList; // TODO: can I replace playerENtity with UUID?
 	private HashMap<Team, Float> teamScores;
 	public boolean needToSendUpdate = false;
+	public boolean isActive = false;
 
 	/**
 	 * Team inner-class assumes that each CustomScoreboard has unique team names.
@@ -90,6 +91,7 @@ public class CustomScoreboard {
 			throw new IOException();
 		}
 		this.needToSendUpdate = true;
+		this.isActive = true;
 	}
 
 	public void resetScores(float initialScore) {
@@ -107,6 +109,7 @@ public class CustomScoreboard {
 				players.add(player);
 			}
 		}
+		
 		return players;
 	}
 	
@@ -172,5 +175,6 @@ public class CustomScoreboard {
 		for(Team tm : teams) {
 			tm.getPlayers().clear();
 		}
+		this.isActive = false;
 	}
 }
