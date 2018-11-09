@@ -524,11 +524,11 @@ public class ExperimentCTB extends Experiment{
 		inst += String.format("\n\nYou’ll have %d seconds to discuss strategy before the game starts, and %d minutes at halftime.", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60);
 		inst += String.format("Run into a base aura to convert it to your team’s color. ​\n" + 
 				"\n" + 
-				"Neutral base conversion: %d pts. ​\n" + 
+				"Neutral base conversion: %f pts. ​\n" + 
 				"\n" + 
-				"Enemy base conversion: %d pts. \n\n​ "
+				"Enemy base conversion: %f pts. \n\n​ "
 				+ "Each base you control will generate %d pts every %f second.",
-				this.claimBaseScoreBonus, this.stealBaseScoreBonus, this.ownedBaseScoreBonusOnTicks, this.updateScoreOnTickRate/20.0);
+				this.claimBaseScoreBonus, this.stealBaseScoreBonus, this.ownedBaseScoreBonusOnTicks, (float)this.updateScoreOnTickRate/20.0);
 		
 		inst += "\n\n Press 'x' to re-open instructions. Learn more about these and other tools at:"; //ExperimentManager needs to update the URL?
 		return inst;
