@@ -18,6 +18,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -185,6 +186,10 @@ public class ExperimentCTB extends Experiment{
 	@Override
 	public void onServerTickUpdate() {
 		super.onServerTickUpdate();
+		if(tickCount % 20 == 0) {
+			//send a timing update:
+			sendTimeUpdate();
+		}
 		if(currentState == State.Done) {
 			//TODO: delete scoreboard from scoreboard manager.
 			//This should NEVER run anymore.
@@ -243,6 +248,7 @@ public class ExperimentCTB extends Experiment{
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", (this.WAITSPAWNTICKS-tickCount)/20)));
 					}
+					this.scoreboard.updateScore(team, 0);
 				}
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(Team team: scoreboard.getTeams()) {
@@ -381,6 +387,58 @@ public class ExperimentCTB extends Experiment{
 		}
 	}
 	
+	/**
+	 * TODO: Move all of this to the ClientScoreboard and ServerScoreboard class. Contain the data in the CustomScoreboard class
+	 * 
+	 */
+	private void sendTimeUpdate() {
+		String clientString = "";
+		Color stringColor = new Color(0);
+		int secondsLeft = -1;
+		switch(this.currentState) {
+		case Starting:
+			clientString = "Starting in: ";
+			secondsLeft = (this.WAITSPAWNTICKS - this.tickCount)/20;
+			stringColor = Color.white;
+			break;
+		case Running:
+			clientString = "Time left: ";
+			if(this.tickCount < this.halfTimeTicks) {
+				secondsLeft = (this.halfTimeTicks - this.tickCount)/20;
+			}else {
+				secondsLeft = (this.maxTicks - this.tickCount)/20;
+			}
+			stringColor = Color.green;
+			break;
+		case Halftime:
+			clientString = "Resuming in: ";
+			secondsLeft = (this.halfTimeTicksRemaining)/20;
+			stringColor = Color.yellow;
+			break;
+		case Ending:
+			if(this.hasGameEnded) {
+				clientString = "Teleporting in: ";
+				secondsLeft = (this.WAIT_TELEPORT_UTD_TICKS - this.tickCount)/20;
+			}
+			stringColor = Color.white;
+			break;
+		default:
+			break;
+		}
+		
+		
+		if(!clientString.equals("") && secondsLeft > -1) {
+			Gson gson = new Gson();
+			Type scoreUpdate = new TypeToken<ScoreboardManager.ColoredString>() {}.getType();
+			ScoreboardManager.ColoredString cs = new ScoreboardManager.ColoredString(clientString, stringColor, secondsLeft);
+			final String updateTimeJson = gson.toJson(cs, scoreUpdate);
+			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+				ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateTimeJson, (EntityPlayerMP) player, ScoreboardManager.DataType.UpdateTime.ordinal());
+			}
+		}
+		
+	}
+
 	private void updateBaseStates2() {
 		for(Base base : bases) {
 			
@@ -524,11 +582,14 @@ public class ExperimentCTB extends Experiment{
 		inst += String.format("\n\nYou’ll have %d seconds to discuss strategy before the game starts, and %d minutes at halftime.", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60);
 		inst += String.format("Run into a base aura to convert it to your team’s color. ​\n" + 
 				"\n" + 
-				"Neutral base conversion: %d pts. ​\n" + 
+				"Neutral base conversion: %f pts. ​\n" + 
 				"\n" + 
-				"Enemy base conversion: %d pts. \n\n​ "
-				+ "Each base you control will generate %d pts every %f second.",
-				this.claimBaseScoreBonus, this.stealBaseScoreBonus, this.ownedBaseScoreBonusOnTicks, this.updateScoreOnTickRate/20.0);
+				"Enemy base conversion: %f pts. \n\n​ "
+				+ "Each base you control will generate %f pts every %f second.",
+				(float)this.claimBaseScoreBonus, 
+				(float)this.stealBaseScoreBonus, 
+				(float)this.ownedBaseScoreBonusOnTicks, 
+				(float)this.updateScoreOnTickRate/20.0);
 		
 		inst += "\n\n Press 'x' to re-open instructions. Learn more about these and other tools at:"; //ExperimentManager needs to update the URL?
 		return inst;

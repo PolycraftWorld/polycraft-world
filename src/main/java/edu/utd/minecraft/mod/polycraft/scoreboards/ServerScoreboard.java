@@ -71,15 +71,16 @@ public class ServerScoreboard extends ScoreboardManager {
 		Gson gson = new Gson();
 		Type top = new TypeToken<HashMap<String, Float>>() {}.getType();
 		Type playerTeamString = new TypeToken<Team>() {}.getType();
+		Type teamMatesStringType = new TypeToken<ArrayList<String>>() {}.getType();
 		//DO I need to do it this way?
 		//System.out.println("I am able to get here, inside sendDataPackets");
 		switch (type) {
-		case UpdatePlayer:
+		case UpdatePlayerTeam:
 			for (EntityPlayer player : board.getPlayersAsEntity()) {
 				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayName());
 				final String updateStringJson = gson.toJson(teamPlayerIsOn, playerTeamString);
 				if(updateStringJson != null && player != null && player.isEntityAlive()) {
-					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, (EntityPlayerMP)player, 1); //Send 1 for team update
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, (EntityPlayerMP)player, ScoreboardManager.DataType.UpdatePlayerTeam.ordinal()); //Send 1 for team update
 				}
 				
 			}
@@ -94,12 +95,19 @@ public class ServerScoreboard extends ScoreboardManager {
 
 			for (EntityPlayer player : board.getPlayersAsEntity()) {
 				if (updateScoreJson != null & player != null & player.isEntityAlive()) {
-					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, (EntityPlayerMP)player, 0);//metadata is 0 for UpdateScore
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateScoreJson, (EntityPlayerMP)player, ScoreboardManager.DataType.UpdateScore.ordinal());//metadata is 0 for UpdateScore
 				}
 			}
 			break;
-		case GameOver:
-			
+		case UpdateTeammates:
+			for (EntityPlayer player : board.getPlayersAsEntity()) {
+				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayName());
+				final String updateStringJson = gson.toJson(teamPlayerIsOn.getPlayers(), teamMatesStringType);
+				if(updateStringJson != null && player != null && player.isEntityAlive()) {
+					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, (EntityPlayerMP)player, ScoreboardManager.DataType.UpdateTeammates.ordinal()); //Send 1 for team update
+				}
+				
+			}
 			break;
 			
 		default:
@@ -139,7 +147,8 @@ public class ServerScoreboard extends ScoreboardManager {
 			for (CustomScoreboard scoreboard : this.managedScoreboards) {
 				if (scoreboard.needToSendUpdate) {
 					this.sendDataPackets(DataType.UpdateScore, scoreboard);
-					this.sendDataPackets(DataType.UpdatePlayer, scoreboard); //TODO: distinguish and send appropriate packet.
+					this.sendDataPackets(DataType.UpdatePlayerTeam, scoreboard); //TODO: distinguish and send appropriate packet.
+					this.sendDataPackets(DataType.UpdateTeammates, scoreboard);
 				}
 				scoreboard.needToSendUpdate = false;
 			}

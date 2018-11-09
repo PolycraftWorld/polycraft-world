@@ -216,12 +216,16 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case Scoreboard:
 						//System.out.println("Packets have all been sent to the client!");
-						if(this.pendingDataPacketTypeMetadata == 0) { //update the scoreboard
+						if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdateScore.ordinal()) { //update the scoreboard
 							ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						}else if(this.pendingDataPacketTypeMetadata == 1) { //update the player team
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdatePlayerTeam.ordinal()) { //update the player team
 							ClientScoreboard.INSTANCE.updateTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.GameOver.ordinal()) {
 							ClientScoreboard.INSTANCE.gameOver(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdateTeammates.ordinal()) {
+							ClientScoreboard.INSTANCE.updateTeamMates(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdateTime.ordinal()) {
+							ClientScoreboard.INSTANCE.updateTime(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}
 						
 						break;

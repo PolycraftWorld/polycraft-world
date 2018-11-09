@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class ClientScoreboard extends ScoreboardManager {
 	public Team currentTeam = null;
 	public ArrayList<String> teammates;
 	private HashMap<String, Float> teamList;
-	private int secondsRemaining = 0;
+	private ScoreboardManager.ColoredString secondsRemaining;
 	private boolean DisplayScoreboard = false;
 	
 
@@ -86,7 +87,7 @@ public class ClientScoreboard extends ScoreboardManager {
 	
 	public void updateTime(final String decompressedJson) {
 		Gson gson = new Gson();
-		this.secondsRemaining = gson.fromJson(decompressedJson, new TypeToken<Integer>() {}.getType()); 
+		this.secondsRemaining = gson.fromJson(decompressedJson, new TypeToken<ScoreboardManager.ColoredString>() {}.getType()); 
 	}
 	
 	public void updateTeamMates(final String decompressedJson) {
@@ -140,6 +141,17 @@ public class ClientScoreboard extends ScoreboardManager {
 							try {
 								int finalColor = Format.getIntegerFromColor(this.currentTeam.getColor());
 								client.fontRenderer.drawString(this.currentTeam.toString(), x, y, finalColor);
+								if(this.secondsRemaining != null) {
+									int mins = this.secondsRemaining.time/60;
+									int secs = this.secondsRemaining.time%60;
+									String fmt = " %02s:%02s";
+									
+									client.fontRenderer.drawString(
+										this.secondsRemaining.value + String.format(fmt, mins,secs), 
+										x + client.fontRenderer.getStringWidth(this.currentTeam.toString()) + 3,
+										y,
+										Format.getIntegerFromColor(this.secondsRemaining.color));
+								}
 							}catch (Exception e){
 								System.out.println("oops");
 							}
