@@ -405,6 +405,12 @@ public abstract class Experiment {
 		return awaitingNumPlayers;
 	}
 	
+	/**
+	 * Base classes need to define their own experiment strings
+	 * @return The instructions that are sent to the player's GUI screen
+	 */
+	public abstract String getInstructions();
+	
 	public int[] getSpectatorLocation(){
 		return new int[]{xPos + (size*8), yPos + 33, zPos + (size*8)};
 	}

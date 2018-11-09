@@ -39,7 +39,7 @@ public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
-	private final int WAITSPAWNTICKS = 400;
+	
 	private static final ItemStack[] armors = {
 			new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
 			new ItemStack(PolycraftRegistry.getItem("Kevlar Helmet")),
@@ -71,7 +71,8 @@ public class ExperimentCTB extends Experiment{
 	private final float claimBaseScoreBonus = 50;
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
-	private final int scoreIncrementOnUpdate = 1;
+	private final int ownedBaseScoreBonusOnTicks = 1;
+	private final int WAITSPAWNTICKS = 400;
 	//public static int maxPlayersNeeded = 4;
 	
 	@Deprecated
@@ -248,7 +249,7 @@ public class ExperimentCTB extends Experiment{
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						spawnPlayerInGame((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]); 	
 						ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);	//unfreeze players to start!
-						player.addChatMessage(new ChatComponentText("�aSTART"));
+						player.addChatMessage(new ChatComponentText("§aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -277,15 +278,15 @@ public class ExperimentCTB extends Experiment{
 			}else if(tickCount % 600 == 0) {
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
 					if(tickCount < this.halfTimeTicks) {
-						player.addChatMessage(new ChatComponentText("Seconds until half-time: �a" + (this.halfTimeTicks-tickCount)/20));
+						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
 					}else {
-					player.addChatMessage(new ChatComponentText("Seconds remaining: �a" + (maxTicks-tickCount)/20));
+					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 					}
 				}
 			}else if(maxTicks-tickCount < 600) {
 				if(tickCount % 60 == 0) {
 					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-						player.addChatMessage(new ChatComponentText("Seconds remaining: �a" + (maxTicks-tickCount)/20));
+						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 					}
 				}
 			}
@@ -458,7 +459,7 @@ public class ExperimentCTB extends Experiment{
 				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.scoreIncrementOnUpdate);
+					this.scoreboard.updateScore(base.getCurrentTeam(), this.ownedBaseScoreBonusOnTicks);
 				}
 				//playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
@@ -502,7 +503,7 @@ public class ExperimentCTB extends Experiment{
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {
 			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-			playerEntity.addChatMessage(new ChatComponentText("�4Alert: Someone is stealing your base!"));
+			playerEntity.addChatMessage(new ChatComponentText("§4Alert: Someone is stealing your base!"));
 		}
 	}
 
@@ -514,8 +515,24 @@ public class ExperimentCTB extends Experiment{
 					base.setRendering(true);
 				tickCount++;
 			}
-		}
-				
+		}	
+	}
+	
+	public String getInstructions() {
+		String inst = "";
+		inst += "Welcome to Capture the Base! Work with your team to collect points before time runs out. ​";
+		inst += String.format("\n\nYou’ll have %d seconds to discuss strategy before the game starts, and %d minutes at halftime.", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60);
+		inst += String.format("Run into a base aura to convert it to your team’s color. ​\n" + 
+				"\n" + 
+				"Neutral base conversion: %d pts. ​\n" + 
+				"\n" + 
+				"Enemy base conversion: %d pts. \n\n​ "
+				+ "Each base you control will generate %d pts every %f second.",
+				this.claimBaseScoreBonus, this.stealBaseScoreBonus, this.ownedBaseScoreBonusOnTicks, this.updateScoreOnTickRate/20.0);
+		
+		inst += "\n\n Press 'x' to re-open instructions. Learn more about these and other tools at:"; //ExperimentManager needs to update the URL?
+		return inst;
+		
 	}
 	
 	private void incrementArmor() {

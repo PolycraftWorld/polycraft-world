@@ -60,14 +60,16 @@ public class ExperimentManager {
 	 */
 	public class ExperimentListMetaData {	
 		public String expName;
+		public String instructions = "";
 		public int playersNeeded;
 		public int currentPlayers;
 		private boolean available = true;
 		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers) {
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
 			expName = name;
 			playersNeeded = maxPlayers;
 			currentPlayers = currPlayers;
+			this.instructions = instructions; 
 		}
 		
 		public void updateCurrentPlayers(int newPlayerCount) {
@@ -449,7 +451,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
-			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0));
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0, ex.getInstructions()));
 			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
