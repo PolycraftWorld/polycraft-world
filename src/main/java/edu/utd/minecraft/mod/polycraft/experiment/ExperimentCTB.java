@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
@@ -33,7 +34,9 @@ import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
@@ -75,6 +78,8 @@ public class ExperimentCTB extends Experiment{
 	private final int WAITSPAWNTICKS = 400;
 	//public static int maxPlayersNeeded = 4;
 	
+	private ForgeChunkManager.Ticket[] tickets;
+	
 	@Deprecated
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
 		super(id, size, xPos, zPos, world);
@@ -112,6 +117,8 @@ public class ExperimentCTB extends Experiment{
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);
 		}
+		
+		tickets = new ForgeChunkManager.Ticket[size*size];
 		
 		int maxBases = 8;
 		int workarea = this.size*16;
@@ -244,6 +251,17 @@ public class ExperimentCTB extends Experiment{
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 					}
+					
+					//keep the chunks loaded after players enter
+					int chunkCount = 0;
+					for(int x = 0;x < size;x++) {
+						for(int z = 0; z < size; z++) {
+							if(chunkCount < tickets.length) {
+								tickets[chunkCount] = ForgeChunkManager.requestTicket(PolycraftMod.instance, this.world, ForgeChunkManager.Type.NORMAL);
+								ForgeChunkManager.forceChunk(tickets[chunkCount], new ChunkCoordIntPair((this.xPos / 16) + x, (this.zPos / 16) + z));
+							}
+						}
+					}
 					index++;
 				}
 			}else if(tickCount % (this.WAITSPAWNTICKS/10) == 0) {
@@ -373,6 +391,8 @@ public class ExperimentCTB extends Experiment{
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}
 				tickCount = maxTicks;
+				for(ForgeChunkManager.Ticket ticket: tickets)
+					ForgeChunkManager.releaseTicket(ticket);
 			}
 			tickCount++;
 			if(tickCount >= maxTicks + this.WAIT_TELEPORT_UTD_TICKS) {
