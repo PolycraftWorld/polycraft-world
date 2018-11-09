@@ -63,6 +63,8 @@ public class ServerScoreboard extends ScoreboardManager {
 			}
 		}
 	}
+	
+	
 
 	private void sendDataPackets(final DataType type, CustomScoreboard board) {
 		//FMLProxyPacket[] packets = null;
@@ -98,7 +100,8 @@ public class ServerScoreboard extends ScoreboardManager {
 			break;
 		case GameOver:
 			
-			break;		
+			break;
+			
 		default:
 			break;
 		}
