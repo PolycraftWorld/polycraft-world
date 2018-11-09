@@ -96,7 +96,6 @@ public class ExperimentCTB extends Experiment{
 				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 			}
 		}
-		
 		currentState = State.WaitingToStart;
 	}
 	
@@ -118,13 +117,22 @@ public class ExperimentCTB extends Experiment{
 		int workarea = this.size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
 		int counter = 0;
-		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
-			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
-				counter++;
-				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
-				bases.add(new Base(x, yPos, z, box, Color.GRAY));
-			}
-		}
+//		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
+//			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
+//				counter++;
+//				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
+//				bases.add(new Base(x, yPos, z, box, Color.GRAY));
+//			}
+//		}
+		int y = yPos + 5;
+		BoundingBox box = new BoundingBox(xPos + 85.5, zPos + 143.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 85, y, zPos + 143, box, Color.GRAY));
+		box = new BoundingBox(xPos + 142.5, zPos + 143.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 142, y, zPos + 143, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5, zPos + 185.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 114, y, zPos + 185, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5, zPos + 101.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 114, y, zPos + 101, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		

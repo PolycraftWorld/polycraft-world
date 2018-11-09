@@ -74,7 +74,7 @@ public abstract class Experiment {
 		//this.size = size;
 		this.size = (int)Math.ceil((float)ExperimentManager.INSTANCE.stoop.width/16.0);
 		this.xPos = xPos;
-		this.yPos = 40;
+		this.yPos = 16;
 		this.zPos = zPos;
 		this.world = world;
 		this.currentState = State.PreInit;
