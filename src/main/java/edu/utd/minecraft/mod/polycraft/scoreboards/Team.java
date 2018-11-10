@@ -135,7 +135,7 @@ public class Team {
 	
 	public Collection<EntityPlayer> getPlayersAsEntity(){
 		Collection<EntityPlayer> playerEntities = Lists.newLinkedList();
-		System.out.println(players);
+		//System.out.println(players);
 		for(String player: players) {
 			playerEntities.add(ExperimentManager.INSTANCE.getPlayerEntity(player));
 		}

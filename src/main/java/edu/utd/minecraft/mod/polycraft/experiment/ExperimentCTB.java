@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -34,7 +35,9 @@ import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
@@ -72,9 +75,12 @@ public class ExperimentCTB extends Experiment{
 	private final float claimBaseScoreBonus = 50;
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
-	private final int ownedBaseScoreBonusOnTicks = 1;
+	private final int ownedBaseScoreBonusOnTicks = 5;
 	private final int WAITSPAWNTICKS = 400;
 	//public static int maxPlayersNeeded = 4;
+	
+	private String stringToSend = "";
+	
 	
 	@Deprecated
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
@@ -115,17 +121,28 @@ public class ExperimentCTB extends Experiment{
 			this.scoreboard.resetScores(0);
 		}
 		
+		tickets = new ForgeChunkManager.Ticket[size*size];
+		
 		int maxBases = 8;
 		int workarea = this.size*16;
 		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
 		int counter = 0;
-		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
-			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
-				counter++;
-				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
-				bases.add(new Base(x, yPos, z, box, Color.GRAY));
-			}
-		}
+//		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
+//			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
+//				counter++;
+//				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
+//				bases.add(new Base(x, yPos, z, box, Color.GRAY));
+//			}
+//		}
+		int y = yPos + 5;
+		BoundingBox box = new BoundingBox(xPos + 85.5, zPos + 143.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 85, y, zPos + 143, box, Color.GRAY));
+		box = new BoundingBox(xPos + 142.5, zPos + 143.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 142, y, zPos + 143, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5, zPos + 185.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 114, y, zPos + 185, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5, zPos + 101.5, 6,y+1, y+2, Color.GRAY);
+		bases.add(new Base(xPos + 114, y, zPos + 101, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		
@@ -201,7 +218,7 @@ public class ExperimentCTB extends Experiment{
 				for(Team team: scoreboard.getTeams()) {
 					for(String player: team.getPlayers()) {
 						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-						playerEntity.addChatMessage(new ChatComponentText("§aGenerating..."));
+						playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
 					}
 				}
 			}
@@ -216,7 +233,9 @@ public class ExperimentCTB extends Experiment{
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
 				int index = 0;
+				world.setWorldTime(1000);
 				for(Team team: scoreboard.getTeams()) {
+					this.scoreboard.updateScore(team, 0);
 					ItemStack[] armor = new ItemStack[4];
 					armor[3] = armors[currentArmor];	//set current armor color to current team
 					incrementArmor();	//increment armor counter so next team gets a different armor
@@ -241,21 +260,33 @@ public class ExperimentCTB extends Experiment{
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 					}
+					
+					//keep the chunks loaded after players enter
+					//Tried putting this in GenerateArea and it seemed to make things more laggy?
+					int chunkCount = 0;
+					for(int x = 0;x < size;x++) {
+						for(int z = 0; z < size; z++) {
+							if(chunkCount < tickets.length) {
+								tickets[chunkCount] = ForgeChunkManager.requestTicket(PolycraftMod.instance, this.world, ForgeChunkManager.Type.NORMAL);
+								ForgeChunkManager.forceChunk(tickets[chunkCount], new ChunkCoordIntPair((this.xPos / 16) + x, (this.zPos / 16) + z));
+							}
+						}
+					}
 					index++;
 				}
-			}else if(tickCount % (this.WAITSPAWNTICKS/10) == 0) {
-				for(Team team: scoreboard.getTeams()) {
-					for(EntityPlayer player: team.getPlayersAsEntity()) {
-						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", (this.WAITSPAWNTICKS-tickCount)/20)));
-					}
-					this.scoreboard.updateScore(team, 0);
-				}
+//			}else if(tickCount % (this.WAITSPAWNTICKS/10) == 0) {
+//				for(Team team: scoreboard.getTeams()) {
+//					for(EntityPlayer player: team.getPlayersAsEntity()) {
+//						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", (this.WAITSPAWNTICKS-tickCount)/20)));
+//					}
+//					this.scoreboard.updateScore(team, 0);
+//				}
 			}else if(tickCount >= this.WAITSPAWNTICKS){
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						spawnPlayerInGame((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]); 	
 						ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);	//unfreeze players to start!
-						player.addChatMessage(new ChatComponentText("§aSTART"));
+						player.addChatMessage(new ChatComponentText("\u00A7aSTART"));
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -281,21 +312,23 @@ public class ExperimentCTB extends Experiment{
 				
 				currentState = State.Ending;
 			
-			}else if(tickCount % 600 == 0) {
-				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-					if(tickCount < this.halfTimeTicks) {
-						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
-					}else {
-					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
-					}
-				}
-			}else if(maxTicks-tickCount < 600) {
-				if(tickCount % 60 == 0) {
-					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
-					}
-				}
 			}
+			
+//			else if(tickCount % 600 == 0) {
+//				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
+//					if(tickCount < this.halfTimeTicks) {
+//						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
+//					}else {
+//					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+//					}
+//				}
+//			}else if(maxTicks-tickCount < 600) {
+//				if(tickCount % 60 == 0) {
+//					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
+//						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+//					}
+//				}
+//			}
 		//End of Running state
 		}
 		
@@ -330,18 +363,18 @@ public class ExperimentCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
 			}
-			else if(this.halfTimeTicksRemaining % 400 == 0) {
-				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
-					player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
-				}
-			}
-			if(this.halfTimeTicksRemaining < 400) {
-				if(this.halfTimeTicksRemaining % 200 == 0) {
-					for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
-						player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
-					}
-				}
-			}
+//			else if(this.halfTimeTicksRemaining % 400 == 0) {
+//				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+//					player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
+//				}
+//			}
+//			if(this.halfTimeTicksRemaining < 400) {
+//				if(this.halfTimeTicksRemaining % 200 == 0) {
+//					for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+//						player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
+//					}
+//				}
+//			}
 			
 		}
 		
@@ -355,9 +388,9 @@ public class ExperimentCTB extends Experiment{
 				    }
 				}
 				
-				String stringToSend = maxEntry.getKey().getName() + " Team wins!";
+				this.stringToSend = maxEntry.getKey().getName() + " Team wins!";
 				
-				ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
+				//ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
 				
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
@@ -371,6 +404,8 @@ public class ExperimentCTB extends Experiment{
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}
 				tickCount = maxTicks;
+				for(ForgeChunkManager.Ticket ticket: tickets)
+					ForgeChunkManager.releaseTicket(ticket);
 			}
 			tickCount++;
 			if(tickCount >= maxTicks + this.WAIT_TELEPORT_UTD_TICKS) {
@@ -381,6 +416,7 @@ public class ExperimentCTB extends Experiment{
 					//player.getFoodStats().setFoodLevel(20);
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
+				ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, this.stringToSend);
 				ExperimentManager.INSTANCE.stop(this.id); //End the experiment and kill this.
 			}
 			
@@ -402,7 +438,7 @@ public class ExperimentCTB extends Experiment{
 			stringColor = Color.white;
 			break;
 		case Running:
-			clientString = "Time left: ";
+			clientString = " ";
 			if(this.tickCount < this.halfTimeTicks) {
 				secondsLeft = (this.halfTimeTicks - this.tickCount)/20;
 			}else {
@@ -411,14 +447,14 @@ public class ExperimentCTB extends Experiment{
 			stringColor = Color.green;
 			break;
 		case Halftime:
-			clientString = "Resuming in: ";
+			clientString = "Half-Time! ";
 			secondsLeft = (this.halfTimeTicksRemaining)/20;
 			stringColor = Color.yellow;
 			break;
 		case Ending:
 			if(this.hasGameEnded) {
 				clientString = "Teleporting in: ";
-				secondsLeft = (this.WAIT_TELEPORT_UTD_TICKS - this.tickCount)/20;
+				secondsLeft = ((this.WAIT_TELEPORT_UTD_TICKS + this.maxTicks) - this.tickCount)/20;
 			}
 			stringColor = Color.white;
 			break;

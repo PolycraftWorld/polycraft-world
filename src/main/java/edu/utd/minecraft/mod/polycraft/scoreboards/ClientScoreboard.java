@@ -22,6 +22,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.Format;
@@ -81,6 +82,8 @@ public class ClientScoreboard extends ScoreboardManager {
 		this.currentTeam = gson.fromJson(decompressedJson, new TypeToken<Team>() {}.getType());
 		if(!this.DisplayScoreboard) {
 			this.DisplayScoreboard = true;
+			ClientEnforcer.INSTANCE.openExperimentsGui(); //open it for the first time.
+		
 		}
 		//PolycraftMod.logger.debug(this.currentTeam.toString());
 	}
@@ -144,8 +147,8 @@ public class ClientScoreboard extends ScoreboardManager {
 								if(this.secondsRemaining != null) {
 									int mins = this.secondsRemaining.time/60;
 									int secs = this.secondsRemaining.time%60;
-									String fmt = " %02s:%02s";
-									
+									String fmt = "%02d:%02d";
+									System.out.println(String.format(fmt, mins,secs) + "");
 									client.fontRenderer.drawString(
 										this.secondsRemaining.value + String.format(fmt, mins,secs), 
 										x + client.fontRenderer.getStringWidth(this.currentTeam.toString()) + 3,
@@ -213,6 +216,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	
 	public void clearDisplay() {
 		this.teamList = new HashMap<String, Float>();
+		this.teammates.clear();
+		this.secondsRemaining = null;
 		this.currentTeam = null;
 		this.DisplayScoreboard = false;
 	}
@@ -220,6 +225,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	public void gameOver(String decompress) {
 		
 		this.teamList = new HashMap<String, Float>();
+		this.teammates.clear();
+		this.secondsRemaining = null;
 		this.currentTeam = new Team(decompress);
 		this.currentTeam.setColor(Color.WHITE);
 		//this.currentTeam.setColor(Color.web(decompress.split("\\s")[0])))));

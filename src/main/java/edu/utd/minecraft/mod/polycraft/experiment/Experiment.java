@@ -26,6 +26,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import scala.util.control.Exception.By;
 
 public abstract class Experiment {
@@ -45,6 +47,7 @@ public abstract class Experiment {
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
 	private Random random;
+	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
 	
 	
@@ -74,7 +77,7 @@ public abstract class Experiment {
 		//this.size = size;
 		this.size = (int)Math.ceil((float)ExperimentManager.INSTANCE.stoop.width/16.0);
 		this.xPos = xPos;
-		this.yPos = 40;
+		this.yPos = 16;
 		this.zPos = zPos;
 		this.world = world;
 		this.currentState = State.PreInit;
@@ -189,13 +192,13 @@ public abstract class Experiment {
 		//int zChunk = genTick%sh.height;
 		
 		
-		System.out.println(String.format("Stoop Length, Height, & Width: %d %d %d", sh.length, sh.height, sh.width));
+		//System.out.println(String.format("Stoop Length, Height, & Width: %d %d %d", sh.length, sh.height, sh.width));
 		//System.out.println(String.format("XChunk and zChunk: %d %d", xChunk, zChunk));
 		
 		//the position to begin counting in the blocks[] array.
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
-		System.out.println(String.format("Generating Stoop: blockCount: %d, genTick: %d", count, genTick));
+		//System.out.println(String.format("Generating Stoop: blockCount: %d, genTick: %d", count, genTick));
 		
 		if(count >= sh.blocks.length) { //we've generated all blocks already!
 //			System.out.println("Setting tile entities...: " + sh.tileentities.tagCount());
@@ -366,6 +369,10 @@ public abstract class Experiment {
 	public void stop() {
 		this.currentState = State.Done;
 		this.scoreboard.clearPlayers();
+		for(Ticket tkt : this.tickets) {
+			ForgeChunkManager.releaseTicket(tkt);
+		}
+		
 		//ExperimentManager.INSTANCE.sendExperimentUpdates();
 		//this.scoreboard = null; //TODO: does this need to be null?
 	}

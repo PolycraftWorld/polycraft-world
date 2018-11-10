@@ -364,15 +364,15 @@ public class GuiExperimentList extends GuiScreen {
         //IMPORTANT: user feedback text goes here
         this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
         
-        this.fontRendererObj.drawString(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        this.fontRendererObj.drawStringWithShadow(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         String objectiveString = "Work with your team to score the most points possible within 5 minutes. It takes 5 seconds to capture or revert a base.";
-        String scoringString = "50 points for each neutral (gray) base. 200 points for reverting an enemy base to neutral.";
+        String scoringString = "50 points for each neutral (gray) base. 200 points for reverting an enemy base to neutral. Captured bases generate 5 points per second.";
         this.fontRendererObj.drawSplitString(I18n.format(objectiveString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
         y_pos += 12;
+        y_pos += 8;
         y_pos += 12;
-        y_pos += 12;
-        this.fontRendererObj.drawString(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        this.fontRendererObj.drawStringWithShadow(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         this.fontRendererObj.drawSplitString(I18n.format(scoringString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
         y_pos += 12;

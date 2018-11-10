@@ -150,6 +150,7 @@ private final List aliases;
 							NBTTagCompound nbt = new NBTTagCompound();
 							NBTTagList tiles = new NBTTagList();
 							
+								
 							TileEntity tile;
 							for(int i=0;i<length;i++) {
 								for(int j=0;j<height;j++) {
