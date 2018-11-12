@@ -279,18 +279,18 @@ public class GuiConsent extends GuiScreen {
 			}
 			break;
 		case 4: // Back button.
-			if (screenID > 10)
+			if (screenID > 10) // Jump back to consent page.
 				screenID = 10;
-			else
+			else // Jump back a single page.
 				screenID--;
 			switchScreen();
 			break;
 		case 5: // Next button.
-			if (screenID == 10) {
+			if (screenID == 10) { // Jump to consent given or not given result screens.
 				screenID = consent ? 12 : 11;
 				switchScreen();
 				break;
-			} else if (screenID != 0 && screenID < 11) {
+			} else if (screenID != 0 && screenID < 11) { // Jump to next screen.
 				screenID++;
 				switchScreen();
 				break;
@@ -411,6 +411,8 @@ public class GuiConsent extends GuiScreen {
 		// This is for reading the information before the questions.
 		if (screenID < 5 && lineStart == extraLines && this.buttonList.size() == 2)
 			completed[screenID] = true;
+		else if (screenID < 5 && !completed[screenID] && extraLines > 0)
+			((GuiButton) this.buttonList.get(1)).displayString = "Scroll";
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(SCROLL_TAB);
