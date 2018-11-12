@@ -113,9 +113,7 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Butyl Rubber Wetsuit	1	Cartridge (Oxygen)	1												
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Synthetic Rubber Wetsuit	1	Cartridge (Oxygen)	1												
 1.1.0	TRUE	FALSE	5	Scuba Tank (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Oxygen)	1	Synthetic Rubber (II) Wetsuit	1	Cartridge (Oxygen)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Beginner)	1	Cartridge (Propane)	1	Jet Pack (Beginner)	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	6	Jet Pack (Beginner)	1							Cartridge (Propane)	1	Jet Pack (Beginner)	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Beginner)	1													Cartridge (Propane)	1	Jet Pack (Beginner)	1	Cartridge (Propane)	1						
+1.1.0	TRUE	TRUE	6	Jet Pack (Beginner)	1	Cartridge (Propane)	2	Jet Pack (Beginner)	1																				
 1.0.0	TRUE	FALSE	5	Merox Treatment Unit	1	Regulator (Medium Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Iron Block	1	Furnace	1	Iron Block	1						
 1.0.0	TRUE	FALSE	5	Merox Treatment Unit	1	Regulator (Medium Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Brass	1	Furnace	1	Block of Brass	1						
 1.0.0	TRUE	FALSE	5	Merox Treatment Unit	1	Regulator (Medium Pressure)	1	Hopper	1	Canister (Hydrogen)	1	Block (PP)	1	Redstone Block	1	Block (PP)	1	Block of Bronze	1	Furnace	1	Block of Bronze	1						
@@ -192,17 +190,11 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1			Titanium Ingot	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1			Palladium Ingot	1						
 1.0.0	TRUE	FALSE	8	Structural Truss	1	Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1			Platinum Ingot	1						
-1.1.0	TRUE	FALSE	6	Jet Pack (Intermediate)	1	Cartridge (Propane)	1	Jet Pack (Intermediate)	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	6	Jet Pack (Intermediate)	1							Cartridge (Propane)	1	Jet Pack (Intermediate)	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Intermediate)	1													Cartridge (Propane)	1	Jet Pack (Intermediate)	1	Cartridge (Propane)	1						
+1.1.0	TRUE	TRUE	6	Jet Pack (Intermediate)	1	Cartridge (Propane)	2	Jet Pack (Intermediate)	1																				
 1.0.0	TRUE	FALSE	9	Jet Pack (Intermediate)	1	Hose (Medium Pressure)	1	Regulator (Medium Pressure)	1	Hose (Medium Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Advanced)	1	Cartridge (Propane)	1	Jet Pack (Advanced)	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	6	Jet Pack (Advanced)	1							Cartridge (Propane)	1	Jet Pack (Advanced)	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Advanced)	1													Cartridge (Propane)	1	Jet Pack (Advanced)	1	Cartridge (Propane)	1						
+1.1.0	TRUE	TRUE	6	Jet Pack (Advanced)	1	Cartridge (Propane)	2	Jet Pack (Advanced)	1																				
 1.0.0	TRUE	FALSE	9	Jet Pack (Advanced)	1	Hose (High Pressure)	1	Regulator (High Pressure)	1	Hose (High Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Pro)	1	Cartridge (Propane)	1	Jet Pack (Pro)	1	Cartridge (Propane)	1																		
-1.1.0	TRUE	FALSE	6	Jet Pack (Pro)	1							Cartridge (Propane)	1	Jet Pack (Pro)	1	Cartridge (Propane)	1												
-1.1.0	TRUE	FALSE	6	Jet Pack (Pro)	1													Cartridge (Propane)	1	Jet Pack (Pro)	1	Cartridge (Propane)	1						
+1.1.0	TRUE	TRUE	6	Jet Pack (Pro)	1	Cartridge (Propane)	2	Jet Pack (Pro)	1																				
 1.0.0	TRUE	FALSE	9	Jet Pack (Pro)	1	Hose (Extreme Pressure)	1	Regulator (Extreme Pressure)	1	Hose (Extreme Pressure)	1	Cartridge (Propane)	1	Kevlar Vest	1	Cartridge (Propane)	1												
 1.1.2	TRUE	FALSE	8	Carbon Fiber Weave	1	Fibers (Carbon Fiber)	1			Fibers (Carbon Fiber)	1			Fibers (Carbon Fiber)	1			Fibers (Carbon Fiber)	1			Fibers (Carbon Fiber)	1						
 1.2.3	TRUE	FALSE	8	Freeze Ray (Beginner)	1			Regulator (Low Pressure)	1	Hose (Low Pressure)	1	Beaker (Deionized Water)	1	Kevlar Vest	1	Cartridge (Propane)	1												
@@ -346,8 +338,8 @@ Version	Scalable	Shapeless	Level	Ouptut 1	O1#	Input 1	I1#	Input 2	I2#	Input 3	I3
 1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (nomex)	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
 1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (kevlar)	1					Tool Shaft (PEEK)	1					Tool Shaft (PEEK)	1								
 1.3.8	TRUE	FALSE	8	DNA sampler (Nether)	4			Fibers (kevlar)	1					Tool Shaft (Carbon Fiber Composite)	1					Tool Shaft (Carbon Fiber Composite)	1								
-																													
-																													
+1.4.9	TRUE	TRUE	8	Constitution Claim	1	Indelible Ink	1	Feather	1	Paper	1																		
+1.4.9	TRUE	TRUE	8	Indelible Ink	1	Bag (Silver Nitrate)	1	Vial (Deionized Water)	1	Glass Bottle	1																		
 																													
 																													
 																													

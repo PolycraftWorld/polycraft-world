@@ -28,3 +28,4 @@ Version	Block Game ID	Tile Entity Game ID	Inventory	GUI ID	Render ID	Render 3D O
 1.4.4	1hb	1hc	Computer	26	2026	TRUE	1	2	2			"0,0,0"	front	side	top																
 1.4.4	1hd	1he	Hospital	27	2027	TRUE	1	2	2			"0,0,0"	front	side	top																
 1.4.6	1xl	1xm	Fluorescent Lamp	28	2028	TRUE	1	1	1			"0,0,0"	side		top					side	side	"RangePerHeatIntensity, AutomaticInputCooldownSecs"	1.2	1							
+1.4.9	1ht	1hu	Tier Chest	29	2029	FALSE	1	1	1			"0,0,0"	front							side	front										
