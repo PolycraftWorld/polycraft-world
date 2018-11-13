@@ -114,6 +114,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemArmorHead;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorLegs;
 import edu.utd.minecraft.mod.polycraft.item.ItemCatalyst;
 import edu.utd.minecraft.mod.polycraft.item.ItemCellCultureDish;
+import edu.utd.minecraft.mod.polycraft.item.ItemCleats;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
 import edu.utd.minecraft.mod.polycraft.item.ItemConstitutionClaim;
 import edu.utd.minecraft.mod.polycraft.item.ItemCustom;
@@ -126,10 +127,12 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashcard;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
+import edu.utd.minecraft.mod.polycraft.item.ItemFreezingKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
@@ -1239,7 +1242,13 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemSuperInk(customObject));
 				} else if (GameID.CustomPolyPortal.matches(customObject)) {
 					registerBlock(customObject, new BlockPolyPortal(customObject));
-				} else
+				} else if (GameID.KnockbackBomb.matches(customObject)) {
+					registerItem(customObject, new ItemKnockbackBomb(customObject));
+				} else if (GameID.FreezingKnockbackBomb.matches(customObject)) {
+					registerItem(customObject, new ItemFreezingKnockbackBomb(customObject));
+				} else if (GameID.Cleats.matches(customObject)) {
+					registerItem(customObject, new ItemCleats(customObject));
+				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
 			}
