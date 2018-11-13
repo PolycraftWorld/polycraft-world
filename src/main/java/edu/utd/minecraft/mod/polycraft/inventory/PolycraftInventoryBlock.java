@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.textwall.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -655,6 +656,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 
 				else if (config.containerType == PolycraftContainerType.COMPUTER)
+				{
+					GL11.glScalef(0.6F, 0.6F, 0.6F);
+					GL11.glTranslatef(0.25F, 0F, 0F);
+				}
+				
+				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
 				{
 					GL11.glScalef(0.6F, 0.6F, 0.6F);
 					GL11.glTranslatef(0.25F, 0F, 0F);

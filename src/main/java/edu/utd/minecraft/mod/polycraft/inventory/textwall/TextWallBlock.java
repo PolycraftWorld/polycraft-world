@@ -11,18 +11,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class TextWallBlock extends PolycraftInventoryBlock<TextWallInventory> {
-
-	@SideOnly(Side.CLIENT)
-	public IIcon iconOutside;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconInside;
-	
+public class TextWallBlock extends PolycraftInventoryBlock {
 	
 	public TextWallBlock(Inventory config, Class tileEntityClass) {
-		super(config, tileEntityClass);
+		super(config, tileEntityClass, Material.iron, 7.5F);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		
 		// TODO Auto-generated constructor stub
