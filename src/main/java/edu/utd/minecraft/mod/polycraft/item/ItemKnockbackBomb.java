@@ -6,6 +6,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
@@ -31,9 +32,15 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		// TODO Auto-generated method stub
+		if(!world.isRemote) {
+			double velX = 1*Math.sin(Math.toRadians(player.rotationYaw%360));
+			double velY = 1;
+			double velZ = 1*Math.cos(Math.toRadians(player.rotationYaw%360));
+			System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.renderYawOffset );
+			player.setVelocity(velX, velY, velZ);
+			((EntityPlayerMP) world.getPlayerEntityByName(player.getDisplayName())).addVelocity(velX, velY, velZ);
+		}
 		
-		
-		player.motionX = 1;
 		
 		return super.onItemRightClick(itemstack, world, player);
 	}
