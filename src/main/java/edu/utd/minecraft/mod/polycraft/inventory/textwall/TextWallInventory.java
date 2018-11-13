@@ -38,6 +38,10 @@ public class TextWallInventory extends PolycraftInventory {
 	}
 
 	//BlockSign sign = new BlockSign(null, isVanilla);
+	public TextWallInventory() {
+		super(PolycraftContainerType.TEXT_WALL, TextWallInventory.config);
+		// TODO Auto-generated constructor stub
+	}
 	
 	public TextWallInventory(PolycraftContainerType containerType, Inventory config) {
 		super(PolycraftContainerType.TEXT_WALL, TextWallInventory.config);
