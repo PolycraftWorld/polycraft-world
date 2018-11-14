@@ -40,6 +40,9 @@ configurations {
     compile.extendsFrom external
 }
 
+sourceCompatibility=1.8
+targetCompatibility=1.8
+
 dependencies {
 
     compile group: 'com.microsoft.azure', name: 'azure-storage', version: '2.2.0'
