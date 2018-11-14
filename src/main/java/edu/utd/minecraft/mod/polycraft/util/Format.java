@@ -19,18 +19,18 @@ public class Format {
     	int blue = color.getBlue();
     	int alpha = color.getAlpha();
     	
-    	System.out.println("Red, Green ,Blue, Alpha: " + red + " " + blue + " " + green + " " + alpha);
+    	//System.out.println("Red, Green ,Blue, Alpha: " + red + " " + blue + " " + green + " " + alpha);
     	
     	int rgbInt = alpha;
     	rgbInt = (rgbInt << 8) + red;
     	rgbInt = (rgbInt << 8) + green;
     	rgbInt = (rgbInt << 8) + blue;
     	
-    	System.out.println(rgbInt);
+    	//System.out.println(rgbInt);
     	return rgbInt;
     	
     	
-    	 //TODO: create a parser for the following function, so it's easy to set colors!
+    	 //For Reference, this is how minecraft parses the rgbInt string into individual channels. Why didn't they use Color objects??
         /*p_78258_4_ is the integer that minecraft parses to get the color channels.
          * this.red = (float)(p_78258_4_ >> 16 & 255) / 255.0F;
             this.blue = (float)(p_78258_4_ >> 8 & 255) / 255.0F;

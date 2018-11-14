@@ -37,7 +37,7 @@ public class GuiConsent extends GuiScreen {
 	private boolean wasClicking; // True if the left mouse button was held down last time drawScreen was called.
 	private int screenID; // Current screen
 	private boolean[] completed = new boolean[13];
-	public boolean consent = false;
+	public static boolean consent = false;
 	// Not sure what these ones below are for.
 	private static final String __OBFID = "CL_00000691";
 	private EntityPlayer player;
@@ -298,6 +298,7 @@ public class GuiConsent extends GuiScreen {
 		default: // Should not occur outside of case 5 falling through.
 			this.mc.displayGuiScreen((GuiScreen) null);
 			this.mc.setIngameFocus();
+			this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
 			break;
 		}
 	}
@@ -333,6 +334,7 @@ public class GuiConsent extends GuiScreen {
 	public void onGuiClosed() {
 		super.onGuiClosed();
 		Keyboard.enableRepeatEvents(false);
+		//this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
 	}
 
 	/**

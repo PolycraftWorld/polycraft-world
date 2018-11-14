@@ -214,6 +214,12 @@ public class ServerEnforcer extends Enforcer {
 			EntityPlayerMP player = (EntityPlayerMP)event.player;
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));	
 		}
+		
+		if(System.getProperty("isExperimentServer") != null) {
+			this.shouldClientDisplayConsentGUI(true, (EntityPlayerMP)event.player);
+		} else {
+			this.shouldClientDisplayConsentGUI(false, (EntityPlayerMP)event.player);
+		}
 	}
 	
 	@SubscribeEvent
@@ -348,6 +354,8 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.AttackWarning, 0, null);
 	}
 	
+
+	
 	/**
 	 * Send experiment updates to players in the game
 	 * Sends 3 cases: 	ExperimentListMetaData updates to the Client (sent to all players in dimension 0)
@@ -390,7 +398,7 @@ public class ServerEnforcer extends Enforcer {
 	 * Send an updated list of experiments to all players in dimension 0
 	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 
 	 */
-	@Deprecated
+	@Deprecated //TODO: delete this.
 	public void sendExperimentListUpdates(final String jsonStringToSend) {
 		FMLProxyPacket[] packetList = null;
 		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
@@ -409,6 +417,11 @@ public class ServerEnforcer extends Enforcer {
 		//true flag will freeze player, false flag will unfreeze player
 		int f = flag? 0: 1; //0 freezes player, 1 thaws player
 		sendDataPackets(DataPacketType.FreezePlayer, f, player);
+	}
+	
+	public void shouldClientDisplayConsentGUI(boolean flag, EntityPlayerMP player) {
+		int yes = flag ? 0 : 1;
+		sendDataPackets(DataPacketType.Consent, yes, player);
 	}
 	
 	//TODO: refactor and remove this.

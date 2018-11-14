@@ -148,7 +148,6 @@ public class ClientScoreboard extends ScoreboardManager {
 									int mins = this.secondsRemaining.time/60;
 									int secs = this.secondsRemaining.time%60;
 									String fmt = "%02d:%02d";
-									System.out.println(String.format(fmt, mins,secs) + "");
 									client.fontRenderer.drawString(
 										this.secondsRemaining.value + String.format(fmt, mins,secs), 
 										x + client.fontRenderer.getStringWidth(this.currentTeam.toString()) + 3,
