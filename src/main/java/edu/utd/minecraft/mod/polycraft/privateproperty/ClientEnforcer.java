@@ -40,6 +40,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -216,12 +217,16 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case Scoreboard:
 						//System.out.println("Packets have all been sent to the client!");
-						if(this.pendingDataPacketTypeMetadata == 0) { //update the scoreboard
+						if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdateScore.ordinal()) { //update the scoreboard
 							ClientScoreboard.INSTANCE.updateScore(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						}else if(this.pendingDataPacketTypeMetadata == 1) { //update the player team
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdatePlayerTeam.ordinal()) { //update the player team
 							ClientScoreboard.INSTANCE.updateTeam(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.GameOver.ordinal()) {
 							ClientScoreboard.INSTANCE.gameOver(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdateTeammates.ordinal()) {
+							ClientScoreboard.INSTANCE.updateTeamMates(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						}else if(this.pendingDataPacketTypeMetadata == ScoreboardManager.DataType.UpdateTime.ordinal()) {
+							ClientScoreboard.INSTANCE.updateTime(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						}
 						
 						break;
@@ -261,6 +266,10 @@ public class ClientEnforcer extends Enforcer {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
+	
+	public void openExperimentsGui() {
+		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
+	}
 
 	@SubscribeEvent
 	public synchronized void onClientChatReceivedEvent(final ClientChatReceivedEvent event) {
@@ -268,6 +277,8 @@ public class ClientEnforcer extends Enforcer {
 		final int usernameIndex = message.indexOf("<");
 		if (usernameIndex > -1) {
 			final String username = message.substring(usernameIndex + 1, message.indexOf('>', usernameIndex + 1));
+			
+			//final String sendingPlayer = ClientScoreboard.INSTANCE.teammates.
 			
 			final EntityPlayer sendingPlayer = client.theWorld.getPlayerEntityByName(username);
 			
@@ -280,52 +291,65 @@ public class ClientEnforcer extends Enforcer {
 //				}
 //			}
 			final EntityPlayer receivingPlayer = Minecraft.getMinecraft().thePlayer;
-			if (receivingPlayer.capabilities.isCreativeMode || ExperimentManager.metadata.isEmpty()) {
+			if (receivingPlayer.capabilities.isCreativeMode || ExperimentManager.metadata.isEmpty() || ClientScoreboard.INSTANCE.teammates.size() == 0) {
 				return; //enable global chat for creative mode players or if there are no experiments on the server.
-			}
-			if(receivingPlayer.dimension != 8) {
-				//only mess with this if the client is in dimension 8 (running experiments), otherwise, enable global chat.
-				//System.out.println("receiving player: " + receivingPlayer.getDisplayName() + " " + receivingPlayer.dimension);
-				if(sendingPlayer != null && sendingPlayer.dimension != 8) {
-					//System.out.println("Sending Player: " + sendingPlayer.getDisplayName() + " " + sendingPlayer.dimension);
-					return; //send the message to the player if the sender is rendered
-				}else {
-					//System.out.println("is sendingPlayer null? " + (sendingPlayer==null));
-					event.setCanceled(true); // Sender & Receiver are in different dimensions: prevent the message from coming to the player
+			} 
+			
+			else if(ClientScoreboard.INSTANCE.teammates.contains(username)) {
+				if(receivingPlayer != null && receivingPlayer.isEntityAlive()) {
 					return;
 				}
+			}else {
+				event.setCanceled(true);
+				
 			}
 			
-			if (sendingPlayer != null && sendingPlayer.dimension == 8)
-			{
-				//calculate distance and save
-				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
-				{
-					return;
-				}
-
-				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
-
-				//is the sender holding a voice cone
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
-				{
-					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
-					{
-						return;
-					}
-				}
-
-				//is the sender holding a megaphone
-				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
-				{
-					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
-					{
-						return;
-					}
-				}
-
-			}
-			event.setCanceled(true);
+			
+			
+			
+//			if(receivingPlayer.dimension != 8) {
+//				//only mess with this if the client is in dimension 8 (running experiments), otherwise, enable global chat.
+//				//System.out.println("receiving player: " + receivingPlayer.getDisplayName() + " " + receivingPlayer.dimension);
+//				if(sendingPlayer != null && sendingPlayer.dimension != 8) {
+//					//System.out.println("Sending Player: " + sendingPlayer.getDisplayName() + " " + sendingPlayer.dimension);
+//					return; //send the message to the player if the sender is rendered
+//				}else {
+//					//System.out.println("is sendingPlayer null? " + (sendingPlayer==null));
+//					event.setCanceled(true); // Sender & Receiver are in different dimensions: prevent the message from coming to the player
+//					return;
+//				}
+//			}
+//			
+//			if (sendingPlayer != null && sendingPlayer.dimension == 8)
+//			{
+//				//calculate distance and save
+//				if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximity))
+//				{
+//					return;
+//				}
+//
+//				final ItemStack itemStackSend = sendingPlayer.inventory.getCurrentItem();
+//
+//				//is the sender holding a voice cone
+//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Voice Cone").getItemStack().getUnlocalizedName())))
+//				{
+//					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityVoiceCone))
+//					{
+//						return;
+//					}
+//				}
+//
+//				//is the sender holding a megaphone
+//				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Megaphone").getItemStack().getUnlocalizedName())))
+//				{
+//					if (arePlayersWithinDistance(sendingPlayer, receivingPlayer, PolycraftMod.maxChatBlockProximityMegaphone))
+//					{
+//						return;
+//					}
+//				}
+//
+//			}
+//			event.setCanceled(true);
 
 		}
 	}

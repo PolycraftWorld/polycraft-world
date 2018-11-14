@@ -25,7 +25,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiExperimentList extends GuiScreen {
 	private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background_old.png"));
     private static final String __OBFID = "CL_00000691";
     private EntityPlayer player;
     private int x, y, z;
@@ -38,6 +38,11 @@ public class GuiExperimentList extends GuiScreen {
     private int buttonheight = 20;
     private int button_padding_y = 4;
     private int currentExperimentDetailOnScreenID = -1;
+    private float scroll = 0.0F; // Amount of scroll, from 0.0 to 1.0 inclusive.
+	private boolean scrolling; // True if the scroll bar is being dragged.
+	private int ylines; // The number of buttons/lines the text space can accommodate.
+	private int extraLines; // How many buttons/lines are overflowing from the alloted text space.
+	
     
     private enum WhichScreen {
     		ExperimentList,
@@ -359,15 +364,15 @@ public class GuiExperimentList extends GuiScreen {
         //IMPORTANT: user feedback text goes here
         this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
         
-        this.fontRendererObj.drawString(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        this.fontRendererObj.drawStringWithShadow(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         String objectiveString = "Work with your team to score the most points possible within 5 minutes. It takes 5 seconds to capture or revert a base.";
-        String scoringString = "50 points for each neutral (gray) base. 200 points for reverting an enemy base to neutral.";
+        String scoringString = "50 points for each neutral (gray) base. 200 points for reverting an enemy base to neutral. Captured bases generate 5 points per second.";
         this.fontRendererObj.drawSplitString(I18n.format(objectiveString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
         y_pos += 12;
+        y_pos += 8;
         y_pos += 12;
-        y_pos += 12;
-        this.fontRendererObj.drawString(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        this.fontRendererObj.drawStringWithShadow(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         this.fontRendererObj.drawSplitString(I18n.format(scoringString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
         y_pos += 12;

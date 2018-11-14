@@ -38,6 +38,8 @@ private final List aliases;
 	int z2;
 	boolean pos1=false;
 	boolean pos2=false;
+	String outputFileName = "output";
+	String outputFileExt = ".psm";
 	
   
 	
@@ -102,6 +104,9 @@ private final List aliases;
 				        this.pos2=true;
 						
 					}else if(tool[0].equals("print")) {
+						if(tool.length > 1) {
+							this.outputFileName = tool[1];
+						}
 						if(pos1 && pos2)
 						{
 							int minX;
@@ -140,11 +145,12 @@ private final List aliases;
 							height=(short)(maxY-minY+1);
 							width=(short)(maxZ-minZ+1);
 							int[] blocks = new int[length*height*width];
-							int[] data = new int[length*height*width];
+							byte[] data = new byte[length*height*width];
 							int count=0;
 							NBTTagCompound nbt = new NBTTagCompound();
 							NBTTagList tiles = new NBTTagList();
 							
+								
 							TileEntity tile;
 							for(int i=0;i<length;i++) {
 								for(int j=0;j<height;j++) {
@@ -161,7 +167,7 @@ private final List aliases;
 										Block blk = world.getBlock(minX+i, minY+j, minZ+k);
 										int id = blk.getIdFromBlock(blk);
 										blocks[count]=id;
-										data[count]=world.getBlockMetadata(minX+i, minY+j, minZ+k);
+										data[count]=(byte) world.getBlockMetadata((int)(minX+i), (int)(minY+j), (int)(minZ+k));
 										count++;
 										
 									}
@@ -170,25 +176,26 @@ private final List aliases;
 							nbt.setTag("TileEntity", tiles);
 							FileOutputStream fout = null;
 							try {
-								fout = new FileOutputStream("D:\\testout.txt");
-							} catch (FileNotFoundException e1) {
+								fout = new FileOutputStream(this.outputFileName + this.outputFileExt);
+								nbt.setShort("Height", height);
+								nbt.setShort("Length", length);
+								nbt.setShort("Width", width);
+								nbt.setShort("OriginMinX", (short)minX);
+								nbt.setShort("OriginMinY", (short)minY);
+								nbt.setShort("OriginMinZ", (short)minZ);
+								nbt.setIntArray("Blocks", blocks);
+								nbt.setByteArray("Data", data);
+								
+								CompressedStreamTools.writeCompressed(nbt, fout);
+								fout.close();
+								
+							}catch (FileNotFoundException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							}    
 							
-							
-							
-							
-							nbt.setShort("Height", height);
-							nbt.setShort("Length", length);
-							nbt.setShort("Width", width);
-							nbt.setIntArray("Blocks", blocks);
-							nbt.setIntArray("Data", data);
-							try {
-								CompressedStreamTools.writeCompressed(nbt, fout);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+							}catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 							}
 							
 						}
