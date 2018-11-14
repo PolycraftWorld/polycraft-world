@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.textwall.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -582,7 +583,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	public static class BasicRenderingHandler extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
 
 		protected final Inventory config;
-		private IModelCustom inventoryModel;
+		protected IModelCustom inventoryModel;
 		public ResourceLocation objFile;
 		public ResourceLocation textureFile;
 
@@ -659,7 +660,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(0.6F, 0.6F, 0.6F);
 					GL11.glTranslatef(0.25F, 0F, 0F);
 				}
-				
 				else if (config.containerType == PolycraftContainerType.HOSPITAL_GENERATOR)
 				{
 					GL11.glScalef(0.6F, 0.6F, 0.6F);
@@ -727,6 +727,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				else if (config.containerType == PolycraftContainerType.STEAM_CRACKER)
 				{
 					GL11.glScalef(0.24F, 0.24F, 0.24F);
+
+				}
+				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
+				{
+					GL11.glScalef(.16F, .24F, .16F);
+					GL11.glTranslatef(2F, -.7F, 3F);
 
 				}
 				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
@@ -820,6 +826,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}
+				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
+				{
+					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+					GL11.glTranslated(4F,0,0); //y axis
+				}
 				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
 				{
 					//GL11.glRotatef(-90, 0F, 1F, 0F); //z axis
@@ -861,7 +872,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			}
 		}
 
-		private void scaleTranslateRotate(double x, double y, double z, ForgeDirection orientation, boolean rotated) {
+		protected void scaleTranslateRotate(double x, double y, double z, ForgeDirection orientation, boolean rotated) {
 
 			if ((orientation == ForgeDirection.NORTH) && (!rotated)) {
 				// System.out.println("North");

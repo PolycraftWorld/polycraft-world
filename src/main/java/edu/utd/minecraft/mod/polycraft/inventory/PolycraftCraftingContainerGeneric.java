@@ -94,6 +94,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 					(inventory.containerType == PolycraftContainerType.TREE_TAP) ||
 					(inventory.containerType == PolycraftContainerType.SPOTLIGHT) ||
 					(inventory.containerType == PolycraftContainerType.GASLAMP) ||
+					(inventory.containerType == PolycraftContainerType.TEXT_WALL) ||
 					(inventory.containerType == PolycraftContainerType.TIER_CHEST))
 			{
 				if (slotIndex < firstPlayerInventorySlot)

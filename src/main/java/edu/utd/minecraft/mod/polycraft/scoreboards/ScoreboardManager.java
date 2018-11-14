@@ -5,6 +5,7 @@ package edu.utd.minecraft.mod.polycraft.scoreboards;
 
 import net.minecraft.world.World;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ import net.minecraft.scoreboard.*;
 public abstract class ScoreboardManager {
 
 	public enum DataType {
-		UpdateScore, UpdateNames, Unknown, UpdatePlayer, GameOver
+		UpdateScore, UpdateNames, Unknown, UpdatePlayerTeam, GameOver, UpdateTeammates, UpdateTime
 	}
 
 	protected ArrayList<CustomScoreboard> managedScoreboards;
@@ -62,6 +63,22 @@ public abstract class ScoreboardManager {
 		//netChannel.register(this);
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		// gsonGeneric = gsonBuilder.create();
+	}
+	
+	public static class ColoredString {
+		public String value;
+		public Color color;
+		public int time;
+		
+		public ColoredString(String val, Color col) {
+			value = val;
+			color = col;
+		}
+		public ColoredString(String val, Color col, int num) {
+			value = val;
+			color = col;
+			time = num;
+		}
 	}
 
 }
