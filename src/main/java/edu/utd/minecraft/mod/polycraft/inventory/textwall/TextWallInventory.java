@@ -18,10 +18,8 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
-import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerContainer;
-import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerGui;
-import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.behaviors.CraftingBehavior;
+import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import net.minecraft.block.BlockSign;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -47,22 +45,5 @@ public class TextWallInventory extends PolycraftInventory {
 		super(PolycraftContainerType.TEXT_WALL, TextWallInventory.config);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	@Override
-	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
-		//return new ComputerContainer(playerInventory, this);
-//		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128);
-		return null;
-	}
-
-//	@SideOnly(Side.CLIENT)
-//	public GuiScreen getGui(final InventoryPlayer playerInventory) {
-//		return new GuiConsent();
-//		//return new ComputerGui(this, playerInventory, 459/2, 511/2);
-////		return new ComputerGui(this, playerInventory, 342/2, 330/2);
-//		//return new PolycraftInventoryGui(this, playerInventory, 200, 208, true);
-//	}
 
 }

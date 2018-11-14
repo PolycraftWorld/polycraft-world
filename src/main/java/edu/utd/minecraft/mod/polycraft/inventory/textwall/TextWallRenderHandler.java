@@ -6,12 +6,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
-	private static final ResourceLocation img = new ResourceLocation("textures/entity/sign.png");
+	//private static final ResourceLocation img = new ResourceLocation("textures/entity/sign.png");
 	public TextWallRenderHandler(Inventory config) {
 		super(config);
 		//this.inventoryModel.
@@ -93,5 +95,5 @@ public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderin
 		GL11.glPopMatrix();
 		
 	}
-
+	
 }
