@@ -109,7 +109,11 @@ public enum GameID {
 	CustomConstitutionClaim("1hp"),
 	CustomSuperInk("1hr"),
 	CustomPolyPortal("1hs"),
-	InventoryTierChest("1ht");
+	InventoryTierChest("1ht"),
+	KnockbackBomb("1hv"),
+	FreezingKnockbackBomb("1hw"),
+	Cleats("1hx"),
+	TextWall("1hy");
 	
 	public final String id;
 

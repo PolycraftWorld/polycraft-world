@@ -24,7 +24,8 @@ repositories {
 
 apply plugin: 'forge'
 
-version = "1.4.11_alpha"
+version = "1.4.11_beta"
+
 group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "polycraft"
 
@@ -38,6 +39,9 @@ configurations {
     external
     compile.extendsFrom external
 }
+
+sourceCompatibility=1.8
+targetCompatibility=1.8
 
 dependencies {
 

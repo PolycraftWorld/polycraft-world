@@ -40,6 +40,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.Base;
@@ -95,6 +96,8 @@ public class ClientEnforcer extends Enforcer {
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
 	
+	public static boolean viewedConsentGUI = false;
+	private static boolean needsToSeeConsentForm = false;
 
 	public ClientEnforcer() {
 		client = FMLClientHandler.instance().getClient();
@@ -145,6 +148,9 @@ public class ClientEnforcer extends Enforcer {
 		this.privatePropertiesByChunk.clear();
 		//this.challengePropertiesByChunk.clear();
 		this.privatePropertiesByOwner.clear();
+		this.viewedConsentGUI = false;
+		this.needsToSeeConsentForm = false;
+		GuiConsent.consent = false;
 	}
 	
 	@SubscribeEvent
@@ -185,6 +191,18 @@ public class ClientEnforcer extends Enforcer {
 						//final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
 						//showStatusMessage("Received " + govformat.format(govCount) + "::roles:" + ((Government) governments.toArray()[0]).getRoles()[0], 10);	// commited out for a second -matt
 						break;
+					case Consent:
+						switch(pendingDataPacketTypeMetadata) {
+						case 0:	//Player SHOULD see the gui
+							this.needsToSeeConsentForm = true;
+							break;
+						case 1:	//Player should not see the gui
+							this.needsToSeeConsentForm = false;
+							break;
+						default:
+							break;
+						}
+						break;
 					case Challenge:
 						System.out.println("Packet Received");
 						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
@@ -207,11 +225,6 @@ public class ClientEnforcer extends Enforcer {
 								break;
 							
 							default:
-//								final int countCP = updateTempChallengeProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-//								final NumberFormat formatCP = NumberFormat.getNumberInstance(Locale.getDefault());
-//								showStatusMessage("Received " + formatCP.format(countCP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatCP.format(privatePropertiesByOwner.size()) + " players / "
-//										+ formatCP.format(challengePropertiesByChunk.size()) + " chunks)", 10);
-//						}
 							break;
 						}
 						break;
@@ -241,11 +254,14 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case FreezePlayer:
 						switch(pendingDataPacketTypeMetadata) {
-						case 0:	//freeze the player
-							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true);
+						case 0:	//unfreeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, false, 0);
 							break;
-						case 1:	//unfreeze the player
-							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, false);
+						case 1:	//freeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true, 0);
+							break;
+						case 2:	//freeze the player controls
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true, 1);
 							break;
 						default:
 							break;
@@ -269,6 +285,14 @@ public class ClientEnforcer extends Enforcer {
 	
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
+	}
+	
+	@Deprecated
+	private void openConsentGui() {
+		if(client.theWorld != null) {
+			client.displayGuiScreen(new GuiConsent(this.client.thePlayer, (int)this.client.thePlayer.posX, (int) this.client.thePlayer.posY, (int) this.client.thePlayer.posZ));
+			this.viewedConsentGUI = true;
+		}
 	}
 
 	@SubscribeEvent
@@ -508,6 +532,19 @@ public class ClientEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	public void sendGuiConsentUpdate(boolean playerGivesConsent) {
+		FMLProxyPacket[] packetList = null;
+		int flag = playerGivesConsent ? 0 : 1;
+		packetList = getDataPackets(DataPacketType.Consent, flag, "This JSON Data Currently Matters Not.");
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -604,6 +641,11 @@ public class ClientEnforcer extends Enforcer {
 							overlayStartY, overlayColor);
 				}
 
+			}
+			
+			if(this.needsToSeeConsentForm && !this.viewedConsentGUI) {
+				PolycraftMod.proxy.openConsentGui(client.thePlayer, (int)client.thePlayer.posX, (int)client.thePlayer.posY, (int)client.thePlayer.posZ);
+				this.viewedConsentGUI = true;
 			}
 
 		}

@@ -339,7 +339,7 @@ public class ExperimentManager {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
 		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);
-		ServerEnforcer.INSTANCE.sendExperimentListUpdates(experimentUpdates);
+		ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(experimentUpdates, null);
 		System.out.println("Sending Update...");
 	}
 	

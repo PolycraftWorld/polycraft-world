@@ -54,6 +54,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayRenderingHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.textwall.TextWallRenderHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemAirQualityDetector;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
@@ -61,6 +62,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
@@ -161,8 +163,9 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void freeze(EntityPlayer player, boolean flag) {
+	public void freeze(EntityPlayer player, boolean flag, int freezeType) {
 		this.getPlayerState(player).isFrozen = flag;
+		this.getPlayerState(player).freezeType = freezeType;
 	}
 
 	private class PlayerState {
@@ -189,6 +192,7 @@ public class ClientProxy extends CommonProxy {
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
 		private boolean airQualityClean = true;
 		public boolean isFrozen = false;
+		public int freezeType = 0;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -440,9 +444,11 @@ public class ClientProxy extends CommonProxy {
 
 		if (playerState.isFrozen) {
 			KeyBinding.unPressAllKeys();
-			player.motionX = 0;
-			player.motionY = 0;
-			player.motionZ = 0;
+			if(playerState.freezeType == 0) {
+				player.motionX = 0;
+				player.motionY = 0;
+				player.motionZ = 0;
+			}
 		}
 
 	}
@@ -493,6 +499,11 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
+	        if(entity instanceof EntityPlayer) {
+				if(((EntityPlayer)entity).getHeldItem() != null && ((EntityPlayer)entity).getHeldItem().getItem() instanceof ItemKnockbackBomb) {
+					((ItemKnockbackBomb)((EntityPlayer)entity).getHeldItem().getItem()).render(entity);
+				}
+			}
 	        if(!ClientEnforcer.INSTANCE.baseList.isEmpty()) {
 				if (entity.dimension == 8) {
 					for (Base base :ClientEnforcer.INSTANCE.baseList) {
@@ -1050,6 +1061,10 @@ public class ClientProxy extends CommonProxy {
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new CondenserRenderingHandler(inventory));
 			else if (GameID.InventorySolarArray.matches(inventory))
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new SolarArrayRenderingHandler(inventory));
+			else if (GameID.TextWall.matches(inventory)) {
+				renderingHandler = new TextWallRenderHandler(inventory);
+				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler);
+			}
 			else
 				RenderingRegistry.registerBlockHandler(inventory.renderID, renderingHandler = new PolycraftInventoryBlock.BasicRenderingHandler(inventory));
 

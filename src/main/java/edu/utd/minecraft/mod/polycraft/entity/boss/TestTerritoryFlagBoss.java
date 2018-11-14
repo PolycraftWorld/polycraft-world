@@ -379,7 +379,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 	}
 
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase victim, float _) {
+	public void attackEntityWithRangedAttack(EntityLivingBase victim, float thisVariableNeedsAName) {
 		World world = victim.worldObj;
 		if (world instanceof WorldServer) {
 

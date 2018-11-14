@@ -118,6 +118,7 @@ public abstract class Enforcer {
 		InventorySync, 
 		Governments, 
 		Challenge, 
+		Consent,
 		Scoreboard, 
 		playerID, 
 		GenericMinigame, 

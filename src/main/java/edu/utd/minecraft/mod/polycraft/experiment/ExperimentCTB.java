@@ -23,7 +23,6 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
-import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
@@ -257,8 +256,14 @@ public class ExperimentCTB extends Experiment{
 						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
 						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
+						
+						//give players knockback bombs
+						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
+						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
+						player.inventory.addItemStackToInventory(kbb);
+						player.inventory.addItemStackToInventory(fkb);
 					}
 					
 					//keep the chunks loaded after players enter
@@ -361,6 +366,11 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
 					player.addChatComponentMessage(new ChatComponentText("Game resuming... "));
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
+					
+					//After Half-Time, give all players cleats!
+					ItemStack[] armor = player.inventory.armorInventory;
+					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
+					player.inventory.armorInventory = armor;
 				}
 			}
 //			else if(this.halfTimeTicksRemaining % 400 == 0) {
