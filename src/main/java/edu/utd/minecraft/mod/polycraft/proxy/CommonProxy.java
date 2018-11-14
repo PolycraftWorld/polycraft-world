@@ -159,7 +159,7 @@ public abstract class CommonProxy {
 	}
 	
 	//Client sided function
-	public void freeze(EntityPlayer player, boolean flag) {
+	public void freeze(EntityPlayer player, boolean flag, int freezeType) {
 		
 	}
 

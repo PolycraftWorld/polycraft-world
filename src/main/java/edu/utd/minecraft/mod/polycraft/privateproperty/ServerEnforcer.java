@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -52,6 +53,7 @@ import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
+import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
@@ -77,6 +79,8 @@ public class ServerEnforcer extends Enforcer {
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
 	
+	protected final Map<String, Integer> frozenPlayers = Maps.newHashMap();
+	
 	
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
@@ -90,6 +94,7 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickFriends(event);
 			onWorldTickInventories(event);
 			//onWorldTickGovernments(event);
+			onWorldTickCheckFrozenPlayers(event);
 
 		}
 	}
@@ -407,8 +412,42 @@ public class ServerEnforcer extends Enforcer {
 	
 	public void freezePlayer(boolean flag, EntityPlayerMP player) {
 		//true flag will freeze player, false flag will unfreeze player
-		int f = flag? 0: 1; //0 freezes player, 1 thaws player
+		int f = flag? 1: 0; //1 freezes player, 0 thaws player
 		sendDataPackets(DataPacketType.FreezePlayer, f, player);
+	}
+	
+	public void freezePlayerForTicks(int ticks, EntityPlayerMP player) {
+		//Freeze player for specific number of ticks
+		if(frozenPlayers.containsKey(player.getDisplayName())) {
+			frozenPlayers.replace(player.getDisplayName(), ticks);
+		}else {
+			frozenPlayers.put(player.getDisplayName(), ticks);
+		}
+		sendDataPackets(DataPacketType.FreezePlayer, 2, player);
+	}
+	
+	private void onWorldTickCheckFrozenPlayers(final TickEvent.WorldTickEvent event) {
+		if(frozenPlayers.isEmpty())
+			return;
+		boolean removePlayer = false;
+		for(String playerName: frozenPlayers.keySet()) {
+			if(frozenPlayers.get(playerName) > 0)
+				frozenPlayers.replace(playerName, frozenPlayers.get(playerName) - 1);
+			else {	//once the time runs out, we should unfreeze the player
+				for(Object obj: MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+					if(obj instanceof EntityPlayerMP) {
+						if(((EntityPlayerMP)obj).getDisplayName().equals(playerName))
+						{
+							sendDataPackets(DataPacketType.FreezePlayer, 0, ((EntityPlayerMP)obj));	//unfreeze player
+							removePlayer = true;
+							frozenPlayers.remove(playerName);
+						}
+					}
+				}
+			}
+			if(removePlayer)
+				break;
+		}
 	}
 	
 	//TODO: refactor and remove this.
