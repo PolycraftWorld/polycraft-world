@@ -254,11 +254,14 @@ public class ClientEnforcer extends Enforcer {
 						break;
 					case FreezePlayer:
 						switch(pendingDataPacketTypeMetadata) {
-						case 0:	//freeze the player
-							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true);
+						case 0:	//unfreeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, false, 0);
 							break;
-						case 1:	//unfreeze the player
-							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, false);
+						case 1:	//freeze the player
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true, 0);
+							break;
+						case 2:	//freeze the player controls
+							PolycraftMod.proxy.freeze(Minecraft.getMinecraft().thePlayer, true, 1);
 							break;
 						default:
 							break;

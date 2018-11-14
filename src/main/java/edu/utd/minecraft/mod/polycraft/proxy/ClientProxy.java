@@ -163,8 +163,9 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void freeze(EntityPlayer player, boolean flag) {
+	public void freeze(EntityPlayer player, boolean flag, int freezeType) {
 		this.getPlayerState(player).isFrozen = flag;
+		this.getPlayerState(player).freezeType = freezeType;
 	}
 
 	private class PlayerState {
@@ -191,6 +192,7 @@ public class ClientProxy extends CommonProxy {
 		private Map<Ore, Integer> cheatInfoOreBlocksFound = null;
 		private boolean airQualityClean = true;
 		public boolean isFrozen = false;
+		public int freezeType = 0;
 
 		private PlayerState(final WorldClient world) {
 			flashlightLightSources = ItemFlashlight.createLightSources(world);
@@ -442,9 +444,11 @@ public class ClientProxy extends CommonProxy {
 
 		if (playerState.isFrozen) {
 			KeyBinding.unPressAllKeys();
-			player.motionX = 0;
-			player.motionY = 0;
-			player.motionZ = 0;
+			if(playerState.freezeType == 0) {
+				player.motionX = 0;
+				player.motionY = 0;
+				player.motionZ = 0;
+			}
 		}
 
 	}

@@ -34,7 +34,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	
 	private int renderTicks = 0;
 	private int maxRenderTicks = 60;
-	private Color color = Color.RED;
+	protected Color color = Color.RED;
 	private float lineWidth = 8;
 	
 	
@@ -78,14 +78,21 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		// TODO Auto-generated method stub
+		
+		knockback( world, player);
+		itemstack.stackSize--;
+		return super.onItemRightClick(itemstack, world, player);
+	}
+	
+	protected List knockback(World world, EntityPlayer player) {
 		if(!world.isRemote) {
 			double x = -1*Math.sin(Math.toRadians(player.rotationYaw%360));
 			double y = 1;
 			double z = Math.cos(Math.toRadians(player.rotationYaw%360));
 			double distance = 20 * Math.cos(Math.toRadians(player.rotationPitch%360) * 2);
 			
-			if(distance < KBB_RADIUS )
-				distance = KBB_RADIUS + 0.01;
+			if(distance < KBB_RADIUS + 2 )
+				distance = KBB_RADIUS + 2;
 			else if(distance > 20)
 				distance = 20;
 			
@@ -110,7 +117,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			list.forEach(entity->{
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
-					if(entityPlayer.getDistanceSq(posX, posY, posZ)<radius) {
+					if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
 						double theta = 180.0 / Math.PI * Math.atan2(posX - entityPlayer.posX, posZ - entityPlayer.posZ);
 						entityPlayer.playerNetServerHandler.sendPacket(
 								new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
@@ -130,11 +137,11 @@ public class ItemKnockbackBomb  extends ItemCustom{
 				
 			});
 			
+			return list;
 
 		}
 		
-		itemstack.stackSize--;
-		return super.onItemRightClick(itemstack, world, player);
+		return null;
 	}
 	
 	public void render(Entity entity) {
@@ -143,13 +150,14 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		else
 			renderTicks--;
 		double distance = 20 * Math.cos(Math.toRadians(entity.rotationPitch%360) * 2);
-		if(distance < KBB_RADIUS)
-			distance = KBB_RADIUS + 0.01;
-		else if(distance > 20)
-			distance = 20;
+		
 		double x = -1*Math.sin(Math.toRadians(entity.rotationYaw%360));
 		double y = 1;
 		double z = Math.cos(Math.toRadians(entity.rotationYaw%360));
+		if(distance < ((Math.abs(x)+Math.abs(z))*KBB_RADIUS))
+			distance = (Math.abs(x)+Math.abs(z))*KBB_RADIUS;
+		else if(distance > 20)
+			distance = 20;
 		double posX = x*distance + entity.posX;
 		double posY = entity.posY -1.5;
 		double posZ = z*distance + entity.posZ;
