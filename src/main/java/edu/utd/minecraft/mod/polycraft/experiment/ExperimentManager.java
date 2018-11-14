@@ -180,7 +180,9 @@ public class ExperimentManager {
 			if(!areAnyActive) {
 				int nextID = this.getNextID();
 				int numChunks = 8;
-				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
+				//TODO Change multiplier to nextID to spawn a new field per experiment
+				int multiplier = 1;
+				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
 				//newExpCTB1.setTeamsNeeded(1);
 				//newExpCTB1.setTeamSize(1);
 				this.registerExperiment(nextID, newExpCTB2x);

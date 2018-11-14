@@ -39,7 +39,7 @@ public abstract class Experiment {
 	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
-	protected int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
+	protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	protected CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
@@ -201,7 +201,7 @@ public abstract class Experiment {
 		
 		//System.out.println(String.format("Generating Stoop: blockCount: %d, genTick: %d", count, genTick));
 		
-		if(count >= sh.blocks.length) { //we've generated all blocks already!
+		if(count >= sh.blocks.length || this.id > 1) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
 			//lets put in the chests!
 			for(int i = 0; i < spawnlocations.length; i++) {
