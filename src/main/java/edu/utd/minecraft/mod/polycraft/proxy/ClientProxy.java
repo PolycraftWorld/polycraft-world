@@ -62,6 +62,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
@@ -494,6 +495,11 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
+	        if(entity instanceof EntityPlayer) {
+				if(((EntityPlayer)entity).getHeldItem() != null && ((EntityPlayer)entity).getHeldItem().getItem() instanceof ItemKnockbackBomb) {
+					((ItemKnockbackBomb)((EntityPlayer)entity).getHeldItem().getItem()).render(entity);
+				}
+			}
 	        if(!ClientEnforcer.INSTANCE.baseList.isEmpty()) {
 				if (entity.dimension == 8) {
 					for (Base base :ClientEnforcer.INSTANCE.baseList) {
