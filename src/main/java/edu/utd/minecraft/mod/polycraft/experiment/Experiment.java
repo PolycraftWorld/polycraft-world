@@ -24,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -201,14 +202,30 @@ public abstract class Experiment {
 		//System.out.println(String.format("Generating Stoop: blockCount: %d, genTick: %d", count, genTick));
 		
 		if(count >= sh.blocks.length) { //we've generated all blocks already!
-//			System.out.println("Setting tile entities...: " + sh.tileentities.tagCount());
-//			for (int k = 0; k < (int)sh.tileentities.tagCount(); k++)
-//			{
-//				NBTTagCompound nbt = sh.tileentities.getCompoundTagAt(k);
-//				//TileEntity tile = world.getTileEntity(nbt.getInteger("x")+this.xPos, nbt.getInteger("y")+this.yPos, nbt.getInteger("z")+this.zPos);
-//				//tile.readFromNBT(nbt);
-//				//world.setTileEntity(nbt.getInteger("x")+this.xPos, nbt.getInteger("y")+this.yPos, nbt.getInteger("z")+this.zPos, tile);
-//			}
+			
+			//lets put in the chests!
+			for(int i = 0; i < spawnlocations.length; i++) {
+				int x = spawnlocations[i][0];
+				int y = spawnlocations[i][1];
+				int z = spawnlocations[i][2];
+				
+				world.setBlock(x, y, z, Block.getBlockFromName("chest"));
+				TileEntity entity = (TileEntity) world.getTileEntity(x, y , z);
+				if(entity != null && entity instanceof TileEntityChest) {
+					System.out.println("I put in a chest!");
+					ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
+					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4);
+					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4);
+					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4);
+					TileEntityChest chest = (TileEntityChest) entity;
+					chest.setInventorySlotContents(0, someIce);
+					chest.setInventorySlotContents(1, someWood);
+					chest.setInventorySlotContents(2, someAluminum);
+					chest.setInventorySlotContents(3, someNR);
+				}
+				
+			}
+			
 			return true; 
 		}
 
@@ -258,23 +275,6 @@ public abstract class Experiment {
 						lightInv.setInventorySlotContents(0,
 								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
 
-						
-						
-						
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
-						
-						//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);;
-//						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
-//						//System.out.println("Coordinates: ");
-//						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-//						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
-//						
-//						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
-//						lightInv.setInventorySlotContents(0,
-//								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
-//
-//						
-//					}
 					
 					}else if(curblock == 19){
 						for(int i = 0; i < spawnlocations.length; i++) {
@@ -284,7 +284,8 @@ public abstract class Experiment {
 								spawnlocations[i][2] = z + this.zPos;
 								i = spawnlocations.length; 	//exit for loop
 							}
-						}
+						}					
+						
 					}else {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 					}
