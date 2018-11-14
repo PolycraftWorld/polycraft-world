@@ -39,7 +39,7 @@ public class ItemFreezingKnockbackBomb  extends ItemKnockbackBomb{
 	private void freezePlayers(LinkedList list) {
 		for(Object obj: list) {
 			if(obj instanceof EntityPlayerMP) {
-				ServerEnforcer.INSTANCE.freezePlayerForTicks(140, (EntityPlayerMP)obj);
+				ServerEnforcer.INSTANCE.freezePlayerForTicks(200, (EntityPlayerMP)obj);
 			}
 		}
 		
