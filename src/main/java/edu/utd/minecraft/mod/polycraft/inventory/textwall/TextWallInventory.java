@@ -34,7 +34,7 @@ public class TextWallInventory extends PolycraftInventory {
 	public static final void register(final Inventory config) {
 		TextWallInventory.config = config;
 		config.containerType = PolycraftContainerType.TEXT_WALL;
-		PolycraftInventory.register(new PolycraftInventoryBlock(config, TextWallInventory.class));
+		PolycraftInventory.register(new TextWallBlock(config, TextWallInventory.class));
 	}
 
 	//BlockSign sign = new BlockSign(null, isVanilla);
@@ -47,6 +47,8 @@ public class TextWallInventory extends PolycraftInventory {
 		super(PolycraftContainerType.TEXT_WALL, TextWallInventory.config);
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	
 	@Override
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {

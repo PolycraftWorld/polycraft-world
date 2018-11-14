@@ -582,7 +582,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	public static class BasicRenderingHandler extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
 
 		protected final Inventory config;
-		private IModelCustom inventoryModel;
+		protected IModelCustom inventoryModel;
 		public ResourceLocation objFile;
 		public ResourceLocation textureFile;
 
@@ -729,6 +729,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(0.24F, 0.24F, 0.24F);
 
 				}
+				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
+				{
+					GL11.glScalef(.16F, .24F, .16F);
+					GL11.glTranslatef(2F, -.7F, 3F);
+
+				}
 				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
 				{
 					// TODO: Scale GL11 accordingly to future fluorescent lamp model.
@@ -820,6 +826,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 				}
+				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
+				{
+					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+					GL11.glTranslated(4F,0,0); //y axis
+				}
 				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
 				{
 					//GL11.glRotatef(-90, 0F, 1F, 0F); //z axis
@@ -861,7 +872,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			}
 		}
 
-		private void scaleTranslateRotate(double x, double y, double z, ForgeDirection orientation, boolean rotated) {
+		protected void scaleTranslateRotate(double x, double y, double z, ForgeDirection orientation, boolean rotated) {
 
 			if ((orientation == ForgeDirection.NORTH) && (!rotated)) {
 				// System.out.println("North");
