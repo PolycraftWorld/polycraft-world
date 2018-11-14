@@ -136,19 +136,19 @@ public class PolycraftChunkProvider implements IChunkProvider {
 		this.rand.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
 		Block[] ablock = new Block[65536];
 		byte[] abyte = new byte[65536];
-		this.func_147424_a(par1, par2, ablock);
-		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
+		//this.generateBlocksForDimEight(par1, par2, ablock);
+		//this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
 		//this.replaceBlocksForBiome(par1, par2, ablock, abyte, this.biomesForGeneration);
-		this.caveGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
-		this.ravineGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
+		//this.caveGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
+		//this.ravineGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
 		if (this.mapFeaturesEnabled) {
-			this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
+			//this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
 		}
 		Chunk chunk = new Chunk(this.worldObj, ablock, abyte, par1, par2);
-		byte[] abyte1 = chunk.getBiomeArray();
-		for (int k = 0; k < abyte1.length; ++k){
-			abyte1[k] = (byte)this.biomesForGeneration[k].biomeID;
-		}
+		//byte[] abyte1 = chunk.getBiomeArray();
+		//for (int k = 0; k < abyte1.length; ++k){
+		//	abyte1[k] = (byte)this.biomesForGeneration[k].biomeID;
+		//}
 		chunk.generateSkylightMap();
 		return chunk;
 	}
@@ -224,14 +224,14 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	 * though the water is frozen if the temperature is low enough
 	 */
 	// TODO: generateTerrain?
-	public void func_147424_a(int par1, int par2, Block[] blocks) {
+	public void generateBlocksForDimEight(int par1, int par2, Block[] blocks) {
 		
 		//DONT EDIT THS METHOD UNLES YOU KNOW WHAT UR DOING OR MAKE A COPY INCASE U MESS IT UP....
 		//YOU HAVE BE WARNED !!!!!
 
 		byte b0 = 63;
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, 10, 10);
-		this.func_147423_a(par1 * 4, 0, par2 * 4);
+		this.generateTerrainArtifacts(par1 * 4, 0, par2 * 4);
 		for (int k = 0; k < 4; ++k) {
 			int l = k * 5;
 			int i1 = (k + 1) * 5;
@@ -290,7 +290,7 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	 * [empty] noise array, the position, and the size.
 	 */
 	// TODO: initializeNoiseField?
-	private void func_147423_a(int p_147423_1_, int p_147423_2_, int p_147423_3_) {
+	private void generateTerrainArtifacts(int p_147423_1_, int p_147423_2_, int p_147423_3_) {
 
 		//DONT EDIT THS METHOD UNLES YOU KNOW WHAT UR DOING OR MAKE A COPY INCASE U MESS IT UP....
 		//YOU HAVE BE WARNED !!!!!

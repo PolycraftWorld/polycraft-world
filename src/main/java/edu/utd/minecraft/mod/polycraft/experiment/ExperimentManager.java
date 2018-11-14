@@ -19,6 +19,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -26,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -40,6 +42,12 @@ public class ExperimentManager {
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
+	
+	//read the schematic file only once.
+	short n = 0;
+	Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new byte[] {0});
+	public Schematic stoop = sch.get("stoopUpdated.psm");
+	
 	/**
 	 * Internal class that keeps track of all experiments
 	 * A static arraylist of this class, called #metadata is transferred between Server & Client
@@ -52,14 +60,16 @@ public class ExperimentManager {
 	 */
 	public class ExperimentListMetaData {	
 		public String expName;
+		public String instructions = "";
 		public int playersNeeded;
 		public int currentPlayers;
 		private boolean available = true;
 		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers) {
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
 			expName = name;
 			playersNeeded = maxPlayers;
 			currentPlayers = currPlayers;
+			this.instructions = instructions; 
 		}
 		
 		public void updateCurrentPlayers(int newPlayerCount) {
@@ -441,7 +451,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
-			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0));
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0, ex.getInstructions()));
 			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));

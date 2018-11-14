@@ -1088,7 +1088,7 @@ public class ClientProxy extends CommonProxy {
 
 	}
 	
-	private void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
+	public void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
 		if(keyBindingExperiments.isPressed()) {
 			if(this.noScreenOverlay()) {
 				client.displayGuiScreen(new GuiExperimentList(player));
