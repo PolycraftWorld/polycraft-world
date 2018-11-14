@@ -186,6 +186,19 @@ public class ServerEnforcer extends Enforcer {
 					case Challenge:
 						onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case Consent:
+						switch(pendingDataPacketTypeMetadata) {
+						case 0: //player gives consent
+							//Player gave consent!
+							System.out.println("Player Gives Consent");
+							break;
+						case 1:
+							//Player withdraws consent
+							System.out.println("Player Withdraws Consent");
+							break;
+						default:
+							break;
+						}
 					default:
 						break;
 					}

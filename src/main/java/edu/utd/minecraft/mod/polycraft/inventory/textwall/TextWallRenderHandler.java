@@ -1,14 +1,21 @@
 package edu.utd.minecraft.mod.polycraft.inventory.textwall;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
+import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -31,7 +38,7 @@ public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderin
 		float f1 = 0.6666667F;
 		float f3;
 		f3 = 0.016666668F * f1; 
-		f3 *=7; //scale Text here
+		f3 *=3; //scale Text here
 
 		//does nothing??
 		//GL11.glNormal3f(1.0F, 0.0F, -1.0F * f3);
@@ -80,12 +87,28 @@ public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderin
 		//drawing from that point?
 		GL11.glDepthMask(false);
 		byte b0 = 0;
-		String[] signText = new String[] {"ABCDEFG", "ABCDE", "ABC"};
 		
-		for (int i = 0; i < signText.length; ++i)
+		List<String> signText = new ArrayList<String>();
+		signText.add("Data Sharing Policies: UT Dallas IRB");
+		signText.add("");
+		
+		if(GuiConsent.consent) {
+			signText.addAll(fontrenderer.listFormattedStringToWidth(I18n.format("gui.consent.finished"), (int) Math.floor((8/f3))));
+		}
+		else {
+			signText.addAll(fontrenderer.listFormattedStringToWidth(I18n.format("gui.consent.nonegiven"), (int) Math.floor((8/f3))));
+		}
+		//String[] signText = new String[] {"UT Dallas IRB", "Right Click Here", "to review our terms", "and change your data preferences"};
+		
+		
+		for (int i = 0; i < signText.size(); ++i)
 		{
-		    String s = signText[i];
-		    fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, i * 10 - signText.length * 5, b0);
+		    String s = (String) signText.get(i);
+		    if(i == 0) {
+		    	fontrenderer.drawString(s, (int) (-fontrenderer.getStringWidth(s) / 2 - .25/f3), i * 10 - signText.size() * 6, Format.getIntegerFromColor(Color.GREEN));
+		    } else {
+		    	fontrenderer.drawString(s, (int) (-fontrenderer.getStringWidth(s) / 2 - .25/f3), i * 10 - signText.size() * 6, b0);
+		    }
 		}
 		
 		GL11.glDepthMask(true);

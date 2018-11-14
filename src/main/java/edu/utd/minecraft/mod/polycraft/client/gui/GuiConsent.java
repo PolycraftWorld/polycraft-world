@@ -9,6 +9,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -107,6 +108,7 @@ public class GuiConsent extends GuiScreen {
 		switch (screenID) {
 		case 0: // If the player is not 18+.
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.minor"), X_WIDTH));
+			this.consent = false;
 			break;
 		case 1: // Start of terms.
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.longassparagraph1"),
@@ -248,6 +250,7 @@ public class GuiConsent extends GuiScreen {
 			} else if (screenID == 10) { // Consent not given.
 				screenID = 11;
 				completed[10] = true;
+				consent = false;
 				switchScreen();
 			} else {
 				// Mark button as incorrect.
@@ -334,7 +337,10 @@ public class GuiConsent extends GuiScreen {
 	public void onGuiClosed() {
 		super.onGuiClosed();
 		Keyboard.enableRepeatEvents(false);
-		//this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
+		
+		System.out.println("Test");
+		//send packet to server
+		ClientEnforcer.INSTANCE.sendGuiConsentUpdate(consent);
 	}
 
 	/**

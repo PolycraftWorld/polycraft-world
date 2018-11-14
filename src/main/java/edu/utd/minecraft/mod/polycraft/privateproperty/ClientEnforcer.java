@@ -150,6 +150,7 @@ public class ClientEnforcer extends Enforcer {
 		this.privatePropertiesByOwner.clear();
 		this.viewedConsentGUI = false;
 		this.needsToSeeConsentForm = false;
+		GuiConsent.consent = false;
 	}
 	
 	@SubscribeEvent
@@ -520,6 +521,19 @@ public class ClientEnforcer extends Enforcer {
 		FMLProxyPacket[] packetList = null;
 		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.RequestJoinExperiment.ordinal(), jsonData);
 		System.out.println(packetList.toString());
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	public void sendGuiConsentUpdate(boolean playerGivesConsent) {
+		FMLProxyPacket[] packetList = null;
+		int flag = playerGivesConsent ? 0 : 1;
+		packetList = getDataPackets(DataPacketType.Consent, flag, "This JSON Data Currently Matters Not.");
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
