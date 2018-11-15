@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.ExplicitTerminal;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.FuelTerminal;
@@ -12,6 +14,29 @@ import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 
 public class InventoryHelper {
+	
+	/**
+	 * Takes in a Chest (only a regular chest for now) and removes ALL of its items
+	 * The removed items are handled by GarbageCollect, for now.
+	 * @param entity the chest to empty
+	 * @return the chest object with NO items inside.
+	 */
+	public static TileEntity clearChestContents(TileEntity entity) {
+		
+		if(entity instanceof TileEntityChest) {
+			TileEntityChest chest = (TileEntityChest) entity;
+			for (int i = 0; i < chest.getSizeInventory(); i++) {
+				if(chest.getStackInSlot(i) == null)
+					continue;
+				chest.decrStackSize(i, chest.getStackInSlot(i).stackSize);
+			}
+			
+			return chest;
+		}
+		
+		
+		return entity;
+	}
 
 	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, int side, int size) {
 		ItemStack itemstack = source.getStackInSlot(sourceSlotIndex);

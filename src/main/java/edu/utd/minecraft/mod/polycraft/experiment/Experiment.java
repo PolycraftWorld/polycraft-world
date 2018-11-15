@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
@@ -175,31 +176,17 @@ public abstract class Experiment {
 	 * @return True if its done generating, False if it's still in progress
 	 */
 	protected boolean generateStoop() {
-		//int x = this.xPos;
-		//int z = this.zPos;
-		//int y = this.yPos;
-		
+
 		final int maxBlocksPerTick = 65536;
-		
-		
 		Schematic sh = ExperimentManager.INSTANCE.stoop;
 		
 		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
 		//we don't want the game to lag too much.
 		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(sh.height*sh.width)),1.0));
 		
-		//the xPosition to begin at
-		//int xCounter = Math.floorDiv(genTick, sh.length/maxXPerTick);
-		//int zChunk = genTick%sh.height;
-		
-		
-		//System.out.println(String.format("Stoop Length, Height, & Width: %d %d %d", sh.length, sh.height, sh.width));
-		//System.out.println(String.format("XChunk and zChunk: %d %d", xChunk, zChunk));
-		
 		//the position to begin counting in the blocks[] array.
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
-		//System.out.println(String.format("Generating Stoop: blockCount: %d, genTick: %d", count, genTick));
 		
 		if(count >= sh.blocks.length || this.id > 1) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
@@ -208,15 +195,26 @@ public abstract class Experiment {
 				int x = spawnlocations[i][0];
 				int y = spawnlocations[i][1];
 				int z = spawnlocations[i][2];
+				TileEntity entity;
+				if(world.blockExists(x, y, z)) {
+					entity = (TileEntity) world.getTileEntity(x, y , z);
+					if(entity != null && entity instanceof TileEntityChest) {
+						//clear chest contents.
+						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
+						entity = chest; //set this updated chest to the entity object.
+					}
+					
+				} else {
+					world.setBlock(x, y, z, Block.getBlockFromName("chest"));
+					entity = (TileEntity) world.getTileEntity(x, y , z);
+				}
 				
-				world.setBlock(x, y, z, Block.getBlockFromName("chest"));
-				TileEntity entity = (TileEntity) world.getTileEntity(x, y , z);
 				if(entity != null && entity instanceof TileEntityChest) {
 					System.out.println("I put in a chest!");
 					ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
-					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4);
-					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4);
-					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4);
+					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4); //Oak Wood Logs
+					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4); //Aluminum Blocks
+					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4); //Black Natural Rubber -
 					TileEntityChest chest = (TileEntityChest) entity;
 					chest.setInventorySlotContents(0, someIce);
 					chest.setInventorySlotContents(1, someWood);
@@ -233,35 +231,43 @@ public abstract class Experiment {
 		for(int x = (genTick*maxXPerTick); x < (genTick*maxXPerTick)+ maxXPerTick; x++){
 			for(int y = 0; y<(int)sh.height; y++){
 				for(int z = 0; z<(int)sh.width; z++){
-					if(count>=sh.blocks.length) { //in case the array isn't perfectly square, but I'm not exactly sure why this is a problem lol...
+					if(count>=sh.blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
 						return false;
 					}
 					int curblock = (int)sh.blocks[count];
 					
-					//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
-
-					
-					if(curblock == 759) {
-						//System.out.println("Why");										
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-//						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById((int)sh.blocks[count]), sh.data[count], 2);
-//						ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-//						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
-//						//System.out.println("Coordinates: ");
-//						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-//						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
-//						
-//						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
-//						lightInv.setInventorySlotContents(0,
-//								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
-//
-//						
+					if(curblock == 0 || curblock == 76) {
+						count++;
+						continue;
+					}
+					else if(curblock == 759) {
+						count++;
+						continue; //these are Gas Lamps - we don't care for these.
 						
-						//Block dummyPlacesBlock = Block.getBlockById((int)sh.blocks[count]);
-						//TileEntity te = new TileEntity(dummyPlacesBlock);
-						//world.setTileEntity(p_147455_1_, p_147455_2_, p_147455_3_, p_147455_4_);
-					}else if(curblock == 754) {
+					}else if(curblock == 123 || curblock == 124) { //replace redstone lamps (inactive or active) with glowstone.
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+					}
+					
+					else if(curblock == 95) {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						if(sh.data[count] == 5) {
+							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+						}
+	
+						
+					}else if(curblock == 35) {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//System.out.println(x);
+						if(sh.data[count] == 5) {
+							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+						}else if(sh.data[count] == 0) {
+							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
+						}
+						
+					}
+					
+					
+					else if(curblock == 754) { //spotlights - we like these
 						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
@@ -276,7 +282,7 @@ public abstract class Experiment {
 								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
 
 					
-					}else if(curblock == 19){
+					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
 						for(int i = 0; i < spawnlocations.length; i++) {
 							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
 								spawnlocations[i][0] = x + this.xPos;
@@ -380,9 +386,22 @@ public abstract class Experiment {
 	
 	//Main update function for Experiments
 	public void onServerTickUpdate(){
+		if(this.currentState == State.Running || this.currentState == State.Halftime)
+			this.checkAnyPlayersLeft();
 		
 	}
 	
+	private void checkAnyPlayersLeft() {
+		for(Team tm : this.scoreboard.getTeams()) {
+			if(tm.getSize() == 0) {
+				this.currentState = State.Ending;
+				return;
+			}
+		}
+		
+	}
+
+
 	//Main update function for client sided events in Experiments
 	public void onClientTickUpdate(){
 		

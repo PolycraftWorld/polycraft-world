@@ -398,7 +398,11 @@ public class ExperimentCTB extends Experiment{
 				    }
 				}
 				
-				this.stringToSend = maxEntry.getKey().getName() + " Team wins!";
+				if(tickCount < maxTicks) {
+					this.stringToSend = "Your Opponents Left!";
+				}else {
+					this.stringToSend = maxEntry.getKey().getName() + " Team wins!";
+				}
 				
 				//ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
 				
@@ -414,8 +418,9 @@ public class ExperimentCTB extends Experiment{
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}
 				tickCount = maxTicks;
-				for(ForgeChunkManager.Ticket ticket: tickets)
+				for(ForgeChunkManager.Ticket ticket: tickets) {
 					ForgeChunkManager.releaseTicket(ticket);
+				}
 			}
 			tickCount++;
 			if(tickCount >= maxTicks + this.WAIT_TELEPORT_UTD_TICKS) {
