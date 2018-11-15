@@ -70,7 +70,7 @@ public class ExperimentCTB extends Experiment{
 	private int halfTimeTicksRemaining = 2400; //2 minutes
 	private final int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
-	private final int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
+	private final int ticksToClaimBase = 60; //also the same number of ticks to steal base, for now.
 	private final float claimBaseScoreBonus = 50;
 	private final float stealBaseScoreBonus = 200;
 	private final int updateScoreOnTickRate = 20;
@@ -508,7 +508,7 @@ public class ExperimentCTB extends Experiment{
 								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
-						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base!"));
+						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
 				if(base.currentState!=Base.State.Neutral) {	//push update to all players
@@ -534,7 +534,7 @@ public class ExperimentCTB extends Experiment{
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
 						} else {
 							if(base.tickCount % 20 == 0) {
-								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Captured in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
+								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText((ticksToClaimBase - base.tickCount)/20 + "seconds"));
 							}
 						}
 	
@@ -612,7 +612,7 @@ public class ExperimentCTB extends Experiment{
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {
 			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-			playerEntity.addChatMessage(new ChatComponentText("§4Alert: Someone is stealing your base!"));
+			playerEntity.addChatMessage(new ChatComponentText("\\u00A74Alert: Someone is stealing your base!"));
 		}
 	}
 
