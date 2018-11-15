@@ -134,13 +134,13 @@ public class ExperimentCTB extends Experiment{
 //			}
 //		}
 		int y = yPos + 5;
-		BoundingBox box = new BoundingBox(xPos + 95.5, zPos + 142.5, 6,y+1, y+2, Color.GRAY);
+		BoundingBox box = new BoundingBox(xPos + 95.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
 		bases.add(new Base(xPos + 95, y, zPos + 142, box, Color.GRAY));
-		box = new BoundingBox(xPos + 132.5, zPos + 142.5, 6,y+1, y+2, Color.GRAY);
+		box = new BoundingBox(xPos + 132.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
 		bases.add(new Base(xPos + 132, y, zPos + 142, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 184.5, 6,y+1, y+2, Color.GRAY);
+		box = new BoundingBox(xPos + 114.5, zPos + 184.5, 6,y, y+1, Color.GRAY);
 		bases.add(new Base(xPos + 114, y, zPos + 184, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 100.5, 6,y+1, y+2, Color.GRAY);
+		box = new BoundingBox(xPos + 114.5, zPos + 100.5, 6,y, y+1, Color.GRAY);
 		bases.add(new Base(xPos + 114, y, zPos + 100, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
