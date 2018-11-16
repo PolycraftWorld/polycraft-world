@@ -692,7 +692,7 @@ public class ExperimentCTB extends Experiment{
 	}
 
 	public int getHalfTimeTicks() {
-		return halfTimeTicks;
+		return halfTimeTicksRemaining;
 	}
 
 	public int getMaxTicks() {

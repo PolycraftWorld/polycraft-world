@@ -132,7 +132,8 @@ public abstract class Enforcer {
 		BoundingBoxUpdate,
 		PlayerLeftDimension,
 		ReceiveExperimentsList,
-		RequestJoinExperiment
+		RequestJoinExperiment,
+		SendParameterUpdates
 		//TODO: Stephen add your data types here.
 	}
 

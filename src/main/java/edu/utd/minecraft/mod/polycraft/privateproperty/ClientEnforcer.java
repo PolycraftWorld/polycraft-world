@@ -520,9 +520,9 @@ public class ClientEnforcer extends Enforcer {
 		return false;
 	}
 	
-	public void sendExperimentSelectionUpdate(String jsonData) {
+	public void sendExperimentSelectionUpdate(String jsonData, int metadata) {
 		FMLProxyPacket[] packetList = null;
-		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.RequestJoinExperiment.ordinal(), jsonData);
+		packetList = getDataPackets(DataPacketType.Challenge, metadata, jsonData);
 		System.out.println(packetList.toString());
 		if(packetList != null) {
 			int i = 0;

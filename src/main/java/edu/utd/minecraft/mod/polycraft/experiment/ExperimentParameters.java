@@ -32,17 +32,17 @@ public class ExperimentParameters {
 		
 		if(exp instanceof ExperimentCTB) {
 			//add timing variables
-			timingParameters.put("Game Time", new Integer[] {(((ExperimentCTB) exp).getMaxTicks())/60/20, 3, 20}); //minutes
-			timingParameters.put("Half Time Duration", new Integer[] {(((ExperimentCTB) exp).getHalfTimeTicks())/20, 30, 180}); //seconds
-			timingParameters.put("Pre-Game Wait Time", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
-			timingParameters.put("After-Game Wait Time", new Integer[] {(((ExperimentCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
+			timingParameters.put("Min: Game Time", new Integer[] {(((ExperimentCTB) exp).getMaxTicks())/60/20, 3, 20}); //minutes
+			timingParameters.put("Sec: Half Time", new Integer[] {(((ExperimentCTB) exp).getHalfTimeTicks())/20, 30, 180}); //seconds
+			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
+			timingParameters.put("Sec: Post-Game", new Integer[] {(((ExperimentCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
 			
 			//add scoring variables
-			scoringParameters.put("Claim New Base", new Number[] {((ExperimentCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)1000}); //points
-			scoringParameters.put("Steal Base", new Number[] {((ExperimentCTB) exp).getStealBaseScoreBonus(), 0, 1000}); //points
-			scoringParameters.put("Base Points Generation Frequency", new Number[] {(((ExperimentCTB) exp).getUpdateScoreOnTickRate())/20, 0, 5}); //seconds
-			scoringParameters.put("Owned Base Score Generation", new Number[] {((ExperimentCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 1000}); //points
-			scoringParameters.put("Time to Claim Base", new Number[] {(((ExperimentCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Claim Base", new Number[] {((ExperimentCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)499}); //points
+			scoringParameters.put("Pts: Steal Base", new Number[] {((ExperimentCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Sec: Base Pts Gen", new Number[] {(((ExperimentCTB) exp).getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Owned Base", new Number[] {((ExperimentCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
+			scoringParameters.put("Sec: Claim Base", new Number[] {(((ExperimentCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
 			
 			//item variables
 			itemParameters.put("Give Knockback Stick", new Boolean(true));

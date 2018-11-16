@@ -17,10 +17,12 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.client.config.GuiCheckBox;
 import cpw.mods.fml.client.config.GuiSlider;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -220,6 +222,24 @@ public class GuiExperimentList extends GuiScreen {
     		this.screenSwitcher = this.screenChange(WhichScreen.ExperimentList);
     		this.currentExperimentDetailOnScreenID = -1; //no experiment selected
     		break;
+    	case 3000:
+    		//user is sending ExperimentConfig updates
+    		//TODO: get this sent to the server.
+    		for(ConfigSlider slider : (ArrayList<ConfigSlider>) this.guiConfig.getChangedItems()) {
+    			if(this.currentParameters.timingParameters.containsKey(slider.getName())) {
+    				this.currentParameters.timingParameters.put(slider.getName(), new Integer[] {(int) slider.getSelectedValue(),0,0});
+    			}else if(this.currentParameters.scoringParameters.containsKey(slider.getName())) {
+    				this.currentParameters.scoringParameters.put(slider.getName(), new Number[] {slider.getSelectedValue(), 0, 0});
+    			}else {
+    				continue;
+    			}
+    		}
+    		//System.out.println("Test");
+    		
+    		
+    		this.screenSwitcher = this.screenChange(WhichScreen.ExperimentList);
+    		this.currentExperimentDetailOnScreenID = -1; //no experiment selected
+    		break;
     	case 2000:
     		//user selected join experiment
     		button.enabled = false;
@@ -330,8 +350,10 @@ public class GuiExperimentList extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float otherValue)
     {
     	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
-    		drawExperimentConfigScreen();
+    		//TODO: move this to its original place
+    		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
     		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
+    		drawExperimentConfigScreen();
     		//this.drawDefaultBackground();
     		super.drawScreen(mouseX, mouseY, otherValue);
     		return;
@@ -374,10 +396,10 @@ public class GuiExperimentList extends GuiScreen {
         	case ExperimentDetail:
         		drawExperimentInstructionScreen();
         		break;
-        	case ExperimentConfig:
-//        		drawExperimentConfigScreen();
-//        		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
-//        		break;
+//        	case ExperimentConfig:
+////        		drawExperimentConfigScreen();
+////        		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
+////        		break;
         	default:
         		//Do Nothing
         }
@@ -395,7 +417,7 @@ public class GuiExperimentList extends GuiScreen {
     private void drawExperimentConfigScreen() {
     	//get top left of screen with padding.
     	int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 190) / 2 + 8;
+        int y_pos = (this.height - 192) / 2;
         this.fontRendererObj.drawString(I18n.format("Experiment Configuration: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
@@ -449,20 +471,6 @@ public class GuiExperimentList extends GuiScreen {
         	this.fontRendererObj.drawString((String) this.expInstructions.get(linestart + i), x_pos, y_pos, 0);
         }
         
-//        this.fontRendererObj.drawStringWithShadow(I18n.format("Objective:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
-//        y_pos += 12;
-//        String objectiveString = "Work with your team to score the most points possible within 5 minutes. It takes 5 seconds to capture or revert a base.";
-//        String scoringString = "50 points for each neutral (gray) base. 200 points for reverting an enemy base to neutral. Captured bases generate 5 points per second.";
-//        this.fontRendererObj.drawSplitString(I18n.format(objectiveString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
-//        y_pos += 12;
-//        y_pos += 8;
-//        y_pos += 12;
-//        this.fontRendererObj.drawStringWithShadow(I18n.format("Scoring:", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
-//        y_pos += 12;
-//        this.fontRendererObj.drawSplitString(I18n.format(scoringString, new Object[0]), x_pos, y_pos, 230, 0xFFFFFFFF);
-//        y_pos += 12;
-//        y_pos += 12;
-        //this.fontRendererObj.drawString(I18n.format("Click Join Below!", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
     }
     
     /**
@@ -544,6 +552,13 @@ public class GuiExperimentList extends GuiScreen {
     			this.buttonList.clear();
     			this.currentParameters = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).getParams();
     			guiConfig = new GuiExperimentConfig(this, this.mc);
+    			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
+    	        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
+    			
+    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 4*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
+    	        GuiButton send = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 4*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Send Updates");
+    	        this.buttonList.add(back);
+    	        this.buttonList.add(send);
     			
     			
     		default:
@@ -632,7 +647,16 @@ public class GuiExperimentList extends GuiScreen {
     	Gson gson = new Gson();
 		Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>(){}.getType();
 		final String experimentUpdates = gson.toJson(part, gsonType);
-		ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates);
+		ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.RequestJoinExperiment.ordinal());
+    }
+    
+    private void sendExperimentUpdateToServer(int experimentID, ExperimentParameters params) {
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, params);
+    	Gson gson = new Gson();
+    	Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType();
+    	final String experimentUpdates = gson.toJson(part, gsonType);
+    	ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
+    	
     }
     
 }

@@ -114,10 +114,17 @@ public class ExperimentManager {
 		public String playerName;
 		public int experimentID;
 		public boolean wantsToJoin;
+		public ExperimentParameters params;
 		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
 			this.playerName = playerName;
 			this.experimentID = expID;
 			wantsToJoin = join;
+		}
+		
+		public ExperimentParticipantMetaData(String playerName, int expID, ExperimentParameters param) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			this.params = param;
 		}
 	}
 	
