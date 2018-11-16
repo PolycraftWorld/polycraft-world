@@ -40,6 +40,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
+import edu.utd.minecraft.mod.polycraft.commands.CommandConsent;
 import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
@@ -263,6 +264,7 @@ public class PolycraftMod {
 		//event.registerServerCommand(new CommandChallenge());
 		event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
+		event.registerServerCommand(new CommandConsent());
 		event.registerServerCommand(new CommandReg());
 		event.registerServerCommand(new CommandExitChallengeRoom());
 	}
