@@ -742,6 +742,9 @@ public class ExperimentCTB extends Experiment{
 		this.updateScoreOnTickRate = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20);
 		this.ownedBaseScoreBonusOnTicks = (int) Math.round(Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString()));
 		this.ticksToClaimBase = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20);
+		
+		//update half-time
+		this.halfTimeTicks = this.maxTicks/2;
 		System.out.println("New Params installed");
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();

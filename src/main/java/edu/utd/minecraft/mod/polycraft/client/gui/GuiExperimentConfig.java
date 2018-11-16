@@ -209,7 +209,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 		public boolean hasChanged = false;
 		
 		private int SLIDER_WIDTH = 100;
-		private int RESET_WIDTH = 25;
+		private int RESET_WIDTH = 20;
 		private int HEIGHT = GuiExperimentConfig.SLOT_HEIGHT - 2;
 		
 		private String parameterName;
@@ -262,8 +262,9 @@ public class GuiExperimentConfig extends GuiListExtended {
 			System.out.println("Slider Changed: " + this.parameterName);
 			if(this.reset.mousePressed(GuiExperimentConfig.this.minecraft, mouseX, mouseY)) {
 				this.slider.setValue(this.defaultValue);
-				this.slider.dispString = String.format("%d", (int)this.defaultValue);
+				//this.slider.dispString = String.format("%d", (int)this.defaultValue);
 				this.slider.displayString = String.format("%d", (int)this.defaultValue);
+				this.reset.enabled = false;
 				this.hasChanged = false;
 				//reset will be disabled on drawEntry()
 				return true;

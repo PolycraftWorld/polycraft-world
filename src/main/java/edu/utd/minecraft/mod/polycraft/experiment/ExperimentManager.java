@@ -445,23 +445,6 @@ public class ExperimentManager {
 			
 		}
 		
-		
-//		for(Team team: ex.scoreboard.getTeams()) {
-//			if(maxEntry.getKey().equals(team)) {
-//				for(String player: team.getPlayers()){
-//					EntityPlayerMP playerEntity = (EntityPlayerMP) this.getPlayerEntity(player);
-//					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
-//					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
-//				}
-//			}else {
-//				for(String player: team.getPlayers()){
-//					EntityPlayerMP playerEntity = (EntityPlayerMP) this.getPlayerEntity(player);
-//					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
-//					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
-//				}
-//			}
-//		}
-		//
 		ex.stop(); //this clears the scoreboard (removes players)
 		//reset(); //don't delete the scoreboard from the manager just yet.
 		sendExperimentUpdates();

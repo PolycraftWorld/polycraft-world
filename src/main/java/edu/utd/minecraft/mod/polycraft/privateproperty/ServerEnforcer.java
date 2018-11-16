@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -243,19 +244,22 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 	
+	/**
+	 * Client sends updated parameters inside an ExperimentParticipantMetaData object that contains Client ID and experiment ID.
+	 * @param decompress the ExperimentParticipantMetaData object with new client parameters
+	 */
 	private void onClientUpdateExperimentParameters(String decompress) {
 		Gson gson = new Gson();
 		ExperimentManager.ExperimentParticipantMetaData part = gson.fromJson(decompress, new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType());
 		
-		//TODO: check if player is opped.
-		ExperimentManager.INSTANCE.updateExperimentParameters(part.experimentID, part.params);
-		
-//		if(part.wantsToJoin) {
-//			ExperimentManager.INSTANCE.addPlayerToExperiment(part.experimentID, (EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(part.playerName));
-//		}else {
-//			ExperimentManager.INSTANCE.removePlayerFromExperiment(part.experimentID, (EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(part.playerName));
-//		}
-//		
+		//checks if the player is opped. If so, then it updates Experiment parameters. Otherwise, nothing happens.
+		if(MinecraftServer.getServer().getConfigurationManager().func_152603_m().func_152700_a(part.playerName) != null)
+			ExperimentManager.INSTANCE.updateExperimentParameters(part.experimentID, part.params);
+		else {
+			//send a chat message for now:
+			EntityPlayerMP playerEntity = (EntityPlayerMP) ExperimentManager.INSTANCE.getPlayerEntity(part.playerName);
+			playerEntity.addChatMessage(new ChatComponentText("You are not authorized to adjust parameters. \u00A7cThis incident \u00A7cwill be reported."));
+		}
 	}
 
 	@SubscribeEvent
