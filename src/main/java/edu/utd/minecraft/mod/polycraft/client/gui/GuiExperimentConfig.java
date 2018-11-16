@@ -3,6 +3,10 @@ package edu.utd.minecraft.mod.polycraft.client.gui;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
 import cpw.mods.fml.client.config.GuiSlider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,6 +18,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 
@@ -26,13 +31,28 @@ public class GuiExperimentConfig extends GuiListExtended {
 	private ExperimentParameters params;
 	public static Color HEADER_TEXT_COLOR = new Color(155, 155, 155);
 	private static int SLOT_HEIGHT = 22;
+	private float initialClickY = -2.0F;
+	protected boolean isMousePressed = true; //??
+	/** How far down this slot has been scrolled */
+    private float amountScrolled;
+    /** The element in the list that was selected */
+    private int selectedElement = -1;
+    /** The time when this button was last clicked. */
+    private long lastClicked;
+    //public int headerPadding;
+    /**
+     * What to multiply the amount you moved your mouse by (used for slowing down scrolling when over the items and not
+     * on the scroll bar)
+     */
+    private float scrollMultiplier;
 	
 	public GuiExperimentConfig(GuiScreen gui, Minecraft mc) {
 		//see below for the names of those variables.
-		super(mc, gui.width, gui.height, 20, gui.height - 50, SLOT_HEIGHT);
+		super(mc, ((GuiExperimentList)gui).X_WIDTH, ((GuiExperimentList)gui).SCROLL_HEIGHT, 50, 200, SLOT_HEIGHT);
 		this.mc = mc;
 		this.gui = gui;
 		this.configList = new ArrayList<>();
+		this.headerPadding = 0;
 		
 		if(gui instanceof GuiExperimentList) {
 			params = ((GuiExperimentList)gui).currentParameters;
@@ -98,8 +118,200 @@ public class GuiExperimentConfig extends GuiListExtended {
 	
 	@Override
 	protected void drawBackground() {
-		System.out.println("LOL");
+		//System.out.println("LOL");
 	}
+	
+	@Override
+    public int getAmountScrolled()
+    {
+        return (int)this.amountScrolled;
+    }
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float mouseEvent) {
+		// TODO Auto-generated method stub
+		//super.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
+		this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        //this.drawBackground();
+        int k = this.getSize();
+        int l = this.getScrollBarX();
+        int i1 = l + 6;
+        int l1;
+        int i2;
+        int k2;
+        int i3;
+
+        if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
+        {
+            if (Mouse.isButtonDown(0) && this.func_148125_i())
+            {
+                if (this.initialClickY == -1.0F)
+                {
+                    boolean flag1 = true;
+
+                    if (mouseY >= this.top && mouseY <= this.bottom)
+                    {
+                        int k1 = this.width / 2 - this.getListWidth() / 2;
+                        l1 = this.width / 2 + this.getListWidth() / 2;
+                        i2 = mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+                        int j2 = i2 / this.slotHeight;
+
+                        if (mouseX >= k1 && mouseX <= l1 && j2 >= 0 && i2 >= 0 && j2 < k)
+                        {
+                            boolean flag = j2 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
+                            this.elementClicked(j2, flag, mouseX, mouseY);
+                            this.selectedElement = j2;
+                            this.lastClicked = Minecraft.getSystemTime();
+                        }
+                        else if (mouseX >= k1 && mouseX <= l1 && i2 < 0)
+                        {
+                            this.func_148132_a(mouseX - k1, mouseY - this.top + (int)this.amountScrolled - 4);
+                            flag1 = false;
+                        }
+
+                        if (mouseX >= l && mouseX <= i1)
+                        {
+                            this.scrollMultiplier = -1.0F;
+                            i3 = this.func_148135_f();
+
+                            if (i3 < 1)
+                            {
+                                i3 = 1;
+                            }
+
+                            k2 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getContentHeight());
+
+                            if (k2 < 32)
+                            {
+                                k2 = 32;
+                            }
+
+                            if (k2 > this.bottom - this.top - 8)
+                            {
+                                k2 = this.bottom - this.top - 8;
+                            }
+
+                            this.scrollMultiplier /= (float)(this.bottom - this.top - k2) / (float)i3;
+                        }
+                        else
+                        {
+                            this.scrollMultiplier = 1.0F;
+                        }
+
+                        if (flag1)
+                        {
+                            this.initialClickY = (float)mouseY;
+                        }
+                        else
+                        {
+                            this.initialClickY = -2.0F;
+                        }
+                    }
+                    else
+                    {
+                        this.initialClickY = -2.0F;
+                    }
+                }
+                else if (this.initialClickY >= 0.0F)
+                {
+                    this.amountScrolled -= ((float)mouseY - this.initialClickY) * this.scrollMultiplier;
+                    this.initialClickY = (float)mouseY;
+                }
+            }
+            else
+            {
+                for (; !this.mc.gameSettings.touchscreen && Mouse.next(); this.mc.currentScreen.handleMouseInput())
+                {
+                    int j1 = Mouse.getEventDWheel();
+
+                    if (j1 != 0)
+                    {
+                        if (j1 > 0)
+                        {
+                            j1 = -1;
+                        }
+                        else if (j1 < 0)
+                        {
+                            j1 = 1;
+                        }
+
+                        this.amountScrolled += (float)(j1 * this.slotHeight / 2);
+                    }
+                }
+
+                this.initialClickY = -1.0F;
+            }
+        }
+
+        this.bindAmountScrolled();
+//        GL11.glDisable(GL11.GL_LIGHTING);
+//        GL11.glDisable(GL11.GL_FOG);
+//        Tessellator tessellator = Tessellator.instance;
+//        drawContainerBackground(tessellator);
+        l1 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+        i2 = this.top + 4 - (int)this.amountScrolled + this.headerPadding;
+
+//        if (this.hasListHeader)
+//        {
+//            this.drawListHeader(l1, i2, tessellator);
+//        }
+
+        this.drawSelectionBox(l1, i2, mouseX, mouseY);
+        //GL11.glDisable(GL11.GL_DEPTH_TEST);
+        byte b0 = 4;
+
+        i3 = this.func_148135_f();
+
+        if (i3 > 0)
+        {
+            k2 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
+
+            if (k2 < 32)
+            {
+                k2 = 32;
+            }
+
+            if (k2 > this.bottom - this.top - 8)
+            {
+                k2 = this.bottom - this.top - 8;
+            }
+
+            int l2 = (int)this.amountScrolled * (this.bottom - this.top - k2) / i3 + this.top;
+
+            if (l2 < this.top)
+            {
+                l2 = this.top;
+            }
+
+
+        }
+
+      //  this.func_148142_b(p_148128_1_, p_148128_2_);
+		
+		
+		
+	}
+	
+	/**
+     * Stop the thing from scrolling out of bounds
+     */
+    private void bindAmountScrolled()
+    {
+        int i = this.func_148135_f();
+        if (i < 0){
+            i /= 2;
+        }
+        if (!this.field_148163_i && i < 0){
+            i = 0;
+        }
+        if (this.amountScrolled < 0.0F)
+        	this.amountScrolled = 0.0F;
+
+        if (this.amountScrolled > (float)i)
+            this.amountScrolled = (float)i;
+    }
+	
 	
 //	@Override
 //	public void drawScreen(int mouseX, int mouseY, float depth) {
@@ -148,8 +360,8 @@ public class GuiExperimentConfig extends GuiListExtended {
 	@SideOnly(Side.CLIENT)
 	public class ConfigSlider implements GuiListExtended.IGuiListEntry {
 		
-		private int SLIDER_WIDTH = 125;
-		private int RESET_WIDTH = 50;
+		private int SLIDER_WIDTH = 100;
+		private int RESET_WIDTH = 25;
 		private int HEIGHT = GuiExperimentConfig.SLOT_HEIGHT - 2;
 		
 		private String parameterName;
@@ -177,14 +389,14 @@ public class GuiExperimentConfig extends GuiListExtended {
 		public void drawEntry(int p_148279_1_, int xStart, int yStart, int p_148279_4_, int p_148279_5_,
 				Tessellator p_148279_6_, int mouseX, int mouseY, boolean p_148279_9_) {
 			// draw each ConfigSlider entity on a row.
-			GuiExperimentConfig.this.mc.fontRenderer.drawString(this.parameterName, xStart + 90 - GuiExperimentConfig.this.maxStringLength,
+			GuiExperimentConfig.this.mc.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
 					yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.mc.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
 			
-			this.slider.xPosition = xStart + 40;
+			this.slider.xPosition = xStart + 105;
 			this.slider.yPosition = yStart;
 			this.slider.drawButton(GuiExperimentConfig.this.mc, mouseX, mouseY);
 			this.reset.enabled = this.slider.getValue() != this.defaultValue; //disable reset if the slider is at its default.
-			this.reset.xPosition = xStart + 50 + SLIDER_WIDTH + 5;
+			this.reset.xPosition = xStart + 105 + SLIDER_WIDTH + 5;
 			this.reset.yPosition = yStart;
 			this.reset.drawButton(GuiExperimentConfig.this.mc, mouseX, mouseY);
 			
@@ -196,11 +408,13 @@ public class GuiExperimentConfig extends GuiListExtended {
 			System.out.println("a, b, c, d" + startingSlotID + " " + b + " " + c + " " + d);
 			if(this.reset.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY)) {
 				this.slider.setValue(this.defaultValue);
+				this.slider.dispString = String.format("%d", (int)this.defaultValue);
 				//reset will be disabled on drawEntry()
 				return true;
 			} else if(this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY)) {
 				//don't need to do any additional functionaity, I don't think?
-				return this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY);
+				return true;
+				//return this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY);
 			} else {
 				return false;
 			}
@@ -215,5 +429,5 @@ public class GuiExperimentConfig extends GuiListExtended {
 		}
 		
 	}
-
+		
 }

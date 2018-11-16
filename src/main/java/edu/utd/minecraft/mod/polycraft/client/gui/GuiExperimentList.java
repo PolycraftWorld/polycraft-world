@@ -29,6 +29,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import scala.swing.event.MouseReleased;
 
 public class GuiExperimentList extends GuiScreen {
 	private static final Logger logger = LogManager.getLogger();
@@ -55,12 +56,12 @@ public class GuiExperimentList extends GuiScreen {
 	private int ylines; // The number of buttons/lines the text space can accommodate.
 	private int extraLines; // How many buttons/lines are overflowing from the alloted text space.
 	
-	private final int SCROLL_HEIGHT = 151;
+	public final int SCROLL_HEIGHT = 151;
 	private final int X_PAD = 10;
 	// private static final int X_WIDTH = 248 - 10 * 2;
 	// private static final int X_WIDTH_SCROLL = X_WIDTH - 22;
-	private final int X_WIDTH = 206; // X_WIDTH_SCROLL
-	private final int Y_HEIGHT = 126;
+	public final int X_WIDTH = 206; // X_WIDTH_SCROLL
+	public final int Y_HEIGHT = 126;
 	private final int Y_PAD = 8;
 	private int titleHeight;
 	private List expInstructions;
@@ -86,6 +87,7 @@ public class GuiExperimentList extends GuiScreen {
         this.z = z;
         this.screenID = 0;
         this.titleHeight = 20;
+        this.guiConfig = null;
         
     }
    
@@ -97,6 +99,7 @@ public class GuiExperimentList extends GuiScreen {
         this.player = player;
         this.screenID = 0;
         this.titleHeight = 20;
+        this.guiConfig = null;
     }
     
     /**
@@ -132,6 +135,44 @@ public class GuiExperimentList extends GuiScreen {
     		 this.mc.displayGuiScreen((GuiScreen)null);
              this.mc.setIngameFocus();
     	}
+    }
+    
+   
+    
+    @Override
+    protected void mouseClicked(int x, int y, int mouseEvent) {
+    	
+    	if(this.guiConfig != null) {
+    		this.guiConfig.func_148179_a(x, y, mouseEvent);
+    		super.mouseClicked(x, y, mouseEvent);
+//    		if (mouseEvent != 0 || !this.guiConfig.func_148179_a(x, y, mouseEvent)) {
+//    			super.mouseClicked(x, y, mouseEvent);
+//    	            
+//	        }
+		}else {
+			super.mouseClicked(x, y, mouseEvent);
+		}
+       
+    }
+    
+    /**
+     * Called when the mouse is moved or a mouse button is released.  Signature: (mouseX, mouseY, which) which==-1 is
+     * mouseMove, which==0 or which==1 is mouseUp
+     */
+    @Override
+    protected void mouseMovedOrUp(int x, int y, int mouseEvent)
+    {
+    	//super.mouseMovedOrUp(x, y, mouseEvent);
+    	if(this.guiConfig != null) {
+    		
+    		if (mouseEvent != 0 || !this.guiConfig.func_148181_b(x, y, mouseEvent))
+    		{
+    			super.mouseMovedOrUp(x, y, mouseEvent);
+    		}
+		}else {
+			super.mouseMovedOrUp(x, y, mouseEvent);
+		}
+            
     }
     
 
