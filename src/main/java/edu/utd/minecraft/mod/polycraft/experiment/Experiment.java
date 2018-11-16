@@ -40,7 +40,7 @@ public abstract class Experiment {
 	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
-	protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
+	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	protected CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
@@ -213,13 +213,13 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || this.id > 1) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length || this.id > 2) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
 			//lets put in the chests!
-			for(int i = 0; i < spawnlocations.length; i++) {
-				int x = spawnlocations[i][0];
-				int y = spawnlocations[i][1];
-				int z = spawnlocations[i][2];
+			for(int i = 0; i < ExperimentCTB.spawnlocations.length; i++) {
+				int x = ExperimentCTB.spawnlocations[i][0];
+				int y = ExperimentCTB.spawnlocations[i][1];
+				int z = ExperimentCTB.spawnlocations[i][2];
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -308,12 +308,12 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < spawnlocations.length; i++) {
-							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								spawnlocations[i][0] = x + this.xPos;
-								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								spawnlocations[i][2] = z + this.zPos;
-								i = spawnlocations.length; 	//exit for loop
+						for(int i = 0; i < ExperimentCTB.spawnlocations.length; i++) {
+							if(ExperimentCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								ExperimentCTB.spawnlocations[i][0] = x + this.xPos;
+								ExperimentCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								ExperimentCTB.spawnlocations[i][2] = z + this.zPos;
+								i = ExperimentCTB.spawnlocations.length; 	//exit for loop
 							}
 						}					
 						
@@ -354,10 +354,10 @@ public abstract class Experiment {
 		if(count >= sh.blocks.length || this.id > 1) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
 			//lets put in the chests!
-			for(int i = 0; i < spawnlocations.length; i++) {
-				int x = spawnlocations[i][0];
-				int y = spawnlocations[i][1];
-				int z = spawnlocations[i][2];
+			for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
+				int x = ExperimentFlatCTB.spawnlocations[i][0];
+				int y = ExperimentFlatCTB.spawnlocations[i][1];
+				int z = ExperimentFlatCTB.spawnlocations[i][2];
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -446,12 +446,12 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < spawnlocations.length; i++) {
-							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								spawnlocations[i][0] = x + this.xPos;
-								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								spawnlocations[i][2] = z + this.zPos;
-								i = spawnlocations.length; 	//exit for loop
+						for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
+							if(ExperimentFlatCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								ExperimentFlatCTB.spawnlocations[i][0] = x + this.xPos;
+								ExperimentFlatCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								ExperimentFlatCTB.spawnlocations[i][2] = z + this.zPos;
+								i = ExperimentFlatCTB.spawnlocations.length; 	//exit for loop
 							}
 						}					
 						

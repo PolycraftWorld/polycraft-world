@@ -38,7 +38,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 
-public class ExperimentCTB extends Experiment{
+public class ExperimentFlatCTB extends Experiment{
 	protected ArrayList<Base> bases= new ArrayList<Base>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
@@ -70,7 +70,6 @@ public class ExperimentCTB extends Experiment{
 	private int halfTimeTicks = maxTicks/2; //(5 minutes)
 
 	private int halfTimeTicksRemaining = 2400; //2 minutes
-	private int maxWaitTimeHalfTime = halfTimeTicksRemaining;
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
@@ -84,33 +83,8 @@ public class ExperimentCTB extends Experiment{
 	private String stringToSend = "";
 	
 	
-	@Deprecated
-	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
-		super(id, size, xPos, zPos, world);
-		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
-		for(int x = 0; x < teamsNeeded;x++) {
-			this.scoreboard.addNewTeam();
-			this.scoreboard.resetScores(0);
-		}
-		//teamNames.add("testing");
-		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
-		int maxBases = 8;
-		int workarea = size*16;
-		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
-		int counter = 0;
-		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
-			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
-				counter++;
-				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
-				bases.add(new Base(x, yPos, z, box, Color.GRAY));
-			}
-		}
-		
-		currentState = State.WaitingToStart;
-	}
-	
-	public ExperimentCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
-		super(id, size, xPos, zPos, world);
+	public ExperimentFlatCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
+		super(id, size, xPos, zPos, world, ExperimentManager.INSTANCE.flat_field);
 		//teamNames.add("testing");
 		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		this.teamsNeeded = maxteams;
@@ -136,15 +110,16 @@ public class ExperimentCTB extends Experiment{
 //				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 //			}
 //		}
-		int y = yPos + 5;
-		BoundingBox box = new BoundingBox(xPos + 95.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 95, y, zPos + 142, box, Color.GRAY));
-		box = new BoundingBox(xPos + 132.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 132, y, zPos + 142, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 184.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 114, y, zPos + 184, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 100.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 114, y, zPos + 100, box, Color.GRAY));
+		int y = yPos + 7;
+		int x_offset = 28;
+		BoundingBox box = new BoundingBox(xPos + 25.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
+		box = new BoundingBox(xPos + 62.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
+		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 114.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
+		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 30.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		
@@ -227,22 +202,23 @@ public class ExperimentCTB extends Experiment{
 			
 			//generateArea();
 			
-			if(this.generateStoop()) {
+			if(this.generateStoop(ExperimentManager.INSTANCE.flat_field)) {
 				currentState = State.Starting;
 			}
 			genTick++;
 		}
 		else if(currentState == State.Starting){
 			if(tickCount == 0){
-				int index = 0;
+				int index = 1; //hotfix for incorrect spawn location order
 				world.setWorldTime(1000);
 				for(Team team: scoreboard.getTeams()) {
 					this.scoreboard.updateScore(team, 0);
 					ItemStack[] armor = new ItemStack[4];
 					armor[3] = armors[currentArmor];	//set current armor color to current team
 					incrementArmor();	//increment armor counter so next team gets a different armor
-					if(index > spawnlocations.length)	//reset spawn location index to prevent null pointer exceptions
+					if(index > 3) {//spawnlocations[].length)	//reset spawn location index to prevent null pointer exceptions
 						index = 0;
+					}
 					team.setSpawn(spawnlocations[index][0], spawnlocations[index][1], spawnlocations[index][2]);
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
 						player.addChatMessage(new ChatComponentText(String.format("Experiment Will be starting in %d seconds!", this.WAITSPAWNTICKS/20)));
@@ -341,7 +317,7 @@ public class ExperimentCTB extends Experiment{
 		}
 		
 		else if(currentState == State.Halftime){
-			if(this.halfTimeTicksRemaining == this.maxWaitTimeHalfTime) {
+			if(this.halfTimeTicksRemaining == 2400) {
 				Map.Entry<Team, Float> maxEntry = null;
 				for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet()) {
 				    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
@@ -630,9 +606,12 @@ public class ExperimentCTB extends Experiment{
 		}	
 	}
 	
+	//TEMOC:
+	//TEMOC ExperiMental Oasis Center
+	
 	public String getInstructions() {
 		String inst = "";
-		inst += String.format("Welcome to Capture the Base at Twickenham Stadium! Work with your team to collect points before time runs out. You will have %2.0f minutes.", (float)this.maxTicks/60/20);
+		inst += String.format("Welcome to Capture the Base at Polycraft World Testing Grounds! Work with your team to collect points before time runs out. You will have %2.0f minutes.", (float)this.maxTicks/60/20);
 		inst += String.format("\n\nYou\'ll have %d seconds to discuss strategy before the game starts, and %d:%02d minutes at halftime. ", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60, (this.halfTimeTicksRemaining/20) % 60);
 		inst += String.format("Run into a base aura to convert it to your team's color. \n" + 
 				"\n" + 
@@ -747,7 +726,6 @@ public class ExperimentCTB extends Experiment{
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
-		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;
 		System.out.println("New Params installed");
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();

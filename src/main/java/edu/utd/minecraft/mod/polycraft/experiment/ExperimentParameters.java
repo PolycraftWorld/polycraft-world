@@ -52,6 +52,27 @@ public class ExperimentParameters {
 			//chest variables
 			itemParameters.put("Chest", new HashMap<String, Integer>());
 			
+		}else if (exp instanceof ExperimentFlatCTB) {
+			//add timing variables
+			timingParameters.put("Min: Game Time", new Integer[] {(((ExperimentFlatCTB) exp).getMaxTicks())/60/20, 3, 20}); //minutes
+			timingParameters.put("Sec: Half Time", new Integer[] {(((ExperimentFlatCTB) exp).getHalfTimeTicks())/20, 30, 180}); //seconds
+			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentFlatCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
+			timingParameters.put("Sec: Post-Game", new Integer[] {(((ExperimentFlatCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
+			
+			//add scoring variables
+			scoringParameters.put("Pts: Claim Base", new Number[] {((ExperimentFlatCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)499}); //points
+			scoringParameters.put("Pts: Steal Base", new Number[] {((ExperimentFlatCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Sec: Base Pts Gen", new Number[] {(((ExperimentFlatCTB) exp).getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Owned Base", new Number[] {((ExperimentFlatCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
+			scoringParameters.put("Sec: Claim Base", new Number[] {(((ExperimentFlatCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
+			
+			//item variables
+			itemParameters.put("Give Knockback Stick", new Boolean(true));
+			itemParameters.put("Inventory", new HashMap<String, Integer>()); //its easier to send this vs. Item stacks
+			itemParameters.put("Armor", new HashMap<String, Integer>());
+			
+			//chest variables
+			itemParameters.put("Chest", new HashMap<String, Integer>());
 		}
 	}
 	

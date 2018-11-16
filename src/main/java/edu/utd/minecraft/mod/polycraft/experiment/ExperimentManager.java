@@ -40,6 +40,7 @@ public class ExperimentManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
+	
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
@@ -67,6 +68,7 @@ public class ExperimentManager {
 		public int currentPlayers;
 		private boolean available = true;
 		private ExperimentParameters parameters;
+		public String expType;
 		
 		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
 			expName = name;
@@ -75,6 +77,29 @@ public class ExperimentManager {
 			this.instructions = instructions; 
 		}
 		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+			this.parameters = params;
+		}
+		
+		public ExperimentListMetaData(Experiment type) {
+			if(type instanceof ExperimentCTB) {
+				this.expName = "Experiment B: " + type.id;
+				this.expType = "Stoop";
+			}else if(type instanceof ExperimentFlatCTB) {
+				this.expName = "Experiment A: " + type.id;
+				this.expType = "Flat"; //TODO: Declare these names as static within the class.
+			}
+			this.playersNeeded = type.getMaxPlayers();
+			currentPlayers = 0;
+			this.instructions = type.getInstructions();
+			this.parameters = new ExperimentParameters(type);
+			
+		}
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, Experiment type) {
 			expName = name;
 			playersNeeded = maxPlayers;
 			currentPlayers = currPlayers;
@@ -168,7 +193,9 @@ public class ExperimentManager {
 		//	boolean areAnyActive1x = false;
 			boolean areAnyActive = false;
 			boolean areAnyActive4x = false;
-			boolean areAnyActive8x = false;
+			boolean isFlatActive2x = false;
+			boolean isFlatActive4x = false;
+			//boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onServerTickUpdate();
@@ -176,40 +203,53 @@ public class ExperimentManager {
 			}
 			for(ExperimentListMetaData ex2 : metadata) {
 				if(ex2.isAvailable()) {
-					switch(ex2.playersNeeded) {
-//					case 1:
-//						areAnyActive1x = true;
-//						break;
-					case 2:
-						areAnyActive = true;
-						break;
-					case 4:
-						areAnyActive4x = true;
-						break;
-					case 8:
-						areAnyActive8x = true;
-						break;
-					default:
-						//areAnyActive1x = true;
-						areAnyActive = true;
-						areAnyActive4x = true;
-						areAnyActive8x = true;
-						break;
-					}
+					if(ex2.expType.equals("Stoop")) {
+						switch(ex2.playersNeeded) {
+	//					case 1:
+	//						areAnyActive1x = true;
+	//						break;
+						case 2:
+							areAnyActive = true;
+							break;
+						case 4:
+							areAnyActive4x = true;
+							break;
+						case 8:
+							//areAnyActive8x = true;
+							break;
+						default:
+							//areAnyActive1x = true;
+							areAnyActive = true;
+							areAnyActive4x = true;
+							//areAnyActive8x = true;
+							break;
+						}
 					
+					}else if(ex2.expType.equals("Flat")) {
+						switch(ex2.playersNeeded) {
+						case 2:
+							isFlatActive2x = true;
+							break;
+						case 4:
+							isFlatActive4x = true;
+							break;
+						default:
+							break;
+						}
+					}
 				}
 			}
-			//TODO: remove this.
-//			if(!areAnyActive1x) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB1 = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 1, 1);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB1);
-//				//sendExperimentUpdates();
-//			}
+
+			int posOffset = 10000;
 			int multiplier = 1;
+			
+			if(!isFlatActive2x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
+				this.registerExperiment(nextID, newExpFlat2x);
+			}
+			
 			if(!areAnyActive) {
 				int nextID = this.getNextID();
 				int numChunks = 8;
@@ -221,6 +261,14 @@ public class ExperimentManager {
 				this.registerExperiment(nextID, newExpCTB2x);
 				//sendExperimentUpdates();
 			}
+			
+			if(!isFlatActive4x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentFlatCTB newExpFlat4x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 2);
+				this.registerExperiment(nextID, newExpFlat4x);
+			}
+			
 			if(!areAnyActive4x) {
 				int nextID = this.getNextID();
 				int numChunks = 8;
@@ -231,16 +279,17 @@ public class ExperimentManager {
 				this.registerExperiment(nextID, newExpCTB4x);
 				//sendExperimentUpdates();
 			}
-			if(!areAnyActive8x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
-				this.registerExperiment(nextID, newExpCTB8x);
-				//sendExperimentUpdates(); //do we need this??
-			}
+//			if(!areAnyActive8x) {
+//				int nextID = this.getNextID();
+//				int numChunks = 8;
+//				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+//				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+//				//newExpCTB1.setTeamsNeeded(1);
+//				//newExpCTB1.setTeamSize(1);
+//				this.registerExperiment(nextID, newExpCTB8x);
+//				//sendExperimentUpdates(); //do we need this??
+//			}
+
 		}
 	}
 	
@@ -502,7 +551,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
-			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0, ex.getInstructions(), new ExperimentParameters(ex)));
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData(ex));
 			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
