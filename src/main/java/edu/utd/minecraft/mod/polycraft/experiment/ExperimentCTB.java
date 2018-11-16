@@ -739,11 +739,11 @@ public class ExperimentCTB extends Experiment{
 		//scoring:
 		this.claimBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Claim Base")[0].toString());
 		this.stealBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Steal Base")[0].toString());
-		this.updateScoreOnTickRate = ((int)Integer.parseInt(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20;
-		this.ownedBaseScoreBonusOnTicks = (int)Integer.parseInt(params.scoringParameters.get("Pts: Owned Base")[0].toString());
-		this.ticksToClaimBase = ((int)Integer.parseInt(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20;
+		this.updateScoreOnTickRate = (int) (Float.parseFloat(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20;
+		this.ownedBaseScoreBonusOnTicks = (int)Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString());
+		this.ticksToClaimBase = (int) (Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20;
 		System.out.println("New Params installed");
-		ExperimentManager.metadata.get(this.id).updateParams(params);
+		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();
 	}
 

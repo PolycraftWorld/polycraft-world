@@ -84,12 +84,14 @@ public class ExperimentManager {
 			currentPlayers = newPlayerCount;
 		}
 		
+		@Deprecated
 		public void updateParams(ExperimentParameters params) {
 			this.parameters = params;
 		}
 		
 		public void updateParams(int ExpID) {
 			this.parameters = new ExperimentParameters(ExperimentManager.experiments.get(ExpID));
+			this.instructions = ExperimentManager.experiments.get(ExpID).getInstructions(); //update instructions
 		}
 		
 		public void deactivate() {
