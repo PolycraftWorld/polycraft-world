@@ -48,6 +48,7 @@ public abstract class Experiment {
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
+	protected Schematic sch;
 	private Random random;
 	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
@@ -85,6 +86,30 @@ public abstract class Experiment {
 		this.currentState = State.PreInit;
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
+		this.sch = null;
+		
+	}
+	
+	/**
+	 * Creates the experimentation zone.
+	 * @param id 	id of the experiment that is indexed in experiment manager
+	 * @param size 	square size (in chunks) of the experimentation zone
+	 * @param xPos 	One corner (not sure which one, I'm guessing it's the lowest xPos value, as blocks get filled from XPos to XPos + 16*size.
+	 * @param zPos 	Other Corner (lowest Zpos, as zpos gets incremented z++).
+	 * @param world reference to the world.
+	 */
+	public Experiment(int id, int size, int xPos, int zPos, World world, Schematic schematic){
+		this.id = id;
+		//this.size = size;
+		this.size = (int)Math.ceil((float)schematic.width/16.0);
+		this.xPos = xPos;
+		this.yPos = 16;
+		this.zPos = zPos;
+		this.world = world;
+		this.currentState = State.PreInit;
+		random = new Random();
+		dummy = new ResearchAssistantEntity(world, true);
+		this.sch = schematic;
 		
 		
 	}
@@ -179,6 +204,144 @@ public abstract class Experiment {
 
 		final int maxBlocksPerTick = 65536;
 		Schematic sh = ExperimentManager.INSTANCE.stoop;
+		
+		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
+		//we don't want the game to lag too much.
+		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(sh.height*sh.width)),1.0));
+		
+		//the position to begin counting in the blocks[] array.
+		int count=(genTick*maxXPerTick)*sh.height*sh.width;
+		
+		
+		if(count >= sh.blocks.length || this.id > 1) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+			
+			//lets put in the chests!
+			for(int i = 0; i < spawnlocations.length; i++) {
+				int x = spawnlocations[i][0];
+				int y = spawnlocations[i][1];
+				int z = spawnlocations[i][2];
+				TileEntity entity;
+				if(world.blockExists(x, y, z)) {
+					entity = (TileEntity) world.getTileEntity(x, y , z);
+					if(entity != null && entity instanceof TileEntityChest) {
+						//clear chest contents.
+						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
+						entity = chest; //set this updated chest to the entity object.
+					}
+					
+				} else {
+					world.setBlock(x, y, z, Block.getBlockFromName("chest"));
+					entity = (TileEntity) world.getTileEntity(x, y , z);
+				}
+				
+				if(entity != null && entity instanceof TileEntityChest) {
+					System.out.println("I put in a chest!");
+					ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
+					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4); //Oak Wood Logs
+					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4); //Aluminum Blocks
+					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4); //Black Natural Rubber -
+					TileEntityChest chest = (TileEntityChest) entity;
+					chest.setInventorySlotContents(0, someIce);
+					chest.setInventorySlotContents(1, someWood);
+					chest.setInventorySlotContents(2, someAluminum);
+					chest.setInventorySlotContents(3, someNR);
+				}
+				
+			}
+			
+			return true; 
+		}
+
+		//still have blocks in the blocks[] array we need to add to the world
+		for(int x = (genTick*maxXPerTick); x < (genTick*maxXPerTick)+ maxXPerTick; x++){
+			for(int y = 0; y<(int)sh.height; y++){
+				for(int z = 0; z<(int)sh.width; z++){
+					if(count>=sh.blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
+						return false;
+					}
+					int curblock = (int)sh.blocks[count];
+					
+					if(curblock == 0 || curblock == 76) {
+						count++;
+						continue;
+					}
+					else if(curblock == 759) {
+						count++;
+						continue; //these are Gas Lamps - we don't care for these.
+						
+					}else if(curblock == 123 || curblock == 124) { //replace redstone lamps (inactive or active) with glowstone.
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+					}
+					
+					else if(curblock == 95) {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						if(sh.data[count] == 5) {
+							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+						}
+	
+						
+					}else if(curblock == 35) {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//System.out.println(x);
+						if(sh.data[count] == 5) {
+							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+						}else if(sh.data[count] == 0) {
+							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
+						}
+						
+					}
+					
+					
+					else if(curblock == 754) { //spotlights - we like these
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println("Coordinates: ");
+						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+						
+						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+						lightInv.setInventorySlotContents(0,
+								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
+
+					
+					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
+								i = spawnlocations.length; 	//exit for loop
+							}
+						}					
+						
+					}else {
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+					}
+					
+					count++;
+				}
+			}
+		}
+		
+		return false;
+		
+		
+	}
+	
+	
+	/**
+	 * Generates the stoop approximately 1 chunk at a time. This function handles determining the size it needs
+	 * This function assumes that the schematic file in question was generated by {@inheritDoc commands.dev.CommandDev.java}
+	 * That means the block and data array are generated by the nested for loops: length (x), height (y), width (z), in that order.
+	 * @return True if its done generating, False if it's still in progress
+	 */
+	protected boolean generateStoop(Schematic schematic) {
+
+		final int maxBlocksPerTick = 65536;
+		Schematic sh = schematic;
 		
 		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
 		//we don't want the game to lag too much.

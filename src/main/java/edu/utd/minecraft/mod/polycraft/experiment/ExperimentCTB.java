@@ -630,14 +630,14 @@ public class ExperimentCTB extends Experiment{
 	
 	public String getInstructions() {
 		String inst = "";
-		inst += "Welcome to Capture the Base! Work with your team to collect points before time runs out. ";
-		inst += String.format("\n\nYou\'ll have %d seconds to discuss strategy before the game starts, and %d minutes at halftime. ", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60);
+		inst += String.format("Welcome to Capture the Base! Work with your team to collect points before time runs out. You will have %2.0f minutes.", (float)this.maxTicks/60/20);
+		inst += String.format("\n\nYou\'ll have %d seconds to discuss strategy before the game starts, and %d:%02d minutes at halftime. ", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60, (this.halfTimeTicksRemaining/20) % 60);
 		inst += String.format("Run into a base aura to convert it to your team's color. \n" + 
 				"\n" + 
 				"Neutral base conversion: %2.0f pts. \n" + 
 				"\n" + 
 				"Enemy base conversion: %3.0f pts. \n\n"
-				+ "Each base you control will generate %1.0f pts every %1.0f second.",
+				+ "Each base you control will generate %1.0f pts every %1.0f second(s).",
 				(float)this.claimBaseScoreBonus, 
 				(float)this.stealBaseScoreBonus, 
 				(float)this.ownedBaseScoreBonusOnTicks, 
@@ -739,9 +739,9 @@ public class ExperimentCTB extends Experiment{
 		//scoring:
 		this.claimBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Claim Base")[0].toString());
 		this.stealBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Steal Base")[0].toString());
-		this.updateScoreOnTickRate = (int) (Float.parseFloat(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20;
-		this.ownedBaseScoreBonusOnTicks = (int)Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString());
-		this.ticksToClaimBase = (int) (Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20;
+		this.updateScoreOnTickRate = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20);
+		this.ownedBaseScoreBonusOnTicks = (int) Math.round(Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString()));
+		this.ticksToClaimBase = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20);
 		System.out.println("New Params installed");
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();

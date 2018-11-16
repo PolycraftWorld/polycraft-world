@@ -228,7 +228,7 @@ public class GuiExperimentList extends GuiScreen {
     		for(ConfigSlider slider : (ArrayList<ConfigSlider>) this.guiConfig.getChangedItems()) {
     			if(this.currentParameters.timingParameters.containsKey(slider.getName())) {
     				Integer[] timingVals = this.currentParameters.timingParameters.get(slider.getName());
-    				timingVals[0] = (int)slider.getSelectedValue();
+    				timingVals[0] = (int) Math.round(slider.getSelectedValue());
     				this.currentParameters.timingParameters.put(slider.getName(), timingVals);
     			}else if(this.currentParameters.scoringParameters.containsKey(slider.getName())) {
     				

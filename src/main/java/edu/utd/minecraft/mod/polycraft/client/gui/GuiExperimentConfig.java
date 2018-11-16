@@ -231,7 +231,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 			this.defaultValue = defaultValue;
 			this.slider = new GuiSlider(0, 0, 0, SLIDER_WIDTH, HEIGHT, "", "", minVal, maxVal, defaultValue, false, true, null);
 			this.reset = new GuiButton(0, 0, 0, RESET_WIDTH, HEIGHT, "X");
-			this.parameterName = GuiExperimentConfig.this.minecraft.fontRenderer.trimStringToWidth(this.parameterName, GuiExperimentConfig.this.width/2);
+			this.parameterName = GuiExperimentConfig.this.minecraft.fontRenderer.trimStringToWidth(this.parameterName, GuiExperimentConfig.this.width/2 + 5);
 		}
 
 		@Override
@@ -259,7 +259,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 		@Override
 		public boolean mousePressed(int startingSlotID, int mouseX, int mouseY, int b, int c,
 				int d) {
-			System.out.println("a, b, c, d" + startingSlotID + " " + b + " " + c + " " + d);
+			System.out.println("Slider Changed: " + this.parameterName);
 			if(this.reset.mousePressed(GuiExperimentConfig.this.minecraft, mouseX, mouseY)) {
 				this.slider.setValue(this.defaultValue);
 				this.slider.dispString = String.format("%d", (int)this.defaultValue);
