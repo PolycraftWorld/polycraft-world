@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -422,13 +423,44 @@ public class ExperimentManager {
 	 */
 	public void stop(int id){
 		Experiment ex = experiments.get(id);
-		for(Team team: ex.scoreboard.getTeams()) {
-			for(String player: team.getPlayers()){
-				EntityPlayerMP playerEntity = (EntityPlayerMP) this.getPlayerEntity(player);
+		Map.Entry<Team, Float> maxEntry = null;
+		for (Map.Entry<Team, Float> entry : ex.scoreboard.getTeamScores().entrySet()) {
+		    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
+		        maxEntry = entry;
+		    }
+		}
+		
+		for(EntityPlayer player : ex.scoreboard.getPlayersAsEntity()) {
+						
+			if(ex.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
+				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
+				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
+
+			} else {
+				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
 				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
 				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
 			}
+			
 		}
+		
+		
+//		for(Team team: ex.scoreboard.getTeams()) {
+//			if(maxEntry.getKey().equals(team)) {
+//				for(String player: team.getPlayers()){
+//					EntityPlayerMP playerEntity = (EntityPlayerMP) this.getPlayerEntity(player);
+//					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
+//					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
+//				}
+//			}else {
+//				for(String player: team.getPlayers()){
+//					EntityPlayerMP playerEntity = (EntityPlayerMP) this.getPlayerEntity(player);
+//					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
+//					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
+//				}
+//			}
+//		}
 		//
 		ex.stop(); //this clears the scoreboard (removes players)
 		//reset(); //don't delete the scoreboard from the manager just yet.
