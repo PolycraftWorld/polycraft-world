@@ -193,7 +193,7 @@ public abstract class Enforcer {
 	public static Set<String> friends = Sets.newHashSet();
 	protected Action actionPrevented = null;
 	protected PrivateProperty actionPreventedPrivateProperty = null;
-	private final Gson gsonGeneric;
+	protected final Gson gsonGeneric;
 
 	public static Enforcer getInstance(final World world) {
 		if (world.isRemote) {

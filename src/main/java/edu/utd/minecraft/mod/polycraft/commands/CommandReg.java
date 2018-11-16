@@ -67,7 +67,7 @@ public class CommandReg extends CommandBase{
 		{
 			System.out.println("Processing on Server side"); 
 			if (args.length > 0) {
-				String response = ServerEnforcer.INSTANCE.AddEmail(sender.getCommandSenderName().toLowerCase(), args[0].toLowerCase());
+				String response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderName().toLowerCase(), args[0].toLowerCase());
 				player.addChatMessage(new ChatComponentText(response));
 			}
 		}		

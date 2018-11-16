@@ -61,6 +61,7 @@ public class CommandExit  extends CommandBase{
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
+		
 		if (world.isRemote) 
         { 
             //System.out.println("Not processing on Client side"); 

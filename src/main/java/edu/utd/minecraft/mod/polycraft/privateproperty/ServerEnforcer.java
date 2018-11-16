@@ -192,14 +192,16 @@ public class ServerEnforcer extends Enforcer {
 						onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
 					case Consent:
+						final String playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+								new TypeToken<String>() {
+								}.getType());
 						switch(pendingDataPacketTypeMetadata) {
 						case 0: //player gives consent
-							//TODO: Player gave consent!
-							System.out.println("Player Gives Consent");
+							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", true);
 							break;
 						case 1:
-							//TODO: Player withdraws consent
-							System.out.println("Player Withdraws Consent");
+							//Player withdraws consent
+							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", false);
 							break;
 						default:
 							break;
@@ -233,11 +235,9 @@ public class ServerEnforcer extends Enforcer {
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));	
 		}
 		
-		if(System.getProperty("isExperimentServer") != null) {
-			this.shouldClientDisplayConsentGUI(true, (EntityPlayerMP)event.player);
-		} else {
-			this.shouldClientDisplayConsentGUI(false, (EntityPlayerMP)event.player);
-		}
+		if(System.getProperty("isExperimentServer") != null)
+			this.shouldClientDisplayConsentGUI((EntityPlayerMP)event.player);
+		
 	}
 	
 	@SubscribeEvent
@@ -438,9 +438,20 @@ public class ServerEnforcer extends Enforcer {
 	}
 	
 
-	public void shouldClientDisplayConsentGUI(boolean flag, EntityPlayerMP player) {
-		int yes = flag ? 0 : 1;
-		sendDataPackets(DataPacketType.Consent, yes, player);
+	public void shouldClientDisplayConsentGUI(EntityPlayerMP player) {
+		if (portalRestUrl != null) {
+			try {
+				String result = ServerEnforcer.INSTANCE.IRBTest(player.getCommandSenderName().toLowerCase(), "get");
+				if(result.equals("\"valid\"")) {
+					sendDataPackets(DataPacketType.Consent, 1, player);	//sending 1 will not show consent form
+				}else {
+					sendDataPackets(DataPacketType.Consent, 0, player);	//sending 0 will show consent form
+				}
+			}
+			catch(Exception e){
+				//TODO: something?
+			}
+		}
 	}
 
 	public void freezePlayerForTicks(int ticks, EntityPlayerMP player) {
@@ -805,7 +816,7 @@ public class ServerEnforcer extends Enforcer {
 								response,
 								new TypeToken<PlayerHelper>() {
 								}.getType());
-						addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name, newPlayer.uuid);
+						addUserToWhitelist(newPlayer.id, newPlayer.minecraft_user_name.toLowerCase(), newPlayer.uuid);
 						sendDataPackets(DataPacketType.playerID, 0, player);
 					} catch (final IOException e) {
 						PolycraftMod.logger.error(
@@ -822,6 +833,31 @@ public class ServerEnforcer extends Enforcer {
 			params.put("minecraft_user_name", minecraftUserName);
 			params.put("email", email);
 			String response = NetUtil.post(String.format("%s/add_email/", portalRestUrl),
+					params);
+			if(response.length() > 500)
+				response = "Error processing command";
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
+	
+	public String IRBTest(String minecraftUserName, String option) {
+		return IRBTest(minecraftUserName, option, false);
+	}
+	
+	public String IRBTest(String minecraftUserName, String option, boolean flag) {
+		try {
+			Map<String, String> params = Maps.newHashMap();
+			params.put("minecraft_user_name", minecraftUserName);
+			params.put("option", option);
+			if(flag) 
+				params.put("flag", "True");
+			else
+				params.put("flag", "False");
+			String response = NetUtil.post(String.format("%s/irb/", portalRestUrl),
 					params);
 			if(response.length() > 500)
 				response = "Error processing command";

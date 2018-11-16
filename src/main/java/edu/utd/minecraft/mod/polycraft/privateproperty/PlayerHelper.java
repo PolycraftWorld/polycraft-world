@@ -24,6 +24,15 @@ public class PlayerHelper {
 		this.minecraft_user_name = minecraft_user_name.getAsString();
 		this.uuid = uuid.getAsString();
 	}
+	
+	public PlayerHelper(long id, 
+			String minecraft_user_name, 
+			String uuid) {
+		this.id = id;
+		this.minecraft_user_name = minecraft_user_name;
+		this.uuid = uuid;
+		this.is_active = true;
+	}
 
 	public static class Deserializer implements JsonDeserializer<PlayerHelper> {
 
