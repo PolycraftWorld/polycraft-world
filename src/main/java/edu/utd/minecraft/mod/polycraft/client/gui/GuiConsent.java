@@ -301,7 +301,8 @@ public class GuiConsent extends GuiScreen {
 		default: // Should not occur outside of case 5 falling through.
 			this.mc.displayGuiScreen((GuiScreen) null);
 			this.mc.setIngameFocus();
-			this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
+			if(this.consent) //display experiments list to those who consent.
+				this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
 			break;
 		}
 	}

@@ -64,18 +64,19 @@ public class ExperimentCTB extends Experiment{
 	private static int currentArmor = 0;
 	
 	//experimental params
-	private final float MAXSCORE = 1000; 
-	private final int halfTimeTicks = maxTicks/2; //(5 minutes)
-	public static int maxTicks = 12000; //Server drops ticks?
+	public int maxTicks = 12000; //Server drops ticks?
+	//private float MAXSCORE = 1000; 
+	private int halfTimeTicks = maxTicks/2; //(5 minutes)
+
 	private int halfTimeTicksRemaining = 2400; //2 minutes
-	private final int WAIT_TELEPORT_UTD_TICKS = 400;
+	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
-	private final int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
-	private final float claimBaseScoreBonus = 50;
-	private final float stealBaseScoreBonus = 200;
-	private final int updateScoreOnTickRate = 20;
-	private final int ownedBaseScoreBonusOnTicks = 5;
-	private final int WAITSPAWNTICKS = 400;
+	private int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
+	private float claimBaseScoreBonus = 50;
+	private float stealBaseScoreBonus = 200;
+	private int updateScoreOnTickRate = 20;
+	private int ownedBaseScoreBonusOnTicks = 5;
+	private int WAITSPAWNTICKS = 400;
 	//public static int maxPlayersNeeded = 4;
 	
 	private String stringToSend = "";
@@ -629,14 +630,14 @@ public class ExperimentCTB extends Experiment{
 	
 	public String getInstructions() {
 		String inst = "";
-		inst += "Welcome to Capture the Base! Work with your team to collect points before time runs out. ​";
-		inst += String.format("\n\nYou’ll have %d seconds to discuss strategy before the game starts, and %d minutes at halftime.", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60);
-		inst += String.format("Run into a base aura to convert it to your team’s color. ​\n" + 
+		inst += "Welcome to Capture the Base! Work with your team to collect points before time runs out. ";
+		inst += String.format("\n\nYou\'ll have %d seconds to discuss strategy before the game starts, and %d minutes at halftime. ", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60);
+		inst += String.format("Run into a base aura to convert it to your team's color. \n" + 
 				"\n" + 
-				"Neutral base conversion: %f pts. ​\n" + 
+				"Neutral base conversion: %2.0f pts. \n" + 
 				"\n" + 
-				"Enemy base conversion: %f pts. \n\n​ "
-				+ "Each base you control will generate %f pts every %f second.",
+				"Enemy base conversion: %3.0f pts. \n\n"
+				+ "Each base you control will generate %1.0f pts every %1.0f second.",
 				(float)this.claimBaseScoreBonus, 
 				(float)this.stealBaseScoreBonus, 
 				(float)this.ownedBaseScoreBonusOnTicks, 
@@ -688,6 +689,42 @@ public class ExperimentCTB extends Experiment{
 			}
 			base.render(entity);
 		}
+	}
+
+	public int getHalfTimeTicks() {
+		return halfTimeTicks;
+	}
+
+	public int getMaxTicks() {
+		return maxTicks;
+	}
+
+	public int getWAIT_TELEPORT_UTD_TICKS() {
+		return WAIT_TELEPORT_UTD_TICKS;
+	}
+
+	public int getTicksToClaimBase() {
+		return ticksToClaimBase;
+	}
+
+	public float getClaimBaseScoreBonus() {
+		return claimBaseScoreBonus;
+	}
+
+	public float getStealBaseScoreBonus() {
+		return stealBaseScoreBonus;
+	}
+
+	public int getUpdateScoreOnTickRate() {
+		return updateScoreOnTickRate;
+	}
+
+	public int getOwnedBaseScoreBonusOnTicks() {
+		return ownedBaseScoreBonusOnTicks;
+	}
+
+	public int getWAITSPAWNTICKS() {
+		return WAITSPAWNTICKS;
 	}
 
 

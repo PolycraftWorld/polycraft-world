@@ -123,7 +123,7 @@ public class CommandChallenge  extends CommandBase{
 					}
 				}else if(chatCommandChallengeMaxTicks.equalsIgnoreCase(args[0])){
 					try{
-						ExperimentCTB.maxTicks = Integer.parseInt(args[1]);
+						//ExperimentCTB.maxTicks = Integer.parseInt(args[1]);
 					}catch(NumberFormatException e) {
 						//ERROR
 					}

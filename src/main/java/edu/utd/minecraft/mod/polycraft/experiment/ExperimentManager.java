@@ -64,12 +64,20 @@ public class ExperimentManager {
 		public int playersNeeded;
 		public int currentPlayers;
 		private boolean available = true;
+		private ExperimentParameters parameters;
 		
 		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
 			expName = name;
 			playersNeeded = maxPlayers;
 			currentPlayers = currPlayers;
 			this.instructions = instructions; 
+		}
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+			this.parameters = params;
 		}
 		
 		public void updateCurrentPlayers(int newPlayerCount) {
@@ -84,6 +92,10 @@ public class ExperimentManager {
 			return available;
 		}
 		
+		public ExperimentParameters getParams() {
+			return parameters;
+		}
+
 		@Override
 		public String toString() {
 			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d Available? %s", expName, playersNeeded, currentPlayers, available);
@@ -121,6 +133,7 @@ public class ExperimentManager {
 		clientCurrentExperiment = -1;
 		
 	}
+	
 	//initialize new experiments before players join
 	@Deprecated
 	public static void init(){					
@@ -453,7 +466,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
-			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0, ex.getInstructions()));
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData("Experiment " + ex.id, ex.getMaxPlayers(), 0, ex.getInstructions(), new ExperimentParameters(ex)));
 			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
