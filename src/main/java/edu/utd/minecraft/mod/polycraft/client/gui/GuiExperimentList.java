@@ -227,16 +227,21 @@ public class GuiExperimentList extends GuiScreen {
     		//TODO: get this sent to the server.
     		for(ConfigSlider slider : (ArrayList<ConfigSlider>) this.guiConfig.getChangedItems()) {
     			if(this.currentParameters.timingParameters.containsKey(slider.getName())) {
-    				this.currentParameters.timingParameters.put(slider.getName(), new Integer[] {(int) slider.getSelectedValue(),0,0});
+    				Integer[] timingVals = this.currentParameters.timingParameters.get(slider.getName());
+    				timingVals[0] = (int)slider.getSelectedValue();
+    				this.currentParameters.timingParameters.put(slider.getName(), timingVals);
     			}else if(this.currentParameters.scoringParameters.containsKey(slider.getName())) {
-    				this.currentParameters.scoringParameters.put(slider.getName(), new Number[] {slider.getSelectedValue(), 0, 0});
+    				
+    				Number[] scoringVals = this.currentParameters.scoringParameters.get(slider.getName());
+    				scoringVals[0] = slider.getSelectedValue();
+    				this.currentParameters.scoringParameters.put(slider.getName(), scoringVals);
     			}else {
     				continue;
     			}
     		}
     		//System.out.println("Test");
     		
-    		
+    		this.sendExperimentUpdateToServer(this.currentExperimentDetailOnScreenID, this.currentParameters);
     		this.screenSwitcher = this.screenChange(WhichScreen.ExperimentList);
     		this.currentExperimentDetailOnScreenID = -1; //no experiment selected
     		break;
@@ -589,6 +594,7 @@ public class GuiExperimentList extends GuiScreen {
     
     }
     
+    @Deprecated
     private void getConfigButtons() {
     	ArrayList<GuiButton> buttons = new ArrayList<GuiButton>();
     	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
@@ -620,7 +626,7 @@ public class GuiExperimentList extends GuiScreen {
     	//add Knockback Stick Param:
     	buttons.add(new GuiCheckBox(paramID++, x_pos, y_pos, "Give Knockback?", (boolean) param.itemParameters.get("Give Knockback Stick")));
     		
-       }
+    }
     
 
     private List<String> getInstructionsAsList(){

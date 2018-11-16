@@ -461,5 +461,8 @@ public abstract class Experiment {
 		this.playersNeeded = teamsNeeded*teamSize;
 		//this.awaitingNumPlayers = playersNeeded;
 	}
+
+
+	protected abstract void updateParams(ExperimentParameters params);
 	
 }

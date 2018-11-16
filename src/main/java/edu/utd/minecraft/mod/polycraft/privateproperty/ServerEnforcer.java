@@ -189,7 +189,24 @@ public class ServerEnforcer extends Enforcer {
 				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
 					switch (pendingDataPacketType) {
 					case Challenge:
-						onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						switch(ExperimentsPacketType.values()[pendingDataPacketTypeMetadata]) {
+							case BoundingBoxUpdate:
+								break;
+							case PlayerLeftDimension:
+								break;
+							case ReceiveExperimentsList:
+								break;
+							case RequestJoinExperiment:
+								onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case SendParameterUpdates:
+								onClientUpdateExperimentParameters(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							default:
+								break;
+								
+							}
+						
 						break;
 					case Consent:
 						switch(pendingDataPacketTypeMetadata) {
@@ -224,6 +241,21 @@ public class ServerEnforcer extends Enforcer {
 		}
 	}
 	
+	private void onClientUpdateExperimentParameters(String decompress) {
+		Gson gson = new Gson();
+		ExperimentManager.ExperimentParticipantMetaData part = gson.fromJson(decompress, new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType());
+		
+		//TODO: check if player is opped.
+		ExperimentManager.INSTANCE.updateExperimentParameters(part.experimentID, part.params);
+		
+//		if(part.wantsToJoin) {
+//			ExperimentManager.INSTANCE.addPlayerToExperiment(part.experimentID, (EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(part.playerName));
+//		}else {
+//			ExperimentManager.INSTANCE.removePlayerFromExperiment(part.experimentID, (EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(part.playerName));
+//		}
+//		
+	}
+
 	@SubscribeEvent
 	public void onClientJoinsServer(final PlayerEvent.PlayerLoggedInEvent event) {
 		System.out.println("Player Logged in");

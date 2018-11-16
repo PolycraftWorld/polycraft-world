@@ -84,6 +84,14 @@ public class ExperimentManager {
 			currentPlayers = newPlayerCount;
 		}
 		
+		public void updateParams(ExperimentParameters params) {
+			this.parameters = params;
+		}
+		
+		public void updateParams(int ExpID) {
+			this.parameters = new ExperimentParameters(ExperimentManager.experiments.get(ExpID));
+		}
+		
 		public void deactivate() {
 			available = false;
 		}
@@ -498,5 +506,10 @@ public class ExperimentManager {
 				}
 			}
 		}
+	}
+
+	public void updateExperimentParameters(int experimentID, ExperimentParameters params) {
+		this.experiments.get(experimentID).updateParams(params);
+		
 	}
 }

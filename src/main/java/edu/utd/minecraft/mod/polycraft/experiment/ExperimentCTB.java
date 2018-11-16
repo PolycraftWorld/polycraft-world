@@ -727,5 +727,25 @@ public class ExperimentCTB extends Experiment{
 		return WAITSPAWNTICKS;
 	}
 
+	@Override
+	protected void updateParams(ExperimentParameters params) {
+		//TODO: update Inventories and Chests
+		//timing
+		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;
+		this.halfTimeTicksRemaining = params.timingParameters.get("Sec: Half Time")[0] * 20;
+		this.WAITSPAWNTICKS = params.timingParameters.get("Sec: Pre-Game")[0] *20 ;
+		this.WAIT_TELEPORT_UTD_TICKS = (params.timingParameters.get("Sec: Post-Game")[0])*20;
+		
+		//scoring:
+		this.claimBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Claim Base")[0].toString());
+		this.stealBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Steal Base")[0].toString());
+		this.updateScoreOnTickRate = ((int)Integer.parseInt(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20;
+		this.ownedBaseScoreBonusOnTicks = (int)Integer.parseInt(params.scoringParameters.get("Pts: Owned Base")[0].toString());
+		this.ticksToClaimBase = ((int)Integer.parseInt(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20;
+		System.out.println("New Params installed");
+		ExperimentManager.metadata.get(this.id).updateParams(params);
+		ExperimentManager.sendExperimentUpdates();
+	}
+
 
 }
