@@ -536,7 +536,8 @@ public class ClientEnforcer extends Enforcer {
 	public void sendGuiConsentUpdate(boolean playerGivesConsent) {
 		FMLProxyPacket[] packetList = null;
 		int flag = playerGivesConsent ? 0 : 1;
-		packetList = getDataPackets(DataPacketType.Consent, flag, "This JSON Data Currently Matters Not.");
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Consent, flag, gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {

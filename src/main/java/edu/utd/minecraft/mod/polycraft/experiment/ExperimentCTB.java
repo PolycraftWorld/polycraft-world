@@ -121,7 +121,7 @@ public class ExperimentCTB extends Experiment{
 			this.scoreboard.resetScores(0);
 		}
 		
-		tickets = new ForgeChunkManager.Ticket[size*size];
+		tickets = new ForgeChunkManager.Ticket[this.size*this.size];
 		
 		int maxBases = 8;
 		int workarea = this.size*16;
@@ -135,14 +135,14 @@ public class ExperimentCTB extends Experiment{
 //			}
 //		}
 		int y = yPos + 5;
-		BoundingBox box = new BoundingBox(xPos + 85.5, zPos + 143.5, 6,y+1, y+2, Color.GRAY);
-		bases.add(new Base(xPos + 85, y, zPos + 143, box, Color.GRAY));
-		box = new BoundingBox(xPos + 142.5, zPos + 143.5, 6,y+1, y+2, Color.GRAY);
-		bases.add(new Base(xPos + 142, y, zPos + 143, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 185.5, 6,y+1, y+2, Color.GRAY);
-		bases.add(new Base(xPos + 114, y, zPos + 185, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 101.5, 6,y+1, y+2, Color.GRAY);
-		bases.add(new Base(xPos + 114, y, zPos + 101, box, Color.GRAY));
+		BoundingBox box = new BoundingBox(xPos + 95.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 95, y, zPos + 142, box, Color.GRAY));
+		box = new BoundingBox(xPos + 132.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 132, y, zPos + 142, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5, zPos + 184.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 114, y, zPos + 184, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5, zPos + 100.5, 6,y, y+1, Color.GRAY);
+		bases.add(new Base(xPos + 114, y, zPos + 100, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		
@@ -509,7 +509,7 @@ public class ExperimentCTB extends Experiment{
 								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
-						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base!"));
+						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
 				if(base.currentState!=Base.State.Neutral) {	//push update to all players
@@ -535,7 +535,7 @@ public class ExperimentCTB extends Experiment{
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
 						} else {
 							if(base.tickCount % 20 == 0) {
-								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Captured in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
+								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText((ticksToClaimBase - base.tickCount)/20 + "seconds"));
 							}
 						}
 	
@@ -613,7 +613,7 @@ public class ExperimentCTB extends Experiment{
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {
 			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-			playerEntity.addChatMessage(new ChatComponentText("§4Alert: Someone is stealing your base!"));
+			playerEntity.addChatMessage(new ChatComponentText("\\u00A74Alert: Someone is stealing your base!"));
 		}
 	}
 

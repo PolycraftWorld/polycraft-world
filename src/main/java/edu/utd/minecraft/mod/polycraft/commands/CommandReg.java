@@ -69,6 +69,8 @@ public class CommandReg extends CommandBase{
 			if (args.length > 0) {
 				String response = ServerEnforcer.INSTANCE.AddEmail(sender.getCommandSenderName().toLowerCase(), args[0].toLowerCase());
 				player.addChatMessage(new ChatComponentText(response));
+			}else {
+				player.addChatMessage(new ChatComponentText("use \"/register [email]\" to create an account on polycraftworld.com"));
 			}
 		}		
 	}
