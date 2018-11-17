@@ -43,6 +43,7 @@ public class ExperimentFlatCTB extends Experiment{
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
+	public static boolean hasBeenGenerated = false;
 	
 	private static final ItemStack[] armors = {
 			new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
@@ -68,8 +69,9 @@ public class ExperimentFlatCTB extends Experiment{
 	public int maxTicks = 12000; //Server drops ticks?
 	//private float MAXSCORE = 1000; 
 	private int halfTimeTicks = maxTicks/2; //(5 minutes)
-
+	private int maxWaitTimeHalfTime = halfTimeTicks;
 	private int halfTimeTicksRemaining = 2400; //2 minutes
+	//private int time
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
@@ -202,7 +204,7 @@ public class ExperimentFlatCTB extends Experiment{
 			
 			//generateArea();
 			
-			if(this.generateStoop(ExperimentManager.INSTANCE.flat_field)) {
+			if(this.generateFlatArena(ExperimentManager.INSTANCE.flat_field)) {
 				currentState = State.Starting;
 			}
 			genTick++;
@@ -317,7 +319,7 @@ public class ExperimentFlatCTB extends Experiment{
 		}
 		
 		else if(currentState == State.Halftime){
-			if(this.halfTimeTicksRemaining == 2400) {
+			if(this.halfTimeTicksRemaining == this.maxWaitTimeHalfTime) {
 				Map.Entry<Team, Float> maxEntry = null;
 				for (Map.Entry<Team, Float> entry : this.scoreboard.getTeamScores().entrySet()) {
 				    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
@@ -726,6 +728,7 @@ public class ExperimentFlatCTB extends Experiment{
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
+		this.maxWaitTimeHalfTime = halfTimeTicks;
 		System.out.println("New Params installed");
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();

@@ -43,6 +43,7 @@ public class ExperimentCTB extends Experiment{
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
+	public static boolean hasBeenGenerated = false;
 	
 	private static final ItemStack[] armors = {
 			new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
