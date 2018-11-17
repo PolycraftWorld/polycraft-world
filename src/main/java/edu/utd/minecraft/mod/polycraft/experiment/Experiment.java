@@ -215,6 +215,7 @@ public abstract class Experiment {
 		
 		if(count >= sh.blocks.length || ExperimentCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
+			ExperimentCTB.hasBeenGenerated = true;
 			//lets put in the chests!
 			for(int i = 0; i < ExperimentCTB.spawnlocations.length; i++) {
 				int x = ExperimentCTB.spawnlocations[i][0];
@@ -353,6 +354,7 @@ public abstract class Experiment {
 		
 		if(count >= sh.blocks.length || ExperimentFlatCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
+			ExperimentFlatCTB.hasBeenGenerated = true;
 			//lets put in the chests!
 			for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
 				int x = ExperimentFlatCTB.spawnlocations[i][0];
