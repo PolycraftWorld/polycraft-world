@@ -195,9 +195,11 @@ public class ClientEnforcer extends Enforcer {
 						switch(pendingDataPacketTypeMetadata) {
 						case 0:	//Player SHOULD see the gui
 							this.needsToSeeConsentForm = true;
+							GuiConsent.consent = false;
 							break;
 						case 1:	//Player should not see the gui
 							this.needsToSeeConsentForm = false;
+							GuiConsent.consent = true;
 							break;
 						default:
 							break;

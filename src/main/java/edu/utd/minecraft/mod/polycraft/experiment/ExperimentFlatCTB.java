@@ -727,6 +727,10 @@ public class ExperimentFlatCTB extends Experiment{
 		this.ownedBaseScoreBonusOnTicks = (int) Math.round(Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString()));
 		this.ticksToClaimBase = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20);
 		
+		if(this.ticksToClaimBase == 0) {
+			this.ticksToClaimBase = 5;
+		}
+		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;

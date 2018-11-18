@@ -739,6 +739,7 @@ public class ExperimentCTB extends Experiment{
 		this.WAIT_TELEPORT_UTD_TICKS = (params.timingParameters.get("Sec: Post-Game")[0])*20;
 		
 		//scoring:
+		//
 		this.claimBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Claim Base")[0].toString());
 		this.stealBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Steal Base")[0].toString());
 		this.updateScoreOnTickRate = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20);
@@ -746,6 +747,11 @@ public class ExperimentCTB extends Experiment{
 		this.ticksToClaimBase = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20);
 		
 		//update half-time
+		
+		if(this.ticksToClaimBase == 0) {
+			this.ticksToClaimBase = 5;
+		}
+		
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;
 		System.out.println("New Params installed");
