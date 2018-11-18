@@ -69,8 +69,9 @@ public class ExperimentFlatCTB extends Experiment{
 	public int maxTicks = 12000; //Server drops ticks?
 	//private float MAXSCORE = 1000; 
 	private int halfTimeTicks = maxTicks/2; //(5 minutes)
-	private int maxWaitTimeHalfTime = halfTimeTicks;
+	//private int maxWaitTimeHalfTime = halfTimeTicks;
 	private int halfTimeTicksRemaining = 2400; //2 minutes
+	private int maxWaitTimeHalfTime = halfTimeTicksRemaining;
 	//private int time
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
@@ -392,7 +393,7 @@ public class ExperimentFlatCTB extends Experiment{
 					//clear player inventory
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
+						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 					}
@@ -593,7 +594,7 @@ public class ExperimentFlatCTB extends Experiment{
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {
 			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-			playerEntity.addChatMessage(new ChatComponentText("\\u00A74Alert: Someone is stealing your base!"));
+			playerEntity.addChatMessage(new ChatComponentText("\u00A74Alert: Someone is stealing your base!"));
 		}
 	}
 
@@ -728,7 +729,7 @@ public class ExperimentFlatCTB extends Experiment{
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
-		this.maxWaitTimeHalfTime = halfTimeTicks;
+		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;
 		System.out.println("New Params installed");
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();

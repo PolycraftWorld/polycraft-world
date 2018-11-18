@@ -69,7 +69,6 @@ public class ExperimentCTB extends Experiment{
 	public int maxTicks = 12000; //Server drops ticks?
 	//private float MAXSCORE = 1000; 
 	private int halfTimeTicks = maxTicks/2; //(5 minutes)
-
 	private int halfTimeTicksRemaining = 2400; //2 minutes
 	private int maxWaitTimeHalfTime = halfTimeTicksRemaining;
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
@@ -415,7 +414,7 @@ public class ExperimentCTB extends Experiment{
 					//clear player inventory
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
+						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 					}
@@ -616,7 +615,7 @@ public class ExperimentCTB extends Experiment{
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {
 			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-			playerEntity.addChatMessage(new ChatComponentText("\\u00A74Alert: Someone is stealing your base!"));
+			playerEntity.addChatMessage(new ChatComponentText("\u00A74Alert: Someone is stealing your base!"));
 		}
 	}
 
