@@ -354,18 +354,32 @@ public class GuiExperimentList extends GuiScreen {
      */
     public void drawScreen(int mouseX, int mouseY, float otherValue)
     {
+    	
+    	// Get the position of the top left pixel.
+    			int x_start = (this.width - 248) / 2;
+    			int y_start = (this.height - 184) / 2;
+    	
     	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
     		//TODO: move this to its original place
     		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
+    		this.drawDefaultBackground();
     		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
     		drawExperimentConfigScreen();
+    		
+    		
+    		this.scroll = this.guiConfig.amountScrolled/this.guiConfig.func_148135_f();
+    		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    		this.mc.getTextureManager().bindTexture(SCROLL_TAB);
+    		// The scroll bar sits at (226, 8) but the border is 1 wide so the scroll
+    		// indicator really starts at (227, 9).
+    		this.drawTexturedModalRect(x_start + 227, y_start + 9 + (int) (this.scroll * SCROLL_HEIGHT),
+    				232 + (extraLines > 0 ? 0 : 12), 0, 12, 15);
+    		
     		//this.drawDefaultBackground();
     		super.drawScreen(mouseX, mouseY, otherValue);
     		return;
     	}
-		// Get the position of the top left pixel.
-		int x_start = (this.width - 248) / 2;
-		int y_start = (this.height - 184) / 2;
+		
 		// Operate the scroll bar.
 		boolean flag = Mouse.isButtonDown(0);
 		int i1 = x_start + 226; // x and y of scroll bar.
@@ -422,8 +436,9 @@ public class GuiExperimentList extends GuiScreen {
     private void drawExperimentConfigScreen() {
     	//get top left of screen with padding.
     	int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 192) / 2;
-        this.fontRendererObj.drawString(I18n.format("Experiment Configuration: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        int y_pos = (this.height - 192) / 2 + Y_PAD;
+        this.fontRendererObj.drawString(I18n.format("Experiment Configuration: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]),
+        		x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
         
@@ -560,8 +575,8 @@ public class GuiExperimentList extends GuiScreen {
     			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
     	        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
     			
-    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 4*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
-    	        GuiButton send = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 4*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Send Updates");
+    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
+    	        GuiButton send = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Send Updates");
     	        this.buttonList.add(back);
     	        this.buttonList.add(send);
     			
@@ -633,7 +648,7 @@ public class GuiExperimentList extends GuiScreen {
     	
     	String instructions = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).instructions;
     	instructions = instructions.replaceAll("[â€‹]", "");
-    	instructions = instructions.replaceAll("[™]", "'");
+    	instructions = instructions.replaceAll("[ï¿½]", "'");
     	System.out.println(instructions);
     	return this.fontRendererObj.listFormattedStringToWidth(instructions, X_WIDTH);
     	
