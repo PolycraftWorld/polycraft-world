@@ -146,14 +146,9 @@ public class GuiExperimentList extends GuiScreen {
     	
     	if(this.guiConfig != null) {
     		this.guiConfig.func_148179_a(x, y, mouseEvent);
-    		super.mouseClicked(x, y, mouseEvent);
-//    		if (mouseEvent != 0 || !this.guiConfig.func_148179_a(x, y, mouseEvent)) {
-//    			super.mouseClicked(x, y, mouseEvent);
-//    	            
-//	        }
-		}else {
-			super.mouseClicked(x, y, mouseEvent);
-		}
+    	}
+    	
+    	super.mouseClicked(x, y, mouseEvent);
        
     }
     

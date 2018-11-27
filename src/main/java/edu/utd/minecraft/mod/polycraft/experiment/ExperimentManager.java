@@ -195,7 +195,7 @@ public class ExperimentManager {
 			boolean areAnyActive4x = false;
 			boolean isFlatActive2x = false;
 			boolean isFlatActive4x = false;
-			//boolean areAnyActive8x = false;
+			boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onServerTickUpdate();
@@ -215,13 +215,13 @@ public class ExperimentManager {
 							areAnyActive4x = true;
 							break;
 						case 8:
-							//areAnyActive8x = true;
+							areAnyActive8x = true;
 							break;
 						default:
 							//areAnyActive1x = true;
 							areAnyActive = true;
 							areAnyActive4x = true;
-							//areAnyActive8x = true;
+							areAnyActive8x = true;
 							break;
 						}
 					
@@ -257,7 +257,7 @@ public class ExperimentManager {
 				
 				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
 				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
+//				newExpCTB2x.setTeamSize(4);
 				this.registerExperiment(nextID, newExpCTB2x);
 				//sendExperimentUpdates();
 			}
@@ -279,16 +279,16 @@ public class ExperimentManager {
 				this.registerExperiment(nextID, newExpCTB4x);
 				//sendExperimentUpdates();
 			}
-//			if(!areAnyActive8x) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-//				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB8x);
-//				//sendExperimentUpdates(); //do we need this??
-//			}
+			if(!areAnyActive8x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+				//newExpCTB1.setTeamsNeeded(1);
+				//newExpCTB1.setTeamSize(1);
+				this.registerExperiment(nextID, newExpCTB8x);
+				//sendExperimentUpdates(); //do we need this??
+			}
 
 		}
 	}
