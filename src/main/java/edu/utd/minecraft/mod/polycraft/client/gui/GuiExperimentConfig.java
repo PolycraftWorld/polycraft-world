@@ -159,7 +159,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 	}
 	
 	@Override
-	protected void drawSelectionBox(int xPos, int yPos, int otherVar1, int otherVar2) {
+	protected void drawSelectionBox(int xPos, int yPos, int mouseX, int mouseY) {
 		int totalRows = this.getSize();
 		Tessellator tessellator = Tessellator.instance;
 		
@@ -167,7 +167,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 			int curRow = yPos + rowIterator * this.slotHeight + this.headerPadding;
 			
 			if(curRow < this.bottom - this.slotHeight && curRow > this.top) {
-				this.drawSlot(rowIterator, xPos, curRow, 0, tessellator, otherVar1, otherVar2);
+				this.drawSlot(rowIterator, xPos, curRow, 0, tessellator, mouseX, mouseY);
 			}
 		}
 	}
@@ -197,10 +197,10 @@ public class GuiExperimentConfig extends GuiListExtended {
 //    }
 	
 	@Override
-	public void drawScreen(int p_148128_1_, int p_148128_2_, float p_148128_3_)
+	public void drawScreen(int mouseX, int mouseY, float p_148128_3_)
     {
-        this.mouseX = p_148128_1_;
-        this.mouseY = p_148128_2_;
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
         //this.drawBackground();
         int k = this.getSize();
         int l = this.getScrollBarX();
@@ -211,8 +211,10 @@ public class GuiExperimentConfig extends GuiListExtended {
         int i3;
 
         //TODO: use GuiExperimentList's scrolling handler instead of GuiSlot to determine which slots to draw.
+        //NOTE: this also handles click and drag, and element double-click. Maybe this should be handled in the parent class (i.e., GuiExperimentList?)
+        //Would we want a double-click action? If so, we would need to utilize this logic.
         
-        if (p_148128_1_ > this.left && p_148128_1_ < this.right && p_148128_2_ > this.top && p_148128_2_ < this.bottom)
+        if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
             if (Mouse.isButtonDown(0) && this.func_148125_i())
             {
@@ -220,27 +222,27 @@ public class GuiExperimentConfig extends GuiListExtended {
                 {
                     boolean flag1 = true;
 
-                    if (p_148128_2_ >= this.top && p_148128_2_ <= this.bottom)
+                    if (mouseY >= this.top && mouseY <= this.bottom)
                     {
                         int k1 = this.width / 2 - this.getListWidth() / 2;
                         l1 = this.width / 2 + this.getListWidth() / 2;
-                        i2 = p_148128_2_ - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+                        i2 = mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
                         int j2 = i2 / this.slotHeight;
 
-                        if (p_148128_1_ >= k1 && p_148128_1_ <= l1 && j2 >= 0 && i2 >= 0 && j2 < k)
+                        if (mouseX >= k1 && mouseX <= l1 && j2 >= 0 && i2 >= 0 && j2 < k)
                         {
                             boolean flag = j2 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
-                            this.elementClicked(j2, flag, p_148128_1_, p_148128_2_);
+                            this.elementClicked(j2, flag, mouseX, mouseY);
                             this.selectedElement = j2;
                             this.lastClicked = Minecraft.getSystemTime();
                         }
-                        else if (p_148128_1_ >= k1 && p_148128_1_ <= l1 && i2 < 0)
+                        else if (mouseX >= k1 && mouseX <= l1 && i2 < 0)
                         {
-                            this.func_148132_a(p_148128_1_ - k1, p_148128_2_ - this.top + (int)this.amountScrolled - 4);
+                            this.func_148132_a(mouseX - k1, mouseY - this.top + (int)this.amountScrolled - 4);
                             flag1 = false;
                         }
 
-                        if (p_148128_1_ >= l && p_148128_1_ <= i1)
+                        if (mouseX >= l && mouseX <= i1)
                         {
                             this.scrollMultiplier = -1.0F;
                             i3 = this.func_148135_f();
@@ -271,7 +273,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 
                         if (flag1)
                         {
-                            this.initialClickY = (float)p_148128_2_;
+                            this.initialClickY = (float)mouseY;
                         }
                         else
                         {
@@ -285,8 +287,8 @@ public class GuiExperimentConfig extends GuiListExtended {
                 }
                 else if (this.initialClickY >= 0.0F)
                 {
-                    this.amountScrolled -= ((float)p_148128_2_ - this.initialClickY) * this.scrollMultiplier;
-                    this.initialClickY = (float)p_148128_2_;
+                    this.amountScrolled -= ((float)mouseY - this.initialClickY) * this.scrollMultiplier;
+                    this.initialClickY = (float)mouseY;
                 }
             }
             else
@@ -323,7 +325,7 @@ public class GuiExperimentConfig extends GuiListExtended {
         i2 = this.top + 4 - (int)this.amountScrolled;
 
 
-        this.drawSelectionBox(l1, i2, p_148128_1_, p_148128_2_);
+        this.drawSelectionBox(l1, i2, mouseX, mouseY);
        // GL11.glDisable(GL11.GL_DEPTH_TEST);
        // byte b0 = 4;
        // this.drawBackground();
@@ -333,7 +335,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 //        GL11.glShadeModel(GL11.GL_SMOOTH);
 //        GL11.glDisable(GL11.GL_TEXTURE_2D);
 
-        this.func_148142_b(p_148128_1_, p_148128_2_);
+        this.func_148142_b(mouseX, mouseY);
 //        GL11.glEnable(GL11.GL_TEXTURE_2D);
 //        GL11.glShadeModel(GL11.GL_FLAT);
 //        GL11.glEnable(GL11.GL_ALPHA_TEST);

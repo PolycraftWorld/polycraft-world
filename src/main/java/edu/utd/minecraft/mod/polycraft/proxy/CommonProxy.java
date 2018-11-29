@@ -486,4 +486,8 @@ public abstract class CommonProxy {
 	{
 		
 	}
+	
+	public void openTutorialGui(EntityPlayer player) {
+	
+	}
 }
