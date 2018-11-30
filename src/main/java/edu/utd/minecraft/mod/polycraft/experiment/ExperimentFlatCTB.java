@@ -242,10 +242,12 @@ public class ExperimentFlatCTB extends Experiment{
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
 						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 64);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
 						player.inventory.addItemStackToInventory(fkb);
+						player.inventory.addItemStackToInventory(carrot);
 					}
 					
 					//keep the chunks loaded after players enter
@@ -409,7 +411,7 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];
-					player.setHealth(20); //provide players maximum health
+					player.heal(19); //provide players maximum health
 					//player.getFoodStats().setFoodLevel(20);
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
