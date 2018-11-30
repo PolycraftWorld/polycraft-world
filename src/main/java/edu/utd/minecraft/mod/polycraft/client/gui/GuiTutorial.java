@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import net.minecraft.client.Minecraft;
@@ -20,7 +21,7 @@ public class GuiTutorial extends GuiScreen {
 	public GuiTutorial(EntityPlayer player) {
 		// TODO Auto-generated constructor stub
 		this.player = player;
-		BACKGROUND_IMG = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/test1/Slide1.png"));
+		BACKGROUND_IMG = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/Slide/Slide1.png"));
 		//guiSettings = 1; //set scaled resolution to 1
 		//defaultGuiSettings = this.mc.gameSettings.guiScale;
 		//default powerpoint slide size:
@@ -84,6 +85,9 @@ public class GuiTutorial extends GuiScreen {
      */
     public void drawDefaultBackground()
     {
+    	
+    	
+    	
         //super.drawDefaultBackground();
         
         double x_border = 0.1; //percent offset
@@ -96,12 +100,21 @@ public class GuiTutorial extends GuiScreen {
         int cur_width = this.width;
         int cur_height = this.height;
         
-        float scaleX = cur_width/width;
-        float scaleY = cur_height/height;
+        float scaleX = (float)((float)cur_width/width);
+        float scaleY = (float)((float)cur_height/height);
+        
+        if(scaleX < 0.4 || scaleY < 0.4) {
+        	scaleX *= 2;
+            scaleY *= 2;
+        }
+        
         
         GL11.glPushMatrix();
-        GL11.glScalef(scaleX, scaleY, 1);
+        if(scaleX != 1 && scaleY != 1)
+        	GL11.glScalef((float)(360.0/256*scaleY), (float)(360.0/256*scaleX), 1);
         //GL11.glEnable(GL11.GL_BLEND);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         //GL11.glS
         this.mc.getTextureManager().bindTexture(BACKGROUND_IMG);
@@ -114,7 +127,16 @@ public class GuiTutorial extends GuiScreen {
         int x_start = Math.round((float)(width*x_border));
         int y_start = Math.round((float)(height*y_offset));
         
-        this.drawTexturedModalRect(10, 10, 0, 0, width, 405);
+        if(scaleX == 1) {
+        	this.drawTexturedModalRect((int)((width/2 - this.width*scaleX*2/11)), 20, 0, 0, 256, 256);
+        }
+        else if(scaleX > 0.51 && scaleX < 1) {
+        	this.drawTexturedModalRect((int)((width/2 - this.width*scaleX * 1.85)), 20, 0, 0, 256, 256);
+        }
+        else {
+        	this.drawTexturedModalRect((int)((this.width - 256*(256/360.0*scaleX))/2), 20, 0, 0, 256, 256);
+        }
+        
         GL11.glPopMatrix();
         
     }
