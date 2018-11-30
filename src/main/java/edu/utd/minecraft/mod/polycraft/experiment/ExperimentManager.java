@@ -215,13 +215,13 @@ public class ExperimentManager {
 							areAnyActive4x = true;
 							break;
 						case 8:
-							areAnyActive8x = true;
+							//areAnyActive8x = true;
 							break;
 						default:
 							//areAnyActive1x = true;
 							areAnyActive = true;
 							areAnyActive4x = true;
-							areAnyActive8x = true;
+							//areAnyActive8x = true;
 							break;
 						}
 					
@@ -233,6 +233,8 @@ public class ExperimentManager {
 						case 4:
 							isFlatActive4x = true;
 							break;
+						case 8:
+							areAnyActive8x = true;
 						default:
 							break;
 						}
