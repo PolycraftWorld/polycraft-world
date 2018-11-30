@@ -284,7 +284,7 @@ public class ExperimentManager {
 			if(!areAnyActive8x) {
 				int nextID = this.getNextID();
 				int numChunks = 8;
-				ExperimentFlatCTB newExpCTB8x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+				ExperimentFlatCTB newExpCTB8x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 4);
 				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
 				//newExpCTB1.setTeamsNeeded(1);
 				//newExpCTB1.setTeamSize(1);
