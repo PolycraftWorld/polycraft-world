@@ -36,6 +36,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
+import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentFlatCTB extends Experiment{
@@ -233,8 +235,9 @@ public class ExperimentFlatCTB extends Experiment{
 						player.inventory.mainInventory = new ItemStack[36];
 						player.inventory.armorInventory = armor;
 						//set health and food for all players
+						player.setGameType(WorldSettings.GameType.ADVENTURE);
 						player.setHealth(20); //provide players maximum health
-						//player.getFoodStats().setFoodLevel(20);
+						player.getFoodStats().addStats(20, 40);
 						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
 						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
@@ -242,7 +245,7 @@ public class ExperimentFlatCTB extends Experiment{
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
 						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
-						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 64);
+						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
@@ -411,7 +414,13 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];
+					
+					player.setGameType(WorldSettings.GameType.SURVIVAL); //incase the player changed their mode, otherwise, the foodlevel will throw a null pointer
+					
 					player.heal(19); //provide players maximum health
+					
+					player.getFoodStats().addStats(20, 40);
+					
 					//player.getFoodStats().setFoodLevel(20);
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
