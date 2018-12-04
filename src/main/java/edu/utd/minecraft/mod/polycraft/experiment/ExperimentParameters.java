@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.experiment;
 import java.util.HashMap;
 
 import cpw.mods.fml.common.registry.GameData;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 
 public class ExperimentParameters {
@@ -12,11 +14,16 @@ public class ExperimentParameters {
 	public HashMap<String, Object> itemParameters;
 	public HashMap<String, Object> chestParameters;
 	
+	public static ExperimentParameters DEFAULT_PARAMS = new ExperimentParameters();
+	
 	public ExperimentParameters() {
 		this.timingParameters = new HashMap<>();
 		this.scoringParameters = new HashMap<>();
 		this.itemParameters = new HashMap<>();
 		this.chestParameters = new HashMap<>();
+		if(DEFAULT_PARAMS.getSize() < 1){
+			ExperimentParameters.setDefaultParameters();
+		}
 	}
 	
 	public ExperimentParameters(Experiment exp) {
@@ -26,6 +33,80 @@ public class ExperimentParameters {
 	
 	public int getSize() {
 		return timingParameters.size() + scoringParameters.size() + itemParameters.size();
+	}
+	
+	private static void setDefaultParameters() {
+		 ItemStack[] armors = {
+				new ItemStack(PolycraftRegistry.getItem("Golden Helmet")),
+				new ItemStack(PolycraftRegistry.getItem("Kevlar Helmet")),
+				new ItemStack(PolycraftRegistry.getItem("Sparkling Headgear")),
+				new ItemStack(PolycraftRegistry.getItem("Jeffersonian Wig")),
+				new ItemStack(PolycraftRegistry.getItem("Copper Cap")),
+				new ItemStack(PolycraftRegistry.getItem("Rubber Shower Cap")),
+				new ItemStack(PolycraftRegistry.getItem("Plumed Close Helm")),
+				new ItemStack(PolycraftRegistry.getItem("Pepto Bismal Pink Cap")),
+				new ItemStack(PolycraftRegistry.getItem("Fine Polyester Top Hat")),
+				new ItemStack(PolycraftRegistry.getItem("SuperB Barbute")),
+				new ItemStack(PolycraftRegistry.getItem("Spectra Helmet")),
+				new ItemStack(PolycraftRegistry.getItem("Wolfram Great Helm")),
+				new ItemStack(PolycraftRegistry.getItem("Brazen Bassinet")),
+				new ItemStack(PolycraftRegistry.getItem("Comfortable Cap")),
+				new ItemStack(PolycraftRegistry.getItem("Ripstop Nylon Beanie")),
+				new ItemStack(PolycraftRegistry.getItem("SBR Swim Cap"))
+		};
+		int currentArmor = 0;
+		
+		//experimental params
+		int maxTicks = 12000; //Server drops ticks?
+		//private float MAXSCORE = 1000; 
+		 int halfTimeTicks = maxTicks/2; //(5 minutes)
+		 int WAITSPAWNTICKS = 400;
+		 int WAIT_TELEPORT_UTD_TICKS = 400;
+		//TODO: can you use a real clock instead of "skippable" server ticks??
+		
+		 float claimBaseScoreBonus = 50;
+		 float stealBaseScoreBonus = 200;
+		 int updateScoreOnTickRate = 20;
+		 int ownedBaseScoreBonusOnTicks = 5;
+		 int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
+		
+//		//give players a stick with knockback == 5.
+//		ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
+//		item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
+		
+//		//give players knockback bombs
+//		ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
+//		ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+//		ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
+		
+		HashMap<String, Integer> playerInventory = new HashMap<>();
+		playerInventory.put("Knockback Bomb", 4);
+		playerInventory.put("Freezing Knockback Bomb", 4);
+		playerInventory.put("carrot", 20);
+		
+		
+		//add timing variables
+		DEFAULT_PARAMS.timingParameters.put("Min: Game Time", new Integer[] {(maxTicks)/60/20, 3, 20}); //minutes
+		DEFAULT_PARAMS.timingParameters.put("Sec: Half Time", new Integer[] {(halfTimeTicks)/20, 30, 180}); //seconds
+		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/20, 10, 60}); //seconds
+		DEFAULT_PARAMS.timingParameters.put("Sec: Post-Game", new Integer[] {(WAIT_TELEPORT_UTD_TICKS)/20, 10, 60}); //seconds
+		
+		//add scoring variables
+		DEFAULT_PARAMS.scoringParameters.put("Pts: Claim Base", new Number[] {(claimBaseScoreBonus), (double)0, (double)499}); //points
+		DEFAULT_PARAMS.scoringParameters.put("Pts: Steal Base", new Number[] {(stealBaseScoreBonus), 0, 499}); //points
+		DEFAULT_PARAMS.scoringParameters.put("Sec: Base Pts Gen", new Number[] {(updateScoreOnTickRate)/20, 0, 10}); //seconds
+		DEFAULT_PARAMS.scoringParameters.put("Pts: Owned Base", new Number[] {(ownedBaseScoreBonusOnTicks), 0, 99}); //points
+		DEFAULT_PARAMS.scoringParameters.put("Sec: Claim Base", new Number[] {(ticksToClaimBase)/20, 0, 10}); //seconds
+		
+		//item variables
+		DEFAULT_PARAMS.itemParameters.put("Give Knockback Stick", new Boolean(true));
+		DEFAULT_PARAMS.itemParameters.put("Inventory", playerInventory); //its easier to send this vs. Item stacks
+		DEFAULT_PARAMS.itemParameters.put("Armor", new HashMap<String, Integer>());
+		
+		//chest variables
+		DEFAULT_PARAMS.itemParameters.put("Chest", new HashMap<String, Integer>());
+		
+		
 	}
 	
 	public void addCurrentParams(Experiment exp) {

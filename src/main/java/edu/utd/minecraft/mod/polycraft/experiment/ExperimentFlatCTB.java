@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -41,7 +42,7 @@ import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentFlatCTB extends Experiment{
-	protected ArrayList<Base> bases= new ArrayList<Base>();
+	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
@@ -118,13 +119,13 @@ public class ExperimentFlatCTB extends Experiment{
 		int y = yPos + 7;
 		int x_offset = 28;
 		BoundingBox box = new BoundingBox(xPos + 25.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 62.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 114.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
 		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 30.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		
@@ -139,7 +140,7 @@ public class ExperimentFlatCTB extends Experiment{
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
-			for(Base base: bases){
+			for(FeatureBase base: bases){
 				base.setRendering(true);
 			}
 			for(Team team: scoreboard.getTeams()) {
@@ -484,7 +485,7 @@ public class ExperimentFlatCTB extends Experiment{
 	}
 
 	private void updateBaseStates2() {
-		for(Base base : bases) {
+		for(FeatureBase base : bases) {
 			
 			int playerCount = 0;
 			switch(base.currentState) {
@@ -495,7 +496,7 @@ public class ExperimentFlatCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
-						base.currentState = Base.State.Occupied;
+						base.currentState = FeatureBase.State.Occupied;
 						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getRed()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getGreen()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
@@ -504,7 +505,7 @@ public class ExperimentFlatCTB extends Experiment{
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
-				if(base.currentState!=Base.State.Neutral) {	//push update to all players
+				if(base.currentState!=FeatureBase.State.Neutral) {	//push update to all players
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -521,7 +522,7 @@ public class ExperimentFlatCTB extends Experiment{
 						playerCount++;
 						if (base.getCurrentTeam() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) { 
 								//reset case
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.setCurrentTeam(null);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
@@ -535,12 +536,12 @@ public class ExperimentFlatCTB extends Experiment{
 				}
 				if(playerCount==0) {
 					//case no one in the previously occupied base:
-					base.currentState = Base.State.Neutral;
+					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
-					base.currentState = Base.State.Claimed;
+					base.currentState = FeatureBase.State.Claimed;
 					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
@@ -551,7 +552,7 @@ public class ExperimentFlatCTB extends Experiment{
 //					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
-				if(base.currentState != Base.State.Occupied) {
+				if(base.currentState != FeatureBase.State.Occupied) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -575,7 +576,7 @@ public class ExperimentFlatCTB extends Experiment{
 								alertTeam(this.scoreboard.getTeam(base.getCurrentTeam()));
 							}
 							if(base.tickCount>=this.ticksToClaimBase) {
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
 								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
@@ -588,7 +589,7 @@ public class ExperimentFlatCTB extends Experiment{
 					base.tickCount = 0;
 				}
 				
-				if(base.currentState != Base.State.Claimed) {
+				if(base.currentState != FeatureBase.State.Claimed) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -613,7 +614,7 @@ public class ExperimentFlatCTB extends Experiment{
 	public void onClientTickUpdate(){
 		if(currentState == State.Starting){
 			if(tickCount == 0){
-				for(Base base: bases)
+				for(FeatureBase base: bases)
 					base.setRendering(true);
 				tickCount++;
 			}
@@ -652,7 +653,7 @@ public class ExperimentFlatCTB extends Experiment{
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();
-		Type gsonType = new TypeToken<Base[]>(){}.getType();
+		Type gsonType = new TypeToken<FeatureBase[]>(){}.getType();
 		final String updateScoreJson = gson.toJson(this.bases.toArray(), gsonType);
 		return updateScoreJson;
 	}
@@ -661,13 +662,13 @@ public class ExperimentFlatCTB extends Experiment{
 	protected void generateArea(){
 		super.generateArea();	//generate the base flat area
 		super.generateSpectatorBox();
-		for(Base base: bases){	//generate bases
+		for(FeatureBase base: bases){	//generate bases
 			base.generate(world);
 		}
 	}
 	
-	private Base isPlayerInAnyBase(EntityPlayerMP player){
-		for(Base base: bases){
+	private FeatureBase isPlayerInAnyBase(EntityPlayerMP player){
+		for(FeatureBase base: bases){
 			if(base.isInBase((Entity) player))
 				return base;
 		}
@@ -676,7 +677,7 @@ public class ExperimentFlatCTB extends Experiment{
 	
 	@Override
 	public void render(Entity entity){
-		for(Base base: bases){
+		for(FeatureBase base: bases){
 			if(base.isInBase(entity)){
 				base.setColor(Color.BLUE);
 			}else{

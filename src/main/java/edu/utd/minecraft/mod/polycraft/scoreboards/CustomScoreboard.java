@@ -78,6 +78,7 @@ public class CustomScoreboard {
 		this.needToSendUpdate = true;
 	}
 
+	@Deprecated
 	public void addPlayer(String player, String teamName) throws IOException {
 		Team team = null;
 		for (Team tm : this.teams) {

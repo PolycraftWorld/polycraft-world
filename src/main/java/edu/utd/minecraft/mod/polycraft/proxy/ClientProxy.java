@@ -47,8 +47,8 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
-import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -507,12 +507,12 @@ public class ClientProxy extends CommonProxy {
 			}
 	        if(!ClientEnforcer.INSTANCE.baseList.isEmpty()) {
 				if (entity.dimension == 8) {
-					for (Base base :ClientEnforcer.INSTANCE.baseList) {
+					for (FeatureBase base :ClientEnforcer.INSTANCE.baseList) {
 						base.render(entity);
 						base.setRendering(true);
 					}
 				} else {
-					for (Base base : ClientEnforcer.INSTANCE.baseList) {
+					for (FeatureBase base : ClientEnforcer.INSTANCE.baseList) {
 						//base.setRendering(false);
 					}
 				}
