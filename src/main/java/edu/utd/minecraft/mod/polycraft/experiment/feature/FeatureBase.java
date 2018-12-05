@@ -52,7 +52,7 @@ public class FeatureBase extends ExperimentFeature {
 		this.currentState = State.Neutral;
 	}
 	
-	public String getCurrentTeam() {
+	public String getCurrentTeamName() {
 		return currentTeam;
 	}
 
