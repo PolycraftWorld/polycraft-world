@@ -14,15 +14,20 @@ public class ExperimentParameters {
 	public HashMap<String, Object> itemParameters;
 	public HashMap<String, Object> chestParameters;
 	
-	public static ExperimentParameters DEFAULT_PARAMS = new ExperimentParameters();
+	private static boolean hasDefault = false;
+	public static ExperimentParameters DEFAULT_PARAMS;
+	
 	
 	public ExperimentParameters() {
 		this.timingParameters = new HashMap<>();
 		this.scoringParameters = new HashMap<>();
 		this.itemParameters = new HashMap<>();
 		this.chestParameters = new HashMap<>();
-		if(DEFAULT_PARAMS.getSize() < 1){
+		if(!hasDefault){
+			hasDefault = true;
+			DEFAULT_PARAMS = new ExperimentParameters();
 			ExperimentParameters.setDefaultParameters();
+			hasDefault = true;
 		}
 	}
 	
@@ -90,6 +95,10 @@ public class ExperimentParameters {
 		DEFAULT_PARAMS.timingParameters.put("Sec: Half Time", new Integer[] {(halfTimeTicks)/20, 30, 180}); //seconds
 		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/20, 10, 60}); //seconds
 		DEFAULT_PARAMS.timingParameters.put("Sec: Post-Game", new Integer[] {(WAIT_TELEPORT_UTD_TICKS)/20, 10, 60}); //seconds
+		DEFAULT_PARAMS.timingParameters.put("Chickens", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.timingParameters.put("Cows", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.timingParameters.put("Sheep", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 		
 		//add scoring variables
 		DEFAULT_PARAMS.scoringParameters.put("Pts: Claim Base", new Number[] {(claimBaseScoreBonus), (double)0, (double)499}); //points
@@ -118,6 +127,12 @@ public class ExperimentParameters {
 			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
 			timingParameters.put("Sec: Post-Game", new Integer[] {(((ExperimentCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
 			
+			//add animal parameters
+			timingParameters.put("Chickens", new Integer[] {0, 0, 60});
+			timingParameters.put("Cows", new Integer[] {0, 0, 60});
+			timingParameters.put("Sheep", new Integer[] {0, 0, 60});
+			timingParameters.put("Pigs", new Integer[] {0, 0, 60});
+			
 			//add scoring variables
 			scoringParameters.put("Pts: Claim Base", new Number[] {((ExperimentCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)499}); //points
 			scoringParameters.put("Pts: Steal Base", new Number[] {((ExperimentCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
@@ -139,6 +154,12 @@ public class ExperimentParameters {
 			timingParameters.put("Sec: Half Time", new Integer[] {(((ExperimentFlatCTB) exp).getHalfTimeTicks())/20, 30, 180}); //seconds
 			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentFlatCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
 			timingParameters.put("Sec: Post-Game", new Integer[] {(((ExperimentFlatCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
+			
+			//add animal parameters
+			timingParameters.put("Chickens", new Integer[] {0, 0, 60});
+			timingParameters.put("Cows", new Integer[] {0, 0, 60});
+			timingParameters.put("Sheep", new Integer[] {0, 0, 60});
+			timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables
 			scoringParameters.put("Pts: Claim Base", new Number[] {((ExperimentFlatCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)499}); //points
