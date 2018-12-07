@@ -50,7 +50,7 @@ public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderin
 		float rotScale = 0;
 		//System.out.println("rotation: " + rotation);
 		switch(rotation) {
-			case 2: //faces WEST
+			case 2: //faces SOUTH - TEXT IS PROPERLY DISPLAYED
 				rotScale = 180F;
 				//GL11.glTranslatef((float)x - 1.01F, (float)0,(float)z + 5F);
 				GL11.glTranslatef((float)x - 3.25F, (float)y + 4F * f1,(float)z - .13F);
@@ -58,25 +58,27 @@ public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderin
 				GL11.glNormal3f(1.0F, 0.0F, -1.0F * f3);
 				GL11.glRotatef(-rotScale, 0.0F, 1.0F, 0.0F);
 				break;
-			case 4:
+			case 4: //faces EAST - TEXT IS PROPERLY DISPLAYED
 				rotScale = 90F;
-				GL11.glTranslatef((float)x - 0.13F, (float)y + 4F * f1,(float)z + 3.75F);
+				//GL11.glTranslatef((float)x - 0.13F, (float)y + 4F * f1,(float)z + 3.75F);
+				GL11.glTranslatef((float)x - 0.13F, (float)y + 4F * f1,(float)z + 4.25F);
 				GL11.glScalef(f3, -f3, f3);
 				GL11.glRotatef(-rotScale, 0.0F, 1.0F, 0.0F);
 				break;
-			case 5:
+			case 5: //faces WEST - TEXT IS PROPERLY DISPLAYED
 				rotScale = -90F;
 				//GL11.glTranslatef((float)x + 0F,(float)y + 4F,(float)z - 2F);
-				GL11.glTranslatef((float)x + 1.13F, (float)y + 3F,(float)z - 3.25F);
+				//GL11.glTranslatef((float)x + 1.13F, (float)y + 3F,(float)z - 3.25F);
+				GL11.glTranslatef((float)x + 1.13F, (float)y + 2.6F,(float)z - 3.25F);
 				GL11.glScalef(f3, -f3, f3);
 				GL11.glNormal3f(1.0F, 0.0F, -1.0F * f3);
 				GL11.glRotatef(-rotScale, 0.0F, 1.0F, 0.0F);
 				break;
-			default:
+			default: //faces NORTH - TEXT IS PROPERLY DISPLAYED
 				rotScale = 0F;
 				//attach text to the object
-				
-				GL11.glTranslatef((float)x + 3.75F, (float)y + 3F,(float)z + 1.13F);
+				//GL11.glTranslatef((float)x + 3.75F, (float)y + 3F,(float)z + 1.13F);
+				GL11.glTranslatef((float)x + 4.25F, (float)y + 2.6F,(float)z + 1.13F);
 				GL11.glScalef(f3, -f3, f3);
 				GL11.glRotatef(-rotScale, 0.0F, 1.0F, 0.0F);
 				break;
