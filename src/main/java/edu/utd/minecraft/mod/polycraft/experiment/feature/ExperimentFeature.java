@@ -27,8 +27,8 @@ public abstract class ExperimentFeature {
 	
 	public abstract void build(World world);
 	
-	public long[] getPositionArray() {
-		return new long[] {xPos, yPos, zPos};
+	public int[] getPositionArray() {
+		return new int[] {xPos, yPos, zPos};
 	}
 	
 	protected class ExperimentFeatureListDeserializer implements JsonDeserializer<ArrayList<ExperimentFeature>>{

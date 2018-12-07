@@ -88,7 +88,7 @@ public class ExperimentManager {
 			if(type instanceof ExperimentCTB) {
 				this.expName = "Experiment B: " + type.id;
 				this.expType = "Stoop";
-			}else if(type instanceof ExperimentFlatCTB) {
+			}else {
 				this.expName = "Experiment A: " + type.id;
 				this.expType = "Flat"; //TODO: Declare these names as static within the class.
 			}
@@ -227,6 +227,9 @@ public class ExperimentManager {
 					
 					}else if(ex2.expType.equals("Flat")) {
 						switch(ex2.playersNeeded) {
+						case 1:
+							isFlatActive2x = true;
+							break;
 						case 2:
 							isFlatActive2x = true;
 							break;
@@ -248,7 +251,8 @@ public class ExperimentManager {
 			if(!isFlatActive2x) {
 				int nextID = this.getNextID();
 				int numChunks = 8;
-				ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
+				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
+				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
 				this.registerExperiment(nextID, newExpFlat2x);
 			}
 			

@@ -62,6 +62,7 @@ public class CustomScoreboard {
 	
 	public void addTeam(Team team) {
 		this.teams.add(team);
+		//this.teamScores.put(team, 0.0f);
 		this.needToSendUpdate = true;
 	}
 	

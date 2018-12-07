@@ -18,6 +18,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftCow;
+import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftExperimentCow;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -31,6 +33,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFirework;
@@ -114,8 +120,7 @@ public class Experiment1PlayerCTB extends Experiment{
 			this.scoreboard.resetScores(0);
 		}
 		
-		// team for animals
-		this.scoreboard.addTeam(animalTeam);
+		
 		
 		tickets = new ForgeChunkManager.Ticket[this.size*this.size];
 		
@@ -160,7 +165,7 @@ public class Experiment1PlayerCTB extends Experiment{
 			for(Team team: scoreboard.getTeams()) {
 				for(String player:team.getPlayers()) {
 					EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-					playerEntity.addChatMessage(new ChatComponentText("Expiriment will be starting Shortly. Please wait while the field is generated"));
+					playerEntity.addChatMessage(new ChatComponentText("Experiment will be starting Shortly. Please wait while the field is generated"));
 				}
 			}
 		}
@@ -222,7 +227,7 @@ public class Experiment1PlayerCTB extends Experiment{
 			
 			//generateArea();
 			
-			if(this.generateFlatArena(ExperimentManager.INSTANCE.flat_field)) {
+			if(this.generateFlatArena1Player(ExperimentManager.INSTANCE.flat_field)) {
 				currentState = State.Starting;
 			}
 			genTick++;
@@ -232,9 +237,16 @@ public class Experiment1PlayerCTB extends Experiment{
 				int index = 1; //hotfix for incorrect spawn location order
 				world.setWorldTime(1000);
 				for(Team team: scoreboard.getTeams()) {
+					
+					//Don't put armor on Animales
+					if(team.getName().equals(this.animalTeam.getName()) || team == null) {
+						continue;
+					}
+					
 					this.scoreboard.updateScore(team, 0);
 					ItemStack[] armor = new ItemStack[4];
-					armor[3] = armors[currentArmor];	//set current armor color to current team
+					//*** hotfix armor[3] = armors[currentArmor];
+					armor[3] = armors[4];	//set current armor color to current team
 					incrementArmor();	//increment armor counter so next team gets a different armor
 					if(index > 3) {//spawnlocations[].length)	//reset spawn location index to prevent null pointer exceptions
 						index = 0;
@@ -255,7 +267,7 @@ public class Experiment1PlayerCTB extends Experiment{
 						player.getFoodStats().addStats(20, 40);
 						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
-						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
+						item.addEnchantment(Enchantment.knockback, 15); //give them a knockback of 5.
 						
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
@@ -298,11 +310,91 @@ public class Experiment1PlayerCTB extends Experiment{
 					this.scoreboard.updateScore(team, 0);
 				}
 				//this.scoreboard.resetScores(0);
+				
+				//EntityAnimal newAnimal = new EntitySheep();
+				//newAnimal.setPosition(int x, int y, int z);
+				//Spawn animals in experiment: world.spawnEntityInWorld(newAnimal)
+				// team for animals
+				this.scoreboard.addTeam(animalTeam);
+				this.scoreboard.resetScores(0);
+				int numSheep = 20;
+				int numChickens = 20;
+				int numCows = 20;
+				
+				//Define spawn area for animals as a box bounded by the outer limits of the bases
+				int xMax = 0;
+				int xMin = 0;
+				int zMax = 0;
+				int zMin = 0;
+				int currentYvalue = 0;
+				
+				for(FeatureBase currentBase : bases) {
+					int currentXvalue = currentBase.getPositionArray()[0];
+					currentYvalue = currentBase.getPositionArray()[1] + 2;
+					int currentZvalue = currentBase.getPositionArray()[2];
+					
+					xMax = Math.max(xMax, currentXvalue);
+					zMax = Math.max(zMax, currentZvalue);
+				}
+				
+				xMin = xMax;
+				zMin = zMax;
+				
+				for(FeatureBase currentBase : bases) {
+					int currentXvalue = currentBase.getPositionArray()[0];
+					int currentZvalue = currentBase.getPositionArray()[2];
+					
+					xMin = Math.min(xMin, currentXvalue);
+					zMin = Math.min(zMin, currentZvalue);	
+				}
+				
+				EntityAnimal newAnimal;
+				//TODO: Create new Polycraft creatures/animals that are invulnerable with variable movement speed
+				
+				//Spawn Chickens
+				for(int currentAnimal = 0; currentAnimal < numChickens; currentAnimal++) {
+					int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
+					int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
+					
+					newAnimal = new EntityChicken(world);
+					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					world.spawnEntityInWorld(newAnimal);
+				}
+				
+				//Spawn Cows
+				for(int currentAnimal = 0; currentAnimal < numCows; currentAnimal++) {
+					int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
+					int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
+					
+					newAnimal = new EntityCow(world);
+					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					world.spawnEntityInWorld(newAnimal);
+				}
+				
+				//Spawn Sheep
+				for(int currentAnimal = 0; currentAnimal < numSheep; currentAnimal++) {
+					int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
+					int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
+					
+					newAnimal = new EntitySheep(world);
+					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					world.spawnEntityInWorld(newAnimal);
+				}
+				
+				//Spawn Wolf
+				int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
+				int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
+				
+				newAnimal = new EntityWolf(world);
+				newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+				world.spawnEntityInWorld(newAnimal);
+				
 				currentState = State.Running;
 				tickCount = 0; 
 			}
 			tickCount++;
 		}
+			
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
@@ -375,6 +467,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					player.inventory.armorInventory = armor;
 				}
 			}
+			
 //			else if(this.halfTimeTicksRemaining % 400 == 0) {
 //				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
 //					player.addChatComponentMessage(new ChatComponentText("Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
@@ -441,8 +534,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, this.stringToSend);
 				ExperimentManager.INSTANCE.stop(this.id); //End the experiment and kill this.
-			}
-			
+			}	
 		}
 	}
 	
@@ -542,11 +634,13 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				break;
 			
-				//Occupied = state where a player is present in a previously Neutral base
+				//Occupied = state when a player is present in a previously Neutral base
 			case Occupied:
 				base.tickCount++;
 				//boolean noPlayers = true;
 				//int playerCount = 0;
+				
+				//Check if an animal is in a base being taken by a player and reset timer to Neutral case if so
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
 					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
 					// check for animal in base
@@ -567,6 +661,7 @@ public class Experiment1PlayerCTB extends Experiment{
 	
 					}
 				}
+				//Check if a player is in a base being taken by animals and reset timer to Neutral case if so
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						//noPlayers = false;
@@ -587,24 +682,45 @@ public class Experiment1PlayerCTB extends Experiment{
 	
 					}
 				}
+				
+				//Reset timer to Neutral state if everyone leaves base will converting
 				if(playerCount==0) {
 					//case no one in the previously occupied base:
 					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
 					break;
-				}if(base.tickCount >= ticksToClaimBase) {
+				}
+				
+				//Change state to Claimed if Entities of a single team have been in a base for long enough
+				if(base.tickCount >= ticksToClaimBase) {
 					base.currentState = FeatureBase.State.Claimed;
 					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
 					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
+					
+					//Wolf...
+					for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
+						if (current_entity instanceof EntityWolf & base.isInBase(current_entity)) {
+							if (base.getCurrentTeamName().equals(animalTeam.getName())) {
+								this.scoreboard.updateScore(base.getCurrentTeamName(), (this.claimBaseScoreBonus * 19));
+							}
+						}
+					}
+						
+//						for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
+//							if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+//							// check for animal in base
+//								base.setCurrentTeam(animalTeam.getName());
+					
 					//TODO: Add Fireworks
 //					ItemStack item= new ItemStack(new ItemFirework());
 //					item.getItem().
 //					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
+				
 				if(base.currentState != FeatureBase.State.Occupied) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
