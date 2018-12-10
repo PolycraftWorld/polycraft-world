@@ -117,22 +117,30 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			list.forEach(entity->{
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
-					if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
-						double theta = 180.0 / Math.PI * Math.atan2(posX - entityPlayer.posX, posZ - entityPlayer.posZ);
-						entityPlayer.playerNetServerHandler.sendPacket(
-								new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
-								new ArrayList(), 
-								Vec3.createVectorHelper(2*Math.sin(theta), 1, 2*Math.cos(theta))));
-					}else
-						entityPlayer.playerNetServerHandler.sendPacket(
+					
+					//This commented if statement makes it so you can't knockback yourself on the corners of the bomb box
+					//if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
+																
+					double theta = 0 - Math.atan2(posX - entityPlayer.posX, posZ - entityPlayer.posZ);
+					entityPlayer.playerNetServerHandler.sendPacket(
 							new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
 							new ArrayList(), 
-							Vec3.createVectorHelper(0, 0, 0)));
+							//Here's where direction of player knockback happens
+							Vec3.createVectorHelper(2*Math.sin(theta), 1, -2*Math.cos(theta))));
+					
+					//}else
+					//	entityPlayer.playerNetServerHandler.sendPacket(
+					//		new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
+					//		new ArrayList(), 
+					//		Vec3.createVectorHelper(0, 0, 0)));	
+
 				}else {
-					double theta = 180.0 / Math.PI * Math.atan2(posX - ((Entity)entity).posX, posZ - ((Entity)entity).posZ);
+					double theta = 0 - Math.atan2(posX - ((Entity)entity).posX, posZ - ((Entity)entity).posZ);
+					
+					//Here's where direction of animal knockback happens
 					((Entity)entity).motionX = 2*Math.sin(theta);
 					((Entity)entity).motionY = y;
-					((Entity)entity).motionZ = 2*Math.cos(theta);
+					((Entity)entity).motionZ = -2*Math.cos(theta);
 				}
 				
 			});
