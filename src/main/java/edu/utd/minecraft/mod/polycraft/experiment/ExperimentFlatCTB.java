@@ -497,9 +497,9 @@ public class ExperimentFlatCTB extends Experiment{
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
 						base.currentState = FeatureBase.State.Occupied;
-						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getRed()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getGreen()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
+						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
@@ -520,7 +520,7 @@ public class ExperimentFlatCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
-						if (base.getCurrentTeam() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
 								//reset case
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
@@ -542,10 +542,10 @@ public class ExperimentFlatCTB extends Experiment{
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
 					base.currentState = FeatureBase.State.Claimed;
-					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.claimBaseScoreBonus);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
 					//TODO: Add Fireworks
 //					ItemStack item= new ItemStack(new ItemFirework());
 //					item.getItem().
@@ -559,21 +559,21 @@ public class ExperimentFlatCTB extends Experiment{
 				}
 				break;
 			case Claimed:
-				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.ownedBaseScoreBonusOnTicks);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.ownedBaseScoreBonusOnTicks);
 				}
 				//playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
 							base.tickCount++; //this goes faster for two players!
 							//alert players that a user is stealing their base
 							if(base.tickCount%20==0) {
 								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Reset to Neutral in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
-								alertTeam(this.scoreboard.getTeam(base.getCurrentTeam()));
+								alertTeam(this.scoreboard.getTeam(base.getCurrentTeamName()));
 							}
 							if(base.tickCount>=this.ticksToClaimBase) {
 								base.currentState = FeatureBase.State.Neutral;

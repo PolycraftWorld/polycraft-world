@@ -1,11 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.ExperimentFeature;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
@@ -52,6 +54,7 @@ public abstract class Experiment {
 	private Random random;
 	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
+	protected ArrayList<ExperimentFeature> expFeatures;
 	
 	
 	public enum State{
