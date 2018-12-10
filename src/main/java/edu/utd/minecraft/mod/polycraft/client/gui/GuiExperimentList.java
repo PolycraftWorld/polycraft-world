@@ -298,6 +298,8 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     	default:
     		//Open the Experiment Detail Screen:
     		String expID = button.displayString;
+    		if(expID.toLowerCase().equals("x"))
+    			break;
 			String[] expList = expID.split("\\s");
 			try {
 				this.currentExperimentDetailOnScreenID = Integer.parseInt(expList[expList.length - 1]);
@@ -362,26 +364,26 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     			int x_start = (this.width - 248) / 2;
     			int y_start = (this.height - 184) / 2;
     	
-    	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
-    		//TODO: move this to its original place
-    		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
-    		this.drawDefaultBackground();
-    		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
-    		drawExperimentConfigScreen();
-    		
-    		
-    		this.scroll = this.guiConfig.amountScrolled/this.guiConfig.func_148135_f();
-    		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    		this.mc.getTextureManager().bindTexture(SCROLL_TAB);
-    		// The scroll bar sits at (226, 8) but the border is 1 wide so the scroll
-    		// indicator really starts at (227, 9).
-    		this.drawTexturedModalRect(x_start + 227, y_start + 9 + (int) (this.scroll * SCROLL_HEIGHT),
-    				232 + (extraLines > 0 ? 0 : 12), 0, 12, 15);
-    		
-    		//this.drawDefaultBackground();
-    		super.drawScreen(mouseX, mouseY, otherValue);
-    		return;
-    	}
+//    	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
+//    		//TODO: move this to its original place
+//    		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
+//    		this.drawDefaultBackground();
+//    		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
+//    		drawExperimentConfigScreen();
+//    		
+//    		
+//    		this.scroll = this.guiConfig.amountScrolled/this.guiConfig.func_148135_f();
+//    		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+//    		this.mc.getTextureManager().bindTexture(SCROLL_TAB);
+//    		// The scroll bar sits at (226, 8) but the border is 1 wide so the scroll
+//    		// indicator really starts at (227, 9).
+//    		this.drawTexturedModalRect(x_start + 227, y_start + 9 + (int) (this.scroll * SCROLL_HEIGHT),
+//    				232 + (extraLines > 0 ? 0 : 12), 0, 12, 15);
+//    		
+//    		//this.drawDefaultBackground();
+//    		super.drawScreen(mouseX, mouseY, otherValue);
+//    		return;
+//    	}
 		
 		// Operate the scroll bar.
 		boolean flag = Mouse.isButtonDown(0);
@@ -418,10 +420,11 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
         	case ExperimentDetail:
         		drawExperimentInstructionScreen();
         		break;
-//        	case ExperimentConfig:
-////        		drawExperimentConfigScreen();
-////        		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
-////        		break;
+        	case ExperimentConfig:
+        		this.extraLines = this.guiConfig.getExtraScrollSpace();
+        		this.guiConfig.drawScreenHandler(mouseX, mouseY, otherValue, this.scroll);
+        		drawExperimentConfigScreen();
+        		break;
         	default:
         		//Do Nothing
         }
