@@ -6,13 +6,15 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Subclass this class to convert an ExperimentFeature to a JSON object.
- * You will need to override the write() function and implement the endWrite() function. (TODO: create an interface for this)
+ * converts an {@link ExperimentFeature} object to a JSON object.
+ * You will need to override the {@link #write(JsonWriter, ExperimentFeature)} and 
+ * call {@link #endWrite(JsonWriter)} inside it.
+ * 
  * 
  * @author dxn140130
  *
  */
-public class ExperimentFeatureAdapter extends AbstractFeatureAdapter<ExperimentFeature> implements ExperimentAdapterInterface {
+public abstract class ExperimentFeatureAdapter extends AbstractFeatureAdapter<ExperimentFeature> implements ExperimentAdapterInterface {
 	
 	public static final String KEY_TYPE = "type";
 	
@@ -55,6 +57,6 @@ public class ExperimentFeatureAdapter extends AbstractFeatureAdapter<ExperimentF
 	 * We can only return once the in object has reached the {@link JsonToken.END_OBJECT} flag (use in.peek() to check)
 	 */
 	@Override
-	public ExperimentFeature read(final JsonReader in) throws IOException {return null;};
+	public abstract ExperimentFeature read(final JsonReader in) throws IOException;
 
 }

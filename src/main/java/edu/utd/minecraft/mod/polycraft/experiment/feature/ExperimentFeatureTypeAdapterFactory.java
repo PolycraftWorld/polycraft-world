@@ -115,6 +115,9 @@ public class ExperimentFeatureTypeAdapterFactory implements TypeAdapterFactory {
 	    adapters.putAll(builder.adapters);
 	  }
 
+	  /**
+	   * Main function called when creating a type adapter. Sets the Gson, too.
+	   */
 	  @Override
 	  public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> typeToken) {
 	    final AbstractFeatureAdapter<T> typeAdapter = findTypeAdapter(typeToken);

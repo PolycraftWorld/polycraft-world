@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.stream.JsonToken;
 
 /**
  * All experiment feature adapters need a write and read function that use these function signatures.
@@ -25,7 +26,8 @@ public interface ExperimentAdapterInterface {
 	
 	/**
 	 * This should NEVER call {@link JsonReader#endObject()} and that should instead be handled by {@link FeatureListAdapter} or 
-	 * by {@link AbstractFeatureAdapter}. 
+	 * by {@link AbstractFeatureAdapter}. use {@link JsonReader#peek()} and check to see if it equals {@link JsonToken#END_OBJECT} 
+	 * as the exit condition for when read should return an ExperimentFeature object.
 	 * 
 	 * @param in the object that contains the JSON string
 	 * @return an ExperimentFeature object that can be added to 

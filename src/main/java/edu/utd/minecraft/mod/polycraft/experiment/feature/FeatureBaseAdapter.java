@@ -6,6 +6,11 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * Reads and writes a {@link FeatureBase} object to Json
+ * @author dxn140130
+ *
+ */
 public class FeatureBaseAdapter extends ExperimentFeatureAdapter {
 	
 	@Override
