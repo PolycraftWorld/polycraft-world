@@ -86,35 +86,8 @@ public class ExperimentCTB extends Experiment{
 	private String stringToSend = "";
 	
 	
-//	@Deprecated
-//	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
-//		super(id, size, xPos, zPos, world);
-//		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
-//		for(int x = 0; x < teamsNeeded;x++) {
-//			this.scoreboard.addNewTeam();
-//			this.scoreboard.resetScores(0);
-//		}
-//		//teamNames.add("testing");
-//		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
-//		int maxBases = 8;
-//		int workarea = size*16;
-//		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
-//		int counter = 0;
-//		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
-//			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
-//				counter++;
-//				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
-//				bases.add(new FeatureBase(x, yPos, z, box, Color.GRAY));
-//			}
-//		}
-//		
-//		currentState = State.WaitingToStart;
-//	}
-	
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
 		super(id, size, xPos, zPos, world);
-		//teamNames.add("testing");
-		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		this.teamsNeeded = maxteams;
 		this.teamSize = teamsize;
 		this.playersNeeded = teamsNeeded * teamSize;
@@ -124,6 +97,9 @@ public class ExperimentCTB extends Experiment{
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);
 		}
+		
+		//update default parameters:
+		this.updateParams(ExperimentParameters.DEFAULT_PARAMS);
 		
 		tickets = new ForgeChunkManager.Ticket[this.size*this.size];
 		
@@ -771,6 +747,7 @@ public class ExperimentCTB extends Experiment{
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;
 		System.out.println("New Params installed");
+		if(params == ExperimentParameters.DEFAULT_PARAMS) return;
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();
 	}

@@ -33,6 +33,18 @@ public class FeatureSpawn extends ExperimentFeature {
 		
 	}
 	
+	public Integer getxMax() {
+		return xMax;
+	}
+
+	public Integer getyMax() {
+		return yMax;
+	}
+
+	public Integer getzMax() {
+		return zMax;
+	}
+
 	@Override
 	public void build(World world) {
 		// TODO Auto-generated method stub

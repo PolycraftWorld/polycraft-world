@@ -94,6 +94,11 @@ public class Experiment1PlayerCTB extends Experiment{
 	private int WAITSPAWNTICKS = 400;
 	//public static int maxPlayersNeeded = 4;
 	
+	//animalStats
+	public int numSheep = 20;
+	public int numChickens = 20;
+	public int numCows = 20;
+	
 	private String stringToSend = "";
 	
 	/**
@@ -317,9 +322,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				// team for animals
 				this.scoreboard.addTeam(animalTeam);
 				this.scoreboard.resetScores(0);
-				int numSheep = 20;
-				int numChickens = 20;
-				int numCows = 20;
+				
 				
 				//Define spawn area for animals as a box bounded by the outer limits of the bases
 				int xMax = 0;
@@ -368,6 +371,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityCow(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					newAnimal.setAIMoveSpeed(10.0F);
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -378,6 +382,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntitySheep(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					newAnimal.setAIMoveSpeed(10.0F);
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -720,7 +725,6 @@ public class Experiment1PlayerCTB extends Experiment{
 //					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
-				
 				if(base.currentState != FeatureBase.State.Occupied) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
@@ -924,6 +928,11 @@ public class Experiment1PlayerCTB extends Experiment{
 		if(this.ticksToClaimBase == 0) {
 			this.ticksToClaimBase = 5;
 		}
+		
+		//animals
+		this.numChickens = (int) Math.round(Float.parseFloat(params.timingParameters.get("Chickens")[0].toString()));
+		this.numCows = (int) Math.round(Float.parseFloat(params.timingParameters.get("Cows")[0].toString()));
+		this.numSheep = (int) Math.round(Float.parseFloat(params.timingParameters.get("Sheep")[0].toString()));
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;

@@ -71,8 +71,16 @@ public class GuiExperimentConfig extends GuiListExtended {
 			//TODO: Make a more sustainable params list.
 			this.configList.add(new ConfigHeader("Timing"));
 			
+			boolean isAnimals = false;
+			
 			for(String key : params.timingParameters.keySet()) {
-	    		Integer[] vals = params.timingParameters.get(key);
+	    		
+				if(key.equals("Chickens") || key.equals("Cows") || key.equals("Sheep")) {
+					isAnimals = true;
+					continue;
+				}
+				
+				Integer[] vals = params.timingParameters.get(key);
 	    		
 	    		int l = mc.fontRenderer.getStringWidth(key);
 	    		if(l > this.maxStringLength)
@@ -82,15 +90,38 @@ public class GuiExperimentConfig extends GuiListExtended {
 	    		
 	    	}
 			
+			if(isAnimals) {
+				this.configList.add(new ConfigHeader("Animals"));
+				if(params.timingParameters.containsKey("Chickens")) {
+					Integer[] vals = params.timingParameters.get("Chickens");
+					
+					this.configList.add(new ConfigSlider("Chickens", vals[0], vals[1], vals[2]));
+				}
+				
+				if(params.timingParameters.containsKey("Cows")) {
+					Integer[] vals = params.timingParameters.get("Cows");
+					
+					this.configList.add(new ConfigSlider("Cows", vals[0], vals[1], vals[2]));}
+				
+				if(params.timingParameters.containsKey("Sheep")) {
+					Integer[] vals = params.timingParameters.get("Sheep");
+					
+					this.configList.add(new ConfigSlider("Sheep", vals[0], vals[1], vals[2]));}
+			}
+			
 			this.configList.add(new ConfigHeader("Scoring"));
 			
 			for(String key : params.scoringParameters.keySet()) {
+				
 	    		Number[] vals = params.scoringParameters.get(key);
 	    		int l = mc.fontRenderer.getStringWidth(key);
 	    		if(l > this.maxStringLength)
 	    			maxStringLength = l;
 	    		this.configList.add(new ConfigSlider(key, Double.parseDouble(vals[0].toString()), Double.parseDouble(vals[1].toString()), Double.parseDouble(vals[2].toString())));
 	    	}
+			
+			
+			
 			
 			this.configList.add(new ConfigHeader("Items"));
 		}
@@ -195,6 +226,68 @@ public class GuiExperimentConfig extends GuiListExtended {
 //    public void drawBackground() {
 //    	
 //    }
+    
+    /**
+     * 
+     * @param mouseX
+     * @param mouseY
+     * @param mouseAction
+     * @param scrollPos value from 0.0 to 1.0 that indicates the current scroll position
+     */
+    public void drawScreenHandler(int mouseX, int mouseY, float mouseAction, float scrollPos) {
+    	
+    	
+    	//lets handle scrolling from the above function.
+    	this.amountScrolled = scrollPos * this.getContentHeight();
+    	this.bindAmountScrolled();
+    	
+    	int k = this.getSize();
+    	int l1;
+        int i2;
+        int k2;
+        int i3;
+    	
+    	if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
+        {
+            if (Mouse.isButtonDown(0) && this.func_148125_i())
+            {
+            	 if (mouseY >= this.top && mouseY <= this.bottom)
+                 {
+                     int k1 = this.width / 2 - this.getListWidth() / 2;
+                     l1 = this.width / 2 + this.getListWidth() / 2;
+                     i2 = mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+                     int j2 = i2 / this.slotHeight;
+
+                     if (mouseX >= k1 && mouseX <= l1 && j2 >= 0 && i2 >= 0 && j2 < k)
+                     {
+                         boolean flag = j2 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
+                         this.elementClicked(j2, flag, mouseX, mouseY);
+                         this.selectedElement = j2;
+                         this.lastClicked = Minecraft.getSystemTime();
+                     }
+                     else if (mouseX >= k1 && mouseX <= l1 && i2 < 0)
+                     {
+                         this.func_148132_a(mouseX - k1, mouseY - this.top + (int)this.amountScrolled - 4);
+                         //flag1 = false;
+                     }
+                 }
+            }
+        }
+    	
+    	
+    	GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_FOG);
+        l1 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+        i2 = this.top + 4 - (int)this.amountScrolled;
+
+
+        this.drawSelectionBox(l1, i2, mouseX, mouseY);
+        
+        this.func_148142_b(mouseX, mouseY);
+    	
+    	
+    }
+    
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float p_148128_3_)
@@ -419,6 +512,16 @@ public class GuiExperimentConfig extends GuiListExtended {
     {
         return this.getSize() * this.slotHeight + this.headerPadding;
     }
+	
+	
+	public int getExtraScrollSpace() {
+		int test;
+		test = this.getContentHeight();
+		test = (int) Math.ceil((test - this.height)/this.getSlotHeight());
+		
+		return test;
+	}
+	
 
 	@SideOnly(Side.CLIENT)
 	public class ConfigHeader implements GuiListExtended.IGuiListEntry {

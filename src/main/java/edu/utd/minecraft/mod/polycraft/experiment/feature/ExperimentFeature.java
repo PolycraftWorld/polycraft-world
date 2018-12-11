@@ -17,11 +17,53 @@ public abstract class ExperimentFeature {
 	protected int xPos;
 	protected int yPos;
 	protected int zPos;
+	
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public int getxPos() {
+		return xPos;
+	}
+
+
+	public void setxPos(int xPos) {
+		this.xPos = xPos;
+	}
+
+
+	public int getyPos() {
+		return yPos;
+	}
+
+
+	public void setyPos(int yPos) {
+		this.yPos = yPos;
+	}
+
+
+	public int getzPos() {
+		return zPos;
+	}
+
+
+	public void setzPos(int zPos) {
+		this.zPos = zPos;
+	}
+
+
 
 	public ExperimentFeature(Integer x, Integer y, Integer z) {
 		xPos = x;
 		yPos = y;
 		zPos = z;
+		name = "";
 	}
 	
 	
@@ -31,7 +73,34 @@ public abstract class ExperimentFeature {
 		return new int[] {xPos, yPos, zPos};
 	}
 	
-	protected class ExperimentFeatureListDeserializer implements JsonDeserializer<ArrayList<ExperimentFeature>>{
+	public static class ExperimentFeatureDeserializer implements JsonDeserializer<ExperimentFeature>{
+
+		@Override
+		public ExperimentFeature deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+				throws JsonParseException {
+			// TODO Auto-generated method stub
+			JsonObject jsonObject = json.getAsJsonObject();
+			JsonElement name = jsonObject.get("name");
+			JsonElement type = jsonObject.get("type");
+			
+			if(type != null) {
+				switch (type.getAsString()) {
+				case "FeatureSchematic":
+					return context.deserialize(jsonObject, FeatureSchematic.class);
+				case "FeatureBase":
+					return context.deserialize(jsonObject, FeatureBase.class);
+				case "FeatureSpawn":
+					return context.deserialize(jsonObject, FeatureSpawn.class);
+				}
+			}
+			
+			
+			return null;
+		}
+		
+	}
+	
+	public class ExperimentFeatureListDeserializer implements JsonDeserializer<ArrayList<ExperimentFeature>>{
 
 		@Override
 		public ArrayList<ExperimentFeature> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
