@@ -12,7 +12,7 @@ import com.google.gson.stream.JsonWriter;
  * @author dxn140130
  *
  */
-public abstract class ExperimentFeatureAdapter extends AbstractFeatureAdapter<ExperimentFeature> implements ExperimentAdapterInterface {
+public class ExperimentFeatureAdapter extends AbstractFeatureAdapter<ExperimentFeature> implements ExperimentAdapterInterface {
 	
 	public static final String KEY_TYPE = "type";
 	
@@ -55,6 +55,6 @@ public abstract class ExperimentFeatureAdapter extends AbstractFeatureAdapter<Ex
 	 * We can only return once the in object has reached the {@link JsonToken.END_OBJECT} flag (use in.peek() to check)
 	 */
 	@Override
-	public abstract ExperimentFeature read(final JsonReader in) throws IOException;
+	public ExperimentFeature read(final JsonReader in) throws IOException {return null;};
 
 }

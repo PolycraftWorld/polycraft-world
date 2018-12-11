@@ -126,40 +126,28 @@ public abstract class Experiment {
 		expFeatures = new ArrayList<>();
 
 		//DUMMY Write-to-JSON example
-//		expFeatures.add(new FeatureSchematic("stoop"));
-//		expFeatures.add(new FeatureBase(95,21,142,6,1));
-//		expFeatures.add(new FeatureBase(132,21,142,6,1));
-//		expFeatures.add(new FeatureBase(114,21,184,6,1));
-//		expFeatures.add(new FeatureBase(114,21,100,6,1));
-//		expFeatures.add(new FeatureSpawn(100,21,100,110,110));
-//		expFeatures.add(new FeatureSpawn(200,21, 150, 210, 160));
+		expFeatures.add(new FeatureSchematic("stoop"));
+		expFeatures.add(new FeatureBase(95,21,142,6,1));
+		expFeatures.add(new FeatureBase(132,21,142,6,1));
+		expFeatures.add(new FeatureBase(114,21,184,6,1));
+		expFeatures.add(new FeatureBase(114,21,100,6,1));
+		expFeatures.add(new FeatureSpawn(100,21,100,110,110));
+		expFeatures.add(new FeatureSpawn(200,21, 150, 210, 160));
 		
-		final Class<?> type = new TypeToken<List<ExperimentFeature>>() {}.getRawType();
 		
-		final ExperimentFeatureTypeAdapterFactory.Builder eftaBuilder = new ExperimentFeatureTypeAdapterFactory.Builder();
+		Gson gson = ExperimentFeatureTypeAdapterFactory.getExperimentFeatureGsonReader();
 		
-		eftaBuilder.add(FeatureBase.class, new FeatureBaseAdapter());
-		eftaBuilder.add(FeatureSchematic.class, new FeatureSchematicAdapter());
-		eftaBuilder.add(FeatureSpawn.class, new FeatureSpawnAdapter());
-		eftaBuilder.add(type, new FeatureListAdapter());
-		
-		final GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapterFactory(eftaBuilder.build());
-		gsonBuilder.setPrettyPrinting();
-		
-		Gson gson = gsonBuilder.create();
-		
-//		String json = gson.toJson(expFeatures, type);
+//		String json = gson.toJson(expFeatures, ExperimentFeatureTypeAdapterFactory.EXPERIMENT_LIST_TYPE);
 //		
 //		System.out.println(json);
-//		
-//		System.out.println("done");
+		
+		System.out.println("done");
 		
 		//expFeatures = gson.
 		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
 		try {
 			String getJSON = readFile(rs.getResourcePath());
-			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, type);
+			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, ExperimentFeatureTypeAdapterFactory.EXPERIMENT_LIST_TYPE);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
