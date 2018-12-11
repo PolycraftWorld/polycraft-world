@@ -1,6 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.experiment.feature;
 
 import java.awt.Color;
+import java.lang.reflect.Type;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
@@ -70,6 +76,10 @@ public class FeatureBase extends ExperimentFeature {
 	
 	public Color getColor(){
 		return box.getColor();
+	}
+	
+	public double getBoundingBoxRadius() {
+		return box.getRadius();
 	}
 	
 	public void setColor(Color color){
@@ -202,6 +212,17 @@ public class FeatureBase extends ExperimentFeature {
 		world.setBlock(xPos+1, yPos, zPos+2, pvc, 15, 3);
 		world.setBlock(xPos+2, yPos, zPos+2, pvc, 15, 3);
 
+	}
+	
+	public class FeatureDeserializer implements JsonDeserializer<FeatureBase> {
+
+		@Override
+		public FeatureBase deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+				throws JsonParseException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 
 	

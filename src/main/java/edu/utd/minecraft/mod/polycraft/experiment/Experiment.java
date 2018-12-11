@@ -1,13 +1,22 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
-import edu.utd.minecraft.mod.polycraft.experiment.feature.ExperimentFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
@@ -29,6 +38,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -113,8 +123,76 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = schematic;
+		expFeatures = new ArrayList<>();
+
+		//DUMMY Write-to-JSON example
+//		expFeatures.add(new FeatureSchematic("stoop"));
+//		expFeatures.add(new FeatureBase(95,21,142,6,1));
+//		expFeatures.add(new FeatureBase(132,21,142,6,1));
+//		expFeatures.add(new FeatureBase(114,21,184,6,1));
+//		expFeatures.add(new FeatureBase(114,21,100,6,1));
+//		expFeatures.add(new FeatureSpawn(100,21,100,110,110));
+//		expFeatures.add(new FeatureSpawn(200,21, 150, 210, 160));
 		
+		final Class<?> type = new TypeToken<List<ExperimentFeature>>() {}.getRawType();
 		
+		final ExperimentFeatureTypeAdapterFactory.Builder eftaBuilder = new ExperimentFeatureTypeAdapterFactory.Builder();
+		
+		eftaBuilder.add(FeatureBase.class, new FeatureBaseAdapter());
+		eftaBuilder.add(FeatureSchematic.class, new FeatureSchematicAdapter());
+		eftaBuilder.add(FeatureSpawn.class, new FeatureSpawnAdapter());
+		eftaBuilder.add(type, new FeatureListAdapter());
+		
+		final GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapterFactory(eftaBuilder.build());
+		gsonBuilder.setPrettyPrinting();
+		
+		Gson gson = gsonBuilder.create();
+		
+//		String json = gson.toJson(expFeatures, type);
+//		
+//		System.out.println(json);
+//		
+//		System.out.println("done");
+		
+		//expFeatures = gson.
+		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
+		try {
+			String getJSON = readFile(rs.getResourcePath());
+			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, type);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(expFeatures);
+	}
+	
+	/**
+	 * DEBUG ONLY! TODO: DELETE THIS FUNCTION
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	private String readFile(String file) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader("exampleJSON2.json"));//null;//new BufferedReader(new FileReader(file));
+		File f2 = new File(".");
+		String path = f2.getAbsolutePath();
+		System.out.println("path: " + path);
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		String ls = System.getProperty("line.separator");
+		
+		try {
+			while((line = reader.readLine()) != null) {
+				sb.append(line);
+				sb.append(ls);
+			}
+			System.out.println(sb.toString());
+			return sb.toString();
+		} finally  {
+			reader.close();
+		}
 	}
 	
 

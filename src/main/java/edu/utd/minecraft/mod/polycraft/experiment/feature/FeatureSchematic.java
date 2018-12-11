@@ -40,11 +40,13 @@ public class FeatureSchematic extends ExperimentFeature {
 		
 		if(schematic.equals("stoop")) {
 			this.schematic =  sch.get("stoopUpdated.psm");
+			this.name = "stoopUpdated.psm";
 			this.xPos += 10000;
 			this.zPos += 10000;
 
 		}else {
 			this.schematic = sch.get("flatctb.psm");
+			this.name = "flatctb.psm";
 		}
 	}
 	

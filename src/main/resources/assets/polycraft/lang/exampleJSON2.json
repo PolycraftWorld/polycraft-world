@@ -1,0 +1,65 @@
+[
+  {
+    "type": "FeatureSchematic",
+    "name": "stoopUpdated.psm",
+    "x": 10000,
+    "y": 16,
+    "z": 16
+  },
+  {
+    "type": "FeatureBase",
+    "name": "",
+    "x": 95,
+    "y": 21,
+    "z": 21,
+    "baseSize": 12.0,
+    "baseHeight": 1
+  },
+  {
+    "type": "FeatureBase",
+    "name": "",
+    "x": 132,
+    "y": 21,
+    "z": 21,
+    "baseSize": 12.0,
+    "baseHeight": 1
+  },
+  {
+    "type": "FeatureBase",
+    "name": "",
+    "x": 114,
+    "y": 21,
+    "z": 21,
+    "baseSize": 12.0,
+    "baseHeight": 1
+  },
+  {
+    "type": "FeatureBase",
+    "name": "",
+    "x": 114,
+    "y": 21,
+    "z": 21,
+    "baseSize": 12.0,
+    "baseHeight": 1
+  },
+  {
+    "type": "FeatureSpawn",
+    "name": "",
+    "x": 100,
+    "y": 21,
+    "z": 21,
+    "xMax": 110,
+    "yMax": 22,
+    "zMax": 110
+  },
+  {
+    "type": "FeatureSpawn",
+    "name": "",
+    "x": 200,
+    "y": 21,
+    "z": 21,
+    "xMax": 210,
+    "yMax": 22,
+    "zMax": 160
+  }
+]

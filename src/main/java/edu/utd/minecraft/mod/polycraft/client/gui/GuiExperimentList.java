@@ -682,6 +682,7 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     	Gson gson = new Gson();
     	Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType();
     	final String experimentUpdates = gson.toJson(part, gsonType);
+    	//System.out.println("Updates: \n" + experimentUpdates);
     	ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
     	
     }
