@@ -27,8 +27,7 @@ public class FeatureBaseAdapter extends ExperimentFeatureAdapter {
 	public ExperimentFeature read(JsonReader in) throws IOException {
 		/*
 		 *   {
-			    "type": "edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase",
-			    "simpleType": "FeatureBase",
+			    "type": "FeatureBase",
 			    "name": "",
 			    "x": 114,
 			    "y": 21,

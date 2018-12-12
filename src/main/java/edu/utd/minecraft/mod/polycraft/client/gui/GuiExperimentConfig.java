@@ -228,7 +228,8 @@ public class GuiExperimentConfig extends GuiListExtended {
 //    }
     
     /**
-     * 
+     * Updated Draw Screen Function that uses the Scroll Handler in {@link GuiExperimentList}
+     * to draw items on the screen. Double-click functionality IS enabled in this handler
      * @param mouseX
      * @param mouseY
      * @param mouseAction
@@ -247,24 +248,37 @@ public class GuiExperimentConfig extends GuiListExtended {
         int k2;
         int i3;
     	
+        //Handle Mouse Input by the user.
     	if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
+    		//check to see if the mouse has been clicked.
             if (Mouse.isButtonDown(0) && this.func_148125_i())
             {
+            	//check to see where the mouse is.
             	 if (mouseY >= this.top && mouseY <= this.bottom)
                  {
+            		 //get specific parameters to determine the element the mouse is hovering over,
+            		 //based on the current scroll amount and the slot heights
                      int k1 = this.width / 2 - this.getListWidth() / 2;
                      l1 = this.width / 2 + this.getListWidth() / 2;
                      i2 = mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
                      int j2 = i2 / this.slotHeight;
-
+                     
+                     //If the mouse is over a given slot element, then register the click
                      if (mouseX >= k1 && mouseX <= l1 && j2 >= 0 && i2 >= 0 && j2 < k)
                      {
+                    	 
+                    	 //check to see if the user doubled clicked (flag is True if it's a double click)
                          boolean flag = j2 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
-                         this.elementClicked(j2, flag, mouseX, mouseY);
-                         this.selectedElement = j2;
+                         this.elementClicked(j2, flag, mouseX, mouseY); //click the element.
+                         
+                       //set up parameters to determine if it's a double click
+                         this.selectedElement = j2; 
                          this.lastClicked = Minecraft.getSystemTime();
                      }
+                     
+                     //not really sure what this does, of if it's even needed. This may be a deprecated function
+                     //from DrawScreen (see below).
                      else if (mouseX >= k1 && mouseX <= l1 && i2 < 0)
                      {
                          this.func_148132_a(mouseX - k1, mouseY - this.top + (int)this.amountScrolled - 4);
@@ -281,15 +295,21 @@ public class GuiExperimentConfig extends GuiListExtended {
         i2 = this.top + 4 - (int)this.amountScrolled;
 
 
+        //draw the elements based on the screen
         this.drawSelectionBox(l1, i2, mouseX, mouseY);
         
+        //Handle mouse-over on Elements on the screen
+        //TODO: implemment tool-tips that pop-up when a user hovers their mouse here!
         this.func_148142_b(mouseX, mouseY);
     	
     	
     }
     
 	
-	@Override
+    /**
+     * TODO: Safely delete this function after ensuring we don't need ANY of the information here
+     */
+	@Deprecated
 	public void drawScreen(int mouseX, int mouseY, float p_148128_3_)
     {
         this.mouseX = mouseX;
@@ -435,36 +455,23 @@ public class GuiExperimentConfig extends GuiListExtended {
 //        GL11.glDisable(GL11.GL_BLEND);
     }
 	
-	
-//	@Override
-//	protected void drawContainerBackground(Tessellator tessellator) {
-//		this.minecraft.getTextureManager().bindTexture(this.BACKGROUND_IMAGE);
-//        //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-//	}
-//	
+		
 	@Override
 	protected void drawBackground() {
 		GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(this.BACKGROUND_IMAGE);
-//        //PolycraftMod.logger.debug("Screen width & Height: " + this.width + " " + this.height);
-//        //System.out.println("Screen width & Height: " + this.width + " " + this.height);
-//        int i = (this.width - 248) / 2;
-//        int j = (this.height - 184) / 2; //old was 200
-//       // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
-//        this.drawTexturedModalRect(i, j, 0, 0, 248, 184);
-//        //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 	
 	
 	@Override
-	public int func_148124_c(int p_148124_1_, int p_148124_2_)
+	public int func_148124_c(int mouseX, int mouseY)
     {
         int k = this.left + this.width / 2 - this.getListWidth() / 2;
         int l = this.left + this.width / 2 + this.getListWidth() / 2;
-        int i1 = p_148124_2_ - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+        int i1 = mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
         int j1 = i1 / this.slotHeight;
-        return p_148124_1_ < this.getScrollBarX() && p_148124_1_ >= k && p_148124_1_ <= l && j1 >= 0 && i1 >= 0 && j1 < this.getSize() ? j1 : -1;
+        return mouseX < this.getScrollBarX() && mouseX >= k && mouseX <= l && j1 >= 0 && i1 >= 0 && j1 < this.getSize() ? j1 : -1;
     }
 	
 	/**
@@ -514,6 +521,10 @@ public class GuiExperimentConfig extends GuiListExtended {
     }
 	
 	
+	/**
+	 * Get the amount of scrolling needed (passed to GuiExperimentList)
+	 * @return
+	 */
 	public int getExtraScrollSpace() {
 		int test;
 		test = this.getContentHeight();
@@ -523,6 +534,12 @@ public class GuiExperimentConfig extends GuiListExtended {
 	}
 	
 
+	/**
+	 * This is a ConfigHeader that draws centered text on the screen that describes a section
+	 * of Configurator commands.
+	 * @author dxn140130
+	 *
+	 */
 	@SideOnly(Side.CLIENT)
 	public class ConfigHeader implements GuiListExtended.IGuiListEntry {
 		
@@ -562,6 +579,16 @@ public class GuiExperimentConfig extends GuiListExtended {
 		
 	}
 	
+	/**
+	 * This describes a generic ConfigSlider object that contains 3 elements: 
+	 * A String {@link #parameterName}, a Slider with Associated Bounds {@link #slider}, and a 
+	 * button to reset the slider {@link #reset}
+	 * 
+	 * This object is created from the {@link ExperimentParameter} object that is passed into this 
+	 * object by GuiExperimentList, depending on what experiment the user selects.
+	 * @author dxn140130
+	 *
+	 */
 	@SideOnly(Side.CLIENT)
 	public class ConfigSlider implements GuiListExtended.IGuiListEntry {
 		
