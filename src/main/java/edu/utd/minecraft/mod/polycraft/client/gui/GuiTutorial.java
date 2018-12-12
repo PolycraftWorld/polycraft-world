@@ -1,11 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
+import java.io.File;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.util.ThreadDownloadGUIImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
@@ -14,77 +19,34 @@ import net.minecraftforge.common.MinecraftForge;
 public class GuiTutorial extends GuiScreen {
 
 	 private ResourceLocation BACKGROUND_IMG;// = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/test_large_background.png"));
+	 private ResourceLocation OTHER_RESOURCE;
 	 private EntityPlayer player;
-	 private int guiSettings;
-	 private int defaultGuiSettings;
+	 private ThreadDownloadGUIImage downloadedImage;
+	 //private int guiSettings;
+	// private int defaultGuiSettings;
 	
 	public GuiTutorial(EntityPlayer player) {
 		// TODO Auto-generated constructor stub
 		this.player = player;
-		BACKGROUND_IMG = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/test1/Slide2.png"));
-		guiSettings = 1; //set scaled resolution to 1
-		defaultGuiSettings = 0;//this.mc.gameSettings.guiScale;
+		String url = "https://upload.wikimedia.org/wikipedia/commons/c/c6/Sierpinski_square.jpg";
+		BACKGROUND_IMG = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/Slide/Slide1.png"));
+		OTHER_RESOURCE = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/temp/test1.png"));
+		downloadedImage = new ThreadDownloadGUIImage(url, null, OTHER_RESOURCE);
+		//guiSettings = 1; //set scaled resolution to 1
+		//defaultGuiSettings = this.mc.gameSettings.guiScale;
 		//default powerpoint slide size:
 		//720px width, 405px height.
 	}
-	
-	public void resetGuiScale() {
-		this.guiSettings = this.defaultGuiSettings;
-	}
-	
-	@Override
-	public void setWorldAndResolution(Minecraft mc, int scaledWidth, int scaledHeight) {
-		
-		mc.gameSettings.guiScale = this.guiSettings;
-//		int k = 1; //set the scaled resolution to the native screen resolution of the display
-//		CustomScaledResolution scaledResolution = new CustomScaledResolution(mc, mc.displayWidth, mc.displayHeight, k);
-//		
-//		this.mc = mc;
-//        this.fontRendererObj = mc.fontRenderer;
-//        this.width = scaledResolution.getScaledWidth();
-//        this.height = scaledResolution.getScaledHeight();
-//        if (!MinecraftForge.EVENT_BUS.post(new InitGuiEvent.Pre(this, this.buttonList)))
-//        {
-//            this.buttonList.clear();
-//            this.initGui();
-//        }
-//        MinecraftForge.EVENT_BUS.post(new InitGuiEvent.Post(this, this.buttonList));
-		
-		//super.setWorldAndResolution(mc, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
-		super.setWorldAndResolution(mc, scaledWidth, scaledHeight);
-		
-	}
-	
-	@Override
-	public void initGui() {
-		this.defaultGuiSettings = 0;
-		super.initGui();
-		
-		
-		//this.setWorldAndResolution(this.mc, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
-		
-		//super.
-	}
-	
-	@Override
-	public void onGuiClosed() {
-		this.resetGuiScale();
-		this.mc.gameSettings.guiScale = this.guiSettings;
-		super.onGuiClosed();
-		//mc.gameSettings.guiScale = 0;
-		
-		//reset the GUI resolution to the default, as defined by the user.
-//		CustomScaledResolution scaledResolution = new CustomScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight, this.guiSettings);
-//		super.setWorldAndResolution(this.mc, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
-	}
-	
-
+			
 	
 	 /**
      * Draws the background image on the screen
      */
     public void drawDefaultBackground()
     {
+    	
+    	
+    	
         //super.drawDefaultBackground();
         
         double x_border = 0.1; //percent offset
@@ -97,37 +59,44 @@ public class GuiTutorial extends GuiScreen {
         int cur_width = this.width;
         int cur_height = this.height;
         
-        float scaleX = (float)cur_width/width;
-        float scaleY = (float)cur_height/height;
+        float scaleX = (float)((float)cur_width/width);
+        float scaleY = (float)((float)cur_height/height);
         
-       // UtilityGL11Debug.dumpAllIsEnabled();
-        
-       
+        if(scaleX < 0.4 || scaleY < 0.4) {
+        	scaleX *= 2;
+            scaleY *= 2;
+        }
         
         GL11.glPushMatrix();
+        if(scaleX != 1 && scaleY != 1)
+        	GL11.glScalef((float)(360.0/256*scaleY), (float)(360.0/256*scaleX), 1);
+        //GL11.glEnable(GL11.GL_BLEND);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-        GL11.glScalef(1/scaleX, 1/scaleY, 1);
-        //GL11.GL_TEXTURE_WRAP_S = GL11.GL_CLAMP;
-        //GL11.glPushClientAttrib(GL11.GL_CLAMP);
-       // 
-        //GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         //GL11.glS
-        this.mc.getTextureManager().bindTexture(BACKGROUND_IMG);
+        //this.mc.getTextureManager().bindTexture(BACKGROUND_IMG);
+        this.mc.getTextureManager().loadTexture(OTHER_RESOURCE, downloadedImage);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((ITextureObject)downloadedImage).getGlTextureId());
         //PolycraftMod.logger.debug("Screen width & Height: " + this.width + " " + this.height);
         //System.out.println("Screen width & Height: " + this.width + " " + this.height);
         //int i = (this.width - 248) / 2;
         //int j = (this.height - 184) / 2; //old was 200
        // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
         
-//        int x_start = Math.round((float)(width*x_border));
-//        int y_start = Math.round((float)(height*y_offset));
-       // UtilityGL11Debug.dumpAllIsEnabled();
-        //GL11.glScalef(scaleX, scaleY, 1);
-        //this.drawTexturedModalRect(10, 10, 0, 25, 720, 405);
-       this.drawTexturedModalRect(10, 10, 0, 0, (int) (720 * cur_width / width * 2), (int) (405 * cur_width / width * 2));
-        //this.drawTexturedModalRect(10, 10, 0, 25, (int) (cur_width*scaleX*.9), (int) (cur_height*scaleY*.9));
+        int x_start = Math.round((float)(width*x_border));
+        int y_start = Math.round((float)(height*y_offset));
+        
+        if(scaleX == 1) {
+        	this.drawTexturedModalRect((int)((width/2 - this.width*scaleX*2/11)), 20, 0, 0, 256, 256);
+        }
+        else if(scaleX > 0.51 && scaleX < 1) {
+        	this.drawTexturedModalRect((int)((width/2 - this.width*scaleX * 1.85)), 20, 0, 0, 256, 256);
+        }
+        else {
+        	this.drawTexturedModalRect((int)((this.width - 256*(256/360.0*scaleX))/2), 20, 0, 0, 256, 256);
+        }
+        
         GL11.glPopMatrix();
         GL11.glPushMatrix();
         GL11.glPopMatrix();
