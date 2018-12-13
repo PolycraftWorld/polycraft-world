@@ -87,8 +87,8 @@ public class Experiment1PlayerCTB extends Experiment{
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
-	private float claimBaseScoreBonus = 50;
-	private float stealBaseScoreBonus = 200;
+	private int claimBaseScoreBonus = 50;
+	private int stealBaseScoreBonus = 200;
 	private int updateScoreOnTickRate = 20;
 	private int ownedBaseScoreBonusOnTicks = 5;
 	private int WAITSPAWNTICKS = 400;
@@ -889,11 +889,11 @@ public class Experiment1PlayerCTB extends Experiment{
 		return ticksToClaimBase;
 	}
 
-	public float getClaimBaseScoreBonus() {
+	public int getClaimBaseScoreBonus() {
 		return claimBaseScoreBonus;
 	}
 
-	public float getStealBaseScoreBonus() {
+	public int getStealBaseScoreBonus() {
 		return stealBaseScoreBonus;
 	}
 
@@ -919,8 +919,8 @@ public class Experiment1PlayerCTB extends Experiment{
 		this.WAIT_TELEPORT_UTD_TICKS = (params.timingParameters.get("Sec: Post-Game")[0])*20;
 		
 		//scoring:
-		this.claimBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Claim Base")[0].toString());
-		this.stealBaseScoreBonus = (float)Float.parseFloat(params.scoringParameters.get("Pts: Steal Base")[0].toString());
+		this.claimBaseScoreBonus = (int)Float.parseFloat(params.scoringParameters.get("Pts: Claim Base")[0].toString());
+		this.stealBaseScoreBonus = (int)Float.parseFloat(params.scoringParameters.get("Pts: Steal Base")[0].toString());
 		this.updateScoreOnTickRate = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Base Pts Gen")[0].toString())) * 20);
 		this.ownedBaseScoreBonusOnTicks = (int) Math.round(Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString()));
 		this.ticksToClaimBase = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20);
@@ -929,11 +929,16 @@ public class Experiment1PlayerCTB extends Experiment{
 			this.ticksToClaimBase = 5;
 		}
 		
-		//animals
-		this.numChickens = (int) Math.round(Float.parseFloat(params.timingParameters.get("Chickens")[0].toString()));
-		this.numCows = (int) Math.round(Float.parseFloat(params.timingParameters.get("Cows")[0].toString()));
-		this.numSheep = (int) Math.round(Float.parseFloat(params.timingParameters.get("Sheep")[0].toString()));
 		
+		//animals
+		if(params.extraParameters.containsKey("Animals")){
+			if(params.extraParameters.get("Animals") instanceof Boolean & (Boolean)params.extraParameters.get("Animals")) {
+				
+				this.numChickens = Integer.parseInt((((Integer[])(params.extraParameters.get("Chickens")))[0].toString()));
+				this.numCows = Integer.parseInt((((Integer[])(params.extraParameters.get("Cows")))[0].toString()));
+				this.numSheep = Integer.parseInt((((Integer[])(params.extraParameters.get("Sheep")))[0].toString()));
+			}
+		}
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;

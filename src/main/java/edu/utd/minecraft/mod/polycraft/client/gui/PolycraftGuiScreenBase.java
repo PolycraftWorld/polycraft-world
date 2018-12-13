@@ -5,7 +5,9 @@ import net.minecraft.client.gui.GuiScreen;
 
 public abstract class PolycraftGuiScreenBase extends GuiScreen {
 	
-	protected  GuiButton btnExit = new GuiButton(100000, 20, 20, 20, 20, "X");
+	protected int btnXPos = 380;
+	protected int btnYPos = 38;
+	protected  GuiButton btnExit = new GuiButton(100000, btnXPos, btnYPos, 20, 20, "X");
 	
 	/**
 	 * Reset the ButtonList and add the "exit" button
@@ -20,6 +22,10 @@ public abstract class PolycraftGuiScreenBase extends GuiScreen {
 			exitGuiScreen();
 			return;
 		}
+	}
+	
+	protected void updateExitButton() {
+		btnExit = new GuiButton(100000, btnXPos, btnYPos, 20, 20, "X");
 	}
 	
 	protected abstract void exitGuiScreen();
