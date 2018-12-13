@@ -97,6 +97,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInve
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.polycrafting.PolycraftingInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.printingpress.PrintingPressInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
@@ -1054,6 +1055,8 @@ public class PolycraftRegistry {
 					TierChestInventory.register(inventory);
 				else if (GameID.TextWall.matches(inventory))
 					TextWallInventory.register(inventory);
+				else if (GameID.InventoryPolycrafting.matches(inventory))
+					PolycraftingInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
