@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.machiningmill.MachiningMillInve
 import edu.utd.minecraft.mod.polycraft.inventory.maskwriter.MaskWriterInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.plasticchest.PlasticChestInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.polycrafting.PolycraftingInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.portalchest.PortalChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.printingpress.PrintingPressInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.pump.FlowRegulatorInventory;
@@ -83,7 +84,8 @@ public enum PolycraftContainerType {
 	HOSPITAL_GENERATOR("Hospital Generator"),
 	FLUORESCENT_LAMP("Fluorescent Lamp"),
 	TIER_CHEST("Tier Chest"),
-	TEXT_WALL("Text Wall");
+	TEXT_WALL("Text Wall"),
+	POLYCRAFTING_TABLE("Polycrafting Table");
 
 	private final String friendlyName;
 
@@ -176,6 +178,7 @@ public enum PolycraftContainerType {
 		FLUORESCENT_LAMP.initialize(FluorescentLampInventory.guiSlots);
 		TIER_CHEST.initialize(TierChestInventory.guiSlots);
 		TEXT_WALL.initialize(TextWallInventory.guiSlots);
+		POLYCRAFTING_TABLE.initialize(PolycraftingInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

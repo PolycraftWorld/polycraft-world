@@ -81,7 +81,7 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
+				//DO NOT ADD CRAFTING INVENTORIES TO THIS. WILL CAUSE SHIFT CLICKING TO DUPLICATE ITEMS (OR FIX THE BUG)
 			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST) ||
 					(inventory.containerType == PolycraftContainerType.PORTAL_CHEST) ||
 					(inventory.containerType == PolycraftContainerType.CONTACT_PRINTER) ||
