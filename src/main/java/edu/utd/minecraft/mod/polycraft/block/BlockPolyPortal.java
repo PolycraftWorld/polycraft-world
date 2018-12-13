@@ -207,7 +207,7 @@ public class BlockPolyPortal extends BlockBreakable {
 						
 						int currentID = nextID - 1;
 						if(nextID == 1) {
-							ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
+							//ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
 							playerMP.addChatMessage(new ChatComponentText("Created a new Experiment: " + nextID));
 						}
 						
@@ -227,7 +227,7 @@ public class BlockPolyPortal extends BlockBreakable {
 								break;
 							case Done:
 								System.out.println("currentID is actually Done!");
-								ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
+								//ExperimentManager.INSTANCE.registerExperiment(nextID, new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8)));
 								System.out.println("Created a new Experiment: " + nextID);
 								break;
 							default:

@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -36,10 +37,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentCTB extends Experiment{
-	protected ArrayList<Base> bases= new ArrayList<Base>();
+	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
@@ -84,35 +86,8 @@ public class ExperimentCTB extends Experiment{
 	private String stringToSend = "";
 	
 	
-	@Deprecated
-	public ExperimentCTB(int id, int size, int xPos, int zPos, World world) {
-		super(id, size, xPos, zPos, world);
-		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
-		for(int x = 0; x < teamsNeeded;x++) {
-			this.scoreboard.addNewTeam();
-			this.scoreboard.resetScores(0);
-		}
-		//teamNames.add("testing");
-		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
-		int maxBases = 8;
-		int workarea = size*16;
-		int distBtwnBases = (int) ((workarea*1.0)/Math.sqrt(maxBases));
-		int counter = 0;
-		for (int x = xPos + distBtwnBases; x < (xPos+size*16 - 1);x+=distBtwnBases){
-			for (int z = zPos + distBtwnBases; z < (zPos+size*16 - 1);z+=distBtwnBases){
-				counter++;
-				BoundingBox box = new BoundingBox(x + 0.5, z + 0.5, 6,yPos+1, yPos+2, Color.GRAY);
-				bases.add(new Base(x, yPos, z, box, Color.GRAY));
-			}
-		}
-		
-		currentState = State.WaitingToStart;
-	}
-	
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
 		super(id, size, xPos, zPos, world);
-		//teamNames.add("testing");
-		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		this.teamsNeeded = maxteams;
 		this.teamSize = teamsize;
 		this.playersNeeded = teamsNeeded * teamSize;
@@ -122,6 +97,9 @@ public class ExperimentCTB extends Experiment{
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);
 		}
+		
+		//update default parameters:
+		this.updateParams(ExperimentParameters.DEFAULT_PARAMS);
 		
 		tickets = new ForgeChunkManager.Ticket[this.size*this.size];
 		
@@ -138,13 +116,13 @@ public class ExperimentCTB extends Experiment{
 //		}
 		int y = yPos + 5;
 		BoundingBox box = new BoundingBox(xPos + 95.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 95, y, zPos + 142, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 95, y, zPos + 142, box, Color.GRAY));
 		box = new BoundingBox(xPos + 132.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 132, y, zPos + 142, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 132, y, zPos + 142, box, Color.GRAY));
 		box = new BoundingBox(xPos + 114.5, zPos + 184.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 114, y, zPos + 184, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 114, y, zPos + 184, box, Color.GRAY));
 		box = new BoundingBox(xPos + 114.5, zPos + 100.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 114, y, zPos + 100, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 114, y, zPos + 100, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		
@@ -159,7 +137,7 @@ public class ExperimentCTB extends Experiment{
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
-			for(Base base: bases){
+			for(FeatureBase base: bases){
 				base.setRendering(true);
 			}
 			for(Team team: scoreboard.getTeams()) {
@@ -254,7 +232,10 @@ public class ExperimentCTB extends Experiment{
 						player.inventory.mainInventory = new ItemStack[36];
 						player.inventory.armorInventory = armor;
 						//set health and food for all players
+						//set health and food for all players
+						player.setGameType(WorldSettings.GameType.ADVENTURE);
 						player.setHealth(20); //provide players maximum health
+						player.getFoodStats().addStats(20, 40);
 						//player.getFoodStats().setFoodLevel(20);
 						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
@@ -263,10 +244,12 @@ public class ExperimentCTB extends Experiment{
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
 						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
 						player.inventory.addItemStackToInventory(fkb);
+						player.inventory.addItemStackToInventory(carrot);
 					}
 					
 					//keep the chunks loaded after players enter
@@ -430,8 +413,13 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];
-					player.setHealth(20); //provide players maximum health
-					//player.getFoodStats().setFoodLevel(20);
+					
+					player.setGameType(WorldSettings.GameType.SURVIVAL); //incase the player changed their mode
+					
+					player.heal(19); //provide players maximum health
+					
+					player.getFoodStats().addStats(20, 40);
+					
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
 				ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, this.stringToSend);
@@ -494,7 +482,7 @@ public class ExperimentCTB extends Experiment{
 	}
 
 	private void updateBaseStates2() {
-		for(Base base : bases) {
+		for(FeatureBase base : bases) {
 			
 			int playerCount = 0;
 			switch(base.currentState) {
@@ -505,16 +493,16 @@ public class ExperimentCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
-						base.currentState = Base.State.Occupied;
-						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getRed()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getGreen()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
+						base.currentState = FeatureBase.State.Occupied;
+						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
-				if(base.currentState!=Base.State.Neutral) {	//push update to all players
+				if(base.currentState!=FeatureBase.State.Neutral) {	//push update to all players
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -529,9 +517,9 @@ public class ExperimentCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
-						if (base.getCurrentTeam() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
 								//reset case
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.setCurrentTeam(null);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
@@ -545,47 +533,47 @@ public class ExperimentCTB extends Experiment{
 				}
 				if(playerCount==0) {
 					//case no one in the previously occupied base:
-					base.currentState = Base.State.Neutral;
+					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
-					base.currentState = Base.State.Claimed;
-					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+					base.currentState = FeatureBase.State.Claimed;
+					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.claimBaseScoreBonus);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
 					//TODO: Add Fireworks
 //					ItemStack item= new ItemStack(new ItemFirework());
 //					item.getItem().
 //					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
-				if(base.currentState != Base.State.Occupied) {
+				if(base.currentState != FeatureBase.State.Occupied) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
 				}
 				break;
 			case Claimed:
-				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.ownedBaseScoreBonusOnTicks);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.ownedBaseScoreBonusOnTicks);
 				}
 				//playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
 							base.tickCount++; //this goes faster for two players!
 							//alert players that a user is stealing their base
 							if(base.tickCount%20==0) {
 								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Reset to Neutral in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
-								alertTeam(this.scoreboard.getTeam(base.getCurrentTeam()));
+								alertTeam(this.scoreboard.getTeam(base.getCurrentTeamName()));
 							}
 							if(base.tickCount>=this.ticksToClaimBase) {
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
 								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
@@ -598,7 +586,7 @@ public class ExperimentCTB extends Experiment{
 					base.tickCount = 0;
 				}
 				
-				if(base.currentState != Base.State.Claimed) {
+				if(base.currentState != FeatureBase.State.Claimed) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -623,7 +611,7 @@ public class ExperimentCTB extends Experiment{
 	public void onClientTickUpdate(){
 		if(currentState == State.Starting){
 			if(tickCount == 0){
-				for(Base base: bases)
+				for(FeatureBase base: bases)
 					base.setRendering(true);
 				tickCount++;
 			}
@@ -632,8 +620,12 @@ public class ExperimentCTB extends Experiment{
 	
 	public String getInstructions() {
 		String inst = "";
-		inst += String.format("Welcome to Capture the Base at Twickenham Stadium! Work with your team to collect points before time runs out. You will have %2.0f minutes.", (float)this.maxTicks/60/20);
-		inst += String.format("\n\nYou\'ll have %d seconds to discuss strategy before the game starts, and %d:%02d minutes at halftime. ", this.WAITSPAWNTICKS/20, this.halfTimeTicksRemaining/20/60, (this.halfTimeTicksRemaining/20) % 60);
+		inst += String.format("Welcome to Capture the Base at Twickenham Stadium! Work with your team to collect points before time runs out. You will have %2.0f minutes.",
+				(float)this.maxTicks/60/20);
+		inst += String.format("\n\nYou\'ll have %d seconds to discuss strategy before the game starts, and %d:%02d minutes at halftime. ",
+				this.WAITSPAWNTICKS/20,
+				this.halfTimeTicksRemaining/20/60,
+				(this.halfTimeTicksRemaining/20) % 60);
 		inst += String.format("Run into a base aura to convert it to your team's color. \n" + 
 				"\n" + 
 				"Neutral base conversion: %2.0f pts. \n" + 
@@ -659,7 +651,7 @@ public class ExperimentCTB extends Experiment{
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();
-		Type gsonType = new TypeToken<Base[]>(){}.getType();
+		Type gsonType = new TypeToken<FeatureBase[]>(){}.getType();
 		final String updateScoreJson = gson.toJson(this.bases.toArray(), gsonType);
 		return updateScoreJson;
 	}
@@ -668,13 +660,13 @@ public class ExperimentCTB extends Experiment{
 	protected void generateArea(){
 		super.generateArea();	//generate the base flat area
 		super.generateSpectatorBox();
-		for(Base base: bases){	//generate bases
+		for(FeatureBase base: bases){	//generate bases
 			base.generate(world);
 		}
 	}
 	
-	private Base isPlayerInAnyBase(EntityPlayerMP player){
-		for(Base base: bases){
+	private FeatureBase isPlayerInAnyBase(EntityPlayerMP player){
+		for(FeatureBase base: bases){
 			if(base.isInBase((Entity) player))
 				return base;
 		}
@@ -683,7 +675,7 @@ public class ExperimentCTB extends Experiment{
 	
 	@Override
 	public void render(Entity entity){
-		for(Base base: bases){
+		for(FeatureBase base: bases){
 			if(base.isInBase(entity)){
 				base.setColor(Color.BLUE);
 			}else{
@@ -755,6 +747,7 @@ public class ExperimentCTB extends Experiment{
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;
 		System.out.println("New Params installed");
+		if(params == ExperimentParameters.DEFAULT_PARAMS) return;
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();
 	}

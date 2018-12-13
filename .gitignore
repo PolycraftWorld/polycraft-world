@@ -20,3 +20,4 @@
 /servers.dat
 /.gitignore
 forge-1.7.10-10.13.4.1558-1.7.10-changelog.txt
+*.DS_Store

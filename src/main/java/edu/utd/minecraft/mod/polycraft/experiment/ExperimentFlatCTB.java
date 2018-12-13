@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -36,10 +37,12 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
+import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentFlatCTB extends Experiment{
-	protected ArrayList<Base> bases= new ArrayList<Base>();
+	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
@@ -116,13 +119,13 @@ public class ExperimentFlatCTB extends Experiment{
 		int y = yPos + 7;
 		int x_offset = 28;
 		BoundingBox box = new BoundingBox(xPos + 25.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 62.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 114.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
 		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 30.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		
@@ -137,7 +140,7 @@ public class ExperimentFlatCTB extends Experiment{
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
-			for(Base base: bases){
+			for(FeatureBase base: bases){
 				base.setRendering(true);
 			}
 			for(Team team: scoreboard.getTeams()) {
@@ -233,8 +236,9 @@ public class ExperimentFlatCTB extends Experiment{
 						player.inventory.mainInventory = new ItemStack[36];
 						player.inventory.armorInventory = armor;
 						//set health and food for all players
+						player.setGameType(WorldSettings.GameType.ADVENTURE);
 						player.setHealth(20); //provide players maximum health
-						//player.getFoodStats().setFoodLevel(20);
+						player.getFoodStats().addStats(20, 40);
 						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
 						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
@@ -242,10 +246,12 @@ public class ExperimentFlatCTB extends Experiment{
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
 						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
 						player.inventory.addItemStackToInventory(fkb);
+						player.inventory.addItemStackToInventory(carrot);
 					}
 					
 					//keep the chunks loaded after players enter
@@ -409,7 +415,13 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];
-					player.setHealth(20); //provide players maximum health
+					
+					player.setGameType(WorldSettings.GameType.SURVIVAL); //incase the player changed their mode, otherwise, the foodlevel will throw a null pointer
+					
+					player.heal(19); //provide players maximum health
+					
+					player.getFoodStats().addStats(20, 40);
+					
 					//player.getFoodStats().setFoodLevel(20);
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
@@ -473,7 +485,7 @@ public class ExperimentFlatCTB extends Experiment{
 	}
 
 	private void updateBaseStates2() {
-		for(Base base : bases) {
+		for(FeatureBase base : bases) {
 			
 			int playerCount = 0;
 			switch(base.currentState) {
@@ -484,16 +496,16 @@ public class ExperimentFlatCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
-						base.currentState = Base.State.Occupied;
-						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getRed()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getGreen()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
+						base.currentState = FeatureBase.State.Occupied;
+						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
-				if(base.currentState!=Base.State.Neutral) {	//push update to all players
+				if(base.currentState!=FeatureBase.State.Neutral) {	//push update to all players
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -508,9 +520,9 @@ public class ExperimentFlatCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
-						if (base.getCurrentTeam() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
 								//reset case
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.setCurrentTeam(null);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
@@ -524,47 +536,47 @@ public class ExperimentFlatCTB extends Experiment{
 				}
 				if(playerCount==0) {
 					//case no one in the previously occupied base:
-					base.currentState = Base.State.Neutral;
+					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
-					base.currentState = Base.State.Claimed;
-					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+					base.currentState = FeatureBase.State.Claimed;
+					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.claimBaseScoreBonus);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
 					//TODO: Add Fireworks
 //					ItemStack item= new ItemStack(new ItemFirework());
 //					item.getItem().
 //					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
-				if(base.currentState != Base.State.Occupied) {
+				if(base.currentState != FeatureBase.State.Occupied) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
 				}
 				break;
 			case Claimed:
-				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.ownedBaseScoreBonusOnTicks);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.ownedBaseScoreBonusOnTicks);
 				}
 				//playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
 							base.tickCount++; //this goes faster for two players!
 							//alert players that a user is stealing their base
 							if(base.tickCount%20==0) {
 								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Reset to Neutral in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
-								alertTeam(this.scoreboard.getTeam(base.getCurrentTeam()));
+								alertTeam(this.scoreboard.getTeam(base.getCurrentTeamName()));
 							}
 							if(base.tickCount>=this.ticksToClaimBase) {
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
 								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
@@ -577,7 +589,7 @@ public class ExperimentFlatCTB extends Experiment{
 					base.tickCount = 0;
 				}
 				
-				if(base.currentState != Base.State.Claimed) {
+				if(base.currentState != FeatureBase.State.Claimed) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -602,7 +614,7 @@ public class ExperimentFlatCTB extends Experiment{
 	public void onClientTickUpdate(){
 		if(currentState == State.Starting){
 			if(tickCount == 0){
-				for(Base base: bases)
+				for(FeatureBase base: bases)
 					base.setRendering(true);
 				tickCount++;
 			}
@@ -641,7 +653,7 @@ public class ExperimentFlatCTB extends Experiment{
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();
-		Type gsonType = new TypeToken<Base[]>(){}.getType();
+		Type gsonType = new TypeToken<FeatureBase[]>(){}.getType();
 		final String updateScoreJson = gson.toJson(this.bases.toArray(), gsonType);
 		return updateScoreJson;
 	}
@@ -650,13 +662,13 @@ public class ExperimentFlatCTB extends Experiment{
 	protected void generateArea(){
 		super.generateArea();	//generate the base flat area
 		super.generateSpectatorBox();
-		for(Base base: bases){	//generate bases
+		for(FeatureBase base: bases){	//generate bases
 			base.generate(world);
 		}
 	}
 	
-	private Base isPlayerInAnyBase(EntityPlayerMP player){
-		for(Base base: bases){
+	private FeatureBase isPlayerInAnyBase(EntityPlayerMP player){
+		for(FeatureBase base: bases){
 			if(base.isInBase((Entity) player))
 				return base;
 		}
@@ -665,7 +677,7 @@ public class ExperimentFlatCTB extends Experiment{
 	
 	@Override
 	public void render(Entity entity){
-		for(Base base: bases){
+		for(FeatureBase base: bases){
 			if(base.isInBase(entity)){
 				base.setColor(Color.BLUE);
 			}else{

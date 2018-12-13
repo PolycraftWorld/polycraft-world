@@ -304,6 +304,15 @@ public class BoundingBox {
 	public float getLineWidth() {
 		return lineWidth;
 	}
+	
+	/**
+	 * Gets the average radius of the bounding box (in case it's a rectangle)
+	 * Divide by 4 to get the average and then to get the radius
+	 * @return radius of the bounding box.
+	 */
+	public double getRadius() {
+		return ((x2 - x1) + (z2 - z1))/4;
+	}
 
 	/**
 	 * Set the width of the lines of the bounding box.

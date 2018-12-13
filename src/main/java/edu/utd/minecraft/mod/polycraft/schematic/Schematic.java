@@ -20,6 +20,7 @@ public class Schematic {
         public short length;
         public int[] blocks;
         public byte[] data;
+        
         public Schematic(NBTTagList tileentities, short width, short height, short length, int[] blocks2, byte[] data2){
             this.tileentities = tileentities;
             this.width = width;

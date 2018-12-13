@@ -62,6 +62,7 @@ public class CustomScoreboard {
 	
 	public void addTeam(Team team) {
 		this.teams.add(team);
+		//this.teamScores.put(team, 0.0f);
 		this.needToSendUpdate = true;
 	}
 	
@@ -78,6 +79,7 @@ public class CustomScoreboard {
 		this.needToSendUpdate = true;
 	}
 
+	@Deprecated
 	public void addPlayer(String player, String teamName) throws IOException {
 		Team team = null;
 		for (Team tm : this.teams) {

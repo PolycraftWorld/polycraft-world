@@ -33,7 +33,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import scala.swing.event.MouseReleased;
 
-public class GuiExperimentList extends GuiScreen {
+public class GuiExperimentList extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
     private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
@@ -116,7 +116,7 @@ public class GuiExperimentList extends GuiScreen {
     		
     		//return;
     	}else {
-	        this.buttonList.clear();
+	        this.resetButtonList();
 	       // System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
 	        buildExperimentButtonList();
 	        this.buttonList.addAll(this.experimentsListButton);
@@ -134,26 +134,28 @@ public class GuiExperimentList extends GuiScreen {
     public void keyTyped(char abc, int one) {
     	super.keyTyped(abc, one);
     	if(abc == 'x' || abc == 'X') {
-    		 this.mc.displayGuiScreen((GuiScreen)null);
-             this.mc.setIngameFocus();
+    		 this.exitGuiScreen();
     	}
     }
     
    
     
     @Override
+	protected void exitGuiScreen() {
+		// TODO Auto-generated method stub
+    	this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.setIngameFocus();
+		
+	}
+
+	@Override
     protected void mouseClicked(int x, int y, int mouseEvent) {
     	
     	if(this.guiConfig != null) {
     		this.guiConfig.func_148179_a(x, y, mouseEvent);
-    		super.mouseClicked(x, y, mouseEvent);
-//    		if (mouseEvent != 0 || !this.guiConfig.func_148179_a(x, y, mouseEvent)) {
-//    			super.mouseClicked(x, y, mouseEvent);
-//    	            
-//	        }
-		}else {
-			super.mouseClicked(x, y, mouseEvent);
-		}
+    	}
+    	
+    	super.mouseClicked(x, y, mouseEvent);
        
     }
     
@@ -189,6 +191,7 @@ public class GuiExperimentList extends GuiScreen {
      * TODO: Make this more idiot proof and prevent click-spamming. 
      */
     protected void actionPerformed(GuiButton button) {
+    	super.actionPerformed(button);
     	//int x_pos = (this.width - 248) / 2 + 10;
     	//player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
     	//userFeedbackText = "You are in queue for: " + button.displayString;
@@ -295,6 +298,8 @@ public class GuiExperimentList extends GuiScreen {
     	default:
     		//Open the Experiment Detail Screen:
     		String expID = button.displayString;
+    		if(expID.toLowerCase().equals("x"))
+    			break;
 			String[] expList = expID.split("\\s");
 			try {
 				this.currentExperimentDetailOnScreenID = Integer.parseInt(expList[expList.length - 1]);
@@ -354,18 +359,32 @@ public class GuiExperimentList extends GuiScreen {
      */
     public void drawScreen(int mouseX, int mouseY, float otherValue)
     {
-    	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
-    		//TODO: move this to its original place
-    		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
-    		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
-    		drawExperimentConfigScreen();
-    		//this.drawDefaultBackground();
-    		super.drawScreen(mouseX, mouseY, otherValue);
-    		return;
-    	}
-		// Get the position of the top left pixel.
-		int x_start = (this.width - 248) / 2;
-		int y_start = (this.height - 184) / 2;
+    	
+    	// Get the position of the top left pixel.
+    			int x_start = (this.width - 248) / 2;
+    			int y_start = (this.height - 184) / 2;
+    	
+//    	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
+//    		//TODO: move this to its original place
+//    		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
+//    		this.drawDefaultBackground();
+//    		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
+//    		drawExperimentConfigScreen();
+//    		
+//    		
+//    		this.scroll = this.guiConfig.amountScrolled/this.guiConfig.func_148135_f();
+//    		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+//    		this.mc.getTextureManager().bindTexture(SCROLL_TAB);
+//    		// The scroll bar sits at (226, 8) but the border is 1 wide so the scroll
+//    		// indicator really starts at (227, 9).
+//    		this.drawTexturedModalRect(x_start + 227, y_start + 9 + (int) (this.scroll * SCROLL_HEIGHT),
+//    				232 + (extraLines > 0 ? 0 : 12), 0, 12, 15);
+//    		
+//    		//this.drawDefaultBackground();
+//    		super.drawScreen(mouseX, mouseY, otherValue);
+//    		return;
+//    	}
+		
 		// Operate the scroll bar.
 		boolean flag = Mouse.isButtonDown(0);
 		int i1 = x_start + 226; // x and y of scroll bar.
@@ -401,10 +420,11 @@ public class GuiExperimentList extends GuiScreen {
         	case ExperimentDetail:
         		drawExperimentInstructionScreen();
         		break;
-//        	case ExperimentConfig:
-////        		drawExperimentConfigScreen();
-////        		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
-////        		break;
+        	case ExperimentConfig:
+        		this.extraLines = this.guiConfig.getExtraScrollSpace();
+        		this.guiConfig.drawScreenHandler(mouseX, mouseY, otherValue, this.scroll);
+        		drawExperimentConfigScreen();
+        		break;
         	default:
         		//Do Nothing
         }
@@ -422,8 +442,9 @@ public class GuiExperimentList extends GuiScreen {
     private void drawExperimentConfigScreen() {
     	//get top left of screen with padding.
     	int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 192) / 2;
-        this.fontRendererObj.drawString(I18n.format("Experiment Configuration: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        int y_pos = (this.height - 192) / 2 + Y_PAD;
+        this.fontRendererObj.drawString(I18n.format("Experiment Configuration: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]),
+        		x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
         
@@ -457,7 +478,7 @@ public class GuiExperimentList extends GuiScreen {
     }
     
     public void drawExperimentInstructionScreen() {
-    	//this.buttonList.clear();
+    	//this.resetButtonList();
     	int x_pos = (this.width - 248) / 2 + 10;
         int y_pos = (this.height - 190) / 2 + 8;
         this.fontRendererObj.drawString(I18n.format("Experiment Instructions: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
@@ -537,31 +558,31 @@ public class GuiExperimentList extends GuiScreen {
     	//On screen change, we need to update the button list and have it re-drawn.
     	switch(newScreen) {
     		case ExperimentList:
-    			//this.buttonList.clear();
+    			//this.resetButtonList();
     			this.experimentsListButton.clear();
     			this.buildExperimentButtonList();
-    			this.buttonList.clear();
+    			this.resetButtonList();
     			this.buttonList.addAll(this.experimentsListButton);
     			ylines = Math.min(this.experimentsListButton.size(), (Y_HEIGHT - titleHeight) / (this.button_padding_y + this.buttonheight));
     			extraLines = this.experimentsListButton.size() - ylines;
     			break;
     		case ExperimentDetail:
     			//this.experimentsListButton.clear();
-    			this.buttonList.clear();
+    			this.resetButtonList();
     			this.buttonList.addAll(getExperimentsDetailButtons());
     			this.expInstructions = this.getInstructionsAsList();
     			ylines = Math.min(this.expInstructions.size(), (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT);
     			extraLines = this.expInstructions.size() - ylines;
     			break;
     		case ExperimentConfig:
-    			this.buttonList.clear();
+    			this.resetButtonList();
     			this.currentParameters = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).getParams();
     			guiConfig = new GuiExperimentConfig(this, this.mc);
     			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
     	        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
     			
-    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 4*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
-    	        GuiButton send = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 4*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Send Updates");
+    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
+    	        GuiButton send = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Send Updates");
     	        this.buttonList.add(back);
     	        this.buttonList.add(send);
     			
@@ -633,7 +654,7 @@ public class GuiExperimentList extends GuiScreen {
     	
     	String instructions = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).instructions;
     	instructions = instructions.replaceAll("[â€‹]", "");
-    	instructions = instructions.replaceAll("[™]", "'");
+    	instructions = instructions.replaceAll("[ï¿½]", "'");
     	System.out.println(instructions);
     	return this.fontRendererObj.listFormattedStringToWidth(instructions, X_WIDTH);
     	
@@ -661,6 +682,7 @@ public class GuiExperimentList extends GuiScreen {
     	Gson gson = new Gson();
     	Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType();
     	final String experimentUpdates = gson.toJson(part, gsonType);
+    	//System.out.println("Updates: \n" + experimentUpdates);
     	ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
     	
     }

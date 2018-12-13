@@ -26,6 +26,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
@@ -46,8 +47,8 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
-import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -506,12 +507,12 @@ public class ClientProxy extends CommonProxy {
 			}
 	        if(!ClientEnforcer.INSTANCE.baseList.isEmpty()) {
 				if (entity.dimension == 8) {
-					for (Base base :ClientEnforcer.INSTANCE.baseList) {
+					for (FeatureBase base :ClientEnforcer.INSTANCE.baseList) {
 						base.render(entity);
 						base.setRendering(true);
 					}
 				} else {
-					for (Base base : ClientEnforcer.INSTANCE.baseList) {
+					for (FeatureBase base : ClientEnforcer.INSTANCE.baseList) {
 						//base.setRendering(false);
 					}
 				}
@@ -1116,5 +1117,10 @@ public class ClientProxy extends CommonProxy {
 	public void openConsentGui(EntityPlayer player, int x, int y, int z)
 	{
 		client.displayGuiScreen(new GuiConsent(player, x, y, z));
+	}
+	
+	@Override
+	public void openTutorialGui(EntityPlayer player) {
+		client.displayGuiScreen(new GuiTutorial(player));
 	}
 }
