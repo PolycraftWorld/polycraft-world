@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
@@ -39,6 +40,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -287,10 +289,10 @@ public abstract class Experiment {
 			
 			ExperimentCTB.hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < ExperimentCTB.spawnlocations.length; i++) {
-				int x = ExperimentCTB.spawnlocations[i][0];
-				int y = ExperimentCTB.spawnlocations[i][1];
-				int z = ExperimentCTB.spawnlocations[i][2];
+			for(int i = 0; i < ExperimentCTB.chests.size(); i++) {
+				int x = (int) ExperimentCTB.chests.get(i).xCoord;
+				int y = (int) ExperimentCTB.chests.get(i).yCoord;
+				int z = (int) ExperimentCTB.chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -306,16 +308,7 @@ public abstract class Experiment {
 				}
 				
 				if(entity != null && entity instanceof TileEntityChest) {
-					System.out.println("I put in a chest!");
-					ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
-					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4); //Oak Wood Logs
-					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4); //Aluminum Blocks
-					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4); //Black Natural Rubber -
-					TileEntityChest chest = (TileEntityChest) entity;
-					chest.setInventorySlotContents(0, someIce);
-					chest.setInventorySlotContents(1, someWood);
-					chest.setInventorySlotContents(2, someAluminum);
-					chest.setInventorySlotContents(3, someNR);
+					fillChest((TileEntityChest) entity);
 				}
 				
 			}
@@ -384,6 +377,9 @@ public abstract class Experiment {
 								ExperimentCTB.spawnlocations[i][0] = x + this.xPos;
 								ExperimentCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								ExperimentCTB.spawnlocations[i][2] = z + this.zPos;
+								ExperimentCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+										y + this.yPos + 2.0, 
+										z + this.zPos));	//add to chests list
 								i = ExperimentCTB.spawnlocations.length; 	//exit for loop
 							}
 						}					
@@ -426,10 +422,10 @@ public abstract class Experiment {
 			
 			ExperimentFlatCTB.hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
-				int x = ExperimentFlatCTB.spawnlocations[i][0];
-				int y = ExperimentFlatCTB.spawnlocations[i][1];
-				int z = ExperimentFlatCTB.spawnlocations[i][2];
+			for(int i = 0; i < ExperimentFlatCTB.chests.size(); i++) {
+				int x = (int) ExperimentFlatCTB.chests.get(i).xCoord;
+				int y = (int) ExperimentFlatCTB.chests.get(i).yCoord;
+				int z = (int) ExperimentFlatCTB.chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -445,16 +441,7 @@ public abstract class Experiment {
 				}
 				
 				if(entity != null && entity instanceof TileEntityChest) {
-					System.out.println("I put in a chest!");
-					ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
-					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4); //Oak Wood Logs
-					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4); //Aluminum Blocks
-					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4); //Black Natural Rubber -
-					TileEntityChest chest = (TileEntityChest) entity;
-					chest.setInventorySlotContents(0, someIce);
-					chest.setInventorySlotContents(1, someWood);
-					chest.setInventorySlotContents(2, someAluminum);
-					chest.setInventorySlotContents(3, someNR);
+					fillChest((TileEntityChest) entity);
 				}
 				
 			}
@@ -523,6 +510,9 @@ public abstract class Experiment {
 								ExperimentFlatCTB.spawnlocations[i][0] = x + this.xPos;
 								ExperimentFlatCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								ExperimentFlatCTB.spawnlocations[i][2] = z + this.zPos;
+								ExperimentFlatCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+										y + this.yPos + 2.0, 
+										z + this.zPos));
 								i = ExperimentFlatCTB.spawnlocations.length; 	//exit for loop
 							}
 						}					
@@ -564,10 +554,10 @@ public abstract class Experiment {
 			
 			Experiment1PlayerCTB.hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < Experiment1PlayerCTB.spawnlocations.length; i++) {
-				int x = Experiment1PlayerCTB.spawnlocations[i][0];
-				int y = Experiment1PlayerCTB.spawnlocations[i][1];
-				int z = Experiment1PlayerCTB.spawnlocations[i][2];
+			for(int i = 0; i < Experiment1PlayerCTB.chests.size(); i++) {
+				int x = (int) Experiment1PlayerCTB.chests.get(i).xCoord;
+				int y = (int) Experiment1PlayerCTB.chests.get(i).yCoord;
+				int z = (int) Experiment1PlayerCTB.chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -583,16 +573,7 @@ public abstract class Experiment {
 				}
 				
 				if(entity != null && entity instanceof TileEntityChest) {
-					System.out.println("I put in a chest!");
-					ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
-					ItemStack someWood = new ItemStack(Block.getBlockById(17), 4); //Oak Wood Logs
-					ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4); //Aluminum Blocks
-					ItemStack someNR = new ItemStack(Block.getBlockById(428), 4); //Black Natural Rubber -
-					TileEntityChest chest = (TileEntityChest) entity;
-					chest.setInventorySlotContents(0, someIce);
-					chest.setInventorySlotContents(1, someWood);
-					chest.setInventorySlotContents(2, someAluminum);
-					chest.setInventorySlotContents(3, someNR);
+					fillChest((TileEntityChest) entity);
 				}
 				
 			}
@@ -661,6 +642,9 @@ public abstract class Experiment {
 								Experiment1PlayerCTB.spawnlocations[i][0] = x + this.xPos;
 								Experiment1PlayerCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								Experiment1PlayerCTB.spawnlocations[i][2] = z + this.zPos;
+								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+										y + this.yPos + 2.0, 
+										z + this.zPos));
 								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
 							}
 						}					
@@ -701,6 +685,27 @@ public abstract class Experiment {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Takes in a chest and fills it with starting materials for CTB experiments. 
+	 * This does NOT check if it is actually a chest
+	 * @return Void
+	 */
+	private void fillChest(TileEntityChest entity) {
+		ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
+		ItemStack someIce = new ItemStack(Block.getBlockFromName("packed_ice"), 4);
+		ItemStack someWood = new ItemStack(Block.getBlockById(17), 4); //Oak Wood Logs
+		ItemStack someAluminum = new ItemStack(Block.getBlockById(209), 4); //Aluminum Blocks
+		ItemStack someNR = new ItemStack(Block.getBlockById(428), 4); //Black Natural Rubber -
+		TileEntityChest chest = entity;
+		chest.setInventorySlotContents(0, kbb);
+		chest.setInventorySlotContents(1, someIce);
+		chest.setInventorySlotContents(2, someWood);
+		chest.setInventorySlotContents(3, someAluminum);
+		chest.setInventorySlotContents(4, someNR);
+	}
+	
 	
 	protected void generateSpectatorBox(){
 		Block glass = Block.getBlockFromName("stained_glass");
