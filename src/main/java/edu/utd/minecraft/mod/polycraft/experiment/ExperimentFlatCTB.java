@@ -6,7 +6,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -18,6 +20,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -31,10 +34,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
@@ -46,6 +54,7 @@ public class ExperimentFlatCTB extends Experiment{
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
+	public static LinkedList<Vec3> chests = new LinkedList<Vec3>();
 	public static boolean hasBeenGenerated = false;
 	
 	private static final ItemStack[] armors = {
@@ -84,6 +93,12 @@ public class ExperimentFlatCTB extends Experiment{
 	private int updateScoreOnTickRate = 20;
 	private int ownedBaseScoreBonusOnTicks = 5;
 	private int WAITSPAWNTICKS = 400;
+	private int ticksToUpdateChests = 200;	//default 10 seconds to update all chest item stacks
+	private int itemKBBChance = 70;		//default 70% chance to spawn Knockback bomb 
+	private int itemIceChance = 30;		//default 30% chance to spawn packed ice
+	private int itemWoodChance = 10;	//default 10% chance to spawn wood
+	private int itemNRChance = 10;		//default 10% chance to spawn natural rubber
+	private int itemAlumChance = 10;	//default 10% chance to spawn aluminum 
 	//public static int maxPlayersNeeded = 4;
 	
 	private String stringToSend = "";
@@ -128,7 +143,12 @@ public class ExperimentFlatCTB extends Experiment{
 		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
-		
+
+		//add extra chests
+		chests.add(Vec3.createVectorHelper(xPos + 8 + x_offset, y, zPos + 104));
+		chests.add(Vec3.createVectorHelper(xPos + 80 + x_offset, y, zPos + 104));
+		chests.add(Vec3.createVectorHelper(xPos + 8 + x_offset, y, zPos + 40));
+		chests.add(Vec3.createVectorHelper(xPos + 80 + x_offset, y, zPos + 40));
 	}
 	
 	@Override
@@ -245,12 +265,12 @@ public class ExperimentFlatCTB extends Experiment{
 						
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
-						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+						//ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
 						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
-						player.inventory.addItemStackToInventory(fkb);
+						//player.inventory.addItemStackToInventory(fkb);
 						player.inventory.addItemStackToInventory(carrot);
 					}
 					
@@ -305,6 +325,17 @@ public class ExperimentFlatCTB extends Experiment{
 				
 				currentState = State.Ending;
 			
+			}
+			
+			if(tickCount % ticksToUpdateChests == 0) {
+				for(Vec3 chestPos: chests) {
+					TileEntity entity = (TileEntity) world.getTileEntity((int)chestPos.xCoord, (int)chestPos.yCoord , (int)chestPos.zCoord);
+					if(entity != null && entity instanceof TileEntityChest) {
+						//clear chest contents.
+						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
+						chestAddRandMats(chest, tickCount > this.halfTimeTicks);
+					}
+				}
 			}
 			
 //			else if(tickCount % 600 == 0) {
@@ -721,6 +752,78 @@ public class ExperimentFlatCTB extends Experiment{
 
 	public int getWAITSPAWNTICKS() {
 		return WAITSPAWNTICKS;
+	}
+	
+	public int getTicksToUpdateChests() {
+		return ticksToUpdateChests;
+	}
+
+	public void setTicksToUpdateChests(int ticksToUpdateChests) {
+		this.ticksToUpdateChests = ticksToUpdateChests;
+	}
+
+	public int getItemKBBChance() {
+		return itemKBBChance;
+	}
+
+	public void setItemKBBChance(int itemKBBChance) {
+		this.itemKBBChance = itemKBBChance;
+	}
+
+	public int getItemIceChance() {
+		return itemIceChance;
+	}
+
+	public void setItemIceChance(int itemIceChance) {
+		this.itemIceChance = itemIceChance;
+	}
+
+	public int getItemWoodChance() {
+		return itemWoodChance;
+	}
+
+	public void setItemWoodChance(int itemWoodChance) {
+		this.itemWoodChance = itemWoodChance;
+	}
+
+	public int getItemNRChance() {
+		return itemNRChance;
+	}
+
+	public void setItemNRChance(int itemNRChance) {
+		this.itemNRChance = itemNRChance;
+	}
+
+	public int getItemAlumChance() {
+		return itemAlumChance;
+	}
+
+	public void setItemAlumChance(int itemAlumChance) {
+		this.itemAlumChance = itemAlumChance;
+	}
+	
+	/**
+	 * Takes in a chest and fills it randomly with materials for CTB experiments
+	 * If halftime has already happened, materials for cleets will spawn as well
+	 * @return Void
+	 */
+	private void chestAddRandMats(TileEntityChest entity, boolean isHalftimeOver) {
+		Item kbb = PolycraftRegistry.getItem("Knockback Bomb");
+		Item ice = Item.getItemFromBlock(Block.getBlockFromName("packed_ice"));
+		Item wood = Item.getItemFromBlock(Block.getBlockById(17)); //Oak Wood Logs
+		Item aluminum = Item.getItemFromBlock(PolycraftRegistry.getBlock("Block of Aluminum"));
+		Item nr = Item.getItemFromBlock(PolycraftRegistry.getBlock("Block (Natural Rubber)"));
+		
+		WeightedRandomChestContent[] chestContents = 
+				new WeightedRandomChestContent[] 
+						{new WeightedRandomChestContent(kbb, 0, 3, 5, itemKBBChance), 
+						new WeightedRandomChestContent(ice, 0, 2, 5, itemIceChance), 
+						new WeightedRandomChestContent(wood, 0, 1, 2, itemWoodChance), 
+						new WeightedRandomChestContent(aluminum, 0, 1, 2, itemAlumChance), 
+						new WeightedRandomChestContent(nr, 0, 1, 2, itemNRChance)};
+		
+		WeightedRandomChestContent.generateChestContents(new Random(), chestContents, entity, 5);
+		
 	}
 
 	@Override
