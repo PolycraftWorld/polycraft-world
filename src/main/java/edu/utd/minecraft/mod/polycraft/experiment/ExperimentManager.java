@@ -48,8 +48,8 @@ public class ExperimentManager {
 	//read the schematic file only once.
 	short n = 0;
 	Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new byte[] {0});
-	public Schematic stoop = sch.get("stoopUpdated.psm");
-	public Schematic flat_field = sch.get("flatctb.psm");
+	public Schematic stoop = sch.get("stoopWithCrafting.psm");
+	public Schematic flat_field = sch.get("flatWithCrafting.psm");
 	
 	/**
 	 * Internal class that keeps track of all experiments

@@ -362,6 +362,17 @@ public abstract class Experiment {
 						
 					}
 					
+					else if(curblock == 859) { //Polycrafting Tables (experiments!)
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println("Coordinates: ");
+						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+					
+					}
 					
 					else if(curblock == 754) { //spotlights - we like these
 						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
@@ -504,6 +515,18 @@ public abstract class Experiment {
 						
 					}
 					
+					else if(curblock == 859) { //Polycrafting Tables (experiments!)
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println("Coordinates: ");
+						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+					
+					}
+					
 					
 					else if(curblock == 754) { //spotlights - we like these
 						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
@@ -643,6 +666,18 @@ public abstract class Experiment {
 							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
 						}
 						
+					}
+					
+					else if(curblock == 859) { //Polycrafting Tables (experiments!)
+						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println("Coordinates: ");
+						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
+						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+					
 					}
 					
 					
