@@ -838,7 +838,8 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
 				{
-					GL11.glTranslated(0F,0F,3F); //y axis
+					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+					GL11.glTranslated(-1F,0F,0F); //y axis
 				}
 				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
 				{

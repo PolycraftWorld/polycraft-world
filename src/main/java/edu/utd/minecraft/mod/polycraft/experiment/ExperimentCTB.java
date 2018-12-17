@@ -92,11 +92,11 @@ public class ExperimentCTB extends Experiment{
 	private int ownedBaseScoreBonusOnTicks = 5;
 	private int WAITSPAWNTICKS = 400;
 	private int ticksToUpdateChests = 100;	//default 10 seconds to update all chest item stacks
-	private int itemKBBChance = 70;		//default 70% chance to spawn Knockback bomb 
-	private int itemIceChance = 30;		//default 30% chance to spawn packed ice
-	private int itemWoodChance = 10;	//default 10% chance to spawn wood
-	private int itemNRChance = 10;		//default 10% chance to spawn natural rubber
-	private int itemAlumChance = 10;	//default 10% chance to spawn aluminum 
+	private int itemKBBChance = 7;		//default 70% chance to spawn Knockback bomb 
+	private int itemIceChance = 3;		//default 30% chance to spawn packed ice
+	private int itemWoodChance = 1;	//default 10% chance to spawn wood
+	private int itemNRChance = 1;		//default 10% chance to spawn natural rubber
+	private int itemAlumChance = 1;	//default 10% chance to spawn aluminum 
 	//public static int maxPlayersNeeded = 4;
 	
 	private String stringToSend = "";
@@ -141,6 +141,13 @@ public class ExperimentCTB extends Experiment{
 		bases.add(new FeatureBase(xPos + 114, y, zPos + 100, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
+		
+		
+		//add extra chests
+		chests.add(Vec3.createVectorHelper(xPos + 74, y, zPos + 174));
+		chests.add(Vec3.createVectorHelper(xPos + 154, y, zPos + 174));
+		chests.add(Vec3.createVectorHelper(xPos + 74, y, zPos + 110));
+		chests.add(Vec3.createVectorHelper(xPos + 154, y, zPos + 110));
 		
 	}
 	

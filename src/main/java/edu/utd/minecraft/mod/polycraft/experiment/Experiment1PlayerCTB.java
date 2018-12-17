@@ -168,6 +168,11 @@ public class Experiment1PlayerCTB extends Experiment{
 	
 		currentState = State.WaitingToStart;
 		
+		//add extra chests
+		chests.add(Vec3.createVectorHelper(xPos + 8 + x_offset, y, zPos + 104));
+		chests.add(Vec3.createVectorHelper(xPos + 80 + x_offset, y, zPos + 104));
+		chests.add(Vec3.createVectorHelper(xPos + 8 + x_offset, y, zPos + 40));
+		chests.add(Vec3.createVectorHelper(xPos + 80 + x_offset, y, zPos + 40));
 	}
 	
 	@Override

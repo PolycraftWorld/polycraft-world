@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
@@ -22,6 +23,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
@@ -29,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -48,6 +51,7 @@ import scala.util.control.Exception.By;
 
 public abstract class Experiment {
 
+	public static final BlockContainer POLYCRAFTING_TABLE = (BlockContainer) GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("1hA"));
 	public final int size; 	//total size of experiment area size chunks by size chunks
 	public final int id;	//id of the experiment. Should be unique
 	public final int xPos;	//starting xPos of experiment area
@@ -642,9 +646,12 @@ public abstract class Experiment {
 								Experiment1PlayerCTB.spawnlocations[i][0] = x + this.xPos;
 								Experiment1PlayerCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								Experiment1PlayerCTB.spawnlocations[i][2] = z + this.zPos;
-								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
-										y + this.yPos + 2.0, 
-										z + this.zPos));
+//								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+//										y + this.yPos + 2.0, 
+//										z + this.zPos));
+								world.setBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos, POLYCRAFTING_TABLE , 0, 2);
+								TerritoryFlagBlock flagBlock = (TerritoryFlagBlock) world.getBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos);
+								flagBlock.onBlockPlacedBy(world, x + this.xPos, y + this.yPos + 2, z + this.zPos, dummy, new ItemStack(POLYCRAFTING_TABLE));
 								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
 							}
 						}					
