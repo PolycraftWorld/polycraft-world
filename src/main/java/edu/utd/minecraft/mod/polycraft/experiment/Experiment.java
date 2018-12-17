@@ -23,6 +23,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.polycrafting.PolycraftingInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
@@ -650,7 +651,7 @@ public abstract class Experiment {
 //										y + this.yPos + 2.0, 
 //										z + this.zPos));
 								world.setBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos, POLYCRAFTING_TABLE , 0, 2);
-								TerritoryFlagBlock flagBlock = (TerritoryFlagBlock) world.getBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos);
+								PolycraftInventoryBlock<PolycraftingInventory> flagBlock = (PolycraftInventoryBlock<PolycraftingInventory>) world.getBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos);
 								flagBlock.onBlockPlacedBy(world, x + this.xPos, y + this.yPos + 2, z + this.zPos, dummy, new ItemStack(POLYCRAFTING_TABLE));
 								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
 							}
