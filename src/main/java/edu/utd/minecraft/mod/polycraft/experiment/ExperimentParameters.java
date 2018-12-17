@@ -195,8 +195,8 @@ public class ExperimentParameters {
 			//timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables
-			scoringParameters.put("Pts: Claim Base", new Integer[] {experiment.getClaimBaseScoreBonus(), 0, 499}); //points
-			scoringParameters.put("Pts: Steal Base", new Integer[] {experiment.getStealBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Pts: Claim Base", new Integer[] {(int) experiment.getClaimBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Pts: Steal Base", new Integer[] {(int) experiment.getStealBaseScoreBonus(), 0, 499}); //points
 			scoringParameters.put("Sec: Base Pts Gen", new Integer[] {(experiment.getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
 			scoringParameters.put("Pts: Owned Base", new Integer[] {experiment.getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
 			scoringParameters.put("Sec: Claim Base", new Integer[] {(experiment.getTicksToClaimBase())/20, 0, 10}); //seconds
