@@ -12,6 +12,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.client.config.GuiCheckBox;
@@ -234,14 +235,26 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     				timingVals[0] = (int) Math.round(slider.getSelectedValue());
     				this.currentParameters.timingParameters.put(slider.getName(), timingVals);
     			}else if(this.currentParameters.scoringParameters.containsKey(slider.getName())) {
-    				
-    				Number[] scoringVals = this.currentParameters.scoringParameters.get(slider.getName());
-    				scoringVals[0] = slider.getSelectedValue();
+    				Integer[] scoringVals = this.currentParameters.scoringParameters.get(slider.getName());
+    				scoringVals[0] = (int)Math.round(slider.getSelectedValue());
     				this.currentParameters.scoringParameters.put(slider.getName(), scoringVals);
-    			}else {
+    			}
+    			
+    			//NOTE! This assumes that the extraParameters are being filtered in the GuiExperimentCOnfig class
+    			//If a slider exists with that parameter name, then this will gobble it up! 
+    			else if(this.currentParameters.extraParameters.containsKey(slider.getName())) {
+    				Integer[] scoringVals = (Integer[]) this.currentParameters.extraParameters.get(slider.getName());
+    				scoringVals[0] = (int)Math.round(slider.getSelectedValue());
+    				this.currentParameters.extraParameters.put(slider.getName(), scoringVals);
+    			}
+    				
+    			else {
     				continue;
     			}
     		}
+    		
+    		
+    		
     		//System.out.println("Test");
     		
     		this.sendExperimentUpdateToServer(this.currentExperimentDetailOnScreenID, this.currentParameters);
@@ -679,7 +692,9 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     
     private void sendExperimentUpdateToServer(int experimentID, ExperimentParameters params) {
     	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, params);
-    	Gson gson = new Gson();
+    	GsonBuilder gBuilder = new GsonBuilder();
+    	gBuilder.setPrettyPrinting();
+    	Gson gson = gBuilder.create();
     	Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType();
     	final String experimentUpdates = gson.toJson(part, gsonType);
     	//System.out.println("Updates: \n" + experimentUpdates);

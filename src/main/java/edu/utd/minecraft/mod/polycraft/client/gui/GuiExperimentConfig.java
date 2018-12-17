@@ -75,10 +75,10 @@ public class GuiExperimentConfig extends GuiListExtended {
 			
 			for(String key : params.timingParameters.keySet()) {
 	    		
-				if(key.equals("Chickens") || key.equals("Cows") || key.equals("Sheep")) {
-					isAnimals = true;
-					continue;
-				}
+//				if(key.equals("Chickens") || key.equals("Cows") || key.equals("Sheep")) {
+//					isAnimals = true;
+//					continue;
+//				}
 				
 				Integer[] vals = params.timingParameters.get(key);
 	    		
@@ -90,30 +90,32 @@ public class GuiExperimentConfig extends GuiListExtended {
 	    		
 	    	}
 			
-			if(isAnimals) {
+			if(params.extraParameters.containsKey("Animals")) {
 				this.configList.add(new ConfigHeader("Animals"));
-				if(params.timingParameters.containsKey("Chickens")) {
-					Integer[] vals = params.timingParameters.get("Chickens");
+				if(params.extraParameters.containsKey("Chickens") & params.extraParameters.get("Chickens") instanceof Integer[]) {
+					Integer[] vals = (Integer[]) params.extraParameters.get("Chickens");
 					
 					this.configList.add(new ConfigSlider("Chickens", vals[0], vals[1], vals[2]));
 				}
 				
-				if(params.timingParameters.containsKey("Cows")) {
-					Integer[] vals = params.timingParameters.get("Cows");
+				if(params.extraParameters.containsKey("Cows") & params.extraParameters.get("Cows") instanceof Integer[]) {
+					Integer[] vals = (Integer[]) params.extraParameters.get("Cows");
 					
-					this.configList.add(new ConfigSlider("Cows", vals[0], vals[1], vals[2]));}
+					this.configList.add(new ConfigSlider("Cows", vals[0], vals[1], vals[2]));
+				}
 				
-				if(params.timingParameters.containsKey("Sheep")) {
-					Integer[] vals = params.timingParameters.get("Sheep");
+				if(params.extraParameters.containsKey("Sheep") & params.extraParameters.get("Sheep") instanceof Integer[]) {
+					Integer[] vals = (Integer[]) params.extraParameters.get("Sheep");
 					
-					this.configList.add(new ConfigSlider("Sheep", vals[0], vals[1], vals[2]));}
+					this.configList.add(new ConfigSlider("Sheep", vals[0], vals[1], vals[2]));
+				}
 			}
 			
 			this.configList.add(new ConfigHeader("Scoring"));
 			
 			for(String key : params.scoringParameters.keySet()) {
 				
-	    		Number[] vals = params.scoringParameters.get(key);
+	    		Integer[] vals = params.scoringParameters.get(key);
 	    		int l = mc.fontRenderer.getStringWidth(key);
 	    		if(l > this.maxStringLength)
 	    			maxStringLength = l;
@@ -616,7 +618,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 			//key, "", vals[1], vals[2], vals[0], true, true, null); //I18n.format(name, new Object[0])
 			this.defaultValue = defaultValue;
 			this.slider = new GuiSlider(0, 0, 0, SLIDER_WIDTH, HEIGHT, "", "", minVal, maxVal, defaultValue, false, true, null);
-			this.reset = new GuiButton(0, 0, 0, RESET_WIDTH, HEIGHT, "X");
+			this.reset = new GuiButton(0, 0, 0, RESET_WIDTH, HEIGHT, "\u23ce");
 			this.parameterName = GuiExperimentConfig.this.minecraft.fontRenderer.trimStringToWidth(this.parameterName, GuiExperimentConfig.this.width/2 + 5);
 		}
 

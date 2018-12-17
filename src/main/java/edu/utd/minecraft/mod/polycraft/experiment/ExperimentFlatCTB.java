@@ -116,8 +116,8 @@ public class ExperimentFlatCTB extends Experiment{
 //				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 //			}
 //		}
-		int y = yPos + 7;
-		int x_offset = 28;
+		int y = yPos + 8;
+		int x_offset = 31;
 		BoundingBox box = new BoundingBox(xPos + 25.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
 		bases.add(new FeatureBase(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 62.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);

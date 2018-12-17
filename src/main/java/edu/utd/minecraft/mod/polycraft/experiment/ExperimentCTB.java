@@ -114,15 +114,17 @@ public class ExperimentCTB extends Experiment{
 //				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 //			}
 //		}
-		int y = yPos + 5;
-		BoundingBox box = new BoundingBox(xPos + 95.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
-		bases.add(new FeatureBase(xPos + 95, y, zPos + 142, box, Color.GRAY));
-		box = new BoundingBox(xPos + 132.5, zPos + 142.5, 6,y, y+1, Color.GRAY);
-		bases.add(new FeatureBase(xPos + 132, y, zPos + 142, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 184.5, 6,y, y+1, Color.GRAY);
-		bases.add(new FeatureBase(xPos + 114, y, zPos + 184, box, Color.GRAY));
-		box = new BoundingBox(xPos + 114.5, zPos + 100.5, 6,y, y+1, Color.GRAY);
-		bases.add(new FeatureBase(xPos + 114, y, zPos + 100, box, Color.GRAY));
+		int y = yPos + 6;
+		int xOffset = 1;
+		int zOffset = 1;
+		BoundingBox box = new BoundingBox(xPos + 95.5 + xOffset, zPos + 142.5 + zOffset, 6,y, y+1, Color.GRAY);
+		bases.add(new FeatureBase(xPos + 95 + xOffset, y, zPos + 142+ zOffset, box, Color.GRAY));
+		box = new BoundingBox(xPos + 132.5 + xOffset, zPos + 142.5, 6+ zOffset,y, y+1, Color.GRAY);
+		bases.add(new FeatureBase(xPos + 132 + xOffset, y, zPos + 142+ zOffset, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5 + xOffset, zPos + 184.5, 6+ zOffset,y, y+1, Color.GRAY);
+		bases.add(new FeatureBase(xPos + 114 + xOffset, y, zPos + 184+ zOffset, box, Color.GRAY));
+		box = new BoundingBox(xPos + 114.5 + xOffset, zPos + 100.5, 6+ zOffset,y, y+1, Color.GRAY);
+		bases.add(new FeatureBase(xPos + 114 + xOffset, y, zPos + 100+ zOffset, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
 		

@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 public class ExperimentParameters {
 
 	public HashMap<String, Integer[]> timingParameters;
-	public HashMap<String, Number[]> scoringParameters;
+	public HashMap<String, Integer[]> scoringParameters;
 	public HashMap<String, Object> itemParameters;
-	public HashMap<String, Object> chestParameters;
+	public HashMap<String, Integer[]> extraParameters;
 	
 	private static boolean hasDefault = false;
 	public static ExperimentParameters DEFAULT_PARAMS;
@@ -22,7 +22,7 @@ public class ExperimentParameters {
 		this.timingParameters = new HashMap<>();
 		this.scoringParameters = new HashMap<>();
 		this.itemParameters = new HashMap<>();
-		this.chestParameters = new HashMap<>();
+		this.extraParameters = new HashMap<>();
 		if(!hasDefault){
 			hasDefault = true;
 			DEFAULT_PARAMS = new ExperimentParameters();
@@ -69,8 +69,8 @@ public class ExperimentParameters {
 		 int WAIT_TELEPORT_UTD_TICKS = 400;
 		//TODO: can you use a real clock instead of "skippable" server ticks??
 		
-		 float claimBaseScoreBonus = 50;
-		 float stealBaseScoreBonus = 200;
+		 int claimBaseScoreBonus = 50;
+		 int stealBaseScoreBonus = 200;
 		 int updateScoreOnTickRate = 20;
 		 int ownedBaseScoreBonusOnTicks = 5;
 		 int ticksToClaimBase = 120; //also the same number of ticks to steal base, for now.
@@ -95,17 +95,19 @@ public class ExperimentParameters {
 		DEFAULT_PARAMS.timingParameters.put("Sec: Half Time", new Integer[] {(halfTimeTicks)/20, 30, 180}); //seconds
 		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/20, 10, 60}); //seconds
 		DEFAULT_PARAMS.timingParameters.put("Sec: Post-Game", new Integer[] {(WAIT_TELEPORT_UTD_TICKS)/20, 10, 60}); //seconds
-		DEFAULT_PARAMS.timingParameters.put("Chickens", new Integer[] {0, 0, 60});
-		DEFAULT_PARAMS.timingParameters.put("Cows", new Integer[] {0, 0, 60});
-		DEFAULT_PARAMS.timingParameters.put("Sheep", new Integer[] {0, 0, 60});
+		
+		DEFAULT_PARAMS.extraParameters.put("Animals", new Integer[] {1,0});
+		DEFAULT_PARAMS.extraParameters.put("Chickens", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.extraParameters.put("Cows", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.extraParameters.put("Sheep", new Integer[] {0, 0, 60});
 		//DEFAULT_PARAMS.timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 		
 		//add scoring variables
-		DEFAULT_PARAMS.scoringParameters.put("Pts: Claim Base", new Number[] {(claimBaseScoreBonus), (double)0, (double)499}); //points
-		DEFAULT_PARAMS.scoringParameters.put("Pts: Steal Base", new Number[] {(stealBaseScoreBonus), 0, 499}); //points
-		DEFAULT_PARAMS.scoringParameters.put("Sec: Base Pts Gen", new Number[] {(updateScoreOnTickRate)/20, 0, 10}); //seconds
-		DEFAULT_PARAMS.scoringParameters.put("Pts: Owned Base", new Number[] {(ownedBaseScoreBonusOnTicks), 0, 99}); //points
-		DEFAULT_PARAMS.scoringParameters.put("Sec: Claim Base", new Number[] {(ticksToClaimBase)/20, 0, 10}); //seconds
+		DEFAULT_PARAMS.scoringParameters.put("Pts: Claim Base", new Integer[] {(claimBaseScoreBonus), 0, 499}); //points
+		DEFAULT_PARAMS.scoringParameters.put("Pts: Steal Base", new Integer[] {(stealBaseScoreBonus), 0, 499}); //points
+		DEFAULT_PARAMS.scoringParameters.put("Sec: Base Pts Gen", new Integer[] {(updateScoreOnTickRate)/20, 0, 10}); //seconds
+		DEFAULT_PARAMS.scoringParameters.put("Pts: Owned Base", new Integer[] {(ownedBaseScoreBonusOnTicks), 0, 99}); //points
+		DEFAULT_PARAMS.scoringParameters.put("Sec: Claim Base", new Integer[] {(ticksToClaimBase)/20, 0, 10}); //seconds
 		
 		//item variables
 		DEFAULT_PARAMS.itemParameters.put("Give Knockback Stick", new Boolean(true));
@@ -134,11 +136,11 @@ public class ExperimentParameters {
 //			timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables
-			scoringParameters.put("Pts: Claim Base", new Number[] {((ExperimentCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)499}); //points
-			scoringParameters.put("Pts: Steal Base", new Number[] {((ExperimentCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
-			scoringParameters.put("Sec: Base Pts Gen", new Number[] {(((ExperimentCTB) exp).getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
-			scoringParameters.put("Pts: Owned Base", new Number[] {((ExperimentCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
-			scoringParameters.put("Sec: Claim Base", new Number[] {(((ExperimentCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Claim Base", new Integer[] {(int) ((ExperimentCTB) exp).getClaimBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Pts: Steal Base", new Integer[] {(int) ((ExperimentCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Sec: Base Pts Gen", new Integer[] {(((ExperimentCTB) exp).getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Owned Base", new Integer[] {((ExperimentCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
+			scoringParameters.put("Sec: Claim Base", new Integer[] {(((ExperimentCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
 			
 			//item variables
 			itemParameters.put("Give Knockback Stick", new Boolean(true));
@@ -146,7 +148,7 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			itemParameters.put("Chest", new HashMap<String, Integer>());
+			//itemParameters.put("Chest", new HashMap<String, Integer>());
 			
 		}else if (exp instanceof ExperimentFlatCTB) {
 			//add timing variables
@@ -162,11 +164,11 @@ public class ExperimentParameters {
 //			timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 //			
 			//add scoring variables
-			scoringParameters.put("Pts: Claim Base", new Number[] {((ExperimentFlatCTB) exp).getClaimBaseScoreBonus(), (double)0, (double)499}); //points
-			scoringParameters.put("Pts: Steal Base", new Number[] {((ExperimentFlatCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
-			scoringParameters.put("Sec: Base Pts Gen", new Number[] {(((ExperimentFlatCTB) exp).getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
-			scoringParameters.put("Pts: Owned Base", new Number[] {((ExperimentFlatCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
-			scoringParameters.put("Sec: Claim Base", new Number[] {(((ExperimentFlatCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Claim Base", new Integer[] {(int) ((ExperimentFlatCTB) exp).getClaimBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Pts: Steal Base", new Integer[] {(int) ((ExperimentFlatCTB) exp).getStealBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Sec: Base Pts Gen", new Integer[] {(((ExperimentFlatCTB) exp).getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Owned Base", new Integer[] {((ExperimentFlatCTB) exp).getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
+			scoringParameters.put("Sec: Claim Base", new Integer[] {(((ExperimentFlatCTB) exp).getTicksToClaimBase())/20, 0, 10}); //seconds
 			
 			//item variables
 			itemParameters.put("Give Knockback Stick", new Boolean(true));
@@ -186,17 +188,18 @@ public class ExperimentParameters {
 			timingParameters.put("Sec: Post-Game", new Integer[] {(experiment.getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
 			
 			//add animal parameters
-			timingParameters.put("Chickens", new Integer[] {experiment.numChickens, 0, 60});
-			timingParameters.put("Cows", new Integer[] {experiment.numCows, 0, 60});
-			timingParameters.put("Sheep", new Integer[] {experiment.numSheep, 0, 60});
+			extraParameters.put("Animals", new Integer[] {1, 0});
+			extraParameters.put("Chickens", new Integer[] {experiment.numChickens, 0, 60});
+			extraParameters.put("Cows", new Integer[] {experiment.numCows, 0, 60});
+			extraParameters.put("Sheep", new Integer[] {experiment.numSheep, 0, 60});
 			//timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables
-			scoringParameters.put("Pts: Claim Base", new Number[] {experiment.getClaimBaseScoreBonus(), (double)0, (double)499}); //points
-			scoringParameters.put("Pts: Steal Base", new Number[] {experiment.getStealBaseScoreBonus(), 0, 499}); //points
-			scoringParameters.put("Sec: Base Pts Gen", new Number[] {(experiment.getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
-			scoringParameters.put("Pts: Owned Base", new Number[] {experiment.getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
-			scoringParameters.put("Sec: Claim Base", new Number[] {(experiment.getTicksToClaimBase())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Claim Base", new Integer[] {experiment.getClaimBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Pts: Steal Base", new Integer[] {experiment.getStealBaseScoreBonus(), 0, 499}); //points
+			scoringParameters.put("Sec: Base Pts Gen", new Integer[] {(experiment.getUpdateScoreOnTickRate())/20, 0, 10}); //seconds
+			scoringParameters.put("Pts: Owned Base", new Integer[] {experiment.getOwnedBaseScoreBonusOnTicks(), 0, 99}); //points
+			scoringParameters.put("Sec: Claim Base", new Integer[] {(experiment.getTicksToClaimBase())/20, 0, 10}); //seconds
 			
 			//item variables
 			itemParameters.put("Give Knockback Stick", new Boolean(true));
