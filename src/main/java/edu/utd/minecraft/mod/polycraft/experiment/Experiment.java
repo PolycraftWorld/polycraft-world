@@ -386,7 +386,10 @@ public abstract class Experiment {
 								ExperimentCTB.spawnlocations[i][2] = z + this.zPos;
 								i = ExperimentCTB.spawnlocations.length; 	//exit for loop
 							}
-						}					
+						}
+						
+						//place the block!
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						
 					}else {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
@@ -525,7 +528,10 @@ public abstract class Experiment {
 								ExperimentFlatCTB.spawnlocations[i][2] = z + this.zPos;
 								i = ExperimentFlatCTB.spawnlocations.length; 	//exit for loop
 							}
-						}					
+						}
+						
+						//place the block!
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						
 					}else {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
@@ -663,7 +669,10 @@ public abstract class Experiment {
 								Experiment1PlayerCTB.spawnlocations[i][2] = z + this.zPos;
 								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
 							}
-						}					
+						}
+						
+						//place the block!
+						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						
 					}else {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
