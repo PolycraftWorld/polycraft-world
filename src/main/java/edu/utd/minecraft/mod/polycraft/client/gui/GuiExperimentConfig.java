@@ -58,8 +58,8 @@ public class GuiExperimentConfig extends GuiListExtended {
 		
 		this.left = x_start;
 		this.right = gui.width - this.left;
-		System.out.println("Width: , Height, Top, Bottom: " + this.width + " " + this.height + " " + this.top + " " + this.bottom);
-		System.out.println("Left: Right: " + this.left + " " + this.right);
+		//System.out.println("Width: , Height, Top, Bottom: " + this.width + " " + this.height + " " + this.top + " " + this.bottom);
+		//System.out.println("Left: Right: " + this.left + " " + this.right);
 		this.minecraft = mc;
 		this.gui = gui;
 		this.configList = new ArrayList<>();
@@ -123,11 +123,6 @@ public class GuiExperimentConfig extends GuiListExtended {
 	    			maxStringLength = l;
 	    		this.configList.add(new ConfigSlider(key, Double.parseDouble(vals[0].toString()), Double.parseDouble(vals[1].toString()), Double.parseDouble(vals[2].toString())));
 	    	}
-			
-			
-			
-			
-			this.configList.add(new ConfigHeader("Items"));
 
 			//Chest parameters
 			this.configList.add(new ConfigHeader("Chests"));
@@ -142,6 +137,8 @@ public class GuiExperimentConfig extends GuiListExtended {
 		    		this.configList.add(new ConfigSlider(key, vals[0], vals[1], vals[2]));
 				}
 			}
+
+			this.configList.add(new ConfigHeader("Items"));
 		}
 		
 		
@@ -665,7 +662,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 		@Override
 		public boolean mousePressed(int startingSlotID, int mouseX, int mouseY, int b, int c,
 				int d) {
-			System.out.println("Slider Changed: " + this.parameterName);
+			//System.out.println("Slider Changed: " + this.parameterName);
 			if(this.reset.mousePressed(GuiExperimentConfig.this.minecraft, mouseX, mouseY)) {
 				this.slider.setValue(this.defaultValue);
 				//this.slider.dispString = String.format("%d", (int)this.defaultValue);

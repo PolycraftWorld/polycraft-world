@@ -1028,11 +1028,11 @@ public class Experiment1PlayerCTB extends Experiment{
 	protected void updateParams(ExperimentParameters params) {
 		//TODO: update Inventories and Chests
 		this.ticksToUpdateChests = params.extraParameters.get("Chest: Update Interval")[0]*20;
-		this.itemKBBChance = params.extraParameters.get("Chest: KBB Weight")[0];
-		this.itemIceChance = params.extraParameters.get("Chest: Ice Weight")[0];
-		this.itemWoodChance = params.extraParameters.get("Chest: Wood Weight")[0];
-		this.itemNRChance = params.extraParameters.get("Chest: Rubber Weight")[0];
-		this.itemAlumChance = params.extraParameters.get("Chest: Aluminum Weight")[0];
+		this.itemKBBChance = params.extraParameters.get("Chest: KBB wt")[0];
+		this.itemIceChance = params.extraParameters.get("Chest: Ice wt")[0];
+		this.itemWoodChance = params.extraParameters.get("Chest: Wood wt")[0];
+		this.itemNRChance = params.extraParameters.get("Chest: Rubber wt")[0];
+		this.itemAlumChance = params.extraParameters.get("Chest: Aluminum wt")[0];
 		
 		//timing
 		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;

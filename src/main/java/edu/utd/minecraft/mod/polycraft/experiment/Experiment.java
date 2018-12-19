@@ -149,7 +149,7 @@ public abstract class Experiment {
 //		
 //		System.out.println(json);
 		
-		System.out.println("done");
+		//System.out.println("done");
 		
 		//expFeatures = gson.
 		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
@@ -161,7 +161,7 @@ public abstract class Experiment {
 			e.printStackTrace();
 		}
 		
-		System.out.println(expFeatures);
+		//System.out.println(expFeatures);
 	}
 	
 	/**
@@ -174,7 +174,7 @@ public abstract class Experiment {
 		BufferedReader reader = new BufferedReader(new FileReader("exampleJSON2.json"));//null;//new BufferedReader(new FileReader(file));
 		File f2 = new File(".");
 		String path = f2.getAbsolutePath();
-		System.out.println("path: " + path);
+		//System.out.println("path: " + path);
 		String line = null;
 		StringBuilder sb = new StringBuilder();
 		String ls = System.getProperty("line.separator");
@@ -184,7 +184,7 @@ public abstract class Experiment {
 				sb.append(line);
 				sb.append(ls);
 			}
-			System.out.println(sb.toString());
+			//System.out.println(sb.toString());
 			return sb.toString();
 		} finally  {
 			reader.close();
@@ -267,7 +267,7 @@ public abstract class Experiment {
 	}
 	
 	public void init(){
-		System.out.println("CurrentState: " + currentState);
+		//System.out.println("CurrentState: " + currentState);
 		currentState = State.WaitingToStart;
 	}
 	
@@ -365,7 +365,7 @@ public abstract class Experiment {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
 						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
 						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
@@ -377,7 +377,7 @@ public abstract class Experiment {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
 						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
 						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
@@ -512,7 +512,7 @@ public abstract class Experiment {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
 						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
 						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
@@ -525,7 +525,7 @@ public abstract class Experiment {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
 						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
 						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
@@ -659,7 +659,7 @@ public abstract class Experiment {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
 						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
 						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
@@ -672,7 +672,7 @@ public abstract class Experiment {
 						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
 						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
-						System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
+						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
 						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
