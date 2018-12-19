@@ -115,7 +115,7 @@ public class ExperimentParameters {
 		DEFAULT_PARAMS.itemParameters.put("Armor", new HashMap<String, Integer>());
 		
 		//chest variables
-		DEFAULT_PARAMS.extraParameters.put("Chest: Update Interval", new Integer[] {5, 5, 60}); //seconds
+		DEFAULT_PARAMS.extraParameters.put("Chest: Update Interval", new Integer[] {30, 5, 120}); //seconds
 		DEFAULT_PARAMS.extraParameters.put("Chest: KBB Weight", new Integer[] {7, 1, 100}); //chance weight
 		DEFAULT_PARAMS.extraParameters.put("Chest: Ice Weight", new Integer[] {5, 1, 100}); //chance weight
 		DEFAULT_PARAMS.extraParameters.put("Chest: Wood Weight", new Integer[] {2, 1, 100}); //chance weight
@@ -153,7 +153,7 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
+			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentCTB) exp).getTicksToUpdateChests())/20, 5, 120}); //seconds
 			extraParameters.put("Chest: KBB wt", new Integer[] {((ExperimentCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
 			extraParameters.put("Chest: Ice wt", new Integer[] {((ExperimentCTB) exp).getItemIceChance(), 1, 100}); //chance weight
 			extraParameters.put("Chest: Wood wt", new Integer[] {((ExperimentCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
@@ -186,7 +186,7 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentFlatCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
+			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentFlatCTB) exp).getTicksToUpdateChests())/20, 5, 120}); //seconds
 			extraParameters.put("Chest: KBB Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
 			extraParameters.put("Chest: Ice Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemIceChance(), 1, 100}); //chance weight
 			extraParameters.put("Chest: Wood Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
@@ -222,7 +222,7 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			extraParameters.put("Chest: Update Interval", new Integer[] {(((Experiment1PlayerCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
+			extraParameters.put("Chest: Update Interval", new Integer[] {(((Experiment1PlayerCTB) exp).getTicksToUpdateChests())/20, 5, 120}); //seconds
 			extraParameters.put("Chest: KBB Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
 			extraParameters.put("Chest: Ice Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemIceChance(), 1, 100}); //chance weight
 			extraParameters.put("Chest: Wood Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
