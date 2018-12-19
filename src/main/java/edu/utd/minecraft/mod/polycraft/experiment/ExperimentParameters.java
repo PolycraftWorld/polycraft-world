@@ -64,7 +64,7 @@ public class ExperimentParameters {
 		//experimental params
 		int maxTicks = 12000; //Server drops ticks?
 		//private float MAXSCORE = 1000; 
-		 int halfTimeTicks = maxTicks/2; //(5 minutes)
+		 int halfTimeTicks = 2400; //(2 minutes)
 		 int WAITSPAWNTICKS = 400;
 		 int WAIT_TELEPORT_UTD_TICKS = 400;
 		//TODO: can you use a real clock instead of "skippable" server ticks??
@@ -154,11 +154,11 @@ public class ExperimentParameters {
 			
 			//chest variables
 			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
-			extraParameters.put("Chest: KBB Weight", new Integer[] {((ExperimentCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
-			extraParameters.put("Chest: Ice Weight", new Integer[] {((ExperimentCTB) exp).getItemIceChance(), 1, 100}); //chance weight
-			extraParameters.put("Chest: Wood Weight", new Integer[] {((ExperimentCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
-			extraParameters.put("Chest: Rubber Weight", new Integer[] {((ExperimentCTB) exp).getItemNRChance(), 1, 100}); //chance weight
-			extraParameters.put("Chest: Aluminum Weight", new Integer[] {((ExperimentCTB) exp).getItemAlumChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: KBB wt", new Integer[] {((ExperimentCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Ice wt", new Integer[] {((ExperimentCTB) exp).getItemIceChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Wood wt", new Integer[] {((ExperimentCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Rubber wt", new Integer[] {((ExperimentCTB) exp).getItemNRChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Aluminum wt", new Integer[] {((ExperimentCTB) exp).getItemAlumChance(), 1, 100}); //chance weight
 			
 		}else if (exp instanceof ExperimentFlatCTB) {
 			//add timing variables
