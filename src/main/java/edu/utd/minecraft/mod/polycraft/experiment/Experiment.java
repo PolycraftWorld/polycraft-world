@@ -299,7 +299,7 @@ public abstract class Experiment {
 				int y = (int) ExperimentCTB.chests.get(i).yCoord;
 				int z = (int) ExperimentCTB.chests.get(i).zCoord;
 				TileEntity entity;
-				if(world.blockExists(x, y, z)) {
+				if(world.getTileEntity(x, y, z) != null) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
 					if(entity != null && entity instanceof TileEntityChest) {
 						//clear chest contents.
@@ -688,12 +688,9 @@ public abstract class Experiment {
 								Experiment1PlayerCTB.spawnlocations[i][0] = x + this.xPos;
 								Experiment1PlayerCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								Experiment1PlayerCTB.spawnlocations[i][2] = z + this.zPos;
-//								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
-//										y + this.yPos + 2.0, 
-//										z + this.zPos));
-								world.setBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos, POLYCRAFTING_TABLE , 0, 2);
-								PolycraftInventoryBlock<PolycraftingInventory> flagBlock = (PolycraftInventoryBlock<PolycraftingInventory>) world.getBlock(x + this.xPos, y + this.yPos + 2, z + this.zPos);
-								flagBlock.onBlockPlacedBy(world, x + this.xPos, y + this.yPos + 2, z + this.zPos, dummy, new ItemStack(POLYCRAFTING_TABLE));
+								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+										y + this.yPos + 2.0, 
+										z + this.zPos));
 								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
 							}
 						}

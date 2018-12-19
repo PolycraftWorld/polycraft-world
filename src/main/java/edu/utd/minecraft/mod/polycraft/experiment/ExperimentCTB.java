@@ -91,7 +91,7 @@ public class ExperimentCTB extends Experiment{
 	private int updateScoreOnTickRate = 20;
 	private int ownedBaseScoreBonusOnTicks = 5;
 	private int WAITSPAWNTICKS = 400;
-	private int ticksToUpdateChests = 100;	//default 10 seconds to update all chest item stacks
+	private int ticksToUpdateChests = 100;	//default 5 seconds to update all chest item stacks
 	private int itemKBBChance = 7;		//default 70% chance to spawn Knockback bomb 
 	private int itemIceChance = 3;		//default 30% chance to spawn packed ice
 	private int itemWoodChance = 1;	//default 10% chance to spawn wood
@@ -833,10 +833,17 @@ public class ExperimentCTB extends Experiment{
 	@Override
 	protected void updateParams(ExperimentParameters params) {
 		//TODO: update Inventories and Chests
+		this.ticksToUpdateChests = params.extraParameters.get("Chest: Update Interval")[0]*20;
+		this.itemKBBChance = params.extraParameters.get("Chest: KBB Weight")[0];
+		this.itemIceChance = params.extraParameters.get("Chest: Ice Weight")[0];
+		this.itemWoodChance = params.extraParameters.get("Chest: Wood Weight")[0];
+		this.itemNRChance = params.extraParameters.get("Chest: Rubber Weight")[0];
+		this.itemAlumChance = params.extraParameters.get("Chest: Aluminum Weight")[0];
+		
 		//timing
 		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;
 		this.halfTimeTicksRemaining = params.timingParameters.get("Sec: Half Time")[0] * 20;
-		this.WAITSPAWNTICKS = params.timingParameters.get("Sec: Pre-Game")[0] *20 ;
+		this.WAITSPAWNTICKS = params.timingParameters.get("Sec: Pre-Game")[0] *20;
 		this.WAIT_TELEPORT_UTD_TICKS = (params.timingParameters.get("Sec: Post-Game")[0])*20;
 		
 		//scoring:

@@ -829,6 +829,13 @@ public class ExperimentFlatCTB extends Experiment{
 	@Override
 	protected void updateParams(ExperimentParameters params) {
 		//TODO: update Inventories and Chests
+		this.ticksToUpdateChests = params.extraParameters.get("Chest: Update Interval")[0]*20;
+		this.itemKBBChance = params.extraParameters.get("Chest: KBB Weight")[0];
+		this.itemIceChance = params.extraParameters.get("Chest: Ice Weight")[0];
+		this.itemWoodChance = params.extraParameters.get("Chest: Wood Weight")[0];
+		this.itemNRChance = params.extraParameters.get("Chest: Rubber Weight")[0];
+		this.itemAlumChance = params.extraParameters.get("Chest: Aluminum Weight")[0];
+		
 		//timing
 		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;
 		this.halfTimeTicksRemaining = params.timingParameters.get("Sec: Half Time")[0] * 20;

@@ -115,7 +115,12 @@ public class ExperimentParameters {
 		DEFAULT_PARAMS.itemParameters.put("Armor", new HashMap<String, Integer>());
 		
 		//chest variables
-		DEFAULT_PARAMS.itemParameters.put("Chest", new HashMap<String, Integer>());
+		DEFAULT_PARAMS.extraParameters.put("Chest: Update Interval", new Integer[] {5, 5, 60}); //seconds
+		DEFAULT_PARAMS.extraParameters.put("Chest: KBB Weight", new Integer[] {7, 1, 100}); //chance weight
+		DEFAULT_PARAMS.extraParameters.put("Chest: Ice Weight", new Integer[] {5, 1, 100}); //chance weight
+		DEFAULT_PARAMS.extraParameters.put("Chest: Wood Weight", new Integer[] {2, 1, 100}); //chance weight
+		DEFAULT_PARAMS.extraParameters.put("Chest: Rubber Weight", new Integer[] {1, 1, 100}); //chance weight
+		DEFAULT_PARAMS.extraParameters.put("Chest: Aluminum Weight", new Integer[] {1, 1, 100}); //chance weight
 		
 		
 	}
@@ -148,7 +153,12 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			//itemParameters.put("Chest", new HashMap<String, Integer>());
+			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
+			extraParameters.put("Chest: KBB Weight", new Integer[] {((ExperimentCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Ice Weight", new Integer[] {((ExperimentCTB) exp).getItemIceChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Wood Weight", new Integer[] {((ExperimentCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Rubber Weight", new Integer[] {((ExperimentCTB) exp).getItemNRChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Aluminum Weight", new Integer[] {((ExperimentCTB) exp).getItemAlumChance(), 1, 100}); //chance weight
 			
 		}else if (exp instanceof ExperimentFlatCTB) {
 			//add timing variables
@@ -176,7 +186,12 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			itemParameters.put("Chest", new HashMap<String, Integer>());
+			extraParameters.put("Chest: Update Interval", new Integer[] {(((ExperimentFlatCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
+			extraParameters.put("Chest: KBB Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Ice Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemIceChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Wood Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Rubber Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemNRChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Aluminum Weight", new Integer[] {((ExperimentFlatCTB) exp).getItemAlumChance(), 1, 100}); //chance weight
 		}else if (exp instanceof Experiment1PlayerCTB) {
 			
 			Experiment1PlayerCTB experiment = (Experiment1PlayerCTB) exp;
@@ -207,7 +222,12 @@ public class ExperimentParameters {
 			itemParameters.put("Armor", new HashMap<String, Integer>());
 			
 			//chest variables
-			itemParameters.put("Chest", new HashMap<String, Integer>());
+			extraParameters.put("Chest: Update Interval", new Integer[] {(((Experiment1PlayerCTB) exp).getTicksToUpdateChests())/20, 5, 60}); //seconds
+			extraParameters.put("Chest: KBB Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemKBBChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Ice Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemIceChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Wood Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemWoodChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Rubber Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemNRChance(), 1, 100}); //chance weight
+			extraParameters.put("Chest: Aluminum Weight", new Integer[] {((Experiment1PlayerCTB) exp).getItemAlumChance(), 1, 100}); //chance weight
 		}
 	}
 	

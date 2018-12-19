@@ -111,6 +111,8 @@ public class GuiExperimentConfig extends GuiListExtended {
 				}
 			}
 			
+			
+			
 			this.configList.add(new ConfigHeader("Scoring"));
 			
 			for(String key : params.scoringParameters.keySet()) {
@@ -126,6 +128,20 @@ public class GuiExperimentConfig extends GuiListExtended {
 			
 			
 			this.configList.add(new ConfigHeader("Items"));
+
+			//Chest parameters
+			this.configList.add(new ConfigHeader("Chests"));
+			for(String key: params.extraParameters.keySet()) {
+				if(key.contains("Chest:")){
+					Integer[] vals = params.extraParameters.get(key);
+		    		
+		    		int l = mc.fontRenderer.getStringWidth(key);
+		    		if(l > this.maxStringLength)
+		    			maxStringLength = l;
+		    		
+		    		this.configList.add(new ConfigSlider(key, vals[0], vals[1], vals[2]));
+				}
+			}
 		}
 		
 		
@@ -596,7 +612,7 @@ public class GuiExperimentConfig extends GuiListExtended {
 		
 		public boolean hasChanged = false;
 		
-		private int SLIDER_WIDTH = 100;
+		private int SLIDER_WIDTH = 90;
 		private int RESET_WIDTH = 20;
 		private int HEIGHT = GuiExperimentConfig.SLOT_HEIGHT - 2;
 		

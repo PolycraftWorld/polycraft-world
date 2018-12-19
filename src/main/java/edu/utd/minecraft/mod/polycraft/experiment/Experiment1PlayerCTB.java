@@ -155,8 +155,8 @@ public class Experiment1PlayerCTB extends Experiment{
 //				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 //			}
 //		}
-		int y = yPos + 7;
-		int x_offset = 28;
+		int y = yPos + 8;
+		int x_offset = 31;
 		BoundingBox box = new BoundingBox(xPos + 25.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
 		bases.add(new FeatureBase(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 62.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
@@ -1016,6 +1016,13 @@ public class Experiment1PlayerCTB extends Experiment{
 	@Override
 	protected void updateParams(ExperimentParameters params) {
 		//TODO: update Inventories and Chests
+		this.ticksToUpdateChests = params.extraParameters.get("Chest: Update Interval")[0]*20;
+		this.itemKBBChance = params.extraParameters.get("Chest: KBB Weight")[0];
+		this.itemIceChance = params.extraParameters.get("Chest: Ice Weight")[0];
+		this.itemWoodChance = params.extraParameters.get("Chest: Wood Weight")[0];
+		this.itemNRChance = params.extraParameters.get("Chest: Rubber Weight")[0];
+		this.itemAlumChance = params.extraParameters.get("Chest: Aluminum Weight")[0];
+		
 		//timing
 		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;
 		this.halfTimeTicksRemaining = params.timingParameters.get("Sec: Half Time")[0] * 20;
@@ -1034,9 +1041,9 @@ public class Experiment1PlayerCTB extends Experiment{
 		}
 		
 		//animals
-		this.numChickens = (int) Math.round(Float.parseFloat(params.timingParameters.get("Chickens")[0].toString()));
-		this.numCows = (int) Math.round(Float.parseFloat(params.timingParameters.get("Cows")[0].toString()));
-		this.numSheep = (int) Math.round(Float.parseFloat(params.timingParameters.get("Sheep")[0].toString()));
+		this.numChickens = (int) Math.round(Float.parseFloat(params.extraParameters.get("Chickens")[0].toString()));
+		this.numCows = (int) Math.round(Float.parseFloat(params.extraParameters.get("Cows")[0].toString()));
+		this.numSheep = (int) Math.round(Float.parseFloat(params.extraParameters.get("Sheep")[0].toString()));
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
