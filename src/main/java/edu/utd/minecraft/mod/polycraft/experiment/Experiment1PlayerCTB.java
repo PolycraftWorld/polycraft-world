@@ -34,6 +34,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
@@ -47,6 +48,7 @@ import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
@@ -433,9 +435,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				currentState = State.Halftime;
 			}
 			else if(tickCount >= maxTicks) {
-				
-				currentState = State.Ending;
-			
+				currentState = State.Ending;			
 			}
 			
 
@@ -530,11 +530,22 @@ public class Experiment1PlayerCTB extends Experiment{
 				    }
 				}
 				
+				//kill all animals left in the arena
+				List<Entity> list = world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(this.xPos, this.yPos-5, this.zPos, 
+						this.xPos + this.size*16, this.yPos + 20, this.zPos + this.size * 16));
+				for(Entity e: list) {
+					if(!(e instanceof EntityPlayer)) {
+						((EntityLiving)e).setDead();
+					}
+				}
+				
 				if(tickCount < maxTicks) {
 					this.stringToSend = "Your Opponents Left!";
 				}else {
 					this.stringToSend = maxEntry.getKey().getName() + " Team wins!";
 				}
+				
+				
 				
 				//ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
 				
