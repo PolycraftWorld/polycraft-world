@@ -24,7 +24,7 @@ repositories {
 
 apply plugin: 'forge'
 
-version = "1.4.11a"
+version = "1.4.12a"
 
 group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "polycraft"
