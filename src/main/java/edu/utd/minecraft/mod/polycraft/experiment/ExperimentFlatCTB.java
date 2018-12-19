@@ -145,10 +145,10 @@ public class ExperimentFlatCTB extends Experiment{
 		currentState = State.WaitingToStart;
 
 		//add extra chests
-		chests.add(Vec3.createVectorHelper(xPos + 8 + x_offset, y, zPos + 104));
-		chests.add(Vec3.createVectorHelper(xPos + 80 + x_offset, y, zPos + 104));
-		chests.add(Vec3.createVectorHelper(xPos + 8 + x_offset, y, zPos + 40));
-		chests.add(Vec3.createVectorHelper(xPos + 80 + x_offset, y, zPos + 40));
+		chests.add(Vec3.createVectorHelper(xPos + 28 + x_offset, y, zPos + 97));
+		chests.add(Vec3.createVectorHelper(xPos + 59 + x_offset, y, zPos + 97));
+		chests.add(Vec3.createVectorHelper(xPos + 26 + x_offset, y, zPos + 57));
+		chests.add(Vec3.createVectorHelper(xPos + 60 + x_offset, y, zPos + 57));
 	}
 	
 	@Override

@@ -146,10 +146,10 @@ public class ExperimentCTB extends Experiment{
 		
 		
 		//add extra chests
-		chests.add(Vec3.createVectorHelper(xPos + 74, y, zPos + 174));
-		chests.add(Vec3.createVectorHelper(xPos + 154, y, zPos + 174));
-		chests.add(Vec3.createVectorHelper(xPos + 74, y, zPos + 110));
-		chests.add(Vec3.createVectorHelper(xPos + 154, y, zPos + 110));
+		chests.add(Vec3.createVectorHelper(xPos + 104, y, zPos + 160));
+		chests.add(Vec3.createVectorHelper(xPos + 124, y, zPos + 160));
+		chests.add(Vec3.createVectorHelper(xPos + 104, y, zPos + 125));
+		chests.add(Vec3.createVectorHelper(xPos + 124, y, zPos + 125));
 		
 	}
 	
