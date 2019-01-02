@@ -85,7 +85,8 @@ public enum PolycraftContainerType {
 	FLUORESCENT_LAMP("Fluorescent Lamp"),
 	TIER_CHEST("Tier Chest"),
 	TEXT_WALL("Text Wall"),
-	POLYCRAFTING_TABLE("Polycrafting Table");
+	POLYCRAFTING_TABLE("Polycrafting Table"),
+	CANNON("Cannon");
 
 	private final String friendlyName;
 

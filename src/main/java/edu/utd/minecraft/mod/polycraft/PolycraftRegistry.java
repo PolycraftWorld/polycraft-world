@@ -71,12 +71,14 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -1057,6 +1059,8 @@ public class PolycraftRegistry {
 					TextWallInventory.register(inventory);
 				else if (GameID.InventoryPolycrafting.matches(inventory))
 					PolycraftingInventory.register(inventory);
+				else if (GameID.InventoryCannon.matches(inventory))
+					CannonInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1089,6 +1093,10 @@ public class PolycraftRegistry {
 				else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
 					TestTerritoryFlagBoss.register(polycraftEntity);
 				}
+				else if (GameID.EntityIronCannonBall.matches(polycraftEntity)) {
+					EntityIronCannonBall.register(polycraftEntity);
+				}
+				
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
 				//	TerritoryFlagEntity.register(polycraftEntity);

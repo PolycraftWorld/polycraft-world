@@ -114,7 +114,9 @@ public enum GameID {
 	KnockbackBomb("1hv"),
 	FreezingKnockbackBomb("1hw"),
 	Cleats("1hx"),
-	TextWall("1hy");
+	TextWall("1hy"),
+	InventoryCannon("1hC"),
+	EntityIronCannonBall("1hE");
 	
 	public final String id;
 
