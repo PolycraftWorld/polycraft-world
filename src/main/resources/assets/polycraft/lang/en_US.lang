@@ -5451,3 +5451,4 @@ entity.polycraft.OilSlime.name=OilSlime
 entity.polycraft.Dummy.name=Dummy
 entity.polycraft.OilSlimeBallProjectile.name=OilSlimeBallProjectile
 entity.polycraft.TestTerritoryFlagBoss.name=TestTerritoryFlagBoss
+entity.polycraft.Android.name=Android

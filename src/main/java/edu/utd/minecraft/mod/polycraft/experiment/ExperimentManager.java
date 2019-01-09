@@ -540,6 +540,24 @@ public class ExperimentManager {
 		return experiments.get(id).currentState;
 	}
 	
+	public static Experiment getExperiment(int id){
+		return experiments.get(id);
+	}
+	
+	
+	/**
+	 * For getting experiment id of running experiment
+	 * @return First currently running experiment or -1 if there are no running experiments
+	 */
+	public static int getRunningExperiment() {
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running)
+			{
+				return expID;
+			}
+		}
+		return -1;
+	}
 	
 	/**
 	 * Adds a new experiment to the experiment manager, increments the nextAvailableExperimentID and sends 

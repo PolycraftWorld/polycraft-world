@@ -99,6 +99,7 @@ public enum GameID {
 	FluorescentBulbs("1xn"),
 	EntityTerritoryFlag("1hg"),
 	EntityResearchAssistant("1hf"), 
+	EntityAndroid("1js"), 
 	EntityOilSlime("1hi"),
 	EntityDummy("1hj"),
 	EntityTestTerritoryFlagBoss("1hn"),

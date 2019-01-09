@@ -37,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
@@ -1093,6 +1094,9 @@ public class ClientProxy extends CommonProxy {
             }
             else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
             	RenderingRegistry.registerEntityRenderingHandler(TestTerritoryFlagBoss.class, new RenderTerritoryFlag2());
+            }
+            else if (GameID.EntityAndroid.matches(polycraftEntity)){
+                RenderingRegistry.registerEntityRenderingHandler(EntityAndroid.class, new RenderPolycraftBiped(new ModelPolycraftBiped(), 0));
             }
 
         }

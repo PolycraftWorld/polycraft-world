@@ -870,6 +870,12 @@ public abstract class Experiment {
 	}
 	
 	/**
+	 * Dynamic get function for getting multiple features of children experiments
+	 * @return specified feature
+	 */
+	public abstract Object getFeature(String feature);
+	
+	/**
 	 * Debug parameters used by command functions right now
 	 * In the future, this should be pulled from the experiment dashboard on our polycraftworld.com website
 	 * @param num of teams needed

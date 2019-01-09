@@ -717,6 +717,16 @@ public class ExperimentFlatCTB extends Experiment{
 			base.render(entity);
 		}
 	}
+	
+	/**
+	 * Dynamic get function for getting multiple features of children experiments
+	 * @return specified feature
+	 */
+	public Object getFeature(String feature) {
+		if(feature.equals("bases"))
+			return bases;
+		return null;
+	}
 
 	public int getHalfTimeTicks() {
 		return halfTimeTicksRemaining;

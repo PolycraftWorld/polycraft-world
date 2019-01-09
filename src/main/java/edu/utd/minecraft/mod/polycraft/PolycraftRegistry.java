@@ -72,6 +72,7 @@ import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
@@ -1088,6 +1089,9 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
 					TestTerritoryFlagBoss.register(polycraftEntity);
+				}
+				else if (GameID.EntityAndroid.matches(polycraftEntity)){
+					EntityAndroid.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))

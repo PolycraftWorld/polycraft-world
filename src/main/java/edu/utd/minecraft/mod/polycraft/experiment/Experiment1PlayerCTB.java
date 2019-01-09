@@ -19,6 +19,7 @@ import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftCow;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftExperimentCow;
@@ -35,6 +36,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
@@ -383,6 +385,12 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityChicken(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					newAnimal.setAIMoveSpeed(1F);
+					newAnimal.tasks.taskEntries.clear();
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getAIMoveSpeed()));
+					newAnimal.getNavigator().setSpeed(1D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -393,7 +401,9 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityCow(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(10.0F);
+					newAnimal.setAIMoveSpeed(1F);
+					newAnimal.tasks.taskEntries.clear();
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getAIMoveSpeed()));
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -404,7 +414,9 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntitySheep(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(10.0F);
+					newAnimal.setAIMoveSpeed(1F);
+					newAnimal.tasks.taskEntries.clear();
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getAIMoveSpeed()));
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -914,6 +926,16 @@ public class Experiment1PlayerCTB extends Experiment{
 			}
 			base.render(entity);
 		}
+	}
+	
+	/**
+	 * Dynamic get function for getting multiple features of children experiments
+	 * @return specified feature
+	 */
+	public Object getFeature(String feature) {
+		if(feature.equals("bases"))
+			return bases;
+		return null;
 	}
 
 	public int getHalfTimeTicks() {
