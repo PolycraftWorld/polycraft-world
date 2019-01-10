@@ -2,9 +2,14 @@ package edu.utd.minecraft.mod.polycraft.entity.Physics;
 
 import java.util.List;
 
+
+import org.lwjgl.opengl.GL11;
+
+import codechicken.lib.vec.Vector3;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.PolycraftEntityLiving;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.crash.CrashReport;
@@ -30,6 +35,7 @@ public class EntityIronCannonBall extends Entity {
 
 	public EntityIronCannonBall(World p_i1582_1_) {
 		super(p_i1582_1_);
+		this.setSize(.5F, .5F); 
 		// TODO Auto-generated constructor stub
 	}
 
@@ -50,6 +56,27 @@ public class EntityIronCannonBall extends Entity {
 		// TODO Auto-generated method stub
 		
 	}
+	
+//	public void render(Entity entity) {
+//		if (entity.worldObj.isRemote && rendering) {
+//			GL11.glDisable(GL11.GL_TEXTURE_2D);
+//			GL11.glEnable(GL11.GL_BLEND);
+//			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//			GL11.glDisable(GL11.GL_LIGHTING);
+//			GL11.glLineWidth(lineWidth);
+//			GL11.glBegin(GL11.GL_LINES);
+//			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
+//					color.getAlpha() / 255F); // Set color to specified color.
+//
+//			GL11.glVertex3d(x1o4, y2, z1o4);
+//
+//			GL11.glEnd();
+//			GL11.glEnable(GL11.GL_CULL_FACE);
+//			GL11.glEnable(GL11.GL_LIGHTING);
+//			GL11.glEnable(GL11.GL_TEXTURE_2D);
+//			GL11.glDisable(GL11.GL_BLEND);
+//		}
+//	}
 
 	
 	public void onUpdate()
@@ -59,16 +86,17 @@ public class EntityIronCannonBall extends Entity {
 		if (!this.worldObj.isRemote)
         {
 			
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
             World world= this.worldObj;
-            int x=(int) this.posX;
-            int y=(int) this.posY;
-            int z=(int) this.posZ;
+            int x=(int) Math.floor(this.posX);
+            int y=(int) Math.floor(this.posY);
+            int z=(int) Math.floor(this.posZ);
             
             
-            if (!(world.isAirBlock(x, y, z)))
+            if (!(world.isAirBlock(x, y, z)) && !(world.getBlock(x, y, z) instanceof CannonBlock))
             {
-                this.setDead();
+               // this.motionX=-this.motionX;
+            	this.setDead();
+                //this.motionZ=-this.motionZ;
             }
 
             
@@ -82,7 +110,10 @@ public class EntityIronCannonBall extends Entity {
             {
                 vec31 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
             }
-
+            
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
+            
+            
             if (list != null && !list.isEmpty())
             {
                 for (int k1 = 0; k1 < list.size(); ++k1)
@@ -153,55 +184,88 @@ public class EntityIronCannonBall extends Entity {
 		double U1= Math.sqrt((Ux1*Ux1+Uz1*Uz1));
 		double U2= Math.sqrt((Ux2*Ux2+Uz2*Uz2));
 		
-//		double U1ang= Math.atan((Uz1/Ux1));
-//		if(Ux1<0)
-//			U1ang=U1ang+Math.PI;
-//		double U2ang= Math.atan((Uz2/Ux2));
-//		if(Ux2<0)
-//			U2ang=U2ang+Math.PI;
-//		
 		
-		double a1= Math.atan2(z2-z1, x2-x1);
-		double b1= Math.atan2(Uz1,Ux1);
-		double a2= Math.atan2(z1-z2, x1-x2);
-		double b2= Math.atan2(Uz2,Ux2);
-		double c1= b1-a1;
-		double c2= b2-a2;
+		Vector3 Vecx=new Vector3();
+		Vecx.set(1, 0, 0);
+
 		
-		double U12=U1*Math.cos(c1);
-		double U11=U1*Math.sin(c1);
-		double U21=U2*Math.cos(c2);
-		double U22=U2*Math.sin(c2);
+		Vector3 VecV1=new Vector3();
+		VecV1.set(Ux1, 0, Uz1);
+
 		
-		double V12=(1/(m1+m2))*((m1-m2)*U12 -2*m2*U21);
-		double V21=(1/(m1+m2))*((m1-m2)*U21 +2*m2*U12);
+		Vector3 VecV2=new Vector3();
+		VecV2.set(Ux2, 0, Uz2);
+
 		
-		double V1=Math.sqrt((U11*U11+V12*V12));
-		double V2=Math.sqrt((U22*U22+V21*V21));
+		Vector3 VecImpact1=new Vector3();
+		VecImpact1.set((x2-x1), 0, (z2-z1));
+
 		
-		double V1ang= Math.atan((U11/V1));
-		if(V1<0)
-			V1ang=V1ang+Math.PI;
-		V1ang=a1+((Math.PI)/2);
-		double V2ang= Math.atan((U11/V2));
-		if(V2<0)
-			V2ang=V2ang+Math.PI;
-		V2ang=a2+((Math.PI)/2);		
+		Vector3 VecImpact2=new Vector3();
+		VecImpact2.set((x1-x2),0,(z1-z2));
 		
-		double Vx1=V1*Math.cos(V1ang);
-		double Vz1=V1*Math.sin(V1ang);
-		double Vx2=V2*Math.cos(V2ang);
-		double Vz2=V2*Math.sin(V2ang);
+		double A1=VecV1.angle(VecImpact1);
+		double A2=VecV2.angle(VecImpact2);
 		
-		this.motionX=Vx1;
-		this.motionZ=Vz1;
-		entity.motionX=Vx2;
-		entity.motionZ=Vz2;
+		
+		double U12= VecV1.mag()*Math.cos(A1);
+		double U11= VecV1.mag()*Math.sin(A1);
+		
+
+
+		double U21= VecV2.mag()*Math.cos(A2);
+		double U22= VecV2.mag()*Math.sin(A2);
+
+
+		double V12=Math.abs((1/(m1+m2))*((m1-m2)*U12 -2*m2*U21));
+		double V21=Math.abs((1/(m1+m2))*((m1-m2)*U21 +2*m2*U12));
+		
+		
+		Vector3 VecU12=VecImpact1.normalize();
+		VecU12.multiply(U12);
+		
+		Vector3 VecU21=VecImpact2.normalize();
+		VecU21.multiply(U21);
+		
+		Vector3 VecU11=new Vector3();
+		VecU11.set(VecV1);
+		VecU11.subtract(VecU12);
+		
+		
+		Vector3 VecU22=new Vector3();
+		VecU22.set(VecV2);
+		VecU22.subtract(VecU21);
+		
+		Vector3 VecV12=VecImpact2.normalize();
+		VecV12.multiply(V12);
+		
+		Vector3 VecV21=VecImpact1.normalize();
+		VecV21.multiply(V21);
+		
+		
+		Vector3 Vec1=VecU11.add(VecV12);
+		Vector3 Vec2=VecU22.add(VecV21);
+		
+		this.motionX=Vec1.x;
+		this.motionZ=Vec1.z;
+		entity.motionX=Vec2.x;
+		entity.motionZ=Vec2.z;
+		
+        this.posX += this.motionX;
+        //this.posY += this.motionY;
+        this.posZ += this.motionZ;
+        
+        entity.posX += entity.motionX;
+        //entity.posY += entity.motionY;
+        entity.posZ += entity.motionZ;
+        
 		
 		World world= entity.worldObj;
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 1: X:"+Vx1+" , Z: "+Vz1));
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 2: X:"+Vx2+" , Z: "+Vz2));
+		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 1: X:"+Vec1.x+" , Z: "+Vec1.z));
+		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 2: X:"+Vec2.x+" , Z: "+Vec2.z));
 		
+		
+				
 	}
 	
 	public static final void register(final PolycraftEntity polycraftEntity) {

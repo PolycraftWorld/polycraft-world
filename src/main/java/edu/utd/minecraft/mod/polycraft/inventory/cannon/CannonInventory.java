@@ -14,9 +14,8 @@ public class CannonInventory extends PolycraftInventory {
 	private static Inventory config;
 
 
-	public CannonInventory(PolycraftContainerType containerType, Inventory config) {
-		super(containerType, config);
-		// TODO Auto-generated constructor stub
+	public CannonInventory() {
+		super(PolycraftContainerType.CANNON, config);
 	}
 	
 	public static final void register(final Inventory config) {

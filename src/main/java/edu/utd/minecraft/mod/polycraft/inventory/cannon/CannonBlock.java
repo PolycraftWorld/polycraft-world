@@ -14,6 +14,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
@@ -31,8 +33,11 @@ public class CannonBlock extends PolycraftInventoryBlock {
 
 	public CannonBlock(Inventory config, Class tileEntityClass) {
 		super(config, tileEntityClass);
+		this.setBlockName("Cannon");
 		// TODO Auto-generated constructor stub
 	}
+	
+
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are)
@@ -46,42 +51,46 @@ public class CannonBlock extends PolycraftInventoryBlock {
     /**
      * Ticks the block if it's been scheduled
      */
+	
+	
     public void updateTick(World world, int x, int y, int z, Random p_149674_5_)
     {
         if (!world.isRemote)
         {
+        	
         	int meta= world.getBlockMetadata(x, y, z);
         	EnumFacing enumfacing = EnumFacing.getFront(meta);
             double d0 = x + (double)enumfacing.getFrontOffsetX();
-            double d1 = (double)((float)y + 0.2F);
+            
             double d2 = z + (double)enumfacing.getFrontOffsetZ();
 
         	EntityIronCannonBall cannonBall;
         	cannonBall = new EntityIronCannonBall(world);
         	cannonBall.forceSpawn=true;
         	
-        	cannonBall.setPosition((double)d0+.5, (double)d1, (double)d2+.5);
+        	cannonBall.setPosition((double)d0+.5, (double)y+.5, (double)d2+.5);
             world.spawnEntityInWorld(cannonBall);
             
             if(d0<x)
             {
             	cannonBall.motionX=-0.1;
-            	world.getClosestPlayerToEntity(cannonBall, 50).addChatMessage(new ChatComponentText("Iron: West, .1"));
+            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: West, .1"));
+            	
             }
             else if(d0>x)
             {
             	cannonBall.motionX=0.1;
-            	world.getClosestPlayerToEntity(cannonBall, 50).addChatMessage(new ChatComponentText("Iron: East, .1"));
+            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: East, .1"));
             }
             else if(d2<z)
             {
             	cannonBall.motionZ=-0.1;
-            	world.getClosestPlayerToEntity(cannonBall, 50).addChatMessage(new ChatComponentText("Iron: North, .1"));
+            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: North, .1"));
             }
             else if(d2>z)
             {
             	cannonBall.motionZ=0.1;
-            	world.getClosestPlayerToEntity(cannonBall, 50).addChatMessage(new ChatComponentText("Iron: South, .1"));
+            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: South, .1"));
             }
 
         }
@@ -92,6 +101,7 @@ public class CannonBlock extends PolycraftInventoryBlock {
     {
         if (world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockPowerInput(x,y,z)>=1 )
         {
+        	
         	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 
         }

@@ -180,6 +180,7 @@ public enum PolycraftContainerType {
 		TIER_CHEST.initialize(TierChestInventory.guiSlots);
 		TEXT_WALL.initialize(TextWallInventory.guiSlots);
 		POLYCRAFTING_TABLE.initialize(PolycraftingInventory.guiSlots);
+		CANNON.initialize(PolycraftingInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {
