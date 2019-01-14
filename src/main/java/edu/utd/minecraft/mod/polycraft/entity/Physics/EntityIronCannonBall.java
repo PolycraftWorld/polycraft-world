@@ -171,10 +171,10 @@ public class EntityIronCannonBall extends Entity {
 		double m1=this.mass;
 		double m2=((EntityIronCannonBall) entity).mass;
 		
-		double x1=this.posX;
-		double z1=this.posZ;
-		double x2=entity.posX;
-		double z2=entity.posZ;
+		double x1=this.posX-this.motionX;
+		double z1=this.posZ-this.motionZ;
+		double x2=entity.posX-entity.motionX;
+		double z2=entity.posZ-entity.motionZ;
 		
 		double Ux1=this.motionX;
 		double Uz1=this.motionZ;
