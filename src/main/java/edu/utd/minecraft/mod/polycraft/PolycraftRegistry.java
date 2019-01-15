@@ -136,6 +136,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
+import edu.utd.minecraft.mod.polycraft.item.ItemMiningHammer;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
@@ -1254,6 +1255,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemFreezingKnockbackBomb(customObject));
 				} else if (GameID.Cleats.matches(customObject)) {
 					registerItem(customObject, new ItemCleats(customObject));
+				} else if (GameID.CustomMiningHammer.matches(customObject)) {
+					registerItem(customObject, new ItemMiningHammer(customObject));
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
