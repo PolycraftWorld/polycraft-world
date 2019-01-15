@@ -114,9 +114,10 @@ public class Experiment1PlayerCTB extends Experiment{
 	//public static int maxPlayersNeeded = 4;
 	
 	//animalStats
-	public int numSheep = 20;
-	public int numChickens = 20;
-	public int numCows = 20;
+	public int numSheep = 5;
+	public int numChickens = 10;
+	public int numCows = 5;
+	public double animalSpeed = .5; // .5 seems to be "normal" speed
 	
 	private String stringToSend = "";
 	
@@ -385,12 +386,13 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityChicken(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(1F);
 					newAnimal.tasks.taskEntries.clear();
-					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getAIMoveSpeed()));
-					newAnimal.getNavigator().setSpeed(1D);
+					//newAnimal.setAIMoveSpeed(1F); // dont seem to do anything, speed can be changed in animalSpeed
+					//newAnimal.getNavigator().setSpeed(1D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
 					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
-					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+					
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -401,9 +403,12 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityCow(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(1F);
 					newAnimal.tasks.taskEntries.clear();
-					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getAIMoveSpeed()));
+					
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -414,9 +419,12 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntitySheep(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(1F);
 					newAnimal.tasks.taskEntries.clear();
-					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getAIMoveSpeed()));
+					
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+
 					world.spawnEntityInWorld(newAnimal);
 				}
 				

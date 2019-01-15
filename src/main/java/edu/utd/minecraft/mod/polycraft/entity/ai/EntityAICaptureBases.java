@@ -23,7 +23,7 @@ public class EntityAICaptureBases extends EntityAIBase
     private ArrayList<FeatureBase> bases;
     private FeatureBase currentBaseTarget;
     private static final String __OBFID = "CL_00001609";
-    private static final int TICKS_TO_UPDATE = 10;
+    private static final int TICKS_TO_UPDATE = 5;
     private int counter = TICKS_TO_UPDATE;
 
     public EntityAICaptureBases(EntityCreature p_i1650_1_, double p_i1650_2_)
@@ -58,6 +58,12 @@ public class EntityAICaptureBases extends EntityAIBase
         	double minDist = 999999;	//arbitrary large number for minimum dist
             for(FeatureBase base: bases) {
             	if(base.currentState != FeatureBase.State.Claimed)	//if a base is already claimed, skip it
+            	// only checks if the base is claimed NOT who has claimed it, find way to check who owns a base
+            		//make the entities work together, move for separate bases not all for one
+            	// attacking players, using a separate AI task "offensive tactics" 
+            		// if a player is within so many blocks from me, look at player, attack,
+            		// levels of intensity 1-5, 5 will keep you in a corner while others claim bases
+            		// 		item use/conservation
             	{
             		//checks the squared distance to find closest base
             		if(this.entityHost.getDistanceSq(base.getxPos(), base.getyPos(), base.getzPos()) < minDist) {
@@ -100,25 +106,25 @@ public class EntityAICaptureBases extends EntityAIBase
     		return;
     	if(this.entityHost.worldObj.isRemote)	//don't run on the client side
             return;
-    	if(--counter <= 0)		//if we do this operation every tick, it gets resource expensive and lags the server
-    		counter = TICKS_TO_UPDATE;
+    	
     	int xPos = currentBaseTarget.getxPos();
     	int yPos = currentBaseTarget.getyPos() + 1;
     	int zPos = currentBaseTarget.getzPos();
     	
         double d0 = this.entityHost.getDistanceSq(xPos, yPos, zPos);
-
-        if (d0 <= 15.0D)
-        {
-        	//if squared distance is less than 15, stop moving.  
-            this.entityHost.getNavigator().clearPathEntity();	
+        if(--counter <= 0) {		//if we do this operation every tick, it gets resource expensive and lags the server
+    		counter = TICKS_TO_UPDATE;
+	        if (d0 <= 20.0D)
+	        {
+	        	//if squared distance is less than 20, stop moving.  
+	            this.entityHost.getNavigator().clearPathEntity();	
+	        }
+	        else
+	        {
+	        	if(this.entityHost.getNavigator().noPath())	//the path routing takes up a lot of time, so we only want to reroute when we need to
+	        		this.entityHost.getNavigator().tryMoveToXYZ(xPos, yPos, zPos, this.entityMoveSpeed);
+	        }
         }
-        else
-        {
-        	if(this.entityHost.getNavigator().noPath())	//the path routing takes up a lot of time, so we only want to reroute when we need to
-        		this.entityHost.getNavigator().tryMoveToXYZ(xPos, yPos, zPos, this.entityMoveSpeed);
-        }
-
         //make the entity look where it's going
         this.entityHost.getLookHelper().setLookPosition(xPos, yPos, zPos, 30.0F, 30.0F);
     }
