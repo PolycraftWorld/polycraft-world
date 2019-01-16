@@ -115,10 +115,10 @@ public class Experiment1PlayerCTB extends Experiment{
 	//public static int maxPlayersNeeded = 4;
 	
 	//animalStats
-	public int numSheep = 5;
-	public int numChickens = 10;
-	public int numCows = 5;
-	public int numAndroid = 5;
+	public int numSheep = 0;
+	public int numChickens = 0;
+	public int numCows = 0;
+	public int numAndroids = 5;
 	public double animalSpeed = .5; // .5 seems to be "normal" speed
 	
 	private String stringToSend = "";
@@ -432,7 +432,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				
 				//Spawn Android
-				for (int currentAnimal = 0; currentAnimal < numAndroid; currentAnimal++) {
+				for (int currentAnimal = 0; currentAnimal < numAndroids; currentAnimal++) {
 					int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
 					int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
 					
@@ -1106,7 +1106,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		this.numChickens = (int) Math.round(Float.parseFloat(params.extraParameters.get("Chickens")[0].toString()));
 		this.numCows = (int) Math.round(Float.parseFloat(params.extraParameters.get("Cows")[0].toString()));
 		this.numSheep = (int) Math.round(Float.parseFloat(params.extraParameters.get("Sheep")[0].toString()));
-		this.numAndroid = (int) Math.round(Float.parseFloat(params.extraParameters.get("Androids")[0].toString()));
+		this.numAndroids = (int) Math.round(Float.parseFloat(params.extraParameters.get("Androids")[0].toString()));
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;

@@ -208,7 +208,7 @@ public class ExperimentParameters {
 			extraParameters.put("Chickens", new Integer[] {experiment.numChickens, 0, 60});
 			extraParameters.put("Cows", new Integer[] {experiment.numCows, 0, 60});
 			extraParameters.put("Sheep", new Integer[] {experiment.numSheep, 0, 60});
-			extraParameters.put("Androids", new Integer[] {experiment.numAndroid, 0, 60});			
+			extraParameters.put("Androids", new Integer[] {experiment.numAndroids, 0, 60});			
 			//timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables

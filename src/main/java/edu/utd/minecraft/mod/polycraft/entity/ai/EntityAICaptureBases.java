@@ -112,9 +112,9 @@ public class EntityAICaptureBases extends EntityAIBase
     	int zPos = currentBaseTarget.getzPos();
     	
         double d0 = this.entityHost.getDistanceSq(xPos, yPos, zPos);
-        if(--counter <= 0) {		//if we do this operation every tick, it gets resource expensive and lags the server
+        //if(--counter <= 0) {		//if we do this operation every tick, it gets resource expensive and lags the server
     		counter = TICKS_TO_UPDATE;
-	        if (d0 <= 20.0D)
+	        if (d0 <= 17.5D)
 	        {
 	        	//if squared distance is less than 20, stop moving.  
 	            this.entityHost.getNavigator().clearPathEntity();	
@@ -124,8 +124,8 @@ public class EntityAICaptureBases extends EntityAIBase
 	        	if(this.entityHost.getNavigator().noPath())	//the path routing takes up a lot of time, so we only want to reroute when we need to
 	        		this.entityHost.getNavigator().tryMoveToXYZ(xPos, yPos, zPos, this.entityMoveSpeed);
 	        }
-        }
+        //}
         //make the entity look where it's going
-        this.entityHost.getLookHelper().setLookPosition(xPos, yPos, zPos, 30.0F, 30.0F);
+        this.entityHost.getLookHelper().setLookPosition(xPos, yPos, zPos, 10.0F, 10.0F);
     }
 }
