@@ -93,13 +93,14 @@ public class ExperimentParameters {
 		//add timing variables
 		DEFAULT_PARAMS.timingParameters.put("Min: Game Time", new Integer[] {(maxTicks)/60/20, 3, 20}); //minutes
 		DEFAULT_PARAMS.timingParameters.put("Sec: Half Time", new Integer[] {(halfTimeTicks)/20, 30, 180}); //seconds
-		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/20, 10, 60}); //seconds
+		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/10, 10, 60}); //seconds
 		DEFAULT_PARAMS.timingParameters.put("Sec: Post-Game", new Integer[] {(WAIT_TELEPORT_UTD_TICKS)/20, 10, 60}); //seconds
 		
 		DEFAULT_PARAMS.extraParameters.put("Animals", new Integer[] {1,0});
 		DEFAULT_PARAMS.extraParameters.put("Chickens", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Cows", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Sheep", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.extraParameters.put("Androids", new Integer[] {0, 0, 60});
 		//DEFAULT_PARAMS.timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 		
 		//add scoring variables
@@ -131,7 +132,7 @@ public class ExperimentParameters {
 			//add timing variables
 			timingParameters.put("Min: Game Time", new Integer[] {(((ExperimentCTB) exp).getMaxTicks())/60/20, 3, 20}); //minutes
 			timingParameters.put("Sec: Half Time", new Integer[] {(((ExperimentCTB) exp).getHalfTimeTicks())/20, 30, 180}); //seconds
-			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
+			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/10, 10, 60}); //seconds
 			timingParameters.put("Sec: Post-Game", new Integer[] {(((ExperimentCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
 			
 //			//add animal parameters
@@ -207,6 +208,7 @@ public class ExperimentParameters {
 			extraParameters.put("Chickens", new Integer[] {experiment.numChickens, 0, 60});
 			extraParameters.put("Cows", new Integer[] {experiment.numCows, 0, 60});
 			extraParameters.put("Sheep", new Integer[] {experiment.numSheep, 0, 60});
+			extraParameters.put("Androids", new Integer[] {experiment.numAndroid, 0, 60});			
 			//timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables

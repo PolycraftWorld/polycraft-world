@@ -20,6 +20,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftCow;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftExperimentCow;
@@ -117,6 +118,7 @@ public class Experiment1PlayerCTB extends Experiment{
 	public int numSheep = 5;
 	public int numChickens = 10;
 	public int numCows = 5;
+	public int numAndroid = 5;
 	public double animalSpeed = .5; // .5 seems to be "normal" speed
 	
 	private String stringToSend = "";
@@ -376,6 +378,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					zMin = Math.min(zMin, currentZvalue);	
 				}
 				
+				EntityAndroid newAndroid;
 				EntityAnimal newAnimal;
 				//TODO: Create new Polycraft creatures/animals that are invulnerable with variable movement speed
 				
@@ -428,6 +431,22 @@ public class Experiment1PlayerCTB extends Experiment{
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
+				//Spawn Android
+				for (int currentAnimal = 0; currentAnimal < numAndroid; currentAnimal++) {
+					int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
+					int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
+					
+					newAndroid = new EntityAndroid(world);
+					newAndroid.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					newAndroid.tasks.taskEntries.clear();
+					
+					newAndroid.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAndroid.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAndroid.tasks.addTask(0, new EntityAICaptureBases(newAndroid, (double)newAndroid.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+					
+					world.spawnEntityInWorld(newAndroid);
+				}
+				
 				//Spawn Wolf
 				int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
 				int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
@@ -438,6 +457,8 @@ public class Experiment1PlayerCTB extends Experiment{
 				
 				currentState = State.Running;
 				tickCount = 0; 
+				
+				
 			}
 			tickCount++;
 		}
@@ -669,7 +690,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				base.setHardColor(Color.GRAY);
 				base.tickCount = 0;
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
-					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+					if ((current_entity instanceof EntityAnimal || current_entity instanceof EntityAndroid)& base.isInBase(current_entity)) {
 					// check for animal in base
 						base.setCurrentTeam(animalTeam.getName());
 						base.currentState = FeatureBase.State.Occupied;
@@ -710,7 +731,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				
 				//Check if an animal is in a base being taken by a player and reset timer to Neutral case if so
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
-					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+					if ((current_entity instanceof EntityAnimal || current_entity instanceof EntityAndroid) & base.isInBase(current_entity)) {
 					// check for animal in base
 						playerCount++;
 						base.tickCount++;
@@ -820,7 +841,7 @@ public class Experiment1PlayerCTB extends Experiment{
 
 				//check if the animals are stealing a base
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
-					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+					if ((current_entity instanceof EntityAnimal || current_entity instanceof EntityAndroid) & base.isInBase(current_entity)) {
 						playerCount++;
 						if(!animalTeam.getName().equals(base.getCurrentTeamName())) {
 							base.tickCount++; //goes faster the more animals are in the base...
@@ -1085,6 +1106,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		this.numChickens = (int) Math.round(Float.parseFloat(params.extraParameters.get("Chickens")[0].toString()));
 		this.numCows = (int) Math.round(Float.parseFloat(params.extraParameters.get("Cows")[0].toString()));
 		this.numSheep = (int) Math.round(Float.parseFloat(params.extraParameters.get("Sheep")[0].toString()));
+		this.numAndroid = (int) Math.round(Float.parseFloat(params.extraParameters.get("Androids")[0].toString()));
 		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
