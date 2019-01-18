@@ -42,8 +42,8 @@ public class CannonBlock extends PolycraftInventoryBlock {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are)
 	{
-
-	        return false;
+		super.onBlockActivated(world, x, y, z, player, metadata, what, these, are);
+		return false;
 	}
 	
 
@@ -70,28 +70,41 @@ public class CannonBlock extends PolycraftInventoryBlock {
         	
         	cannonBall.setPosition((double)d0+.5, (double)y+.5, (double)d2+.5);
             world.spawnEntityInWorld(cannonBall);
+
+            CannonInventory tileEntity=(CannonInventory)world.getTileEntity(x, y, z);
             
-            if(d0<x)
-            {
-            	cannonBall.motionX=-0.1;
-            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: West, .1"));
-            	
-            }
-            else if(d0>x)
-            {
-            	cannonBall.motionX=0.1;
-            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: East, .1"));
-            }
-            else if(d2<z)
-            {
-            	cannonBall.motionZ=-0.1;
-            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: North, .1"));
-            }
-            else if(d2>z)
-            {
-            	cannonBall.motionZ=0.1;
-            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: South, .1"));
-            }
+            double velocity=tileEntity.velocity;
+            double theta=tileEntity.theta;
+            double mass=tileEntity.mass;
+            
+            cannonBall.mass=mass;
+            
+            double rad = theta/180*Math.PI;
+            cannonBall.motionX=velocity*Math.cos(rad);
+            cannonBall.motionZ=velocity*Math.sin(rad);
+            
+            
+//            if(d0<x)
+//            {
+//            	cannonBall.motionX=-0.1;
+//            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: West, .1"));
+//            	
+//            }
+//            else if(d0>x)
+//            {
+//            	cannonBall.motionX=0.1;
+//            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: East, .1"));
+//            }
+//            else if(d2<z)
+//            {
+//            	cannonBall.motionZ=-0.1;
+//            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: North, .1"));
+//            }
+//            else if(d2>z)
+//            {
+//            	cannonBall.motionZ=0.1;
+//            	MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Iron: South, .1"));
+//            }
 
         }
     }

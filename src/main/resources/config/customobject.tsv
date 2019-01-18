@@ -1,19 +1,19 @@
 Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flashlight Range	Parameter names 	P1	P2	P3	P4	P5	P6	P7	P8	P9
 1.0.0	3l	Metal Screw	PC Item	2	TRUE		64											
 1.0.0	3m	Bucket (Crude Oil)	PC Item	1	TRUE		1											
-1.0.0	3n	Flame Tosser	Weapon	7	TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	1000	1	6	2	5	1			
-1.1.0	134	Flame Chucker	Weapon	7	FALSE		1	10	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	1500	1	8	2	5	1			
-1.1.0	135	Flame Hurler	Weapon	7	FALSE		1	30	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	2000	1	10	2	5	2			
-1.1.0	136	Flame Thrower	Weapon	7	FALSE		1	80	"FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage"	2500	1	40	2	5	10			
+1.0.0	3n	Flame Tosser	Weapon	7	TRUE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1000	1	6	2	5	1			
+1.1.0	134	Flame Chucker	Weapon	7	FALSE		1	10	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	1500	1	8	2	5	1			
+1.1.0	135	Flame Hurler	Weapon	7	FALSE		1	30	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	2000	1	10	2	5	2			
+1.1.0	136	Flame Thrower	Weapon	7	FALSE		1	80	FuelUnitsFull, FuelUnitsBurnPerTick, Range, Spread, FireDurationSeconds, InitialDamage	2500	1	40	2	5	10			
 1.0.0	3o	Flashlight	Tool		TRUE		1	30										
-1.0.0	3p	Jet Pack (Beginner)	Armor		TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	3000	1	0.4	5	100				
+1.0.0	3p	Jet Pack (Beginner)	Armor		TRUE		1		FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit	3000	1	0.4	5	100				
 1.0.0	5a	Parachute	Tool		TRUE		1		VelocityDescent	0.3								
 1.0.0	3q	Laser	Tool		TRUE		1											
-1.0.0	3r	Phase Shifter	Tool	7	TRUE		1		"Radius, Velocity, BoundaryBlock"	3	0.6	1.0.0						
-1.0.0	3x	Scuba Tank (Beginner)	Armor		TRUE		1		"AirUnitsFull, AirUnitsConsumePerTick"	5000	1							
-1.1.0	13a	Scuba Tank (Intermediate)	Armor		FALSE		1		"AirUnitsFull, AirUnitsConsumePerTick"	10000	1							
-1.1.0	13b	Scuba Tank (Advanced)	Armor		FALSE		1		"AirUnitsFull, AirUnitsConsumePerTick"	25000	1							
-1.1.0	13c	Scuba Tank (Pro)	Armor		FALSE		1		"AirUnitsFull, AirUnitsConsumePerTick"	50000	1							
+1.0.0	3r	Phase Shifter	Tool	7	TRUE		1		Radius, Velocity, BoundaryBlock	3	0.6	1.0.0						
+1.0.0	3x	Scuba Tank (Beginner)	Armor		TRUE		1		AirUnitsFull, AirUnitsConsumePerTick	5000	1							
+1.1.0	13a	Scuba Tank (Intermediate)	Armor		FALSE		1		AirUnitsFull, AirUnitsConsumePerTick	10000	1							
+1.1.0	13b	Scuba Tank (Advanced)	Armor		FALSE		1		AirUnitsFull, AirUnitsConsumePerTick	25000	1							
+1.1.0	13c	Scuba Tank (Pro)	Armor		FALSE		1		AirUnitsFull, AirUnitsConsumePerTick	50000	1							
 1.0.0	3C	Structural Truss	PC Item		TRUE		64											
 1.0.0	3G	Barley	Food		TRUE		64											
 1.0.0	3H	Grapes	Food		TRUE		64											
@@ -39,7 +39,7 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.0.3	118	Stainless-PolyPropylene Heated Knife	Tool	4	TRUE		1		MiningEfficiency	10								
 1.0.3	119	Stainless-PEEK Heated Knife	Tool	4	TRUE		1		MiningEfficiency	15								
 1.0.3	11a	Heated Knife Handle	Tool	4	FALSE		1											
-1.1.0	11q	Running Shoes (Sprinter)	Armor	8	TRUE		1		"VelocityOnGround, MovementDurationWear(MCMins)"	0.4	60							
+1.1.0	11q	Running Shoes (Sprinter)	Armor	8	TRUE		1		VelocityOnGround, MovementDurationWear(MCMins)	0.4	60							
 1.1.0	12N	Lead-Acid Battery (1-Cell)	PC Item	8	FALSE		1											
 1.1.0	12O	Lead-Acid Battery (9-Cell)	PC Item	8	FALSE		1											
 1.1.0	12P	Lithium Ion Battery (1-Cell)	PC Item	8	FALSE		1											
@@ -50,18 +50,18 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.1.0	13f	Scuba Mask Light (Intermediate)	Armor	8	FALSE		1	10										
 1.1.0	13g	Scuba Mask Light (Advanced)	Armor	8	FALSE		1	15										
 1.1.0	13h	Scuba Mask Light (Pro)	Armor	8	FALSE		1	25										
-1.0.0	19P	Jet Pack (Intermediate)	Armor	8	TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	6000	1	0.4	5	150				
-1.0.0	19Q	Jet Pack (Advanced)	Armor	8	TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	9000	1	0.4	5	200				
-1.0.0	19R	Jet Pack (Pro)	Armor	8	TRUE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit"	12000	1	0.4	5	10000				
+1.0.0	19P	Jet Pack (Intermediate)	Armor	8	TRUE		1		FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit	6000	1	0.4	5	150				
+1.0.0	19Q	Jet Pack (Advanced)	Armor	8	TRUE		1		FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit	9000	1	0.4	5	200				
+1.0.0	19R	Jet Pack (Pro)	Armor	8	TRUE		1		FuelUnitsFull, FuelUnitsBurnPerTick, VelocityInAir, ExhaustDamageDirect, AltitudeLimit	12000	1	0.4	5	10000				
 1.1.2	1bz	Carbon Fiber Weave	PC Item	8	FALSE		64											
-1.2.3	1bO	Freeze Ray (Beginner)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	1000	1	6	1	1				
-1.2.3	1bP	Freeze Ray (Intermediate)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	1500	1	8	2	1				
-1.2.3	1bQ	Freeze Ray (Advanced)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	2000	1	10	3	2				
-1.2.3	1bR	Freeze Ray (Pro)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage"	2500	1	20	5	2				
-1.2.3	1bS	Water Cannon (Beginner)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	1000	1	6						
-1.2.3	1bT	Water Cannon (Intermediate)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	1500	1	8						
-1.2.3	1bU	Water Cannon (Advanced)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	2000	1	10						
-1.2.3	1bV	Water Cannon (Pro)	Weapon	8	FALSE		1		"FuelUnitsFull, FuelUnitsBurnPerTick, Velocity"	2500	1	20						
+1.2.3	1bO	Freeze Ray (Beginner)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage	1000	1	6	1	1				
+1.2.3	1bP	Freeze Ray (Intermediate)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage	1500	1	8	2	1				
+1.2.3	1bQ	Freeze Ray (Advanced)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage	2000	1	10	3	2				
+1.2.3	1bR	Freeze Ray (Pro)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity, FreezeTimeInSeconds, InitialDamage	2500	1	20	5	2				
+1.2.3	1bS	Water Cannon (Beginner)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity	1000	1	6						
+1.2.3	1bT	Water Cannon (Intermediate)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity	1500	1	8						
+1.2.3	1bU	Water Cannon (Advanced)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity	2000	1	10						
+1.2.3	1bV	Water Cannon (Pro)	Weapon	8	FALSE		1		FuelUnitsFull, FuelUnitsBurnPerTick, Velocity	2500	1	20						
 1.3.2	1et	Silicon Boule	PC Item	4	FALSE		64											
 1.3.2	1eN	Coins (Copper)	Currency	2	FALSE		64											
 1.3.2	1eO	Bars (Copper)	Currency	2	FALSE		64											
@@ -89,3 +89,4 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.4.10	1hv	Knockback Bomb	PC Item		FALSE		64											
 1.4.10	1hw	Freezing Knockback Bomb	PC Item		FALSE		64											
 1.4.10	1hx	Cleats	Armor		FALSE		1											
+1.4.12	1hF	IronCannonBall	PC Item		FALSE		64											

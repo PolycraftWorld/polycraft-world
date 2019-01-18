@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 
 public class EntityIronCannonBall extends Entity {
 	
-	double mass=5.0;
+	public double mass=5.0;
 	private static PolycraftEntity config;
 	
 
