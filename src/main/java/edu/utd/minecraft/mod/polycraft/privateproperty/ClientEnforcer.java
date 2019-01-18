@@ -72,6 +72,9 @@ public class ClientEnforcer extends Enforcer {
 	private static final int overlayColor = 16777215;
 	private static final KeyBinding keyBindingPrivateProperty = new KeyBinding("key.private.property", Keyboard.KEY_P, "key.categories.gameplay");
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIControls = new KeyBinding("key.private.property", Keyboard.KEY_ADD, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIControlsLeft = new KeyBinding("key.private.property", Keyboard.KEY_LEFT, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIControlsRight = new KeyBinding("key.private.property", Keyboard.KEY_RIGHT, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
@@ -91,6 +94,8 @@ public class ClientEnforcer extends Enforcer {
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
 	private static boolean showPrivateProperty = false;
+	private static boolean showAIControls = false;
+	private static int behaviorAI=1;
 	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
 	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
@@ -115,7 +120,23 @@ public class ClientEnforcer extends Enforcer {
 		if (keyBindingPrivateProperty.isPressed()) {
 			showPrivateProperty = !showPrivateProperty;
 		}
+		if (keyBindingAIControls.isPressed()) {
+			showAIControls = !showAIControls;
+		}
+		if(showAIControls)
+		{
+			if(keyBindingAIControlsLeft.isPressed() && this.behaviorAI>0)
+			{
+				this.behaviorAI-=1;
+			}
+			if(keyBindingAIControlsRight.isPressed() && this.behaviorAI<2)
+			{
+				this.behaviorAI+=1;
+			}
+		}
 	}
+	
+	
 
 	@Override
 	protected void setActionPrevented(final Action action, final PrivateProperty privateProperty) {
@@ -637,6 +658,25 @@ public class ClientEnforcer extends Enforcer {
 					else if (showPrivateProperty) {
 						client.fontRenderer.drawStringWithShadow("Private Property - None", x, y, overlayColor);
 					}
+					if(showAIControls)
+					{
+						client.fontRenderer.drawStringWithShadow("AIControls Test", x, y, overlayColor);
+						if(behaviorAI==0)
+						{
+							client.ingameGUI.drawRect(x+6, y+14, x+26, y+34, 0x66CC0011);
+						}
+						if(behaviorAI==1)
+						{
+							client.ingameGUI.drawRect(x+38, y+14, x+58, y+34, 0x6611CC00);
+						}
+						if(behaviorAI==2)
+						{
+							client.ingameGUI.drawRect(x+70, y+14, x+90, y+34, 0x660011CC);
+						}
+						client.ingameGUI.drawRect(x+8, y+16, x+24, y+32, 0xFFCC0011);
+						client.ingameGUI.drawRect(x+40, y+16, x+56, y+32, 0xFF11CC00);
+						client.ingameGUI.drawRect(x+72, y+16, x+88, y+32, 0xFF0011CC);
+					}
 				}
 				else
 				{
@@ -657,5 +697,10 @@ public class ClientEnforcer extends Enforcer {
 	public static boolean getShowPP() {
 		
 		return showPrivateProperty;
+	}
+	
+	public static boolean getShowAIC() {
+		
+		return showAIControls;
 	}
 }
