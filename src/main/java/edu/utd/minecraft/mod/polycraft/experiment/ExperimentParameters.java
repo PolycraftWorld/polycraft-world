@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 
@@ -101,6 +102,7 @@ public class ExperimentParameters {
 		DEFAULT_PARAMS.extraParameters.put("Cows", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Sheep", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Androids", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.extraParameters.put("Animal Difficulty", new Integer[] {1,0,2});
 		//DEFAULT_PARAMS.timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 		
 		//add scoring variables
@@ -197,6 +199,7 @@ public class ExperimentParameters {
 			
 			Experiment1PlayerCTB experiment = (Experiment1PlayerCTB) exp;
 			
+			
 			//add timing variables
 			timingParameters.put("Min: Game Time", new Integer[] {(experiment.getMaxTicks())/60/20, 3, 20}); //minutes
 			timingParameters.put("Sec: Half Time", new Integer[] {(experiment.getHalfTimeTicks())/20, 30, 180}); //seconds
@@ -208,7 +211,8 @@ public class ExperimentParameters {
 			extraParameters.put("Chickens", new Integer[] {experiment.numChickens, 0, 60});
 			extraParameters.put("Cows", new Integer[] {experiment.numCows, 0, 60});
 			extraParameters.put("Sheep", new Integer[] {experiment.numSheep, 0, 60});
-			extraParameters.put("Androids", new Integer[] {experiment.numAndroids, 0, 60});			
+			extraParameters.put("Androids", new Integer[] {experiment.numAndroids, 0, 60});	
+			extraParameters.put("Animal Difficulty", new Integer[] {experiment.level, 0, 2});	
 			//timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables

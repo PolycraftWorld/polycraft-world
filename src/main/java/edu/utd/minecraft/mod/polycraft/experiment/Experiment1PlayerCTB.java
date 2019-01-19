@@ -119,7 +119,8 @@ public class Experiment1PlayerCTB extends Experiment{
 	public int numChickens = 0;
 	public int numCows = 0;
 	public int numAndroids = 5;
-	public double animalSpeed = .5; // .5 seems to be "normal" speed
+	public double animalSpeed = .6; // .5 seems to be "normal" speed
+	public static int level = 1;
 	
 	private String stringToSend = "";
 	

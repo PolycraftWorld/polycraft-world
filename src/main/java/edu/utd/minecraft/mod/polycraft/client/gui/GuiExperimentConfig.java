@@ -115,6 +115,12 @@ public class GuiExperimentConfig extends GuiListExtended {
 					
 					this.configList.add(new ConfigSlider("Androids", vals[0], vals[1], vals[2]));
 				}
+
+				if(params.extraParameters.containsKey("Animal Difficulty") & params.extraParameters.get("Animal Difficulty") instanceof Integer[]) {
+					Integer[] vals = (Integer[]) params.extraParameters.get("Animal Difficulty");
+					
+					this.configList.add(new ConfigSlider("Animal Difficulty", vals[0], vals[1], vals[2]));
+				}
 			}
 			
 			
