@@ -664,26 +664,27 @@ public class ClientEnforcer extends Enforcer {
 						if(behaviorAI==0)
 						{
 							client.ingameGUI.drawRect(x+6, y+14, x+26, y+34, 0x66CC0011);
-							//☢
+							
+							
 						}
 						if(behaviorAI==1)
 						{
 							client.ingameGUI.drawRect(x+38, y+14, x+58, y+34, 0x6611CC00);
-							//☯
+							//â˜¯
 						}
 						if(behaviorAI==2)
 						{
 							client.ingameGUI.drawRect(x+70, y+14, x+90, y+34, 0x660011CC);
-							//♥
+							//â™¥
 						}
 						
 						client.ingameGUI.drawRect(x+8, y+16, x+24, y+32, 0xFFCC0011);
 						client.ingameGUI.drawRect(x+40, y+16, x+56, y+32, 0xFF11CC00);
 						client.ingameGUI.drawRect(x+72, y+16, x+88, y+32, 0xFF0011CC);
 						
-						client.fontRenderer.drawStringWithShadow("☢", x+12, y+20, overlayColor);
-						client.fontRenderer.drawStringWithShadow("☯", x+44, y+20, overlayColor);
-						client.fontRenderer.drawStringWithShadow("♥", x+78, y+20, overlayColor);
+						client.fontRenderer.drawStringWithShadow("☢",x+12, y+20,  0xFF000000);
+						client.fontRenderer.drawStringWithShadow("☯", x+44, y+20,  0xFF000000);
+						client.fontRenderer.drawStringWithShadow("♥", x+78, y+20,  0xFF000000);
 					}
 				}
 				else
