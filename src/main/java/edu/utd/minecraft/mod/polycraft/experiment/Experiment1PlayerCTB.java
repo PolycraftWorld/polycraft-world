@@ -1108,7 +1108,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		this.numCows = (int) Math.round(Float.parseFloat(params.extraParameters.get("Cows")[0].toString()));
 		this.numSheep = (int) Math.round(Float.parseFloat(params.extraParameters.get("Sheep")[0].toString()));
 		this.numAndroids = (int) Math.round(Float.parseFloat(params.extraParameters.get("Androids")[0].toString()));
-		
+		this.level=(int) Math.round(Float.parseFloat(params.extraParameters.get("Animal Difficulty")[0].toString()));
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;

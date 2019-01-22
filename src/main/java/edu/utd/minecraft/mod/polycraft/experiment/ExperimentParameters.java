@@ -102,7 +102,7 @@ public class ExperimentParameters {
 		DEFAULT_PARAMS.extraParameters.put("Cows", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Sheep", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Androids", new Integer[] {0, 0, 60});
-		DEFAULT_PARAMS.extraParameters.put("Animal Difficulty", new Integer[] {1,0,2});
+		DEFAULT_PARAMS.extraParameters.put("Animal Difficulty", new Integer[] {0,0,2});
 		//DEFAULT_PARAMS.timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 		
 		//add scoring variables
