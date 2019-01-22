@@ -1,8 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.inventory.cannon;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,6 +19,9 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tierchest.TierChestGui;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
+import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
@@ -26,6 +32,8 @@ public class CannonInventory extends PolycraftInventory {
 	public double velocity;
 	public double theta;
 	public double mass;
+	
+	public static CannonInventory INSTANCE = new CannonInventory();
 	
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
@@ -61,6 +69,17 @@ public class CannonInventory extends PolycraftInventory {
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
 		return new CannonGui(this, playerInventory,this.getWorldObj());
+	}
+
+	public static void UpdatePackets(String CannonInventoryJson, int id) {
+		Gson gson = new Gson();
+		Type typeOfCannonInventory = new TypeToken<CannonInventory>() {}.getType();
+		CannonInventory temp = gson.fromJson(CannonInventoryJson, typeOfCannonInventory);
+	
+		
+		//PolycraftMinigameManager.INSTANCE=temp;
+		INSTANCE=temp;
+		
 	}
 	
 	

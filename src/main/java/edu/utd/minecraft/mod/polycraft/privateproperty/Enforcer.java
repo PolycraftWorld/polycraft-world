@@ -124,7 +124,9 @@ public abstract class Enforcer {
 		GenericMinigame, 
 		RaceMinigame,
 		FreezePlayer,		//0 meta to freeze, 1 meta to unfreeze
-		AttackWarning
+		AttackWarning,
+		Cannon
+		
 	}
 	
 	public enum ExperimentsPacketType {

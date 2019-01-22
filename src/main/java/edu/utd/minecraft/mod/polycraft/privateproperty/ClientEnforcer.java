@@ -45,6 +45,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -270,6 +271,9 @@ public class ClientEnforcer extends Enforcer {
 						}
 					case AttackWarning:
 						//AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case Cannon:
+						CannonInventory.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
 						break;
 					case Unknown:
 					default:
