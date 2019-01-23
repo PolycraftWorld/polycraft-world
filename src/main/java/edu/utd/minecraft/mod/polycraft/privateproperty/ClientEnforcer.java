@@ -1,33 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,21 +28,22 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
-import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
-import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
-import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
-import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
-import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class ClientEnforcer extends Enforcer {
 	public static final ClientEnforcer INSTANCE = new ClientEnforcer();
@@ -270,6 +254,9 @@ public class ClientEnforcer extends Enforcer {
 						}
 					case AttackWarning:
 						//AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
+					case RespawnSync:
+						ResyncHandler.INSTANCE.setResync();
 						break;
 					case Unknown:
 					default:

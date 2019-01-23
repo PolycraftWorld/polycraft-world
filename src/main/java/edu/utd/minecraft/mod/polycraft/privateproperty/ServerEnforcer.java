@@ -419,7 +419,9 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.AttackWarning, 0, null);
 	}
 	
-
+	public void sendRespawnSync(EntityPlayerMP player) {
+		sendDataPackets(DataPacketType.RespawnSync, 0, player);
+	}
 	
 	/**
 	 * Send experiment updates to players in the game

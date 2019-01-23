@@ -23,11 +23,10 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
-import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
+import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
-import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -47,9 +46,10 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
-import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
+import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -97,11 +97,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -159,6 +155,9 @@ public class ClientProxy extends CommonProxy {
 		//register scoreboard handlers
 		FMLCommonHandler.instance().bus().register(ClientScoreboard.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientScoreboard.INSTANCE);
+		
+		// Register respawn desync handler
+		FMLCommonHandler.instance().bus().register(ResyncHandler.INSTANCE);
 		//TODO: Walter add in 3D rendering code
 		registerRenderers();
 	}
