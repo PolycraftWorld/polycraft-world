@@ -19,4 +19,5 @@
 *.DS_Store
 # Here so you don't get your ass kicked.
 /forge-*-changelog.txt
+/forge-*-src.zip
 /src/main/java/com/example/examplemod
