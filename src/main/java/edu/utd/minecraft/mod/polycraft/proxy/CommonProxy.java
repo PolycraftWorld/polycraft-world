@@ -57,8 +57,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -81,7 +83,7 @@ public abstract class CommonProxy {
 																// 1
 	private static final int netMessageClientFailedDoorPass = 2; // message number
 																// 2
-	private static final int netMessageMinigame = 3; // message number
+	private static final int netMessageCannon = 3; // message number
 																// 3
 
 	private FMLEventChannel netChannel;
@@ -113,11 +115,11 @@ public abstract class CommonProxy {
 		FMLCommonHandler.instance().bus().register(this);
 	}
 	
-	public void sendMessageToServerMinigame(final int minigameid)
+	public void sendMessageToServerCannon(final boolean cannonWantsUpdate)
 	{
-		sendMessageToServer(netMessageMinigame, minigameid);
+		sendMessageToServer(netMessageCannon, cannonWantsUpdate ? 1 : 0);
 	}
-
+	
 	protected void sendMessageToServerJetPackIsFlying(final boolean jetPackIsFlying) {
 		sendMessageToServer(netMessageTypeJetPackIsFlying, jetPackIsFlying ? 1 : 0);
 	}
@@ -134,6 +136,8 @@ public abstract class CommonProxy {
 		netChannel.sendToServer(
 				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
 	}
+	
+	
 
 	@SubscribeEvent
 	public synchronized void onServerPacket(final ServerCustomPacketEvent event) {
@@ -150,7 +154,10 @@ public abstract class CommonProxy {
 			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
 			player.worldObj.setBlock((int)player.posX, (int)player.posY, (int)player.posZ, Blocks.lava, 0, 3);
 			break;
-		case netMessageMinigame:
+		case netMessageCannon:
+			EntityPlayer player1 = ((NetHandlerPlayServer) event.handler).playerEntity;
+			World world=player1.worldObj;
+			
 			
 			break;
 		default:

@@ -135,6 +135,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFreezingKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
+import edu.utd.minecraft.mod.polycraft.item.ItemIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
@@ -1262,6 +1263,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemFreezingKnockbackBomb(customObject));
 				} else if (GameID.Cleats.matches(customObject)) {
 					registerItem(customObject, new ItemCleats(customObject));
+				} else if (GameID.ItemIronCannonball.matches(customObject)) {
+					registerItem(customObject, new ItemIronCannonBall(customObject));
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

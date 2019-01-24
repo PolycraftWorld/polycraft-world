@@ -116,7 +116,8 @@ public enum GameID {
 	Cleats("1hx"),
 	TextWall("1hy"),
 	InventoryCannon("1hC"),
-	EntityIronCannonBall("1hE");
+	EntityIronCannonBall("1hE"),
+	ItemIronCannonball("1hF");
 	
 	public final String id;
 

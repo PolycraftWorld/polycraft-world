@@ -33,7 +33,7 @@ public class CannonInventory extends PolycraftInventory {
 	public double theta;
 	public double mass;
 	
-	public static CannonInventory INSTANCE = new CannonInventory();
+	
 	
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
@@ -42,13 +42,15 @@ public class CannonInventory extends PolycraftInventory {
 
 	
 	private static Inventory config;
-
+	
+	
 
 	public CannonInventory() {
 		super(PolycraftContainerType.CANNON, config);
 		this.velocity=0.1;
 		this.theta=0.0;
 		this.mass=1.0;
+		
 
 		
 	}
@@ -71,17 +73,7 @@ public class CannonInventory extends PolycraftInventory {
 		return new CannonGui(this, playerInventory,this.getWorldObj());
 	}
 
-	public static void UpdatePackets(String CannonInventoryJson, int id) {
-		Gson gson = new Gson();
-		Type typeOfCannonInventory = new TypeToken<CannonInventory>() {}.getType();
-		CannonInventory temp = gson.fromJson(CannonInventoryJson, typeOfCannonInventory);
-	
-		
-		//PolycraftMinigameManager.INSTANCE=temp;
-		INSTANCE=temp;
-		
-	}
-	
+
 	
 //	@Override
 //	public void readFromNBT(NBTTagCompound tag) {

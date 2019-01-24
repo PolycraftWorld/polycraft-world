@@ -11,6 +11,9 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.PolycraftEntityLiving;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockHardenedClay;
+import net.minecraft.block.BlockStoneBrick;
+import net.minecraft.block.BlockWood;
 import net.minecraft.block.material.Material;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -94,9 +97,14 @@ public class EntityIronCannonBall extends Entity {
             
             if (!(world.isAirBlock(x, y, z)) && !(world.getBlock(x, y, z) instanceof CannonBlock))
             {
-               // this.motionX=-this.motionX;
+            	if(world.getBlock(x, y, z) instanceof BlockWood)
+            	{
+            		
+            		world.createExplosion(this, x, y+2, z, 3, true);
+            	}
+              
             	this.setDead();
-                //this.motionZ=-this.motionZ;
+               
             }
 
             
@@ -261,8 +269,8 @@ public class EntityIronCannonBall extends Entity {
         
 		
 		World world= entity.worldObj;
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 1: X:"+Vec1.x+" , Z: "+Vec1.z));
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 2: X:"+Vec2.x+" , Z: "+Vec2.z));
+		//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 1: X:"+Vec1.x+" , Z: "+Vec1.z));
+		//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 2: X:"+Vec2.x+" , Z: "+Vec2.z));
 		
 		
 				

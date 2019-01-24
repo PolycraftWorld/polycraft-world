@@ -8,6 +8,7 @@ import cpw.mods.fml.client.config.GuiConfigEntries.DoubleEntry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -46,25 +47,26 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-46, 130, 20);
         this.velocityText.width/=2;
         velocityText.setMaxStringLength(23);
+       
         World world = this.inventory.getWorldObj();
         World w2=this.world;
         int x=this.inventory.xCoord;
         int y=this.inventory.yCoord;
         int z=this.inventory.zCoord;
-        CannonInventory tileEntity=(CannonInventory)world.getTileEntity(x, y, z);
-        velocityText.setText(Double.toString(tileEntity.velocity));
+        CannonBlock block=(CannonBlock)world.getBlock(x, y, z);
+        //velocityText.setText(Double.toString(block.INSTANCE.velocity));
         this.velocityText.setFocused(true);
         
         this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-16, 130, 20);
         this.thetaText.width/=2;
         thetaText.setMaxStringLength(23);
-        thetaText.setText(Double.toString(tileEntity.theta));
+        //thetaText.setText(Double.toString(block.INSTANCE.theta));
         //this.thetaText.setFocused(true);
         
         this.massText = new GuiTextField(this.fontRendererObj, this.width / 2 + 8, this.height/2-46, 130, 20);
         this.massText.width/=2;
         massText.setMaxStringLength(10);
-        massText.setText(Double.toString(tileEntity.mass));
+        //massText.setText(Double.toString(block.INSTANCE.mass));
         //this.massText.setFocused(true);
     	
     }
@@ -108,10 +110,11 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         int x=this.inventory.xCoord;
         int y=this.inventory.yCoord;
         int z=this.inventory.zCoord;
-        CannonInventory tileEntity=(CannonInventory)world.getTileEntity(x, y, z);
-    	tileEntity.velocity=Double.parseDouble(velocityText.getText());
-    	tileEntity.theta=Double.parseDouble(thetaText.getText());
-    	tileEntity.mass=Double.parseDouble(massText.getText());
+        CannonBlock block=(CannonBlock)world.getBlock(x, y, z);
+        //block.INSTANCE.velocity=Double.parseDouble(velocityText.getText());
+        //block.INSTANCE.theta=Double.parseDouble(thetaText.getText());
+        //block.INSTANCE.mass=Double.parseDouble(massText.getText());
+        PolycraftMod.proxy.sendMessageToServerCannon(true);     
     }
 
    
