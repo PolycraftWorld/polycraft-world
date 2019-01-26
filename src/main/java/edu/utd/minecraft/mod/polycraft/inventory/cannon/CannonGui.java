@@ -26,16 +26,23 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     private GuiTextField velocityText;
     private GuiTextField thetaText;
     private GuiTextField massText;
+    public double velocity;
+    public double theta;
+    public double mass;
     private GuiConfigEntries guiConfig;
     private DoubleEntry test2;
-    private World world;
+   	public static World world;
 	
 	
 	
-	public CannonGui(CannonInventory inventory, InventoryPlayer playerInventory, World world) {
+	public CannonGui(CannonInventory inventory, InventoryPlayer playerInventory) {
 		super(inventory, playerInventory, 225, false);
 		Texture = new ResourceLocation(PolycraftMod.MODID+":textures/gui/blank.png");
-		this.world=world;
+		//this.velocityText.setText("0.0");
+		//this.thetaText.setText("0.0");
+		//this.massText.setText("0.0");
+		
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -44,29 +51,29 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
 		super.initGui();
         buttonList.clear();
         //this.test2= new DoubleEntry(null, guiConfig, null);
-        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-46, 130, 20);
+        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-66, 130, 20);
         this.velocityText.width/=2;
         velocityText.setMaxStringLength(23);
        
-        World world = this.inventory.getWorldObj();
-        World w2=this.world;
-        int x=this.inventory.xCoord;
-        int y=this.inventory.yCoord;
-        int z=this.inventory.zCoord;
-        CannonBlock block=(CannonBlock)world.getBlock(x, y, z);
-        //velocityText.setText(Double.toString(block.INSTANCE.velocity));
+//      
+//        int x=this.inventory.xCoord;
+//        int y=this.inventory.yCoord;
+//        int z=this.inventory.zCoord;
+//        
+        //CannonInventory tileEntity=(CannonInventory)world.getTileEntity(x, y, z);
+        velocityText.setText(Double.toString(this.inventory.velocity));
         this.velocityText.setFocused(true);
         
         this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-16, 130, 20);
         this.thetaText.width/=2;
         thetaText.setMaxStringLength(23);
-        //thetaText.setText(Double.toString(block.INSTANCE.theta));
+        thetaText.setText(Double.toString(this.inventory.theta));
         //this.thetaText.setFocused(true);
         
-        this.massText = new GuiTextField(this.fontRendererObj, this.width / 2 + 8, this.height/2-46, 130, 20);
+        this.massText = new GuiTextField(this.fontRendererObj, this.width / 2 + 8, this.height/2-66, 130, 20);
         this.massText.width/=2;
         massText.setMaxStringLength(10);
-        //massText.setText(Double.toString(block.INSTANCE.mass));
+        massText.setText(Double.toString(this.inventory.mass));
         //this.massText.setFocused(true);
     	
     }
@@ -88,11 +95,11 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         int widthOfString;
         
         fontRendererObj.drawSplitString("Velocity", 
-              offsetFromScreenLeft + 36, 34, 116, 0);
+              offsetFromScreenLeft + 32, 44, 116, 0);
         fontRendererObj.drawSplitString("Angle", 
-                offsetFromScreenLeft + 36, 34, 96, 0);
+                offsetFromScreenLeft + 32, 94, 96, 0);
         fontRendererObj.drawSplitString("Mass", 
-                offsetFromScreenLeft + 36, 34, 76, 0);
+                offsetFromScreenLeft + 108, 44, 76, 0);
         this.velocityText.drawTextBox();
         this.thetaText.drawTextBox();
         this.massText.drawTextBox();
@@ -103,20 +110,29 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	double v=Double.parseDouble(velocityText.getText());
-    	double t=Double.parseDouble(thetaText.getText());
-    	double m=Double.parseDouble(massText.getText());
-        World world = this.inventory.getWorldObj();
-        int x=this.inventory.xCoord;
-        int y=this.inventory.yCoord;
-        int z=this.inventory.zCoord;
-        CannonBlock block=(CannonBlock)world.getBlock(x, y, z);
-        //block.INSTANCE.velocity=Double.parseDouble(velocityText.getText());
-        //block.INSTANCE.theta=Double.parseDouble(thetaText.getText());
-        //block.INSTANCE.mass=Double.parseDouble(massText.getText());
-        PolycraftMod.proxy.sendMessageToServerCannon(true);     
-    }
+//    	double v=Double.parseDouble(velocityText.getText());
+//    	double t=Double.parseDouble(thetaText.getText());
+//    	double m=Double.parseDouble(massText.getText());
+//    	
+//       
+    	int x=this.inventory.xCoord;
+    	int y=this.inventory.yCoord;
+    	int z=this.inventory.zCoord;
+        this.velocity=Double.parseDouble(velocityText.getText());
+        this.theta=Double.parseDouble(thetaText.getText());
+        this.mass=Double.parseDouble(massText.getText());
+    	PolycraftMod.proxy.sendMessageToServerCannon (x , y, z, velocity, theta, mass);
+    		
+        this.inventory.velocity=Double.parseDouble(velocityText.getText());
+        this.inventory.theta=Double.parseDouble(thetaText.getText());
+        this.inventory.mass=Double.parseDouble(massText.getText());
+        //this.inventory.markDirty();
 
+        
+             
+    }
+    
+    
    
     
     protected void keyTyped(char par1, int par2)

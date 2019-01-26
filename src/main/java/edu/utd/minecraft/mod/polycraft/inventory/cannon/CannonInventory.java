@@ -13,6 +13,7 @@ import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCraftingContainerGeneric;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
@@ -24,6 +25,9 @@ import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -55,6 +59,15 @@ public class CannonInventory extends PolycraftInventory {
 		
 	}
 	
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+        this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata, 3);
+        this.getWorldObj().notifyBlockOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord));
+        this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        this.markDirty();
+	}
+	
 	public static final void register(final Inventory config) {
 		CannonInventory.config = config;
 		config.containerType = PolycraftContainerType.CANNON;
@@ -70,9 +83,24 @@ public class CannonInventory extends PolycraftInventory {
 	@SideOnly(Side.CLIENT)
 	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
 		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
-		return new CannonGui(this, playerInventory,this.getWorldObj());
+		return new CannonGui(this, playerInventory);
 	}
-
+	
+//	@Override
+//	 public Packet getDescriptionPacket() {
+//	 //System.out.println("getDescriptionPacket");
+//	 NBTTagCompound tagCompound = new NBTTagCompound();
+//	 writeToNBT(tagCompound);
+//	 return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tagCompound);
+//	 }
+//	 
+	 
+//	 @Override
+//	 public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+//	 System.out.println("onDataPacket");
+//	 NBTTagCompound tag = pkt.func_148857_g();
+//	 readFromNBT(tag);
+//	 }
 
 	
 //	@Override
