@@ -14,10 +14,10 @@
 /CREDITS-fml.txt
 /.classpath
 /.project
-/forge-1.7.10-10.13.0.1160-changelog.txt
-/forge-1.7.10-10.13.0.1199-changelog.txt
 /options.txt
 /servers.dat
-/.gitignore
-forge-1.7.10-10.13.4.1558-1.7.10-changelog.txt
 *.DS_Store
+# Here so you don't get your ass kicked.
+/forge-*-changelog.txt
+/forge-*-src.zip
+/src/main/java/com/example/examplemod
