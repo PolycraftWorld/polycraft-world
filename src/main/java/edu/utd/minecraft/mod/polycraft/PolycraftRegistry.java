@@ -136,6 +136,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFreezingKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
+import edu.utd.minecraft.mod.polycraft.item.ItemIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
@@ -1061,6 +1062,8 @@ public class PolycraftRegistry {
 					TextWallInventory.register(inventory);
 				else if (GameID.InventoryPolycrafting.matches(inventory))
 					PolycraftingInventory.register(inventory);
+				else if (GameID.InventoryCannon.matches(inventory))
+					CannonInventory.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1095,6 +1098,9 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.EntityAndroid.matches(polycraftEntity)){
 					EntityAndroid.register(polycraftEntity);
+				}
+				else if (GameID.EntityIronCannonBall.matches(polycraftEntity)){
+					EntityIronCannonBall.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
@@ -1263,6 +1269,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemCleats(customObject));
 				} else if (GameID.CustomMiningHammer.matches(customObject)) {
 					registerItem(customObject, new ItemMiningHammer(customObject));
+				} else if (GameID.ItemIronCannonball.matches(customObject)) {
+					registerItem(customObject, new ItemIronCannonBall(customObject));
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

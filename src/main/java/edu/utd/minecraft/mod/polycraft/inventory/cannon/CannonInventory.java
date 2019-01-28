@@ -79,43 +79,12 @@ public class CannonInventory extends PolycraftInventory {
 		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128); 
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
-		return new CannonGui(this, playerInventory);
-	}
-	
 //	@Override
-//	 public Packet getDescriptionPacket() {
-//	 //System.out.println("getDescriptionPacket");
-//	 NBTTagCompound tagCompound = new NBTTagCompound();
-//	 writeToNBT(tagCompound);
-//	 return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tagCompound);
-//	 }
-//	 
-	 
-//	 @Override
-//	 public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-//	 System.out.println("onDataPacket");
-//	 NBTTagCompound tag = pkt.func_148857_g();
-//	 readFromNBT(tag);
-//	 }
+//	@SideOnly(Side.CLIENT)
+//	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
+//		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
+//		return new CannonGui(this, playerInventory);
+//	}
+	
 
-	
-//	@Override
-//	public void readFromNBT(NBTTagCompound tag) {
-//		super.readFromNBT(tag);
-//		this.velocity = tag.getDouble("Velocity");
-//		this.theta = tag.getDouble("Theta");
-//		this.mass = tag.getDouble("Mass");
-//	}
-//
-//	@Override
-//	public void writeToNBT(NBTTagCompound tag) {
-//		super.writeToNBT(tag);
-//		tag.setDouble("Velocity", this.velocity);
-//		tag.setDouble("Theta", this.theta);
-//		tag.setDouble("Mass", this.mass);
-//	}
 }
