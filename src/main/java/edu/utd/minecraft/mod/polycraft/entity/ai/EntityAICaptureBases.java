@@ -15,8 +15,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 
 public class EntityAICaptureBases extends EntityAIBase
 {
@@ -30,9 +32,11 @@ public class EntityAICaptureBases extends EntityAIBase
     private int counter = TICKS_TO_UPDATE;
     private int homeX, homeY, homeZ;
     private boolean goHome = false;
-    private int level = Experiment1PlayerCTB.level;
-   // public static Integer level = 0; // level 0 - passive, level 1 - balanced, level 2 - aggressive
-    
+    private boolean wanderAround = false;
+    private double xPosition;
+    private double yPosition;
+    private double zPosition;
+    private int level = Experiment1PlayerCTB.level; // level 0 - passive, level 1 - balanced, level 2 - aggressive
     
     public EntityAICaptureBases(EntityCreature p_i1650_1_, double p_i1650_2_)
     {
@@ -72,7 +76,22 @@ public class EntityAICaptureBases extends EntityAIBase
         {
         	// Passive Level (0)
         	if(level == 0) {
-        		return result = true;
+        		 Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.entityHost, 10, 7);
+
+                 if (vec3 == null)
+                 {
+                     result = false;
+                 }
+                 else
+                 {
+                     this.xPosition = vec3.xCoord;
+                     this.yPosition = vec3.yCoord;
+                     this.zPosition = vec3.zCoord;
+                     wanderAround = true;
+                     result = true;
+                 }
+                 return result;
+                 
         	}
         	
         	// Balanced Level (1)
@@ -96,7 +115,7 @@ public class EntityAICaptureBases extends EntityAIBase
 	            return result;
 	        }
 	        
-	        //Aggressive Level (2)
+	        // Aggressive Level (2)
 	        if(level == 2) {
 	        	double minDist = 999999;	//arbitrary large number for minimum dist
 	            for(FeatureBase base: bases) {
@@ -143,12 +162,12 @@ public class EntityAICaptureBases extends EntityAIBase
      */
     public void updateTask()
     {
-    	if(currentBaseTarget == null)	//don't run if we don't have a target
+    	if(currentBaseTarget == null && wanderAround == false)	//don't run if we don't have a target
     		return;
     	if(this.entityHost.worldObj.isRemote)	//don't run on the client side
             return;
     	
-    	int xPos, yPos, zPos;
+    	double xPos, yPos, zPos;
     	
     	if(goHome == true) { 
 			xPos = homeX;
@@ -156,6 +175,11 @@ public class EntityAICaptureBases extends EntityAIBase
 			zPos = homeZ;
 			goHome = false;
 		}
+    	else if (wanderAround == true) {
+    		xPos = this.xPosition;
+			yPos = this.yPosition;
+			zPos = this.zPosition;
+    	}
     	else{
     		xPos = currentBaseTarget.getxPos();
     		yPos = currentBaseTarget.getyPos() + 1;
@@ -163,19 +187,26 @@ public class EntityAICaptureBases extends EntityAIBase
     	}
     	
     	
-        double d0 = this.entityHost.getDistanceSq(xPos, yPos, zPos);
+    	double d0 = this.entityHost.getDistanceSq(xPos, yPos, zPos);
         //if(--counter <= 0) {		//if we do this operation every tick, it gets resource expensive and lags the server
-    		counter = TICKS_TO_UPDATE;
-	        if (d0 <= 17.5D)
-	        {
-	        	//if squared distance is less than 20, stop moving.  
-	            this.entityHost.getNavigator().clearPathEntity();	
-	        }
-	        else
-	        {
-	        	if(this.entityHost.getNavigator().noPath())	//the path routing takes up a lot of time, so we only want to reroute when we need to
+    	counter = TICKS_TO_UPDATE;
+	    if (d0 <= 17.5D && wanderAround == false)
+	    {
+	    //if squared distance is less than 20, stop moving.  
+	    	this.entityHost.getNavigator().clearPathEntity();	
+	    }
+	    else
+	    {
+	      	if(this.entityHost.getNavigator().noPath())	//the path routing takes up a lot of time, so we only want to reroute when we need to
+	        	if(wanderAround == true) {
 	        		this.entityHost.getNavigator().tryMoveToXYZ(xPos, yPos, zPos, this.entityMoveSpeed);
-	        }
+	        		wanderAround = false;
+	        	}	      	
+	        	else {
+	        		this.entityHost.getNavigator().tryMoveToXYZ(xPos, yPos, zPos, this.entityMoveSpeed);
+	        	}
+	      	
+	     }
         //}
         //make the entity look where it's going
         this.entityHost.getLookHelper().setLookPosition(xPos, yPos, zPos, 10.0F, 10.0F);
