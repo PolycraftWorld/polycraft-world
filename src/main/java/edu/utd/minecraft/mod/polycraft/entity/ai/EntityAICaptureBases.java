@@ -45,6 +45,7 @@ public class EntityAICaptureBases extends EntityAIBase
         this.setMutexBits(4);	//multiple AIs will not run if they have the same mutex bits
         
         //this AI should only run in experiments in dimension 8
+        //TODO Stephen fix this from crashing the server when a spawnEgg is used.
         if(this.entityHost.worldObj.provider.dimensionId != 8) {
         	throw new IllegalArgumentException("CaptureBases AI requires mob be in Dimension 8");
         }
