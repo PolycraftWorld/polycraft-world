@@ -1099,7 +1099,7 @@ public class ClientProxy extends CommonProxy {
             }
             else if (GameID.EntityAndroid.matches(polycraftEntity)){
                 RenderingRegistry.registerEntityRenderingHandler(EntityAndroid.class, new RenderPolycraftBiped(new ModelPolycraftBiped(), 0));
-
+            }
             else if (GameID.EntityIronCannonBall.matches(polycraftEntity)) {
             	RenderingRegistry.registerEntityRenderingHandler(EntityIronCannonBall.class, new RenderCannonBall());
 
