@@ -6,3 +6,5 @@ Version	  Game ID	Entity ID	Entity	Render ID	Depth	Width	Height	Type	Render Type
 1.4.7	1hj	2004	Dummy	3004	1	1	1	Passive	Model										
 1.4.7	1hm	2006	OilSlimeBallProjectile	3006	1	1	1	Custom	Model										
 1.4.9	1hn	2007	TestTerritoryFlagBoss	3007	1	1	8	Hostile	Model										
+1.4.9	1js	2008	Android	3008	1	1	2	Custom	Humanoid										
+1.4.12	1hE	2009	IronCannonBall	3009	1	1	1	Custom	Model										
