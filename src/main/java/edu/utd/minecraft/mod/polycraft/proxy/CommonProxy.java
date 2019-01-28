@@ -35,9 +35,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
@@ -86,6 +84,8 @@ public abstract class CommonProxy {
 	private static final int netMessageClientFailedDoorPass = 2; // message number
 																// 2
 	private static final int netMessageCannon = 3; // message number
+	
+	private static final int netMessageMinigame = 4; // message number
 																// 3
 
 	private FMLEventChannel netChannel;
@@ -115,11 +115,18 @@ public abstract class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
+		FMLCommonHandler.instance().bus().register(RespawnHandler.INSTANCE);
 	}
 	
 	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass) {
 		sendMessageToServer(netMessageCannon, x, y, z, velocity, theta, mass);
 	}
+	
+	public void sendMessageToServerMinigame(final int minigameid)
+	{
+		sendMessageToServer(netMessageMinigame, minigameid);
+	}
+	
 	
 	protected void sendMessageToServerJetPackIsFlying(final boolean jetPackIsFlying) {
 		sendMessageToServer(netMessageTypeJetPackIsFlying, jetPackIsFlying ? 1 : 0);
@@ -172,6 +179,9 @@ public abstract class CommonProxy {
 			cannon.velocity=velocity;
 			cannon.theta=theta;
 			cannon.mass=mass;
+			break;
+		case netMessageMinigame:
+			
 			break;
 		default:
 			break;
