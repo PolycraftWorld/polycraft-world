@@ -746,6 +746,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
+				else if (config.containerType == PolycraftContainerType.CANNON)
+				{
+					GL11.glScalef(0.05F, 0.05F, 0.05F);
+					GL11.glTranslatef(-11.1F, 1.1F, -10.1F);
+				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
 				this.inventoryModel.renderAll();
@@ -872,6 +877,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glRotatef(180f, 1f, 0, 0);
 					GL11.glRotatef(90f, 0, 1f, 0);
 					GL11.glTranslated(1, -1, 0);
+				}
+				else if (config.containerType == PolycraftContainerType.CANNON)
+				{
+					GL11.glScalef(.2F, .2F, .2F);
+					GL11.glTranslated(-22.5F, 20F, -35F);
+					GL11.glRotatef(270, 0F, 0F, 1F);
 				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);

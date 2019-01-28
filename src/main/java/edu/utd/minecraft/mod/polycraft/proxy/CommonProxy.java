@@ -24,6 +24,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -54,11 +55,14 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -81,7 +85,7 @@ public abstract class CommonProxy {
 																// 1
 	private static final int netMessageClientFailedDoorPass = 2; // message number
 																// 2
-	private static final int netMessageMinigame = 3; // message number
+	private static final int netMessageCannon = 3; // message number
 																// 3
 
 	private FMLEventChannel netChannel;
@@ -113,11 +117,10 @@ public abstract class CommonProxy {
 		FMLCommonHandler.instance().bus().register(this);
 	}
 	
-	public void sendMessageToServerMinigame(final int minigameid)
-	{
-		sendMessageToServer(netMessageMinigame, minigameid);
+	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass) {
+		sendMessageToServer(netMessageCannon, x, y, z, velocity, theta, mass);
 	}
-
+	
 	protected void sendMessageToServerJetPackIsFlying(final boolean jetPackIsFlying) {
 		sendMessageToServer(netMessageTypeJetPackIsFlying, jetPackIsFlying ? 1 : 0);
 	}
@@ -134,6 +137,13 @@ public abstract class CommonProxy {
 		netChannel.sendToServer(
 				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
 	}
+	
+	private void sendMessageToServer(final int type, final int x ,final int y, final int z, final double velocity, final double theta, final double mass) {
+		netChannel.sendToServer(
+				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(x).writeInt(y).writeInt(z).writeDouble(velocity).writeDouble(theta).writeDouble(mass).copy(), netChannelName));
+	}
+	
+	
 
 	@SubscribeEvent
 	public synchronized void onServerPacket(final ServerCustomPacketEvent event) {
@@ -150,8 +160,18 @@ public abstract class CommonProxy {
 			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
 			player.worldObj.setBlock((int)player.posX, (int)player.posY, (int)player.posZ, Blocks.lava, 0, 3);
 			break;
-		case netMessageMinigame:
-			
+		case netMessageCannon:
+			EntityPlayer player1 = ((NetHandlerPlayServer) event.handler).playerEntity;
+			int x=payload.readInt();
+			int y=payload.readInt();
+			int z=payload.readInt();
+			double velocity=payload.readDouble();
+			double theta=payload.readDouble();
+			double mass=payload.readDouble();
+			CannonInventory cannon = (CannonInventory) player1.worldObj.getTileEntity(x, y, z);
+			cannon.velocity=velocity;
+			cannon.theta=theta;
+			cannon.mass=mass;
 			break;
 		default:
 			break;

@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -85,7 +86,8 @@ public enum PolycraftContainerType {
 	FLUORESCENT_LAMP("Fluorescent Lamp"),
 	TIER_CHEST("Tier Chest"),
 	TEXT_WALL("Text Wall"),
-	POLYCRAFTING_TABLE("Polycrafting Table");
+	POLYCRAFTING_TABLE("Polycrafting Table"),
+	CANNON("Cannon");
 
 	private final String friendlyName;
 
@@ -179,6 +181,7 @@ public enum PolycraftContainerType {
 		TIER_CHEST.initialize(TierChestInventory.guiSlots);
 		TEXT_WALL.initialize(TextWallInventory.guiSlots);
 		POLYCRAFTING_TABLE.initialize(PolycraftingInventory.guiSlots);
+		CANNON.initialize(CannonInventory.guiSlots);
 	}
 
 	private void initialize(Collection<? extends ContainerSlot> slots) {

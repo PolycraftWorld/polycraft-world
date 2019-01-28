@@ -49,6 +49,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
@@ -419,6 +421,11 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.AttackWarning, 0, null);
 	}
 	
+	public void sendCannonInputs()
+	{
+		sendDataPackets(DataPacketType.Cannon, 0, null);
+	}
+	
 
 	
 	/**
@@ -580,6 +587,7 @@ public class ServerEnforcer extends Enforcer {
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 //							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
 							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
+							//: type == DataPacketType.Cannon ? gson.toJson(CannonBlock.INSTANCE)
 							: type == DataPacketType.playerID ? gson.toJson(this.playerID)
 									: gson.toJson(""));	//default packet should be blank 
 			//System.out.println("type: " + DataPacketType.);
