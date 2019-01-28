@@ -24,6 +24,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
+import edu.utd.minecraft.mod.polycraft.handler.RespawnHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
