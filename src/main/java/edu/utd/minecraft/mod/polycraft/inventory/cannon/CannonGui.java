@@ -110,23 +110,53 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-//    	double v=Double.parseDouble(velocityText.getText());
-//    	double t=Double.parseDouble(thetaText.getText());
-//    	double m=Double.parseDouble(massText.getText());
-//    	
-//       
-    	int x=this.inventory.xCoord;
-    	int y=this.inventory.yCoord;
-    	int z=this.inventory.zCoord;
-        this.velocity=Double.parseDouble(velocityText.getText());
-        this.theta=Double.parseDouble(thetaText.getText());
-        this.mass=Double.parseDouble(massText.getText());
-    	PolycraftMod.proxy.sendMessageToServerCannon (x , y, z, velocity, theta, mass);
-    		
-        this.inventory.velocity=Double.parseDouble(velocityText.getText());
-        this.inventory.theta=Double.parseDouble(thetaText.getText());
-        this.inventory.mass=Double.parseDouble(massText.getText());
-        //this.inventory.markDirty();
+    	String v=velocityText.getText();
+    	String t=thetaText.getText();
+    	String m=massText.getText();
+    	boolean test=true;
+    	//if(v.charAt(index))
+    	for(int c=0;c<v.length();c++)
+    	{
+    		if((Character.isDigit(v.charAt(c)) || v.charAt(c)=='.'))
+    		{
+    			test=false;
+    		}
+
+    	}
+    	for(int c=0;c<t.length();c++)
+    	{
+    		if((Character.isDigit(t.charAt(c)) || v.charAt(c)=='.'))
+    		{
+    			test=false;
+    		}
+    	}
+    	for(int c=0;c<m.length();c++)
+    	{
+    		if((Character.isDigit(m.charAt(c)) || v.charAt(c)=='.'))
+    		{
+    			test=false;
+    		}
+    	}
+    	
+       if(test)
+       {
+	    	int x=this.inventory.xCoord;
+	    	int y=this.inventory.yCoord;
+	    	int z=this.inventory.zCoord;
+	        this.velocity=Double.parseDouble(velocityText.getText());
+	        this.theta=Double.parseDouble(thetaText.getText());
+	        this.mass=Double.parseDouble(massText.getText());
+	    	PolycraftMod.proxy.sendMessageToServerCannon (x , y, z, velocity, theta, mass);
+	    		
+	        this.inventory.velocity=Double.parseDouble(velocityText.getText());
+	        this.inventory.theta=Double.parseDouble(thetaText.getText());
+	        this.inventory.mass=Double.parseDouble(massText.getText());
+       }
+       else
+       {
+    	   //TODO something?
+       }
+        
 
         
              

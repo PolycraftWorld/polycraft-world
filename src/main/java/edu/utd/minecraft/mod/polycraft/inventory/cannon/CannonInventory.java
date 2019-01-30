@@ -79,12 +79,12 @@ public class CannonInventory extends PolycraftInventory {
 		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128); 
 	}
 
-//	@Override
-//	@SideOnly(Side.CLIENT)
-//	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-//		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
-//		return new CannonGui(this, playerInventory);
-//	}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
+		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		return new CannonGui(this, playerInventory);
+	}
 	
 
 }
