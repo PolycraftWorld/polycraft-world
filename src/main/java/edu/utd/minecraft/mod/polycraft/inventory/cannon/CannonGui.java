@@ -114,7 +114,10 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     	String t=thetaText.getText();
     	String m=massText.getText();
     	boolean test=true;
-    	//if(v.charAt(index))
+    	if(v.length()==0 || t.length()==0 || m.length()==0)
+    	{
+    		test=false;
+    	}
     	for(int c=0;c<v.length();c++)
     	{
     		if(!(Character.isDigit(v.charAt(c)) || v.charAt(c)=='.'))
