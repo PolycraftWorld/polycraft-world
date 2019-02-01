@@ -140,8 +140,13 @@ public class CannonBlock extends PolycraftInventoryBlock {
         	
         }
     }
-	
- 
+    
+    @Override
+    public int tickRate(World p_149738_1_)
+    {
+        return 20;
+    }
+
     /**
      * Gets the block's texture. Args: side, meta
      */
