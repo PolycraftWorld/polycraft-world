@@ -20,6 +20,7 @@ public class HPBlock extends Block implements ITileEntityProvider{
 	public HPBlock(CustomObject config) {
 		super(Material.iron);
 		this.setCreativeTab(CreativeTabs.tabTools);
+		this.setBlockName("HP Block");
 		this.setBlockTextureName(PolycraftMod.getAssetName("hpblock"));
 	}
 	
