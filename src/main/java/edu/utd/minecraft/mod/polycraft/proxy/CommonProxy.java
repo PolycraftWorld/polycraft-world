@@ -331,6 +331,7 @@ public abstract class CommonProxy {
 				//Experiment Servers DO NOT allow for players to sync their inventories
 				if(System.getProperty("isExperimentServer") != null) {
 					ExperimentManager.INSTANCE.onPlayerTick(tick);
+					tick.player.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "False");	
 				}else {
 				onPlayerTickServerSyncInventory(tick.player, playerState);
 				}
