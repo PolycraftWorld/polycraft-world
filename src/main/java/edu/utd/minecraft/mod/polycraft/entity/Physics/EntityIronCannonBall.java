@@ -19,6 +19,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
@@ -100,7 +101,8 @@ public class EntityIronCannonBall extends Entity {
             	if(world.getBlock(x, y, z) instanceof BlockWood)
             	{
             		
-            		world.createExplosion(this, x, y+2, z, 3, true);
+            		world.createExplosion(this, x, y, z, 0, true);
+            		world.setBlock(x, y, z, Blocks.air);
             	}
               
             	this.setDead();

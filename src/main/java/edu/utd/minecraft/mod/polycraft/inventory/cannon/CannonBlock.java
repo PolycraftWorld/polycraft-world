@@ -95,8 +95,8 @@ public class CannonBlock extends PolycraftInventoryBlock {
             
             cannonBall.mass=mass;
             
-            cannonBall.motionX=velocity*Math.cos(rad);
-            cannonBall.motionZ=velocity*Math.sin(rad);
+            cannonBall.motionX=velocity*Math.cos(rad)/20;
+            cannonBall.motionZ=velocity*Math.sin(rad)/20;
             
 //            
             

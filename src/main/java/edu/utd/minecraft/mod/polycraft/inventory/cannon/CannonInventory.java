@@ -51,7 +51,7 @@ public class CannonInventory extends PolycraftInventory {
 
 	public CannonInventory() {
 		super(PolycraftContainerType.CANNON, config);
-		this.velocity=0.1;
+		this.velocity=1.0;
 		this.theta=0.0;
 		this.mass=1.0;
 		
