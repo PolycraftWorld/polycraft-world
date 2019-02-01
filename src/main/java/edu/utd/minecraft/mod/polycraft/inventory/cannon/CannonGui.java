@@ -125,14 +125,14 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     	}
     	for(int c=0;c<t.length();c++)
     	{
-    		if(!(Character.isDigit(t.charAt(c)) || v.charAt(c)=='.'))
+    		if(!(Character.isDigit(t.charAt(c)) || t.charAt(c)=='.'))
     		{
     			test=false;
     		}
     	}
     	for(int c=0;c<m.length();c++)
     	{
-    		if(!(Character.isDigit(m.charAt(c)) || v.charAt(c)=='.'))
+    		if(!(Character.isDigit(m.charAt(c)) || m.charAt(c)=='.'))
     		{
     			test=false;
     		}
