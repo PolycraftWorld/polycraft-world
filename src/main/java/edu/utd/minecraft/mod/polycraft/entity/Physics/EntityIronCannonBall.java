@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.vec.Vector3;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.PolycraftEntityLiving;
@@ -98,14 +99,25 @@ public class EntityIronCannonBall extends Entity {
             
             if (!(world.isAirBlock(x, y, z)) && !(world.getBlock(x, y, z) instanceof CannonBlock))
             {
-            	if(world.getBlock(x, y, z) instanceof BlockWood)
+            	
+            	if(world.getBlock(x, y, z) instanceof BlockPolymer)
             	{
             		
-            		world.createExplosion(this, x, y, z, 0, true);
-            		world.setBlock(x, y, z, Blocks.air);
+            		this.motionX=-this.motionX;
+            		this.motionZ=-this.motionZ;
             	}
-              
-            	this.setDead();
+            	else
+            	{
+            	
+	            	if(world.getBlock(x, y, z) instanceof BlockWood)
+	            	{
+	            		
+	            		world.createExplosion(this, x, y, z, 0, true);
+	            		world.setBlock(x, y, z, Blocks.air);
+	            	}
+
+	            	this.setDead();
+            	}
                
             }
 
@@ -225,10 +237,15 @@ public class EntityIronCannonBall extends Entity {
 
 		double U21= VecV2.mag()*Math.cos(A2);
 		double U22= VecV2.mag()*Math.sin(A2);
+		
+		double test1 = (1/(m1+m2));
+		double test2 = (m1-m2)*U12;
+		double test3 = -2*m2*U21;
+		
+		double test4=test1*(test2+test3);
 
-
-		double V12=Math.abs((1/(m1+m2))*((m1-m2)*U12 -2*m2*U21));
-		double V21=Math.abs((1/(m1+m2))*((m1-m2)*U21 +2*m2*U12));
+		double V12=Math.abs( (1/(m1+m2))*((m1-m2)*U12 -2*m2*U21) );
+		double V21=Math.abs( (1/(m1+m2))*((m1-m2)*U21 +2*m1*U12) );
 		
 		
 		Vector3 VecU12=VecImpact1.normalize();
