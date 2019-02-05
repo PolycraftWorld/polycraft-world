@@ -6,7 +6,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -17,6 +19,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -30,19 +34,27 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
+import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentFlatCTB extends Experiment{
-	protected ArrayList<Base> bases= new ArrayList<Base>();
+	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	public static int[][] spawnlocations = new int[4][3];
+	public static LinkedList<Vec3> chests = new LinkedList<Vec3>();
 	public static boolean hasBeenGenerated = false;
 	
 	private static final ItemStack[] armors = {
@@ -69,8 +81,9 @@ public class ExperimentFlatCTB extends Experiment{
 	public int maxTicks = 12000; //Server drops ticks?
 	//private float MAXSCORE = 1000; 
 	private int halfTimeTicks = maxTicks/2; //(5 minutes)
-	private int maxWaitTimeHalfTime = halfTimeTicks;
+	//private int maxWaitTimeHalfTime = halfTimeTicks;
 	private int halfTimeTicksRemaining = 2400; //2 minutes
+	private int maxWaitTimeHalfTime = halfTimeTicksRemaining;
 	//private int time
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
@@ -80,6 +93,12 @@ public class ExperimentFlatCTB extends Experiment{
 	private int updateScoreOnTickRate = 20;
 	private int ownedBaseScoreBonusOnTicks = 5;
 	private int WAITSPAWNTICKS = 400;
+	private int ticksToUpdateChests = 200;	//default 10 seconds to update all chest item stacks
+	private int itemKBBChance = 70;		//default 70% chance to spawn Knockback bomb 
+	private int itemIceChance = 30;		//default 30% chance to spawn packed ice
+	private int itemWoodChance = 10;	//default 10% chance to spawn wood
+	private int itemNRChance = 10;		//default 10% chance to spawn natural rubber
+	private int itemAlumChance = 10;	//default 10% chance to spawn aluminum 
 	//public static int maxPlayersNeeded = 4;
 	
 	private String stringToSend = "";
@@ -112,19 +131,24 @@ public class ExperimentFlatCTB extends Experiment{
 //				bases.add(new Base(x, yPos, z, box, Color.GRAY));
 //			}
 //		}
-		int y = yPos + 7;
-		int x_offset = 28;
+		int y = yPos + 8;
+		int x_offset = 31;
 		BoundingBox box = new BoundingBox(xPos + 25.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 25 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 62.5 + x_offset, zPos + 72.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 62 + x_offset, y, zPos + 72, box, Color.GRAY));
 		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 114.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 114, box, Color.GRAY));
 		box = new BoundingBox(xPos + 44.5 + x_offset, zPos + 30.5, 6,y, y+1, Color.GRAY);
-		bases.add(new Base(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
+		bases.add(new FeatureBase(xPos + 44 + x_offset, y, zPos + 30, box, Color.GRAY));
 	
 		currentState = State.WaitingToStart;
-		
+
+		//add extra chests
+		chests.add(Vec3.createVectorHelper(xPos + 28 + x_offset, y, zPos + 97));
+		chests.add(Vec3.createVectorHelper(xPos + 59 + x_offset, y, zPos + 97));
+		chests.add(Vec3.createVectorHelper(xPos + 26 + x_offset, y, zPos + 57));
+		chests.add(Vec3.createVectorHelper(xPos + 60 + x_offset, y, zPos + 57));
 	}
 	
 	@Override
@@ -136,7 +160,7 @@ public class ExperimentFlatCTB extends Experiment{
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
-			for(Base base: bases){
+			for(FeatureBase base: bases){
 				base.setRendering(true);
 			}
 			for(Team team: scoreboard.getTeams()) {
@@ -232,19 +256,22 @@ public class ExperimentFlatCTB extends Experiment{
 						player.inventory.mainInventory = new ItemStack[36];
 						player.inventory.armorInventory = armor;
 						//set health and food for all players
+						player.setGameType(WorldSettings.GameType.ADVENTURE);
 						player.setHealth(20); //provide players maximum health
-						//player.getFoodStats().setFoodLevel(20);
+						player.getFoodStats().addStats(20, 40);
 						//give players a stick with knockback == 5.
 						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
 						item.addEnchantment(Enchantment.knockback, 5); //give them a knockback of 5.
 						
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
-						ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+						//ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
+						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
-						player.inventory.addItemStackToInventory(fkb);
+						//player.inventory.addItemStackToInventory(fkb);
+						player.inventory.addItemStackToInventory(carrot);
 					}
 					
 					//keep the chunks loaded after players enter
@@ -298,6 +325,17 @@ public class ExperimentFlatCTB extends Experiment{
 				
 				currentState = State.Ending;
 			
+			}
+			
+			if(tickCount % ticksToUpdateChests == 0) {
+				for(Vec3 chestPos: chests) {
+					TileEntity entity = (TileEntity) world.getTileEntity((int)chestPos.xCoord, (int)chestPos.yCoord , (int)chestPos.zCoord);
+					if(entity != null && entity instanceof TileEntityChest) {
+						//clear chest contents.
+						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
+						chestAddRandMats(chest, tickCount > this.halfTimeTicks);
+					}
+				}
 			}
 			
 //			else if(tickCount % 600 == 0) {
@@ -392,7 +430,7 @@ public class ExperimentFlatCTB extends Experiment{
 					//clear player inventory
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congraduations!! You Won!!"));
+						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 					}
@@ -408,7 +446,13 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];
-					player.setHealth(20); //provide players maximum health
+					
+					player.setGameType(WorldSettings.GameType.SURVIVAL); //incase the player changed their mode, otherwise, the foodlevel will throw a null pointer
+					
+					player.heal(19); //provide players maximum health
+					
+					player.getFoodStats().addStats(20, 40);
+					
 					//player.getFoodStats().setFoodLevel(20);
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				}
@@ -472,7 +516,7 @@ public class ExperimentFlatCTB extends Experiment{
 	}
 
 	private void updateBaseStates2() {
-		for(Base base : bases) {
+		for(FeatureBase base : bases) {
 			
 			int playerCount = 0;
 			switch(base.currentState) {
@@ -483,16 +527,16 @@ public class ExperimentFlatCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//base.tickCount++;
 						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
-						base.currentState = Base.State.Occupied;
-						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getRed()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getGreen()/255.0f,
-								(this.scoreboard.getTeam(base.getCurrentTeam())).getColor().getBlue()/255.0f,
+						base.currentState = FeatureBase.State.Occupied;
+						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
+								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
-				if(base.currentState!=Base.State.Neutral) {	//push update to all players
+				if(base.currentState!=FeatureBase.State.Neutral) {	//push update to all players
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -507,9 +551,9 @@ public class ExperimentFlatCTB extends Experiment{
 					if(base.isInBase(player)) {
 						//noPlayers = false;
 						playerCount++;
-						if (base.getCurrentTeam() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
 								//reset case
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.setCurrentTeam(null);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
@@ -523,47 +567,47 @@ public class ExperimentFlatCTB extends Experiment{
 				}
 				if(playerCount==0) {
 					//case no one in the previously occupied base:
-					base.currentState = Base.State.Neutral;
+					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
-					base.currentState = Base.State.Claimed;
-					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+					base.currentState = FeatureBase.State.Claimed;
+					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 					base.tickCount=0;
 					//TODO: send score update for claiming here.
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.claimBaseScoreBonus);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
 					//TODO: Add Fireworks
 //					ItemStack item= new ItemStack(new ItemFirework());
 //					item.getItem().
 //					EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(world, base.xPos, base.yPos, base.zPos, item);
 //		            world.spawnEntityInWorld(entityfireworkrocket);
 				}
-				if(base.currentState != Base.State.Occupied) {
+				if(base.currentState != FeatureBase.State.Occupied) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
 				}
 				break;
 			case Claimed:
-				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeam())).getColor());
+				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
-					this.scoreboard.updateScore(base.getCurrentTeam(), this.ownedBaseScoreBonusOnTicks);
+					this.scoreboard.updateScore(base.getCurrentTeamName(), this.ownedBaseScoreBonusOnTicks);
 				}
 				//playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeam())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
 							base.tickCount++; //this goes faster for two players!
 							//alert players that a user is stealing their base
 							if(base.tickCount%20==0) {
 								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Reset to Neutral in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
-								alertTeam(this.scoreboard.getTeam(base.getCurrentTeam()));
+								alertTeam(this.scoreboard.getTeam(base.getCurrentTeamName()));
 							}
 							if(base.tickCount>=this.ticksToClaimBase) {
-								base.currentState = Base.State.Neutral;
+								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
 								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
@@ -576,7 +620,7 @@ public class ExperimentFlatCTB extends Experiment{
 					base.tickCount = 0;
 				}
 				
-				if(base.currentState != Base.State.Claimed) {
+				if(base.currentState != FeatureBase.State.Claimed) {
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP)player);
 					}
@@ -593,7 +637,7 @@ public class ExperimentFlatCTB extends Experiment{
 	private void alertTeam(Team team) {
 		for(String player: team.getPlayers()) {
 			EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-			playerEntity.addChatMessage(new ChatComponentText("\\u00A74Alert: Someone is stealing your base!"));
+			playerEntity.addChatMessage(new ChatComponentText("\u00A74Alert: Someone is stealing your base!"));
 		}
 	}
 
@@ -601,7 +645,7 @@ public class ExperimentFlatCTB extends Experiment{
 	public void onClientTickUpdate(){
 		if(currentState == State.Starting){
 			if(tickCount == 0){
-				for(Base base: bases)
+				for(FeatureBase base: bases)
 					base.setRendering(true);
 				tickCount++;
 			}
@@ -640,7 +684,7 @@ public class ExperimentFlatCTB extends Experiment{
 	
 	private final String prepBoundingBoxUpdates() {
 		Gson gson = new Gson();
-		Type gsonType = new TypeToken<Base[]>(){}.getType();
+		Type gsonType = new TypeToken<FeatureBase[]>(){}.getType();
 		final String updateScoreJson = gson.toJson(this.bases.toArray(), gsonType);
 		return updateScoreJson;
 	}
@@ -649,13 +693,13 @@ public class ExperimentFlatCTB extends Experiment{
 	protected void generateArea(){
 		super.generateArea();	//generate the base flat area
 		super.generateSpectatorBox();
-		for(Base base: bases){	//generate bases
+		for(FeatureBase base: bases){	//generate bases
 			base.generate(world);
 		}
 	}
 	
-	private Base isPlayerInAnyBase(EntityPlayerMP player){
-		for(Base base: bases){
+	private FeatureBase isPlayerInAnyBase(EntityPlayerMP player){
+		for(FeatureBase base: bases){
 			if(base.isInBase((Entity) player))
 				return base;
 		}
@@ -664,7 +708,7 @@ public class ExperimentFlatCTB extends Experiment{
 	
 	@Override
 	public void render(Entity entity){
-		for(Base base: bases){
+		for(FeatureBase base: bases){
 			if(base.isInBase(entity)){
 				base.setColor(Color.BLUE);
 			}else{
@@ -709,10 +753,89 @@ public class ExperimentFlatCTB extends Experiment{
 	public int getWAITSPAWNTICKS() {
 		return WAITSPAWNTICKS;
 	}
+	
+	public int getTicksToUpdateChests() {
+		return ticksToUpdateChests;
+	}
+
+	public void setTicksToUpdateChests(int ticksToUpdateChests) {
+		this.ticksToUpdateChests = ticksToUpdateChests;
+	}
+
+	public int getItemKBBChance() {
+		return itemKBBChance;
+	}
+
+	public void setItemKBBChance(int itemKBBChance) {
+		this.itemKBBChance = itemKBBChance;
+	}
+
+	public int getItemIceChance() {
+		return itemIceChance;
+	}
+
+	public void setItemIceChance(int itemIceChance) {
+		this.itemIceChance = itemIceChance;
+	}
+
+	public int getItemWoodChance() {
+		return itemWoodChance;
+	}
+
+	public void setItemWoodChance(int itemWoodChance) {
+		this.itemWoodChance = itemWoodChance;
+	}
+
+	public int getItemNRChance() {
+		return itemNRChance;
+	}
+
+	public void setItemNRChance(int itemNRChance) {
+		this.itemNRChance = itemNRChance;
+	}
+
+	public int getItemAlumChance() {
+		return itemAlumChance;
+	}
+
+	public void setItemAlumChance(int itemAlumChance) {
+		this.itemAlumChance = itemAlumChance;
+	}
+	
+	/**
+	 * Takes in a chest and fills it randomly with materials for CTB experiments
+	 * If halftime has already happened, materials for cleets will spawn as well
+	 * @return Void
+	 */
+	private void chestAddRandMats(TileEntityChest entity, boolean isHalftimeOver) {
+		Item kbb = PolycraftRegistry.getItem("Knockback Bomb");
+		Item ice = Item.getItemFromBlock(Block.getBlockFromName("packed_ice"));
+		Item wood = Item.getItemFromBlock(Block.getBlockById(17)); //Oak Wood Logs
+		Item aluminum = Item.getItemFromBlock(PolycraftRegistry.getBlock("Block of Aluminum"));
+		Item nr = Item.getItemFromBlock(PolycraftRegistry.getBlock("Block (Natural Rubber)"));
+		
+		WeightedRandomChestContent[] chestContents = 
+				new WeightedRandomChestContent[] 
+						{new WeightedRandomChestContent(kbb, 0, 3, 5, itemKBBChance), 
+						new WeightedRandomChestContent(ice, 0, 2, 5, itemIceChance), 
+						new WeightedRandomChestContent(wood, 0, 1, 2, itemWoodChance), 
+						new WeightedRandomChestContent(aluminum, 0, 1, 2, itemAlumChance), 
+						new WeightedRandomChestContent(nr, 0, 1, 2, itemNRChance)};
+		
+		WeightedRandomChestContent.generateChestContents(new Random(), chestContents, entity, 5);
+		
+	}
 
 	@Override
 	protected void updateParams(ExperimentParameters params) {
 		//TODO: update Inventories and Chests
+		this.ticksToUpdateChests = params.extraParameters.get("Chest: Update Interval")[0]*20;
+		this.itemKBBChance = params.extraParameters.get("Chest: KBB wt")[0];
+		this.itemIceChance = params.extraParameters.get("Chest: Ice wt")[0];
+		this.itemWoodChance = params.extraParameters.get("Chest: Wood wt")[0];
+		this.itemNRChance = params.extraParameters.get("Chest: Rubber wt")[0];
+		this.itemAlumChance = params.extraParameters.get("Chest: Aluminum wt")[0];
+		
 		//timing
 		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;
 		this.halfTimeTicksRemaining = params.timingParameters.get("Sec: Half Time")[0] * 20;
@@ -726,9 +849,13 @@ public class ExperimentFlatCTB extends Experiment{
 		this.ownedBaseScoreBonusOnTicks = (int) Math.round(Float.parseFloat(params.scoringParameters.get("Pts: Owned Base")[0].toString()));
 		this.ticksToClaimBase = (int) Math.round((Float.parseFloat(params.scoringParameters.get("Sec: Claim Base")[0].toString()))* 20);
 		
+		if(this.ticksToClaimBase == 0) {
+			this.ticksToClaimBase = 5;
+		}
+		
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
-		this.maxWaitTimeHalfTime = halfTimeTicks;
+		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;
 		System.out.println("New Params installed");
 		ExperimentManager.metadata.get(this.id - 1).updateParams(this.id);
 		ExperimentManager.sendExperimentUpdates();

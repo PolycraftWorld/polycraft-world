@@ -43,8 +43,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.experiment.Base;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -75,7 +75,7 @@ public class ClientEnforcer extends Enforcer {
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
-	public ArrayList<Base> baseList = new ArrayList<Base>();
+	public ArrayList<FeatureBase> baseList = new ArrayList<FeatureBase>();
 	
 	private final Minecraft client;
 
@@ -195,9 +195,11 @@ public class ClientEnforcer extends Enforcer {
 						switch(pendingDataPacketTypeMetadata) {
 						case 0:	//Player SHOULD see the gui
 							this.needsToSeeConsentForm = true;
+							GuiConsent.consent = false;
 							break;
 						case 1:	//Player should not see the gui
 							this.needsToSeeConsentForm = false;
+							GuiConsent.consent = true;
 							break;
 						default:
 							break;
@@ -478,12 +480,12 @@ public class ClientEnforcer extends Enforcer {
 
 	private void updateExperimentalBoundingBox(String decompressedJson) {
 		Gson gson = new Gson();
-		this.baseList = new ArrayList<Base>(Arrays.asList((Base[]) gson.fromJson(decompressedJson, new TypeToken<Base[]>() {}.getType())));
+		this.baseList = new ArrayList<FeatureBase>(Arrays.asList((FeatureBase[]) gson.fromJson(decompressedJson, new TypeToken<FeatureBase[]>() {}.getType())));
 		PolycraftMod.logger.debug(this.baseList.toString());
 		final EntityPlayer player = client.thePlayer;
 		if(!baseList.isEmpty() && player.dimension == 8) {
 			//
-			for(Base base: this.baseList){
+			for(FeatureBase base: this.baseList){
 				if(base.isInBase(client.thePlayer)){
 					base.setColor(base.getColor());
 				}else{

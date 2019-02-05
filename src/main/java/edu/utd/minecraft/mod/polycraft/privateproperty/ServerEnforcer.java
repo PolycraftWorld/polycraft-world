@@ -346,8 +346,15 @@ public class ServerEnforcer extends Enforcer {
 								"%s/private_properties/worlds/include/%s/",
 								portalRestUrl, event.world.getWorldInfo()
 										.getWorldName());
-				updatePrivateProperties(NetUtil.getText(url), true, true);
-				sendDataPackets(DataPacketType.PrivateProperties, 1);
+				
+				NetUtil util = new NetUtil();
+				NetUtil.ThreadedNetUtil masterThread = util.getNewThreadUtil();
+				masterThread.getPrivateProperties(url, true);
+				
+				
+				
+//				updatePrivateProperties(NetUtil.getText(url), true, true);
+//				sendDataPackets(DataPacketType.PrivateProperties, 1);
 
 				url = portalRestUrl.startsWith("file:") ? portalRestUrl
 						+ "privatepropertiesexclude.json"
@@ -358,8 +365,12 @@ public class ServerEnforcer extends Enforcer {
 								"%s/private_properties/worlds/exclude/%s/",
 								portalRestUrl, event.world.getWorldInfo()
 										.getWorldName());
-				updatePrivateProperties(NetUtil.getText(url), false, true);
-				sendDataPackets(DataPacketType.PrivateProperties, 0);
+				
+				NetUtil.ThreadedNetUtil nonMasterThread = util.getNewThreadUtil();
+				nonMasterThread.getPrivateProperties(url, false);
+				
+//				updatePrivateProperties(NetUtil.getText(url), false, true);
+//				sendDataPackets(DataPacketType.PrivateProperties, 0);
 			} catch (final Exception e) {
 				// TODO set up a log4j mapping to send emails on error messages
 				// (via mandrill)
@@ -903,5 +914,13 @@ public class ServerEnforcer extends Enforcer {
 			e.printStackTrace();
 			return "Error";
 		}
+	}
+
+	public void sendPrivateProperties(String privatePropertyJSON, boolean isMasterWorld) {
+		// TODO Auto-generated method stub
+		this.updatePrivateProperties(privatePropertyJSON, isMasterWorld, true);
+		sendDataPackets(DataPacketType.PrivateProperties, isMasterWorld ? 1 : 0);
+		
+		
 	}
 }

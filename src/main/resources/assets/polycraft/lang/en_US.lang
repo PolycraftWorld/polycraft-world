@@ -5352,6 +5352,8 @@ container.1ht=Tier Chest
 tile.1ht.name=Tier Chest
 container.1hy=Text Wall
 tile.1hy.name=Text Wall
+container.1hA=Polycrafting Table
+tile.1hA.name=Polycrafting Table
 item.3l.name=Metal Screw
 item.3m.name=Bucket (Crude Oil)
 item.3n.name=Flame Tosser
@@ -5477,3 +5479,4 @@ gui.consent.more=Is that the only person?
 gui.consent.question6=Are you willing to share your anonymous behavior data with Polycraft World?
 gui.consent.nonegiven=Thanks for your interest! You can continue to enter and play various minigames in our servers. We are currently limiting our research to participants who consent to share their behavioral data. If you would like to change your mind, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Have fun in Polycraft World!
 gui.consent.finished=Thank you! If you would like to withdraw consent, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Welcome to Polycraft World!
+

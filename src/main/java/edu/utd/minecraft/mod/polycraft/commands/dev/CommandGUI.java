@@ -65,7 +65,9 @@ public class CommandGUI  extends CommandBase{
 		if (!world.isRemote) 
         { 
             //Client Side
-			PolycraftMod.proxy.openConsentGui((EntityPlayer) player, (int) player.posX, (int) player.posY, (int) player.posZ);
+			//PolycraftMod.proxy.openConsentGui((EntityPlayer) player, (int) player.posX, (int) player.posY, (int) player.posZ);
+			PolycraftMod.proxy.openTutorialGui((EntityPlayer)player);
+        
         } 
 		else
 		{

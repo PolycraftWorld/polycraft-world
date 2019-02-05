@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class Team {
 	private String name;
-	private int id, x, y, z;;
+	private int id, x, y, z;
 	//protected final Collection<EntityPlayerMP> players = Lists.newLinkedList();	//List of players participating in experiment instance
 	protected final Collection<String> players = Lists.newLinkedList();
 	private Color color;

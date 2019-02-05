@@ -698,6 +698,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(0.6F, 0.6F, 0.6F);
 					GL11.glTranslatef(0.25F, 0F, 0F);
 				}
+				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
+				{
+					GL11.glScalef(0.6F, 0.6F, 0.6F);
+					GL11.glTranslatef(0.8F, 0F, 2F);
+				}
 				else if (config.containerType == PolycraftContainerType.TRADING_HOUSE)
 				{
 					GL11.glScalef(0.4F, 0.4F, 0.4F);
@@ -830,6 +835,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
 					GL11.glTranslated(4F,0,0); //y axis
+				}
+				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
+				{
+					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+					GL11.glTranslated(-1F,0F,0F); //y axis
 				}
 				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
 				{

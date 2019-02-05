@@ -48,8 +48,8 @@ public class ExperimentManager {
 	//read the schematic file only once.
 	short n = 0;
 	Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new byte[] {0});
-	public Schematic stoop = sch.get("stoopUpdated.psm");
-	public Schematic flat_field = sch.get("flatctb.psm");
+	public Schematic stoop = sch.get("stoopWithCrafting.psm");
+	public Schematic flat_field = sch.get("flatWithCrafting.psm");
 	
 	/**
 	 * Internal class that keeps track of all experiments
@@ -88,7 +88,7 @@ public class ExperimentManager {
 			if(type instanceof ExperimentCTB) {
 				this.expName = "Experiment B: " + type.id;
 				this.expType = "Stoop";
-			}else if(type instanceof ExperimentFlatCTB) {
+			}else {
 				this.expName = "Experiment A: " + type.id;
 				this.expType = "Flat"; //TODO: Declare these names as static within the class.
 			}
@@ -195,7 +195,7 @@ public class ExperimentManager {
 			boolean areAnyActive4x = false;
 			boolean isFlatActive2x = false;
 			boolean isFlatActive4x = false;
-			//boolean areAnyActive8x = false;
+			boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onServerTickUpdate();
@@ -227,12 +227,17 @@ public class ExperimentManager {
 					
 					}else if(ex2.expType.equals("Flat")) {
 						switch(ex2.playersNeeded) {
+						case 1:
+							isFlatActive2x = true;
+							break;
 						case 2:
 							isFlatActive2x = true;
 							break;
 						case 4:
 							isFlatActive4x = true;
 							break;
+						case 8:
+							areAnyActive8x = true;
 						default:
 							break;
 						}
@@ -246,7 +251,8 @@ public class ExperimentManager {
 			if(!isFlatActive2x) {
 				int nextID = this.getNextID();
 				int numChunks = 8;
-				ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
+				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
+				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
 				this.registerExperiment(nextID, newExpFlat2x);
 			}
 			
@@ -257,7 +263,7 @@ public class ExperimentManager {
 				
 				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
 				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
+//				newExpCTB2x.setTeamSize(4);
 				this.registerExperiment(nextID, newExpCTB2x);
 				//sendExperimentUpdates();
 			}
@@ -279,16 +285,16 @@ public class ExperimentManager {
 				this.registerExperiment(nextID, newExpCTB4x);
 				//sendExperimentUpdates();
 			}
-//			if(!areAnyActive8x) {
-//				int nextID = this.getNextID();
-//				int numChunks = 8;
-//				ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-//				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-//				//newExpCTB1.setTeamsNeeded(1);
-//				//newExpCTB1.setTeamSize(1);
-//				this.registerExperiment(nextID, newExpCTB8x);
-//				//sendExperimentUpdates(); //do we need this??
-//			}
+			if(!areAnyActive8x) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				ExperimentFlatCTB newExpCTB8x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 4);
+				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
+				//newExpCTB1.setTeamsNeeded(1);
+				//newExpCTB1.setTeamSize(1);
+				this.registerExperiment(nextID, newExpCTB8x);
+				//sendExperimentUpdates(); //do we need this??
+			}
 
 		}
 	}
