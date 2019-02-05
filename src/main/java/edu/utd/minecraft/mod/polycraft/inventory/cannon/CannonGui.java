@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
-	private final int ImageHeight = 250;
+	private final int ImageHeight = 200;
     private final int ImageWidth = 200;
     ResourceLocation Texture;
     private GuiButton buttonDone;
@@ -36,7 +36,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	
 	
 	public CannonGui(CannonInventory inventory, InventoryPlayer playerInventory) {
-		super(inventory, playerInventory, 225, false);
+		super(inventory, playerInventory, 210, false);
 		Texture = new ResourceLocation(PolycraftMod.MODID+":textures/gui/blank.png");
 		//this.velocityText.setText("0.0");
 		//this.thetaText.setText("0.0");
@@ -95,11 +95,11 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         int widthOfString;
         
         fontRendererObj.drawSplitString("Velocity", 
-              offsetFromScreenLeft + 32, 44, 116, 0);
+              offsetFromScreenLeft + 32, 50, 116, 0);
         fontRendererObj.drawSplitString("Angle", 
-                offsetFromScreenLeft + 32, 94, 96, 0);
+                offsetFromScreenLeft + 32, 100, 96, 0);
         fontRendererObj.drawSplitString("Mass", 
-                offsetFromScreenLeft + 108, 44, 76, 0);
+                offsetFromScreenLeft + 108, 50, 76, 0);
         this.velocityText.drawTextBox();
         this.thetaText.drawTextBox();
         this.massText.drawTextBox();
