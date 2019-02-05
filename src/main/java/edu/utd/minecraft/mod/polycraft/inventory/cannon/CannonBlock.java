@@ -87,8 +87,8 @@ public class CannonBlock extends PolycraftInventoryBlock {
         	cannonBall = new EntityIronCannonBall(world);
         	cannonBall.forceSpawn=true;
         	
-            double x1= 1*Math.cos(rad);
-            double z1= 1*Math.sin(rad);
+            double x1= 1.1*Math.cos(rad);
+            double z1= 1.1*Math.sin(rad);
         	
         	cannonBall.setPosition((double)x+.5+x1, (double)y+.5, (double)z+.5+z1);
             world.spawnEntityInWorld(cannonBall);
@@ -96,6 +96,7 @@ public class CannonBlock extends PolycraftInventoryBlock {
             cannonBall.mass=mass;
             
             cannonBall.motionX=velocity*Math.cos(rad)/20;
+            
             cannonBall.motionZ=velocity*Math.sin(rad)/20;
             
 //            

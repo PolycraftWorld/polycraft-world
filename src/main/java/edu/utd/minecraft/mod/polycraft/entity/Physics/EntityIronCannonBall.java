@@ -36,6 +36,7 @@ public class EntityIronCannonBall extends Entity {
 	
 	public double mass=5.0;
 	private static PolycraftEntity config;
+	//public double acc=-9.8/200;
 	
 
 	public EntityIronCannonBall(World p_i1582_1_) {
@@ -91,10 +92,17 @@ public class EntityIronCannonBall extends Entity {
 		if (!this.worldObj.isRemote)
         {
 			
+			if(this.ticksExisted>600)
+			{
+				this.setDead();
+				
+			}
+			
             World world= this.worldObj;
             int x=(int) Math.floor(this.posX);
             int y=(int) Math.floor(this.posY);
             int z=(int) Math.floor(this.posZ);
+            //this.motionY+=this.acc;
             
             
             if (!(world.isAirBlock(x, y, z)) && !(world.getBlock(x, y, z) instanceof CannonBlock))

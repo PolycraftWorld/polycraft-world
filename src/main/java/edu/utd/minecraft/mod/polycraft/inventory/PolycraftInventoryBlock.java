@@ -826,7 +826,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glPushMatrix();
 					GL11.glDisable(GL11.GL_CULL_FACE);
 					
-					scaleTranslateRotate(x, y, z, direction, rotated);
+					scaleTranslateRotate(x, y, z, direction, false);
 				}
 				else
 				{
