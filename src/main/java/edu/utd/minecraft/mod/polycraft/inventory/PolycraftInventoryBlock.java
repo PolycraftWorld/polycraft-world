@@ -903,7 +903,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					CannonInventory cannon = (CannonInventory)tileEntity;
 					
-					GL11.glScalef(.202F, .2F, .2F);
+					GL11.glScalef(.2F, .2F, .2F);
 					GL11.glTranslated(2.4763F, -.027F, 2.5F);
 					GL11.glRotatef(((float) cannon.theta)%360,0F, 1F, 0F);
 					

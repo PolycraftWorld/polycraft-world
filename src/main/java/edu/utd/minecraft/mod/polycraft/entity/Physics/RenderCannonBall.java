@@ -74,7 +74,7 @@ public class RenderCannonBall extends Render
         GL11.glScalef(f4, f4, f4);
         GL11.glScalef(1.0F / f4, 1.0F / f4, 1.0F / f4);
         this.bindEntityTexture(p_76986_1_);
-        GL11.glScalef(-1.0F, -1.0F, 1.0F);
+        GL11.glScalef(-2.0F, -2.0F, 2.0F);
         this.modelCannonBall.render(p_76986_1_, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
         GL11.glPopMatrix();
 		
