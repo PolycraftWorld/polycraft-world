@@ -6,11 +6,16 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.vec.Vector3;
+import cpw.mods.fml.common.registry.GameData;
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
+import edu.utd.minecraft.mod.polycraft.block.HPBlock;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.PolycraftEntityLiving;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
+import edu.utd.minecraft.mod.polycraft.render.PolyParticleSpawner;
+import edu.utd.minecraft.mod.polycraft.tileentity.TileEntityHPBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHardenedClay;
 import net.minecraft.block.BlockStoneBrick;
@@ -36,6 +41,7 @@ public class EntityIronCannonBall extends Entity {
 	
 	public double mass=5.0;
 	private static PolycraftEntity config;
+	private final static String HP_BLOCK = "1hH";
 	//public double acc=-9.8/200;
 	
 
@@ -99,9 +105,28 @@ public class EntityIronCannonBall extends Entity {
 			}
 			
             World world= this.worldObj;
-            int x=(int) Math.floor(this.posX);
-            int y=(int) Math.floor(this.posY);
-            int z=(int) Math.floor(this.posZ);
+            double xOffset;
+            double zOffset;
+            if(this.motionX<0)
+            {
+            	xOffset=this.motionX-.25;
+            }
+            else
+            {
+            	xOffset=this.motionX+.25;
+            }
+            
+            if(this.motionZ<0)
+            {
+            	zOffset=this.motionZ-.25;
+            }
+            else
+            {
+            	zOffset=this.motionZ+.25;
+            }
+            int x=(int)(Math.floor(this.posX+xOffset));
+            int y=(int)(Math.floor(this.posY) );
+            int z=(int)(Math.floor(this.posZ+zOffset));
             //this.motionY+=this.acc;
             
             
@@ -111,17 +136,122 @@ public class EntityIronCannonBall extends Entity {
             	if(world.getBlock(x, y, z) instanceof BlockPolymer)
             	{
             		
-            		this.motionX=-this.motionX;
-            		this.motionZ=-this.motionZ;
+            		double x1=this.posX-this.motionX;
+            		double z1=this.posZ-this.motionZ;
+
+            		
+            		double Ux1=this.motionX;
+            		double Uz1=this.motionZ;
+            		
+            		double U1= Math.sqrt((Ux1*Ux1+Uz1*Uz1));
+            		
+            		
+            		Vector3 Vecx=new Vector3();
+            		Vecx.set(1, 0, 0);
+
+            		
+            		Vector3 VecV1=new Vector3();
+            		VecV1.set(Ux1, 0, Uz1);
+            		
+            		Vector3 VecImpact1=new Vector3();
+            		VecImpact1.set((x-x1), 0, (z-z1));
+
+            		
+            		Vector3 VecImpact2=new Vector3();
+            		VecImpact2.set((x1-x),0,(z1-z));
+            		
+            		double A1=Vecx.angle(VecImpact1);
+            		double A2=Vecx.angle(VecImpact2);
+            		//Vector3 test =VecV1.multiply(VecV1.mag());
+            		double U12;
+            		double U11;
+            	
+            		
+            		if(Uz1<0)
+            		{
+            			if(Ux1<0)
+                		{
+            				double test1=z;
+            				double test2=z1;
+            				double test3=this.motionZ;
+                			if((z<(z1+this.motionZ)))
+                			{
+                				U11= -VecV1.mag()*Math.sin(A2);
+                				U12= VecV1.mag()*Math.cos(A2);
+                			}
+                			else
+                			{
+                				U11= -VecV1.mag()*Math.sin(A2);
+                				U12= VecV1.mag()*Math.cos(A2);
+                			}
+                		}
+                		else
+                		{
+                			U11= -VecV1.mag()*Math.sin(A2);
+                			U12=  VecV1.mag()*Math.cos(A2);
+                		}
+            			//U12= -VecV1.mag()*Math.cos(A2);
+            			
+            		}
+            		else
+            		{
+            			if(Ux1<0)
+                		{
+            				if(z<z1+this.motionZ)
+            				{
+            					U11=    VecV1.mag()*Math.sin(A2);
+            					U12= VecV1.mag()*Math.cos(A2);
+            				}
+            				else
+            				{
+            					U11= -VecV1.mag()*Math.sin(A2);
+            					U12= -VecV1.mag()*Math.cos(A2);
+            				}
+            				
+                		}
+                		else
+                		{
+                			U11= VecV1.mag()*Math.sin(A2);
+                			U12= VecV1.mag()*Math.cos(A2);
+                		}
+            			//U12= VecV1.mag()*Math.cos(A2);
+            			
+            		}
+            		
+            	
+            		
+            		
+            		this.motionX=U12;
+            		this.motionZ=U11;
+            		
+            		//this.motionX=-this.motionX;
+            		//this.motionZ=-this.motionZ;
             	}
             	else
             	{
             	
-	            	if(world.getBlock(x, y, z) instanceof BlockWood)
+	            	if(world.getBlock(x, y, z) instanceof HPBlock)
 	            	{
+	            		TileEntityHPBlock tile =((TileEntityHPBlock)world.getTileEntity(x, y, z));
 	            		
-	            		world.createExplosion(this, x, y, z, 0, true);
-	            		world.setBlock(x, y, z, Blocks.air);
+	            		double velocity=Math.sqrt(this.motionX*this.motionX + this.motionY*this.motionY + this.motionZ*this.motionZ)*400;
+	            		double impulse=(20*20*this.mass*velocity);
+	            		double keneticEngergy=(.5*this.mass*velocity*velocity);
+	            		tile.setHP(tile.getHP()-keneticEngergy);
+	            		if(tile.getHP()<=0)
+	            		{
+	            			world.createExplosion(this, x, y, z, 0, true);
+	            			world.setBlock(x, y, z, Blocks.air);
+	            			for (int i = 0; i < 8; ++i)
+	            	        {
+	            	        	PolyParticleSpawner.EntityBreakingParticle(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(HP_BLOCK)), this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+	            	           
+	            	        }
+	            		}
+	            		else
+	            		{
+	            			
+	            		}
 	            	}
 
 	            	this.setDead();

@@ -38,7 +38,7 @@ public class HPBlock extends Block implements ITileEntityProvider{
 	 {
 		 if (!world.isRemote)
 		 {
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("This block has " + ((TileEntityHPBlock)world.getTileEntity(x, y, z)).getHP() + " hp out of " + ((TileEntityHPBlock)world.getTileEntity(x, y, z)).getMaxHP() + " hp"));
+		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("This block has " + ((TileEntityHPBlock)world.getTileEntity(x, y, z)).getHP() + " hp  out of " + ((TileEntityHPBlock)world.getTileEntity(x, y, z)).getMaxHP() + " hp "));
 		return false;	
 		 }
 		 return false;

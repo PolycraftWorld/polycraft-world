@@ -3,22 +3,22 @@ package edu.utd.minecraft.mod.polycraft.tileentity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityHPBlock extends TileEntity {
-	public int MaxHP, HP;
+	public double MaxHP, HP;
 	public TileEntityHPBlock() {
-		this.HP = 69;
-		this.MaxHP = 1000000;
+		this.HP = 140400;
+		this.MaxHP = 140400;
 	}
-	public int getMaxHP() {
+	public double getMaxHP() {
 		return MaxHP;
 	}
-	public void setMaxHP(int maxHP) {
+	public void setMaxHP(double maxHP) {
 		MaxHP = maxHP;
 	}
-	public int getHP() {
+	public double getHP() {
 		return HP;
 	}
-	public void setHP(int hP) {
-		HP = hP;
+	public void setHP(double d) {
+		HP = d;
 	}
 	
 
