@@ -43,15 +43,16 @@ public class EntityAndroid extends EntityMob{
 	
 	public EntityAndroid(World p_i1738_1_) {
 		super(p_i1738_1_);
+		clearAITasks();
 		this.getNavigator().setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
 		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
-		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityTameable.class, 1.0D, true));
-		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(8, new EntityAILookIdle(this));
-		this.tasks.addTask(10, new EntityAICaptureBases(this, 0.5D));
+		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityTameable.class, 1.0D, true));
+		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(6, new EntityAILookIdle(this));
+		this.tasks.addTask(7, new EntityAICaptureBases(this, 0.5D));
 		// Note: boolean val determines if to call for help. Should be false.
 		this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false));
 		if (armors == null)
@@ -64,6 +65,12 @@ public class EntityAndroid extends EntityMob{
 			for (int i = 0; i < 4; i++)
 				this.setCurrentItemOrArmor(i + 1, new ItemStack(wear[i]));
 		this.equipmentDropChances = new float[] { 0.5F, 0.1F, 0.1F, 0.1F, 0.1F };
+	}
+	
+	protected void clearAITasks()
+	{
+	   tasks.taskEntries.clear();
+	   targetTasks.taskEntries.clear();
 	}
 	
 	@Override

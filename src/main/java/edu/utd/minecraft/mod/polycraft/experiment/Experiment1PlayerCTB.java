@@ -120,7 +120,7 @@ public class Experiment1PlayerCTB extends Experiment{
 	public int numCows = 0;
 	public int numAndroids = 5;
 	public double animalSpeed = .6; // .5 seems to be "normal" speed
-	public static int level = 1;
+	public static int level = 1; // level 0 - passive, level 1 - balanced, level 2 - aggressive
 	
 	private String stringToSend = "";
 	
