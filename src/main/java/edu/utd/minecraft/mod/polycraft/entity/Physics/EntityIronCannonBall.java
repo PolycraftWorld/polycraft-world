@@ -124,9 +124,9 @@ public class EntityIronCannonBall extends Entity {
             {
             	zOffset=this.motionZ+.25;
             }
-            int x=(int)(Math.floor(this.posX+xOffset));
+            int x=(int)(Math.floor(this.posX));//+xOffset
             int y=(int)(Math.floor(this.posY) );
-            int z=(int)(Math.floor(this.posZ+zOffset));
+            int z=(int)(Math.floor(this.posZ));//+zOffset
             //this.motionY+=this.acc;
             
             

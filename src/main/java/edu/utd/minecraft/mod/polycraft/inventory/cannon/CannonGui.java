@@ -54,13 +54,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-66, 130, 20);
         this.velocityText.width/=2;
         velocityText.setMaxStringLength(23);
-       
-//      
-//        int x=this.inventory.xCoord;
-//        int y=this.inventory.yCoord;
-//        int z=this.inventory.zCoord;
-//        
-        //CannonInventory tileEntity=(CannonInventory)world.getTileEntity(x, y, z);
+
         velocityText.setText(Double.toString(this.inventory.velocity));
         this.velocityText.setFocused(true);
         
@@ -181,9 +175,11 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         
     }
     
+    @Override
     public void updateScreen()
     {
-        super.updateScreen();
+    	
+        //super.updateScreen();
         this.velocityText.updateCursorCounter();
         this.thetaText.updateCursorCounter();
         this.massText.updateCursorCounter();
