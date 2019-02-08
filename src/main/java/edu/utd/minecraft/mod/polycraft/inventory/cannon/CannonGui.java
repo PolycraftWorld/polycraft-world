@@ -89,11 +89,11 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         int widthOfString;
         
         fontRendererObj.drawSplitString("Velocity", 
-              offsetFromScreenLeft + 32, 50, 116, 0);
+              offsetFromScreenLeft + 32, 40, 116, 0);
         fontRendererObj.drawSplitString("Angle", 
-                offsetFromScreenLeft + 32, 100, 96, 0);
+                offsetFromScreenLeft + 32, 90, 96, 0);
         fontRendererObj.drawSplitString("Mass", 
-                offsetFromScreenLeft + 108, 50, 76, 0);
+                offsetFromScreenLeft + 108, 40, 76, 0);
         this.velocityText.drawTextBox();
         this.thetaText.drawTextBox();
         this.massText.drawTextBox();
