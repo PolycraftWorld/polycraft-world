@@ -50,8 +50,8 @@ public class ClientScoreboard extends ScoreboardManager {
 	private boolean isTimeExpiredForScoreUpdates = true;
 
 	//scoreboard formatting
-	private final String teamFormat = "|%1$-10s|%2$ 4d seconds";
-	private final String scoreFormat = "|%-12.11s|%3.0f";
+	private final String teamFormat = "|%1$-10s | %2$ 4d seconds";
+	private final String scoreFormat = "|%-12.11s | %3.0f";
 	//scoreboard params;
 	private String playerTeam = "TRIFORCE";
 	public Team currentTeam = null;
