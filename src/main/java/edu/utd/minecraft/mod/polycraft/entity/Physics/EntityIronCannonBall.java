@@ -93,7 +93,7 @@ public class EntityIronCannonBall extends Entity {
 	
 	public void onUpdate()
 	{
-		super.onUpdate();
+  		super.onUpdate();
 		
 		if (!this.worldObj.isRemote)
         {
@@ -163,8 +163,8 @@ public class EntityIronCannonBall extends Entity {
             		double A1=Vecx.angle(VecImpact1);
             		double A2=Vecx.angle(VecImpact2);
             		//Vector3 test =VecV1.multiply(VecV1.mag());
-            		double U12;
-            		double U11;
+            		double U12=-this.motionX;
+            		double U11=-this.motionZ;
             	
             		
             		if(Uz1<0)
@@ -197,15 +197,29 @@ public class EntityIronCannonBall extends Entity {
             		{
             			if(Ux1<0)
                 		{
-            				if(z<z1+this.motionZ)
+            				if((z-1)<z1 && x+1<x1)
             				{
-            					U11=    VecV1.mag()*Math.sin(A2);
-            					U12= VecV1.mag()*Math.cos(A2);
+                        		VecImpact1.set((x-x1), 0, (z));
+                        		VecImpact2.set((x1-x),0,(z));
+                        		  
+                        		A1=Vecx.angle(VecImpact1);
+                        		A2=Vecx.angle(VecImpact2);
+            					U11= VecV1.mag()*Math.sin(A1);
+            					U12= -VecV1.mag()*Math.cos(A1);
+            					U12=-this.motionX;
+            					U11=this.motionZ;
             				}
-            				else
+            				else if((z-1)>z1 && x+1>x1)
             				{
+                        		VecImpact1.set((x-x1), 0, (z));
+                        		VecImpact2.set((x1-x),0,(z));
+                        		  
+                        		A1=Vecx.angle(VecImpact1);
+                        		A2=Vecx.angle(VecImpact2);
             					U11= -VecV1.mag()*Math.sin(A2);
             					U12= -VecV1.mag()*Math.cos(A2);
+            					U12=-this.motionX;
+            					U11=-this.motionZ;
             				}
             				
                 		}

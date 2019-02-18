@@ -22,7 +22,12 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	private final int ImageHeight = 200;
     private final int ImageWidth = 200;
     ResourceLocation Texture;
-    private GuiButton buttonDone;
+    private GuiButton buttonVPlus;
+    private GuiButton buttonVMinus;
+    private GuiButton buttonTPlus;
+    private GuiButton buttonTMinus;
+    private GuiButton buttonMPlus;
+    private GuiButton buttonMMinus;
     private GuiTextField velocityText;
     private GuiTextField thetaText;
     private GuiTextField massText;
@@ -30,9 +35,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public double theta;
     public double mass;
     private GuiConfigEntries guiConfig;
-    private DoubleEntry test2;
-   	public static World world;
-	
+
 	
 	
 	public CannonGui(CannonInventory inventory, InventoryPlayer playerInventory) {
@@ -50,28 +53,138 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public void initGui() {
 		super.initGui();
         buttonList.clear();
+        buttonVPlus = new GuiButton(0, width / 2 -24, ImageHeight - 145, 
+                20, 20, I18n.format("+", new Object[0]));
+        buttonVMinus = new GuiButton(0, width / 2 - 82, ImageHeight - 145, 
+                20, 20, I18n.format("-", new Object[0]));
+        buttonMPlus = new GuiButton(0, width / 2 + 57, ImageHeight - 145, 
+                20, 20, I18n.format("+", new Object[0]));
+        buttonMMinus = new GuiButton(0, width / 2 -1, ImageHeight - 145, 
+                20, 20, I18n.format("-", new Object[0]));
+        buttonTPlus = new GuiButton(0, width / 2 -24, ImageHeight - 95, 
+                20, 20, I18n.format("+", new Object[0]));
+        buttonTMinus = new GuiButton(0, width / 2 -82, ImageHeight - 95, 
+                20, 20, I18n.format("-", new Object[0]));
+        buttonList.add(buttonVPlus);
+        buttonList.add(buttonVMinus);
+        buttonList.add(buttonTPlus);
+        buttonList.add(buttonTMinus);
+        buttonList.add(buttonMPlus);
+        buttonList.add(buttonMMinus);
+        
         //this.test2= new DoubleEntry(null, guiConfig, null);
-        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-66, 130, 20);
+        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-66, 60, 20);
         this.velocityText.width/=2;
-        velocityText.setMaxStringLength(23);
+        velocityText.setMaxStringLength(3);
 
         velocityText.setText(Double.toString(this.inventory.velocity));
         this.velocityText.setFocused(true);
         
-        this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-16, 130, 20);
+        this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-16, 60, 20);
         this.thetaText.width/=2;
-        thetaText.setMaxStringLength(23);
+        thetaText.setMaxStringLength(3);
         thetaText.setText(Double.toString(this.inventory.theta));
         //this.thetaText.setFocused(true);
         
-        this.massText = new GuiTextField(this.fontRendererObj, this.width / 2 + 8, this.height/2-66, 130, 20);
+        this.massText = new GuiTextField(this.fontRendererObj, this.width / 2 + 23, this.height/2-66, 60, 20);
         this.massText.width/=2;
-        massText.setMaxStringLength(10);
+        massText.setMaxStringLength(3);
         massText.setText(Double.toString(this.inventory.mass));
         //this.massText.setFocused(true);
     	
     }
+	
+    @Override
+    public void actionPerformed(GuiButton button) {
+    	if (button == buttonVPlus)
+        {
+    		if(hasDouble(velocityText.getText()))
+    		{
+    			this.velocity=Double.parseDouble(velocityText.getText());
+    			this.velocity+=1;
+    			if(velocity<0)
+    			{
+    				velocity=0;
+    			}
+    			velocityText.setText(Double.toString(this.velocity));
+    		}
+        }
+    	
+    	if (button == buttonVMinus)
+        {
+    		if(hasDouble(velocityText.getText()))
+    		{
+    			this.velocity=Double.parseDouble(velocityText.getText());
+    			this.velocity-=1;
+    			if(velocity<0)
+    			{
+    				velocity=0;
+    			}
+    			velocityText.setText(Double.toString(this.velocity));
+    			
+    			
+    		}
+        }
+    	
+    	if (button == buttonTPlus)
+        {
+    		if(hasDouble(thetaText.getText()))
+    		{
+    			this.theta=Double.parseDouble(thetaText.getText());
+    			this.theta+=1;
+    			if(theta<0)
+    			{
+    				theta=0;
+    			}
+    			thetaText.setText(Double.toString(this.theta));
+    		}
+        }
+    	
+    	if (button == buttonTMinus)
+        {
+    		if(hasDouble(thetaText.getText()))
+    		{
+    			this.theta=Double.parseDouble(thetaText.getText());
+    			this.theta-=1;
+    			if(theta<0)
+    			{
+    				theta=0;
+    			}
+    			thetaText.setText(Double.toString(this.theta));
+    		}
+        }
+    	
+    	if (button == buttonMPlus)
+        {
+    		if(hasDouble(massText.getText()))
+    		{
+    			this.mass=Double.parseDouble(massText.getText());
+    			this.mass+=1;
+    			if(mass<0)
+    			{
+    				mass=0;
+    			}
+    			massText.setText(Double.toString(this.mass));
+    		}
+        }
+    	
+    	if (button == buttonMMinus)
+        {
+    		if(hasDouble(massText.getText()))
+    		{
+    			this.mass=Double.parseDouble(massText.getText());
+    			this.mass-=1;
+    			if(mass<0)
+    			{
+    				mass=0;
+    			}
+    			massText.setText(Double.toString(this.mass));
+    		}
+        }
 
+    }
+    
+	
     @Override
     public boolean doesGuiPauseGame() {
         return false;
@@ -98,6 +211,26 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         this.thetaText.drawTextBox();
         this.massText.drawTextBox();
        
+    }
+    
+    public boolean hasDouble(String s)
+    {
+    	if(s.length()==0)
+    	{
+    		return false;
+    	}
+    	else 
+    	{
+    		for(int c=0;c<s.length();c++)
+    		{
+    			if(!(Character.isDigit(s.charAt(c)) || s.charAt(c)=='.'))
+        		{
+        			return false;
+        		}
+    		}
+    	}
+    	
+    	return true;
     }
     
     @Override
@@ -144,10 +277,12 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        this.theta=Double.parseDouble(thetaText.getText());
 	        this.mass=Double.parseDouble(massText.getText());
 	    	PolycraftMod.proxy.sendMessageToServerCannon (x , y, z, velocity, theta, mass);
+	    	
 	    		
 	        this.inventory.velocity=Double.parseDouble(velocityText.getText());
 	        this.inventory.theta=Double.parseDouble(thetaText.getText());
 	        this.inventory.mass=Double.parseDouble(massText.getText());
+	       
        }
        else
        {
@@ -186,8 +321,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     }
     
     @Override
-    protected void mouseClicked(int x, int y, int btn) {
-        super.mouseClicked(x, y, btn);
+    protected void mouseClicked(int x, int y, int btn) {        super.mouseClicked(x, y, btn);
         this.velocityText.mouseClicked(x, y, btn);
         this.thetaText.mouseClicked(x, y, btn);
         this.massText.mouseClicked(x, y, btn);
