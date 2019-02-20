@@ -53,17 +53,19 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public void initGui() {
 		super.initGui();
         buttonList.clear();
-        buttonVPlus = new GuiButton(0, width / 2 -24, ImageHeight - 145, 
+        int offsetFromScreenLeft = (width - ImageWidth ) / 2;
+        int offsetFromScreenTop = (height - ImageHeight ) / 2;
+        buttonVPlus = new GuiButton(0, width / 2 -24, offsetFromScreenTop+ImageHeight - 165, 
                 20, 20, I18n.format("+", new Object[0]));
-        buttonVMinus = new GuiButton(0, width / 2 - 82, ImageHeight - 145, 
+        buttonVMinus = new GuiButton(0, width / 2 - 82,offsetFromScreenTop+ImageHeight - 165, 
                 20, 20, I18n.format("-", new Object[0]));
-        buttonMPlus = new GuiButton(0, width / 2 + 57, ImageHeight - 145, 
+        buttonMPlus = new GuiButton(0, width / 2 + 57, offsetFromScreenTop+ImageHeight - 165, 
                 20, 20, I18n.format("+", new Object[0]));
-        buttonMMinus = new GuiButton(0, width / 2 -1, ImageHeight - 145, 
+        buttonMMinus = new GuiButton(0, width / 2 -1, offsetFromScreenTop+ImageHeight - 165, 
                 20, 20, I18n.format("-", new Object[0]));
-        buttonTPlus = new GuiButton(0, width / 2 -24, ImageHeight - 95, 
+        buttonTPlus = new GuiButton(0, width / 2 -24, offsetFromScreenTop+ImageHeight - 115, 
                 20, 20, I18n.format("+", new Object[0]));
-        buttonTMinus = new GuiButton(0, width / 2 -82, ImageHeight - 95, 
+        buttonTMinus = new GuiButton(0, width / 2 -82,offsetFromScreenTop+ImageHeight - 115, 
                 20, 20, I18n.format("-", new Object[0]));
         buttonList.add(buttonVPlus);
         buttonList.add(buttonVMinus);
@@ -100,8 +102,8 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glLineWidth(6.5F);
         GL11.glBegin(GL11.GL_LINES);
-        GL11.glVertex2d(250, 105);
-        GL11.glVertex2d(250+(20*Math.cos(-this.theta/180*Math.PI)), 105+(20*Math.sin(-this.theta/180*Math.PI)));
+        GL11.glVertex2d(ImageWidth+50, ImageHeight-95);
+        GL11.glVertex2d(ImageWidth+50+(20*Math.cos(-this.theta/180*Math.PI)), ImageHeight-95+(20*Math.sin(-this.theta/180*Math.PI)));
         GL11.glEnd();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
@@ -213,27 +215,28 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         //mc.getTextureManager().bindTexture(Texture);
 
         int offsetFromScreenLeft = (width - ImageWidth ) / 2;
+        int offsetFromScreenTop = (height - ImageHeight ) / 2;
         //drawTexturedModalRect(offsetFromScreenLeft, 2, 0, 0, ImageWidth, ImageHeight);
         int widthOfString;
         
         fontRendererObj.drawSplitString("Velocity", 
-              offsetFromScreenLeft + 32, 40, 116, 0);
+              offsetFromScreenLeft + 32, offsetFromScreenTop+20, 116, 0);
         fontRendererObj.drawSplitString("Angle", 
-                offsetFromScreenLeft + 32, 90, 96, 0);
+                offsetFromScreenLeft + 32, offsetFromScreenTop+70, 96, 0);
         fontRendererObj.drawSplitString("Mass", 
-                offsetFromScreenLeft + 108, 40, 76, 0);
+                offsetFromScreenLeft + 108, offsetFromScreenTop+20, 76, 0);
         this.velocityText.drawTextBox();
         this.thetaText.drawTextBox();
         this.massText.drawTextBox();
         
         fontRendererObj.drawSplitString("E", 
-                offsetFromScreenLeft + 158, 102, 50, 0);
+                offsetFromScreenLeft + 158, offsetFromScreenTop+82, 50, 0);
         fontRendererObj.drawSplitString("N", 
-                offsetFromScreenLeft + 135, 77, 50, 0);
+                offsetFromScreenLeft + 135, offsetFromScreenTop+57, 50, 0);
         fontRendererObj.drawSplitString("W", 
-                offsetFromScreenLeft + 110, 102, 50, 0);
+                offsetFromScreenLeft + 110, offsetFromScreenTop+82, 50, 0);
         fontRendererObj.drawSplitString("S", 
-                offsetFromScreenLeft + 134, 126, 50, 0);
+                offsetFromScreenLeft + 134, offsetFromScreenTop+106, 50, 0);
         
 	 	//GL11.glEnd();
         GL11.glColor4f(1.0F, 0.0F, 0.0F, 1.0F);
@@ -244,8 +247,8 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glLineWidth(6.5F);
         GL11.glBegin(GL11.GL_LINES);
-        GL11.glVertex2d(250, 105);
-        GL11.glVertex2d(250+(20*Math.cos(-this.theta/180*Math.PI)), 105+(20*Math.sin(-this.theta/180*Math.PI)));
+        GL11.glVertex2d(offsetFromScreenLeft+ImageWidth-63, offsetFromScreenTop+ImageHeight-115);
+        GL11.glVertex2d(offsetFromScreenLeft+ImageWidth-63+(20*Math.cos(-this.theta/180*Math.PI)), offsetFromScreenTop+ImageHeight-115+(20*Math.sin(-this.theta/180*Math.PI)));
         GL11.glEnd();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
