@@ -91,6 +91,19 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         massText.setMaxStringLength(3);
         massText.setText(Double.toString(this.inventory.mass));
         //this.massText.setFocused(true);
+        this.theta=Double.parseDouble(thetaText.getText());
+        GL11.glColor4f(1.0F, 0.0F, 0.0F, 1.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glLineWidth(6.5F);
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex2d(250, 105);
+        GL11.glVertex2d(250+(20*Math.cos(-this.theta/180*Math.PI)), 105+(20*Math.sin(-this.theta/180*Math.PI)));
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
 
     	
     }
@@ -195,7 +208,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public void drawScreen(int i, int j, float f) {
     	super.drawScreen(i, j, f);
     	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-       
+    	
     	
         //mc.getTextureManager().bindTexture(Texture);
 
@@ -212,6 +225,16 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         this.velocityText.drawTextBox();
         this.thetaText.drawTextBox();
         this.massText.drawTextBox();
+        
+        fontRendererObj.drawSplitString("E", 
+                offsetFromScreenLeft + 158, 102, 50, 0);
+        fontRendererObj.drawSplitString("N", 
+                offsetFromScreenLeft + 135, 77, 50, 0);
+        fontRendererObj.drawSplitString("W", 
+                offsetFromScreenLeft + 110, 102, 50, 0);
+        fontRendererObj.drawSplitString("S", 
+                offsetFromScreenLeft + 134, 126, 50, 0);
+        
 	 	//GL11.glEnd();
         GL11.glColor4f(1.0F, 0.0F, 0.0F, 1.0F);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -221,10 +244,12 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glLineWidth(6.5F);
         GL11.glBegin(GL11.GL_LINES);
-        GL11.glVertex2d(250, 110);
-        GL11.glVertex2d(250+(30*Math.cos(-this.theta/180*Math.PI)), 110+(30*Math.sin(-this.theta/180*Math.PI)));
+        GL11.glVertex2d(250, 105);
+        GL11.glVertex2d(250+(20*Math.cos(-this.theta/180*Math.PI)), 105+(20*Math.sin(-this.theta/180*Math.PI)));
         GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
 
+        
 
        
     }
