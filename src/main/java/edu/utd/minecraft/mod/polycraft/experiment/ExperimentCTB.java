@@ -373,6 +373,8 @@ public class ExperimentCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
+					PolycraftMod.proxy.openHalftimeGui(player);
+					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));
 					} else {

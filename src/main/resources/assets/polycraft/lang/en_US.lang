@@ -5457,3 +5457,4 @@ entity.polycraft.OilSlimeBallProjectile.name=OilSlimeBallProjectile
 entity.polycraft.TestTerritoryFlagBoss.name=TestTerritoryFlagBoss
 entity.polycraft.Android.name=Android
 entity.polycraft.IronCannonBall.name=IronCannonBall
+gui.halftime.title=Halftime Planning

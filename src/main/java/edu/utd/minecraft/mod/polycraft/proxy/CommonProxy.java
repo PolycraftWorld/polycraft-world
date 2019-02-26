@@ -521,4 +521,8 @@ public abstract class CommonProxy {
 	public void openTutorialGui(EntityPlayer player) {
 	
 	}
+
+	public void openHalftimeGui(EntityPlayer player) {
+				
+	}
 }
