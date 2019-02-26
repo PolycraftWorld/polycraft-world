@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPaintball;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import net.minecraft.block.Block;
@@ -70,8 +71,8 @@ public class CannonBlock extends PolycraftInventoryBlock {
             
             double d2 = z + (double)enumfacing.getFrontOffsetZ();
 
-        	EntityIronCannonBall cannonBall;
-        	cannonBall = new EntityIronCannonBall(world);
+            EntityPaintball cannonBall;
+        	cannonBall = new EntityPaintball(world);
         	cannonBall.forceSpawn=true;
         	
         	cannonBall.setPosition((double)d0+.5, (double)y+.5, (double)d2+.5);
@@ -82,7 +83,7 @@ public class CannonBlock extends PolycraftInventoryBlock {
             double theta=tileEntity.theta;
             double mass=tileEntity.mass;
             
-            cannonBall.mass=mass;
+            //cannonBall.mass=mass;
             
             double rad = theta/180*Math.PI;
             cannonBall.motionX=velocity*Math.cos(rad);

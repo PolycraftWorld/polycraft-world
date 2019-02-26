@@ -119,8 +119,10 @@ public enum GameID {
 	InventoryCannon("1hC"),
 	EntityIronCannonBall("1hE"),
 	ItemIronCannonball("1hF"),
-	CustomMiningHammer("1hG");
-	
+	CustomMiningHammer("1hG"),
+	Slingshot("1Hi"),
+	Paintball("1hj"),
+	EPaintball("1hK");
 	public final String id;
 
 	private GameID(final String id) {

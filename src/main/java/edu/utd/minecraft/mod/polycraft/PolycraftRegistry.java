@@ -71,6 +71,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPaintball;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
@@ -137,6 +138,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemIronCannonBall;
+import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
@@ -145,6 +147,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
 import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
+import edu.utd.minecraft.mod.polycraft.item.ItemPaintball;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -1102,6 +1105,9 @@ public class PolycraftRegistry {
 				else if (GameID.EntityIronCannonBall.matches(polycraftEntity)){
 					EntityIronCannonBall.register(polycraftEntity);
 				}
+				else if (GameID.EPaintball.matches(polycraftEntity)) {
+					EntityPaintball.register(polycraftEntity);
+				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
 				//	TerritoryFlagEntity.register(polycraftEntity);
@@ -1271,6 +1277,12 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemMiningHammer(customObject));
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
+				} else if (GameID.Slingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot(customObject));
+				} else if (GameID.Paintball.matches(customObject)) {
+					registerItem(customObject, new ItemPaintball(customObject));
+					
+					
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
