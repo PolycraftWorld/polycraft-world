@@ -520,7 +520,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-					PolycraftMod.proxy.openHalftimeGui(player);
+					
 					
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
@@ -893,7 +893,14 @@ public class Experiment1PlayerCTB extends Experiment{
 					base.setRendering(true);
 				tickCount++;
 			}
-		}	
+		}
+		if(currentState == State.Halftime) {
+			//EntityPlayer player  = scoreboard.getPlayersAsEntity();
+			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+						//EntityPlayer playerEntity = (player);
+						PolycraftMod.proxy.openHalftimeGui(player);
+			}
+		}
 	}
 	
 	//TEMOC:
