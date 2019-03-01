@@ -156,7 +156,7 @@ public class ModelCannonBall extends ModelBase
     public void render(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_)
     {
     	GL11.glRotatef(180.0F, 1.0F, 1.0F, 0.0F);
-		GL11.glTranslatef(0F, 0F, 0F);
+		GL11.glTranslatef(+1.3F, 2.5F, 3.75F);
     	GL11.glScalef(0.2F, 0.2F, 0.2F);
 		GL11.glTranslatef(-12.45F, -25.0F, -37.5F);
     	Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);

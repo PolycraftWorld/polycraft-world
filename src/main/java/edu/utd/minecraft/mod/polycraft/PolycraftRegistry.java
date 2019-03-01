@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.HPBlock;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
@@ -1275,6 +1276,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemCleats(customObject));
 				} else if (GameID.CustomMiningHammer.matches(customObject)) {
 					registerItem(customObject, new ItemMiningHammer(customObject));
+				} else if (GameID.HPBlock.matches(customObject)) {
+					registerBlock(customObject, new HPBlock(customObject));
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
 				} else if (GameID.Slingshot.matches(customObject)) {

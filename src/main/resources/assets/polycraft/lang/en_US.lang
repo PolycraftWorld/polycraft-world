@@ -5448,7 +5448,11 @@ item.1hw.name=Freezing Knockback Bomb
 item.1hx.name=Cleats
 item.1hF.name=IronCannonBall
 item.1hG.name=Mining Hammer
+<<<<<<< HEAD
 item.ihJ.name=Paintball
+=======
+item.1hH.name=HP Block
+>>>>>>> refs/remotes/origin/PhysicsCannonInput
 entity.polycraft.ResearchAssistant.name=ResearchAssistant
 entity.polycraft.TerritoryFlag.name=TerritoryFlag
 entity.polycraft.Comet.name=Comet
