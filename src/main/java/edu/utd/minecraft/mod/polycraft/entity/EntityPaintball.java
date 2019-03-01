@@ -4,6 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.PolycraftEntityLiving;
@@ -492,7 +493,7 @@ public class EntityPaintball extends Entity implements IProjectile {
 			boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
 
 			if (this.canBePickedUp == 1
-					&& !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(Items.arrow, 1))) {
+					&& !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(PolycraftRegistry.getItem("Paintball"), 1))) {
 				flag = false;
 			}
 
@@ -604,7 +605,7 @@ public class EntityPaintball extends Entity implements IProjectile {
 
 	public static final void register(final PolycraftEntity polycraftEntity) {
 		EntityPaintball.config = polycraftEntity;
-		PolycraftEntityLiving.register(EntityIronCannonBall.class, config.entityID, config.name);
+		PolycraftEntityLiving.register(EntityPaintball.class, config.entityID, config.name);
 	}
 
 }
