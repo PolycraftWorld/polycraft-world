@@ -501,6 +501,7 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glTranslated(-interpPosX, -interpPosY, -interpPosZ);
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
+	        	renderTutorial(entity);
 	        }
 	        if(entity instanceof EntityPlayer) {
 				if(((EntityPlayer)entity).getHeldItem() != null && ((EntityPlayer)entity).getHeldItem().getItem() instanceof ItemKnockbackBomb) {
@@ -537,7 +538,269 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glPopMatrix();
 	    }
 	 
-	 @SubscribeEvent
+	 public static void renderLeftArrow(Entity entity)
+	 {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glBegin(GL11.GL_QUADS);
+	        double x = entity.posX;
+	        double y = entity.posY;
+	        double z = entity.posZ;
+	        double ang = entity.rotationYaw;
+	        double ang2= 0;
+	        double r = 3; 
+	        int ticks=entity.ticksExisted%40;
+	        double degInRad;
+	        double DEG2RAD = Math.PI/180;
+	        for (int i=84-ticks; i<=85; i++)
+	        {
+	           degInRad = (i+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+	           i++;
+	           degInRad = (i+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+	           i--;
+	        }
+
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        
+	        
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glFrontFace(GL11.GL_CW);
+	        GL11.glBegin(GL11.GL_TRIANGLES);
+	        
+
+	        int i=70-ticks;
+	        degInRad = (i+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
+	        i+=15;
+	        degInRad = (i+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y+.25F,(float)(Math.sin(degInRad)*r+z));
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.5F,(float)(Math.sin(degInRad)*r+z));
+	        
+	        
+	 
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        GL11.glFrontFace(GL11.GL_CCW);
+	 }
+	 
+	 public static void renderRightArrow(Entity entity)
+	 {
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glBegin(GL11.GL_QUADS);
+
+	        	
+	        double x = entity.posX;
+	        double y = entity.posY;
+	        double z = entity.posZ;
+	        double ang = entity.rotationYaw;
+	        double ang2= 0;
+	        double r = 3; 
+	        int ticks=entity.ticksExisted%40;
+	        double degInRad;
+	        double DEG2RAD = Math.PI/180;
+	        for (int i=94; i<=95+ticks; i++)
+	        {
+	           degInRad = (i+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+	           i++;
+	           degInRad = (i+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+	           i--;
+	        }
+
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        
+	        
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        //GL11.glFrontFace(GL11.GL_CW);
+	        GL11.glBegin(GL11.GL_TRIANGLES);
+
+	       
+	        int i=110+ticks;
+	        degInRad = (i+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
+	        i-=15;
+	        degInRad = (i+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y+.25F,(float)(Math.sin(degInRad)*r+z));
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.5F,(float)(Math.sin(degInRad)*r+z));
+	        
+	        
+	 
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        GL11.glFrontFace(GL11.GL_CCW);  
+	 }
+	 
+	 public static void renderDownArrow(Entity entity)
+	 {
+		  GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glBegin(GL11.GL_QUADS);
+
+	        	
+	        double x = entity.posX;
+	        double y = entity.posY;
+	        double z = entity.posZ;
+	        double ang = entity.rotationYaw;
+	        double ang2= 0;
+	        double r = 3; 
+	        int ticks=entity.ticksExisted%40;
+	        double degInRad;
+	        double DEG2RAD = Math.PI/180;
+	        for (int i=95; i<=95+ticks; i++)
+	        {
+	           degInRad = (90+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+	           i++;
+	           degInRad = (90+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+	           i--;
+	        }
+
+	        
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        
+	        
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        //GL11.glFrontFace(GL11.GL_CW);
+	        GL11.glBegin(GL11.GL_TRIANGLES);
+
+	       
+	       
+	        degInRad = (100+ang)*DEG2RAD;
+	        //double extra=-Math.PI/60;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((100+ticks+ang2)*DEG2RAD)*r+y)+.25F,(float)(Math.sin(degInRad)*r+z));
+	        degInRad = (80+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((100+ticks+ang2)*DEG2RAD)*r+y)+.25F,(float)(Math.sin(degInRad)*r+z));
+	        degInRad = (90+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((100+ticks+ang2)*DEG2RAD)*r+y)-.75F,(float)(Math.sin(degInRad)*r+z));
+	        
+	        
+	 
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        GL11.glFrontFace(GL11.GL_CCW);
+	 }
+	 
+	 public static void renderUpArrow(Entity entity)
+	 {
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glBegin(GL11.GL_QUADS);
+
+	        	
+	        double x = entity.posX;
+	        double y = entity.posY;
+	        double z = entity.posZ;
+	        double ang = entity.rotationYaw;
+	        double ang2= 0;
+	        double r = 3; 
+	        int ticks=entity.ticksExisted%40;
+	        double degInRad;
+	        double DEG2RAD = Math.PI/180;
+	        for (int i=85-ticks; i<=85; i++)
+	        {
+	           degInRad = (90+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+	           i++;
+	           degInRad = (90+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+	           i--;
+	        }
+
+	        
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        
+	        
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glFrontFace(GL11.GL_CW);
+	        GL11.glBegin(GL11.GL_TRIANGLES);
+
+	       
+	       
+	        degInRad = (100+ang)*DEG2RAD;
+	        //double extra=-Math.PI/60;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((86-ticks+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad)*r+z));
+	        degInRad = (80+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((86-ticks+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad)*r+z));
+	        degInRad = (90+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((86-ticks+ang2)*DEG2RAD)*r+y)+1F,(float)(Math.sin(degInRad)*r+z));
+	        
+	        
+	 
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        GL11.glFrontFace(GL11.GL_CCW);
+	 }
+	 
+	 private static void renderTutorial(Entity entity) 
+	 {
+		 renderLeftArrow(entity);
+		 renderRightArrow(entity);
+		 renderDownArrow(entity);
+		 renderUpArrow(entity);
+	 }
+
+	@SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
 	    render(event.partialTicks);
 	    
