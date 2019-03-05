@@ -18,6 +18,7 @@ import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -831,7 +832,13 @@ public abstract class Experiment {
 
 	//Main update function for client sided events in Experiments
 	public void onClientTickUpdate(){
-		
+		if(currentState == State.Halftime) {
+			//EntityPlayer player  = scoreboard.getPlayersAsEntity();
+			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+						//EntityPlayer playerEntity = (player);
+						PolycraftMod.proxy.openHalftimeGui(player);
+			}
+		}
 	}
 	
 	public boolean isPlayerInExperiment(String playerName){

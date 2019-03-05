@@ -55,6 +55,7 @@ public class GuiHalftime extends GuiScreen{
 	}
 	
 	public GuiHalftime(EntityPlayer player) {
+		lines = new ArrayList<String>();
         this.player = player;
         this.screenID = 1;
         this.completed[0] = true;

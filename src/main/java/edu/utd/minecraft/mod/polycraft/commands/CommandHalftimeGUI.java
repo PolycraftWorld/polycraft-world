@@ -1,36 +1,33 @@
-package edu.utd.minecraft.mod.polycraft.commands.dev;
+package edu.utd.minecraft.mod.polycraft.commands;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
-import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
-import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
-import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
-import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
-import net.minecraft.block.Block;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
 
-public class CommandGUI  extends CommandBase{
+public class CommandHalftimeGUI extends CommandBase{
 
 	private final List aliases;
   
-	public CommandGUI(){
+	
+	public CommandHalftimeGUI(){
 		aliases = new ArrayList(); 
-        aliases.add("gui");
+        aliases.add("halftime"); 
 	}
 	
 	@Override
@@ -42,13 +39,13 @@ public class CommandGUI  extends CommandBase{
 	@Override
 	public String getCommandName() {
 		// TODO Auto-generated method stub
-		return "gui";
+		return "halftime";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/gui";
+		return "/halftime [opt:get/set] [True/False]";
 	}
 
 	@Override
@@ -59,21 +56,20 @@ public class CommandGUI  extends CommandBase{
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
+		
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
-		if (!world.isRemote) // world.isRemote means its only on CLIENT world, will NOT open if you are on server
+		if (world.isRemote) // world.isRemote means its only on CLIENT world, will NOT open if you are on server
         { 
-            //Client Side
-			//PolycraftMod.proxy.openConsentGui((EntityPlayer) player, (int) player.posX, (int) player.posY, (int) player.posZ);
-			PolycraftMod.proxy.openTutorialGui((EntityPlayer)player);
-        
+			PolycraftMod.proxy.openHalftimeGui((EntityPlayer)player);
+			//System.out.println("Not processing on client side"); 
         } 
 		else
 		{
-			
-		}
-		
+			System.out.println("Not processing on Server side"); 
+			 //PolycraftMod.proxy.openHalftimeGui((EntityPlayer)player);
+		}		
 	}
 
 	@Override
@@ -93,5 +89,5 @@ public class CommandGUI  extends CommandBase{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 }

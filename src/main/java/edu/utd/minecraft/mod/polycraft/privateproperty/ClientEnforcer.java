@@ -255,7 +255,10 @@ public class ClientEnforcer extends Enforcer {
 								System.out.println("Receiving experiments list...");
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
-							
+							case OpenHalftimeGUI:
+								System.out.println("Opening Halftime GUI");
+								PolycraftMod.proxy.openHalftimeGui(this.client.thePlayer);
+								break;
 							default:
 							break;
 						}

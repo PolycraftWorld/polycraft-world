@@ -1136,6 +1136,6 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void openHalftimeGui(EntityPlayer player) {
-		client.displayGuiScreen(new GuiHalftime(player));
+		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));
 	}
 }
