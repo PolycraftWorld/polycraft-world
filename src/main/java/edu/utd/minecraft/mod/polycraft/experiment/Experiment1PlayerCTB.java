@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -467,6 +468,12 @@ public class Experiment1PlayerCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
+			for(Team team: scoreboard.getTeams()) {
+				for(EntityPlayer player: team.getPlayersAsEntity()) {
+					PlayerExperimentEvent event = new PlayerExperimentEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player);
+					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent(event);
+				}
+			}
 //			for(Float score : this.scoreboard.getScores()) {
 //				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
 //					currentState = State.Ending;

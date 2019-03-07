@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 
 //TODO http://www.minecraftforge.net/wiki/Event_Reference
 //TODO LivingAttackEvent
@@ -76,6 +77,7 @@ public class Analytics {
 		PlayerBreakBlock,
 		PlayerSleepInBed,
 		PlayerAchievement,
+		PlayerExperimentEvent,
 	}
 
 	public static class TickIntervals {
@@ -130,14 +132,14 @@ public class Analytics {
 		return playerState;
 	}
 
-	private boolean debug = System.getProperty("analytics.debug") == null ? false : Boolean.parseBoolean(System.getProperty("analytics.debug"));
+	private static boolean debug = System.getProperty("analytics.debug") == null ? false : Boolean.parseBoolean(System.getProperty("analytics.debug"));
 	private TickIntervals tickIntervals = new TickIntervals();
 
 	private String formatBoolean(final boolean value) {
 		return debug ? (value ? "true" : "false") : (value ? "1" : "0");
 	}
 
-	private String formatEnum(final Enum value) {
+	private static String formatEnum(final Enum value) {
 		return debug ? value.toString() : String.valueOf(value.ordinal());
 	}
 
@@ -168,7 +170,7 @@ public class Analytics {
 	private static final String FORMAT_LOG = "%1$s%3$s%1$s%4$s%1$s%5$d%2$s%6$d%2$s%7$d%1$s%8$s";
 	private static final String FORMAT_LOG_DEBUG = " %1$s %3$s %1$s User=%4$s %1$s PosX=%5$d%2$s PosY=%6$d%2$s PosZ=%7$d %1$s %8$s";
 
-	private synchronized void log(final EntityPlayer player, final Category category, final String data) {
+	public synchronized static void log(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
 		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
 		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
@@ -450,5 +452,22 @@ public class Analytics {
 	public synchronized void onAchievement(final AchievementEvent event) {
 		log(event.entityPlayer, Category.PlayerAchievement, String.format(debug ? FORMAT_ACHIEVEMENT_DEBUG : FORMAT_ACHIEVEMENT,
 				debug ? event.achievement.getDescription() : event.achievement.statId));
+	}
+	
+	//public static final String FORMAT_ON_EXPERIMENT_EVENT = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$d";
+	//public static final String FORMAT_ON_EXPERIMENT_EVENT_DEBUG = "Winner=%2$s%1$s";
+	//Bases=%3$d%1$s Knocked=%4$d%1$s Is_attacked=%5$d%1$s IRB_Status=%6$d%1$s Have_Registered=%7$d
+	//@SubscribeEvent
+    //public synchronized void onExperimentEvent(final PlayerExperimentEvent event) {
+		//log(event.entityPlayer, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT_DEBUG : FORMAT_ON_EXPERIMENT_EVENT,
+			//	edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent.getTrial2()));
+	//}
+	public static final String FORMAT_ON_EXPERIMENT_EVENT = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT_DEBUG = "Experiment_id=%2$d%1$s X=%3$d%1$s Z=%4$d%1$s Max_teams=%5$d";
+
+
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent(final PlayerExperimentEvent event) {
+		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT_DEBUG : FORMAT_ON_EXPERIMENT_EVENT, DELIMETER_DATA, event.id1,event.xPos1,event.zPos1,event.maxteams1));
 	}
 }

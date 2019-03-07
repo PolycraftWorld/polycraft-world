@@ -253,6 +253,7 @@ public class ClientEnforcer extends Enforcer {
 							case ReceiveExperimentsList:
 								System.out.println("Receiving experiments list...");
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								//
 								break;
 							
 							default:
