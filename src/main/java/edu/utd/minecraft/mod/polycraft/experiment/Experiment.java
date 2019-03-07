@@ -64,6 +64,7 @@ public abstract class Experiment {
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
 	protected int teamSize = 2;
+	protected int winner=0;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;

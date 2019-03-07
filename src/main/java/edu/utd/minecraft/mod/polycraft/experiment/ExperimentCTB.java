@@ -34,7 +34,7 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent0;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -213,55 +213,7 @@ public class ExperimentCTB extends Experiment{
 		double zOff = Math.random()*6 + z - 3;	//3 block radius
 		player.setPositionAndUpdate(xOff + .5, y, zOff + .5);
 	}
-	
-	private static final String FORMAT_LOG = "%1$s%3$s%1$s%4$s%1$s%5$d%2$s%6$d%2$s%7$d%1$s%8$s";
-	private static final String FORMAT_LOG_DEBUG = " %1$s %3$s %1$s User=%4$s %1$s PosX=%5$d%2$s PosY=%6$d%2$s PosZ=%7$d %1$s %8$s";
-	public static final String DELIMETER_SEGMENT = "\t";
-	public static final String DELIMETER_DATA = ",";
-	private boolean debug = System.getProperty("analytics.debug") == null ? false : Boolean.parseBoolean(System.getProperty("analytics.debug"));
-	public static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
-	public static enum Category {
-		PlayerTickSpatial,
-		PlayerTickSwimming,
-		PlayerTickHealth,
-		PlayerTickItem,
-		PlayerTickFood,
-		PlayerTickExperience,
-		PlayerTickArmor,
-		PlayerTickHotbar,
-		PlayerTickInventory,
-		PlayerChat,
-		PlayerInteract,
-		PlayerUseItemStart,
-		PlayerUseItemStop,
-		PlayerUseItemFinish,
-		PlayerPickupItem,
-		PlayerTossItem,
-		PlayerCraftItem,
-		PlayerSmeltItem,
-		PlayerPolycraftItem,
-		PlayerAttackEntity,
-		PlayerBreakBlock,
-		PlayerSleepInBed,
-		PlayerAchievement,
-		PlayerExperimentEvent,
-	}
-	public static UUID trial1;
-	private String formatEnum(final Enum value) {
-		return debug ? value.toString() : String.valueOf(value.ordinal());
-	}
-	
-	public synchronized void log(final String string, final String string2, final String data) {
-		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-		final Long playerID = (long) 15;
-		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
-				DELIMETER_SEGMENT, DELIMETER_DATA,
-				"47",
-				playerID == null ? "-1" : playerID.toString(),
-				(int) 10, (int) 11, (int) 12,
-				data.replace(DELIMETER_SEGMENT, " ")));
-	}
-	
+
 	@Override
 	public void onServerTickUpdate() {
 		super.onServerTickUpdate();
@@ -281,7 +233,6 @@ public class ExperimentCTB extends Experiment{
 					for(String player: team.getPlayers()) {
 						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
 						playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
-						log("player","47", String.format(debug ? "2" : "3", "420"));
 					}
 				}
 			}
@@ -361,7 +312,6 @@ public class ExperimentCTB extends Experiment{
 						spawnPlayerInGame((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]); 	
 						ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);	//unfreeze players to start!
 						player.addChatMessage(new ChatComponentText("\u00A7aSTART"));
-						trial1=player.getUniqueID();
 					}
 					this.scoreboard.updateScore(team, 0);
 				}
@@ -376,8 +326,8 @@ public class ExperimentCTB extends Experiment{
 			updateBaseStates2();
 			for(Team team: scoreboard.getTeams()) {
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
-					PlayerExperimentEvent event = new PlayerExperimentEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player);
-					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent(event);
+					PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player);
+					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
 				}
 			}
 			//			for(Float score : this.scoreboard.getScores()) {
@@ -490,9 +440,6 @@ public class ExperimentCTB extends Experiment{
 					this.stringToSend = "Your Opponents Left!";
 				}else {
 					this.stringToSend = maxEntry.getKey().getName() + " Team wins!";
-					final String FORMAT_TICK_HEALTH = "%.1f";
-					final String FORMAT_TICK_HEALTH_DEBUG = "Health=%.1f";
-					log("player","47", String.format(debug ? "2" : "3", "420"));
 				}
 				
 				//ServerScoreboard.INSTANCE.sendGameOverUpdatePacket(this.scoreboard, stringToSend);
@@ -503,8 +450,12 @@ public class ExperimentCTB extends Experiment{
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
-						final String FORMAT_TICK_HEALTH = "%.1f";
-						final String FORMAT_TICK_HEALTH_DEBUG = "Health=%.1f";
+						for(Team team: scoreboard.getTeams()) {
+							for(EntityPlayer player1: team.getPlayersAsEntity()) {
+								PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player1);
+								edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
+							}
+						}
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 						final String FORMAT_TICK_HEALTH = "%.1f";

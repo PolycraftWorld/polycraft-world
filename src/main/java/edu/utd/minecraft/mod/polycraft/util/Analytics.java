@@ -77,7 +77,8 @@ public class Analytics {
 		PlayerBreakBlock,
 		PlayerSleepInBed,
 		PlayerAchievement,
-		PlayerExperimentEvent,
+		PlayerExperimentEvent0,
+		PlayerExperimentEvent1,
 	}
 
 	public static class TickIntervals {
@@ -454,20 +455,19 @@ public class Analytics {
 				debug ? event.achievement.getDescription() : event.achievement.statId));
 	}
 	
-	//public static final String FORMAT_ON_EXPERIMENT_EVENT = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$d";
-	//public static final String FORMAT_ON_EXPERIMENT_EVENT_DEBUG = "Winner=%2$s%1$s";
-	//Bases=%3$d%1$s Knocked=%4$d%1$s Is_attacked=%5$d%1$s IRB_Status=%6$d%1$s Have_Registered=%7$d
-	//@SubscribeEvent
-    //public synchronized void onExperimentEvent(final PlayerExperimentEvent event) {
-		//log(event.entityPlayer, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT_DEBUG : FORMAT_ON_EXPERIMENT_EVENT,
-			//	edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent.getTrial2()));
-	//}
-	public static final String FORMAT_ON_EXPERIMENT_EVENT = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
-	public static final String FORMAT_ON_EXPERIMENT_EVENT_DEBUG = "Experiment_id=%2$d%1$s X=%3$d%1$s Z=%4$d%1$s Max_teams=%5$d";
-
+	public static final String FORMAT_ON_EXPERIMENT_EVENT0 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT0_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Winner_ID=%5$s";
 
 	@SubscribeEvent
-	public synchronized static void onExperimentEvent(final PlayerExperimentEvent event) {
-		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT_DEBUG : FORMAT_ON_EXPERIMENT_EVENT, DELIMETER_DATA, event.id1,event.xPos1,event.zPos1,event.maxteams1));
+	public synchronized static void onExperimentEvent0(final PlayerExperimentEvent0 event) {
+		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,event.player));
+	}
+	
+	public static final String FORMAT_ON_EXPERIMENT_EVENT1 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT1_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Winner_ID=%5$s";
+
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent0(final PlayerExperimentEvent1 event) {
+		log(event.player, Category.PlayerExperimentEvent1, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 0, event.id1,event.maxteams1,event.player));
 	}
 }
