@@ -26,6 +26,8 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent0;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -312,6 +314,16 @@ public class ExperimentFlatCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
+			int i=0;
+			if(tickCount%20==0) {
+			for(Team team: scoreboard.getTeams()) {
+				for(EntityPlayer player: team.getPlayersAsEntity()) {
+					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
+					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
+					}
+				i=i+1;
+			}
+			}
 //			for(Float score : this.scoreboard.getScores()) {
 //				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
 //					currentState = State.Ending;
@@ -431,6 +443,8 @@ public class ExperimentFlatCTB extends Experiment{
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
+						PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+						edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 					}

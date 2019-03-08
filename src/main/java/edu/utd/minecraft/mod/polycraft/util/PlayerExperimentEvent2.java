@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraft.world.World;
 
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import cpw.mods.fml.common.eventhandler.Cancelable;
@@ -16,13 +16,11 @@ import cpw.mods.fml.common.eventhandler.Event;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
-import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
-import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 
-public class PlayerExperimentEvent1 extends Event{
+public class PlayerExperimentEvent2 extends Event{
 	
-	public float score=1.0f;
+	public String playername = null;
 	public static EntityPlayer player = null;
 	public int id1=0;
 	public int size1=1;
@@ -31,10 +29,11 @@ public class PlayerExperimentEvent1 extends Event{
 	public final World world;
 	public int maxteams1=1;
 	public int teamsize1=2;
+	private List list1;
 	//public final String message, username;
     //public final EntityPlayerMP player;
     //public ChatComponentTranslation component;
-    public PlayerExperimentEvent1(int id1, int size1, int xPos1, int zPos1,World world1, int maxteams1, int teamsize1,EntityPlayer player, Float score)
+    public PlayerExperimentEvent2(int id1, int size1, int xPos1, int zPos1,World world1, int maxteams1, int teamsize1, EntityPlayer player, List list1)
     {
     	super();
     	//Experiment exp = ExperimentManager.INSTANCE.getExperiment(ExperimentManager.INSTANCE.getRunningExperiment());
@@ -46,8 +45,14 @@ public class PlayerExperimentEvent1 extends Event{
         this.world=world1;
         this.maxteams1=maxteams1;
         this.teamsize1=teamsize1;
-        this.score=score;
         this.player=player;
+        this.setList1(list1);
     }
+	public List getList1() {
+		return list1;
+	}
+	public void setList1(List list1) {
+		this.list1 = list1;
+	}
 }
 

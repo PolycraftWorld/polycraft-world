@@ -35,6 +35,7 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent0;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -47,6 +48,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.Score;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
@@ -177,7 +179,7 @@ public class ExperimentCTB extends Experiment{
 			for(Team team: scoreboard.getTeams()) {
 				for(String player:team.getPlayers()) {
 					EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-					playerEntity.addChatMessage(new ChatComponentText("Expiriment will be starting Shortly. Please wait while the field is generated"));
+					playerEntity.addChatMessage(new ChatComponentText("Experiment will be starting Shortly. Please wait while the field is generated"));
 				}
 			}
 		}
@@ -324,11 +326,16 @@ public class ExperimentCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
+			
+			int i=0;
+			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
-					PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player);
-					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
-				}
+					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
+					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
+					}
+				i=i+1;
+			}
 			}
 			//			for(Float score : this.scoreboard.getScores()) {
 //				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
@@ -449,17 +456,11 @@ public class ExperimentCTB extends Experiment{
 					//clear player inventory
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
-						for(Team team: scoreboard.getTeams()) {
-							for(EntityPlayer player1: team.getPlayersAsEntity()) {
-								PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player1);
+						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
+								PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
 								edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
-							}
-						}
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
-						final String FORMAT_TICK_HEALTH = "%.1f";
-						final String FORMAT_TICK_HEALTH_DEBUG = "Health=%.1f";
 					}
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}

@@ -79,6 +79,8 @@ public class Analytics {
 		PlayerAchievement,
 		PlayerExperimentEvent0,
 		PlayerExperimentEvent1,
+		PlayerExperimentEvent2,
+		PlayerExperimentEvent3,
 	}
 
 	public static class TickIntervals {
@@ -463,11 +465,27 @@ public class Analytics {
 		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,event.player));
 	}
 	
-	public static final String FORMAT_ON_EXPERIMENT_EVENT1 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
-	public static final String FORMAT_ON_EXPERIMENT_EVENT1_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Winner_ID=%5$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT1 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT1_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
 
 	@SubscribeEvent
-	public synchronized static void onExperimentEvent0(final PlayerExperimentEvent1 event) {
-		log(event.player, Category.PlayerExperimentEvent1, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 0, event.id1,event.maxteams1,event.player));
+	public synchronized static void onExperimentEvent1(final PlayerExperimentEvent1 event) {
+		log(event.player, Category.PlayerExperimentEvent1, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
+	}
+	
+	public static final String FORMAT_ON_EXPERIMENT_EVENT2 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT2_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
+
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent2(final PlayerExperimentEvent2 event) {
+		log(event.player, Category.PlayerExperimentEvent2, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 2, event.id1,event.maxteams1,event.getList1()));
+	}
+	
+	public static final String FORMAT_ON_EXPERIMENT_EVENT3 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT3_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
+
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent3(final PlayerExperimentEvent3 event) {
+		log(event.player, Category.PlayerExperimentEvent3, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT3_DEBUG : FORMAT_ON_EXPERIMENT_EVENT3, DELIMETER_DATA, 3, event.id1,event.maxteams1,event.player));
 	}
 }

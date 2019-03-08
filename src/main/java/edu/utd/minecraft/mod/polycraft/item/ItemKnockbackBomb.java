@@ -144,7 +144,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 				}
 				
 			});
-			
+			System.out.println(list);
 			return list;
 
 		}

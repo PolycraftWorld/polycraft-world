@@ -18,6 +18,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 
 public class PlayerExperimentEvent0 extends Event{
 	
+	public String playername = null;
 	public static EntityPlayer player = null;
 	public int id1=0;
 	public int size1=1;
@@ -29,7 +30,7 @@ public class PlayerExperimentEvent0 extends Event{
 	//public final String message, username;
     //public final EntityPlayerMP player;
     //public ChatComponentTranslation component;
-    public PlayerExperimentEvent0(int id1, int size1, int xPos1, int zPos1,World world1, int maxteams1, int teamsize1, EntityPlayer player)
+    public PlayerExperimentEvent0(int id1, int size1, int xPos1, int zPos1,World world1, int maxteams1, int teamsize1, EntityPlayer player, String playername)
     {
     	super();
     	//Experiment exp = ExperimentManager.INSTANCE.getExperiment(ExperimentManager.INSTANCE.getRunningExperiment());
@@ -42,6 +43,7 @@ public class PlayerExperimentEvent0 extends Event{
         this.maxteams1=maxteams1;
         this.teamsize1=teamsize1;
         this.player=player;
+        this.playername=playername;
     }
 }
 
