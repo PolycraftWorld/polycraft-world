@@ -63,20 +63,19 @@ public class EntityPellet extends Entity implements IProjectile {
 		this.yOffset = 0.0F;
 	}
 
-	public EntityPellet(World p_i1755_1_, EntityLivingBase p_i1755_2_, EntityLivingBase p_i1755_3_, float p_i1755_4_,
-			float p_i1755_5_) {
-		super(p_i1755_1_);
+	public EntityPellet(World world, EntityLivingBase shootingEntity, EntityLivingBase targetEntity, float float1, float float2) {
+		super(world);
 		this.renderDistanceWeight = 10.0D;
-		this.shootingEntity = p_i1755_2_;
+		this.shootingEntity = shootingEntity;
 
-		if (p_i1755_2_ instanceof EntityPlayer) {
+		if (shootingEntity instanceof EntityPlayer) {
 			this.canBePickedUp = 1;
 		}
 
-		this.posY = p_i1755_2_.posY + (double) p_i1755_2_.getEyeHeight() - 0.10000000149011612D;
-		double d0 = p_i1755_3_.posX - p_i1755_2_.posX;
-		double d1 = p_i1755_3_.boundingBox.minY + (double) (p_i1755_3_.height / 3.0F) - this.posY;
-		double d2 = p_i1755_3_.posZ - p_i1755_2_.posZ;
+		this.posY = shootingEntity.posY + (double) shootingEntity.getEyeHeight() - 0.10000000149011612D;
+		double d0 = targetEntity.posX - shootingEntity.posX;
+		double d1 = targetEntity.boundingBox.minY + (double) (targetEntity.height / 3.0F) - this.posY;
+		double d2 = targetEntity.posZ - shootingEntity.posZ;
 		double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d2 * d2);
 
 		if (d3 >= 1.0E-7D) {
@@ -84,25 +83,25 @@ public class EntityPellet extends Entity implements IProjectile {
 			float f3 = (float) (-(Math.atan2(d1, d3) * 180.0D / Math.PI));
 			double d4 = d0 / d3;
 			double d5 = d2 / d3;
-			this.setLocationAndAngles(p_i1755_2_.posX + d4, this.posY, p_i1755_2_.posZ + d5, f2, f3);
+			this.setLocationAndAngles(shootingEntity.posX + d4, this.posY, shootingEntity.posZ + d5, f2, f3);
 			this.yOffset = 0.0F;
 			float f4 = (float) d3 * 0.2F;
-			this.setThrowableHeading(d0, d1 + (double) f4, d2, p_i1755_4_, p_i1755_5_);
+			this.setThrowableHeading(d0, d1 + (double) f4, d2, float1, float2);
 		}
 	}
 
-	public EntityPellet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_) {
-		super(p_i1756_1_);
+	public EntityPellet(World world, EntityLivingBase shootingEntity, float float1) {
+		super(world);
 		this.renderDistanceWeight = 10.0D;
-		this.shootingEntity = p_i1756_2_;
+		this.shootingEntity = shootingEntity;
 
-		if (p_i1756_2_ instanceof EntityPlayer) {
+		if (shootingEntity instanceof EntityPlayer) {
 			this.canBePickedUp = 1;
 		}
 
 		this.setSize(0.5F, 0.5F);
-		this.setLocationAndAngles(p_i1756_2_.posX, p_i1756_2_.posY + (double) p_i1756_2_.getEyeHeight(),
-				p_i1756_2_.posZ, p_i1756_2_.rotationYaw, p_i1756_2_.rotationPitch);
+		this.setLocationAndAngles(shootingEntity.posX, shootingEntity.posY + (double) shootingEntity.getEyeHeight(),
+				shootingEntity.posZ, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
 		this.posX -= (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
 		this.posY -= 0.10000000149011612D;
 		this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
@@ -113,7 +112,7 @@ public class EntityPellet extends Entity implements IProjectile {
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI)
 				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, float1 * 1.5F, 1.0F);
 	}
 
 	protected void entityInit() {
