@@ -832,13 +832,7 @@ public abstract class Experiment {
 
 	//Main update function for client sided events in Experiments
 	public void onClientTickUpdate(){
-		if(currentState == State.Halftime) {
-			//EntityPlayer player  = scoreboard.getPlayersAsEntity();
-			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-						//EntityPlayer playerEntity = (player);
-						PolycraftMod.proxy.openHalftimeGui(player);
-			}
-		}
+		
 	}
 	
 	public boolean isPlayerInExperiment(String playerName){

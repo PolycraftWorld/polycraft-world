@@ -60,7 +60,7 @@ public class CommandHalftimeGUI extends CommandBase{
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
-		if (world.isRemote) // world.isRemote means its only on CLIENT world, will NOT open if you are on server
+		if (!world.isRemote) // world.isRemote means its only on CLIENT world, will NOT open if you are on server
         { 
 			PolycraftMod.proxy.openHalftimeGui((EntityPlayer)player);
 			//System.out.println("Not processing on client side"); 

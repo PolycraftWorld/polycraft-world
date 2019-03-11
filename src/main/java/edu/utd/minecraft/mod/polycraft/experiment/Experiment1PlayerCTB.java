@@ -897,13 +897,6 @@ public class Experiment1PlayerCTB extends Experiment{
 				tickCount++;
 			}
 		}
-		if(currentState == State.Halftime) {
-			//EntityPlayer player  = scoreboard.getPlayersAsEntity();
-			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-						//EntityPlayer playerEntity = (player);
-						PolycraftMod.proxy.openHalftimeGui(player);
-			}
-		}
 	}
 	
 	//TEMOC:

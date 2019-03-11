@@ -1,5 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +31,8 @@ public class GuiHalftime extends GuiScreen{
 			PolycraftMod.getAssetName("textures/gui/consent_background.png"));
 	private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
+	private static final String HALFTIME_TEXT = "assets/polycraft/textures/gui/GuiHalftimeDisplayText.txt";
+	private static final ResourceLocation HALFTIME_TEXT_LOC = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/GuiHalftimeDisplayText.txt"));
 
 	private ArrayList<String> lines; // The text to show, broken up by line.
 	private int ylines; // The number of lines the text space can accommodate.
@@ -41,6 +50,7 @@ public class GuiHalftime extends GuiScreen{
 	private static final String __OBFID = "CL_00000691";
 	private EntityPlayer player;
 	private int x, y, z;
+	//private ArrayList<DisplayText> displayText = readInDisplayText();
 	
 	public GuiHalftime(EntityPlayer player, int x, int y, int z) {
 		lines = new ArrayList<String>();
@@ -106,6 +116,7 @@ public class GuiHalftime extends GuiScreen{
 			answer.setText("");
 			lines.clear();
 			scroll = 0.0F;
+			//I18n.format("gui.halftime.title") displayText.get(findOutputInDisplayText(displayText,"gui.halftime.title")).getOutput()
 			titleHeight = this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.title"), X_WIDTH).size()
 					* this.fontRendererObj.FONT_HEIGHT + this.fontRendererObj.FONT_HEIGHT;
 			for (int i = this.buttonList.size() - 1; i > 1; i--)
@@ -113,6 +124,43 @@ public class GuiHalftime extends GuiScreen{
 			GuiButton yes;
 			GuiButton no;
 			switch (screenID) {
+			case 0: // If the player does not want to change strategy
+				//"gui.halftime.nothanks"
+				lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.nothanks"), X_WIDTH));
+				this.consent = false;
+				break;
+			case 1: // Question #1 - Do you want to change anything about our strategy?
+				lines.addAll(
+						this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.question1"), X_WIDTH)); // gui.halftime.question1
+				yes = new GuiButton(0, this.width / 2 - 116, this.height / 2 - 12, 210, 20, I18n.format("gui.yes"));
+				no = new GuiButton(1, this.width / 2 - 116, this.height / 2 + 10, 210, 20,
+						completed[5] ? "" : I18n.format("gui.no"));
+				yes.enabled = !completed[5];
+				no.enabled = !completed[5];
+				this.buttonList.add(yes);
+				this.buttonList.add(no);
+				break;
+			case 2: // Question #2 - Do you want to change out base capturing strategy? offense/defense
+				lines.addAll(
+						this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.question2"), X_WIDTH));
+				this.buttonList.add(new GuiButton(0, this.width / 2 - 116, this.height / 2 - 34, 210, 20,
+						I18n.format("gui.halftime.question20")));
+				this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 - 12, 210, 20,
+						I18n.format("gui.halftime.question21")));
+				break;
+			case 3: // Question #3 - Do you want to change our item use strategy? make more items, make less items
+				lines.addAll(
+						this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.question3"), X_WIDTH));
+				this.buttonList.add(new GuiButton(0, this.width / 2 - 116, this.height / 2 - 34, 210, 20,
+						I18n.format("gui.halftime.question30")));
+				this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 - 12, 210, 20,
+						I18n.format("gui.halftime.question31")));
+				break;
+			case 4: // Finishing screen for consent given.
+				lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.finished"), X_WIDTH));
+				break;
+			
+			/*
 			case 0: // If the player is not 18+.
 				lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.minor"), X_WIDTH));
 				this.consent = false;
@@ -199,7 +247,7 @@ public class GuiHalftime extends GuiScreen{
 				break;
 			case 12: // Finishing screen for consent given.
 				lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.finished"), X_WIDTH));
-				break;
+				break;*/
 			}
 			// Calculate how many lines the title text will need.
 			ylines = Math.min(lines.size(), (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT);
@@ -232,12 +280,18 @@ public class GuiHalftime extends GuiScreen{
 		protected void actionPerformed(GuiButton button) {
 			switch (button.id) {
 			case 0: // Button choice A or Yes
-				if (screenID == 5) { // Is 18+
-					completed[5] = true;
+				if (screenID == 1 ) { // Is 18+
+					completed[1] = true;
 					button.enabled = false;
-					((GuiButton) this.buttonList.get(3)).displayString = "";
-					((GuiButton) this.buttonList.get(3)).enabled = false;
-				} else if (screenID == 10) { // Consent given.
+					((GuiButton) this.buttonList.get(1)).displayString = "";
+					((GuiButton) this.buttonList.get(1)).enabled = false;
+				} 
+				else if(screenID == 2 || screenID == 3) {
+					completed[screenID] = true;
+					button.enabled = false;
+					disableOthers(button);
+				}
+				else if (screenID == 10) { // Consent given.
 					completed[10] = true;
 					button.enabled = false;
 					consent = true;
@@ -251,9 +305,13 @@ public class GuiHalftime extends GuiScreen{
 				}
 				break;
 			case 1: // Button choice B or No
-				if (screenID == 5) { // Not 18+
+				if (screenID == 1) { // Not 18+
 					screenID = 0;
 					switchScreen();
+				}else if(screenID == 2 || screenID == 3) {
+					completed[screenID] = true;
+					button.enabled = false;
+					disableOthers(button);
 				} else if (screenID == 10) { // Consent not given.
 					screenID = 11;
 					completed[10] = true;
@@ -271,7 +329,11 @@ public class GuiHalftime extends GuiScreen{
 					completed[6] = true;
 					button.enabled = false;
 					disableOthers(button);
-				} else {
+				} else if(screenID == 2 || screenID == 3) {
+					completed[screenID] = true;
+					button.enabled = false;
+					disableOthers(button);
+				}else {
 					// Mark button as incorrect.
 					button.displayString = I18n.format("gui.halftime.more");
 					button.enabled = false;
@@ -282,7 +344,11 @@ public class GuiHalftime extends GuiScreen{
 					completed[9] = true;
 					button.enabled = false;
 					disableOthers(button);
-				} else {
+				} else if(screenID == 2 || screenID == 3) {
+					completed[screenID] = true;
+					button.enabled = false;
+					disableOthers(button);
+				}else {
 					// Mark button as incorrect.
 					button.displayString = I18n.format("gui.halftime.tryagain");
 					button.enabled = false;
@@ -296,11 +362,11 @@ public class GuiHalftime extends GuiScreen{
 				switchScreen();
 				break;
 			case 5: // Next button.
-				if (screenID == 10) { // Jump to consent given or not given result screens.
-					screenID = consent ? 12 : 11;
+				if (screenID == 3) { // Jump to end
+					screenID = 4;
 					switchScreen();
 					break;
-				} else if (screenID != 0 && screenID < 11) { // Jump to next screen.
+				} else if (screenID != 0 && screenID < 4) { // Jump to next screen.
 					screenID++;
 					switchScreen();
 					break;
@@ -308,8 +374,8 @@ public class GuiHalftime extends GuiScreen{
 			default: // Should not occur outside of case 5 falling through.
 				this.mc.displayGuiScreen((GuiScreen) null);
 				this.mc.setIngameFocus();
-				if(this.consent) //display experiments list to those who consent.
-					this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
+				//if(this.consent) //display experiments list to those who consent.
+				//	this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
 				break;
 			}
 		}
@@ -344,9 +410,9 @@ public class GuiHalftime extends GuiScreen{
 			super.onGuiClosed();
 			Keyboard.enableRepeatEvents(false);
 			
-			System.out.println("Test");
+			//System.out.println("GUI Closed");
 			//send packet to server
-			ClientEnforcer.INSTANCE.sendGuiConsentUpdate(consent);
+			//ClientEnforcer.INSTANCE.sendGuiConsentUpdate(consent);
 		}
 
 		/**
@@ -407,8 +473,8 @@ public class GuiHalftime extends GuiScreen{
 			this.drawDefaultBackground();
 			if (this.buttonList.size() < 2)
 				return; // Buttons are not ready yet.
-			((GuiButton) this.buttonList.get(0)).enabled = screenID > 1 && screenID != 11;
-			((GuiButton) this.buttonList.get(1)).displayString = screenID == 0 || screenID > 10 ? "Play!" : "Next >";
+			((GuiButton) this.buttonList.get(0)).enabled = screenID > 1 && screenID != 4;
+			((GuiButton) this.buttonList.get(1)).displayString = screenID == 0 || screenID == 4 ? "Play!" : "Next >";
 			((GuiButton) this.buttonList.get(1)).enabled = completed[screenID];
 
 			// Set the marker for drawing text.
@@ -456,5 +522,57 @@ public class GuiHalftime extends GuiScreen{
 			}
 			super.drawScreen(mouseX, mouseY, p_73863_3_);
 		}
+		/*Stuff to try and get text from a different file
+		 * public int findOutputInDisplayText(ArrayList<DisplayText> displayText, String input) {
+			int i = 0;
+			boolean running = true;
+			while(i<displayText.size() && running) {
+				if(displayText.get(i).getInput().equals(input)) {
+					running = false;
+				}
+				else {
+					running = true;
+				}
+			}			
+			return i;
+		}
+		public ArrayList<DisplayText> readInDisplayText(){
+			
+			try {
+				InputStream is = this.getClass().getClassLoader().getResourceAsStream(HALFTIME_TEXT);
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				ArrayList<DisplayText> displayTextArr = new ArrayList<DisplayText>();
+				String currentLine = br.readLine();
+				while (currentLine != null){
+					String[] displayText = currentLine.split("=");
+					displayTextArr.add(new DisplayText(displayText[0],displayText[1]));
+					currentLine = br.readLine();
+			    }
+				br.close();
+				return displayTextArr;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}*/
 	
 }
+//class DisplayText{
+//	String input;
+//	String output;
+//	public DisplayText(String input, String output) {
+//		this.input = input;
+//		this.output = output;
+//	}
+//	public String getOutput() {		
+//		return output;
+//	}
+//	public String getInput() {		
+//		return input;
+//	}
+//	
+//}
