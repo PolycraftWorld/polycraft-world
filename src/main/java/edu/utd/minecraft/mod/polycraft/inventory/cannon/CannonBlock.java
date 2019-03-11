@@ -74,7 +74,6 @@ public class CannonBlock extends PolycraftInventoryBlock {
             
             double d2 = z + (double)enumfacing.getFrontOffsetZ();
 
-<<<<<<< HEAD
             EntityPaintball cannonBall;
         	cannonBall = new EntityPaintball(world);
         	cannonBall.forceSpawn=true;
@@ -82,20 +81,14 @@ public class CannonBlock extends PolycraftInventoryBlock {
         	cannonBall.setPosition((double)d0+.5, (double)y+.5, (double)d2+.5);
             world.spawnEntityInWorld(cannonBall);
             
-=======
->>>>>>> refs/remotes/origin/PhysicsCannonInput
             CannonInventory tileEntity=(CannonInventory) this.getInventory(world, x, y, z);
             double velocity=tileEntity.velocity;
             double theta=tileEntity.theta;
             double mass=tileEntity.mass;
             
-<<<<<<< HEAD
             //cannonBall.mass=mass;
-=======
     
-            double rad = -theta/180*Math.PI;
-          
-            
+            double rad = -theta/180*Math.PI;          	
             
         	EntityIronCannonBall cannonBall;
         	cannonBall = new EntityIronCannonBall(world);
@@ -108,7 +101,6 @@ public class CannonBlock extends PolycraftInventoryBlock {
             world.spawnEntityInWorld(cannonBall);
             
             cannonBall.mass=mass;
->>>>>>> refs/remotes/origin/PhysicsCannonInput
             
             cannonBall.motionX=velocity*Math.cos(rad)/20;
             

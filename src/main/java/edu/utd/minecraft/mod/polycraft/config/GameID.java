@@ -120,14 +120,13 @@ public enum GameID {
 	EntityIronCannonBall("1hE"),
 	ItemIronCannonball("1hF"),
 	CustomMiningHammer("1hG"),
-<<<<<<< HEAD
+
 	Slingshot("1Hi"),
 	Paintball("1hj"),
-	EPaintball("1hK");
-=======
+	EPaintball("1hK"),
+
 	HPBlock("1hH");
 	
->>>>>>> refs/remotes/origin/PhysicsCannonInput
 	public final String id;
 
 	private GameID(final String id) {
