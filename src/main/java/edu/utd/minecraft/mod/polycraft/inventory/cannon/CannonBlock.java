@@ -74,16 +74,28 @@ public class CannonBlock extends PolycraftInventoryBlock {
             
             double d2 = z + (double)enumfacing.getFrontOffsetZ();
 
+<<<<<<< HEAD
+=======
+            EntityPaintball cannonBall;
+        	cannonBall = new EntityPaintball(world);
+        	cannonBall.forceSpawn=true;
+        	
+        	cannonBall.setPosition((double)d0+.5, (double)y+.5, (double)d2+.5);
+            world.spawnEntityInWorld(cannonBall);
+            
+>>>>>>> branch 'FlingPaintballGame' of https://github.com/StephenGss/polycraft.git
             CannonInventory tileEntity=(CannonInventory) this.getInventory(world, x, y, z);
             double velocity=tileEntity.velocity;
             double theta=tileEntity.theta;
             double mass=tileEntity.mass;
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> branch 'FlingPaintballGame' of https://github.com/StephenGss/polycraft.git
             //cannonBall.mass=mass;
     
-            double rad = -theta/180*Math.PI;
-          
-            
+            double rad = -theta/180*Math.PI;          	
             
         	EntityIronCannonBall cannonBall;
         	cannonBall = new EntityIronCannonBall(world);

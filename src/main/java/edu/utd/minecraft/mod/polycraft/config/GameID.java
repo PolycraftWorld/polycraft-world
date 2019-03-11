@@ -120,12 +120,23 @@ public enum GameID {
 	EntityIronCannonBall("1hE"),
 	ItemIronCannonball("1hF"),
 	CustomMiningHammer("1hG"),
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'FlingPaintballGame' of https://github.com/StephenGss/polycraft.git
 	Slingshot("1Hi"),
 	Paintball("1hj"),
 	EPaintball("1hK"),
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'FlingPaintballGame' of https://github.com/StephenGss/polycraft.git
 	HPBlock("1hH");
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'FlingPaintballGame' of https://github.com/StephenGss/polycraft.git
 	public final String id;
 
 	private GameID(final String id) {
