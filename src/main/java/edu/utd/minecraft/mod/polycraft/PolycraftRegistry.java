@@ -72,7 +72,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPaintball;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
@@ -1107,7 +1107,7 @@ public class PolycraftRegistry {
 					EntityIronCannonBall.register(polycraftEntity);
 				}
 				else if (GameID.EPaintball.matches(polycraftEntity)) {
-					EntityPaintball.register(polycraftEntity);
+					EntityPellet.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))

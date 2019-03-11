@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.entity.Physics;
+package edu.utd.minecraft.mod.polycraft.entity.projectile;
 
 
 import org.lwjgl.opengl.GL11;
@@ -17,7 +17,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.ObjModelLoader;
 
 @SideOnly(Side.CLIENT)
-public class ModelCannonBall extends ModelBase
+public class ModelPaintball extends ModelBase
 {
 	boolean inColor;
 	int color;
@@ -50,7 +50,7 @@ public class ModelCannonBall extends ModelBase
 
     private static final String __OBFID = "CL_00000859";
 
-    public ModelCannonBall()
+    public ModelPaintball()
     {
     	this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/ironcannonball.obj");
 		//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
@@ -160,7 +160,6 @@ public class ModelCannonBall extends ModelBase
     	GL11.glScalef(0.2F, 0.2F, 0.2F);
 		GL11.glTranslatef(-12.45F, -25.0F, -37.5F);
     	Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
-    	this.setColor(0xFF6600FF);
 		if(inColor)
         {
             float r = (float)(color >> 16 & 0xff) / 255F;

@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPaintball;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import net.minecraft.block.Block;
@@ -74,24 +74,12 @@ public class CannonBlock extends PolycraftInventoryBlock {
             
             double d2 = z + (double)enumfacing.getFrontOffsetZ();
 
-<<<<<<< HEAD
-            EntityPaintball cannonBall;
-        	cannonBall = new EntityPaintball(world);
-        	cannonBall.forceSpawn=true;
-        	
-        	cannonBall.setPosition((double)d0+.5, (double)y+.5, (double)d2+.5);
-            world.spawnEntityInWorld(cannonBall);
-            
-=======
->>>>>>> refs/remotes/origin/PhysicsCannonInput
             CannonInventory tileEntity=(CannonInventory) this.getInventory(world, x, y, z);
             double velocity=tileEntity.velocity;
             double theta=tileEntity.theta;
             double mass=tileEntity.mass;
-            
-<<<<<<< HEAD
+
             //cannonBall.mass=mass;
-=======
     
             double rad = -theta/180*Math.PI;
           
@@ -108,7 +96,6 @@ public class CannonBlock extends PolycraftInventoryBlock {
             world.spawnEntityInWorld(cannonBall);
             
             cannonBall.mass=mass;
->>>>>>> refs/remotes/origin/PhysicsCannonInput
             
             cannonBall.motionX=velocity*Math.cos(rad)/20;
             

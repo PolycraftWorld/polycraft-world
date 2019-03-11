@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPaintball;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -62,11 +62,11 @@ public class ItemSlingshot extends ItemCustom {
                 f = 1.0F;
             }
 
-            EntityPaintball EntityPaintball = new EntityPaintball(p_77615_2_, p_77615_3_, f * 2.0F);
+            EntityPellet EntityPellet = new EntityPellet(p_77615_2_, p_77615_3_, f * 2.0F);
 
             if (f == 1.0F)
             {
-                EntityPaintball.setIsCritical(true);
+                EntityPellet.setIsCritical(true);
             }
 
             p_77615_1_.damageItem(1, p_77615_3_);
@@ -74,7 +74,7 @@ public class ItemSlingshot extends ItemCustom {
 
             if (flag)
             {
-                EntityPaintball.canBePickedUp = 2;
+                EntityPellet.canBePickedUp = 2;
             }
             else
             {
@@ -83,7 +83,7 @@ public class ItemSlingshot extends ItemCustom {
 
             if (!p_77615_2_.isRemote)
             {
-                p_77615_2_.spawnEntityInWorld(EntityPaintball);
+                p_77615_2_.spawnEntityInWorld(EntityPellet);
             }
         }
     }
@@ -136,9 +136,11 @@ public class ItemSlingshot extends ItemCustom {
 
         if (player.capabilities.isCreativeMode || player.inventory.hasItem(ItemCustom.getItemById(6414)))
         {
-            player.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
-            this.jeff = 72000 - player.getItemInUseCount();
-        }
+			player.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
+			if (world.isRemote) {
+				this.jeff = 72000 - player.getItemInUseCount();
+			}
+		}
 
         return p_77659_1_;
     }

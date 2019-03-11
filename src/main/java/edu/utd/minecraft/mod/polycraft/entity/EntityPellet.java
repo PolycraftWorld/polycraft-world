@@ -28,7 +28,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityPaintball extends Entity implements IProjectile {
+public class EntityPellet extends Entity implements IProjectile {
 
 	private int field_145791_d = -1;
 	private int field_145792_e = -1;
@@ -49,13 +49,13 @@ public class EntityPaintball extends Entity implements IProjectile {
 	private int knockbackStrength;
 	private static final String __OBFID = "CL_00001715";
 
-	public EntityPaintball(World p_i1753_1_) {
+	public EntityPellet(World p_i1753_1_) {
 		super(p_i1753_1_);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public EntityPaintball(World p_i1754_1_, double p_i1754_2_, double p_i1754_4_, double p_i1754_6_) {
+	public EntityPellet(World p_i1754_1_, double p_i1754_2_, double p_i1754_4_, double p_i1754_6_) {
 		super(p_i1754_1_);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
@@ -63,7 +63,7 @@ public class EntityPaintball extends Entity implements IProjectile {
 		this.yOffset = 0.0F;
 	}
 
-	public EntityPaintball(World p_i1755_1_, EntityLivingBase p_i1755_2_, EntityLivingBase p_i1755_3_, float p_i1755_4_,
+	public EntityPellet(World p_i1755_1_, EntityLivingBase p_i1755_2_, EntityLivingBase p_i1755_3_, float p_i1755_4_,
 			float p_i1755_5_) {
 		super(p_i1755_1_);
 		this.renderDistanceWeight = 10.0D;
@@ -91,7 +91,7 @@ public class EntityPaintball extends Entity implements IProjectile {
 		}
 	}
 
-	public EntityPaintball(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_) {
+	public EntityPellet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_) {
 		super(p_i1756_1_);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = p_i1756_2_;
@@ -186,6 +186,10 @@ public class EntityPaintball extends Entity implements IProjectile {
 	public void onUpdate() {
 		super.onUpdate();
 
+		if (!(this.worldObj.isAirBlock((int)this.posX, (int)this.posY, (int)this.posZ)))
+				{
+			this.setDead();
+				}
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D
@@ -493,7 +497,7 @@ public class EntityPaintball extends Entity implements IProjectile {
 			boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
 
 			if (this.canBePickedUp == 1
-					&& !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(PolycraftRegistry.getItem("Paintball"), 1))) {
+					&& !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(PolycraftRegistry.getItem("Pellet"), 1))) {
 				flag = false;
 			}
 
@@ -604,8 +608,8 @@ public class EntityPaintball extends Entity implements IProjectile {
 	private static PolycraftEntity config;
 
 	public static final void register(final PolycraftEntity polycraftEntity) {
-		EntityPaintball.config = polycraftEntity;
-		PolycraftEntityLiving.register(EntityPaintball.class, config.entityID, config.name);
+		EntityPellet.config = polycraftEntity;
+		PolycraftEntityLiving.register(EntityPellet.class, config.entityID, config.name);
 	}
 
 }
