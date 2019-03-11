@@ -21,96 +21,99 @@ import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class ItemSlingshot extends ItemCustom {
 
+	public enum SlingShotType{
+		WOODEN, TACTICAL, SCATTER, BURST, GRAVITY, ICE;
+	}
+	
     private IIcon[] iconArray;
     public static final String[] slingPullIconNameArray = new String[] {PolycraftMod.getAssetName("slingpull1"), PolycraftMod.getAssetName("slingpull2"), PolycraftMod.getAssetName("slingpull3")};
-    int jeff;
+    int holdCount;
+    SlingShotType type;
+    
 	public ItemSlingshot(CustomObject config) {
 		super(config);
+		init();
+		type = SlingShotType.WOODEN;
+	}
+	
+	public ItemSlingshot(CustomObject config, SlingShotType type) {
+		super(config);
+		init();
+		this.type = type;
+	}
+	
+	private void init() {
 		this.maxStackSize = 1;
 		this.setMaxDamage(500);
 //		this.setTextureName(PolycraftMod.getAssetName("Slingshot"));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 	}
-
 	
-	public void onPlayerStoppedUsing(ItemStack p_77615_1_, World p_77615_2_, EntityPlayer p_77615_3_, int p_77615_4_)
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count)
     {
-        int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
+        int j = this.getMaxItemUseDuration(stack) - count;
 
-        ArrowLooseEvent event = new ArrowLooseEvent(p_77615_3_, p_77615_1_, j);
+        ArrowLooseEvent event = new ArrowLooseEvent(player, stack, j);
         MinecraftForge.EVENT_BUS.post(event);
-        if (event.isCanceled())
-        {
+        if (event.isCanceled()){
             return;
         }
         j = event.charge;
 
-        boolean flag = p_77615_3_.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
+        boolean flag = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 
-        if (flag || p_77615_3_.inventory.hasItem(ItemCustom.getItemById(6414)))
-        {
+        if (flag || player.inventory.hasItem(ItemCustom.getItemById(6414))){
             float f = (float)j / 20.0F;
             f = (f * f + f * 2.0F) / 3.0F;
 
-            if ((double)f < 0.1D)
-            {
+            if ((double)f < 0.1D){
                 return;
             }
 
-            if (f > 1.0F) 
-            {
+            if (f > 1.0F) {
                 f = 1.0F;
             }
 
-            EntityPellet EntityPellet = new EntityPellet(p_77615_2_, p_77615_3_, f * 2.0F);
+            EntityPellet EntityPellet = new EntityPellet(world, player, f * 2.0F);
 
-            if (f == 1.0F)
-            {
+            if (f == 1.0F){
                 EntityPellet.setIsCritical(true);
             }
 
-            p_77615_1_.damageItem(1, p_77615_3_);
-            p_77615_2_.playSoundAtEntity(p_77615_3_, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+            stack.damageItem(1, player);
+            world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
-            if (flag)
-            {
+            if (flag){
                 EntityPellet.canBePickedUp = 2;
             }
-            else
-            {
-                p_77615_3_.inventory.consumeInventoryItem(ItemCustom.getItemById(6414));
+            else{
+                player.inventory.consumeInventoryItem(ItemCustom.getItemById(6414));
             }
 
-            if (!p_77615_2_.isRemote)
-            {
-                p_77615_2_.spawnEntityInWorld(EntityPellet);
+            if (!world.isRemote){
+                world.spawnEntityInWorld(EntityPellet);
             }
         }
     }
 	
 	
-	public IIcon getItemIcon(ItemStack p_70620_1_, int p_70620_2_)
-    {
+	public IIcon getItemIcon(ItemStack stack, int count){
 		
-		 if (jeff >= 18)
-         {
+		 if (holdCount >= 18){
              return this.iconArray[2];
          }
 
-         if (jeff > 13)
-         {
+         if (holdCount > 13){
         	 return this.iconArray[1];
          }
 
-         if (jeff > 0)
-         {
+         if (holdCount > 0){
              return this.iconArray[0];
          }
          return this.itemIcon;
     }
     @SideOnly(Side.CLIENT)
-    public IIcon getItemIconForUseDuration(int p_94599_1_)
-    {
+    public IIcon getItemIconForUseDuration(int p_94599_1_){
         return this.iconArray[p_94599_1_];
     }
 	
@@ -120,8 +123,7 @@ public class ItemSlingshot extends ItemCustom {
 //	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack parItemstack)
-	{
+	public String getItemStackDisplayName(ItemStack parItemstack){
 		return "Wooden Slingshot";
 	}
     public ItemStack onItemRightClick(ItemStack p_77659_1_, World world, EntityPlayer player)
@@ -138,7 +140,7 @@ public class ItemSlingshot extends ItemCustom {
         {
 			player.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 			if (world.isRemote) {
-				this.jeff = 72000 - player.getItemInUseCount();
+				this.holdCount = 72000 - player.getItemInUseCount();
 			}
 		}
 

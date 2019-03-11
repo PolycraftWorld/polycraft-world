@@ -49,17 +49,17 @@ public class EntityPellet extends Entity implements IProjectile {
 	private int knockbackStrength;
 	private static final String __OBFID = "CL_00001715";
 
-	public EntityPellet(World p_i1753_1_) {
-		super(p_i1753_1_);
+	public EntityPellet(World world) {
+		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public EntityPellet(World p_i1754_1_, double p_i1754_2_, double p_i1754_4_, double p_i1754_6_) {
-		super(p_i1754_1_);
+	public EntityPellet(World world, double posX, double posY, double posZ) {
+		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
-		this.setPosition(p_i1754_2_, p_i1754_4_, p_i1754_6_);
+		this.setPosition(posX, posY, posZ);
 		this.yOffset = 0.0F;
 	}
 
