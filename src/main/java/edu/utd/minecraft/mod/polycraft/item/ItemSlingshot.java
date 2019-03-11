@@ -51,7 +51,21 @@ public class ItemSlingshot extends ItemCustom {
 	
 	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count)
     {
-        int j = this.getMaxItemUseDuration(stack) - count;
+        if(type == SlingShotType.WOODEN) {
+        	fireWooden(stack, world, player, count);
+        } else if(type == SlingShotType.TACTICAL) {
+        	fireTactical(stack, world, player, count);
+        } else if(type == SlingShotType.BURST) {
+        	fireBurst(stack, world, player, count);
+        } else if(type == SlingShotType.GRAVITY) {
+        	fireGravity(stack, world, player, count);
+        } else if(type == SlingShotType.ICE) {
+        	fireIce(stack, world, player, count);
+        }
+    }
+	
+	private void fireWooden(ItemStack stack, World world, EntityPlayer player, int count) {
+		int j = this.getMaxItemUseDuration(stack) - count;
 
         ArrowLooseEvent event = new ArrowLooseEvent(player, stack, j);
         MinecraftForge.EVENT_BUS.post(event);
@@ -94,8 +108,23 @@ public class ItemSlingshot extends ItemCustom {
                 world.spawnEntityInWorld(EntityPellet);
             }
         }
-    }
+	}
 	
+	private void fireTactical(ItemStack stack, World world, EntityPlayer player, int count) {
+		fireWooden(stack, world, player, count);
+	}
+	private void fireScatter(ItemStack stack, World world, EntityPlayer player, int count) {
+		fireWooden(stack, world, player, count);
+	}
+	private void fireBurst(ItemStack stack, World world, EntityPlayer player, int count) {
+		fireWooden(stack, world, player, count);
+	}
+	private void fireGravity(ItemStack stack, World world, EntityPlayer player, int count) {
+		fireWooden(stack, world, player, count);
+	}
+	private void fireIce(ItemStack stack, World world, EntityPlayer player, int count) {
+		fireWooden(stack, world, player, count);
+	}
 	
 	public IIcon getItemIcon(ItemStack stack, int count){
 		
@@ -126,10 +155,10 @@ public class ItemSlingshot extends ItemCustom {
 	public String getItemStackDisplayName(ItemStack parItemstack){
 		return "Wooden Slingshot";
 	}
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World world, EntityPlayer player)
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
     	
-        ArrowNockEvent event = new ArrowNockEvent(player, p_77659_1_);
+        ArrowNockEvent event = new ArrowNockEvent(player, stack);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled())
         {
@@ -138,36 +167,34 @@ public class ItemSlingshot extends ItemCustom {
 
         if (player.capabilities.isCreativeMode || player.inventory.hasItem(ItemCustom.getItemById(6414)))
         {
-			player.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
+			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 			if (world.isRemote) {
 				this.holdCount = 72000 - player.getItemInUseCount();
 			}
 		}
 
-        return p_77659_1_;
+        return stack;
     }
-    public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+    public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
-        return p_77654_1_;
+        return stack;
     }
 
     /**
      * How long it takes to use or consume an item
      */
-    public int getMaxItemUseDuration(ItemStack p_77626_1_)
-    {
+    public int getMaxItemUseDuration(ItemStack stack){
         return 72000;
     }
     
 
-    public void registerIcons(IIconRegister p_94581_1_)
-    {
-        this.itemIcon = p_94581_1_.registerIcon(PolycraftMod.getAssetName("Slingshot"));
+    public void registerIcons(IIconRegister register){
+        this.itemIcon = register.registerIcon(PolycraftMod.getAssetName("Slingshot"));
         this.iconArray = new IIcon[slingPullIconNameArray.length];
 
         for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[i] = p_94581_1_.registerIcon(this.getIconString() + "_" + slingPullIconNameArray[i]);
+            this.iconArray[i] = register.registerIcon(this.getIconString() + "_" + slingPullIconNameArray[i]);
         }
     }
 
