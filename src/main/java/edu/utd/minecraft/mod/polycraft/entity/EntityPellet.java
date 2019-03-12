@@ -30,24 +30,24 @@ import net.minecraft.world.World;
 
 public class EntityPellet extends Entity implements IProjectile {
 
-	private int field_145791_d = -1;
-	private int field_145792_e = -1;
-	private int field_145789_f = -1;
-	private Block field_145790_g;
-	private int inData;
-	private boolean inGround;
+	protected int positionXCurrent = -1;
+	protected int positionYCurrent = -1;
+	protected int positionZCurrent = -1;
+	protected Block currentBlock;
+	protected int inData;
+	protected boolean inGround;
 	/** 1 if the player can pick up the arrow */
 	public int canBePickedUp;
 	/** Seems to be some sort of timer for animating an arrow. */
 	public int arrowShake;
 	/** The owner of this arrow. */
 	public Entity shootingEntity;
-	private int ticksInGround;
-	private int ticksInAir;
-	private double damage = 2.0D;
+	protected int ticksInGround;
+	protected int ticksInAir;
+	protected double damage = 2.0D;
 	/** The amount of knockback an arrow applies when it hits a mob. */
-	private int knockbackStrength;
-	private static final String __OBFID = "CL_00001715";
+	protected int knockbackStrength;
+	protected static final String __OBFID = "CL_00001715";
 
 	public EntityPellet(World world) {
 		super(world);
@@ -95,9 +95,7 @@ public class EntityPellet extends Entity implements IProjectile {
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shootingEntity;
 
-		if (shootingEntity instanceof EntityPlayer) {
-			this.canBePickedUp = 1;
-		}
+		this.canBePickedUp = 2;
 
 		this.setSize(0.5F, 0.5F);
 		this.setLocationAndAngles(shootingEntity.posX, shootingEntity.posY + (double) shootingEntity.getEyeHeight(),
@@ -162,15 +160,15 @@ public class EntityPellet extends Entity implements IProjectile {
 	 * Sets the velocity to the args. Args: x, y, z
 	 */
 	@SideOnly(Side.CLIENT)
-	public void setVelocity(double p_70016_1_, double p_70016_3_, double p_70016_5_) {
-		this.motionX = p_70016_1_;
-		this.motionY = p_70016_3_;
-		this.motionZ = p_70016_5_;
+	public void setVelocity(double _motionX, double _motionY, double _motionZ) {
+		this.motionX = _motionX;
+		this.motionY = _motionY;
+		this.motionZ = _motionZ;
 
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
-			float f = MathHelper.sqrt_double(p_70016_1_ * p_70016_1_ + p_70016_5_ * p_70016_5_);
-			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(p_70016_1_, p_70016_5_) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(p_70016_3_, (double) f) * 180.0D
+			float f = MathHelper.sqrt_double(_motionX * _motionX + _motionZ * _motionZ);
+			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(_motionX, _motionZ) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(_motionY, (double) f) * 180.0D
 					/ Math.PI);
 			this.prevRotationPitch = this.rotationPitch;
 			this.prevRotationYaw = this.rotationYaw;
@@ -197,13 +195,13 @@ public class EntityPellet extends Entity implements IProjectile {
 					/ Math.PI);
 		}
 
-		Block block = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f);
+		Block block = this.worldObj.getBlock(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent);
 
 		if (block.getMaterial() != Material.air) {
-			block.setBlockBoundsBasedOnState(this.worldObj, this.field_145791_d, this.field_145792_e,
-					this.field_145789_f);
-			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d,
-					this.field_145792_e, this.field_145789_f);
+			block.setBlockBoundsBasedOnState(this.worldObj, this.positionXCurrent, this.positionYCurrent,
+					this.positionZCurrent);
+			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.positionXCurrent,
+					this.positionYCurrent, this.positionZCurrent);
 
 			if (axisalignedbb != null
 					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ))) {
@@ -216,9 +214,9 @@ public class EntityPellet extends Entity implements IProjectile {
 		}
 
 		if (this.inGround) {
-			int j = this.worldObj.getBlockMetadata(this.field_145791_d, this.field_145792_e, this.field_145789_f);
+			int j = this.worldObj.getBlockMetadata(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent);
 
-			if (block == this.field_145790_g && j == this.inData) {
+			if (block == this.currentBlock && j == this.inData) {
 				++this.ticksInGround;
 
 				if (this.ticksInGround == 1200) {
@@ -360,13 +358,13 @@ public class EntityPellet extends Entity implements IProjectile {
 						this.ticksInAir = 0;
 					}
 				} else {
-					this.field_145791_d = movingobjectposition.blockX;
-					this.field_145792_e = movingobjectposition.blockY;
-					this.field_145789_f = movingobjectposition.blockZ;
-					this.field_145790_g = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e,
-							this.field_145789_f);
-					this.inData = this.worldObj.getBlockMetadata(this.field_145791_d, this.field_145792_e,
-							this.field_145789_f);
+					this.positionXCurrent = movingobjectposition.blockX;
+					this.positionYCurrent = movingobjectposition.blockY;
+					this.positionZCurrent = movingobjectposition.blockZ;
+					this.currentBlock = this.worldObj.getBlock(this.positionXCurrent, this.positionYCurrent,
+							this.positionZCurrent);
+					this.inData = this.worldObj.getBlockMetadata(this.positionXCurrent, this.positionYCurrent,
+							this.positionZCurrent);
 					this.motionX = (double) ((float) (movingobjectposition.hitVec.xCoord - this.posX));
 					this.motionY = (double) ((float) (movingobjectposition.hitVec.yCoord - this.posY));
 					this.motionZ = (double) ((float) (movingobjectposition.hitVec.zCoord - this.posZ));
@@ -380,9 +378,9 @@ public class EntityPellet extends Entity implements IProjectile {
 					this.arrowShake = 7;
 					this.setIsCritical(false);
 
-					if (this.field_145790_g.getMaterial() != Material.air) {
-						this.field_145790_g.onEntityCollidedWithBlock(this.worldObj, this.field_145791_d,
-								this.field_145792_e, this.field_145789_f, this);
+					if (this.currentBlock.getMaterial() != Material.air) {
+						this.currentBlock.onEntityCollidedWithBlock(this.worldObj, this.positionXCurrent,
+								this.positionYCurrent, this.positionZCurrent, this);
 					}
 				}
 			}
@@ -423,7 +421,8 @@ public class EntityPellet extends Entity implements IProjectile {
 			this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 			float f3 = 0.99F;
 			f1 = 0.05F;
-
+			//f1 = 0F;
+			
 			if (this.isInWater()) {
 				for (int l = 0; l < 4; ++l) {
 					f4 = 0.25F;
@@ -452,11 +451,11 @@ public class EntityPellet extends Entity implements IProjectile {
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	public void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		p_70014_1_.setShort("xTile", (short) this.field_145791_d);
-		p_70014_1_.setShort("yTile", (short) this.field_145792_e);
-		p_70014_1_.setShort("zTile", (short) this.field_145789_f);
+		p_70014_1_.setShort("xTile", (short) this.positionXCurrent);
+		p_70014_1_.setShort("yTile", (short) this.positionYCurrent);
+		p_70014_1_.setShort("zTile", (short) this.positionZCurrent);
 		p_70014_1_.setShort("life", (short) this.ticksInGround);
-		p_70014_1_.setByte("inTile", (byte) Block.getIdFromBlock(this.field_145790_g));
+		p_70014_1_.setByte("inTile", (byte) Block.getIdFromBlock(this.currentBlock));
 		p_70014_1_.setByte("inData", (byte) this.inData);
 		p_70014_1_.setByte("shake", (byte) this.arrowShake);
 		p_70014_1_.setByte("inGround", (byte) (this.inGround ? 1 : 0));
@@ -468,11 +467,11 @@ public class EntityPellet extends Entity implements IProjectile {
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	public void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		this.field_145791_d = p_70037_1_.getShort("xTile");
-		this.field_145792_e = p_70037_1_.getShort("yTile");
-		this.field_145789_f = p_70037_1_.getShort("zTile");
+		this.positionXCurrent = p_70037_1_.getShort("xTile");
+		this.positionYCurrent = p_70037_1_.getShort("yTile");
+		this.positionZCurrent = p_70037_1_.getShort("zTile");
 		this.ticksInGround = p_70037_1_.getShort("life");
-		this.field_145790_g = Block.getBlockById(p_70037_1_.getByte("inTile") & 255);
+		this.currentBlock = Block.getBlockById(p_70037_1_.getByte("inTile") & 255);
 		this.inData = p_70037_1_.getByte("inData") & 255;
 		this.arrowShake = p_70037_1_.getByte("shake") & 255;
 		this.inGround = p_70037_1_.getByte("inGround") == 1;
@@ -565,45 +564,6 @@ public class EntityPellet extends Entity implements IProjectile {
 		return (b0 & 1) != 0;
 	}
 
-//	@Override
-//	protected void entityInit() {
-//		this.dataWatcher.addObject(64, Byte.valueOf((byte) 0));
-//
-//	}
-//
-//	@Override
-//	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-//
-//	}
-//
-//	@Override
-//	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-//
-//	}
-//
-//	@Override
-//
-//	public void setThrowableHeading(double x, double y, double z, float p_70186_7_,	float p_70186_8_) {
-//		float f2 = MathHelper.sqrt_double(x * x + y * y + z * z);
-//		x /= (double) f2;
-//		y /= (double) f2;
-//		z /= (double) f2;
-//		x += this.rand.nextGaussian() * (double) (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D
-//				* (double) p_70186_8_;
-//		y += this.rand.nextGaussian() * (double) (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D
-//				* (double) p_70186_8_;
-//		z += this.rand.nextGaussian() * (double) (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D
-//				* (double) p_70186_8_;
-//		x *= (double) p_70186_7_;
-//		y *= (double) p_70186_7_;
-//		z *= (double) p_70186_7_;
-//		this.motionX = x;
-//		this.motionY = y;
-//		this.motionZ = z;
-//		float f3 = MathHelper.sqrt_double(x * x + z * z);
-//		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(x, z) * 180.0D / Math.PI);
-//
-//	}
 	private static PolycraftEntity config;
 
 	public static final void register(final PolycraftEntity polycraftEntity) {

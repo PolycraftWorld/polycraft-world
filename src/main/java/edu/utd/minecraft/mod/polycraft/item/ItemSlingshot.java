@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPaintBall;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,22 +22,22 @@ import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class ItemSlingshot extends ItemCustom {
 
-	public enum SlingShotType{
+	public enum SlingshotType{
 		WOODEN, TACTICAL, SCATTER, BURST, GRAVITY, ICE;
 	}
 	
     private IIcon[] iconArray;
     public static final String[] slingPullIconNameArray = new String[] {PolycraftMod.getAssetName("slingpull1"), PolycraftMod.getAssetName("slingpull2"), PolycraftMod.getAssetName("slingpull3")};
     int holdCount;
-    SlingShotType type;
+    SlingshotType type;
     
 	public ItemSlingshot(CustomObject config) {
 		super(config);
 		init();
-		type = SlingShotType.WOODEN;
+		type = SlingshotType.WOODEN;
 	}
 	
-	public ItemSlingshot(CustomObject config, SlingShotType type) {
+	public ItemSlingshot(CustomObject config, SlingshotType type) {
 		super(config);
 		init();
 		this.type = type;
@@ -51,20 +52,22 @@ public class ItemSlingshot extends ItemCustom {
 	
 	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count)
     {
-        if(type == SlingShotType.WOODEN) {
+        if(type == SlingshotType.WOODEN) {
         	fireWooden(stack, world, player, count);
-        } else if(type == SlingShotType.TACTICAL) {
+        } else if(type == SlingshotType.TACTICAL) {
         	fireTactical(stack, world, player, count);
-        } else if(type == SlingShotType.BURST) {
+        } else if(type == SlingshotType.BURST) {
         	fireBurst(stack, world, player, count);
-        } else if(type == SlingShotType.GRAVITY) {
+        } else if(type == SlingshotType.GRAVITY) {
         	fireGravity(stack, world, player, count);
-        } else if(type == SlingShotType.ICE) {
+        } else if(type == SlingshotType.ICE) {
         	fireIce(stack, world, player, count);
         }
     }
 	
 	private void fireWooden(ItemStack stack, World world, EntityPlayer player, int count) {
+		fireTactical(stack, world, player, count);
+		/*
 		int j = this.getMaxItemUseDuration(stack) - count;
 
         ArrowLooseEvent event = new ArrowLooseEvent(player, stack, j);
@@ -108,22 +111,65 @@ public class ItemSlingshot extends ItemCustom {
                 world.spawnEntityInWorld(EntityPellet);
             }
         }
+        */
 	}
 	
 	private void fireTactical(ItemStack stack, World world, EntityPlayer player, int count) {
-		fireWooden(stack, world, player, count);
+		int j = this.getMaxItemUseDuration(stack) - count;
+
+        ArrowLooseEvent event = new ArrowLooseEvent(player, stack, j);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()){
+            return;
+        }
+        j = event.charge;
+
+        boolean flag = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+
+        if (flag || player.inventory.hasItem(ItemCustom.getItemById(6414))){
+            float f = (float)j / 20.0F;
+            f = (f * f + f * 2.0F) / 3.0F;
+
+            if ((double)f < 0.1D){
+                return;
+            }
+
+            if (f > 1.0F) {
+                f = 1.0F;
+            }
+
+            EntityPaintBall paintBall = new EntityPaintBall(world, player, f * 2.0F, this);
+
+            if (f == 1.0F){
+                paintBall.setIsCritical(true);
+            }
+
+            stack.damageItem(1, player);
+            world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+
+            if (flag){
+                paintBall.canBePickedUp = 2;
+            }
+            else{
+                player.inventory.consumeInventoryItem(ItemCustom.getItemById(6414));
+            }
+
+            if (!world.isRemote){
+                world.spawnEntityInWorld(paintBall);
+            }
+        }
 	}
 	private void fireScatter(ItemStack stack, World world, EntityPlayer player, int count) {
-		fireWooden(stack, world, player, count);
+		fireTactical(stack, world, player, count);
 	}
 	private void fireBurst(ItemStack stack, World world, EntityPlayer player, int count) {
-		fireWooden(stack, world, player, count);
+		fireTactical(stack, world, player, count);
 	}
 	private void fireGravity(ItemStack stack, World world, EntityPlayer player, int count) {
-		fireWooden(stack, world, player, count);
+		fireTactical(stack, world, player, count);
 	}
 	private void fireIce(ItemStack stack, World world, EntityPlayer player, int count) {
-		fireWooden(stack, world, player, count);
+		fireTactical(stack, world, player, count);
 	}
 	
 	public IIcon getItemIcon(ItemStack stack, int count){
@@ -198,7 +244,9 @@ public class ItemSlingshot extends ItemCustom {
         }
     }
 
-    
+    public SlingshotType getType() {
+    	return type;
+    }
 
 //	public int getItemEnchantability() {
 //		return 0;
