@@ -25,14 +25,20 @@ import net.minecraft.world.World;
 public class EntityPaintBall extends EntityPellet{
 
 	ItemSlingshot.SlingshotType type;
-
+	public boolean isChildPellet = false;
+	private World world;
+	
+	private static double SCATTER_SPLIT_DEGREE = 10.0;
+	
 	public EntityPaintBall(World world) {
 		super(world);
+		this.world = world;
 	}
-
-	public EntityPaintBall(World world, EntityPlayer shootingEntity, float float1, ItemSlingshot theSlingshot) {
+	
+	public EntityPaintBall(World world, EntityPlayer shootingEntity, float float1, ItemSlingshot.SlingshotType type) {
 		super(world, shootingEntity, float1);
-		type = theSlingshot.getType();
+		this.type = type;
+		this.world = world;
 	}
 
 	/**
@@ -42,10 +48,24 @@ public class EntityPaintBall extends EntityPellet{
 	public void onUpdate() {
 		super.onEntityUpdate();
 
-		if (!(this.worldObj.isAirBlock((int)this.posX, (int)this.posY, (int)this.posZ)) || this.ticksExisted >= 64)
-		{
+		if (!(this.worldObj.isAirBlock((int)this.posX, (int)this.posY, (int)this.posZ)) || this.ticksExisted >= 64){
 			this.setDead();
 		}
+		
+		if(this.ticksExisted >= 16 && type == SlingshotType.SCATTER && !isChildPellet) {
+			EntityPaintBall child1 = new EntityPaintBall(world), child2 = new EntityPaintBall(world);
+			child1.isChildPellet = child2.isChildPellet = true;
+			child1.positionXCurrent = child2.positionXCurrent = this.positionXCurrent;
+			child1.positionYCurrent = child2.positionYCurrent = this.positionYCurrent;
+			child1.positionZCurrent = child2.positionZCurrent = this.positionZCurrent;
+			child1.currentBlock = child2.currentBlock = this.currentBlock;
+			child1.ticksExisted = child2.ticksExisted = this.ticksExisted;
+			child1.shootingEntity = child2.shootingEntity = this.shootingEntity;
+			
+			child1.rotationYaw += SCATTER_SPLIT_DEGREE;
+			child2.rotationYaw -= SCATTER_SPLIT_DEGREE;
+		}
+		
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D

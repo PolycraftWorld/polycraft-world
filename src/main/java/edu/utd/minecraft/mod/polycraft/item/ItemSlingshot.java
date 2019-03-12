@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 import net.minecraft.init.Items;
@@ -30,6 +31,8 @@ public class ItemSlingshot extends ItemCustom {
     public static final String[] slingPullIconNameArray = new String[] {PolycraftMod.getAssetName("slingpull1"), PolycraftMod.getAssetName("slingpull2"), PolycraftMod.getAssetName("slingpull3")};
     int holdCount;
     SlingshotType type;
+    private static final int MIN_TICKS_TO_FIRE_TACTICAL = 48;
+    private int numTicksSinceLastShot = 0;
     
 	public ItemSlingshot(CustomObject config) {
 		super(config);
@@ -115,6 +118,13 @@ public class ItemSlingshot extends ItemCustom {
 	}
 	
 	private void fireTactical(ItemStack stack, World world, EntityPlayer player, int count) {
+		
+		if(numTicksSinceLastShot < MIN_TICKS_TO_FIRE_TACTICAL) {
+			return;
+		}
+		
+		numTicksSinceLastShot = 0;
+		
 		int j = this.getMaxItemUseDuration(stack) - count;
 
         ArrowLooseEvent event = new ArrowLooseEvent(player, stack, j);
@@ -138,7 +148,7 @@ public class ItemSlingshot extends ItemCustom {
                 f = 1.0F;
             }
 
-            EntityPaintBall paintBall = new EntityPaintBall(world, player, f * 2.0F, this);
+            EntityPaintBall paintBall = new EntityPaintBall(world, player, f * 2.0F, this.type);
 
             if (f == 1.0F){
                 paintBall.setIsCritical(true);
@@ -246,6 +256,14 @@ public class ItemSlingshot extends ItemCustom {
 
     public SlingshotType getType() {
     	return type;
+    }
+    
+    @Override
+    public void onUpdate(ItemStack stack, World _world, Entity entity, int par4, boolean par5) {
+    	if(!_world.isRemote && numTicksSinceLastShot <= MIN_TICKS_TO_FIRE_TACTICAL) {
+    		numTicksSinceLastShot++;
+    	}
+    	super.onUpdate(stack, _world, entity, par4, par5);
     }
 
 //	public int getItemEnchantability() {
