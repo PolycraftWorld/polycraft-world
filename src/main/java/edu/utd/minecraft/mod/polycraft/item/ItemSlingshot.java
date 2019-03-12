@@ -37,7 +37,7 @@ public class ItemSlingshot extends ItemCustom {
 	public ItemSlingshot(CustomObject config) {
 		super(config);
 		init();
-		type = SlingshotType.WOODEN;
+		type = SlingshotType.SCATTER;
 	}
 	
 	public ItemSlingshot(CustomObject config, SlingshotType type) {
@@ -58,7 +58,12 @@ public class ItemSlingshot extends ItemCustom {
         if(type == SlingshotType.WOODEN) {
         	fireWooden(stack, world, player, count);
         } else if(type == SlingshotType.TACTICAL) {
+        	if(numTicksSinceLastShot < MIN_TICKS_TO_FIRE_TACTICAL) {
+    			return;
+    		}
         	fireTactical(stack, world, player, count);
+        } else if(type == SlingshotType.SCATTER) {
+        	fireScatter(stack, world, player, count);
         } else if(type == SlingshotType.BURST) {
         	fireBurst(stack, world, player, count);
         } else if(type == SlingshotType.GRAVITY) {
@@ -118,10 +123,6 @@ public class ItemSlingshot extends ItemCustom {
 	}
 	
 	private void fireTactical(ItemStack stack, World world, EntityPlayer player, int count) {
-		
-		if(numTicksSinceLastShot < MIN_TICKS_TO_FIRE_TACTICAL) {
-			return;
-		}
 		
 		numTicksSinceLastShot = 0;
 		

@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 public class EntityPaintBall extends EntityPellet{
 
 	ItemSlingshot.SlingshotType type;
-	public boolean isChildPellet = false;
+	public boolean isChildPellet = false, createdChildren = false;
 	private World world;
 	
 	private static double SCATTER_SPLIT_DEGREE = 10.0;
@@ -52,8 +52,9 @@ public class EntityPaintBall extends EntityPellet{
 			this.setDead();
 		}
 		
-		if(this.ticksExisted >= 16 && type == SlingshotType.SCATTER && !isChildPellet) {
+		if(this.ticksExisted >= 8 && type == SlingshotType.SCATTER && !isChildPellet && !createdChildren) {
 			EntityPaintBall child1 = new EntityPaintBall(world), child2 = new EntityPaintBall(world);
+			this.createdChildren = true;
 			child1.isChildPellet = child2.isChildPellet = true;
 			child1.positionXCurrent = child2.positionXCurrent = this.positionXCurrent;
 			child1.positionYCurrent = child2.positionYCurrent = this.positionYCurrent;
