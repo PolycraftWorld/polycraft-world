@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 import java.lang.reflect.Type;
@@ -16,6 +16,9 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
@@ -74,7 +77,6 @@ public class ExperimentTutorial extends Experiment{
 	private int WAIT_TELEPORT_UTD_TICKS = 400;
 	//TODO: can you use a real clock instead of "skippable" server ticks??
 	private int WAITSPAWNTICKS = 400;
-	private int ticksToUpdateChests = 200;	//default 10 seconds to update all chest item stacks
 	//animalStats
 	
 	
@@ -356,18 +358,7 @@ public class ExperimentTutorial extends Experiment{
 			if(tickCount >= maxTicks) {
 				currentState = State.Ending;			
 			}
-			
 
-			if(tickCount % ticksToUpdateChests == 0) {
-				for(Vec3 chestPos: chests) {
-					TileEntity entity = (TileEntity) world.getTileEntity((int)chestPos.xCoord, (int)chestPos.yCoord , (int)chestPos.zCoord);
-					if(entity != null && entity instanceof TileEntityChest) {
-						//clear chest contents.
-						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
-				
-					}
-				}
-			}
 		}
 
 		else if(currentState == State.Ending) {
@@ -625,16 +616,7 @@ public class ExperimentTutorial extends Experiment{
 	public int getWAITSPAWNTICKS() {
 		return WAITSPAWNTICKS;
 	}
-	
-	public int getTicksToUpdateChests() {
-		return ticksToUpdateChests;
-	}
 
-	public void setTicksToUpdateChests(int ticksToUpdateChests) {
-		this.ticksToUpdateChests = ticksToUpdateChests;
-	}
-
-	
 	
 	/**
 	 * Takes in a chest and fills it randomly with materials for CTB experiments
@@ -646,7 +628,6 @@ public class ExperimentTutorial extends Experiment{
 	@Override
 	protected void updateParams(ExperimentParameters params) {
 		//TODO: update Inventories and Chests
-		this.ticksToUpdateChests = params.extraParameters.get("Chest: Update Interval")[0]*20;
 		
 		//timing
 		this.maxTicks = params.timingParameters.get("Min: Game Time")[0] * 20 * 60;
