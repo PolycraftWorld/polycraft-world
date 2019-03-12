@@ -101,6 +101,7 @@ public class ClientEnforcer extends Enforcer {
 	}
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
+	private static boolean showTutorialRender = false;
 	private static boolean showPrivateProperty = false;
 	private static boolean showAIControls = false;
 	private static int behaviorAI=1;
@@ -717,6 +718,17 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+	
+	public static boolean getShowTutorialRender() {
+		
+		return showTutorialRender;
+	}
+	
+	public static void setShowTutorialRender(boolean render) {
+		
+		showTutorialRender=render;
+	}
+	
 	public static boolean getShowPP() {
 		
 		return showPrivateProperty;

@@ -88,7 +88,11 @@ public class ExperimentManager {
 			if(type instanceof ExperimentCTB) {
 				this.expName = "Experiment B: " + type.id;
 				this.expType = "Stoop";
-			}else {
+			}else if(type instanceof ExperimentTutorial){
+				this.expName = "Tutorial: " + type.id;
+				this.expType = "Tutorial";
+			}
+			else {
 				this.expName = "Experiment A: " + type.id;
 				this.expType = "Flat"; //TODO: Declare these names as static within the class.
 			}
@@ -196,6 +200,7 @@ public class ExperimentManager {
 			boolean isFlatActive2x = false;
 			boolean isFlatActive4x = false;
 			boolean areAnyActive8x = false;
+			boolean isTutorialActive =false;
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onServerTickUpdate();
@@ -242,11 +247,24 @@ public class ExperimentManager {
 							break;
 						}
 					}
+					else if(ex2.expType.equals("Tutorial")) {
+						
+						isTutorialActive=true;
+					}
 				}
 			}
 
 			int posOffset = 10000;
 			int multiplier = 1;
+			
+			if(!isTutorialActive) {
+				int nextID = this.getNextID();
+				int numChunks = 8;
+				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
+				ExperimentTutorial newExpFlat2x = new ExperimentTutorial(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
+				this.registerExperiment(nextID, newExpFlat2x);
+				
+			}
 			
 			if(!isFlatActive2x) {
 				int nextID = this.getNextID();
@@ -254,6 +272,7 @@ public class ExperimentManager {
 				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
 				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
 				this.registerExperiment(nextID, newExpFlat2x);
+				
 			}
 			
 			if(!areAnyActive) {

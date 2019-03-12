@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -75,6 +76,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -90,6 +92,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -101,6 +104,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -501,6 +506,8 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glTranslated(-interpPosX, -interpPosY, -interpPosZ);
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
+	        }
+	        if(ClientEnforcer.getShowTutorialRender()) {
 	        	renderTutorial(entity);
 	        }
 	        if(entity instanceof EntityPlayer) {
@@ -552,10 +559,10 @@ public class ClientProxy extends CommonProxy {
 	        double ang = entity.rotationYaw;
 	        double ang2= 0;
 	        double r = 3; 
-	        int ticks=entity.ticksExisted%40;
+	        int ticks=entity.ticksExisted%60;
 	        double degInRad;
 	        double DEG2RAD = Math.PI/180;
-	        for (int i=84-ticks; i<=85; i++)
+	        for (int i=80-ticks; i<=85; i++)
 	        {
 	           degInRad = (i+ang)*DEG2RAD;
 	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
@@ -615,7 +622,7 @@ public class ClientProxy extends CommonProxy {
 	        double ang = entity.rotationYaw;
 	        double ang2= 0;
 	        double r = 3; 
-	        int ticks=entity.ticksExisted%40;
+	        int ticks=entity.ticksExisted%60 ;
 	        double degInRad;
 	        double DEG2RAD = Math.PI/180;
 	        for (int i=94; i<=95+ticks; i++)
@@ -791,13 +798,67 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glDisable(GL11.GL_BLEND);
 	        GL11.glFrontFace(GL11.GL_CCW);
 	 }
-	 
+
 	 private static void renderTutorial(Entity entity) 
 	 {
 		 renderLeftArrow(entity);
 		 renderRightArrow(entity);
-		 renderDownArrow(entity);
-		 renderUpArrow(entity);
+//		 renderDownArrow(entity);
+//		 renderUpArrow(entity);
+		 
+	 }
+	 
+	 @SubscribeEvent
+	 public void drawTutorialGui(RenderGameOverlayEvent event)
+	 {
+//		 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_00_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_01_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_02_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_03_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_04_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_05_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_06_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_07_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_08_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_09_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_10_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_11_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_12_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_13_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_14_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_15_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_16_delay-0.13s.gif")),
+//				 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_17_delay-0.13s.gif")),
+//				 						};
+//		
+//		 Minecraft mc = Minecraft.getMinecraft();
+//		 EntityClientPlayerMP player = mc.thePlayer;
+//		 int i=((player.ticksExisted)%36)/2;
+//		 // GL11.glPushMatrix();
+//	      GL11.glPushMatrix();
+//	      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+//	      GL11.glEnable(GL11.GL_BLEND);
+//
+//	      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//
+//	        GL11.glEnable(GL11.GL_ALPHA_TEST);
+//	        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+//			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+//			//GL11.glDisable(GL11.GL_LIGHTING);
+////			 //ResourceLocation texture = new ResourceLocation(
+////						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+//
+//			mc.getTextureManager().bindTexture(textures[i]);
+//
+//			/* Draw border */
+//			mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 220, 289);
+//			GL11.glDisable(GL11.GL_BLEND);
+//
+//
+//		      GL11.glPopAttrib();
+//		      GL11.glPopMatrix();
+		
+	 	
 	 }
 
 	@SubscribeEvent
