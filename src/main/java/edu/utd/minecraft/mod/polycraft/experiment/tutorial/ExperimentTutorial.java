@@ -218,7 +218,7 @@ public class ExperimentTutorial extends Experiment{
 			
 			//generateArea();
 			
-			if(this.generateTutorial(ExperimentManager.INSTANCE.flat_field)) {
+			if(this.generateFlatArena(ExperimentManager.INSTANCE.flat_field)) {
 				currentState = State.Starting;
 			}
 			genTick++;

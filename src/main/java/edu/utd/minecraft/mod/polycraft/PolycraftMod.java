@@ -54,6 +54,7 @@ import edu.utd.minecraft.mod.polycraft.commands.dev.CommandGUI;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandGame;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandPP;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandRace;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandTutorial;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
@@ -262,6 +263,7 @@ public class PolycraftMod {
 		//event.registerServerCommand(new CommandGUI());
 		//event.registerServerCommand(new CommandFreeze());
 		event.registerServerCommand(new CommandChallenge());
+		event.registerServerCommand(new CommandTutorial());
 		event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
 		//event.registerServerCommand(new CommandConsent());

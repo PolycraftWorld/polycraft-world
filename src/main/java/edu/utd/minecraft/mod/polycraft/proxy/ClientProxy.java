@@ -63,6 +63,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.textwall.TextWallRenderHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemAirQualityDetector;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -539,6 +540,7 @@ public class ClientProxy extends CommonProxy {
 	        		PolycraftMinigameManager.INSTANCE.render(entity);
 	        	}
 	        }
+	        ItemDevTool.render(entity);
 	        AttackWarning.renderAttackWarnings(entity);
 	        //renderKillWallBounds(entity);
 	        //renderRaceGameGoal(entity);
