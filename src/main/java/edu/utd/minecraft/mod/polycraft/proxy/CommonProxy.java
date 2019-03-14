@@ -21,11 +21,13 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.RespawnHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -515,6 +517,10 @@ public abstract class CommonProxy {
 	
 	public void openConsentGui(EntityPlayer player, int x, int y, int z)
 	{
+		
+	}
+	
+	public void openDevToolGui(EntityPlayer player) {
 		
 	}
 	

@@ -50,6 +50,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -326,9 +327,6 @@ public class ClientEnforcer extends Enforcer {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}
 	
-	public void openDevGui() {
-		client.displayGuiScreen(new GuiDevTool(this.client.thePlayer));
-	}
 	
 	@Deprecated
 	private void openConsentGui() {

@@ -26,6 +26,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -1452,6 +1453,11 @@ public class ClientProxy extends CommonProxy {
 	public void openConsentGui(EntityPlayer player, int x, int y, int z)
 	{
 		client.displayGuiScreen(new GuiConsent(player, x, y, z));
+	}
+	
+	@Override
+	public void openDevToolGui(EntityPlayer player) {
+		client.displayGuiScreen(new GuiDevTool(player));
 	}
 	
 	@Override

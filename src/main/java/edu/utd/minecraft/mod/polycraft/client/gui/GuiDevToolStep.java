@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -24,6 +25,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class GuiDevToolStep extends GuiListExtended {
 	private final GuiScreen gui;
@@ -34,7 +36,6 @@ public class GuiDevToolStep extends GuiListExtended {
 	private final ArrayList<GuiListExtended.IGuiListEntry> devStep;
 	private int maxStringLength = 0; //used during rendering to "left-justify" all parameter names
 	
-	private ExperimentParameters params;
 	public static Color HEADER_TEXT_COLOR = new Color(155, 155, 155);
 	private static int SLOT_HEIGHT = 22;
 	
@@ -48,7 +49,7 @@ public class GuiDevToolStep extends GuiListExtended {
 	private int selectedElement = -1;
 	private long lastClicked;
 	
-	public GuiDevToolStep(GuiScreen gui, Minecraft mc) {
+	public GuiDevToolStep(GuiScreen gui, Minecraft mc, ItemDevTool devTool) {
 		//see below for the names of those variables.
 		super(mc, gui.width - 248, gui.height - 50, 50, gui.height - 50,SLOT_HEIGHT);
 	//	super(mc, ((GuiExperimentList)gui).X_WIDTH, ((GuiExperimentList)gui).SCROLL_HEIGHT, 50, 200, SLOT_HEIGHT);
@@ -65,92 +66,19 @@ public class GuiDevToolStep extends GuiListExtended {
 		this.devStep = new ArrayList<>();
 		//this.headerPadding = 0;
 		
-		if(gui instanceof GuiExperimentList) {
-			params = ((GuiExperimentList)gui).currentParameters;
+		if(gui instanceof GuiDevTool) {
 			
 			//TODO: Make a more sustainable params list.
-			this.devStep.add(new ConfigHeader("Timing"));
-			
-			boolean isAnimals = false;
-			
-			for(String key : params.timingParameters.keySet()) {
-	    		
-//				if(key.equals("Chickens") || key.equals("Cows") || key.equals("Sheep")) {
-//					isAnimals = true;
-//					continue;
-//				}
-				
-				Integer[] vals = params.timingParameters.get(key);
-	    		
-	    		int l = mc.fontRenderer.getStringWidth(key);
-	    		if(l > this.maxStringLength)
-	    			maxStringLength = l;
-	    		
-	    		this.devStep.add(new ConfigSlider(key, vals[0], vals[1], vals[2]));
-	    		
-	    	}
-			
-			if(params.extraParameters.containsKey("Animals")) {
-				this.devStep.add(new ConfigHeader("Animals"));
-				if(params.extraParameters.containsKey("Chickens") & params.extraParameters.get("Chickens") instanceof Integer[]) {
-					Integer[] vals = (Integer[]) params.extraParameters.get("Chickens");
-					
-					this.devStep.add(new ConfigSlider("Chickens", vals[0], vals[1], vals[2]));
-				}
-				
-				if(params.extraParameters.containsKey("Cows") & params.extraParameters.get("Cows") instanceof Integer[]) {
-					Integer[] vals = (Integer[]) params.extraParameters.get("Cows");
-					
-					this.devStep.add(new ConfigSlider("Cows", vals[0], vals[1], vals[2]));
-				}
-				
-				if(params.extraParameters.containsKey("Sheep") & params.extraParameters.get("Sheep") instanceof Integer[]) {
-					Integer[] vals = (Integer[]) params.extraParameters.get("Sheep");
-					
-					this.devStep.add(new ConfigSlider("Sheep", vals[0], vals[1], vals[2]));
-				}
-				
-				if(params.extraParameters.containsKey("Androids") & params.extraParameters.get("Androids") instanceof Integer[]) {
-					Integer[] vals = (Integer[]) params.extraParameters.get("Androids");
-					
-					this.devStep.add(new ConfigSlider("Androids", vals[0], vals[1], vals[2]));
-				}
-
-				if(params.extraParameters.containsKey("Animal Difficulty") & params.extraParameters.get("Animal Difficulty") instanceof Integer[]) {
-					Integer[] vals = (Integer[]) params.extraParameters.get("Animal Difficulty");
-					
-					this.devStep.add(new ConfigSlider("Animal Difficulty", vals[0], vals[1], vals[2]));
-				}
+			this.devStep.add(new ConfigHeader("Stage One"));
+			int counter = 0;
+			int poiSize = devTool.getPOIs().size();
+			for(Vec3 poi: devTool.getPOIs()) {
+				counter++;
+				this.devStep.add(new ConfigStep("Poi " + counter, (int)poi.xCoord, (int)poi.yCoord, (int)poi.zCoord, counter==1?true:false, counter==poiSize?true:false));
 			}
+	    	
 			
-			
-			
-			this.devStep.add(new ConfigHeader("Scoring"));
-			
-			for(String key : params.scoringParameters.keySet()) {
-				
-	    		Integer[] vals = params.scoringParameters.get(key);
-	    		int l = mc.fontRenderer.getStringWidth(key);
-	    		if(l > this.maxStringLength)
-	    			maxStringLength = l;
-	    		this.devStep.add(new ConfigSlider(key, Double.parseDouble(vals[0].toString()), Double.parseDouble(vals[1].toString()), Double.parseDouble(vals[2].toString())));
-	    	}
-
-			//Chest parameters
-			this.devStep.add(new ConfigHeader("Chests"));
-			for(String key: params.extraParameters.keySet()) {
-				if(key.contains("Chest:")){
-					Integer[] vals = params.extraParameters.get(key);
-		    		
-		    		int l = mc.fontRenderer.getStringWidth(key);
-		    		if(l > this.maxStringLength)
-		    			maxStringLength = l;
-		    		
-		    		this.devStep.add(new ConfigSlider(key, vals[0], vals[1], vals[2]));
-				}
-			}
-
-			this.devStep.add(new ConfigHeader("Items"));
+			this.devStep.add(new ConfigHeader("End"));
 		}
 		
 		
@@ -560,6 +488,10 @@ public class GuiDevToolStep extends GuiListExtended {
 		return test;
 	}
 	
+	public int getNumSteps() {
+		return devStep.size();
+	}
+	
 
 	/**
 	 * This is a ConfigHeader that draws centered text on the screen that describes a section
@@ -707,6 +639,114 @@ public class GuiDevToolStep extends GuiListExtended {
 		
 		public double getSelectedValue() {
 			return this.defaultValue;
+		}
+		
+	}
+	
+	/**
+	 * This describes a generic ConfigSlider object that contains 3 elements: 
+	 * A String {@link #parameterName}, a Slider with Associated Bounds {@link #slider}, and a 
+	 * button to reset the slider {@link #reset}
+	 * 
+	 * This object is created from the {@link ExperimentParameter} object that is passed into this 
+	 * object by GuiExperimentList, depending on what experiment the user selects.
+	 * @author dxn140130
+	 *
+	 */
+	@SideOnly(Side.CLIENT)
+	public class ConfigStep implements GuiListExtended.IGuiListEntry {
+		
+		public boolean hasChanged = false;
+		
+		private int SLIDER_WIDTH = 90;
+		private int B_WIDTH = 20;
+		private int HEIGHT = GuiDevToolStep.SLOT_HEIGHT - 2;
+		
+		private String stepName;
+		private GuiButton moveUp, moveDown, delete;
+		private int[] pos = new int[3];
+		private boolean isFirst, isLast;
+		
+		/**
+		 * Create a Config Slider GuiSlot
+		 * @param name 			Name of Parameter to be varied
+		 * @param defaultValue 	default (server-saved) value of the parameter
+		 * @param minVal		minimum Slider Value
+		 * @param maxVal		maximum Slider Value
+		 */
+		public ConfigStep(String name, int x, int y, int z, boolean isFirst, boolean isLast) {
+			this.stepName = name;
+			//new GuiSlider(paramID++, x_pos, y_pos, (int) (this.X_WIDTH*0.75), buttonheight, 
+			//key, "", vals[1], vals[2], vals[0], true, true, null); //I18n.format(name, new Object[0])
+			this.pos[0] = x;
+			this.pos[1] = y;
+			this.pos[2] = z;
+			this.moveUp = new GuiButton(0, 0, 0, B_WIDTH, HEIGHT, "\u2191");
+			this.moveDown = new GuiButton(1, 0, 0, B_WIDTH, HEIGHT, "\u2193");
+			this.delete = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u00A74X");
+			this.isFirst = isFirst;
+			this.isLast = isLast;
+		}
+
+		@Override
+		public void drawEntry(int p_148279_1_, int what, int yStart, int p_148279_4_, int p_148279_5_,
+				Tessellator p_148279_6_, int mouseX, int mouseY, boolean p_148279_9_) {
+			// draw each ConfigSlider entity on a row.
+			int xStart = GuiDevToolStep.this.left;
+			GuiDevToolStep.this.minecraft.fontRenderer.drawString(this.stepName, xStart,
+					yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+			
+			
+			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
+			//		yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
+			
+			int x_offset = 60;
+			
+			if(isFirst)
+				this.moveUp.enabled = false;
+			if(isLast)
+				this.moveDown.enabled = false;
+			
+			this.moveUp.xPosition = xStart + x_offset + SLIDER_WIDTH + 5;
+			this.moveUp.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.moveUp.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
+			this.moveDown.xPosition = this.moveUp.xPosition + B_WIDTH + 2;
+			this.moveDown.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.moveDown.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
+			this.delete.xPosition = this.moveDown.xPosition + B_WIDTH + 2;
+			this.delete.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.delete.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
+			
+		}
+
+		@Override
+		public boolean mousePressed(int startingSlotID, int mouseX, int mouseY, int b, int c,
+				int d) {
+			//System.out.println("Slider Changed: " + this.parameterName);
+			if(this.delete.mousePressed(GuiDevToolStep.this.minecraft, mouseX, mouseY)) {
+				//TODO: Delete this step and adjust on ItemDevTool
+				return true;
+			} else if(this.moveUp.mousePressed(GuiDevToolStep.this.minecraft, mouseX, mouseY)) {
+				//don't need to do any additional functionality, I don't think?
+				this.hasChanged = true;
+				return true;
+				//return this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY);
+			} else if(this.moveDown.mousePressed(GuiDevToolStep.this.minecraft,  mouseX,  mouseY)){
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public void mouseReleased(int p_148277_1_, int mouseX, int mouseY, int p_148277_4_, int p_148277_5_,
+				int p_148277_6_) {
+			this.delete.mouseReleased(mouseX, mouseY);
+			this.moveUp.mouseReleased(mouseX, mouseY);
+			this.moveDown.mouseReleased(mouseX, mouseY);
+		}
+		
+		public String getName() {
+			return this.stepName;
 		}
 		
 	}

@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlid
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
@@ -42,6 +43,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     
     private static final String __OBFID = "CL_00000691";
     private EntityPlayer player;
+    private ItemDevTool devTool;
     private int x, y, z;
     private int screenID; //current screen
     private static final String TITLE = "Polycraft DEV TOOL";
@@ -50,10 +52,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     private final int screenContainerWidth = 230;
     private final int screenContainerHeight = 130;
     private boolean wasClicking; 
-    private int buttonCount = 2;
+    private int buttonCount = 1;
     private int buttonheight = 20;
     private int button_padding_y = 4;
-    private int currentExperimentDetailOnScreenID = -1;
     private float scroll = 0.0F; // Amount of scroll, from 0.0 to 1.0 inclusive.
 	private boolean scrolling; // True if the scroll bar is being dragged.
 	private int ylines; // The number of buttons/lines the text space can accommodate.
@@ -67,10 +68,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	public final int Y_HEIGHT = 126;
 	private final int Y_PAD = 8;
 	private int titleHeight;
-	private List expInstructions;
-	ExperimentParameters currentParameters;
 	
-	private GuiExperimentConfig guiConfig;
+	private GuiDevToolStep guiSteps;
 	
     
     private enum WhichScreen {
@@ -91,7 +90,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         this.z = z;
         this.screenID = 0;
         this.titleHeight = 20;
-        this.guiConfig = null;
+        this.guiSteps = null;
         
     }
    
@@ -103,7 +102,21 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         this.player = player;
         this.screenID = 0;
         this.titleHeight = 20;
-        this.guiConfig = null;
+        this.guiSteps = null;
+       	if(player.getHeldItem().getItem() instanceof ItemDevTool)
+       		this.devTool = (ItemDevTool) player.getHeldItem().getItem();
+    }
+    
+    /**
+     * Simpler constructor. Not sure if we care about the x,y,z of the player.
+     * @param player the player who called up this screen
+     */
+    public GuiDevTool(EntityPlayer player, ItemDevTool devTool) {
+        this.player = player;
+        this.screenID = 0;
+        this.titleHeight = 20;
+        this.guiSteps = new GuiDevToolStep(this, this.mc, devTool);
+        this.devTool = devTool;
     }
     
     /**
@@ -113,14 +126,13 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     public void initGui()
     {
     	if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
-    		this.currentExperimentDetailOnScreenID = ExperimentManager.INSTANCE.clientCurrentExperiment; //open to this screen!
     		screenSwitcher = this.screenChange(WhichScreen.DEV_MAIN);
     		
     		//return;
     	}else {
 	        this.resetButtonList();
 	       // System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
-	        buildExperimentButtonList();
+	        buildDevMainButtonList();
 	        this.buttonList.addAll(this.experimentsListButton);
     	}
    }
@@ -153,8 +165,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	@Override
     protected void mouseClicked(int x, int y, int mouseEvent) {
     	
-    	if(this.guiConfig != null) {
-    		this.guiConfig.func_148179_a(x, y, mouseEvent);
+    	if(this.guiSteps != null) {
+    		this.guiSteps.func_148179_a(x, y, mouseEvent);
     	}
     	
     	super.mouseClicked(x, y, mouseEvent);
@@ -169,9 +181,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     protected void mouseMovedOrUp(int x, int y, int mouseEvent)
     {
     	//super.mouseMovedOrUp(x, y, mouseEvent);
-    	if(this.guiConfig != null) {
+    	if(this.guiSteps != null) {
     		
-    		if (mouseEvent != 0 || !this.guiConfig.func_148181_b(x, y, mouseEvent))
+    		if (mouseEvent != 0 || !this.guiSteps.func_148181_b(x, y, mouseEvent))
     		{
     			super.mouseMovedOrUp(x, y, mouseEvent);
     		}
@@ -200,20 +212,14 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	int btnID = button.id;
     	WhichScreen newScreen = null;
     	if(button.id > 10000) {
-    		//Open the Experiment Config Screen:
-    		btnID = button.id-10000;
-    		newScreen = WhichScreen.DEV_STEP_CONFIG;
     		for(GuiButton gbtn : experimentsListButton) {
     			if(gbtn.id == btnID) {
     	    		String expID = gbtn.displayString;
-    				String[] expList = expID.split("\\s");
-    				try {
-    					this.currentExperimentDetailOnScreenID = Integer.parseInt(expList[expList.length - 1]);
-    					this.screenSwitcher = this.screenChange(WhichScreen.DEV_STEP_CONFIG);
-    				}catch(NumberFormatException e) {
-    					e.printStackTrace();
-    					System.out.println("unable to parse string - did we change how we render buttons?");
-    				}
+    	    		for(ItemDevTool.StateEnum state: ItemDevTool.StateEnum.values()) {
+    	    			if(expID.equals(state.name())) {
+    	    				devTool.setState(expID);
+    	    			}
+    	    		}
     				return;
     			}
     		}
@@ -224,73 +230,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	switch(btnID) {
     	case 1000:
     		//user selected "back"
-    		this.screenSwitcher = this.screenChange(WhichScreen.DEV_STEPS);
-    		this.currentExperimentDetailOnScreenID = -1; //no experiment selected
+    		this.screenSwitcher = this.screenChange(WhichScreen.DEV_MAIN);
     		break;
-    	case 3000:
-    		//user is sending ExperimentConfig updates
-    		//TODO: get this sent to the server.
-    		for(ConfigSlider slider : (ArrayList<ConfigSlider>) this.guiConfig.getChangedItems()) {
-    			if(this.currentParameters.timingParameters.containsKey(slider.getName())) {
-    				Integer[] timingVals = this.currentParameters.timingParameters.get(slider.getName());
-    				timingVals[0] = (int) Math.round(slider.getSelectedValue());
-    				this.currentParameters.timingParameters.put(slider.getName(), timingVals);
-    			}else if(this.currentParameters.scoringParameters.containsKey(slider.getName())) {
-    				Integer[] scoringVals = this.currentParameters.scoringParameters.get(slider.getName());
-    				scoringVals[0] = (int)Math.round(slider.getSelectedValue());
-    				this.currentParameters.scoringParameters.put(slider.getName(), scoringVals);
-    			}
-    			
-    			//NOTE! This assumes that the extraParameters are being filtered in the GuiExperimentCOnfig class
-    			//If a slider exists with that parameter name, then this will gobble it up! 
-    			else if(this.currentParameters.extraParameters.containsKey(slider.getName())) {
-    				Integer[] scoringVals = (Integer[]) this.currentParameters.extraParameters.get(slider.getName());
-    				scoringVals[0] = (int)Math.round(slider.getSelectedValue());
-    				this.currentParameters.extraParameters.put(slider.getName(), scoringVals);
-    			}
-    				
-    			else {
-    				continue;
-    			}
-    		}
-    		
-    		
-    		
-    		//System.out.println("Test");
-    		
-    		this.sendExperimentUpdateToServer(this.currentExperimentDetailOnScreenID, this.currentParameters);
-    		this.screenSwitcher = this.screenChange(WhichScreen.DEV_STEPS);
-    		this.currentExperimentDetailOnScreenID = -1; //no experiment selected
-    		break;
-    	case 2000:
-    		//user selected join experiment
-    		button.enabled = false;
-    		button.displayString = "In Queue";
-    		//TODO: disable this button when a user comes back
-    		if(ExperimentManager.INSTANCE.clientCurrentExperiment > 0) {
-    			if(	ExperimentManager.INSTANCE.clientCurrentExperiment != this.currentExperimentDetailOnScreenID) {
-    				//send server a "withdraw" request
-    				//TODO: set it up to only send join requests and let the server auto-withdraw a player if they're in another scoreboard.
-    				//TODO: Would that be in scoreboard manager?
-    		
-    				this.sendExperimentUpdateToServer(ExperimentManager.INSTANCE.clientCurrentExperiment, false);
-    			
-    			}else {
-    				//User has already joined!
-    				//TODO: display user feedback text on Experiment Detail screen
-    				break; //don't send an update.
-    			}
-    			
-    		}
-    		//Tell server player wants to join a new experiment.
-    		ExperimentManager.INSTANCE.clientCurrentExperiment = this.currentExperimentDetailOnScreenID;
-			this.sendExperimentUpdateToServer(ExperimentManager.INSTANCE.clientCurrentExperiment, true);
-			userFeedbackText = "You are in queue for: Experiment " + this.currentExperimentDetailOnScreenID; //let the user know what experiment they're in
-    			
-    		break;
-    		
-    		
-    		
     	case 1:
     		userFeedbackText = "";
     		
@@ -309,14 +250,18 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     		}
     		button.enabled=false;
     		break;
+    	case 2:
+    		//Open the Experiment Config Screen:
+    		this.screenSwitcher = this.screenChange(WhichScreen.DEV_STEPS);
+    		break;
     	default:
     		//Open the Experiment Detail Screen:
     		String expID = button.displayString;
+    		
     		if(expID.toLowerCase().equals("x"))
     			break;
 			String[] expList = expID.split("\\s");
 			try {
-				this.currentExperimentDetailOnScreenID = Integer.parseInt(expList[expList.length - 1]);
 				this.screenSwitcher = this.screenChange(WhichScreen.DEV_DETAIL);
 			}catch(NumberFormatException e) {
 				e.printStackTrace();
@@ -432,15 +377,14 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         		drawDevMainScreen();
         		break;
         	case DEV_STEPS:
-        		drawExperimentListScreen();
+        		this.extraLines = this.guiSteps.getExtraScrollSpace();
+        		this.guiSteps.drawScreenHandler(mouseX, mouseY, otherValue, this.scroll);
+        		drawDevStepsScreen();
         		break;
         	case DEV_DETAIL:
         		drawExperimentInstructionScreen();
         		break;
         	case DEV_STEP_CONFIG:
-        		this.extraLines = this.guiConfig.getExtraScrollSpace();
-        		this.guiConfig.drawScreenHandler(mouseX, mouseY, otherValue, this.scroll);
-        		drawExperimentConfigScreen();
         		break;
         	default:
         		//Do Nothing
@@ -456,11 +400,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         super.drawScreen(mouseX, mouseY, otherValue);
     }
     
-    private void drawExperimentConfigScreen() {
+    private void drawDevStepsScreen() {
     	//get top left of screen with padding.
     	int x_pos = (this.width - 248) / 2 + 10;
         int y_pos = (this.height - 192) / 2 + Y_PAD;
-        this.fontRendererObj.drawString(I18n.format("Experiment Configuration: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]),
+        this.fontRendererObj.drawString(I18n.format("Dev Steps", new Object[0]),
         		x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
@@ -494,37 +438,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         }
     }
     
-	public void drawExperimentListScreen() {
-    	//the below "magic numbers" come from Minecraft's Demo files.
-        //I'm using them unless there's better ideas in the future
-        //TODO: understand why these are the correct magic numbers
-        int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
-        y_pos += 12;
-        //GameSettings gamesettings = this.mc.gameSettings;
-        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH, y_pos + this.Y_HEIGHT, 0x50A0A0A0);
-        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
-        y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
-        //draw the Number of Players in Each experiment:
-        
-        //TODO: Draw this list based on the scroll position.
-        
-        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
-        	if(emd.isAvailable()) {
-	        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ X_WIDTH -2 * X_PAD, y_pos, 0xFFFFFFFF);
-	        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
-	        	y_pos+=((int)(buttonheight*1) + button_padding_y);
-	        	//experimentsButtonList.add(temp);
-        	}
-        }
-    }
-    
     public void drawExperimentInstructionScreen() {
     	//this.resetButtonList();
     	int x_pos = (this.width - 248) / 2 + 10;
         int y_pos = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format("Experiment Instructions: Experiment " + this.currentExperimentDetailOnScreenID, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        this.fontRendererObj.drawString(I18n.format("Experiment Instructions: Experiment ", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         //draw background rectangle
         int offset = 2;
@@ -534,11 +452,6 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         //IMPORTANT: user feedback text goes here
         this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
 
-        //Draw List based on scroll position:
-        int linestart = Math.round(this.scroll * extraLines);
-        for (int i = 0; i < ylines; i++, y_pos += this.fontRendererObj.FONT_HEIGHT) {
-        	this.fontRendererObj.drawString((String) this.expInstructions.get(linestart + i), x_pos, y_pos, 0);
-        }
         
     }
     
@@ -549,34 +462,25 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * This always contains builds an updated, synced view, but requires the player to close & re-open to see any updates.
      * TODO: add on the GUI the number of players waiting in each experiment room. 
      */
-    private void buildExperimentButtonList() {
+    private void buildDevMainButtonList() {
     	//GuiButton Constructor: id, xPos, yPos, width, height, displayString
     	//GuiButton Constructor with default Width/Height of 200/20: id, xPos, yPos, displayString
     	int x_pos = (this.width - 248) / 2 + 10; //magic numbers from Minecraft. 
         int y_pos = (this.height - 190) / 2 + 8 + 12; //magic numbers from minecraft
         //+12 to account for the Title Text!
-        GuiButton btnCancel = new GuiButton(1, x_pos, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH, buttonheight, "Withdraw From Queue");
+        GuiButton btnCancel = new GuiButton(1, x_pos, y_pos + Y_HEIGHT + Y_PAD, (int)(X_WIDTH * .49), buttonheight, "Close");
+        GuiButton btnSteps = new GuiButton(2, x_pos + (int)(X_WIDTH * .5), y_pos + Y_HEIGHT + Y_PAD, (int)(X_WIDTH * .5), buttonheight, "Steps");
+        
     	experimentsListButton.add(btnCancel);
+    	experimentsListButton.add(btnSteps);
         
-        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
-        	if(emd.isAvailable()) {
-        		//Add config button:
-        		GuiButton tempConfig = new GuiButton(10000+buttonCount, x_pos+10, y_pos, (int) (X_WIDTH * .1), buttonheight, "?");
-	        	GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
-	        	y_pos+=(buttonheight + button_padding_y);
-	        	experimentsListButton.add(tempConfig);
-	        	experimentsListButton.add(temp);
-        	}
-        }
-        
-        if(experimentsListButton.size() < 2) { //Only button that exists is the cancel button
-        	userFeedbackText = "Log in to our experiments server to join!";
-        	btnCancel.enabled=false;
-        }else if(userFeedbackText.equals("")) { //No experiment has been selected
-        	btnCancel.enabled=false;
-        }else {
-        	btnCancel.enabled=true; //One experiment has already been registered (buttonList > 2)
-        	
+        for (ItemDevTool.StateEnum option : ItemDevTool.StateEnum.values()) {
+    		//Add config button:
+    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos, (int) (X_WIDTH * .9), buttonheight, option.name());
+        	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
+        	y_pos+=(buttonheight + button_padding_y);
+        	experimentsListButton.add(tempConfig);
+        	//experimentsListButton.add(temp);
         	
         }
     }
@@ -585,42 +489,36 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	//On screen change, we need to update the button list and have it re-drawn.
     	switch(newScreen) {
     		case DEV_MAIN:
-    			//this.experimentsListButton.clear();
-    			this.resetButtonList();
-    			this.buttonList.addAll(getDevMainButtons());
-    			ylines = Math.min(this.expInstructions.size(), (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT);
-    			extraLines = this.expInstructions.size() - ylines;
-    			break;
-    		case DEV_STEPS:
-    			//this.resetButtonList();
-    			this.experimentsListButton.clear();
-    			this.buildExperimentButtonList();
     			this.resetButtonList();
     			this.buttonList.addAll(this.experimentsListButton);
-    			ylines = Math.min(this.experimentsListButton.size(), (Y_HEIGHT - titleHeight) / (this.button_padding_y + this.buttonheight));
-    			extraLines = this.experimentsListButton.size() - ylines;
+    			ylines = (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT;
+    			break;
+    		case DEV_STEPS:
+    			this.resetButtonList();
+    			guiSteps = new GuiDevToolStep(this, this.mc, devTool);
+    			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
+    	        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
+    			
+    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
+    	        GuiButton addStep = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Add Step");
+    	        this.buttonList.add(back);
+    	        this.buttonList.add(addStep);
     			break;
     		case DEV_DETAIL:
     			//this.experimentsListButton.clear();
     			this.resetButtonList();
     			this.buttonList.addAll(getExperimentsDetailButtons());
-    			this.expInstructions = this.getInstructionsAsList();
-    			ylines = Math.min(this.expInstructions.size(), (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT);
-    			extraLines = this.expInstructions.size() - ylines;
+    			ylines =(Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT;
     			break;
     		case DEV_STEP_CONFIG:
+    			this.experimentsListButton.clear();
+    			this.buildDevMainButtonList();
+    			//this.resetButtonList();
     			this.resetButtonList();
-    			this.currentParameters = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).getParams();
-    			guiConfig = new GuiExperimentConfig(this, this.mc);
-    			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
-    	        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
-    			
-    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
-    	        GuiButton send = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Send Updates");
-    	        this.buttonList.add(back);
-    	        this.buttonList.add(send);
-    			
-    			
+    			this.buttonList.addAll(this.experimentsListButton);
+    			ylines = Math.min(this.experimentsListButton.size(), (Y_HEIGHT - titleHeight) / (this.button_padding_y + this.buttonheight));
+    			extraLines = this.experimentsListButton.size() - ylines;
+    			break;
     		default:
     			break;
     	}
@@ -628,19 +526,6 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	return newScreen;
     }
     
-    private ArrayList<GuiButton> getDevMainButtons(){
-    	ArrayList<GuiButton> buttons = new ArrayList<GuiButton>();
-    	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
-        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
-        //+12 to account for the Title Text!
-        GuiButton exit = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Exit Menu");
-        GuiButton stepList = new GuiButton(2000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Steps List");
-        buttons.add(exit);
-        buttons.add(stepList);
-        
-        return buttons;
-    
-    }
     
     private ArrayList<GuiButton> getExperimentsDetailButtons(){
     	ArrayList<GuiButton> buttons = new ArrayList<GuiButton>();
@@ -649,10 +534,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         //+12 to account for the Title Text!
         GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
         GuiButton join = new GuiButton(2000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Join Experiment");
-        if(this.currentExperimentDetailOnScreenID == ExperimentManager.INSTANCE.clientCurrentExperiment) {
-        	join.enabled = false; //disable joining the same experiment twice.
-        	join.displayString = "In Queue";
-        }
+        
         if(this.player.dimension == 8) {
         	back.enabled = false;
         }
@@ -662,54 +544,6 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         return buttons;
     
     }
-    
-    @Deprecated
-    private void getConfigButtons() {
-    	ArrayList<GuiButton> buttons = new ArrayList<GuiButton>();
-    	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
-    	int y_pos = 0; //this will be updated before the buttons are drawn.
-    	
-        //int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
-        //y_pos += Math.round(this.scroll*this.configButtons.size());
-    	
-    	ExperimentParameters param = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).getParams();
-    	
-    	int paramID = 20000;
-    	   	
-    	for(String key : param.timingParameters.keySet()) {
-    		Integer[] vals = param.timingParameters.get(key);
-    		GuiSlider temp = new GuiSlider(paramID++, x_pos, y_pos, (int) (this.X_WIDTH*0.75), buttonheight, 
-    				key, "", vals[1], vals[2], vals[0], true, true, null);
-    		y_pos += buttonheight + button_padding_y;
-    		buttons.add(temp);
-    	}
-    	
-    	for(String key : param.scoringParameters.keySet()) {
-    		Number[] vals = param.timingParameters.get(key);
-    		GuiSlider temp = new GuiSlider(paramID++, x_pos, y_pos, (int) (this.X_WIDTH*0.75), buttonheight, 
-    				key, "", (double)vals[1], (double)vals[2], (double)vals[0], true, true, null);
-    		y_pos += buttonheight + button_padding_y;
-    		buttons.add(temp);
-    	}
-    	
-    	//add Knockback Stick Param:
-    	buttons.add(new GuiCheckBox(paramID++, x_pos, y_pos, "Give Knockback?", (boolean) param.itemParameters.get("Give Knockback Stick")));
-    		
-    }
-    
-
-    private List<String> getInstructionsAsList(){
-    	
-    	String instructions = ExperimentManager.metadata.get(this.currentExperimentDetailOnScreenID - 1).instructions;
-    	instructions = instructions.replaceAll("[​]", "");
-    	instructions = instructions.replaceAll("[�]", "'");
-    	System.out.println(instructions);
-    	return this.fontRendererObj.listFormattedStringToWidth(instructions, X_WIDTH);
-    	
-    	//return null;
-    }
-    
-    
     
     /**
      * Send a packet to the server requesting for a player to either Join or Withdraw from the queue for 

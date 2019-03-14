@@ -16,6 +16,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -36,6 +37,8 @@ public class ItemDevTool extends ItemCustom  {
 	
 	int[] pos1= new int[3];
 	int[] pos2 = new int[3];
+	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
+	boolean updateLastBlock = false;
 	ArrayList<Vec3> POIs = new ArrayList<Vec3>();
 	boolean pos1set = false;
 	boolean pos2set = false;
@@ -71,6 +74,15 @@ public class ItemDevTool extends ItemCustom  {
 		this.setting =false;
 		currentState = StateEnum.AreaSelection;
 	}
+	
+	public void setState(String state, EntityPlayer player) {
+		currentState = StateEnum.valueOf(state);
+		player.addChatMessage(new ChatComponentText("State: " + state));
+	}
+	
+	public void setState(String state) {
+		currentState = StateEnum.valueOf(state);
+	}
 		
 	@Override
 	// Doing this override means that there is no localization for language
@@ -94,7 +106,7 @@ public class ItemDevTool extends ItemCustom  {
 		if(player.isSneaking()) {
 			//currentState = currentState.next();
 			//player.addChatMessage(new ChatComponentText(currentState.toString() + "Mode"));
-			ClientEnforcer.INSTANCE.openDevGui();
+			PolycraftMod.proxy.openDevToolGui(player);
 		}
 		return super.onItemRightClick(p_77659_1_, world, player);
 	}
@@ -152,10 +164,14 @@ public class ItemDevTool extends ItemCustom  {
 		switch(currentState) {
 			case AreaSelection:
 				player.addChatMessage(new ChatComponentText("pos1 selected: " + X + "::" + Y + "::" + Z));
-				player.worldObj.scheduleBlockUpdate(X, Y, Z, player.worldObj.getBlock(X, Y, Z), 20);
+				player.worldObj.scheduleBlockUpdate(X, Y, Z, player.worldObj.getBlock(X+1, Y, Z), 20);
+				updateLastBlock = true;
 				pos1[0] = X;
 				pos1[1] = Y;
 				pos1[2] = Z;
+				lastBlock[0] = X;
+				lastBlock[1] = Y;
+				lastBlock[2] = Z;
 				pos1set = true;
 				if(player.worldObj.isRemote)
 					updateRenderBoxes();
@@ -167,6 +183,10 @@ public class ItemDevTool extends ItemCustom  {
 		}
 		
 		return true;
+	}
+	
+	public ArrayList<Vec3> getPOIs(){
+		return POIs;
 	}
 	
 	private void updateRenderBoxes() {
@@ -188,7 +208,12 @@ public class ItemDevTool extends ItemCustom  {
 	public void onUpdate(ItemStack itemstack, World world, Entity entity, int par4, boolean par5) {
 		if(entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;
-			
+			if(updateLastBlock) {
+				updateLastBlock = false;
+				player.worldObj.scheduleBlockUpdate(lastBlock[0], lastBlock[1], lastBlock[2], player.worldObj.getBlock(lastBlock[0], lastBlock[1], lastBlock[2]), 5);
+				player.addChatMessage(new ChatComponentText("Update block"));
+			}
+				
 			
 			
 		}
