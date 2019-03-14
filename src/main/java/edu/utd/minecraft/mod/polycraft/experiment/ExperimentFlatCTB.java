@@ -392,9 +392,9 @@ public class ExperimentFlatCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					
 					//After Half-Time, give all players cleats!
-					ItemStack[] armor = player.inventory.armorInventory;
-					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
-					player.inventory.armorInventory = armor;
+//					ItemStack[] armor = player.inventory.armorInventory;
+//					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
+//					player.inventory.armorInventory = armor;
 				}
 			}
 //			else if(this.halfTimeTicksRemaining % 400 == 0) {
