@@ -320,6 +320,11 @@ public class ExperimentFlatCTB extends Experiment{
 //			}
 			if(tickCount == this.halfTimeTicks) {
 				currentState = State.Halftime;
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						spawnPlayer((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
+					}
+				}
 			}
 			else if(tickCount >= maxTicks) {
 				
