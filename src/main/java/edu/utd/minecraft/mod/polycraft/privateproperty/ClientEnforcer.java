@@ -41,6 +41,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServer
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -323,6 +324,10 @@ public class ClientEnforcer extends Enforcer {
 	
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
+	}
+	
+	public void openDevGui() {
+		client.displayGuiScreen(new GuiDevTool(this.client.thePlayer));
 	}
 	
 	@Deprecated

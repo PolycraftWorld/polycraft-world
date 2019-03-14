@@ -8,11 +8,14 @@ import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -89,8 +92,9 @@ public class ItemDevTool extends ItemCustom  {
 		if(!world.isRemote)
 			return super.onItemRightClick(p_77659_1_, world, player);		
 		if(player.isSneaking()) {
-			currentState = currentState.next();
-			player.addChatMessage(new ChatComponentText(currentState.toString() + "Mode"));
+			//currentState = currentState.next();
+			//player.addChatMessage(new ChatComponentText(currentState.toString() + "Mode"));
+			ClientEnforcer.INSTANCE.openDevGui();
 		}
 		return super.onItemRightClick(p_77659_1_, world, player);
 	}
@@ -125,6 +129,7 @@ public class ItemDevTool extends ItemCustom  {
 					}
 					if(!removed) {
 						POIs.add(Vec3.createVectorHelper(x, y, z));
+						
 						player.addChatMessage(new ChatComponentText("Added POI at: " + x + "::" + y + "::" + z));
 						updateRenderBoxes();
 					}
