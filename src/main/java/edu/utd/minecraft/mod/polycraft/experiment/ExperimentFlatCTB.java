@@ -320,7 +320,10 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
 					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
-					}
+					if(player.isUsingItem()) {
+						System.out.println(player.isUsingItem());
+					}	
+				}
 				i=i+1;
 			}
 			}

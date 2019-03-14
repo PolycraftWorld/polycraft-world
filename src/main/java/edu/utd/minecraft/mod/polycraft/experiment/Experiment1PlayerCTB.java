@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -26,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftCow;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftExperimentCow;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -63,6 +65,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 
 public class Experiment1PlayerCTB extends Experiment{
 	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
@@ -236,6 +239,21 @@ public class Experiment1PlayerCTB extends Experiment{
 		double zOff = Math.random()*6 + z - 3;	//3 block radius
 		player.setPositionAndUpdate(xOff + .5, y, zOff + .5);
 	}
+	
+//	@SubscribeEvent
+//	public synchronized void onPlayerUseKnockBack(PlayerUseItemEvent event)
+//	{
+//		System.out.println(event.item);
+//		System.out.println(event.duration);
+//		if(event.item.getDisplayName()=="Knockback Bomb")
+//		{
+//			//log
+//			//event.entityPlayer.displ
+//			ItemKnockbackBomb bomb =((ItemKnockbackBomb)event.item.getItem());
+//			List list =bomb.list;
+//			System.out.println(list);
+//		}
+//	}
 	
 	@Override
 	public void onServerTickUpdate() {
@@ -475,7 +493,20 @@ public class Experiment1PlayerCTB extends Experiment{
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
 					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
-					}
+					
+					//ItemStack stack = player.getCurrentEquippedItem();
+					//Item item=player.getCurrentEquippedItem();
+					//if(stack.getDisplayName().equals("stick")){
+						//System.out.println("Player is using"+stack.getDisplayName());
+					//}
+					//if(stack!=null) {
+			        //if(stack.getDisplayName().equals("Knockback Bomb")||stack.getDisplayName().equals("Freezing Knockback Bomb")) {
+			        	
+			        //}
+			       // }
+				}
+				
+				
 				i=i+1;
 			}
 			}
@@ -642,6 +673,12 @@ public class Experiment1PlayerCTB extends Experiment{
 		}
 	}
 	
+	private boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int posX, int posY, int posZ, int i,
+			float f, float g, float h) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	/**
 	 * TODO: Move all of this to the ClientScoreboard and ServerScoreboard class. Contain the data in the CustomScoreboard class
 	 * 

@@ -23,6 +23,9 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent6;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent7;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -383,6 +386,9 @@ public class ExperimentManager {
 				for(String play : ex.scoreboard.getPlayers()) {
 					if(play.equals(playerName)) {
 						removePlayerFromExperiment(ex.id, playerName);
+						PlayerExperimentEvent7 event = new PlayerExperimentEvent7(ex.id,playerName);
+						edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent7(event);
+						System.out.println(playerName+"Player is removed from experiment"+ex.id);
 						//sendExperimentUpdates();
 						return true;
 					}

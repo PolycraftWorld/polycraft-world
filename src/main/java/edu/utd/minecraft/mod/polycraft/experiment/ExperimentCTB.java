@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -333,6 +335,10 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
 					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
+					List kbblist=new ArrayList();
+					if(player.isUsingItem()) {
+						System.out.println(player.isUsingItem());
+					}
 					}
 				i=i+1;
 			}

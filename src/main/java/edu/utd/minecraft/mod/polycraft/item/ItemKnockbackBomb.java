@@ -36,7 +36,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	private int maxRenderTicks = 60;
 	protected Color color = Color.RED;
 	private float lineWidth = 8;
-	
+	public static List list=null;
 	
 	public ItemKnockbackBomb(CustomObject config) {
 		super(config);
@@ -81,6 +81,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		
 		knockback( world, player);
 		itemstack.stackSize--;
+		//boolean used=true;
 		return super.onItemRightClick(itemstack, world, player);
 	}
 	
@@ -99,7 +100,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			double posX = x*distance + player.posX;
 			double posY = player.posY;
 			double posZ = z*distance + player.posZ;
-			System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.rotationYaw%360  );
+			//System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.rotationYaw%360  );
 			//player.setVelocity(x, y, z);
 			EntityItem splosion = new EntityItem(world,posX, posY, posZ, new ItemStack(this,1,0));
 			world.spawnEntityInWorld(splosion);
@@ -113,7 +114,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
 	        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
 	        
-			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+			list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
 			list.forEach(entity->{
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
@@ -144,7 +145,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 				}
 				
 			});
-			System.out.println(list);
+			//System.out.println(list);
 			return list;
 
 		}
