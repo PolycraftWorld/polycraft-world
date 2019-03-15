@@ -9,8 +9,16 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.gson.Gson;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
 
 public class RenderBox {
@@ -27,12 +35,22 @@ public class RenderBox {
 	private int breathingTicks = 0;
 	private int breathingDir = 1; //1 for fading in , -1 for fading out
 	private double x1, z1, x2, z2, y, h, xRange, zRange, range, xRange2, zRange2, range2;
+	private String name = null;
 
 	public RenderBox(double x1, double z1, double x2, double z2, double y, double h, int warnTicks) {
 		this.x1 = Math.min(x1, x2);
 		this.z1 = Math.min(z1, z2);
 		this.x2 = Math.max(x1 +1, x2+1);
 		this.z2 = Math.max(z1 +1, z2 +1);
+		init(y, h, warnTicks);
+	}
+	
+	public RenderBox(double x1, double z1, double x2, double z2, double y, double h, int warnTicks, String name) {
+		this.x1 = Math.min(x1, x2);
+		this.z1 = Math.min(z1, z2);
+		this.x2 = Math.max(x1 +1, x2+1);
+		this.z2 = Math.max(z1 +1, z2 +1);
+		this.name = name;
 		init(y, h, warnTicks);
 	}
 
@@ -186,11 +204,54 @@ public class RenderBox {
 		v3 = Vec3.createVectorHelper(x1, y2, z2);
 		v4 = Vec3.createVectorHelper(x2, y2, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		if(name != null) {
+			renderName(entity);
+		}
 
 		// GL11.glEnable(GL11.GL_CULL_FACE);
 		// GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	private void renderName(Entity entity) {
+		float f = 1.6F;
+        float f1 = 0.016666668F * f;
+        double d3 = entity.getDistanceSq((float)((x1+x2)/2) + 0.0F, (float) (y + h + 0.5F), (float)((z1+z2)/2));
+        
+        if (d3 < (double)(25*25))
+        {
+			FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;;
+	        GL11.glPushMatrix();
+	        GL11.glTranslatef((float)((x1+x2)/2) + 0.0F, (float) (y + h + 0.5F), (float)((z1+z2)/2));
+	        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+	        GL11.glRotatef(-((EntityPlayer)entity).rotationYaw, 0.0F, 1.0F, 0.0F);
+	        GL11.glRotatef(((EntityPlayer)entity).rotationPitch, 1.0F, 0.0F, 0.0F);
+	        GL11.glScalef(-f1, -f1, f1);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glTranslatef(0.0F, 0.25F / f1, 0.0F);
+	        GL11.glDepthMask(false);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+	        Tessellator tessellator = Tessellator.instance;
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        tessellator.startDrawingQuads();
+	        int i = fontrenderer.getStringWidth(this.name) / 2;
+	        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+	        tessellator.addVertex((double)(-i - 1), -1.0D, 0.0D);
+	        tessellator.addVertex((double)(-i - 1), 8.0D, 0.0D);
+	        tessellator.addVertex((double)(i + 1), 8.0D, 0.0D);
+	        tessellator.addVertex((double)(i + 1), -1.0D, 0.0D);
+	        tessellator.draw();
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDepthMask(true);
+	        fontrenderer.drawString(this.name, -fontrenderer.getStringWidth(this.name) / 2, 0, 0xFF00BF00);
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	        GL11.glPopMatrix();
+        }
 	}
 	
 	private void drawFace(Vec3 v1, Vec3 v2, Vec3 v3, Vec3 v4, float alpha) {

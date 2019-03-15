@@ -193,8 +193,10 @@ public class ItemDevTool extends ItemCustom  {
 		renderboxes.clear();
 		
 		if(!POIs.isEmpty()) {
+			int counter = 0;
 			for(Vec3 v: POIs) {
-				RenderBox box = new RenderBox(v.xCoord, v.zCoord, v.xCoord, v.zCoord, v.yCoord, 1, 1);
+				counter++;
+				RenderBox box = new RenderBox(v.xCoord, v.zCoord, v.xCoord, v.zCoord, v.yCoord, 1, 1, "POI" + counter);
 				box.setColor(Color.GREEN);
 				renderboxes.add(box);
 			}
