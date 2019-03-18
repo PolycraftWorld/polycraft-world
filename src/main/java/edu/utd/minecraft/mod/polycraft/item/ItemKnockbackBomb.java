@@ -127,7 +127,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	        List list3 = new ArrayList();
 	        List list4 = new ArrayList();
 	        final String SEPARATOR = ",";
-	        int running_experiment=0;
+	        List<Integer> running_experiments;
 	        
 			list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
 			list.forEach(entity->{
@@ -186,15 +186,19 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			  csv = csv.substring(0, csv.length() - SEPARATOR.length());
 			
 			  //System.out.println(csv);
-			  running_experiment=ExperimentManager.getRunningExperiment();
-			  if(running_experiment>0)
-				  System.out.println("The running experiment is:"+running_experiment);
-			Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
-			Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
-			for(Object entity1 : list4){
-				  Analytics.log(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
-				  Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
-			}
+			  running_experiments=ExperimentManager.getRunningExperiments();
+			  for (Integer experiment_instance : running_experiments) {
+				  if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					  Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,player.getCurrentEquippedItem().getDisplayName()));
+//						Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
+						for(Object entity1 : list4){
+							  Analytics.log(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3,experiment_instance, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
+//							  Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
+						}
+				  }
+				}
+				  //System.out.println("The running experiment is:"+running_experiments);
+			
 			return list;
 
 		}

@@ -335,6 +335,7 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
 					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
+					System.out.println("This is list of all running experiments" + edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.getRunningExperiments().toString());
 					}
 				i=i+1;
 			}

@@ -567,6 +567,17 @@ public class ExperimentManager {
 		return -1;
 	}
 	
+	public static List<Integer> getRunningExperiments() {
+		List<Integer> list_of_running_experiments=new ArrayList<Integer>();  
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running)
+			{
+				list_of_running_experiments.add(expID);
+			}
+		}
+		return list_of_running_experiments;
+	}
+	
 	/**
 	 * Adds a new experiment to the experiment manager, increments the nextAvailableExperimentID and sends 
 	 * updates to all of the clients on world 0 (so that they can see the new experiment available on their GUI)
