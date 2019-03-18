@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.logging.FileHandler;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -59,6 +60,10 @@ public class Analytics {
 	public static Analytics INSTANCE = new Analytics();
 
 	public static final Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
+	public static final Logger logger1 = LogManager.getLogger("Experiment-analytics");
+	
+	//boolean append = true;
+	//FileHandler handler = new FileHandler("default.log", append);
 
 	public static final String DELIMETER_SEGMENT = "\t";
 	public static final String DELIMETER_DATA = ",";
@@ -149,7 +154,7 @@ public class Analytics {
 		return playerState;
 	}
 
-	private static boolean debug = System.getProperty("analytics.debug") == null ? false : Boolean.parseBoolean(System.getProperty("analytics.debug"));
+	public static boolean debug = System.getProperty("analytics.debug") == null ? false : Boolean.parseBoolean(System.getProperty("analytics.debug"));
 	private TickIntervals tickIntervals = new TickIntervals();
 
 	private String formatBoolean(final boolean value) {
@@ -196,18 +201,30 @@ public class Analytics {
 				playerID == null ? "-1" : playerID.toString(),
 				(int) player.posX, (int) player.posY, (int) player.posZ,
 				data.replace(DELIMETER_SEGMENT, " ")));
+		
 	}
 	
-	public synchronized static void log1(final String playerName2, final Category category, final String data) {
+	public synchronized static void log1(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-		final Long playerID = Enforcer.whitelist.get(playerName2.toLowerCase());
-		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
+		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
+		logger1.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),
 				playerID == null ? "-1" : playerID.toString(),
-				0,0,0,
+				(int) player.posX, (int) player.posY, (int) player.posZ,
 				data.replace(DELIMETER_SEGMENT, " ")));
 	}
+	
+//	public synchronized static void log1(final String playerName2, final Category category, final String data) {
+//		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
+//		final Long playerID = Enforcer.whitelist.get(playerName2.toLowerCase());
+//		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
+//				DELIMETER_SEGMENT, DELIMETER_DATA,
+//				formatEnum(category),
+//				playerID == null ? "-1" : playerID.toString(),
+//				0,0,0,
+//				data.replace(DELIMETER_SEGMENT, " ")));
+//	}
 
 	public static final String FORMAT_TICK_SPATIAL = "%2$.2f%1$s%3$.2f%1$s%4$.2f%1$s%5$d%1$s%6$d%1$s%7$d%1$s%8$s%1$s%9$s%1$s%10$s";
 	public static final String FORMAT_TICK_SPATIAL_DEBUG = "MotionX=%2$.2f%1$s MotionY=%3$.2f%1$s MotionZ=%4$.2f%1$s RotationPitch=%5$d%1$s RotationYaw=%6$d%1$s RotationYawHead=%7$d%1$s OnGround=%8$s%1$s IsSprinting=%9$s%1$s IsSneaking=%10$s";
@@ -468,10 +485,19 @@ public class Analytics {
 		if(event.target instanceof EntityPlayer)
 		{
 			EntityPlayer playerName= (EntityPlayer)event.target;
+			log(event.entityPlayer, Category.PlayerAttackEntity, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
+					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 			log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 			log((EntityPlayer)event.target, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,5,
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()),Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(), 
+					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
+			log1(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
+					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
+			log1((EntityPlayer)event.target, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,5,
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()),Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(), 
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 		}
@@ -479,6 +505,12 @@ public class Analytics {
 			log(event.entityPlayer, Category.PlayerAttackEntity, String.format(debug ? FORMAT_ATTACK_ENTITY_DEBUG : FORMAT_ATTACK_ENTITY, DELIMETER_DATA,
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
+			log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,
+				formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
+				(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
+			log1(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,
+				formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
+				(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 	}
 
 	public static final String FORMAT_BREAK_BLOCK = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$s%1$s%7$d%1$s%8$d";
@@ -517,6 +549,7 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent0(final PlayerExperimentEvent0 event) {
 		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
+		log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
 	}
 	
 	
@@ -527,6 +560,7 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent1(final PlayerExperimentEvent1 event) {
 		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
+		log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
 	}
 	
 	//This is used to check if player is knocked back
@@ -536,8 +570,8 @@ public class Analytics {
 	public static final String FORMAT_ON_EXPERIMENT_EVENT2 = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT2_DEBUG = "ID=%2$d%1$s List_of_ids=%3$s%1$s Item=%4$d";
 	
-	@SubscribeEvent
-	public synchronized void onExperimentEvent2(final PlayerInteractEvent event) {
+	
+	//public synchronized void onExperimentEvent2(final PlayerInteractEvent event) {
 //		//if(formatItemStackName(event.entityPlayer.getCurrentEquippedItem()).equals("item.1hw")||formatItemStackName(event.entityPlayer.getCurrentEquippedItem()).equals("item.1hv")) 
 //		//if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR)
 //			//log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA,
@@ -547,64 +581,64 @@ public class Analytics {
 //					event.world.getBlockMetadata(event.x, event.y, event.z),
 //					formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
 //		//()
-		float explosionSize = 5.0F;
-		double posX=event.x;
-		double posY=event.y;
-		double posZ=event.z;
-		
-        int i = MathHelper.floor_double(posX - (double)explosionSize - 1.0D);
-        int j = MathHelper.floor_double(posX + (double)explosionSize + 1.0D);
-        int k = MathHelper.floor_double(posY - (double)explosionSize - 1.0D);
-        int i2 = MathHelper.floor_double(posY + (double)explosionSize + 1.0D);
-        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
-        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
-        final String SEPARATOR = ",";
-        List list1 = new ArrayList();
-        List list2 = new ArrayList();
-        
-		List list = event.world.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
-		list.forEach(entity->{
-			if(entity instanceof EntityPlayer) {
-				EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
-				//System.out.println(entityPlayer.getDisplayName());
-				list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayName().toLowerCase()).toString());
-				list2.add(entityPlayer.getDisplayName());
-			}else {
-				System.out.println(entity);
-				/////
-				//Here's where direction of animal knockback happens
-			}
-			
-		});
-		StringBuilder csvBuilder = new StringBuilder();
-		
-		  for(Object entity1 : list1){
-		    csvBuilder.append(entity1.toString());
-		    csvBuilder.append(SEPARATOR);
-		  }
-				
-		  String csv = csvBuilder.toString();
-		  //System.out.println(csv);
+//		float explosionSize = 5.0F;
+//		double posX=event.x;
+//		double posY=event.y;
+//		double posZ=event.z;
+//		
+//        int i = MathHelper.floor_double(posX - (double)explosionSize - 1.0D);
+//        int j = MathHelper.floor_double(posX + (double)explosionSize + 1.0D);
+//        int k = MathHelper.floor_double(posY - (double)explosionSize - 1.0D);
+//        int i2 = MathHelper.floor_double(posY + (double)explosionSize + 1.0D);
+//        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
+//        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
+//        final String SEPARATOR = ",";
+//        List list1 = new ArrayList();
+//        List list2 = new ArrayList();
+//        
+//		List list = event.world.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+//		list.forEach(entity->{
+//			if(entity instanceof EntityPlayer) {
+//				EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
+//				//System.out.println(entityPlayer.getDisplayName());
+//				list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayName().toLowerCase()).toString());
+//				list2.add(entityPlayer.getDisplayName());
+//			}else {
+//				System.out.println(entity);
+//				/////
+//				//Here's where direction of animal knockback happens
+//			}
+//			
+//		});
+//		StringBuilder csvBuilder = new StringBuilder();
+//		
+//		  for(Object entity1 : list1){
+//		    csvBuilder.append(entity1.toString());
+//		    csvBuilder.append(SEPARATOR);
+//		  }
+//				
+//		  String csv = csvBuilder.toString();
+//		  //System.out.println(csv);
+//		 
+//				
+//		  //Remove last comma
+//		  if(csv.length()>0)
+//		  csv = csv.substring(0, csv.length() - SEPARATOR.length());
 		 
-				
-		  //Remove last comma
-		  if(csv.length()>0)
-		  csv = csv.substring(0, csv.length() - SEPARATOR.length());
-		 
-		  log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 2,csv,event.entityPlayer.getCurrentEquippedItem().getDisplayName()));
-		  for(Object entity1 : list2){
-		  log(getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 3, Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(),event.entityPlayer.getCurrentEquippedItem().getDisplayName()));			  
-		  }
-	}
+		  //log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 2,csv,event.entityPlayer.getCurrentEquippedItem().getDisplayName()));
+		  //for(Object entity1 : list2){
+		  //log(getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 3, Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(),event.entityPlayer.getCurrentEquippedItem().getDisplayName()));			  
+		 // }
+//	}
 	
-	//This is used to check if player is knocking someone back
-	public static final String FORMAT_ON_EXPERIMENT_EVENT3 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
-	public static final String FORMAT_ON_EXPERIMENT_EVENT3_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
-
-	@SubscribeEvent
-	public synchronized static void onExperimentEvent3(final PlayerExperimentEvent3 event) {
-		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT3_DEBUG : FORMAT_ON_EXPERIMENT_EVENT3, DELIMETER_DATA, 3, event.id1,event.maxteams1,event.player));
-	}
+//	//This is used to check if player is knocking someone back
+//	public static final String FORMAT_ON_EXPERIMENT_EVENT3 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
+//	public static final String FORMAT_ON_EXPERIMENT_EVENT3_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
+//
+//	@SubscribeEvent
+//	public synchronized static void onExperimentEvent3(final PlayerExperimentEvent3 event) {
+//		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT3_DEBUG : FORMAT_ON_EXPERIMENT_EVENT3, DELIMETER_DATA, 3, event.id1,event.maxteams1,event.player));
+//	}
 	
 	//This is used to check if player is attacking someone
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6 = "%2$d%1$s%3$s%1$s%4$s";
@@ -615,6 +649,7 @@ public class Analytics {
 		//EntityPlayer a = null;
 		//if(a.getDisplayName().equals(event.playerName2)) {
 		log(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
+		log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
 		//}
 		}
 
@@ -647,6 +682,7 @@ public class Analytics {
 		//EntityPlayer a = null;
 		//if(a.getDisplayName().equals(event.playerName2)) {
 		log(getPlayer(event.playerName2), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT7_DEBUG : FORMAT_ON_EXPERIMENT_EVENT7, DELIMETER_DATA, 7, event.id,Enforcer.whitelist.get(event.playerName2.toLowerCase())));
+		log1(getPlayer(event.playerName2), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT7_DEBUG : FORMAT_ON_EXPERIMENT_EVENT7, DELIMETER_DATA, 7, event.id,Enforcer.whitelist.get(event.playerName2.toLowerCase())));
 		//}
 		}
 }

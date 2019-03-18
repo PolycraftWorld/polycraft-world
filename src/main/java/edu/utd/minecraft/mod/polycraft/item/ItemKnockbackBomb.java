@@ -10,10 +10,17 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent2;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -26,6 +33,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public class ItemKnockbackBomb  extends ItemCustom{
 	
@@ -87,6 +95,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	
 	protected List knockback(World world, EntityPlayer player) {
 		if(!world.isRemote) {
+			System.out.println("This is player dimension:"+player.dimension);
 			double x = -1*Math.sin(Math.toRadians(player.rotationYaw%360));
 			double y = 1;
 			double z = Math.cos(Math.toRadians(player.rotationYaw%360));
@@ -113,11 +122,19 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	        int i2 = MathHelper.floor_double(posY + (double)explosionSize + 1.0D);
 	        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
 	        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
+	        List list1 = new ArrayList();
+	        List list2 = new ArrayList();
+	        List list3 = new ArrayList();
+	        List list4 = new ArrayList();
+	        final String SEPARATOR = ",";
+	        int running_experiment=0;
 	        
 			list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
 			list.forEach(entity->{
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
+					list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayName().toLowerCase()).toString());
+					list4.add(entityPlayer.getDisplayName());
 					
 					//This commented if statement makes it so you can't knockback yourself on the corners of the bomb box
 					//if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
@@ -137,15 +154,47 @@ public class ItemKnockbackBomb  extends ItemCustom{
 
 				}else {
 					double theta = 0 - Math.atan2(posX - ((Entity)entity).posX, posZ - ((Entity)entity).posZ);
+					//EntityPlayer entity1 = ((EntityPlayer)entity);
+					list2.add(((Entity)entity).getClass().getSimpleName());
 					
 					//Here's where direction of animal knockback happens
 					((Entity)entity).motionX = 2*Math.sin(theta);
 					((Entity)entity).motionY = y;
 					((Entity)entity).motionZ = -2*Math.cos(theta);
 				}
-				
+					
 			});
-			//System.out.println(list);
+			  list3.addAll(list1);
+			  list3.addAll(list2);
+			  //System.out.println("player list:"+list1);
+			  //System.out.println("Animal list:"+list2);
+			  //System.out.println(list3);
+			
+			StringBuilder csvBuilder = new StringBuilder();
+			
+			  for(Object entity1 : list3){
+			    csvBuilder.append(entity1.toString());
+			    csvBuilder.append(SEPARATOR);
+			  }
+					
+			  String csv = csvBuilder.toString();
+			  //System.out.println(csv);
+			 
+					
+			  //Remove last comma
+			  if(csv.length()>0)
+			  csv = csv.substring(0, csv.length() - SEPARATOR.length());
+			
+			  //System.out.println(csv);
+			  running_experiment=ExperimentManager.getRunningExperiment();
+			  if(running_experiment>0)
+				  System.out.println("The running experiment is:"+running_experiment);
+			Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
+			Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
+			for(Object entity1 : list4){
+				  Analytics.log(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
+				  Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
+			}
 			return list;
 
 		}
