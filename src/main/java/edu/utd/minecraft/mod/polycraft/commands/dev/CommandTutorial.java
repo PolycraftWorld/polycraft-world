@@ -10,6 +10,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -40,6 +41,7 @@ public class CommandTutorial  extends CommandBase{
 	private static final String chatCommandTutnew = "new";
 	private static final String chatCommandTutjoin = "join";
 	private static final String chatCommandTutStart = "start";
+	private static final String chatCommandTutGUI = "gui";
 	private final List aliases;
   
 	public CommandTutorial(){
@@ -99,6 +101,8 @@ public class CommandTutorial  extends CommandBase{
 					//generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
 				} else if (chatCommandTutGen.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
 					generateStructure(sender, sender.getPlayerCoordinates().posX, sender.getPlayerCoordinates().posY, sender.getPlayerCoordinates().posZ, player.getEntityWorld());
+				} else if (chatCommandTutGUI.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
+					ClientEnforcer.INSTANCE.setShowTutorialRender(!ClientEnforcer.INSTANCE.getShowTutorialRender());
 				}
 			}
 		}
