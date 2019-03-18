@@ -881,12 +881,17 @@ public class ClientProxy extends CommonProxy {
 		 
 	 }
 	 
+//	 public void toggleTutorialRender()
+//	 {
+//		 ClientEnforcer.INSTANCE.setShowTutorialRender(!ClientEnforcer.INSTANCE.getShowTutorialRender());
+//	 }
+//	 
 	 @SubscribeEvent
 	 public void drawTutorialGui(RenderGameOverlayEvent event)
 	 {
 		 if(ClientEnforcer.getShowTutorialRender())
 		 {
-			 float scale =.1F;
+			 float scale =.20F;
 //			 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_00_delay-0.13s.gif")),
 //					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_01_delay-0.13s.gif")),
 //					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_02_delay-0.13s.gif")),
@@ -907,8 +912,8 @@ public class ClientProxy extends CommonProxy {
 //					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_17_delay-0.13s.gif")),
 //					 						};
 			 
-			 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/Key_W_0.gif")),
-						new ResourceLocation(PolycraftMod.getAssetName("textures/gui/Key_W_1.gif")),
+			 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_0.png")),
+						new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_1.png")),
 						};
 			
 			 Minecraft mc = Minecraft.getMinecraft();
@@ -922,7 +927,7 @@ public class ClientProxy extends CommonProxy {
 		      GL11.glEnable(GL11.GL_BLEND);
 	
 		      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		      GL11.glScalef(scale, scale, scale);
+		      GL11.glScalef(scale, scale, 0);
 		        GL11.glEnable(GL11.GL_ALPHA_TEST);
 		        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
@@ -933,12 +938,66 @@ public class ClientProxy extends CommonProxy {
 				mc.getTextureManager().bindTexture(textures[i]);
 	
 				/* Draw border */
-				mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 245, 250);
+				mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
 				GL11.glDisable(GL11.GL_BLEND);
 	
 	
 			      GL11.glPopAttrib();
 			      GL11.glPopMatrix();
+			      
+			      //////////////////////////////////////////////////
+			      
+			      float scale2 =.20F;
+
+					 ResourceLocation[] textures2 = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_00_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_01_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_02_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_03_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_04_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_05_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_06_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_07_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_08_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_09_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_10_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_11_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_12_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_13_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_14_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_15_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_16_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_17_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_18_delay-0.1s.gif")),
+							 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WalkingGIF/frame_19_delay-0.1s.gif")),
+							 							
+								};
+					
+					 //Minecraft mc = Minecraft.getMinecraft();
+					 //EntityClientPlayerMP player = mc.thePlayer;
+					 i=((player.ticksExisted)%60)/3;
+					 // GL11.glPushMatrix();
+				      GL11.glPushMatrix();
+				      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+				      GL11.glEnable(GL11.GL_BLEND);
+			
+				      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				      GL11.glScalef(scale2, scale2, 0);
+				        GL11.glEnable(GL11.GL_ALPHA_TEST);
+				        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+						//GL11.glDisable(GL11.GL_LIGHTING);
+			//			 //ResourceLocation texture = new ResourceLocation(
+			//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+			
+						mc.getTextureManager().bindTexture(textures[i]);
+			
+						/* Draw border */
+						mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+						GL11.glDisable(GL11.GL_BLEND);
+			
+			
+					      GL11.glPopAttrib();
+					      GL11.glPopMatrix();
 		 }
 		
 	 	

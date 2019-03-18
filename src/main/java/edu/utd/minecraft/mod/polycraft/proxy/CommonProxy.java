@@ -527,4 +527,9 @@ public abstract class CommonProxy {
 	public void openTutorialGui(EntityPlayer player) {
 	
 	}
+
+	public void toggleTutorialRender() {
+		// TODO Auto-generated method stub
+		
+	}
 }

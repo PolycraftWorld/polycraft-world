@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.commands.dev;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
@@ -101,7 +102,8 @@ public class CommandTutorial  extends CommandBase{
 					//generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
 				} else if (chatCommandTutGen.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
 					generateStructure(sender, sender.getPlayerCoordinates().posX, sender.getPlayerCoordinates().posY, sender.getPlayerCoordinates().posZ, player.getEntityWorld());
-				} else if (chatCommandTutGUI.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
+				} else if (chatCommandTutGUI.equalsIgnoreCase(args[0])) {	
+					//PolycraftMod.proxy.toggleTutorialRender();
 					ClientEnforcer.INSTANCE.setShowTutorialRender(!ClientEnforcer.INSTANCE.getShowTutorialRender());
 				}
 			}
