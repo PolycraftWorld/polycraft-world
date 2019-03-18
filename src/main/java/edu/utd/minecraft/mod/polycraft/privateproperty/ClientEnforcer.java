@@ -41,6 +41,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServer
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -49,6 +50,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -101,6 +103,7 @@ public class ClientEnforcer extends Enforcer {
 	}
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
+	private static boolean showTutorialRender = false;
 	private static boolean showPrivateProperty = false;
 	private static boolean showAIControls = false;
 	private static int behaviorAI=1;
@@ -324,6 +327,7 @@ public class ClientEnforcer extends Enforcer {
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}
+	
 	
 	@Deprecated
 	private void openConsentGui() {
@@ -718,6 +722,17 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+	
+	public static boolean getShowTutorialRender() {
+		
+		return showTutorialRender;
+	}
+	
+	public static void setShowTutorialRender(boolean render) {
+		
+		showTutorialRender=render;
+	}
+	
 	public static boolean getShowPP() {
 		
 		return showPrivateProperty;
