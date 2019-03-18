@@ -562,10 +562,10 @@ public class ClientProxy extends CommonProxy {
 	        double ang = entity.rotationYaw;
 	        double ang2= 0;
 	        double r = 3; 
-	        int ticks=entity.ticksExisted%60;
+	        int ticks=0;      //entity.ticksExisted%60;
 	        double degInRad;
 	        double DEG2RAD = Math.PI/180;
-	        for (int i=80-ticks; i<=85; i++)
+	        for (int i=50-ticks; i<=85; i++)
 	        {
 	           degInRad = (i+ang)*DEG2RAD;
 	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
@@ -592,7 +592,7 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glBegin(GL11.GL_TRIANGLES);
 	        
 
-	        int i=70-ticks;
+	        int i=40-ticks;
 	        degInRad = (i+ang)*DEG2RAD;
 	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
 	        i+=15;
@@ -608,6 +608,75 @@ public class ClientProxy extends CommonProxy {
 	        GL11.glDisable(GL11.GL_BLEND);
 	        GL11.glFrontFace(GL11.GL_CCW);
 	 }
+	 
+	 public static void renderGreenLeftArrow(Entity entity)
+	 {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glColor4f(0F, 1F, 0F,1F);
+	        GL11.glBegin(GL11.GL_QUADS);
+	       
+	        double x = entity.posX;
+	        double y = entity.posY;
+	        double z = entity.posZ;
+	        double ang = entity.rotationYaw;
+	        
+	        int ang1=((int)ang)%360;
+	        if(ang1<0)
+	        	ang1+=360;
+	        double ang2= 0;
+	        double r = 2; 
+	        int ticks=0;      //entity.ticksExisted%60;
+	        double degInRad;
+	        double DEG2RAD = Math.PI/180;
+	        for (int i=ang1; i<=85; i++)
+	        {
+	        
+	           degInRad = (i+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+	           i++;
+	           degInRad = (i+ang)*DEG2RAD;
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+	           i--;
+	        }
+
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        
+	        
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        GL11.glDisable(GL11.GL_LIGHTING);
+	        GL11.glLineWidth(1.5F);
+	        GL11.glFrontFace(GL11.GL_CW);
+	        GL11.glBegin(GL11.GL_TRIANGLES);
+	        
+
+	        int i=40-ticks;
+	        degInRad = (i+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
+	        i+=15;
+	        degInRad = (i+ang)*DEG2RAD;
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y+.25F,(float)(Math.sin(degInRad)*r+z));
+	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.5F,(float)(Math.sin(degInRad)*r+z));
+	        
+	        
+	 
+	        GL11.glEnd();
+	        GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glDisable(GL11.GL_BLEND);
+	        GL11.glFrontFace(GL11.GL_CCW);
+	 }
+	 
 	 
 	 public static void renderRightArrow(Entity entity)
 	 {
@@ -805,6 +874,7 @@ public class ClientProxy extends CommonProxy {
 	 private static void renderTutorial(Entity entity) 
 	 {
 //		 renderLeftArrow(entity);
+//		 renderGreenLeftArrow(entity);
 //		 renderRightArrow(entity);
 //		 renderDownArrow(entity);
 //		 renderUpArrow(entity);
@@ -816,36 +886,43 @@ public class ClientProxy extends CommonProxy {
 	 {
 		 if(ClientEnforcer.getShowTutorialRender())
 		 {
-			 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_00_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_01_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_02_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_03_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_04_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_05_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_06_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_07_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_08_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_09_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_10_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_11_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_12_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_13_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_14_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_15_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_16_delay-0.13s.gif")),
-					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_17_delay-0.13s.gif")),
-					 						};
+			 float scale =.1F;
+//			 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_00_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_01_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_02_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_03_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_04_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_05_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_06_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_07_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_08_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_09_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_10_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_11_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_12_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_13_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_14_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_15_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_16_delay-0.13s.gif")),
+//					 						new ResourceLocation(PolycraftMod.getAssetName("textures/blocks/frame_17_delay-0.13s.gif")),
+//					 						};
+			 
+			 ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/Key_W_0.gif")),
+						new ResourceLocation(PolycraftMod.getAssetName("textures/gui/Key_W_1.gif")),
+						};
 			
 			 Minecraft mc = Minecraft.getMinecraft();
 			 EntityClientPlayerMP player = mc.thePlayer;
-			 int i=((player.ticksExisted)%36)/2;
+			 int i=((player.ticksExisted)%60)/20;
 			 // GL11.glPushMatrix();
+			 if(i>1)
+				 i=1;
 		      GL11.glPushMatrix();
 		      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		      GL11.glEnable(GL11.GL_BLEND);
 	
 		      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-	
+		      GL11.glScalef(scale, scale, scale);
 		        GL11.glEnable(GL11.GL_ALPHA_TEST);
 		        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
@@ -856,7 +933,7 @@ public class ClientProxy extends CommonProxy {
 				mc.getTextureManager().bindTexture(textures[i]);
 	
 				/* Draw border */
-				mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 220, 289);
+				mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 245, 250);
 				GL11.glDisable(GL11.GL_BLEND);
 	
 	
