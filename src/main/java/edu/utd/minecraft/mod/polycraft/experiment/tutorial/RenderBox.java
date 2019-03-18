@@ -238,7 +238,7 @@ public class RenderBox {
 	        GL11.glDisable(GL11.GL_TEXTURE_2D);
 	        tessellator.startDrawingQuads();
 	        int i = fontrenderer.getStringWidth(this.name) / 2;
-	        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+	        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.5F);
 	        tessellator.addVertex((double)(-i - 1), -1.0D, 0.0D);
 	        tessellator.addVertex((double)(-i - 1), 8.0D, 0.0D);
 	        tessellator.addVertex((double)(i + 1), 8.0D, 0.0D);

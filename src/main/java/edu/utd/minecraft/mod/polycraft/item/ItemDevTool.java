@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.item;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -13,6 +14,7 @@ import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -39,7 +41,7 @@ public class ItemDevTool extends ItemCustom  {
 	int[] pos2 = new int[3];
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
-	ArrayList<Vec3> POIs = new ArrayList<Vec3>();
+	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
 	boolean pos1set = false;
 	boolean pos2set = false;
 	String tool;
@@ -47,7 +49,7 @@ public class ItemDevTool extends ItemCustom  {
 	private StateEnum currentState;
 	public static enum StateEnum {
 		AreaSelection,
-		POISelection,
+		FeatureSelection,
 		GuideTool;
 		
 		public StateEnum next() {
@@ -129,20 +131,20 @@ public class ItemDevTool extends ItemCustom  {
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
-				case POISelection:
+				case FeatureSelection:
 					boolean removed = false;
-					for(int i =0;i<POIs.size();i++) {
-						if(POIs.get(i).xCoord == x && POIs.get(i).yCoord == y && POIs.get(i).zCoord == z) {
-							POIs.remove(i);
-							player.addChatMessage(new ChatComponentText("removed POI at: " + x + "::" + y + "::" + z));
+					for(int i =0;i<features.size();i++) {
+						if(features.get(i).getPos().xCoord == x && features.get(i).getPos().yCoord == y && features.get(i).getPos().zCoord == z) {
+							features.remove(i);
+							player.addChatMessage(new ChatComponentText("removed feature at: " + x + "::" + y + "::" + z));
 							updateRenderBoxes();
 							removed = true;
 						}
 					}
 					if(!removed) {
-						POIs.add(Vec3.createVectorHelper(x, y, z));
+						features.add(new TutorialFeature("POI" + features.size(), Vec3.createVectorHelper(x, y, z), Color.green));
 						
-						player.addChatMessage(new ChatComponentText("Added POI at: " + x + "::" + y + "::" + z));
+						player.addChatMessage(new ChatComponentText("Added feature at: " + x + "::" + y + "::" + z));
 						updateRenderBoxes();
 					}
 					break;
@@ -176,7 +178,7 @@ public class ItemDevTool extends ItemCustom  {
 				if(player.worldObj.isRemote)
 					updateRenderBoxes();
 				break;
-			case POISelection:
+			case FeatureSelection:
 				break;
 			default:
 				break;
@@ -185,19 +187,31 @@ public class ItemDevTool extends ItemCustom  {
 		return true;
 	}
 	
-	public ArrayList<Vec3> getPOIs(){
-		return POIs;
+	public ArrayList<TutorialFeature> getFeatures(){
+		return features;
+	}
+	
+	public void swapFeatures(int i, int j){
+		Collections.swap(features, i, j);
+	}
+	
+	public void removeFeatures(int i){
+		features.remove(i);
+		updateRenderBoxes();
 	}
 	
 	private void updateRenderBoxes() {
 		renderboxes.clear();
 		
-		if(!POIs.isEmpty()) {
+		if(!features.isEmpty()) {
 			int counter = 0;
-			for(Vec3 v: POIs) {
+			for(TutorialFeature v: features) {
 				counter++;
-				RenderBox box = new RenderBox(v.xCoord, v.zCoord, v.xCoord, v.zCoord, v.yCoord, 1, 1, "POI" + counter);
-				box.setColor(Color.GREEN);
+				RenderBox box = new RenderBox(v.getPos().xCoord, v.getPos().zCoord, v.getPos().xCoord, v.getPos().zCoord, v.getPos().yCoord, 1, 1, v.getName());
+				if(v.getName().equalsIgnoreCase("Start"))
+					box.setColor(Color.CYAN);
+				else
+					box.setColor(Color.GREEN);
 				renderboxes.add(box);
 			}
 		}
@@ -231,4 +245,6 @@ public class ItemDevTool extends ItemCustom  {
 			}
 		}
 	}
+	
+	
 }

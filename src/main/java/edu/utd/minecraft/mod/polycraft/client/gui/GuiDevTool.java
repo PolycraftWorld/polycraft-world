@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -145,11 +146,10 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * for now, if user presses r when inside that window, it will close.
      */
     @Override
-    public void keyTyped(char abc, int one) {
-    	super.keyTyped(abc, one);
-    	if(abc == 'x' || abc == 'X') {
-    		 this.exitGuiScreen();
-    	}
+    public void keyTyped(char c, int p) {
+    	super.keyTyped(c, p);
+    	if(screenSwitcher == WhichScreen.DEV_STEPS)
+    			this.guiSteps.keyTyped(c, p);
     }
     
    
