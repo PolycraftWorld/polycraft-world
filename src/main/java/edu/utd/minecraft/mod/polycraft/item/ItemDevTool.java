@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialRender;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -134,8 +135,7 @@ public class ItemDevTool extends ItemCustom  {
 						if(player.worldObj.isRemote)
 							updateRenderBoxes();
 					}else {
-						ClientEnforcer.INSTANCE.prevAng=player.rotationYaw;
-						ClientEnforcer.INSTANCE.setShowTutorialRender(!ClientEnforcer.INSTANCE.getShowTutorialRender());
+						TutorialRender.start(player);
 					}
 					
 					break;

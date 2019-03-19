@@ -89,6 +89,8 @@ public class ClientEnforcer extends Enforcer {
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
 	public double prevAng;
+	public static boolean turnRight=false;
+	public static boolean turnLeft=false;
 	public ArrayList<FeatureBase> baseList = new ArrayList<FeatureBase>();
 	
 	private final Minecraft client;
