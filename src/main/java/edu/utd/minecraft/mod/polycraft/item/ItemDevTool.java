@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -123,13 +125,19 @@ public class ItemDevTool extends ItemCustom  {
 		if(!player.isSneaking()) {		
 			switch(currentState) {
 				case AreaSelection:
-					player.addChatMessage(new ChatComponentText("pos2 selected: " + x + "::" + y + "::" + z));
-					pos2[0] = x;
-					pos2[1] = y;
-					pos2[2] = z;
-					pos2set = true;
-					if(player.worldObj.isRemote)
-						updateRenderBoxes();
+					if(Keyboard.isKeyDown(29)) {
+						player.addChatMessage(new ChatComponentText("pos2 selected: " + x + "::" + y + "::" + z));
+						pos2[0] = x;
+						pos2[1] = y;
+						pos2[2] = z;
+						pos2set = true;
+						if(player.worldObj.isRemote)
+							updateRenderBoxes();
+					}else {
+						ClientEnforcer.INSTANCE.prevAng=player.rotationYaw;
+						ClientEnforcer.INSTANCE.setShowTutorialRender(!ClientEnforcer.INSTANCE.getShowTutorialRender());
+					}
+					
 					break;
 				case FeatureSelection:
 					boolean removed = false;
