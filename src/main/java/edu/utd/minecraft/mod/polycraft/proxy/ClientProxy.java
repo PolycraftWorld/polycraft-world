@@ -918,10 +918,15 @@ public class ClientProxy extends CommonProxy {
 			
 			 Minecraft mc = Minecraft.getMinecraft();
 			 EntityClientPlayerMP player = mc.thePlayer;
-			 int i=((player.ticksExisted)%60)/20;
+			 int i=((player.ticksExisted)%60);
 			 // GL11.glPushMatrix();
-			 if(i>1)
+			 if(i>48)
+				 i=0;
+			 if(i>20)
 				 i=1;
+			 else
+				 i/=20;
+			 
 		      GL11.glPushMatrix();
 		      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		      GL11.glEnable(GL11.GL_BLEND);
@@ -974,7 +979,11 @@ public class ClientProxy extends CommonProxy {
 					
 					 //Minecraft mc = Minecraft.getMinecraft();
 					 //EntityClientPlayerMP player = mc.thePlayer;
-					 i=((player.ticksExisted)%60)/3;
+					 i=((player.ticksExisted)%60);
+					 if(i<=18)
+						 i=19;
+					 else
+						 i/=3;
 					 // GL11.glPushMatrix();
 				      GL11.glPushMatrix();
 				      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
@@ -989,10 +998,10 @@ public class ClientProxy extends CommonProxy {
 			//			 //ResourceLocation texture = new ResourceLocation(
 			//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
 			
-						mc.getTextureManager().bindTexture(textures[i]);
+						mc.getTextureManager().bindTexture(textures2[i]);
 			
 						/* Draw border */
-						mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+						mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
 						GL11.glDisable(GL11.GL_BLEND);
 			
 			
