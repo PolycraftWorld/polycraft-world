@@ -801,6 +801,7 @@ public class GuiDevToolStep extends GuiListExtended {
 					this.editName = false;
 					this.hasChanged = true;
 					feature.setName(this.text.getText());
+					devTool.updateRenderBoxes();
 				}else {
 					this.editName = true;
 					this.hasChanged = true;

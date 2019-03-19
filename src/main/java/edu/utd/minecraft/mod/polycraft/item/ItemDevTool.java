@@ -49,8 +49,10 @@ public class ItemDevTool extends ItemCustom  {
 	private StateEnum currentState;
 	public static enum StateEnum {
 		AreaSelection,
-		FeatureSelection,
-		GuideTool;
+		FeatureTool,
+		GuideTool,
+		Save,
+		Load;
 		
 		public StateEnum next() {
 		    if (ordinal() == values().length - 1)
@@ -131,7 +133,7 @@ public class ItemDevTool extends ItemCustom  {
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
-				case FeatureSelection:
+				case FeatureTool:
 					boolean removed = false;
 					for(int i =0;i<features.size();i++) {
 						if(features.get(i).getPos().xCoord == x && features.get(i).getPos().yCoord == y && features.get(i).getPos().zCoord == z) {
@@ -178,7 +180,7 @@ public class ItemDevTool extends ItemCustom  {
 				if(player.worldObj.isRemote)
 					updateRenderBoxes();
 				break;
-			case FeatureSelection:
+			case FeatureTool:
 				break;
 			default:
 				break;
@@ -200,7 +202,7 @@ public class ItemDevTool extends ItemCustom  {
 		updateRenderBoxes();
 	}
 	
-	private void updateRenderBoxes() {
+	public void updateRenderBoxes() {
 		renderboxes.clear();
 		
 		if(!features.isEmpty()) {
