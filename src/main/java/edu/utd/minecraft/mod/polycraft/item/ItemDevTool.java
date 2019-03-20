@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -44,6 +47,7 @@ public class ItemDevTool extends ItemCustom  {
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
 	boolean pos1set = false;
 	boolean pos2set = false;
+	private long lastEventNanoseconds = 0;
 	String tool;
 	boolean setting;
 	private StateEnum currentState;
@@ -87,6 +91,10 @@ public class ItemDevTool extends ItemCustom  {
 	public void setState(String state) {
 		currentState = StateEnum.valueOf(state);
 	}
+	
+	public StateEnum getState() {
+		return currentState;
+	}
 		
 	@Override
 	// Doing this override means that there is no localization for language
@@ -119,9 +127,19 @@ public class ItemDevTool extends ItemCustom  {
 	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
 			float hitX, float hitY, float hitZ) {
+		Vec3 blockPos = Vec3.createVectorHelper(x, y, z);
+		Vec3 hitPos = Vec3.createVectorHelper(hitX, hitY, hitZ);
+		if(Keyboard.isKeyDown(29)) {	//if holding ctrl select block in front of face clicked
+			blockPos = getBlockAtFace(blockPos, hitPos);
+		}
 		if(!world.isRemote) {
 			return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 		}
+		if(Mouse.getEventNanoseconds()==lastEventNanoseconds) {
+    		return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    	}else {
+    		lastEventNanoseconds = Mouse.getEventNanoseconds();
+    	}
 		if(!player.isSneaking()) {		
 			switch(currentState) {
 				case AreaSelection:
@@ -134,19 +152,19 @@ public class ItemDevTool extends ItemCustom  {
 						updateRenderBoxes();
 					break;
 				case FeatureTool:
-					boolean removed = false;
-					for(int i =0;i<features.size();i++) {
-						if(features.get(i).getPos().xCoord == x && features.get(i).getPos().yCoord == y && features.get(i).getPos().zCoord == z) {
-							features.remove(i);
-							player.addChatMessage(new ChatComponentText("removed feature at: " + x + "::" + y + "::" + z));
-							updateRenderBoxes();
-							removed = true;
+					if(Keyboard.isKeyDown(56)) {	//if holding alt, remove feature at location
+						for(int i =0;i<features.size();i++) {
+							
+							if(features.get(i).getPos().distanceTo(blockPos) < 0.05) {
+								features.remove(i);
+								player.addChatMessage(new ChatComponentText("removed feature at: " + x + "::" + y + "::" + z));
+								updateRenderBoxes();
+							}
 						}
-					}
-					if(!removed) {
-						features.add(new TutorialFeature("POI" + features.size(), Vec3.createVectorHelper(x, y, z), Color.green));
+					}else{
+						features.add(new TutorialFeature("Feature " + features.size(), blockPos, Color.green));
 						
-						player.addChatMessage(new ChatComponentText("Added feature at: " + x + "::" + y + "::" + z));
+						player.addChatMessage(new ChatComponentText("Added feature at: " + blockPos.xCoord + "::" + blockPos.yCoord + "::" + blockPos.zCoord));
 						updateRenderBoxes();
 					}
 					break;
@@ -246,6 +264,14 @@ public class ItemDevTool extends ItemCustom  {
 				box.render(entity);
 			}
 		}
+	}
+	
+	private Vec3 getBlockAtFace(Vec3 blockPos, Vec3 hitPos) {
+		blockPos.xCoord = (int) (blockPos.xCoord + (hitPos.xCoord==0.0?-1:hitPos.xCoord==1.0?1:0));
+		blockPos.yCoord = (int) (blockPos.yCoord + (hitPos.yCoord==0.0?-1:hitPos.yCoord==1.0?1:0));
+		blockPos.zCoord = (int) (blockPos.zCoord + (hitPos.zCoord==0.0?-1:hitPos.zCoord==1.0?1:0));
+		
+		return blockPos;
 	}
 	
 	
