@@ -24,13 +24,6 @@
                 <OnStartupTriggeringPolicy />
             </Policies>
         </RollingRandomAccessFile>
-        <RollingRandomAccessFile name="ExperimentAnalyticsFile" fileName="logs/Experiment-analytics-latest.log" filePattern="logs/Experiment-analytics/%d{yyyy-MM-dd-HH}{GMT}-%i.log.gz">
-            <PatternLayout pattern="%d{yyyy/MM/dd HH:mm:ss}{GMT}%msg%n" />
-            <Policies>
-                <TimeBasedTriggeringPolicy />
-                <OnStartupTriggeringPolicy />
-            </Policies>
-        </RollingRandomAccessFile>
         <Routing name="FmlFile">
             <Routes pattern="$${ctx:side}">
                 <Route>

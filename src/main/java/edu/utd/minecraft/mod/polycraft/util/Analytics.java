@@ -1,6 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -31,6 +38,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -62,6 +71,8 @@ public class Analytics {
 
 	public static final Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
 	//public static final Logger logger1 = LogManager.getLogger("Experiment-analytics");
+	
+	
 	
 	//boolean append = true;
 	//FileHandler handler = new FileHandler("default.log", append);
@@ -193,6 +204,11 @@ public class Analytics {
 	private static final String FORMAT_LOG = "%1$s%3$s%1$s%4$s%1$s%5$d%2$s%6$d%2$s%7$d%1$s%8$s";
 	private static final String FORMAT_LOG_DEBUG = " %1$s %3$s %1$s User=%4$s %1$s PosX=%5$d%2$s PosY=%6$d%2$s PosZ=%7$d %1$s %8$s";
 
+	
+	static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	static LocalDateTime now = LocalDateTime.now();
+	//System.out.println(dtf.format(now)); //2016/11/16 12:08:43
+	
 	public synchronized static void log(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
 		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
@@ -202,6 +218,18 @@ public class Analytics {
 				playerID == null ? "-1" : playerID.toString(),
 				(int) player.posX, (int) player.posY, (int) player.posZ,
 				data.replace(DELIMETER_SEGMENT, " ")));
+		
+	}
+	
+	public synchronized static String log1(final EntityPlayer player, final Category category, final String data) {
+		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
+		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
+		return String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
+				DELIMETER_SEGMENT, DELIMETER_DATA,
+				formatEnum(category),
+				playerID == null ? "-1" : playerID.toString(),
+				(int) player.posX, (int) player.posY, (int) player.posZ,
+				data.replace(DELIMETER_SEGMENT, " "));
 		
 	}
 	
@@ -367,28 +395,20 @@ public class Analytics {
 
 	public static final String FORMAT_INTERACT = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$s%1$s%8$s%1$s%9$d%1$s%10$s";
 	public static final String FORMAT_INTERACT_DEBUG = "Action=%2$s%1$s X=%3$d%1$s Y=%4$d%1$s Z=%5$d%1$s Face=%6$d%1$s Result=%7$s%1$s Block=%8$s%1$s Metadata=%9$d%1$s Item=%10$s";
+	
+	public static final String FORMAT_INTERACT1 = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$s%1$s%8$s%1$s%9$d%1$s%10$s";
+	public static final String FORMAT_INTERACT1_DEBUG = "Action=%2$s%1$s X=%3$d%1$s Y=%4$d%1$s Z=%5$d%1$s Face=%6$d%1$s Result=%7$s%1$s Block=%8$s%1$s Metadata=%9$d%1$s Item=%10$s";
 
 	@SubscribeEvent
 	public synchronized void onPlayerInteract(final PlayerInteractEvent event) {
-		if(!(formatItemStackName(event.entityPlayer.getCurrentEquippedItem()).equals("item.1hw")||formatItemStackName(event.entityPlayer.getCurrentEquippedItem()).equals("item.1hw")))
-		{if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR)
+
+		if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR)
 			log(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,
 					formatEnum(event.action), event.x, event.y, event.z,
 					event.face, formatEnum(event.getResult()),
 					formatBlock(event.world.getBlock(event.x, event.y, event.z)),
 					event.world.getBlockMetadata(event.x, event.y, event.z),
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
-		}
-		else
-		{
-			if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR)
-				log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA,
-						2,formatEnum(event.action), event.x, event.y, event.z,
-						event.face, formatEnum(event.getResult()),
-						formatBlock(event.world.getBlock(event.x, event.y, event.z)),
-						event.world.getBlockMetadata(event.x, event.y, event.z),
-						formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
-		}
 			
 	}
 
@@ -513,7 +533,7 @@ public class Analytics {
 			log(event.entityPlayer, Category.PlayerAttackEntity, String.format(debug ? FORMAT_ATTACK_ENTITY_DEBUG : FORMAT_ATTACK_ENTITY, DELIMETER_DATA,
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
-		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		 List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
 		  
 		for (Integer experiment_instance : running_experiments) {  
 			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
@@ -576,7 +596,43 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent1(final PlayerExperimentEvent1 event) {
 		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
-//		log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
+//		File file = new File("logs/Experiment_"+event.maxteams1+"_" +"2019/03/19 19:41:00"+".log");
+//		//Create the file
+//		try {
+//			if (file.createNewFile())
+//			{
+//			    //System.out.println("File is created!");
+//			} else {
+//			    //System.out.println("File already exists.");
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		 
+//		//Write Content
+//		FileWriter writer = null;
+//		try {
+//			writer = new FileWriter(file);
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
+//		try {
+//			writer.write(log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score))+"/n");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			writer.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		//		log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
 	}
 	
 	//This is used to check if player is knocked back
@@ -659,6 +715,7 @@ public class Analytics {
 	//This is used to check if player is attacking someone
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6 = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6_DEBUG = "ID=%2$d%1$s Player=%3$s%%1$s PlayerName=%4$s";
+	static List<Integer> list_of_registered_experiments=new ArrayList<Integer>();  
 	
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent6(final PlayerExperimentEvent6 event) {
@@ -667,8 +724,33 @@ public class Analytics {
 		log(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
 //		log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
 		//}
-		}
+		LocalDateTime myDateObj = LocalDateTime.now(); 
+		//System.out.println("Before formatting: " + myDateObj); 
+		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"); 
 
+		String formattedDate = myDateObj.format(myFormatObj); 
+		//System.out.println("After formatting: " + formattedDate); 
+		if(list_of_registered_experiments.contains(event.id)) {
+			
+		}
+		else
+		{
+			list_of_registered_experiments.add(event.id);
+			String a="logs/Experiment "+event.id+" "+formattedDate+".log";
+			File file = new File(a);
+			try {
+				if (file.createNewFile())
+				{
+				    System.out.println("File is created!");
+				} else {
+				    System.out.println("File already exists.");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}	
+		}
 	
 	public static EntityPlayer getPlayer(String name){
 

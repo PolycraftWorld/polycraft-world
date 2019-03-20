@@ -194,6 +194,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		if(currentState == State.WaitingToStart) {
 			super.start(); //send the updates
 			PolycraftMod.logger.debug("Experiment " + this.id +" Start Generation");
+			//System.out.println("this file is created"+this.id);
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
@@ -485,6 +486,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		}
 			
 		else if(currentState == State.Running){
+			//System.out.println("Idhi id ra venky ga"+this.id);
 			tickCount++;
 			updateBaseStates2();
 			int i=0;
@@ -493,7 +495,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
 					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
-					System.out.println("This is list of all running experiments" + edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.getRunningExperiments().toString());
+					//System.out.println("This is list of all running experiments" + edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.getRunningExperiments().toString());
 					//ItemStack stack = player.getCurrentEquippedItem();
 					//Item item=player.getCurrentEquippedItem();
 					//if(stack.getDisplayName().equals("stick")){

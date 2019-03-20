@@ -95,7 +95,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	
 	protected List knockback(World world, EntityPlayer player) {
 		if(!world.isRemote) {
-			System.out.println("This is player dimension:"+player.dimension);
+			//System.out.println("This is player dimension:"+player.dimension);
 			double x = -1*Math.sin(Math.toRadians(player.rotationYaw%360));
 			double y = 1;
 			double z = Math.cos(Math.toRadians(player.rotationYaw%360));
