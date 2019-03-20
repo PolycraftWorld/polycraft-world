@@ -135,8 +135,10 @@ public class TutorialRender {
 							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouse.png")),
 							};
 			
-			float scale =.20F;
-
+			float scale =.125F;
+			int tick=player.ticksExisted%20;
+			if(tick>=15)
+				tick=15;
 
 			 // GL11.glPushMatrix();
 			 
@@ -156,12 +158,73 @@ public class TutorialRender {
 				mc.getTextureManager().bindTexture(textures3[2]);
 	
 				/* Draw border */
-				mc.ingameGUI.drawTexturedModalRect(630, 200, 0, 0, 255, 260);
+				mc.ingameGUI.drawTexturedModalRect(2700+tick*10, 100, 0, 0, 255, 260);
 				GL11.glDisable(GL11.GL_BLEND);
 	
 	
 			      GL11.glPopAttrib();
 			      GL11.glPopMatrix();
+			      
+			      scale =.10F;
+
+
+					 // GL11.glPushMatrix();
+					 
+				      GL11.glPushMatrix();
+				      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+				      GL11.glEnable(GL11.GL_BLEND);
+			
+				      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				      GL11.glScalef(scale, scale, 0);
+				        GL11.glEnable(GL11.GL_ALPHA_TEST);
+				        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+						//GL11.glDisable(GL11.GL_LIGHTING);
+			//			 //ResourceLocation texture = new ResourceLocation(
+			//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+			
+						mc.getTextureManager().bindTexture(textures3[0]);
+			
+						/* Draw border */
+						mc.ingameGUI.drawTexturedModalRect(3930, 200, 0, 0, 255, 260);
+						GL11.glDisable(GL11.GL_BLEND);
+			
+			
+					      GL11.glPopAttrib();
+					      GL11.glPopMatrix();
+					      
+					      GL11.glPushMatrix();
+					      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+					      GL11.glEnable(GL11.GL_BLEND);
+				
+					      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					      GL11.glScalef(scale, scale, 0);
+					        GL11.glEnable(GL11.GL_ALPHA_TEST);
+					        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+							GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+							//GL11.glDisable(GL11.GL_LIGHTING);
+				//			 //ResourceLocation texture = new ResourceLocation(
+				//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+				
+							mc.getTextureManager().bindTexture(textures3[1]);
+							double trueAng=prevAng;
+							double ang = player.rotationYaw;
+							if(ang<prevAng)
+							{
+									prevAng=(player.rotationYaw);
+							}
+
+								mc.ingameGUI.drawTexturedModalRect(3933, 199, 0, 0, (int)(10*tick), 260);
+
+							/* Draw border */
+							
+							GL11.glDisable(GL11.GL_BLEND);
+				
+				
+						      GL11.glPopAttrib();
+						      GL11.glPopMatrix();
+			      
+			      
 			      
 
 				scale =.40F;
@@ -206,8 +269,8 @@ public class TutorialRender {
 			//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
 			
 						mc.getTextureManager().bindTexture(textures3[1]);
-						double trueAng=prevAng;
-						double ang = player.rotationYaw;
+
+						ang = player.rotationYaw;
 						if(ang<prevAng)
 						{
 								prevAng=(player.rotationYaw);
@@ -224,7 +287,7 @@ public class TutorialRender {
 					      GL11.glPopMatrix();
 					      if((ang-prevAng)>=85)
 					      {
-					    	  //test=4;
+					    	 // prevAng=player.rotationYaw;
 					    	  return true;
 					      }
 					      return false;
@@ -233,12 +296,101 @@ public class TutorialRender {
 	 public static boolean renderTutorialTurnLeft()
 	 {
 
-			ResourceLocation[] textures3 = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/rightArrow.png")),
-							new ResourceLocation(PolycraftMod.getAssetName("textures/gui/rightArrowFill.png")),
-							};
-			float scale =.40F;
+			
+			
 		 	Minecraft mc = Minecraft.getMinecraft();
 			EntityClientPlayerMP player = mc.thePlayer;
+			
+			ResourceLocation[] textures3 = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/rightArrow.png")),
+					new ResourceLocation(PolycraftMod.getAssetName("textures/gui/rightArrowFill.png")),
+					new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouse.png")),
+					};
+	
+	float scale =.125F;
+	int tick=player.ticksExisted%20;
+	if(tick>=15)
+		tick=15;
+
+	 // GL11.glPushMatrix();
+	 
+      GL11.glPushMatrix();
+      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+      GL11.glEnable(GL11.GL_BLEND);
+
+      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+      GL11.glScalef(scale, scale, 0);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+		//GL11.glDisable(GL11.GL_LIGHTING);
+//			 //ResourceLocation texture = new ResourceLocation(
+//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+
+		mc.getTextureManager().bindTexture(textures3[2]);
+
+		/* Draw border */
+		mc.ingameGUI.drawTexturedModalRect(3150-tick*10, 100, 0, 0, 255, 260);
+		GL11.glDisable(GL11.GL_BLEND);
+
+
+	      GL11.glPopAttrib();
+	      GL11.glPopMatrix();
+	      
+	      scale =.10F;
+
+
+			 // GL11.glPushMatrix();
+			 
+		      GL11.glPushMatrix();
+		      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		      GL11.glEnable(GL11.GL_BLEND);
+	
+		      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		      GL11.glScalef(scale, scale, 0);
+		        GL11.glEnable(GL11.GL_ALPHA_TEST);
+		        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+				GL11.glRotated(180, 0, 0, 1);
+				//GL11.glDisable(GL11.GL_LIGHTING);
+	//			 //ResourceLocation texture = new ResourceLocation(
+	//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+	
+				mc.getTextureManager().bindTexture(textures3[0]);
+	
+				/* Draw border */
+				mc.ingameGUI.drawTexturedModalRect(-3800, -455, 0, 0, 255, 260);
+				GL11.glDisable(GL11.GL_BLEND);
+	
+	
+			      GL11.glPopAttrib();
+			      GL11.glPopMatrix();
+			      
+			      GL11.glPushMatrix();
+			      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+			      GL11.glEnable(GL11.GL_BLEND);
+		
+			      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			      GL11.glScalef(scale, scale, 0);
+			        GL11.glEnable(GL11.GL_ALPHA_TEST);
+			        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+					GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+					GL11.glRotated(180, 0, 0, 1);
+					//GL11.glDisable(GL11.GL_LIGHTING);
+		//			 //ResourceLocation texture = new ResourceLocation(
+		//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
+		
+					mc.getTextureManager().bindTexture(textures3[1]);
+						mc.ingameGUI.drawTexturedModalRect(-3800, -455, 0, 0, (int)(10*tick), 260);
+
+					/* Draw border */
+					
+					GL11.glDisable(GL11.GL_BLEND);
+		
+		
+				      GL11.glPopAttrib();
+				      GL11.glPopMatrix();
+	      
+				     
 			
 //		 GL11.glPushMatrix();
 //	      GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
@@ -311,7 +463,7 @@ public class TutorialRender {
 			//						PolycraftMod.getAssetName("textures/blocks/test.gif"));
 			
 						mc.getTextureManager().bindTexture(textures3[1]);
-						double trueAng=player.rotationYaw;
+
 						double ang = player.rotationYaw;
 						if(ang>prevAng)
 						{
@@ -329,7 +481,7 @@ public class TutorialRender {
 					      GL11.glPopMatrix();
 					      if((prevAng-ang)>=85)
 					      {
-					    	  //test=6;
+					    	 // prevAng=0;
 					    	  return true;
 					      }
 					      return false;
