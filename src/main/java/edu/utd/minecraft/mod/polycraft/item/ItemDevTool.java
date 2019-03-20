@@ -285,6 +285,10 @@ public class ItemDevTool extends ItemCustom  {
 		return features;
 	}
 	
+	public void addFeature(TutorialFeature feature){
+		features.add(feature);
+	}
+	
 	public void swapFeatures(int i, int j){
 		Collections.swap(features, i, j);
 	}
@@ -301,11 +305,9 @@ public class ItemDevTool extends ItemCustom  {
 			int counter = 0;
 			for(TutorialFeature v: features) {
 				counter++;
-				RenderBox box = new RenderBox(v.getPos().xCoord, v.getPos().zCoord, v.getPos().xCoord, v.getPos().zCoord, v.getPos().yCoord, 1, 1, v.getName());
-				if(v.getName().equalsIgnoreCase("Start"))
-					box.setColor(Color.CYAN);
-				else
-					box.setColor(Color.GREEN);
+				RenderBox box = new RenderBox(v.getPos().xCoord, v.getPos().zCoord, v.getPos2().xCoord, v.getPos2().zCoord, 
+						Math.min(v.getPos().yCoord, v.getPos2().yCoord), Math.max(Math.abs(v.getPos().yCoord- v.getPos2().yCoord), 1), 1, v.getName());
+				box.setColor(v.getColor());
 				renderboxes.add(box);
 			}
 		}

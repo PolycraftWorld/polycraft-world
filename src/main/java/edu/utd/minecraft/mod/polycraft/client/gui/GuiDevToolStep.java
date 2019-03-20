@@ -109,7 +109,7 @@ public class GuiDevToolStep extends GuiListExtended {
 		this.devStep = new ArrayList<>();
 	}
 	
-	private void updateSteps() {
+	public void updateSteps() {
 		this.devStep.clear();
 		//TODO: Make a more sustainable params list.
 		this.devStep.add(new ConfigHeader("Stage One"));
@@ -797,18 +797,8 @@ public class GuiDevToolStep extends GuiListExtended {
 				this.hasChanged = true;
 				return true;
 			}else if(this.config.mousePressed(GuiDevToolStep.this.minecraft,  mouseX,  mouseY)){
-				if(editName) {
-					this.editName = false;
-					this.hasChanged = true;
-					feature.setName(this.text.getText());
-					devTool.updateRenderBoxes();
-				}else {
-					this.editName = true;
-					this.hasChanged = true;
-					text.setVisible(true);
-					text.setCanLoseFocus(false);
-					text.setFocused(true);
-				}
+				if(GuiDevToolStep.this.gui instanceof GuiDevTool)
+					((GuiDevTool)GuiDevToolStep.this.gui).editFeature(feature);
 				
 				return true;
 			}

@@ -24,11 +24,14 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
@@ -38,6 +41,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import scala.swing.event.MouseReleased;
 
 public class GuiDevTool extends PolycraftGuiScreenBase {
@@ -81,8 +85,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     private ArrayList<GuiButton> configButtons = new ArrayList<GuiButton>();
     //Add Step buttons
     GuiButton btnAddStepType;
-    private ArrayList<GuiTextField> textFields = new ArrayList<GuiTextField>();
-    private ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
+    public ArrayList<GuiTextField> textFields = new ArrayList<GuiTextField>();
+    public ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
+    public ArrayList<GuiPolyButtonCycle> options = new ArrayList<GuiPolyButtonCycle>();
 	private GuiDevToolStep guiSteps;
 	
     
@@ -90,7 +95,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     		DEV_MAIN,
     		DEV_STEPS,
     		DEV_DETAIL,
-    		DEV_STEP_CONFIG,
+    		DEV_STEP_EDIT,
     		DEV_ADD_STEP
     }
     
@@ -182,6 +187,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     			if(textField.isFocused())
     				textField.textboxKeyTyped(c, p);
     		}
+    	}else if(screenSwitcher == WhichScreen.DEV_STEP_EDIT) {
+    		for(GuiTextField textField: textFields) {
+    			if(textField.isFocused())
+    				textField.textboxKeyTyped(c, p);
+    		}
     	}
     }
     
@@ -266,7 +276,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     		case DEV_ADD_STEP: 		//go back to steps screen
     			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
     			break;
-    		case DEV_STEP_CONFIG:	//go back to steps screen
+    		case DEV_STEP_EDIT:	//go back to steps screen
     			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
     			break;
     		default:
@@ -283,9 +293,15 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     			screenSwitcher = screenChange(WhichScreen.DEV_ADD_STEP);
     			break;
     		case DEV_ADD_STEP: 		//save the new step and go back to steps screen
+    			featureToAdd.updateValues();
+    			devTool.addFeature(featureToAdd);
+    			guiSteps.updateSteps();
+				devTool.updateRenderBoxes();
     			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
     			break;
-    		case DEV_STEP_CONFIG:	//save the step and go back to steps screen
+    		case DEV_STEP_EDIT:	//save the step and go back to steps screen
+    			featureToAdd.updateValues();
+				devTool.updateRenderBoxes();
     			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
     			break;
     		default:
@@ -316,10 +332,13 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     			if(button.id == btnAddStepType.id) {
     	    		featureToAddType = featureToAddType.next();
     	    		btnAddStepType.displayString = "Type: " + featureToAddType.name();
-    	    		buildAddStepInputs();
+    	    		buildAddStepInputs(true);
     	    	}
+    			if(button instanceof GuiPolyButtonCycle<?>) {
+    				((GuiPolyButtonCycle<?>)button).nextOption();
+    			}
     			break;
-    		case DEV_STEP_CONFIG:	//go back to steps screen
+    		case DEV_STEP_EDIT:	//go back to steps screen
     			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
     			break;
     		default:
@@ -380,7 +399,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         	case DEV_ADD_STEP:
         		drawAddStepScreen();
         		break;
-        	case DEV_STEP_CONFIG:
+        	case DEV_STEP_EDIT:
+        		drawEditStepScreen();
         		break;
         	default:
         		//Do Nothing
@@ -456,6 +476,29 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         
     }
     
+    public void drawEditStepScreen() {
+    	//this.resetButtonList();
+    	int x_pos = (this.width - 248) / 2 + 10;
+        int y_pos = (this.height - 190) / 2 + 8;
+        this.fontRendererObj.drawString(I18n.format("Edit Step", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        //draw background rectangle
+        int offset = 2;
+        int offset2 = 1;
+        this.drawRect(x_pos - 2, y_pos - offset +24, x_pos + this.X_WIDTH + 2, y_pos + this.Y_HEIGHT + 2, Format.getIntegerFromColor(new Color(128, 128, 128)));
+        this.drawRect(x_pos - offset2, y_pos - offset2 +24, x_pos + this.X_WIDTH + offset2, y_pos + this.Y_HEIGHT + offset2, Format.getIntegerFromColor(new Color(200, 200, 200)));
+        //IMPORTANT: user feedback text goes here
+        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
+        
+        for(GuiTextField textField: textFields) {
+        	textField.drawTextBox();
+        }
+        for(GuiPolyLabel label: labels) {
+        	label.drawLabel();
+        }
+        
+    }
+    
     
     private WhichScreen screenChange(WhichScreen newScreen) {
     	//On screen change, we need to update the button list and have it re-drawn.
@@ -476,9 +519,12 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     			btnBack.displayString = "< Back";
     			btnNext.displayString = "Add Step";
     			featureToAddType = TutorialFeatureType.GENERIC;
-    			buildAddStepInputs();
+    			buildAddStepInputs(true);
     			break;
-    		case DEV_STEP_CONFIG:
+    		case DEV_STEP_EDIT:
+    			btnBack.displayString = "< Back";
+    			btnNext.displayString = "Save Step";
+    			buildAddStepInputs(false);
     			break;
     		default:
     			break;
@@ -489,12 +535,18 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	return newScreen;
     }
     
+    public void editFeature(TutorialFeature feature) {
+    	featureToAdd = feature;
+    	featureToAddType = feature.getFeatureType();
+    	screenSwitcher = screenChange(WhichScreen.DEV_STEP_EDIT);
+    }
+    
     
     /**
      * Build all buttons and textboxes for adding specific steps/features
      * */
-    private void buildAddStepInputs() {
-    	boolean initRun = false;	//We only want to run some code once, because main buttons are already added when this runs the first time
+    private void buildAddStepInputs(boolean addNew) {
+    	boolean initRun = true;	//We only want to run some code once, because main buttons are already added when this runs the first time
     	if(screenSwitcher != WhichScreen.DEV_ADD_STEP) {
     		initRun = true;
     	}
@@ -508,8 +560,20 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
 		switch(featureToAddType) {
 		case GENERIC:
-
-	        textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
+	        if(addNew)
+	        	featureToAdd = new TutorialFeature("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),Color.GREEN);
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case GUIDE:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureGuide("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case INSTRUCTION:
+			textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
 	        textFieldtemp.setMaxStringLength(32);
 	        textFieldtemp.setText("Name of Feature");
 	        textFieldtemp.setTextColor(16777215);
@@ -543,17 +607,19 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        		"Z:"));
 	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
 	        numFieldtemp.setMaxStringLength(32);
-	        numFieldtemp.setText(Integer.toString((int)player.posY));
+	        numFieldtemp.setText(Integer.toString((int)player.posZ));
 	        numFieldtemp.setTextColor(16777215);
 	        numFieldtemp.setVisible(true);
 	        numFieldtemp.setCanLoseFocus(true);
 	        numFieldtemp.setFocused(false);
 	        textFields.add(numFieldtemp);
+	        GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType> btnInstructionType = new GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType>(
+	        		buttonCount + 1, x_pos + 10, y_pos + 65, (int) (X_WIDTH * .9), 20, 
+	        		"Type",  TutorialFeatureInstruction.InstructionType.WASD);
+	        buttonList.add(btnInstructionType);
 			break;
-		case GUIDE:
-			
-
-	        textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
+		case START:
+			textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
 	        textFieldtemp.setMaxStringLength(32);
 	        textFieldtemp.setText("Name of Feature");
 	        textFieldtemp.setTextColor(16777215);
@@ -562,7 +628,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        textFieldtemp.setFocused(true);
 	        textFields.add(textFieldtemp);
 	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Pos1"));
+	        		"Pos"));
 	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
 	        		"X:"));
 	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
@@ -587,49 +653,35 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        		"Z:"));
 	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
 	        numFieldtemp.setMaxStringLength(32);
-	        numFieldtemp.setText(Integer.toString((int)player.posY));
+	        numFieldtemp.setText(Integer.toString((int)player.posZ));
 	        numFieldtemp.setTextColor(16777215);
 	        numFieldtemp.setVisible(true);
 	        numFieldtemp.setCanLoseFocus(true);
 	        numFieldtemp.setFocused(false);
 	        textFields.add(numFieldtemp);
+	        
 	        y_pos += 15;
+	        
 	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Pos2"));
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"X:"));
+	        		"Pitch:"));
 	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
 	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.posX));
+	        textFieldtemp.setText(Integer.toString((int)player.rotationPitch % 360));
 	        textFieldtemp.setTextColor(16777215);
 	        textFieldtemp.setVisible(true);
 	        textFieldtemp.setCanLoseFocus(true);
 	        textFieldtemp.setFocused(false);
 	        textFields.add(textFieldtemp);
 	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Y:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 95, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        		"Yaw:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 110, y_pos + 49, (int) (X_WIDTH * .2), 10);
 	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.posY));
+	        textFieldtemp.setText(Integer.toString((int)player.rotationYaw % 360));
 	        textFieldtemp.setTextColor(16777215);
 	        textFieldtemp.setVisible(true);
 	        textFieldtemp.setCanLoseFocus(true);
 	        textFieldtemp.setFocused(false);
 	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Z:"));
-	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        numFieldtemp.setMaxStringLength(32);
-	        numFieldtemp.setText(Integer.toString((int)player.posY));
-	        numFieldtemp.setTextColor(16777215);
-	        numFieldtemp.setVisible(true);
-	        numFieldtemp.setCanLoseFocus(true);
-	        numFieldtemp.setFocused(false);
-	        textFields.add(numFieldtemp);
-			break;
-		case INSTRUCTION:
-			break;
-		case START:
 			break;
 		default:
 			break;
@@ -641,6 +693,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        this.buttonList.add(btnNext);
 		}
 		
+		btnAddStepType.enabled=addNew;
+				
         this.buttonList.add(btnAddStepType);
     	this.scroll = 0F;
     	
@@ -687,6 +741,13 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	public void updateScreen()
 	{
 	    super.updateScreen();
+	}
+	
+	/*
+	 * Getter for fontRenderer
+	 */
+	public FontRenderer getFontRenderer() {
+		return this.fontRendererObj;
 	}
 
 	/**

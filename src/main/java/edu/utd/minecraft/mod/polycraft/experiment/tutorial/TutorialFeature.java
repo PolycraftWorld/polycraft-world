@@ -2,13 +2,24 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
+import edu.utd.minecraft.mod.polycraft.util.Format;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeature {
 	private String name;
 	private Vec3 pos;
 	private Color color;
+	protected TutorialFeatureType featureType;
+	
+	//Gui Parameters
+	protected GuiTextField nameField;
+	protected GuiPolyNumField xPosField, yPosField, zPosField;
 	
 	public enum TutorialFeatureType{
 		GENERIC,
@@ -33,6 +44,12 @@ public class TutorialFeature {
 		this.name = name;
 		this.pos = pos;
 		this.color = c;
+		this.featureType = TutorialFeatureType.GENERIC;
+	}
+	
+	
+	public TutorialFeatureType getFeatureType() {
+		return featureType;
 	}
 
 	public String getName() {
@@ -46,8 +63,16 @@ public class TutorialFeature {
 	public Vec3 getPos() {
 		return pos;
 	}
+	
+	public Vec3 getPos2() {
+		return pos;
+	}
 
 	public void setPos(Vec3 pos) {
+		this.pos = pos;
+	}
+	
+	public void setPos2(Vec3 pos) {
 		this.pos = pos;
 	}
 
@@ -58,4 +83,65 @@ public class TutorialFeature {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	
+	
+	/*
+	 * Called to update values based on edits done in GuiDevTool
+	 * Values are pulled from parameter fields
+	 */
+	public void updateValues() {
+		this.name = nameField.getText();
+		this.pos.xCoord = Integer.parseInt(xPosField.getText());
+		this.pos.yCoord = Integer.parseInt(yPosField.getText());
+		this.pos.zCoord = Integer.parseInt(zPosField.getText());
+	}
+	
+	public void buildGuiParameters(GuiDevTool guiDevTool, int x_pos, int y_pos) {
+		FontRenderer fr = guiDevTool.getFontRenderer();
+		
+		//Name Field
+		nameField = new GuiTextField(fr, x_pos + 5, y_pos + 30, (int) (guiDevTool.X_WIDTH * .9), 14);
+		nameField.setMaxStringLength(32);
+		nameField.setText(name);
+		nameField.setTextColor(16777215);
+		nameField.setVisible(true);
+		nameField.setCanLoseFocus(true);
+		nameField.setFocused(true);
+        guiDevTool.textFields.add(nameField);	//add name field to textfields (This is the list that GuiDevTool uses to render textFields)
+        //add some labels for position fields 
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Pos"));
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"X:"));
+        //add position text fields
+        xPosField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        xPosField.setMaxStringLength(32);
+        xPosField.setText(Integer.toString((int)pos.xCoord));
+        xPosField.setTextColor(16777215);
+        xPosField.setVisible(true);
+        xPosField.setCanLoseFocus(true);
+        xPosField.setFocused(false);
+        guiDevTool.textFields.add(xPosField);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Y:"));
+        yPosField = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        yPosField.setMaxStringLength(32);
+        yPosField.setText(Integer.toString((int)pos.yCoord));
+        yPosField.setTextColor(16777215);
+        yPosField.setVisible(true);
+        yPosField.setCanLoseFocus(true);
+        yPosField.setFocused(false);
+        guiDevTool.textFields.add(yPosField);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Z:"));
+        zPosField = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        zPosField.setMaxStringLength(32);
+        zPosField.setText(Integer.toString((int)pos.zCoord));
+        zPosField.setTextColor(16777215);
+        zPosField.setVisible(true);
+        zPosField.setCanLoseFocus(true);
+        zPosField.setFocused(false);
+        guiDevTool.textFields.add(zPosField);
+	}
+	
 }
