@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -715,12 +717,15 @@ public class Analytics {
 	//This is used to check if player is attacking someone
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6 = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6_DEBUG = "ID=%2$d%1$s Player=%3$s%%1$s PlayerName=%4$s";
-	static List<Integer> list_of_registered_experiments=new ArrayList<Integer>();  
+	static List<Integer> list_of_registered_experiments=new ArrayList<Integer>();
+	static List<String> list_of_registered_experiments_with_time=new ArrayList<String>();
+	static HashMap<Integer,String>  Map_of_registered_experiments_with_time= new HashMap<Integer,String>();
 	
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent6(final PlayerExperimentEvent6 event) {
 		//EntityPlayer a = null;
 		//if(a.getDisplayName().equals(event.playerName2)) {
+		int i=0;
 		log(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
 //		log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
 		//}
@@ -738,6 +743,8 @@ public class Analytics {
 			list_of_registered_experiments.add(event.id);
 			String a="logs/Experiment "+event.id+" "+formattedDate+".log";
 			File file = new File(a);
+			list_of_registered_experiments_with_time.add(a);
+			Map_of_registered_experiments_with_time.put(event.id,a);
 			try {
 				if (file.createNewFile())
 				{
@@ -745,6 +752,29 @@ public class Analytics {
 				} else {
 				    System.out.println("File already exists.");
 				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Work ayithunnattu undhi ra");
+			System.out.println("Chudu endho idhi");
+			System.out.println(formattedDate+log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString())));
+			System.out.println(file);
+			FileWriter writer = null;
+			try {
+				writer = new FileWriter(file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		      try {
+				writer.write(formattedDate+log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString())));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		      try {
+				writer.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
