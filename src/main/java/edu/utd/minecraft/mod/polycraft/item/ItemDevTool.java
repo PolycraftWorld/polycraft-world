@@ -189,11 +189,11 @@ public class ItemDevTool extends ItemCustom  {
 					NBTTagCompound nbtFeatures = new NBTTagCompound();
 					NBTTagList nbtList = new NBTTagList();
 					for(int i =0;i<features.size();i++) {
-						NBTTagCompound nbt = new NBTTagCompound();
-						int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
-						nbt.setIntArray("Pos",pos);
-						nbt.setString("name", features.get(i).getName());
-						nbtList.appendTag(nbt);
+//						NBTTagCompound nbt = new NBTTagCompound();
+//						int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
+//						nbt.setIntArray("Pos",pos);
+//						nbt.setString("name", features.get(i).getName());
+						nbtList.appendTag(features.get(i).save());
 					}
 					nbtFeatures.setTag("features", nbtList);
 					FileOutputStream fout = null;
@@ -221,7 +221,9 @@ public class ItemDevTool extends ItemCustom  {
 				case Load:
 			        try {
 			        	player.addChatMessage(new ChatComponentText("Attempting to load Features " ));
-					
+			        	
+			        	features.clear();
+			        	
 			        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
 			        	InputStream is = new FileInputStream(file);
 
@@ -229,9 +231,16 @@ public class ItemDevTool extends ItemCustom  {
 			            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
 						for(int i =0;i<nbtFeatList.tagCount();i++) {
 							NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-							int featPos[]=nbtFeat.getIntArray("Pos");
-							String featName = nbtFeat.getString("name");
-							features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
+							
+							TutorialFeature test = (TutorialFeature)Class.forName(nbtFeat.getString("class")).newInstance();
+							test.load(nbtFeat);
+							//TutorialFeature tutFeat = new TutorialFeature();
+							//tutFeat.load(nbtFeat);
+							features.add(test);
+							player.addChatMessage(new ChatComponentText(nbtFeat.getString("class") ));
+				        	
+
+							//features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
 						}
 						
 						updateRenderBoxes();

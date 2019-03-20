@@ -9,6 +9,9 @@ import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
+
+import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraft.util.Vec3;
 
 public class TutorialFeature {
@@ -20,6 +23,8 @@ public class TutorialFeature {
 	//Gui Parameters
 	protected GuiTextField nameField;
 	protected GuiPolyNumField xPosField, yPosField, zPosField;
+
+	protected NBTTagCompound nbt = new NBTTagCompound();
 	
 	public enum TutorialFeatureType{
 		GENERIC,
@@ -39,6 +44,8 @@ public class TutorialFeature {
 		    return values()[ordinal() - 1];
 		}
 	}
+	
+	public TutorialFeature(){}
 	
 	public TutorialFeature(String name, Vec3 pos, Color c){
 		this.name = name;
@@ -144,4 +151,20 @@ public class TutorialFeature {
         guiDevTool.textFields.add(zPosField);
 	}
 	
+	public NBTTagCompound save()
+	{
+
+		int pos[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
+		nbt.setIntArray("pos",pos);
+		nbt.setString("name", this.name);
+		nbt.setString("class", TutorialFeature.class.getName());
+		return nbt;
+	}
+	
+	public void load(NBTTagCompound nbtFeat)
+	{
+		int featPos[]=nbtFeat.getIntArray("pos");
+		this.name = nbtFeat.getString("name");
+		this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
+	}
 }
