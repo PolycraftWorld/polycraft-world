@@ -82,7 +82,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     //Add Step buttons
     GuiButton btnAddStepType;
     private ArrayList<GuiTextField> textFields = new ArrayList<GuiTextField>();
-    private ArrayList<GuiLabel> labels = new ArrayList<GuiLabel>();
+    private ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
 	private GuiDevToolStep guiSteps;
 	
     
@@ -200,6 +200,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	
     	if(this.guiSteps != null) {
     		this.guiSteps.func_148179_a(x, y, mouseEvent);
+    	}
+    	for(GuiTextField textField: textFields) {
+    		textField.mouseClicked(x, y, mouseEvent);
     	}
     	super.mouseClicked(x, y, mouseEvent);
     }
@@ -447,6 +450,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         for(GuiTextField textField: textFields) {
         	textField.drawTextBox();
         }
+        for(GuiPolyLabel label: labels) {
+        	label.drawLabel();
+        }
         
     }
     
@@ -495,32 +501,131 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 		if(initRun)
     		this.resetButtonList();
 		this.textFields.clear();
-		
+		this.labels.clear();
+		GuiTextField textFieldtemp;
+		GuiPolyNumField numFieldtemp;
+		int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
+        int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
 		switch(featureToAddType) {
 		case GENERIC:
-			
-			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
-	        int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
 
-	        GuiTextField textFieldName = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
-	        textFieldName.setMaxStringLength(32);
-	        textFieldName.setText("Name of Feature");
-	        textFieldName.setTextColor(16777215);
-	        textFieldName.setVisible(true);
-	        textFieldName.setCanLoseFocus(true);
-	        textFieldName.setFocused(true);
-	        textFields.add(textFieldName);
-	        GuiLabel labelFieldx = new GuiLabel();
-	        GuiPolyNumField textFieldx = new GuiPolyNumField(this.fontRendererObj, x_pos + 5, y_pos + 50, (int) (X_WIDTH * .2), 14);
-	        textFieldx.setMaxStringLength(32);
-	        textFieldx.setText(Integer.toString((int)player.posX));
-	        textFieldx.setTextColor(16777215);
-	        textFieldx.setVisible(true);
-	        textFieldx.setCanLoseFocus(true);
-	        textFieldx.setFocused(true);
-	        textFields.add(textFieldx);
+	        textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText("Name of Feature");
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(true);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Pos"));
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"X:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText(Integer.toString((int)player.posX));
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(false);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Y:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 95, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText(Integer.toString((int)player.posY));
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(false);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Z:"));
+	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        numFieldtemp.setMaxStringLength(32);
+	        numFieldtemp.setText(Integer.toString((int)player.posY));
+	        numFieldtemp.setTextColor(16777215);
+	        numFieldtemp.setVisible(true);
+	        numFieldtemp.setCanLoseFocus(true);
+	        numFieldtemp.setFocused(false);
+	        textFields.add(numFieldtemp);
 			break;
 		case GUIDE:
+			
+
+	        textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText("Name of Feature");
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(true);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Pos1"));
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"X:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText(Integer.toString((int)player.posX));
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(false);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Y:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 95, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText(Integer.toString((int)player.posY));
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(false);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Z:"));
+	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        numFieldtemp.setMaxStringLength(32);
+	        numFieldtemp.setText(Integer.toString((int)player.posY));
+	        numFieldtemp.setTextColor(16777215);
+	        numFieldtemp.setVisible(true);
+	        numFieldtemp.setCanLoseFocus(true);
+	        numFieldtemp.setFocused(false);
+	        textFields.add(numFieldtemp);
+	        y_pos += 15;
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Pos2"));
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"X:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText(Integer.toString((int)player.posX));
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(false);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Y:"));
+	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 95, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        textFieldtemp.setMaxStringLength(32);
+	        textFieldtemp.setText(Integer.toString((int)player.posY));
+	        textFieldtemp.setTextColor(16777215);
+	        textFieldtemp.setVisible(true);
+	        textFieldtemp.setCanLoseFocus(true);
+	        textFieldtemp.setFocused(false);
+	        textFields.add(textFieldtemp);
+	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+	        		"Z:"));
+	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
+	        numFieldtemp.setMaxStringLength(32);
+	        numFieldtemp.setText(Integer.toString((int)player.posY));
+	        numFieldtemp.setTextColor(16777215);
+	        numFieldtemp.setVisible(true);
+	        numFieldtemp.setCanLoseFocus(true);
+	        numFieldtemp.setFocused(false);
+	        textFields.add(numFieldtemp);
 			break;
 		case INSTRUCTION:
 			break;
