@@ -892,7 +892,7 @@ public class ClientProxy extends CommonProxy {
 			 }
 			 else
 			 {
-				 TutorialRender.renderTutorialWalkForward(); 
+				 //TutorialRender.renderTutorialJumpForward(); 
 			 }
 		 }
 	
