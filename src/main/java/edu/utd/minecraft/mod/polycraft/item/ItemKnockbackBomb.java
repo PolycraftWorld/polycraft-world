@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import java.awt.Color;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,10 +195,58 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			  for (Integer experiment_instance : running_experiments) {
 				  if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
 					  Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,player.getCurrentEquippedItem().getDisplayName()));
+					  LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+						DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+						String formattedDate1 = myDateObj.format(myFormatObj1); 
+
+						FileWriter writer = null;
+						try {
+							//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+							writer = new FileWriter(Analytics.Map_of_registered_experiments_with_time.get(experiment_instance),true);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					      try {
+							writer.write(formattedDate1+Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,player.getCurrentEquippedItem().getDisplayName()))+System.getProperty("line.separator"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					      try {
+							writer.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 //						Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
 						for(Object entity1 : list4){
 							  Analytics.log(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3,experiment_instance, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
-//							  Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
+//							  LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+								//DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+								//String formattedDate1 = myDateObj.format(myFormatObj1); 
+
+								//FileWriter writer = null;
+								try {
+									//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+									writer = new FileWriter(Analytics.Map_of_registered_experiments_with_time.get(experiment_instance),true);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							      try {
+									writer.write(formattedDate1+Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3,experiment_instance, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()))+System.getProperty("line.separator"));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							      try {
+									writer.close();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							  //Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
 						}
 				  }
 				}
