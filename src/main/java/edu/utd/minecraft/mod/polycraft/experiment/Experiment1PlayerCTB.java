@@ -486,7 +486,6 @@ public class Experiment1PlayerCTB extends Experiment{
 		}
 			
 		else if(currentState == State.Running){
-			//System.out.println("Idhi id ra venky ga"+this.id);
 			tickCount++;
 			updateBaseStates2();
 			int i=0;
@@ -495,17 +494,6 @@ public class Experiment1PlayerCTB extends Experiment{
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
 					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
-					//System.out.println("This is list of all running experiments" + edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.getRunningExperiments().toString());
-					//ItemStack stack = player.getCurrentEquippedItem();
-					//Item item=player.getCurrentEquippedItem();
-					//if(stack.getDisplayName().equals("stick")){
-						//System.out.println("Player is using"+stack.getDisplayName());
-					//}
-					//if(stack!=null) {
-			        //if(stack.getDisplayName().equals("Knockback Bomb")||stack.getDisplayName().equals("Freezing Knockback Bomb")) {
-			        	
-			        //}
-			       // }
 				}
 				
 				
@@ -646,6 +634,13 @@ public class Experiment1PlayerCTB extends Experiment{
 						edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
+						for(Team team: scoreboard.getTeams()) {
+							//Don't put armor on Animals
+							if(team.getName().equals(this.animalTeam.getName()) || team == null) {
+								PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,team.getName());
+								edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
+								}
+							}
 					}
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}

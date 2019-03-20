@@ -640,12 +640,40 @@ public class Analytics {
 	}
 	
 	//This is used to log winner id//
-	public static final String FORMAT_ON_EXPERIMENT_EVENT0 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
-	public static final String FORMAT_ON_EXPERIMENT_EVENT0_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Winner_ID=%5$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT0 = "%2$d%1$s%3$d%1$s%4$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT0_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Winner_ID=%4$s";
 
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent0(final PlayerExperimentEvent0 event) {
-		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
+		if(event.playername=="Animals") {
+			log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.playername));
+			LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+			DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			String formattedDate1 = myDateObj.format(myFormatObj1); 
+
+			FileWriter writer = null;
+			try {
+				//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+				writer = new FileWriter(Map_of_registered_experiments_with_time.get(event.id1),true);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		      try {
+				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.playername))+System.getProperty("line.separator"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		      try {
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		String formattedDate1 = myDateObj.format(myFormatObj1); 
@@ -659,7 +687,7 @@ public class Analytics {
 			e.printStackTrace();
 		}
 	      try {
-			writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
+			writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -670,18 +698,19 @@ public class Analytics {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
 
 //		log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.maxteams1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
 	}
 	
 	
 	//This is used to log score every second
-	public static final String FORMAT_ON_EXPERIMENT_EVENT1 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
-	public static final String FORMAT_ON_EXPERIMENT_EVENT1_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT1 = "%2$d%1$s%3$d%1$s%4$.1f";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT1_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Score=%5$.1f";
 
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent1(final PlayerExperimentEvent1 event) {
-		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
+		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.score));
 		
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -696,7 +725,7 @@ public class Analytics {
 			e.printStackTrace();
 		}
 	      try {
-			writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score))+System.getProperty("line.separator"));
+			writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.score))+System.getProperty("line.separator"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
