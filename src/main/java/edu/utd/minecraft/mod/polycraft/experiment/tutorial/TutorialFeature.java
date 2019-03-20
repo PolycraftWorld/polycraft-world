@@ -3,12 +3,14 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeature {
 	private String name;
 	private Vec3 pos;
 	private Color color;
+	protected NBTTagCompound nbt = new NBTTagCompound();
 	
 	public enum TutorialFeatureType{
 		GENERIC,
@@ -28,6 +30,8 @@ public class TutorialFeature {
 		    return values()[ordinal() - 1];
 		}
 	}
+	
+	public TutorialFeature(){}
 	
 	public TutorialFeature(String name, Vec3 pos, Color c){
 		this.name = name;
@@ -57,5 +61,22 @@ public class TutorialFeature {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public NBTTagCompound save()
+	{
+
+		int pos[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
+		nbt.setIntArray("pos",pos);
+		nbt.setString("name", this.name);
+		nbt.setString("class", TutorialFeature.class.getName());
+		return nbt;
+	}
+	
+	public void load(NBTTagCompound nbtFeat)
+	{
+		int featPos[]=nbtFeat.getIntArray("pos");
+		this.name = nbtFeat.getString("name");
+		this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
 	}
 }
