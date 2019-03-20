@@ -1,6 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,6 +29,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBloc
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
+import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -32,7 +40,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,6 +62,9 @@ public class ItemDevTool extends ItemCustom  {
 	private long lastEventNanoseconds = 0;
 	String tool;
 	boolean setting;
+	String outputFileName = "output";
+	String outputFileExt = ".psm";
+	
 	private StateEnum currentState;
 	public static enum StateEnum {
 		AreaSelection,
@@ -167,6 +182,63 @@ public class ItemDevTool extends ItemCustom  {
 						player.addChatMessage(new ChatComponentText("Added feature at: " + blockPos.xCoord + "::" + blockPos.yCoord + "::" + blockPos.zCoord));
 						updateRenderBoxes();
 					}
+					break;
+				case Save:
+					player.addChatMessage(new ChatComponentText("Attempting to save Features " ));
+					
+					NBTTagCompound nbtFeatures = new NBTTagCompound();
+					NBTTagList nbtList = new NBTTagList();
+					for(int i =0;i<features.size();i++) {
+						NBTTagCompound nbt = new NBTTagCompound();
+						int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
+						nbt.setIntArray("Pos",pos);
+						nbt.setString("name", features.get(i).getName());
+						nbtList.appendTag(nbt);
+					}
+					nbtFeatures.setTag("features", nbtList);
+					FileOutputStream fout = null;
+					try {
+						File file = new File("C:\\Users\\mjg150230\\Desktop\\"+this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+						fout = new FileOutputStream(file);
+						
+						if (!file.exists()) {
+							file.createNewFile();
+						}
+						CompressedStreamTools.writeCompressed(nbtFeatures, fout);
+						fout.flush();
+						fout.close();
+						
+					}catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					
+					}catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+					}
+					
+					break;
+				case Load:
+			        try {
+			        	player.addChatMessage(new ChatComponentText("Attempting to load Features " ));
+					
+			        	File file = new File("C:\\Users\\mjg150230\\Desktop\\"+this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+			        	InputStream is = new FileInputStream(file);
+
+			            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+			            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+						for(int i =0;i<nbtFeatList.tagCount();i++) {
+							NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+							int featPos[]=nbtFeat.getIntArray("Pos");
+							String featName = nbtFeat.getString("name");
+							features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
+						}
+
+			            is.close();
+
+			        } catch (Exception e) {
+			            System.out.println("I can't load schematic, because " + e.toString());
+			        }
 					break;
 				default:
 					break;
