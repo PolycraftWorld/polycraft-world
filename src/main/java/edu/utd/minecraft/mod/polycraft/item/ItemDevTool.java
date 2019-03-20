@@ -198,7 +198,7 @@ public class ItemDevTool extends ItemCustom  {
 					nbtFeatures.setTag("features", nbtList);
 					FileOutputStream fout = null;
 					try {
-						File file = new File("C:\\Users\\mjg150230\\Desktop\\"+this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+						File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
 						fout = new FileOutputStream(file);
 						
 						if (!file.exists()) {
@@ -222,7 +222,7 @@ public class ItemDevTool extends ItemCustom  {
 			        try {
 			        	player.addChatMessage(new ChatComponentText("Attempting to load Features " ));
 					
-			        	File file = new File("C:\\Users\\mjg150230\\Desktop\\"+this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+			        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
 			        	InputStream is = new FileInputStream(file);
 
 			            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
@@ -233,7 +233,9 @@ public class ItemDevTool extends ItemCustom  {
 							String featName = nbtFeat.getString("name");
 							features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
 						}
-
+						
+						updateRenderBoxes();
+						
 			            is.close();
 
 			        } catch (Exception e) {
