@@ -416,43 +416,41 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         super.drawScreen(mouseX, mouseY, otherValue);
     }
     
-    private void drawDevStepsScreen() {
+    public void drawDevMainScreen() {
+		//the below "magic numbers" come from Minecraft's Demo files.
+	    //I'm using them unless there's better ideas in the future
+	    //TODO: understand why these are the correct magic numbers
+	    int x_pos = (this.width - 248) / 2 + 10;
+	    int y_pos = (this.height - 190) / 2 + 8;
+	    this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+	    y_pos += 12;
+	    this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH, y_pos + this.Y_HEIGHT, 0x50A0A0A0);
+	    this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
+	    y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
+	    
+	    for(GuiButton btn: (List<GuiButton>)buttonList) {
+	    	if(btn.id > 10000) {
+	    		if(btn.displayString.equalsIgnoreCase(devTool.getState().toString()))
+	    			btn.enabled = false;
+	    		else
+	    			btn.enabled = true;
+	    	}
+	    }
+	    
+	}
+
+	private void drawDevStepsScreen() {
     	//get top left of screen with padding.
     	int x_pos = (this.width - 248) / 2 + 10;
         int y_pos = (this.height - 192) / 2 + Y_PAD;
+        this.drawRect(x_pos - 7, y_pos - 1, x_pos + this.X_WIDTH +7, y_pos + 20, 0xFFc5c5c5);
         this.fontRendererObj.drawString(I18n.format("Dev Steps", new Object[0]),
         		x_pos, y_pos, 0xFFFFFFFF);
-        y_pos += 12;
-        //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
+        y_pos += 20;
+        this.drawRect(x_pos - 7, y_pos + this.Y_HEIGHT, x_pos + this.X_WIDTH +7, y_pos + this.Y_HEIGHT + 30, 0xFFc5c5c5);
         
-		
 	}
 
-    public void drawDevMainScreen() {
-    	//the below "magic numbers" come from Minecraft's Demo files.
-        //I'm using them unless there's better ideas in the future
-        //TODO: understand why these are the correct magic numbers
-        int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
-        y_pos += 12;
-        //GameSettings gamesettings = this.mc.gameSettings;
-        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH, y_pos + this.Y_HEIGHT, 0x50A0A0A0);
-        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
-        y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
-        //draw the Number of Players in Each experiment:
-        
-        for(GuiButton btn: (List<GuiButton>)buttonList) {
-        	if(btn.id > 10000) {
-        		if(btn.displayString.equalsIgnoreCase(devTool.getState().toString()))
-        			btn.enabled = false;
-        		else
-        			btn.enabled = true;
-        	}
-        }
-        
-    }
-    
     public void drawAddStepScreen() {
     	//this.resetButtonList();
     	int x_pos = (this.width - 248) / 2 + 10;
@@ -509,11 +507,14 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     			btnBack.displayString = "Close";
     			btnNext.displayString = "Steps";
     			this.buttonList.addAll(this.experimentsListButton);
-//    			ylines = (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT;
+    			ylines = (Y_HEIGHT - titleHeight) / (this.buttonheight+5);
+    			extraLines = this.experimentsListButton.size() - ylines;
     			break;
     		case DEV_STEPS:
     			btnBack.displayString = "< Back";
     			btnNext.displayString = "Add Step";
+    			ylines = (Y_HEIGHT - titleHeight) / (14);
+    			extraLines = guiSteps.getSize() - ylines;
     			break;
     		case DEV_ADD_STEP:
     			btnBack.displayString = "< Back";
@@ -708,7 +709,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 		
 		int i = Mouse.getEventDWheel();
 		if (i != 0 && extraLines > 0) {
-			scroll -= Math.signum(i) / (float) extraLines;
+			scroll -= Math.signum(i) / ((float) extraLines*8);
 			if (this.scroll < 0.0F) {
 				this.scroll = 0.0F;
 			} else if (this.scroll > 1.0F) {

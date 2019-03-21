@@ -56,8 +56,8 @@ public class GuiDevToolStep extends GuiListExtended {
 	
 	public GuiDevToolStep(GuiScreen gui, Minecraft mc, ItemDevTool devTool) {
 		//see below for the names of those variables.
-		super(mc, gui.width - 248, gui.height - 50, 50, gui.height - 50,SLOT_HEIGHT);
-	//	super(mc, ((GuiExperimentList)gui).X_WIDTH, ((GuiExperimentList)gui).SCROLL_HEIGHT, 50, 200, SLOT_HEIGHT);
+		super(mc, gui.width - 248, gui.height - 100, 50, gui.height - 50,SLOT_HEIGHT);
+	//	super(Minecraft minecraft, int width, int height, int top, int bottomOffset, int slotHeight);
 		
 		int x_start = (gui.width - 240) / 2;
 		int y_start = (gui.height - 184) / 2;
@@ -159,8 +159,8 @@ public class GuiDevToolStep extends GuiListExtended {
 		int totalRows = this.getSize();
 		Tessellator tessellator = Tessellator.instance;
 		
-		for (int rowIterator = 0; rowIterator < totalRows; ++rowIterator) {
-			int curRow = yPos + rowIterator * this.slotHeight + this.headerPadding;
+		for (int rowIterator = 0; rowIterator < totalRows; rowIterator++) {
+			int curRow = yPos + rowIterator * this.slotHeight + this.headerPadding +10;
 			
 			if(curRow < this.bottom - this.slotHeight && curRow > this.top) {
 				this.drawSlot(rowIterator, xPos, curRow, 0, tessellator, mouseX, mouseY);
