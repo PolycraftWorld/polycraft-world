@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraft.util.Vec3;
 
-public class TutorialFeatureGuide extends TutorialFeature {
+public class TutorialFeatureGuide extends TutorialFeature{
 	private Vec3 pos2;
 	
 	//GuiFields for Parameters

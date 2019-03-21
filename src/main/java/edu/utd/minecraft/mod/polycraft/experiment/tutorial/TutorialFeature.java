@@ -9,12 +9,12 @@ import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraft.util.Vec3;
 
-public class TutorialFeature {
+public class TutorialFeature implements ITutorialFeature{
 	private String name;
 	private Vec3 pos;
 	private Color color;
@@ -27,10 +27,16 @@ public class TutorialFeature {
 	protected NBTTagCompound nbt = new NBTTagCompound();
 	
 	public enum TutorialFeatureType{
-		GENERIC,
-		GUIDE,
-		INSTRUCTION,
-		START;
+		GENERIC(TutorialFeature.class.getName()),
+		GUIDE(TutorialFeatureGuide.class.getName()),
+		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
+		START(TutorialFeatureStart.class.getName());
+		
+		public String className;
+		
+		TutorialFeatureType(String className) {
+			this.className = className;
+		}
 		
 		public TutorialFeatureType next() {
 		    if (ordinal() == values().length - 1)
@@ -55,6 +61,42 @@ public class TutorialFeature {
 	}
 	
 	
+	@Override
+	public void preInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onServerTickUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPlayerTickUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void end() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public TutorialFeatureType getFeatureType() {
 		return featureType;
 	}
@@ -157,7 +199,8 @@ public class TutorialFeature {
 		int pos[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
 		nbt.setIntArray("pos",pos);
 		nbt.setString("name", this.name);
-		nbt.setString("class", TutorialFeature.class.getName());
+		nbt.setInteger("color", this.color.getRGB());
+		nbt.setString("type", featureType.name());
 		return nbt;
 	}
 	
@@ -165,6 +208,8 @@ public class TutorialFeature {
 	{
 		int featPos[]=nbtFeat.getIntArray("pos");
 		this.name = nbtFeat.getString("name");
+		this.color = new Color(nbtFeat.getInteger("color"));
 		this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
+		this.featureType = TutorialFeatureType.valueOf(nbtFeat.getString("type"));
 	}
 }

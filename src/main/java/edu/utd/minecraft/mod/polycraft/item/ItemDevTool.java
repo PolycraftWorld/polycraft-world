@@ -25,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -57,6 +58,7 @@ public class ItemDevTool extends ItemCustom  {
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+	TutorialFeature selectedFeature;
 	boolean pos1set = false;
 	boolean pos2set = false;
 	private long lastEventNanoseconds = 0;
@@ -71,7 +73,8 @@ public class ItemDevTool extends ItemCustom  {
 		FeatureTool,
 		GuideTool,
 		Save,
-		Load;
+		Load,
+		Test;
 		
 		public StateEnum next() {
 		    if (ordinal() == values().length - 1)
@@ -134,6 +137,17 @@ public class ItemDevTool extends ItemCustom  {
 			//currentState = currentState.next();
 			//player.addChatMessage(new ChatComponentText(currentState.toString() + "Mode"));
 			PolycraftMod.proxy.openDevToolGui(player);
+		}else {
+			switch(currentState) {
+				case Save:
+					save(player);
+					break;
+				case Load:
+			        load(player);
+					break;
+				default:
+					break;
+			}
 		}
 		return super.onItemRightClick(p_77659_1_, world, player);
 	}
@@ -182,74 +196,6 @@ public class ItemDevTool extends ItemCustom  {
 						player.addChatMessage(new ChatComponentText("Added feature at: " + blockPos.xCoord + "::" + blockPos.yCoord + "::" + blockPos.zCoord));
 						updateRenderBoxes();
 					}
-					break;
-				case Save:
-					player.addChatMessage(new ChatComponentText("Attempting to save Features " ));
-					
-					NBTTagCompound nbtFeatures = new NBTTagCompound();
-					NBTTagList nbtList = new NBTTagList();
-					for(int i =0;i<features.size();i++) {
-//						NBTTagCompound nbt = new NBTTagCompound();
-//						int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
-//						nbt.setIntArray("Pos",pos);
-//						nbt.setString("name", features.get(i).getName());
-						nbtList.appendTag(features.get(i).save());
-					}
-					nbtFeatures.setTag("features", nbtList);
-					FileOutputStream fout = null;
-					try {
-						File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
-						fout = new FileOutputStream(file);
-						
-						if (!file.exists()) {
-							file.createNewFile();
-						}
-						CompressedStreamTools.writeCompressed(nbtFeatures, fout);
-						fout.flush();
-						fout.close();
-						
-					}catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					
-					}catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-					}
-					
-					break;
-				case Load:
-			        try {
-			        	player.addChatMessage(new ChatComponentText("Attempting to load Features " ));
-			        	
-			        	features.clear();
-			        	
-			        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
-			        	InputStream is = new FileInputStream(file);
-
-			            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
-			            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
-						for(int i =0;i<nbtFeatList.tagCount();i++) {
-							NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-							
-							TutorialFeature test = (TutorialFeature)Class.forName(nbtFeat.getString("class")).newInstance();
-							test.load(nbtFeat);
-							//TutorialFeature tutFeat = new TutorialFeature();
-							//tutFeat.load(nbtFeat);
-							features.add(test);
-							player.addChatMessage(new ChatComponentText(nbtFeat.getString("class") ));
-				        	
-
-							//features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
-						}
-						
-						updateRenderBoxes();
-						
-			            is.close();
-
-			        } catch (Exception e) {
-			            System.out.println("I can't load schematic, because " + e.toString());
-			        }
 					break;
 				default:
 					break;
@@ -357,6 +303,75 @@ public class ItemDevTool extends ItemCustom  {
 		blockPos.zCoord = (int) (blockPos.zCoord + (hitPos.zCoord==0.0?-1:hitPos.zCoord==1.0?1:0));
 		
 		return blockPos;
+	}
+	
+	private void save(EntityPlayer player) {
+		player.addChatMessage(new ChatComponentText("Attempting to save Features " ));
+		
+		NBTTagCompound nbtFeatures = new NBTTagCompound();
+		NBTTagList nbtList = new NBTTagList();
+		for(int i =0;i<features.size();i++) {
+//				NBTTagCompound nbt = new NBTTagCompound();
+//				int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
+//				nbt.setIntArray("Pos",pos);
+//				nbt.setString("name", features.get(i).getName());
+			nbtList.appendTag(features.get(i).save());
+		}
+		nbtFeatures.setTag("features", nbtList);
+		FileOutputStream fout = null;
+		try {
+			File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+			fout = new FileOutputStream(file);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			CompressedStreamTools.writeCompressed(nbtFeatures, fout);
+			fout.flush();
+			fout.close();
+			
+		}catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		
+		}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+	}
+	
+	private void load(EntityPlayer player) {
+		try {
+        	player.addChatMessage(new ChatComponentText("Attempting to load Features " ));
+        	
+        	features.clear();
+        	
+        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+				test.load(nbtFeat);
+				//TutorialFeature tutFeat = new TutorialFeature();
+				//tutFeat.load(nbtFeat);
+				features.add(test);
+				//player.addChatMessage(new ChatComponentText(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className));
+	        	
+
+				//features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
+			}
+			
+			updateRenderBoxes();
+			
+            is.close();
+
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.toString());
+        }
 	}
 	
 	
