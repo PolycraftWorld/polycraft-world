@@ -15,10 +15,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeature implements ITutorialFeature{
-	private String name;
-	private Vec3 pos;
-	private Color color;
+	protected String name;
+	protected Vec3 pos;
+	protected Color color;
 	protected TutorialFeatureType featureType;
+	protected boolean isDone = false;
+	
+	//running parameters
+	protected ExperimentTutorial experiment;
 	
 	//Gui Parameters
 	protected GuiTextField nameField;
@@ -62,9 +66,9 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	
 	@Override
-	public void preInit() {
+	public void preInit(ExperimentTutorial exp) {
 		// TODO Auto-generated method stub
-		
+		this.experiment = exp;
 	}
 
 	@Override
@@ -87,8 +91,7 @@ public class TutorialFeature implements ITutorialFeature{
 
 	@Override
 	public void end() {
-		// TODO Auto-generated method stub
-		
+		isDone = true;
 	}
 
 	@Override
@@ -211,5 +214,10 @@ public class TutorialFeature implements ITutorialFeature{
 		this.color = new Color(nbtFeat.getInteger("color"));
 		this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
 		this.featureType = TutorialFeatureType.valueOf(nbtFeat.getString("type"));
+	}
+
+	@Override
+	public boolean isDone() {
+		return isDone;
 	}
 }

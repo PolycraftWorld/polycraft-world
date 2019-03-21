@@ -85,6 +85,10 @@ public class TutorialManager {
 	public void resetClientExperimentManager() {
 		//clientCurrentExperiment = -1;
 	}
+	
+	public void addExperiment(ExperimentTutorial exp) {
+		this.experiments.put(nextAvailableExperimentID++, exp);
+	}
 
 	
 	public EntityPlayer getPlayerEntity(String playerName) {

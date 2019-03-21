@@ -64,15 +64,17 @@ public class ExperimentTutorial{
 	public final int xPos;	//starting xPos of experiment area
 	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
-	public final World world;
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
+	World world;
 	public CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
 	protected int teamSize = 2;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
-	protected ArrayList<TutorialFeature> expFeatures;
+	protected int featureIndex = 0;
+	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
+	protected ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
 	
 	
 	public enum State{
@@ -88,7 +90,6 @@ public class ExperimentTutorial{
 	public State currentState;
 	
 
-	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	
@@ -104,17 +105,16 @@ public class ExperimentTutorial{
 	 * @param maxteams
 	 * @param teamsize
 	 */
-	public ExperimentTutorial(int id, int xPos, int zPos, World world, int maxteams, int teamsize) {
+	public ExperimentTutorial(int id, World world, TutorialOptions options, ArrayList<TutorialFeature> features) {
 		
 		this.id = id;
-		this.xPos = xPos;
+		this.xPos = (int) options.pos1.xCoord;
 		this.yPos = 16;
-		this.zPos = zPos;
-		this.world = world;
+		this.zPos = (int) options.pos1.zCoord;
 		this.currentState = State.PreInit;
-		
-		this.teamsNeeded = maxteams;
-		this.teamSize = teamsize;
+		this.world = world;
+		this.teamsNeeded = options.numTeams;
+		this.teamSize = options.teamSize;
 		this.playersNeeded = teamsNeeded * teamSize;
 		this.awaitingNumPlayers = this.playersNeeded;
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
@@ -123,11 +123,47 @@ public class ExperimentTutorial{
 			this.scoreboard.resetScores(0);
 		}
 		
+		this.features.addAll(features);
+		
 		int y = yPos + 8;
 		int x_offset = 31;
 	}
 	
+	/**
+	 * take in an Entity Player MP object and add JUST the player's name to the appropriate list.
+	 * @param player the player to add to the list
+	 * @return False if player is already in the list or could otherwise not be added; True if the player was added.
+	 */
+	public boolean addPlayer(EntityPlayerMP player){
+		int playerCount = 0;
+		for(Team team: this.scoreboard.getTeams()) {
+			if(team.getPlayers().contains(player.getDisplayName())) { //check to see if the player's name 
+				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
+				return false;
+			}
+			playerCount += team.getSize();
+		}
+		for(Team team: this.scoreboard.getTeams()) {
+			if(team.getSize() < teamSize) {
+				//team.getPlayers()
+				team.getPlayers().add(player.getDisplayName());//add player's name to the team
+				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
+				//TODO: Inform the player which team they're on over here instead of a chat
+				//Pass this info to the ExperimentListMetaData as its sent to the player
+				playerCount++;
+				awaitingNumPlayers--;
+				if(playerCount == teamSize*teamsNeeded){
+					currentState = State.PreInit;
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void onServerTickUpdate() {
+		if(this.world.isRemote)
+			return;
 		
 		switch(currentState) {
 		case WaitingToStart:
@@ -136,12 +172,19 @@ public class ExperimentTutorial{
 			break;
 		case PreInit:
 			for(TutorialFeature feature: features){
-				feature.preInit();
+				feature.preInit(this);
 			}
+			currentState = State.Running;
 			break;
 		case Running:
-			for(TutorialFeature feature: features){
-				feature.onServerTickUpdate();
+			if(activeFeatures.isEmpty() && featureIndex == features.size())
+				currentState = State.Ending;
+			else if (featureIndex < features.size())
+				activeFeatures.add(features.get(featureIndex++));
+			for(int x = 0; x < activeFeatures.size(); x++){
+				activeFeatures.get(x).onServerTickUpdate();
+				if(activeFeatures.get(x).isDone())
+					activeFeatures.remove(activeFeatures.get(x));
 			}
 			break;
 		case Ending:
@@ -152,17 +195,12 @@ public class ExperimentTutorial{
 			break;
 		
 		}
-		if(currentState == State.Running){
-			for(TutorialFeature feature: features){
-				feature.onServerTickUpdate();
-			}
-		}
 	}
 	
 
 	public void onClientTickUpdate(){
 		if(currentState == State.Starting){
-			for(TutorialFeature feature: features){
+			for(TutorialFeature feature: activeFeatures){
 				feature.onPlayerTickUpdate();
 			}
 		}	
@@ -170,7 +208,9 @@ public class ExperimentTutorial{
 	
 	
 	public void render(Entity entity){
-		for(TutorialFeature feature: features){
+		if(activeFeatures == null)
+			return;
+		for(TutorialFeature feature: activeFeatures){
 			feature.render(entity);
 		}
 	}

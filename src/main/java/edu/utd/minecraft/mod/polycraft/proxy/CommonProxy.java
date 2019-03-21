@@ -24,6 +24,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.RespawnHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
@@ -344,6 +345,8 @@ public abstract class CommonProxy {
 			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
 		}
 		
+		TutorialManager.INSTANCE.onPlayerTick(tick);
+		
 		//KillWall.onPlayerTick(tick);
 		//RaceGame.INSTANCE.onPlayerTick(tick);
 	}
@@ -432,6 +435,8 @@ public abstract class CommonProxy {
 			{
 				PolycraftMinigameManager.INSTANCE.onServerTick(tick);
 			}
+			
+			TutorialManager.INSTANCE.onServerTickUpdate(tick);
 		}
 	}
 

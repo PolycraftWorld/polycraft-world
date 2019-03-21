@@ -23,8 +23,11 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
@@ -38,6 +41,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -58,6 +62,7 @@ public class ItemDevTool extends ItemCustom  {
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+	TutorialOptions tutOptions = new TutorialOptions();
 	TutorialFeature selectedFeature;
 	boolean pos1set = false;
 	boolean pos2set = false;
@@ -131,20 +136,24 @@ public class ItemDevTool extends ItemCustom  {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World world, EntityPlayer player) {
-		if(!world.isRemote)
-			return super.onItemRightClick(p_77659_1_, world, player);		
-		if(player.isSneaking()) {
+			
+		if(player.isSneaking() && world.isRemote) {
 			//currentState = currentState.next();
 			//player.addChatMessage(new ChatComponentText(currentState.toString() + "Mode"));
 			PolycraftMod.proxy.openDevToolGui(player);
 		}else {
 			switch(currentState) {
 				case Save:
-					save(player);
+					if(world.isRemote)
+						save();
 					break;
 				case Load:
-			        load(player);
+			        load();
+			        if(world.isRemote)
+						updateRenderBoxes();
 					break;
+				case Test:
+					test(player);
 				default:
 					break;
 			}
@@ -305,9 +314,7 @@ public class ItemDevTool extends ItemCustom  {
 		return blockPos;
 	}
 	
-	private void save(EntityPlayer player) {
-		player.addChatMessage(new ChatComponentText("Attempting to save Features " ));
-		
+	private void save() {
 		NBTTagCompound nbtFeatures = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
 		for(int i =0;i<features.size();i++) {
@@ -340,10 +347,8 @@ public class ItemDevTool extends ItemCustom  {
 		}
 	}
 	
-	private void load(EntityPlayer player) {
+	private void load() {
 		try {
-        	player.addChatMessage(new ChatComponentText("Attempting to load Features " ));
-        	
         	features.clear();
         	
         	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
@@ -364,14 +369,29 @@ public class ItemDevTool extends ItemCustom  {
 
 				//features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
 			}
-			
-			updateRenderBoxes();
-			
             is.close();
 
         } catch (Exception e) {
             System.out.println("I can't load schematic, because " + e.toString());
         }
+	}
+	
+	private void test(EntityPlayer player) {
+		if(player.worldObj.isRemote)
+			return;
+		load();
+		tutOptions.name = "test name";
+		tutOptions.numTeams = 1;
+		tutOptions.teamSize = 1;
+		tutOptions.pos1 = Vec3.createVectorHelper(pos1[0], pos1[1], pos1[2]);
+		tutOptions.pos2 = Vec3.createVectorHelper(pos2[0], pos2[1], pos2[2]);
+		
+		player.addChatMessage(new ChatComponentText("Test Run"));
+		
+		ExperimentTutorial tutorial = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), player.worldObj, tutOptions, features);
+		
+		TutorialManager.INSTANCE.addExperiment(tutorial);
+		tutorial.addPlayer((EntityPlayerMP) player);
 	}
 	
 	

@@ -26,6 +26,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
@@ -620,69 +621,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        buttonList.add(btnInstructionType);
 			break;
 		case START:
-			textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText("Name of Feature");
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(true);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Pos"));
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"X:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.posX));
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(false);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Y:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 95, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.posY));
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(false);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Z:"));
-	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        numFieldtemp.setMaxStringLength(32);
-	        numFieldtemp.setText(Integer.toString((int)player.posZ));
-	        numFieldtemp.setTextColor(16777215);
-	        numFieldtemp.setVisible(true);
-	        numFieldtemp.setCanLoseFocus(true);
-	        numFieldtemp.setFocused(false);
-	        textFields.add(numFieldtemp);
-	        
-	        y_pos += 15;
-	        
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Pitch:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.rotationPitch % 360));
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(false);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Yaw:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 110, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.rotationYaw % 360));
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(false);
-	        textFields.add(textFieldtemp);
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureStart("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		Vec3.createVectorHelper(player.rotationPitch % 360, player.rotationYaw % 360, 0));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		default:
 			break;

@@ -54,6 +54,7 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritor
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -534,6 +535,7 @@ public class ClientProxy extends CommonProxy {
 	        //renderKillWallBounds(entity);
 	       // renderRaceGameGoal(entity);
 	        ExperimentManager.INSTANCE.render(entity);
+	        TutorialManager.INSTANCE.render(entity);
 	        if(PolycraftMinigameManager.INSTANCE!=null)
 	        {
 	        	if(PolycraftMinigameManager.INSTANCE.active && entity.worldObj.isRemote)
