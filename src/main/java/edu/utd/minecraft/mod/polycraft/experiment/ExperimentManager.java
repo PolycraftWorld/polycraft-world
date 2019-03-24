@@ -58,7 +58,7 @@ public class ExperimentManager {
 	 * for synchronization. This contains relevant, condensed information enabling efficient info
 	 * transfer across the network. 
 	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
-	 * {@link ClientEnforcer}. It is currently rendered on {@link GuiExperimentList}
+	 * {@link #ClientEnforcer}. It is currently rendered on {@link #GuiExperimentList}
 	 * @author dnarayanan
 	 *
 	 */
