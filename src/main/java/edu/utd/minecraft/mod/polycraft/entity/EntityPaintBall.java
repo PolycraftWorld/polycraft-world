@@ -87,7 +87,7 @@ public class EntityPaintBall extends EntityPellet{
 		}
 		
 		if(this.ticksExisted >= 8 && type == SlingshotType.SCATTER && !isChildPellet && !createdChildren) {
-			EntityPaintBall child1 = new EntityPaintBall(world), child2 = new EntityPaintBall(world);
+			EntityPaintBall child1 = new EntityPaintBall(world, (EntityPlayer) this.shootingEntity, 2F, this.type), child2 = new EntityPaintBall(world, (EntityPlayer) this.shootingEntity, 2F, this.type);
 			this.createdChildren = true;
 			child1.isChildPellet = child2.isChildPellet = true;
 			child1.positionXCurrent = child2.positionXCurrent = this.positionXCurrent;
@@ -95,7 +95,6 @@ public class EntityPaintBall extends EntityPellet{
 			child1.positionZCurrent = child2.positionZCurrent = this.positionZCurrent;
 			child1.currentBlock = child2.currentBlock = this.currentBlock;
 			child1.ticksExisted = child2.ticksExisted = this.ticksExisted;
-			child1.shootingEntity = child2.shootingEntity = this.shootingEntity;
 			
 			child1.rotationYaw += SCATTER_SPLIT_DEGREE;
 			child2.rotationYaw -= SCATTER_SPLIT_DEGREE;

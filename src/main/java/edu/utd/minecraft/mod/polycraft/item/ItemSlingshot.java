@@ -37,7 +37,7 @@ public class ItemSlingshot extends ItemCustom {
 	public ItemSlingshot(CustomObject config) {
 		super(config);
 		init();
-		type = SlingshotType.WOODEN;
+		type = SlingshotType.SCATTER;
 	}
 	
 	public ItemSlingshot(CustomObject config, SlingshotType type) {
@@ -74,8 +74,7 @@ public class ItemSlingshot extends ItemCustom {
     }
 	
 	private void fireWooden(ItemStack stack, World world, EntityPlayer player, int count) {
-		fireTactical(stack, world, player, count);
-		/*
+		
 		int j = this.getMaxItemUseDuration(stack) - count;
 
         ArrowLooseEvent event = new ArrowLooseEvent(player, stack, j);
@@ -119,7 +118,6 @@ public class ItemSlingshot extends ItemCustom {
                 world.spawnEntityInWorld(EntityPellet);
             }
         }
-        */
 	}
 	
 	private void fireTactical(ItemStack stack, World world, EntityPlayer player, int count) {
