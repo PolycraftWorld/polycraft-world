@@ -37,7 +37,7 @@ public class ItemSlingshot extends ItemCustom {
 	public ItemSlingshot(CustomObject config) {
 		super(config);
 		init();
-		type = SlingshotType.SCATTER;
+		type = SlingshotType.WOODEN;
 	}
 	
 	public ItemSlingshot(CustomObject config, SlingshotType type) {
