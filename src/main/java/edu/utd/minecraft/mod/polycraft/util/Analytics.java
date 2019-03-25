@@ -75,7 +75,9 @@ public class Analytics {
 	public static final Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
 	//public static final Logger logger1 = LogManager.getLogger("Experiment-analytics");
 	
-	
+	static List<Integer> list_of_registered_experiments=new ArrayList<Integer>();
+	static List<String> list_of_registered_experiments_with_time=new ArrayList<String>();
+	public static HashMap<Integer,String>  Map_of_registered_experiments_with_time= new HashMap<Integer,String>();
 	
 	//boolean append = true;
 	//FileHandler handler = new FileHandler("default.log", append);
@@ -297,6 +299,39 @@ public class Analytics {
 							(int) player.rotationPitch, (int) player.rotationYaw, (int) player.rotationYawHead,
 							formatBoolean(player.onGround),
 							formatBoolean(player.isSprinting()), formatBoolean(player.isSneaking())));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickSpatial, String.format(debug ? FORMAT_TICK_SPATIAL_DEBUG : FORMAT_TICK_SPATIAL, DELIMETER_DATA,
+								player.motionX, player.motionY, player.motionZ,
+								(int) player.rotationPitch, (int) player.rotationYaw, (int) player.rotationYawHead,
+								formatBoolean(player.onGround),
+								formatBoolean(player.isSprinting()), formatBoolean(player.isSneaking())))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.swimming > 0) {
@@ -304,6 +339,35 @@ public class Analytics {
 						if (playerState.ticksSwimming++ == tickIntervals.swimming) {
 							playerState.ticksSwimming = 0;
 							log(player, Category.PlayerTickSwimming, String.format(debug ? FORMAT_TICK_SWIMMING_DEBUG : FORMAT_TICK_SWIMMING, player.getAir()));
+							List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+							LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+							DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+							String formattedDate1 = myDateObj.format(myFormatObj1); 
+							for (Integer experiment_instance : running_experiments) {  
+								if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+							FileWriter writer = null;
+							try {
+								//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+								
+								writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						      try {
+								writer.write(formattedDate1+log1(player, Category.PlayerTickSwimming, String.format(debug ? FORMAT_TICK_SWIMMING_DEBUG : FORMAT_TICK_SWIMMING, player.getAir()))+System.getProperty("line.separator"));
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						      try {
+								writer.close();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+								}
+							}
 						}
 					}
 					else if (playerState.ticksSwimming > 0)
@@ -313,6 +377,35 @@ public class Analytics {
 				if (tickIntervals.health > 0 && playerState.ticksHealth++ == tickIntervals.health) {
 					playerState.ticksHealth = 0;
 					log(player, Category.PlayerTickHealth, String.format(debug ? FORMAT_TICK_HEALTH_DEBUG : FORMAT_TICK_HEALTH, player.getHealth()));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickHealth, String.format(debug ? FORMAT_TICK_HEALTH_DEBUG : FORMAT_TICK_HEALTH, player.getHealth()))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.item > 0 && playerState.ticksItem++ == tickIntervals.item) {
@@ -320,6 +413,37 @@ public class Analytics {
 					log(player, Category.PlayerTickItem, String.format(debug ? FORMAT_TICK_ITEM_DEBUG : FORMAT_TICK_ITEM, DELIMETER_DATA,
 							formatItemStackName(player.getCurrentEquippedItem()),
 							formatItemStackDamage(player.getCurrentEquippedItem())));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickItem, String.format(debug ? FORMAT_TICK_ITEM_DEBUG : FORMAT_TICK_ITEM, DELIMETER_DATA,
+								formatItemStackName(player.getCurrentEquippedItem()),
+								formatItemStackDamage(player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.food > 0 && playerState.ticksFood++ == tickIntervals.food) {
@@ -327,6 +451,37 @@ public class Analytics {
 					log(player, Category.PlayerTickFood, String.format(debug ? FORMAT_TICK_FOOD_DEBUG : FORMAT_TICK_FOOD, DELIMETER_DATA,
 							player.getFoodStats().getFoodLevel(),
 							player.getFoodStats().getSaturationLevel()));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickFood, String.format(debug ? FORMAT_TICK_FOOD_DEBUG : FORMAT_TICK_FOOD, DELIMETER_DATA,
+								player.getFoodStats().getFoodLevel(),
+								player.getFoodStats().getSaturationLevel()))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.experience > 0 && playerState.ticksExperience++ == tickIntervals.experience) {
@@ -334,6 +489,37 @@ public class Analytics {
 					log(player, Category.PlayerTickExperience, String.format(debug ? FORMAT_TICK_EXPERIENCE_DEBUG : FORMAT_TICK_EXPERIENCE, DELIMETER_DATA,
 							player.experienceTotal,
 							player.experienceLevel));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickExperience, String.format(debug ? FORMAT_TICK_EXPERIENCE_DEBUG : FORMAT_TICK_EXPERIENCE, DELIMETER_DATA,
+								player.experienceTotal,
+								player.experienceLevel))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.armor > 0 && playerState.ticksArmor++ == tickIntervals.armor) {
@@ -351,6 +537,36 @@ public class Analytics {
 					}
 					log(player, Category.PlayerTickArmor, String.format(debug ? FORMAT_TICK_ARMOR_DEBUG : FORMAT_TICK_ARMOR, DELIMETER_DATA,
 							player.getTotalArmorValue(), count, items.toString()));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickArmor, String.format(debug ? FORMAT_TICK_ARMOR_DEBUG : FORMAT_TICK_ARMOR, DELIMETER_DATA,
+								player.getTotalArmorValue(), count, items.toString()))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.hotbar > 0 && playerState.ticksHotbar++ == tickIntervals.hotbar) {
@@ -367,6 +583,35 @@ public class Analytics {
 						}
 					}
 					log(player, Category.PlayerTickHotbar, String.format(debug ? FORMAT_TICK_HOTBAR_DEBUG : FORMAT_TICK_HOTBAR, DELIMETER_DATA, count, items.toString()));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickHotbar, String.format(debug ? FORMAT_TICK_HOTBAR_DEBUG : FORMAT_TICK_HOTBAR, DELIMETER_DATA, count, items.toString()))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 
 				if (tickIntervals.inventory > 0 && playerState.ticksInventory++ == tickIntervals.inventory) {
@@ -383,6 +628,35 @@ public class Analytics {
 						}
 					}
 					log(player, Category.PlayerTickInventory, String.format(debug ? FORMAT_TICK_INVENTORY_DEBUG : FORMAT_TICK_INVENTORY, DELIMETER_DATA, count, items.toString()));
+					List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+					LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+					DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String formattedDate1 = myDateObj.format(myFormatObj1); 
+					for (Integer experiment_instance : running_experiments) {  
+						if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+					FileWriter writer = null;
+					try {
+						//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+						
+						writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.write(formattedDate1+log1(player, Category.PlayerTickInventory, String.format(debug ? FORMAT_TICK_INVENTORY_DEBUG : FORMAT_TICK_INVENTORY, DELIMETER_DATA, count, items.toString()))+System.getProperty("line.separator"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						}
+					}
 				}
 			}
 		}
@@ -394,6 +668,35 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized void onServerChat(final ServerChatEvent event) {
 		log(event.player, Category.PlayerChat, String.format(debug ? FORMAT_SERVER_CHAT_DEBUG : FORMAT_SERVER_CHAT, event.message));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.player.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.player, Category.PlayerChat, String.format(debug ? FORMAT_SERVER_CHAT_DEBUG : FORMAT_SERVER_CHAT, event.message))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_INTERACT = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$s%1$s%8$s%1$s%9$d%1$s%10$s";
@@ -405,13 +708,48 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized void onPlayerInteract(final PlayerInteractEvent event) {
 
-		if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR)
+		if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
 			log(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,
 					formatEnum(event.action), event.x, event.y, event.z,
 					event.face, formatEnum(event.getResult()),
 					formatBlock(event.world.getBlock(event.x, event.y, event.z)),
 					event.world.getBlockMetadata(event.x, event.y, event.z),
 					formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,
+					formatEnum(event.action), event.x, event.y, event.z,
+					event.face, formatEnum(event.getResult()),
+					formatBlock(event.world.getBlock(event.x, event.y, event.z)),
+					event.world.getBlockMetadata(event.x, event.y, event.z),
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem())))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
+		}
 			
 	}
 
@@ -426,6 +764,38 @@ public class Analytics {
 				formatItemStackName(event.item),
 				formatItemStackDamage(event.item),
 				event.duration));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerUseItemStart, String.format(debug ? FORMAT_USE_ITEM_DEBUG : FORMAT_USE_ITEM, DELIMETER_DATA,
+					formatItemStackName(event.item),
+					formatItemStackDamage(event.item),
+					event.duration))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -434,6 +804,38 @@ public class Analytics {
 				formatItemStackName(event.item),
 				formatItemStackDamage(event.item),
 				event.duration));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerUseItemStop, String.format(debug ? FORMAT_USE_ITEM_DEBUG : FORMAT_USE_ITEM, DELIMETER_DATA,
+					formatItemStackName(event.item),
+					formatItemStackDamage(event.item),
+					event.duration))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -444,6 +846,40 @@ public class Analytics {
 				event.duration,
 				formatItemStackName(event.result),
 				formatItemStackDamage(event.result)));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerUseItemFinish, String.format(debug ? FORMAT_USE_ITEM_FINISH_DEBUG : FORMAT_USE_ITEM_FINISH, DELIMETER_DATA,
+					formatItemStackName(event.item),
+					formatItemStackDamage(event.item),
+					event.duration,
+					formatItemStackName(event.result),
+					formatItemStackDamage(event.result)))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_PICKUP_ITEM = "%2$s%1$s%3$s";
@@ -454,6 +890,37 @@ public class Analytics {
 		log(event.player, Category.PlayerPickupItem, String.format(debug ? FORMAT_PICKUP_ITEM_DEBUG : FORMAT_PICKUP_ITEM, DELIMETER_DATA,
 				formatItemStackName(event.pickedUp.getEntityItem()),
 				formatItemStackDamage(event.pickedUp.getEntityItem())));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.player.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.player, Category.PlayerPickupItem, String.format(debug ? FORMAT_PICKUP_ITEM_DEBUG : FORMAT_PICKUP_ITEM, DELIMETER_DATA,
+					formatItemStackName(event.pickedUp.getEntityItem()),
+					formatItemStackDamage(event.pickedUp.getEntityItem())))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_TOSS_ITEM = "%2$s%1$s%3$s%1$s%4$s";
@@ -465,6 +932,38 @@ public class Analytics {
 				formatItemStackName(event.entityItem.getEntityItem()),
 				formatItemStackDamage(event.entityItem.getEntityItem()),
 				formatItemStackSize(event.entityItem.getEntityItem())));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.player.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.player, Category.PlayerTossItem, String.format(debug ? FORMAT_TOSS_ITEM_DEBUG : FORMAT_TOSS_ITEM, DELIMETER_DATA,
+					formatItemStackName(event.entityItem.getEntityItem()),
+					formatItemStackDamage(event.entityItem.getEntityItem()),
+					formatItemStackSize(event.entityItem.getEntityItem())))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_CRAFT_ITEM = "%2$s%1$s%3$s%1$s%4$s";
@@ -476,6 +975,38 @@ public class Analytics {
 				formatItemStackName(event.crafting),
 				formatItemStackSize(event.crafting),
 				formatInventoryName(event.craftMatrix)));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.player.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.player, Category.PlayerCraftItem, String.format(debug ? FORMAT_CRAFT_ITEM_DEBUG : FORMAT_CRAFT_ITEM, DELIMETER_DATA,
+					formatItemStackName(event.crafting),
+					formatItemStackSize(event.crafting),
+					formatInventoryName(event.craftMatrix)))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_SMELT_ITEM = "%2$s%1$s%3$s";
@@ -485,6 +1016,36 @@ public class Analytics {
 	public synchronized void onItemSmelted(final ItemSmeltedEvent event) {
 		log(event.player, Category.PlayerSmeltItem, String.format(debug ? FORMAT_SMELT_ITEM_DEBUG : FORMAT_SMELT_ITEM, DELIMETER_DATA,
 				formatItemStackName(event.smelting), formatItemStackSize(event.smelting)));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.player.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.player, Category.PlayerSmeltItem, String.format(debug ? FORMAT_SMELT_ITEM_DEBUG : FORMAT_SMELT_ITEM, DELIMETER_DATA,
+					formatItemStackName(event.smelting), formatItemStackSize(event.smelting)))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_POLYCRAFT_ITEM = "%2$s%1$s%3$s%1$s%4$s";
@@ -495,6 +1056,38 @@ public class Analytics {
 				formatItemStackName(item),
 				formatItemStackSize(item),
 				formatInventoryName(inventory)));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(player, Category.PlayerPolycraftItem, String.format(debug ? FORMAT_POLYCRAFT_ITEM_DEBUG : FORMAT_POLYCRAFT_ITEM, DELIMETER_DATA,
+					formatItemStackName(item),
+					formatItemStackSize(item),
+					formatInventoryName(inventory)))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_ATTACK_ENTITY = "%2$s%1$s%3$s%1$s%4$d%1$s%5$d%1$s%6$d";
@@ -619,6 +1212,38 @@ public class Analytics {
 				formatItemStackName(event.getPlayer().getCurrentEquippedItem()),
 				event.x, event.y, event.z,
 				formatBlock(event.block), event.blockMetadata, event.getExpToDrop()));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.getPlayer().getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.getPlayer(), Category.PlayerBreakBlock, String.format(debug ? FORMAT_BREAK_BLOCK_DEBUG : FORMAT_BREAK_BLOCK, DELIMETER_DATA,
+					formatItemStackName(event.getPlayer().getCurrentEquippedItem()),
+					event.x, event.y, event.z,
+					formatBlock(event.block), event.blockMetadata, event.getExpToDrop()))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_SLEEP_IN_BED = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
@@ -628,6 +1253,36 @@ public class Analytics {
 	public synchronized void onPlayerSleepInBed(final PlayerSleepInBedEvent event) {
 		log(event.entityPlayer, Category.PlayerSleepInBed, String.format(debug ? FORMAT_SLEEP_IN_BED_DEBUG : FORMAT_SLEEP_IN_BED, DELIMETER_DATA,
 				event.x, event.y, event.z, formatEnum(event.getResult())));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerSleepInBed, String.format(debug ? FORMAT_SLEEP_IN_BED_DEBUG : FORMAT_SLEEP_IN_BED, DELIMETER_DATA,
+					event.x, event.y, event.z, formatEnum(event.getResult())))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 
 	public static final String FORMAT_ACHIEVEMENT = "%s";
@@ -637,6 +1292,36 @@ public class Analytics {
 	public synchronized void onAchievement(final AchievementEvent event) {
 		log(event.entityPlayer, Category.PlayerAchievement, String.format(debug ? FORMAT_ACHIEVEMENT_DEBUG : FORMAT_ACHIEVEMENT,
 				debug ? event.achievement.getDescription() : event.achievement.statId));
+		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		for (Integer experiment_instance : running_experiments) {  
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerAchievement, String.format(debug ? FORMAT_ACHIEVEMENT_DEBUG : FORMAT_ACHIEVEMENT,
+					debug ? event.achievement.getDescription() : event.achievement.statId))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
 	}
 	
 	//This is used to log winner id//
@@ -855,9 +1540,7 @@ public class Analytics {
 	//This is used to check if player is attacking someone
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6 = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6_DEBUG = "ID=%2$d%1$s Player=%3$s%%1$s PlayerName=%4$s";
-	static List<Integer> list_of_registered_experiments=new ArrayList<Integer>();
-	static List<String> list_of_registered_experiments_with_time=new ArrayList<String>();
-	public static HashMap<Integer,String>  Map_of_registered_experiments_with_time= new HashMap<Integer,String>();
+
 	
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent6(final PlayerExperimentEvent6 event) {
