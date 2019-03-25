@@ -46,6 +46,8 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
@@ -238,7 +240,6 @@ public class ClientEnforcer extends Enforcer {
 						}
 						break;
 					case Challenge:
-						System.out.println("Packet Received");
 						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
 						switch(tempMetaData) {
 							case BoundingBoxUpdate:
@@ -259,6 +260,22 @@ public class ClientEnforcer extends Enforcer {
 								break;
 							
 							default:
+							break;
+						}
+						break;
+					case Tutorial:
+						TutorialManager.PacketMeta tutorialMetaData = TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata];
+						System.out.println("Tutorial Packet Received");
+						switch(tutorialMetaData) {
+						case Features:	//Experiment Features update
+							PolycraftMod.logger.debug("Receiving experiment features...");
+							this.updateTutorialFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case ActiveFeatures:	//Experiment Active Features update
+							PolycraftMod.logger.debug("Receiving experiment active features...");
+							this.updateTutorialActiveFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						default:
 							break;
 						}
 						break;
@@ -534,6 +551,22 @@ public class ClientEnforcer extends Enforcer {
 				base.setRendering(true);
 			}
 		}
+	}
+	
+	private void updateTutorialFeatures(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				new ArrayList<TutorialFeature>(Arrays.asList((TutorialFeature[]) gson.fromJson(decompressedJson, new TypeToken<TutorialFeature[]>() {}.getType()))));
+	}
+	
+	private void updateTutorialActiveFeatures(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentActiveFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				new ArrayList<TutorialFeature>(Arrays.asList((TutorialFeature[]) gson.fromJson(decompressedJson, new TypeToken<TutorialFeature[]>() {}.getType()))));
 	}
 	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {

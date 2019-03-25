@@ -137,10 +137,11 @@ public class ItemDevTool extends ItemCustom  {
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World world, EntityPlayer player) {
 			
-		if(player.isSneaking() && world.isRemote) {
+		if(player.isSneaking()) {
 			//currentState = currentState.next();
 			//player.addChatMessage(new ChatComponentText(currentState.toString() + "Mode"));
-			PolycraftMod.proxy.openDevToolGui(player);
+			if(world.isRemote)
+				PolycraftMod.proxy.openDevToolGui(player);
 		}else {
 			switch(currentState) {
 				case Save:
@@ -167,11 +168,11 @@ public class ItemDevTool extends ItemCustom  {
 			float hitX, float hitY, float hitZ) {
 		Vec3 blockPos = Vec3.createVectorHelper(x, y, z);
 		Vec3 hitPos = Vec3.createVectorHelper(hitX, hitY, hitZ);
-		if(Keyboard.isKeyDown(29)) {	//if holding ctrl select block in front of face clicked
-			blockPos = getBlockAtFace(blockPos, hitPos);
-		}
 		if(!world.isRemote) {
 			return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+		}
+		if(Keyboard.isKeyDown(29)) {	//if holding ctrl select block in front of face clicked
+			blockPos = getBlockAtFace(blockPos, hitPos);
 		}
 		if(Mouse.getEventNanoseconds()==lastEventNanoseconds) {
     		return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
@@ -325,6 +326,8 @@ public class ItemDevTool extends ItemCustom  {
 			nbtList.appendTag(features.get(i).save());
 		}
 		nbtFeatures.setTag("features", nbtList);
+		nbtFeatures.setIntArray("pos",pos1);
+		nbtFeatures.setIntArray("size",pos2);
 		FileOutputStream fout = null;
 		try {
 			File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
@@ -358,17 +361,13 @@ public class ItemDevTool extends ItemCustom  {
             NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
 			for(int i =0;i<nbtFeatList.tagCount();i++) {
 				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-				
 				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
 				test.load(nbtFeat);
-				//TutorialFeature tutFeat = new TutorialFeature();
-				//tutFeat.load(nbtFeat);
 				features.add(test);
-				//player.addChatMessage(new ChatComponentText(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className));
-	        	
-
-				//features.add(new TutorialFeature(featName, Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]), Color.green));
 			}
+			
+			this.pos1=nbtFeats.getIntArray("pos");
+			this.pos2=nbtFeats.getIntArray("size");
             is.close();
 
         } catch (Exception e) {
@@ -376,22 +375,24 @@ public class ItemDevTool extends ItemCustom  {
         }
 	}
 	
-	private void test(EntityPlayer player) {
-		if(player.worldObj.isRemote)
+	public void test(EntityPlayer player) {
+		if(player.worldObj.isRemote) {
+			TutorialManager.INSTANCE.clientCurrentExperiment = TutorialManager.INSTANCE.getNextID();
 			return;
+		}
 		load();
 		tutOptions.name = "test name";
 		tutOptions.numTeams = 1;
 		tutOptions.teamSize = 1;
-		tutOptions.pos1 = Vec3.createVectorHelper(pos1[0], pos1[1], pos1[2]);
-		tutOptions.pos2 = Vec3.createVectorHelper(pos2[0], pos2[1], pos2[2]);
+		tutOptions.pos = Vec3.createVectorHelper(pos1[0], pos1[1], pos1[2]);
+		tutOptions.size = Vec3.createVectorHelper(pos2[0], pos2[1], pos2[2]);
 		
 		player.addChatMessage(new ChatComponentText("Test Run"));
 		
 		ExperimentTutorial tutorial = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), player.worldObj, tutOptions, features);
-		
-		TutorialManager.INSTANCE.addExperiment(tutorial);
+
 		tutorial.addPlayer((EntityPlayerMP) player);
+		TutorialManager.INSTANCE.addExperiment(tutorial);
 	}
 	
 	

@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
@@ -20,6 +22,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	private Vec3 lookDir;
 	
 	//Gui Parameters
+	@SideOnly(Side.CLIENT)
 	protected GuiPolyNumField pitchField, yawField;
 	
 	public TutorialFeatureStart() {}
@@ -31,10 +34,11 @@ public class TutorialFeatureStart extends TutorialFeature{
 	}
 	
 	@Override
-	public void onServerTickUpdate() {
-		for(EntityPlayer player: experiment.scoreboard.getPlayersAsEntity()) {
+	public void onServerTickUpdate(ExperimentTutorial exp) {
+		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 			spawnPlayer((EntityPlayerMP) player);
 		}
+		canProceed = true;
 		isDone = true;
 	}
 	

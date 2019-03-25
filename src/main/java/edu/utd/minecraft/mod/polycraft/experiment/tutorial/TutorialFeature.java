@@ -2,16 +2,22 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
+import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeature implements ITutorialFeature{
@@ -20,13 +26,21 @@ public class TutorialFeature implements ITutorialFeature{
 	protected Color color;
 	protected TutorialFeatureType featureType;
 	protected boolean isDone = false;
+	protected boolean canProceed = false;
 	
-	//running parameters
-	protected ExperimentTutorial experiment;
+	
+	// Rendering variables.
+	private float lineWidth = 4; // The width of rendered bounding box lines.
+	private double x1, y1, z1, x2, y2, z2; // The (x, z) coordinates of the northwest and southeast corners.
+	private int xRange, yRange, zRange, hRange;
+	private float xSpacing, ySpacing, zSpacing;
 	
 	//Gui Parameters
+	@SideOnly(Side.CLIENT)
 	protected GuiTextField nameField;
+	@SideOnly(Side.CLIENT)
 	protected GuiPolyNumField xPosField, yPosField, zPosField;
+	
 
 	protected NBTTagCompound nbt = new NBTTagCompound();
 	
@@ -66,25 +80,41 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	
 	@Override
-	public void preInit(ExperimentTutorial exp) {
+	public void preInit() {
 		// TODO Auto-generated method stub
-		this.experiment = exp;
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		x1 = pos.xCoord;
+		x2 = pos.xCoord + Integer.signum((int)pos.xCoord);	//increase value magnitude
+		y1 = pos.yCoord;
+		y2 = pos.yCoord + 1;	//Shouldn't have to worry if y coord is negative
+		z1 = pos.zCoord;
+		z2 = pos.zCoord + Integer.signum((int)pos.zCoord);	//increase value magnitude
 		
+		xRange = (int) (x2 - x1);
+		yRange = (int) (y2 - y1);
+		zRange = (int) (z2 - z1);
+		hRange = (int) (Math.max(y1, y2) - Math.min(y1, y2));
+		xSpacing = (float) 0.5;
+		ySpacing = (float) 0.5;
+		zSpacing = (float) 0.5;
 	}
 
 	@Override
-	public void onServerTickUpdate() {
-		// TODO Auto-generated method stub
-		
+	public void onServerTickUpdate(ExperimentTutorial exp) {
+		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+			if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+					Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+				canProceed = true;
+				isDone = true;
+			}
+		}
 	}
 
 	@Override
-	public void onPlayerTickUpdate() {
+	public void onPlayerTickUpdate(ExperimentTutorial exp) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -96,8 +126,73 @@ public class TutorialFeature implements ITutorialFeature{
 
 	@Override
 	public void render(Entity entity) {
-		// TODO Auto-generated method stub
 		
+		if (entity.worldObj.isRemote) {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glLineWidth(lineWidth);
+			GL11.glBegin(GL11.GL_LINES);
+			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
+					color.getAlpha() / 255F); // Set color to specified color.
+
+			float offset = (entity.ticksExisted % 20) / 20F; // For render animation.
+
+			
+			for (int i = 0; i < hRange; i++) {
+				float offset3 = i + offset;
+				float offset4 = i + 1 - offset;
+				double x1o3 = x1 + xSpacing * offset3;
+				double x1o4 = x1 + xSpacing * offset4;
+				double x2o3 = x2 - xSpacing * offset3;
+				double x2o4 = x2 - xSpacing * offset4;
+				double z1o3 = z1 + zSpacing * offset3;
+				double z1o4 = z1 + zSpacing * offset4;
+				double z2o3 = z2 - zSpacing * offset3;
+				double z2o4 = z2 - zSpacing * offset4;
+				GL11.glVertex3d(x1o4, y2, z1o4);
+				GL11.glVertex3d(x2o4, y2, z1o4);
+				GL11.glVertex3d(x2o4, y2, z1o4);
+				GL11.glVertex3d(x2o4, y2, z2o4);
+				GL11.glVertex3d(x2o4, y2, z2o4);
+				GL11.glVertex3d(x1o4, y2, z2o4);
+				GL11.glVertex3d(x1o4, y2, z2o4);
+				GL11.glVertex3d(x1o4, y2, z1o4);
+
+				GL11.glVertex3d(x1o3, y1, z1o3);
+				GL11.glVertex3d(x2o3, y1, z1o3);
+				GL11.glVertex3d(x2o3, y1, z1o3);
+				GL11.glVertex3d(x2o3, y1, z2o3);
+				GL11.glVertex3d(x2o3, y1, z2o3);
+				GL11.glVertex3d(x1o3, y1, z2o3);
+				GL11.glVertex3d(x1o3, y1, z2o3);
+				GL11.glVertex3d(x1o3, y1, z1o3);
+			}
+			
+
+			// Sides of bounding box render.
+			for (int i = 0; i < yRange; i++) {
+				float height = (float) (y2 - ySpacing * (i + offset));
+				GL11.glVertex3d(x1, height, z1);
+				GL11.glVertex3d(x2, height, z1);
+
+				GL11.glVertex3d(x2, height, z1);
+				GL11.glVertex3d(x2, height, z2);
+
+				GL11.glVertex3d(x2, height, z2);
+				GL11.glVertex3d(x1, height, z2);
+
+				GL11.glVertex3d(x1, height, z2);
+				GL11.glVertex3d(x1, height, z1);
+			}
+
+			GL11.glEnd();
+			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_BLEND);
+		}
 	}
 
 	public TutorialFeatureType getFeatureType() {
@@ -198,6 +293,7 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	public NBTTagCompound save()
 	{
+		nbt = new NBTTagCompound();	//erase current nbt so we don't get duplicates?
 
 		int pos[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
 		nbt.setIntArray("pos",pos);
@@ -219,5 +315,10 @@ public class TutorialFeature implements ITutorialFeature{
 	@Override
 	public boolean isDone() {
 		return isDone;
+	}
+
+	@Override
+	public boolean canProceed() {
+		return canProceed;
 	}
 }

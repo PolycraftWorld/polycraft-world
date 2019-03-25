@@ -16,8 +16,8 @@ import net.minecraft.util.Vec3;
 
 public class TutorialOptions{
 	public String name;
-	public Vec3 pos1;
-	public Vec3 pos2;
+	public Vec3 pos;
+	public Vec3 size;
 	public int numTeams, teamSize;
 	
 	//Gui Parameters
@@ -37,10 +37,10 @@ public class TutorialOptions{
 	public NBTTagCompound save()
 	{
 
-		int position1[] = {(int)this.pos1.xCoord, (int)this.pos1.yCoord, (int)this.pos1.zCoord};
-		nbt.setIntArray("pos1",position1);
-		int position2[] = {(int)this.pos2.xCoord, (int)this.pos2.yCoord, (int)this.pos2.zCoord};
-		nbt.setIntArray("pos2",position2);
+		int position1[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
+		nbt.setIntArray("pos",position1);
+		int position2[] = {(int)this.size.xCoord, (int)this.size.yCoord, (int)this.size.zCoord};
+		nbt.setIntArray("size",position2);
 		nbt.setString("name", this.name);
 		nbt.setInteger("numTeams", numTeams);
 		nbt.setInteger("teamSize", teamSize);
@@ -49,11 +49,11 @@ public class TutorialOptions{
 	
 	public void load(NBTTagCompound nbtFeat)
 	{
-		int featPos1[]=nbtFeat.getIntArray("pos1");
-		int featPos2[]=nbtFeat.getIntArray("pos2");
+		int featPos1[]=nbtFeat.getIntArray("pos");
+		this.pos=Vec3.createVectorHelper(featPos1[0], featPos1[1], featPos1[2]);
+		int featPos2[]=nbtFeat.getIntArray("size");
+		this.size=Vec3.createVectorHelper(featPos2[0], featPos2[1], featPos2[2]);
 		this.name = nbtFeat.getString("name");
-		this.pos1=Vec3.createVectorHelper(featPos1[0], featPos1[1], featPos1[2]);
-		this.pos2=Vec3.createVectorHelper(featPos2[0], featPos2[1], featPos2[2]);
 		this.numTeams = nbtFeat.getInteger("numTeams");
 		this.teamSize = nbtFeat.getInteger("teamSize");
 	}

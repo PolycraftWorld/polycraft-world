@@ -468,6 +468,29 @@ public class ServerEnforcer extends Enforcer {
 			}				
 		}
 	}
+	
+	
+	/**
+	 * Send Tutorial updates to players in the game
+	 * @param jsonStringToSend if Null, then it is case 2 else, it's case 3
+	 * @param player if Null, then it is case 1 else, it's either case 2 or 3.
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				} else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Send an updated list of experiments to all players in dimension 0
 	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 

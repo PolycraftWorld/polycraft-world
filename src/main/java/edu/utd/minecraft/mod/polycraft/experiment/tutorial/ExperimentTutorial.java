@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
@@ -59,11 +61,11 @@ import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.ForgeChunkManager;
 
 public class ExperimentTutorial{
-
+	
 	public final int id;	//id of the experiment. Should be unique
-	public final int xPos;	//starting xPos of experiment area
-	public final int yPos;	//starting yPos of experiment area
-	public final int zPos;	//starting zPos of experiment area
+	public int xPos;	//starting xPos of experiment area
+	public int yPos;	//starting yPos of experiment area
+	public int zPos;	//starting zPos of experiment area
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	World world;
 	public CustomScoreboard scoreboard;
@@ -108,9 +110,9 @@ public class ExperimentTutorial{
 	public ExperimentTutorial(int id, World world, TutorialOptions options, ArrayList<TutorialFeature> features) {
 		
 		this.id = id;
-		this.xPos = (int) options.pos1.xCoord;
+		this.xPos = (int) options.pos.xCoord;
 		this.yPos = 16;
-		this.zPos = (int) options.pos1.zCoord;
+		this.zPos = (int) options.pos.zCoord;
 		this.currentState = State.PreInit;
 		this.world = world;
 		this.teamsNeeded = options.numTeams;
@@ -127,6 +129,13 @@ public class ExperimentTutorial{
 		
 		int y = yPos + 8;
 		int x_offset = 31;
+	}
+	
+	public ExperimentTutorial(int id, World world, ArrayList<TutorialFeature> features) {
+		
+		this.id = id;
+		this.features.addAll(features);
+
 	}
 	
 	/**
@@ -172,19 +181,32 @@ public class ExperimentTutorial{
 			break;
 		case PreInit:
 			for(TutorialFeature feature: features){
-				feature.preInit(this);
+				feature.preInit();
 			}
+			TutorialManager.INSTANCE.sendTutorialFeatures(this.id);
 			currentState = State.Running;
 			break;
 		case Running:
 			if(activeFeatures.isEmpty() && featureIndex == features.size())
 				currentState = State.Ending;
-			else if (featureIndex < features.size())
-				activeFeatures.add(features.get(featureIndex++));
+			else if (featureIndex < features.size()) {
+				boolean addNext = true;
+				for(TutorialFeature feature: activeFeatures) {
+					if(!feature.canProceed)
+						addNext = false;
+				}
+				if(addNext) {
+					features.get(featureIndex).init();
+					activeFeatures.add(features.get(featureIndex++));
+					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
+				}
+			}
 			for(int x = 0; x < activeFeatures.size(); x++){
-				activeFeatures.get(x).onServerTickUpdate();
-				if(activeFeatures.get(x).isDone())
+				activeFeatures.get(x).onServerTickUpdate(this);
+				if(activeFeatures.get(x).isDone()) {
 					activeFeatures.remove(activeFeatures.get(x));
+					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
+				}
 			}
 			break;
 		case Ending:
@@ -201,7 +223,7 @@ public class ExperimentTutorial{
 	public void onClientTickUpdate(){
 		if(currentState == State.Starting){
 			for(TutorialFeature feature: activeFeatures){
-				feature.onPlayerTickUpdate();
+				feature.onPlayerTickUpdate(this);
 			}
 		}	
 	}
@@ -213,6 +235,14 @@ public class ExperimentTutorial{
 		for(TutorialFeature feature: activeFeatures){
 			feature.render(entity);
 		}
+	}
+	
+	public void updateFeatures(ArrayList<TutorialFeature> features) {
+		this.features = features;
+	}
+	
+	public void updateActiveFeatures(ArrayList<TutorialFeature> activefeatures) {
+		this.activeFeatures = activefeatures;
 	}
 	
 	public boolean isPlayerInExperiment(String playerName){

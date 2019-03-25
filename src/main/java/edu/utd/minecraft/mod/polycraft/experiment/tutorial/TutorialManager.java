@@ -17,10 +17,15 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
@@ -43,6 +48,13 @@ public class TutorialManager {
 	
 	private List<EntityPlayer> globalPlayerList;
 	
+	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else 
+	
+	
+	public enum PacketMeta{
+		Features,
+		ActiveFeatures
+	}
 	
 	public TutorialManager() {
 		try {
@@ -78,6 +90,28 @@ public class TutorialManager {
 				}
 			}
 		}
+	}
+	
+	//@SideOnly(Side.SERVER)
+	public static void sendTutorialFeatures(int id) {
+		Gson gson = new Gson();
+		Type gsonType = new TypeToken<ArrayList<TutorialFeature>>(){}.getType();
+		final String experimentUpdates = gson.toJson(getExperiment(id).features, gsonType);
+		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+			ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Features.ordinal(), (EntityPlayerMP)player);
+		}
+		System.out.println("Sending Update...");
+	}
+	
+	//@SideOnly(Side.SERVER)
+	public static void sendTutorialActiveFeatures(int id) {
+		Gson gson = new Gson();
+		Type gsonType = new TypeToken<ArrayList<TutorialFeature>>(){}.getType();
+		final String experimentUpdates = gson.toJson(getExperiment(id).activeFeatures, gsonType);
+		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+			ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.ActiveFeatures.ordinal(), (EntityPlayerMP)player);
+		}
+		System.out.println("Sending Update...");
 	}
 	
 	
@@ -120,6 +154,16 @@ public class TutorialManager {
 		return experiments.get(id);
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public void updateExperimentFeatures(int experimentID, ArrayList<TutorialFeature> features) {
+		//This should only be sent once
+		experiments.put(1, new ExperimentTutorial(1, Minecraft.getMinecraft().theWorld, features));
+	}
+	
+	public void updateExperimentActiveFeatures(int experimentID, ArrayList<TutorialFeature> activeFeatures) {
+		this.experiments.get(1).updateActiveFeatures(activeFeatures);
+	}
+	
 	
 	/**
 	 * For getting experiment id of running experiment
@@ -146,14 +190,17 @@ public class TutorialManager {
 	}
 	
 	public static void render(Entity entity) {
-		if (entity instanceof EntityPlayer && entity.worldObj.isRemote) {
-			EntityPlayer player = (EntityPlayer) entity;
-			for(ExperimentTutorial ex: experiments.values()){
-				if(ex.isPlayerInExperiment(player.getDisplayName())){
-					ex.render(entity);
-				}
-			}
-		}
+//		if (entity instanceof EntityPlayer && entity.worldObj.isRemote) {
+//			EntityPlayer player = (EntityPlayer) entity;
+//			for(ExperimentTutorial ex: experiments.values()){
+//				if(ex.isPlayerInExperiment(player.getDisplayName())){
+//					ex.render(entity);
+//				}
+//			}
+//		}
+		if(!experiments.isEmpty())
+			if(experiments.containsKey(1))
+				experiments.get(1).render(entity);
 	}
 
 }

@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.commands.dev;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +11,11 @@ import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
@@ -26,6 +35,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -43,6 +54,13 @@ public class CommandTutorial  extends CommandBase{
 	private static final String chatCommandTutStart = "start";
 	private static final String chatCommandTutGUI = "gui";
 	private final List aliases;
+	
+
+	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+	static TutorialOptions tutOptions = new TutorialOptions();
+	static String outputFileName = "output";
+	static String outputFileExt = ".psm";
+	static Vec3 pos, size;
   
 	public CommandTutorial(){
 		aliases = new ArrayList(); 
@@ -98,7 +116,7 @@ public class CommandTutorial  extends CommandBase{
 				} else if (chatCommandTutjoin.equalsIgnoreCase(args[0])) {
 					//generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
 				} else if (chatCommandTutStart.equalsIgnoreCase(args[0])) {
-					//generateStructure(sender, (int)player.posX, (int)player.posY, (int)player.posZ, player.getEntityWorld());
+					test(player);
 				} else if (chatCommandTutGen.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
 					generateStructure(sender, sender.getPlayerCoordinates().posX, sender.getPlayerCoordinates().posY, sender.getPlayerCoordinates().posZ, player.getEntityWorld());
 				} else if (chatCommandTutGUI.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
@@ -107,6 +125,53 @@ public class CommandTutorial  extends CommandBase{
 			}
 		}
 		
+	}
+	
+	private void load() {
+		try {
+        	features.clear();
+        	
+        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+				test.load(nbtFeat);
+				features.add(test);
+			}
+			
+			int featPos[]=nbtFeats.getIntArray("pos");
+			this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
+			int featSize[]=nbtFeats.getIntArray("size");
+			this.pos=Vec3.createVectorHelper(featSize[0], featSize[1], featSize[2]);
+            is.close();
+
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.toString());
+        }
+	}
+	
+	public void test(EntityPlayer player) {
+		if(player.worldObj.isRemote) {
+			TutorialManager.INSTANCE.clientCurrentExperiment = TutorialManager.INSTANCE.getNextID();
+			return;
+		}
+		load();
+		tutOptions.name = "test name";
+		tutOptions.numTeams = 1;
+		tutOptions.teamSize = 1;
+		tutOptions.pos = pos;
+		tutOptions.size = size;
+		
+		player.addChatMessage(new ChatComponentText("Test Run"));
+		
+		ExperimentTutorial tutorial = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), player.worldObj, tutOptions, features);
+
+		tutorial.addPlayer((EntityPlayerMP) player);
+		TutorialManager.INSTANCE.addExperiment(tutorial);
 	}
 	
 	public void generateStructure(ICommandSender sender, int xPos, int yPos, int zPos, World world)
