@@ -1280,7 +1280,17 @@ public class PolycraftRegistry {
 					registerBlock(customObject, new HPBlock(customObject));
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
-				} else if (GameID.Slingshot.matches(customObject)) {
+				} else if (GameID.CustomWoodSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot(customObject));
+				} else if (GameID.CustomTacticalSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot(customObject));
+				} else if (GameID.CustomScatterSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot(customObject));
+				} else if (GameID.CustomBurstSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot(customObject));
+				} else if (GameID.CustomGravitySlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot(customObject));
+				} else if (GameID.CustomIceSlingshot.matches(customObject)) {
 					registerItem(customObject, new ItemSlingshot(customObject));
 				} else if (GameID.Paintball.matches(customObject)) {
 					registerItem(customObject, new ItemPaintball(customObject));

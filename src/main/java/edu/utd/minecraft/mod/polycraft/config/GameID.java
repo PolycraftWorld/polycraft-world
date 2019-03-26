@@ -120,10 +120,16 @@ public enum GameID {
 	EntityIronCannonBall("1hE"),
 	ItemIronCannonball("1hF"),
 	CustomMiningHammer("1hG"),
-	Slingshot("1Hi"),
-	Paintball("1hj"),
-	EPaintball("1hK"),
-	HPBlock("1hH");
+	CustomWoodSlingshot("1hK"),
+	Paintpellet("1hj"),
+	EPaintball("1hR"),
+	HPBlock("1hH"),
+	CustomTacticalSlingshot("1hM"),
+	CustomScatterSlingshot("1hN"),
+	CustomBurstSlingshot("1hO"),
+	CustomGravitySlingshot("1hP"),
+	CustomIceSlingshot("1hQ"),
+	Paintball("1hL");
 
 	public final String id;
 
