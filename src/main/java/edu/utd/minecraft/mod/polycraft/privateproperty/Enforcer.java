@@ -126,7 +126,8 @@ public abstract class Enforcer {
 		FreezePlayer,		//0 meta to freeze, 1 meta to unfreeze
 		AttackWarning,
 		RespawnSync,
-		Cannon
+		Cannon,
+		Halftime
 		
 	}
 	

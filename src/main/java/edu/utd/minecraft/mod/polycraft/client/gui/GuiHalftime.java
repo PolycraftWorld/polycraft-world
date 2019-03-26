@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -45,6 +46,7 @@ public class GuiHalftime extends GuiScreen{
 	private boolean wasClicking; // True if the left mouse button was held down last time drawScreen was called.
 	private int screenID; // Current screen
 	private boolean[] completed = new boolean[13];
+	private String[] answers = new String[4];
 	public static boolean consent = false;
 	// Not sure what these ones below are for.
 	private static final String __OBFID = "CL_00000691";
@@ -160,7 +162,7 @@ public class GuiHalftime extends GuiScreen{
 				lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.finished"), X_WIDTH));
 				break;
 			
-			/*
+			/* left these as a comment as an example on how to create slides
 			case 0: // If the player is not 18+.
 				lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.halftime.minor"), X_WIDTH));
 				this.consent = false;
@@ -280,23 +282,24 @@ public class GuiHalftime extends GuiScreen{
 		protected void actionPerformed(GuiButton button) {
 			switch (button.id) {
 			case 0: // Button choice A or Yes
-				if (screenID == 1 ) { // Is 18+
+				if (screenID == 1 ) { // Question #1 - Do you want to change anything about our strategy? - YES
 					completed[1] = true;
 					button.enabled = false;
+					answers[1] = "Yes";
 					((GuiButton) this.buttonList.get(1)).displayString = "";
 					((GuiButton) this.buttonList.get(1)).enabled = false;
 				} 
-				else if(screenID == 2 || screenID == 3) {
+				else if(screenID == 2 || screenID == 3) { // Question #2/3 Make more items / Offense
+					if (screenID == 2) {
+						answers[2] = I18n.format("gui.halftime.question20");
+					}
+					else if (screenID == 3) {
+						answers[3] = I18n.format("gui.halftime.question30");
+					}
+					
 					completed[screenID] = true;
 					button.enabled = false;
 					disableOthers(button);
-				}
-				else if (screenID == 10) { // Consent given.
-					completed[10] = true;
-					button.enabled = false;
-					consent = true;
-					screenID = 12;
-					switchScreen();
 				} else {
 					// Mark button as incorrect.
 					button.displayString = screenID == 6 ? I18n.format("gui.halftime.tryagain")
@@ -305,25 +308,28 @@ public class GuiHalftime extends GuiScreen{
 				}
 				break;
 			case 1: // Button choice B or No
-				if (screenID == 1) { // Not 18+
+				if (screenID == 1) { // Question #1 - Do you want to change anything about our strategy? - NO
+					answers[1] = "No";
 					screenID = 0;
 					switchScreen();
-				}else if(screenID == 2 || screenID == 3) {
+				}else if(screenID == 2 || screenID == 3) { // Question #2/3 Make less items / Defence
+					if (screenID == 2) {
+						answers[2] = I18n.format("gui.halftime.question21");
+					}
+					else if (screenID == 3) {
+						answers[3] = I18n.format("gui.halftime.question31");
+					}
 					completed[screenID] = true;
 					button.enabled = false;
 					disableOthers(button);
-				} else if (screenID == 10) { // Consent not given.
-					screenID = 11;
-					completed[10] = true;
-					consent = false;
-					switchScreen();
-				} else {
+				}else {
 					// Mark button as incorrect.
 					button.displayString = screenID == 6 ? I18n.format("gui.halftime.tryagain")
 							: I18n.format("gui.halftime.more");
 					button.enabled = false;
 				}
 				break;
+				// Case 2/3 (C/D) are unused so I left it untouched
 			case 2: // Button choice C
 				if (screenID == 6) { // Question #1
 					completed[6] = true;
@@ -355,14 +361,14 @@ public class GuiHalftime extends GuiScreen{
 				}
 				break;
 			case 4: // Back button.
-				if (screenID > 10) // Jump back to consent page.
-					screenID = 10;
+				if (screenID > 3) // Jump back to consent page.
+					screenID = 3;
 				else // Jump back a single page.
 					screenID--;
 				switchScreen();
 				break;
 			case 5: // Next button.
-				if (screenID == 3) { // Jump to end
+				if (screenID == 999) { // Jump to end - Wont be used in this application
 					screenID = 4;
 					switchScreen();
 					break;
@@ -399,8 +405,8 @@ public class GuiHalftime extends GuiScreen{
 		 * KeyListener.keyTyped(KeyEvent e).
 		 */
 		protected void keyTyped(char c, int p) {
-			if (screenID == 7 || screenID == 8)
-				answer.textboxKeyTyped(c, p);
+//			if (screenID == 7 || screenID == 8)
+//				answer.textboxKeyTyped(c, p);
 		}
 
 		/**
@@ -410,9 +416,10 @@ public class GuiHalftime extends GuiScreen{
 			super.onGuiClosed();
 			Keyboard.enableRepeatEvents(false);
 			
-			//System.out.println("GUI Closed");
+			System.out.println("Halftime GUI Closed");
 			//send packet to server
-			//ClientEnforcer.INSTANCE.sendGuiConsentUpdate(consent);
+			answers[0] = Minecraft.getMinecraft().thePlayer.getDisplayName();
+			ClientEnforcer.INSTANCE.sendGuiHalftimeUpdate(answers);
 		}
 
 		/**
@@ -504,22 +511,22 @@ public class GuiHalftime extends GuiScreen{
 
 			// Check text input for questions 2 and 4.
 			boolean match;
-			if (screenID == 7) { // Question #2
-				match = answer.getText().equals("/exit");
-				if (match)
-					completed[7] = true;
-				answer.setTextColor(match ? 43520 : 16777215); // Color text green.
-				answer.drawTextBox();
-			} else if (screenID == 8) { // Question #4
-				// Remove phone number meta characters '+' and '-' to check the number.
-				String number = answer.getText().replaceAll("[+-]", "");
-				// Allow U.S. code.
-				match = number.equals("9728834579") || number.equals("19728834579");
-				if (match)
-					completed[8] = true;
-				answer.setTextColor(match ? 43520 : 16777215); // Color text green.
-				answer.drawTextBox();
-			}
+//			if (screenID == 7) { // Question #2
+//				match = answer.getText().equals("/exit");
+//				if (match)
+//					completed[7] = true;
+//				answer.setTextColor(match ? 43520 : 16777215); // Color text green.
+//				answer.drawTextBox();
+//			} else if (screenID == 8) { // Question #4
+//				// Remove phone number meta characters '+' and '-' to check the number.
+//				String number = answer.getText().replaceAll("[+-]", "");
+//				// Allow U.S. code.
+//				match = number.equals("9728834579") || number.equals("19728834579");
+//				if (match)
+//					completed[8] = true;
+//				answer.setTextColor(match ? 43520 : 16777215); // Color text green.
+//				answer.drawTextBox();
+//			}
 			super.drawScreen(mouseX, mouseY, p_73863_3_);
 		}
 		/*Stuff to try and get text from a different file

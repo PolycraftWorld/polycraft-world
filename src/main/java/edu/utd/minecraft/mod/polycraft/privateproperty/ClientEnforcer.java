@@ -591,6 +591,19 @@ public class ClientEnforcer extends Enforcer {
 			}
 		}
 	}
+	public void sendGuiHalftimeUpdate(String[] answers) {
+		FMLProxyPacket[] packetList = null;
+		int flag = 1;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Halftime, flag, gson.toJson(answers));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i + " Halftime Answers");
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
@@ -734,4 +747,6 @@ public class ClientEnforcer extends Enforcer {
 		
 		return showAIControls;
 	}
+
+	
 }

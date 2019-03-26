@@ -226,6 +226,9 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+					case Halftime: // decompress json array with halftime answers
+						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
+						break;
 					default:
 						break;
 					}
