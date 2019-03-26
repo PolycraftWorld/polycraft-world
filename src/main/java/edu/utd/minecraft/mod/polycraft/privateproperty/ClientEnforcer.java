@@ -332,12 +332,10 @@ public class ClientEnforcer extends Enforcer {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}
 	
-<<<<<<< HEAD
-=======
+	
 	public void openHalftimeGui() {
 		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));		
 	}
->>>>>>> refs/remotes/origin/HalftimeGUI
 	
 	@Deprecated
 	private void openConsentGui() {
