@@ -43,6 +43,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -258,7 +259,10 @@ public class ClientEnforcer extends Enforcer {
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								//
 								break;
-							
+							case OpenHalftimeGUI:
+								System.out.println("Opening Halftime GUI");
+								PolycraftMod.proxy.openHalftimeGui(this.client.thePlayer);
+								break;
 							default:
 							break;
 						}
@@ -328,6 +332,12 @@ public class ClientEnforcer extends Enforcer {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}
 	
+<<<<<<< HEAD
+=======
+	public void openHalftimeGui() {
+		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));		
+	}
+>>>>>>> refs/remotes/origin/HalftimeGUI
 	
 	@Deprecated
 	private void openConsentGui() {

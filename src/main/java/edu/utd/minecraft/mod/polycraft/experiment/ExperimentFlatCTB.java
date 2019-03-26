@@ -335,6 +335,9 @@ public class ExperimentFlatCTB extends Experiment{
 //				}
 //			}
 			if(tickCount == this.halfTimeTicks) {
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
+				}
 				currentState = State.Halftime;
 			}
 			else if(tickCount >= maxTicks) {
@@ -384,6 +387,7 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
+					
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));

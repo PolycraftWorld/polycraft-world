@@ -136,7 +136,8 @@ public abstract class Enforcer {
 		PlayerLeftDimension,
 		ReceiveExperimentsList,
 		RequestJoinExperiment,
-		SendParameterUpdates
+		SendParameterUpdates,
+		OpenHalftimeGUI
 		//TODO: Stephen add your data types here.
 	}
 

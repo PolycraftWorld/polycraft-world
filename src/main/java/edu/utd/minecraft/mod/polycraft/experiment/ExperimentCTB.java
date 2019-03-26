@@ -347,6 +347,9 @@ public class ExperimentCTB extends Experiment{
 //				}
 //			}
 			if(tickCount == this.halfTimeTicks) {
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
+				}
 				currentState = State.Halftime;
 			}
 			else if(tickCount >= maxTicks) {

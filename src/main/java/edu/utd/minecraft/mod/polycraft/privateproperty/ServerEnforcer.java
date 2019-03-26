@@ -453,15 +453,18 @@ public class ServerEnforcer extends Enforcer {
 				}
 			}
 			return;
-		}
-		
+		}		
 		if(jsonStringToSend == null) { //case: Player is leaving dimension
 			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
 			System.out.println("Player is Leaving Dimension");
 			
-		} else { //case: Bounding Box updates for client rendering
+		} 
+		else if(jsonStringToSend.compareTo("OpenHaltimeGUI") == 0) { //case:  open halftime gui
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.OpenHalftimeGUI.ordinal(), "OpenHalftimeGUI");
+		}		
+		else { //case: Bounding Box updates for client rendering
 			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
-		}
+		}		
 		if(packetList != null) {
 			for (final FMLProxyPacket packet : packetList) {
 				netChannel.sendTo(packet, player);

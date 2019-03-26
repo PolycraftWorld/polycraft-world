@@ -20,6 +20,7 @@ import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
