@@ -1,17 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityPaintBall extends EntityPaintProjectile{
+public class EntityPaintPellet extends EntityPaintProjectile{
 
-	public EntityPaintBall(World world) {
+	public EntityPaintPellet(World world) {
 		super(world);
+		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 	@Override
 	protected void entityInit() {
 		// TODO Auto-generated method stub

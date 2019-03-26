@@ -3,7 +3,7 @@ package edu.utd.minecraft.mod.polycraft.entity.projectile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
 import edu.utd.minecraft.mod.polycraft.entity.projectile.ModelPaintball;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.Tessellator;
@@ -38,7 +38,7 @@ public class RenderPaintball extends Render {
 	 * func_76986_a(T entity, double d, double d1, double d2, float f, float f1).
 	 * But JAD is pre 1.5 so doesn't do that.
 	 */
-	public void doRender(EntityPellet paintball, double p_76986_2_, double p_76986_4_, double p_76986_6_,
+	public void doRender(EntityPellet__Old paintball, double p_76986_2_, double p_76986_4_, double p_76986_6_,
 			float p_76986_8_, float p_76986_9_) {
 	
 		this.ModelPaintball.setColor(pbcolor);
@@ -73,7 +73,7 @@ public class RenderPaintball extends Render {
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless
 	 * you call Render.bindEntityTexture.
 	 */
-	protected ResourceLocation getEntityTexture(EntityPellet p_110775_1_) {
+	protected ResourceLocation getEntityTexture(EntityPellet__Old p_110775_1_) {
 		return PBTextures;
 	}
 
@@ -82,7 +82,7 @@ public class RenderPaintball extends Render {
 	 * you call Render.bindEntityTexture.
 	 */
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return this.getEntityTexture((EntityPellet) p_110775_1_);
+		return this.getEntityTexture((EntityPellet__Old) p_110775_1_);
 	}
 
 	/**
@@ -95,6 +95,6 @@ public class RenderPaintball extends Render {
 	 */
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
 			float p_76986_9_) {
-		this.doRender((EntityPellet) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+		this.doRender((EntityPellet__Old) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
 	}
 }

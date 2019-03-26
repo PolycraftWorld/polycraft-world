@@ -72,7 +72,7 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
@@ -139,7 +139,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemIronCannonBall;
-import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot;
+import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot__Old;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
@@ -1107,7 +1107,7 @@ public class PolycraftRegistry {
 					EntityIronCannonBall.register(polycraftEntity);
 				}
 				else if (GameID.EPaintball.matches(polycraftEntity)) {
-					EntityPellet.register(polycraftEntity);
+					EntityPellet__Old.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
@@ -1281,17 +1281,17 @@ public class PolycraftRegistry {
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
 				} else if (GameID.CustomWoodSlingshot.matches(customObject)) {
-					registerItem(customObject, new ItemSlingshot(customObject));
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.CustomTacticalSlingshot.matches(customObject)) {
-					registerItem(customObject, new ItemSlingshot(customObject));
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.CustomScatterSlingshot.matches(customObject)) {
-					registerItem(customObject, new ItemSlingshot(customObject));
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.CustomBurstSlingshot.matches(customObject)) {
-					registerItem(customObject, new ItemSlingshot(customObject));
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.CustomGravitySlingshot.matches(customObject)) {
-					registerItem(customObject, new ItemSlingshot(customObject));
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.CustomIceSlingshot.matches(customObject)) {
-					registerItem(customObject, new ItemSlingshot(customObject));
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.Paintball.matches(customObject)) {
 					registerItem(customObject, new ItemPaintball(customObject));
 					

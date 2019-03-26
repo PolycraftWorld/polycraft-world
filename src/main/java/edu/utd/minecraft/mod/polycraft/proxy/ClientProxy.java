@@ -34,7 +34,7 @@ import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.RenderCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
@@ -1106,7 +1106,7 @@ public class ClientProxy extends CommonProxy {
 
             }
             else if (GameID.EPaintball.matches(polycraftEntity)) {
-            	RenderingRegistry.registerEntityRenderingHandler(EntityPellet.class, new RenderPaintball());
+            	RenderingRegistry.registerEntityRenderingHandler(EntityPellet__Old.class, new RenderPaintball());
 
             }
 

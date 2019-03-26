@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
-import edu.utd.minecraft.mod.polycraft.entity.EntityPellet;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import net.minecraft.block.Block;

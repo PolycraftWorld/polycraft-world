@@ -28,7 +28,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityPellet extends Entity implements IProjectile {
+public class EntityPellet__Old extends Entity implements IProjectile {
 
 	protected int positionXCurrent = -1;
 	protected int positionYCurrent = -1;
@@ -49,13 +49,13 @@ public class EntityPellet extends Entity implements IProjectile {
 	protected int knockbackStrength;
 	protected static final String __OBFID = "CL_00001715";
 
-	public EntityPellet(World world) {
+	public EntityPellet__Old(World world) {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public EntityPellet(World world, double posX, double posY, double posZ) {
+	public EntityPellet__Old(World world, double posX, double posY, double posZ) {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
@@ -63,7 +63,7 @@ public class EntityPellet extends Entity implements IProjectile {
 		this.yOffset = 0.0F;
 	}
 
-	public EntityPellet(World world, EntityLivingBase shootingEntity, EntityLivingBase targetEntity, float float1, float float2) {
+	public EntityPellet__Old(World world, EntityLivingBase shootingEntity, EntityLivingBase targetEntity, float float1, float float2) {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shootingEntity;
@@ -90,7 +90,7 @@ public class EntityPellet extends Entity implements IProjectile {
 		}
 	}
 
-	public EntityPellet(World world, EntityLivingBase shootingEntity, float float1) {
+	public EntityPellet__Old(World world, EntityLivingBase shootingEntity, float float1) {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shootingEntity;
@@ -567,8 +567,8 @@ public class EntityPellet extends Entity implements IProjectile {
 	private static PolycraftEntity config;
 
 	public static final void register(final PolycraftEntity polycraftEntity) {
-		EntityPellet.config = polycraftEntity;
-		PolycraftEntityLiving.register(EntityPellet.class, config.entityID, config.name);
+		EntityPellet__Old.config = polycraftEntity;
+		PolycraftEntityLiving.register(EntityPellet__Old.class, config.entityID, config.name);
 	}
 
 }
