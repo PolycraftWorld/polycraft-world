@@ -11,6 +11,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +20,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureStart extends TutorialFeature{
-	private Vec3 lookDir;
+	private Vec3 lookDir;	//xCoord == pitch; yCoord = yaw
+	
+	//working parameters
+	private boolean spawnedInServer = false;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -38,6 +42,13 @@ public class TutorialFeatureStart extends TutorialFeature{
 		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 			spawnPlayer((EntityPlayerMP) player);
 		}
+		spawnedInServer = true;
+	}
+	
+	@Override
+	public void onPlayerTickUpdate(ExperimentTutorial exp) {
+		Minecraft.getMinecraft().renderViewEntity.rotationPitch = (float) this.lookDir.xCoord;
+		Minecraft.getMinecraft().renderViewEntity.rotationYaw = (float) this.lookDir.yCoord;
 		canProceed = true;
 		isDone = true;
 	}

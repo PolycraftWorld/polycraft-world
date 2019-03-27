@@ -34,6 +34,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
@@ -53,7 +54,8 @@ public class TutorialManager {
 	
 	public enum PacketMeta{
 		Features,
-		ActiveFeatures
+		ActiveFeatures,
+		Feature
 	}
 	
 	public TutorialManager() {
@@ -115,6 +117,19 @@ public class TutorialManager {
 	}
 	
 	
+	public void sendFeatureUpdate(int id, int index, TutorialFeature feature) {
+		Gson gson = new Gson();
+		Type gsonType = new TypeToken<NBTTagCompound>(){}.getType();
+		NBTTagCompound tempNBT = feature.save();
+		tempNBT.setInteger("index", index);
+		final String experimentUpdates = gson.toJson(tempNBT, gsonType);
+		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+			ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal(), (EntityPlayerMP)player);
+		}
+		System.out.println("Sending Update...");
+	}
+
+
 	//@SideOnly(Side.CLIENT)
 	public void resetClientExperimentManager() {
 		//clientCurrentExperiment = -1;

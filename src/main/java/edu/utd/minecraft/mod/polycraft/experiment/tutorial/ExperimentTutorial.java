@@ -188,8 +188,8 @@ public class ExperimentTutorial{
 			break;
 		case Running:
 			if(activeFeatures.isEmpty() && featureIndex == features.size())
-				currentState = State.Ending;
-			else if (featureIndex < features.size()) {
+				currentState = State.Ending;	//if active features is empty, and we've gone through all features, the experiment is over
+			else if (featureIndex < features.size()) {	//if we've added the last feature, we don't need to run this anymore
 				boolean addNext = true;
 				for(TutorialFeature feature: activeFeatures) {
 					if(!feature.canProceed)
@@ -201,9 +201,14 @@ public class ExperimentTutorial{
 					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
 				}
 			}
-			for(int x = 0; x < activeFeatures.size(); x++){
+			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
 				activeFeatures.get(x).onServerTickUpdate(this);
-				if(activeFeatures.get(x).isDone()) {
+				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
+					System.out.println("[Server] Sending Feature update");
+					activeFeatures.get(x).isDirty = false;
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x));
+				}
+				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, remove it from active features
 					activeFeatures.remove(activeFeatures.get(x));
 					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
 				}

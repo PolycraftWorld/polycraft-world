@@ -49,6 +49,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
@@ -226,6 +227,13 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+					case Tutorial:
+						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
+							case Feature:
+								break;
+							default:
+								break;
+						}
 					default:
 						break;
 					}
@@ -245,6 +253,12 @@ public class ServerEnforcer extends Enforcer {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
+	
+	
+	private void onClientUpdateTutorialFeature(String devompress) {
+		
+	}
+	
 	
 	/**
 	 * Client sends updated parameters inside an ExperimentParticipantMetaData object that contains Client ID and experiment ID.

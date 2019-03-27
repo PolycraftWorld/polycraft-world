@@ -24,9 +24,10 @@ public class TutorialFeature implements ITutorialFeature{
 	protected String name;
 	protected Vec3 pos;
 	protected Color color;
-	protected TutorialFeatureType featureType;
-	protected boolean isDone = false;
-	protected boolean canProceed = false;
+	protected TutorialFeatureType featureType;	//used when loading/saving
+	protected boolean isDone = false;		//remove from active features when true
+	protected boolean canProceed = false;	//Stop loading new features until true
+	protected boolean isDirty = false;		//used to determine if an feature update packet needs to be send to players/server
 	
 	
 	// Rendering variables.
