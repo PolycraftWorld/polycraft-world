@@ -206,7 +206,7 @@ public class ExperimentTutorial{
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x));
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
 				}
 				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, remove it from active features
 					activeFeatures.remove(activeFeatures.get(x));
@@ -226,10 +226,24 @@ public class ExperimentTutorial{
 	
 
 	public void onClientTickUpdate(){
-		if(currentState == State.Starting){
+		switch(currentState) {
+		case Starting:
 			for(TutorialFeature feature: activeFeatures){
 				feature.onPlayerTickUpdate(this);
 			}
+			break;
+		case Running:
+			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
+				activeFeatures.get(x).onServerTickUpdate(this);
+				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
+					System.out.println("[Server] Sending Feature update");
+					activeFeatures.get(x).isDirty = false;
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
+				}
+			}
+			break;
+		default:
+			break;
 		}	
 	}
 	

@@ -22,6 +22,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -117,15 +118,24 @@ public class TutorialManager {
 	}
 	
 	
-	public void sendFeatureUpdate(int id, int index, TutorialFeature feature) {
+	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, World world) {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<NBTTagCompound>(){}.getType();
 		NBTTagCompound tempNBT = feature.save();
 		tempNBT.setInteger("index", index);
-		final String experimentUpdates = gson.toJson(tempNBT, gsonType);
-		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-			ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal(), (EntityPlayerMP)player);
+		String experimentUpdates;
+		
+		if(world.isRemote) {
+			tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+			experimentUpdates = gson.toJson(tempNBT, gsonType);
+			ClientEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal());
+		}else {
+			experimentUpdates = gson.toJson(tempNBT, gsonType);
+			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+				ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal(), (EntityPlayerMP)player);
+			}
 		}
+		
 		System.out.println("Sending Update...");
 	}
 
@@ -173,6 +183,28 @@ public class TutorialManager {
 	public void updateExperimentFeatures(int experimentID, ArrayList<TutorialFeature> features) {
 		//This should only be sent once
 		experiments.put(1, new ExperimentTutorial(1, Minecraft.getMinecraft().theWorld, features));
+	}
+	
+	public void updateExperimentFeature(int experimentID, NBTTagCompound featureNBT, boolean isRemote) {
+		try {
+			int index = featureNBT.getInteger("index");
+			String playerName = featureNBT.getString("player");
+			TutorialFeature test;
+		
+			test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(featureNBT.getString("type")).className).newInstance();
+		
+			test.load(featureNBT);
+			if(isRemote) {	//client side
+				experiments.get(1).features.set(index, test);
+			}else {
+				for(ExperimentTutorial exp : experiments.values()) {
+					if(exp.isPlayerInExperiment(playerName))
+						experiments.get(1).features.set(index, test);
+				}
+			}
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			System.out.println("Cannot load Feature: " + e.getMessage());
+		}
 	}
 	
 	public void updateExperimentActiveFeatures(int experimentID, ArrayList<TutorialFeature> activeFeatures) {

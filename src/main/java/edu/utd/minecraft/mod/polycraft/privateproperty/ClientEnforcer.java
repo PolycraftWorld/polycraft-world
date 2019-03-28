@@ -20,6 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -274,6 +275,10 @@ public class ClientEnforcer extends Enforcer {
 						case ActiveFeatures:	//Experiment Active Features update
 							PolycraftMod.logger.debug("Receiving experiment active features...");
 							this.updateTutorialActiveFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case Feature:	//Experiment single featuer update
+							PolycraftMod.logger.debug("Receiving experiment feature...");
+							this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							break;
 						default:
 							break;
@@ -561,6 +566,14 @@ public class ClientEnforcer extends Enforcer {
 				new ArrayList<TutorialFeature>(Arrays.asList((TutorialFeature[]) gson.fromJson(decompressedJson, new TypeToken<TutorialFeature[]>() {}.getType()))));
 	}
 	
+	private void updateTutorialFeature(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(NBTTagCompound) gson.fromJson(decompressedJson, new TypeToken<NBTTagCompound>() {}.getType()), true);
+	}
+	
 	private void updateTutorialActiveFeatures(String decompressedJson) {
 		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
 			return;
@@ -592,6 +605,23 @@ public class ClientEnforcer extends Enforcer {
 			return true;
 
 		return false;
+	}
+	
+	/**
+	 * Send Tutorial updates to server
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if(packets != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packets) {
+				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
 	}
 	
 	public void sendExperimentSelectionUpdate(String jsonData, int metadata) {
