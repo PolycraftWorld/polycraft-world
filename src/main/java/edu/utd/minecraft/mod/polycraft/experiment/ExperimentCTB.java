@@ -387,6 +387,14 @@ public class ExperimentCTB extends Experiment{
 				}
 			}
 			
+			
+			if(this.halfTimeTicksRemaining % 20 == 0) {
+				Map.Entry<Team, Float> maxEntry = null;
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+				}
+			}
+			
 			this.halfTimeTicksRemaining--; //use the halfTimeTicksRemaining counter to
 			
 			if(this.halfTimeTicksRemaining == 0) {
