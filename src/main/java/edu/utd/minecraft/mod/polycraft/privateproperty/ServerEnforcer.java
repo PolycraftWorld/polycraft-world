@@ -465,6 +465,9 @@ public class ServerEnforcer extends Enforcer {
 		else if(jsonStringToSend.compareTo("OpenHaltimeGUI") == 0) { //case:  open halftime gui
 			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.OpenHalftimeGUI.ordinal(), "OpenHalftimeGUI");
 		}		
+		else if(jsonStringToSend.compareTo("CloseHaltimeGUI") == 0) { //case:  close halftime gui
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.CloseHalftimeGUI.ordinal(), "CloseHalftimeGUI");
+		}		
 		else { //case: Bounding Box updates for client rendering
 			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
 		}		

@@ -91,6 +91,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -1137,5 +1138,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void openHalftimeGui(EntityPlayer player) {
 		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));
+	}
+	@Override
+	public void closeHalftimeGui(EntityPlayer player) {
+		client.displayGuiScreen((GuiScreen) null);
+		client.setIngameFocus();
 	}
 }

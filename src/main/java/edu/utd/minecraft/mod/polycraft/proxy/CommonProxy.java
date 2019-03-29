@@ -525,4 +525,7 @@ public abstract class CommonProxy {
 	public void openHalftimeGui(EntityPlayer player) {
 				
 	}
+	public void closeHalftimeGui(EntityPlayer player) {
+		
+	}
 }
