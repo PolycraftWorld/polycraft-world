@@ -10,6 +10,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -27,36 +30,35 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ItemKnockbackBomb  extends ItemCustom{
-	
+public class ItemKnockbackBomb extends ItemCustom {
+
 	private static final int Y_TOP = 255;
 	private static final double KBB_RADIUS = 5;
-	
+
 	private int renderTicks = 0;
 	private int maxRenderTicks = 60;
 	protected Color color = Color.RED;
 	private float lineWidth = 8;
-	
-	
+
 	public ItemKnockbackBomb(CustomObject config) {
 		super(config);
 		this.setTextureName(PolycraftMod.getAssetName("knockback_bomb"));
-		this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
+		this.setCreativeTab(CreativeTabs.tabTools); // TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
-		
+
 	}
-	
+
 	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		// TODO Auto-generated method stub
-		if(player.worldObj.isRemote) {
+		if (player.worldObj.isRemote) {
 			player.addChatMessage(new ChatComponentText("test"));
 		}
 		super.onUsingTick(stack, player, count);
-		
+
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
 		// TODO Auto-generated method stub
@@ -71,120 +73,127 @@ public class ItemKnockbackBomb  extends ItemCustom{
 //				}
 //			}
 //		}
-		
+
 		super.onUpdate(itemStack, world, entity, par4, par5);
 	}
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		// TODO Auto-generated method stub
+		if (!world.isRemote) {
+			for (Experiment Exp : ExperimentManager.INSTANCE.getExperiments().values()) {
+				if (Exp.isPlayerInExperiment(player.getDisplayName()) && Exp.currentState == State.Halftime) {
+					return itemstack;
+				}
+			}
+			knockback(world, player);
+			itemstack.stackSize--;
+			return super.onItemRightClick(itemstack, world, player);
+		}
 		
-		knockback( world, player);
-		itemstack.stackSize--;
-		return super.onItemRightClick(itemstack, world, player);
+		return itemstack;
+		
 	}
-	
+
 	protected List knockback(World world, EntityPlayer player) {
-		if(!world.isRemote) {
-			double x = -1*Math.sin(Math.toRadians(player.rotationYaw%360));
+		if (!world.isRemote) {
+			double x = -1 * Math.sin(Math.toRadians(player.rotationYaw % 360));
 			double y = 1;
-			double z = Math.cos(Math.toRadians(player.rotationYaw%360));
-			double distance = 20 * Math.cos(Math.toRadians(player.rotationPitch%360) * 2);
-			
-			if(distance < KBB_RADIUS + 2 )
+			double z = Math.cos(Math.toRadians(player.rotationYaw % 360));
+			double distance = 20 * Math.cos(Math.toRadians(player.rotationPitch % 360) * 2);
+
+			if (distance < KBB_RADIUS + 2)
 				distance = KBB_RADIUS + 2;
-			else if(distance > 20)
+			else if (distance > 20)
 				distance = 20;
-			
-			double posX = x*distance + player.posX;
+
+			double posX = x * distance + player.posX;
 			double posY = player.posY;
-			double posZ = z*distance + player.posZ;
-			System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.rotationYaw%360  );
-			//player.setVelocity(x, y, z);
-			EntityItem splosion = new EntityItem(world,posX, posY, posZ, new ItemStack(this,1,0));
+			double posZ = z * distance + player.posZ;
+			System.out.println("Rotation: " + player.rotationYaw + ":: Rotation Mod: " + player.rotationYaw % 360);
+			// player.setVelocity(x, y, z);
+			EntityItem splosion = new EntityItem(world, posX, posY, posZ, new ItemStack(this, 1, 0));
 			world.spawnEntityInWorld(splosion);
 			world.removeEntity(splosion);
 			float radius = 5F;
 			float explosionSize = 5.0F;
-	        int i = MathHelper.floor_double(posX - (double)explosionSize - 1.0D);
-	        int j = MathHelper.floor_double(posX + (double)explosionSize + 1.0D);
-	        int k = MathHelper.floor_double(posY - (double)explosionSize - 1.0D);
-	        int i2 = MathHelper.floor_double(posY + (double)explosionSize + 1.0D);
-	        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
-	        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
-	        
-			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
-			list.forEach(entity->{
-				if(entity instanceof EntityPlayer) {
-					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
-					
-					//This commented if statement makes it so you can't knockback yourself on the corners of the bomb box
-					//if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
-																
-					double theta = 0 - Math.atan2(posX - entityPlayer.posX, posZ - entityPlayer.posZ);
-					entityPlayer.playerNetServerHandler.sendPacket(
-							new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
-							new ArrayList(), 
-							//Here's where direction of player knockback happens
-							Vec3.createVectorHelper(2*Math.sin(theta), 1, -2*Math.cos(theta))));
-					
-					//}else
-					//	entityPlayer.playerNetServerHandler.sendPacket(
-					//		new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
-					//		new ArrayList(), 
-					//		Vec3.createVectorHelper(0, 0, 0)));	
+			int i = MathHelper.floor_double(posX - (double) explosionSize - 1.0D);
+			int j = MathHelper.floor_double(posX + (double) explosionSize + 1.0D);
+			int k = MathHelper.floor_double(posY - (double) explosionSize - 1.0D);
+			int i2 = MathHelper.floor_double(posY + (double) explosionSize + 1.0D);
+			int l = MathHelper.floor_double(posZ - (double) explosionSize - 1.0D);
+			int j2 = MathHelper.floor_double(posZ + (double) explosionSize + 1.0D);
 
-				}else {
-					double theta = 0 - Math.atan2(posX - ((Entity)entity).posX, posZ - ((Entity)entity).posZ);
-					
-					//Here's where direction of animal knockback happens
-					((Entity)entity).motionX = 2*Math.sin(theta);
-					((Entity)entity).motionY = y;
-					((Entity)entity).motionZ = -2*Math.cos(theta);
+			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double) i,
+					(double) k, (double) l, (double) j, (double) i2, (double) j2));
+			list.forEach(entity -> {
+				if (entity instanceof EntityPlayer) {
+					EntityPlayerMP entityPlayer = ((EntityPlayerMP) entity);
+
+					// This commented if statement makes it so you can't knockback yourself on the
+					// corners of the bomb box
+					// if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
+
+					double theta = 0 - Math.atan2(posX - entityPlayer.posX, posZ - entityPlayer.posZ);
+					entityPlayer.playerNetServerHandler
+							.sendPacket(new S27PacketExplosion(posX, posY, posZ, (float) explosionSize, new ArrayList(),
+									// Here's where direction of player knockback happens
+									Vec3.createVectorHelper(2 * Math.sin(theta), 1, -2 * Math.cos(theta))));
+
+					// }else
+					// entityPlayer.playerNetServerHandler.sendPacket(
+					// new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
+					// new ArrayList(),
+					// Vec3.createVectorHelper(0, 0, 0)));
+
+				} else {
+					double theta = 0 - Math.atan2(posX - ((Entity) entity).posX, posZ - ((Entity) entity).posZ);
+
+					// Here's where direction of animal knockback happens
+					((Entity) entity).motionX = 2 * Math.sin(theta);
+					((Entity) entity).motionY = y;
+					((Entity) entity).motionZ = -2 * Math.cos(theta);
 				}
-				
+
 			});
-			
+
 			return list;
 
 		}
-		
+
 		return null;
 	}
-	
+
 	public void render(Entity entity) {
-		if(renderTicks < 0)
+		if (renderTicks < 0)
 			renderTicks = maxRenderTicks;
 		else
 			renderTicks--;
-		double distance = 20 * Math.cos(Math.toRadians(entity.rotationPitch%360) * 2);
-		
-		double x = -1*Math.sin(Math.toRadians(entity.rotationYaw%360));
+		double distance = 20 * Math.cos(Math.toRadians(entity.rotationPitch % 360) * 2);
+
+		double x = -1 * Math.sin(Math.toRadians(entity.rotationYaw % 360));
 		double y = 1;
-		double z = Math.cos(Math.toRadians(entity.rotationYaw%360));
-		if(distance < ((Math.abs(x)+Math.abs(z))*KBB_RADIUS))
-			distance = (Math.abs(x)+Math.abs(z))*KBB_RADIUS;
-		else if(distance > 20)
+		double z = Math.cos(Math.toRadians(entity.rotationYaw % 360));
+		if (distance < ((Math.abs(x) + Math.abs(z)) * KBB_RADIUS))
+			distance = (Math.abs(x) + Math.abs(z)) * KBB_RADIUS;
+		else if (distance > 20)
 			distance = 20;
-		double posX = x*distance + entity.posX;
-		double posY = entity.posY -1.5;
-		double posZ = z*distance + entity.posZ;
-		
+		double posX = x * distance + entity.posX;
+		double posY = entity.posY - 1.5;
+		double posZ = z * distance + entity.posZ;
+
 		double x1 = posX - 5;
 		double z1 = posZ - 5;
 		double x2 = posX + 5;
 		double z2 = posZ + 5;
-		
+
 		double xRange = x2 - x1;
 		double zRange = z2 - z1;
 		double range = Math.max(xRange, zRange);
 		double range2 = Math.pow(range, 2);
 		double xRange2 = xRange / 2;
 		double zRange2 = zRange / 2;
-		
-		
-		
-		
+
 		double xComp = Math.pow(posX - x1 - xRange, 2);
 		double yComp = Math.pow(posY, 2);
 		double zComp = Math.pow(posZ - z1 - zRange, 2);
@@ -212,7 +221,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			horizWidth *= ((range2 - allDist) / range2);
 		if (horizDist > 0)
 			vertWidth *= ((range2 - horizDist) / range2);
-		
+
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -242,7 +251,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		GL11.glVertex3d(x2o1, y11, z2o1);
 
 		GL11.glEnd();
-		
+
 		if (horizWidth > 0) {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -290,7 +299,5 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 	}
-	
-	
 
 }
