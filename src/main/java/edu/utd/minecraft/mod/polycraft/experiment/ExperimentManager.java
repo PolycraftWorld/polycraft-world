@@ -559,7 +559,7 @@ public class ExperimentManager {
 	 */
 	public static int getRunningExperiment() {
 		for(int expID: experiments.keySet()) {
-			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running)
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
 			{
 				return expID;
 			}
@@ -570,7 +570,7 @@ public class ExperimentManager {
 	public static List<Integer> getRunningExperiments() {
 		List<Integer> list_of_running_experiments=new ArrayList<Integer>();  
 		for(int expID: experiments.keySet()) {
-			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running)
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
 			{
 				list_of_running_experiments.add(expID);
 			}

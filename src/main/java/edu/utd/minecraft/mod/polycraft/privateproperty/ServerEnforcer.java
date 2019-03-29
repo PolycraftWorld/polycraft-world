@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -57,8 +58,10 @@ import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent8;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 
@@ -226,6 +229,13 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+					case Halftime: // decompress json array with halftime answers
+						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
+						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);
+						String half_time_Answers = String.join(",", half_time_Answers1);
+						PlayerExperimentEvent8 event1 = new PlayerExperimentEvent8(halftimeAnswers[0],half_time_Answers);
+						Analytics.onExperimentEvent8(event1);
+						break;
 					default:
 						break;
 					}

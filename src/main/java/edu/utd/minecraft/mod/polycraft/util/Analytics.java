@@ -56,6 +56,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 
 //TODO http://www.minecraftforge.net/wiki/Event_Reference
 //TODO LivingAttackEvent
@@ -73,7 +74,6 @@ public class Analytics {
 	public static Analytics INSTANCE = new Analytics();
 
 	public static final Logger logger = LogManager.getLogger(PolycraftMod.MODID + "-analytics");
-	//public static final Logger logger1 = LogManager.getLogger("Experiment-analytics");
 	
 	static List<Integer> list_of_registered_experiments=new ArrayList<Integer>();
 	static List<String> list_of_registered_experiments_with_time=new ArrayList<String>();
@@ -234,6 +234,18 @@ public class Analytics {
 				formatEnum(category),
 				playerID == null ? "-1" : playerID.toString(),
 				(int) player.posX, (int) player.posY, (int) player.posZ,
+				data.replace(DELIMETER_SEGMENT, " "));
+		
+	}
+	
+	public synchronized static String log2(final String player, final Category category, final String data) {
+		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
+		//final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
+		return String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
+				DELIMETER_SEGMENT, DELIMETER_DATA,
+				formatEnum(category),
+				"-1",
+				(int) 0, (int) 0, (int) 0,
 				data.replace(DELIMETER_SEGMENT, " "));
 		
 	}
@@ -1590,18 +1602,14 @@ public class Analytics {
 			try {
 				if (file.createNewFile())
 				{
-				    System.out.println("File is created!");
+				    //System.out.println("File is created!");
 				} else {
-				    System.out.println("File already exists.");
+				    //System.out.println("File already exists.");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//System.out.println("Work ayithunnattu undhi ra");
-			//System.out.println("Chudu endho idhi");
-			//System.out.println(formattedDate+log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString())));
-			//System.out.println(file);
 			FileWriter writer = null;
 			try {
 				writer = new FileWriter(file,true);
@@ -1647,12 +1655,14 @@ public class Analytics {
 	public static final String FORMAT_ON_EXPERIMENT_EVENT7 = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT7_DEBUG = "ID=%2$d%1$s Player=%3$s%%1$s PlayerName=%4$s";
 		
+
+	
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent7(final PlayerExperimentEvent7 event) {
 		//EntityPlayer a = null;
 		//if(a.getDisplayName().equals(event.playerName2)) {
 		log(getPlayer(event.playerName2), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT7_DEBUG : FORMAT_ON_EXPERIMENT_EVENT7, DELIMETER_DATA, 7, event.id,Enforcer.whitelist.get(event.playerName2.toLowerCase())));
-
+		
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		String formattedDate1 = myDateObj.format(myFormatObj1); 
@@ -1680,4 +1690,41 @@ public class Analytics {
 		//		log1(getPlayer(event.playerName2), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT7_DEBUG : FORMAT_ON_EXPERIMENT_EVENT7, DELIMETER_DATA, 7, event.id,Enforcer.whitelist.get(event.playerName2.toLowerCase())));
 		//}
 		}
+
+	public static final String FORMAT_ON_EXPERIMENT_EVENT8 = "%2$d%1$s%3$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT8_DEBUG = "ID=%2$d%1$s HalfTimeAnswers=%3$s";
+	
+	static List<Integer> running_experiments;
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent8(final PlayerExperimentEvent8 event) {
+		log(getPlayer(event.playername), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT8_DEBUG : FORMAT_ON_EXPERIMENT_EVENT8, DELIMETER_DATA, 8, event.answers_string));
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+		running_experiments = ExperimentManager.getRunningExperiments();
+		for (Integer experiment_instance : running_experiments) {
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.playername)){
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(getPlayer(event.playername), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT8_DEBUG : FORMAT_ON_EXPERIMENT_EVENT8, DELIMETER_DATA, 8, event.answers_string))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			}
+		}
+	}
+	
 }

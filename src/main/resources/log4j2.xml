@@ -60,9 +60,6 @@
         <Logger level="info" name="polycraft-analytics" additivity="false">
             <AppenderRef ref="PolycraftAnalyticsFile" />
         </Logger>
-        <Logger level="info" name="Experiment-analytics" additivity="false">
-            <AppenderRef ref="ExperimentAnalyticsFile" />
-        </Logger>
         <Root level="all">
             <AppenderRef ref="FmlSysOut" level="INFO" />
             <AppenderRef ref="ServerGuiConsole" level="INFO" />
