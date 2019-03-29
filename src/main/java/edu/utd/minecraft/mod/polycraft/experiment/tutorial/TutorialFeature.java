@@ -81,7 +81,7 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	
 	@Override
-	public void preInit() {
+	public void preInit(ExperimentTutorial exp) {
 		// TODO Auto-generated method stub
 	}
 
@@ -117,7 +117,9 @@ public class TutorialFeature implements ITutorialFeature{
 	@Override
 	public void onPlayerTickUpdate(ExperimentTutorial exp) {
 		// TODO Auto-generated method stub
-		
+		if(y2 == 0) {
+			this.init();
+		}
 	}
 
 	@Override
@@ -301,6 +303,8 @@ public class TutorialFeature implements ITutorialFeature{
 		nbt.setString("name", this.name);
 		nbt.setInteger("color", this.color.getRGB());
 		nbt.setString("type", featureType.name());
+		nbt.setBoolean("canProceed", canProceed);
+		nbt.setBoolean("isDone", isDone);
 		return nbt;
 	}
 	
@@ -311,6 +315,8 @@ public class TutorialFeature implements ITutorialFeature{
 		this.color = new Color(nbtFeat.getInteger("color"));
 		this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
 		this.featureType = TutorialFeatureType.valueOf(nbtFeat.getString("type"));
+		this.canProceed = nbtFeat.getBoolean("canProceed");
+		this.isDone = nbtFeat.getBoolean("isDone");
 	}
 
 	@Override

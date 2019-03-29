@@ -57,8 +57,6 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 
 public class ItemDevTool extends ItemCustom  {
 	
-	int[] pos1= new int[3];
-	int[] pos2 = new int[3];
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
@@ -78,8 +76,7 @@ public class ItemDevTool extends ItemCustom  {
 		FeatureTool,
 		GuideTool,
 		Save,
-		Load,
-		Test;
+		Load;
 		
 		public StateEnum next() {
 		    if (ordinal() == values().length - 1)
@@ -153,8 +150,6 @@ public class ItemDevTool extends ItemCustom  {
 			        if(world.isRemote)
 						updateRenderBoxes();
 					break;
-				case Test:
-					test(player);
 				default:
 					break;
 			}
@@ -183,9 +178,9 @@ public class ItemDevTool extends ItemCustom  {
 			switch(currentState) {
 				case AreaSelection:
 					player.addChatMessage(new ChatComponentText("pos2 selected: " + x + "::" + y + "::" + z));
-					pos2[0] = x;
-					pos2[1] = y;
-					pos2[2] = z;
+					tutOptions.size.xCoord = x;
+					tutOptions.size.yCoord = y;
+					tutOptions.size.zCoord = z;
 					pos2set = true;
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
@@ -227,9 +222,9 @@ public class ItemDevTool extends ItemCustom  {
 				player.addChatMessage(new ChatComponentText("pos1 selected: " + X + "::" + Y + "::" + Z));
 				player.worldObj.scheduleBlockUpdate(X, Y, Z, player.worldObj.getBlock(X+1, Y, Z), 20);
 				updateLastBlock = true;
-				pos1[0] = X;
-				pos1[1] = Y;
-				pos1[2] = Z;
+				tutOptions.pos.xCoord = X;
+				tutOptions.pos.yCoord = Y;
+				tutOptions.pos.zCoord = Z;
 				lastBlock[0] = X;
 				lastBlock[1] = Y;
 				lastBlock[2] = Z;
@@ -276,8 +271,8 @@ public class ItemDevTool extends ItemCustom  {
 				renderboxes.add(box);
 			}
 		}
-		if(pos1[0] != 0 || pos1[1] != 0 ||pos1[2] != 0 || pos2[0] != 0 || pos2[1] != 0 ||pos2[2] != 0) {
-			renderboxes.add(new RenderBox(pos1[0], pos1[2], pos2[0], pos2[2], Math.min(pos1[1], pos2[1]), Math.abs(pos1[1]-pos2[1]) + 1, 1));
+		if(tutOptions.pos.yCoord != 0 && tutOptions.size.yCoord != 0) {
+			renderboxes.add(new RenderBox(tutOptions.pos, tutOptions.size, 1));
 		}
 	}
 	
@@ -326,8 +321,7 @@ public class ItemDevTool extends ItemCustom  {
 			nbtList.appendTag(features.get(i).save());
 		}
 		nbtFeatures.setTag("features", nbtList);
-		nbtFeatures.setIntArray("pos",pos1);
-		nbtFeatures.setIntArray("size",pos2);
+		nbtFeatures.setTag("options", tutOptions.save());
 		FileOutputStream fout = null;
 		try {
 			File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
@@ -366,34 +360,11 @@ public class ItemDevTool extends ItemCustom  {
 				features.add(test);
 			}
 			
-			this.pos1=nbtFeats.getIntArray("pos");
-			this.pos2=nbtFeats.getIntArray("size");
+			tutOptions.load(nbtFeats.getCompoundTag("options"));
             is.close();
 
         } catch (Exception e) {
-            System.out.println("I can't load schematic, because " + e.toString());
+            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
         }
 	}
-	
-	public void test(EntityPlayer player) {
-		if(player.worldObj.isRemote) {
-			TutorialManager.INSTANCE.clientCurrentExperiment = TutorialManager.INSTANCE.getNextID();
-			return;
-		}
-		load();
-		tutOptions.name = "test name";
-		tutOptions.numTeams = 1;
-		tutOptions.teamSize = 1;
-		tutOptions.pos = Vec3.createVectorHelper(pos1[0], pos1[1], pos1[2]);
-		tutOptions.size = Vec3.createVectorHelper(pos2[0], pos2[1], pos2[2]);
-		
-		player.addChatMessage(new ChatComponentText("Test Run"));
-		
-		ExperimentTutorial tutorial = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), player.worldObj, tutOptions, features);
-
-		tutorial.addPlayer((EntityPlayerMP) player);
-		TutorialManager.INSTANCE.addExperiment(tutorial);
-	}
-	
-	
 }

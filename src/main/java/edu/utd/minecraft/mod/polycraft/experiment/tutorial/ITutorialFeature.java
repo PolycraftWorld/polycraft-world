@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 public interface ITutorialFeature{
 	
 	//pre-initialization function runs before the tutorial begins to setup this room
-	public void preInit();
+	public void preInit(ExperimentTutorial exp);
 	
 	//Initialization runs just before the player enters the room or as they enter (this would be when the player reaches the last checkpoint before this stage begins)
 	public abstract void init();

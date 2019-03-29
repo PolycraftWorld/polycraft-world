@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import io.netty.buffer.Unpooled;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -229,7 +231,15 @@ public class ServerEnforcer extends Enforcer {
 						}
 					case Tutorial:
 						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
-							case Feature:
+							case Features:	//Experiment Features update
+								PolycraftMod.logger.debug("Why is client sending Features List?");
+								break;
+							case ActiveFeatures:	//Experiment Active Features update
+								PolycraftMod.logger.debug("Why is client sending Active Features List?");
+								break;
+							case Feature:	//Experiment single featuer update
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
 							default:
 								break;
@@ -255,10 +265,12 @@ public class ServerEnforcer extends Enforcer {
 	}
 	
 	
-	private void onClientUpdateTutorialFeature(String devompress) {
-		
+	private void updateTutorialFeature(String decompressedJson) {
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
 	}
-	
+		
 	
 	/**
 	 * Client sends updated parameters inside an ExperimentParticipantMetaData object that contains Client ID and experiment ID.

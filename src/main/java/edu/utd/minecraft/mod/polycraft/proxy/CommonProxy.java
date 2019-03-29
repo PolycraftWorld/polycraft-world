@@ -345,7 +345,6 @@ public abstract class CommonProxy {
 			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
 		}
 		
-		TutorialManager.INSTANCE.onPlayerTick(tick);
 		
 		//KillWall.onPlayerTick(tick);
 		//RaceGame.INSTANCE.onPlayerTick(tick);

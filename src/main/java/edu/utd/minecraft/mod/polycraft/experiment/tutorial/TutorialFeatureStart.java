@@ -23,7 +23,8 @@ public class TutorialFeatureStart extends TutorialFeature{
 	private Vec3 lookDir;	//xCoord == pitch; yCoord = yaw
 	
 	//working parameters
-	private boolean spawnedInServer = false;
+	private boolean spawnedInServer = false, spawnedInClient = false;
+	private int dim = 0;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -38,19 +39,31 @@ public class TutorialFeatureStart extends TutorialFeature{
 	}
 	
 	@Override
+	public void preInit(ExperimentTutorial exp) {
+		dim = exp.dim;
+	}
+	
+	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
-		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-			spawnPlayer((EntityPlayerMP) player);
+		if(!spawnedInServer)
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				spawnPlayer((EntityPlayerMP) player, exp);
+			}
+		if(spawnedInClient) {
+			canProceed = true;
+			isDone = true;
 		}
 		spawnedInServer = true;
 	}
 	
 	@Override
 	public void onPlayerTickUpdate(ExperimentTutorial exp) {
-		Minecraft.getMinecraft().renderViewEntity.rotationPitch = (float) this.lookDir.xCoord;
-		Minecraft.getMinecraft().renderViewEntity.rotationYaw = (float) this.lookDir.yCoord;
-		canProceed = true;
-		isDone = true;
+		if(!spawnedInClient) {
+			Minecraft.getMinecraft().renderViewEntity.rotationPitch = (float) this.lookDir.xCoord;
+			Minecraft.getMinecraft().renderViewEntity.rotationYaw = (float) this.lookDir.yCoord;
+			spawnedInClient = true;
+			isDirty = true;
+		}
 	}
 	
 	
@@ -61,9 +74,9 @@ public class TutorialFeatureStart extends TutorialFeature{
 	 * @param player player to be teleported
 	 * @param y height they should be dropped at.
 	 */
-	private void spawnPlayer(EntityPlayerMP player){
-		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	
-				new PolycraftTeleporter(player.mcServer.worldServerForDimension(0), (int) this.pos.xCoord, (int) this.pos.yCoord, (int) this.pos.zCoord,
+	private void spawnPlayer(EntityPlayerMP player, ExperimentTutorial exp){
+		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,	
+				new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.xCoord, (int) this.pos.yCoord, (int) this.pos.zCoord,
 						(float) this.lookDir.yCoord, (float) this.lookDir.xCoord));
 		
 	}
@@ -113,6 +126,8 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.save();
 		int lookDir[] = {(int)this.lookDir.xCoord, (int)this.lookDir.yCoord, (int)this.lookDir.zCoord};
 		nbt.setIntArray("lookDir",lookDir);
+		nbt.setBoolean("spawnedInServer", spawnedInServer);
+		nbt.setBoolean("spawnedInClient", spawnedInClient);
 		return nbt;
 	}
 	
@@ -122,6 +137,8 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.load(nbtFeat);
 		int featLookDir[]=nbtFeat.getIntArray("lookDir");
 		this.lookDir=Vec3.createVectorHelper(featLookDir[0], featLookDir[1], featLookDir[2]);
+		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
+		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
 	}
 	
 }

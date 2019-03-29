@@ -15,10 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
 public class TutorialOptions{
-	public String name;
-	public Vec3 pos;
-	public Vec3 size;
-	public int numTeams, teamSize;
+	public String name = "";
+	public Vec3 pos = Vec3.createVectorHelper(0, 0, 0);
+	public Vec3 size = Vec3.createVectorHelper(0, 0, 0);
+	public int numTeams = 2, teamSize = 2;
 	
 	//Gui Parameters
 	protected GuiTextField nameField;

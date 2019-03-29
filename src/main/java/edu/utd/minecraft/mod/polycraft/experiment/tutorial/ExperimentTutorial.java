@@ -68,6 +68,7 @@ public class ExperimentTutorial{
 	public int zPos;	//starting zPos of experiment area
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	World world;
+	public int dim;
 	public CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
@@ -75,6 +76,7 @@ public class ExperimentTutorial{
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int featureIndex = 0;
+	protected boolean isDev = false;
 	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
 	protected ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
 	
@@ -101,19 +103,18 @@ public class ExperimentTutorial{
 	/**
 	 * 
 	 * @param id
-	 * @param xPos
-	 * @param zPos
 	 * @param world
-	 * @param maxteams
-	 * @param teamsize
+	 * @param options
+	 * @param features
+	 * @param isDev If True, will not genereate area and will not transport to dimension 8
 	 */
-	public ExperimentTutorial(int id, World world, TutorialOptions options, ArrayList<TutorialFeature> features) {
+	public ExperimentTutorial(int id, World world, TutorialOptions options, ArrayList<TutorialFeature> features, boolean isDev) {
 		
 		this.id = id;
 		this.xPos = (int) options.pos.xCoord;
 		this.yPos = 16;
 		this.zPos = (int) options.pos.zCoord;
-		this.currentState = State.PreInit;
+		this.currentState = State.WaitingToStart;
 		this.world = world;
 		this.teamsNeeded = options.numTeams;
 		this.teamSize = options.teamSize;
@@ -124,6 +125,11 @@ public class ExperimentTutorial{
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);
 		}
+		
+		if(isDev) {
+			dim = 0;
+		}else
+			dim = 8;
 		
 		this.features.addAll(features);
 		
@@ -178,10 +184,11 @@ public class ExperimentTutorial{
 		case WaitingToStart:
 			break;
 		case Starting:
+			currentState = State.PreInit;
 			break;
 		case PreInit:
 			for(TutorialFeature feature: features){
-				feature.preInit();
+				feature.preInit(this);
 			}
 			TutorialManager.INSTANCE.sendTutorialFeatures(this.id);
 			currentState = State.Running;
@@ -215,6 +222,7 @@ public class ExperimentTutorial{
 			}
 			break;
 		case Ending:
+			this.currentState = State.Done;
 			break;
 		case Done:
 			break;
@@ -226,25 +234,22 @@ public class ExperimentTutorial{
 	
 
 	public void onClientTickUpdate(){
-		switch(currentState) {
-		case Starting:
-			for(TutorialFeature feature: activeFeatures){
-				feature.onPlayerTickUpdate(this);
-			}
-			break;
-		case Running:
+		//We shouldn't have to check experiment state on client side, Just need to run all active features
+		if(activeFeatures.isEmpty()) {	//active features is empty, so experiment must be over.
+			this.currentState = State.Done;
+		}else {
+			this.currentState = State.Running;
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
-				activeFeatures.get(x).onServerTickUpdate(this);
+				activeFeatures.get(x).onPlayerTickUpdate(this);
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
 					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
 				}
 			}
-			break;
-		default:
-			break;
-		}	
+		}
+		
+		
 	}
 	
 	

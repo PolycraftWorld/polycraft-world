@@ -481,6 +481,9 @@ public class ClientProxy extends CommonProxy {
 					onClientTickFreeze(tick.player, playerState);
 				}
 			}
+			if(tick.side == Side.CLIENT) {
+				TutorialManager.INSTANCE.onPlayerTick(tick);
+			}
 		}
 	}
 	

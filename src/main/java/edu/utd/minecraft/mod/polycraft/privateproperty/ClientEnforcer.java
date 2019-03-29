@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
@@ -563,7 +564,7 @@ public class ClientEnforcer extends Enforcer {
 			return;
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
-				new ArrayList<TutorialFeature>(Arrays.asList((TutorialFeature[]) gson.fromJson(decompressedJson, new TypeToken<TutorialFeature[]>() {}.getType()))));
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
 	}
 	
 	private void updateTutorialFeature(String decompressedJson) {
@@ -571,7 +572,7 @@ public class ClientEnforcer extends Enforcer {
 			return;
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
-				(NBTTagCompound) gson.fromJson(decompressedJson, new TypeToken<NBTTagCompound>() {}.getType()), true);
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
 	}
 	
 	private void updateTutorialActiveFeatures(String decompressedJson) {
@@ -579,7 +580,7 @@ public class ClientEnforcer extends Enforcer {
 			return;
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentActiveFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
-				new ArrayList<TutorialFeature>(Arrays.asList((TutorialFeature[]) gson.fromJson(decompressedJson, new TypeToken<TutorialFeature[]>() {}.getType()))));
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
 	}
 	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
