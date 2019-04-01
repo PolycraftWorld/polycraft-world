@@ -403,6 +403,8 @@ public class ExperimentFlatCTB extends Experiment{
 			if(this.halfTimeTicksRemaining == 0) {
 				currentState = State.Running;
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+					//Close Hafltime GUI for users that have not completed it
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("CloseHaltimeGUI", (EntityPlayerMP) player);
 					player.addChatComponentMessage(new ChatComponentText("Game resuming... "));
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					

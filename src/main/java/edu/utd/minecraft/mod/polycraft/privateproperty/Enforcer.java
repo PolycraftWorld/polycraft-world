@@ -138,8 +138,10 @@ public abstract class Enforcer {
 		ReceiveExperimentsList,
 		RequestJoinExperiment,
 		SendParameterUpdates,
-		OpenHalftimeGUI
+		OpenHalftimeGUI,
+		CloseHalftimeGUI
 		//TODO: Stephen add your data types here.
+
 	}
 
 	protected static boolean updatedMasterForTheDay = false;

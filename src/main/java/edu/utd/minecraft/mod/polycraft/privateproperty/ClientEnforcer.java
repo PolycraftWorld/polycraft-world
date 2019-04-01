@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -263,6 +264,10 @@ public class ClientEnforcer extends Enforcer {
 								System.out.println("Opening Halftime GUI");
 								PolycraftMod.proxy.openHalftimeGui(this.client.thePlayer);
 								break;
+							case CloseHalftimeGUI:
+								System.out.println("Closing Halftime GUI");
+								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
+								break;
 							default:
 							break;
 						}
@@ -335,6 +340,10 @@ public class ClientEnforcer extends Enforcer {
 	
 	public void openHalftimeGui() {
 		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));		
+	}
+	public void closeHalftimeGui() {
+		client.displayGuiScreen(null);
+		client.setIngameFocus();
 	}
 	
 	@Deprecated
@@ -597,6 +606,7 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+
 	public void sendGuiHalftimeUpdate(String[] answers) {
 		// TODO Auto-generated method stub
 		FMLProxyPacket[] packetList = null;
@@ -765,4 +775,6 @@ public class ClientEnforcer extends Enforcer {
 		
 		return showAIControls;
 	}
+
+	
 }

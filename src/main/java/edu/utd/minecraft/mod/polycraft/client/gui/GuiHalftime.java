@@ -396,8 +396,7 @@ public class GuiHalftime extends GuiScreen{
 					break;
 				}
 			default: // Should not occur outside of case 5 falling through.
-				this.mc.displayGuiScreen((GuiScreen) null);
-				this.mc.setIngameFocus();
+				this.closeGUI();
 				//if(this.consent) //display experiments list to those who consent.
 				//	this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
 				break;
@@ -428,6 +427,14 @@ public class GuiHalftime extends GuiScreen{
 		}
 
 		/**
+		 * Close GUI after halftime
+		 */
+		public void closeGUI() {
+			this.mc.displayGuiScreen((GuiScreen) null);
+			this.mc.setIngameFocus();
+		}
+		
+		/**
 		 * Same as creative mode search menu to set repeat events.
 		 */
 		public void onGuiClosed() {
@@ -437,7 +444,7 @@ public class GuiHalftime extends GuiScreen{
 			System.out.println("Halftime GUI Closed");
 			//send packet to server
 			answers[0] = Minecraft.getMinecraft().thePlayer.getDisplayName();
-			EntityClientPlayerMP player2 = Minecraft.getMinecraft().thePlayer;
+			//EntityClientPlayerMP player2 = Minecraft.getMinecraft().thePlayer;
 			//EntityPlayer player1 = getPlayer(Minecraft.getMinecraft().thePlayer.getDisplayName());
 			ClientEnforcer.INSTANCE.sendGuiHalftimeUpdate(answers);
 		}
