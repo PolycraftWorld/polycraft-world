@@ -232,7 +232,7 @@ public class ServerEnforcer extends Enforcer {
 					case Halftime: // decompress json array with halftime answers
 						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
 						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
-						String half_time_Answers = String.join(",", halftimeAnswers);
+						String half_time_Answers = String.join(",", half_time_Answers1);
 						PlayerExperimentEvent8 event1 = new PlayerExperimentEvent8(halftimeAnswers[0],half_time_Answers);
 						Analytics.onExperimentEvent8(event1);
 						break;

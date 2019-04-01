@@ -1691,19 +1691,20 @@ public class Analytics {
 		//}
 		}
 
-	public static final String FORMAT_ON_EXPERIMENT_EVENT8 = "%2$d%1$s%3$s";
-	public static final String FORMAT_ON_EXPERIMENT_EVENT8_DEBUG = "ID=%2$d%1$s HalfTimeAnswers=%3$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT8 = "%2$d%1$s%3$d%1$s%4$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT8_DEBUG = "ID=%2$d%1$s Exp_ID=%3$d%1$s HalfTimeAnswers=%4$s";
 	
 	static List<Integer> running_experiments;
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent8(final PlayerExperimentEvent8 event) {
-		log(getPlayer(event.playername), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT8_DEBUG : FORMAT_ON_EXPERIMENT_EVENT8, DELIMETER_DATA, 8, event.answers_string));
+
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		String formattedDate1 = myDateObj.format(myFormatObj1); 
 		running_experiments = ExperimentManager.getRunningExperiments();
 		for (Integer experiment_instance : running_experiments) {
 			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.playername)){
+				log(getPlayer(event.playername), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT8_DEBUG : FORMAT_ON_EXPERIMENT_EVENT8, DELIMETER_DATA, 8,experiment_instance, event.answers_string));
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
@@ -1712,7 +1713,7 @@ public class Analytics {
 			e.printStackTrace();
 		}
 	      try {
-			writer.write(formattedDate1+log1(getPlayer(event.playername), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT8_DEBUG : FORMAT_ON_EXPERIMENT_EVENT8, DELIMETER_DATA, 8, event.answers_string))+System.getProperty("line.separator"));
+			writer.write(formattedDate1+log1(getPlayer(event.playername), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT8_DEBUG : FORMAT_ON_EXPERIMENT_EVENT8, DELIMETER_DATA, 8, experiment_instance,event.answers_string))+System.getProperty("line.separator"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
