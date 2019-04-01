@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
@@ -55,7 +56,6 @@ public class CommandTutorial  extends CommandBase{
 	private static final String chatCommandTutnew = "new";
 	private static final String chatCommandTutjoin = "join";
 	private static final String chatCommandTutStart = "start";
-	private static final String chatCommandTutGUI = "gui";
 	private final List aliases;
 	
 
@@ -126,8 +126,6 @@ public class CommandTutorial  extends CommandBase{
 					}
 				} else if (chatCommandTutGen.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
 					generateStructure(sender, sender.getPlayerCoordinates().posX, sender.getPlayerCoordinates().posY, sender.getPlayerCoordinates().posZ, player.getEntityWorld());
-				} else if (chatCommandTutGUI.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
-					ClientEnforcer.INSTANCE.setShowTutorialRender(!ClientEnforcer.INSTANCE.getShowTutorialRender());
 				}
 			}
 		}

@@ -29,6 +29,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialRender;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -76,7 +77,8 @@ public class ItemDevTool extends ItemCustom  {
 		FeatureTool,
 		GuideTool,
 		Save,
-		Load;
+		Load,
+		GuiTest;
 		
 		public StateEnum next() {
 		    if (ordinal() == values().length - 1)
@@ -202,6 +204,8 @@ public class ItemDevTool extends ItemCustom  {
 						updateRenderBoxes();
 					}
 					break;
+				case GuiTest:
+					//TutorialRender(player);
 				default:
 					break;
 			}
