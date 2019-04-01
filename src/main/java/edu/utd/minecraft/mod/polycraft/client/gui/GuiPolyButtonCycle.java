@@ -1,7 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 
+@SideOnly(Side.CLIENT)
 public class GuiPolyButtonCycle<E extends Enum<E>> extends GuiButton{
 	
 	private E option;

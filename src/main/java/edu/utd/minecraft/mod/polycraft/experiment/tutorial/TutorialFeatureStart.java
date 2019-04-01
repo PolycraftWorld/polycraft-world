@@ -45,15 +45,17 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
-		if(!spawnedInServer)
+		if(!spawnedInServer) {
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				spawnPlayer((EntityPlayerMP) player, exp);
 			}
+			spawnedInServer = true;
+		}
+			
 		if(spawnedInClient) {
 			canProceed = true;
 			isDone = true;
 		}
-		spawnedInServer = true;
 	}
 	
 	@Override

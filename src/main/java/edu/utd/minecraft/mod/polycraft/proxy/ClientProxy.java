@@ -882,27 +882,6 @@ public class ClientProxy extends CommonProxy {
 		 
 	 }
 
-	 @SubscribeEvent
-	 public void drawTutorialGui(RenderGameOverlayEvent event)
-	 {
-		 if(TutorialRender.render)
-		 {
-			 if(!TutorialRender.turnRight)
-			 {
-				 TutorialRender.turnRight=TutorialRender.renderTutorialTurnRight();
-			 }
-			 else if(!TutorialRender.turnLeft)
-			 {
-				 TutorialRender.turnLeft=TutorialRender.renderTutorialTurnLeft();
-			 }
-			 else
-			 {
-				 //TutorialRender.renderTutorialJumpForward(); 
-			 }
-		 }
-	
-	 }
-
 	@SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
 	    render(event.partialTicks);

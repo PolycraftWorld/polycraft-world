@@ -18,6 +18,8 @@ import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.client.config.GuiCheckBox;
 import cpw.mods.fml.client.config.GuiSlider;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -45,6 +47,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import scala.swing.event.MouseReleased;
 
+@SideOnly(Side.CLIENT)
 public class GuiDevTool extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
@@ -60,7 +63,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     private final int screenContainerWidth = 230;
     private final int screenContainerHeight = 130;
     private boolean wasClicking; 
-    private int buttonCount = 1;
+    public int buttonCount = 1;
     private int buttonheight = 20;
     private int button_padding_y = 4;
     private float scroll = 0.0F; // Amount of scroll, from 0.0 to 1.0 inclusive.
@@ -138,6 +141,13 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         this.titleHeight = 20;
         this.guiSteps = new GuiDevToolStep(this, this.mc, devTool);
         this.devTool = devTool;
+    }
+    
+    /**
+     * Add button to button list
+     */
+    public void addBtn(GuiButton btn) {
+    	this.buttonList.add(btn);
     }
     
     /**
@@ -337,6 +347,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	    	}
     			if(button instanceof GuiPolyButtonCycle<?>) {
     				((GuiPolyButtonCycle<?>)button).nextOption();
+    				if(featureToAdd instanceof TutorialFeatureInstruction)
+    					((TutorialFeatureInstruction) featureToAdd).setType((TutorialFeatureInstruction.InstructionType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
     			}
     			break;
     		case DEV_STEP_EDIT:	//go back to steps screen
@@ -575,50 +587,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case INSTRUCTION:
-			textFieldtemp = new GuiTextField(this.fontRendererObj, x_pos + 5, y_pos + 30, (int) (X_WIDTH * .9), 14);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText("Name of Feature");
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(true);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Pos"));
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"X:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 40, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.posX));
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(false);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Y:"));
-	        textFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 95, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        textFieldtemp.setMaxStringLength(32);
-	        textFieldtemp.setText(Integer.toString((int)player.posY));
-	        textFieldtemp.setTextColor(16777215);
-	        textFieldtemp.setVisible(true);
-	        textFieldtemp.setCanLoseFocus(true);
-	        textFieldtemp.setFocused(false);
-	        textFields.add(textFieldtemp);
-	        labels.add(new GuiPolyLabel(this.fontRendererObj, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-	        		"Z:"));
-	        numFieldtemp = new GuiPolyNumField(this.fontRendererObj, x_pos + 150, y_pos + 49, (int) (X_WIDTH * .2), 10);
-	        numFieldtemp.setMaxStringLength(32);
-	        numFieldtemp.setText(Integer.toString((int)player.posZ));
-	        numFieldtemp.setTextColor(16777215);
-	        numFieldtemp.setVisible(true);
-	        numFieldtemp.setCanLoseFocus(true);
-	        numFieldtemp.setFocused(false);
-	        textFields.add(numFieldtemp);
-	        GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType> btnInstructionType = new GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType>(
-	        		buttonCount + 1, x_pos + 10, y_pos + 65, (int) (X_WIDTH * .9), 20, 
-	        		"Type",  TutorialFeatureInstruction.InstructionType.WASD);
-	        buttonList.add(btnInstructionType);
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureInstruction("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		TutorialFeatureInstruction.InstructionType.WASD);
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case START:
 			if(addNew)

@@ -6,6 +6,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -14,7 +15,6 @@ public class TutorialRender {
 	public static boolean turnLeft=false;
 	public static double prevAng=0;
 	public static boolean render=false;
-	public static EntityClientPlayerMP player;
 	public static Minecraft mc = Minecraft.getMinecraft();
 	
 	static 			ResourceLocation[] textures3 = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/rightArrow.png")),
@@ -89,19 +89,19 @@ public class TutorialRender {
 
 	public  TutorialRender(EntityPlayer player)
 	{
-		
 		this.turnRight=false;
 		this.turnLeft=false;
 		this.prevAng=player.rotationYaw;
 		this.render=true;
-		this.player=(EntityClientPlayerMP) player;
 	}
 	
 	public static void push(float scale)
 	{
 		GL11.glPushMatrix();
+	    mc.entityRenderer.setupOverlayRendering();
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 	    GL11.glEnable(GL11.GL_BLEND);
+	    GL11.glDisable(GL11.GL_LIGHTING);
 	    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	    GL11.glScalef(scale, scale, 0);
 	    GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -111,6 +111,7 @@ public class TutorialRender {
 	
 	public static void pop()
 	{
+		
 		 GL11.glDisable(GL11.GL_BLEND);
 		 GL11.glPopAttrib();
 		 GL11.glPopMatrix();
@@ -142,8 +143,9 @@ public class TutorialRender {
 //				      
 //	 }
 	
-	  public static void renderTutorialWalkForward()
+	  public static void renderTutorialWalkForward(Entity player)
 	 {
+		 
 		 float scale =.20F;
 
 		 int i=((player.ticksExisted)%60);
@@ -169,10 +171,12 @@ public class TutorialRender {
 		 push(scale);
 		 mc.getTextureManager().bindTexture(textures8[i]);
 		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
-		 pop();		      
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
 	 }
 	 
-	 public static boolean renderTutorialTurnRight()
+	 public static boolean renderTutorialTurnRight(Entity player)
 	 {
 		 
 
@@ -226,7 +230,7 @@ public class TutorialRender {
 		 return false;
 	 }
 	 
-	 public static boolean renderTutorialTurnLeft()
+	 public static boolean renderTutorialTurnLeft(Entity player)
 	 {
 
 	
