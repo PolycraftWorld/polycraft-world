@@ -230,7 +230,7 @@ public class CommandTutorial  extends CommandBase{
 //		}
 	}
 
-	private void load() {
+	private NBTTagCompound load() {
 		try {
         	features.clear();
         	
@@ -248,20 +248,23 @@ public class CommandTutorial  extends CommandBase{
 			
 			tutOptions.load(nbtFeats.getCompoundTag("options"));
             is.close();
+            return nbtFeats;
 
         } catch (Exception e) {
             System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
         }
+		return null;
 	}
 	
 
 	public void registerNewExperiment(EntityPlayer player) {
-		load();
+		NBTTagCompound nbtData = load();
 		tutOptions.name = "test name";
 		tutOptions.numTeams = 1;
 		tutOptions.teamSize = 1;
 		
 		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, player.worldObj, true);
+		TutorialManager.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
 
 		player.addChatMessage(new ChatComponentText("Added New Experiment, ID = " + id));
 	}

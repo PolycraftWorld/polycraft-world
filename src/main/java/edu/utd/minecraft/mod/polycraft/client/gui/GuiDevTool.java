@@ -219,7 +219,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	@Override
     protected void mouseClicked(int x, int y, int mouseEvent) {
     	
-    	if(this.guiSteps != null) {
+    	if(this.guiSteps != null && screenSwitcher == WhichScreen.DEV_STEPS) {
     		this.guiSteps.func_148179_a(x, y, mouseEvent);
     	}
     	for(GuiTextField textField: textFields) {

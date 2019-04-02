@@ -38,6 +38,7 @@ import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -49,6 +50,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -63,8 +65,6 @@ public class ItemDevTool extends ItemCustom  {
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
 	TutorialOptions tutOptions = new TutorialOptions();
 	TutorialFeature selectedFeature;
-	boolean pos1set = false;
-	boolean pos2set = false;
 	private long lastEventNanoseconds = 0;
 	String tool;
 	boolean setting;
@@ -183,7 +183,6 @@ public class ItemDevTool extends ItemCustom  {
 					tutOptions.size.xCoord = x;
 					tutOptions.size.yCoord = y;
 					tutOptions.size.zCoord = z;
-					pos2set = true;
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
@@ -232,7 +231,6 @@ public class ItemDevTool extends ItemCustom  {
 				lastBlock[0] = X;
 				lastBlock[1] = Y;
 				lastBlock[2] = Z;
-				pos1set = true;
 				if(player.worldObj.isRemote)
 					updateRenderBoxes();
 				break;
@@ -326,6 +324,7 @@ public class ItemDevTool extends ItemCustom  {
 		}
 		nbtFeatures.setTag("features", nbtList);
 		nbtFeatures.setTag("options", tutOptions.save());
+		nbtFeatures.setTag("AreaData", saveArea());
 		FileOutputStream fout = null;
 		try {
 			File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
@@ -370,5 +369,59 @@ public class ItemDevTool extends ItemCustom  {
         } catch (Exception e) {
             System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
         }
+	}
+	
+	private NBTTagCompound saveArea() {
+		if(tutOptions.pos.yCoord != 0 && tutOptions.size.yCoord != 0)
+		{
+			int minX = (int) Math.min(tutOptions.pos.xCoord, tutOptions.size.xCoord);
+			int maxX = (int) Math.max(tutOptions.pos.xCoord, tutOptions.size.xCoord);
+			int minY = (int) Math.min(tutOptions.pos.yCoord, tutOptions.size.yCoord);
+			int maxY = (int) Math.max(tutOptions.pos.yCoord, tutOptions.size.yCoord);
+			int minZ = (int) Math.min(tutOptions.pos.zCoord, tutOptions.size.zCoord);
+			int maxZ = (int) Math.max(tutOptions.pos.zCoord, tutOptions.size.zCoord);
+			int[] intArray;
+			short height;
+			short length;
+			short width;
+			
+			length=(short)(maxX-minX+1);
+			height=(short)(maxY-minY+1);
+			width=(short)(maxZ-minZ+1);
+			int[] blocks = new int[length*height*width];
+			byte[] data = new byte[length*height*width];
+			int count=0;
+			NBTTagCompound nbt = new NBTTagCompound();
+			NBTTagList tiles = new NBTTagList();
+			
+			TileEntity tile;
+			for(int i=0;i<length;i++) {
+				for(int j=0;j<height;j++) {
+					for(int k=0;k<width;k++) {
+						
+						tile = Minecraft.getMinecraft().theWorld.getTileEntity(minX+i, minY+j, minZ+k);
+						if(tile!=null){
+							NBTTagCompound tilenbt = new NBTTagCompound();
+							tile.writeToNBT(tilenbt);
+							tiles.appendTag(tilenbt);
+							
+						}
+							
+						Block blk = Minecraft.getMinecraft().theWorld.getBlock(minX+i, minY+j, minZ+k);
+						int id = blk.getIdFromBlock(blk);
+						blocks[count]=id;
+						data[count]=(byte) Minecraft.getMinecraft().theWorld.getBlockMetadata((int)(minX+i), (int)(minY+j), (int)(minZ+k));
+						count++;
+						
+					}
+				}
+			}
+			nbt.setTag("TileEntity", tiles);
+			nbt.setIntArray("Blocks", blocks);
+			nbt.setByteArray("Data", data);
+			return nbt;
+		}else {
+			return null;
+		}
 	}
 }
