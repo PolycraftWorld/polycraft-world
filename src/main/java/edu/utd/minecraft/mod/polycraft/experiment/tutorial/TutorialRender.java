@@ -145,6 +145,9 @@ public class TutorialRender {
 	 static ResourceLocation[] texturesWASD = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_0.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_1.png")),
 				};
+	 static ResourceLocation[] texturesSpace = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/space.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/spaceGreen.png")),
+				};
 	
 //	 static ResourceLocation[] textures6 = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/JumpingGif/frame_00_delay-0.1s.gif")),
 //				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/JumpingGif/frame_01_delay-0.1s.gif")),
@@ -240,6 +243,139 @@ public class TutorialRender {
 //		 pop();
 //				      
 //	 }
+	
+	
+	
+	public static void renderTutorialSprintJump(Entity player)
+	 {
+		 
+		 float scale =.20F;
+
+		 int i=((player.ticksExisted)%20);
+		 // GL11.glPushMatrix();
+		 if(i<=2)
+		 {
+			 i=0;
+		 }
+		 else if(i==3)
+		 {
+			 i=1;
+		 }
+		 else if(i<=5)
+		 {
+			 i=0;
+		 }
+		 else
+		 {
+			 i=1;
+		 }
+
+		 
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesWASD[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+		 pop();
+		 i=((player.ticksExisted)%20);
+		 if(i<=5)
+		 {
+			 i=0;
+		 }
+		 else if(i<=7)
+		 {
+			 i=1;
+		 }
+		 else 
+		 {
+			i=0; 
+		 }
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesWASD[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+		 pop();
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%12);
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesSprintJump[i]);
+		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	public static void renderTutorialSprint(Entity player)
+	 {
+		 
+		 float scale =.20F;
+
+		 int i=((player.ticksExisted)%20);
+		 // GL11.glPushMatrix();
+		 if(i<=2)
+		 {
+			 i=0;
+		 }
+		 else if(i==3)
+		 {
+			 i=1;
+		 }
+		 else if(i<=5)
+		 {
+			 i=0;
+		 }
+		 else
+		 {
+			 i=1;
+		 }
+
+		 
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesWASD[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+		 pop();
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%12);
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesSprint[i]);
+		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	
+	public static void renderTutorialFloatOut(Entity player)
+	 {
+		 
+		 float scale =.20F;
+
+		 int i=((player.ticksExisted)%2);
+		 // GL11.glPushMatrix();
+
+		 
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesWASD[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+		 pop();
+		 
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesSpace[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+		 pop();
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%12);
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesFloatingOut[i]);
+		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	
 	
 	  public static void renderTutorialWalkForward(Entity player)
 	 {
