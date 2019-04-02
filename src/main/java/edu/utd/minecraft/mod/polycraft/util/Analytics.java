@@ -1556,12 +1556,10 @@ public class Analytics {
 	
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent6(final PlayerExperimentEvent6 event) {
-		//EntityPlayer a = null;
-		//if(a.getDisplayName().equals(event.playerName2)) {
+		
 		int i=0;
 		log(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
-//		log1(event.playerName2, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT6_DEBUG : FORMAT_ON_EXPERIMENT_EVENT6, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.playerName2.getDisplayName().toLowerCase()).toString()));
-		//}
+
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 		//System.out.println("Before formatting: " + myDateObj); 
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
@@ -1727,5 +1725,37 @@ public class Analytics {
 			}
 		}
 	}
+
+	public static final String FORMAT_ON_EXPERIMENT_EVENT9 = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s";
+	public static final String FORMAT_ON_EXPERIMENT_EVENT9_DEBUG = "ID=%2$d%1$s TeamName=%3$s%%1$s TeamName=%4$s%%1$s Player=%5$s";
 	
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent9(final PlayerExperimentEvent9 event) {
+		// TODO Auto-generated method stub
+		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT9_DEBUG : FORMAT_ON_EXPERIMENT_EVENT9, DELIMETER_DATA, 9, event.id,event.TeamName,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(event.id),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT9_DEBUG : FORMAT_ON_EXPERIMENT_EVENT9, DELIMETER_DATA, 9, event.id,event.TeamName,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

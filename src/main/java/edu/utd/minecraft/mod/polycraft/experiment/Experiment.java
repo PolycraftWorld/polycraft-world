@@ -35,8 +35,10 @@ import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent6;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent9;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -261,11 +263,14 @@ public abstract class Experiment {
 				//team.getPlayers()
 				team.getPlayers().add(player.getDisplayName());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
+				
 				System.out.println(Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString()+"Player is added to experiment"+id);
 
-				
 				PlayerExperimentEvent6 event = new PlayerExperimentEvent6(id,(EntityPlayer)player);
-				edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent6(event);
+				Analytics.onExperimentEvent6(event);
+				
+				PlayerExperimentEvent9 event1 = new PlayerExperimentEvent9(id,team.getName(),(EntityPlayer)player);
+				Analytics.onExperimentEvent9(event1);
 				//TODO: Inform the player which team they're on over here instead of a chat
 				//Pass this info to the ExperimentListMetaData as its sent to the player
 				playerCount++;
