@@ -106,7 +106,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			while((player.worldObj.isAirBlock((int) posX, (int)(posY -0.2), (int)posZ) 
 					|| player.worldObj.getBlock((int) posX, (int)(posY -0.2), (int)posZ).getMaterial() == Material.carpet)
 					&& posY >= 1) {
-				posY -= 0.2;
+				posY -= 0.25;
 				posX += x/4;
 				posZ += z/4;
 				x -= x/32;
@@ -187,7 +187,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		while((entity.worldObj.isAirBlock((int) posX, (int)(posY -0.2), (int)posZ) 
 				|| entity.worldObj.getBlock((int) posX, (int)(posY -0.2), (int)posZ).getMaterial() == Material.carpet)
 				&& posY >= 1) {
-			posY -= 0.2;
+			posY -= 0.25;
 			posX += x/4;
 			posZ += z/4;
 			x -= x/32;
