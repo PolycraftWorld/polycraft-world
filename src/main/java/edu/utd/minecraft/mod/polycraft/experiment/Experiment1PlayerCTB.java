@@ -495,13 +495,14 @@ public class Experiment1PlayerCTB extends Experiment{
 			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
 				if(team.getName().equals("Animals")) {
-					PlayerExperimentEvent10 event = new PlayerExperimentEvent10(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", this.scoreboard.getScores().get(i));
+					PlayerExperimentEvent10 event = new PlayerExperimentEvent10(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
 					Analytics.onExperimentEvent10(event);
 				}
+				else {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-					
-					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
+					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
 					Analytics.onExperimentEvent1(event);
+					}
 				}
 				
 				
