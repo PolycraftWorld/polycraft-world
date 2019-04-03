@@ -253,6 +253,10 @@ public class ServerEnforcer extends Enforcer {
 			
 		}catch (Exception e) {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+			//Flush the buffer. and reset for the next message coming from the client.
+			pendingDataPacketType = DataPacketType.Unknown;
+			pendingDataPacketTypeMetadata = 0; 
+			pendingDataPacketsBuffer = null;
 		}
 	}
 	
