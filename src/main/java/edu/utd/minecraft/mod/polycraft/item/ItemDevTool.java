@@ -133,6 +133,8 @@ public class ItemDevTool extends ItemCustom  {
 	}
 
 	
+	
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World world, EntityPlayer player) {
 			
@@ -161,18 +163,18 @@ public class ItemDevTool extends ItemCustom  {
 	
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
 			float hitX, float hitY, float hitZ) {
 		Vec3 blockPos = Vec3.createVectorHelper(x, y, z);
 		Vec3 hitPos = Vec3.createVectorHelper(hitX, hitY, hitZ);
 		if(!world.isRemote) {
-			return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+			return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 		}
 		if(Keyboard.isKeyDown(29)) {	//if holding ctrl select block in front of face clicked
 			blockPos = getBlockAtFace(blockPos, hitPos);
 		}
 		if(Mouse.getEventNanoseconds()==lastEventNanoseconds) {
-    		return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
     	}else {
     		lastEventNanoseconds = Mouse.getEventNanoseconds();
     	}
@@ -210,7 +212,7 @@ public class ItemDevTool extends ItemCustom  {
 			}
 		}
 
-		return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
 	
 	@Override
