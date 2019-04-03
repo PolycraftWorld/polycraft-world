@@ -124,6 +124,9 @@ public class RenderBox {
 		if (horizDist > 0)
 			vertWidth *= ((range2 - horizDist) / range2);
 		
+		horizWidth = 4F;
+		vertWidth = 4F;
+		
 		float alphaLines, alphaFace;
 		if(maxBreathingTicks == 0) {
 			alphaFace = 0.2F;
