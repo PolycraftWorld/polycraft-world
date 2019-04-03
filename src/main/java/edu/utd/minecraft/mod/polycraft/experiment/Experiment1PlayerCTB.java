@@ -33,8 +33,10 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent0;
 import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent10;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -53,6 +55,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
@@ -491,9 +494,14 @@ public class Experiment1PlayerCTB extends Experiment{
 			int i=0;
 			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
-				for(EntityPlayer player: team.getPlayersAsEntity()) {
+				if(team.getName().equals("Animals")) {
+					PlayerExperimentEvent10 event = new PlayerExperimentEvent10(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", this.scoreboard.getScores().get(i));
+					Analytics.onExperimentEvent10(event);
+				}
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+					
 					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
-					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
+					Analytics.onExperimentEvent1(event);
 				}
 				
 				

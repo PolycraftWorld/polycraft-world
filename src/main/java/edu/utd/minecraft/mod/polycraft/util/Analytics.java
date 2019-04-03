@@ -212,7 +212,6 @@ public class Analytics {
 	
 	static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	static LocalDateTime now = LocalDateTime.now();
-	//System.out.println(dtf.format(now)); //2016/11/16 12:08:43
 	
 	public synchronized static void log(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
@@ -238,39 +237,33 @@ public class Analytics {
 		
 	}
 	
-	public synchronized static String log2(final String player, final Category category, final String data) {
+	public synchronized static void log2(final String teamname, final Category category, final String data) {
+		
+		String playerID = null;
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-		//final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
-		return String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
+		//final Long playerID = Enforcer.whitelist.get(teamname.getDisplayName().toLowerCase());
+		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),
-				"-1",
-				(int) 0, (int) 0, (int) 0,
-				data.replace(DELIMETER_SEGMENT, " "));
+				teamname,
+				0, 0, 0,
+				data.replace(DELIMETER_SEGMENT, " ")));
 		
 	}
 	
-//	public synchronized static void log1(final EntityPlayer player, final Category category, final String data) {
-//		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-//		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
-//		logger1.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
-//				DELIMETER_SEGMENT, DELIMETER_DATA,
-//				formatEnum(category),
-//				playerID == null ? "-1" : playerID.toString(),
-//				(int) player.posX, (int) player.posY, (int) player.posZ,
-//				data.replace(DELIMETER_SEGMENT, " ")));
-//	}
-	
-//	public synchronized static void log1(final String playerName2, final Category category, final String data) {
-//		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-//		final Long playerID = Enforcer.whitelist.get(playerName2.toLowerCase());
-//		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
-//				DELIMETER_SEGMENT, DELIMETER_DATA,
-//				formatEnum(category),
-//				playerID == null ? "-1" : playerID.toString(),
-//				0,0,0,
-//				data.replace(DELIMETER_SEGMENT, " ")));
-//	}
+public synchronized static String log3(final String teamname, final Category category, final String data) {
+		
+		String playerID = null;
+		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
+		//final Long playerID = Enforcer.whitelist.get(teamname.getDisplayName().toLowerCase());
+		return String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
+				DELIMETER_SEGMENT, DELIMETER_DATA,
+				formatEnum(category),
+				teamname,
+				0, 0, 0,
+				data.replace(DELIMETER_SEGMENT, " "));
+		
+	}
 
 	public static final String FORMAT_TICK_SPATIAL = "%2$.2f%1$s%3$.2f%1$s%4$.2f%1$s%5$d%1$s%6$d%1$s%7$d%1$s%8$s%1$s%9$s%1$s%10$s";
 	public static final String FORMAT_TICK_SPATIAL_DEBUG = "MotionX=%2$.2f%1$s MotionY=%3$.2f%1$s MotionZ=%4$.2f%1$s RotationPitch=%5$d%1$s RotationYaw=%6$d%1$s RotationYawHead=%7$d%1$s OnGround=%8$s%1$s IsSprinting=%9$s%1$s IsSneaking=%10$s";
@@ -1210,9 +1203,6 @@ public class Analytics {
 			  }
 		}
 
-//			log1(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,
-//				formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
-//				(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 	}
 
 	public static final String FORMAT_BREAK_BLOCK = "%2$s%1$s%3$d%1$s%4$d%1$s%5$d%1$s%6$s%1$s%7$d%1$s%8$d";
@@ -1336,7 +1326,7 @@ public class Analytics {
 		}
 	}
 	
-	//This is used to log winner id//
+	//This is used to log winner id and is called when experiment stops and there is a winner, doesn't record if any player drops/leaves or disconnects//
 	public static final String FORMAT_ON_EXPERIMENT_EVENT0 = "%2$d%1$s%3$d%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT0_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Winner_ID=%4$s";
 
@@ -1401,7 +1391,7 @@ public class Analytics {
 	}
 	
 	
-	//This is used to log score every second
+	//This is used to log score every second for each player
 	public static final String FORMAT_ON_EXPERIMENT_EVENT1 = "%2$d%1$s%3$d%1$s%4$.1f";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT1_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Score=%5$.1f";
 
@@ -1433,121 +1423,11 @@ public class Analytics {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		File file = new File("logs/Experiment_"+event.maxteams1+"_" +"2019/03/19 19:41:00"+".log");
-//		//Create the file
-//		try {
-//			if (file.createNewFile())
-//			{
-//			    //System.out.println("File is created!");
-//			} else {
-//			    //System.out.println("File already exists.");
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		 
-//		//Write Content
-//		FileWriter writer = null;
-//		try {
-//			writer = new FileWriter(file);
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		
-//		try {
-//			writer.write(log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score))+"/n");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		try {
-//			writer.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		//		log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.maxteams1,event.score));
-	}
-	
-	//This is used to check if player is knocked back
-//	public static final String FORMAT_ON_EXPERIMENT_EVENT2 = "%2$d%1$s%3$s%1$s%4$d%1$s%5$d%1$s%6$d%1$s%7$d%1$s%8$s%1$s%9$s%1$s%10$d%1$s%11$s";
-//	public static final String FORMAT_ON_EXPERIMENT_EVENT2_DEBUG = "ID=%2$d%1$s Action=%3$s%1$s X=%4$d%1$s Y=%5$d%1$s Z=%6$d%1$s Face=%7$d%1$s Result=%8$s%1$s Block=%9$s%1$s Metadata=%10$d%1$s Item=%11$s";
+}
 
+	//This is used to log player who used knockback bomb and who got knocked back from that knockback bomb(FKBB counts too)
 	public static final String FORMAT_ON_EXPERIMENT_EVENT2 = "%2$d%1$s%3$d%1$s%4$s%1$s%5$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT2_DEBUG = "ID=%2$d%1$s Exp_id=%3$d%1$s List_of_ids=%4$s%1$s Item=%5$d";
-	
-	
-	//public synchronized void onExperimentEvent2(final PlayerInteractEvent event) {
-//		//if(formatItemStackName(event.entityPlayer.getCurrentEquippedItem()).equals("item.1hw")||formatItemStackName(event.entityPlayer.getCurrentEquippedItem()).equals("item.1hv")) 
-//		//if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR)
-//			//log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA,
-//					2,formatEnum(event.action), event.x, event.y, event.z,
-//					event.face, formatEnum(event.getResult()),
-//					formatBlock(event.world.getBlock(event.x, event.y, event.z)),
-//					event.world.getBlockMetadata(event.x, event.y, event.z),
-//					formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
-//		//()
-//		float explosionSize = 5.0F;
-//		double posX=event.x;
-//		double posY=event.y;
-//		double posZ=event.z;
-//		
-//        int i = MathHelper.floor_double(posX - (double)explosionSize - 1.0D);
-//        int j = MathHelper.floor_double(posX + (double)explosionSize + 1.0D);
-//        int k = MathHelper.floor_double(posY - (double)explosionSize - 1.0D);
-//        int i2 = MathHelper.floor_double(posY + (double)explosionSize + 1.0D);
-//        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
-//        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
-//        final String SEPARATOR = ",";
-//        List list1 = new ArrayList();
-//        List list2 = new ArrayList();
-//        
-//		List list = event.world.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
-//		list.forEach(entity->{
-//			if(entity instanceof EntityPlayer) {
-//				EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
-//				//System.out.println(entityPlayer.getDisplayName());
-//				list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayName().toLowerCase()).toString());
-//				list2.add(entityPlayer.getDisplayName());
-//			}else {
-//				System.out.println(entity);
-//				/////
-//				//Here's where direction of animal knockback happens
-//			}
-//			
-//		});
-//		StringBuilder csvBuilder = new StringBuilder();
-//		
-//		  for(Object entity1 : list1){
-//		    csvBuilder.append(entity1.toString());
-//		    csvBuilder.append(SEPARATOR);
-//		  }
-//				
-//		  String csv = csvBuilder.toString();
-//		  //System.out.println(csv);
-//		 
-//				
-//		  //Remove last comma
-//		  if(csv.length()>0)
-//		  csv = csv.substring(0, csv.length() - SEPARATOR.length());
-		 
-		  //log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 2,csv,event.entityPlayer.getCurrentEquippedItem().getDisplayName()));
-		  //for(Object entity1 : list2){
-		  //log(getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : FORMAT_ON_EXPERIMENT_EVENT2, DELIMETER_DATA, 3, Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(),event.entityPlayer.getCurrentEquippedItem().getDisplayName()));			  
-		 // }
-//	}
-	
-//	//This is used to check if player is knocking someone back
-//	public static final String FORMAT_ON_EXPERIMENT_EVENT3 = "%2$d%1$s%3$d%1$s%4$d%1$s%5$.1f";
-//	public static final String FORMAT_ON_EXPERIMENT_EVENT3_DEBUG = "ID=%2$d%1$s Experiment_ID=%3$d%1$s Experiment_Type=%4$d%1$s Score=%5$.1f";
-//
-//	@SubscribeEvent
-//	public synchronized static void onExperimentEvent3(final PlayerExperimentEvent3 event) {
-//		log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT3_DEBUG : FORMAT_ON_EXPERIMENT_EVENT3, DELIMETER_DATA, 3, event.id1,event.maxteams1,event.player));
-//	}
 	
 	//This is used to check if player is attacking someone
 	public static final String FORMAT_ON_EXPERIMENT_EVENT6 = "%2$d%1$s%3$s%1$s%4$s";
@@ -1649,16 +1529,12 @@ public class Analytics {
 	    return null;
 
 	}
-	//This is used to check if player is attacking someone
+	//This is used to check if player is attacked by someone
 	public static final String FORMAT_ON_EXPERIMENT_EVENT7 = "%2$d%1$s%3$s%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT7_DEBUG = "ID=%2$d%1$s Player=%3$s%%1$s PlayerName=%4$s";
 		
-
-	
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent7(final PlayerExperimentEvent7 event) {
-		//EntityPlayer a = null;
-		//if(a.getDisplayName().equals(event.playerName2)) {
 		log(getPlayer(event.playerName2), Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT7_DEBUG : FORMAT_ON_EXPERIMENT_EVENT7, DELIMETER_DATA, 7, event.id,Enforcer.whitelist.get(event.playerName2.toLowerCase())));
 		
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
@@ -1689,6 +1565,7 @@ public class Analytics {
 		//}
 		}
 
+	//This is used to record answers from half time GUI questions. If player doesn't enter answers it is not recorded else if player presses no, then null is recorded.
 	public static final String FORMAT_ON_EXPERIMENT_EVENT8 = "%2$d%1$s%3$d%1$s%4$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT8_DEBUG = "ID=%2$d%1$s Exp_ID=%3$d%1$s HalfTimeAnswers=%4$s";
 	
@@ -1726,6 +1603,7 @@ public class Analytics {
 		}
 	}
 
+	//This is used to log team names and players in the team
 	public static final String FORMAT_ON_EXPERIMENT_EVENT9 = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s";
 	public static final String FORMAT_ON_EXPERIMENT_EVENT9_DEBUG = "ID=%2$d%1$s TeamName=%3$s%%1$s TeamName=%4$s%%1$s Player=%5$s";
 	
@@ -1758,4 +1636,36 @@ public class Analytics {
 			e.printStackTrace();
 		}
 	}
+
+		//This is used to log score every second for each player
+
+	@SubscribeEvent
+	public synchronized static void onExperimentEvent10(final PlayerExperimentEvent10 event) {
+		log2(event.teamname, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.score));
+		
+		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
+		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String formattedDate1 = myDateObj.format(myFormatObj1); 
+
+		FileWriter writer = null;
+		try {
+			//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
+			writer = new FileWriter(Map_of_registered_experiments_with_time.get(event.id1),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.write(formattedDate1+log3(event.teamname, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT1_DEBUG : FORMAT_ON_EXPERIMENT_EVENT1, DELIMETER_DATA, 1, event.id1,event.score))+System.getProperty("line.separator"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
 }
