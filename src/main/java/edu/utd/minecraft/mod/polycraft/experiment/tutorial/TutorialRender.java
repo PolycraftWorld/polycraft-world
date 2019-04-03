@@ -61,18 +61,18 @@ public class TutorialRender {
 			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIF/frame_54_delay-0.1s.gif"))
 			};
 	
-	static 			ResourceLocation[] texturesFloatingOut = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_00_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_01_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_02_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_03_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_04_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_05_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_06_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_07_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_08_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_09_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_10_delay-0.1s.gif")),
-			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIFOutGIF/frame_11_delay-0.1s.gif"))			
+	static 			ResourceLocation[] texturesFloatingOut = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_00_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_01_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_02_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_03_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_04_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_05_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_06_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_07_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_08_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_09_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_10_delay-0.1s.gif")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingOutGIF/frame_11_delay-0.1s.gif"))			
 	};
 	
 	static 			ResourceLocation[] texturesSprint = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/SprintGIF/frame_00_delay-0.1s.gif")),
