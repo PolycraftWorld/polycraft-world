@@ -343,7 +343,8 @@ public class ExperimentTutorial{
 					int curblock = (int)blocks[count];
 					
 					if(curblock == 0 || curblock == 76) {
-						world.setBlockToAir(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord);
+						if(!world.isAirBlock(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord))
+							world.setBlockToAir(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord);
 						count++;
 						continue;
 					}

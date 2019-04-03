@@ -217,13 +217,13 @@ public class ItemDevTool extends ItemCustom  {
 	public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
 		
 		if(!player.worldObj.isRemote) {
+			//player.worldObj.scheduleBlockUpdate(X, Y, Z, player.worldObj.getBlock(X, Y, Z), 20);
 			return true;
 		}
 		
 		switch(currentState) {
 			case AreaSelection:
 				player.addChatMessage(new ChatComponentText("pos1 selected: " + X + "::" + Y + "::" + Z));
-				player.worldObj.scheduleBlockUpdate(X, Y, Z, player.worldObj.getBlock(X+1, Y, Z), 20);
 				updateLastBlock = true;
 				tutOptions.pos.xCoord = X;
 				tutOptions.pos.yCoord = Y;
@@ -284,12 +284,10 @@ public class ItemDevTool extends ItemCustom  {
 			EntityPlayer player = (EntityPlayer) entity;
 			if(updateLastBlock) {
 				updateLastBlock = false;
-				player.worldObj.scheduleBlockUpdate(lastBlock[0], lastBlock[1], lastBlock[2], player.worldObj.getBlock(lastBlock[0], lastBlock[1], lastBlock[2]), 5);
+				//player.worldObj.scheduleBlockUpdate(lastBlock[0], lastBlock[1], lastBlock[2], player.worldObj.getBlock(lastBlock[0], lastBlock[1], lastBlock[2]), 5);
+				player.worldObj.markBlockRangeForRenderUpdate(lastBlock[0], lastBlock[1], lastBlock[2], lastBlock[0], lastBlock[1], lastBlock[2]);
 				player.addChatMessage(new ChatComponentText("Update block"));
 			}
-				
-			
-			
 		}
 		super.onUpdate(itemstack, world, entity, par4, par5);
 	}
