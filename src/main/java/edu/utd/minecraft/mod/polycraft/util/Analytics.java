@@ -1333,7 +1333,7 @@ public synchronized static String log3(final String teamname, final Category cat
 	@SubscribeEvent
 	public synchronized static void onExperimentEvent0(final PlayerExperimentEvent0 event) {
 		if(event.playername=="Animals") {
-			log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.playername));
+			log(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,"AI"));
 			LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 			DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			String formattedDate1 = myDateObj.format(myFormatObj1); 
@@ -1347,7 +1347,7 @@ public synchronized static String log3(final String teamname, final Category cat
 				e.printStackTrace();
 			}
 		      try {
-				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,event.playername))+System.getProperty("line.separator"));
+				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT0_DEBUG : FORMAT_ON_EXPERIMENT_EVENT0, DELIMETER_DATA, 0, event.id1,"AI"))+System.getProperty("line.separator"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1473,7 +1473,10 @@ public synchronized static String log3(final String teamname, final Category cat
 		else
 		{
 			list_of_registered_experiments.add(event.id);
-			String a="logs/Experiment "+event.id+" "+formattedDate+".log";
+			File directory = new File("logs/Experiment_logs");
+		    if (! directory.exists())
+		    	directory.mkdir();
+			String a="logs/Experiment_logs/Experiment "+event.id+" "+formattedDate+".log";
 			File file = new File(a);
 			list_of_registered_experiments_with_time.add(a);
 			Map_of_registered_experiments_with_time.put(event.id,a);

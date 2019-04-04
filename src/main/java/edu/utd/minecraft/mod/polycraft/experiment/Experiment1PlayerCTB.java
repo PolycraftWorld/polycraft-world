@@ -495,13 +495,14 @@ public class Experiment1PlayerCTB extends Experiment{
 			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
 				if(team.getName().equals("Animals")) {
-					PlayerExperimentEvent10 event = new PlayerExperimentEvent10(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", this.scoreboard.getScores().get(i));
+					PlayerExperimentEvent10 event = new PlayerExperimentEvent10(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
 					Analytics.onExperimentEvent10(event);
 				}
+				else {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-					
-					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
+					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
 					Analytics.onExperimentEvent1(event);
+					}
 				}
 				
 				
@@ -539,15 +540,15 @@ public class Experiment1PlayerCTB extends Experiment{
 //			else if(tickCount % 600 == 0) {
 //				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
 //					if(tickCount < this.halfTimeTicks) {
-//						player.addChatMessage(new ChatComponentText("Seconds until half-time: Â§a" + (this.halfTimeTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
 //					}else {
-//					player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+//					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}else if(maxTicks-tickCount < 600) {
 //				if(tickCount % 60 == 0) {
 //					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-//						player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}
