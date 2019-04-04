@@ -75,7 +75,6 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.passive.EntityChicken;
@@ -655,8 +654,9 @@ public abstract class Enforcer {
 					Action.DestroyBlock,
 					event.world.getChunkFromBlockCoords(event.x, event.z));
 			//If player holding devtool, cancel event
-			if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) {
-				event.setCanceled(true);
+			if(event.entityPlayer.getHeldItem() != null) {
+				if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
+					event.setCanceled(true);
 			}
 			break;
 		case RIGHT_CLICK_AIR:
