@@ -196,6 +196,8 @@ public class TutorialFeature implements ITutorialFeature{
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_BLEND);
 		}
+		
+		TutorialRender.renderLoadingScreen(entity);
 	}
 
 	public TutorialFeatureType getFeatureType() {

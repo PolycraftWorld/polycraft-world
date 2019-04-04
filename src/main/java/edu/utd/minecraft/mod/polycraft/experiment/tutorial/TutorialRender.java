@@ -346,6 +346,44 @@ public class TutorialRender {
 	 }
 	
 	
+	public static void renderLoadingScreen(Entity player)
+	 {
+		 
+		 float scale =.50F;
+
+		 int i=((player.ticksExisted)%20);
+		 // GL11.glPushMatrix();
+		 if(i<=2)
+		 {
+			 i=0;
+		 }
+		 else if(i==3)
+		 {
+			 i=1;
+		 }
+		 else if(i<=5)
+		 {
+			 i=0;
+		 }
+		 else
+		 {
+			 i=1;
+		 }
+
+		 push(scale);
+		 mc.ingameGUI.drawRect(0, 0, mc.displayWidth, mc.displayHeight, 0xFF000000);
+		 pop();
+		 
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesWASD[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
+		 pop();
+		 
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	
 	public static void renderTutorialFloatOut(Entity player)
 	 {
 		 

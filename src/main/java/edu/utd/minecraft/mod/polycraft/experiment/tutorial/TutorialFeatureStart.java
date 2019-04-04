@@ -14,6 +14,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -89,6 +90,12 @@ public class TutorialFeatureStart extends TutorialFeature{
 
 	public void setLookDir(Vec3 lookDir) {
 		this.lookDir = lookDir;
+	}
+	
+	
+	@Override
+	public void render(Entity entity) {
+		TutorialRender.renderLoadingScreen(entity);
 	}
 	
 	@Override

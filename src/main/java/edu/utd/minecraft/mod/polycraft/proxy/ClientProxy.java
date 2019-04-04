@@ -490,7 +490,11 @@ public class ClientProxy extends CommonProxy {
 	
 
 	 
-	 
+	@SubscribeEvent
+	public void onRenderGui(RenderGameOverlayEvent.Post event) {
+		Entity entity = Minecraft.getMinecraft().renderViewEntity;
+		//TutorialRender.renderLoadingScreen(entity);
+	}
 	
 
 	@SubscribeEvent
