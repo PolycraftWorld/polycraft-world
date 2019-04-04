@@ -197,7 +197,6 @@ public class TutorialFeature implements ITutorialFeature{
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 		
-		TutorialRender.renderLoadingScreen(entity);
 	}
 
 	public TutorialFeatureType getFeatureType() {
