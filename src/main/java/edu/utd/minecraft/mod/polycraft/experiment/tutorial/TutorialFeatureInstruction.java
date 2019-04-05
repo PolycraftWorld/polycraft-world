@@ -49,10 +49,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case CRAFT_FKB:
 			break;
 		case INVENTORY:
+			super.onServerTickUpdate(exp);
 			break;
 		case JUMP:
 			break;
 		case KBB:
+			super.onServerTickUpdate(exp);
 			break;
 		case MOUSE:
 			break;
@@ -76,10 +78,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case CRAFT_FKB:
 			break;
 		case INVENTORY:
+			super.render(entity);
+			TutorialRender.renderTutorialAccessInventory(entity);
 			break;
 		case JUMP:
 			break;
 		case KBB:
+			super.render(entity);
+			TutorialRender.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE:
 			break;
