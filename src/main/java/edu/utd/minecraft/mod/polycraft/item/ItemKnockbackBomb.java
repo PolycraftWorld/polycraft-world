@@ -194,7 +194,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			  running_experiments=ExperimentManager.getRunningExperiments();
 			  for (Integer experiment_instance : running_experiments) {
 				  if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
-					  Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,player.getCurrentEquippedItem().getDisplayName()));
+					  Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,Analytics.formatItemStackName(player.getCurrentEquippedItem())));
 					  LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 						DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 						String formattedDate1 = myDateObj.format(myFormatObj1); 
@@ -208,7 +208,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 							e.printStackTrace();
 						}
 					      try {
-							writer.write(formattedDate1+Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,player.getCurrentEquippedItem().getDisplayName()))+System.getProperty("line.separator"));
+							writer.write(formattedDate1+Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,Analytics.formatItemStackName(player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

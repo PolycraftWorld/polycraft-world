@@ -182,7 +182,7 @@ public class Analytics {
 		return debug ? value.toString() : String.valueOf(value.ordinal());
 	}
 
-	private String formatItemStackName(final ItemStack item) {
+	public static String formatItemStackName(final ItemStack item) {
 		return debug ? (item == null ? "n/a" : item.getDisplayName()) : (item == null ? "" : item.getUnlocalizedName());
 	}
 
@@ -1164,14 +1164,14 @@ public synchronized static String log3(final String teamname, final Category cat
 		else
 		{
 			log(event.entityPlayer, Category.PlayerAttackEntity, String.format(debug ? FORMAT_ATTACK_ENTITY_DEBUG : FORMAT_ATTACK_ENTITY, DELIMETER_DATA,
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), event.target.getClass().getSimpleName(),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 		 List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
 		  
 		for (Integer experiment_instance : running_experiments) {  
 			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(event.entityPlayer.getDisplayName())){
 				log(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,experiment_instance,
-						formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
+						formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), event.target.getClass().getSimpleName(),
 						(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 				LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 				DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -1187,7 +1187,7 @@ public synchronized static String log3(final String teamname, final Category cat
 				}
 			      try {
 					writer.write(formattedDate1+log1(event.entityPlayer, Category.PlayerExperimentEvent0, String.format(debug ? FORMAT_ON_EXPERIMENT_EVENT4_DEBUG : FORMAT_ON_EXPERIMENT_EVENT4, DELIMETER_DATA,4,experiment_instance,
-							formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), formatEntity(event.target),
+							formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), event.target.getClass().getSimpleName(),
 							(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ))+System.getProperty("line.separator"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

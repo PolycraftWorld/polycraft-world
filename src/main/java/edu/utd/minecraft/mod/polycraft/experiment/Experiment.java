@@ -263,8 +263,6 @@ public abstract class Experiment {
 				//team.getPlayers()
 				team.getPlayers().add(player.getDisplayName());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
-				
-				System.out.println(Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString()+"Player is added to experiment"+id);
 
 				PlayerExperimentEvent6 event = new PlayerExperimentEvent6(id,(EntityPlayer)player);
 				Analytics.onExperimentEvent6(event);
