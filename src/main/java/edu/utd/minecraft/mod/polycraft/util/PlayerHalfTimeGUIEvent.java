@@ -4,15 +4,15 @@ import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PlayerExperimentEvent8 extends Event{
+public class PlayerHalfTimeGUIEvent extends Event{
 
 	public String playername;
-	public String answers_string;
+	public String Halftime_GUI_answers;
 
-	public PlayerExperimentEvent8(String playername, String answers_string) {
+	public PlayerHalfTimeGUIEvent(String playername, String Halftime_GUI_answers) {
 		// TODO Auto-generated constructor stub
 		super();
 		this.playername=playername;
-		this.answers_string=answers_string;
+		this.Halftime_GUI_answers=Halftime_GUI_answers;
 	}
 }

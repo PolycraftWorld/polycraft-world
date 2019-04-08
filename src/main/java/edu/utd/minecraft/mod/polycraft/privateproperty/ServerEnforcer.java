@@ -61,7 +61,7 @@ import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent8;
+import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 
@@ -233,8 +233,8 @@ public class ServerEnforcer extends Enforcer {
 						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
 						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
 						String half_time_Answers = String.join(",", half_time_Answers1);
-						PlayerExperimentEvent8 event1 = new PlayerExperimentEvent8(halftimeAnswers[0],half_time_Answers);
-						Analytics.onExperimentEvent8(event1);
+						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
+						Analytics.onHalfTimeGUIEvent(event1);
 						break;
 					default:
 						break;

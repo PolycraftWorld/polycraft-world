@@ -26,8 +26,10 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent0;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerTeamScoreEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -317,13 +319,11 @@ public class ExperimentFlatCTB extends Experiment{
 			int i=0;
 			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
+				PlayerTeamScoreEvent event1 = new PlayerTeamScoreEvent(this.id,team.getName(),scoreboard.getTeamScores().get(team));
+				Analytics.onTeamScoreEvent(event1);
 				for(EntityPlayer player: team.getPlayersAsEntity()) {
-					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, this.scoreboard.getScores().get(i));
-					edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent1(event);
-					//System.out.println("This is list of all running experiments" + edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.getRunningExperiments().toString());
-					if(player.isUsingItem()) {
-						System.out.println(player.isUsingItem());
-					}	
+					ScoreEvent event = new ScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
+					Analytics.onScoreEvent(event);	
 				}
 				i=i+1;
 			}
@@ -450,11 +450,13 @@ public class ExperimentFlatCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
-					
+					/**
+					 * Record which players have won.
+					 */
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
-						PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
-						edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
+						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+						edu.utd.minecraft.mod.polycraft.util.Analytics.onTeamWon(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 					}

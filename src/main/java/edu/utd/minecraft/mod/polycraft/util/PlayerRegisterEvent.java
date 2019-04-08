@@ -16,16 +16,16 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 
-public class PlayerExperimentEvent7 extends Event{
+public class PlayerRegisterEvent extends Event{
 	
 	public int id=0;
-	public String playerName2;
+	public EntityPlayer player;
 	
-	public PlayerExperimentEvent7(int id, String playerName2) {
+	public PlayerRegisterEvent(int id, EntityPlayer player) {
 		// TODO Auto-generated constructor stub
 		super();
 		this.id=id;
-		this.playerName2=playerName2;
+		this.player=player;
 	}
 }
 
