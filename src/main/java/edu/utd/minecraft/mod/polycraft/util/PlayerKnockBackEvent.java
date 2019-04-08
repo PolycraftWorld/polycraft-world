@@ -7,6 +7,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import cpw.mods.fml.common.eventhandler.Cancelable;
@@ -16,18 +18,17 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 
-public class PlayerExperimentEvent9 extends Event{
+public class PlayerKnockBackEvent extends Event{
 	
-	public EntityPlayer player;
-	String TeamName;
-	int id;
+	public static EntityPlayer player = null;
+	String knocked_list;
 	
-	public PlayerExperimentEvent9(int id, String TeamName, EntityPlayer player) {
-		// TODO Auto-generated constructor stub
-		super();
-		this.id=id;
-		this.TeamName=TeamName;
-		this.player=player;
-	}
+	public PlayerKnockBackEvent(EntityPlayer player,String knocked_list)
+    {
+    	super();
+        this.player=player;
+        this.knocked_list=knocked_list;
+    }
+	
 }
 

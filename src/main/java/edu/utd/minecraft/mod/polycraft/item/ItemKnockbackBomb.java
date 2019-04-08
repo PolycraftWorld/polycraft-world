@@ -17,8 +17,10 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent2;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerKnockBackEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerKnockedBackEvent;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 import net.minecraft.client.Minecraft;
@@ -171,9 +173,6 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			});
 			  list3.addAll(list1);
 			  list3.addAll(list2);
-			  //System.out.println("player list:"+list1);
-			  //System.out.println("Animal list:"+list2);
-			  //System.out.println(list3);
 			
 			StringBuilder csvBuilder = new StringBuilder();
 			
@@ -183,79 +182,27 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			  }
 					
 			  String csv = csvBuilder.toString();
-			  //System.out.println(csv);
-			 
 					
 			  //Remove last comma
 			  if(csv.length()>0)
 			  csv = csv.substring(0, csv.length() - SEPARATOR.length());
 			
-			  //System.out.println(csv);
-			  running_experiments=ExperimentManager.getRunningExperiments();
-			  for (Integer experiment_instance : running_experiments) {
-				  if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
-					  Analytics.log(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,Analytics.formatItemStackName(player.getCurrentEquippedItem())));
-					  LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
-						DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-						String formattedDate1 = myDateObj.format(myFormatObj1); 
+			  /**
+			   * Add 23-2 and 23-3 events on KBB and FKBB in experiment log files as well as in polycraft-analytics log file. 
+			  */
+			  PlayerKnockBackEvent event = new PlayerKnockBackEvent(player,csv);
+			  Analytics.onKnockBackEvent(event);
+			  
+			  /**
+			   * Add 23-2 and 23-3 events on KBB and FKBB in experiment log files as well as in polycraft-analytics log file. 
+			  */
+			  for(Object entity1 : list4){
+				  PlayerKnockedBackEvent event1 = new PlayerKnockedBackEvent(entity1.toString(),player);
+				  Analytics.onKnockedBackEvent(event1);
 
-						FileWriter writer = null;
-						try {
-							//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
-							writer = new FileWriter(Analytics.Map_of_registered_experiments_with_time.get(experiment_instance),true);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					      try {
-							writer.write(formattedDate1+Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,experiment_instance,csv,Analytics.formatItemStackName(player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					      try {
-							writer.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-//						Analytics.log1(player, Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 2,csv,player.getCurrentEquippedItem().getDisplayName()));
-						for(Object entity1 : list4){
-							  Analytics.log(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3,experiment_instance, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
-//							  LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
-								//DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-								//String formattedDate1 = myDateObj.format(myFormatObj1); 
-
-								//FileWriter writer = null;
-								try {
-									//File file=new File(Map_of_registered_experiments_with_time.get(event.id));
-									writer = new FileWriter(Analytics.Map_of_registered_experiments_with_time.get(experiment_instance),true);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							      try {
-									writer.write(formattedDate1+Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3,experiment_instance, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()))+System.getProperty("line.separator"));
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							      try {
-									writer.close();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							  //Analytics.log1(Analytics.getPlayer(entity1.toString()), Category.PlayerExperimentEvent0, String.format(Analytics.debug ? Analytics.FORMAT_ON_EXPERIMENT_EVENT2_DEBUG : Analytics.FORMAT_ON_EXPERIMENT_EVENT2, Analytics.DELIMETER_DATA, 3, Enforcer.whitelist.get(player.getDisplayName().toLowerCase()).toString(),player.getCurrentEquippedItem().getDisplayName()));
-						}
-				  }
 				}
-				  //System.out.println("The running experiment is:"+running_experiments);
-			
 			return list;
-
 		}
-		
 		return null;
 	}
 	

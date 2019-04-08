@@ -34,9 +34,10 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent0;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent1;
-import edu.utd.minecraft.mod.polycraft.util.PlayerExperimentEvent10;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerAIScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerTeamScoreEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -495,13 +496,15 @@ public class Experiment1PlayerCTB extends Experiment{
 			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
 				if(team.getName().equals("Animals")) {
-					PlayerExperimentEvent10 event = new PlayerExperimentEvent10(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
-					Analytics.onExperimentEvent10(event);
+					PlayerAIScoreEvent event = new PlayerAIScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
+					Analytics.onAIScoreEvent(event);
 				}
 				else {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-					PlayerExperimentEvent1 event = new PlayerExperimentEvent1(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
-					Analytics.onExperimentEvent1(event);
+					ScoreEvent event = new ScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
+					Analytics.onScoreEvent(event);
+					PlayerTeamScoreEvent event1 = new PlayerTeamScoreEvent(this.id,team.getName(),scoreboard.getTeamScores().get(team));
+					Analytics.onTeamScoreEvent(event1);
 					}
 				}
 				
@@ -648,15 +651,15 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
-						PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
-						edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
+						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+						Analytics.onTeamWon(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 						for(Team team: scoreboard.getTeams()) {
 							//Don't put armor on Animals
 							if(team.getName().equals(this.animalTeam.getName()) || team == null) {
-								PlayerExperimentEvent0 event = new PlayerExperimentEvent0(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,team.getName());
-								edu.utd.minecraft.mod.polycraft.util.Analytics.onExperimentEvent0(event);
+								TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,team.getName());
+								Analytics.onTeamWon(event);
 								}
 							}
 					}
