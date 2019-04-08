@@ -464,7 +464,9 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
-					
+					/**
+					 * Record which players have won.
+					 */
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
 								TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());

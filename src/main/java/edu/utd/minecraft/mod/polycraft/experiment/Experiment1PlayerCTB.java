@@ -496,13 +496,22 @@ public class Experiment1PlayerCTB extends Experiment{
 			if(tickCount%20==0) {
 			for(Team team: scoreboard.getTeams()) {
 				if(team.getName().equals("Animals")) {
+					/**
+					 * Records AI score every second
+					 */
 					PlayerAIScoreEvent event = new PlayerAIScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
 					Analytics.onAIScoreEvent(event);
 				}
 				else {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						/**
+						 * Record Player Score every second
+						 */
 					ScoreEvent event = new ScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
 					Analytics.onScoreEvent(event);
+					/**
+					 * Record Team Scores every second
+					 */
 					PlayerTeamScoreEvent event1 = new PlayerTeamScoreEvent(this.id,team.getName(),scoreboard.getTeamScores().get(team));
 					Analytics.onTeamScoreEvent(event1);
 					}
@@ -649,6 +658,9 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
+					/**
+					 * Record if player/AI has won.
+					 */
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
 						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());

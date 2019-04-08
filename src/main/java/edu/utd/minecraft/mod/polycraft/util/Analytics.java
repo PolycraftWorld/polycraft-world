@@ -860,7 +860,7 @@ public class Analytics {
 	}
 	
 	/**
-	 * 
+	 * 23-11 records Team Scores every second
 	 */
 	@SubscribeEvent
 	public synchronized static void onTeamScoreEvent(final PlayerTeamScoreEvent event) {
