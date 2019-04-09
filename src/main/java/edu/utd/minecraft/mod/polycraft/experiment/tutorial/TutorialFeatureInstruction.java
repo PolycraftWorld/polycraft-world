@@ -15,6 +15,7 @@ import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -36,7 +37,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	@SideOnly(Side.CLIENT)
 	GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType> btnInstructionType;
 	
-	public boolean mouseDone;
+	public boolean sprintDoorOpen;
 	
 	public TutorialFeatureInstruction() {}
 	
@@ -44,10 +45,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		super(name, pos, Color.MAGENTA);
 		this.type = type;
 		this.featureType = TutorialFeatureType.INSTRUCTION;
-		if(type==InstructionType.MOUSE)
-		{
-			mouseDone=false;
-		}
+		this.sprintDoorOpen=false;
 	}
 	
 	@Override
@@ -73,6 +71,37 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case SPRINT:
 			super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.isSprinting()) 
+					{
+						int x=(int) exp.pos1.xCoord;
+						int z=(int) exp.pos1.zCoord;
+						int xOffset=-37;
+						int zOffset=-14;
+						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.air);
+						exp.world.setBlock(x+xOffset, 110, z+zOffset, Blocks.air);
+						exp.world.setBlock(x+xOffset, 109, z+zOffset+1, Blocks.air);
+						exp.world.setBlock(x+xOffset, 110, z+zOffset+1, Blocks.air);
+						//MovePistons or Turn Blocks to Air (Relative to Map position)
+						this.sprintDoorOpen=true;
+					}
+					else
+					{
+						int x=(int) exp.pos1.xCoord;
+						int z=(int) exp.pos1.zCoord;
+						int xOffset=-37;
+						int zOffset=-14;
+						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.planks);
+						exp.world.setBlock(x+xOffset, 110, z+zOffset, Blocks.planks);
+						exp.world.setBlock(x+xOffset, 109, z+zOffset+1, Blocks.planks);
+						exp.world.setBlock(x+xOffset, 110, z+zOffset+1, Blocks.planks);
+						//MovePistons or Turn Air to Blocks
+						this.sprintDoorOpen=false;
+					}
+				}
+			}
 			break;
 		case WASD:
 			super.onServerTickUpdate(exp);
@@ -116,7 +145,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.renderTutorialSprint(entity);
+			//TutorialRender.renderTutorialSprint(entity);
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
