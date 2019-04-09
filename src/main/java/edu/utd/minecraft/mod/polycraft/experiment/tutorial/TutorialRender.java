@@ -278,12 +278,18 @@ public class TutorialRender {
 				};
 	
 
-	public  TutorialRender(EntityPlayer player)
+	 public static boolean started =false;
+	 
+	public static  void start(Entity entity)
 	{
-		this.turnRight=false;
-		this.turnLeft=false;
-		this.prevAng=player.rotationYaw;
-		this.render=true;
+		if(!started)
+		{
+			started=true;
+			turnRight=false;
+			turnLeft=false;
+			prevAng=entity.rotationYaw;
+			render=true;
+		}
 	}
 	
 	public static void push(float scale)
@@ -540,7 +546,10 @@ public class TutorialRender {
 	 
 	 public static boolean renderTutorialTurnRight(Entity player)
 	 {
-		 
+		 if(turnRight)
+		 {
+			 return turnRight;
+		 }
 
 		 float scale =.125F;
 		 int tick=player.ticksExisted%20;
@@ -587,14 +596,18 @@ public class TutorialRender {
 		 
 		 if((ang-prevAng)>=85)
 		 {
-			 return true;
+			 turnRight=true;
+			 //return true;
 		 }
-		 return false;
+		 return turnRight;
 	 }
 	 
 	 public static boolean renderTutorialTurnLeft(Entity player)
 	 {
-
+		 if(turnLeft)
+		 {
+			 return turnLeft;
+		 }
 	
 		 float scale =.125F;
 		 int tick=player.ticksExisted%20;
@@ -638,9 +651,10 @@ public class TutorialRender {
 	     pop();
 	     if((prevAng-ang)>=85)
 	     {
-	    	 return true;
+	    	 turnLeft=true;
+	    	 //return true;
 	     }
-	     return false;
+	     return turnLeft;
 	 }
 	 
 	 public static void renderTutorialUseKBB(Entity player)

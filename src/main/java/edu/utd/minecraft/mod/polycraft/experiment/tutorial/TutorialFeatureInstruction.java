@@ -21,6 +21,7 @@ import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
 	public enum InstructionType{
+		NULL,
 		MOUSE,
 		WASD,
 		JUMP,
@@ -35,32 +36,43 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	@SideOnly(Side.CLIENT)
 	GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType> btnInstructionType;
 	
+	public boolean mouseDone;
+	
 	public TutorialFeatureInstruction() {}
 	
 	public TutorialFeatureInstruction(String name, Vec3 pos, InstructionType type){
 		super(name, pos, Color.MAGENTA);
 		this.type = type;
 		this.featureType = TutorialFeatureType.INSTRUCTION;
+		if(type==InstructionType.MOUSE)
+		{
+			mouseDone=false;
+		}
 	}
 	
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		switch(type) {
 		case CRAFT_FKB:
+			super.onServerTickUpdate(exp);
 			break;
 		case INVENTORY:
 			super.onServerTickUpdate(exp);
 			break;
 		case JUMP:
+			super.onServerTickUpdate(exp);
 			break;
 		case KBB:
 			super.onServerTickUpdate(exp);
 			break;
 		case MOUSE:
+			//super.onServerTickUpdate(exp);
 			break;
 		case PLACE_BLOCKS:
+			super.onServerTickUpdate(exp);
 			break;
 		case SPRINT:
+			super.onServerTickUpdate(exp);
 			break;
 		case WASD:
 			super.onServerTickUpdate(exp);
@@ -88,10 +100,23 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			TutorialRender.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE:
+			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.start(entity);
+			if(TutorialRender.renderTutorialTurnLeft(entity))
+			{
+				if(TutorialRender.renderTutorialTurnRight(entity))
+				{
+					this.canProceed=true;
+					this.isDone=true;
+					this.isDirty=true;
+				}
+			}
 			break;
 		case PLACE_BLOCKS:
 			break;
 		case SPRINT:
+			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.renderTutorialSprint(entity);
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
