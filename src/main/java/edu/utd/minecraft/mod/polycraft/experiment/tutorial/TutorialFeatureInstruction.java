@@ -21,7 +21,6 @@ import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
 	public enum InstructionType{
-		NULL,
 		MOUSE,
 		WASD,
 		JUMP,
