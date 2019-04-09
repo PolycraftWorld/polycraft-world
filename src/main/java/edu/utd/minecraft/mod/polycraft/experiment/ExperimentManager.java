@@ -18,11 +18,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerRegisterEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExitEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -254,6 +258,7 @@ public class ExperimentManager {
 				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
 				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
 				this.registerExperiment(nextID, newExpFlat2x);
+				
 			}
 			
 			if(!areAnyActive) {
@@ -383,6 +388,9 @@ public class ExperimentManager {
 				for(String play : ex.scoreboard.getPlayers()) {
 					if(play.equals(playerName)) {
 						removePlayerFromExperiment(ex.id, playerName);
+						PlayerExitEvent event = new PlayerExitEvent(ex.id,playerName);
+						edu.utd.minecraft.mod.polycraft.util.Analytics.onPlayerExitEvent(event);
+						System.out.println(playerName+"Player is removed from experiment"+ex.id);
 						//sendExperimentUpdates();
 						return true;
 					}
@@ -427,7 +435,7 @@ public class ExperimentManager {
 	}
 	
 	//@SideOnly(Side.SERVER)
-	static void sendExperimentUpdates() {
+	public static void sendExperimentUpdates() {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
 		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);
@@ -551,12 +559,23 @@ public class ExperimentManager {
 	 */
 	public static int getRunningExperiment() {
 		for(int expID: experiments.keySet()) {
-			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running)
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
 			{
 				return expID;
 			}
 		}
 		return -1;
+	}
+	
+	public static List<Integer> getRunningExperiments() {
+		List<Integer> list_of_running_experiments=new ArrayList<Integer>();  
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
+			{
+				list_of_running_experiments.add(expID);
+			}
+		}
+		return list_of_running_experiments;
 	}
 	
 	/**

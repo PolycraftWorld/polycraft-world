@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -26,11 +27,17 @@ import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftCow;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftExperimentCow;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerAIScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerTeamScoreEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -49,6 +56,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
@@ -61,6 +69,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 
 public class Experiment1PlayerCTB extends Experiment{
 	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
@@ -189,6 +198,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		if(currentState == State.WaitingToStart) {
 			super.start(); //send the updates
 			PolycraftMod.logger.debug("Experiment " + this.id +" Start Generation");
+			//System.out.println("this file is created"+this.id);
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
@@ -234,6 +244,21 @@ public class Experiment1PlayerCTB extends Experiment{
 		double zOff = Math.random()*6 + z - 3;	//3 block radius
 		player.setPositionAndUpdate(xOff + .5, y, zOff + .5);
 	}
+	
+//	@SubscribeEvent
+//	public synchronized void onPlayerUseKnockBack(PlayerUseItemEvent event)
+//	{
+//		System.out.println(event.item);
+//		System.out.println(event.duration);
+//		if(event.item.getDisplayName()=="Knockback Bomb")
+//		{
+//			//log
+//			//event.entityPlayer.displ
+//			ItemKnockbackBomb bomb =((ItemKnockbackBomb)event.item.getItem());
+//			List list =bomb.list;
+//			System.out.println(list);
+//		}
+//	}
 	
 	@Override
 	public void onServerTickUpdate() {
@@ -467,6 +492,36 @@ public class Experiment1PlayerCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
+			int i=0;
+			if(tickCount%20==0) {
+			for(Team team: scoreboard.getTeams()) {
+				if(team.getName().equals("Animals")) {
+					/**
+					 * Records AI score every second
+					 */
+					PlayerAIScoreEvent event = new PlayerAIScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
+					Analytics.onAIScoreEvent(event);
+
+				}
+				else {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						/**
+						 * Record Player Score every second
+						 */
+					ScoreEvent event = new ScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
+					Analytics.onScoreEvent(event);
+					/**
+					 * Record Team Scores every second
+					 */
+					PlayerTeamScoreEvent event1 = new PlayerTeamScoreEvent(this.id,team.getName(),scoreboard.getTeamScores().get(team));
+					Analytics.onTeamScoreEvent(event1);
+					}
+				}
+				
+				
+				i=i+1;
+			}
+			}
 //			for(Float score : this.scoreboard.getScores()) {
 //				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
 //					currentState = State.Ending;
@@ -474,6 +529,9 @@ public class Experiment1PlayerCTB extends Experiment{
 //				}
 //			}
 			if(tickCount == this.halfTimeTicks) {
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
+				}
 				currentState = State.Halftime;
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
@@ -500,15 +558,15 @@ public class Experiment1PlayerCTB extends Experiment{
 //			else if(tickCount % 600 == 0) {
 //				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
 //					if(tickCount < this.halfTimeTicks) {
-//						player.addChatMessage(new ChatComponentText("Seconds until half-time: Â§a" + (this.halfTimeTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
 //					}else {
-//					player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+//					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}else if(maxTicks-tickCount < 600) {
 //				if(tickCount % 60 == 0) {
 //					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-//						player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}
@@ -525,8 +583,12 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					
+					
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
+					
+					
 					
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));
@@ -542,6 +604,8 @@ public class Experiment1PlayerCTB extends Experiment{
 			if(this.halfTimeTicksRemaining == 0) {
 				currentState = State.Running;
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+					//Close Hafltime GUI for users that have not completed it
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("CloseHaltimeGUI", (EntityPlayerMP) player);
 					player.addChatComponentMessage(new ChatComponentText("Game resuming... "));
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					
@@ -606,10 +670,22 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
+					/**
+					 * Record if player/AI has won.
+					 */
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
+						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
+						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+						Analytics.onTeamWon(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
+						for(Team team: scoreboard.getTeams()) {
+							//Don't put armor on Animals
+							if(team.getName().equals(this.animalTeam.getName()) || team == null) {
+								TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,team.getName());
+								Analytics.onTeamWon(event);
+								}
+							}
 					}
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}
@@ -639,6 +715,12 @@ public class Experiment1PlayerCTB extends Experiment{
 		}
 	}
 	
+	private boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int posX, int posY, int posZ, int i,
+			float f, float g, float h) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	/**
 	 * TODO: Move all of this to the ClientScoreboard and ServerScoreboard class. Contain the data in the CustomScoreboard class
 	 * 
@@ -900,7 +982,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					base.setRendering(true);
 				tickCount++;
 			}
-		}	
+		}
 	}
 	
 	//TEMOC:

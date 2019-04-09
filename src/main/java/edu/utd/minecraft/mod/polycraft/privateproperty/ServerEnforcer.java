@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -57,8 +58,10 @@ import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
+import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 
@@ -226,6 +229,13 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+					case Halftime: // decompress json array with halftime answers
+						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
+						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
+						String half_time_Answers = String.join(",", half_time_Answers1);
+						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
+						Analytics.onHalfTimeGUIEvent(event1);
+						break;
 					default:
 						break;
 					}
@@ -243,6 +253,10 @@ public class ServerEnforcer extends Enforcer {
 			
 		}catch (Exception e) {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+			//Flush the buffer. and reset for the next message coming from the client.
+			pendingDataPacketType = DataPacketType.Unknown;
+			pendingDataPacketTypeMetadata = 0; 
+			pendingDataPacketsBuffer = null;
 		}
 	}
 	
@@ -453,15 +467,21 @@ public class ServerEnforcer extends Enforcer {
 				}
 			}
 			return;
-		}
-		
+		}		
 		if(jsonStringToSend == null) { //case: Player is leaving dimension
 			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
 			System.out.println("Player is Leaving Dimension");
 			
-		} else { //case: Bounding Box updates for client rendering
+		} 
+		else if(jsonStringToSend.compareTo("OpenHaltimeGUI") == 0) { //case:  open halftime gui
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.OpenHalftimeGUI.ordinal(), "OpenHalftimeGUI");
+		}		
+		else if(jsonStringToSend.compareTo("CloseHaltimeGUI") == 0) { //case:  close halftime gui
+			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.CloseHalftimeGUI.ordinal(), "CloseHalftimeGUI");
+		}		
+		else { //case: Bounding Box updates for client rendering
 			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
-		}
+		}		
 		if(packetList != null) {
 			for (final FMLProxyPacket packet : packetList) {
 				netChannel.sendTo(packet, player);

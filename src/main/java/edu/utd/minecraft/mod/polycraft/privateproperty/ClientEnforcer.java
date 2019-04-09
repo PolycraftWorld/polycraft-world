@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -41,7 +42,9 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServer
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -49,6 +52,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
@@ -101,6 +105,7 @@ public class ClientEnforcer extends Enforcer {
 	}
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
+	private static boolean showTutorialRender = false;
 	private static boolean showPrivateProperty = false;
 	private static boolean showAIControls = false;
 	private static int behaviorAI=1;
@@ -253,8 +258,16 @@ public class ClientEnforcer extends Enforcer {
 							case ReceiveExperimentsList:
 								System.out.println("Receiving experiments list...");
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								//
 								break;
-							
+							case OpenHalftimeGUI:
+								System.out.println("Opening Halftime GUI");
+								PolycraftMod.proxy.openHalftimeGui(this.client.thePlayer);
+								break;
+							case CloseHalftimeGUI:
+								System.out.println("Closing Halftime GUI");
+								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
+								break;
 							default:
 							break;
 						}
@@ -322,6 +335,15 @@ public class ClientEnforcer extends Enforcer {
 	
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
+	}
+	
+	
+	public void openHalftimeGui() {
+		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));		
+	}
+	public void closeHalftimeGui() {
+		client.displayGuiScreen(null);
+		client.setIngameFocus();
 	}
 	
 	@Deprecated
@@ -584,6 +606,22 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+
+	public void sendGuiHalftimeUpdate(String[] answers) {
+		// TODO Auto-generated method stub
+		FMLProxyPacket[] packetList = null;
+		int flag = 1;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Halftime, flag, gson.toJson(answers));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i + " Halftime Answers");
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
 		if (tick.phase == Phase.END && client.theWorld != null) {
@@ -717,6 +755,17 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+	
+	public static boolean getShowTutorialRender() {
+		
+		return showTutorialRender;
+	}
+	
+	public static void setShowTutorialRender(boolean render) {
+		
+		showTutorialRender=render;
+	}
+	
 	public static boolean getShowPP() {
 		
 		return showPrivateProperty;
@@ -726,4 +775,6 @@ public class ClientEnforcer extends Enforcer {
 		
 		return showAIControls;
 	}
+
+	
 }

@@ -1,6 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import java.awt.Color;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +15,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerKnockBackEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerKnockedBackEvent;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -26,6 +40,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public class ItemKnockbackBomb  extends ItemCustom{
 	
@@ -36,7 +51,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	private int maxRenderTicks = 60;
 	protected Color color = Color.RED;
 	private float lineWidth = 8;
-	
+	public static List list=null;
 	
 	public ItemKnockbackBomb(CustomObject config) {
 		super(config);
@@ -81,11 +96,13 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		
 		knockback( world, player);
 		itemstack.stackSize--;
+		//boolean used=true;
 		return super.onItemRightClick(itemstack, world, player);
 	}
 	
 	protected List knockback(World world, EntityPlayer player) {
 		if(!world.isRemote) {
+			//System.out.println("This is player dimension:"+player.dimension);
 			double x = -1*Math.sin(Math.toRadians(player.rotationYaw%360));
 			double y = 1;
 			double z = Math.cos(Math.toRadians(player.rotationYaw%360));
@@ -99,7 +116,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			double posX = x*distance + player.posX;
 			double posY = player.posY;
 			double posZ = z*distance + player.posZ;
-			System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.rotationYaw%360  );
+			//System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.rotationYaw%360  );
 			//player.setVelocity(x, y, z);
 			EntityItem splosion = new EntityItem(world,posX, posY, posZ, new ItemStack(this,1,0));
 			world.spawnEntityInWorld(splosion);
@@ -112,11 +129,19 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	        int i2 = MathHelper.floor_double(posY + (double)explosionSize + 1.0D);
 	        int l = MathHelper.floor_double(posZ - (double)explosionSize - 1.0D);
 	        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
+	        List list1 = new ArrayList();
+	        List list2 = new ArrayList();
+	        List list3 = new ArrayList();
+	        List list4 = new ArrayList();
+	        final String SEPARATOR = ",";
+	        List<Integer> running_experiments;
 	        
-			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+			list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
 			list.forEach(entity->{
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
+					list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayName().toLowerCase()).toString());
+					list4.add(entityPlayer.getDisplayName());
 					
 					//This commented if statement makes it so you can't knockback yourself on the corners of the bomb box
 					//if(entityPlayer.getDistance(posX, posY, posZ)<radius) {
@@ -136,19 +161,48 @@ public class ItemKnockbackBomb  extends ItemCustom{
 
 				}else {
 					double theta = 0 - Math.atan2(posX - ((Entity)entity).posX, posZ - ((Entity)entity).posZ);
+					//EntityPlayer entity1 = ((EntityPlayer)entity);
+					list2.add(((Entity)entity).getClass().getSimpleName());
 					
 					//Here's where direction of animal knockback happens
 					((Entity)entity).motionX = 2*Math.sin(theta);
 					((Entity)entity).motionY = y;
 					((Entity)entity).motionZ = -2*Math.cos(theta);
 				}
-				
+					
 			});
+			  list3.addAll(list1);
+			  list3.addAll(list2);
 			
-			return list;
+			StringBuilder csvBuilder = new StringBuilder();
+			
+			  for(Object entity1 : list3){
+			    csvBuilder.append(entity1.toString());
+			    csvBuilder.append(SEPARATOR);
+			  }
+					
+			  String csv = csvBuilder.toString();
+					
+			  //Remove last comma
+			  if(csv.length()>0)
+			  csv = csv.substring(0, csv.length() - SEPARATOR.length());
+			
+			  /**
+			   * Add 23-2 and 23-3 events on KBB and FKBB in experiment log files as well as in polycraft-analytics log file. 
+			  */
+			  PlayerKnockBackEvent event = new PlayerKnockBackEvent(player,csv);
+			  Analytics.onKnockBackEvent(event);
+			  
+			  /**
+			   * Add 23-2 and 23-3 events on KBB and FKBB in experiment log files as well as in polycraft-analytics log file. 
+			  */
+			  for(Object entity1 : list4){
+				  PlayerKnockedBackEvent event1 = new PlayerKnockedBackEvent(entity1.toString(),player);
+				  Analytics.onKnockedBackEvent(event1);
 
+				}
+			return list;
 		}
-		
 		return null;
 	}
 	
