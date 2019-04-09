@@ -24,7 +24,8 @@ public class GuiPolyButtonCycle<E extends Enum<E>> extends GuiButton{
 	public void nextOption() {
 		if (option.ordinal() == option.getDeclaringClass().getEnumConstants().length - 1)
 	    	option = option.getDeclaringClass().getEnumConstants()[0];
-		option = option.getDeclaringClass().getEnumConstants()[option.ordinal() + 1];
+		else
+			option = option.getDeclaringClass().getEnumConstants()[option.ordinal() + 1];
 		this.displayString = prefix + ": " + option.name();
 	}
 
