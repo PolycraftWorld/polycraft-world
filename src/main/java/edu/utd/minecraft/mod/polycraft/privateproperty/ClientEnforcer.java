@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
@@ -21,6 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -48,6 +50,8 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
@@ -90,6 +94,9 @@ public class ClientEnforcer extends Enforcer {
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
+	public double prevAng;
+	public static boolean turnRight=false;
+	public static boolean turnLeft=false;
 	public ArrayList<FeatureBase> baseList = new ArrayList<FeatureBase>();
 	
 	private final Minecraft client;
@@ -240,7 +247,6 @@ public class ClientEnforcer extends Enforcer {
 						}
 						break;
 					case Challenge:
-						System.out.println("Packet Received");
 						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
 						switch(tempMetaData) {
 							case BoundingBoxUpdate:
@@ -269,6 +275,26 @@ public class ClientEnforcer extends Enforcer {
 								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
 								break;
 							default:
+							break;
+						}
+						break;
+					case Tutorial:
+						TutorialManager.PacketMeta tutorialMetaData = TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata];
+						System.out.println("Tutorial Packet Received");
+						switch(tutorialMetaData) {
+						case Features:	//Experiment Features update
+							PolycraftMod.logger.debug("Receiving experiment features...");
+							this.updateTutorialFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case ActiveFeatures:	//Experiment Active Features update
+							PolycraftMod.logger.debug("Receiving experiment active features...");
+							this.updateTutorialActiveFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case Feature:	//Experiment single featuer update
+							PolycraftMod.logger.debug("Receiving experiment feature...");
+							this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						default:
 							break;
 						}
 						break;
@@ -554,6 +580,30 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 	
+	private void updateTutorialFeatures(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
+	}
+	
+	private void updateTutorialFeature(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+	}
+	
+	private void updateTutorialActiveFeatures(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentActiveFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
+	}
+	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
 
 		receivingPlayer.addChatMessage(new ChatComponentText("<" + username + "> " + message));
@@ -577,6 +627,23 @@ public class ClientEnforcer extends Enforcer {
 			return true;
 
 		return false;
+	}
+	
+	/**
+	 * Send Tutorial updates to server
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if(packets != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packets) {
+				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
 	}
 	
 	public void sendExperimentSelectionUpdate(String jsonData, int metadata) {

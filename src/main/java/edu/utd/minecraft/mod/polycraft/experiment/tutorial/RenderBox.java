@@ -45,6 +45,14 @@ public class RenderBox {
 		init(y, h, warnTicks);
 	}
 	
+	public RenderBox(Vec3 pos1, Vec3 pos2, int warnTicks) {
+		this.x1 = Math.min(pos1.xCoord, pos2.xCoord);
+		this.z1 = Math.min(pos1.zCoord, pos2.zCoord);
+		this.x2 = Math.max(pos1.xCoord + 1, pos2.xCoord + 1);
+		this.z2 = Math.max(pos1.zCoord + 1, pos2.zCoord + 1);
+		init(Math.min(pos1.yCoord, pos2.yCoord), Math.abs(pos1.yCoord-pos2.yCoord) + 1, warnTicks);
+	}
+	
 	public RenderBox(double x1, double z1, double x2, double z2, double y, double h, int warnTicks, String name) {
 		this.x1 = Math.min(x1, x2);
 		this.z1 = Math.min(z1, z2);
@@ -115,6 +123,9 @@ public class RenderBox {
 			horizWidth *= ((range2 - allDist) / range2);
 		if (horizDist > 0)
 			vertWidth *= ((range2 - horizDist) / range2);
+		
+		horizWidth = 4F;
+		vertWidth = 4F;
 		
 		float alphaLines, alphaFace;
 		if(maxBreathingTicks == 0) {

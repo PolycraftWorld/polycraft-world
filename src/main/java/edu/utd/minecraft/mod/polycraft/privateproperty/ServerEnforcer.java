@@ -1,69 +1,47 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
-import io.netty.buffer.Unpooled;
-
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import scala.util.parsing.json.JSON;
-import scala.util.parsing.json.JSONArray;
-import scala.util.parsing.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
-import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
-import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
-import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import io.netty.buffer.Unpooled;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
@@ -236,6 +214,21 @@ public class ServerEnforcer extends Enforcer {
 						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
 						Analytics.onHalfTimeGUIEvent(event1);
 						break;
+					case Tutorial:
+						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
+							case Features:	//Experiment Features update
+								PolycraftMod.logger.debug("Why is client sending Features List?");
+								break;
+							case ActiveFeatures:	//Experiment Active Features update
+								PolycraftMod.logger.debug("Why is client sending Active Features List?");
+								break;
+							case Feature:	//Experiment single featuer update
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							default:
+								break;
+						}
 					default:
 						break;
 					}
@@ -259,6 +252,14 @@ public class ServerEnforcer extends Enforcer {
 			pendingDataPacketsBuffer = null;
 		}
 	}
+	
+	
+	private void updateTutorialFeature(String decompressedJson) {
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+		
 	
 	/**
 	 * Client sends updated parameters inside an ExperimentParticipantMetaData object that contains Client ID and experiment ID.
@@ -488,6 +489,29 @@ public class ServerEnforcer extends Enforcer {
 			}				
 		}
 	}
+	
+	
+	/**
+	 * Send Tutorial updates to players in the game
+	 * @param jsonStringToSend if Null, then it is case 2 else, it's case 3
+	 * @param player if Null, then it is case 1 else, it's either case 2 or 3.
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				} else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Send an updated list of experiments to all players in dimension 0
 	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 

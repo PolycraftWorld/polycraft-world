@@ -18,24 +18,36 @@ import com.google.gson.reflect.TypeToken;
 
 import cpw.mods.fml.client.config.GuiCheckBox;
 import cpw.mods.fml.client.config.GuiSlider;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import scala.swing.event.MouseReleased;
 
+@SideOnly(Side.CLIENT)
 public class GuiDevTool extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
@@ -44,22 +56,23 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     
     private static final String __OBFID = "CL_00000691";
     private EntityPlayer player;
-    private ItemDevTool devTool;
+    private ItemDevTool devTool;	//devTool is where all working data is stored
     private int x, y, z;
     private int screenID; //current screen
     private static final String TITLE = "Polycraft DEV TOOL";
-    private ArrayList<GuiButton> experimentsListButton = new ArrayList<GuiButton>();
-    private ArrayList<GuiButton> configButtons = new ArrayList<GuiButton>();
     private final int screenContainerWidth = 230;
     private final int screenContainerHeight = 130;
     private boolean wasClicking; 
-    private int buttonCount = 1;
+    public int buttonCount = 1;
     private int buttonheight = 20;
     private int button_padding_y = 4;
     private float scroll = 0.0F; // Amount of scroll, from 0.0 to 1.0 inclusive.
 	private boolean scrolling; // True if the scroll bar is being dragged.
 	private int ylines; // The number of buttons/lines the text space can accommodate.
 	private int extraLines; // How many buttons/lines are overflowing from the alloted text space.
+	private long lastEventNanoseconds = 0;	//lastEventNanoseconds used to prevent the same mouse click causing multiple actions
+	private TutorialFeature featureToAdd;
+	private TutorialFeature.TutorialFeatureType featureToAddType;
 	
 	public final int SCROLL_HEIGHT = 151;
 	private final int X_PAD = 10;
@@ -70,6 +83,15 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	private final int Y_PAD = 8;
 	private int titleHeight;
 	
+	//Navigation buttons
+	GuiButton btnBack, btnNext;
+    private ArrayList<GuiButton> experimentsListButton = new ArrayList<GuiButton>();
+    private ArrayList<GuiButton> configButtons = new ArrayList<GuiButton>();
+    //Add Step buttons
+    GuiButton btnAddStepType;
+    public ArrayList<GuiTextField> textFields = new ArrayList<GuiTextField>();
+    public ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
+    public ArrayList<GuiPolyButtonCycle> options = new ArrayList<GuiPolyButtonCycle>();
 	private GuiDevToolStep guiSteps;
 	
     
@@ -77,7 +99,8 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     		DEV_MAIN,
     		DEV_STEPS,
     		DEV_DETAIL,
-    		DEV_STEP_CONFIG
+    		DEV_STEP_EDIT,
+    		DEV_ADD_STEP
     }
     
     private String userFeedbackText = "";
@@ -121,21 +144,41 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     }
     
     /**
+     * Add button to button list
+     */
+    public void addBtn(GuiButton btn) {
+    	this.buttonList.add(btn);
+    }
+    
+    /**
      * Adds the buttons (and other controls) to the screen in question. This is run every time the screen 
      * needs to be rendered.
      */
     public void initGui()
     {
-    	if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
-    		screenSwitcher = this.screenChange(WhichScreen.DEV_MAIN);
-    		
-    		//return;
-    	}else {
-	        this.resetButtonList();
-	       // System.out.println(ExperimentManager.INSTANCE.clientCurrentExperiment);
-	        buildDevMainButtonList();
-	        this.buttonList.addAll(this.experimentsListButton);
-    	}
+    	
+    	guiSteps = new GuiDevToolStep(this, this.mc, devTool);
+
+    	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
+        int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
+    	//Navigation buttons
+        btnBack = new GuiButton(1, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Close");
+        btnNext = new GuiButton(2, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "next");
+        //add step buttons
+        btnAddStepType = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, "Type: " + TutorialFeatureType.GENERIC.name());
+        
+        for (ItemDevTool.StateEnum option : ItemDevTool.StateEnum.values()) {
+    		//Add config button:
+    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, option.name());
+        	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
+        	y_pos+=(buttonheight + button_padding_y);
+        	experimentsListButton.add(tempConfig);
+        	//experimentsListButton.add(temp);
+        }
+        
+        //start off in the right screen and run this before displaying
+        screenSwitcher = this.screenChange(WhichScreen.DEV_MAIN);
+        
    }
     
     /**
@@ -150,6 +193,17 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	super.keyTyped(c, p);
     	if(screenSwitcher == WhichScreen.DEV_STEPS)
     			this.guiSteps.keyTyped(c, p);
+    	else if(screenSwitcher == WhichScreen.DEV_ADD_STEP) {
+    		for(GuiTextField textField: textFields) {
+    			if(textField.isFocused())
+    				textField.textboxKeyTyped(c, p);
+    		}
+    	}else if(screenSwitcher == WhichScreen.DEV_STEP_EDIT) {
+    		for(GuiTextField textField: textFields) {
+    			if(textField.isFocused())
+    				textField.textboxKeyTyped(c, p);
+    		}
+    	}
     }
     
    
@@ -165,12 +219,13 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	@Override
     protected void mouseClicked(int x, int y, int mouseEvent) {
     	
-    	if(this.guiSteps != null) {
+    	if(this.guiSteps != null && screenSwitcher == WhichScreen.DEV_STEPS) {
     		this.guiSteps.func_148179_a(x, y, mouseEvent);
     	}
-    	
+    	for(GuiTextField textField: textFields) {
+    		textField.mouseClicked(x, y, mouseEvent);
+    	}
     	super.mouseClicked(x, y, mouseEvent);
-       
     }
     
     /**
@@ -206,112 +261,105 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      */
     protected void actionPerformed(GuiButton button) {
     	super.actionPerformed(button);
+    	
+    	if(Mouse.getEventNanoseconds()==lastEventNanoseconds) {
+    		return;
+    	}else {
+    		lastEventNanoseconds = Mouse.getEventNanoseconds();
+    	}
+    	
     	//int x_pos = (this.width - 248) / 2 + 10;
     	//player.addChatMessage(new ChatComponentText("Selected Experiment: " + button.displayString));
     	//userFeedbackText = "You are in queue for: " + button.displayString;
     	int btnID = button.id;
-    	WhichScreen newScreen = null;
-    	if(button.id > 10000) {
-    		for(GuiButton gbtn : experimentsListButton) {
-    			if(gbtn.id == btnID) {
-    	    		String expID = gbtn.displayString;
-    	    		for(ItemDevTool.StateEnum state: ItemDevTool.StateEnum.values()) {
-    	    			if(expID.equals(state.name())) {
-    	    				devTool.setState(expID);
-    	    			}
-    	    		}
-    				return;
-    			}
-    		}
-
-    	}
     	
     	
     	switch(btnID) {
-    	case 1000:
-    		//user selected "back"
-    		this.screenSwitcher = this.screenChange(WhichScreen.DEV_MAIN);
-    		break;
     	case 1:
-    		userFeedbackText = "";
-    		
-    		if(ExperimentManager.INSTANCE.clientCurrentExperiment>0) {
-    			this.sendExperimentUpdateToServer(ExperimentManager.INSTANCE.clientCurrentExperiment, false);
-    			
-    			ExperimentManager.INSTANCE.clientCurrentExperiment = -1; //set this to -1
+    		//user pressed back button
+    		switch(screenSwitcher) {
+    		case DEV_MAIN:			//close the screen
+    			this.exitGuiScreen();
+    			break;
+    		case DEV_STEPS:			//go back to main screen
+    			screenSwitcher = screenChange(WhichScreen.DEV_MAIN);
+    			break;
+    		case DEV_ADD_STEP: 		//go back to steps screen
+    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			break;
+    		case DEV_STEP_EDIT:	//go back to steps screen
+    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			break;
+    		default:
+    			break;
     		}
-    	
-    		//store the current joined experiment in clientCurrentExperiment
-    		//reset all experiment buttons
-    		for(GuiButton gbtn : experimentsListButton) {
-    			if(!gbtn.enabled) {
-        			gbtn.enabled=true;
-    			}
-    		}
-    		button.enabled=false;
     		break;
     	case 2:
-    		//Open the Experiment Config Screen:
-    		this.screenSwitcher = this.screenChange(WhichScreen.DEV_STEPS);
+    		//user pressed next button
+    		switch(screenSwitcher) {
+    		case DEV_MAIN:			//go to steps screen
+    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			break;
+    		case DEV_STEPS:			//go to add step screen
+    			screenSwitcher = screenChange(WhichScreen.DEV_ADD_STEP);
+    			break;
+    		case DEV_ADD_STEP: 		//save the new step and go back to steps screen
+    			featureToAdd.updateValues();
+    			devTool.addFeature(featureToAdd);
+    			guiSteps.updateSteps();
+				devTool.updateRenderBoxes();
+    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			break;
+    		case DEV_STEP_EDIT:	//save the step and go back to steps screen
+    			featureToAdd.updateValues();
+				devTool.updateRenderBoxes();
+    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			break;
+    		default:
+    			break;
+    		}
     		break;
     	default:
-    		//Open the Experiment Detail Screen:
-    		String expID = button.displayString;
-    		
-    		if(expID.toLowerCase().equals("x"))
+    		switch(screenSwitcher) {
+    		case DEV_MAIN:			//close the screen
+    			if(button.id > 10000) {
+    	    		for(GuiButton gbtn : experimentsListButton) {
+    	    			if(gbtn.id == btnID) {
+    	    	    		String expID = gbtn.displayString;
+    	    	    		for(ItemDevTool.StateEnum state: ItemDevTool.StateEnum.values()) {
+    	    	    			if(expID.equals(state.name())) {
+    	    	    				devTool.setState(expID);
+    	    	    			}
+    	    	    		}
+    	    				return;
+    	    			}
+    	    		}
+    	    	}
     			break;
-			String[] expList = expID.split("\\s");
-			try {
-				this.screenSwitcher = this.screenChange(WhichScreen.DEV_DETAIL);
-			}catch(NumberFormatException e) {
-				e.printStackTrace();
-				System.out.println("unable to parse string - did we change how we render buttons?");
-			}
+    		case DEV_STEPS:			//Dev_steps buttons
+    			//do nothing?
+    			break;
+    		case DEV_ADD_STEP: 		//go back to steps screen
+    			if(button.id == btnAddStepType.id) {
+    	    		featureToAddType = featureToAddType.next();
+    	    		btnAddStepType.displayString = "Type: " + featureToAddType.name();
+    	    		buildAddStepInputs(true);
+    	    	}
+    			if(button instanceof GuiPolyButtonCycle<?>) {
+    				((GuiPolyButtonCycle<?>)button).nextOption();
+    				if(featureToAdd instanceof TutorialFeatureInstruction)
+    					((TutorialFeatureInstruction) featureToAdd).setType((TutorialFeatureInstruction.InstructionType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
+    			}
+    			break;
+    		case DEV_STEP_EDIT:	//go back to steps screen
+    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			break;
+    		default:
+    			break;
+    		}
 			break;
     	}
     }
-
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        super.updateScreen();
-    }
-
-    /**
-     * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
-     */
-    public void drawDefaultBackground()
-    {
-        super.drawDefaultBackground();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(background_image);
-        //PolycraftMod.logger.debug("Screen width & Height: " + this.width + " " + this.height);
-        //System.out.println("Screen width & Height: " + this.width + " " + this.height);
-        int i = (this.width - 248) / 2;
-        int j = (this.height - 184) / 2; //old was 200
-       // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
-        this.drawTexturedModalRect(i, j, 0, 0, 248, 184);
-    }
-    
-    /**
-	 * Handles mouse wheel scrolling.
-	 */
-	public void handleMouseInput() {
-		
-		int i = Mouse.getEventDWheel();
-		if (i != 0 && extraLines > 0) {
-			scroll -= Math.signum(i) / (float) extraLines;
-			if (this.scroll < 0.0F) {
-				this.scroll = 0.0F;
-			} else if (this.scroll > 1.0F) {
-				this.scroll = 1.0F;
-			}
-		}
-		super.handleMouseInput();
-	}
 
     /**
      * Draws the screen and all the components in it.
@@ -320,29 +368,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     {
     	
     	// Get the position of the top left pixel.
-    			int x_start = (this.width - 248) / 2;
-    			int y_start = (this.height - 184) / 2;
+		int x_start = (this.width - 248) / 2;
+		int y_start = (this.height - 184) / 2;
     	
-//    	if(screenSwitcher.equals(WhichScreen.ExperimentConfig)) {
-//    		//TODO: move this to its original place
-//    		//Need to keep this up here, otherwise the mouse code interferes with scrolling.
-//    		this.drawDefaultBackground();
-//    		this.guiConfig.drawScreen(mouseX, mouseY, otherValue);
-//    		drawExperimentConfigScreen();
-//    		
-//    		
-//    		this.scroll = this.guiConfig.amountScrolled/this.guiConfig.func_148135_f();
-//    		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-//    		this.mc.getTextureManager().bindTexture(SCROLL_TAB);
-//    		// The scroll bar sits at (226, 8) but the border is 1 wide so the scroll
-//    		// indicator really starts at (227, 9).
-//    		this.drawTexturedModalRect(x_start + 227, y_start + 9 + (int) (this.scroll * SCROLL_HEIGHT),
-//    				232 + (extraLines > 0 ? 0 : 12), 0, 12, 15);
-//    		
-//    		//this.drawDefaultBackground();
-//    		super.drawScreen(mouseX, mouseY, otherValue);
-//    		return;
-//    	}
 		
 		// Operate the scroll bar.
 		boolean flag = Mouse.isButtonDown(0);
@@ -381,10 +409,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         		this.guiSteps.drawScreenHandler(mouseX, mouseY, otherValue, this.scroll);
         		drawDevStepsScreen();
         		break;
-        	case DEV_DETAIL:
-        		drawExperimentInstructionScreen();
+        	case DEV_ADD_STEP:
+        		drawAddStepScreen();
         		break;
-        	case DEV_STEP_CONFIG:
+        	case DEV_STEP_EDIT:
+        		drawEditStepScreen();
         		break;
         	default:
         		//Do Nothing
@@ -400,152 +429,245 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
         super.drawScreen(mouseX, mouseY, otherValue);
     }
     
-    private void drawDevStepsScreen() {
+    public void drawDevMainScreen() {
+		//the below "magic numbers" come from Minecraft's Demo files.
+	    //I'm using them unless there's better ideas in the future
+	    //TODO: understand why these are the correct magic numbers
+	    int x_pos = (this.width - 248) / 2 + 10;
+	    int y_pos = (this.height - 190) / 2 + 8;
+	    this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+	    y_pos += 12;
+	    this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH, y_pos + this.Y_HEIGHT, 0x50A0A0A0);
+	    this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
+	    y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
+	    
+	    for(GuiButton btn: (List<GuiButton>)buttonList) {
+	    	if(btn.id > 10000) {
+	    		if(btn.displayString.equalsIgnoreCase(devTool.getState().toString()))
+	    			btn.enabled = false;
+	    		else
+	    			btn.enabled = true;
+	    	}
+	    }
+	    
+	}
+
+	private void drawDevStepsScreen() {
     	//get top left of screen with padding.
     	int x_pos = (this.width - 248) / 2 + 10;
         int y_pos = (this.height - 192) / 2 + Y_PAD;
+        this.drawRect(x_pos - 7, y_pos - 1, x_pos + this.X_WIDTH +7, y_pos + 20, 0xFFc5c5c5);
         this.fontRendererObj.drawString(I18n.format("Dev Steps", new Object[0]),
         		x_pos, y_pos, 0xFFFFFFFF);
-        y_pos += 12;
-        //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
+        y_pos += 20;
+        this.drawRect(x_pos - 7, y_pos + this.Y_HEIGHT, x_pos + this.X_WIDTH +7, y_pos + this.Y_HEIGHT + 30, 0xFFc5c5c5);
         
-		
 	}
 
-    public void drawDevMainScreen() {
-    	//the below "magic numbers" come from Minecraft's Demo files.
-        //I'm using them unless there's better ideas in the future
-        //TODO: understand why these are the correct magic numbers
-        int x_pos = (this.width - 248) / 2 + 10;
-        int y_pos = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
-        y_pos += 12;
-        //GameSettings gamesettings = this.mc.gameSettings;
-        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH, y_pos + this.Y_HEIGHT, 0x50A0A0A0);
-        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
-        y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
-        //draw the Number of Players in Each experiment:
-        
-        //TODO: Draw this list based on the scroll position.
-        
-        for (ExperimentManager.ExperimentListMetaData emd : ExperimentManager.metadata) {
-        	if(emd.isAvailable()) {
-	        	this.fontRendererObj.drawString(I18n.format("" + emd.currentPlayers + "/" + emd.playersNeeded, new Object[0]), x_pos+ X_WIDTH -2 * X_PAD, y_pos, 0xFFFFFFFF);
-	        	//GuiButton temp = new GuiButton(buttonCount++, x_pos+10, y_pos, screenContainerWidth-50, buttonheight, emd.expName);
-	        	y_pos+=((int)(buttonheight*1) + button_padding_y);
-	        	//experimentsButtonList.add(temp);
-        	}
-        }
-    }
-    
-    public void drawExperimentInstructionScreen() {
+    public void drawAddStepScreen() {
     	//this.resetButtonList();
     	int x_pos = (this.width - 248) / 2 + 10;
         int y_pos = (this.height - 190) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format("Experiment Instructions: Experiment ", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        this.fontRendererObj.drawString(I18n.format("Add new Step", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
         y_pos += 12;
         //draw background rectangle
         int offset = 2;
         int offset2 = 1;
-        this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH + 2, y_pos + this.Y_HEIGHT + 2 - 3*Y_PAD, Format.getIntegerFromColor(new Color(128, 128, 128)));
-        this.drawRect(x_pos - offset2, y_pos - offset2, x_pos + this.X_WIDTH + offset2, y_pos + this.Y_HEIGHT + offset2 - 3*Y_PAD, Format.getIntegerFromColor(new Color(200, 200, 200)));
+        this.drawRect(x_pos - 2, y_pos - offset +24, x_pos + this.X_WIDTH + 2, y_pos + this.Y_HEIGHT + 2, Format.getIntegerFromColor(new Color(128, 128, 128)));
+        this.drawRect(x_pos - offset2, y_pos - offset2 +24, x_pos + this.X_WIDTH + offset2, y_pos + this.Y_HEIGHT + offset2, Format.getIntegerFromColor(new Color(200, 200, 200)));
         //IMPORTANT: user feedback text goes here
         this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
-
+        
+        for(GuiTextField textField: textFields) {
+        	textField.drawTextBox();
+        }
+        for(GuiPolyLabel label: labels) {
+        	label.drawLabel();
+        }
         
     }
     
-    /**
-     * Get the list of experiments from the client-side experiments manager and display for the user
-     * This class builds the button list and the initGui() function takes these values, 
-     * adds the buttons to the GUI's button list, and renders them
-     * This always contains builds an updated, synced view, but requires the player to close & re-open to see any updates.
-     * TODO: add on the GUI the number of players waiting in each experiment room. 
-     */
-    private void buildDevMainButtonList() {
-    	//GuiButton Constructor: id, xPos, yPos, width, height, displayString
-    	//GuiButton Constructor with default Width/Height of 200/20: id, xPos, yPos, displayString
-    	int x_pos = (this.width - 248) / 2 + 10; //magic numbers from Minecraft. 
-        int y_pos = (this.height - 190) / 2 + 8 + 12; //magic numbers from minecraft
-        //+12 to account for the Title Text!
-        GuiButton btnCancel = new GuiButton(1, x_pos, y_pos + Y_HEIGHT + Y_PAD, (int)(X_WIDTH * .49), buttonheight, "Close");
-        GuiButton btnSteps = new GuiButton(2, x_pos + (int)(X_WIDTH * .5), y_pos + Y_HEIGHT + Y_PAD, (int)(X_WIDTH * .5), buttonheight, "Steps");
+    public void drawEditStepScreen() {
+    	//this.resetButtonList();
+    	int x_pos = (this.width - 248) / 2 + 10;
+        int y_pos = (this.height - 190) / 2 + 8;
+        this.fontRendererObj.drawString(I18n.format("Edit Step", new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        //draw background rectangle
+        int offset = 2;
+        int offset2 = 1;
+        this.drawRect(x_pos - 2, y_pos - offset +24, x_pos + this.X_WIDTH + 2, y_pos + this.Y_HEIGHT + 2, Format.getIntegerFromColor(new Color(128, 128, 128)));
+        this.drawRect(x_pos - offset2, y_pos - offset2 +24, x_pos + this.X_WIDTH + offset2, y_pos + this.Y_HEIGHT + offset2, Format.getIntegerFromColor(new Color(200, 200, 200)));
+        //IMPORTANT: user feedback text goes here
+        this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
         
-    	experimentsListButton.add(btnCancel);
-    	experimentsListButton.add(btnSteps);
-        
-        for (ItemDevTool.StateEnum option : ItemDevTool.StateEnum.values()) {
-    		//Add config button:
-    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos, (int) (X_WIDTH * .9), buttonheight, option.name());
-        	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
-        	y_pos+=(buttonheight + button_padding_y);
-        	experimentsListButton.add(tempConfig);
-        	//experimentsListButton.add(temp);
-        	
+        for(GuiTextField textField: textFields) {
+        	textField.drawTextBox();
         }
+        for(GuiPolyLabel label: labels) {
+        	label.drawLabel();
+        }
+        
     }
+    
     
     private WhichScreen screenChange(WhichScreen newScreen) {
     	//On screen change, we need to update the button list and have it re-drawn.
+
+		this.resetButtonList();
     	switch(newScreen) {
     		case DEV_MAIN:
-    			this.resetButtonList();
+    			btnBack.displayString = "Close";
+    			btnNext.displayString = "Steps";
     			this.buttonList.addAll(this.experimentsListButton);
-    			ylines = (Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT;
+    			ylines = (Y_HEIGHT - titleHeight) / (this.buttonheight+5);
+    			extraLines = this.experimentsListButton.size() - ylines;
     			break;
     		case DEV_STEPS:
-    			this.resetButtonList();
-    			guiSteps = new GuiDevToolStep(this, this.mc, devTool);
-    			int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
-    	        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
-    			
-    			GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
-    	        GuiButton addStep = new GuiButton(3000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Add Step");
-    	        this.buttonList.add(back);
-    	        this.buttonList.add(addStep);
+    			btnBack.displayString = "< Back";
+    			btnNext.displayString = "Add Step";
+    			ylines = (Y_HEIGHT - titleHeight) / (14);
+    			extraLines = guiSteps.getSize() - ylines;
     			break;
-    		case DEV_DETAIL:
-    			//this.experimentsListButton.clear();
-    			this.resetButtonList();
-    			this.buttonList.addAll(getExperimentsDetailButtons());
-    			ylines =(Y_HEIGHT - titleHeight) / this.fontRendererObj.FONT_HEIGHT;
+    		case DEV_ADD_STEP:
+    			btnBack.displayString = "< Back";
+    			btnNext.displayString = "Add Step";
+    			featureToAddType = TutorialFeatureType.GENERIC;
+    			buildAddStepInputs(true);
     			break;
-    		case DEV_STEP_CONFIG:
-    			this.experimentsListButton.clear();
-    			this.buildDevMainButtonList();
-    			//this.resetButtonList();
-    			this.resetButtonList();
-    			this.buttonList.addAll(this.experimentsListButton);
-    			ylines = Math.min(this.experimentsListButton.size(), (Y_HEIGHT - titleHeight) / (this.button_padding_y + this.buttonheight));
-    			extraLines = this.experimentsListButton.size() - ylines;
+    		case DEV_STEP_EDIT:
+    			btnBack.displayString = "< Back";
+    			btnNext.displayString = "Save Step";
+    			buildAddStepInputs(false);
     			break;
     		default:
     			break;
     	}
+    	this.buttonList.add(btnBack);
+        this.buttonList.add(btnNext);
     	this.scroll = 0F;
     	return newScreen;
     }
     
-    
-    private ArrayList<GuiButton> getExperimentsDetailButtons(){
-    	ArrayList<GuiButton> buttons = new ArrayList<GuiButton>();
-    	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
-        int y_pos = (this.height - 190) / 2 + this.titleHeight; //magic numbers from minecraft
-        //+12 to account for the Title Text!
-        GuiButton back = new GuiButton(1000, x_pos, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "< Back");
-        GuiButton join = new GuiButton(2000, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Join Experiment");
-        
-        if(this.player.dimension == 8) {
-        	back.enabled = false;
-        }
-        buttons.add(back);
-        buttons.add(join);
-        
-        return buttons;
-    
+    public void editFeature(TutorialFeature feature) {
+    	featureToAdd = feature;
+    	featureToAddType = feature.getFeatureType();
+    	screenSwitcher = screenChange(WhichScreen.DEV_STEP_EDIT);
     }
     
+    
     /**
+     * Build all buttons and textboxes for adding specific steps/features
+     * */
+    private void buildAddStepInputs(boolean addNew) {
+    	boolean initRun = true;	//We only want to run some code once, because main buttons are already added when this runs the first time
+    	if(screenSwitcher != WhichScreen.DEV_ADD_STEP) {
+    		initRun = true;
+    	}
+		if(initRun)
+    		this.resetButtonList();
+		this.textFields.clear();
+		this.labels.clear();
+		GuiTextField textFieldtemp;
+		GuiPolyNumField numFieldtemp;
+		int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
+        int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
+		switch(featureToAddType) {
+		case GENERIC:
+	        if(addNew)
+	        	featureToAdd = new TutorialFeature("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),Color.GREEN);
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case GUIDE:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureGuide("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case INSTRUCTION:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureInstruction("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		TutorialFeatureInstruction.InstructionType.WASD);
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case START:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureStart("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		Vec3.createVectorHelper(player.rotationPitch % 360, player.rotationYaw % 360, 0));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		default:
+			break;
+			
+		}
+		
+		if(initRun) {
+			this.buttonList.add(btnBack);
+	        this.buttonList.add(btnNext);
+		}
+		
+		btnAddStepType.enabled=addNew;
+				
+        this.buttonList.add(btnAddStepType);
+    	this.scroll = 0F;
+    	
+    }
+
+    
+    /**
+	 * Handles mouse wheel scrolling.
+	 */
+	public void handleMouseInput() {
+		
+		int i = Mouse.getEventDWheel();
+		if (i != 0 && extraLines > 0) {
+			scroll -= Math.signum(i) / ((float) extraLines*8);
+			if (this.scroll < 0.0F) {
+				this.scroll = 0.0F;
+			} else if (this.scroll > 1.0F) {
+				this.scroll = 1.0F;
+			}
+		}
+		super.handleMouseInput();
+	}
+
+	/**
+	 * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
+	 */
+	public void drawDefaultBackground()
+	{
+	    super.drawDefaultBackground();
+	    GL11.glEnable(GL11.GL_BLEND);
+	    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	    this.mc.getTextureManager().bindTexture(background_image);
+	    //PolycraftMod.logger.debug("Screen width & Height: " + this.width + " " + this.height);
+	    //System.out.println("Screen width & Height: " + this.width + " " + this.height);
+	    int i = (this.width - 248) / 2;
+	    int j = (this.height - 184) / 2; //old was 200
+	   // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
+	    this.drawTexturedModalRect(i, j, 0, 0, 248, 184);
+	}
+
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
+	public void updateScreen()
+	{
+	    super.updateScreen();
+	}
+	
+	/*
+	 * Getter for fontRenderer
+	 */
+	public FontRenderer getFontRenderer() {
+		return this.fontRendererObj;
+	}
+
+	/**
      * Send a packet to the server requesting for a player to either Join or Withdraw from the queue for 
      * a particular experiment
      * @param experimentID The experiment in question
