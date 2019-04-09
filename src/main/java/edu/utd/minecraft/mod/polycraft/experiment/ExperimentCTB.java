@@ -353,6 +353,11 @@ public class ExperimentCTB extends Experiment{
 					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
 				}
 				currentState = State.Halftime;
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						spawnPlayer((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
+					}
+				}
 			}
 			else if(tickCount >= maxTicks) {
 				
@@ -412,6 +417,14 @@ public class ExperimentCTB extends Experiment{
 				}
 			}
 			
+			
+			if(this.halfTimeTicksRemaining % 20 == 0) {
+				Map.Entry<Team, Float> maxEntry = null;
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+				}
+			}
+			
 			this.halfTimeTicksRemaining--; //use the halfTimeTicksRemaining counter to
 			
 			if(this.halfTimeTicksRemaining == 0) {
@@ -423,9 +436,9 @@ public class ExperimentCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					
 					//After Half-Time, give all players cleats!
-					ItemStack[] armor = player.inventory.armorInventory;
-					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
-					player.inventory.armorInventory = armor;
+//					ItemStack[] armor = player.inventory.armorInventory;
+//					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
+//					player.inventory.armorInventory = armor;
 				}
 			}
 //			else if(this.halfTimeTicksRemaining % 400 == 0) {

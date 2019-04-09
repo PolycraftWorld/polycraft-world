@@ -533,6 +533,11 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
 				}
 				currentState = State.Halftime;
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						spawnPlayer((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
+					}
+				}
 			}
 			else if(tickCount >= maxTicks) {
 				currentState = State.Ending;			
@@ -605,9 +610,9 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					
 					//After Half-Time, give all players cleats!
-					ItemStack[] armor = player.inventory.armorInventory;
-					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
-					player.inventory.armorInventory = armor;
+//					ItemStack[] armor = player.inventory.armorInventory;
+//					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
+//					player.inventory.armorInventory = armor;
 				}
 			}
 			
@@ -626,6 +631,12 @@ public class Experiment1PlayerCTB extends Experiment{
 			
 		}
 		
+		if(this.halfTimeTicksRemaining % 20 == 0) {
+			Map.Entry<Team, Float> maxEntry = null;
+			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+				ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+			}
+		}
 		else if(currentState == State.Ending) {
 			if(!this.hasGameEnded) { //do this once only!
 				this.hasGameEnded = true;
