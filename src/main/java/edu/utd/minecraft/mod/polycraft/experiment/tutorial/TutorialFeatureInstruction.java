@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
@@ -26,6 +27,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		WASD,
 		JUMP,
 		SPRINT,
+		JUMP_SPRINT,
+		FAIL,
 		INVENTORY,
 		PLACE_BLOCKS,
 		KBB,
@@ -37,6 +40,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	GuiPolyButtonCycle<TutorialFeatureInstruction.InstructionType> btnInstructionType;
 	
 	public boolean sprintDoorOpen;
+	public int failCount;
+	public boolean inFail;
 	
 	public TutorialFeatureInstruction() {}
 	
@@ -45,6 +50,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.type = type;
 		this.featureType = TutorialFeatureType.INSTRUCTION;
 		this.sprintDoorOpen=false;
+		this.failCount=0;
+		this.inFail=false;
 	}
 	
 	@Override
@@ -102,6 +109,39 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case JUMP_SPRINT:
+			super.onServerTickUpdate(exp);
+			break;
+		case FAIL:
+			this.canProceed = true;
+			if(!inFail)
+			{
+				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x1-2), Math.min(y1, y2), Math.min(z1, z1-3),
+							Math.max(x1, x2), Math.max(y1, y1+1), Math.max(z1, z2))).contains(player)) {
+						this.inFail=true;				
+					}
+				}
+			}
+			else
+			{
+				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x1-2), Math.min(y1, y2), Math.min(z1, z1-3),
+							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+						this.inFail=false;
+						this.failCount++;
+						player.addChatMessage(new ChatComponentText("You missed your jump "+failCount+" time(s)"));
+						
+					}
+				}
+			}
+			if(failCount>=2)
+			{
+				for(int x=0;x>=-2;x--)
+					for(int z=0;z>=-3;z--)
+						exp.world.setBlock((int)x1+x, (int)y1, (int)z1+z, Blocks.packed_ice);
+			}
+			break;
 		case WASD:
 			super.onServerTickUpdate(exp);
 			break;
@@ -145,6 +185,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
 			//TutorialRender.renderTutorialSprint(entity);
+			break;
+		case JUMP_SPRINT:
+			super.render(entity);
+			break;
+		case FAIL:
+			super.render(entity);
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()

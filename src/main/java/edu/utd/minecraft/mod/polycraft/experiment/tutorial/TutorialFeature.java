@@ -32,7 +32,7 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	// Rendering variables.
 	private float lineWidth = 4; // The width of rendered bounding box lines.
-	private double x1, y1, z1, x2, y2, z2; // The (x, z) coordinates of the northwest and southeast corners.
+	protected double x1, y1, z1, x2, y2, z2; // The (x, z) coordinates of the northwest and southeast corners.
 	private int xRange, yRange, zRange, hRange;
 	private float xSpacing, ySpacing, zSpacing;
 	
