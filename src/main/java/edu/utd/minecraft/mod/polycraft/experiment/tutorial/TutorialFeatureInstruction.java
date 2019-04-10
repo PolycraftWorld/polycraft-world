@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
@@ -29,7 +30,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		SPRINT,
 		JUMP_SPRINT,
 		FAIL,
-		INVENTORY,
+		INVENTORY1,
 		PLACE_BLOCKS,
 		KBB,
 		CRAFT_FKB
@@ -60,8 +61,32 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case CRAFT_FKB:
 			super.onServerTickUpdate(exp);
 			break;
-		case INVENTORY:
-			super.onServerTickUpdate(exp);
+		case INVENTORY1:
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							Item blocks = null;
+							blocks=blocks.getItemFromBlock(Blocks.planks);
+							
+							Item stairs = null;
+							stairs=stairs.getItemFromBlock(Blocks.spruce_stairs);
+							
+							if(player.inventory.hasItem(blocks) && player.inventory.hasItem(stairs))
+							{
+								this.isDone=true;
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("You got the building materials!"));
+							}
+						}
+					}
+				}
+			}
 			break;
 		case JUMP:
 			super.onServerTickUpdate(exp);
@@ -157,9 +182,28 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		switch(type) {
 		case CRAFT_FKB:
 			break;
-		case INVENTORY:
+		case INVENTORY1:
 			super.render(entity);
-			TutorialRender.renderTutorialAccessInventory(entity);
+			EntityPlayer player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							TutorialRender.renderTutorialAccessInventory(entity);
+							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+						}
+					}
+					else
+					{
+						//TutorialRender.renderTutorialOpenChest(entity);
+						//Gui to instruct player to click on the chest
+					}
+				}
 			break;
 		case JUMP:
 			break;
