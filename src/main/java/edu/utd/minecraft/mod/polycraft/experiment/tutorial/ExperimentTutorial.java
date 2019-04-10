@@ -241,7 +241,7 @@ public class ExperimentTutorial{
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), false);
 				}
 				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, remove it from active features
 					activeFeatures.remove(activeFeatures.get(x));
@@ -272,7 +272,7 @@ public class ExperimentTutorial{
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), true);
 				}
 			}
 		}

@@ -155,7 +155,7 @@ public class TutorialManager {
 	}
 	
 	
-	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, World world) {
+	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, boolean isClient) {
 		try {
 			Gson gson = new Gson();
 			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
@@ -165,7 +165,7 @@ public class TutorialManager {
 			
 			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
 			
-			if(Minecraft.getMinecraft().theWorld.isRemote) {
+			if(isClient) {
 				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
 				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
 				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
