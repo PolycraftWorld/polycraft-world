@@ -329,7 +329,7 @@ public class GuiConsent extends GuiScreen {
 			this.mc.displayGuiScreen((GuiScreen) null);
 			this.mc.setIngameFocus();
 			if(this.playTutorial) {
-				// start / teleport to tutorial here
+				//TODO: start / teleport to tutorial here
 			}
 //			if(this.consent) //display experiments list to those who consent. - This is no longer used after tutorial gui implemenation
 //				this.mc.displayGuiScreen(new GuiExperimentList(this.mc.thePlayer));
