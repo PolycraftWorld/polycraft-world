@@ -200,6 +200,13 @@ private final List aliases;
 							
 						}
 					}
+					else if(tool[0].equals("pitch")) {
+
+
+				        ((EntityPlayer) player).addChatComponentMessage(new ChatComponentText(Double.toString(player.rotationPitch)));
+
+						
+					}
 				}
 			}
 		}

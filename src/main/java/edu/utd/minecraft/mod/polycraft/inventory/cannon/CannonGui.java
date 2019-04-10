@@ -320,7 +320,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        this.velocity=Double.parseDouble(velocityText.getText());
 	        this.theta=Double.parseDouble(thetaText.getText());
 	        this.mass=Double.parseDouble(massText.getText());
-	    	PolycraftMod.proxy.sendMessageToServerCannon (x , y, z, velocity, theta, mass);
+	    	PolycraftMod.proxy.sendMessageToServerCannon (x , y, z, velocity, theta, mass,0);
 	    	
 	    		
 	        this.inventory.velocity=Double.parseDouble(velocityText.getText());
