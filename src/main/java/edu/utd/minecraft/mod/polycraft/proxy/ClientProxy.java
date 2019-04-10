@@ -841,12 +841,7 @@ public class ClientProxy extends CommonProxy {
 			}
 			// TODO: replace with boolean if they have or havent done the tutorial.
 			if (true) {
-				// loop 0 - 16777215 and loop forever
 				int color = 16777215;
-//				if((Minecraft.getSystemTime()/20)%40==0) {
-//					color = 0;
-//					client.fontRenderer.drawStringWithShadow("Push X to open the tutorial!",x,y,color);
-//				}
 				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
 			}
 			
