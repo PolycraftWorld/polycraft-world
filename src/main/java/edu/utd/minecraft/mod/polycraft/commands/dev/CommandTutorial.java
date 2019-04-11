@@ -115,7 +115,10 @@ public class CommandTutorial  extends CommandBase{
 			if (args.length > 0)
 			{
 				if (chatCommandTutnew.equalsIgnoreCase(args[0])) {
-					registerNewExperiment(player);
+					if(args.length > 1)
+						registerNewExperiment(player, Boolean.parseBoolean(args[1]));
+					else
+						registerNewExperiment(player, false);
 				} else if (chatCommandTutjoin.equalsIgnoreCase(args[0])) {
 					if(args.length > 1) {
 						joinExperiment(Integer.parseInt(args[1]), player);
@@ -257,13 +260,13 @@ public class CommandTutorial  extends CommandBase{
 	}
 	
 
-	public void registerNewExperiment(EntityPlayer player) {
+	public void registerNewExperiment(EntityPlayer player, boolean genInDim8) {
 		NBTTagCompound nbtData = load();
 		tutOptions.name = "test name";
 		tutOptions.numTeams = 1;
 		tutOptions.teamSize = 1;
 		
-		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, player.worldObj, true);
+		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, genInDim8);
 		TutorialManager.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
 
 		player.addChatMessage(new ChatComponentText("Added New Experiment, ID = " + id));

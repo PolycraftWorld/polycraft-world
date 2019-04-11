@@ -25,7 +25,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	//working parameters
 	private boolean spawnedInServer = false, spawnedInClient = false;
-	private int dim = 0;
+	private int dim = 8;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -41,7 +41,10 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
+		super.preInit(exp);
 		dim = exp.dim;
+
+		System.out.println("Feature Start pos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
 	}
 	
 	@Override
@@ -49,6 +52,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		if(!spawnedInServer) {
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				spawnPlayer((EntityPlayerMP) player, exp);
+				System.out.println("Feature Start pos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
 			}
 			spawnedInServer = true;
 		}

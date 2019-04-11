@@ -1,8 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
-import edu.utd.minecraft.mod.polycraft.experiment.feature.ExperimentFeature;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
 
 public interface ITutorialFeature{
 	
