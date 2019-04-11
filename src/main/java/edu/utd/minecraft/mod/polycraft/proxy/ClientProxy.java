@@ -90,6 +90,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
+import edu.utd.minecraft.mod.polycraft.util.TextFormatting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockButton;
@@ -1189,7 +1190,12 @@ public class ClientProxy extends CommonProxy {
 				client.fontRenderer.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
-
+			// TODO: replace with boolean if they have or havent done the tutorial.
+			if (true) {
+				int color = 16777215;
+				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
+			}
+			
 			if (playerState.cheatInfoTicksRemaining == 0) {
 				final boolean cheatInfoActivated = isKeyDown(keyBindingJ) && isKeyDown(keyBindingI) && isKeyDown(keyBindingM);
 				if (cheatInfoActivated) {
@@ -1244,7 +1250,52 @@ public class ClientProxy extends CommonProxy {
 	//			playerState.placeBrickBackwards = false;
 	//		
 	//	}
-
+	
+	public static String stringToGolden(String parString, int parShineLocation, boolean parReturnToBlack)
+	{
+	   int stringLength = parString.length();
+	   if (stringLength < 1)
+	   {
+	      return "";
+	   }
+	   String outputString = "";
+	   TextFormatting[] colorChar = 
+	      {
+	         TextFormatting.RED,
+	         TextFormatting.GOLD,
+	         TextFormatting.YELLOW,
+	         TextFormatting.GREEN,
+	         TextFormatting.AQUA,
+	         TextFormatting.BLUE,
+	         TextFormatting.LIGHT_PURPLE,
+	         TextFormatting.DARK_PURPLE
+	      };
+	   for (int i = 0; i < stringLength; i++)
+	   {
+	      if ((i+parShineLocation+Minecraft.getSystemTime()/20)%88==0)
+	      {
+	         outputString = outputString+TextFormatting.WHITE+parString.substring(i, i+1);    
+	      }
+	      else if ((i+parShineLocation+Minecraft.getSystemTime()/20)%88==1)
+	      {
+	          outputString = outputString+TextFormatting.YELLOW+parString.substring(i, i+1);    
+	      }
+	      else if ((i+parShineLocation+Minecraft.getSystemTime()/20)%88==87)
+	      {
+	         outputString = outputString+TextFormatting.YELLOW+parString.substring(i, i+1);    
+	      }
+	      else
+	      {
+	         outputString = outputString+TextFormatting.GOLD+parString.substring(i, i+1);        
+	      }
+	   }
+	   // return color to a common one after (most chat is white, but for other GUI might want black)
+	   if (parReturnToBlack)
+	   {
+	      return outputString+TextFormatting.BLACK;
+	   }
+	   return outputString+TextFormatting.WHITE;
+	}
 	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
 		boolean jetPackIsFlying = false;
 		if (ItemJetPack.allowsFlying(player)) {
