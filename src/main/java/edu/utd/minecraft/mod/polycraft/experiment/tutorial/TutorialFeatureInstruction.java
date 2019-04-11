@@ -53,8 +53,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean inFail;
 	RenderBox box;
 	private final static String KBB = "1hv";
-
-	private TutorialRender render;
 	
 	public TutorialFeatureInstruction() {}
 	
@@ -205,8 +203,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				{
 					if(player.isSprinting()) 
 					{
-						int x=(int) exp.pos1.xCoord;
-						int z=(int) exp.pos1.zCoord;
+						int x=(int) exp.pos.xCoord;
+						int z=(int) exp.pos.zCoord;
 						int xOffset=-37;
 						int zOffset=-14;
 						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.air);
@@ -218,8 +216,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 					else
 					{
-						int x=(int) exp.pos1.xCoord;
-						int z=(int) exp.pos1.zCoord;
+						int x=(int) exp.pos.xCoord;
+						int z=(int) exp.pos.zCoord;
 						int xOffset=-37;
 						int zOffset=-14;
 						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.planks);
@@ -293,14 +291,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							this.render.renderTutorialAccessInventory(entity);
+							TutorialRender.renderTutorialManageInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
-					}
-					else
-					{
-						//this.render.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.renderTutorialAccessInventory(entity);
+							//Gui to instruct player to click on the chest
+						}
 					}
 				}
 			break;
@@ -377,20 +375,20 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case KBB:
 			//super.render(entity);
-			this.render.renderTutorialUseKBB(entity);
+			TutorialRender.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			this.render.setAng(entity);
-			if(this.render.renderTutorialTurnLeft(entity))
-			{
-				if(this.render.renderTutorialTurnRight(entity))
-				{
-					this.canProceed=true;
-					this.isDone=true;
-					this.isDirty=true;
-				}
-			}
+//			TutorialRender.start(entity);
+//			if(TutorialRender.renderTutorialTurnLeft(entity))
+//			{
+//				if(TutorialRender.renderTutorialTurnRight(entity))
+//				{
+//					this.canProceed=true;
+//					this.isDone=true;
+//					this.isDirty=true;
+//				}
+//			}
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
@@ -402,7 +400,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			//this.render.renderTutorialSprint(entity);
+			//TutorialRender.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
@@ -412,7 +410,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			this.render.renderTutorialWalkForward(entity);
+			TutorialRender.renderTutorialWalkForward(entity);
 			break;
 		default:
 			break;

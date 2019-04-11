@@ -82,7 +82,10 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
-		// TODO Auto-generated method stub
+		pos.xCoord += exp.posOffset.xCoord;
+		pos.yCoord += exp.posOffset.yCoord;
+		pos.zCoord += exp.posOffset.zCoord;
+		
 	}
 
 	@Override
