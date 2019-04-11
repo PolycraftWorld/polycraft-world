@@ -291,14 +291,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							TutorialRender.renderTutorialAccessInventory(entity);
+							TutorialRender.renderTutorialManageInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
-					}
-					else
-					{
-						//TutorialRender.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.renderTutorialAccessInventory(entity);
+							//Gui to instruct player to click on the chest
+						}
 					}
 				}
 			break;
