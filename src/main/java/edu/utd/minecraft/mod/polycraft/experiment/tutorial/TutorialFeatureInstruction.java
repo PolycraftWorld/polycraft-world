@@ -107,8 +107,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				{
 					if(player.isSprinting()) 
 					{
-						int x=(int) exp.pos1.xCoord;
-						int z=(int) exp.pos1.zCoord;
+						int x=(int) exp.pos.xCoord;
+						int z=(int) exp.pos.zCoord;
 						int xOffset=-37;
 						int zOffset=-14;
 						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.air);
@@ -120,8 +120,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 					else
 					{
-						int x=(int) exp.pos1.xCoord;
-						int z=(int) exp.pos1.zCoord;
+						int x=(int) exp.pos.xCoord;
+						int z=(int) exp.pos.zCoord;
 						int xOffset=-37;
 						int zOffset=-14;
 						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.planks);

@@ -189,14 +189,14 @@ public class TutorialManager {
 		//clientCurrentExperiment = -1;
 	}
 	
-	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, World world, boolean isDev) {
-		ExperimentTutorial experiment = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), world, options, features, isDev);
+	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
+		ExperimentTutorial experiment = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), options, features, genInDim8);
 		this.experiments.put(nextAvailableExperimentID++, experiment);
 		return nextAvailableExperimentID - 1;
 	}
 	
-	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, World world) {
-		return addExperiment(options, features, world, false);
+	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features) {
+		return addExperiment(options, features, false);
 	}
 	
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
