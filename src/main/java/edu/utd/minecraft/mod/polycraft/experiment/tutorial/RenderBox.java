@@ -226,6 +226,166 @@ public class RenderBox {
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
+	public void renderFill(Entity entity) {
+		double xComp = Math.pow(entity.posX - x1 - xRange, 2);
+		double yComp = Math.pow(entity.posY - y, 2);
+		double zComp = Math.pow(entity.posZ - z1 - zRange, 2);
+		double allDist = Math.sqrt(xComp + yComp + zComp) - range;
+		double horizDist = Math.sqrt(xComp + (entity.posY < y ? yComp : 0) + zComp) - range;
+		double offset = warnTicks / (double) maxWarnTicks;
+		double xRange = this.xRange2 * offset;
+		double zRange = this.zRange2 * offset;
+		double xRange2 = this.xRange2 * (1 - offset);
+		double zRange2 = this.zRange2 * (1 - offset);
+		double x1o1 = x1 + xRange;
+		double z1o1 = z1 + zRange;
+		double x2o1 = x2 - xRange;
+		double z2o1 = z2 - zRange;
+		double x1o2 = x1 + xRange2;
+		double z1o2 = z1 + zRange2;
+		double x2o2 = x2 - xRange2;
+		double z2o2 = z2 - zRange2;
+		double y1 = y + 0.01;
+		double y11 = y + 0.02;
+		//double y2 = y + entity.posY + Y_TOP;
+		double y2 = y + h + 0.02;
+		float horizWidth = lineWidth;
+		float vertWidth = lineWidth;
+		if (allDist > 0)
+			horizWidth *= ((range2 - allDist) / range2);
+		if (horizDist > 0)
+			vertWidth *= ((range2 - horizDist) / range2);
+		
+		horizWidth = 4F;
+		vertWidth = 4F;
+		
+		float alphaLines, alphaFace;
+		if(maxBreathingTicks == 0) {
+			alphaFace = 0.2F;
+			alphaLines = 0.5F;
+		}else {
+			float alphaMult = (float) ((breathingTicks * 1.0)/maxBreathingTicks);
+			alphaFace = 0.2F * alphaMult + 0.1F;
+			alphaLines = 0.5F * alphaMult  + 0.15F;
+			if(breathingTicks == maxBreathingTicks) {
+				breathingDir = -1;
+			}else if(breathingTicks == 0) {
+				breathingDir = 1;
+			}
+			breathingTicks += breathingDir;
+		}
+		
+		
+		
+		
+
+		if (horizWidth > 0) {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alphaLines);
+			GL11.glLineWidth(horizWidth);
+			GL11.glBegin(GL11.GL_LINES);
+			
+			//bottom box lines
+			GL11.glVertex3d(x1, y1, z1);
+			GL11.glVertex3d(x2, y1, z1);
+			GL11.glVertex3d(x2, y1, z1);
+			GL11.glVertex3d(x2, y1, z2);
+			GL11.glVertex3d(x2, y1, z2);
+			GL11.glVertex3d(x1, y1, z2);
+			GL11.glVertex3d(x1, y1, z2);
+			GL11.glVertex3d(x1, y1, z1);
+			
+			//top box lines
+			GL11.glVertex3d(x1, y2, z1);
+			GL11.glVertex3d(x2, y2, z1);
+			GL11.glVertex3d(x2, y2, z1);
+			GL11.glVertex3d(x2, y2, z2);
+			GL11.glVertex3d(x2, y2, z2);
+			GL11.glVertex3d(x1, y2, z2);
+			GL11.glVertex3d(x1, y2, z2);
+			GL11.glVertex3d(x1, y2, z1);
+
+			GL11.glEnd();
+		}
+
+		if (vertWidth > 0 && (warnTicks > 20 || warnTicks % 2 == 1)) {
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alphaLines);
+			GL11.glLineWidth(vertWidth);
+			GL11.glBegin(GL11.GL_LINES);
+
+			GL11.glVertex3d(x1o2, y1, z1o2);
+			GL11.glVertex3d(x1o2, y2, z1o2);
+			GL11.glVertex3d(x2o2, y1, z1o2);
+			GL11.glVertex3d(x2o2, y2, z1o2);
+			GL11.glVertex3d(x2o2, y1, z2o2);
+			GL11.glVertex3d(x2o2, y2, z2o2);
+			GL11.glVertex3d(x1o2, y1, z2o2);
+			GL11.glVertex3d(x1o2, y2, z2o2);
+
+			GL11.glEnd();
+		}
+		
+		Vec3 v1, v2, v3, v4;
+
+		//bottom box face
+		v1 = Vec3.createVectorHelper(x1, y1-.005, z1);
+		v2 = Vec3.createVectorHelper(x2, y1-.005, z1);
+		v3 = Vec3.createVectorHelper(x1, y1-.005, z2);
+		v4 = Vec3.createVectorHelper(x2, y1-.005, z2);
+		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		//top box face
+		v1 = Vec3.createVectorHelper(x1, y2+.005, z1);
+		v2 = Vec3.createVectorHelper(x2, y2+.005, z1);
+		v3 = Vec3.createVectorHelper(x1, y2+.005, z2);
+		v4 = Vec3.createVectorHelper(x2, y2+.005, z2);
+		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		//side1 face
+		v1 = Vec3.createVectorHelper(x1, y1, z1-.005);
+		v2 = Vec3.createVectorHelper(x2, y1, z1-.005);
+		v3 = Vec3.createVectorHelper(x1, y2, z1-.005);
+		v4 = Vec3.createVectorHelper(x2, y2, z1-.005);
+		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		//side2 face
+		v1 = Vec3.createVectorHelper(x1, y1, z2+.005);
+		v2 = Vec3.createVectorHelper(x2, y1, z2+.005);
+		v3 = Vec3.createVectorHelper(x1, y2, z2+.005);
+		v4 = Vec3.createVectorHelper(x2, y2, z2+.005);
+		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		//side3 face
+		v1 = Vec3.createVectorHelper(x1-.005, y1, z1);
+		v2 = Vec3.createVectorHelper(x1-.005, y1, z2);
+		v3 = Vec3.createVectorHelper(x1-.005, y2, z1);
+		v4 = Vec3.createVectorHelper(x1-.005, y2, z2);
+		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		//side4 face
+		v1 = Vec3.createVectorHelper(x2+.005, y1, z1);
+		v2 = Vec3.createVectorHelper(x2+.005, y1, z2);
+		v3 = Vec3.createVectorHelper(x2+.005, y2, z1);
+		v4 = Vec3.createVectorHelper(x2+.005, y2, z2);
+		drawFace(v1, v2, v3, v4, alphaFace);
+		
+		if(name != null) {
+			renderName(entity);
+		}
+
+		// GL11.glEnable(GL11.GL_CULL_FACE);
+		// GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
 	private void renderName(Entity entity) {
 		float f = 1.6F;
         float f1 = 0.016666668F * f;
