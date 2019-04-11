@@ -4,10 +4,8 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
@@ -16,10 +14,8 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.Tutor
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -35,11 +31,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		JUMP_SPRINT,
 		FAIL,
 		INVENTORY1,
-		INVENTORY2,
-		INVENTORY3,
-		CRAFT_PICK,
 		PLACE_BLOCKS,
-		BREAK_BLOCKS,
 		KBB,
 		CRAFT_FKB
 	};
@@ -51,8 +43,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean sprintDoorOpen;
 	public int failCount;
 	public boolean inFail;
-	RenderBox box;
-	private final static String KBB = "1hv";
 	
 	public TutorialFeatureInstruction() {}
 	
@@ -63,7 +53,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.sprintDoorOpen=false;
 		this.failCount=0;
 		this.inFail=false;
-
 	}
 	
 	@Override
@@ -99,102 +88,17 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
-		case INVENTORY2:
-			//super.onServerTickUpdate(exp);
-			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							Item sticks = Items.stick;
-							Item iron = Items.iron_ingot;
-							if(player.inventory.hasItem(sticks) && player.inventory.hasItem(iron))
-							{
-								this.isDone=true;
-								this.canProceed=true;
-								this.isDirty=true;
-								player.addChatMessage(new ChatComponentText("You got the crafting materials!"));
-							}
-						}
-					}
-				}
-			}
-			break;
-		case INVENTORY3:
-			//super.onServerTickUpdate(exp);
-			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							Item kbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
-							if(player.inventory.hasItem(kbb))
-							{
-								this.isDone=true;
-								this.canProceed=true;
-								this.isDirty=true;
-								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
-							}
-						}
-					}
-				}
-			}
-			break;
-		case CRAFT_PICK:
-			//super.onServerTickUpdate(exp);
-			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							Item pick = Items.iron_pickaxe;
-							if(player.inventory.hasItem(pick))
-							{
-								this.isDone=true;
-								this.canProceed=true;
-								this.isDirty=true;
-								player.addChatMessage(new ChatComponentText("You crafted an Iron Pickaxe!"));
-							}
-						}
-					}
-				}
-			}
-			break;
 		case JUMP:
 			super.onServerTickUpdate(exp);
 			break;
 		case KBB:
-			//super.onServerTickUpdate(exp);
-			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x1), Math.min(y1, y1-1), Math.min(z1, z1),
-						Math.max(x1, x1+13), Math.max(y1, y1+8), Math.max(z1, z1+13))).isEmpty()) {
-					canProceed = true;
-					isDone = true;
-				}
-			}
+			super.onServerTickUpdate(exp);
 			break;
 		case MOUSE:
 			//super.onServerTickUpdate(exp);
 			break;
 		case PLACE_BLOCKS:
-			//super.onServerTickUpdate(exp);
-			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
-				canProceed = true;
-				isDone = true;
-			}
-			break;
-		case BREAK_BLOCKS:
-			//super.onServerTickUpdate(exp);
-			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
-				canProceed = true;
-				isDone = true;
-			}
+			super.onServerTickUpdate(exp);
 			break;
 		case SPRINT:
 			super.onServerTickUpdate(exp);
@@ -275,13 +179,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	
 	@Override
 	public void render(Entity entity) {
-		EntityPlayer player=null;
 		switch(type) {
 		case CRAFT_FKB:
 			break;
 		case INVENTORY1:
 			super.render(entity);
-
+			EntityPlayer player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
 				
@@ -302,79 +205,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 				}
 			break;
-		case INVENTORY2:
-			super.render(entity);
-			player=null;
-			if(entity instanceof EntityPlayer)	
-				player=(EntityPlayer)(entity);
-				
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							//TutorialRender.renderTutorialAccessInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
-						}
-					}
-					else
-					{
-						//TutorialRender.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
-					}
-				}
-			break;
-		case INVENTORY3:
-			super.render(entity);
-			player=null;
-			if(entity instanceof EntityPlayer)	
-				player=(EntityPlayer)(entity);
-				
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							//TutorialRender.renderTutorialAccessInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
-						}
-					}
-					else
-					{
-						//TutorialRender.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
-					}
-				}
-			break;
-		case CRAFT_PICK:
-			super.render(entity);
-			player=null;
-			if(entity instanceof EntityPlayer)	
-				player=(EntityPlayer)(entity);
-				
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							//TutorialRender.renderTutorialAccessInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
-						}
-					}
-					else
-					{
-						//TutorialRender.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
-					}
-				}
-			break;
 		case JUMP:
 			break;
 		case KBB:
-			//super.render(entity);
+			super.render(entity);
 			TutorialRender.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE:
@@ -391,12 +225,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			}
 			break;
 		case PLACE_BLOCKS:
-			//super.render(entity);
-			this.box.render(entity);
-			break;
-		case BREAK_BLOCKS:
-			//super.render(entity);
-			this.box.renderFill(entity);
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
@@ -452,9 +280,5 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		super.load(nbtFeat);
 		InstructionType tmp = null;
 		type=tmp.valueOf(nbtFeat.getString("instructionType"));
-		
-		this.box= new RenderBox(this.getPos().xCoord, this.getPos().zCoord, this.getPos2().xCoord, this.getPos2().zCoord, 
-				Math.min(this.getPos().yCoord, this.getPos2().yCoord), Math.max(Math.abs(this.getPos().yCoord- this.getPos2().yCoord), 1), 1, this.getName());
-		box.setColor(this.getColor());
 	}
 }
