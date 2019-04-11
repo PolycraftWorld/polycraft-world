@@ -11,8 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class TutorialRender {
-	public static boolean turnRight=false;
-	public static boolean turnLeft=false;
+	public boolean turnRight=false;
+	public boolean turnLeft=false;
 	public static double prevAng=0;
 	public static boolean render=false;
 	public static Minecraft mc = Minecraft.getMinecraft();
@@ -278,18 +278,17 @@ public class TutorialRender {
 				};
 	
 
-	 public static boolean started =false;
 	 
-	public static  void start(Entity entity)
+	public TutorialRender()
 	{
-		if(!started)
-		{
-			started=true;
-			turnRight=false;
-			turnLeft=false;
-			prevAng=entity.rotationYaw;
-			render=true;
-		}
+		turnRight=false;
+		turnLeft=false;
+		render=true;
+	}
+	
+	public void setAng(Entity entity)
+	{
+		prevAng=entity.rotationYaw;
 	}
 	
 	public static void push(float scale)
@@ -544,7 +543,7 @@ public class TutorialRender {
 		 mc.entityRenderer.updateRenderer();
 	 }
 	 
-	 public static boolean renderTutorialTurnRight(Entity player)
+	 public boolean renderTutorialTurnRight(Entity player)
 	 {
 		 if(turnRight)
 		 {
@@ -602,7 +601,7 @@ public class TutorialRender {
 		 return turnRight;
 	 }
 	 
-	 public static boolean renderTutorialTurnLeft(Entity player)
+	 public boolean renderTutorialTurnLeft(Entity player)
 	 {
 		 if(turnLeft)
 		 {

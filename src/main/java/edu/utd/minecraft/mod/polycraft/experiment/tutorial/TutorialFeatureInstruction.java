@@ -53,6 +53,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean inFail;
 	RenderBox box;
 	private final static String KBB = "1hv";
+
+	private TutorialRender render;
 	
 	public TutorialFeatureInstruction() {}
 	
@@ -291,13 +293,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							TutorialRender.renderTutorialAccessInventory(entity);
+							this.render.renderTutorialAccessInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 					}
 					else
 					{
-						//TutorialRender.renderTutorialOpenChest(entity);
+						//this.render.renderTutorialOpenChest(entity);
 						//Gui to instruct player to click on the chest
 					}
 				}
@@ -375,14 +377,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case KBB:
 			//super.render(entity);
-			TutorialRender.renderTutorialUseKBB(entity);
+			this.render.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.start(entity);
-			if(TutorialRender.renderTutorialTurnLeft(entity))
+			this.render.setAng(entity);
+			if(this.render.renderTutorialTurnLeft(entity))
 			{
-				if(TutorialRender.renderTutorialTurnRight(entity))
+				if(this.render.renderTutorialTurnRight(entity))
 				{
 					this.canProceed=true;
 					this.isDone=true;
@@ -400,7 +402,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			//TutorialRender.renderTutorialSprint(entity);
+			//this.render.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
@@ -410,7 +412,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.renderTutorialWalkForward(entity);
+			this.render.renderTutorialWalkForward(entity);
 			break;
 		default:
 			break;
