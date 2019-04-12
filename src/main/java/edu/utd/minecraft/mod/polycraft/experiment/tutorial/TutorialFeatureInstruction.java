@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockPistonBase;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -64,6 +65,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	RenderBox box;
 	private final static String KBB = "1hv";
 	
+	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
+	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
+	
+	private Vec3 pos1;
+	private Vec3 pos2;
+	
 	public TutorialFeatureInstruction() {}
 	
 	
@@ -76,6 +83,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.failCount=0;
 		this.inFail=false;
 		this.setAng=false;
+		this.pos1=pos;
+		this.pos2=pos;
 
 	}
 	
@@ -188,8 +197,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case KBB:
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x1), Math.min(y1, y1-1), Math.min(z1, z1),
-						Math.max(x1, x1+13), Math.max(y1, y1+8), Math.max(z1, z1+13))).isEmpty()) {
+				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
+						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
+						Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).isEmpty()) {
 					canProceed = true;
 					isDone = true;
 				}
@@ -248,29 +258,46 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				{
 					if(player.isSprinting()) 
 					{
-					
-						exp.world.setBlock((int)x1-2, 109, (int)z1, Blocks.air);
-						exp.world.setBlock((int)x1-2, 110, (int)z1, Blocks.air);
-						exp.world.setBlock((int)x1-2, 109, (int)z1-1, Blocks.air);
-						exp.world.setBlock((int)x1-2, 110, (int)z1-1, Blocks.air);
+						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+						{
+							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+							{
+								for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+								{
+									exp.world.setBlock(x, y, z, Blocks.air);
+								}
+							}
+						}
 						this.sprintDoorOpen=true;
 					}
 					else
 					{
-						exp.world.setBlock((int)x1-2, 109, (int)z1, Blocks.planks);
-						exp.world.setBlock((int)x1-2, 110, (int)z1, Blocks.planks);
-						exp.world.setBlock((int)x1-2, 109, (int)z1-1, Blocks.planks);
-						exp.world.setBlock((int)x1-2, 110, (int)z1-1, Blocks.planks);
+						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+						{
+							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+							{
+								for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+								{
+									exp.world.setBlock(x, y, z, Blocks.planks);
+								}
+							}
+						}
 						this.sprintDoorOpen=false;
 					}
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 						canProceed = true;
 						isDone = true;
-						exp.world.setBlock((int)x1-2, 109, (int)z1, Blocks.planks);
-						exp.world.setBlock((int)x1-2, 110, (int)z1, Blocks.planks);
-						exp.world.setBlock((int)x1-2, 109, (int)z1-1, Blocks.planks);
-						exp.world.setBlock((int)x1-2, 110, (int)z1-1, Blocks.planks);
+						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+						{
+							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+							{
+								for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+								{
+									exp.world.setBlock(x, y, z, Blocks.planks);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -283,8 +310,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			if(!inFail)
 			{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x1-2), Math.min(y1, y2), Math.min(z1, z1-3),
-							Math.max(x1, x2), Math.max(y1, y1+1), Math.max(z1, z2))).contains(player)) {
+					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
+							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
+							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=true;				
 					}
 				}
@@ -292,8 +320,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			else
 			{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x1-2), Math.min(y1, y2), Math.min(z1, z1-3),
-							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
+							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
+							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=false;
 						this.failCount++;
 						player.addChatMessage(new ChatComponentText("You missed your jump "+failCount+" time(s)"));
@@ -303,10 +332,16 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			}
 			if(failCount>=2)
 			{
-				for(int x=0;x>=-2;x--)
-					for(int z=0;z>=-3;z--)
-						exp.world.setBlock((int)x1+x, (int)y1, (int)z1+z, Blocks.packed_ice);
-				
+				for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+				{
+					for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+					{
+						for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+						{
+							exp.world.setBlock(x, y, z,  Blocks.packed_ice);
+						}
+					}
+				}
 				this.isDone=true;
 			}
 			break;
@@ -317,16 +352,19 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					canProceed = true;
 					isDone = true;
-					
-					if(exp.world.getBlock((int)x1, (int)y1, (int)z1+7)==Blocks.iron_door)
+					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 					{
-						BlockDoor door1 = (BlockDoor)exp.world.getBlock((int)x1, (int)y1, (int)z1+7);
-						door1.func_150014_a(exp.world,(int)x1, (int)y1, (int)z1+7, true);
-					}
-					if(exp.world.getBlock((int)x1+1, (int)y1, (int)z1+7)==Blocks.iron_door)
-					{
-						BlockDoor door2 = (BlockDoor)exp.world.getBlock((int)x1, (int)y1, (int)z1+7);
-						door2.func_150014_a(exp.world,(int)x1+1, (int)y1, (int)z1+7, true);
+						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+						{
+							for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+							{
+								if(exp.world.getBlock(x, y, z)==Blocks.iron_door)
+								{
+									BlockDoor door1 = (BlockDoor)exp.world.getBlock(x, y, z);
+									door1.func_150014_a(exp.world, x, y, z, true);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -520,6 +558,83 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		guiDevTool.buttonCount + 1, x_pos + 10, y_pos + 65, (int) (guiDevTool.X_WIDTH * .9), 20, 
         		"Type",  TutorialFeatureInstruction.InstructionType.WASD);
         guiDevTool.addBtn(btnInstructionType);
+        
+        addFields(guiDevTool, x_pos, y_pos);
+	}
+	
+	public void addFields(GuiDevTool guiDevTool, int x_pos, int y_pos)
+	{
+		FontRenderer fr = guiDevTool.getFontRenderer();
+		
+		y_pos += 45;
+		
+		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Pos1"));
+		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"X:"));
+        xPos1Field = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        xPos1Field.setMaxStringLength(32);
+        xPos1Field.setText(Integer.toString((int)pos1.xCoord));
+        xPos1Field.setTextColor(16777215);
+        xPos1Field.setVisible(true);
+        xPos1Field.setCanLoseFocus(true);
+        xPos1Field.setFocused(false);
+        guiDevTool.textFields.add(xPos1Field);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Y:"));
+        yPos1Field = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        yPos1Field.setMaxStringLength(32);
+        yPos1Field.setText(Integer.toString((int)pos1.yCoord));
+        yPos1Field.setTextColor(16777215);
+        yPos1Field.setVisible(true);
+        yPos1Field.setCanLoseFocus(true);
+        yPos1Field.setFocused(false);
+        guiDevTool.textFields.add(yPos1Field);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Z:"));
+        zPos1Field = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        zPos1Field.setMaxStringLength(32);
+        zPos1Field.setText(Integer.toString((int)pos1.zCoord));
+        zPos1Field.setTextColor(16777215);
+        zPos1Field.setVisible(true);
+        zPos1Field.setCanLoseFocus(true);
+        zPos1Field.setFocused(false);
+        guiDevTool.textFields.add(zPos1Field);
+		
+		y_pos += 15;
+		
+		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Pos2"));
+		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"X:"));
+        xPos2Field = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        xPos2Field.setMaxStringLength(32);
+        xPos2Field.setText(Integer.toString((int)pos2.xCoord));
+        xPos2Field.setTextColor(16777215);
+        xPos2Field.setVisible(true);
+        xPos2Field.setCanLoseFocus(true);
+        xPos2Field.setFocused(false);
+        guiDevTool.textFields.add(xPos2Field);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Y:"));
+        yPos2Field = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        yPos2Field.setMaxStringLength(32);
+        yPos2Field.setText(Integer.toString((int)pos2.yCoord));
+        yPos2Field.setTextColor(16777215);
+        yPos2Field.setVisible(true);
+        yPos2Field.setCanLoseFocus(true);
+        yPos2Field.setFocused(false);
+        guiDevTool.textFields.add(yPos2Field);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Z:"));
+        zPos2Field = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        zPos2Field.setMaxStringLength(32);
+        zPos2Field.setText(Integer.toString((int)pos2.zCoord));
+        zPos2Field.setTextColor(16777215);
+        zPos2Field.setVisible(true);
+        zPos2Field.setCanLoseFocus(true);
+        zPos2Field.setFocused(false);
+        guiDevTool.textFields.add(zPos2Field);
 	}
 
 	public InstructionType getType() {
