@@ -14,9 +14,14 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.item.EntityMinecartEmpty;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -32,6 +37,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		MOUSE_RIGHT,
 		WASD,
 		JUMP,
+		FLOAT,
 		SPRINT,
 		JUMP_SPRINT,
 		FAIL,
@@ -41,6 +47,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		CRAFT_PICK,
 		PLACE_BLOCKS,
 		BREAK_BLOCKS,
+		CART_START,
+		CART_END,
 		KBB,
 		CRAFT_FKB
 	};
@@ -174,6 +182,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case JUMP:
 			super.onServerTickUpdate(exp);
 			break;
+		case FLOAT:
+			super.onServerTickUpdate(exp);
+			break;
 		case KBB:
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
@@ -204,36 +215,62 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				isDone = true;
 			}
 			break;
+		case CART_START:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+					
+					EntityMinecart entityminecart = EntityMinecart.createMinecart(exp.world, (double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), 0);
+					exp.world.spawnEntityInWorld(entityminecart);
+					player.mountEntity(entityminecart);
+					
+					canProceed = true;
+					isDone = true;
+				}
+			}
+			break;
+		case CART_END:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+					//EntityMinecartEmpty minecart=(EntityMinecartEmpty)entityminecart;
+					
+					player.ridingEntity.setDead();
+					player.setPosition(player.posX, player.posY+1, player.posZ);
+					canProceed = true;
+					isDone = true;
+				}
+			}
+			break;
 		case SPRINT:
-			super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				if(player!=null)
 				{
 					if(player.isSprinting()) 
 					{
-						int x=(int) exp.pos.xCoord;
-						int z=(int) exp.pos.zCoord;
-						int xOffset=-37;
-						int zOffset=-14;
-						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.air);
-						exp.world.setBlock(x+xOffset, 110, z+zOffset, Blocks.air);
-						exp.world.setBlock(x+xOffset, 109, z+zOffset+1, Blocks.air);
-						exp.world.setBlock(x+xOffset, 110, z+zOffset+1, Blocks.air);
-						//MovePistons or Turn Blocks to Air (Relative to Map position)
+					
+						exp.world.setBlock((int)x1-2, 109, (int)z1, Blocks.air);
+						exp.world.setBlock((int)x1-2, 110, (int)z1, Blocks.air);
+						exp.world.setBlock((int)x1-2, 109, (int)z1-1, Blocks.air);
+						exp.world.setBlock((int)x1-2, 110, (int)z1-1, Blocks.air);
 						this.sprintDoorOpen=true;
 					}
 					else
 					{
-						int x=(int) exp.pos.xCoord;
-						int z=(int) exp.pos.zCoord;
-						int xOffset=-37;
-						int zOffset=-14;
-						exp.world.setBlock(x+xOffset, 109, z+zOffset, Blocks.planks);
-						exp.world.setBlock(x+xOffset, 110, z+zOffset, Blocks.planks);
-						exp.world.setBlock(x+xOffset, 109, z+zOffset+1, Blocks.planks);
-						exp.world.setBlock(x+xOffset, 110, z+zOffset+1, Blocks.planks);
-						//MovePistons or Turn Air to Blocks
+						exp.world.setBlock((int)x1-2, 109, (int)z1, Blocks.planks);
+						exp.world.setBlock((int)x1-2, 110, (int)z1, Blocks.planks);
+						exp.world.setBlock((int)x1-2, 109, (int)z1-1, Blocks.planks);
+						exp.world.setBlock((int)x1-2, 110, (int)z1-1, Blocks.planks);
 						this.sprintDoorOpen=false;
+					}
+					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+						canProceed = true;
+						isDone = true;
+						exp.world.setBlock((int)x1-2, 109, (int)z1, Blocks.planks);
+						exp.world.setBlock((int)x1-2, 110, (int)z1, Blocks.planks);
+						exp.world.setBlock((int)x1-2, 109, (int)z1-1, Blocks.planks);
+						exp.world.setBlock((int)x1-2, 110, (int)z1-1, Blocks.planks);
 					}
 				}
 			}
@@ -269,10 +306,30 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(int x=0;x>=-2;x--)
 					for(int z=0;z>=-3;z--)
 						exp.world.setBlock((int)x1+x, (int)y1, (int)z1+z, Blocks.packed_ice);
+				
+				this.isDone=true;
 			}
 			break;
 		case WASD:
-			super.onServerTickUpdate(exp);
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
+					canProceed = true;
+					isDone = true;
+					
+					if(exp.world.getBlock((int)x1, (int)y1, (int)z1+7)==Blocks.iron_door)
+					{
+						BlockDoor door1 = (BlockDoor)exp.world.getBlock((int)x1, (int)y1, (int)z1+7);
+						door1.func_150014_a(exp.world,(int)x1, (int)y1, (int)z1+7, true);
+					}
+					if(exp.world.getBlock((int)x1+1, (int)y1, (int)z1+7)==Blocks.iron_door)
+					{
+						BlockDoor door2 = (BlockDoor)exp.world.getBlock((int)x1, (int)y1, (int)z1+7);
+						door2.func_150014_a(exp.world,(int)x1+1, (int)y1, (int)z1+7, true);
+					}
+				}
+			}
 			break;
 		default:
 			break;
@@ -380,6 +437,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			break;
 		case JUMP:
+			super.render(entity);
+			break;
+		case FLOAT:
+			super.render(entity);
 			break;
 		case KBB:
 			//super.render(entity);
@@ -422,6 +483,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case BREAK_BLOCKS:
 			//super.render(entity);
 			this.box.renderFill(entity);
+			break;
+		case CART_START:
+			super.render(entity);
+			break;
+		case CART_END:
+			super.render(entity);
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
