@@ -28,7 +28,8 @@ import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
 	public enum InstructionType{
-		MOUSE,
+		MOUSE_LEFT,
+		MOUSE_RIGHT,
 		WASD,
 		JUMP,
 		SPRINT,
@@ -51,10 +52,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean sprintDoorOpen;
 	public int failCount;
 	public boolean inFail;
+	public boolean setAng;
 	RenderBox box;
 	private final static String KBB = "1hv";
 	
 	public TutorialFeatureInstruction() {}
+	
+	
 	
 	public TutorialFeatureInstruction(String name, Vec3 pos, InstructionType type){
 		super(name, pos, Color.MAGENTA);
@@ -63,6 +67,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.sprintDoorOpen=false;
 		this.failCount=0;
 		this.inFail=false;
+		this.setAng=false;
 
 	}
 	
@@ -179,7 +184,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
-		case MOUSE:
+		case MOUSE_LEFT:
+			//super.onServerTickUpdate(exp);
+			break;
+		case MOUSE_RIGHT:
 			//super.onServerTickUpdate(exp);
 			break;
 		case PLACE_BLOCKS:
@@ -291,12 +299,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							TutorialRender.renderTutorialManageInventory(entity);
+							//TutorialRender.instance.renderTutorialManageInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 						else
 						{
-							TutorialRender.renderTutorialAccessInventory(entity);
+							TutorialRender.instance.renderTutorialAccessInventory(entity);
 							//Gui to instruct player to click on the chest
 						}
 					}
@@ -314,13 +322,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.renderTutorialAccessInventory(entity);
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 					}
 					else
 					{
-						//TutorialRender.renderTutorialOpenChest(entity);
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
 						//Gui to instruct player to click on the chest
 					}
 				}
@@ -337,13 +345,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.renderTutorialAccessInventory(entity);
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 					}
 					else
 					{
-						//TutorialRender.renderTutorialOpenChest(entity);
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
 						//Gui to instruct player to click on the chest
 					}
 				}
@@ -360,13 +368,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.renderTutorialAccessInventory(entity);
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 					}
 					else
 					{
-						//TutorialRender.renderTutorialOpenChest(entity);
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
 						//Gui to instruct player to click on the chest
 					}
 				}
@@ -375,20 +383,37 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case KBB:
 			//super.render(entity);
-			TutorialRender.renderTutorialUseKBB(entity);
+			TutorialRender.instance.renderTutorialUseKBB(entity);
 			break;
-		case MOUSE:
+		case MOUSE_LEFT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-//			TutorialRender.start(entity);
-//			if(TutorialRender.renderTutorialTurnLeft(entity))
-//			{
-//				if(TutorialRender.renderTutorialTurnRight(entity))
-//				{
-//					this.canProceed=true;
-//					this.isDone=true;
-//					this.isDirty=true;
-//				}
-//			}
+			if(!this.setAng)
+			{
+				TutorialRender.instance.setAng(entity);
+				this.setAng=true;
+			}
+			if(TutorialRender.instance.renderTutorialTurnLeft(entity))
+			{
+				this.canProceed=true;
+				this.isDone=true;
+				this.setAng=false;
+				this.isDirty=true;
+			}
+			break;
+		case MOUSE_RIGHT:
+			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			if(!this.setAng)
+			{
+				TutorialRender.instance.setAng(entity);
+				this.setAng=true;
+			}
+			if(TutorialRender.instance.renderTutorialTurnRight(entity))
+			{
+				this.canProceed=true;
+				this.isDone=true;
+				this.setAng=false;
+				this.isDirty=true;
+			}
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
@@ -400,7 +425,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			//TutorialRender.renderTutorialSprint(entity);
+			//TutorialRender.instance.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
@@ -410,7 +435,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.renderTutorialWalkForward(entity);
+			TutorialRender.instance.renderTutorialWalkForward(entity);
 			break;
 		default:
 			break;
@@ -443,6 +468,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	{
 		super.save();
 		nbt.setString("instructionType", type.toString());
+		nbt.setBoolean("sprintDoorOpen", sprintDoorOpen);
+		nbt.setBoolean("inFail", inFail);
+		nbt.setBoolean("setAng", setAng);
 		return nbt;
 	}
 	
@@ -452,6 +480,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		super.load(nbtFeat);
 		InstructionType tmp = null;
 		type=tmp.valueOf(nbtFeat.getString("instructionType"));
+		this.sprintDoorOpen=nbtFeat.getBoolean("sprintDoorOpen");
+		this.inFail=nbtFeat.getBoolean("inFail");
+		this.setAng=nbtFeat.getBoolean("setAng");
 		
 		this.box= new RenderBox(this.getPos().xCoord, this.getPos().zCoord, this.getPos2().xCoord, this.getPos2().zCoord, 
 				Math.min(this.getPos().yCoord, this.getPos2().yCoord), Math.max(Math.abs(this.getPos().yCoord- this.getPos2().yCoord), 1), 1, this.getName());
