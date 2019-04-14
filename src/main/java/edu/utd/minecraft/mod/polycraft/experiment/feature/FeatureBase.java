@@ -28,7 +28,7 @@ public class FeatureBase extends ExperimentFeature {
 	
 	public State currentState;
 	
-	private String currentTeam;
+	public String currentTeam;
 	
 	private BoundingBox box;
 	private Color color;

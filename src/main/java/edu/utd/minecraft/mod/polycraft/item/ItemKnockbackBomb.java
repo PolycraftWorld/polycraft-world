@@ -6,10 +6,13 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.jcraft.jorbis.Block;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -99,6 +102,16 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			double posX = x*distance + player.posX;
 			double posY = player.posY;
 			double posZ = z*distance + player.posZ;
+			
+			while((player.worldObj.isAirBlock((int) posX, (int)(posY -0.2), (int)posZ) 
+					|| player.worldObj.getBlock((int) posX, (int)(posY -0.2), (int)posZ).getMaterial() == Material.carpet)
+					&& posY >= 1) {
+				posY -= 0.25;
+				posX += x/4;
+				posZ += z/4;
+				x -= x/32;
+				z -= z/32;
+			}
 			System.out.println("Rotation: " + player.rotationYaw +":: Rotation Mod: " + player.rotationYaw%360  );
 			//player.setVelocity(x, y, z);
 			EntityItem splosion = new EntityItem(world,posX, posY, posZ, new ItemStack(this,1,0));
@@ -114,7 +127,8 @@ public class ItemKnockbackBomb  extends ItemCustom{
 	        int j2 = MathHelper.floor_double(posZ + (double)explosionSize + 1.0D);
 	        
 			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
-			list.forEach(entity->{
+			for(Object entity : list) {
+			//list.forEach(entity->{
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
 					
@@ -143,7 +157,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 					((Entity)entity).motionZ = -2*Math.cos(theta);
 				}
 				
-			});
+			}
 			
 			return list;
 
@@ -167,8 +181,18 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		else if(distance > 20)
 			distance = 20;
 		double posX = x*distance + entity.posX;
-		double posY = entity.posY -1.5;
 		double posZ = z*distance + entity.posZ;
+		double posY = entity.posY -1.5;
+
+		while((entity.worldObj.isAirBlock((int) posX, (int)(posY -0.2), (int)posZ) 
+				|| entity.worldObj.getBlock((int) posX, (int)(posY -0.2), (int)posZ).getMaterial() == Material.carpet)
+				&& posY >= 1) {
+			posY -= 0.25;
+			posX += x/4;
+			posZ += z/4;
+			x -= x/32;
+			z -= z/32;
+		}
 		
 		double x1 = posX - 5;
 		double z1 = posZ - 5;

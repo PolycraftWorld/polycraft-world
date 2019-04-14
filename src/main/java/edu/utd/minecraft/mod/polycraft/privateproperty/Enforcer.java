@@ -48,6 +48,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
@@ -118,6 +119,7 @@ public abstract class Enforcer {
 		InventorySync, 
 		Governments, 
 		Challenge, 
+		Tutorial,
 		Consent,
 		Scoreboard, 
 		playerID, 
@@ -651,6 +653,11 @@ public abstract class Enforcer {
 			possiblyPreventAction(event, event.entityPlayer,
 					Action.DestroyBlock,
 					event.world.getChunkFromBlockCoords(event.x, event.z));
+			//If player holding devtool, cancel event
+			if(event.entityPlayer.getHeldItem() != null) {
+				if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
+					event.setCanceled(true);
+			}
 			break;
 		case RIGHT_CLICK_AIR:
 			possiblyPreventUseEquippedItem(event);
@@ -756,7 +763,13 @@ public abstract class Enforcer {
 					possiblyPreventUseEquippedItem(event);
 				}
 			}
-
+			
+			//If player holding devtool, cancel event
+//			if(event.entityPlayer.getHeldItem() != null) 
+//				if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) { 
+//					event.setCanceled(true);
+//				}
+//			
 			break;
 		default:
 			break;

@@ -19,6 +19,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
@@ -60,7 +61,7 @@ public abstract class Experiment {
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
-	protected CustomScoreboard scoreboard;
+	public CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
 	protected int teamSize = 2;
@@ -218,7 +219,7 @@ public abstract class Experiment {
 	 * @param player the displayname of the player to be removed
 	 * @return true if the player existed and was removed. False if the player was not on a team.
 	 */
-	boolean removePlayer(String player) {
+	public boolean removePlayer(String player) {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
 				if(team.getPlayers().remove(player)) {

@@ -99,7 +99,7 @@ public class EntityAICaptureBases extends EntityAIBase
 	        if(level == 1) { 
         		double minDist = 999999;	//arbitrary large number for minimum dist
 	            for(FeatureBase base: bases) {
-	            	if(base.currentState != FeatureBase.State.Claimed)	//if a base is already claimed, skip it
+	            	if(base.getCurrentTeamName() != "Animals" || base.currentState != FeatureBase.State.Claimed)	//if a base is already claimed, skip it	            		!
 	               	{
 	            		//checks the squared distance to find closest base
 	            		if(this.entityHost.getDistanceSq(base.getxPos(), base.getyPos(), base.getzPos()) < minDist) {
@@ -120,7 +120,7 @@ public class EntityAICaptureBases extends EntityAIBase
 	        if(level == 2) {
 	        	double minDist = 999999;	//arbitrary large number for minimum dist
 	            for(FeatureBase base: bases) {
-	            	if(base.currentState != FeatureBase.State.Claimed)	//if a base is already claimed, skip it
+	            	if(base.getCurrentTeamName() != "Animals" ||  base.currentState != FeatureBase.State.Claimed)	//if a base is already claimed, skip it
 	            	
 	            	{
 	            		//checks the squared distance to find closest base

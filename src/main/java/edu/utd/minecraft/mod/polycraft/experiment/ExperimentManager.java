@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
@@ -57,7 +58,7 @@ public class ExperimentManager {
 	 * for synchronization. This contains relevant, condensed information enabling efficient info
 	 * transfer across the network. 
 	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
-	 * {@link ClientEnforcer}. It is currently rendered on {@link GuiExperimentList}
+	 * {@link #ClientEnforcer}. It is currently rendered on {@link #GuiExperimentList}
 	 * @author dnarayanan
 	 *
 	 */
@@ -254,6 +255,7 @@ public class ExperimentManager {
 				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
 				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
 				this.registerExperiment(nextID, newExpFlat2x);
+				
 			}
 			
 			if(!areAnyActive) {
@@ -427,7 +429,7 @@ public class ExperimentManager {
 	}
 	
 	//@SideOnly(Side.SERVER)
-	static void sendExperimentUpdates() {
+	public static void sendExperimentUpdates() {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
 		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);

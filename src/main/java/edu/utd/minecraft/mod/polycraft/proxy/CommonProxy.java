@@ -21,11 +21,14 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.RespawnHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -345,6 +348,7 @@ public abstract class CommonProxy {
 			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
 		}
 		
+		
 		//KillWall.onPlayerTick(tick);
 		//RaceGame.INSTANCE.onPlayerTick(tick);
 	}
@@ -433,6 +437,8 @@ public abstract class CommonProxy {
 			{
 				PolycraftMinigameManager.INSTANCE.onServerTick(tick);
 			}
+			
+			TutorialManager.INSTANCE.onServerTickUpdate(tick);
 		}
 	}
 
@@ -521,7 +527,16 @@ public abstract class CommonProxy {
 		
 	}
 	
+	public void openDevToolGui(EntityPlayer player) {
+		
+	}
+	
 	public void openTutorialGui(EntityPlayer player) {
 	
+	}
+
+	public void toggleTutorialRender() {
+		// TODO Auto-generated method stub
+		
 	}
 }

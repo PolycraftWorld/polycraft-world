@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import io.netty.buffer.Unpooled;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -49,6 +51,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
@@ -226,6 +229,21 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+					case Tutorial:
+						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
+							case Features:	//Experiment Features update
+								PolycraftMod.logger.debug("Why is client sending Features List?");
+								break;
+							case ActiveFeatures:	//Experiment Active Features update
+								PolycraftMod.logger.debug("Why is client sending Active Features List?");
+								break;
+							case Feature:	//Experiment single featuer update
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							default:
+								break;
+						}
 					default:
 						break;
 					}
@@ -245,6 +263,14 @@ public class ServerEnforcer extends Enforcer {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
+	
+	
+	private void updateTutorialFeature(String decompressedJson) {
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+		
 	
 	/**
 	 * Client sends updated parameters inside an ExperimentParticipantMetaData object that contains Client ID and experiment ID.
@@ -468,6 +494,29 @@ public class ServerEnforcer extends Enforcer {
 			}				
 		}
 	}
+	
+	
+	/**
+	 * Send Tutorial updates to players in the game
+	 * @param jsonStringToSend if Null, then it is case 2 else, it's case 3
+	 * @param player if Null, then it is case 1 else, it's either case 2 or 3.
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				} else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Send an updated list of experiments to all players in dimension 0
 	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 
