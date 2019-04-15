@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -18,14 +20,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class CommandConsent extends CommandBase{
+public class CommandHalftimeGUI extends CommandBase{
 
 	private final List aliases;
   
 	
-	public CommandConsent(){
+	public CommandHalftimeGUI(){
 		aliases = new ArrayList(); 
-        aliases.add("consent"); 
+        aliases.add("halftime"); 
 	}
 	
 	@Override
@@ -37,13 +39,13 @@ public class CommandConsent extends CommandBase{
 	@Override
 	public String getCommandName() {
 		// TODO Auto-generated method stub
-		return "consent";
+		return "halftime";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
 		// TODO Auto-generated method stub
-		return "/consent [opt:get/set] [True/False]";
+		return "/halftime [opt:get/set] [True/False]";
 	}
 
 	@Override
@@ -58,24 +60,15 @@ public class CommandConsent extends CommandBase{
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
-		if (world.isRemote) 
+		if (!world.isRemote) // world.isRemote means its only on CLIENT world, will NOT open if you are on server
         { 
-            System.out.println("Not processing on Client side"); 
+			PolycraftMod.proxy.openHalftimeGui((EntityPlayer)player);
+			//System.out.println("Not processing on client side"); 
         } 
 		else
 		{
-			String response;
-			System.out.println("Processing on Server side"); 
-			if (args.length > 1) {
-				if(args[1].toLowerCase().equals("true")) {
-					response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderName().toLowerCase(), args[0].toLowerCase(), true);
-				}else {
-					response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderName().toLowerCase(), args[0].toLowerCase(), false);
-				}
-				player.addChatMessage(new ChatComponentText(response));
-			}else {
-				player.addChatMessage(new ChatComponentText("use \"/consent [opt:get/set] [True/False]\" to give or withdraw IRB consent"));
-			}
+			System.out.println("Not processing on Server side"); 
+			 //PolycraftMod.proxy.openHalftimeGui((EntityPlayer)player);
 		}		
 	}
 

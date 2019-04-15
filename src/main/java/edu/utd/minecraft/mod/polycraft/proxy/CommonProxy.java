@@ -21,14 +21,12 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
 import edu.utd.minecraft.mod.polycraft.handler.RespawnHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
-import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -57,15 +55,10 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -532,8 +525,14 @@ public abstract class CommonProxy {
 	
 	}
 
-	public void toggleTutorialRender() {
-		// TODO Auto-generated method stub
+	public void openHalftimeGui(EntityPlayer player) {
+				
+	}
+	public void closeHalftimeGui(EntityPlayer player) {
 		
 	}
+	public void toggleTutorialRender() {
+		// TODO Auto-generated method stub
+	}
+
 }

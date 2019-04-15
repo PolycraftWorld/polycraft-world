@@ -62,11 +62,11 @@ public class CommandGUI  extends CommandBase{
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
-		if (!world.isRemote) 
+		if (!world.isRemote) // world.isRemote means its only on CLIENT world, will NOT open if you are on server
         { 
             //Client Side
 			//PolycraftMod.proxy.openConsentGui((EntityPlayer) player, (int) player.posX, (int) player.posY, (int) player.posZ);
-			PolycraftMod.proxy.openTutorialGui((EntityPlayer)player);
+			PolycraftMod.proxy.openHalftimeGui((EntityPlayer)player);
         
         } 
 		else

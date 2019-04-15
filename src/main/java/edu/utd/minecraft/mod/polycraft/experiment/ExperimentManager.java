@@ -24,6 +24,9 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerRegisterEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExitEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -385,6 +388,9 @@ public class ExperimentManager {
 				for(String play : ex.scoreboard.getPlayers()) {
 					if(play.equals(playerName)) {
 						removePlayerFromExperiment(ex.id, playerName);
+						PlayerExitEvent event = new PlayerExitEvent(ex.id,playerName);
+						edu.utd.minecraft.mod.polycraft.util.Analytics.onPlayerExitEvent(event);
+						System.out.println(playerName+"Player is removed from experiment"+ex.id);
 						//sendExperimentUpdates();
 						return true;
 					}
@@ -553,12 +559,23 @@ public class ExperimentManager {
 	 */
 	public static int getRunningExperiment() {
 		for(int expID: experiments.keySet()) {
-			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running)
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
 			{
 				return expID;
 			}
 		}
 		return -1;
+	}
+	
+	public static List<Integer> getRunningExperiments() {
+		List<Integer> list_of_running_experiments=new ArrayList<Integer>();  
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
+			{
+				list_of_running_experiments.add(expID);
+			}
+		}
+		return list_of_running_experiments;
 	}
 	
 	/**

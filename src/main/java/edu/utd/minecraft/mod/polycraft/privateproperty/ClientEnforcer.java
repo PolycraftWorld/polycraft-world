@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -45,6 +46,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -262,8 +264,16 @@ public class ClientEnforcer extends Enforcer {
 							case ReceiveExperimentsList:
 								System.out.println("Receiving experiments list...");
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								//
 								break;
-							
+							case OpenHalftimeGUI:
+								System.out.println("Opening Halftime GUI");
+								PolycraftMod.proxy.openHalftimeGui(this.client.thePlayer);
+								break;
+							case CloseHalftimeGUI:
+								System.out.println("Closing Halftime GUI");
+								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
+								break;
 							default:
 							break;
 						}
@@ -353,6 +363,14 @@ public class ClientEnforcer extends Enforcer {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}
 	
+	
+	public void openHalftimeGui() {
+		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));		
+	}
+	public void closeHalftimeGui() {
+		client.displayGuiScreen(null);
+		client.setIngameFocus();
+	}
 	
 	@Deprecated
 	private void openConsentGui() {
@@ -655,6 +673,22 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+
+	public void sendGuiHalftimeUpdate(String[] answers) {
+		// TODO Auto-generated method stub
+		FMLProxyPacket[] packetList = null;
+		int flag = 1;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Halftime, flag, gson.toJson(answers));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i + " Halftime Answers");
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
 		if (tick.phase == Phase.END && client.theWorld != null) {
@@ -808,4 +842,6 @@ public class ClientEnforcer extends Enforcer {
 		
 		return showAIControls;
 	}
+
+	
 }
