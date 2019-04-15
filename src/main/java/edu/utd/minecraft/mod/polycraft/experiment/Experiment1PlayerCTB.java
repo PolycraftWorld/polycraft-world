@@ -631,12 +631,12 @@ public class Experiment1PlayerCTB extends Experiment{
 			
 		}
 		
-		if(this.halfTimeTicksRemaining % 20 == 0) {
-			Map.Entry<Team, Float> maxEntry = null;
-			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-				ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
-			}
-		}
+		//if(this.halfTimeTicksRemaining % 20 == 0) {
+			//Map.Entry<Team, Float> maxEntry = null;
+			//for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+				//ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+			//}
+		//}
 		else if(currentState == State.Ending) {
 			if(!this.hasGameEnded) { //do this once only!
 				this.hasGameEnded = true;
