@@ -83,9 +83,36 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.failCount=0;
 		this.inFail=false;
 		this.setAng=false;
-		this.pos1=pos;
-		this.pos2=pos;
+		this.pos1= pos1.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
+		this.pos2= pos2.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
 
+	}
+	
+	@Override
+	public void preInit(ExperimentTutorial exp) {
+		super.preInit(exp);
+		pos1.xCoord += exp.posOffset.xCoord;
+		pos1.yCoord += exp.posOffset.yCoord;
+		pos1.zCoord += exp.posOffset.zCoord;
+		pos2.xCoord += exp.posOffset.xCoord;
+		pos2.yCoord += exp.posOffset.yCoord;
+		pos2.zCoord += exp.posOffset.zCoord;
+		
+	}
+	
+	@Override
+	public void updateValues() {
+		this.pos1.xCoord = Integer.parseInt(xPos1Field.getText());
+		this.pos1.yCoord = Integer.parseInt(yPos1Field.getText());
+		this.pos1.zCoord = Integer.parseInt(zPos1Field.getText());
+		this.pos2.xCoord = Integer.parseInt(xPos2Field.getText());
+		this.pos2.yCoord = Integer.parseInt(yPos2Field.getText());
+		this.pos2.zCoord = Integer.parseInt(zPos2Field.getText());
+		this.save();
+		super.updateValues();
+		
+        //this.isDirty=true;
+        //TutorialManager.INSTANCE.sendFeatureUpdate(0, 0, this, true);
 	}
 	
 	@Override
@@ -653,6 +680,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		nbt.setBoolean("sprintDoorOpen", sprintDoorOpen);
 		nbt.setBoolean("inFail", inFail);
 		nbt.setBoolean("setAng", setAng);
+		int pos1[] = {(int)this.pos1.xCoord, (int)this.pos1.yCoord, (int)this.pos1.zCoord};
+		nbt.setIntArray("pos1",pos1);
+		int pos2[] = {(int)this.pos2.xCoord, (int)this.pos2.yCoord, (int)this.pos2.zCoord};
+		nbt.setIntArray("pos2",pos2);
 		return nbt;
 	}
 	
@@ -665,6 +696,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.sprintDoorOpen=nbtFeat.getBoolean("sprintDoorOpen");
 		this.inFail=nbtFeat.getBoolean("inFail");
 		this.setAng=nbtFeat.getBoolean("setAng");
+		
+		int featPos1[]=nbtFeat.getIntArray("pos1");
+		this.pos1=Vec3.createVectorHelper(featPos1[0], featPos1[1], featPos1[2]);
+		
+		int featPos2[]=nbtFeat.getIntArray("pos2");
+		this.pos2=Vec3.createVectorHelper(featPos2[0], featPos2[1], featPos2[2]);
 		
 		this.box= new RenderBox(this.getPos().xCoord, this.getPos().zCoord, this.getPos2().xCoord, this.getPos2().zCoord, 
 				Math.min(this.getPos().yCoord, this.getPos2().yCoord), Math.max(Math.abs(this.getPos().yCoord- this.getPos2().yCoord), 1), 1, this.getName());
