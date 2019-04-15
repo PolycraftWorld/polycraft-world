@@ -110,6 +110,9 @@ public class ClientEnforcer extends Enforcer {
 			this.ticksRemaining = ticksRemaining;
 		}
 	}
+	
+
+	public boolean hasCompletedTutorial = true;
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
 	private static boolean showTutorialRender = false;
@@ -294,6 +297,12 @@ public class ClientEnforcer extends Enforcer {
 							PolycraftMod.logger.debug("Receiving experiment feature...");
 							this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							break;
+						case CompletedTutorialTrue:
+							PolycraftMod.logger.debug("Receiving experiment completed update...");
+							this.hasCompletedTutorial = true;
+						case CompletedTutorialFalse:
+							PolycraftMod.logger.debug("Receiving experiment completed update...");
+							this.hasCompletedTutorial = false;
 						default:
 							break;
 						}
@@ -581,8 +590,9 @@ public class ClientEnforcer extends Enforcer {
 	}
 	
 	private void updateTutorialFeatures(String decompressedJson) {
-		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)
 			return;
+		TutorialManager.INSTANCE.clientCurrentExperiment = 1;
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
@@ -594,6 +604,13 @@ public class ClientEnforcer extends Enforcer {
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+	}
+	
+	private void updateTutorialCompleted(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		this.INSTANCE.hasCompletedTutorial = (boolean) gson.fromJson(decompressedJson, boolean.class);
 	}
 	
 	private void updateTutorialActiveFeatures(String decompressedJson) {

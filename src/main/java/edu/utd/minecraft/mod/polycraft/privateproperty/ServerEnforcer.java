@@ -298,8 +298,10 @@ public class ServerEnforcer extends Enforcer {
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));	
 		}
 		
-		if(System.getProperty("isExperimentServer") != null)
+		if(System.getProperty("isExperimentServer") != null) {
 			this.shouldClientDisplayConsentGUI((EntityPlayerMP)event.player);
+			this.UpdateClientTutorialCompleted((EntityPlayerMP)event.player);
+		}
 		
 	}
 	
@@ -556,6 +558,22 @@ public class ServerEnforcer extends Enforcer {
 					sendDataPackets(DataPacketType.Consent, 1, player);	//sending 1 will not show consent form
 				}else {
 					sendDataPackets(DataPacketType.Consent, 0, player);	//sending 0 will show consent form
+				}
+			}
+			catch(Exception e){
+				//TODO: something?
+			}
+		}
+	}
+	
+	public void UpdateClientTutorialCompleted(EntityPlayerMP player) {
+		if (portalRestUrl != null) {
+			try {
+				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderName().toLowerCase());
+				if(result.equals("Error")) {
+					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
+				}else {
+					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialTrue.ordinal(), player);	//Update clients tutorial completion to True
 				}
 			}
 			catch(Exception e){
@@ -972,6 +990,21 @@ public class ServerEnforcer extends Enforcer {
 					params);
 			if(response.length() > 500)
 				response = "Error processing command";
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
+	
+	public String skillLevelCheck(String minecraftUserName) {
+		try {
+			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!response.matches("-?\\d+")) {
+				response = "Error";
+			}
 			return response;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
