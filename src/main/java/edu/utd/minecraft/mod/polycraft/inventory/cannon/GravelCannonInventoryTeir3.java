@@ -21,7 +21,7 @@ public class GravelCannonInventoryTeir3 extends GravelCannonInventory {
 		this.useVelocity=this.config.params.getBoolean(0);
 		this.useYaw=this.config.params.getBoolean(1);
 		this.usePitch=this.config.params.getBoolean(2);
-		this.velocity=15.0;
+		this.velocity=35;
 		this.theta=0.0;
 		this.phi=0.0;
 		this.mass=1.0;

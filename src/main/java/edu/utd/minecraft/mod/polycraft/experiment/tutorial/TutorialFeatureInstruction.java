@@ -12,7 +12,9 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -51,7 +53,11 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		CART_START,
 		CART_END,
 		KBB,
-		CRAFT_FKB
+		CRAFT_FKB,
+		CANNON_TARGET,
+		CANNON1,
+		CANNON2,
+		CANNON3
 	};
 	private InstructionType type;
 	
@@ -60,10 +66,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	
 	public boolean sprintDoorOpen;
 	public int failCount;
+	public int tickWait;
 	public boolean inFail;
 	public boolean setAng;
+	public int score;
 	RenderBox box;
 	private final static String KBB = "1hv";
+	private final static String ItemGravelCannonBall = "1hS";
+	private final static String BlockNaturalRubber = "Jx";
 	
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
@@ -83,9 +93,38 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.failCount=0;
 		this.inFail=false;
 		this.setAng=false;
-		this.pos1=pos;
-		this.pos2=pos;
+		this.tickWait=0;
+		this.pos1= pos1.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
+		this.pos2= pos2.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
 
+	}
+	
+	
+	@Override
+	public void preInit(ExperimentTutorial exp) {
+		super.preInit(exp);
+		pos1.xCoord += exp.posOffset.xCoord;
+		pos1.yCoord += exp.posOffset.yCoord;
+		pos1.zCoord += exp.posOffset.zCoord;
+		pos2.xCoord += exp.posOffset.xCoord;
+		pos2.yCoord += exp.posOffset.yCoord;
+		pos2.zCoord += exp.posOffset.zCoord;
+		
+	}
+	
+	@Override
+	public void updateValues() {
+		this.pos1.xCoord = Integer.parseInt(xPos1Field.getText());
+		this.pos1.yCoord = Integer.parseInt(yPos1Field.getText());
+		this.pos1.zCoord = Integer.parseInt(zPos1Field.getText());
+		this.pos2.xCoord = Integer.parseInt(xPos2Field.getText());
+		this.pos2.yCoord = Integer.parseInt(yPos2Field.getText());
+		this.pos2.zCoord = Integer.parseInt(zPos2Field.getText());
+		this.save();
+		super.updateValues();
+		
+        //this.isDirty=true;
+        //TutorialManager.INSTANCE.sendFeatureUpdate(0, 0, this, true);
 	}
 	
 	@Override
@@ -369,6 +408,117 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case CANNON_TARGET:
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				canProceed = true;
+				if(!exp.world.getEntitiesWithinAABB(EntityGravelCannonBall.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).isEmpty()) {
+					
+					isDone = true;
+					exp.scoreboard.updateScore(exp.scoreboard.getTeams().get(0), 1);
+					this.score= Math.round((exp.scoreboard.getTeamScores().get(exp.scoreboard.getTeams().get(0))));
+					//player.addChatMessage(new ChatComponentText("You hit "+score+" target(s)"));
+					
+					
+					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+					{
+						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+						{
+							for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+							{
+								if(exp.world.getBlock(x, y, z)==GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName(BlockNaturalRubber)))
+								{
+									exp.world.setBlockMetadataWithNotify(x, y, z, 2, 4);
+									exp.world.markBlockForUpdate(x, y, z);
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		case CANNON1:
+			exp.scoreboard.updateScore(exp.scoreboard.getTeams().get(0), 0);
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
+	        	{
+			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
+			        {
+
+//						canProceed = true;
+//						isDone = true;
+//						player.setLocationAndAngles(4, 57, 111, -90, 0);
+			        }
+	        	}
+				else
+				{
+					if(this.tickWait>40)
+					{
+						canProceed = true;
+						isDone = true;
+						player.setLocationAndAngles(4, 57, 111, -90, 0);
+					}
+					this.tickWait+=1;
+				}
+			}
+			break;
+		case CANNON2:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
+	        	{
+			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
+			        {
+
+//						canProceed = true;
+//						isDone = true;
+//						player.setLocationAndAngles(4, 57, 193, -90, 0);
+			        }
+	        	}
+				else
+				{
+					if(this.tickWait>40)
+					{
+						canProceed = true;
+						isDone = true;
+						player.setLocationAndAngles(4, 57, 193, -90, 0);
+					}
+					this.tickWait+=1;
+				}
+			}
+
+			break;
+		case CANNON3:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
+	        	{
+			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
+			        {
+
+//						canProceed = true;
+//						isDone = true;
+//						//player.setLocationAndAngles(4, 57, 111, -90, 0);
+			        }
+	        	}
+				else
+				{
+					if(this.tickWait>40)
+					{
+						canProceed = true;
+						isDone = true;
+						this.score= Math.round((exp.scoreboard.getTeamScores().get(exp.scoreboard.getTeams().get(0))));
+						//player.addChatMessage(new ChatComponentText("You hit "+score+" target(s)"));
+					}
+					this.tickWait+=1;
+					//player.setLocationAndAngles(4, 57, 111, -90, 0);
+				}
+			}
+
+			break;
 		default:
 			break;
 		
@@ -542,6 +692,21 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
 			TutorialRender.instance.renderTutorialWalkForward(entity);
 			break;
+		case CANNON_TARGET:
+			super.render(entity);
+			break;
+		case CANNON1:
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialCannon1(player);
+			break;
+		case CANNON2:
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialCannon2(player);
+			break;
+		case CANNON3:
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialCannon3(player);
+			break;
 		default:
 			break;
 		
@@ -635,6 +800,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         zPos2Field.setCanLoseFocus(true);
         zPos2Field.setFocused(false);
         guiDevTool.textFields.add(zPos2Field);
+
+
 	}
 
 	public InstructionType getType() {
@@ -653,6 +820,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		nbt.setBoolean("sprintDoorOpen", sprintDoorOpen);
 		nbt.setBoolean("inFail", inFail);
 		nbt.setBoolean("setAng", setAng);
+		int pos1[] = {(int)this.pos1.xCoord, (int)this.pos1.yCoord, (int)this.pos1.zCoord};
+		nbt.setIntArray("pos1",pos1);
+		int pos2[] = {(int)this.pos2.xCoord, (int)this.pos2.yCoord, (int)this.pos2.zCoord};
+		nbt.setIntArray("pos2",pos2);
 		return nbt;
 	}
 	
@@ -665,6 +836,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.sprintDoorOpen=nbtFeat.getBoolean("sprintDoorOpen");
 		this.inFail=nbtFeat.getBoolean("inFail");
 		this.setAng=nbtFeat.getBoolean("setAng");
+		
+		int featPos1[]=nbtFeat.getIntArray("pos1");
+		this.pos1=Vec3.createVectorHelper(featPos1[0], featPos1[1], featPos1[2]);
+		
+		int featPos2[]=nbtFeat.getIntArray("pos2");
+		this.pos2=Vec3.createVectorHelper(featPos2[0], featPos2[1], featPos2[2]);
 		
 		this.box= new RenderBox(this.getPos().xCoord, this.getPos().zCoord, this.getPos2().xCoord, this.getPos2().zCoord, 
 				Math.min(this.getPos().yCoord, this.getPos2().yCoord), Math.max(Math.abs(this.getPos().yCoord- this.getPos2().yCoord), 1), 1, this.getName());

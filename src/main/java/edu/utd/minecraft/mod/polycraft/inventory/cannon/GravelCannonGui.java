@@ -78,7 +78,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        
 	        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-66, 60, 20);
 	        this.velocityText.width/=2;
-	        velocityText.setMaxStringLength(3);
+	        velocityText.setMaxStringLength(4);
 
 	        velocityText.setText(Double.toString(this.inventory.velocity));
 	        this.velocityText.setFocused(true);
@@ -96,7 +96,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        
 	        this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-16, 60, 20);
 	        this.thetaText.width/=2;
-	        thetaText.setMaxStringLength(3);
+	        thetaText.setMaxStringLength(4);
 	        thetaText.setText(Double.toString(this.inventory.theta));
 	        
 
@@ -127,7 +127,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        
 	        this.phiText = new GuiTextField(this.fontRendererObj, this.width / 2 +25, this.height/2-66, 60, 20);
 	        this.phiText.width/=2;
-	        phiText.setMaxStringLength(3);
+	        phiText.setMaxStringLength(4);
 	        phiText.setText(Double.toString(this.inventory.phi));
 	        
 
@@ -419,7 +419,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	    	int x=this.inventory.xCoord;
 	    	int y=this.inventory.yCoord;
 	    	int z=this.inventory.zCoord;
-			this.velocity=20;
+			this.velocity=35;
 			this.theta=0;
 			this.phi=0;
 	    	if(useVelocity)

@@ -44,7 +44,7 @@ public class CannonInventory extends PolycraftInventory {
 	
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		
+		guiSlots.add(GuiContainerSlot.createInput(0, 0, 0, 150, -10));
 	}
 
 	

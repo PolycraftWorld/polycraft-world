@@ -21,6 +21,11 @@ public class TutorialRender {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	
 	
+	static 			ResourceLocation[] texturesCannon = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CannonInstruction1.png")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CannonInstruction2.png")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CannonInstruction3.png"))
+			};
+	
 	static	ResourceLocation[] texturesFloat = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIF/frame_14_delay-0.1s.gif")),
 			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIF/frame_15_delay-0.1s.gif")),
 			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingGIF/frame_16_delay-0.1s.gif")),
@@ -340,6 +345,43 @@ public class TutorialRender {
 //				      
 //	 }
 	
+	
+	//texturesCannon
+	public static void renderTutorialCannon1(Entity player)
+	 {
+ 
+		 float scale =1F;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesCannon[0]);
+		 mc.ingameGUI.drawTexturedModalRect(250, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	public static void renderTutorialCannon2(Entity player)
+	 {
+
+		 float scale =1F;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesCannon[1]);
+		 mc.ingameGUI.drawTexturedModalRect(250, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	public static void renderTutorialCannon3(Entity player)
+	 {
+
+		 float scale =1F;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesCannon[2]);
+		 mc.ingameGUI.drawTexturedModalRect(250, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
 	
 	
 	public static void renderTutorialSprintJump(Entity player)

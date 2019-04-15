@@ -18,7 +18,7 @@ public class GravelCannonInventory extends CannonInventory {
 
 	public GravelCannonInventory() {
 		super();
-		this.velocity=20.0;
+		this.velocity=50.0;
 		this.theta=0.0;
 		this.mass=1.0;
 		this.phi=0.0;
