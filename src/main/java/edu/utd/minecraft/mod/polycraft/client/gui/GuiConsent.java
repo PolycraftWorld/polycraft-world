@@ -200,10 +200,11 @@ public class GuiConsent extends GuiScreen {
 			break;
 		case 13:
 			lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.tutorial"), X_WIDTH));
-			yes = new GuiButton(0, this.width / 2 - 116, this.height / 2 - 12, 210, 20, I18n.format("gui.yes"));
-			no = new GuiButton(1, this.width / 2 - 116, this.height / 2 + 10, 210, 20, I18n.format("gui.no"));
-			this.buttonList.add(yes);
-			this.buttonList.add(no);
+			completed[13] = true;
+//			yes = new GuiButton(0, this.width / 2 - 116, this.height / 2 - 12, 210, 20, I18n.format("gui.yes"));
+//			no = new GuiButton(1, this.width / 2 - 116, this.height / 2 + 10, 210, 20, I18n.format("gui.no"));
+//			this.buttonList.add(yes);
+//			this.buttonList.add(no);
 			break;
 		}
 		// Calculate how many lines the title text will need.
@@ -250,7 +251,6 @@ public class GuiConsent extends GuiScreen {
 				switchScreen();
 			} else if (screenID == 13) { // would like to play tutorial
 				completed[13] = true;
-				button.enabled = false;
 				playTutorial = true;
 			} else {
 				// Mark button as incorrect.
@@ -306,9 +306,10 @@ public class GuiConsent extends GuiScreen {
 				screenID = 10;			
 			else if (!is18)
 				screenID = 5;
-			else if (screenID == 13) // when going back from tutorial jump to whichever consent they chose
-				screenID = consent ? 12 : 11;
-			else // Jump back a single page.
+			else if (screenID == 13) { // when going back from tutorial, just close the screen
+				this.mc.displayGuiScreen((GuiScreen) null);
+				this.mc.setIngameFocus();
+			}else // Jump back a single page.
 				screenID--;
 			switchScreen();
 			break;
@@ -324,6 +325,8 @@ public class GuiConsent extends GuiScreen {
 				screenID++;
 				switchScreen();
 				break;
+			} else if (screenID == 13) {
+				this.playTutorial = true;
 			}
 		default: // Should not occur outside of case 5 falling through.
 			this.mc.displayGuiScreen((GuiScreen) null);
@@ -372,6 +375,9 @@ public class GuiConsent extends GuiScreen {
 		System.out.println("Consent GUI Packet Sent");
 		//send packet to server
 		ClientEnforcer.INSTANCE.sendGuiConsentUpdate(consent);
+		if(this.playTutorial) {
+			ClientEnforcer.INSTANCE.sendTutorialRequest();
+		}
 	}
 
 	/**
@@ -432,7 +438,7 @@ public class GuiConsent extends GuiScreen {
 		if (this.buttonList.size() < 2)
 			return; // Buttons are not ready yet.
 		((GuiButton) this.buttonList.get(0)).enabled = screenID > 1 && screenID != 11;
-		((GuiButton) this.buttonList.get(1)).displayString = screenID > 13 ? "Play!" : ((screenID == 0 || screenID == 11) && consent == false) ? "Quit" : "Next >" ;
+		((GuiButton) this.buttonList.get(1)).displayString = screenID == 13 ? "Play!" : ((screenID == 0 || screenID == 11) && consent == false) ? "Quit" : "Next >" ;
 		((GuiButton) this.buttonList.get(1)).enabled = completed[screenID];
 
 		// Set the marker for drawing text.

@@ -672,6 +672,20 @@ public class ClientEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	
+	public void sendTutorialRequest() {
+		FMLProxyPacket[] packetList = null;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.JoinNew.ordinal(), gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending Tutorial request packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
 
 
 	public void sendGuiHalftimeUpdate(String[] answers) {

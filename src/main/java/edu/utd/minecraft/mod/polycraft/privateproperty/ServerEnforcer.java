@@ -33,6 +33,7 @@ import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -207,6 +208,7 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+						break;
 					case Halftime: // decompress json array with halftime answers
 						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
 						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
@@ -225,6 +227,14 @@ public class ServerEnforcer extends Enforcer {
 							case Feature:	//Experiment single featuer update
 								PolycraftMod.logger.debug("Receiving experiment feature...");
 								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case JoinNew:	//Client requesting to join new tutorial
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								final String playerDisplayName1 = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {
+										}.getType());
+								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
+										(EntityPlayerMP)MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(playerDisplayName1));
 								break;
 							default:
 								break;

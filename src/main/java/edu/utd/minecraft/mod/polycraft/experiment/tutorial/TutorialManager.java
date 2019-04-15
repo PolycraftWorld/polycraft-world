@@ -3,9 +3,11 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,6 +57,11 @@ public class TutorialManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, ExperimentTutorial> experiments = new Hashtable<Integer, ExperimentTutorial>();
 	
+	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+	static TutorialOptions tutOptions = new TutorialOptions();
+	static String outputFileName = "output";
+	static String outputFileExt = ".psm";
+	
 	private List<EntityPlayer> globalPlayerList;
 	
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else 
@@ -63,7 +70,8 @@ public class TutorialManager {
 	public enum PacketMeta{
 		Features,
 		ActiveFeatures,
-		Feature
+		Feature,
+		JoinNew
 	}
 	
 	public TutorialManager() {
@@ -187,6 +195,44 @@ public class TutorialManager {
 	//@SideOnly(Side.CLIENT)
 	public void resetClientExperimentManager() {
 		//clientCurrentExperiment = -1;
+	}
+	
+	private NBTTagCompound load() {
+		try {
+        	features.clear();
+        	
+        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+				test.load(nbtFeat);
+				features.add(test);
+			}
+			
+			tutOptions.load(nbtFeats.getCompoundTag("options"));
+            is.close();
+            return nbtFeats;
+
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+        }
+		return null;
+	}
+	
+	public int createExperiment() {
+		NBTTagCompound nbtData = load();
+		tutOptions.name = "test name";
+		tutOptions.numTeams = 1;
+		tutOptions.teamSize = 1;
+		
+		int id = this.INSTANCE.addExperiment(tutOptions, features, true);
+		this.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
+
+		return id;
 	}
 	
 	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
