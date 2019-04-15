@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorialMenu;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -1191,7 +1192,7 @@ public class ClientProxy extends CommonProxy {
 				y += statusOverlayDistanceBetweenY;
 			}
 			// TODO: replace with boolean if they have or havent done the tutorial.
-			if (true) {
+			if (!ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1) {
 				int color = 16777215;
 				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
 			}
@@ -1513,7 +1514,10 @@ public class ClientProxy extends CommonProxy {
 	public void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
 		if(keyBindingExperiments.isPressed()) {
 			if(this.noScreenOverlay()) {
-				client.displayGuiScreen(new GuiExperimentList(player));
+				if(ClientEnforcer.INSTANCE.hasCompletedTutorial)
+					client.displayGuiScreen(new GuiExperimentList(player));
+				else
+					client.displayGuiScreen(new GuiTutorialMenu(player));
 			}
 		}
 	}
