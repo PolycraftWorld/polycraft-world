@@ -71,7 +71,9 @@ public class TutorialManager {
 		Features,
 		ActiveFeatures,
 		Feature,
-		JoinNew
+		JoinNew,
+		CompletedTutorialTrue,
+		CompletedTutorialFalse//for checking if a player has completed a tutorial before
 	}
 	
 	public TutorialManager() {
