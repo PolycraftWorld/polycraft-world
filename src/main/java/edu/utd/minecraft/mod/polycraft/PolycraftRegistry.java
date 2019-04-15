@@ -1405,6 +1405,8 @@ public class PolycraftRegistry {
 		
 		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
 			langEntries.add(String.format(entityFormat, entity.name, entity.name));
+		
+		langEntries.addAll(customLangEntries());
 
 		final PrintWriter writer = new PrintWriter(exportFile);
 		for (final String line : langEntries) {
@@ -1412,4 +1414,41 @@ public class PolycraftRegistry {
 		}
 		writer.close();
 	}
+	
+	private static Collection<String> customLangEntries(){
+		final Collection<String> customEntries = new LinkedList<String>();
+		
+		//Gui consent text
+		customEntries.add("gui.consent.title=Polycraft World Experiments Server Terms, Conditions & User Agreement");
+		customEntries.add("gui.consent.longassparagraph1=Polycraft World is researching how people find solutions to problems under different circumstances. We'll be doing this by looking at how well players accomplish the goals of these challenge rooms. Thousands of participants will be involved in this study so that we can look at goal-oriented behavior across populations. We think these games are awesome, but you might get tired or bored. You might also have a really fun time and accidentally learn about polymer chemistry! If you don't want to share your behavorial data with us, that's ok - we can send you to a challenge room where data won't be used for this research. If you win in either room, you'll get a prize at the end - maybe diamond blocks, hard-to-make tools, or even some platinum! For some challenges, you might have the chance to win scholarship money to UT Dallas, but you don't have to share your data with us in order to compete for the scholarships.");
+		customEntries.add("gui.consent.longassparagraph2=You always have the right to choose not to participate, and you can stop doing so at any time - just use your Esc key to exit the game, or type \"/exit\" in your command bar. We'll stop tracking behavior and send you back to the spawn point. All of the information participants provide to investigators as part of this research will be protected and held in confidence within the limits of the law and institutional regulation. Your data will only be identified by your unique, randomly-assigned user ID, and none of your personal contact information will be shared with our research partners (next). The results of this research may appear in publications, but no individual participants will be identified.");
+		customEntries.add("gui.consent.longassparagraph3=Our research partners include Gallup, Inc. and the Georgia Institute of Technology. Members and associated staff of the Institutional Review Board (IRB) of the University of Texas at Dallas may review the records of your participation in this research. An IRB is a group of people who are responsible for assuring the community that the rights of participants in research are respected. A representative of the UTD IRB may contact you to gather information about your participation in this research. If you wish, you may refuse to answer questions the representative may ask.");
+		customEntries.add("gui.consent.longassparagraph4=Participants who want more information about their rights as a participant or who want to report a research related injury may contact The UT Dallas IRB at +1-972-883-4579.");
+		customEntries.add("gui.consent.contact1=Principal Investigator: Eric Kildebeck, M.D., Ph.D. (972-883-7281)");
+		customEntries.add("gui.consent.contact2=Co-Principal Investigator: Walter Voit, Ph.D. (972-883-5788)");
+		customEntries.add("gui.consent.contact3=Polycraft Director of Research: Grace Topete (972-883-7286)");
+		customEntries.add("gui.consent.please=Please answer the following questions to continue.");
+		customEntries.add("gui.consent.tryagain=Incorrect. Try again!");
+		customEntries.add("gui.consent.question1=2. What data is being collected for this research?");
+		customEntries.add("gui.consent.question10=Where I live.");
+		customEntries.add("gui.consent.question11=My name.");
+		customEntries.add("gui.consent.question12=What actions I perform in a minigame.");
+		customEntries.add("gui.consent.question13=How many friends I have in Polycraft.");
+		customEntries.add("gui.consent.question2=3. Practice typing the command to exit the research room and stop sharing your behavioral data.");
+		customEntries.add("gui.consent.question3=1. Are you 18 or order?");
+		customEntries.add("gui.consent.minor=Thanks for your interest! You can continue to enter and play various minigames in our servers. We are currently limiting our research to participants who are 18+. Have fun in Polycraft World!");
+		customEntries.add("gui.consent.question4=4. Please type the phone number you should call if you would like more info about your rights as a participant.");
+		customEntries.add("gui.consent.question5=5. Who can you contact if you have questions about the research?");
+		customEntries.add("gui.consent.question50=Dr. Walter Voit");
+		customEntries.add("gui.consent.question51=Dr. Eric Kildebeck");
+		customEntries.add("gui.consent.question52=Grace Topete");
+		customEntries.add("gui.consent.question53=All of the above.");
+		customEntries.add("gui.consent.more=Is that the only person?");
+		customEntries.add("gui.consent.question6=Are you willing to share your anonymous behavior data with Polycraft World?");
+		customEntries.add("gui.consent.nonegiven=Thanks for your interest! You can continue to enter and play various minigames in our servers. We are currently limiting our research to participants who consent to share their behavioral data. If you would like to change your mind, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Have fun in Polycraft World!");
+		customEntries.add("gui.consent.finished=Thank you! If you would like to withdraw consent, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Welcome to Polycraft World!");
+
+		return customEntries;
+	}
+	
 }
