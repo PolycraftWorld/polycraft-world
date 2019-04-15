@@ -286,7 +286,9 @@ public class ExperimentTutorial{
 		//We shouldn't have to check experiment state on client side, Just need to run all active features
 		if(activeFeatures.isEmpty()) {	//active features is empty, so experiment must be over.
 			this.currentState = State.Done;
+			TutorialManager.INSTANCE.clientCurrentExperiment = -1;
 		}else {
+			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
 				activeFeatures.get(x).onPlayerTickUpdate(this);
