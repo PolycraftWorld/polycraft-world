@@ -421,7 +421,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialManageInventory(entity);
+							TutorialRender.instance.renderTutorialManageInventory(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 						else
@@ -503,6 +503,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case JUMP:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialJump(entity);
 			break;
 		case FLOAT:
 			super.render(entity);
