@@ -465,7 +465,7 @@ public class ExperimentFlatCTB extends Experiment{
 					 * Record which players have won.
 					 */
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
+						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
 						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
 						edu.utd.minecraft.mod.polycraft.util.Analytics.onTeamWon(event);
 					} else {

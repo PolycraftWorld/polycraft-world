@@ -719,7 +719,7 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onKnockBackEvent(final PlayerKnockBackEvent event) {
 		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 2,get_exp_ID(event.player),event.knocked_list,formatItemStackName(event.player.getCurrentEquippedItem())));
-		Write_to_log(event.player,get_exp_ID(event.player),log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYEREXIT_EVENT_DEBUG : FORMAT_ON_PLAYEREXIT_EVENT, DELIMETER_DATA, 7, get_exp_ID(event.player),Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase())))+System.getProperty("line.separator"));
+		Write_to_log(event.player,get_exp_ID(event.player),log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 2,get_exp_ID(event.player),event.knocked_list,formatItemStackName(event.player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
 		}
 	
 	/**
@@ -728,7 +728,7 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onKnockedBackEvent(final PlayerKnockedBackEvent event) {
 		log(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString(),formatItemStackName(event.player.getCurrentEquippedItem())));
-		Write_to_log_with_Exp_ID(event.player,log1(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString(),event.player.getCurrentEquippedItem().getDisplayName()))+System.getProperty("line.separator"));
+		Write_to_log_with_Exp_ID(event.player,log1(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString(),formatItemStackName(event.player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
 		}
 	
 	public static final String FORMAT_ON_PLAYER_REGISTER_EVENT = "%2$d%1$s%3$s%1$s%4$s";
