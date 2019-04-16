@@ -169,6 +169,7 @@ public class ServerEnforcer extends Enforcer {
 				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
 			}
 			else {
+				String playerDisplayName;
 				pendingDataPacketsBytes -= payload.array().length;
 				pendingDataPacketsBuffer.put(payload);
 				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
@@ -194,9 +195,8 @@ public class ServerEnforcer extends Enforcer {
 						
 						break;
 					case Consent:
-						final String playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-								new TypeToken<String>() {
-								}.getType());
+						playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+								new TypeToken<String>() {}.getType());
 						switch(pendingDataPacketTypeMetadata) {
 						case 0: //player gives consent
 							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", true);
@@ -222,7 +222,12 @@ public class ServerEnforcer extends Enforcer {
 								PolycraftMod.logger.debug("Why is client sending Features List?");
 								break;
 							case ActiveFeatures:	//Experiment Active Features update
-								PolycraftMod.logger.debug("Why is client sending Active Features List?");
+								PolycraftMod.logger.debug("Receiving client Active Features update request");
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								int expID = TutorialManager.isPlayerinExperiment(playerDisplayName.toLowerCase());
+								if(expID > -1)
+									TutorialManager.INSTANCE.sendTutorialActiveFeatures(expID);
 								break;
 							case Feature:	//Experiment single featuer update
 								PolycraftMod.logger.debug("Receiving experiment feature...");
@@ -230,11 +235,10 @@ public class ServerEnforcer extends Enforcer {
 								break;
 							case JoinNew:	//Client requesting to join new tutorial
 								PolycraftMod.logger.debug("Receiving experiment feature...");
-								final String playerDisplayName1 = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-										new TypeToken<String>() {
-										}.getType());
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
 								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
-										(EntityPlayerMP)MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(playerDisplayName1));
+										MinecraftServer.getServer().getConfigurationManager().func_152612_a(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
 								break;
 							default:
 								break;

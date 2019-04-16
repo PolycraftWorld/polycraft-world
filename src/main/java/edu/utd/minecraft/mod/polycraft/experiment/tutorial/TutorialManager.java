@@ -69,11 +69,11 @@ public class TutorialManager {
 	
 	public enum PacketMeta{
 		Features,
-		ActiveFeatures,
+		ActiveFeatures,		//for updating active features, if it comes from the client side, it is a request to resend active features
 		Feature,
 		JoinNew,
 		CompletedTutorialTrue,
-		CompletedTutorialFalse//for checking if a player has completed a tutorial before
+		CompletedTutorialFalse, //for checking if a player has completed a tutorial before
 	}
 	
 	public TutorialManager() {
@@ -334,7 +334,7 @@ public class TutorialManager {
 	}
 	
 	public void updateExperimentActiveFeatures(int experimentID, ByteArrayOutputStream activeFeaturesStream) {
-		//This should only be sent once
+		//This should be sent whenever active features change
 		try {
 			NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(new ByteArrayInputStream(activeFeaturesStream.toByteArray()));
             NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("activeFeatures");
@@ -347,9 +347,11 @@ public class TutorialManager {
 				activeFeatures.add(test);
 			}
 			
-			this.INSTANCE.experiments.get(this.INSTANCE.clientCurrentExperiment).updateActiveFeatures(activeFeatures);
+			//TODO: NEED TO VERIFY THAT ALL EXPERIMENT IDs ARE consistant on client side
+			this.INSTANCE.experiments.get(experimentID).updateActiveFeatures(activeFeatures);
 		} catch (Exception e) {
-            System.out.println("I can't load updated Experiment Features, because " + e.getStackTrace()[0]);
+            System.out.println("Active Features update failed. Requesting new packet because: " + e.getMessage());
+            ClientEnforcer.INSTANCE.sendActiveFeaturesRequest();	//TODO: This shouldn't happen every tick, might overload server
         }
 	}
 	
@@ -390,6 +392,15 @@ public class TutorialManager {
 		if(!INSTANCE.experiments.isEmpty())
 			if(INSTANCE.experiments.containsKey(INSTANCE.clientCurrentExperiment))
 				INSTANCE.experiments.get(INSTANCE.clientCurrentExperiment).render(entity);
+	}
+
+
+	public static int isPlayerinExperiment(String playerName) {
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).isPlayerInExperiment(playerName))
+				return expID;
+		}
+		return -1;
 	}
 
 }

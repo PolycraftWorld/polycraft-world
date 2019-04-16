@@ -617,7 +617,7 @@ public class ClientEnforcer extends Enforcer {
 		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
 			return;
 		Gson gson = new Gson();
-		TutorialManager.INSTANCE.updateExperimentActiveFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+		TutorialManager.INSTANCE.updateExperimentActiveFeatures(1, 
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
 	}
 	
@@ -699,6 +699,19 @@ public class ClientEnforcer extends Enforcer {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
 				System.out.println("Sending Tutorial request packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	public void sendActiveFeaturesRequest() {
+		FMLProxyPacket[] packetList = null;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.ActiveFeatures.ordinal(), gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending Tutorial active features request packet " + i);
 				netChannel.sendToServer(packet); 
 			}
 		}
