@@ -38,7 +38,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		MOUSE_RIGHT,
 		WASD,
 		JUMP,
-		FLOAT,
+		FLOAT1,
+		FLOAT2,
 		SPRINT,
 		JUMP_SPRINT,
 		FAIL,
@@ -218,7 +219,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case JUMP:
 			super.onServerTickUpdate(exp);
 			break;
-		case FLOAT:
+		case FLOAT1:
+			super.onServerTickUpdate(exp);
+			break;
+		case FLOAT2:
 			super.onServerTickUpdate(exp);
 			break;
 		case KBB:
@@ -421,12 +425,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							TutorialRender.instance.renderTutorialManageInventory(entity);
+							TutorialRender.instance.renderTutorialManageInventory1(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
 						else
 						{
-							TutorialRender.instance.renderTutorialAccessInventory(entity);
+							TutorialRender.instance.renderTutorialAccessInventory1(entity);
 							//Gui to instruct player to click on the chest
 						}
 					}
@@ -505,8 +509,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			super.render(entity);
 			TutorialRender.instance.renderTutorialJump(entity);
 			break;
-		case FLOAT:
+		case FLOAT1:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialFloatJungle(entity);
+			break;
+		case FLOAT2:
+			super.render(entity);
+			TutorialRender.instance.renderTutorialFloatSwamp(entity);
 			break;
 		case KBB:
 			//super.render(entity);
@@ -558,10 +567,11 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			//TutorialRender.instance.renderTutorialSprint(entity);
+			TutorialRender.instance.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialSprintJump(entity);
 			break;
 		case FAIL:
 			super.render(entity);
