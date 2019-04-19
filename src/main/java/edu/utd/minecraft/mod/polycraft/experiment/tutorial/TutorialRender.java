@@ -329,6 +329,50 @@ public class TutorialRender {
 
 	 };
 	 
+	 static 				 ResourceLocation[] texturesPlaceBlocks = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks000.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks001.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks002.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks003.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks004.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks005.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks006.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks007.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks008.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks009.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks010.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks011.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks012.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks013.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks014.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks015.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks016.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks017.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks018.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks019.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks020.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks021.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks022.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks023.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks024.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks025.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks026.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks027.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks028.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks029.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks030.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks031.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks032.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks033.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks034.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks035.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks036.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks037.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks038.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks039.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/PlacingBlocksGIF/TutorialTrial4-PlaceBlocks040.png")),
+
+	 };
+	 
 	 static 				 ResourceLocation[] texturesAccessInventory2 = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryAccess2GIF/TutorialTrial5-AccessingInventories000.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryAccess2GIF/TutorialTrial5-AccessingInventories001.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryAccess2GIF/TutorialTrial5-AccessingInventories002.png")),
@@ -388,26 +432,156 @@ public class TutorialRender {
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryManage2GIF/TutorialTrial5-ManagingInventory029.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryManage2GIF/TutorialTrial5-ManagingInventory030.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryManage2GIF/TutorialTrial5-ManagingInventory031.png")),
-				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryManage2GIF/TutorialTrial5-ManagingInventory032.png")),
-				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryManage2GIF/TutorialTrial5-ManagingInventory033.png")),
-				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/InventoryManage2GIF/TutorialTrial5-ManagingInventory034.png")),
 
+	 };
+	 
+	 static 				 ResourceLocation[] texturesAccessTable = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable000.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable001.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable002.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable003.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable004.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable005.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable006.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable007.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable008.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable009.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable010.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable011.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable012.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable013.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable014.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable015.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable016.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable017.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable018.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable019.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TableAccessGIF/TutorialTrial5-AccessTable020.png")),
+
+	 };
+	 
+	 static 				 ResourceLocation[] texturesCraftPick = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick000.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick001.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick002.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick003.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick004.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick005.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick006.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick007.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick008.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick009.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick010.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick011.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick012.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick013.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick014.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick015.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick016.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick017.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick018.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick019.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick020.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick021.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick022.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick023.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick024.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick025.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick026.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick027.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick028.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick029.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick030.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick031.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick032.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick033.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick034.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick035.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick036.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick037.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick038.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick039.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick040.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick041.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick042.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick043.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CraftPickGIF/TutorialTrial5-CraftPick044.png")),
+				
+	 };
+	 
+	 static 				 ResourceLocation[] texturesMine = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine000.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine001.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine002.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine003.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine004.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine005.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine006.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine007.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine008.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine009.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine010.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine011.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine012.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine013.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine014.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine015.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine016.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine017.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine018.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine019.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine020.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine021.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine022.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine023.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine024.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine025.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine026.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine027.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine028.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine029.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine030.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine031.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine032.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine033.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine034.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine035.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine036.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine037.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine038.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine039.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine040.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine041.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/MineGIF/TutorialTrial5-Mine042.png")),
 	 };
 	 
 	 static ResourceLocation[] texturesMouseRightClick = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouse.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouseRightClick.png")),
-				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouse.png")),
+				};
+	 
+	 static ResourceLocation[] texturesMouseLeftClick = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouse.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouseLeftClick.png")),
 				};
 	 
 	 static ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_0.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_1.png")),
 				};
+	 
 	 static ResourceLocation[] textures4 = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/space.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/spaceGreen.png")),
 				};
 	
 	 static ResourceLocation[] texturesCtrl = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/control.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/controlGreen.png")),
+				};
+	 
+	 static ResourceLocation[] texturesEsc = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/escape.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/escapeGreen.png")),
+				};
+	 
+	 static ResourceLocation[] textures1Key = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/1.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/1Green.png")),
+				};
+	 
+	 static ResourceLocation[] textures2Key = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/2.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/2Green.png")),
 				};
 
 	 
@@ -846,21 +1020,19 @@ public class TutorialRender {
 	 public static void renderTutorialUseKBB(Entity player)
 	 {
 		 float scale =.20F;
-
 		 int i=((player.ticksExisted)%60);
-		 // GL11.glPushMatrix();
 		 if(i>48)
 			 i=0;
 		 if(i>20)
 			 i=1;
 		 else
 			 i/=20;
-		 
 		 push(scale);
 		 mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
 		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 260);
 		 pop();
 		
+		 
 		 
 		 float scale2 =.20F;
 		 i=((player.ticksExisted)%110);
@@ -878,27 +1050,25 @@ public class TutorialRender {
 	 
 	 public static void renderTutorialAccessInventory1(Entity player)
 	 {
-		 float scale =.20F;
-
+		 float scale =.15F;
 		 int i=((player.ticksExisted)%36);
-		 // GL11.glPushMatrix();
 		 if(i>28 && i<33)
 			 i=1;
 		 else
 			 i=0;
-		 
 		 push(scale);
 		 mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
-		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(800, 0, 0, 0, 255, 250);
 		 pop();
 		
+		 
 		 
 		 float scale2 =.20F;
 		 i=((player.ticksExisted)%36);
 		 i/=3;
 		 push(scale2);
 		 mc.getTextureManager().bindTexture(texturesAccessInventory1[i]);
-		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -907,27 +1077,231 @@ public class TutorialRender {
 	 public static void renderTutorialManageInventory1(Entity player)
 	 {
 		 float scale =.20F;
-
 		 int i=((player.ticksExisted)%99);
-		 // GL11.glPushMatrix();
+		 if(i>85 && i<90)
+			 i=1;
+		 else
+			 i=0;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesEsc[i]);
+		 mc.ingameGUI.drawTexturedModalRect(200, -20, 0, 0, 255, 250);
+		 pop();
+		 
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%99);
 		 if((i>14 && i<18)||(i>33 && i<38)||(i>50 && i<54)||(i>69 && i<74))
 			 i=1;
 		 else
 			 i=0;
+		 push(scale2);
+		 mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(400, 0, 0, 0, 255, 250);
+		 pop();
+		
 		 
+		 
+		 float scale3 =.20F;
+		 i=((player.ticksExisted)%99);
+		 i/=3;
+		 push(scale3);
+		 mc.getTextureManager().bindTexture(texturesManageInventory1[i]);
+		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	 public static void renderTutorialPlacingBlocks(Entity player)
+	 {
+		 float scale =.20F;
+		 int i=((player.ticksExisted)%123);
+		 if(i>50 && i<53)
+			 i=1;
+		 else
+			 i=0;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(textures2Key[i]);
+		 mc.ingameGUI.drawTexturedModalRect(200, -20, 0, 0, 255, 250);
+		 pop();
+		 
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%123);
+		 if((i>20 && i<23)||(i>40 && i<43)||(i>62 && i<65)||(i>77 && i<80) || (i>92 && i<95)||(i>110 && i<113))
+			 i=1;
+		 else
+			 i=0;
+		 push(scale2);
+		 mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(800, 0, 0, 0, 255, 250);
+		 pop();
+		
+		 
+		 
+		 float scale3 =.20F;
+		 i=((player.ticksExisted)%123);
+		 i/=3;
+		 push(scale3);
+		 mc.getTextureManager().bindTexture(texturesPlaceBlocks[i]);
+		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	 public static void renderTutorialAccessInventory2(Entity player)
+	 {
+		 float scale =.20F;
+		 int i=((player.ticksExisted)%48);
+		 if(i>38 && i<43)
+			 i=1;
+		 else
+			 i=0;
 		 push(scale);
 		 mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
 		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 250);
 		 pop();
 		
 		 
-		 float scale2 =.20F;
-		 i=((player.ticksExisted)%99);
-		 i/=3;
 		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%48);
+		 i/=2;
 		 push(scale2);
-		 mc.getTextureManager().bindTexture(texturesManageInventory1[i]);
+		 mc.getTextureManager().bindTexture(texturesAccessInventory2[i]);
 		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	 public static void renderTutorialManageInventory2(Entity player)
+	 {
+		 float scale =.20F;
+		 int i=((player.ticksExisted)%64);
+		 if((i>13 && i<17)||(i>25 && i<29)||(i>33 && i<38)||(i>45 && i<50))
+			 i=1;
+		 else
+			 i=0;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(2, 2, 0, 0, 255, 250);
+		 pop();
+		
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%64);
+		 i/=2;
+		 push(scale2);
+		 mc.getTextureManager().bindTexture(texturesManageInventory2[i]);
+		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	 public static void renderTutorialAccessTable(Entity player)
+	 {
+		 float scale =.15F;
+		 int i=((player.ticksExisted)%42);
+		 if(i>38 && i<43)
+			 i=1;
+		 else
+			 i=0;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(600, 0, 0, 0, 255, 250);
+		 pop();
+		
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%42);
+		 i/=2;
+		 push(scale2);
+		 mc.getTextureManager().bindTexture(texturesAccessTable[i]);
+		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	 public static void renderTutorialCraftingPick(Entity player)
+	 {
+		 float scale =.20F;
+		 int i=((player.ticksExisted)%135);
+		 if(i>122 && i<125)
+			 i=1;
+		 else
+			 i=0;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesEsc[i]);
+		 mc.ingameGUI.drawTexturedModalRect(200, -20, 0, 0, 255, 250);
+		 pop();
+		 
+		 
+		 
+		 float scale2 =.15F;
+		 i=((player.ticksExisted)%135);
+		 if((i>12 && i<15) || (i>25 && i<28) || (i>38 && i<41) || (i>51 && i<54) || (i>64 && i<67) || (i>77 && i<80) || (i>85 && i<88) || (i>95 && i<98) || (i>110 && i<113))
+			 i=1;
+		 else
+			 i=0;
+		 push(scale2);
+		 mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(600, 2, 0, 0, 255, 250);
+		 pop();
+		
+		 
+		 
+		 float scale3 =.20F;
+		 i=((player.ticksExisted)%135);
+		 i/=3;
+		 push(scale3);
+		 mc.getTextureManager().bindTexture(texturesCraftPick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	 
+	 public static void renderTutorialMining(Entity player)
+	 {
+		 float scale =.20F;
+		 int i=((player.ticksExisted)%86);
+		 if ((i>45 && i<52) || (i>81 && i<86))
+			 i=1;
+		 else i=0;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesWASD[i]);
+		 mc.ingameGUI.drawTexturedModalRect(300, 2, 0, 0, 255, 260);
+		 pop();
+		 
+		 
+		 
+		 float scale1 =.15F;
+		 i=((player.ticksExisted)%86);
+		 if((i>5 && i<8) || (i>10 && i<20) || (i>38 && i<45) || (i>51 && i<75))
+			 i=1;
+		 else
+			 i=0;
+		 push(scale1);
+		 mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
+		 mc.ingameGUI.drawTexturedModalRect(800, 2, 0, 0, 255, 250);
+		 pop();
+		
+		 
+		 
+		 float scale2 =.20F;
+		 i=((player.ticksExisted)%86);
+		 i/=2;
+		 push(scale2);
+		 mc.getTextureManager().bindTexture(texturesMine[i]);
+		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();

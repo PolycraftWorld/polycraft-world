@@ -431,14 +431,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 						else
 						{
 							TutorialRender.instance.renderTutorialAccessInventory1(entity);
-							//Gui to instruct player to click on the chest
 						}
 					}
 				}
 			break;
 		case INVENTORY2:
 			super.render(entity);
-			player=null;
+			//player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
 				
@@ -448,14 +447,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialAccessInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							TutorialRender.instance.renderTutorialManageInventory2(entity);
 						}
-					}
-					else
-					{
-						//TutorialRender.instance.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessInventory2(entity);
+						}
 					}
 				}
 			break;
@@ -494,14 +491,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialAccessInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							TutorialRender.instance.renderTutorialCraftingPick(entity);
 						}
-					}
-					else
-					{
-						//TutorialRender.instance.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessTable(entity);
+							//Gui to instruct player to click on the chest
+						}
 					}
 				}
 			break;
@@ -554,10 +550,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case PLACE_BLOCKS:
 			//super.render(entity);
 			this.box.render(entity);
+			TutorialRender.instance.renderTutorialPlacingBlocks(entity);
 			break;
 		case BREAK_BLOCKS:
 			//super.render(entity);
 			this.box.renderFill(entity);
+			TutorialRender.instance.renderTutorialMining(entity);
 			break;
 		case CART_START:
 			super.render(entity);
