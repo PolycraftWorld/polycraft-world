@@ -30,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
@@ -52,7 +53,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		CART_START,
 		CART_END,
 		KBB,
-		CRAFT_FKB
+		CRAFT_FKB,
+		HOTBAR,
+		LOOK
 	};
 	private InstructionType type;
 	
@@ -65,6 +68,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean setAng;
 	RenderBox box;
 	private final static String KBB = "1hv";
+	private final static String FREEZE_KBB = "1hw";
+	
 	
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
@@ -120,7 +125,25 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		switch(type) {
 		case CRAFT_FKB:
-			super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+							if(player.inventory.hasItem(fkbb))
+							{
+								this.isDone=true;
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("You crafted a Freezing Knockback Bomb!"));
+							}
+						}
+					}
+				}
+			}
 			break;
 		case INVENTORY1:
 			//super.onServerTickUpdate(exp);
@@ -230,7 +253,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
 						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-						Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).isEmpty()) {
+						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
 					canProceed = true;
 					isDone = true;
 				}
@@ -343,7 +366,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
+							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=true;				
 					}
 				}
@@ -353,7 +376,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
+							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=false;
 						this.failCount++;
 						player.addChatMessage(new ChatComponentText("You missed your jump "+failCount+" time(s)"));
@@ -400,6 +423,30 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case HOTBAR:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+							
+					Item pick = Items.iron_pickaxe; //This can be whatever item you need.
+					for(int c=0;c<9;c++)
+					{
+						if(player.inventory.getStackInSlot(c)!=null)
+						{
+							if(player.inventory.getStackInSlot(c).getItem()==pick) //checks that the player has that item in their hotbar
+							{
+								this.isDone=true;
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("Placed item into hotbar!"));
+							}
+						}
+					}
+				}
+			}
+			break;
+		case LOOK:
+			break;
 		default:
 			break;
 		
@@ -412,6 +459,27 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		EntityPlayer player=null;
 		switch(type) {
 		case CRAFT_FKB:
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+						}
+					}
+					else
+					{
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
+						//Gui to instruct player to click on the chest
+					}
+				}
 			break;
 		case INVENTORY1:
 			super.render(entity);
@@ -577,6 +645,25 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
 			TutorialRender.instance.renderTutorialWalkForward(entity);
+			break;
+		case HOTBAR:
+			break;
+		case LOOK:
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+			
+			
+			
+//		    @SideOnly(Side.CLIENT)
+//		    public MovingObjectPosition rayTrace(double p_70614_1_, float p_70614_3_)
+//		    {
+//		        Vec3 vec3 = this.getPosition(p_70614_3_);
+//		        Vec3 vec31 = this.getLook(p_70614_3_);
+//		        Vec3 vec32 = vec3.addVector(vec31.xCoord * p_70614_1_, vec31.yCoord * p_70614_1_, vec31.zCoord * p_70614_1_);
+//		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
+//		    }
 			break;
 		default:
 			break;
