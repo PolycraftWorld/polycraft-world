@@ -30,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
@@ -52,7 +53,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		CART_END,
 		KBB,
 		CRAFT_FKB,
-		HOTBAR
+		HOTBAR,
+		LOOK
 	};
 	private InstructionType type;
 	
@@ -65,6 +67,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean setAng;
 	RenderBox box;
 	private final static String KBB = "1hv";
+	private final static String FREEZE_KBB = "1hw";
+	
 	
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
@@ -120,7 +124,25 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		switch(type) {
 		case CRAFT_FKB:
-			super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+							if(player.inventory.hasItem(fkbb))
+							{
+								this.isDone=true;
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("You crafted a Freezing Knockback Bomb!"));
+							}
+						}
+					}
+				}
+			}
 			break;
 		case INVENTORY1:
 			//super.onServerTickUpdate(exp);
@@ -419,6 +441,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case LOOK:
+			break;
 		default:
 			break;
 		
@@ -431,6 +455,27 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		EntityPlayer player=null;
 		switch(type) {
 		case CRAFT_FKB:
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+						}
+					}
+					else
+					{
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
+						//Gui to instruct player to click on the chest
+					}
+				}
 			break;
 		case INVENTORY1:
 			super.render(entity);
@@ -593,7 +638,23 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			TutorialRender.instance.renderTutorialWalkForward(entity);
 			break;
 		case HOTBAR:
-			//super.onServerTickUpdate(exp);
+			break;
+		case LOOK:
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+			
+			
+			
+//		    @SideOnly(Side.CLIENT)
+//		    public MovingObjectPosition rayTrace(double p_70614_1_, float p_70614_3_)
+//		    {
+//		        Vec3 vec3 = this.getPosition(p_70614_3_);
+//		        Vec3 vec31 = this.getLook(p_70614_3_);
+//		        Vec3 vec32 = vec3.addVector(vec31.xCoord * p_70614_1_, vec31.yCoord * p_70614_1_, vec31.zCoord * p_70614_1_);
+//		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
+//		    }
 			break;
 		default:
 			break;
