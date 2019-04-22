@@ -51,7 +51,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		CART_START,
 		CART_END,
 		KBB,
-		CRAFT_FKB
+		CRAFT_FKB,
+		HOTBAR
 	};
 	private InstructionType type;
 	
@@ -396,6 +397,28 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case HOTBAR:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+							
+					Item pick = Items.iron_pickaxe; //This can be whatever item you need.
+					for(int c=0;c<9;c++)
+					{
+						if(player.inventory.getStackInSlot(c)!=null)
+						{
+							if(player.inventory.getStackInSlot(c).getItem()==pick) //checks that the player has that item in their hotbar
+							{
+								this.isDone=true;
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("Placed item into hotbar!"));
+							}
+						}
+					}
+				}
+			}
+			break;
 		default:
 			break;
 		
@@ -568,6 +591,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
 			TutorialRender.instance.renderTutorialWalkForward(entity);
+			break;
+		case HOTBAR:
+			//super.onServerTickUpdate(exp);
 			break;
 		default:
 			break;
