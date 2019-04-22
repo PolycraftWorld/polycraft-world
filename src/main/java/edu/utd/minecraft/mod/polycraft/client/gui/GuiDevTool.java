@@ -28,8 +28,10 @@ import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
@@ -581,25 +583,37 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 			break;
 		case GUIDE:
 			if(addNew)
-	        	featureToAdd = new TutorialFeatureGuide("Feature " + devTool.getFeatures().size(), 
+	        	featureToAdd = new TutorialFeatureGuide("Guide " + devTool.getFeatures().size(), 
 	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
 	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case INSTRUCTION:
 			if(addNew)
-	        	featureToAdd = new TutorialFeatureInstruction("Feature " + devTool.getFeatures().size(), 
+	        	featureToAdd = new TutorialFeatureInstruction("Instruction " + devTool.getFeatures().size(), 
 	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
 	        		TutorialFeatureInstruction.InstructionType.WASD);
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case START:
 			if(addNew)
-	        	featureToAdd = new TutorialFeatureStart("Feature " + devTool.getFeatures().size(), 
+	        	featureToAdd = new TutorialFeatureStart("Start " + devTool.getFeatures().size(), 
 	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
 	        		Vec3.createVectorHelper(player.rotationPitch % 360, player.rotationYaw % 360, 0));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
+		case SCORE:
+			if(addNew)
+				featureToAdd = new TutorialFeatureScore("Score " + devTool.getFeatures().size(), 
+		        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+	        break;
+		case END:
+			if(addNew)
+				featureToAdd = new TutorialFeatureEnd("END " + devTool.getFeatures().size(), 
+		        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+	        break;
 		default:
 			break;
 			

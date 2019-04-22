@@ -17,7 +17,7 @@ public interface ITutorialFeature{
 	public abstract void onPlayerTickUpdate(ExperimentTutorial exp);
 	
 	//end will run as the last function in case there is any cleanup that needs to be done before the user can progress through the rest of the stages
-	public abstract void end();
+	public abstract void end(ExperimentTutorial exp);
 	
 	//used to check if this feature should continue to run
 	public abstract boolean isDone();

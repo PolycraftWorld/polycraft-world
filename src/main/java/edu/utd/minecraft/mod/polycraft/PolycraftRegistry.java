@@ -1462,6 +1462,11 @@ public class PolycraftRegistry {
 		customEntries.add("gui.halftime.question30=Make more items");
 		customEntries.add("gui.halftime.question31=Make less items");
 		
+		//Tutorial Gui
+		customEntries.add("gui.tutorial.title=Play Tutorial");
+		customEntries.add("gui.tutorial.body=In order to get you familiar with the controls of the game, please play through our tutorial mode. You will not be able to participate in experiments until you have completed the tutorial first. If you aren't ready, you can close the screen and press \"x\" at any time to return to this menu. ");
+		
+		
 		return customEntries;
 	}
 	

@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -213,13 +214,25 @@ public class ExperimentTutorial{
 		case Starting:
 			//generateArea();
 			if(dim == 0) {
-				for(Team team: scoreboard.getTeams()) {
-					for(String player: team.getPlayers()) {
-						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-						playerEntity.addChatMessage(new ChatComponentText("\u00A7aRunning in Dev mode, not generating"));
+				if(genTick % 20 == 0) {
+					for(Team team: scoreboard.getTeams()) {
+						for(String player: team.getPlayers()) {
+							EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+							playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
+						}
 					}
 				}
-				currentState = State.PreInit;
+				if(this.generateArea()) {
+					currentState = State.PreInit;
+				}
+				genTick++;
+//				for(Team team: scoreboard.getTeams()) {
+//					for(String player: team.getPlayers()) {
+//						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+//						playerEntity.addChatMessage(new ChatComponentText("\u00A7aRunning in Dev mode, not generating"));
+//					}
+//				}
+//				currentState = State.PreInit;
 			}else {
 				if(genTick % 20 == 0) {
 					for(Team team: scoreboard.getTeams()) {
@@ -271,7 +284,10 @@ public class ExperimentTutorial{
 			}
 			break;
 		case Ending:
-			this.currentState = State.Done;
+			for(TutorialFeature feature: features){
+				feature.end(this);
+			}
+			currentState = State.Done;
 			break;
 		case Done:
 			break;
@@ -374,7 +390,6 @@ public class ExperimentTutorial{
 		//the position to begin counting in the blocks[] array.
 		int count=(genTick*maxXPerTick)*((int)size.yCoord+1)*((int)size.zCoord+1);
 		
-		
 		if(count >= blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			return true; 
 		}
@@ -391,8 +406,8 @@ public class ExperimentTutorial{
 					int curblock = (int)blocks[count];
 					
 					if(curblock == 0 || curblock == 76) {
-//						if(!world.isAirBlock(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord))
-//							world.setBlockToAir(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord);
+						if(!world.isAirBlock(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord))
+							world.setBlockToAir(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord);
 						count++;
 						continue;
 					}
@@ -412,10 +427,15 @@ public class ExperimentTutorial{
 				}
 			}
 		}
-		
 		return false;
-		
-		
 	}
 
+	
+	public Collection<EntityPlayer> getEntityPlayersInExperiment() {
+		return scoreboard.getPlayersAsEntity();
+	}
+	
+	public Collection<String> getPlayersInExperiment() {
+		return scoreboard.getPlayers();
+	}
 }

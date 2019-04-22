@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
@@ -33,7 +34,6 @@ import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -573,7 +573,7 @@ public class ServerEnforcer extends Enforcer {
 	public void UpdateClientTutorialCompleted(EntityPlayerMP player) {
 		if (portalRestUrl != null) {
 			try {
-				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderName().toLowerCase());
+				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderName());
 				if(result.equals("Error")) {
 					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
 				}else {
@@ -1005,6 +1005,25 @@ public class ServerEnforcer extends Enforcer {
 	public String skillLevelCheck(String minecraftUserName) {
 		try {
 			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
+			JsonObject jsonObj = new JsonObject();
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!response.matches("-?\\d+")) {
+				response = "Error";
+			}
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
+	
+	public String updateSkillLevel(String minecraftUserName, int skillLevel) {
+		try {
+			Map<String, String> params = Maps.newHashMap();
+			params.put("minecraft_user_name", minecraftUserName);
+			params.put("skill_level", Integer.toString(skillLevel));
+			String response = NetUtil.post(String.format("%s/skill_level_set/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),params);
 			PolycraftMod.logger.debug("Skill Level Check response: " + response);
 			if(!response.matches("-?\\d+")) {
 				response = "Error";

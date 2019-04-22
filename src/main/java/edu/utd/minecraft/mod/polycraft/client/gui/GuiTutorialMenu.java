@@ -60,7 +60,7 @@ public class GuiTutorialMenu extends GuiScreen{
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 116, this.height / 2 + 56, 103, 20, "Close"));
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 9, this.height / 2 + 56, 103, 20, "Play !"));
-		lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.tutorial"), X_WIDTH));
+		lines.addAll(this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.tutorial.body"), X_WIDTH));
 		
 		scroll = 0.0F;
 		titleHeight = this.fontRendererObj.listFormattedStringToWidth(I18n.format("gui.consent.title"), X_WIDTH).size()

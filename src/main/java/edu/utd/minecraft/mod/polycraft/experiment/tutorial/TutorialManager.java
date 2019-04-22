@@ -329,7 +329,7 @@ public class TutorialManager {
 			this.INSTANCE.experiments.put(experimentID, new ExperimentTutorial(experimentID, Minecraft.getMinecraft().theWorld, features));
 			this.INSTANCE.clientCurrentExperiment = experimentID;
 		} catch (Exception e) {
-            System.out.println("I can't load initial Experiment Features, because " + e.getStackTrace()[0]);
+            System.out.println("I can't load initial Experiment Features, because: " + e.getStackTrace()[0]);
         }
 	}
 	

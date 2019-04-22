@@ -139,6 +139,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.save();
 		int lookDir[] = {(int)this.lookDir.xCoord, (int)this.lookDir.yCoord, (int)this.lookDir.zCoord};
 		nbt.setIntArray("lookDir",lookDir);
+		nbt.setInteger("dim", dim);
 		nbt.setBoolean("spawnedInServer", spawnedInServer);
 		nbt.setBoolean("spawnedInClient", spawnedInClient);
 		return nbt;
@@ -150,6 +151,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.load(nbtFeat);
 		int featLookDir[]=nbtFeat.getIntArray("lookDir");
 		this.lookDir=Vec3.createVectorHelper(featLookDir[0], featLookDir[1], featLookDir[2]);
+		this.dim = nbtFeat.getInteger("dim");
 		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
 		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
 	}
