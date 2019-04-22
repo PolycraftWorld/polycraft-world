@@ -226,7 +226,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
 						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-						Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).isEmpty()) {
+						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
 					canProceed = true;
 					isDone = true;
 				}
@@ -339,7 +339,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
+							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=true;				
 					}
 				}
@@ -349,7 +349,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
+							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=false;
 						this.failCount++;
 						player.addChatMessage(new ChatComponentText("You missed your jump "+failCount+" time(s)"));
