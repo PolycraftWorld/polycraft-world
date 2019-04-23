@@ -460,6 +460,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		switch(type) {
 		case CRAFT_FKB:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Craft a freezing KnockBack Bomb",5,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -483,7 +484,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case INVENTORY1:
 			super.render(entity);
-
+			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
 				
@@ -505,6 +506,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case INVENTORY2:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
 			//player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -526,6 +528,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case INVENTORY3:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -549,6 +552,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case CRAFT_PICK:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",5,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -571,22 +575,27 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case JUMP:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Press 'Space' and 'W' to jump past obstacles",5,5);
 			TutorialRender.instance.renderTutorialJump(entity);
 			break;
 		case FLOAT1:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",5,5);
 			TutorialRender.instance.renderTutorialFloatJungle(entity);
 			break;
 		case FLOAT2:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",5,5);
 			TutorialRender.instance.renderTutorialFloatSwamp(entity);
 			break;
 		case KBB:
 			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Use the KnockBack Bomb on the mobs",5,5);
 			TutorialRender.instance.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE_LEFT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the left",5,5);
 			if(!this.setAng)
 			{
 				TutorialRender.instance.setAng(entity);
@@ -602,6 +611,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case MOUSE_RIGHT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the right",5,5);
 			if(!this.setAng)
 			{
 				TutorialRender.instance.setAng(entity);
@@ -617,26 +627,32 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",5,5);
 			this.box.render(entity);
 			TutorialRender.instance.renderTutorialPlacingBlocks(entity);
 			break;
 		case BREAK_BLOCKS:
 			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",5,5);
 			this.box.renderFill(entity);
 			TutorialRender.instance.renderTutorialMining(entity);
 			break;
 		case CART_START:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Walk to the start of the ride",5,5);
 			break;
 		case CART_END:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Keep hands and feet in the minecart at all times",5,5);
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Sprint to open the path",5,5);
 			TutorialRender.instance.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Sprint and jump to get to the other side",5,5);
 			TutorialRender.instance.renderTutorialSprintJump(entity);
 			break;
 		case FAIL:
@@ -644,26 +660,72 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Press 'W' to walk forward" ,5,5);
 			TutorialRender.instance.renderTutorialWalkForward(entity);
 			break;
 		case HOTBAR:
 			break;
 		case LOOK:
-			super.render(entity);
-			player=null;
-			if(entity instanceof EntityPlayer)	
-				player=(EntityPlayer)(entity);
-			
-			
-			
-//		    @SideOnly(Side.CLIENT)
-//		    public MovingObjectPosition rayTrace(double p_70614_1_, float p_70614_3_)
-//		    {
-//		        Vec3 vec3 = this.getPosition(p_70614_3_);
-//		        Vec3 vec31 = this.getLook(p_70614_3_);
-//		        Vec3 vec32 = vec3.addVector(vec31.xCoord * p_70614_1_, vec31.yCoord * p_70614_1_, vec31.zCoord * p_70614_1_);
-//		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
-//		    }
+//			super.render(entity);
+//			player=null;
+//			if(entity instanceof EntityPlayer)	
+//				player=(EntityPlayer)(entity);
+//			boolean test=false;
+//	        Vec3 vec3 = player.getPosition(1.0F);
+//	        Vec3 vec32 = player.getLook(1.0F);
+//	        //player.addChatMessage(new ChatComponentText("Anglex: "+vec32.xCoord+" Anglez: "+vec32.zCoord));
+//	        
+//	        
+//	        //Vec3 vec32 = vec3.addVector(vec31.xCoord , vec31.yCoord , vec31.zCoord );
+//	        
+//	        
+//	        Vec3 vec01=null;
+//	        vec01 = vec01.createVectorHelper(pos1.xCoord, pos1.yCoord, pos1.zCoord);
+//
+//			Vec3 vec02 = vec3.addVector(-vec01.xCoord , -vec01.yCoord , -vec01.zCoord);
+//			
+//			player.addChatMessage(new ChatComponentText("Anglex: "+vec02.xCoord+" Anglez: "+vec02.zCoord));
+//			
+//			 if(vec32.zCoord<0)
+//		     {
+//		       // test=true;
+//		     }
+//			 
+//			
+//			vec02.yCoord=0;
+//			vec32.yCoord=0;
+//			
+//			vec02=vec02.normalize();
+//			vec32=vec32.normalize();
+//			
+//			
+//			double u1=vec02.lengthVector();
+//			double u2=vec32.lengthVector();
+//			
+//			double dot=vec02.dotProduct(vec32);
+//			
+//			double ang = Math.acos(dot/(u1*u2));
+//			
+//			
+//			if(!test)
+//			{
+//				ang=-ang;
+//			}
+//			
+//			//player.addChatMessage(new ChatComponentText("Angle: "+ang));
+//			TutorialRender.instance.renderTutorialLook(player, ang);
+//			
+//			
+//			
+//			
+////		    @SideOnly(Side.CLIENT)
+////		    public MovingObjectPosition rayTrace(double p_70614_1_, float p_70614_3_)
+////		    {
+////		        Vec3 vec3 = this.getPosition(p_70614_3_);
+////		        Vec3 vec31 = this.getLook(p_70614_3_);
+////		        Vec3 vec32 = vec3.addVector(vec31.xCoord * p_70614_1_, vec31.yCoord * p_70614_1_, vec31.zCoord * p_70614_1_);
+////		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
+////		    }
 			break;
 		default:
 			break;

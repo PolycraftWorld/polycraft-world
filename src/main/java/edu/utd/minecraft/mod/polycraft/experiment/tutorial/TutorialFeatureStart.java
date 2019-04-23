@@ -25,7 +25,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	//working parameters
 	private boolean spawnedInServer = false, spawnedInClient = false;
-	private int dim = 0;
+	private int dim = 8;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
