@@ -60,6 +60,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		if(spawnedInClient) {
 			canProceed = true;
 			isDone = true;
+			this.complete(exp);
 		}
 	}
 	

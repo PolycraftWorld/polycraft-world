@@ -139,6 +139,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You crafted a Freezing Knockback Bomb!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -166,6 +167,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the building materials!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -189,6 +191,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the crafting materials!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -211,6 +214,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -233,6 +237,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You crafted an Iron Pickaxe!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -254,8 +259,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
 						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
 						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.isDone = true;
+					this.complete(exp);
 				}
 			}
 			break;
@@ -268,15 +274,17 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case PLACE_BLOCKS:
 			//super.onServerTickUpdate(exp);
 			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
-				canProceed = true;
-				isDone = true;
+				this.canProceed = true;
+				this.isDone = true;
+				this.complete(exp);
 			}
 			break;
 		case BREAK_BLOCKS:
 			//super.onServerTickUpdate(exp);
 			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
-				canProceed = true;
-				isDone = true;
+				this.canProceed = true;
+				this.isDone = true;
+				this.complete(exp);
 			}
 			break;
 		case CART_START:
@@ -288,8 +296,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					exp.world.spawnEntityInWorld(entityminecart);
 					player.mountEntity(entityminecart);
 					
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.isDone = true;
+					this.complete(exp);
 				}
 			}
 			break;
@@ -301,8 +310,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					
 					player.ridingEntity.setDead();
 					player.setPosition(player.posX, player.posY+1, player.posZ);
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.isDone = true;
+					this.complete(exp);
 				}
 			}
 			break;
@@ -340,8 +350,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
-						canProceed = true;
-						isDone = true;
+						this.canProceed = true;
+						this.isDone = true;
+						this.complete(exp);
 						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 						{
 							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
@@ -397,6 +408,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 				}
 				this.isDone=true;
+				this.complete(exp);
 			}
 			break;
 		case WASD:
@@ -404,8 +416,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.isDone = true;
+					this.complete(exp);
 					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 					{
 						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
@@ -439,6 +452,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("Placed item into hotbar!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -607,6 +621,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				this.isDone=true;
 				this.setAng=false;
 				this.isDirty=true;
+				this.complete(entity);
 			}
 			break;
 		case MOUSE_RIGHT:
@@ -623,6 +638,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				this.isDone=true;
 				this.setAng=false;
 				this.isDirty=true;
+				this.complete(entity);
 			}
 			break;
 		case PLACE_BLOCKS:
