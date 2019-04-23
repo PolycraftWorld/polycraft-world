@@ -135,7 +135,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
 							if(player.inventory.hasItem(fkbb))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You crafted a Freezing Knockback Bomb!"));
@@ -163,7 +162,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							
 							if(player.inventory.hasItem(blocks) && player.inventory.hasItem(stairs))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the building materials!"));
@@ -187,7 +185,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item iron = Items.iron_ingot;
 							if(player.inventory.hasItem(sticks) && player.inventory.hasItem(iron))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the crafting materials!"));
@@ -210,7 +207,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item kbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
 							if(player.inventory.hasItem(kbb))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
@@ -233,7 +229,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item pick = Items.iron_pickaxe;
 							if(player.inventory.hasItem(pick))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You crafted an Iron Pickaxe!"));
@@ -260,7 +255,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
 						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
 					this.canProceed = true;
-					this.isDone = true;
 					this.complete(exp);
 				}
 			}
@@ -275,7 +269,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			//super.onServerTickUpdate(exp);
 			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
 				this.canProceed = true;
-				this.isDone = true;
 				this.complete(exp);
 			}
 			break;
@@ -283,7 +276,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			//super.onServerTickUpdate(exp);
 			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
 				this.canProceed = true;
-				this.isDone = true;
 				this.complete(exp);
 			}
 			break;
@@ -297,7 +289,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					player.mountEntity(entityminecart);
 					
 					this.canProceed = true;
-					this.isDone = true;
 					this.complete(exp);
 				}
 			}
@@ -311,7 +302,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					player.ridingEntity.setDead();
 					player.setPosition(player.posX, player.posY+1, player.posZ);
 					this.canProceed = true;
-					this.isDone = true;
 					this.complete(exp);
 				}
 			}
@@ -351,7 +341,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 						this.canProceed = true;
-						this.isDone = true;
 						this.complete(exp);
 						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 						{
@@ -407,7 +396,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 						}
 					}
 				}
-				this.isDone=true;
 				this.complete(exp);
 			}
 			break;
@@ -417,7 +405,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					this.canProceed = true;
-					this.isDone = true;
 					this.complete(exp);
 					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 					{
@@ -448,7 +435,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 						{
 							if(player.inventory.getStackInSlot(c).getItem()==pick) //checks that the player has that item in their hotbar
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("Placed item into hotbar!"));
@@ -618,7 +604,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			if(TutorialRender.instance.renderTutorialTurnLeft(entity))
 			{
 				this.canProceed=true;
-				this.isDone=true;
 				this.setAng=false;
 				this.isDirty=true;
 				this.complete(entity);
@@ -635,7 +620,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			if(TutorialRender.instance.renderTutorialTurnRight(entity))
 			{
 				this.canProceed=true;
-				this.isDone=true;
 				this.setAng=false;
 				this.isDirty=true;
 				this.complete(entity);

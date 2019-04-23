@@ -114,7 +114,6 @@ public class TutorialFeature implements ITutorialFeature{
 			if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 					Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 				canProceed = true;
-				isDone = true;
 				complete(exp);
 				
 			}
@@ -124,6 +123,7 @@ public class TutorialFeature implements ITutorialFeature{
 	public void complete(ExperimentTutorial exp)
 	{
 		completionTime=exp.world.getTotalWorldTime();
+		isDone = true;
 //		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 //			player.addChatMessage(new ChatComponentText("Time: "+exp.world.getTotalWorldTime()));
 //		}
@@ -132,6 +132,7 @@ public class TutorialFeature implements ITutorialFeature{
 	public void complete(Entity entity)
 	{
 		completionTime=entity.worldObj.getTotalWorldTime();
+		isDone = true;
 //		EntityPlayer player=(EntityPlayer)entity;
 //		player.addChatMessage(new ChatComponentText("Time: "+entity.worldObj.getTotalWorldTime()));
 	
