@@ -188,6 +188,8 @@ public class ClientEnforcer extends Enforcer {
 		this.governments.clear();
 		//this.tempChallengeProperties.clear();
 		this.tempPrivateProperties.clear();
+		this.expPrivateProperties.clear();
+		this.expPrivatePropertiesByChunk.clear();
 		this.itemsToSwitch.clear();
 		this.privatePropertiesByChunk.clear();
 		//this.challengePropertiesByChunk.clear();
@@ -229,6 +231,12 @@ public class ClientEnforcer extends Enforcer {
 						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
 								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+						break;
+					case ExpPrivateProperties:
+						final int countEPP = INSTANCE.updateExpPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						final NumberFormat formatEPP = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + formatEPP.format(countEPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " experiment private properties ("
+								+ formatEPP.format(expPrivatePropertiesByChunk.size()) + " chunks)", 10);
 						break;
 					case Governments:	
 						//final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	

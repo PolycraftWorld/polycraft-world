@@ -436,6 +436,10 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.TempPrivateProperties, 0, null);
 	}
 	
+	public void sendExpPPDataPackets() {
+		sendDataPackets(DataPacketType.ExpPrivateProperties, 0, null);
+	}
+	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
 		sendDataPackets(DataPacketType.Challenge, 2, player);
 	}
@@ -662,6 +666,7 @@ public class ServerEnforcer extends Enforcer {
 //							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1 ? gson.toJson(ExperimentManager.INSTANCE)
 //																		:tempChallengeProperties) 
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
+							: type == DataPacketType.ExpPrivateProperties ? gson.toJson(expPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 //							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
 							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
@@ -1040,7 +1045,5 @@ public class ServerEnforcer extends Enforcer {
 		// TODO Auto-generated method stub
 		this.updatePrivateProperties(privatePropertyJSON, isMasterWorld, true);
 		sendDataPackets(DataPacketType.PrivateProperties, isMasterWorld ? 1 : 0);
-		
-		
 	}
 }

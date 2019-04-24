@@ -32,7 +32,10 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -113,6 +116,8 @@ public class ExperimentTutorial{
 	
 	
 	private String stringToSend = "";
+
+	private PrivateProperty privateProperty;
 	
 	/**
 	 * 
@@ -140,6 +145,7 @@ public class ExperimentTutorial{
 			this.posOffset = Vec3.createVectorHelper(0,0,0);
 			this.pos = pos1;
 		}
+		
 
 		this.world = DimensionManager.getWorld(dim);
 		this.currentState = State.WaitingToStart;
@@ -154,7 +160,7 @@ public class ExperimentTutorial{
 			this.scoreboard.resetScores(0);
 		}
 		
-		
+		createPrivateProperties();
 		
 		this.features.addAll(features);
 	}
@@ -437,5 +443,32 @@ public class ExperimentTutorial{
 	
 	public Collection<String> getPlayersInExperiment() {
 		return scoreboard.getPlayers();
+	}
+	
+	private void createPrivateProperties() {
+		if(!this.world.isRemote) {
+			int endX = 0, endZ = 0;
+			for(int x = (int)pos.xCoord - 8; Math.abs(x) <= Math.abs(pos.xCoord + size.xCoord) + 8; x += 16) {
+				for(int z = (int)pos.zCoord - 8; Math.abs(z) <= Math.abs(pos.zCoord + size.zCoord) + 8; z += 16) {
+					//don't feel like doing the math... 
+					endX = x;
+					endZ = z;
+				}
+			}
+			PrivateProperty pp =  new PrivateProperty(
+					false,
+					null,
+					"Tutorial",
+					"Good Luck!",
+					new Chunk(Math.min((int)pos.xCoord, endX) >> 4, Math.min((int)pos.zCoord, endZ) >> 4),
+					new Chunk(Math.max((int)pos.xCoord, endX) >> 4, Math.max((int)pos.zCoord, endZ) >> 4),
+					new int[] {0,3,4,5,6,44},
+					8);
+			
+			ServerEnforcer.addExpPrivateProperty(pp);	
+			this.privateProperty=pp;	
+			ServerEnforcer.INSTANCE.sendExpPPDataPackets();
+			System.out.println("x: " + ((int)pos.xCoord >> 4) + "::" + (endX >> 4) + "|| z: " + ((int)pos.zCoord >> 4) + "::" + (endZ >> 4));
+		}
 	}
 }
