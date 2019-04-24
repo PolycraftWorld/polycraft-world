@@ -119,7 +119,9 @@ public enum GameID {
 	InventoryCannon("1hC"),
 	EntityIronCannonBall("1hE"),
 	ItemIronCannonball("1hF"),
-	CustomMiningHammer("1hG");
+	CustomMiningHammer("1hG"),
+	PlaceBlockPP("1jA"),
+	BreakBlockPP("1jB");
 	
 	public final String id;
 
