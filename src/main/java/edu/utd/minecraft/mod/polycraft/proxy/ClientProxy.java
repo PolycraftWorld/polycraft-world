@@ -109,6 +109,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -495,6 +496,15 @@ public class ClientProxy extends CommonProxy {
 		Entity entity = Minecraft.getMinecraft().renderViewEntity;
 		//TutorialRender.renderLoadingScreen(entity);
 	}
+	
+	@SubscribeEvent
+    public void onRenderScreenGui(GuiScreenEvent.DrawScreenEvent.Post event) {
+        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+        if(entity!=null)
+        {
+        	//TutorialRender.renderLoadingScreen(entity);
+        }
+    }
 	
 
 	@SubscribeEvent
