@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -44,6 +45,8 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 	private int field_145791_d = -1;
 	private int field_145792_e = -1;
 	private int field_145789_f = -1;
+	public int color = 0;
+	public static HashMap<String, Integer> colorLookup = new HashMap<String,Integer>();
 	private Block field_145790_g;
 	private int inData;
 	private boolean inGround;
@@ -74,6 +77,11 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 		super(world, shootingEntity, float1);
 		this.type = type;
 		this.world = world;
+		if(shootingEntity instanceof EntityPlayerMP) {
+			String playerName = ((EntityPlayerMP) shootingEntity).getDisplayName();
+			if(colorLookup.containsKey(playerName))
+				color = colorLookup.get(playerName);
+		}
 	}
 
 	/**
@@ -87,19 +95,19 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 			this.setDead();
 		}
 		
-		if(this.ticksExisted >= 8 && type == SlingshotType.SCATTER && !isChildPellet && !createdChildren) {
-			EntityPaintBall__Old child1 = new EntityPaintBall__Old(world, (EntityPlayer) this.shootingEntity, 2F, this.type), child2 = new EntityPaintBall__Old(world, (EntityPlayer) this.shootingEntity, 2F, this.type);
-			this.createdChildren = true;
-			child1.isChildPellet = child2.isChildPellet = true;
-			child1.positionXCurrent = child2.positionXCurrent = this.positionXCurrent;
-			child1.positionYCurrent = child2.positionYCurrent = this.positionYCurrent;
-			child1.positionZCurrent = child2.positionZCurrent = this.positionZCurrent;
-			child1.currentBlock = child2.currentBlock = this.currentBlock;
-			child1.ticksExisted = child2.ticksExisted = this.ticksExisted;
-			
-			child1.rotationYaw += SCATTER_SPLIT_DEGREE;
-			child2.rotationYaw -= SCATTER_SPLIT_DEGREE;
-		}
+//		if(this.ticksExisted >= 8 && type == SlingshotType.SCATTER && !isChildPellet && !createdChildren) {
+//			EntityPaintBall__Old child1 = new EntityPaintBall__Old(world, (EntityPlayer) this.shootingEntity, 2F, this.type), child2 = new EntityPaintBall__Old(world, (EntityPlayer) this.shootingEntity, 2F, this.type);
+//			this.createdChildren = true;
+//			child1.isChildPellet = child2.isChildPellet = true;
+//			child1.positionXCurrent = child2.positionXCurrent = this.positionXCurrent;
+//			child1.positionYCurrent = child2.positionYCurrent = this.positionYCurrent;
+//			child1.positionZCurrent = child2.positionZCurrent = this.positionZCurrent;
+//			child1.currentBlock = child2.currentBlock = this.currentBlock;
+//			child1.ticksExisted = child2.ticksExisted = this.ticksExisted;
+//			
+//			child1.rotationYaw += SCATTER_SPLIT_DEGREE;
+//			child2.rotationYaw -= SCATTER_SPLIT_DEGREE;
+//		}
 		
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -296,9 +304,8 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 						this.currentBlock.onEntityCollidedWithBlock(this.worldObj, this.positionXCurrent,
 								this.positionYCurrent, this.positionZCurrent, this);
 					}
-					if (this.currentBlock.getMaterial() == Material.carpet) {
-						this.worldObj.setBlockMetadataWithNotify(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent, 14, 2);
-					}
+					if (this.currentBlock.getMaterial() == Material.cloth) 
+						this.worldObj.setBlockMetadataWithNotify(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent, color, 2);
 				}
 			}
 

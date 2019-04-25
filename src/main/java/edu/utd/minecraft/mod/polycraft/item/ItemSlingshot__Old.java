@@ -97,9 +97,11 @@ public class ItemSlingshot__Old extends ItemCustom {
             if (f > 1.0F) {
                 f = 1.0F;
             }
-
+            
             EntityPellet__Old EntityPellet = new EntityPellet__Old(world, player, f * 2.0F);
 
+            EntityPellet.shootingEntity = player;
+            
             if (f == 1.0F){
                 EntityPellet.setIsCritical(true);
             }
@@ -137,18 +139,22 @@ public class ItemSlingshot__Old extends ItemCustom {
 
         if (flag || player.inventory.hasItem(ItemCustom.getItemById(6414))){
             float f = (float)j / 20.0F;
-            f = (f * f + f * 2.0F) / 3.0F;
-
-            if ((double)f < 0.1D){
-                return;
-            }
-
-            if (f > 1.0F) {
-                f = 1.0F;
-            }
+//            f = (f * f + f * 2.0F) / 3.0F;
+//
+//            if ((double)f < 0.1D){
+//                return;
+//            }
+//
+//            if (f > 1.0F) {
+//                f = 1.0F;
+//            }
+            
+            f = 1;
 
             EntityPaintBall__Old paintBall = new EntityPaintBall__Old(world, player, f * 2.0F, this.type);
 
+            paintBall.shootingEntity = player;
+                       
             if (f == 1.0F){
                 paintBall.setIsCritical(true);
             }
