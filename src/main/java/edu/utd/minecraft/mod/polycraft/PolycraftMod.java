@@ -40,7 +40,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
-import edu.utd.minecraft.mod.polycraft.commands.dev.CommandREST;
 import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
 import edu.utd.minecraft.mod.polycraft.commands.CommandHalftimeGUI;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;

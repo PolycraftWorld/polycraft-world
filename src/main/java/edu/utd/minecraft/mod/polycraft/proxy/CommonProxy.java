@@ -176,6 +176,7 @@ public abstract class CommonProxy {
 			cannon.velocity=velocity;
 			cannon.theta=theta;
 			cannon.mass=mass;
+			cannon.shouldRenderInPass(0);
 			break;
 		case netMessageMinigame:
 			

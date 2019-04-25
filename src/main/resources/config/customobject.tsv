@@ -92,3 +92,11 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.4.12	1hF	IronCannonBall	PC Item		FALSE		64											
 1.4.12	1hG	Mining Hammer	Tool		FALSE		1											
 1.4.13	1hH	HPBlock	PC Block		FALSE		64											
+1.4.12	1hJ	Paintpellet	PC Item		FALSE		64							
+1.4.12	1hK	Wood Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	1	0	0	1	1
+1.4.13	1hM	Tactical Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	2	3	1	1	1
+1.4.13	1hN	Scatter Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	1	2	1	3	1
+1.4.13	1hO	Burst Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	1.25	2	1	3	1
+1.4.13	1hP	Gravity Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	0.85	3	0	1	1
+1.4.13	1hQ	Ice Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	1	3	0	1	1
+1.4.13	1hL	Paintball	PC Item		FALSE		64							

@@ -169,6 +169,14 @@ public class ExperimentManager {
 		}
 	}
 	
+	public static Hashtable<Integer, Experiment> getExperiments() {
+		return experiments;
+	}
+
+	public static void setExperiments(Hashtable<Integer, Experiment> experiments) {
+		ExperimentManager.experiments = experiments;
+	}
+
 	public ExperimentManager() {
 		try {
 			globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
