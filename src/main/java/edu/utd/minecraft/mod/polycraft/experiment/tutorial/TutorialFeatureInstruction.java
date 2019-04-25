@@ -30,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
@@ -38,7 +39,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		MOUSE_RIGHT,
 		WASD,
 		JUMP,
-		FLOAT,
+		FLOAT1,
+		FLOAT2,
 		SPRINT,
 		JUMP_SPRINT,
 		FAIL,
@@ -51,7 +53,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		CART_START,
 		CART_END,
 		KBB,
-		CRAFT_FKB
+		CRAFT_FKB,
+		HOTBAR,
+		LOOK
 	};
 	private InstructionType type;
 	
@@ -64,6 +68,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public boolean setAng;
 	RenderBox box;
 	private final static String KBB = "1hv";
+	private final static String FREEZE_KBB = "1hw";
+	
 	
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
@@ -119,7 +125,25 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		switch(type) {
 		case CRAFT_FKB:
-			super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+							if(player.inventory.hasItem(fkbb))
+							{
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("You crafted a Freezing Knockback Bomb!"));
+								this.complete(exp);
+							}
+						}
+					}
+				}
+			}
 			break;
 		case INVENTORY1:
 			//super.onServerTickUpdate(exp);
@@ -138,10 +162,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							
 							if(player.inventory.hasItem(blocks) && player.inventory.hasItem(stairs))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the building materials!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -161,10 +185,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item iron = Items.iron_ingot;
 							if(player.inventory.hasItem(sticks) && player.inventory.hasItem(iron))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the crafting materials!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -183,10 +207,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item kbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
 							if(player.inventory.hasItem(kbb))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -205,10 +229,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item pick = Items.iron_pickaxe;
 							if(player.inventory.hasItem(pick))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You crafted an Iron Pickaxe!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -218,7 +242,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case JUMP:
 			super.onServerTickUpdate(exp);
 			break;
-		case FLOAT:
+		case FLOAT1:
+			super.onServerTickUpdate(exp);
+			break;
+		case FLOAT2:
 			super.onServerTickUpdate(exp);
 			break;
 		case KBB:
@@ -226,9 +253,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
 						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-						Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).isEmpty()) {
-					canProceed = true;
-					isDone = true;
+						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
+					this.canProceed = true;
+					this.complete(exp);
 				}
 			}
 			break;
@@ -241,15 +268,15 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case PLACE_BLOCKS:
 			//super.onServerTickUpdate(exp);
 			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
-				canProceed = true;
-				isDone = true;
+				this.canProceed = true;
+				this.complete(exp);
 			}
 			break;
 		case BREAK_BLOCKS:
 			//super.onServerTickUpdate(exp);
 			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
-				canProceed = true;
-				isDone = true;
+				this.canProceed = true;
+				this.complete(exp);
 			}
 			break;
 		case CART_START:
@@ -261,8 +288,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					exp.world.spawnEntityInWorld(entityminecart);
 					player.mountEntity(entityminecart);
 					
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.complete(exp);
 				}
 			}
 			break;
@@ -274,8 +301,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					
 					player.ridingEntity.setDead();
 					player.setPosition(player.posX, player.posY+1, player.posZ);
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.complete(exp);
 				}
 			}
 			break;
@@ -313,8 +340,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
-						canProceed = true;
-						isDone = true;
+						this.canProceed = true;
+						this.complete(exp);
 						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 						{
 							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
@@ -339,7 +366,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
+							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=true;				
 					}
 				}
@@ -349,7 +376,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord))).contains(player)) {
+							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
 						this.inFail=false;
 						this.failCount++;
 						player.addChatMessage(new ChatComponentText("You missed your jump "+failCount+" time(s)"));
@@ -369,7 +396,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 						}
 					}
 				}
-				this.isDone=true;
+				this.complete(exp);
 			}
 			break;
 		case WASD:
@@ -377,8 +404,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
-					canProceed = true;
-					isDone = true;
+					this.canProceed = true;
+					this.complete(exp);
 					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
 					{
 						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
@@ -396,6 +423,30 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case HOTBAR:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+							
+					Item pick = Items.iron_pickaxe; //This can be whatever item you need.
+					for(int c=0;c<9;c++)
+					{
+						if(player.inventory.getStackInSlot(c)!=null)
+						{
+							if(player.inventory.getStackInSlot(c).getItem()==pick) //checks that the player has that item in their hotbar
+							{
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("Placed item into hotbar!"));
+								this.complete(exp);
+							}
+						}
+					}
+				}
+			}
+			break;
+		case LOOK:
+			break;
 		default:
 			break;
 		
@@ -408,32 +459,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		EntityPlayer player=null;
 		switch(type) {
 		case CRAFT_FKB:
-			break;
-		case INVENTORY1:
 			super.render(entity);
-
-			if(entity instanceof EntityPlayer)	
-				player=(EntityPlayer)(entity);
-				
-				if(player!=null)
-				{
-					if(player.openContainer!=null) 
-					{
-						if(player.openContainer!=player.inventoryContainer)
-						{
-							//TutorialRender.instance.renderTutorialManageInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
-						}
-						else
-						{
-							TutorialRender.instance.renderTutorialAccessInventory(entity);
-							//Gui to instruct player to click on the chest
-						}
-					}
-				}
-			break;
-		case INVENTORY2:
-			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Craft a freezing KnockBack Bomb",5,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -455,8 +482,53 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 				}
 			break;
+		case INVENTORY1:
+			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							TutorialRender.instance.renderTutorialManageInventory1(entity);
+							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+						}
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessInventory1(entity);
+						}
+					}
+				}
+			break;
+		case INVENTORY2:
+			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
+			//player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							TutorialRender.instance.renderTutorialManageInventory2(entity);
+						}
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessInventory2(entity);
+						}
+					}
+				}
+			break;
 		case INVENTORY3:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -480,6 +552,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case CRAFT_PICK:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",5,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -490,29 +563,39 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialAccessInventory(entity);
-							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							TutorialRender.instance.renderTutorialCraftingPick(entity);
 						}
-					}
-					else
-					{
-						//TutorialRender.instance.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessTable(entity);
+							//Gui to instruct player to click on the chest
+						}
 					}
 				}
 			break;
 		case JUMP:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Press 'Space' and 'W' to jump past obstacles",5,5);
+			TutorialRender.instance.renderTutorialJump(entity);
 			break;
-		case FLOAT:
+		case FLOAT1:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",5,5);
+			TutorialRender.instance.renderTutorialFloatJungle(entity);
+			break;
+		case FLOAT2:
+			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",5,5);
+			TutorialRender.instance.renderTutorialFloatSwamp(entity);
 			break;
 		case KBB:
 			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Use the KnockBack Bomb on the mobs",5,5);
 			TutorialRender.instance.renderTutorialUseKBB(entity);
 			break;
 		case MOUSE_LEFT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the left",5,5);
 			if(!this.setAng)
 			{
 				TutorialRender.instance.setAng(entity);
@@ -521,13 +604,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			if(TutorialRender.instance.renderTutorialTurnLeft(entity))
 			{
 				this.canProceed=true;
-				this.isDone=true;
 				this.setAng=false;
 				this.isDirty=true;
+				this.complete(entity);
 			}
 			break;
 		case MOUSE_RIGHT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the right",5,5);
 			if(!this.setAng)
 			{
 				TutorialRender.instance.setAng(entity);
@@ -536,38 +620,112 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			if(TutorialRender.instance.renderTutorialTurnRight(entity))
 			{
 				this.canProceed=true;
-				this.isDone=true;
 				this.setAng=false;
 				this.isDirty=true;
+				this.complete(entity);
 			}
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",5,5);
 			this.box.render(entity);
+			TutorialRender.instance.renderTutorialPlacingBlocks(entity);
 			break;
 		case BREAK_BLOCKS:
 			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",5,5);
 			this.box.renderFill(entity);
+			TutorialRender.instance.renderTutorialMining(entity);
 			break;
 		case CART_START:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Walk to the start of the ride",5,5);
 			break;
 		case CART_END:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Keep hands and feet in the minecart at all times",5,5);
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			//TutorialRender.instance.renderTutorialSprint(entity);
+			TutorialRender.instance.renderTutorialDrawString("Sprint to open the path",5,5);
+			TutorialRender.instance.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Sprint and jump to get to the other side",5,5);
+			TutorialRender.instance.renderTutorialSprintJump(entity);
 			break;
 		case FAIL:
 			super.render(entity);
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
+			TutorialRender.instance.renderTutorialDrawString("Press 'W' to walk forward" ,5,5);
 			TutorialRender.instance.renderTutorialWalkForward(entity);
+			break;
+		case HOTBAR:
+			break;
+		case LOOK:
+//			super.render(entity);
+//			player=null;
+//			if(entity instanceof EntityPlayer)	
+//				player=(EntityPlayer)(entity);
+//			boolean test=false;
+//	        Vec3 vec3 = player.getPosition(1.0F);
+//	        Vec3 vec32 = player.getLook(1.0F);
+//	        //player.addChatMessage(new ChatComponentText("Anglex: "+vec32.xCoord+" Anglez: "+vec32.zCoord));
+//	        
+//	        
+//	        //Vec3 vec32 = vec3.addVector(vec31.xCoord , vec31.yCoord , vec31.zCoord );
+//	        
+//	        
+//	        Vec3 vec01=null;
+//	        vec01 = vec01.createVectorHelper(pos1.xCoord, pos1.yCoord, pos1.zCoord);
+//
+//			Vec3 vec02 = vec3.addVector(-vec01.xCoord , -vec01.yCoord , -vec01.zCoord);
+//			
+//			player.addChatMessage(new ChatComponentText("Anglex: "+vec02.xCoord+" Anglez: "+vec02.zCoord));
+//			
+//			 if(vec32.zCoord<0)
+//		     {
+//		       // test=true;
+//		     }
+//			 
+//			
+//			vec02.yCoord=0;
+//			vec32.yCoord=0;
+//			
+//			vec02=vec02.normalize();
+//			vec32=vec32.normalize();
+//			
+//			
+//			double u1=vec02.lengthVector();
+//			double u2=vec32.lengthVector();
+//			
+//			double dot=vec02.dotProduct(vec32);
+//			
+//			double ang = Math.acos(dot/(u1*u2));
+//			
+//			
+//			if(!test)
+//			{
+//				ang=-ang;
+//			}
+//			
+//			//player.addChatMessage(new ChatComponentText("Angle: "+ang));
+//			TutorialRender.instance.renderTutorialLook(player, ang);
+//			
+//			
+//			
+//			
+////		    @SideOnly(Side.CLIENT)
+////		    public MovingObjectPosition rayTrace(double p_70614_1_, float p_70614_3_)
+////		    {
+////		        Vec3 vec3 = this.getPosition(p_70614_3_);
+////		        Vec3 vec31 = this.getLook(p_70614_3_);
+////		        Vec3 vec32 = vec3.addVector(vec31.xCoord * p_70614_1_, vec31.yCoord * p_70614_1_, vec31.zCoord * p_70614_1_);
+////		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
+////		    }
 			break;
 		default:
 			break;
