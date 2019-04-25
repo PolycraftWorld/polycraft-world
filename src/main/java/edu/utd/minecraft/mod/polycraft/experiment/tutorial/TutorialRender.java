@@ -9,6 +9,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +22,9 @@ public class TutorialRender {
 	
 	@SideOnly(Side.CLIENT)
 	public static Minecraft mc = Minecraft.getMinecraft();
+	@SideOnly(Side.CLIENT)
+	private static FontRenderer fontRenderer=mc.fontRenderer;
+	
 	
 	
 	static	ResourceLocation[] texturesFloatJungle = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingJungleGIF/TutorialTrial3-Floating000.png")),
@@ -598,6 +602,13 @@ public class TutorialRender {
 	{
 		prevAng=entity.rotationYaw;
 	}
+	
+	 public void renderTutorialDrawString(String str, int x, int y)
+	 {
+		 push(1F);
+		 fontRenderer.drawStringWithShadow(str, x, y, 16777215);	
+		 pop();
+	 }
 	
 	public static void push(float scale)
 	{

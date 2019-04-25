@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeature implements ITutorialFeature{
@@ -25,6 +26,7 @@ public class TutorialFeature implements ITutorialFeature{
 	protected Vec3 pos;
 	protected Color color;
 	protected TutorialFeatureType featureType;	//used when loading/saving
+	protected long completionTime;
 	protected boolean isDone = false;		//remove from active features when true
 	protected boolean canProceed = false;	//Stop loading new features until true
 	protected boolean isDirty = false;		//used to determine if an feature update packet needs to be send to players/server
@@ -49,7 +51,8 @@ public class TutorialFeature implements ITutorialFeature{
 		GENERIC(TutorialFeature.class.getName()),
 		GUIDE(TutorialFeatureGuide.class.getName()),
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
-		START(TutorialFeatureStart.class.getName());
+		START(TutorialFeatureStart.class.getName()),
+		GROUP(TutorialFeatureGroup.class.getName());
 		
 		public String className;
 		
@@ -112,11 +115,30 @@ public class TutorialFeature implements ITutorialFeature{
 			if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 					Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 				canProceed = true;
-				isDone = true;
+				complete(exp);
+				
 			}
 		}
 	}
-
+	
+	public void complete(ExperimentTutorial exp)
+	{
+		completionTime=exp.world.getTotalWorldTime();
+		isDone = true;
+//		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+//			player.addChatMessage(new ChatComponentText("Time: "+exp.world.getTotalWorldTime()));
+//		}
+	}
+	
+	public void complete(Entity entity)
+	{
+		completionTime=entity.worldObj.getTotalWorldTime();
+		isDone = true;
+//		EntityPlayer player=(EntityPlayer)entity;
+//		player.addChatMessage(new ChatComponentText("Time: "+entity.worldObj.getTotalWorldTime()));
+	
+	}
+	
 	@Override
 	public void onPlayerTickUpdate(ExperimentTutorial exp) {
 		// TODO Auto-generated method stub
@@ -309,6 +331,7 @@ public class TutorialFeature implements ITutorialFeature{
 		nbt.setString("type", featureType.name());
 		nbt.setBoolean("canProceed", canProceed);
 		nbt.setBoolean("isDone", isDone);
+		nbt.setLong("completionTime", completionTime);
 		return nbt;
 	}
 	
@@ -321,6 +344,7 @@ public class TutorialFeature implements ITutorialFeature{
 		this.featureType = TutorialFeatureType.valueOf(nbtFeat.getString("type"));
 		this.canProceed = nbtFeat.getBoolean("canProceed");
 		this.isDone = nbtFeat.getBoolean("isDone");
+		this.completionTime = nbtFeat.getLong("completionTime");
 	}
 
 	@Override
