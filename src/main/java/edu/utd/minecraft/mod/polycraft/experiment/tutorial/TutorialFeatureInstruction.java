@@ -47,6 +47,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		INVENTORY1,
 		INVENTORY2,
 		INVENTORY3,
+		INVENTORY4,
 		CRAFT_PICK,
 		PLACE_BLOCKS,
 		BREAK_BLOCKS,
@@ -132,7 +133,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(FREEZE_KBB));
 							if(player.inventory.hasItem(fkbb))
 							{
 								this.canProceed=true;
@@ -209,7 +210,29 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							{
 								this.canProceed=true;
 								this.isDirty=true;
-								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
+								player.addChatMessage(new ChatComponentText("You got the Knockback Bomb!"));
+								this.complete(exp);
+							}
+						}
+					}
+				}
+			}
+			break;
+		case INVENTORY4:
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(FREEZE_KBB));
+							if(player.inventory.hasItem(fkbb))
+							{
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("You got the Frozen Knockback Bomb!"));
 								this.complete(exp);
 							}
 						}
@@ -392,7 +415,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
 						{
-							exp.world.setBlock(x, y, z,  Blocks.packed_ice);
+							exp.world.setBlock(x, y-1, z,  Blocks.packed_ice);
 						}
 					}
 				}
@@ -550,6 +573,29 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 				}
 			break;
+		case INVENTORY4:
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+						}
+					}
+					else
+					{
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
+						//Gui to instruct player to click on the chest
+					}
+				}
+			break;
 		case CRAFT_PICK:
 			super.render(entity);
 			TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",5,5);
@@ -589,6 +635,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			TutorialRender.instance.renderTutorialFloatSwamp(entity);
 			break;
 		case KBB:
+			super.render(entity);
 			//super.render(entity);
 			TutorialRender.instance.renderTutorialDrawString("Use the KnockBack Bomb on the mobs",5,5);
 			TutorialRender.instance.renderTutorialUseKBB(entity);
