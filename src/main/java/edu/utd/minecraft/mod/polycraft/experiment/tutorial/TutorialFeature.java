@@ -53,7 +53,8 @@ public class TutorialFeature implements ITutorialFeature{
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
 		START(TutorialFeatureStart.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
-		END(TutorialFeatureEnd.class.getName());
+		END(TutorialFeatureEnd.class.getName()),
+		GROUP(TutorialFeatureGroup.class.getName());
 		
 		public String className;
 		
