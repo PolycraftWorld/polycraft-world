@@ -211,6 +211,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the Knockback Bomb!"));
+								this.complete(exp);
 							}
 						}
 					}
@@ -229,11 +230,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(FREEZE_KBB));
 							if(player.inventory.hasItem(fkbb))
 							{
-								this.isDone=true;
 								this.canProceed=true;
 								this.isDirty=true;
 								player.addChatMessage(new ChatComponentText("You got the Frozen Knockback Bomb!"));
-								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
 								this.complete(exp);
 							}
 						}
