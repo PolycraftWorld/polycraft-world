@@ -352,6 +352,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     				((GuiPolyButtonCycle<?>)button).nextOption();
     				if(featureToAdd instanceof TutorialFeatureInstruction)
     					((TutorialFeatureInstruction) featureToAdd).setType((TutorialFeatureInstruction.InstructionType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
+    				if(featureToAdd instanceof TutorialFeatureGroup)
+    					((TutorialFeatureGroup) featureToAdd).setType((TutorialFeatureGroup.GroupType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
+    			
     			}
     			break;
     		case DEV_STEP_EDIT:	//go back to steps screen
