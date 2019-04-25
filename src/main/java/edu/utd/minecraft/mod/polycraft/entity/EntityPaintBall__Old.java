@@ -18,6 +18,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import java.util.List;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -294,6 +295,9 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 					if (this.currentBlock.getMaterial() != Material.air) {
 						this.currentBlock.onEntityCollidedWithBlock(this.worldObj, this.positionXCurrent,
 								this.positionYCurrent, this.positionZCurrent, this);
+					}
+					if (this.currentBlock.getMaterial() == Material.carpet) {
+						this.worldObj.setBlockMetadataWithNotify(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent, 14, 2);
 					}
 				}
 			}
