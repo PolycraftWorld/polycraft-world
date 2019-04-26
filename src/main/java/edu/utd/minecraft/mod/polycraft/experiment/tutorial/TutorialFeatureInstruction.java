@@ -290,7 +290,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.onServerTickUpdate(exp);
-			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
+			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.planks) || (exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.spruce_stairs)) {
 				this.canProceed = true;
 				this.complete(exp);
 			}
