@@ -7,6 +7,9 @@ import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.PlayerKnockBackEvent;
+import edu.utd.minecraft.mod.polycraft.util.ShiftClickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -74,6 +77,9 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotIndex) {
+		//System.out.println(inventory.containerType+" is being shift right clicked by "+entityPlayer.getDisplayName()+" with slot index: "+slotIndex);
+		
+		
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotIndex);
 
@@ -81,8 +87,18 @@ public class PolycraftCraftingContainerGeneric<I extends PolycraftInventory> ext
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
+			/**
+			 * 18 events on Tree Tap in experiment log files as well as in polycraft-analytics log file. 
+			 */
+			ShiftClickEvent event = new ShiftClickEvent(entityPlayer,itemstack1,inventory.containerType);
+			Analytics.onShiftClickEvent(event);
+			
 				//DO NOT ADD CRAFTING INVENTORIES TO THIS. WILL CAUSE SHIFT CLICKING TO DUPLICATE ITEMS (OR FIX THE BUG)
 			if ((inventory.containerType == PolycraftContainerType.PLASTIC_CHEST) ||
+					(inventory.containerType == PolycraftContainerType.FURNACE) ||
+					(inventory.containerType == PolycraftContainerType.CRAFTING_TABLE) ||
+					(inventory.containerType == PolycraftContainerType.POLYCRAFTING_TABLE) ||
+					(inventory.containerType == PolycraftContainerType.INDUSTRIAL_OVEN) ||
 					(inventory.containerType == PolycraftContainerType.PORTAL_CHEST) ||
 					(inventory.containerType == PolycraftContainerType.CONTACT_PRINTER) ||
 					(inventory.containerType == PolycraftContainerType.OIL_DERRICK) ||

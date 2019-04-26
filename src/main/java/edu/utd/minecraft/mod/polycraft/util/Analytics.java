@@ -51,6 +51,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -179,7 +180,7 @@ public class Analytics {
 		return debug ? (item == null ? "n/a" : item.getDisplayName()) : (item == null ? "" : item.getUnlocalizedName());
 	}
 
-	private String formatItemStackSize(final ItemStack item) {
+	private static String formatItemStackSize(final ItemStack item) {
 		return debug ? (item == null ? "n/a" : String.valueOf(item.stackSize)) : (item == null ? "" : String.valueOf(item.stackSize));
 	}
 
@@ -380,7 +381,7 @@ public class Analytics {
 			return experiment_instance;
 			}
 		}
-		return null;
+		return 0;
 	}
 	
 	public static final String FORMAT_TICK_SPATIAL = "%2$.2f%1$s%3$.2f%1$s%4$.2f%1$s%5$d%1$s%6$d%1$s%7$d%1$s%8$s%1$s%9$s%1$s%10$s";
@@ -719,7 +720,7 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onKnockBackEvent(final PlayerKnockBackEvent event) {
 		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 2,get_exp_ID(event.player),event.knocked_list,formatItemStackName(event.player.getCurrentEquippedItem())));
-		Write_to_log(event.player,get_exp_ID(event.player),log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 2,get_exp_ID(event.player),event.knocked_list,formatItemStackName(event.player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
+		Write_to_log_with_Exp_ID(event.player,log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 2,get_exp_ID(event.player),event.knocked_list,formatItemStackName(event.player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
 		}
 	
 	/**
@@ -866,5 +867,13 @@ public class Analytics {
 	public synchronized static void onTeamScoreEvent(final PlayerTeamScoreEvent event) {
 		log2(event.teamname, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_SCOREEVENT_DEBUG : FORMAT_ON_SCOREEVENT, DELIMETER_DATA, 1, event.id,event.score));
 		Write_to_log_AI(event.teamname,event.id,log3(event.teamname, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_SCOREEVENT_DEBUG : FORMAT_ON_SCOREEVENT, DELIMETER_DATA, 1, event.id,event.score))+System.getProperty("line.separator"));
+	}
+	
+	/**
+	 * 18 records Tree Tap log
+	 */
+	public synchronized static void onShiftClickEvent(final ShiftClickEvent event) {
+		log(event.entityPlayer, Category.PlayerPolycraftItem, String.format(debug ? FORMAT_POLYCRAFT_ITEM_DEBUG : FORMAT_POLYCRAFT_ITEM, DELIMETER_DATA,formatItemStackName(event.itemstack1),formatItemStackSize(event.itemstack1),event.containerType));
+		Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerPolycraftItem, String.format(debug ? FORMAT_POLYCRAFT_ITEM_DEBUG : FORMAT_POLYCRAFT_ITEM, DELIMETER_DATA,formatItemStackName(event.itemstack1),formatItemStackSize(event.itemstack1),event.containerType))+System.getProperty("line.separator"));
 	}
 }
