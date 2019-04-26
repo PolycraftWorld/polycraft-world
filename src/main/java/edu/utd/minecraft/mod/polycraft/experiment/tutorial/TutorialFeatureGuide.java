@@ -37,6 +37,15 @@ public class TutorialFeatureGuide extends TutorialFeature{
 	}
 	
 	@Override
+	public void preInit(ExperimentTutorial exp) {
+		super.preInit(exp);
+		pos2.xCoord += exp.posOffset.xCoord;
+		pos2.yCoord += exp.posOffset.yCoord;
+		pos2.zCoord += exp.posOffset.zCoord;
+		
+	}
+	
+	@Override
 	public void updateValues() {
 		this.pos2.xCoord = Integer.parseInt(xPos2Field.getText());
 		this.pos2.yCoord = Integer.parseInt(yPos2Field.getText());

@@ -162,14 +162,14 @@ public abstract class Experiment {
 		//System.out.println("done");
 		
 		//expFeatures = gson.
-		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
-		try {
-			String getJSON = readFile(rs.getResourcePath());
-			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, ExperimentFeatureTypeAdapterFactory.EXPERIMENT_LIST_TYPE);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
+//		try {
+//			String getJSON = readFile(rs.getResourcePath());
+//			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, ExperimentFeatureTypeAdapterFactory.EXPERIMENT_LIST_TYPE);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		//System.out.println(expFeatures);
 	}

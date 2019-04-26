@@ -3,9 +3,11 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,6 +57,11 @@ public class TutorialManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, ExperimentTutorial> experiments = new Hashtable<Integer, ExperimentTutorial>();
 	
+	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+	static TutorialOptions tutOptions = new TutorialOptions();
+	static String outputFileName = "output";
+	static String outputFileExt = ".psm";
+	
 	private List<EntityPlayer> globalPlayerList;
 	
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else 
@@ -62,8 +69,11 @@ public class TutorialManager {
 	
 	public enum PacketMeta{
 		Features,
-		ActiveFeatures,
-		Feature
+		ActiveFeatures,		//for updating active features, if it comes from the client side, it is a request to resend active features
+		Feature,
+		JoinNew,
+		CompletedTutorialTrue,
+		CompletedTutorialFalse, //for checking if a player has completed a tutorial before
 	}
 	
 	public TutorialManager() {
@@ -155,7 +165,7 @@ public class TutorialManager {
 	}
 	
 	
-	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, World world) {
+	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, boolean isClient) {
 		try {
 			Gson gson = new Gson();
 			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
@@ -165,7 +175,7 @@ public class TutorialManager {
 			
 			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
 			
-			if(Minecraft.getMinecraft().theWorld.isRemote) {
+			if(isClient) {
 				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
 				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
 				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
@@ -189,14 +199,52 @@ public class TutorialManager {
 		//clientCurrentExperiment = -1;
 	}
 	
-	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, World world, boolean isDev) {
-		ExperimentTutorial experiment = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), world, options, features, isDev);
+	private NBTTagCompound load() {
+		try {
+        	features.clear();
+        	
+        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+				test.load(nbtFeat);
+				features.add(test);
+			}
+			
+			tutOptions.load(nbtFeats.getCompoundTag("options"));
+            is.close();
+            return nbtFeats;
+
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+        }
+		return null;
+	}
+	
+	public int createExperiment() {
+		NBTTagCompound nbtData = load();
+		tutOptions.name = "test name";
+		tutOptions.numTeams = 1;
+		tutOptions.teamSize = 1;
+		
+		int id = this.INSTANCE.addExperiment(tutOptions, features, true);
+		this.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
+
+		return id;
+	}
+	
+	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
+		ExperimentTutorial experiment = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), options, features, genInDim8);
 		this.experiments.put(nextAvailableExperimentID++, experiment);
 		return nextAvailableExperimentID - 1;
 	}
 	
-	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, World world) {
-		return addExperiment(options, features, world, false);
+	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features) {
+		return addExperiment(options, features, false);
 	}
 	
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
@@ -281,12 +329,12 @@ public class TutorialManager {
 			this.INSTANCE.experiments.put(experimentID, new ExperimentTutorial(experimentID, Minecraft.getMinecraft().theWorld, features));
 			this.INSTANCE.clientCurrentExperiment = experimentID;
 		} catch (Exception e) {
-            System.out.println("I can't load initial Experiment Features, because " + e.getStackTrace()[0]);
+            System.out.println("I can't load initial Experiment Features, because: " + e.getStackTrace()[0]);
         }
 	}
 	
 	public void updateExperimentActiveFeatures(int experimentID, ByteArrayOutputStream activeFeaturesStream) {
-		//This should only be sent once
+		//This should be sent whenever active features change
 		try {
 			NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(new ByteArrayInputStream(activeFeaturesStream.toByteArray()));
             NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("activeFeatures");
@@ -299,9 +347,11 @@ public class TutorialManager {
 				activeFeatures.add(test);
 			}
 			
-			this.INSTANCE.experiments.get(this.INSTANCE.clientCurrentExperiment).updateActiveFeatures(activeFeatures);
+			//TODO: NEED TO VERIFY THAT ALL EXPERIMENT IDs ARE consistant on client side
+			this.INSTANCE.experiments.get(experimentID).updateActiveFeatures(activeFeatures);
 		} catch (Exception e) {
-            System.out.println("I can't load updated Experiment Features, because " + e.getStackTrace()[0]);
+            System.out.println("Active Features update failed. Requesting new packet because: " + e.getMessage());
+            ClientEnforcer.INSTANCE.sendActiveFeaturesRequest();	//TODO: This shouldn't happen every tick, might overload server
         }
 	}
 	
@@ -342,6 +392,15 @@ public class TutorialManager {
 		if(!INSTANCE.experiments.isEmpty())
 			if(INSTANCE.experiments.containsKey(INSTANCE.clientCurrentExperiment))
 				INSTANCE.experiments.get(INSTANCE.clientCurrentExperiment).render(entity);
+	}
+
+
+	public static int isPlayerinExperiment(String playerName) {
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).isPlayerInExperiment(playerName))
+				return expID;
+		}
+		return -1;
 	}
 
 }

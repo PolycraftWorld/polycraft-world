@@ -315,6 +315,10 @@ public class ItemDevTool extends ItemCustom  {
 	private void save() {
 		NBTTagCompound nbtFeatures = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
+		if (tutOptions.pos == null)
+			tutOptions.pos = Vec3.createVectorHelper(0, 0, 0);
+		if (tutOptions.size == null)
+			tutOptions.size = Vec3.createVectorHelper(0, 0, 0);
 		for(int i =0;i<features.size();i++) {
 //				NBTTagCompound nbt = new NBTTagCompound();
 //				int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};

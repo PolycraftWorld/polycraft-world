@@ -112,6 +112,9 @@ public class ClientEnforcer extends Enforcer {
 			this.ticksRemaining = ticksRemaining;
 		}
 	}
+	
+
+	public boolean hasCompletedTutorial = true;
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
 	private static boolean showTutorialRender = false;
@@ -188,6 +191,8 @@ public class ClientEnforcer extends Enforcer {
 		this.governments.clear();
 		//this.tempChallengeProperties.clear();
 		this.tempPrivateProperties.clear();
+		this.expPrivateProperties.clear();
+		this.expPrivatePropertiesByChunk.clear();
 		this.itemsToSwitch.clear();
 		this.privatePropertiesByChunk.clear();
 		//this.challengePropertiesByChunk.clear();
@@ -229,6 +234,12 @@ public class ClientEnforcer extends Enforcer {
 						final NumberFormat formatPP = NumberFormat.getNumberInstance(Locale.getDefault());
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
 								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
+						break;
+					case ExpPrivateProperties:
+						final int countEPP = INSTANCE.updateExpPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						final NumberFormat formatEPP = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + formatEPP.format(countEPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " experiment private properties ("
+								+ formatEPP.format(expPrivatePropertiesByChunk.size()) + " chunks)", 10);
 						break;
 					case Governments:	
 						//final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
@@ -297,6 +308,12 @@ public class ClientEnforcer extends Enforcer {
 							PolycraftMod.logger.debug("Receiving experiment feature...");
 							this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							break;
+						case CompletedTutorialTrue:
+							PolycraftMod.logger.debug("Receiving experiment completed update...");
+							this.hasCompletedTutorial = true;
+						case CompletedTutorialFalse:
+							PolycraftMod.logger.debug("Receiving experiment completed update...");
+							this.hasCompletedTutorial = false;
 						default:
 							break;
 						}
@@ -584,8 +601,9 @@ public class ClientEnforcer extends Enforcer {
 	}
 	
 	private void updateTutorialFeatures(String decompressedJson) {
-		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)
 			return;
+		TutorialManager.INSTANCE.clientCurrentExperiment = 1;
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
@@ -599,11 +617,18 @@ public class ClientEnforcer extends Enforcer {
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
 	}
 	
+	private void updateTutorialCompleted(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		this.INSTANCE.hasCompletedTutorial = (boolean) gson.fromJson(decompressedJson, boolean.class);
+	}
+	
 	private void updateTutorialActiveFeatures(String decompressedJson) {
 		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
 			return;
 		Gson gson = new Gson();
-		TutorialManager.INSTANCE.updateExperimentActiveFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+		TutorialManager.INSTANCE.updateExperimentActiveFeatures(1, 
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
 	}
 	
@@ -671,6 +696,33 @@ public class ClientEnforcer extends Enforcer {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
 				System.out.println("Sending packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	
+	public void sendTutorialRequest() {
+		FMLProxyPacket[] packetList = null;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.JoinNew.ordinal(), gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending Tutorial request packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	public void sendActiveFeaturesRequest() {
+		FMLProxyPacket[] packetList = null;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.ActiveFeatures.ordinal(), gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending Tutorial active features request packet " + i);
 				netChannel.sendToServer(packet); 
 			}
 		}

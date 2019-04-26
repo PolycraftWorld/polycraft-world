@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
@@ -168,6 +169,7 @@ public class ServerEnforcer extends Enforcer {
 				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
 			}
 			else {
+				String playerDisplayName;
 				pendingDataPacketsBytes -= payload.array().length;
 				pendingDataPacketsBuffer.put(payload);
 				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
@@ -193,9 +195,8 @@ public class ServerEnforcer extends Enforcer {
 						
 						break;
 					case Consent:
-						final String playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-								new TypeToken<String>() {
-								}.getType());
+						playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+								new TypeToken<String>() {}.getType());
 						switch(pendingDataPacketTypeMetadata) {
 						case 0: //player gives consent
 							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", true);
@@ -207,6 +208,7 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+						break;
 					case Halftime: // decompress json array with halftime answers
 						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
 						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
@@ -220,11 +222,23 @@ public class ServerEnforcer extends Enforcer {
 								PolycraftMod.logger.debug("Why is client sending Features List?");
 								break;
 							case ActiveFeatures:	//Experiment Active Features update
-								PolycraftMod.logger.debug("Why is client sending Active Features List?");
+								PolycraftMod.logger.debug("Receiving client Active Features update request");
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								int expID = TutorialManager.isPlayerinExperiment(playerDisplayName.toLowerCase());
+								if(expID > -1)
+									TutorialManager.INSTANCE.sendTutorialActiveFeatures(expID);
 								break;
 							case Feature:	//Experiment single featuer update
 								PolycraftMod.logger.debug("Receiving experiment feature...");
 								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case JoinNew:	//Client requesting to join new tutorial
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
+										MinecraftServer.getServer().getConfigurationManager().func_152612_a(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
 								break;
 							default:
 								break;
@@ -288,8 +302,10 @@ public class ServerEnforcer extends Enforcer {
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));	
 		}
 		
-		if(System.getProperty("isExperimentServer") != null)
+		if(System.getProperty("isExperimentServer") != null) {
 			this.shouldClientDisplayConsentGUI((EntityPlayerMP)event.player);
+			this.UpdateClientTutorialCompleted((EntityPlayerMP)event.player);
+		}
 		
 	}
 	
@@ -418,6 +434,10 @@ public class ServerEnforcer extends Enforcer {
 
 	public void sendTempPPDataPackets() {
 		sendDataPackets(DataPacketType.TempPrivateProperties, 0, null);
+	}
+	
+	public void sendExpPPDataPackets() {
+		sendDataPackets(DataPacketType.ExpPrivateProperties, 0, null);
 	}
 	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
@@ -553,6 +573,22 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	public void UpdateClientTutorialCompleted(EntityPlayerMP player) {
+		if (portalRestUrl != null) {
+			try {
+				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderName());
+				if(result.equals("Error")) {
+					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
+				}else {
+					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialTrue.ordinal(), player);	//Update clients tutorial completion to True
+				}
+			}
+			catch(Exception e){
+				//TODO: something?
+			}
+		}
+	}
 
 	public void freezePlayerForTicks(int ticks, EntityPlayerMP player) {
 		//Freeze player for specific number of ticks
@@ -630,6 +666,7 @@ public class ServerEnforcer extends Enforcer {
 //							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1 ? gson.toJson(ExperimentManager.INSTANCE)
 //																		:tempChallengeProperties) 
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
+							: type == DataPacketType.ExpPrivateProperties ? gson.toJson(expPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 //							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
 							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
@@ -969,12 +1006,44 @@ public class ServerEnforcer extends Enforcer {
 			return "Error";
 		}
 	}
+	
+	public String skillLevelCheck(String minecraftUserName) {
+		try {
+			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
+			JsonObject jsonObj = new JsonObject();
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!response.matches("-?\\d+")) {
+				response = "Error";
+			}
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
+	
+	public String updateSkillLevel(String minecraftUserName, int skillLevel) {
+		try {
+			Map<String, String> params = Maps.newHashMap();
+			params.put("minecraft_user_name", minecraftUserName);
+			params.put("skill_level", Integer.toString(skillLevel));
+			String response = NetUtil.post(String.format("%s/skill_level_set/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),params);
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!response.matches("-?\\d+")) {
+				response = "Error";
+			}
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
 
 	public void sendPrivateProperties(String privatePropertyJSON, boolean isMasterWorld) {
 		// TODO Auto-generated method stub
 		this.updatePrivateProperties(privatePropertyJSON, isMasterWorld, true);
 		sendDataPackets(DataPacketType.PrivateProperties, isMasterWorld ? 1 : 0);
-		
-		
 	}
 }

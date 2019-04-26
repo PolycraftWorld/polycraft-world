@@ -47,6 +47,7 @@ public class ExperimentManager {
 	
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
+	public static ArrayList<ExperimentType> expTypes = new ArrayList<ExperimentType>();
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	
 	//read the schematic file only once.
@@ -55,119 +56,6 @@ public class ExperimentManager {
 	public Schematic stoop = sch.get("stoopWithCrafting.psm");
 	public Schematic flat_field = sch.get("flatWithCrafting.psm");
 	
-	/**
-	 * Internal class that keeps track of all experiments
-	 * A static arraylist of this class, called #metadata is transferred between Server & Client
-	 * for synchronization. This contains relevant, condensed information enabling efficient info
-	 * transfer across the network. 
-	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
-	 * {@link #ClientEnforcer}. It is currently rendered on {@link #GuiExperimentList}
-	 * @author dnarayanan
-	 *
-	 */
-	public class ExperimentListMetaData {	
-		public String expName;
-		public String instructions = "";
-		public int playersNeeded;
-		public int currentPlayers;
-		private boolean available = true;
-		private ExperimentParameters parameters;
-		public String expType;
-		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
-			expName = name;
-			playersNeeded = maxPlayers;
-			currentPlayers = currPlayers;
-			this.instructions = instructions; 
-		}
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params) {
-			expName = name;
-			playersNeeded = maxPlayers;
-			currentPlayers = currPlayers;
-			this.instructions = instructions; 
-			this.parameters = params;
-		}
-		
-		public ExperimentListMetaData(Experiment type) {
-			if(type instanceof ExperimentCTB) {
-				this.expName = "Experiment B: " + type.id;
-				this.expType = "Stoop";
-			}else {
-				this.expName = "Experiment A: " + type.id;
-				this.expType = "Flat"; //TODO: Declare these names as static within the class.
-			}
-			this.playersNeeded = type.getMaxPlayers();
-			currentPlayers = 0;
-			this.instructions = type.getInstructions();
-			this.parameters = new ExperimentParameters(type);
-			
-		}
-		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, Experiment type) {
-			expName = name;
-			playersNeeded = maxPlayers;
-			currentPlayers = currPlayers;
-			this.instructions = instructions; 
-			this.parameters = params;
-		}
-		
-		public void updateCurrentPlayers(int newPlayerCount) {
-			currentPlayers = newPlayerCount;
-		}
-		
-		@Deprecated
-		public void updateParams(ExperimentParameters params) {
-			this.parameters = params;
-		}
-		
-		public void updateParams(int ExpID) {
-			this.parameters = new ExperimentParameters(ExperimentManager.experiments.get(ExpID));
-			this.instructions = ExperimentManager.experiments.get(ExpID).getInstructions(); //update instructions
-		}
-		
-		public void deactivate() {
-			available = false;
-		}
-		
-		public boolean isAvailable() {
-			return available;
-		}
-		
-		public ExperimentParameters getParams() {
-			return parameters;
-		}
-
-		@Override
-		public String toString() {
-			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d Available? %s", expName, playersNeeded, currentPlayers, available);
-		}	
-	}
-	
-	/**
-	 * This class contains a request from the Client to the Server of a player wanting to join
-	 * or of a player wanting to be removed from a particular experiment list.
-	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
-	 * by {@link ServerEnforcer}).
-	 * @author dnarayanan
-	 *
-	 */
-	public class ExperimentParticipantMetaData {
-		public String playerName;
-		public int experimentID;
-		public boolean wantsToJoin;
-		public ExperimentParameters params;
-		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
-			this.playerName = playerName;
-			this.experimentID = expID;
-			wantsToJoin = join;
-		}
-		
-		public ExperimentParticipantMetaData(String playerName, int expID, ExperimentParameters param) {
-			this.playerName = playerName;
-			this.experimentID = expID;
-			this.params = param;
-		}
-	}
 	
 	public static Hashtable<Integer, Experiment> getExperiments() {
 		return experiments;
@@ -632,5 +520,143 @@ public class ExperimentManager {
 	public void updateExperimentParameters(int experimentID, ExperimentParameters params) {
 		this.experiments.get(experimentID).updateParams(params);
 		
+	}
+	
+	/**
+	 * Internal class that keeps track of all experiment types
+	 * A static arraylist of this class, called #expTypes is stored on the server side.
+	 * This is what the experiment manager will reference when checking to create new experiments
+	 * @author SGoss
+	 *
+	 */
+	public class ExperimentType {
+		public String name;
+		public int teamCount;
+		public int playersPerTeam;
+		public String expClass;
+		
+		// addExp type schem name teams playersPerTeam
+		public ExperimentType(String expClass, String name, int teamCount, int playersPerTeam ) {
+			this.expClass = expClass;
+			this.name = name;
+			this.teamCount = teamCount;
+			this.playersPerTeam = playersPerTeam;
+		}
+	}
+	
+	
+	
+	/**
+	 * Internal class that keeps track of all experiments
+	 * A static arraylist of this class, called #metadata is transferred between Server & Client
+	 * for synchronization. This contains relevant, condensed information enabling efficient info
+	 * transfer across the network. 
+	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
+	 * {@link #ClientEnforcer}. It is currently rendered on {@link #GuiExperimentList}
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentListMetaData {	
+		public String expName;
+		public String instructions = "";
+		public int playersNeeded;
+		public int currentPlayers;
+		private boolean available = true;
+		private ExperimentParameters parameters;
+		public String expType;
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+		}
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+			this.parameters = params;
+		}
+		
+		public ExperimentListMetaData(Experiment type) {
+			if(type instanceof ExperimentCTB) {
+				this.expName = "Experiment B: " + type.id;
+				this.expType = "Stoop";
+			}else {
+				this.expName = "Experiment A: " + type.id;
+				this.expType = "Flat"; //TODO: Declare these names as static within the class.
+			}
+			this.playersNeeded = type.getMaxPlayers();
+			currentPlayers = 0;
+			this.instructions = type.getInstructions();
+			this.parameters = new ExperimentParameters(type);
+			
+		}
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, Experiment type) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+			this.parameters = params;
+		}
+		
+		public void updateCurrentPlayers(int newPlayerCount) {
+			currentPlayers = newPlayerCount;
+		}
+		
+		@Deprecated
+		public void updateParams(ExperimentParameters params) {
+			this.parameters = params;
+		}
+		
+		public void updateParams(int ExpID) {
+			this.parameters = new ExperimentParameters(ExperimentManager.experiments.get(ExpID));
+			this.instructions = ExperimentManager.experiments.get(ExpID).getInstructions(); //update instructions
+		}
+		
+		public void deactivate() {
+			available = false;
+		}
+		
+		public boolean isAvailable() {
+			return available;
+		}
+		
+		public ExperimentParameters getParams() {
+			return parameters;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d Available? %s", expName, playersNeeded, currentPlayers, available);
+		}	
+	}
+	
+	/**
+	 * This class contains a request from the Client to the Server of a player wanting to join
+	 * or of a player wanting to be removed from a particular experiment list.
+	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
+	 * by {@link ServerEnforcer}).
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentParticipantMetaData {
+		public String playerName;
+		public int experimentID;
+		public boolean wantsToJoin;
+		public ExperimentParameters params;
+		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			wantsToJoin = join;
+		}
+		
+		public ExperimentParticipantMetaData(String playerName, int expID, ExperimentParameters param) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			this.params = param;
+		}
 	}
 }

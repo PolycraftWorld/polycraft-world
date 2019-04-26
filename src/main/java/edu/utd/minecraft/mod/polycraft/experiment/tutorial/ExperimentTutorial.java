@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,10 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
@@ -64,14 +68,17 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 public class ExperimentTutorial{
+	private static final int AREA_PADDING = 48;
 	
 	public final int id;	//id of the experiment. Should be unique
-	public Vec3 pos1;	//starting Pos of experiment area
-	public Vec3 pos2;
-	private Vec3 genPos;
+	public Vec3 pos;	//starting Pos of experiment area
+	public Vec3 size;
+	public Vec3 posOffset;
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	World world;
 	public int dim;
@@ -84,7 +91,7 @@ public class ExperimentTutorial{
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int featureIndex = 0;
-	protected boolean isDev = false;
+	protected ForgeChunkManager.Ticket[] tickets;	//tickets for keeping experiment chuncks loaded
 	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
 	protected ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
 	
@@ -109,6 +116,8 @@ public class ExperimentTutorial{
 	
 	
 	private String stringToSend = "";
+
+	private PrivateProperty privateProperty;
 	
 	/**
 	 * 
@@ -118,14 +127,28 @@ public class ExperimentTutorial{
 	 * @param features
 	 * @param isDev If True, will not genereate area and will not transport to dimension 8
 	 */
-	public ExperimentTutorial(int id, World world, TutorialOptions options, ArrayList<TutorialFeature> features, boolean isDev) {
+	public ExperimentTutorial(int id, TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
 		
 		this.id = id;
-		this.pos1 = options.pos;
-		this.pos2 = options.size;
-		this.genPos = pos1;
+		Vec3 pos1 = Vec3.createVectorHelper(Math.min(options.pos.xCoord, options.size.xCoord),
+				Math.min(options.pos.yCoord, options.size.yCoord),
+				Math.min(options.pos.zCoord, options.size.zCoord));
+		this.size = Vec3.createVectorHelper(Math.max(options.pos.xCoord, options.size.xCoord) - pos1.xCoord,
+				Math.max(options.pos.yCoord, options.size.yCoord) - pos1.yCoord,
+				Math.max(options.pos.zCoord, options.size.zCoord) - pos1.zCoord);
+		if(genInDim8) {
+			dim = 8;
+			this.posOffset = Vec3.createVectorHelper(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
+			this.pos = Vec3.createVectorHelper(pos1.xCoord + posOffset.xCoord, pos1.yCoord + posOffset.yCoord, pos1.zCoord + posOffset.zCoord);
+		}else {
+			dim = 0;
+			this.posOffset = Vec3.createVectorHelper(0,0,0);
+			this.pos = pos1;
+		}
+		
+
+		this.world = DimensionManager.getWorld(dim);
 		this.currentState = State.WaitingToStart;
-		this.world = world;
 		this.teamsNeeded = options.numTeams;
 		this.teamSize = options.teamSize;
 		this.playersNeeded = teamsNeeded * teamSize;
@@ -137,10 +160,7 @@ public class ExperimentTutorial{
 			this.scoreboard.resetScores(0);
 		}
 		
-		if(isDev) {
-			dim = 0;
-		}else
-			dim = 8;
+		createPrivateProperties();
 		
 		this.features.addAll(features);
 	}
@@ -198,21 +218,41 @@ public class ExperimentTutorial{
 		case WaitingToStart:
 			break;
 		case Starting:
-			if(genTick % 20 == 0) {
-				for(Team team: scoreboard.getTeams()) {
-					for(String player: team.getPlayers()) {
-						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-						playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
+			//generateArea();
+			if(dim == 0) {
+				if(genTick % 20 == 0) {
+					for(Team team: scoreboard.getTeams()) {
+						for(String player: team.getPlayers()) {
+							EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+							playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
+						}
 					}
 				}
+				if(this.generateArea()) {
+					currentState = State.PreInit;
+				}
+				genTick++;
+//				for(Team team: scoreboard.getTeams()) {
+//					for(String player: team.getPlayers()) {
+//						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+//						playerEntity.addChatMessage(new ChatComponentText("\u00A7aRunning in Dev mode, not generating"));
+//					}
+//				}
+//				currentState = State.PreInit;
+			}else {
+				if(genTick % 20 == 0) {
+					for(Team team: scoreboard.getTeams()) {
+						for(String player: team.getPlayers()) {
+							EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+							playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
+						}
+					}
+				}
+				if(this.generateArea()) {
+					currentState = State.PreInit;
+				}
+				genTick++;
 			}
-			
-			//generateArea();
-			
-			if(this.generateArea()) {
-				currentState = State.PreInit;
-			}
-			genTick++;
 			break;
 		case PreInit:
 			for(TutorialFeature feature: features){
@@ -222,6 +262,18 @@ public class ExperimentTutorial{
 			currentState = State.Running;
 			break;
 		case Running:
+			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
+				activeFeatures.get(x).onServerTickUpdate(this);
+				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
+					System.out.println("[Server] Sending Feature update");
+					activeFeatures.get(x).isDirty = false;
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), false);
+				}
+				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, remove it from active features
+					activeFeatures.remove(activeFeatures.get(x));
+					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
+				}
+			}
 			if(activeFeatures.isEmpty() && featureIndex == features.size())
 				currentState = State.Ending;	//if active features is empty, and we've gone through all features, the experiment is over
 			else if (featureIndex < features.size()) {	//if we've added the last feature, we don't need to run this anymore
@@ -236,21 +288,12 @@ public class ExperimentTutorial{
 					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
 				}
 			}
-			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
-				activeFeatures.get(x).onServerTickUpdate(this);
-				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
-					System.out.println("[Server] Sending Feature update");
-					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
-				}
-				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, remove it from active features
-					activeFeatures.remove(activeFeatures.get(x));
-					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
-				}
-			}
 			break;
 		case Ending:
-			this.currentState = State.Done;
+			for(TutorialFeature feature: features){
+				feature.end(this);
+			}
+			currentState = State.Done;
 			break;
 		case Done:
 			break;
@@ -265,19 +308,34 @@ public class ExperimentTutorial{
 		//We shouldn't have to check experiment state on client side, Just need to run all active features
 		if(activeFeatures.isEmpty()) {	//active features is empty, so experiment must be over.
 			this.currentState = State.Done;
+			TutorialManager.INSTANCE.clientCurrentExperiment = -1;
 		}else {
+			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
 				activeFeatures.get(x).onPlayerTickUpdate(this);
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), this.world);
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), true);
 				}
 			}
 		}
+	}
+	
+	
+	/**
+	 * Set the state to done and remove players from the scoreboard, effectively removing all players.
+	 */
+	public void stop() {
+		this.currentState = State.Done;
+		this.scoreboard.clearPlayers();
+		for(Ticket tkt : this.tickets) {
+			ForgeChunkManager.releaseTicket(tkt);
+		}
 		
-		
+		//ExperimentManager.INSTANCE.sendExperimentUpdates();
+		//this.scoreboard = null; //TODO: does this need to be null?
 	}
 	
 	
@@ -308,6 +366,20 @@ public class ExperimentTutorial{
 	}
 	
 	
+	protected void initArea() {
+		int sizeX = (int) Math.ceil(Math.abs(size.xCoord - pos.xCoord));
+		int sizeZ = (int) Math.ceil(Math.abs(size.zCoord - pos.zCoord));
+		tickets = new ForgeChunkManager.Ticket[sizeX*sizeZ];
+		
+//		for(int x = 0; x <= sizeX; x++) {
+//			for(int z = 0; z <= sizeZ; z++) {
+//				tickets[chunkCount] = ForgeChunkManager.requestTicket(PolycraftMod.instance, this.world, ForgeChunkManager.Type.NORMAL);
+//				ForgeChunkManager.forceChunk(tickets[chunkCount], new ChunkCoordIntPair((this.xPos / 16) + x, (this.zPos / 16) + z));
+//			}
+//		}
+	}
+	
+	
 	/**
 	 * Generates the stoop approximately 1 chunk at a time. This function handles determining the size it needs
 	 * This function assumes that the schematic file in question was generated by {@inheritDoc commands.dev.CommandDev.java}
@@ -316,11 +388,7 @@ public class ExperimentTutorial{
 	 */
 	protected boolean generateArea() {
 		final int maxBlocksPerTick = 65536;
-		
-        Vec3 size = Vec3.createVectorHelper(Math.abs(Math.abs(pos1.xCoord) - Math.abs(pos2.xCoord)), 
-        		Math.abs(Math.abs(pos1.yCoord) - Math.abs(pos2.yCoord)), 
-        		Math.abs(Math.abs(pos1.zCoord) - Math.abs(pos2.zCoord)));
-		
+				
 		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
 		//we don't want the game to lag too much.
 		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(size.yCoord*size.zCoord)),1.0));
@@ -328,10 +396,11 @@ public class ExperimentTutorial{
 		//the position to begin counting in the blocks[] array.
 		int count=(genTick*maxXPerTick)*((int)size.yCoord+1)*((int)size.zCoord+1);
 		
-		
 		if(count >= blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			return true; 
 		}
+		
+		System.out.println("GenPos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
 
 		//still have blocks in the blocks[] array we need to add to the world
 		for(int x = (genTick*maxXPerTick); x < (genTick*maxXPerTick)+ maxXPerTick; x++){
@@ -343,8 +412,8 @@ public class ExperimentTutorial{
 					int curblock = (int)blocks[count];
 					
 					if(curblock == 0 || curblock == 76) {
-						if(!world.isAirBlock(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord))
-							world.setBlockToAir(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord);
+						if(!world.isAirBlock(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord))
+							world.setBlockToAir(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord);
 						count++;
 						continue;
 					}
@@ -352,22 +421,54 @@ public class ExperimentTutorial{
 						count++;
 						continue; //these are Gas Lamps - we don't care for these.
 					}else if(curblock == 859) { //Polycrafting Tables (experiments!)
-						world.setBlock(x + (int)genPos.xCoord, y + (int)genPos.yCoord , z + (int)genPos.zCoord, Block.getBlockById(curblock), data[count], 2);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)genPos.xCoord, y + (int)genPos.yCoord , z + (int)genPos.zCoord);
+						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
 						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
-						pbi.onBlockPlacedBy(world, x + (int)genPos.xCoord, y + (int)genPos.yCoord, z + (int)genPos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
+						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
 						count++;
 					}else {
-						world.setBlock(x + (int)genPos.xCoord, y + (int)genPos.yCoord ,z + (int)genPos.zCoord, Block.getBlockById(curblock), data[count], 2);
+						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
 						count++;
 					}
 				}
 			}
 		}
-		
 		return false;
-		
-		
 	}
 
+	
+	public Collection<EntityPlayer> getEntityPlayersInExperiment() {
+		return scoreboard.getPlayersAsEntity();
+	}
+	
+	public Collection<String> getPlayersInExperiment() {
+		return scoreboard.getPlayers();
+	}
+	
+	private void createPrivateProperties() {
+		if(!this.world.isRemote) {
+			int endX = 0, endZ = 0;
+			for(int x = (int)pos.xCoord - 8; Math.abs(x) <= Math.abs(pos.xCoord + size.xCoord) + 8; x += 16) {
+				for(int z = (int)pos.zCoord - 8; Math.abs(z) <= Math.abs(pos.zCoord + size.zCoord) + 8; z += 16) {
+					//don't feel like doing the math... 
+					endX = x;
+					endZ = z;
+				}
+			}
+			PrivateProperty pp =  new PrivateProperty(
+					false,
+					null,
+					"Tutorial",
+					"Good Luck!",
+					new Chunk(Math.min((int)pos.xCoord, endX) >> 4, Math.min((int)pos.zCoord, endZ) >> 4),
+					new Chunk(Math.max((int)pos.xCoord, endX) >> 4, Math.max((int)pos.zCoord, endZ) >> 4),
+					new int[] {0,3,4,5,6,44},
+					8);
+			
+			ServerEnforcer.addExpPrivateProperty(pp);	
+			this.privateProperty=pp;	
+			ServerEnforcer.INSTANCE.sendExpPPDataPackets();
+			System.out.println("x: " + ((int)pos.xCoord >> 4) + "::" + (endX >> 4) + "|| z: " + ((int)pos.zCoord >> 4) + "::" + (endZ >> 4));
+		}
+	}
 }
