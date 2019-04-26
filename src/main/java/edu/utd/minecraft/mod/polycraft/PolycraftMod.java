@@ -41,6 +41,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
+import edu.utd.minecraft.mod.polycraft.commands.CommandFlingColor;
 import edu.utd.minecraft.mod.polycraft.commands.CommandHalftimeGUI;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
@@ -271,6 +272,7 @@ public class PolycraftMod {
 		event.registerServerCommand(new CommandReg());
 		event.registerServerCommand(new CommandExitChallengeRoom());
 		event.registerServerCommand(new CommandHalftimeGUI());
+		event.registerServerCommand(new CommandFlingColor());
 	}
 	
 	public static String getAssetName(final String name) {
