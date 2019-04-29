@@ -55,6 +55,13 @@ public class TutorialRender {
 	
 	};
 	
+	
+	
+	static 			ResourceLocation[] texturesCannon = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CannonInstruction1.png")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CannonInstruction2.png")),
+			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/CannonInstruction3.png"))
+			};
+	
 	static	ResourceLocation[] texturesFloatSwamp = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingSwampGIF/TutorialTrial4-Floating000.png")),
 			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingSwampGIF/TutorialTrial4-Floating001.png")),
 			new ResourceLocation(PolycraftMod.getAssetName("textures/gui/FloatingSwampGIF/TutorialTrial4-Floating002.png")),
@@ -631,6 +638,43 @@ public class TutorialRender {
 		 GL11.glPopAttrib();
 		 GL11.glPopMatrix();
 	}
+	
+		//texturesCannon
+	public static void renderTutorialCannon1(Entity player)
+	 {
+ 
+		 float scale =1F;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesCannon[0]);
+		 mc.ingameGUI.drawTexturedModalRect(250, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	public static void renderTutorialCannon2(Entity player)
+	 {
+
+		 float scale =1F;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesCannon[1]);
+		 mc.ingameGUI.drawTexturedModalRect(250, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
+	
+	public static void renderTutorialCannon3(Entity player)
+	 {
+
+		 float scale =1F;
+		 push(scale);
+		 mc.getTextureManager().bindTexture(texturesCannon[2]);
+		 mc.ingameGUI.drawTexturedModalRect(250, 2, 0, 0, 255, 250);
+		 pop();	
+		 
+		 mc.entityRenderer.updateRenderer();
+	 }
 	
 	 public static void renderLoadingScreen(Entity player)
 	 {

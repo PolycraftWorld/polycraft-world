@@ -204,6 +204,13 @@ private final List aliases;
 					} else if(tool[0].equals("tool")) {
 						player.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1hn"))));
 					}
+					else if(tool[0].equals("pitch")) {
+
+
+				        ((EntityPlayer) player).addChatComponentMessage(new ChatComponentText(Double.toString(player.rotationPitch)));
+
+						
+					}
 				}
 			}
 		}

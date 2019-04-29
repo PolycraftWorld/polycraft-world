@@ -37,13 +37,14 @@ public class CannonInventory extends PolycraftInventory {
 	
 	public double velocity;
 	public double theta;
+	public double phi;
 	public double mass;
 	
 	
 	
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		
+		guiSlots.add(GuiContainerSlot.createInput(0, 0, 0, 150, -10));
 	}
 
 	
@@ -55,10 +56,8 @@ public class CannonInventory extends PolycraftInventory {
 		super(PolycraftContainerType.CANNON, config);
 		this.velocity=1.0;
 		this.theta=0.0;
+		this.phi=0;
 		this.mass=1.0;
-		
-
-		
 	}
 	
 	@Override
@@ -70,7 +69,7 @@ public class CannonInventory extends PolycraftInventory {
         this.markDirty();
 	}
 	
-	public static final void register(final Inventory config) {
+	public static void register(final Inventory config) {
 		CannonInventory.config = config;
 		config.containerType = PolycraftContainerType.CANNON;
 		PolycraftInventory.register(new CannonBlock(config, CannonInventory.class));
@@ -104,6 +103,7 @@ public class CannonInventory extends PolycraftInventory {
 		double velocity =cannon.velocity;
 		double theta =cannon.theta;
 		double mass =cannon.mass;
+		double phi = cannon.phi;
 		tag.setDouble("velocity", velocity);
 		tag.setDouble("theta", theta);
 		tag.setDouble("mass", mass);

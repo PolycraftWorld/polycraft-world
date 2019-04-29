@@ -75,6 +75,7 @@ import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
@@ -84,6 +85,10 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir1;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir2;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir3;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -137,6 +142,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezingKnockbackBomb;
+import edu.utd.minecraft.mod.polycraft.item.ItemGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
@@ -1070,6 +1076,12 @@ public class PolycraftRegistry {
 					PolycraftingInventory.register(inventory);
 				else if (GameID.InventoryCannon.matches(inventory))
 					CannonInventory.register(inventory);
+				else if (GameID.InventoryCannonGravelTier1.matches(inventory))
+					GravelCannonInventoryTeir1.register(inventory);
+				else if (GameID.InventoryCannonGravelTier2.matches(inventory))
+					GravelCannonInventoryTeir2.register(inventory);
+				else if (GameID.InventoryCannonGravelTier3.matches(inventory))
+					GravelCannonInventoryTeir3.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1110,6 +1122,9 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.EPaintball.matches(polycraftEntity)) {
 					EntityPellet__Old.register(polycraftEntity);
+				}
+				else if (GameID.EntityGravelCannonBall.matches(polycraftEntity)){
+					EntityGravelCannonBall.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
@@ -1282,6 +1297,8 @@ public class PolycraftRegistry {
 					registerBlock(customObject, new HPBlock(customObject));
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
+				} else if (GameID.ItemGravelCannonBall.matches(customObject)) {
+					registerItem(customObject, new ItemGravelCannonBall(customObject));
 				} else if (GameID.PlaceBlockPP.matches(customObject)) {
 					registerBlock(customObject, new PlaceBlockPP(customObject));
 				} else if (GameID.BreakBlockPP.matches(customObject)) {
