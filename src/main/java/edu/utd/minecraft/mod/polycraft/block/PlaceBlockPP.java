@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,6 +29,16 @@ public class PlaceBlockPP extends Block {
 		this.setBlockName("Place Block");
 		this.setBlockUnbreakable();
 	}
+	
+	
+	/**
+     * The type of render function that is called for this block
+     */
+    public int getRenderType()
+    {
+        return -1;
+    }
+
 	
     /**
      * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
@@ -54,12 +65,18 @@ public class PlaceBlockPP extends Block {
 	@Override
 	public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) 
 	{
-//		if(entity instanceof EntityPlayer)
-//		{
-//			EntityPlayer player =(EntityPlayer)entity;
-//			player.addChatMessage(new ChatComponentText("Test!"));
-//		}
+		if(entity instanceof EntityPlayer)
+		{
+			EntityPlayer player =(EntityPlayer)entity;
+			player.addChatMessage(new ChatComponentText("Test!"));
+		}
 		
+	}
+	
+	@Override
+	public Block setLightOpacity(int p_149713_1_) {
+		// TODO Auto-generated method stub
+		return super.setLightOpacity(p_149713_1_);
 	}
 	
 	@Override
@@ -71,7 +88,7 @@ public class PlaceBlockPP extends Block {
 	@Override
 	public boolean isCollidable()
 	{
-		return true;
+		return false;
 	}
 	
 	

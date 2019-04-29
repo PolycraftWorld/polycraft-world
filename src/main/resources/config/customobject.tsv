@@ -91,4 +91,6 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.4.10	1hx	Cleats	Armor		FALSE		1											
 1.4.12	1hF	IronCannonBall	PC Item		FALSE		64											
 1.4.12	1hG	Mining Hammer	Tool		FALSE		1											
-1.4.13	1hH	HPBlock	PC Block		FALSE		64											
+1.4.12	1hH	HPBlock	PC Block		FALSE		64											
+1.4.12	1jA	Place Block	PC Block		FALSE		64											
+1.4.12	1jB	Break Block	PC Block		FALSE		64											
