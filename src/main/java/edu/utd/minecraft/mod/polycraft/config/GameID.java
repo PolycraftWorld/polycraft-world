@@ -120,6 +120,8 @@ public enum GameID {
 	EntityIronCannonBall("1hE"),
 	ItemIronCannonball("1hF"),
 	CustomMiningHammer("1hG"),
+	PlaceBlockPP("1jA"),
+	BreakBlockPP("1jB"),
 	CustomWoodSlingshot("1hK"),
 	Paintpellet("1hj"),
 	EPaintball("1hR"),

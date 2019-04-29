@@ -24,6 +24,8 @@ import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.block.PlaceBlockPP;
+import edu.utd.minecraft.mod.polycraft.block.material.BreakBlockPP;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Exam;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -87,6 +89,7 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFlintAndSteel;
@@ -601,8 +604,15 @@ public abstract class Enforcer {
 	public void onBlockBreak(final BreakEvent event) {
 		// TODO what happens if they use dynamite? other ways?
 		// TODO why is this not happening on the client?
-		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
+		if(event.block instanceof BreakBlockPP)
+		{
+			
+		}
+		else
+		{
+			possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
 				event.world.getChunkFromBlockCoords(event.x, event.z));
+		}
 	}
 
 	@SubscribeEvent
@@ -714,13 +724,20 @@ public abstract class Enforcer {
 		switch (event.action) {
 		case LEFT_CLICK_BLOCK:
 			// TODO why is this not happening on the client?
-			possiblyPreventAction(event, event.entityPlayer,
-					Action.DestroyBlock,
-					event.world.getChunkFromBlockCoords(event.x, event.z));
-			//If player holding devtool, cancel event
-			if(event.entityPlayer.getHeldItem() != null) {
-				if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
-					event.setCanceled(true);
+			if( event.world.getBlock(event.x, event.y, event.z)instanceof BreakBlockPP)
+			{
+				
+			}
+			else
+			{
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.DestroyBlock,
+						event.world.getChunkFromBlockCoords(event.x, event.z));
+				//If player holding devtool, cancel event
+				if(event.entityPlayer.getHeldItem() != null) {
+					if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
+						event.setCanceled(true);
+				}
 			}
 			break;
 		case RIGHT_CLICK_AIR:
@@ -805,6 +822,16 @@ public abstract class Enforcer {
 					if (pBlock instanceof PolycraftInventoryBlock) {
 						possiblyPreventAction(event,
 								(PolycraftInventoryBlock) pBlock, blockChunk);
+					}
+				}
+			} else if (block instanceof PlaceBlockPP) {
+				Block place=null;
+				if(event.entityPlayer.getHeldItem()!=null)
+				{
+					place=place.getBlockFromItem(event.entityPlayer.getHeldItem().getItem());
+					if(place!=null && place!=Blocks.air)
+					{
+						event.world.setBlock(event.x, event.y, event.z, place);
 					}
 				}
 			}

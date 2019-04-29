@@ -31,6 +31,8 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
 import edu.utd.minecraft.mod.polycraft.block.HPBlock;
+import edu.utd.minecraft.mod.polycraft.block.PlaceBlockPP;
+import edu.utd.minecraft.mod.polycraft.block.material.BreakBlockPP;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
@@ -1280,6 +1282,10 @@ public class PolycraftRegistry {
 					registerBlock(customObject, new HPBlock(customObject));
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
+				} else if (GameID.PlaceBlockPP.matches(customObject)) {
+					registerBlock(customObject, new PlaceBlockPP(customObject));
+				} else if (GameID.BreakBlockPP.matches(customObject)) {
+					registerBlock(customObject, new BreakBlockPP(customObject));
 				} else if (GameID.CustomWoodSlingshot.matches(customObject)) {
 					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.CustomTacticalSlingshot.matches(customObject)) {
@@ -1427,6 +1433,9 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values())
 			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
+		
+		for (final CustomObject customObject : CustomObject.registry.values())
+			langEntries.add(String.format(blockFormat, customObject.gameID, customObject.name));
 		
 		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
 			langEntries.add(String.format(entityFormat, entity.name, entity.name));

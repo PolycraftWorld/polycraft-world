@@ -55,7 +55,6 @@ public class TutorialFeature implements ITutorialFeature{
 		SCORE(TutorialFeatureScore.class.getName()),
 		END(TutorialFeatureEnd.class.getName()),
 		GROUP(TutorialFeatureGroup.class.getName());
-		
 		public String className;
 		
 		TutorialFeatureType(String className) {

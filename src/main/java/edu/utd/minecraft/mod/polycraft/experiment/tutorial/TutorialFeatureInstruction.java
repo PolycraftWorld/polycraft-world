@@ -290,7 +290,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.onServerTickUpdate(exp);
-			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
+			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.planks) || (exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.spruce_stairs)) {
 				this.canProceed = true;
 				this.complete(exp);
 			}
@@ -321,8 +321,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					//EntityMinecartEmpty minecart=(EntityMinecartEmpty)entityminecart;
-					
-					player.ridingEntity.setDead();
+					if(player.ridingEntity!=null)
+						player.ridingEntity.setDead();
 					player.setPosition(player.posX, player.posY+1, player.posZ);
 					this.canProceed = true;
 					this.complete(exp);

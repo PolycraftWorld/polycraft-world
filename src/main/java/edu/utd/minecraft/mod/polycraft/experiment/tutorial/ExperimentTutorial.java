@@ -462,7 +462,7 @@ public class ExperimentTutorial{
 					"Good Luck!",
 					new Chunk(Math.min((int)pos.xCoord, endX) >> 4, Math.min((int)pos.zCoord, endZ) >> 4),
 					new Chunk(Math.max((int)pos.xCoord, endX) >> 4, Math.max((int)pos.zCoord, endZ) >> 4),
-					new int[] {0,3,4,5,6,44},
+					new int[] {0,3,4,5,6,7,44},
 					8);
 			
 			ServerEnforcer.addExpPrivateProperty(pp);	

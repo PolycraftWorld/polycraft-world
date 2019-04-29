@@ -9,6 +9,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction.InstructionType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,6 +43,13 @@ public class TutorialFeatureGroup extends TutorialFeature{
 		complete(exp);
 	}
 	
+	public GroupType getType() {
+		return type;
+	}
+
+	public void setType(GroupType type) {
+		this.type = type;
+	}
 
 	
 	@Override
@@ -69,6 +77,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	public NBTTagCompound save()
 	{
 		super.save();
+		nbt.setString("groupType", type.toString());
 		return nbt;
 	}
 	
@@ -76,5 +85,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	public void load(NBTTagCompound nbtFeat)
 	{
 		super.load(nbtFeat);
+		GroupType tmp = null;
+		type=tmp.valueOf(nbtFeat.getString("groupType"));
 	}
 }
