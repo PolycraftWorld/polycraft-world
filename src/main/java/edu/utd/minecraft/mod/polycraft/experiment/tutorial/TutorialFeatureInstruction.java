@@ -799,14 +799,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",5,5);
 			this.box.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",150,5);
 			TutorialRender.instance.renderTutorialPlacingBlocks(entity);
 			break;
 		case BREAK_BLOCKS:
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",5,5);
 			this.box.renderFill(entity);
+			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",150,5);
 			TutorialRender.instance.renderTutorialMining(entity);
 			break;
 		case CART_START:
