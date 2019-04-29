@@ -17,8 +17,16 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
@@ -47,7 +55,7 @@ public class ExperimentManager {
 	
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
-	public static ArrayList<ExperimentType> expTypes = new ArrayList<ExperimentType>();
+	public static ArrayList<ExperimentDef> expTypes = new ArrayList<ExperimentDef>();
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	
 	//read the schematic file only once.
@@ -55,7 +63,6 @@ public class ExperimentManager {
 	Schematic sch = new Schematic(new NBTTagList(), n, n, n, new int[] {0}, new byte[] {0});
 	public Schematic stoop = sch.get("stoopWithCrafting.psm");
 	public Schematic flat_field = sch.get("flatWithCrafting.psm");
-	
 	
 	public ExperimentManager() {
 		try {
@@ -513,30 +520,6 @@ public class ExperimentManager {
 		this.experiments.get(experimentID).updateParams(params);
 		
 	}
-	
-	/**
-	 * Internal class that keeps track of all experiment types
-	 * A static arraylist of this class, called #expTypes is stored on the server side.
-	 * This is what the experiment manager will reference when checking to create new experiments
-	 * @author SGoss
-	 *
-	 */
-	public class ExperimentType {
-		public String name;
-		public int teamCount;
-		public int playersPerTeam;
-		public String expClass;
-		
-		// addExp type schem name teams playersPerTeam
-		public ExperimentType(String expClass, String name, int teamCount, int playersPerTeam ) {
-			this.expClass = expClass;
-			this.name = name;
-			this.teamCount = teamCount;
-			this.playersPerTeam = playersPerTeam;
-		}
-	}
-	
-	
 	
 	/**
 	 * Internal class that keeps track of all experiments

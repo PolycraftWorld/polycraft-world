@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorialMenu;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -1514,10 +1515,14 @@ public class ClientProxy extends CommonProxy {
 	public void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
 		if(keyBindingExperiments.isPressed()) {
 			if(this.noScreenOverlay()) {
-				if(ClientEnforcer.INSTANCE.hasCompletedTutorial)
-					client.displayGuiScreen(new GuiExperimentList(player));
-				else
-					client.displayGuiScreen(new GuiTutorialMenu(player));
+				if(player.isSneaking()) {
+					openExperimentManagerGui(player);
+				}else {
+					if(!ClientEnforcer.INSTANCE.hasCompletedTutorial)
+						client.displayGuiScreen(new GuiExperimentList(player));
+					else
+						client.displayGuiScreen(new GuiTutorialMenu(player));
+				}
 			}
 		}
 	}
@@ -1532,6 +1537,12 @@ public class ClientProxy extends CommonProxy {
 	public void openConsentGui(EntityPlayer player, int x, int y, int z)
 	{
 		client.displayGuiScreen(new GuiConsent(player, x, y, z));
+	}
+	
+	@Override
+	public void openExperimentManagerGui(EntityPlayer player)
+	{
+		client.displayGuiScreen(new GuiExperimentManager(player));
 	}
 	
 	@Override

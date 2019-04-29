@@ -535,4 +535,9 @@ public abstract class CommonProxy {
 		// TODO Auto-generated method stub
 	}
 
+	public void openExperimentManagerGui(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
