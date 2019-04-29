@@ -801,6 +801,7 @@ public class TutorialRender {
 	 
 	 static ResourceLocation[] texturesMouseLeftClick = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouse.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouseLeftClick.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/mouseRightClick.png")),
 				};
 	 
 	 static ResourceLocation[] textures = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/WASD_0.png")),
@@ -2386,7 +2387,10 @@ public class TutorialRender {
 		
 		float scale6 =.15F;
 		i=((player.ticksExisted)%32);
-		i=0;
+		if((i>21 && i<24))
+			 i=1;
+		 else
+			 i=0;
 		push(scale6);
 		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
 		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
@@ -2604,7 +2608,9 @@ public class TutorialRender {
 		
 		float scale5 =.20F;
 		i=((player.ticksExisted)%118);
-		i=0;
+		if (i>110 && i<113)
+			i=1;
+		else i=0;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
 		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -2612,23 +2618,32 @@ public class TutorialRender {
 		
 		
 		
-		float scale6 =.15F;
-		i=((player.ticksExisted)%118);
-		i=0;
-		push(scale6);
-		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
-		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
-		pop();
-		
-		
-		
 		float scale7 =.15F;
 		i=((player.ticksExisted)%118);
-		i=0;
+		
+		if ((i>18 && i<21)||(i>45 && i<48)||(i>51 && i<54)||(i>61 && i<64)||(i>77 && i<80)||(i>90 && i<93))
+		{
 		push(scale7);
-		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
+		mc.getTextureManager().bindTexture(texturesMouseLeftClick[1]);
 		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
 		pop();
+		}
+		
+		else if ((i>30 && i<33))
+		{
+		push(scale7);
+		mc.getTextureManager().bindTexture(texturesMouseLeftClick[2]);
+		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		pop();
+		}
+		
+		else
+		{
+		push(scale7);
+		mc.getTextureManager().bindTexture(texturesMouseLeftClick[0]);
+		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		pop();
+		}
 		
 		
 		
