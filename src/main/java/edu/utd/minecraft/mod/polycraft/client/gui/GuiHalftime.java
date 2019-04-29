@@ -26,6 +26,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
+import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
+import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
 import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
@@ -64,7 +66,7 @@ public class GuiHalftime extends GuiScreen{
 	private boolean wasClicking; // True if the left mouse button was held down last time drawScreen was called.
 	private int screenID; // Current screen
 	private boolean[] completed = new boolean[13];
-	private String[] answers = new String[4];
+	private String[] answers = new String[5];
 	public static boolean consent = false;
 	// Not sure what these ones below are for.
 	private static final String __OBFID = "CL_00000691";
@@ -303,16 +305,16 @@ public class GuiHalftime extends GuiScreen{
 				if (screenID == 1 ) { // Question #1 - Do you want to change anything about our strategy? - YES
 					completed[1] = true;
 					button.enabled = false;
-					answers[1] = "Yes";
+					answers[2] = "Yes";
 					((GuiButton) this.buttonList.get(1)).displayString = "";
 					((GuiButton) this.buttonList.get(1)).enabled = false;
 				} 
 				else if(screenID == 2 || screenID == 3) { // Question #2/3 Make more items / Offense
 					if (screenID == 2) {
-						answers[2] = I18n.format("gui.halftime.question20");
+						answers[3] = I18n.format("gui.halftime.question20");
 					}
 					else if (screenID == 3) {
-						answers[3] = I18n.format("gui.halftime.question30");
+						answers[4] = I18n.format("gui.halftime.question30");
 					}
 					
 					completed[screenID] = true;
@@ -327,15 +329,15 @@ public class GuiHalftime extends GuiScreen{
 				break;
 			case 1: // Button choice B or No
 				if (screenID == 1) { // Question #1 - Do you want to change anything about our strategy? - NO
-					answers[1] = "No";
+					answers[2] = "No";
 					screenID = 0;
 					switchScreen();
 				}else if(screenID == 2 || screenID == 3) { // Question #2/3 Make less items / Defence
 					if (screenID == 2) {
-						answers[2] = I18n.format("gui.halftime.question21");
+						answers[3] = I18n.format("gui.halftime.question21");
 					}
 					else if (screenID == 3) {
-						answers[3] = I18n.format("gui.halftime.question31");
+						answers[4] = I18n.format("gui.halftime.question31");
 					}
 					completed[screenID] = true;
 					button.enabled = false;
@@ -440,7 +442,8 @@ public class GuiHalftime extends GuiScreen{
 		public void onGuiClosed() {
 			super.onGuiClosed();
 			Keyboard.enableRepeatEvents(false);
-			
+			//Team Team = ClientScoreboard.getCurrentTeam();
+			answers[1] = ClientScoreboard.getCurrentTeam().getName();
 			System.out.println("Halftime GUI Closed");
 			//send packet to server
 			answers[0] = Minecraft.getMinecraft().thePlayer.getDisplayName();

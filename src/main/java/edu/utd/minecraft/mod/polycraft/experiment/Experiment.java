@@ -77,12 +77,12 @@ public abstract class Experiment {
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
+	protected static ExperimentHalftimeAnswers halftimeAnswers;
 	protected Schematic sch;
 	private Random random;
 	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
 	protected ArrayList<ExperimentFeature> expFeatures;
-	
 	
 	public enum State{
 		PreInit,
@@ -118,6 +118,7 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = null;
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(playersNeeded);
 		
 	}
 	
@@ -137,6 +138,7 @@ public abstract class Experiment {
 		this.yPos = 16;
 		this.zPos = zPos;
 		this.world = world;
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(playersNeeded);
 		this.currentState = State.PreInit;
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
@@ -829,8 +831,9 @@ public abstract class Experiment {
 	
 	//Main update function for Experiments
 	public void onServerTickUpdate(){
-		if(this.currentState == State.Running || this.currentState == State.Halftime)
+		if(this.currentState == State.Running || this.currentState == State.Halftime) {
 			this.checkAnyPlayersLeft();
+		}
 		
 	}
 	
@@ -913,5 +916,8 @@ public abstract class Experiment {
 
 
 	protected abstract void updateParams(ExperimentParameters params);
-	
+
+	public static void inputAnswers(String[] halftimeAns) {
+		halftimeAnswers.inputAnswers(halftimeAns);	
+	}
 }

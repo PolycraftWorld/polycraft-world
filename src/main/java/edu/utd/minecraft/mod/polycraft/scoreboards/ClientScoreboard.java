@@ -54,7 +54,7 @@ public class ClientScoreboard extends ScoreboardManager {
 	private final String scoreFormat = "|%-12.11s | %3.0f";
 	//scoreboard params;
 	private String playerTeam = "TRIFORCE";
-	public Team currentTeam = null;
+	public static Team currentTeam = null;
 	public ArrayList<String> teammates;
 	private HashMap<String, Float> teamList;
 	private ScoreboardManager.ColoredString secondsRemaining;
@@ -209,7 +209,7 @@ public class ClientScoreboard extends ScoreboardManager {
 		}
 	}
 	
-	public Team getCurrentTeam() {
+	public static Team getCurrentTeam() {
 		return currentTeam;
 	}
 	
