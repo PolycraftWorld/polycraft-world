@@ -12,6 +12,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
@@ -21,8 +22,12 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.item.EntityMinecartEmpty;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -53,8 +58,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		BREAK_BLOCKS,
 		CART_START,
 		CART_END,
+		SPAWN_MOBS,
 		KBB,
 		CRAFT_FKB,
+		FKBB,
 		HOTBAR,
 		LOOK
 	};
@@ -65,6 +72,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	
 	public boolean sprintDoorOpen;
 	public int failCount;
+	public int numCreepers = 4;
 	public boolean inFail;
 	public boolean setAng;
 	RenderBox box;
@@ -227,12 +235,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(FREEZE_KBB));
-							if(player.inventory.hasItem(fkbb))
+							Item kbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+							Item packed_ice=null;
+							packed_ice= packed_ice.getItemFromBlock(Blocks.packed_ice);
+							if(player.inventory.hasItem(kbb) && player.inventory.hasItem(packed_ice))
 							{
 								this.canProceed=true;
 								this.isDirty=true;
-								player.addChatMessage(new ChatComponentText("You got the Frozen Knockback Bomb!"));
+								player.addChatMessage(new ChatComponentText("You got the crafting materials!"));
 								this.complete(exp);
 							}
 						}
@@ -271,6 +281,23 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case FLOAT2:
 			super.onServerTickUpdate(exp);
 			break;
+			//Spawn Creepers
+		case SPAWN_MOBS:
+			EntityCreeper newCreeper;
+			for(int currentAnimal = 0; currentAnimal < numCreepers; currentAnimal++) {
+				int currentXvalue = (int) ((int) Math.round(Math.random()*((pos2.xCoord - pos1.xCoord))) + pos1.xCoord);
+				int currentYvalue = (int) pos1.yCoord;
+				int currentZvalue = (int) ((int) Math.round(Math.random()*((pos2.zCoord - pos1.zCoord))) + pos1.zCoord);
+				
+				newCreeper = new EntityCreeper(exp.world);
+				newCreeper.setPosition(currentXvalue, currentYvalue, currentZvalue);
+				//newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+				//newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);				
+				exp.world.spawnEntityInWorld(newCreeper);
+			}
+				this.canProceed = true;
+				this.complete(exp);
+			break;
 		case KBB:
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
@@ -282,6 +309,16 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				}
 			}
 			break;
+		case FKBB:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
+						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
+						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
+					this.canProceed = true;
+					this.complete(exp);
+				}
+			}
+			break;			
 		case MOUSE_LEFT:
 			//super.onServerTickUpdate(exp);
 			break;
@@ -483,7 +520,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		switch(type) {
 		case CRAFT_FKB:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Craft a freezing KnockBack Bomb",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Craft a Freezing Knockback Bomb",155,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -494,20 +531,19 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							TutorialRender.instance.renderTutorialCraftFKBB(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
-					}
-					else
-					{
-						//TutorialRender.instance.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessPolyTable(entity);
+						}
 					}
 				}
 			break;
 		case INVENTORY1:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
 				
@@ -529,7 +565,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case INVENTORY2:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
 			//player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -551,7 +587,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case INVENTORY3:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Take the contentes of the chest",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -562,19 +598,20 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							TutorialRender.instance.renderTutorialManageInventory3(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessInventory3(entity);
+						}
 					}
-					else
-					{
-						//TutorialRender.instance.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
-					}
+					
 				}
 			break;
 		case INVENTORY4:
 			super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -585,20 +622,19 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							TutorialRender.instance.renderTutorialManageInventory4(entity);
 							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
 						}
-					}
-					else
-					{
-						//TutorialRender.instance.renderTutorialOpenChest(entity);
-						//Gui to instruct player to click on the chest
+						else
+						{
+							TutorialRender.instance.renderTutorialAccessInventory4(entity);
+						}
 					}
 				}
 			break;
 		case CRAFT_PICK:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",155,5);
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
@@ -621,28 +657,37 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case JUMP:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Press 'Space' and 'W' to jump past obstacles",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Press 'Space' and 'W' to jump over obstacles",155,5);
 			TutorialRender.instance.renderTutorialJump(entity);
 			break;
 		case FLOAT1:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",155,5);
 			TutorialRender.instance.renderTutorialFloatJungle(entity);
 			break;
 		case FLOAT2:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Hold 'Space' and 'W' to float and move in water",155,5);
 			TutorialRender.instance.renderTutorialFloatSwamp(entity);
+			break;
+		case SPAWN_MOBS:
+			super.render(entity);
 			break;
 		case KBB:
 			super.render(entity);
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Use the KnockBack Bomb on the mobs",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Use the KnockBack Bomb on the mobs",155,5);
 			TutorialRender.instance.renderTutorialUseKBB(entity);
+			break;
+		case FKBB:
+			super.render(entity);
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Use the Frozen Knockback Bomb on the mobs",155,5);
+			TutorialRender.instance.renderTutorialUseFKBB(entity);
 			break;
 		case MOUSE_LEFT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the left",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the left",155,5);
 			if(!this.setAng)
 			{
 				TutorialRender.instance.setAng(entity);
@@ -658,7 +703,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case MOUSE_RIGHT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the right",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Turn the mouse to the right",155,5);
 			if(!this.setAng)
 			{
 				TutorialRender.instance.setAng(entity);
@@ -674,32 +719,32 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",155,5);
 			this.box.render(entity);
 			TutorialRender.instance.renderTutorialPlacingBlocks(entity);
 			break;
 		case BREAK_BLOCKS:
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",155,5);
 			this.box.renderFill(entity);
 			TutorialRender.instance.renderTutorialMining(entity);
 			break;
 		case CART_START:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Walk to the start of the ride",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Walk to the start of the ride",155,5);
 			break;
 		case CART_END:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Keep hands and feet in the minecart at all times",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Look forward + press 'W' to begin - please keep hands & feet in the minecart at all times!",5,5);
 			break;
 		case SPRINT:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.instance.renderTutorialDrawString("Sprint to open the path",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Sprint to open the path",155,5);
 			TutorialRender.instance.renderTutorialSprint(entity);
 			break;
 		case JUMP_SPRINT:
 			super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Sprint and jump to get to the other side",5,5);
+			TutorialRender.instance.renderTutorialDrawString("Sprint and jump to get to the other side",155,5);
 			TutorialRender.instance.renderTutorialSprintJump(entity);
 			break;
 		case FAIL:
@@ -707,7 +752,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()
-			TutorialRender.instance.renderTutorialDrawString("Press 'W' to walk forward" ,5,5);
+			TutorialRender.instance.renderTutorialDrawString("Press 'W' to walk forward" ,155,5);
 			TutorialRender.instance.renderTutorialWalkForward(entity);
 			break;
 		case HOTBAR:
