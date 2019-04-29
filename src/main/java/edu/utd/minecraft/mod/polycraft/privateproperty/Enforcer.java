@@ -883,13 +883,13 @@ public abstract class Enforcer {
 							{
 								place=place.getBlockFromItem(event.entityPlayer.getHeldItem().getItem());
 								int meta=equippedItem.getItemDamage();
-								event.entityPlayer.addChatMessage(new ChatComponentText("Block "+place.getLocalizedName() +" Face: "+ event.face));
+								//event.entityPlayer.addChatMessage(new ChatComponentText("Block "+place.getLocalizedName() +" Face: "+ event.face));
 								
 								if(place!=null && place!=Blocks.air)
 								{
 									//event.world.setBlock(x, y, z, place);
 									//event.world.setBlock(x, y, z, place, meta, 2);
-									sendPlaceBlock(x,y,z,place,meta);
+									sendPlaceBlock(x,y,z,place,meta,event.entityPlayer,equippedItem);
 								}
 							}
 						}
@@ -916,7 +916,7 @@ public abstract class Enforcer {
 		}
 	}
 	
-	public void sendPlaceBlock(int x, int y, int z, Block block, int meta) {
+	public void sendPlaceBlock(int x, int y, int z, Block block, int meta,EntityPlayer player, ItemStack itemStack) {
 		try {
 			Gson gson = new Gson();
 			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
@@ -926,15 +926,16 @@ public abstract class Enforcer {
 			tempNBT.setInteger("z", z);
 			tempNBT.setInteger("blockid", block.getIdFromBlock(block));
 			tempNBT.setInteger("meta", meta);
+			tempNBT.setTag("itemstack", itemStack.getTagCompound());
 			String placeBlock;
 			
 			final ByteArrayOutputStream placeBlockTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
 			
-			tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+			tempNBT.setString("player", player.getDisplayName());
 			CompressedStreamTools.writeCompressed(tempNBT, placeBlockTemp);
 			placeBlock = gson.toJson(placeBlockTemp, gsonType);
 			ClientEnforcer.INSTANCE.sendPlaceBlockPackets(placeBlock,DataPacketType.PlaceBlock.ordinal());
-			ClientEnforcer.INSTANCE.placeBlock(x, y, z, block.getIdFromBlock(block), meta);
+			ClientEnforcer.INSTANCE.placeBlock(x, y, z, block.getIdFromBlock(block), meta, player, itemStack);
 			
 		}catch(Exception e) {
 			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );

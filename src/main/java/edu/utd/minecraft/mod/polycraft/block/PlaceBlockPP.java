@@ -18,12 +18,12 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class PlaceBlockPP extends Block {
+public class PlaceBlockPP extends BlockAir {
 
 	public final CustomObject config;
 	
 	public PlaceBlockPP(CustomObject config) {
-		super(Material.rock);
+		super();
 		this.config=config;
 		this.setCreativeTab(CreativeTabs.tabMisc);
 		this.setBlockName("Place Block");
@@ -68,7 +68,7 @@ public class PlaceBlockPP extends Block {
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player =(EntityPlayer)entity;
-			player.addChatMessage(new ChatComponentText("Test!"));
+			//player.addChatMessage(new ChatComponentText("Test!"));
 		}
 		
 	}

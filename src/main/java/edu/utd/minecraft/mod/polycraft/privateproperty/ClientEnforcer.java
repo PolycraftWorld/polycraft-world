@@ -928,8 +928,10 @@ public class ClientEnforcer extends Enforcer {
 				}
 	}
 
-	public void placeBlock(int x, int y, int z, int blockID, int meta) {
+	public void placeBlock(int x, int y, int z, int blockID, int meta,EntityPlayer player, ItemStack itemStack) {
 		client.theWorld.setBlock(x, y, z, Block.getBlockById(blockID), meta, 2);
+		Block.getBlockById(blockID).onBlockPlacedBy(client.theWorld, x, y, z, player, itemStack);
+		Block.getBlockById(blockID).onPostBlockPlaced(client.theWorld, x, y, z, meta);
 	}
 	
 	

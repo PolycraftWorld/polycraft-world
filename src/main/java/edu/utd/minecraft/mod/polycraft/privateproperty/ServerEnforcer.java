@@ -78,6 +78,8 @@ public class ServerEnforcer extends Enforcer {
 	public int placeZ;
 	public int placeBlockID;
 	public int placeBlockMeta;
+	public EntityPlayer placeblockPlayer;
+	public ItemStack placeblockItemStack;
 	
 	
 	
@@ -97,7 +99,8 @@ public class ServerEnforcer extends Enforcer {
 			if(placeBlock)
 			{
 				event.world.setBlock(this.placeX, this.placeY, this.placeZ, Block.getBlockById(this.placeBlockID), this.placeBlockMeta, 2);
-				event.world.getBlock(this.placeX, this.placeY, this.placeZ);
+				Block.getBlockById(this.placeBlockID).onBlockPlacedBy(event.world, this.placeX, this.placeY, this.placeZ, this.placeblockPlayer, this.placeblockItemStack);
+				Block.getBlockById(this.placeBlockID).onPostBlockPlaced(event.world, this.placeX, this.placeY, this.placeZ, this.placeBlockMeta);
 				this.placeBlock=false;
 			}
 		}
@@ -315,6 +318,8 @@ public class ServerEnforcer extends Enforcer {
 		this.placeZ=NBT.getInteger("z");
 		this.placeBlockID=NBT.getInteger("blockid");
 		this.placeBlockMeta=NBT.getInteger("meta");
+		this.placeblockItemStack=ItemStack.loadItemStackFromNBT((NBTTagCompound) NBT.getTag("itemstack"));
+		this.placeblockPlayer=MinecraftServer.getServer().getConfigurationManager().func_152612_a(NBT.getString("player"));
 		this.placeBlock=true;
 		
 	}
