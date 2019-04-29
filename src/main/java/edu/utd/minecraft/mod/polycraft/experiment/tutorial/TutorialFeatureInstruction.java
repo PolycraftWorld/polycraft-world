@@ -71,7 +71,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	private final static String KBB = "1hv";
 	private final static String FREEZE_KBB = "1hw";
 	
-	
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
 	
