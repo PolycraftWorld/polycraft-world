@@ -1530,10 +1530,10 @@ public class ClientProxy extends CommonProxy {
 	public void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
 		if(keyBindingExperiments.isPressed()) {
 			if(this.noScreenOverlay()) {
-				if(ClientEnforcer.INSTANCE.hasCompletedTutorial)
+				//if(ClientEnforcer.INSTANCE.hasCompletedTutorial)
 					client.displayGuiScreen(new GuiExperimentList(player));
-				else
-					client.displayGuiScreen(new GuiTutorialMenu(player));
+				//else
+				//	client.displayGuiScreen(new GuiTutorialMenu(player));
 			}
 		}
 	}
