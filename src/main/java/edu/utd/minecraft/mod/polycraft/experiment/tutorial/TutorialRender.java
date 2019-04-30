@@ -616,6 +616,13 @@ public class TutorialRender {
 		 fontRenderer.drawStringWithShadow(str, x, y, 16777215);	
 		 pop();
 	 }
+	 
+	 public void renderTutorialDrawStringWithScale(String str, int x, int y, float scale)
+	 {
+		 push(scale);
+		 fontRenderer.drawStringWithShadow(str, x, y, 16777215);	
+		 pop();
+	 }
 	
 	public static void push(float scale)
 	{
