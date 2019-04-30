@@ -257,7 +257,7 @@ public class ClientEnforcer extends Enforcer {
 							break;
 						}
 						break;
-					case Challenge:
+					case Experiment:
 						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
 						switch(tempMetaData) {
 							case BoundingBoxUpdate:
@@ -673,7 +673,7 @@ public class ClientEnforcer extends Enforcer {
 	
 	public void sendExperimentSelectionUpdate(String jsonData, int metadata) {
 		FMLProxyPacket[] packetList = null;
-		packetList = getDataPackets(DataPacketType.Challenge, metadata, jsonData);
+		packetList = getDataPackets(DataPacketType.Experiment, metadata, jsonData);
 		System.out.println(packetList.toString());
 		if(packetList != null) {
 			int i = 0;

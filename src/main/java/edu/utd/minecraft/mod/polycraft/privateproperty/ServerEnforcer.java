@@ -174,7 +174,7 @@ public class ServerEnforcer extends Enforcer {
 				pendingDataPacketsBuffer.put(payload);
 				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
 					switch (pendingDataPacketType) {
-					case Challenge:
+					case Experiment:
 						switch(ExperimentsPacketType.values()[pendingDataPacketTypeMetadata]) {
 							case BoundingBoxUpdate:
 								break;
@@ -441,7 +441,7 @@ public class ServerEnforcer extends Enforcer {
 	}
 	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
-		sendDataPackets(DataPacketType.Challenge, 2, player);
+		sendDataPackets(DataPacketType.Experiment, 2, player);
 	}
 	
 	public void minigameUpdate(int meta) {
@@ -478,7 +478,7 @@ public class ServerEnforcer extends Enforcer {
 		FMLProxyPacket[] packetList = null;
 		
 		if(player == null) { //case: Send Experiment List Updates
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
 			if(packetList != null) {
 				int i = 0;
 				for (final FMLProxyPacket packet : packetList) {
@@ -490,18 +490,18 @@ public class ServerEnforcer extends Enforcer {
 			return;
 		}		
 		if(jsonStringToSend == null) { //case: Player is leaving dimension
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
 			System.out.println("Player is Leaving Dimension");
 			
 		} 
 		else if(jsonStringToSend.compareTo("OpenHaltimeGUI") == 0) { //case:  open halftime gui
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.OpenHalftimeGUI.ordinal(), "OpenHalftimeGUI");
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.OpenHalftimeGUI.ordinal(), "OpenHalftimeGUI");
 		}		
 		else if(jsonStringToSend.compareTo("CloseHaltimeGUI") == 0) { //case:  close halftime gui
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.CloseHalftimeGUI.ordinal(), "CloseHalftimeGUI");
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.CloseHalftimeGUI.ordinal(), "CloseHalftimeGUI");
 		}		
 		else { //case: Bounding Box updates for client rendering
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
 		}		
 		if(packetList != null) {
 			for (final FMLProxyPacket packet : packetList) {
@@ -539,7 +539,7 @@ public class ServerEnforcer extends Enforcer {
 	@Deprecated //TODO: delete this.
 	public void sendExperimentListUpdates(final String jsonStringToSend) {
 		FMLProxyPacket[] packetList = null;
-		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
+		packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
 		System.out.println(packetList.toString());
 		if(packetList != null) {
 			int i = 0;

@@ -118,7 +118,7 @@ public abstract class Enforcer {
 		Broadcast, 
 		InventorySync, 
 		Governments, 
-		Challenge, 
+		Experiment, 
 		Tutorial,
 		Consent,
 		Scoreboard, 
