@@ -1448,6 +1448,10 @@ public class PolycraftRegistry {
 		customEntries.add("gui.consent.nonegiven=Thanks for your interest! You can continue to enter and play various minigames in our servers. We are currently limiting our research to participants who consent to share their behavioral data. If you would like to change your mind, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Have fun in Polycraft World!");
 		customEntries.add("gui.consent.finished=Thank you! If you would like to withdraw consent, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Welcome to Polycraft World!");
 
+		//Experiment Manager Gui
+		customEntries.add("gui.expmanager.title=Experiment Manager");
+		customEntries.add("gui.expmanager.body=This menu was made to configure the types of experiments that will run on this server. Happy experimenting!");
+		
 		//Halftime Gui
 		customEntries.add("gui.yes=Yes");
 		customEntries.add("gui.no=No");
