@@ -29,7 +29,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
@@ -117,6 +119,59 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		pos2.xCoord += exp.posOffset.xCoord;
 		pos2.yCoord += exp.posOffset.yCoord;
 		pos2.zCoord += exp.posOffset.zCoord;
+		
+		switch(type) {
+		case INVENTORY1:
+			ItemStack item1= new ItemStack(Blocks.spruce_stairs, 4);
+			ItemStack item2= new ItemStack(Item.getItemFromBlock(Blocks.planks), 2, 1);
+			TileEntityChest chest=null;
+			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
+				chest=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			if(chest!=null)
+			{
+				chest.setInventorySlotContents(0, item1);
+				chest.setInventorySlotContents(1, item2);
+			}
+			break;
+		case INVENTORY2:
+			ItemStack item3= new ItemStack(Items.stick, 2);
+			ItemStack item4= new ItemStack(Items.iron_ingot, 3);
+			TileEntityChest chest2=null;
+			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
+				chest2=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			if(chest2!=null)
+			{
+				chest2.setInventorySlotContents(0, item3);
+				chest2.setInventorySlotContents(1, item4);
+			}
+			break;
+		case INVENTORY3:
+			Item kbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+			ItemStack item5= new ItemStack(kbb, 64);
+			TileEntityChest chest3=null;
+			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
+				chest3=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			if(chest3!=null)
+			{
+				chest3.setInventorySlotContents(0, item5);
+			}
+			break;
+		case INVENTORY4:
+			Item kbb2 =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+			ItemStack item6= new ItemStack(kbb2, 64);
+			ItemStack item7= new ItemStack(Item.getItemFromBlock(Blocks.ice), 64);
+			TileEntityChest chest4=null;
+			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
+				chest4=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			if(chest4!=null)
+			{
+				chest4.setInventorySlotContents(0, item6);
+				chest4.setInventorySlotContents(1, item7);
+			}
+			break;
+		default:
+			break;
+		}
 		
 	}
 	
