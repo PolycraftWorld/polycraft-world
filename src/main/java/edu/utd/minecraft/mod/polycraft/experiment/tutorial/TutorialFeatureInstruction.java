@@ -1025,11 +1025,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		nbt.setString("instructionType", type.toString());
 		nbt.setBoolean("sprintDoorOpen", sprintDoorOpen);
 		nbt.setBoolean("inFail", inFail);
+		nbt.setInteger("failcount", this.failCount);
 		nbt.setBoolean("setAng", setAng);
 		int pos1[] = {(int)this.pos1.xCoord, (int)this.pos1.yCoord, (int)this.pos1.zCoord};
 		nbt.setIntArray("pos1",pos1);
 		int pos2[] = {(int)this.pos2.xCoord, (int)this.pos2.yCoord, (int)this.pos2.zCoord};
 		nbt.setIntArray("pos2",pos2);
+		
 		return nbt;
 	}
 	
@@ -1041,6 +1043,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		type=tmp.valueOf(nbtFeat.getString("instructionType"));
 		this.sprintDoorOpen=nbtFeat.getBoolean("sprintDoorOpen");
 		this.inFail=nbtFeat.getBoolean("inFail");
+		this.failCount=nbtFeat.getInteger("failcount");
 		this.setAng=nbtFeat.getBoolean("setAng");
 		
 		int featPos1[]=nbtFeat.getIntArray("pos1");
