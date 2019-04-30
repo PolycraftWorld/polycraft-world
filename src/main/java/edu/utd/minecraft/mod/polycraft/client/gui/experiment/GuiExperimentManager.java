@@ -82,7 +82,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     private ArrayList<GuiButton> experimentsListButton = new ArrayList<GuiButton>();
     private ArrayList<GuiButton> configButtons = new ArrayList<GuiButton>();
     //Add Step buttons
-    GuiButton btnAddStepType;
+    GuiButton btnAddExpType;
     public ArrayList<GuiTextField> textFields = new ArrayList<GuiTextField>();
     public ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
     public ArrayList<GuiPolyButtonCycle> options = new ArrayList<GuiPolyButtonCycle>();
@@ -145,7 +145,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
         btnBack = new GuiButton(1, x_pos, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "Close");
         btnNext = new GuiButton(2, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "next");
         //add step buttons
-        btnAddStepType = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, "Type: " + TutorialFeatureType.GENERIC.name());
+        btnAddExpType = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, "Type: " + ExperimentType.CTB_FLAT.name());
         
         //start off in the right screen and run this before displaying
         screenSwitcher = this.screenChange(Screen.MAIN);
@@ -297,9 +297,9 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     			//do nothing
     			break;
     		case EXP_ADD: 		//go back to steps screen
-    			if(button.id == btnAddStepType.id) {
+    			if(button.id == btnAddExpType.id) {
     	    		expToAddType = expToAddType.next();
-    	    		btnAddStepType.displayString = "Type: " + expToAddType.name();
+    	    		btnAddExpType.displayString = "Type: " + expToAddType.name();
     	    		buildExpInputs(true);
     	    	}
     			if(button instanceof GuiPolyButtonCycle<?>) {
@@ -485,7 +485,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     			break;
     		case EXP_ADD:
     			btnBack.displayString = "< Back";
-    			btnNext.displayString = "Add Step";
+    			btnNext.displayString = "Add Exp";
     			expToAddType = ExperimentType.CTB_FLAT_1_PLAYER;
     			buildExpInputs(true);
     			break;
@@ -527,15 +527,15 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 		int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
         int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
 		expToAdd = new ExperimentDef(expToAddType.className, "Experiment", 2, 2);
-		
+		expToAdd.buildGuiParameters(this, x_pos, y_pos);
 		if(initRun) {
 			this.buttonList.add(btnBack);
 	        this.buttonList.add(btnNext);
 		}
 		
-		btnAddStepType.enabled=addNew;
+		btnAddExpType.enabled=addNew;
 				
-        this.buttonList.add(btnAddStepType);
+        this.buttonList.add(btnAddExpType);
     	this.scroll = 0F;
     	
     }
