@@ -52,7 +52,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		FLOAT2,
 		SPRINT,
 		JUMP_SPRINT,
-		FAIL,
 		INVENTORY1,
 		INVENTORY2,
 		INVENTORY3,
@@ -486,9 +485,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case JUMP_SPRINT:
 			super.onServerTickUpdate(exp);
-			break;
-		case FAIL:
-			this.canProceed = true;
 			if(!inFail)
 			{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
@@ -926,9 +922,6 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			super.render(entity);
 			TutorialRender.instance.renderTutorialDrawString("Sprint and jump to get to the other side",155,5);
 			TutorialRender.instance.renderTutorialSprintJump(entity);
-			break;
-		case FAIL:
-			super.render(entity);
 			break;
 		case WASD:
 			super.render(entity);	//super needs to run before overlay render. Because I don't know how to undo mc.entityRenderer.setupOverlayRendering()

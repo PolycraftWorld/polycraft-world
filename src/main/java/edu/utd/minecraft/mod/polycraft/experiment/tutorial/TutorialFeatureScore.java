@@ -65,7 +65,7 @@ public class TutorialFeatureScore extends TutorialFeature{
 			    if(feature instanceof TutorialFeatureInstruction)
 			    {
 			    	TutorialFeatureInstruction feat=(TutorialFeatureInstruction)feature;
-			    	if(feat.getType()==InstructionType.FAIL && feat.failCount<2)
+			    	if(feat.getType()==InstructionType.JUMP_SPRINT && feat.failCount<2)
 			    	{
 			    		score+=12;
 			    	}
