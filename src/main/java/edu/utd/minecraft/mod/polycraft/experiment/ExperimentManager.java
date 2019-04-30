@@ -1,5 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +30,10 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstru
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager.PacketMeta;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
@@ -40,6 +46,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
@@ -521,6 +529,119 @@ public class ExperimentManager {
 		
 	}
 	
+	public void requestExpDefs(String playerName) {
+		ClientEnforcer.INSTANCE.sendExperimentPacket(playerName, ExperimentsPacketType.GetExperimentDefinitions.ordinal());
+	}
+
+	public void sendExpDefUpdate(int index, ExperimentDef expDef, boolean isClient) {
+		try {
+			Gson gson = new Gson();
+			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+			NBTTagCompound tempNBT = expDef.save();
+			tempNBT.setInteger("index", index);
+			String experimentUpdates;
+			
+			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray because converting with just Gson fails on receiving end
+			
+			if(isClient) {
+				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
+				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+				ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates,ExperimentsPacketType.UpdateExpDef.ordinal());
+			}else {
+				
+			}
+			
+		}catch(Exception e) {
+			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );
+		}
+	}
+
+	/**
+	 * Function for updating experiment definitions on client side
+	 * @param playerName
+	 */
+	public static void sendExperimentDefs(String playerName) {
+		try {
+			NBTTagCompound nbtFeatures = new NBTTagCompound();
+			NBTTagList nbtList = new NBTTagList();
+			
+			for(ExperimentDef expDef: expTypes) {
+				nbtList.appendTag(expDef.save());
+			}
+			nbtFeatures.setTag("expDefs", nbtList);
+			
+			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+			CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
+			
+			Gson gson = new Gson();
+			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+			
+			ServerEnforcer.INSTANCE.sendExpDefUpdatePackets(experimentUpdates, 
+					(EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(playerName));
+			System.out.println("Sending Update...");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Used to update Experiment definition on Server side from client
+	 * @param expDefIndex
+	 * @param featuresStream
+	 * @param isRemote
+	 */
+	public void setExperimentDef(ByteArrayOutputStream featuresStream, boolean isRemote) {
+		try {
+			
+			NBTTagCompound expDefNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+			
+			int index = expDefNBT.getInteger("index");
+			ExperimentDef test = new ExperimentDef();
+		
+			test.load(expDefNBT);
+			if(index == -1) {
+				expTypes.add(test);
+			}else {
+				expTypes.set(index, test);
+			}
+		} catch (Exception e) {
+			System.out.println("Cannot load Feature: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Used to update Experiment definition on Server side from client
+	 * @param expDefIndex
+	 * @param expDefsStream
+	 * @param isRemote
+	 */
+	public void setExperimentDefs(ByteArrayOutputStream expDefsStream, boolean isRemote) {
+		try {
+			NBTTagCompound nbtExpDefs = CompressedStreamTools.readCompressed(new ByteArrayInputStream(expDefsStream.toByteArray()));
+            NBTTagList nbtExpDefList = (NBTTagList) nbtExpDefs.getTag("expDefs");
+			ArrayList<ExperimentDef> expDefs = new ArrayList<ExperimentDef>();
+			
+			for(int i =0;i<nbtExpDefList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtExpDefList.getCompoundTagAt(i);
+				ExperimentDef test = new ExperimentDef();
+				test.load(nbtFeat);
+				expDefs.add(test);
+			}
+			
+			expTypes.clear();
+			expTypes.addAll(expDefs);
+		} catch (Exception e) {
+            System.out.println("I can't load initial Experiment Definitions, because: " + e.getStackTrace()[0]);
+        }
+	}
+
+	public static ArrayList<ExperimentDef> getExperimentDefinitions(){
+		return expTypes;
+	}
+
 	/**
 	 * Internal class that keeps track of all experiments
 	 * A static arraylist of this class, called #metadata is transferred between Server & Client

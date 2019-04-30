@@ -692,7 +692,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	Gson gson = new Gson();
 		Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>(){}.getType();
 		final String experimentUpdates = gson.toJson(part, gsonType);
-		ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.RequestJoinExperiment.ordinal());
+		ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates, ExperimentsPacketType.RequestJoinExperiment.ordinal());
     }
     
     private void sendExperimentUpdateToServer(int experimentID, ExperimentParameters params) {
@@ -703,7 +703,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType();
     	final String experimentUpdates = gson.toJson(part, gsonType);
     	//System.out.println("Updates: \n" + experimentUpdates);
-    	ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
+    	ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
     	
     }
     

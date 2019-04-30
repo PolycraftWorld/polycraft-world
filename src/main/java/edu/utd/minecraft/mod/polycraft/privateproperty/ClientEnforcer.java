@@ -285,6 +285,8 @@ public class ClientEnforcer extends Enforcer {
 								System.out.println("Closing Halftime GUI");
 								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
 								break;
+							case GetExperimentDefinitions:
+								setExpDefs(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							default:
 							break;
 						}
@@ -629,6 +631,14 @@ public class ClientEnforcer extends Enforcer {
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
 	}
 	
+	private void setExpDefs(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		ExperimentManager.INSTANCE.setExperimentDefs( 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+	}
+	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
 
 		receivingPlayer.addChatMessage(new ChatComponentText("<" + username + "> " + message));
@@ -665,20 +675,21 @@ public class ClientEnforcer extends Enforcer {
 		if(packets != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packets) {
-				System.out.println("Sending packet " + i);
+				//System.out.println("Sending packet " + i++);
 				netChannel.sendToServer(packet); 
 			}
 		}
 	}
 	
-	public void sendExperimentSelectionUpdate(String jsonData, int metadata) {
+	
+	public void sendExperimentPacket(String jsonData, int metadata) {
 		FMLProxyPacket[] packetList = null;
 		packetList = getDataPackets(DataPacketType.Experiment, metadata, jsonData);
 		System.out.println(packetList.toString());
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
-				System.out.println("Sending packet " + i);
+				//System.out.println("Sending packet " + i++);
 				netChannel.sendToServer(packet); 
 			}
 		}
@@ -692,7 +703,7 @@ public class ClientEnforcer extends Enforcer {
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
-				System.out.println("Sending packet " + i);
+				//System.out.println("Sending packet " + i++);
 				netChannel.sendToServer(packet); 
 			}
 		}

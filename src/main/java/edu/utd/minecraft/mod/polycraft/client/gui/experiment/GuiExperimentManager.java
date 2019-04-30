@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstru
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -269,14 +270,17 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     		//user pressed next button
     		switch(screenSwitcher) {
     		case MAIN:			//go to steps screen
+    			guiExperiments.updateExperiments();
     			screenSwitcher = screenChange(Screen.EXP_LIST);
+    			ExperimentManager.INSTANCE.requestExpDefs(player.getDisplayName());
     			break;
     		case EXP_LIST:			//go to add step screen
+    			ExperimentManager.INSTANCE.requestExpDefs(player.getDisplayName());
     			screenSwitcher = screenChange(Screen.EXP_ADD);
     			break;
     		case EXP_ADD: 		//save the new step and go back to steps screen
     			expToAdd.updateValues();
-    			//devTool.addFeature(expToAdd);
+    			ExperimentManager.INSTANCE.sendExpDefUpdate(-1, expToAdd, true);
     			guiExperiments.updateExperiments();
     			screenSwitcher = screenChange(Screen.EXP_LIST);
     			break;
@@ -486,7 +490,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     		case EXP_ADD:
     			btnBack.displayString = "< Back";
     			btnNext.displayString = "Add Exp";
-    			expToAddType = ExperimentType.CTB_FLAT_1_PLAYER;
+    			expToAddType = ExperimentType.CTB_FLAT;
     			buildExpInputs(true);
     			break;
     		case EXP_EDIT:
@@ -505,7 +509,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     
     public void editFeature(ExperimentDef expDef) {
     	expToAdd = expDef;
-    	expToAddType = ExperimentType.CTB_FLAT;
+    	expToAddType = expDef.getExpType();
     	screenSwitcher = screenChange(Screen.EXP_EDIT);
     }
     
@@ -526,7 +530,8 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 		GuiPolyNumField numFieldtemp;
 		int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
         int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
-		expToAdd = new ExperimentDef(expToAddType.className, "Experiment", 2, 2);
+		expToAdd = new ExperimentDef("Experiment", 2, 2);
+		expToAdd.expType = expToAddType;
 		expToAdd.buildGuiParameters(this, x_pos, y_pos);
 		if(initRun) {
 			this.buttonList.add(btnBack);
@@ -600,7 +605,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     	Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType();
     	final String experimentUpdates = gson.toJson(part, gsonType);
     	//System.out.println("Updates: \n" + experimentUpdates);
-    	ClientEnforcer.INSTANCE.sendExperimentSelectionUpdate(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
+    	ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates, ExperimentsPacketType.SendParameterUpdates.ordinal());
     	
     }
     

@@ -142,8 +142,9 @@ public abstract class Enforcer {
 		RequestJoinExperiment,
 		SendParameterUpdates,
 		OpenHalftimeGUI,
-		CloseHalftimeGUI
-		//TODO: Stephen add your data types here.
+		CloseHalftimeGUI,
+		GetExperimentDefinitions,
+		UpdateExpDef
 
 	}
 

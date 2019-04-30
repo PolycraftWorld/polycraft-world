@@ -72,7 +72,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		this.experiments = new ArrayList<>();
 		//this.headerPadding = 0;
 		
-		if(gui instanceof GuiDevTool) {
+		if(gui instanceof GuiExperimentManager) {
 			updateExperiments();
 		}
 		
@@ -112,15 +112,14 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	public void updateExperiments() {
 		this.experiments.clear();
 		//TODO: Make a more sustainable params list.
-		this.experiments.add(new ConfigHeader("Stage One"));
+		this.experiments.add(new ConfigHeader("Top"));
 		int counter = 0;
-//		int featureListSize = devTool.getFeatures().size();
-//		for(TutorialFeature feature: devTool.getFeatures()) {
-//			this.devStep.add(new ConfigStep(feature, counter, counter==featureListSize-1?true:false));
-//			counter++;
-//		}
+		int featureListSize = ExperimentManager.getExperimentDefinitions().size();
+		for(ExperimentDef expDef: ExperimentManager.getExperimentDefinitions()) {
+			this.experiments.add(new ConfigExperiment(expDef, counter, counter==featureListSize-1?true:false));
+			counter++;
+		}
     	
-		
 		this.experiments.add(new ConfigHeader("End"));
 	}
 
@@ -688,7 +687,6 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		private GuiTextField text;
 		private String stepName;
 		private GuiButton config, params, delete;
-		private Vec3 pos;
 		
 		/**
 		 * Create a Config Slider GuiSlot
@@ -700,9 +698,6 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		public ConfigExperiment(ExperimentDef expDef, int index, boolean isLast) {
 			this.expDef = expDef;
 			this.stepName = expDef.getName();
-			//new GuiSlider(paramID++, x_pos, y_pos, (int) (this.X_WIDTH*0.75), buttonheight, 
-			//key, "", vals[1], vals[2], vals[0], true, true, null); //I18n.format(name, new Object[0])
-			this.pos = expDef.getPos();
 
 			this.config = new GuiButton(1, 0, 0, B_WIDTH, HEIGHT, "\u2699");
 			this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u21e7");
@@ -724,7 +719,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			GuiExperimentManagerList.this.gui.drawRect(xStart, yStart - 10, xStart + SLIDER_WIDTH + B_WIDTH * 4 + 48, yStart + GuiExperimentManagerList.SLOT_HEIGHT - 12, 0x50303030);
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
-			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(Integer.toString((int)this.pos.xCoord) + ", " + (int)this.pos.yCoord + ", " + (int)this.pos.zCoord, xStart*2 + 4,
+			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(Integer.toString((int)expDef.playersPerTeam) + ", " + (int)expDef.teamCount, xStart*2 + 4,
 					(yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2 + 10) *2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			GL11.glScalef(2F, 2F, 2F);
 			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,

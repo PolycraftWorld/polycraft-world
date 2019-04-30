@@ -188,11 +188,16 @@ public class ServerEnforcer extends Enforcer {
 							case SendParameterUpdates:
 								onClientUpdateExperimentParameters(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
+							case GetExperimentDefinitions:
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								ExperimentManager.INSTANCE.sendExperimentDefs(playerDisplayName);
+								break;
+							case UpdateExpDef:
+								updateExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							default:
 								break;
-								
 							}
-						
 						break;
 					case Consent:
 						playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
@@ -271,6 +276,12 @@ public class ServerEnforcer extends Enforcer {
 	private void updateTutorialFeature(String decompressedJson) {
 		Gson gson = new Gson();
 		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+	
+	private void updateExpDef(String decompressedJson) {
+		Gson gson = new Gson();
+		ExperimentManager.INSTANCE.setExperimentDef(
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
 	}
 		
@@ -520,6 +531,27 @@ public class ServerEnforcer extends Enforcer {
 		//TODO: add meta-data parsing.
 		FMLProxyPacket[] packets = null;
 		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				} else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Send Experiment Definitions to players in the game
+	 * @param jsonStringToSend 
+	 * @param player 
+	 */
+	public void sendExpDefUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.GetExperimentDefinitions.ordinal(), jsonStringToSend);
 		
 		if (packets != null) {
 			for (final FMLProxyPacket packet : packets) {
