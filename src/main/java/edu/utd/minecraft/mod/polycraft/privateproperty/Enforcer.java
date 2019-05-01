@@ -143,8 +143,9 @@ public abstract class Enforcer {
 		SendParameterUpdates,
 		OpenHalftimeGUI,
 		CloseHalftimeGUI,
-		GetExperimentDefinitions,
-		UpdateExpDef
+		ExpDefGet,
+		ExpDefUpdate,
+		ExpDefRemove
 
 	}
 

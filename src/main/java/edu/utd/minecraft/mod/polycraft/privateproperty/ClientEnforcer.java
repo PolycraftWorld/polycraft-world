@@ -286,7 +286,7 @@ public class ClientEnforcer extends Enforcer {
 								System.out.println("Closing Halftime GUI");
 								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
 								break;
-							case GetExperimentDefinitions:
+							case ExpDefGet:
 								setExpDefs(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							default:
 							break;

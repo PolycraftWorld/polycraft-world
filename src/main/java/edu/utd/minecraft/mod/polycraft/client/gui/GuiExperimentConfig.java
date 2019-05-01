@@ -11,6 +11,7 @@ import cpw.mods.fml.client.config.GuiSlider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.util.Format;
@@ -65,8 +66,12 @@ public class GuiExperimentConfig extends GuiListExtended {
 		this.configList = new ArrayList<>();
 		//this.headerPadding = 0;
 		
-		if(gui instanceof GuiExperimentList) {
-			params = ((GuiExperimentList)gui).currentParameters;
+		if(gui instanceof GuiExperimentList || gui instanceof GuiExperimentManager) {
+			
+			if(gui instanceof GuiExperimentList)
+				params = ((GuiExperimentList)gui).currentParameters;
+			else
+				params = ((GuiExperimentManager)gui).currentParameters;
 			
 			//TODO: Make a more sustainable params list.
 			this.configList.add(new ConfigHeader("Timing"));

@@ -10,6 +10,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentFlatCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
@@ -21,7 +22,8 @@ public class ExperimentDef{
 	protected int teamCount;
 	protected int playersPerTeam;
 	protected ExperimentType expType;	//used when loading/saving
-	protected int id;
+	protected int id = -1;	//id -1 by default for new expDefs
+	protected ExperimentParameters params = new ExperimentParameters(true);
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -143,6 +145,7 @@ public class ExperimentDef{
 		nbt.setInteger("teamCount", teamCount);
 		nbt.setInteger("playersPerTeam", playersPerTeam);
 		nbt.setInteger("id", id);
+		nbt.setTag("params", params.save());
 		return nbt;
 	}
 	
@@ -154,6 +157,7 @@ public class ExperimentDef{
 		this.teamCount = nbtExpDef.getInteger("teamCount");
 		this.playersPerTeam = nbtExpDef.getInteger("playersPerTeam");
 		this.id = nbtExpDef.getInteger("id");
+		this.params.load(nbtExpDef.getCompoundTag("params"));
 	}
 
 }

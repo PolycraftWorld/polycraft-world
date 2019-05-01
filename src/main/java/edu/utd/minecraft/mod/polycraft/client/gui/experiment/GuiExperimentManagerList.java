@@ -700,7 +700,8 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			this.stepName = expDef.getName();
 
 			this.config = new GuiButton(1, 0, 0, B_WIDTH, HEIGHT, "\u2699");
-			this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u21e7");
+			//this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u21e7");
+			this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u2261");
 			this.delete = new GuiButton(3, 0, 0, B_WIDTH, HEIGHT, "\u00A74X");
 			text =  new GuiTextField(GuiExperimentManagerList.this.minecraft.fontRenderer, GuiExperimentManagerList.this.left + 2, 8, SLIDER_WIDTH, GuiExperimentManagerList.SLOT_HEIGHT - 12);
 			text.setMaxStringLength(32);
@@ -719,7 +720,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			GuiExperimentManagerList.this.gui.drawRect(xStart, yStart - 10, xStart + SLIDER_WIDTH + B_WIDTH * 4 + 48, yStart + GuiExperimentManagerList.SLOT_HEIGHT - 12, 0x50303030);
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
-			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(Integer.toString((int)expDef.playersPerTeam) + ", " + (int)expDef.teamCount, xStart*2 + 4,
+			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString("id: " + expDef.id + " | players per team: " + expDef.playersPerTeam + " | teams: " + expDef.teamCount, xStart*2 + 4,
 					(yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2 + 10) *2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			GL11.glScalef(2F, 2F, 2F);
 			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
@@ -757,18 +758,18 @@ public class GuiExperimentManagerList extends GuiListExtended {
 				int d) {
 			//System.out.println("Slider Changed: " + this.parameterName);
 			if(this.delete.mousePressed(GuiExperimentManagerList.this.minecraft, mouseX, mouseY)) {
-				//GuiExperimentManagerList.this.devTool.removeFeatures(this.index);
+				ExperimentManager.INSTANCE.sendExpDefUpdate(expDef.getID(), expDef, true);
+				ExperimentManager.INSTANCE.requestExpDefs(Minecraft.getMinecraft().thePlayer.getDisplayName());
 				GuiExperimentManagerList.this.updateExperiments();
 				this.hasChanged = true;
 				return true;
 			} else if(this.params.mousePressed(GuiExperimentManagerList.this.minecraft, mouseX, mouseY)) {
-				//GuiExperimentManagerList.this.devTool.swapFeatures(this.index, this.index - 1);
+				if(GuiExperimentManagerList.this.gui instanceof GuiExperimentManager)
+					((GuiExperimentManager)GuiExperimentManagerList.this.gui).editExpParams(expDef);
 				return true;
-				//return this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY);
 			}else if(this.config.mousePressed(GuiExperimentManagerList.this.minecraft,  mouseX,  mouseY)){
 				if(GuiExperimentManagerList.this.gui instanceof GuiExperimentManager)
-					((GuiExperimentManager)GuiExperimentManagerList.this.gui).editFeature(expDef);
-				
+					((GuiExperimentManager)GuiExperimentManagerList.this.gui).editExp(expDef);
 				return true;
 			}
 			return false;

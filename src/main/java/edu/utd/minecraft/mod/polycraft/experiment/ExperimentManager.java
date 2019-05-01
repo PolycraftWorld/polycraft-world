@@ -539,26 +539,30 @@ public class ExperimentManager {
 	}
 	
 	public void requestExpDefs(String playerName) {
-		ClientEnforcer.INSTANCE.sendExperimentPacket(playerName, ExperimentsPacketType.GetExperimentDefinitions.ordinal());
+		ClientEnforcer.INSTANCE.sendExperimentPacket(playerName, ExperimentsPacketType.ExpDefGet.ordinal());
 	}
 
-	public void sendExpDefUpdate(int index, ExperimentDef expDef, boolean isClient) {
+	/**
+	 * Used for updating/adding/removing experiment definitions on server side. Sent from client side.
+	 * @param index	index of experiemnt definition. set to -1 to add a new expDef
+	 * @param expDef experiement definition to update on server side
+	 * @param removeExpDef set to true if removing experiment.
+	 */
+	public void sendExpDefUpdate(int index, ExperimentDef expDef, boolean removeExpDef) {
 		try {
 			Gson gson = new Gson();
 			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
 			NBTTagCompound tempNBT = expDef.save();
-			tempNBT.setInteger("index", index);
 			String experimentUpdates;
 			
 			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray because converting with just Gson fails on receiving end
-			
-			if(isClient) {
-				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
-				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
-				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
-				ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates,ExperimentsPacketType.UpdateExpDef.ordinal());
+			tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+			CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
+			experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+			if(removeExpDef) {
+				ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates,ExperimentsPacketType.ExpDefRemove.ordinal());
 			}else {
-				
+				ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates, ExperimentsPacketType.ExpDefUpdate.ordinal());
 			}
 			
 		}catch(Exception e) {
@@ -600,55 +604,37 @@ public class ExperimentManager {
 	 * Used to update Experiment definition on Server side from client
 	 * @param expDefIndex
 	 * @param featuresStream
-	 * @param isRemote
+	 * @param removeExpDef
 	 */
-	public void setExperimentDef(ByteArrayOutputStream featuresStream, boolean isRemote) {
+	public void setExperimentDef(ByteArrayOutputStream featuresStream, boolean removeExpDef) {
 		try {
 			
 			NBTTagCompound expDefNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
 			
-			int index = expDefNBT.getInteger("index");
+			int index = expDefNBT.getInteger("id");
 			ExperimentDef temp = new ExperimentDef();
+
+			temp.load(expDefNBT);
 			
-			//get next unused key for index if index is -1
-			if(index == -1) {
-				for(Integer key: experimentDefinitions.keySet()) {
-					if(key >= index) {
-						index = key + 1;
+			if(removeExpDef) {
+				experimentDefinitions.remove(temp.getID());
+			}else {
+				//get next unused key for index if index is -1
+				if(index == -1) {
+					index = 0;	//should start at initial value greater than -1
+					for(Integer key: experimentDefinitions.keySet()) {
+						if(index <= key) {
+							index = key + 1;
+						}
 					}
 				}
+				temp.setID(index);
+				experimentDefinitions.put(index, temp);
 			}
-			temp.load(expDefNBT);
-			experimentDefinitions.put(index, temp);
-
+			
 			saveExpDefs();	//attempt to save experiment defs
 		} catch (Exception e) {
-			System.out.println("Cannot load Feature: " + e.getMessage());
-		}
-	}
-	
-	/**
-	 * Used to remove Experiment definition on Server side from client
-	 * @param expDefIndex
-	 * @param featuresStream
-	 * @param isRemote
-	 */
-	public void removeExperimentDef(ByteArrayOutputStream featuresStream, boolean isRemote) {
-		try {
-			
-			NBTTagCompound expDefNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
-			
-			int index = expDefNBT.getInteger("index");
-			ExperimentDef test = new ExperimentDef();
-		
-			test.load(expDefNBT);
-			if(index == -1) {
-				experimentDefinitions.remove(index);
-			}
-
-			saveExpDefs();	//attempt to save experiment defs
-		} catch (Exception e) {
-			System.out.println("Cannot load Feature: " + e.getMessage());
+			System.out.println("Cannot update ExpDef: " + e.getMessage());
 		}
 	}
 	

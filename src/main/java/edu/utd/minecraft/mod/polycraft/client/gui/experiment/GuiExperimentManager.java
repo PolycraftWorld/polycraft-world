@@ -17,10 +17,12 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.PolycraftGuiScreenBase;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef.ExperimentType;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
@@ -68,6 +70,8 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 	private long lastEventNanoseconds = 0;	//lastEventNanoseconds used to prevent the same mouse click causing multiple actions
 	private ExperimentDef expToAdd;
 	private ExperimentDef.ExperimentType expToAddType;
+	public ExperimentParameters currentParameters;
+	private GuiExperimentConfig guiConfig = null;
 	
 	public final int SCROLL_HEIGHT = 151;
 	private final int X_PAD = 10;
@@ -93,7 +97,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     private enum Screen {
     		MAIN,
     		EXP_LIST,
-    		DETAIL,
+    		EXP_PARAMS,
     		EXP_EDIT,
     		EXP_ADD
     }
@@ -194,6 +198,10 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     	if(this.guiExperiments != null && screenSwitcher == Screen.EXP_LIST) {
     		this.guiExperiments.func_148179_a(x, y, mouseEvent);
     	}
+    	//send mouse click to config class
+    	if(this.guiConfig != null && screenSwitcher == Screen.EXP_PARAMS) {
+    		this.guiConfig.func_148179_a(x, y, mouseEvent);
+    	}
     	for(GuiTextField textField: textFields) {
     		textField.mouseClicked(x, y, mouseEvent);
     	}
@@ -217,7 +225,12 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 		}else {
 			super.mouseMovedOrUp(x, y, mouseEvent);
 		}
-            
+    	
+    	if(this.guiConfig != null) {
+    		if (mouseEvent != 0 || !this.guiConfig.func_148181_b(x, y, mouseEvent)){
+    			super.mouseMovedOrUp(x, y, mouseEvent);
+    		}
+		}
     }
     
 
@@ -262,6 +275,8 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     		case EXP_EDIT:	//go back to steps screen
     			screenSwitcher = screenChange(Screen.EXP_LIST);
     			break;
+    		case EXP_PARAMS:
+    			screenSwitcher = screenChange(Screen.EXP_LIST);
     		default:
     			break;
     		}
@@ -280,14 +295,20 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     			break;
     		case EXP_ADD: 		//save the new step and go back to steps screen
     			expToAdd.updateValues();
-    			ExperimentManager.INSTANCE.sendExpDefUpdate(-1, expToAdd, true);
+    			ExperimentManager.INSTANCE.sendExpDefUpdate(-1, expToAdd, false);
     			guiExperiments.updateExperiments();
     			screenSwitcher = screenChange(Screen.EXP_LIST);
     			break;
     		case EXP_EDIT:	//save the step and go back to steps screen
     			expToAdd.updateValues();
+    			ExperimentManager.INSTANCE.sendExpDefUpdate(expToAdd.id, expToAdd, false);
     			screenSwitcher = screenChange(Screen.EXP_LIST);
     			break;
+    		case EXP_PARAMS:
+    			//user is sending ExperimentConfig updates
+        		updateExpParams();
+        		ExperimentManager.INSTANCE.sendExpDefUpdate(expToAdd.id, expToAdd, false);
+        		this.screenSwitcher = this.screenChange(Screen.EXP_LIST);
     		default:
     			break;
     		}
@@ -373,6 +394,11 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
         		break;
         	case EXP_EDIT:
         		drawEditStepScreen();
+        		break;
+        	case EXP_PARAMS:
+        		this.extraLines = this.guiConfig.getExtraScrollSpace();
+        		this.guiConfig.drawScreenHandler(mouseX, mouseY, otherValue, this.scroll);
+        		this.drawExperimentConfigScreen();
         		break;
         	default:
         		//Do Nothing
@@ -467,6 +493,17 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     }
     
     
+    private void drawExperimentConfigScreen() {
+    	//get top left of screen with padding.
+    	int x_pos = (this.width - 248) / 2 + 10;
+        int y_pos = (this.height - 192) / 2 + Y_PAD;
+        this.fontRendererObj.drawString(I18n.format("Experiment Configuration: " + this.expToAdd.name, new Object[0]),
+        		x_pos, y_pos, 0xFFFFFFFF);
+        y_pos += 12;
+        //this.guiConfig.drawScreen(p_148128_1_, p_148128_2_, p_148128_3_);
+	}
+    
+    
     private Screen screenChange(Screen newScreen) {
     	//On screen change, we need to update the button list and have it re-drawn.
 
@@ -498,6 +535,11 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     			btnNext.displayString = "Save Step";
     			buildExpInputs(false);
     			break;
+    		case EXP_PARAMS:
+    			btnBack.displayString = "< Back";
+    			btnNext.displayString = "Save Params";
+    			this.currentParameters = expToAdd.params;
+    			guiConfig = new GuiExperimentConfig(this, this.mc);
     		default:
     			break;
     	}
@@ -507,12 +549,17 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     	return newScreen;
     }
     
-    public void editFeature(ExperimentDef expDef) {
+    public void editExp(ExperimentDef expDef) {
     	expToAdd = expDef;
     	expToAddType = expDef.getExpType();
     	screenSwitcher = screenChange(Screen.EXP_EDIT);
     }
-    
+  
+    public void editExpParams(ExperimentDef expDef) {
+    	expToAdd = expDef;
+    	expToAddType = expDef.getExpType();
+    	screenSwitcher = screenChange(Screen.EXP_PARAMS);
+    }
     
     /**
      * Build all buttons and textboxes for adding specific steps/features
@@ -597,6 +644,26 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 	
 	public void forceUpdateExperiments() {
 		this.guiExperiments.updateExperiments();
+	}
+	
+	private void updateExpParams() {
+		for(ConfigSlider slider : (ArrayList<ConfigSlider>) this.guiConfig.getChangedItems()) {
+			if(this.currentParameters.timingParameters.containsKey(slider.getName())) {
+				Integer[] timingVals = this.currentParameters.timingParameters.get(slider.getName());
+				timingVals[0] = (int) Math.round(slider.getSelectedValue());
+				this.currentParameters.timingParameters.put(slider.getName(), timingVals);
+			}else if(this.currentParameters.scoringParameters.containsKey(slider.getName())) {
+				Integer[] scoringVals = this.currentParameters.scoringParameters.get(slider.getName());
+				scoringVals[0] = (int)Math.round(slider.getSelectedValue());
+				this.currentParameters.scoringParameters.put(slider.getName(), scoringVals);
+			}else if(this.currentParameters.extraParameters.containsKey(slider.getName())) {
+				Integer[] scoringVals = (Integer[]) this.currentParameters.extraParameters.get(slider.getName());
+				scoringVals[0] = (int)Math.round(slider.getSelectedValue());
+				this.currentParameters.extraParameters.put(slider.getName(), scoringVals);
+			}else {
+				continue;
+			}
+		}
 	}
     
 	

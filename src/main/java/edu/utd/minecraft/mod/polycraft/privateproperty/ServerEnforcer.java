@@ -188,13 +188,17 @@ public class ServerEnforcer extends Enforcer {
 							case SendParameterUpdates:
 								onClientUpdateExperimentParameters(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
-							case GetExperimentDefinitions:
+							case ExpDefGet:
 								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
 										new TypeToken<String>() {}.getType());
 								ExperimentManager.INSTANCE.sendExperimentDefs(playerDisplayName);
 								break;
-							case UpdateExpDef:
+							case ExpDefUpdate:
 								updateExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case ExpDefRemove:
+								removeExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
 							default:
 								break;
 							}
@@ -283,6 +287,12 @@ public class ServerEnforcer extends Enforcer {
 		Gson gson = new Gson();
 		ExperimentManager.INSTANCE.setExperimentDef(
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+	
+	private void removeExpDef(String decompressedJson) {
+		Gson gson = new Gson();
+		ExperimentManager.INSTANCE.setExperimentDef(
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
 	}
 		
 	
@@ -551,7 +561,7 @@ public class ServerEnforcer extends Enforcer {
 	public void sendExpDefUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
 		//TODO: add meta-data parsing.
 		FMLProxyPacket[] packets = null;
-		packets = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.GetExperimentDefinitions.ordinal(), jsonStringToSend);
+		packets = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.ExpDefGet.ordinal(), jsonStringToSend);
 		
 		if (packets != null) {
 			for (final FMLProxyPacket packet : packets) {
