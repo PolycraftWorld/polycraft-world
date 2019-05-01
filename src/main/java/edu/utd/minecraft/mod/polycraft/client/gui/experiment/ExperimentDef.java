@@ -21,6 +21,7 @@ public class ExperimentDef{
 	protected int teamCount;
 	protected int playersPerTeam;
 	protected ExperimentType expType;	//used when loading/saving
+	protected int id;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -69,6 +70,14 @@ public class ExperimentDef{
 
 	public ExperimentType getExpType() {
 		return expType;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+	public void setID(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -133,16 +142,18 @@ public class ExperimentDef{
 		nbt.setString("type", expType.name());
 		nbt.setInteger("teamCount", teamCount);
 		nbt.setInteger("playersPerTeam", playersPerTeam);
+		nbt.setInteger("id", id);
 		return nbt;
 	}
 	
-	public void load(NBTTagCompound nbtFeat)
+	public void load(NBTTagCompound nbtExpDef)
 	{
-		int featPos[]=nbtFeat.getIntArray("pos");
-		this.name = nbtFeat.getString("name");
-		this.expType = ExperimentType.valueOf(nbtFeat.getString("type"));
-		this.teamCount = nbtFeat.getInteger("teamCount");
-		this.playersPerTeam = nbtFeat.getInteger("playersPerTeam");
+		int featPos[]=nbtExpDef.getIntArray("pos");
+		this.name = nbtExpDef.getString("name");
+		this.expType = ExperimentType.valueOf(nbtExpDef.getString("type"));
+		this.teamCount = nbtExpDef.getInteger("teamCount");
+		this.playersPerTeam = nbtExpDef.getInteger("playersPerTeam");
+		this.id = nbtExpDef.getInteger("id");
 	}
 
 }

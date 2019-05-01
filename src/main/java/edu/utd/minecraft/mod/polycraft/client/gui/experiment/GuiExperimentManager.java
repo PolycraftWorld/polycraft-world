@@ -594,6 +594,10 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 	public FontRenderer getFontRenderer() {
 		return this.fontRendererObj;
 	}
+	
+	public void forceUpdateExperiments() {
+		this.guiExperiments.updateExperiments();
+	}
     
 	
 	//might could use this for updating the params for server side

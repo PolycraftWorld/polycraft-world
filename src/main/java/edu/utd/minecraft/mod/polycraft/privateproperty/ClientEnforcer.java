@@ -47,6 +47,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -637,6 +638,11 @@ public class ClientEnforcer extends Enforcer {
 		Gson gson = new Gson();
 		ExperimentManager.INSTANCE.setExperimentDefs( 
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+		if(Minecraft.getMinecraft().currentScreen != null) {	//check to see if exp manager is open
+			if(Minecraft.getMinecraft().currentScreen instanceof GuiExperimentManager) {
+				((GuiExperimentManager)Minecraft.getMinecraft().currentScreen).forceUpdateExperiments(); //update current experiments in menu
+			}
+		}
 	}
 	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {

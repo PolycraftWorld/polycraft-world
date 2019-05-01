@@ -2,7 +2,12 @@ package edu.utd.minecraft.mod.polycraft.experiment;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,11 +56,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
 public class ExperimentManager {
 
+	private static final String OUTPUT_FILE_NAME = "ExperimentDefs.nbt";
 	public static ExperimentManager INSTANCE = new ExperimentManager();
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
@@ -63,7 +70,7 @@ public class ExperimentManager {
 	
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
-	public static ArrayList<ExperimentDef> expTypes = new ArrayList<ExperimentDef>();
+	private static Hashtable<Integer, ExperimentDef> experimentDefinitions;
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	
 	//read the schematic file only once.
@@ -80,6 +87,8 @@ public class ExperimentManager {
 			//e.printStackTrace();//TODO: Remove this.
 			globalPlayerList = null;
 		}
+		experimentDefinitions = new Hashtable<Integer, ExperimentDef>();
+		this.loadExpDefs();	//attempt to load experiment defs
 		
 		clientCurrentExperiment = -1;
 		
@@ -566,7 +575,7 @@ public class ExperimentManager {
 			NBTTagCompound nbtFeatures = new NBTTagCompound();
 			NBTTagList nbtList = new NBTTagList();
 			
-			for(ExperimentDef expDef: expTypes) {
+			for(ExperimentDef expDef: experimentDefinitions.values()) {
 				nbtList.appendTag(expDef.save());
 			}
 			nbtFeatures.setTag("expDefs", nbtList);
@@ -599,21 +608,52 @@ public class ExperimentManager {
 			NBTTagCompound expDefNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
 			
 			int index = expDefNBT.getInteger("index");
-			ExperimentDef test = new ExperimentDef();
-		
-			test.load(expDefNBT);
+			ExperimentDef temp = new ExperimentDef();
+			
+			//get next unused key for index if index is -1
 			if(index == -1) {
-				expTypes.add(test);
-			}else {
-				expTypes.set(index, test);
+				for(Integer key: experimentDefinitions.keySet()) {
+					if(key >= index) {
+						index = key + 1;
+					}
+				}
 			}
+			temp.load(expDefNBT);
+			experimentDefinitions.put(index, temp);
+
+			saveExpDefs();	//attempt to save experiment defs
 		} catch (Exception e) {
 			System.out.println("Cannot load Feature: " + e.getMessage());
 		}
 	}
 	
 	/**
-	 * Used to update Experiment definition on Server side from client
+	 * Used to remove Experiment definition on Server side from client
+	 * @param expDefIndex
+	 * @param featuresStream
+	 * @param isRemote
+	 */
+	public void removeExperimentDef(ByteArrayOutputStream featuresStream, boolean isRemote) {
+		try {
+			
+			NBTTagCompound expDefNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+			
+			int index = expDefNBT.getInteger("index");
+			ExperimentDef test = new ExperimentDef();
+		
+			test.load(expDefNBT);
+			if(index == -1) {
+				experimentDefinitions.remove(index);
+			}
+
+			saveExpDefs();	//attempt to save experiment defs
+		} catch (Exception e) {
+			System.out.println("Cannot load Feature: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Used to update all Experiment definitions on client side from server
 	 * @param expDefIndex
 	 * @param expDefsStream
 	 * @param isRemote
@@ -622,25 +662,77 @@ public class ExperimentManager {
 		try {
 			NBTTagCompound nbtExpDefs = CompressedStreamTools.readCompressed(new ByteArrayInputStream(expDefsStream.toByteArray()));
             NBTTagList nbtExpDefList = (NBTTagList) nbtExpDefs.getTag("expDefs");
-			ArrayList<ExperimentDef> expDefs = new ArrayList<ExperimentDef>();
+			Hashtable<Integer, ExperimentDef> expDefs = new Hashtable<Integer, ExperimentDef>();
 			
 			for(int i =0;i<nbtExpDefList.tagCount();i++) {
 				NBTTagCompound nbtFeat=nbtExpDefList.getCompoundTagAt(i);
 				ExperimentDef test = new ExperimentDef();
 				test.load(nbtFeat);
-				expDefs.add(test);
+				expDefs.put(test.getID(), test);
 			}
 			
-			expTypes.clear();
-			expTypes.addAll(expDefs);
+			experimentDefinitions.clear();
+			experimentDefinitions.putAll(expDefs);
 		} catch (Exception e) {
             System.out.println("I can't load initial Experiment Definitions, because: " + e.getStackTrace()[0]);
         }
 	}
 
-	public static ArrayList<ExperimentDef> getExperimentDefinitions(){
-		return expTypes;
+	public static Collection<ExperimentDef> getExperimentDefinitions(){
+		return experimentDefinitions.values();
 	}
+	
+	private void saveExpDefs() {
+		NBTTagCompound nbtFeatures = new NBTTagCompound();
+		NBTTagList nbtList = new NBTTagList();
+		for(int i =0;i<experimentDefinitions.size();i++) {
+			nbtList.appendTag(experimentDefinitions.get(i).save());
+		}
+		nbtFeatures.setTag("expDefs", nbtList);
+		FileOutputStream fout = null;
+		try {
+			File file = new File(this.OUTPUT_FILE_NAME);//TODO CHANGE THIS FILE LOCATION
+			fout = new FileOutputStream(file);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			CompressedStreamTools.writeCompressed(nbtFeatures, fout);
+			fout.flush();
+			fout.close();
+			
+		}catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadExpDefs() {
+		try {
+        	experimentDefinitions.clear();
+        	
+        	File file = new File(this.OUTPUT_FILE_NAME);//TODO CHANGE THIS FILE LOCATION
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("expDefs");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				ExperimentDef tempExpDef = new ExperimentDef();
+				tempExpDef.load(nbtFeat);
+				experimentDefinitions.put(tempExpDef.getID(), tempExpDef);
+			}
+			
+            is.close();
+
+        } catch (Exception e) {
+            System.out.println("I can't load experiment definitions, because " + e.getStackTrace()[0]);
+        }
+	}
+	
 
 	/**
 	 * Internal class that keeps track of all experiments
