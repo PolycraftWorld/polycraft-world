@@ -22,6 +22,8 @@ public class ExperimentHalftimeAnswers {
 	}
 	public ExperimentHalftimeAnswers(int playerCount) {
 		this.playerCount = playerCount;
+		this.answersArray= new String[this.playerCount][5]; //TODO you may want to maker the #of questions as a param for this constructor.
+		this.compiledAnswers= new String[2][5][2]; //TODO you may wan to make the # of Teams and Ans as a param of this constructor.
 	}
 	public void inputAnswers(String[] answers) {
 		for(int i = 0 ; i < answers.length; i++) {
