@@ -5,6 +5,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.gui.FontRenderer;
@@ -44,10 +45,9 @@ public class TutorialFeatureEnd extends TutorialFeature{
 			{
 				//TP player to UTD
 				sendPlayerToUTD((EntityPlayerMP) player, exp);
-				//System.out.println("Feature Start pos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
 				complete(exp);
-				//Send score to Website
 				//save Player/Client hasCompletedTutorial=true;
+				ServerEnforcer.INSTANCE.UpdateClientTutorialCompleted((EntityPlayerMP)player);
 			}
 		}
 	}

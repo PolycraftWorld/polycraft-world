@@ -15,6 +15,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
@@ -1060,9 +1061,10 @@ public class ServerEnforcer extends Enforcer {
 	public String skillLevelCheck(String minecraftUserName) {
 		try {
 			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
-			JsonObject jsonObj = new JsonObject();
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObj = (JsonObject) parser.parse(response);
 			PolycraftMod.logger.debug("Skill Level Check response: " + response);
-			if(!response.matches("-?\\d+")) {
+			if(!jsonObj.get("skill_level").getAsString().matches("-?\\d+")) {
 				response = "Error";
 			}
 			return response;

@@ -51,6 +51,8 @@ public class TutorialFeatureScore extends TutorialFeature{
 				//player.addChatMessage(new ChatComponentText("Times: "+time+" sec"));
 				sum+=time;
 			}
+			if(trials==0)
+				trials=1;
 			long avg = sum/trials;
 			long avg2=avg;
 			if(avg<30)
@@ -78,6 +80,8 @@ public class TutorialFeatureScore extends TutorialFeature{
 			}
 			player.addChatMessage(new ChatComponentText("Average time per Trial: "+avg+" sec"));
 			player.addChatMessage(new ChatComponentText("Score: "+score+" out of 100"));
+			//Send score to Website
+			ServerEnforcer.INSTANCE.updateSkillLevel(player.getDisplayName(), (int) score);
 		}
 		
 		complete(exp);
