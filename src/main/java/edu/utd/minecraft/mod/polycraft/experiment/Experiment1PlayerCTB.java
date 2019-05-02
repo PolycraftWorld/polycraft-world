@@ -20,6 +20,7 @@ import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;

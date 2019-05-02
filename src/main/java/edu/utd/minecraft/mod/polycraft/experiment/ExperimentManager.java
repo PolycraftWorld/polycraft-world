@@ -67,10 +67,10 @@ public class ExperimentManager {
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
+	private static Hashtable<Integer, ExperimentDef> experimentDefinitions;	//table of all available defined experiments with set parameters
 	
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
-	private static Hashtable<Integer, ExperimentDef> experimentDefinitions;
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	
 	//read the schematic file only once.
@@ -106,113 +106,58 @@ public class ExperimentManager {
 	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
 		if(tick.phase == Phase.END) {
-		//	boolean areAnyActive1x = false;
-			boolean areAnyActive = false;
-			boolean areAnyActive4x = false;
-			boolean isFlatActive2x = false;
-			boolean isFlatActive4x = false;
-			boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onServerTickUpdate();
 				}
 			}
-			for(ExperimentListMetaData ex2 : metadata) {
-				if(ex2.isAvailable()) {
-					if(ex2.expType.equals("Stoop")) {
-						switch(ex2.playersNeeded) {
-	//					case 1:
-	//						areAnyActive1x = true;
-	//						break;
-						case 2:
-							areAnyActive = true;
+			
+			int posOffset = 10000;
+			int multiplier = 1;
+			
+			//setup experiments
+			expDefLoop: for(ExperimentDef expDef: experimentDefinitions.values()) {
+				if(expDef.isEnabled()) {
+					for(Experiment ex: experiments.values()) {
+						if(ex.expDefID == expDef.getID() && ex.currentState == State.WaitingToStart)
+							continue expDefLoop;	//if we find a match that is not currently running, then continue
+					}
+					int nextID = this.getNextID();
+					int numChunks = 8;
+					System.out.println("Creating new Exp");
+					switch(expDef.getExpType()) {
+						case CTB_FLAT_1_PLAYER:
+							Experiment1PlayerCTB newExp1Player = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, 
+									multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
+							this.registerExperiment(nextID, newExp1Player);
+							newExp1Player.updateParams(expDef);
 							break;
-						case 4:
-							areAnyActive4x = true;
+						case CTB_FLAT:
+							ExperimentFlatCTB newExpFlat = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, 
+									multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
+							this.registerExperiment(nextID, newExpFlat);
+							newExpFlat.updateParams(expDef);
 							break;
-						case 8:
-							//areAnyActive8x = true;
+						case CTB_STOOP:
+							ExperimentCTB newExpCTB = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, 
+									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
+							this.registerExperiment(nextID, newExpCTB);
+							newExpCTB.updateParams(expDef);
 							break;
 						default:
-							//areAnyActive1x = true;
-							areAnyActive = true;
-							areAnyActive4x = true;
-							//areAnyActive8x = true;
 							break;
-						}
-					
-					}else if(ex2.expType.equals("Flat")) {
-						switch(ex2.playersNeeded) {
-						case 1:
-							isFlatActive2x = true;
-							break;
-						case 2:
-							isFlatActive2x = true;
-							break;
-						case 4:
-							isFlatActive4x = true;
-							break;
-						case 8:
-							areAnyActive8x = true;
-						default:
-							break;
+					}
+					sendExperimentUpdates();
+				}else {
+					for(Experiment ex: experiments.values()) {
+						if(ex.expDefID == expDef.getID() && ex.currentState == State.WaitingToStart) {
+							this.stop(ex.id);
+							System.out.println("Deleting Exp");
+							sendExperimentUpdates();
 						}
 					}
 				}
 			}
-
-			int posOffset = 10000;
-			int multiplier = 1;
-			
-			if(!isFlatActive2x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
-				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
-				this.registerExperiment(nextID, newExpFlat2x);
-				
-			}
-			
-			if(!areAnyActive) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				//TODO Change multiplier to nextID to spawn a new field per experiment
-				
-				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
-				//newExpCTB1.setTeamsNeeded(1);
-//				newExpCTB2x.setTeamSize(4);
-				this.registerExperiment(nextID, newExpCTB2x);
-				//sendExperimentUpdates();
-			}
-			
-			if(!isFlatActive4x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentFlatCTB newExpFlat4x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 2);
-				this.registerExperiment(nextID, newExpFlat4x);
-			}
-			
-			if(!areAnyActive4x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
-				//ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
-				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
-				this.registerExperiment(nextID, newExpCTB4x);
-				//sendExperimentUpdates();
-			}
-			if(!areAnyActive8x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentFlatCTB newExpCTB8x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 4);
-				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
-				this.registerExperiment(nextID, newExpCTB8x);
-				//sendExperimentUpdates(); //do we need this??
-			}
-
 		}
 	}
 	
@@ -409,18 +354,21 @@ public class ExperimentManager {
 		}
 		
 		for(EntityPlayer player : ex.scoreboard.getPlayersAsEntity()) {
-						
-			if(ex.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+			if(ex.currentState != State.Ending) {
 				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
-				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
-				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
+				playerEntity.addChatMessage(new ChatComponentText("Experiment is no longer available"));
+			}else {
+				if(ex.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+					EntityPlayerMP playerEntity = (EntityPlayerMP) player;
+					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
+					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
 
-			} else {
-				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
-				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
-				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
+				} else {
+					EntityPlayerMP playerEntity = (EntityPlayerMP) player;
+					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
+					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
+				}
 			}
-			
 		}
 		
 		ex.stop(); //this clears the scoreboard (removes players)

@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
@@ -82,6 +83,7 @@ public abstract class Experiment {
 	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
 	protected ArrayList<ExperimentFeature> expFeatures;
+	public int expDefID;	//used by Experiment manager
 	
 	
 	public enum State{
@@ -911,6 +913,10 @@ public abstract class Experiment {
 		//this.awaitingNumPlayers = playersNeeded;
 	}
 
+	protected void updateParams(ExperimentDef expDef) {
+		this.expDefID = expDef.getID();
+		updateParams(expDef.getParams());
+	}
 
 	protected abstract void updateParams(ExperimentParameters params);
 	

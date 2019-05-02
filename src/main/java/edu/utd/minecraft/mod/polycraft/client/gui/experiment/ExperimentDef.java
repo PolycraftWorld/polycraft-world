@@ -24,6 +24,7 @@ public class ExperimentDef{
 	protected ExperimentType expType;	//used when loading/saving
 	protected int id = -1;	//id -1 by default for new expDefs
 	protected ExperimentParameters params = new ExperimentParameters(true);
+	protected boolean isEnabled = false;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -90,6 +91,37 @@ public class ExperimentDef{
 		this.name = name;
 	}
 	
+	public ExperimentParameters getParams() {
+		return this.params;
+	}
+	
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+	
+	
+	
+	
+	public int getTeamCount() {
+		return teamCount;
+	}
+
+
+	public void setTeamCount(int teamCount) {
+		this.teamCount = teamCount;
+	}
+
+
+	public int getPlayersPerTeam() {
+		return playersPerTeam;
+	}
+
+
+	public void setPlayersPerTeam(int playersPerTeam) {
+		this.playersPerTeam = playersPerTeam;
+	}
+
+
 	/*
 	 * Called to update values based on edits done in GuiDevTool
 	 * Values are pulled from parameter fields
@@ -146,6 +178,7 @@ public class ExperimentDef{
 		nbt.setInteger("playersPerTeam", playersPerTeam);
 		nbt.setInteger("id", id);
 		nbt.setTag("params", params.save());
+		nbt.setBoolean("isEnabled", isEnabled);
 		return nbt;
 	}
 	
@@ -158,6 +191,7 @@ public class ExperimentDef{
 		this.playersPerTeam = nbtExpDef.getInteger("playersPerTeam");
 		this.id = nbtExpDef.getInteger("id");
 		this.params.load(nbtExpDef.getCompoundTag("params"));
+		this.isEnabled = nbtExpDef.getBoolean("isEnabled");
 	}
 
 }
