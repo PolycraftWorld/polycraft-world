@@ -819,13 +819,14 @@ public abstract class Experiment {
 	 * Set the state to done and remove players from the scoreboard, effectively removing all players.
 	 */
 	public void stop() {
+		ExperimentManager.metadata.get(this.id-1).deactivate(); //prevents this experiment from showing up on the list.  Ran here just in case and experiment stops before it starts
 		this.currentState = State.Done;
 		this.scoreboard.clearPlayers();
 		for(Ticket tkt : this.tickets) {
 			ForgeChunkManager.releaseTicket(tkt);
 		}
 		
-		//ExperimentManager.INSTANCE.sendExperimentUpdates();
+		ExperimentManager.sendExperimentUpdates();
 		//this.scoreboard = null; //TODO: does this need to be null?
 	}
 	
