@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.client.gui.experiment;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -686,7 +687,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		private ExperimentDef expDef;
 		private GuiTextField text;
 		private String stepName;
-		private GuiButton config, params, delete;
+		private GuiButton config, params, delete, enable;
 		
 		/**
 		 * Create a Config Slider GuiSlot
@@ -700,9 +701,9 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			this.stepName = expDef.getName();
 
 			this.config = new GuiButton(1, 0, 0, B_WIDTH, HEIGHT, "\u2699");
-			//this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u21e7");
 			this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u2261");
 			this.delete = new GuiButton(3, 0, 0, B_WIDTH, HEIGHT, "\u00A74X");
+			this.enable = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u2714");
 			text =  new GuiTextField(GuiExperimentManagerList.this.minecraft.fontRenderer, GuiExperimentManagerList.this.left + 2, 8, SLIDER_WIDTH, GuiExperimentManagerList.SLOT_HEIGHT - 12);
 			text.setMaxStringLength(32);
 			text.setText(expDef.getName());
@@ -737,6 +738,22 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			this.delete.xPosition = this.params.xPosition + B_WIDTH + 2;
 			this.delete.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
 			this.delete.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
+			List list = new ArrayList();
+			if(expDef.isEnabled) {
+				this.enable.displayString = "\u2714";
+				list.add("Disable");
+			}else {
+				this.enable.displayString = "\u2716";
+				list.add("Enable");
+			}
+			
+			this.enable.xPosition = this.delete.xPosition + B_WIDTH + 2;
+			this.enable.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.enable.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
+			if(this.enable.getHoverState(this.enable.func_146115_a()) == 2) {
+				
+				((GuiExperimentManager)GuiExperimentManagerList.this.gui).drawHoveringText(list, (int)mouseX, (int)mouseY, GuiExperimentManagerList.this.minecraft.fontRenderer);
+			}
 			
 			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(expDef.getName(), xStart + 2,
 					yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2 - 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
@@ -770,6 +787,12 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			}else if(this.config.mousePressed(GuiExperimentManagerList.this.minecraft,  mouseX,  mouseY)){
 				if(GuiExperimentManagerList.this.gui instanceof GuiExperimentManager)
 					((GuiExperimentManager)GuiExperimentManagerList.this.gui).editExp(expDef);
+				return true;
+			}else if(this.enable.mousePressed(GuiExperimentManagerList.this.minecraft,  mouseX,  mouseY)){
+				if(GuiExperimentManagerList.this.gui instanceof GuiExperimentManager) {
+					expDef.isEnabled = !expDef.isEnabled;
+					ExperimentManager.INSTANCE.sendExpDefUpdate(expDef.getID(), expDef, false);
+				}
 				return true;
 			}
 			return false;

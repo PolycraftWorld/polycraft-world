@@ -626,6 +626,12 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 	   // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
 	    this.drawTexturedModalRect(i, j, 0, 0, 248, 184);
 	}
+	
+	@Override
+	public void drawHoveringText(List p_146283_1_, int p_146283_2_, int p_146283_3_, FontRenderer font) {
+		// TODO Auto-generated method stub
+		super.drawHoveringText(p_146283_1_, p_146283_2_, p_146283_3_, font);
+	}
 
 	/**
 	 * Called from the main game loop to update the screen.
