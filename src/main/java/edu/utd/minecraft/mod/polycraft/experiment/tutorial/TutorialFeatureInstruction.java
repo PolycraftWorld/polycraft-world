@@ -18,6 +18,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.Tutor
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.client.gui.FontRenderer;
@@ -131,49 +132,77 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case INVENTORY1:
 			ItemStack item1= new ItemStack(Blocks.spruce_stairs, 4);
 			ItemStack item2= new ItemStack(Item.getItemFromBlock(Blocks.planks), 2, 1);
-			TileEntityChest chest=null;
-			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
-				chest=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			BlockChest chest=null;
+			TileEntityChest tile=null;
+			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
+				chest=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
 			if(chest!=null)
 			{
-				chest.setInventorySlotContents(0, item1);
-				chest.setInventorySlotContents(1, item2);
+				chest.createNewTileEntity(exp.world, 0);
+				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
+					tile=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(tile!=null)
+				{
+					tile.setInventorySlotContents(0, item1);
+					tile.setInventorySlotContents(1, item2);
+				}
 			}
 			break;
 		case INVENTORY2:
 			ItemStack item3= new ItemStack(Items.stick, 2);
 			ItemStack item4= new ItemStack(Items.iron_ingot, 3);
-			TileEntityChest chest2=null;
-			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
-				chest2=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			BlockChest chest2=null;
+			TileEntityChest tile2=null;
+			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
+				chest2=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
 			if(chest2!=null)
 			{
-				chest2.setInventorySlotContents(0, item3);
-				chest2.setInventorySlotContents(1, item4);
+				chest2.createNewTileEntity(exp.world, 0);
+				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
+					tile2=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(tile2!=null)
+				{
+					tile2.setInventorySlotContents(0, item3);
+					tile2.setInventorySlotContents(1, item4);
+				}
 			}
 			break;
 		case INVENTORY3:
 			Item kbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
 			ItemStack item5= new ItemStack(kbb, 64);
-			TileEntityChest chest3=null;
-			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
-				chest3=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			BlockChest chest3=null;
+			TileEntityChest tile3=null;
+			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
+				chest3=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
 			if(chest3!=null)
 			{
-				chest3.setInventorySlotContents(0, item5);
+				chest3.createNewTileEntity(exp.world, 0);
+				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
+					tile3=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(tile3!=null)
+				{
+					tile3.setInventorySlotContents(0, item5);
+				}
 			}
 			break;
 		case INVENTORY4:
 			Item kbb2 =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
 			ItemStack item6= new ItemStack(kbb2, 64);
 			ItemStack item7= new ItemStack(Item.getItemFromBlock(Blocks.ice), 64);
-			TileEntityChest chest4=null;
-			if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord) instanceof TileEntityChest)
-				chest4=(TileEntityChest)exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.xCoord);
+			BlockChest chest4=null;
+			TileEntityChest tile4=null;
+			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
+				chest4=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
 			if(chest4!=null)
 			{
-				chest4.setInventorySlotContents(0, item6);
-				chest4.setInventorySlotContents(1, item7);
+				chest4.createNewTileEntity(exp.world, 0);
+				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
+					tile4=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(tile4!=null)
+				{
+					tile4.setInventorySlotContents(0, item6);
+					tile4.setInventorySlotContents(1, item7);
+				}
 			}
 			break;
 		default:
