@@ -910,9 +910,11 @@ public class Experiment1PlayerCTB extends Experiment{
 					String initial_base_state = (base.currentState).toString();
 					base.currentState = FeatureBase.State.Claimed;
 					if(animalTeam.getName().equals(base.getCurrentTeamName())) 
-					base.setHardColor(Color.BLUE);						
-					else
-					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
+						base.setHardColor(Color.BLUE);						
+					else {
+						if(base.getCurrentTeamName() != null)
+							base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
+					}
 					base.tickCount=0;
 					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 						if(base.isInBase(player)) {
