@@ -123,6 +123,7 @@ public class ExperimentCTB extends Experiment{
 		this.playersNeeded = teamsNeeded * teamSize;
 		this.awaitingNumPlayers = this.playersNeeded;
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 		for(int x = 0; x < teamsNeeded;x++) {
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);

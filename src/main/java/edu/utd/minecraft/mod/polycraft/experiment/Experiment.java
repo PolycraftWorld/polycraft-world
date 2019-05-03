@@ -118,7 +118,6 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = null;
-		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 	}
 	
 	/**
@@ -171,7 +170,6 @@ public abstract class Experiment {
 			e.printStackTrace();
 		}
 
-		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 		//System.out.println(expFeatures);
 	}
 	

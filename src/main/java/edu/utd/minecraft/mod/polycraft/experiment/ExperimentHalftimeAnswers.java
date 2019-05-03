@@ -10,8 +10,6 @@
 
 package edu.utd.minecraft.mod.polycraft.experiment;
 
-import net.minecraft.client.resources.I18n;
-
 public class ExperimentHalftimeAnswers {
 	static int playerCount;
 	static String[][] answersArray; // 0 - name 1 - team name 2-5 answers
@@ -22,159 +20,184 @@ public class ExperimentHalftimeAnswers {
 	}
 	public ExperimentHalftimeAnswers(int playerCount) {
 		this.playerCount = playerCount;
-		this.answersArray= new String[this.playerCount][5]; //TODO you may want to maker the #of questions as a param for this constructor.
-		this.compiledAnswers= new String[2][5][2]; //TODO you may wan to make the # of Teams and Ans as a param of this constructor.
+		this.answersArray= new String[this.playerCount+1][5]; //TODO you may want to maker the #of questions as a param for this constructor.
+		this.compiledAnswers= new String[2][3][2]; //TODO you may wan to make the # of Teams and Ans as a param of this constructor.
 		this.player = 0;
 	}
 	public void inputAnswers(String[] answers) {
+		this.player=this.player+1;
 		for(int i = 0 ; i < answers.length; i++) {
 			answersArray[player][i] = answers[i];
 		}
-		this.player=this.player+1;
 		// time to compile the answers
 		String team1 = null;
 		int teamNum = 0;
 		System.out.println(this.player + " " + this.playerCount);
 		if(this.player == this.playerCount) {
 			// each players answers loop
-			for(int i = 0; i <= player; i++) {
-				if (i == 0) {
-					teamNum = 1;
+			for(int i = 1; i <= player; i++) {
+				if (i == 1) {
+					teamNum = 0;
 					team1 = answersArray[i][1];
 					// go through each answer and put it in the array with their teammates answers
 					for (int j = 2; j<answers.length;j++) { // starts at 2 because 0-1 are player name and team 
 						// question 1 yes/no
-						if(answersArray[i][j].equals(I18n.format("gui.yes"))) {
+						if(answersArray[i][j].equals("Yes")) {
 							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							System.out.println(compiledAnswers[teamNum][j-2][answerNum]);
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.no"))){
+						else if(answersArray[i][j].equals("No")){
 							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 						// question 2 +Offense/Defense
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question20"))) {
-							int answerNum = 2;
+						else if(answersArray[i][j].equals("Offense")) {
+							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question21"))){
-							int answerNum = 3;
+						else if(answersArray[i][j].equals("Defense")){
+							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 						// question 3 make more / make less
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question30"))) {
-							int answerNum = 4;
+						else if(answersArray[i][j].equals("Make more items")) {
+							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question31"))){
-							int answerNum = 5;
+						else if(answersArray[i][j].equals("Make less items")){
+							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 					}
 				}
 				//team 2
-				else if(team1 == answersArray[i][1] && !(i==1)) {
-					teamNum = 2;
+				else if(answersArray[i][1].equals(team1) && !(i==1)) {
+					teamNum = 0;
 					// go through each answer and put it in the array with their teammates answers
 					for (int j = 2; j<answers.length;j++) { // starts at 2 because 0-1 are player name and team 
 						// question 1 yes/no
-						if(answersArray[i][j].equals(I18n.format("gui.yes"))) {
+						if(answersArray[i][j].equals("Yes")) {
 							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.no"))){
+						else if(answersArray[i][j].equals("No")){
 							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 						// question 2 +Offense/Defense
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question20"))) {
-							int answerNum = 2;
+						else if(answersArray[i][j].equals("Offense")) {
+							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question21"))){
-							int answerNum = 3;
+						else if(answersArray[i][j].equals("Defense")){
+							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 						// question 3 make more / make less
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question30"))) {
-							int answerNum = 4;
+						else if(answersArray[i][j].equals("Make more items")) {
+							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question31"))){
-							int answerNum = 5;
+						else if(answersArray[i][j].equals("Make less items")){
+							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 					}
 				}
@@ -184,81 +207,98 @@ public class ExperimentHalftimeAnswers {
 					// go through each answer and put it in the array with their teammates answers
 					for (int j = 2; j<answers.length;j++) { // starts at 2 because 0-1 are player name and team 
 						// question 1 yes/no
-						if(answersArray[i][j].equals(I18n.format("gui.yes"))) {
+						if(answersArray[i][j].equals("Yes")) {
 							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.no"))){
+						else if(answersArray[i][j].equals("No")){
 							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 						// question 2 +Offense/Defense
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question20"))) {
-							int answerNum = 2;
+						else if(answersArray[i][j].equals("Offense")) {
+							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question21"))){
-							int answerNum = 3;
+						else if(answersArray[i][j].equals("Defense")){
+							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 						// question 3 make more / make less
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question30"))) {
-							int answerNum = 4;
+						else if(answersArray[i][j].equals("Make more items")) {
+							int answerNum = 0;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
-						else if(answersArray[i][j].equals(I18n.format("gui.halftime.question31"))){
-							int answerNum = 5;
+						else if(answersArray[i][j].equals("Make less items")){
+							int answerNum = 1;
 							int temp;
-							try{
-								temp = Integer.valueOf(compiledAnswers[teamNum][j-3][answerNum]);
-							}catch(NullPointerException e) {
+							if(compiledAnswers[teamNum][j-2][answerNum] != null) {
+								temp = Integer.parseInt(compiledAnswers[teamNum][j-2][answerNum]);
+							}
+							else {
 								temp = 0;
 							}
-							compiledAnswers[teamNum][j-3][answerNum] = Integer.toString(temp++);
+							temp++;
+							compiledAnswers[teamNum][j-2][answerNum] = Integer.toString(temp);
 						}
 					}
 				}
 			}
 			// output answers for testing when done
-			for(int i = 1; i <= compiledAnswers.length; i++ ) { // teams
+			System.out.println(compiledAnswers.length + " " + compiledAnswers[1].length + " " + compiledAnswers[1][0].length);
+			for(int i = 0; i < compiledAnswers.length; i++ ) { // teams
 				for(int j = 0; j < compiledAnswers[1].length; j++) { // questions
 					for(int k = 0; k < compiledAnswers[1][0].length; k++) { // answer
-						System.out.println("Team " + i + " Question " + j + " Answer " + k + " Amount of answers: " + compiledAnswers[i][j][k]);
+						if(compiledAnswers[i][j][k] != null) {
+							System.out.println("Team " + i + " Question " + j + " Answer " + k + " Amount of answers: " + compiledAnswers[i][j][k]);
+						}
+						else {
+							continue;
+						}
 					}
 				}				
 			}
 		}
-		player = 0;
 	}	
 }
 	
