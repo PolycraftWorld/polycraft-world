@@ -24,13 +24,13 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	public TutorialFeatureEnd(String name, Vec3 pos){
 		super(name, pos, Color.YELLOW);
 		super.featureType = TutorialFeatureType.END;
-		this.countDown=1219;
+		this.countDown=219;
 	}
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
 		super.preInit(exp);
-		this.countDown=1219;
+		this.countDown=219;
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class TutorialFeatureEnd extends TutorialFeature{
 			{
 				this.isDirty=true;
 			}
-			if(this.countDown<=20)
+			if(this.countDown<=5)
 			{
 				//TP player to UTD
 				sendPlayerToUTD((EntityPlayerMP) player, exp);
