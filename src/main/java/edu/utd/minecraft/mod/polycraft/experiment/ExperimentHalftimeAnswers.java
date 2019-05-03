@@ -16,7 +16,7 @@ public class ExperimentHalftimeAnswers {
 	static int playerCount;
 	static String[][] answersArray; // 0 - name 1 - team name 2-5 answers
 	static String[][][] compiledAnswers; //[] team [] question # [] 0/answ1 1/answ2
-	static int player = 0;
+	int player;
 	public ExperimentHalftimeAnswers() {
 		// reference experiements then get scoreboard and how many players there are from that
 	}
@@ -24,19 +24,21 @@ public class ExperimentHalftimeAnswers {
 		this.playerCount = playerCount;
 		this.answersArray= new String[this.playerCount][5]; //TODO you may want to maker the #of questions as a param for this constructor.
 		this.compiledAnswers= new String[2][5][2]; //TODO you may wan to make the # of Teams and Ans as a param of this constructor.
+		this.player = 0;
 	}
 	public void inputAnswers(String[] answers) {
 		for(int i = 0 ; i < answers.length; i++) {
 			answersArray[player][i] = answers[i];
 		}
-		player++;
+		this.player=this.player+1;
 		// time to compile the answers
 		String team1 = null;
 		int teamNum = 0;
-		if(player == playerCount) {
+		System.out.println(this.player + " " + this.playerCount);
+		if(this.player == this.playerCount) {
 			// each players answers loop
-			for(int i = 1; i <= player; i++) {
-				if (i == 1) {
+			for(int i = 0; i <= player; i++) {
+				if (i == 0) {
 					teamNum = 1;
 					team1 = answersArray[i][1];
 					// go through each answer and put it in the array with their teammates answers
@@ -256,6 +258,7 @@ public class ExperimentHalftimeAnswers {
 				}				
 			}
 		}
+		player = 0;
 	}	
 }
 	

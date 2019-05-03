@@ -77,7 +77,7 @@ public abstract class Experiment {
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int genTick = 0;
-	protected static ExperimentHalftimeAnswers halftimeAnswers;
+	public static ExperimentHalftimeAnswers halftimeAnswers;
 	protected Schematic sch;
 	private Random random;
 	protected ForgeChunkManager.Ticket[] tickets;
@@ -118,8 +118,7 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = null;
-		this.halftimeAnswers = new ExperimentHalftimeAnswers(playersNeeded);
-		
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 	}
 	
 	/**
@@ -138,7 +137,6 @@ public abstract class Experiment {
 		this.yPos = 16;
 		this.zPos = zPos;
 		this.world = world;
-		this.halftimeAnswers = new ExperimentHalftimeAnswers(playersNeeded);
 		this.currentState = State.PreInit;
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
@@ -172,7 +170,8 @@ public abstract class Experiment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 		//System.out.println(expFeatures);
 	}
 	
