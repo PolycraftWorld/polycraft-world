@@ -8,6 +8,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction.InstructionType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
@@ -44,11 +45,14 @@ public class TutorialFeatureScore extends TutorialFeature{
 		
 		
 		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+			
 			for(Long time: times)
 			{
-				player.addChatMessage(new ChatComponentText("Times: "+time+" sec"));
+				//player.addChatMessage(new ChatComponentText("Times: "+time+" sec"));
 				sum+=time;
 			}
+			if(trials==0)
+				trials=1;
 			long avg = sum/trials;
 			long avg2=avg;
 			if(avg<30)
@@ -58,12 +62,26 @@ public class TutorialFeatureScore extends TutorialFeature{
 			
 			
 			long score = 88+30-avg2;
+			
+			for (TutorialFeature feature : exp.features) {
+			    if(feature instanceof TutorialFeatureInstruction)
+			    {
+			    	TutorialFeatureInstruction feat=(TutorialFeatureInstruction)feature;
+			    	if(feat.getType()==InstructionType.JUMP_SPRINT && feat.failCount<2)
+			    	{
+			    		score+=12;
+			    	}
+			    }
+			}
+			
 			if(score<0)
 			{
 				score=0;
 			}
-			player.addChatMessage(new ChatComponentText("AverageTime: "+avg+" sec"));
+			player.addChatMessage(new ChatComponentText("Average time per Trial: "+avg+" sec"));
 			player.addChatMessage(new ChatComponentText("Score: "+score+" out of 100"));
+			//Send score to Website
+			ServerEnforcer.INSTANCE.updateSkillLevel(player.getDisplayName(), (int) score);
 		}
 		
 		complete(exp);
