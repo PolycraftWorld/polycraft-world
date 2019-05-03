@@ -188,7 +188,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case INVENTORY4:
 			Item kbb2 =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
 			ItemStack item6= new ItemStack(kbb2, 64);
-			ItemStack item7= new ItemStack(Item.getItemFromBlock(Blocks.ice), 64);
+			ItemStack item7= new ItemStack(Item.getItemFromBlock(Blocks.packed_ice), 64);
 			BlockChest chest4=null;
 			TileEntityChest tile4=null;
 			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
