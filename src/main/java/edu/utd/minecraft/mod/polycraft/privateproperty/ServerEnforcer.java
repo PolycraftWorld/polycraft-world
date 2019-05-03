@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -25,7 +26,10 @@ import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
@@ -34,9 +38,12 @@ import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import io.netty.buffer.Unpooled;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -65,6 +72,15 @@ public class ServerEnforcer extends Enforcer {
 	private ByteBuffer pendingDataPacketsBuffer = null;
 	
 	protected final Map<String, Integer> frozenPlayers = Maps.newHashMap();
+	public boolean placeBlock;
+	public int placeX;
+	public int placeY;
+	public int placeZ;
+	public int placeBlockID;
+	public int placeBlockMeta;
+	public EntityPlayer placeblockPlayer;
+	public ItemStack placeblockItemStack;
+	
 	
 	
 	@SubscribeEvent
@@ -80,7 +96,13 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickInventories(event);
 			//onWorldTickGovernments(event);
 			onWorldTickCheckFrozenPlayers(event);
-
+			if(placeBlock)
+			{
+				event.world.setBlock(this.placeX, this.placeY, this.placeZ, Block.getBlockById(this.placeBlockID), this.placeBlockMeta, 2);
+				Block.getBlockById(this.placeBlockID).onBlockPlacedBy(event.world, this.placeX, this.placeY, this.placeZ, this.placeblockPlayer, this.placeblockItemStack);
+				Block.getBlockById(this.placeBlockID).onPostBlockPlaced(event.world, this.placeX, this.placeY, this.placeZ, this.placeBlockMeta);
+				this.placeBlock=false;
+			}
 		}
 	}
 
@@ -252,6 +274,10 @@ public class ServerEnforcer extends Enforcer {
 							default:
 								break;
 						}
+						break;
+					case PlaceBlock:
+						this.updatePlaceBlock(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					default:
 						break;
 					}
@@ -293,6 +319,31 @@ public class ServerEnforcer extends Enforcer {
 		Gson gson = new Gson();
 		ExperimentManager.INSTANCE.setExperimentDef(
 				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+	}
+
+
+	private void updatePlaceBlock(String decompressedJson) {
+		Gson gson = new Gson();
+		ServerEnforcer.INSTANCE.placeBlock((ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+	
+	public void placeBlock(ByteArrayOutputStream featuresStream, boolean isRemote) {
+			
+		NBTTagCompound NBT = new NBTTagCompound();
+		try {
+			NBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+		this.placeX=NBT.getInteger("x");
+		this.placeY=NBT.getInteger("y");
+		this.placeZ=NBT.getInteger("z");
+		this.placeBlockID=NBT.getInteger("blockid");
+		this.placeBlockMeta=NBT.getInteger("meta");
+		this.placeblockItemStack=ItemStack.loadItemStackFromNBT((NBTTagCompound) NBT.getTag("itemstack"));
+		this.placeblockPlayer=MinecraftServer.getServer().getConfigurationManager().func_152612_a(NBT.getString("player"));
+		this.placeBlock=true;
+		
 	}
 		
 	

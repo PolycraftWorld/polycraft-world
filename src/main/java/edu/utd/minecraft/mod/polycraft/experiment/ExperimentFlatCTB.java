@@ -341,7 +341,9 @@ public class ExperimentFlatCTB extends Experiment{
 				currentState = State.Halftime;
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-						spawnPlayer((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
+						player.posX=team.getSpawn()[0];
+						player.posY=team.getSpawn()[1];
+						player.posZ=team.getSpawn()[2];
 					}
 				}
 			}
@@ -402,12 +404,12 @@ public class ExperimentFlatCTB extends Experiment{
 					player.addChatComponentMessage(new ChatComponentText("It's Half-time! Game resuming in: " + this.halfTimeTicksRemaining/20 + "seconds"));
 				}
 			}
-			if(this.halfTimeTicksRemaining % 20 == 0) {
-				Map.Entry<Team, Float> maxEntry = null;
-				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
-				}
-			}
+			//if(this.halfTimeTicksRemaining % 20 == 0) {
+				//Map.Entry<Team, Float> maxEntry = null;
+				//for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					//ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+				//}
+			//}
 			
 			this.halfTimeTicksRemaining--; //use the halfTimeTicksRemaining counter to
 			
@@ -465,7 +467,7 @@ public class ExperimentFlatCTB extends Experiment{
 					 * Record which players have won.
 					 */
 					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
+						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
 						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
 						edu.utd.minecraft.mod.polycraft.util.Analytics.onTeamWon(event);
 					} else {

@@ -12,7 +12,9 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -47,6 +49,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		INVENTORY1,
 		INVENTORY2,
 		INVENTORY3,
+		INVENTORY4,
 		CRAFT_PICK,
 		PLACE_BLOCKS,
 		BREAK_BLOCKS,
@@ -55,7 +58,11 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		KBB,
 		CRAFT_FKB,
 		HOTBAR,
-		LOOK
+		LOOK,
+		CANNON_TARGET,
+		CANNON1,
+		CANNON2,
+		CANNON3
 	};
 	private InstructionType type;
 	
@@ -64,12 +71,15 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	
 	public boolean sprintDoorOpen;
 	public int failCount;
+	public int tickWait;
 	public boolean inFail;
 	public boolean setAng;
+	public int score;
 	RenderBox box;
 	private final static String KBB = "1hv";
 	private final static String FREEZE_KBB = "1hw";
-	
+	private final static String ItemGravelCannonBall = "1hS";
+	private final static String BlockNaturalRubber = "Jx";
 	
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
@@ -89,10 +99,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.failCount=0;
 		this.inFail=false;
 		this.setAng=false;
+		this.tickWait=0;
 		this.pos1= pos1.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
 		this.pos2= pos2.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
 
 	}
+	
+	
+
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
@@ -132,7 +146,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						if(player.openContainer!=player.inventoryContainer)
 						{
-							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(KBB));
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(FREEZE_KBB));
 							if(player.inventory.hasItem(fkbb))
 							{
 								this.canProceed=true;
@@ -209,7 +223,29 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 							{
 								this.canProceed=true;
 								this.isDirty=true;
-								player.addChatMessage(new ChatComponentText("You got the KnockBack Bomb!"));
+								player.addChatMessage(new ChatComponentText("You got the Knockback Bomb!"));
+								this.complete(exp);
+							}
+						}
+					}
+				}
+			}
+			break;
+		case INVENTORY4:
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							Item fkbb =  GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(FREEZE_KBB));
+							if(player.inventory.hasItem(fkbb))
+							{
+								this.canProceed=true;
+								this.isDirty=true;
+								player.addChatMessage(new ChatComponentText("You got the Frozen Knockback Bomb!"));
 								this.complete(exp);
 							}
 						}
@@ -267,7 +303,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.onServerTickUpdate(exp);
-			if(!(exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
+			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.planks) || (exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.spruce_stairs)) {
 				this.canProceed = true;
 				this.complete(exp);
 			}
@@ -298,8 +334,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					//EntityMinecartEmpty minecart=(EntityMinecartEmpty)entityminecart;
-					
-					player.ridingEntity.setDead();
+					if(player.ridingEntity!=null)
+						player.ridingEntity.setDead();
 					player.setPosition(player.posX, player.posY+1, player.posZ);
 					this.canProceed = true;
 					this.complete(exp);
@@ -392,7 +428,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					{
 						for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
 						{
-							exp.world.setBlock(x, y, z,  Blocks.packed_ice);
+							exp.world.setBlock(x, y-1, z,  Blocks.packed_ice);
 						}
 					}
 				}
@@ -447,6 +483,118 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case LOOK:
 			break;
+					case CANNON_TARGET:
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				canProceed = true;
+				if(!exp.world.getEntitiesWithinAABB(EntityGravelCannonBall.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).isEmpty()) {
+					
+					isDone = true;
+					exp.scoreboard.updateScore(exp.scoreboard.getTeams().get(0), 1);
+					this.score= Math.round((exp.scoreboard.getTeamScores().get(exp.scoreboard.getTeams().get(0))));
+					//player.addChatMessage(new ChatComponentText("You hit "+score+" target(s)"));
+					
+					
+					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+					{
+						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+						{
+							for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+							{
+								if(exp.world.getBlock(x, y, z)==GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName(BlockNaturalRubber)))
+								{
+									exp.world.setBlockMetadataWithNotify(x, y, z, 2, 4);
+									exp.world.markBlockForUpdate(x, y, z);
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		case CANNON1:
+			exp.scoreboard.updateScore(exp.scoreboard.getTeams().get(0), 0);
+			//super.onServerTickUpdate(exp);
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
+	        	{
+			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
+			        {
+
+//						canProceed = true;
+//						isDone = true;
+//						player.setLocationAndAngles(4, 57, 111, -90, 0);
+			        }
+	        	}
+				else
+				{
+					if(this.tickWait>40)
+					{
+						canProceed = true;
+						isDone = true;
+						player.setLocationAndAngles(4, 57, 111, -90, 0);
+					}
+					this.tickWait+=1;
+				}
+			}
+			break;
+		case CANNON2:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
+	        	{
+			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
+			        {
+
+//						canProceed = true;
+//						isDone = true;
+//						player.setLocationAndAngles(4, 57, 193, -90, 0);
+			        }
+	        	}
+				else
+				{
+					if(this.tickWait>40)
+					{
+						canProceed = true;
+						isDone = true;
+						player.setLocationAndAngles(4, 57, 193, -90, 0);
+					}
+					this.tickWait+=1;
+				}
+			}
+
+			break;
+		case CANNON3:
+			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
+	        	{
+			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
+			        {
+
+//						canProceed = true;
+//						isDone = true;
+//						//player.setLocationAndAngles(4, 57, 111, -90, 0);
+			        }
+	        	}
+				else
+				{
+					if(this.tickWait>40)
+					{
+						canProceed = true;
+						isDone = true;
+						this.score= Math.round((exp.scoreboard.getTeamScores().get(exp.scoreboard.getTeams().get(0))));
+						//player.addChatMessage(new ChatComponentText("You hit "+score+" target(s)"));
+					}
+					this.tickWait+=1;
+					//player.setLocationAndAngles(4, 57, 111, -90, 0);
+				}
+			}
+
+			break;
+			
 		default:
 			break;
 		
@@ -550,6 +698,29 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 				}
 			break;
+		case INVENTORY4:
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+				
+				if(player!=null)
+				{
+					if(player.openContainer!=null) 
+					{
+						if(player.openContainer!=player.inventoryContainer)
+						{
+							//TutorialRender.instance.renderTutorialAccessInventory(entity);
+							//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+						}
+					}
+					else
+					{
+						//TutorialRender.instance.renderTutorialOpenChest(entity);
+						//Gui to instruct player to click on the chest
+					}
+				}
+			break;
 		case CRAFT_PICK:
 			super.render(entity);
 			TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",5,5);
@@ -589,6 +760,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			TutorialRender.instance.renderTutorialFloatSwamp(entity);
 			break;
 		case KBB:
+			super.render(entity);
 			//super.render(entity);
 			TutorialRender.instance.renderTutorialDrawString("Use the KnockBack Bomb on the mobs",5,5);
 			TutorialRender.instance.renderTutorialUseKBB(entity);
@@ -627,14 +799,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",5,5);
 			this.box.render(entity);
+			TutorialRender.instance.renderTutorialDrawString("Place the blocks in the highlighted location",150,5);
 			TutorialRender.instance.renderTutorialPlacingBlocks(entity);
 			break;
 		case BREAK_BLOCKS:
 			//super.render(entity);
-			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",5,5);
 			this.box.renderFill(entity);
+			TutorialRender.instance.renderTutorialDrawString("Break the Highlighted blocks",150,5);
 			TutorialRender.instance.renderTutorialMining(entity);
 			break;
 		case CART_START:
@@ -727,6 +899,22 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 ////		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
 ////		    }
 			break;
+					case CANNON_TARGET:
+			super.render(entity);
+			break;
+		case CANNON1:
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialCannon1(player);
+			break;
+		case CANNON2:
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialCannon2(player);
+			break;
+		case CANNON3:
+			//super.render(entity);
+			TutorialRender.instance.renderTutorialCannon3(player);
+			break;
+			
 		default:
 			break;
 		

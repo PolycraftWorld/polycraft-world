@@ -8,6 +8,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,13 +30,23 @@ public class ItemFreezingKnockbackBomb  extends ItemKnockbackBomb{
 		this.color = Color.CYAN;
 	}
 	
-	@Override
+	
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		// TODO Auto-generated method stub
-		List list = knockback(world, player);
-		if(list != null)
-			freezePlayers(new LinkedList(list));
-		return super.onItemRightClick(itemstack, world, player);
+		if (!world.isRemote) {
+			for (Experiment Exp : ExperimentManager.INSTANCE.getExperiments().values()) {	//TODO: Do we still need this?
+				if (Exp.isPlayerInExperiment(player.getDisplayName()) && Exp.currentState == State.Halftime) {
+					return itemstack;
+				}
+			}
+			List list = knockback(world, player);
+			if(list != null)
+				freezePlayers(new LinkedList(list));
+			return super.onItemRightClick(itemstack, world, player);
+		}
+		
+		return itemstack;
+		
 	}
 	
 	private void freezePlayers(LinkedList list) {

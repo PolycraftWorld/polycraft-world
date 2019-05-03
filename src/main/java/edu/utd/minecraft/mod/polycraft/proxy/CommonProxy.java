@@ -115,8 +115,8 @@ public abstract class CommonProxy {
 		FMLCommonHandler.instance().bus().register(RespawnHandler.INSTANCE);
 	}
 	
-	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass) {
-		sendMessageToServer(netMessageCannon, x, y, z, velocity, theta, mass);
+	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass, final double phi) {
+		sendMessageToServer(netMessageCannon, x, y, z, velocity, theta, mass, phi);
 	}
 	
 	public void sendMessageToServerMinigame(final int minigameid)
@@ -142,9 +142,9 @@ public abstract class CommonProxy {
 				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
 	}
 	
-	private void sendMessageToServer(final int type, final int x ,final int y, final int z, final double velocity, final double theta, final double mass) {
+	private void sendMessageToServer(final int type, final int x ,final int y, final int z, final double velocity, final double theta, final double mass,final double phi) {
 		netChannel.sendToServer(
-				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(x).writeInt(y).writeInt(z).writeDouble(velocity).writeDouble(theta).writeDouble(mass).copy(), netChannelName));
+				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(x).writeInt(y).writeInt(z).writeDouble(velocity).writeDouble(theta).writeDouble(mass).copy().writeDouble(phi), netChannelName));
 	}
 	
 	
@@ -172,10 +172,13 @@ public abstract class CommonProxy {
 			double velocity=payload.readDouble();
 			double theta=payload.readDouble();
 			double mass=payload.readDouble();
+			double phi= payload.readDouble();
 			CannonInventory cannon = (CannonInventory) player1.worldObj.getTileEntity(x, y, z);
 			cannon.velocity=velocity;
 			cannon.theta=theta;
 			cannon.mass=mass;
+			cannon.phi=phi;
+			cannon.shouldRenderInPass(0);
 			break;
 		case netMessageMinigame:
 			

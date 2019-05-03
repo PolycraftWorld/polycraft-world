@@ -79,6 +79,10 @@ public class ExperimentManager {
 	public Schematic stoop = sch.get("stoopWithCrafting.psm");
 	public Schematic flat_field = sch.get("flatWithCrafting.psm");
 	
+	public static Hashtable<Integer, Experiment> getExperiments() {
+		return experiments;
+	}
+
 	public ExperimentManager() {
 		try {
 			globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;

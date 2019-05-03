@@ -24,7 +24,9 @@ import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -35,13 +37,14 @@ public class CannonInventory extends PolycraftInventory {
 	
 	public double velocity;
 	public double theta;
+	public double phi;
 	public double mass;
 	
 	
 	
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
 	static {
-		
+		guiSlots.add(GuiContainerSlot.createInput(0, 0, 0, 150, -10));
 	}
 
 	
@@ -51,12 +54,10 @@ public class CannonInventory extends PolycraftInventory {
 
 	public CannonInventory() {
 		super(PolycraftContainerType.CANNON, config);
-		this.velocity=0.1;
+		this.velocity=1.0;
 		this.theta=0.0;
+		this.phi=0;
 		this.mass=1.0;
-		
-
-		
 	}
 	
 	@Override
@@ -68,7 +69,7 @@ public class CannonInventory extends PolycraftInventory {
         this.markDirty();
 	}
 	
-	public static final void register(final Inventory config) {
+	public static void register(final Inventory config) {
 		CannonInventory.config = config;
 		config.containerType = PolycraftContainerType.CANNON;
 		PolycraftInventory.register(new CannonBlock(config, CannonInventory.class));
@@ -79,12 +80,48 @@ public class CannonInventory extends PolycraftInventory {
 		return new PolycraftCraftingContainerGeneric(this, playerInventory, 128); 
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
+		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
+		return new CannonGui(this, playerInventory);
+	}
+	
 //	@Override
-//	@SideOnly(Side.CLIENT)
-//	public PolycraftInventoryGui getGui(final InventoryPlayer playerInventory) {
-//		// return new PolycraftInventoryGui(this, playerInventory, 133, false);
-//		return new CannonGui(this, playerInventory);
+//	public void readFromNBT(NBTTagCompound tag) {
+//		super.readFromNBT(tag);
+//		this.velocity=tag.getDouble("velocity");
+//		this.theta=tag.getDouble("theta");
+//		this.mass=tag.getDouble("mass");
+//
 //	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tag) {
+		super.writeToNBT(tag);
+		CannonInventory cannon =(CannonInventory) this.getWorldObj().getTileEntity(this.xCoord, this.yCoord, this.zCoord);
+		double velocity =cannon.velocity;
+		double theta =cannon.theta;
+		double mass =cannon.mass;
+		double phi = cannon.phi;
+		tag.setDouble("velocity", velocity);
+		tag.setDouble("theta", theta);
+		tag.setDouble("mass", mass);
+
+	}
+	
+	   @Override
+	    public Packet getDescriptionPacket() {
+	        NBTTagCompound tag = new NBTTagCompound();
+	        this.writeToNBT(tag);
+	        return new S35PacketUpdateTileEntity(xCoord, yCoord, xCoord, 1, tag);
+	    }
+
+	    @Override
+	    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+	        readFromNBT(packet.func_148857_g());
+	    }
+
 	
 
 }

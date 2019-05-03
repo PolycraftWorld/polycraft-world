@@ -30,6 +30,9 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.HPBlock;
+import edu.utd.minecraft.mod.polycraft.block.PlaceBlockPP;
+import edu.utd.minecraft.mod.polycraft.block.material.BreakBlockPP;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
@@ -71,6 +74,8 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
@@ -80,6 +85,10 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir1;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir2;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir3;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -133,10 +142,12 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezingKnockbackBomb;
+import edu.utd.minecraft.mod.polycraft.item.ItemGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
 import edu.utd.minecraft.mod.polycraft.item.ItemIronCannonBall;
+import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot__Old;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
@@ -145,6 +156,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
 import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
+import edu.utd.minecraft.mod.polycraft.item.ItemPaintball;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -1064,6 +1076,12 @@ public class PolycraftRegistry {
 					PolycraftingInventory.register(inventory);
 				else if (GameID.InventoryCannon.matches(inventory))
 					CannonInventory.register(inventory);
+				else if (GameID.InventoryCannonGravelTier1.matches(inventory))
+					GravelCannonInventoryTeir1.register(inventory);
+				else if (GameID.InventoryCannonGravelTier2.matches(inventory))
+					GravelCannonInventoryTeir2.register(inventory);
+				else if (GameID.InventoryCannonGravelTier3.matches(inventory))
+					GravelCannonInventoryTeir3.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1101,6 +1119,12 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.EntityIronCannonBall.matches(polycraftEntity)){
 					EntityIronCannonBall.register(polycraftEntity);
+				}
+				else if (GameID.EPaintball.matches(polycraftEntity)) {
+					EntityPellet__Old.register(polycraftEntity);
+				}
+				else if (GameID.EntityGravelCannonBall.matches(polycraftEntity)){
+					EntityGravelCannonBall.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
@@ -1269,8 +1293,32 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemCleats(customObject));
 				} else if (GameID.CustomMiningHammer.matches(customObject)) {
 					registerItem(customObject, new ItemMiningHammer(customObject));
+				} else if (GameID.HPBlock.matches(customObject)) {
+					registerBlock(customObject, new HPBlock(customObject));
 				} else if (GameID.ItemIronCannonball.matches(customObject)) {
 					registerItem(customObject, new ItemIronCannonBall(customObject));
+				} else if (GameID.ItemGravelCannonBall.matches(customObject)) {
+					registerItem(customObject, new ItemGravelCannonBall(customObject));
+				} else if (GameID.PlaceBlockPP.matches(customObject)) {
+					registerBlock(customObject, new PlaceBlockPP(customObject));
+				} else if (GameID.BreakBlockPP.matches(customObject)) {
+					registerBlock(customObject, new BreakBlockPP(customObject));
+				} else if (GameID.CustomWoodSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomTacticalSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomScatterSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomBurstSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomGravitySlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomIceSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.Paintball.matches(customObject)) {
+					registerItem(customObject, new ItemPaintball(customObject));
+					
+					
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
@@ -1402,6 +1450,9 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values())
 			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
+		
+		for (final CustomObject customObject : CustomObject.registry.values())
+			langEntries.add(String.format(blockFormat, customObject.gameID, customObject.name));
 		
 		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
 			langEntries.add(String.format(entityFormat, entity.name, entity.name));

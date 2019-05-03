@@ -1,6 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
@@ -8,13 +11,15 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.Tutor
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
-
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureScore extends TutorialFeature{
 	//Working variables
+	List<Long> times=new ArrayList<Long>();
 	protected int score = 0;
 
 	public TutorialFeatureScore() {}
@@ -31,6 +36,78 @@ public class TutorialFeatureScore extends TutorialFeature{
 	}
 	
 	@Override
+	public void onServerTickUpdate(ExperimentTutorial exp) {
+		
+		this.times=getTrialTimes(exp);
+		long sum=0;
+		long trials=times.size();
+		
+		
+		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
+			for(Long time: times)
+			{
+				player.addChatMessage(new ChatComponentText("Times: "+time+" sec"));
+				sum+=time;
+			}
+			long avg = sum/trials;
+			long avg2=avg;
+			if(avg<30)
+			{
+				avg2=30;
+			}
+			
+			
+			long score = 88+30-avg2;
+			if(score<0)
+			{
+				score=0;
+			}
+			player.addChatMessage(new ChatComponentText("AverageTime: "+avg+" sec"));
+			player.addChatMessage(new ChatComponentText("Score: "+score+" out of 100"));
+		}
+		
+		complete(exp);
+	}
+	
+	public List<Long>  getTrialTimes(ExperimentTutorial exp)
+	{
+
+		TutorialFeatureGroup TrialStart= null;
+		TutorialFeatureGroup TrialEnd= null;
+		List<Long> TrialTimes=new ArrayList<Long>();
+		
+		for (TutorialFeature feature : exp.features) {
+		    if(feature instanceof TutorialFeatureGroup)
+		    {
+		    	TutorialFeatureGroup group = (TutorialFeatureGroup)feature;
+		    	if(TrialStart==null)
+		    	{
+			    	if(group.getType()==TutorialFeatureGroup.GroupType.START)
+			    	{
+			    		TrialStart=group;
+			    	}
+		    	}
+		    	else
+		    	{
+		    		if(group.getType()==TutorialFeatureGroup.GroupType.END)
+			    	{
+		    			TrialEnd=group;
+			    		long TrialTime = (TrialEnd.completionTime-TrialStart.completionTime)/20;
+			    		TrialTimes.add(TrialTime);
+			    		TrialStart= null;
+			    		TrialEnd= null;
+			    	}
+		    	}
+		    }
+		}
+		
+		return TrialTimes;
+		
+		
+	}
+	
+	
+	@Override
 	public NBTTagCompound save()
 	{
 		super.save();
@@ -41,8 +118,8 @@ public class TutorialFeatureScore extends TutorialFeature{
 	@Override
 	public void end(ExperimentTutorial exp) {
 		super.end(exp);
-		for(String playerName: exp.getPlayersInExperiment())
-			ServerEnforcer.INSTANCE.updateSkillLevel(playerName, 100);
+//		for(String playerName: exp.getPlayersInExperiment())
+//			ServerEnforcer.INSTANCE.updateSkillLevel(playerName, 100);
 	}
 	
 	@Override

@@ -536,7 +536,10 @@ public class Experiment1PlayerCTB extends Experiment{
 				currentState = State.Halftime;
 				for(Team team: scoreboard.getTeams()) {
 					for(EntityPlayer player: team.getPlayersAsEntity()) {
-						spawnPlayer((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
+						player.posX=team.getSpawn()[0];
+						player.posY=team.getSpawn()[1];
+						player.posZ=team.getSpawn()[2];
+						//spawnPlayerInGame((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
 					}
 				}
 			}
@@ -632,12 +635,12 @@ public class Experiment1PlayerCTB extends Experiment{
 			
 		}
 		
-		if(this.halfTimeTicksRemaining % 20 == 0) {
-			Map.Entry<Team, Float> maxEntry = null;
-			for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
-				ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
-			}
-		}
+		//if(this.halfTimeTicksRemaining % 20 == 0) {
+			//Map.Entry<Team, Float> maxEntry = null;
+			//for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+				//ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+			//}
+		//}
 		else if(currentState == State.Ending) {
 			if(!this.hasGameEnded) { //do this once only!
 				this.hasGameEnded = true;

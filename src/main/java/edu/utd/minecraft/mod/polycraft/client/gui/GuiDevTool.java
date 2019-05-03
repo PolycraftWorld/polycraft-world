@@ -32,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGroup;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
@@ -351,6 +352,9 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     				((GuiPolyButtonCycle<?>)button).nextOption();
     				if(featureToAdd instanceof TutorialFeatureInstruction)
     					((TutorialFeatureInstruction) featureToAdd).setType((TutorialFeatureInstruction.InstructionType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
+    				if(featureToAdd instanceof TutorialFeatureGroup)
+    					((TutorialFeatureGroup) featureToAdd).setType((TutorialFeatureGroup.GroupType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
+    			
     			}
     			break;
     		case DEV_STEP_EDIT:	//go back to steps screen
@@ -593,6 +597,13 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	        	featureToAdd = new TutorialFeatureInstruction("Instruction " + devTool.getFeatures().size(), 
 	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
 	        		TutorialFeatureInstruction.InstructionType.WASD);
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case GROUP:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureGroup("Feature " + devTool.getFeatures().size(), 
+	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		TutorialFeatureGroup.GroupType.START);
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case START:

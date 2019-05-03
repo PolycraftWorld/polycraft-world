@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -14,6 +15,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
@@ -22,6 +24,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -49,6 +52,8 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
@@ -124,6 +129,18 @@ public class ClientEnforcer extends Enforcer {
 	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
+
+	private int placeX;
+
+	private int placeY;
+
+	private int placeZ;
+
+	private int placeBlockID;
+
+	private int placeBlockMeta;
+
+	private boolean placeBlock;
 	
 	public static boolean viewedConsentGUI = false;
 	private static boolean needsToSeeConsentForm = false;
@@ -146,6 +163,7 @@ public class ClientEnforcer extends Enforcer {
 		}
 		if (keyBindingAIControls.isPressed()) {
 			showAIControls = !showAIControls;
+			Experiment a = ExperimentManager.INSTANCE.getExperiment(ExperimentManager.INSTANCE.getRunningExperiment());
 		}
 		if(showAIControls)
 		{
@@ -366,6 +384,7 @@ public class ClientEnforcer extends Enforcer {
 						ResyncHandler.INSTANCE.setResync();
 						break;
 					case Unknown:
+						break;
 					default:
 						break;
 					}
@@ -378,7 +397,7 @@ public class ClientEnforcer extends Enforcer {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
-	
+
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}
@@ -912,5 +931,26 @@ public class ClientEnforcer extends Enforcer {
 		return showAIControls;
 	}
 
+	public void sendPlaceBlockPackets(final String jsonStringToSend, int meta) {
+		//TODO: add meta-data parsing.
+				FMLProxyPacket[] packets = null;
+				packets = getDataPackets(DataPacketType.PlaceBlock, meta, jsonStringToSend);
+				
+				if(packets != null) {
+					int i = 0;
+					for (final FMLProxyPacket packet : packets) {
+						System.out.println("Sending packet " + i);
+						netChannel.sendToServer(packet); 
+					}
+				}
+	}
+
+	public void placeBlock(int x, int y, int z, int blockID, int meta,EntityPlayer player, ItemStack itemStack) {
+		client.theWorld.setBlock(x, y, z, Block.getBlockById(blockID), meta, 2);
+		Block.getBlockById(blockID).onBlockPlacedBy(client.theWorld, x, y, z, player, itemStack);
+		Block.getBlockById(blockID).onPostBlockPlaced(client.theWorld, x, y, z, meta);
+	}
+	
+	
 	
 }

@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -21,11 +22,17 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.block.PlaceBlockPP;
+import edu.utd.minecraft.mod.polycraft.block.material.BreakBlockPP;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Exam;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager.PacketMeta;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -75,6 +82,7 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.passive.EntityChicken;
@@ -87,16 +95,19 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemSign;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -130,7 +141,8 @@ public abstract class Enforcer {
 		RespawnSync,
 		Cannon, 
 		Halftime, 
-		ExpPrivateProperties
+		ExpPrivateProperties,
+		PlaceBlock, 
 		
 	}
 	
@@ -603,8 +615,15 @@ public abstract class Enforcer {
 	public void onBlockBreak(final BreakEvent event) {
 		// TODO what happens if they use dynamite? other ways?
 		// TODO why is this not happening on the client?
-		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
+		if(event.block instanceof BreakBlockPP)
+		{
+			
+		}
+		else
+		{
+			possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
 				event.world.getChunkFromBlockCoords(event.x, event.z));
+		}
 	}
 
 	@SubscribeEvent
@@ -716,19 +735,29 @@ public abstract class Enforcer {
 		switch (event.action) {
 		case LEFT_CLICK_BLOCK:
 			// TODO why is this not happening on the client?
-			possiblyPreventAction(event, event.entityPlayer,
-					Action.DestroyBlock,
-					event.world.getChunkFromBlockCoords(event.x, event.z));
-			//If player holding devtool, cancel event
-			if(event.entityPlayer.getHeldItem() != null) {
-				if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
-					event.setCanceled(true);
+			if( event.world.getBlock(event.x, event.y, event.z)instanceof BreakBlockPP)
+			{
+				
+			}
+			else
+			{
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.DestroyBlock,
+						event.world.getChunkFromBlockCoords(event.x, event.z));
+				//If player holding devtool, cancel event
+				if(event.entityPlayer.getHeldItem() != null) {
+					if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
+						event.setCanceled(true);
+				}
 			}
 			break;
 		case RIGHT_CLICK_AIR:
 			possiblyPreventUseEquippedItem(event);
 			break;
 		case RIGHT_CLICK_BLOCK:
+			if(!event.world.isRemote) {
+				int dosomething = 1;
+			}
 			final net.minecraft.world.chunk.Chunk blockChunk = event.world
 					.getChunkFromBlockCoords(event.x, event.z);
 			final Block block = event.world.getBlock(event.x, event.y, event.z);
@@ -809,7 +838,7 @@ public abstract class Enforcer {
 								(PolycraftInventoryBlock) pBlock, blockChunk);
 					}
 				}
-			}
+			} 
 			//this should not be an else...this should also happen, so you cant place a block on a sign, torch, etc...
 
 			final ItemStack equippedItem = event.entityPlayer
@@ -822,8 +851,55 @@ public abstract class Enforcer {
 						possiblyPreventAction(event, event.entityPlayer,
 								Action.AddBlockTNT, blockChunk);
 					} else {
-						possiblyPreventAction(event, event.entityPlayer,
-								Action.AddBlock, blockChunk);
+						
+						int x=event.x;
+						int y=event.y;
+						int z=event.z;
+						switch(event.face){
+						case 0:
+							y+=-1;
+							break;
+						case 1:
+							y+=+1;
+							break;
+						case 2:
+							z+=-1;
+							break;
+						case 3:
+							z+=+1;
+							break;
+						case 4:
+							x+=-1;
+							break;
+						case 5:
+							x+=+1;
+							break;
+						default:
+							break;
+						}
+						Block test =event.world.getBlock(x, y, z);
+						if(test instanceof PlaceBlockPP)
+						{
+							Block place=null;
+							if(event.entityPlayer.getHeldItem()!=null)
+							{
+								place=place.getBlockFromItem(event.entityPlayer.getHeldItem().getItem());
+								int meta=equippedItem.getItemDamage();
+								//event.entityPlayer.addChatMessage(new ChatComponentText("Block "+place.getLocalizedName() +" Face: "+ event.face));
+								
+								if(place!=null && place!=Blocks.air)
+								{
+									//event.world.setBlock(x, y, z, place);
+									//event.world.setBlock(x, y, z, place, meta, 2);
+									sendPlaceBlock(x,y,z,place,meta,event.entityPlayer,equippedItem);
+								}
+							}
+						}
+						else
+						{
+							possiblyPreventAction(event, event.entityPlayer,
+									Action.AddBlock, blockChunk);
+						}
 					}
 				} else {
 					possiblyPreventUseEquippedItem(event);
@@ -839,6 +915,32 @@ public abstract class Enforcer {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public void sendPlaceBlock(int x, int y, int z, Block block, int meta,EntityPlayer player, ItemStack itemStack) {
+		try {
+			Gson gson = new Gson();
+			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+			NBTTagCompound tempNBT = new NBTTagCompound();
+			tempNBT.setInteger("x", x);
+			tempNBT.setInteger("y", y);
+			tempNBT.setInteger("z", z);
+			tempNBT.setInteger("blockid", block.getIdFromBlock(block));
+			tempNBT.setInteger("meta", meta);
+			tempNBT.setTag("itemstack", itemStack.getTagCompound());
+			String placeBlock;
+			
+			final ByteArrayOutputStream placeBlockTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+			
+			tempNBT.setString("player", player.getDisplayName());
+			CompressedStreamTools.writeCompressed(tempNBT, placeBlockTemp);
+			placeBlock = gson.toJson(placeBlockTemp, gsonType);
+			ClientEnforcer.INSTANCE.sendPlaceBlockPackets(placeBlock,DataPacketType.PlaceBlock.ordinal());
+			ClientEnforcer.INSTANCE.placeBlock(x, y, z, block.getIdFromBlock(block), meta, player, itemStack);
+			
+		}catch(Exception e) {
+			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );
 		}
 	}
 

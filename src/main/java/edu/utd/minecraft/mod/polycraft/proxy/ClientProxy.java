@@ -39,6 +39,8 @@ import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPaintBall__Old;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.RenderCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
@@ -55,6 +57,7 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
+import edu.utd.minecraft.mod.polycraft.entity.projectile.RenderPaintball;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
@@ -114,6 +117,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -500,6 +504,15 @@ public class ClientProxy extends CommonProxy {
 		Entity entity = Minecraft.getMinecraft().renderViewEntity;
 		//TutorialRender.renderLoadingScreen(entity);
 	}
+	
+	@SubscribeEvent
+    public void onRenderScreenGui(GuiScreenEvent.DrawScreenEvent.Post event) {
+        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+        if(entity!=null)
+        {
+        	//TutorialRender.renderLoadingScreen(entity);
+        }
+    }
 	
 
 	@SubscribeEvent
@@ -1505,6 +1518,9 @@ public class ClientProxy extends CommonProxy {
             }
             else if (GameID.EntityIronCannonBall.matches(polycraftEntity)) {
             	RenderingRegistry.registerEntityRenderingHandler(EntityIronCannonBall.class, new RenderCannonBall());
+            }
+            else if (GameID.EPaintball.matches(polycraftEntity)) {
+            	RenderingRegistry.registerEntityRenderingHandler(EntityPaintBall__Old.class, new RenderPaintball());
 
             }
 
