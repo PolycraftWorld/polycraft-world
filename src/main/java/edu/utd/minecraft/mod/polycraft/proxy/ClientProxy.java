@@ -1205,10 +1205,17 @@ public class ClientProxy extends CommonProxy {
 				client.fontRenderer.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
-			// TODO: replace with boolean if they have or havent done the tutorial.
+			// Display shiny text when user hasn't completed tutorial
 			if (!ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1) {
 				int color = 16777215;
 				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
+			}
+			
+			// Display shiny text after user completes tutorial to play experiments
+			if (ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1 
+					&& ExperimentManager.INSTANCE.clientCurrentExperiment == -1 ) {
+				int color = 16777215;
+				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open play an experiment!!",5,false),x,y,color);
 			}
 			
 			if (playerState.cheatInfoTicksRemaining == 0) {
@@ -1534,7 +1541,7 @@ public class ClientProxy extends CommonProxy {
 				if(player.isSneaking()) {
 					openExperimentManagerGui(player);
 				}else {
-					if(!ClientEnforcer.INSTANCE.hasCompletedTutorial)
+					if(ClientEnforcer.INSTANCE.hasCompletedTutorial)
 						client.displayGuiScreen(new GuiExperimentList(player));
 					else
 						client.displayGuiScreen(new GuiTutorialMenu(player));

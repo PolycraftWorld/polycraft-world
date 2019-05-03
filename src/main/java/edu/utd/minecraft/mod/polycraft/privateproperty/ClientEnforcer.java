@@ -329,9 +329,11 @@ public class ClientEnforcer extends Enforcer {
 						case CompletedTutorialTrue:
 							PolycraftMod.logger.debug("Receiving experiment completed update...");
 							this.hasCompletedTutorial = true;
+							break;
 						case CompletedTutorialFalse:
 							PolycraftMod.logger.debug("Receiving experiment completed update...");
 							this.hasCompletedTutorial = false;
+							break;
 						default:
 							break;
 						}

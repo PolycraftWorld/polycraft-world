@@ -76,7 +76,6 @@ public class Experiment1PlayerCTB extends Experiment{
 	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
-	public static int[][] spawnlocations = new int[4][3];
 	public static List<Vec3> chests = new LinkedList<Vec3>();
 	public static boolean hasBeenGenerated = false;
 	

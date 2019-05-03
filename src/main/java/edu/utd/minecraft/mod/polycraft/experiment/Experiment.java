@@ -83,7 +83,9 @@ public abstract class Experiment {
 	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
 	protected ArrayList<ExperimentFeature> expFeatures;
+	protected int[][] spawnlocations = new int[4][3];
 	public int expDefID;	//used by Experiment manager
+	public boolean hasBeenGenerated = false;
 	
 	
 	public enum State{
@@ -308,9 +310,9 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || ExperimentCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			ExperimentCTB.hasBeenGenerated = true;
+			hasBeenGenerated = true;
 			//lets put in the chests!
 			for(int i = 0; i < ExperimentCTB.chests.size(); i++) {
 				int x = (int) ExperimentCTB.chests.get(i).xCoord;
@@ -406,15 +408,15 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < ExperimentCTB.spawnlocations.length; i++) {
-							if(ExperimentCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								ExperimentCTB.spawnlocations[i][0] = x + this.xPos;
-								ExperimentCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								ExperimentCTB.spawnlocations[i][2] = z + this.zPos;
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
 								ExperimentCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));	//add to chests list
-								i = ExperimentCTB.spawnlocations.length; 	//exit for loop
+								i = spawnlocations.length; 	//exit for loop
 							}
 						}
 						
@@ -455,9 +457,9 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || ExperimentFlatCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			ExperimentFlatCTB.hasBeenGenerated = true;
+			hasBeenGenerated = true;
 			//lets put in the chests!
 			for(int i = 0; i < ExperimentFlatCTB.chests.size(); i++) {
 				int x = (int) ExperimentFlatCTB.chests.get(i).xCoord;
@@ -554,15 +556,15 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
-							if(ExperimentFlatCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								ExperimentFlatCTB.spawnlocations[i][0] = x + this.xPos;
-								ExperimentFlatCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								ExperimentFlatCTB.spawnlocations[i][2] = z + this.zPos;
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
 								ExperimentFlatCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));
-								i = ExperimentFlatCTB.spawnlocations.length; 	//exit for loop
+								i = spawnlocations.length; 	//exit for loop
 							}
 						}
 						
@@ -602,9 +604,9 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || Experiment1PlayerCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			Experiment1PlayerCTB.hasBeenGenerated = true;
+			hasBeenGenerated = true;
 			//lets put in the chests!
 			for(int i = 0; i < Experiment1PlayerCTB.chests.size(); i++) {
 				int x = (int) Experiment1PlayerCTB.chests.get(i).xCoord;
@@ -701,15 +703,15 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < Experiment1PlayerCTB.spawnlocations.length; i++) {
-							if(Experiment1PlayerCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								Experiment1PlayerCTB.spawnlocations[i][0] = x + this.xPos;
-								Experiment1PlayerCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								Experiment1PlayerCTB.spawnlocations[i][2] = z + this.zPos;
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
 								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));
-								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
+								i = spawnlocations.length; 	//exit for loop
 							}
 						}
 						
