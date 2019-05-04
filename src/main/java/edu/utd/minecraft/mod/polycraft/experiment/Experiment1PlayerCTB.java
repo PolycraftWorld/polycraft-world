@@ -145,6 +145,9 @@ public class Experiment1PlayerCTB extends Experiment{
 	 */
 	public Experiment1PlayerCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
 		super(id, size, xPos, zPos, world, ExperimentManager.INSTANCE.flat_field);
+		sizeX = 10;
+		sizeZ = 10;
+		createPrivateProperties();
 		//teamNames.add("testing");
 		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		this.teamsNeeded = maxteams;

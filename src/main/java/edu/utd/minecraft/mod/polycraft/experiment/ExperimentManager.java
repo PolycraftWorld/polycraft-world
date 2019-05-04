@@ -127,7 +127,7 @@ public class ExperimentManager {
 							continue expDefLoop;	//if we find a match that is not currently running, then continue
 					}
 					int nextID = this.getNextID();
-					int numChunks = 10;
+					int numChunks = 20;
 					multiplier = nextID;
 					System.out.println("Creating new Exp");
 					switch(expDef.getExpType()) {
@@ -135,21 +135,21 @@ public class ExperimentManager {
 							posOffset = 500;
 							Experiment1PlayerCTB newExp1Player = new Experiment1PlayerCTB(nextID, numChunks, 16*numChunks + 16 + posOffset, 
 									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 1, expDef.getPlayersPerTeam());
-							this.registerExperiment(nextID, newExp1Player);
+							this.registerExperiment(nextID, newExp1Player, expDef.getName());
 							newExp1Player.updateParams(expDef);
 							break;
 						case CTB_FLAT:
 							posOffset = 820;
 							ExperimentFlatCTB newExpFlat = new ExperimentFlatCTB(nextID, numChunks, 16*numChunks + 16 + posOffset, 
 									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
-							this.registerExperiment(nextID, newExpFlat);
+							this.registerExperiment(nextID, newExpFlat, expDef.getName());
 							newExpFlat.updateParams(expDef);
 							break;
 						case CTB_STOOP:
 							posOffset = 1140;
 							ExperimentCTB newExpCTB = new ExperimentCTB(nextID, numChunks, 16*numChunks + 16, 
 									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
-							this.registerExperiment(nextID, newExpCTB);
+							this.registerExperiment(nextID, newExpCTB, expDef.getName());
 							newExpCTB.updateParams(expDef);
 							break;
 						default:
@@ -452,7 +452,7 @@ public class ExperimentManager {
 	 * @param id the ID to add TODO: Should we hide this field and have the ID's be auto-incrementing??
 	 * @param ex the experiment to add 
 	 */
-	public static void registerExperiment(int id, Experiment ex)
+	public static void registerExperiment(int id, Experiment ex, String name)
 	{
 		if (experiments.containsKey(id))
 		{
@@ -462,7 +462,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
-			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData(ex));
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData(ex, name));
 			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
@@ -709,12 +709,12 @@ public class ExperimentManager {
 			this.parameters = params;
 		}
 		
-		public ExperimentListMetaData(Experiment type) {
+		public ExperimentListMetaData(Experiment type, String name) {
 			if(type instanceof ExperimentCTB) {
-				this.expName = "Experiment B: " + type.id;
+				this.expName = name + " " + type.id;
 				this.expType = "Stoop";
 			}else {
-				this.expName = "Experiment A: " + type.id;
+				this.expName = name + " " + type.id;
 				this.expType = "Flat"; //TODO: Declare these names as static within the class.
 			}
 			this.playersNeeded = type.getMaxPlayers();

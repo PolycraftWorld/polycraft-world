@@ -117,6 +117,9 @@ public class ExperimentCTB extends Experiment{
 	
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
 		super(id, size, xPos, zPos, world);
+		sizeX = 14;
+		sizeZ = 18;
+		createPrivateProperties();
 		this.teamsNeeded = maxteams;
 		this.teamSize = teamsize;
 		this.playersNeeded = teamsNeeded * teamSize;

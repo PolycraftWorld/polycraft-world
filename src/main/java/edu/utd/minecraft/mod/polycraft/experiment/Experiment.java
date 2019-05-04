@@ -66,6 +66,8 @@ public abstract class Experiment {
 
 	public static final BlockContainer POLYCRAFTING_TABLE = (BlockContainer) GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("1hA"));
 	public final int size; 	//total size of experiment area size chunks by size chunks
+	public int sizeX;
+	public int sizeZ;
 	public final int id;	//id of the experiment. Should be unique
 	public final int xPos;	//starting xPos of experiment area
 	public final int yPos;	//starting yPos of experiment area
@@ -89,6 +91,7 @@ public abstract class Experiment {
 	public int expDefID;	//used by Experiment manager
 	public boolean hasBeenGenerated = false;
 	private PrivateProperty privateProperty;
+	private String name;
 	
 	
 	public enum State{
@@ -125,7 +128,6 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = null;
-		createPrivateProperties();
 		
 	}
 	
@@ -150,7 +152,6 @@ public abstract class Experiment {
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = schematic;
 		expFeatures = new ArrayList<>();
-		createPrivateProperties();
 
 		//DUMMY Write-to-JSON example
 		expFeatures.add(new FeatureSchematic("stoop"));
@@ -920,24 +921,22 @@ public abstract class Experiment {
 		this.playersNeeded = teamsNeeded*teamSize;
 		//this.awaitingNumPlayers = playersNeeded;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
 
 	protected void updateParams(ExperimentDef expDef) {
 		this.expDefID = expDef.getID();
+		this.name = expDef.getName();
 		updateParams(expDef.getParams());
 	}
 	
 	
 
-	private void createPrivateProperties() {
+	protected void createPrivateProperties() {
 		if(!this.world.isRemote) {
-			int endX = 0, endZ = 0;
-			for(int x = xPos - 8; Math.abs(x) <= Math.abs(xPos + size*16) + 8; x += 16) {
-				for(int z = xPos - 8; Math.abs(z) <= Math.abs(zPos + size*16) + 8; z += 16) {
-					//don't feel like doing the math... 
-					endX = x;
-					endZ = z;
-				}
-			}
+			int endX = xPos + sizeX*16, endZ = zPos + sizeZ*16;
 			PrivateProperty pp =  new PrivateProperty(
 					false,
 					null,
