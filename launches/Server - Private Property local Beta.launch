@@ -9,6 +9,6 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="GradleStartServer"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Minecraft"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -DcheatRecipes=true&#13;&#10;-Dportal.rest.url=http://127.0.0.1:8000/rest"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -DcheatRecipes=true&#13;&#10;-Dportal.rest.url=http://polycraft-beta.cloudapp.net/rest -DisExperimentServer&#13;&#10;-Danalytics.enabled=true"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc}"/>
 </launchConfiguration>

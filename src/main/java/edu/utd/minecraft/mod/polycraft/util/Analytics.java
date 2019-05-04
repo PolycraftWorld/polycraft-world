@@ -228,7 +228,7 @@ public class Analytics {
 		return String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),
-				playerID == null ? "-1" : playerID.toString(),
+				player.getDisplayName(),
 				(int) player.posX, (int) player.posY, (int) player.posZ,
 				data.replace(DELIMETER_SEGMENT, " "));		
 	}
@@ -852,7 +852,7 @@ public class Analytics {
 	}
 
 	/**
-	 * 23-10 records AI scores with AI as player id and its score.
+	 * 23-1 addition records AI scores with AI as player id and its score.
 	 */
 	@SubscribeEvent
 	public synchronized static void onAIScoreEvent(final PlayerAIScoreEvent event) {
@@ -861,13 +861,24 @@ public class Analytics {
 	}
 	
 	/**
-	 * 23-11 records Team Scores every second
+	 * 23-1 addition records Team Scores every second
 	 */
 	@SubscribeEvent
 	public synchronized static void onTeamScoreEvent(final PlayerTeamScoreEvent event) {
 		log2(event.teamname, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_SCOREEVENT_DEBUG : FORMAT_ON_SCOREEVENT, DELIMETER_DATA, 1, event.id,event.score));
 		Write_to_log_AI(event.teamname,event.id,log3(event.teamname, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_SCOREEVENT_DEBUG : FORMAT_ON_SCOREEVENT, DELIMETER_DATA, 1, event.id,event.score))+System.getProperty("line.separator"));
 	}
+	
+	public static final String FORMAT_ON_BASESTATUSCHANGE_EVENT = "%2$d%1$s%3$s%1$s%4$s%1$s%5$s";
+	public static final String FORMAT_ON_BASESTATUSCHANGE_EVENT_DEBUG = "ID=%2$d%1$s Initial_state=%3$s%%1$s Final_state=%4$s%%1$s Entities_in_base=%5$s";
+	
+	/**
+	 * 23-10 logs when there is a state change in bases.
+	 */
+	public synchronized static void onBaseStatusChangeEvent(final BaseStatusChangeEvent event) {
+		//log(getPlayer(event.playerName2), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_BASESTATUSCHANGE_EVENT_DEBUG : FORMAT_ON_BASESTATUSCHANGE_EVENT, DELIMETER_DATA, 7, event.id,Enforcer.whitelist.get(event.playerName2.toLowerCase())));
+		Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_BASESTATUSCHANGE_EVENT_DEBUG : FORMAT_ON_BASESTATUSCHANGE_EVENT, DELIMETER_DATA, 10, event.initial_state,event.final_state,event.entities_in_base))+System.getProperty("line.separator"));
+		}
 	
 	/**
 	 * 18 records Tree Tap log
