@@ -32,6 +32,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.polycrafting.PolycraftingInvent
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
@@ -86,6 +88,7 @@ public abstract class Experiment {
 	protected int[][] spawnlocations = new int[4][3];
 	public int expDefID;	//used by Experiment manager
 	public boolean hasBeenGenerated = false;
+	private PrivateProperty privateProperty;
 	
 	
 	public enum State{
@@ -122,6 +125,7 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = null;
+		createPrivateProperties();
 		
 	}
 	
@@ -146,6 +150,7 @@ public abstract class Experiment {
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = schematic;
 		expFeatures = new ArrayList<>();
+		createPrivateProperties();
 
 		//DUMMY Write-to-JSON example
 		expFeatures.add(new FeatureSchematic("stoop"));
@@ -919,6 +924,35 @@ public abstract class Experiment {
 	protected void updateParams(ExperimentDef expDef) {
 		this.expDefID = expDef.getID();
 		updateParams(expDef.getParams());
+	}
+	
+	
+
+	private void createPrivateProperties() {
+		if(!this.world.isRemote) {
+			int endX = 0, endZ = 0;
+			for(int x = xPos - 8; Math.abs(x) <= Math.abs(xPos + size*16) + 8; x += 16) {
+				for(int z = xPos - 8; Math.abs(z) <= Math.abs(zPos + size*16) + 8; z += 16) {
+					//don't feel like doing the math... 
+					endX = x;
+					endZ = z;
+				}
+			}
+			PrivateProperty pp =  new PrivateProperty(
+					false,
+					null,
+					"Experiment",
+					"Good Luck!",
+					new Chunk(Math.min(xPos - 8, endX) >> 4, Math.min(zPos - 8, endZ) >> 4),
+					new Chunk(Math.max(xPos - 8, endX) >> 4, Math.max(zPos - 8, endZ) >> 4),
+					new int[] {0,3,4,5,6,7,32,44},
+					8);
+			
+			ServerEnforcer.addExpPrivateProperty(pp);	
+			this.privateProperty=pp;	
+			ServerEnforcer.INSTANCE.sendExpPPDataPackets();
+			System.out.println("x: " + (xPos >> 4) + "::" + (endX >> 4) + "|| z: " + (zPos >> 4) + "::" + (endZ >> 4));
+		}
 	}
 
 	protected abstract void updateParams(ExperimentParameters params);
