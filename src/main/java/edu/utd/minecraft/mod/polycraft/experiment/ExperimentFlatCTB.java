@@ -154,6 +154,7 @@ public class ExperimentFlatCTB extends Experiment{
 		chests.add(Vec3.createVectorHelper(xPos + 59 + x_offset, y, zPos + 97));
 		chests.add(Vec3.createVectorHelper(xPos + 26 + x_offset, y, zPos + 57));
 		chests.add(Vec3.createVectorHelper(xPos + 60 + x_offset, y, zPos + 57));
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 	}
 	
 	@Override

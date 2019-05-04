@@ -26,6 +26,8 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
@@ -180,7 +182,6 @@ public class ServerEnforcer extends Enforcer {
 		// message;
 
 	}
-	
 	@SubscribeEvent
 	public void onServerPacket(final ServerCustomPacketEvent event) {
 		try {
@@ -243,6 +244,8 @@ public class ServerEnforcer extends Enforcer {
 						break;
 					case Halftime: // decompress json array with halftime answers
 						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
+						//Experiment.inputAnswers(halftimeAnswers);
+						Experiment.halftimeAnswers.inputAnswers(halftimeAnswers);
 						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
 						String half_time_Answers = String.join(",", half_time_Answers1);
 						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
