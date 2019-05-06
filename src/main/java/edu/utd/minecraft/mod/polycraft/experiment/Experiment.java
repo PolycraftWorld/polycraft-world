@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -84,6 +85,7 @@ public abstract class Experiment {
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected ArrayList<String> queuedPlayers = new ArrayList<String>();
+	public LinkedList<Vec3> chests = new LinkedList<Vec3>();
 	protected int genTick = 0;
 	public static ExperimentHalftimeAnswers halftimeAnswers;
 	protected Schematic sch;
@@ -314,10 +316,10 @@ public abstract class Experiment {
 			
 			hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < ExperimentCTB.chests.size(); i++) {
-				int x = (int) ExperimentCTB.chests.get(i).xCoord;
-				int y = (int) ExperimentCTB.chests.get(i).yCoord;
-				int z = (int) ExperimentCTB.chests.get(i).zCoord;
+			for(int i = 0; i < chests.size(); i++) {
+				int x = (int) chests.get(i).xCoord;
+				int y = (int) chests.get(i).yCoord;
+				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.getTileEntity(x, y, z) != null) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -413,7 +415,7 @@ public abstract class Experiment {
 								spawnlocations[i][0] = x + this.xPos;
 								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								spawnlocations[i][2] = z + this.zPos;
-								ExperimentCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+								chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));	//add to chests list
 								i = spawnlocations.length; 	//exit for loop
@@ -461,10 +463,10 @@ public abstract class Experiment {
 			
 			hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < ExperimentFlatCTB.chests.size(); i++) {
-				int x = (int) ExperimentFlatCTB.chests.get(i).xCoord;
-				int y = (int) ExperimentFlatCTB.chests.get(i).yCoord;
-				int z = (int) ExperimentFlatCTB.chests.get(i).zCoord;
+			for(int i = 0; i < chests.size(); i++) {
+				int x = (int) chests.get(i).xCoord;
+				int y = (int) chests.get(i).yCoord;
+				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -561,7 +563,7 @@ public abstract class Experiment {
 								spawnlocations[i][0] = x + this.xPos;
 								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								spawnlocations[i][2] = z + this.zPos;
-								ExperimentFlatCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+								chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));
 								i = spawnlocations.length; 	//exit for loop
@@ -608,10 +610,10 @@ public abstract class Experiment {
 			
 			hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < Experiment1PlayerCTB.chests.size(); i++) {
-				int x = (int) Experiment1PlayerCTB.chests.get(i).xCoord;
-				int y = (int) Experiment1PlayerCTB.chests.get(i).yCoord;
-				int z = (int) Experiment1PlayerCTB.chests.get(i).zCoord;
+			for(int i = 0; i < chests.size(); i++) {
+				int x = (int) chests.get(i).xCoord;
+				int y = (int) chests.get(i).yCoord;
+				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -708,7 +710,7 @@ public abstract class Experiment {
 								spawnlocations[i][0] = x + this.xPos;
 								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								spawnlocations[i][2] = z + this.zPos;
-								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+								chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));
 								i = spawnlocations.length; 	//exit for loop
