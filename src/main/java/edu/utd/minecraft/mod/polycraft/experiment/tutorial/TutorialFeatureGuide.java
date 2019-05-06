@@ -46,10 +46,23 @@ public class TutorialFeatureGuide extends TutorialFeature{
 	}
 	
 	@Override
+	public void init() {
+		super.init();
+		x1 = pos.xCoord;
+		x2 = pos2.xCoord + Integer.signum((int)pos2.xCoord);	//increase value magnitude
+		y1 = pos.yCoord;
+		y2 = pos2.yCoord + 1;	//Shouldn't have to worry if y coord is negative
+		z1 = pos.zCoord;
+		z2 = pos2.zCoord + Integer.signum((int)pos2.zCoord);	//increase value magnitude
+		
+	}
+	
+	@Override
 	public void updateValues() {
 		this.pos2.xCoord = Integer.parseInt(xPos2Field.getText());
 		this.pos2.yCoord = Integer.parseInt(yPos2Field.getText());
 		this.pos2.zCoord = Integer.parseInt(zPos2Field.getText());
+		this.save();
 		super.updateValues();
 	}
 	
