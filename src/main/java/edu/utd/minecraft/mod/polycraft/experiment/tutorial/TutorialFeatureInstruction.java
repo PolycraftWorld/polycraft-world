@@ -1043,6 +1043,154 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		}
 	}
 	
+	@Override
+	public void renderScreen(Entity entity) {
+		if (entity.worldObj.isRemote) {
+			EntityPlayer player=null;
+			switch(type) {
+			case CRAFT_FKB:
+				super.render(entity);
+				TutorialRender.instance.renderTutorialDrawString("Craft a Freezing Knockback Bomb",155,5);
+				player=null;
+				if(entity instanceof EntityPlayer)	
+					player=(EntityPlayer)(entity);
+					
+					if(player!=null)
+					{
+						if(player.openContainer!=null) 
+						{
+							if(player.openContainer!=player.inventoryContainer)
+							{
+								TutorialRender.instance.renderTutorialCraftFKBB(entity);
+								//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							}
+							else
+							{
+								TutorialRender.instance.renderTutorialAccessPolyTable(entity);
+							}
+						}
+					}
+				break;
+			case INVENTORY1:
+				super.render(entity);
+				TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
+				if(entity instanceof EntityPlayer)	
+					player=(EntityPlayer)(entity);
+					
+					if(player!=null)
+					{
+						if(player.openContainer!=null) 
+						{
+							if(player.openContainer!=player.inventoryContainer)
+							{
+								TutorialRender.instance.renderTutorialManageInventory1(entity);
+								//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							}
+							else
+							{
+								TutorialRender.instance.renderTutorialAccessInventory1(entity);
+							}
+						}
+					}
+				break;
+			case INVENTORY2:
+				super.render(entity);
+				TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
+				//player=null;
+				if(entity instanceof EntityPlayer)	
+					player=(EntityPlayer)(entity);
+					
+					if(player!=null)
+					{
+						if(player.openContainer!=null) 
+						{
+							if(player.openContainer!=player.inventoryContainer)
+							{
+								TutorialRender.instance.renderTutorialManageInventory2(entity);
+							}
+							else
+							{
+								TutorialRender.instance.renderTutorialAccessInventory2(entity);
+							}
+						}
+					}
+				break;
+			case INVENTORY3:
+				super.render(entity);
+				TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
+				player=null;
+				if(entity instanceof EntityPlayer)	
+					player=(EntityPlayer)(entity);
+					
+					if(player!=null)
+					{
+						if(player.openContainer!=null) 
+						{
+							if(player.openContainer!=player.inventoryContainer)
+							{
+								TutorialRender.instance.renderTutorialManageInventory3(entity);
+								//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							}
+							else
+							{
+								TutorialRender.instance.renderTutorialAccessInventory3(entity);
+							}
+						}
+						
+					}
+				break;
+			case INVENTORY4:
+				super.render(entity);
+				TutorialRender.instance.renderTutorialDrawString("Take the contents of the chest",155,5);
+				player=null;
+				if(entity instanceof EntityPlayer)	
+					player=(EntityPlayer)(entity);
+					
+					if(player!=null)
+					{
+						if(player.openContainer!=null) 
+						{
+							if(player.openContainer!=player.inventoryContainer)
+							{
+								TutorialRender.instance.renderTutorialManageInventory4(entity);
+								//player.addChatMessage(new ChatComponentText("You have opened a Container"));
+							}
+							else
+							{
+								TutorialRender.instance.renderTutorialAccessInventory4(entity);
+							}
+						}
+					}
+				break;
+			case CRAFT_PICK:
+				super.render(entity);
+				TutorialRender.instance.renderTutorialDrawString("Craft an Iron Pickaxe",155,5);
+				player=null;
+				if(entity instanceof EntityPlayer)	
+					player=(EntityPlayer)(entity);
+					
+					if(player!=null)
+					{
+						if(player.openContainer!=null) 
+						{
+							if(player.openContainer!=player.inventoryContainer)
+							{
+								TutorialRender.instance.renderTutorialCraftingPick(entity);
+							}
+							else
+							{
+								TutorialRender.instance.renderTutorialAccessTable(entity);
+								//Gui to instruct player to click on the chest
+							}
+						}
+					}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void buildGuiParameters(GuiDevTool guiDevTool, int x_pos, int y_pos) {

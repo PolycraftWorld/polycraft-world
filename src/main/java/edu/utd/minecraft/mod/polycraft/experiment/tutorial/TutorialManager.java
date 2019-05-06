@@ -393,6 +393,20 @@ public class TutorialManager {
 			if(INSTANCE.experiments.containsKey(INSTANCE.clientCurrentExperiment))
 				INSTANCE.experiments.get(INSTANCE.clientCurrentExperiment).render(entity);
 	}
+	
+	public static void renderScreen(Entity entity) {
+//		if (entity instanceof EntityPlayer && entity.worldObj.isRemote) {
+//			EntityPlayer player = (EntityPlayer) entity;
+//			for(ExperimentTutorial ex: experiments.values()){
+//				if(ex.isPlayerInExperiment(player.getDisplayName())){
+//					ex.render(entity);
+//				}
+//			}
+//		}
+		if(!INSTANCE.experiments.isEmpty())
+			if(INSTANCE.experiments.containsKey(INSTANCE.clientCurrentExperiment))
+				INSTANCE.experiments.get(INSTANCE.clientCurrentExperiment).renderScreen(entity);
+	}
 
 
 	public static int isPlayerinExperiment(String playerName) {

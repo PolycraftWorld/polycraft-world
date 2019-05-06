@@ -347,6 +347,14 @@ public class ExperimentTutorial{
 		}
 	}
 	
+	public void renderScreen(Entity entity){
+		if(activeFeatures == null)
+			return;
+		for(TutorialFeature feature: activeFeatures){
+			feature.renderScreen(entity);
+		}
+	}
+	
 	public void updateFeatures(ArrayList<TutorialFeature> features) {
 		this.features = features;
 	}

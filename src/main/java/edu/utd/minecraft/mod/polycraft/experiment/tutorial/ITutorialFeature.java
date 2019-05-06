@@ -27,5 +27,8 @@ public interface ITutorialFeature{
 	
 	//render function
 	public abstract void render(Entity entity);
+	
+	//render on Screen function
+	public abstract void renderScreen(Entity entity);
 
 }

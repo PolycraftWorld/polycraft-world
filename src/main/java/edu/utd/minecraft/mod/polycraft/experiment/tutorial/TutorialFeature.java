@@ -224,6 +224,13 @@ public class TutorialFeature implements ITutorialFeature{
 		}
 		
 	}
+	
+	@Override
+	public void renderScreen(Entity entity) {
+		if (entity.worldObj.isRemote) {
+			
+		}
+	}
 
 	public TutorialFeatureType getFeatureType() {
 		return featureType;

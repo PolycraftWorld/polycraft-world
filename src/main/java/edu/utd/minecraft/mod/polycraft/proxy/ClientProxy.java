@@ -511,6 +511,7 @@ public class ClientProxy extends CommonProxy {
         if(entity!=null)
         {
         	//TutorialRender.renderLoadingScreen(entity);
+        	 TutorialManager.INSTANCE.renderScreen(entity);
         }
     }
 	
