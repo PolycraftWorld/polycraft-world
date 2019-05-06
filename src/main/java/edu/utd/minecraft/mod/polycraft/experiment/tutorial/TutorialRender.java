@@ -210,11 +210,15 @@ public class TutorialRender {
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/WalkingGIF/frame_19_delay-0.1s.png")),
 				
 };
+
 	 static ResourceLocation[] texturesWASD = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/WASD_0.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/WASD_1.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/WASD_2.png")),
 				};
+
 	 static ResourceLocation[] texturesSpace = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/space.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/spaceGreen.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/spaceGrey.png")),
 				};
 	
 	 static ResourceLocation[] texturesJump = {	new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/JumpingGIF/frame_00.png")),
@@ -804,6 +808,7 @@ public class TutorialRender {
 	 
 	 static ResourceLocation[] texturesMouseRightClick = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/mouse.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/mouseRightClick.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/mouseGrey.png")),
 				};
 	 
 	 static ResourceLocation[] texturesMouseLeftClick = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/mouse.png")),
@@ -821,10 +826,12 @@ public class TutorialRender {
 	
 	 static ResourceLocation[] texturesCtrl = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/control.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/controlGreen.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/controlGrey.png")),
 				};
 	 
 	 static ResourceLocation[] texturesEsc = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/escape.png")),
 				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/escapeGreen.png")),
+				new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/escapeGrey.png")),
 				};
 	 
 	 static ResourceLocation[] textures1Key = {new ResourceLocation(PolycraftMod.getAssetName("textures/gui/TutorialGUI/1.png")),
@@ -1100,7 +1107,7 @@ public class TutorialRender {
 		 
 		float scale3 =.20F;
 		i=((player.ticksExisted)%60);
-		i=0;
+		i=2;
 		push(scale3);
 		mc.getTextureManager().bindTexture(texturesSpace[i]);
 		mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
@@ -1110,7 +1117,7 @@ public class TutorialRender {
 		 
 		float scale4 =.20F;
 		i=((player.ticksExisted)%60);
-		i=0;
+		i=2;
 		push(scale4);
 		mc.getTextureManager().bindTexture(texturesCtrl[i]);
 		mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1120,7 +1127,7 @@ public class TutorialRender {
 		
 		float scale5 =.20F;
 		i=((player.ticksExisted)%60);
-		i=0;
+		i=2;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
 		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1188,7 +1195,7 @@ public class TutorialRender {
 		 
 		float scale4 =.20F;
 		i=((player.ticksExisted)%56);
-		i=0;
+		i=2;
 		push(scale4);
 		mc.getTextureManager().bindTexture(texturesCtrl[i]);
 		mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1198,7 +1205,7 @@ public class TutorialRender {
 		
 		float scale5 =.20F;
 		i=((player.ticksExisted)%56);
-		i=0;
+		i=2;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
 		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1208,7 +1215,7 @@ public class TutorialRender {
 		
 		float scale6 =.15F;
 		i=((player.ticksExisted)%56);
-		i=0;
+		i=2;
 		push(scale6);
 		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
 		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
