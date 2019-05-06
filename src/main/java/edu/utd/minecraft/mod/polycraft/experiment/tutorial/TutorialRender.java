@@ -1274,7 +1274,7 @@ public class TutorialRender {
 			 
 			float scale4 =.20F;
 			i=((player.ticksExisted)%50);
-			i=0;
+			i=2;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
 			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1284,7 +1284,7 @@ public class TutorialRender {
 			
 			float scale5 =.20F;
 			i=((player.ticksExisted)%50);
-			i=0;
+			i=2;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
 			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1338,7 +1338,7 @@ public class TutorialRender {
 			 
 			float scale3 =.20F;
 			i=((player.ticksExisted)%74);
-			i=0;
+			i=2;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
 			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
@@ -1361,7 +1361,7 @@ public class TutorialRender {
 			
 			float scale5 =.20F;
 			i=((player.ticksExisted)%74);
-			i=0;
+			i=2;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
 			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1440,7 +1440,7 @@ public class TutorialRender {
 		
 		float scale5 =.20F;
 		i=((player.ticksExisted)%58);
-		i=0;
+		i=2;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
 		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1509,7 +1509,7 @@ public class TutorialRender {
 		 
 		float scale4 =.20F;
 		i=((player.ticksExisted)%64); 
-		i=0;
+		i=2;
 		push(scale4);
 		mc.getTextureManager().bindTexture(texturesCtrl[i]);
 		mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1519,7 +1519,7 @@ public class TutorialRender {
 		
 		float scale5 =.20F;
 		i=((player.ticksExisted)%64);
-		i=0;
+		i=2;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
 		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1564,7 +1564,7 @@ public class TutorialRender {
 			
 			float scale2 =.20F;
 			i=((player.ticksExisted)%36);
-			i=0;
+			i=2;
 			push(scale2);
 			mc.getTextureManager().bindTexture(texturesWASD[i]);
 			mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
@@ -1574,7 +1574,7 @@ public class TutorialRender {
 			 
 			float scale3 =.20F;
 			i=((player.ticksExisted)%36);
-			i=0;
+			i=2;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
 			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
@@ -1584,7 +1584,7 @@ public class TutorialRender {
 			 
 			float scale4 =.20F;
 			i=((player.ticksExisted)%36);  
-			i=0;
+			i=2;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
 			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1594,7 +1594,7 @@ public class TutorialRender {
 			
 			float scale5 =.20F;
 			i=((player.ticksExisted)%36);
-			i=0;
+			i=2;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
 			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1633,37 +1633,37 @@ public class TutorialRender {
 			i=0;
 			push(scale);
 			mc.getTextureManager().bindTexture(texturesBackground[i]);
-			mc.ingameGUI.drawTexturedModalRect(-10, -158, 0, 0,256, 256);
+			mc.ingameGUI.drawTexturedModalRect(-10, -133, 0, 0,256, 256);
 			pop();
 			
 			
 			
 			float scale2 =.20F;
 			i=((player.ticksExisted)%99);
-			i=0;
+			i=2;
 			push(scale2);
 			mc.getTextureManager().bindTexture(texturesWASD[i]);
-			mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
+			mc.ingameGUI.drawTexturedModalRect(300, 75, 0, 0,250, 250);
 			pop();
 			 
 			 
 			 
 			float scale3 =.20F;
 			i=((player.ticksExisted)%99);
-			i=0;
+			i=2;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
-			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
+			mc.ingameGUI.drawTexturedModalRect(458, 181, 0, 0,255, 250);
 			pop();
 			 
 			 
 			 
 			float scale4 =.20F;
 			i=((player.ticksExisted)%99);  
-			i=0;
+			i=2;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
-			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
+			mc.ingameGUI.drawTexturedModalRect(208, 181, 0, 0, 200, 250);
 			pop();
 			
 			 
@@ -1676,7 +1676,7 @@ public class TutorialRender {
 				 i=0;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
-			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
+			mc.ingameGUI.drawTexturedModalRect(192, 0, 0, 0, 255, 250);
 			pop();
 			
 			
@@ -1689,7 +1689,7 @@ public class TutorialRender {
 				 i=0;
 			push(scale6);
 			mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
-			mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+			mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 			pop();		 
 		
 		 
@@ -1699,7 +1699,7 @@ public class TutorialRender {
 		 i/=3;
 		 push(scale7);
 		 mc.getTextureManager().bindTexture(texturesManageInventory1[i]);
-		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 90, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -1719,7 +1719,7 @@ public class TutorialRender {
 			
 			float scale2 =.20F;
 			i=((player.ticksExisted)%123);
-			i=0;
+			i=2;
 			push(scale2);
 			mc.getTextureManager().bindTexture(texturesWASD[i]);
 			mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
@@ -1729,7 +1729,7 @@ public class TutorialRender {
 			 
 			float scale3 =.20F;
 			i=((player.ticksExisted)%123);
-			i=0;
+			i=2;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
 			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
@@ -1739,7 +1739,7 @@ public class TutorialRender {
 			 
 			float scale4 =.20F;
 			i=((player.ticksExisted)%123);  
-			i=0;
+			i=2;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
 			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1749,10 +1749,7 @@ public class TutorialRender {
 			
 			float scale5 =.20F;
 			i=((player.ticksExisted)%123);
-			if(i>85 && i<90)
-				 i=1;
-			 else
-				 i=0;
+			i=2;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
 			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
@@ -1798,7 +1795,7 @@ public class TutorialRender {
 			
 			float scale2 =.20F;
 			i=((player.ticksExisted)%48);
-			i=0;
+			i=2;
 			push(scale2);
 			mc.getTextureManager().bindTexture(texturesWASD[i]);
 			mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
@@ -1808,7 +1805,7 @@ public class TutorialRender {
 			 
 			float scale3 =.20F;
 			i=((player.ticksExisted)%48);
-			i=0;
+			i=2;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
 			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
@@ -1818,7 +1815,7 @@ public class TutorialRender {
 			 
 			float scale4 =.20F;
 			i=((player.ticksExisted)%48);  
-			i=0;
+			i=2;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
 			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
@@ -1870,7 +1867,7 @@ public class TutorialRender {
 			i=0;
 			push(scale);
 			mc.getTextureManager().bindTexture(texturesBackground[i]);
-			mc.ingameGUI.drawTexturedModalRect(-10, -158, 0, 0,256, 256);
+			mc.ingameGUI.drawTexturedModalRect(-10, -133, 0, 0,256, 256);
 			pop();
 			
 			
@@ -1880,7 +1877,7 @@ public class TutorialRender {
 			i=0;
 			push(scale2);
 			mc.getTextureManager().bindTexture(texturesWASD[i]);
-			mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
+			mc.ingameGUI.drawTexturedModalRect(300, 75, 0, 0,250, 250);
 			pop();
 			 
 			 
@@ -1890,7 +1887,7 @@ public class TutorialRender {
 			i=0;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
-			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
+			mc.ingameGUI.drawTexturedModalRect(458, 181, 0, 0,255, 250);
 			pop();
 			 
 			 
@@ -1900,7 +1897,7 @@ public class TutorialRender {
 			i=0;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
-			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
+			mc.ingameGUI.drawTexturedModalRect(208, 181, 0, 0, 200, 250);
 			pop();
 			
 			 
@@ -1913,7 +1910,7 @@ public class TutorialRender {
 				 i=0;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
-			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
+			mc.ingameGUI.drawTexturedModalRect(192, 0, 0, 0, 255, 250);
 			pop();
 			
 			
@@ -1926,7 +1923,7 @@ public class TutorialRender {
 				 i=0;
 			push(scale6);
 			mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
-			mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+			mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 			pop();		 
 		 
 		 
@@ -1936,7 +1933,7 @@ public class TutorialRender {
 		 i/=2;
 		 push(scale7);
 		 mc.getTextureManager().bindTexture(texturesManageInventory2[i]);
-		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 90, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -2028,37 +2025,37 @@ public class TutorialRender {
 			i=0;
 			push(scale);
 			mc.getTextureManager().bindTexture(texturesBackground[i]);
-			mc.ingameGUI.drawTexturedModalRect(-10, -158, 0, 0,256, 256);
+			mc.ingameGUI.drawTexturedModalRect(-10, -133, 0, 0,256, 256);
 			pop();
 			
 			
 			
 			float scale2 =.20F;
 			i=((player.ticksExisted)%135);
-			i=0;
+			i=2;
 			push(scale2);
 			mc.getTextureManager().bindTexture(texturesWASD[i]);
-			mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
+			mc.ingameGUI.drawTexturedModalRect(300, 75, 0, 0,250, 250);
 			pop();
 			 
 			 
 			 
 			float scale3 =.20F;
 			i=((player.ticksExisted)%135);
-			i=0;
+			i=2;
 			push(scale3);
 			mc.getTextureManager().bindTexture(texturesSpace[i]);
-			mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
+			mc.ingameGUI.drawTexturedModalRect(458, 181, 0, 0,255, 250);
 			pop();
 			 
 			 
 			 
 			float scale4 =.20F;
 			i=((player.ticksExisted)%135);  
-			i=0;
+			i=2;
 			push(scale4);
 			mc.getTextureManager().bindTexture(texturesCtrl[i]);
-			mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
+			mc.ingameGUI.drawTexturedModalRect(208, 181, 0, 0, 200, 250);
 			pop();
 			
 			 
@@ -2071,7 +2068,7 @@ public class TutorialRender {
 				 i=0;
 			push(scale5);
 			mc.getTextureManager().bindTexture(texturesEsc[i]);
-			mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
+			mc.ingameGUI.drawTexturedModalRect(192, 0, 0, 0, 255, 250);
 			pop();
 			
 			
@@ -2084,7 +2081,7 @@ public class TutorialRender {
 				 i=0;
 			push(scale6);
 			mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
-			mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+			mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 			pop();		 
 		 
 		 
@@ -2094,7 +2091,7 @@ public class TutorialRender {
 		 i/=3;
 		 push(scale7);
 		 mc.getTextureManager().bindTexture(texturesCraftPick[i]);
-		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 90, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -2232,7 +2229,10 @@ public class TutorialRender {
 		
 		float scale6 =.15F;
 		i=((player.ticksExisted)%46);
-		i=0;
+		if(i>40 && i<43)
+			 i=1;
+		else
+			 i=0;
 		push(scale6);
 		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
 		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
@@ -2258,7 +2258,7 @@ public class TutorialRender {
 		i=0;
 		push(scale);
 		mc.getTextureManager().bindTexture(texturesBackground[i]);
-		mc.ingameGUI.drawTexturedModalRect(-10, -158, 0, 0,256, 256);
+		mc.ingameGUI.drawTexturedModalRect(-10, -133, 0, 0,256, 256);
 		pop();
 		
 		
@@ -2268,7 +2268,7 @@ public class TutorialRender {
 		i=0;
 		push(scale2);
 		mc.getTextureManager().bindTexture(texturesWASD[i]);
-		mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
+		mc.ingameGUI.drawTexturedModalRect(300, 75, 0, 0,250, 250);
 		pop();
 		 
 		 
@@ -2278,7 +2278,7 @@ public class TutorialRender {
 		i=0;
 		push(scale3);
 		mc.getTextureManager().bindTexture(texturesSpace[i]);
-		mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
+		mc.ingameGUI.drawTexturedModalRect(458, 181, 0, 0,255, 250);
 		pop();
 		 
 		 
@@ -2288,27 +2288,33 @@ public class TutorialRender {
 		i=0;
 		push(scale4);
 		mc.getTextureManager().bindTexture(texturesCtrl[i]);
-		mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
+		mc.ingameGUI.drawTexturedModalRect(208, 181, 0, 0, 200, 250);
 		pop();
 		
 		 
 		
 		float scale5 =.20F;
 		i=((player.ticksExisted)%68);
-		i=0;
+		if(i>55 && i<58)
+			 i=1;
+		else
+			 i=0;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
-		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(192, 0, 0, 0, 255, 250);
 		pop();
 		
 		
 		
 		float scale6 =.15F;
 		i=((player.ticksExisted)%68);
-		i=0;
+		if((i>25 && i<28)||(i>38 && i<41))
+			 i=1;
+		else
+			 i=0;
 		push(scale6);
-		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
-		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
+		mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 		pop();		 
 		
 		
@@ -2318,7 +2324,7 @@ public class TutorialRender {
 		 i/=2;
 		 push(scale7);
 		 mc.getTextureManager().bindTexture(texturesManageInventory3[i]);
-		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 90, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -2486,7 +2492,7 @@ public class TutorialRender {
 		i=0;
 		push(scale);
 		mc.getTextureManager().bindTexture(texturesBackground[i]);
-		mc.ingameGUI.drawTexturedModalRect(-10, -158, 0, 0,256, 256);
+		mc.ingameGUI.drawTexturedModalRect(-10, -133, 0, 0,256, 256);
 		pop();
 		
 		
@@ -2496,7 +2502,7 @@ public class TutorialRender {
 		i=0;
 		push(scale2);
 		mc.getTextureManager().bindTexture(texturesWASD[i]);
-		mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
+		mc.ingameGUI.drawTexturedModalRect(300, 75, 0, 0,250, 250);
 		pop();
 		 
 		 
@@ -2506,7 +2512,7 @@ public class TutorialRender {
 		i=0;
 		push(scale3);
 		mc.getTextureManager().bindTexture(texturesSpace[i]);
-		mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
+		mc.ingameGUI.drawTexturedModalRect(458, 181, 0, 0,255, 250);
 		pop();
 		 
 		 
@@ -2516,7 +2522,7 @@ public class TutorialRender {
 		i=0;
 		push(scale4);
 		mc.getTextureManager().bindTexture(texturesCtrl[i]);
-		mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
+		mc.ingameGUI.drawTexturedModalRect(208, 181, 0, 0, 200, 250);
 		pop();
 		
 		 
@@ -2529,7 +2535,7 @@ public class TutorialRender {
 			 i=0;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
-		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(192, 0, 0, 0, 255, 250);
 		pop();
 		
 		
@@ -2542,7 +2548,7 @@ public class TutorialRender {
 			 i=0;
 		push(scale6);
 		mc.getTextureManager().bindTexture(texturesMouseLeftClick[i]);
-		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 		pop();		 
 		
 		
@@ -2552,7 +2558,7 @@ public class TutorialRender {
 		 i/=2;
 		 push(scale7);
 		 mc.getTextureManager().bindTexture(texturesManageInventory4[i]);
-		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 90, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -2641,7 +2647,7 @@ public class TutorialRender {
 		i=0;
 		push(scale);
 		mc.getTextureManager().bindTexture(texturesBackground[i]);
-		mc.ingameGUI.drawTexturedModalRect(-10, -158, 0, 0,256, 256);
+		mc.ingameGUI.drawTexturedModalRect(-10, -133, 0, 0,256, 256);
 		pop();
 		
 		
@@ -2651,7 +2657,7 @@ public class TutorialRender {
 		i=0;
 		push(scale2);
 		mc.getTextureManager().bindTexture(texturesWASD[i]);
-		mc.ingameGUI.drawTexturedModalRect(300, 0, 0, 0,250, 250);
+		mc.ingameGUI.drawTexturedModalRect(300, 75, 0, 0,250, 250);
 		pop();
 		 
 		 
@@ -2661,7 +2667,7 @@ public class TutorialRender {
 		i=0;
 		push(scale3);
 		mc.getTextureManager().bindTexture(texturesSpace[i]);
-		mc.ingameGUI.drawTexturedModalRect(458, 106, 0, 0,255, 250);
+		mc.ingameGUI.drawTexturedModalRect(458, 181, 0, 0,255, 250);
 		pop();
 		 
 		 
@@ -2671,7 +2677,7 @@ public class TutorialRender {
 		i=0;
 		push(scale4);
 		mc.getTextureManager().bindTexture(texturesCtrl[i]);
-		mc.ingameGUI.drawTexturedModalRect(208, 106, 0, 0, 200, 250);
+		mc.ingameGUI.drawTexturedModalRect(208, 181, 0, 0, 200, 250);
 		pop();
 		
 		 
@@ -2683,7 +2689,7 @@ public class TutorialRender {
 		else i=0;
 		push(scale5);
 		mc.getTextureManager().bindTexture(texturesEsc[i]);
-		mc.ingameGUI.drawTexturedModalRect(192, -75, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(192, 0, 0, 0, 255, 250);
 		pop();
 		
 		
@@ -2695,7 +2701,7 @@ public class TutorialRender {
 		{
 		push(scale7);
 		mc.getTextureManager().bindTexture(texturesMouseLeftClick[1]);
-		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 		pop();
 		}
 		
@@ -2703,7 +2709,7 @@ public class TutorialRender {
 		{
 		push(scale7);
 		mc.getTextureManager().bindTexture(texturesMouseLeftClick[2]);
-		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 		pop();
 		}
 		
@@ -2711,7 +2717,7 @@ public class TutorialRender {
 		{
 		push(scale7);
 		mc.getTextureManager().bindTexture(texturesMouseLeftClick[0]);
-		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
+		mc.ingameGUI.drawTexturedModalRect(715, 100, 0, 0, 255, 250);
 		pop();
 		}
 		
@@ -2722,7 +2728,7 @@ public class TutorialRender {
 		 i/=2;
 		 push(scale8);
 		 mc.getTextureManager().bindTexture(texturesCraftFKBB[i]);
-		 mc.ingameGUI.drawTexturedModalRect(15, 15, 0, 0, 255, 250);
+		 mc.ingameGUI.drawTexturedModalRect(15, 90, 0, 0, 255, 250);
 		 pop();	
 		 
 		 mc.entityRenderer.updateRenderer();
@@ -2782,7 +2788,10 @@ public class TutorialRender {
 		
 		float scale6 =.15F;
 		i=((player.ticksExisted)%60);
-		i=0;
+		if(i>37 && i<40)
+			 i=1;
+		else
+			 i=0;
 		push(scale6);
 		mc.getTextureManager().bindTexture(texturesMouseRightClick[i]);
 		mc.ingameGUI.drawTexturedModalRect(715, 0, 0, 0, 255, 250);
