@@ -48,12 +48,12 @@ public class TutorialFeatureGuide extends TutorialFeature{
 	@Override
 	public void init() {
 		super.init();
-		x1 = pos.xCoord;
-		x2 = pos2.xCoord + Integer.signum((int)pos2.xCoord);	//increase value magnitude
-		y1 = pos.yCoord;
-		y2 = pos2.yCoord + 1;	//Shouldn't have to worry if y coord is negative
-		z1 = pos.zCoord;
-		z2 = pos2.zCoord + Integer.signum((int)pos2.zCoord);	//increase value magnitude
+		x1 = Math.min(pos.xCoord, pos2.xCoord);
+		x2 = Math.max(pos.xCoord + Integer.signum((int)pos.xCoord), pos2.xCoord + Integer.signum((int)pos2.xCoord));	//increase value magnitude
+		y1 = Math.min(pos.yCoord, pos2.yCoord);
+		y2 = Math.max(pos.yCoord, pos2.yCoord) + 1;	//Shouldn't have to worry if y coord is negative
+		z1 = Math.min(pos.zCoord, pos2.zCoord);
+		z2 = Math.max(pos.zCoord + Integer.signum((int)pos.zCoord), pos2.zCoord + Integer.signum((int)pos2.zCoord));	//increase value magnitude
 		
 	}
 	
