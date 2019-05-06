@@ -428,12 +428,12 @@ public class ExperimentTutorial{
 					else if(curblock == 759) {
 						count++;
 						continue; //these are Gas Lamps - we don't care for these.
-					}else if(curblock == 859) { //Polycrafting Tables (experiments!)
-						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
-						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
-						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
-						count++;
+//					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
+//						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
+//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
+//						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
+//						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
+//						count++;
 					}else {
 						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
 						count++;
