@@ -957,6 +957,18 @@ public class TutorialRender {
 		 
 		 mc.entityRenderer.updateRenderer();
 	 }
+	 
+	public void renderLook(Entity player, double ang,double dist)
+	{
+		 float scale =(float) (.20F);
+	     push(scale);
+	     GL11.glTranslatef(1100, 500, 0);
+	     GL11.glRotated(ang, 0, 0, 1);
+	     GL11.glScaled(1/dist, 1/dist, 1/dist);
+	     mc.getTextureManager().bindTexture(texturesArrow[1]);
+	     mc.ingameGUI.drawTexturedModalRect(0, 0, 0, 0, 255, 260);
+	     pop();
+	}
 
 	public boolean renderTutorialTurnLeft(Entity player)
 	 {

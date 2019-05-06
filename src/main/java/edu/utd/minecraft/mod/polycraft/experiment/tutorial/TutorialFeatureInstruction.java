@@ -960,68 +960,33 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case HOTBAR:
 			break;
 		case LOOK:
-//			super.render(entity);
-//			player=null;
-//			if(entity instanceof EntityPlayer)	
-//				player=(EntityPlayer)(entity);
-//			boolean test=false;
-//	        Vec3 vec3 = player.getPosition(1.0F);
-//	        Vec3 vec32 = player.getLook(1.0F);
-//	        //player.addChatMessage(new ChatComponentText("Anglex: "+vec32.xCoord+" Anglez: "+vec32.zCoord));
-//	        
-//	        
-//	        //Vec3 vec32 = vec3.addVector(vec31.xCoord , vec31.yCoord , vec31.zCoord );
-//	        
-//	        
-//	        Vec3 vec01=null;
-//	        vec01 = vec01.createVectorHelper(pos1.xCoord, pos1.yCoord, pos1.zCoord);
-//
-//			Vec3 vec02 = vec3.addVector(-vec01.xCoord , -vec01.yCoord , -vec01.zCoord);
-//			
-//			player.addChatMessage(new ChatComponentText("Anglex: "+vec02.xCoord+" Anglez: "+vec02.zCoord));
-//			
-//			 if(vec32.zCoord<0)
-//		     {
-//		       // test=true;
-//		     }
-//			 
-//			
-//			vec02.yCoord=0;
-//			vec32.yCoord=0;
-//			
-//			vec02=vec02.normalize();
-//			vec32=vec32.normalize();
-//			
-//			
-//			double u1=vec02.lengthVector();
-//			double u2=vec32.lengthVector();
-//			
-//			double dot=vec02.dotProduct(vec32);
-//			
-//			double ang = Math.acos(dot/(u1*u2));
-//			
-//			
-//			if(!test)
-//			{
-//				ang=-ang;
-//			}
-//			
-//			//player.addChatMessage(new ChatComponentText("Angle: "+ang));
-//			TutorialRender.instance.renderTutorialLook(player, ang);
-//			
-//			
-//			
-//			
-////		    @SideOnly(Side.CLIENT)
-////		    public MovingObjectPosition rayTrace(double p_70614_1_, float p_70614_3_)
-////		    {
-////		        Vec3 vec3 = this.getPosition(p_70614_3_);
-////		        Vec3 vec31 = this.getLook(p_70614_3_);
-////		        Vec3 vec32 = vec3.addVector(vec31.xCoord * p_70614_1_, vec31.yCoord * p_70614_1_, vec31.zCoord * p_70614_1_);
-////		        return this.worldObj.func_147447_a(vec3, vec32, false, false, true);
-////		    }
+			super.render(entity);
+			player=null;
+			if(entity instanceof EntityPlayer)	
+				player=(EntityPlayer)(entity);
+	        Vec3 vec3 = player.getPosition(1.0F);
+	        Vec3 vec32 = player.getLook(1.0F);
+	        //player.addChatMessage(new ChatComponentText("Anglex: "+vec32.xCoord+" Anglez: "+vec32.zCoord));
+	        
+	        
+	        //Vec3 vec32 = vec3.addVector(vec31.xCoord , vec31.yCoord , vec31.zCoord );
+	        Vec3 ref=null;
+	        ref = ref.createVectorHelper(1, 0, 0);
+	        
+	        Vec3 vec01=null;
+	        vec01 = vec01.createVectorHelper(pos1.xCoord, pos1.yCoord, pos1.zCoord);
+
+			Vec3 vec02 = vec3.addVector(-(vec01.xCoord+.5) , -vec01.yCoord , -(vec01.zCoord+.5));
+			
+			double dist=vec02.lengthVector();
+
+			double ang02 =-Math.atan2(vec02.zCoord, vec02.xCoord);
+			double ang32 = -Math.atan2(vec32.zCoord, vec32.xCoord);
+			double ang=ang32-ang02;
+			TutorialRender.instance.renderLook(player, ang*180/Math.PI+90, dist);
+			
 			break;
-					case CANNON_TARGET:
+		case CANNON_TARGET:
 			super.render(entity);
 			break;
 		case CANNON1:
