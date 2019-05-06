@@ -682,7 +682,7 @@ public class ServerEnforcer extends Enforcer {
 				}
 			}
 			catch(Exception e){
-				//TODO: something?
+				sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
 			}
 		}
 	}
@@ -1118,6 +1118,24 @@ public class ServerEnforcer extends Enforcer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "Error";
+		}
+	}
+	
+	public int skillLevelGet(String minecraftUserName) {
+		try {
+			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObj = (JsonObject) parser.parse(response);
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!jsonObj.get("skill_level").getAsString().matches("-?\\d+")) {
+				return -1;	//error getting skill level
+			}else {
+				return jsonObj.get("skill_level").getAsInt();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
 		}
 	}
 	

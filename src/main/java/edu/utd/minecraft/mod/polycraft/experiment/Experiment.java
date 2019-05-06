@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -81,6 +83,7 @@ public abstract class Experiment {
 	protected int winner=0;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
+	protected ArrayList<String> queuedPlayers = new ArrayList<String>();
 	protected int genTick = 0;
 	public static ExperimentHalftimeAnswers halftimeAnswers;
 	protected Schematic sch;
@@ -220,6 +223,7 @@ public abstract class Experiment {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
 				if(team.getPlayers().remove(player.getDisplayName())) {
+					this.queuedPlayers.remove(player.getDisplayName());	//remove from queued players as well in case the experiment hasn't started yet
 					awaitingNumPlayers++;
 					return true;
 				}
@@ -241,6 +245,7 @@ public abstract class Experiment {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
 				if(team.getPlayers().remove(player)) {
+					this.queuedPlayers.remove(player);	//remove from queued players as well in case the experiment hasn't started yet
 					awaitingNumPlayers++;
 					return true;
 				}
@@ -259,33 +264,23 @@ public abstract class Experiment {
 	 * @return False if player is already in the list or could otherwise not be added; True if the player was added.
 	 */
 	public boolean addPlayer(EntityPlayerMP player){
-		int playerCount = 0;
-		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getPlayers().contains(player.getDisplayName())) { //check to see if the player's name 
-				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
-				return false;
-			}
-			playerCount += team.getSize();
-		}
-		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getSize() < teamSize) {
-				//team.getPlayers()
-				team.getPlayers().add(player.getDisplayName());//add player's name to the team
-				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
-
-				PlayerRegisterEvent event = new PlayerRegisterEvent(id,(EntityPlayer)player);
-				Analytics.onPlayerRegisterEvent(event);
-				
-				PlayerTeamEvent event1 = new PlayerTeamEvent(id,team.getName(),(EntityPlayer)player);
-				Analytics.onPlayerTeamEvent(event1);
-				//TODO: Inform the player which team they're on over here instead of a chat
-				//Pass this info to the ExperimentListMetaData as its sent to the player
-				playerCount++;
-				awaitingNumPlayers--;
-				if(playerCount == teamSize*teamsNeeded){
-					start();
-				}
-				return true;
+		int playerCount = queuedPlayers.size();
+		if(queuedPlayers.contains(player.getDisplayName())) { //check to see if the player's name 
+			player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
+		}else if(playerCount < teamSize*teamsNeeded) {
+			queuedPlayers.add(player.getDisplayName());
+			player.addChatMessage(new ChatComponentText("You have been added to the experiment: " + this.name));
+			//analytics for player joining experiment
+			PlayerRegisterEvent event = new PlayerRegisterEvent(id,(EntityPlayer)player);
+			Analytics.onPlayerRegisterEvent(event);
+			
+			//TODO: Inform the player which team they're on over here instead of a chat
+			//Pass this info to the ExperimentListMetaData as its sent to the player
+			playerCount++;
+			awaitingNumPlayers--;
+			//now check if we have enough players to begin
+			if(playerCount == teamSize*teamsNeeded){
+				start();
 			}
 		}
 		return false;
@@ -817,6 +812,7 @@ public abstract class Experiment {
 	 * override using super.start() 
 	 */
 	public void start(){
+		addPlayersToTeams();
 		ExperimentManager.metadata.get(this.id-1).deactivate(); //prevents this experiment from showing up on the list.
 		ExperimentManager.sendExperimentUpdates();
 		//todo: Override this 
@@ -870,6 +866,90 @@ public abstract class Experiment {
 		}
 		return false;
 	}
+	
+	private void addPlayersToTeams() {
+		ArrayList<Double> scores = new ArrayList<>();
+		for(String playerName: queuedPlayers) {
+			scores.add((double) ServerEnforcer.INSTANCE.skillLevelGet(playerName));
+		}
+		ArrayList<String> split = split_group_by_scores(scores, false);
+		
+		for(int index = 0; index < split.size(); index++) {
+			if(split.get(index).equals("A")) {
+				scoreboard.getTeams().get(0).getPlayers().add(queuedPlayers.get(index));
+				ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)).addChatMessage(new ChatComponentText("You have been added to the " + scoreboard.getTeams().get(0).getName() + " Team"));
+				PlayerTeamEvent event1 = new PlayerTeamEvent(id,scoreboard.getTeams().get(0).getName(),ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)));
+				Analytics.onPlayerTeamEvent(event1);
+			}else if(split.get(index).equals("B")) {
+				scoreboard.getTeams().get(1).getPlayers().add(queuedPlayers.get(index));
+				ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)).addChatMessage(new ChatComponentText("You have been added to the " + scoreboard.getTeams().get(1).getName() + " Team"));
+				PlayerTeamEvent event1 = new PlayerTeamEvent(id,scoreboard.getTeams().get(1).getName(),ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)));
+				Analytics.onPlayerTeamEvent(event1);
+			}
+		}
+	}
+	
+	public static ArrayList<String> split_group_by_scores (ArrayList<Double> scores, boolean debug) {
+        // sort scores descending
+        // put into two groups, always adding to lower-sum group or to first
+        // group if sums are equal
+        // -- Done.
+
+        if (scores.size() % 2 != 0) {
+            System.out.println("There must be an even number of participants to split into equal length groups!");
+            System.exit(-1);
+        }
+
+        int half_n = scores.size() / 2;
+        ArrayList<String>group_ids = new ArrayList<String>();
+        group_ids.addAll(Arrays.asList(new String[scores.size()]));
+        Collections.sort(scores);
+
+        boolean add_a = true;
+        double a_scores = 0, b_scores = 0;
+        int idx = 0, rev_idx = scores.size()-1;
+
+        while (idx <= rev_idx) {
+            if (debug) {
+                System.out.println("idx: "+idx+", rev_idx: "+rev_idx);
+            }
+
+            if (add_a) {
+                add_a = false;
+
+                if (a_scores <= b_scores) {
+                    a_scores += scores.get(rev_idx);
+                    group_ids.set(rev_idx--, "A");
+                } else {
+                    a_scores += scores.get(idx);
+                    group_ids.set(idx++, "A");
+                }
+            } else {
+                add_a = true;
+
+                if (a_scores <= b_scores) {
+                    b_scores += scores.get(idx);
+                    group_ids.set(idx++, "B");
+                } else {
+                    b_scores += scores.get(rev_idx);
+                    group_ids.set(rev_idx--, "B");
+                }
+            }
+        }
+
+        double avg_diff = a_scores / half_n - b_scores / half_n;
+
+        if (debug) {
+            System.out.print("Grouping ==");
+            for (String id : group_ids) {
+                System.out.print(" "+id);
+            }
+
+            System.out.println("\n and mean score difference == "+avg_diff);
+        }
+        return group_ids;
+
+    }
 	
 	public void render(Entity entity){
 		
