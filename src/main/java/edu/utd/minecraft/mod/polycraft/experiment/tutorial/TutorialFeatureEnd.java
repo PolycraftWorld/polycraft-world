@@ -61,8 +61,8 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	
 	@Override
 	public void render(Entity entity) {
-		TutorialRender.instance.renderTutorialDrawStringWithScale("§6YOU WON!",100,35,2F);
-		TutorialRender.instance.renderTutorialDrawString("§eYou will be teleported in §6"+this.countDown/20+"§e seconds!",150,100);
+		TutorialRender.instance.renderTutorialDrawStringWithScale("\u00A76YOU WON!",100,35,2F);
+		TutorialRender.instance.renderTutorialDrawString("\u00A7eYou will be teleported in \u00A76"+this.countDown/20+"\u00A7e seconds!",150,100);
 	}
 	
 	@Override

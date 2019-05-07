@@ -870,10 +870,19 @@ public abstract class Experiment {
 	}
 	
 	private void addPlayersToTeams() {
+		if(queuedPlayers.size() ==1) {
+			scoreboard.getTeams().get(0).getPlayers().add(queuedPlayers.get(0));
+			ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(0)).addChatMessage(new ChatComponentText("You have been added to the " + scoreboard.getTeams().get(0).getName() + " Team"));
+			PlayerTeamEvent event1 = new PlayerTeamEvent(id,scoreboard.getTeams().get(0).getName(),ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(0)));
+			Analytics.onPlayerTeamEvent(event1);
+			return;
+		}
+		
 		ArrayList<Double> scores = new ArrayList<>();
 		for(String playerName: queuedPlayers) {
 			scores.add((double) ServerEnforcer.INSTANCE.skillLevelGet(playerName));
 		}
+		
 		ArrayList<String> split = split_group_by_scores(scores, false);
 		
 		for(int index = 0; index < split.size(); index++) {

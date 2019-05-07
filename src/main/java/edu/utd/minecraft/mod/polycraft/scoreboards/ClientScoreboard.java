@@ -119,6 +119,11 @@ public class ClientScoreboard extends ScoreboardManager {
 	
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
+		//We only want to render this in CTB Experiments right now
+		if(ExperimentManager.INSTANCE.clientCurrentExperiment <=0) {
+			return;
+		}
+		
 		if (tick.phase == Phase.END && client.theWorld != null) {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
