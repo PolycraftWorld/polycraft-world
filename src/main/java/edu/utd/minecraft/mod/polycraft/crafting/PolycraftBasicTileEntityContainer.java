@@ -17,8 +17,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 // Implementation of a basic tile entity container.
@@ -28,7 +28,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	protected final Collection<ContainerSlot> miscSlots;
 	protected final int totalSlots;
 
-	private final Map<Integer, ContainerSlot> slotToIndexMap = Maps.newHashMap();
+	protected final Map<Integer, ContainerSlot> slotToIndexMap = Maps.newHashMap();
 	// Maintain the current set of inputs so it doesn't need to be recomputed every frame.
 	private final Set<RecipeComponent> inputMaterialSet = Sets.newHashSet();
 	private final Set<Integer> inputSlotSet = Sets.newHashSet();
@@ -63,7 +63,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{
-		return AxisAlignedBB.getBoundingBox(xCoord - 5, yCoord, zCoord - 5, xCoord + 5, yCoord + 8, zCoord + 5);
+		return AxisAlignedBB.fromBounds(pos.getX() - 5, pos.getY(), pos.getZ() - 5, pos.getX() + 5, pos.getY() + 8, pos.getZ() + 5);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -76,8 +76,8 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 * @return the name of the inventory.
 	 */
 	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.inventoryName : "container." + containerName;
+	public String getName() {
+		return this.hasCustomName() ? this.inventoryName : "container." + containerName;
 	}
 
 	/**
@@ -189,7 +189,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 * Returns if the inventory is named
 	 */
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 		return this.inventoryName != null && this.inventoryName.length() > 0;
 	}
 
@@ -282,23 +282,23 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	 */
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this
+		return this.worldObj.getTileEntity(this.pos) != this
 				? false
-				: par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+				: par1EntityPlayer.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(EntityPlayer player) {
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(EntityPlayer player) {
 	}
 
 	/**
 	 * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem - like when you close a workbench GUI.
 	 */
-	@Override
+	//@Override no longer overriden in 1.8
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		if (this.inputArray[slot] != null) {
 			ItemStack itemstack = this.inputArray[slot].itemStack;
@@ -337,7 +337,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 			}
 		}
 		tag.setTag("Items", nbttaglist);
-		if (this.hasCustomInventoryName()) {
+		if (this.hasCustomName()) {
 			tag.setString("CustomName", this.inventoryName);
 		}
 	}

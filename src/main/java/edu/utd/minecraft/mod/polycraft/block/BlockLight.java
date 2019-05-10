@@ -8,6 +8,8 @@ import java.util.Set;
 import net.minecraft.block.BlockAir;
 //import javax.vecmath.Point3i;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -30,6 +32,9 @@ public class BlockLight extends BlockAir {
 
 		}
 
+		public BlockPos toBlockPos(){
+			return new BlockPos(this.x, this.y, this.z);
+		}
 	}
 
 	public static class Source {
@@ -118,7 +123,7 @@ public class BlockLight extends BlockAir {
 					default:
 						throw new Error("Invalid direction");
 					}
-					if (world.getBlock(point.x, point.y, point.z).getMaterial() != Material.air)
+					if (world.isAirBlock(point.toBlockPos()))
 					{
 						if (world.isSideSolid(point.x, point.y, point.z, ForgeDirection.getOrientation(direction).getOpposite()))
 							break;
@@ -222,19 +227,19 @@ public class BlockLight extends BlockAir {
 								final Entry<Point3i, Boolean> entry = pendingUpdates.next();
 								final Point3i point = entry.getKey();
 								if (entry.getValue()) {
-									if (worldState.world.isAirBlock(point.x, point.y, point.z)) {
+									if (worldState.world.isAirBlock(point.toBlockPos())) {
 										worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
 										blocksSet++;
 									}
-									else if (worldState.world.isSideSolid(point.x, point.y, point.z, ForgeDirection.EAST)) {
+									else if (worldState.world.isSideSolid(point.toBlockPos(), EnumFacing.EAST)) {
 										//worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
 										blocksSet++;
 									}
 
 								}
 								else {
-									if (worldState.world.getBlock(point.x, point.y, point.z) instanceof BlockLight) {
-										worldState.world.setBlockToAir(point.x, point.y, point.z);
+									if (worldState.world.getBlock(point.toBlockPos()) instanceof BlockLight) {
+										worldState.world.setBlockToAir(point.toBlockPos());
 										blocksSet++;
 									}
 								}

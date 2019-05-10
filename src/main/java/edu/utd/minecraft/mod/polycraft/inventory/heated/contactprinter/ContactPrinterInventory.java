@@ -1,16 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.inventory.heated.contactprinter;
 
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 import com.google.common.collect.Lists;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -24,6 +14,14 @@ import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedGui;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
 import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
 
 public class ContactPrinterInventory extends HeatedInventory {
 

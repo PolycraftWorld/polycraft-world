@@ -6,14 +6,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
@@ -33,7 +34,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.ItemWafer;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 
-public abstract class PolycraftInventory extends PolycraftBasicTileEntityContainer {
+public abstract class PolycraftInventory extends PolycraftBasicTileEntityContainer implements ITickable {
 
 	protected static final void register(final PolycraftInventoryBlock inventoryBlock) {
 		PolycraftRegistry.registerBlock(inventoryBlock.config, inventoryBlock);
@@ -108,7 +109,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 			if (((ItemWafer) stack.getItem()).waferItem.mustBeInCleanroom)
 			{
 
-				if (!this.worldObj.isRemote && !PolycraftCleanroom.isLocationClean(this.worldObj, this.xCoord, this.yCoord, this.zCoord))
+				if (!this.worldObj.isRemote && !PolycraftCleanroom.isLocationClean(this.worldObj, this.pos.getX(), this.pos.getY(), this.pos.getZ()))
 				{
 					stack = WaferItem.registry.get("Silicon Wafer (Ruined)").getItemStack();
 				}
@@ -123,7 +124,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 	}
 
 	@Override
-	public void updateEntity() {
+	public void update() {
 		for (InventoryBehavior behavior : this.getBehaviors())
 			if (behavior.updateEntity(this, this.worldObj))
 				return;
@@ -142,6 +143,22 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Removes a stack from the given slot and returns it.
+	 */
+	public ItemStack removeStackFromSlot(int index)
+	{
+		if (this.slotToIndexMap.get(index) != null)
+		{
+			if(slotHasItem(this.slotToIndexMap.get(index))){
+				ItemStack itemStack = this.getStackInSlot(index);
+				this.clearSlotContents(this.slotToIndexMap.get(index));
+				return itemStack;
+			}
+		}
+		return null;
 	}
 
 	protected static boolean downcycle(IInventory iinventory, ItemVessel newVessel, int slotIndex, int slotIndexMin, int slotIndexMax)

@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
@@ -72,8 +72,8 @@ public abstract class FueledLampInventory extends StatefulInventory<FueledLampSt
 	private static final int maxTicksPerEpoch = (int) Math.pow(2, 15);
 
 	@Override
-	public synchronized void updateEntity() {
-		super.updateEntity();
+	public synchronized void update() {
+		super.update();
 		if (worldObj != null && !worldObj.isRemote) {
 			if (getState(FueledLampState.FuelTicksRemaining) == 0) {
 

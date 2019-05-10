@@ -9,14 +9,16 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.config.Fuel;
@@ -75,13 +77,13 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 
 	protected abstract HeatedGui getGuiHeated(final InventoryPlayer playerInventory);
 
-	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
+
+	public int[] getAccessibleSlots() {
 		return accessibleSlots;
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, int side) {
+	public boolean canInsertItem(int slot, ItemStack item, EnumFacing direction) {
 		if (isItemValidForSlot(slot, item)) {
 			if (slot == slotIndexCoolingWater || slot == slotIndexHeatingWater)
 				return getStackInSlot(slot) == null && item.getItem() == Items.water_bucket;
@@ -102,7 +104,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack item, int side) {
+	public boolean canExtractItem(int slot, ItemStack item, EnumFacing direction) {
 		return getContainerType().getContainerSlotByIndex(slot).getSlotType() == SlotType.OUTPUT;
 	}
 
@@ -197,8 +199,8 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 
 		boolean isDirty = false;
 
@@ -267,7 +269,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 	}
 
 	private BlockLight.Source addLightSource(final int heatIntensity) {
-		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord, (int) Math.floor(heatIntensity * .25), false));
+		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, pos.getX(), pos.getY(), pos.getZ(), (int) Math.floor(heatIntensity * .25), false));
 	}
 
 	private boolean removeCurrentLightSource() {
@@ -306,7 +308,7 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		@Override
 		public boolean randomDisplayTick(HeatedInventory inventory, World world, int x, int y, int z, Random random) {
 			if (inventory.isHeated()) {
-				int l = world.getBlockMetadata(x, y, z);
+				int l = getBlockMetadata();
 				float f = (float) x + 0.5F;
 				float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
 				float f2 = (float) z + 0.5F;
@@ -315,23 +317,23 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 
 				if (l == 4)
 				{
-					world.spawnParticle("smoke", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
-					world.spawnParticle("flame", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
 				}
 				else if (l == 5)
 				{
-					world.spawnParticle("smoke", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
-					world.spawnParticle("flame", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
 				}
 				else if (l == 2)
 				{
-					world.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
-					world.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
 				}
 				else if (l == 3)
 				{
-					world.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
-					world.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
 				}
 			}
 			return false;

@@ -5,8 +5,8 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.LabelTexture;
@@ -24,7 +24,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.behaviors.AutomaticInputBehavio
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.inventory.heated.HeatedInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -129,8 +128,8 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	 */
 
 	@Override
-	public synchronized void updateEntity() {
-		super.updateEntity();
+	public synchronized void update() {
+		super.update();
 		if (worldObj != null && !worldObj.isRemote) {
 			ItemStack bulb = getStackInSlot(0);
 			if (getState(FluorescentLampState.FuelTicksRemaining) == 0) {

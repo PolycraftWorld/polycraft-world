@@ -22,8 +22,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -127,8 +127,8 @@ public class SolarArrayInventory extends PolycraftInventory {
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 
 		if (this.worldObj != null && !this.worldObj.isRemote) {
 			--this.transferCooldown;

@@ -9,8 +9,8 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
@@ -41,9 +41,9 @@ public class TerritoryFlagInventory extends PolycraftInventory {
 	}
 	/*
 	@Override
-	public void updateEntity()
+	public void update()
 	{
-		super.updateEntity();
+		super.update();
 		System.out.println("TEST");
 		if (!this.worldObj.isRemote && this.ticket == null) 
 		 {

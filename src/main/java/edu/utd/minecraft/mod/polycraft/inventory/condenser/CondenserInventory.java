@@ -15,14 +15,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CompoundVessel;
 import edu.utd.minecraft.mod.polycraft.config.ElementVessel;
@@ -35,7 +36,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselMerger;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
-import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpGui;
 
 public class CondenserInventory extends PolycraftInventory {
 
@@ -106,8 +106,8 @@ public class CondenserInventory extends PolycraftInventory {
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 
 		if (this.worldObj != null && !this.worldObj.isRemote) {
 			--this.transferCooldown;
@@ -136,13 +136,13 @@ public class CondenserInventory extends PolycraftInventory {
 
 	public boolean blockNeighborsWater()
 	{
-		if ((this.worldObj.getBlock(this.xCoord + 1, this.yCoord, this.zCoord)) == Blocks.water)
+		if ((this.worldObj.getBlockState(pos.east()).getBlock()) == Blocks.water)
 			return true;
-		else if ((this.worldObj.getBlock(this.xCoord - 1, this.yCoord, this.zCoord)) == Blocks.water)
+		else if ((this.worldObj.getBlockState(pos.west()).getBlock()) == Blocks.water)
 			return true;
-		else if ((this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord + 1)) == Blocks.water)
+		else if ((this.worldObj.getBlockState(pos.south()).getBlock()) == Blocks.water)
 			return true;
-		else if ((this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord - 1)) == Blocks.water)
+		else if ((this.worldObj.getBlockState(pos.north()).getBlock()) == Blocks.water)
 			return true;
 		return false;
 
@@ -168,23 +168,22 @@ public class CondenserInventory extends PolycraftInventory {
 	public static boolean func_145891_a(CondenserInventory p_145891_0_) {
 		ItemStack nextTappedItemStack = p_145891_0_.getNextTappedItem();
 		if (nextTappedItemStack != null)
-			func_145889_a(p_145891_0_, nextTappedItemStack, -1);
+			func_145889_a(p_145891_0_, nextTappedItemStack, null);
 
 		IInventory iinventory = func_145884_b(p_145891_0_);
 
 		if (iinventory != null)
 		{
-			byte b0 = 0;
 
-			if (iinventory instanceof ISidedInventory && b0 > -1)
+			if (iinventory instanceof ISidedInventory)
 			{
 				ISidedInventory isidedinventory = (ISidedInventory) iinventory;
-				int[] aint = isidedinventory.getAccessibleSlotsFromSide(b0);
+				int[] aint = isidedinventory.getSlotsForFace(EnumFacing.DOWN);
 
 				if (aint != null) {
 					for (int k = 0; k < aint.length; ++k)
 					{
-						if (func_145892_a(p_145891_0_, iinventory, aint[k], b0))
+						if (func_145892_a(p_145891_0_, iinventory, aint[k], EnumFacing.DOWN))
 						{
 							return true;
 						}
@@ -197,7 +196,7 @@ public class CondenserInventory extends PolycraftInventory {
 
 				for (int j = 0; j < i; ++j)
 				{
-					if (func_145892_a(p_145891_0_, iinventory, j, b0))
+					if (func_145892_a(p_145891_0_, iinventory, j, EnumFacing.DOWN))
 					{
 						return true;
 					}
@@ -208,12 +207,12 @@ public class CondenserInventory extends PolycraftInventory {
 		return false;
 	}
 
-	private static boolean func_145892_a(CondenserInventory p_145892_0_, IInventory p_145892_1_, int p_145892_2_, int p_145892_3_) {
+	private static boolean func_145892_a(CondenserInventory p_145892_0_, IInventory p_145892_1_, int p_145892_2_, EnumFacing p_145892_3_) {
 		ItemStack itemstack = p_145892_1_.getStackInSlot(p_145892_2_);
 
 		if (itemstack != null && func_145890_b(p_145892_1_, itemstack, p_145892_2_, p_145892_3_)) {
 			ItemStack itemstack1 = itemstack.copy();
-			ItemStack itemstack2 = func_145889_a(p_145892_0_, p_145892_1_.decrStackSize(p_145892_2_, 1), -1);
+			ItemStack itemstack2 = func_145889_a(p_145892_0_, p_145892_1_.decrStackSize(p_145892_2_, 1), null);
 
 			if (itemstack2 == null || itemstack2.stackSize == 0)
 			{
@@ -227,12 +226,12 @@ public class CondenserInventory extends PolycraftInventory {
 		return false;
 	}
 
-	private static boolean func_145890_b(IInventory p_145890_0_, ItemStack p_145890_1_, int p_145890_2_, int p_145890_3_) {
+	private static boolean func_145890_b(IInventory p_145890_0_, ItemStack p_145890_1_, int p_145890_2_, EnumFacing p_145890_3_) {
 		return !(p_145890_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145890_0_).canExtractItem(p_145890_2_, p_145890_1_, p_145890_3_);
 	}
 
 	public static IInventory func_145884_b(CondenserInventory p_145884_0_) {
-		return func_145893_b(p_145884_0_.getWorldObj(), p_145884_0_.xCoord, p_145884_0_.yCoord + 1.0D, p_145884_0_.zCoord);
+		return func_145893_b(p_145884_0_.getWorld(), p_145884_0_.pos.getX(), p_145884_0_.pos.getY() + 1.0D, p_145884_0_.pos.getZ());
 	}
 
 	private boolean func_145883_k() {
@@ -249,7 +248,7 @@ public class CondenserInventory extends PolycraftInventory {
 				if (this.getStackInSlot(i) != null)
 				{
 					ItemStack itemstack = this.getStackInSlot(i).copy();
-					ItemStack itemstack1 = func_145889_a(iinventory, this.decrStackSize(i, 1), Facing.oppositeSide[getDirectionFromMetadata(this.getBlockMetadata())]);
+					ItemStack itemstack1 = func_145889_a(iinventory, this.decrStackSize(i, 1), EnumFacing.getFront(getDirectionFromMetadata(this.getBlockMetadata())).getOpposite());
 
 					if (itemstack1 == null || itemstack1.stackSize == 0)
 					{
@@ -265,10 +264,10 @@ public class CondenserInventory extends PolycraftInventory {
 		}
 	}
 
-	public static ItemStack func_145889_a(IInventory p_145889_0_, ItemStack p_145889_1_, int p_145889_2_) {
-		if (p_145889_0_ instanceof ISidedInventory && p_145889_2_ > -1) {
+	public static ItemStack func_145889_a(IInventory p_145889_0_, ItemStack p_145889_1_, EnumFacing p_145889_2_) {
+		if (p_145889_0_ instanceof ISidedInventory && p_145889_2_ != null) {
 			ISidedInventory isidedinventory = (ISidedInventory) p_145889_0_;
-			int[] aint = isidedinventory.getAccessibleSlotsFromSide(p_145889_2_);
+			int[] aint = isidedinventory.getSlotsForFace(p_145889_2_);
 
 			for (int l = 0; l < aint.length && p_145889_1_ != null && p_145889_1_.stackSize > 0; ++l) {
 				p_145889_1_ = func_145899_c(p_145889_0_, p_145889_1_, aint[l], p_145889_2_);
@@ -289,7 +288,7 @@ public class CondenserInventory extends PolycraftInventory {
 		return p_145889_1_;
 	}
 
-	private static ItemStack func_145899_c(IInventory p_145899_0_, ItemStack p_145899_1_, int p_145899_2_, int p_145899_3_) {
+	private static ItemStack func_145899_c(IInventory p_145899_0_, ItemStack p_145899_1_, int p_145899_2_, EnumFacing p_145899_3_) {
 		ItemStack itemstack1 = p_145899_0_.getStackInSlot(p_145899_2_);
 
 		if (func_145885_a(p_145899_0_, p_145899_1_, p_145899_2_, p_145899_3_))
@@ -344,13 +343,14 @@ public class CondenserInventory extends PolycraftInventory {
 				p_145894_0_, p_145894_1_)));
 	}
 
-	private static boolean func_145885_a(IInventory p_145885_0_, ItemStack p_145885_1_, int p_145885_2_, int p_145885_3_) {
+	private static boolean func_145885_a(IInventory p_145885_0_, ItemStack p_145885_1_, int p_145885_2_, EnumFacing p_145885_3_) {
 		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, p_145885_3_);
 	}
 
 	private IInventory func_145895_l() {
 		int i = getDirectionFromMetadata(this.getBlockMetadata());
-		return func_145893_b(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
+		return func_145893_b(this.getWorld(), this.pos.getX() + EnumFacing.getFront(i).getFrontOffsetX(),
+				this.pos.getY() + EnumFacing.getFront(i).getFrontOffsetY(), this.pos.getZ() + EnumFacing.getFront(i).getFrontOffsetZ());
 	}
 
 	public static IInventory func_145893_b(World worldObj, double p_145893_1_, double p_145893_3_, double p_145893_5_) {
@@ -358,7 +358,7 @@ public class CondenserInventory extends PolycraftInventory {
 		int i = MathHelper.floor_double(p_145893_1_);
 		int j = MathHelper.floor_double(p_145893_3_);
 		int k = MathHelper.floor_double(p_145893_5_);
-		TileEntity tileentity = worldObj.getTileEntity(i, j, k);
+		TileEntity tileentity = worldObj.getTileEntity(new BlockPos(i, j, k));
 
 		if (tileentity != null && tileentity instanceof IInventory)
 		{
@@ -366,7 +366,7 @@ public class CondenserInventory extends PolycraftInventory {
 
 			if (iinventory instanceof TileEntityChest)
 			{
-				Block block = worldObj.getBlock(i, j, k);
+				Block block = worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
 
 				if (block instanceof BlockChest)
 				{
@@ -377,7 +377,7 @@ public class CondenserInventory extends PolycraftInventory {
 
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getBoundingBox(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
+			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.fromBounds(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
 					IEntitySelector.selectInventories);
 
 			if (list != null && list.size() > 0)

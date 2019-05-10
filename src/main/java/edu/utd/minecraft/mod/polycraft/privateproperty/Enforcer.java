@@ -96,6 +96,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -106,6 +107,11 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public abstract class Enforcer {
 
@@ -471,7 +477,7 @@ public abstract class Enforcer {
 			final Entity entity, final int x, final int z) {
 		if (entity.dimension == propertyDimension) {
 			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
-					.getChunkFromBlockCoords(x, z);
+					.getChunkFromBlockCoords(new BlockPos(x, 0, z));
 			return privatePropertiesByChunk.get(getChunkKey(chunk.xPosition,
 					chunk.zPosition));
 		}
@@ -519,7 +525,7 @@ public abstract class Enforcer {
 			final Entity projectile, final MovingObjectPosition position,
 			final Action action) {
 		final PrivateProperty privateProperty = findPrivatePropertyByBlockCoords(
-				projectile, position.blockX, position.blockZ);
+				projectile, position.getBlockPos().getX(), position.getBlockPos().getZ());
 		// if the entity is not in private property, they can do anything
 		if (privateProperty != null
 				&& !privateProperty.actionEnabled(player, action)) {
@@ -535,7 +541,7 @@ public abstract class Enforcer {
 		// TODO what happens if they use dynamite? other ways?
 		// TODO why is this not happening on the client?
 		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
-				event.world.getChunkFromBlockCoords(event.x, event.z));
+				event.world.getChunkFromBlockCoords(event.pos));
 	}
 
 	@SubscribeEvent
@@ -547,8 +553,7 @@ public abstract class Enforcer {
 	@SubscribeEvent
 	public void onFillBucket(final FillBucketEvent event) {
 		possiblyPreventAction(event, event.entityPlayer, Action.UseBucket,
-				event.world.getChunkFromBlockCoords(event.target.blockX,
-						event.target.blockZ));
+				event.world.getChunkFromBlockCoords(event.target.getBlockPos()));
 	}
 
 	@SubscribeEvent
@@ -616,7 +621,7 @@ public abstract class Enforcer {
 		// if (player.worldObj.isAirBlock(x, y, z) ||
 		// (player.worldObj.getBlock(x, y, z) == Blocks.water)) {
 		final net.minecraft.world.chunk.Chunk chunk = player.worldObj
-				.getChunkFromBlockCoords(xAbs, zAbs);
+				.getChunkFromBlockCoords(new BlockPos(xAbs, y, zAbs));
 		final PrivateProperty targetPrivateProperty = findPrivateProperty(
 				player, chunk.xPosition, chunk.zPosition);
 		if (targetPrivateProperty == null
@@ -625,7 +630,7 @@ public abstract class Enforcer {
 			// just teleport them out now
 			if (targetOffsetX + targetOffsetZ > 2)
 				player.setPositionAndUpdate(x, player.worldObj
-						.getTopSolidOrLiquidBlock((int) x, (int) z) + 3, z);
+						.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).up(3).getY(), z);
 			else {
 				player.setPositionAndUpdate(x, y, z);
 			}
@@ -649,15 +654,15 @@ public abstract class Enforcer {
 			// TODO why is this not happening on the client?
 			possiblyPreventAction(event, event.entityPlayer,
 					Action.DestroyBlock,
-					event.world.getChunkFromBlockCoords(event.x, event.z));
+					event.world.getChunkFromBlockCoords(event.pos));
 			break;
 		case RIGHT_CLICK_AIR:
 			possiblyPreventUseEquippedItem(event);
 			break;
 		case RIGHT_CLICK_BLOCK:
 			final net.minecraft.world.chunk.Chunk blockChunk = event.world
-					.getChunkFromBlockCoords(event.x, event.z);
-			final Block block = event.world.getBlock(event.x, event.y, event.z);
+					.getChunkFromBlockCoords(event.pos);
+			final Block block = event.world.getBlockState(event.pos).getBlock();
 			if (block instanceof BlockWorkbench) {
 				possiblyPreventAction(event, event.entityPlayer,
 						Action.UseCraftingTable, blockChunk);

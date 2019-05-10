@@ -7,8 +7,8 @@ import net.minecraft.inventory.ICrafting;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class StatefulContainer<S extends StatefulInventoryState, I extends StatefulInventory> extends PolycraftCraftingContainerGeneric<I> {
 
