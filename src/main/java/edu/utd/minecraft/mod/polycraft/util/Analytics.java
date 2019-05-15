@@ -21,12 +21,12 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
@@ -142,7 +142,7 @@ public class Analytics {
 	}
 
 	private String formatItemStackName(final ItemStack item) {
-		return debug ? (item == null ? "n/a" : item.getDisplayName()) : (item == null ? "" : item.getUnlocalizedName());
+		return debug ? (item == null ? "n/a" : item.getDisplayNameString()) : (item == null ? "" : item.getUnlocalizedName());
 	}
 
 	private String formatItemStackSize(final ItemStack item) {
@@ -170,7 +170,7 @@ public class Analytics {
 
 	private synchronized void log(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
+		final Long playerID = Enforcer.whitelist.get(player.getDisplayNameString().toLowerCase());
 		logger.info(String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),

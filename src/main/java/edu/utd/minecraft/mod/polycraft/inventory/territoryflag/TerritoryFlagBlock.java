@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 
@@ -53,13 +53,13 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 	private World world;
 	private SuperChunk SC;
 
-
-	@SideOnly(Side.CLIENT)
-	public IIcon iconOutside;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconInside;
+//	no icons in classes in 1.8
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconOutside;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconTop;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconInside;
 
 	public TerritoryFlagBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass, Material.iron, 7.5F);
@@ -88,7 +88,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 			if(entity instanceof EntityPlayer )
 			{
 				this.player=(EntityPlayer) entity;
-				worldObj.setBlock( xPos, yPos, zPos,Blocks.air);
+				worldObj.setBlockState( new BlockPos(xPos, yPos, zPos),Blocks.air.getDefaultState());
 				int j=yPos;
 				for(int i=xPos-7;i<((xPos-7)+15);i++)
 				{
@@ -96,7 +96,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 					{
 						
 							
-						if(!(worldObj.canBlockSeeTheSky(i, j, k) && worldObj.getBlock(i, j-1, k).isOpaqueCube()))
+						if(!(worldObj.canBlockSeeSky(new BlockPos(i, j, k)) && worldObj.getBlockState(new BlockPos(i, j-1, k)).getBlock().isOpaqueCube()))
 						{
 							placable=false;	
 						}
@@ -131,7 +131,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 							}.getType());
 							String sendString = String.format("%s/players/%s/government/1/attempt_claim/",
 									ServerEnforcer.portalRestUrl,
-									((EntityPlayer) entity).getDisplayName().toLowerCase());
+									this.player.getDisplayNameString().toLowerCase());
 							
 							
 							String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
@@ -155,7 +155,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 					CreatePrivateProperty(this.SC);
 					
 					
-					worldObj.setBlock( xPos, yPos, zPos,Blocks.air);
+					worldObj.setBlockState(new BlockPos(xPos, yPos, zPos),Blocks.air.getDefaultState());
 					
 					EntityTerritoryFlag flag = new EntityTerritoryFlag(worldObj,(EntityPlayer)entity, this.privateProperty);
 					flag.setPosition(((double)xPos)+.5D, (double)yPos, ((double)zPos)+0.5D);
@@ -165,23 +165,23 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 					super.onBlockPlacedBy(worldObj, xPos, yPos, zPos, entity, itemToPlace);
 					
 					
-					worldObj.setBlock( xPos+3, yPos, zPos-3,Blocks.obsidian);
-					worldObj.setBlock( xPos+3, yPos, zPos+3,Blocks.obsidian);
-					worldObj.setBlock( xPos-3, yPos, zPos-3,Blocks.obsidian);
-					worldObj.setBlock( xPos-3, yPos, zPos+3,Blocks.obsidian);
+					worldObj.setBlockState( new BlockPos(xPos+3, yPos, zPos-3),Blocks.obsidian.getDefaultState());
+					worldObj.setBlockState( new BlockPos(xPos+3, yPos, zPos+3),Blocks.obsidian.getDefaultState());
+					worldObj.setBlockState( new BlockPos(xPos-3, yPos, zPos-3),Blocks.obsidian.getDefaultState());
+					worldObj.setBlockState( new BlockPos(xPos-3, yPos, zPos+3),Blocks.obsidian.getDefaultState());
 					
 					for(int i=xPos-3;i<((xPos-3)+7);i++)
 					{
 						for(int k=zPos-3;k<((zPos-3)+7);k++)
 						{
-							worldObj.setBlock( i, yPos-1, k,Blocks.obsidian);
+							worldObj.setBlockState( new BlockPos(i, yPos-1, k),Blocks.obsidian.getDefaultState());
 						}
 					}
 					
-					worldObj.setBlock( xPos+3, yPos+1, zPos-3,Blocks.torch);
-					worldObj.setBlock( xPos+3, yPos+1, zPos+3,Blocks.torch);
-					worldObj.setBlock( xPos-3, yPos+1, zPos-3,Blocks.torch);
-					worldObj.setBlock( xPos-3, yPos+1, zPos+3,Blocks.torch);
+					worldObj.setBlockState( new BlockPos(xPos+3, yPos+1, zPos-3),Blocks.torch.getDefaultState());
+					worldObj.setBlockState( new BlockPos(xPos+3, yPos+1, zPos+3),Blocks.torch.getDefaultState());
+					worldObj.setBlockState( new BlockPos(xPos-3, yPos+1, zPos-3),Blocks.torch.getDefaultState());
+					worldObj.setBlockState( new BlockPos(xPos-3, yPos+1, zPos+3),Blocks.torch.getDefaultState());
 					
 					
 					
@@ -190,7 +190,7 @@ public class TerritoryFlagBlock extends PolycraftInventoryBlock {
 				else
 				{
 					((EntityPlayer) entity).addChatComponentMessage(new ChatComponentText("The area is not valid."));
-					worldObj.setBlock( xPos, yPos, zPos,Blocks.air);
+					worldObj.setBlockState(new BlockPos(xPos, yPos, zPos),Blocks.air.getDefaultState());
 				}
 			}
 			else 

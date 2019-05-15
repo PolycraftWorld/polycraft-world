@@ -3,8 +3,10 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 
@@ -18,21 +20,21 @@ public abstract class InventoryBehavior<I extends PolycraftInventory> {
 	/**
 	 * Called when the block is activated via right click. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean onBlockActivated(I inventory, World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
+	public boolean onBlockActivated(I inventory, World world, BlockPos blockPos, IBlockState state, EntityPlayer player, float hitX, float hitY, float hitZ) {
 		return false;
 	}
 
 	/**
 	 * Called when the block is broken. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean breakBlock(I inventory, World world, int x, int y, int z, Block block) {
+	public boolean breakBlock(I inventory, World world, BlockPos blockPos, IBlockState state) {
 		return false;
 	}
 
 	/**
 	 * Called during display update. Return true to end processing; false to propagate to other behaviors.
 	 */
-	public boolean randomDisplayTick(I inventory, World world, int x, int y, int z, Random random) {
+	public boolean randomDisplayTick(I inventory, World world, BlockPos blockPos, IBlockState state, Random random) {
 		return false;
 	}
 

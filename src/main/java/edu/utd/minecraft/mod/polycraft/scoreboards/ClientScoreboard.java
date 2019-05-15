@@ -15,11 +15,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
@@ -174,13 +174,13 @@ public class ClientScoreboard extends ScoreboardManager {
 				} else {
 					
 					if(player instanceof EntityPlayerMP) {
-						if(player.getDisplayName().equalsIgnoreCase("Sabateur") || player.getDisplayName().equalsIgnoreCase("ProfessorVoit")) {
+						if(player.getDisplayNameString().equalsIgnoreCase("Sabateur") || player.getDisplayNameString().equalsIgnoreCase("ProfessorVoit")) {
 							int x = overlayStartX;
 							int y = overlayStartY;
 							client.fontRenderer.drawStringWithShadow("Hello, Father :)", x, y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}
-					} else if (player.getDisplayName().equalsIgnoreCase("CmdtBojangles")) {
+					} else if (player.getDisplayNameString().equalsIgnoreCase("CmdtBojangles")) {
 						int x = overlayStartX;
 						int y = overlayStartY;
 						client.fontRenderer.drawStringWithShadow("Bet you $1", x, y, overlayColor);

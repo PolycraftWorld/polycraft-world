@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
@@ -481,7 +481,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
-					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("Don't give up!"));
@@ -553,7 +553,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
-					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
@@ -665,7 +665,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						//base.tickCount++;
-						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName());
 						base.currentState = FeatureBase.State.Occupied;
 						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
@@ -715,7 +715,7 @@ public class Experiment1PlayerCTB extends Experiment{
 						//noPlayers = false;
 						playerCount++;
 						base.tickCount++;
-						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) { 
 							// Test for 'in contention' base where a player that is NOT the new occupying team is also present	
 							//reset case
 								base.currentState = FeatureBase.State.Neutral;
@@ -786,13 +786,13 @@ public class Experiment1PlayerCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) {
 							base.tickCount++;
 							if(base.tickCount>=this.ticksToClaimBase) {
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
-								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
+								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName(), this.stealBaseScoreBonus);
 							}
 						}
 					}

@@ -352,7 +352,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 	public boolean attackEntityFrom(DamageSource source, float p_70097_2_) {
 		if (source.getSourceOfDamage() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) source.getSourceOfDamage();
-			String name = player.getDisplayName();
+			String name = player.getDisplayNameString();
 			if (lastPlayerAttacks.containsKey(name)) {
 				int elapsed = player.ticksExisted - lastPlayerAttacks.get(name);
 				if (elapsed > 0 && elapsed < meleeCooldown)

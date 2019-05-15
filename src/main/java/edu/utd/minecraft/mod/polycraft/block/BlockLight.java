@@ -7,11 +7,9 @@ import java.util.Set;
 
 import net.minecraft.block.BlockAir;
 //import javax.vecmath.Point3i;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -125,7 +123,7 @@ public class BlockLight extends BlockAir {
 					}
 					if (world.isAirBlock(point.toBlockPos()))
 					{
-						if (world.isSideSolid(point.x, point.y, point.z, ForgeDirection.getOrientation(direction).getOpposite()))
+						if (world.isSideSolid(point.toBlockPos(), EnumFacing.getFront(direction).getOpposite()))
 							break;
 
 						//if it is a transparent block, skip and keep going
@@ -228,7 +226,7 @@ public class BlockLight extends BlockAir {
 								final Point3i point = entry.getKey();
 								if (entry.getValue()) {
 									if (worldState.world.isAirBlock(point.toBlockPos())) {
-										worldState.world.setBlock(point.x, point.y, point.z, PolycraftMod.blockLight);
+										worldState.world.setBlockState(point.toBlockPos(), PolycraftMod.blockLight.getDefaultState());
 										blocksSet++;
 									}
 									else if (worldState.world.isSideSolid(point.toBlockPos(), EnumFacing.EAST)) {
@@ -238,7 +236,7 @@ public class BlockLight extends BlockAir {
 
 								}
 								else {
-									if (worldState.world.getBlock(point.toBlockPos()) instanceof BlockLight) {
+									if (worldState.world.getBlockState(point.toBlockPos()).getBlock() instanceof BlockLight) {
 										worldState.world.setBlockToAir(point.toBlockPos());
 										blocksSet++;
 									}

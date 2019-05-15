@@ -3,25 +3,26 @@ package edu.utd.minecraft.mod.polycraft.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class BlockCollision extends Block {
+public class BlockCollision extends BlockDirectional {
 
-	@SideOnly(Side.CLIENT)
-	public IIcon iconFront;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconFront;
 
 	protected final InternalObject config;
 
@@ -37,7 +38,7 @@ public class BlockCollision extends Block {
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
 	 */
 	@Override
-	public boolean renderAsNormalBlock()
+	public boolean isFullCube()
 	{
 		return false;
 	}
@@ -49,7 +50,7 @@ public class BlockCollision extends Block {
 	}
 
 	@Override
-	public boolean getBlocksMovement(IBlockAccess p_149655_1_, int p_149655_2_, int p_149655_3_, int p_149655_4_)
+	public boolean isPassable(IBlockAccess p_149655_1_, BlockPos blockPos)
 	{
 		return false;
 	}
@@ -70,33 +71,31 @@ public class BlockCollision extends Block {
 	//	}
 
 	@Override
-	public boolean onBlockActivated(World worldObj, int xCoord, int yCoord, int zCoord, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+	public boolean onBlockActivated(World worldObj, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing facing, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
-		ForgeDirection dir = ForgeDirection.values()[worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
-
-		if (dir == ForgeDirection.DOWN)
+		if (facing == EnumFacing.DOWN)
 		{
-			worldObj.getBlock(xCoord, yCoord - 1, zCoord).onBlockActivated(worldObj, xCoord, yCoord - 1, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.down()).getBlock().onBlockActivated(worldObj, blockPos.down(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
-		else if (dir == ForgeDirection.EAST)
+		else if (facing == EnumFacing.EAST)
 		{
-			worldObj.getBlock(xCoord + 1, yCoord, zCoord).onBlockActivated(worldObj, xCoord + 1, yCoord, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.east()).getBlock().onBlockActivated(worldObj, blockPos.east(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
-		else if (dir == ForgeDirection.WEST)
+		else if (facing == EnumFacing.WEST)
 		{
-			worldObj.getBlock(xCoord - 1, yCoord, zCoord).onBlockActivated(worldObj, xCoord - 1, yCoord, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.west()).getBlock().onBlockActivated(worldObj, blockPos.west(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
-		else if (dir == ForgeDirection.NORTH)
+		else if (facing == EnumFacing.NORTH)
 		{
-			worldObj.getBlock(xCoord, yCoord, zCoord - 1).onBlockActivated(worldObj, xCoord, yCoord, zCoord - 1, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.north()).getBlock().onBlockActivated(worldObj, blockPos.north(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
-		else if (dir == ForgeDirection.SOUTH)
+		else if (facing == EnumFacing.SOUTH)
 		{
-			worldObj.getBlock(xCoord, yCoord, zCoord + 1).onBlockActivated(worldObj, xCoord, yCoord, zCoord + 1, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.north()).getBlock().onBlockActivated(worldObj, blockPos.north(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		//TODO: throw some error here: misdefined inventory
@@ -105,192 +104,100 @@ public class BlockCollision extends Block {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
+	public boolean canPlaceBlockAt(World p_149742_1_, BlockPos blockPos)
 	{
 		return false;
 	}
 
-	static public TileEntity findConnectedInventory(World worldObj, int xCoord, int yCoord, int zCoord)
+	static public TileEntity findConnectedInventory(World worldObj, BlockPos blockPos)
 	{
-		ForgeDirection dir = ForgeDirection.values()[worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
+		EnumFacing dir = (EnumFacing) worldObj.getBlockState(blockPos).getProperties().get(FACING);
 		TileEntity target = null;
-		int xCoordNext = xCoord;
-		int yCoordNext = yCoord;
-		int zCoordNext = zCoord;
 
-		if (dir == ForgeDirection.DOWN)
-		{
-			yCoordNext--;
-
-		}
-		else if (dir == ForgeDirection.WEST)
-		{
-			xCoordNext--;
-		}
-		else if (dir == ForgeDirection.EAST)
-		{
-			xCoordNext++;
-		}
-		else if (dir == ForgeDirection.NORTH)
-		{
-			zCoordNext--;
-		}
-		else if (dir == ForgeDirection.SOUTH)
-		{
-			zCoordNext++;
-		}
-		target = worldObj.getTileEntity(xCoordNext, yCoordNext, zCoordNext);
+		target = worldObj.getTileEntity(blockPos.offset(dir));
 		if (target != null) {
 			return target;
 		}
 
-		return findConnectedInventory(worldObj, xCoordNext, yCoordNext, zCoordNext);
+		return findConnectedInventory(worldObj, blockPos.offset(dir));
 
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos blockPos, IBlockState state)
 	{
-		breakBlockRecurse(world, x, y, z, block, meta);
+		breakBlockRecurse(world, blockPos, state);
 	}
 
-	public void breakBlockRecurse(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlockRecurse(World world, BlockPos blockPos, IBlockState state)
 	{
 		//world.setBlockToAir(x, y, z);
-		world.func_147480_a(x, y, z, false);
-		Block neighbor;
-		ForgeDirection dir;
-
+		world.destroyBlock(blockPos, false);
 		//get the specific neighbor that this block points to and break it if it is an Collision Block or the inventory
+		EnumFacing dir = (EnumFacing) world.getBlockState(blockPos).getProperties().get(FACING);
 
-		dir = ForgeDirection.values()[meta & 7]; //meta = world.getBlockMetadata(x, y, z) right now
+		IBlockState neighbor = world.getBlockState(blockPos.offset(dir)); //follow the way it is pointing
+		if (!world.isRemote)
+		{
+			if (neighbor.getBlock() instanceof BlockCollision)
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.offset(dir), neighbor);
+			if (neighbor.getBlock() instanceof PolycraftInventoryBlock)
+				((PolycraftInventoryBlock) neighbor.getBlock()).breakBlockRecurse(world, blockPos.offset(dir), neighbor, true);
+		}
 
-		if (dir == ForgeDirection.EAST)
-		{
-			neighbor = world.getBlock(x + 1, y, z); //follow the way it is pointing
-			meta = world.getBlockMetadata(x + 1, y, z);
-			if (!world.isRemote)
-			{
-				if (neighbor instanceof BlockCollision)
-					((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, meta);
-				if (neighbor instanceof PolycraftInventoryBlock)
-					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, meta, true);
-			}
-		}
-		else if (dir == ForgeDirection.WEST)
-		{
-			neighbor = world.getBlock(x - 1, y, z); //follow the way it is pointing
-			meta = world.getBlockMetadata(x - 1, y, z);
-			if (!world.isRemote)
-			{
-				if (neighbor instanceof BlockCollision)
-					((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, meta);
-				if (neighbor instanceof PolycraftInventoryBlock)
-					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, meta, true);
-			}
-		}
-		else if (dir == ForgeDirection.NORTH)
-		{
-			neighbor = world.getBlock(x, y, z - 1); //follow the way it is pointing
-			meta = world.getBlockMetadata(x, y, z - 1);
-			if (!world.isRemote)
-			{
-				if (neighbor instanceof BlockCollision)
-					((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, neighbor, meta);
-				if (neighbor instanceof PolycraftInventoryBlock)
-					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y, z - 1, neighbor, meta, true);
-			}
-		}
-		else if (dir == ForgeDirection.SOUTH)
-		{
-			neighbor = world.getBlock(x, y, z + 1); //follow the way it is pointing
-			meta = world.getBlockMetadata(x, y, z + 1);
-			if (!world.isRemote)
-			{
-				if (neighbor instanceof BlockCollision)
-					((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, neighbor, meta);
-				if (neighbor instanceof PolycraftInventoryBlock)
-					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y, z + 1, neighbor, meta, true);
-			}
-		}
-		else if (dir == ForgeDirection.DOWN)
-		{
-			neighbor = world.getBlock(x, y - 1, z); //follow the way it is pointing
-			meta = world.getBlockMetadata(x, y - 1, z);
-			if (!world.isRemote)
-			{
-				if (neighbor instanceof BlockCollision)
-					((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, neighbor, meta);
-				if (neighbor instanceof PolycraftInventoryBlock)
-					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y - 1, z, neighbor, meta, true);
-			}
-		}
-		else if (dir == ForgeDirection.UP)
-		{
-			neighbor = world.getBlock(x, y + 1, z); //follow the way it is pointing
-			meta = world.getBlockMetadata(x, y + 1, z);
-			if (!world.isRemote)
-			{
-				if (neighbor instanceof BlockCollision)
-					((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, neighbor, meta);
-				if (neighbor instanceof PolycraftInventoryBlock)
-					((PolycraftInventoryBlock) neighbor).breakBlockRecurse(world, x, y + 1, z, neighbor, meta, true);
-			}
-		}
 
 		//get each neighbor if it is a BlockCollision facing this block, then destroy it too. 
 		//this eliminates the network going away from the inventory
 
 		//neighbor = world.getBlock(x + 1, y, z);
-		if ((neighbor = world.getBlock(x + 1, y, z)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x + 1, y, z)]) == ForgeDirection.WEST)
-				((BlockCollision) neighbor).breakBlockRecurse(world, x + 1, y, z, neighbor, dir.ordinal());
+		if ((neighbor = world.getBlockState(blockPos.east())).getBlock() instanceof BlockCollision)
+			if ((dir = (EnumFacing) world.getBlockState(blockPos.east()).getProperties().get(FACING)) == EnumFacing.WEST)
+				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.east(), neighbor);
 
-		if ((neighbor = world.getBlock(x - 1, y, z)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x - 1, y, z)]) == ForgeDirection.EAST)
-				((BlockCollision) neighbor).breakBlockRecurse(world, x - 1, y, z, neighbor, dir.ordinal());
+		if ((neighbor = world.getBlockState(blockPos.west())).getBlock() instanceof BlockCollision)
+			if ((dir = (EnumFacing) world.getBlockState(blockPos.west()).getProperties().get(FACING)) == EnumFacing.EAST)
+				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.west(), neighbor);
 
-		if ((neighbor = world.getBlock(x, y, z + 1)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z + 1)]) == ForgeDirection.NORTH)
-				((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z + 1, neighbor, dir.ordinal());
+		if ((neighbor = world.getBlockState(blockPos.south())).getBlock() instanceof BlockCollision)
+			if ((dir = (EnumFacing) world.getBlockState(blockPos.south()).getProperties().get(FACING)) == EnumFacing.NORTH)
+				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.south(), neighbor);
 
-		if ((neighbor = world.getBlock(x, y, z - 1)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y, z - 1)]) == ForgeDirection.SOUTH)
-				((BlockCollision) neighbor).breakBlockRecurse(world, x, y, z - 1, neighbor, dir.ordinal());
+		if ((neighbor = world.getBlockState(blockPos.north())).getBlock() instanceof BlockCollision)
+			if ((dir = (EnumFacing) world.getBlockState(blockPos.north()).getProperties().get(FACING)) == EnumFacing.SOUTH)
+				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.north(), neighbor);
 
-		if ((neighbor = world.getBlock(x, y + 1, z)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y + 1, z)]) == ForgeDirection.DOWN)
-				((BlockCollision) neighbor).breakBlockRecurse(world, x, y + 1, z, neighbor, dir.ordinal());
+		if ((neighbor = world.getBlockState(blockPos.up())).getBlock() instanceof BlockCollision)
+			if ((dir = (EnumFacing) world.getBlockState(blockPos.up()).getProperties().get(FACING)) == EnumFacing.DOWN)
+				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.up(), neighbor);
 
-		if ((neighbor = world.getBlock(x, y - 1, z)) instanceof BlockCollision)
-			if ((dir = ForgeDirection.values()[world.getBlockMetadata(x, y - 1, z)]) == ForgeDirection.UP)
-				((BlockCollision) neighbor).breakBlockRecurse(world, x, y - 1, z, neighbor, dir.ordinal());
+		if ((neighbor = world.getBlockState(blockPos.down())).getBlock() instanceof BlockCollision)
+			if ((dir = (EnumFacing) world.getBlockState(blockPos.down()).getProperties().get(FACING)) == EnumFacing.UP)
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.down(), neighbor);
 
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	public Item getItemDropped(IBlockState state, Random random, int fortune)
 	{
 		return null;
-
 	}
 
 	/**
-	 * Gets the block's texture. Args: side, meta
+	 * Gets the block's texture. Args: side, meta -- removed in 1.8
 	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metaData)
-	{
-		return this.iconFront;
-
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_)
-	{
-		this.iconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int metaData)
+//	{
+//		return this.iconFront;
+//
+//	}
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister p_149651_1_)
+//	{
+//		this.iconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
+//	}
 
 }

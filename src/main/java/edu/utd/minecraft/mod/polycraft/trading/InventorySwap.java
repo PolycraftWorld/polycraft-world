@@ -58,7 +58,7 @@ public class InventorySwap {
 				}.getType());
 				String sendString = String.format("%s/players/%s/inventory/",
 						ServerEnforcer.portalRestUrl,
-						player.getDisplayName().toLowerCase());
+						player.getDisplayNameString().toLowerCase());
 
 				String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
 

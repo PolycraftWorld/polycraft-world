@@ -12,9 +12,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -252,7 +252,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 							}.getType());
 							String sendString = String.format("%s/players/%s/government/1/attempt_claim/",
 									ServerEnforcer.portalRestUrl,
-									(this.player).getDisplayName().toLowerCase());
+									(this.player).getDisplayNameString().toLowerCase());
 							
 							
 							String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
@@ -363,7 +363,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 						}.getType());
 						String sendString = String.format("%s/players/%s/government/1/attempt_claim/",
 								ServerEnforcer.portalRestUrl,
-								(this.player).getDisplayName().toLowerCase());
+								(this.player).getDisplayNameString().toLowerCase());
 				
 						String contentFromPortal = NetUtil.postInventory(sendString, jsonToSend);
 
@@ -430,7 +430,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 	
 	
 
-	private String getDisplayName() {
+	private String getDisplayNameString() {
 		return "Territory_Flag";
 	}
 

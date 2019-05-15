@@ -1,4 +1,3 @@
-
 // For those who want the bleeding edge
 buildscript {
     repositories {
@@ -14,10 +13,10 @@ buildscript {
 }
 
 repositories {
-	maven { // NEI Integration files requred for successful gradle build
-		name "chickenbones"
-		url "http://chickenbones.net/maven/"
-	}
+    maven { // NEI Integration files requred for successful gradle build
+        name "chickenbones"
+        url "http://chickenbones.net/maven/"
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -36,7 +35,7 @@ archivesBaseName = "polycraft"
 minecraft {
     version = "1.8.9-11.15.1.1722"
     runDir = "run"
-    
+
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
@@ -59,7 +58,7 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-      
+
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -76,38 +75,38 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-	compile group: 'com.microsoft.azure', name: 'azure-storage', version: '2.2.0'
-    
+    compile group: 'com.microsoft.azure', name: 'azure-storage', version: '2.2.0'
+
     // NEI Integration files requred for successful gradle build
     //compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
     //compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.138:dev'
     //compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
-    
+
     external 'org.apache.httpcomponents:httpclient:4.3.3'
     external 'org.apache.httpcomponents:httpcore:4.3.2'
 
 }
 
 processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                // replace version and mcversion
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
+
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
 
 jar {
     from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
-}
+} 

@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockChallengeBlock;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;

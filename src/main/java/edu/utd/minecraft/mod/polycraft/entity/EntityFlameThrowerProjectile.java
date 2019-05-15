@@ -1,10 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -24,7 +26,7 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 		this.setSize(1.0F, 1.0F);
 		this.setLocationAndAngles(p_i1771_2_.posX, p_i1771_2_.posY, p_i1771_2_.posZ, p_i1771_2_.rotationYaw, p_i1771_2_.rotationPitch);
 		this.setPosition(this.posX, posY, this.posZ);
-		this.yOffset = 0.0F;
+		this.setRenderYawOffset(0.0F);
 		this.motionX = this.motionY = this.motionZ = 0.0D;
 		this.accelerationX = p_i1771_3_;
 		this.accelerationY = p_i1771_5_;
@@ -33,25 +35,22 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition p_70227_1_) {
-		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer) shootingEntity, this, p_70227_1_, PrivateProperty.PermissionSet.Action.UseFlameThrower))
+	protected void onImpact(MovingObjectPosition objPos) {
+		if (Enforcer.getInstance(worldObj).possiblyKillProjectile((EntityPlayer) shootingEntity, this, objPos, PrivateProperty.PermissionSet.Action.UseFlameThrower))
 			return;
 
 		if (!this.worldObj.isRemote) {
 
-			if (p_70227_1_.entityHit != null) {
-				if (!p_70227_1_.entityHit.isImmuneToFire() && p_70227_1_.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), flameThrowerItem.damage)) {
-					p_70227_1_.entityHit.setFire(flameThrowerItem.fireDuration);
+			if (objPos.entityHit != null) {
+				if (!objPos.entityHit.isImmuneToFire() && objPos.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), flameThrowerItem.damage)) {
+					objPos.entityHit.setFire(flameThrowerItem.fireDuration);
 				}
 			}
 			else {
-				int i = p_70227_1_.blockX;
-				int j = p_70227_1_.blockY;
-				int k = p_70227_1_.blockZ;
 
-				Block block = worldObj.getBlock(i, j, k);
+				Block block = worldObj.getBlockState(objPos.getBlockPos()).getBlock();
 				if (block == Blocks.ice) {
-					this.worldObj.setBlock(i, j, k, Blocks.flowing_water);
+					this.worldObj.setBlockState(objPos.getBlockPos(), Blocks.flowing_water.getDefaultState());
 				}
 				else if (block == Blocks.deadbush
 						|| block == Blocks.sapling
@@ -66,24 +65,22 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 						|| block == Blocks.brown_mushroom
 						|| block == Blocks.tallgrass)
 				{
-					this.worldObj.setBlock(i, j, k, Blocks.fire);
+					this.worldObj.setBlockState(objPos.getBlockPos(), Blocks.fire.getDefaultState());
 				}
 				else if (block == Blocks.snow_layer)
 				{
-					this.worldObj.setBlock(i, j, k, Blocks.air);
+					this.worldObj.setBlockState(objPos.getBlockPos(), Blocks.air.getDefaultState());
 				}
 
 				else {
-					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70227_1_);
-					i = (int) blockCoords.xCoord;
-					j = (int) blockCoords.yCoord;
-					k = (int) blockCoords.zCoord;
-					if (worldObj.getBlock(i, j, k) == Blocks.water)
+					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(objPos);
+					BlockPos blockPos = new BlockPos(blockCoords.xCoord, blockCoords.yCoord, blockCoords.zCoord);
+					if (worldObj.getBlockState(blockPos).getBlock() == Blocks.water)
 					{
-						this.worldObj.setBlock(i, j, k, Blocks.air);
+						this.worldObj.setBlockState(objPos.getBlockPos(), Blocks.air.getDefaultState());
 					}
-					else if (this.worldObj.isAirBlock(i, j, k)) {
-						this.worldObj.setBlock(i, j, k, Blocks.fire);
+					else if (this.worldObj.isAirBlock(objPos.getBlockPos())) {
+						this.worldObj.setBlockState(objPos.getBlockPos(), Blocks.fire.getDefaultState());
 					}
 				}
 			}

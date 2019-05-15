@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.IWorldGenerator;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.schematic.PolySchematic;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
@@ -17,10 +16,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class ChallengesGenerator extends WorldGenerator implements IWorldGenerator {
 
@@ -31,7 +32,7 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
 			IChunkProvider chunkProvider) {
-		if (world.provider.dimensionId != 8) 
+		if (world.provider.getDimensionId() != 8)
 		{
 			return;
 		}else if( ((Math.abs(chunkX)%5==0) && (Math.abs(chunkZ)%5==0)))
@@ -74,7 +75,7 @@ public class ChallengesGenerator extends WorldGenerator implements IWorldGenerat
 	}
 
 	@Override
-	public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_) {
+	public boolean generate(World p_76484_1_, Random p_76484_2_, BlockPos blockPos) {
 		
 		return false;
 	}

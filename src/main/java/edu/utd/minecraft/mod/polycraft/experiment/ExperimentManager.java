@@ -11,9 +11,9 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -354,7 +354,7 @@ public class ExperimentManager {
 			//if(ex.currentState != Experiment.State.WaitingToStart) continue;
 			try {
 				for(String play : ex.scoreboard.getPlayers()) {
-					if(play.equals(player.getDisplayName())) {
+					if(play.equals(player.getDisplayNameString())) {
 						removePlayerFromExperiment(ex.id, (EntityPlayerMP)player);
 						//sendExperimentUpdates();
 						return true;
@@ -462,7 +462,7 @@ public class ExperimentManager {
 				System.out.println("List is null, help pls");
 			}
 			for (EntityPlayer player : this.globalPlayerList) {
-				if(player.getDisplayName().equals(playerName)) {
+				if(player.getDisplayNameString().equals(playerName)) {
 					return player;
 				}
 			}
@@ -490,7 +490,7 @@ public class ExperimentManager {
 		
 		for(EntityPlayer player : ex.scoreboard.getPlayersAsEntity()) {
 						
-			if(ex.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+			if(ex.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
 				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
 				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
 				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
@@ -577,7 +577,7 @@ public class ExperimentManager {
 		if (entity instanceof EntityPlayer && entity.worldObj.isRemote) {
 			EntityPlayer player = (EntityPlayer) entity;
 			for(Experiment ex: experiments.values()){
-				if(ex.isPlayerInExperiment(player.getDisplayName())){
+				if(ex.isPlayerInExperiment(player.getDisplayNameString())){
 					ex.render(entity);
 				}
 			}

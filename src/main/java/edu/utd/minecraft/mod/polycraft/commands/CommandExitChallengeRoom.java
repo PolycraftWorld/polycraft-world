@@ -41,7 +41,7 @@ public class CommandExitChallengeRoom extends CommandBase {
 			if(player.dimension == 8) {
 				//Remove the player from the experiment if no arguments are passed
 				//this will also remove their scoreboards now.
-				ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayName());
+				ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayNameString());
 				//unfreeze player
 				ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 				//clear player inventory

@@ -37,14 +37,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -155,7 +155,7 @@ public class ServerEnforcer extends Enforcer {
 		// new ClientBroadcastReceivedEvent(new ChatComponentText("<" +
 		// event.username + "> " + event.message),
 		// event.player.posX, event.player.posY, event.player.posY,
-		// itemStack.getDisplayName(), itemStack.getItemDamage());
+		// itemStack.getDisplayNameString(), itemStack.getItemDamage());
 
 		// MinecraftForge.EVENT_BUS.post(broadcast);
 
@@ -300,8 +300,8 @@ public class ServerEnforcer extends Enforcer {
 	@SubscribeEvent
 	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
 		System.out.println("Client Disconnect from server");
-		System.out.println("Player: " + event.player.getDisplayName());
-		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayName());
+		System.out.println("Player: " + event.player.getDisplayNameString());
+		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayNameString());
 		//clear player inventory, if they disconnected from dimension 8.
 		if(event.player.dimension == 8) {
 			event.player.inventory.mainInventory = new ItemStack[36];
@@ -503,10 +503,10 @@ public class ServerEnforcer extends Enforcer {
 
 	public void freezePlayerForTicks(int ticks, EntityPlayerMP player) {
 		//Freeze player for specific number of ticks
-		if(frozenPlayers.containsKey(player.getDisplayName())) {
-			frozenPlayers.replace(player.getDisplayName(), ticks);
+		if(frozenPlayers.containsKey(player.getDisplayNameString())) {
+			frozenPlayers.replace(player.getDisplayNameString(), ticks);
 		}else {
-			frozenPlayers.put(player.getDisplayName(), ticks);
+			frozenPlayers.put(player.getDisplayNameString(), ticks);
 		}
 		sendDataPackets(DataPacketType.FreezePlayer, 2, player);
 	}
@@ -521,7 +521,7 @@ public class ServerEnforcer extends Enforcer {
 			else {	//once the time runs out, we should unfreeze the player
 				for(Object obj: MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
 					if(obj instanceof EntityPlayerMP) {
-						if(((EntityPlayerMP)obj).getDisplayName().equals(playerName))
+						if(((EntityPlayerMP)obj).getDisplayNameString().equals(playerName))
 						{
 							sendDataPackets(DataPacketType.FreezePlayer, 0, ((EntityPlayerMP)obj));	//unfreeze player
 							removePlayer = true;
@@ -845,14 +845,14 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.Friends);
 			 //send updated experiments available to everyone
 			//sendDataPackets(DataPacketType.Governments);
-			if(this.whitelist.containsKey(player.getDisplayName().toLowerCase())) {
-				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+			if(this.whitelist.containsKey(player.getDisplayNameString().toLowerCase())) {
+				this.playerID = this.whitelist.get(player.getDisplayNameString().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
 				sendDataPackets(DataPacketType.playerID, 0, player);
 			}else {
 				if (!portalRestUrl.startsWith("file:")) {
 					try {
 						String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
-								ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
+								ImmutableMap.of("mincraft_user_name", player.getDisplayNameString().toLowerCase()));
 						
 						final GsonBuilder gsonBuilder = new GsonBuilder();
 						gsonBuilder.registerTypeAdapter(PlayerHelper.class,

@@ -256,10 +256,10 @@ public class PrivateProperty {
 	public boolean actionEnabled(final EntityPlayer player, final Action action) {
 		if (master) {
 			//if the player owns this property, they can do anything
-			if (owner.equalsIgnoreCase(player.getDisplayName()))
+			if (owner.equalsIgnoreCase(player.getDisplayNameString()))
 				return true;
 
-			final PermissionSet overridePermissions = permissionOverridesByUser.get(player.getDisplayName().toLowerCase());
+			final PermissionSet overridePermissions = permissionOverridesByUser.get(player.getDisplayNameString().toLowerCase());
 			//if there is a specific permission set for this user, use it over the defaults
 			if (overridePermissions != null)
 				return overridePermissions.enabled[action.ordinal()];

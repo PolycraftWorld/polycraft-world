@@ -2,8 +2,6 @@ package edu.utd.minecraft.mod.polycraft.worldgen;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.IWorldGenerator;
-import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
@@ -16,9 +14,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.fml.common.IWorldGenerator;
+import net.minecraftforge.fml.common.registry.GameData;
 
 public class ResearchAssistantLabGenerator extends WorldGenerator implements IWorldGenerator {
 
@@ -49,16 +51,22 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		super();
 	}
 
-	public void placeCondenser(World world, int x, int y, int z, ResearchAssistantEntity helper) {
-		world.setBlock(x, y, z, CONDENSER, 0, 2);
-		CondenserBlock cond = (CondenserBlock) world.getBlock(x, y, z);
-		cond.onBlockPlacedBy(world, x, y, z, helper, new ItemStack(CONDENSER));
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position) {
+		return false;
 	}
 
-	public void placeTreeTap(World world, int x, int y, int z) {
-		world.setBlock(x, y, z, TREE_TAP, 0, 2);
-		TreeTapBlock tap = (TreeTapBlock) world.getBlock(x, y, z);
-		tap.onBlockPlaced(world, x, y, z, 0, 0, 0, 0, 0);
+
+	public void placeCondenser(World world, BlockPos blockPos, ResearchAssistantEntity helper) {
+		world.setBlockState(blockPos, CONDENSER.getStateFromMeta(0), 2);
+		CondenserBlock cond = (CondenserBlock) world.getBlockState(blockPos).getBlock();
+		cond.onBlockPlacedBy(world, blockPos, world.getBlockState(blockPos), helper, new ItemStack(CONDENSER));
+	}
+
+	public void placeTreeTap(World world, BlockPos blockPos, ResearchAssistantEntity helper) {
+		world.setBlockState(blockPos, TREE_TAP.getStateFromMeta(0), 2);
+		TreeTapBlock tap = (TreeTapBlock) world.getBlockState(blockPos).getBlock();
+		tap.onBlockPlaced(world, blockPos, EnumFacing.DOWN,0, 0, 0, 0, helper);
 	}
 
 	public void spawnResearchAssistant(World world, int x, int y, int z) {
@@ -68,63 +76,64 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
-			IChunkProvider chunkProvider) {
-		if (world.provider.dimensionId != 0 || random.nextFloat() > CHUNK_PROB)
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+		if (world.provider.getDimensionId() != 0 || random.nextFloat() > CHUNK_PROB)
 			return;
 		int x = chunkX * 16;
 		int z = chunkZ * 16;
-		int y = world.getTopSolidOrLiquidBlock(x, z) - 1;
+		int y = world.getTopSolidOrLiquidBlock(new BlockPos(x, 1, z)).getY() - 1;
 		if (y - 20 < 1)
 			return;
 		y = random.nextInt(y - 20) + 5;
 
+		BlockPos pos = new BlockPos( x, y,z);
+
 		// Floor
 		for (int i = 0; i < 16; i++)
 			for (int k = 0; k < 16; k++)
-				world.setBlock(x + i, y, z + k, PVC, 15, 2);
+				world.setBlockState(pos.add(i, 0,k), PVC.getStateFromMeta(15), 2);
 
 		// 8x8x8 (10x10x10) Segment
 		for (int j = 0; j < 10; j++) {
 			for (int i = 0; i < 10; i++) {
-				world.setBlock(x + i, y + j, z + 6, PP, 15, 2);
-				world.setBlock(x + i, y + j, z + 15, PP, 15, 2);
+				world.setBlockState(pos.add(i,j,6), PP.getStateFromMeta(15), 2);
+				world.setBlockState(pos.add(i,j,15), PP.getStateFromMeta(15), 2);
 			}
 			for (int k = 15; k > 5; k--) {
-				world.setBlock(x, y + j, z + k, PP, 15, 2);
-				world.setBlock(x + 9, y + j, z + k, PP, 15, 2);
+				world.setBlockState(pos.add(0,j,k), PP.getStateFromMeta(15), 2);
+				world.setBlockState(pos.add(9,j,k), PP.getStateFromMeta(15), 2);
 			}
 		}
 		// Clear 8x8x8 room and make roof.
 		for (int i = 1; i < 9; i++) {
 			for (int k = 7; k < 15; k++) {
 				for (int j = 1; j < 9; j++)
-					world.setBlockToAir(x + i, y + j, z + k);
-				world.setBlock(x + i, y + 9, z + k, PP, random.nextInt(16), 2);
+					world.setBlockToAir(pos.add(i, j, k));
+				world.setBlockState(pos.add(i, 9, k), PP.getStateFromMeta(random.nextInt(16)), 2);
 			}
 		}
 
 		// Other walls.
 		for (int j = 1; j < 5; j++) {
 			for (int i = 1; i < 15; i++)
-				world.setBlock(x + i, y + j, z, PVC, 15, 2);
+				world.setBlockState(pos.add(i, j, 0), PVC.getStateFromMeta(15), 2);
 			for (int i = 10; i < 16; i++)
-				world.setBlock(x + i, y + j, z + 15, PVC, 15, 2);
+				world.setBlockState(pos.add(i, j, 15), PVC.getStateFromMeta(15), 2);
 			for (int k = 0; k < 6; k++) {
-				world.setBlock(x, y + j, z + k, PVC, 15, 2);
-				world.setBlock(x + 15, y + j, z + k, PVC, 15, 2);
+				world.setBlockState(pos.add(0, j, k), PVC.getStateFromMeta(15), 2);
+				world.setBlockState(pos.add(15, j, k), PVC.getStateFromMeta(15), 2);
 			}
 			for (int k = 6; k < 16; k++)
-				world.setBlock(x + 15, y + j, z + k, PVC, 15, 2);
+				world.setBlockState(pos.add(15, j, k), PVC.getStateFromMeta(15), 2);
 			// Clear the remaining area.
 			for (int i = 1; i < 15; i++)
 				for (int k = 1; k < 6; k++)
-					world.setBlockToAir(x + i, y + j, z + k);
+					world.setBlockToAir(pos.add(i, j, k));
 			for (int i = 10; i < 15; i++)
 				for (int k = 6; k < 15; k++)
-					world.setBlockToAir(x + i, y + j, z + k);
+					world.setBlockToAir(pos.add(i, j, k));
 		}
-
+/* 		//TODO: The rest of this needs to be converted to 1.8... I got lazy - StephenG
 		// First 2 rooms.
 		for (int k = 14; k > 7; k--) {
 			world.setBlock(x + 10, y + 1, z + k, PVC, 15, 2);
@@ -227,6 +236,7 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 		 * 9: 6 - condensers
 		 * 
 		 */
+/*
 		int loot = random.nextInt(NUM_SPAWNS.length);
 		for (int i = 0; i < NUM_SPAWNS[loot] - 1; i++)
 			spawnResearchAssistant(world, x + 2 + i, y + 1, z + 8);
@@ -289,11 +299,8 @@ public class ResearchAssistantLabGenerator extends WorldGenerator implements IWo
 			break;
 		}
 		world.spawnEntityInWorld(helper);
-
+*/
+		return;
 	}
 
-	@Override
-	public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_) {
-		return false;
-	}
 }

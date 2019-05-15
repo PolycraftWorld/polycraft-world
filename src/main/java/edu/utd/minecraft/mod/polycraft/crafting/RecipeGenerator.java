@@ -453,7 +453,7 @@ public class RecipeGenerator {
 						ImmutableList.of(furnaceRecipe.getKey()),
 						MathHelper.getRandomIntegerInRange(rand, 3, 7));
 			} catch (final Exception e) {
-				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
+				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayNameString() + " => " + furnaceRecipe.getValue().getDisplayNameString());
 				System.err.println(e.getMessage());
 			}
 		}

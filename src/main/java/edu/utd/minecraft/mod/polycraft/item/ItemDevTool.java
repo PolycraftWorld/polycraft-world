@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;

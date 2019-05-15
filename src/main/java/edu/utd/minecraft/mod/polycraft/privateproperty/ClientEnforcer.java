@@ -31,14 +31,14 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
@@ -311,7 +311,7 @@ public class ClientEnforcer extends Enforcer {
 			//			EntityPlayer sendingPlayer = null;
 //			//int ind = playerNames.indexOf(username);
 //			for(EntityPlayer player : (List<EntityPlayer>) client.theWorld.playerEntities) {
-//				if(username.equals(player.getDisplayName())) {
+//				if(username.equals(player.getDisplayNameString())) {
 //					sendingPlayer = player;
 //					break;
 //				}
@@ -335,9 +335,9 @@ public class ClientEnforcer extends Enforcer {
 			
 //			if(receivingPlayer.dimension != 8) {
 //				//only mess with this if the client is in dimension 8 (running experiments), otherwise, enable global chat.
-//				//System.out.println("receiving player: " + receivingPlayer.getDisplayName() + " " + receivingPlayer.dimension);
+//				//System.out.println("receiving player: " + receivingPlayer.getDisplayNameString() + " " + receivingPlayer.dimension);
 //				if(sendingPlayer != null && sendingPlayer.dimension != 8) {
-//					//System.out.println("Sending Player: " + sendingPlayer.getDisplayName() + " " + sendingPlayer.dimension);
+//					//System.out.println("Sending Player: " + sendingPlayer.getDisplayNameString() + " " + sendingPlayer.dimension);
 //					return; //send the message to the player if the sender is rendered
 //				}else {
 //					//System.out.println("is sendingPlayer null? " + (sendingPlayer==null));
@@ -411,7 +411,7 @@ public class ClientEnforcer extends Enforcer {
 			if (receivingPlayer.capabilities.isCreativeMode) //dont need to broadcast in creative mode, because normal chat will
 				return;
 
-			if (receivingPlayer.getDisplayName().equalsIgnoreCase(usernameSender)) //don't need to broadcast to yourself
+			if (receivingPlayer.getDisplayNameString().equalsIgnoreCase(usernameSender)) //don't need to broadcast to yourself
 				return;
 
 			//see what the receiver is holding
@@ -444,7 +444,7 @@ public class ClientEnforcer extends Enforcer {
 
 				//test if sending player holding phone and receiving player has a cell phone on hotbar and they are friends
 				//send message to a specific user (tell command)
-				//if (friends.contains(getFriendPairKey(whitelist.get(usernameSender), whitelist.get(receivingPlayer.getDisplayName()))))
+				//if (friends.contains(getFriendPairKey(whitelist.get(usernameSender), whitelist.get(receivingPlayer.getDisplayNameString()))))
 				//{
 				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Cell Phone").getItemStack().getUnlocalizedName())))
 				{
@@ -454,7 +454,7 @@ public class ClientEnforcer extends Enforcer {
 						final String[] textStream = message.split(":");
 						if (textStream != null && textStream.length > 1)
 						{
-							if (receivingPlayer.getDisplayName().equalsIgnoreCase(textStream[0]))
+							if (receivingPlayer.getDisplayNameString().equalsIgnoreCase(textStream[0]))
 							{
 								printBroadcastOnClient(receivingPlayer, usernameSender, message.substring(beginIndex).trim());
 							}
@@ -463,7 +463,7 @@ public class ClientEnforcer extends Enforcer {
 				}
 				//}
 
-				//if (friends.contains(getFriendPairKey(whitelist.get(usernameSender), whitelist.get(receivingPlayer.getDisplayName()))))
+				//if (friends.contains(getFriendPairKey(whitelist.get(usernameSender), whitelist.get(receivingPlayer.getDisplayNameString()))))
 				//{
 				if (itemStackSend != null && ((itemStackSend.getUnlocalizedName()).equals(CustomObject.registry.get("Smart Phone").getItemStack().getUnlocalizedName())))
 				{
@@ -539,7 +539,7 @@ public class ClientEnforcer extends Enforcer {
 		FMLProxyPacket[] packetList = null;
 		int flag = playerGivesConsent ? 0 : 1;
 		Gson gson = new Gson();
-		packetList = getDataPackets(DataPacketType.Consent, flag, gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		packetList = getDataPackets(DataPacketType.Consent, flag, gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayNameString()));
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {

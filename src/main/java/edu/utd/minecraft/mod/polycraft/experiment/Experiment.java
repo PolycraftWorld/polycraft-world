@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
@@ -200,7 +200,7 @@ public abstract class Experiment {
 	public boolean removePlayer(EntityPlayerMP player) {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
-				if(team.getPlayers().remove(player.getDisplayName())) {
+				if(team.getPlayers().remove(player.getDisplayNameString())) {
 					awaitingNumPlayers++;
 					return true;
 				}
@@ -242,7 +242,7 @@ public abstract class Experiment {
 	public boolean addPlayer(EntityPlayerMP player){
 		int playerCount = 0;
 		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getPlayers().contains(player.getDisplayName())) { //check to see if the player's name 
+			if(team.getPlayers().contains(player.getDisplayNameString())) { //check to see if the player's name 
 				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
 				return false;
 			}
@@ -251,7 +251,7 @@ public abstract class Experiment {
 		for(Team team: this.scoreboard.getTeams()) {
 			if(team.getSize() < teamSize) {
 				//team.getPlayers()
-				team.getPlayers().add(player.getDisplayName());//add player's name to the team
+				team.getPlayers().add(player.getDisplayNameString());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
 				//TODO: Inform the player which team they're on over here instead of a chat
 				//Pass this info to the ExperimentListMetaData as its sent to the player

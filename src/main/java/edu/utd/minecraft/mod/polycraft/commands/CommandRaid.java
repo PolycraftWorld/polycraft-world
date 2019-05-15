@@ -53,7 +53,7 @@ public class CommandRaid extends CommandBase {
 			if (args[0].equals("start") && args.length >= 4) {
 				PolycraftMinigameManager.INSTANCE.start(world,
 						new int[] { Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]) },
-						player.getDisplayName());
+						player.getDisplayNameString());
 			} else if (args[0].equals("stop")) {
 				PolycraftMinigameManager.INSTANCE.stop();
 			}

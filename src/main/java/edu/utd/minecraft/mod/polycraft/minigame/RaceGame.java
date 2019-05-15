@@ -10,9 +10,9 @@ import org.lwjgl.opengl.GL11;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -63,15 +63,15 @@ public class RaceGame extends PolycraftMinigame{
 	}
 
 	public void markCompleted(final EntityPlayer player) {
-		if (places.containsKey(player.getDisplayName()))
+		if (places.containsKey(player.getDisplayNameString()))
 			return;
-		System.out.println(player.getDisplayName());
+		System.out.println(player.getDisplayNameString());
 		completed++;
-		places.put(player.getDisplayName(), completed);
+		places.put(player.getDisplayNameString(), completed);
 		// player.addChatComponentMessage(new ChatComponentText(String.format("You are
 		// #%d!", completed)));
 		MinecraftServer.getServer().getConfigurationManager()
-				.sendChatMsg(new ChatComponentText(String.format(player.getDisplayName() + " is #%d!", completed)));
+				.sendChatMsg(new ChatComponentText(String.format(player.getDisplayNameString() + " is #%d!", completed)));
 		;
 	}
 	

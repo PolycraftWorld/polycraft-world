@@ -1,6 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.inventory.fluorescentlamp;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulContainer;
 import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -14,11 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
@@ -166,13 +162,13 @@ public class SolarArrayInventory extends PolycraftInventory {
 
 	private boolean blockNeighborsWater()
 	{
-		if ((this.worldObj.getBlock(this.xCoord + 1, this.yCoord, this.zCoord)) == Blocks.water)
+		if (this.worldObj.getBlockState(this.pos.north()).getBlock() == Blocks.water)
 			return true;
-		else if ((this.worldObj.getBlock(this.xCoord - 1, this.yCoord, this.zCoord)) == Blocks.water)
+		else if (this.worldObj.getBlockState(this.pos.south()).getBlock() == Blocks.water)
 			return true;
-		else if ((this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord + 1)) == Blocks.water)
+		else if (this.worldObj.getBlockState(this.pos.east()).getBlock() == Blocks.water)
 			return true;
-		else if ((this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord - 1)) == Blocks.water)
+		else if (this.worldObj.getBlockState(this.pos.west()).getBlock() == Blocks.water)
 			return true;
 		return false;
 
@@ -214,7 +210,7 @@ public class SolarArrayInventory extends PolycraftInventory {
 			if (iinventory instanceof ISidedInventory && b0 > -1)
 			{
 				ISidedInventory isidedinventory = (ISidedInventory) iinventory;
-				int[] aint = isidedinventory.getAccessibleSlotsFromSide(b0);
+				int[] aint = isidedinventory.getSlotsForFace(EnumFacing.getFront(b0));
 
 				if (aint != null) {
 					for (int k = 0; k < aint.length; ++k)
@@ -263,11 +259,11 @@ public class SolarArrayInventory extends PolycraftInventory {
 	}
 
 	private static boolean func_145890_b(IInventory iinventory, ItemStack itemStack, int p_145890_2_, int p_145890_3_) {
-		return !(iinventory instanceof ISidedInventory) || ((ISidedInventory) iinventory).canExtractItem(p_145890_2_, itemStack, p_145890_3_);
+		return !(iinventory instanceof ISidedInventory) || ((ISidedInventory) iinventory).canExtractItem(p_145890_2_, itemStack, EnumFacing.getFront(p_145890_3_));
 	}
 
 	public static IInventory getAssociatedIInventory(SolarArrayInventory spi) {
-		return getIInventoryAtCoordsHelper(spi.getWorldObj(), spi.xCoord, spi.yCoord + 1.0D, spi.zCoord);
+		return getIInventoryAtCoordsHelper(spi.getWorld(), spi.pos.getX(), spi.pos.getY() + 1.0D, spi.pos.getZ());
 	}
 
 	private boolean transferInventories() {
@@ -288,7 +284,7 @@ public class SolarArrayInventory extends PolycraftInventory {
 				if (this.getStackInSlot(i) != null)
 				{
 					ItemStack itemstack = this.getStackInSlot(i).copy();
-					ItemStack itemstack1 = testSlotIndiciesToSpawnItems(((SolarArrayInventory) iinventory), this.decrStackSize(i, 1), Facing.oppositeSide[getDirectionFromMetadata(this.getBlockMetadata())]);
+					ItemStack itemstack1 = testSlotIndiciesToSpawnItems(((SolarArrayInventory) iinventory), this.decrStackSize(i, 1), EnumFacing.getFront(this.getBlockMetadata()).getOpposite().getIndex());
 
 					if (itemstack1 == null || itemstack1.stackSize == 0)
 					{
@@ -375,29 +371,29 @@ public class SolarArrayInventory extends PolycraftInventory {
 
 	private static boolean sunShiningInputSlotsAreWaterAndDecrementThem(SolarArrayInventory spi, int decWaterAmt) {
 
-		if (!spi.getWorldObj().isDaytime())
+		if (!spi.getWorld().isDaytime())
 			return false;
-		if (spi.getWorldObj().isRaining())
+		if (spi.getWorld().isRaining())
 			return false;
 
 		int xWeight;
 		int zWeight;
-		if (spi.blockMetadata == ForgeDirection.NORTH.ordinal())
+		if (spi.getBlockMetadata() == EnumFacing.NORTH.getIndex())
 		{
 			xWeight = -1;
 			zWeight = 1;
 		}
-		else if (spi.blockMetadata == ForgeDirection.EAST.ordinal())
+		else if (spi.getBlockMetadata() == EnumFacing.EAST.getIndex())
 		{
 			xWeight = -1;
 			zWeight = -1;
 		}
-		else if (spi.blockMetadata == ForgeDirection.SOUTH.ordinal())
+		else if (spi.getBlockMetadata() == EnumFacing.SOUTH.getIndex())
 		{
 			xWeight = 1;
 			zWeight = -1;
 		}
-		else if (spi.blockMetadata == ForgeDirection.WEST.ordinal())
+		else if (spi.getBlockMetadata() == EnumFacing.WEST.getIndex())
 		{
 			xWeight = 1;
 			zWeight = 1;
@@ -409,7 +405,7 @@ public class SolarArrayInventory extends PolycraftInventory {
 		for (int x = 0; x < 8; x++)
 		{
 			for (int z = 0; z < 8; z++) {
-				if (!spi.getWorldObj().canBlockSeeTheSky(spi.xCoord + (xWeight * x), spi.yCoord, spi.zCoord + (zWeight * z)))
+				if (!spi.getWorld().canBlockSeeSky(spi.pos.add(xWeight * x, 0, zWeight * z)))
 					return false;
 
 			}
@@ -418,15 +414,15 @@ public class SolarArrayInventory extends PolycraftInventory {
 		//make sure there are no collision blocks above us in the center because they dont block the light; only test a few areas to make faster
 		for (int y = 1; y < 7; y++)
 		{
-			if (spi.getWorldObj().getBlock(spi.xCoord + (xWeight * 1), spi.yCoord + y, spi.zCoord + (zWeight * 1)) == PolycraftMod.blockCollision)
+			if (spi.getWorld().getBlockState(spi.pos.add(xWeight, y, zWeight)).getBlock() == PolycraftMod.blockCollision)
 				return false;
-			if (spi.getWorldObj().getBlock(spi.xCoord + (xWeight * 4), spi.yCoord + y, spi.zCoord + (zWeight * 4)) == PolycraftMod.blockCollision)
+			if (spi.getWorld().getBlockState(spi.pos.add(xWeight * 4, y, zWeight * 4)).getBlock() == PolycraftMod.blockCollision)
 				return false;
-			if (spi.getWorldObj().getBlock(spi.xCoord + (xWeight * 7), spi.yCoord + y, spi.zCoord + (zWeight * 7)) == PolycraftMod.blockCollision)
+			if (spi.getWorld().getBlockState(spi.pos.add(xWeight * 7, y, zWeight * 7)).getBlock() == PolycraftMod.blockCollision)
 				return false;
-			if (spi.getWorldObj().getBlock(spi.xCoord + (xWeight * 1), spi.yCoord + y, spi.zCoord + (zWeight * 7)) == PolycraftMod.blockCollision)
+			if (spi.getWorld().getBlockState(spi.pos.add(xWeight, y, zWeight * 7)).getBlock()== PolycraftMod.blockCollision)
 				return false;
-			if (spi.getWorldObj().getBlock(spi.xCoord + (xWeight * 7), spi.yCoord + y, spi.zCoord + (zWeight * 1)) == PolycraftMod.blockCollision)
+			if (spi.getWorld().getBlockState(spi.pos.add(xWeight * 7, y, zWeight)).getBlock() == PolycraftMod.blockCollision)
 				return false;
 
 		}
@@ -509,7 +505,9 @@ public class SolarArrayInventory extends PolycraftInventory {
 
 	private IInventory getFacingIInventory() {
 		int i = getDirectionFromMetadata(this.getBlockMetadata());
-		return getIInventoryAtCoordsHelper(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
+		return getIInventoryAtCoordsHelper(this.getWorld(), this.pos.getX() + EnumFacing.getFront(i).getFrontOffsetX(),
+				this.pos.getY() + EnumFacing.getFront(i).getFrontOffsetY(),
+				this.pos.getZ() + EnumFacing.getFront(i).getFrontOffsetZ());
 	}
 
 	public static IInventory getIInventoryAtCoordsHelper(World worldObj, double xCoord, double yCoord, double zCoord) {
@@ -517,7 +515,7 @@ public class SolarArrayInventory extends PolycraftInventory {
 		int i = MathHelper.floor_double(xCoord);
 		int j = MathHelper.floor_double(yCoord);
 		int k = MathHelper.floor_double(zCoord);
-		TileEntity tileentity = worldObj.getTileEntity(i, j, k);
+		TileEntity tileentity = worldObj.getTileEntity(new BlockPos(i, j, k));
 
 		if (tileentity != null && tileentity instanceof IInventory)
 		{
@@ -525,19 +523,19 @@ public class SolarArrayInventory extends PolycraftInventory {
 
 			if (iinventory instanceof TileEntityChest)
 			{
-				Block block = worldObj.getBlock(i, j, k);
+				Block block = worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
 
 				if (block instanceof BlockChest)
 				{
-					iinventory = ((BlockChest) block).func_149951_m(worldObj, i, j, k);
+					iinventory = ((BlockChest) block).getLockableContainer(worldObj, new BlockPos(i, j, k));
 				}
 			}
 		}
 
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1.0D, yCoord + 1.0D, zCoord + 1.0D),
-					IEntitySelector.selectInventories);
+			List list = worldObj.getEntitiesInAABBexcluding((Entity) null, AxisAlignedBB.fromBounds(xCoord, yCoord, zCoord, xCoord + 1.0D, yCoord + 1.0D, zCoord + 1.0D),
+					EntitySelectors.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{

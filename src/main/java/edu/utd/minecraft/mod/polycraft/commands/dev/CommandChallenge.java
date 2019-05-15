@@ -136,7 +136,7 @@ public class CommandChallenge  extends CommandBase{
 			}else {
 				if(player.dimension == 8) {
 					//Remove the player from the experiment if no arguments are passed
-					ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayName());
+					ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayNameString());
 					//clear player inventory
 					player.inventory.mainInventory = new ItemStack[36];
 					player.inventory.armorInventory = new ItemStack[4];

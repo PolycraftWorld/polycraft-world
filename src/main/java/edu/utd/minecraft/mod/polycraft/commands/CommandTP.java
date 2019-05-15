@@ -119,7 +119,7 @@ public class CommandTP extends CommandBase{
 					else if (chatCommandTeleportArgPrivateProperty.equalsIgnoreCase(args[0])) {
 						if (args.length < 3) {
 							final List<PrivateProperty> ownerPrivateProperties = Enforcer.getPrivatePropertiesByOwner()
-									.get(player.getDisplayName().toLowerCase());
+									.get(player.getDisplayNameString().toLowerCase());
 							if (ownerPrivateProperties != null) {
 								int index = 0;
 								try {

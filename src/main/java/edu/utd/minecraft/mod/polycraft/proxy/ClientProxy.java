@@ -4,19 +4,20 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -97,10 +98,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -491,7 +488,7 @@ public class ClientProxy extends CommonProxy {
 
 	 public static void render(float frame) {
 	        GL11.glPushMatrix();
-	        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+	        Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
 	        double interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * frame;
 	        double interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * frame;
 	        double interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * frame;
@@ -752,9 +749,9 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private static String getFrequency(final ItemStack itemStack, final double frequency) {
-		if (itemStack.getDisplayName().equalsIgnoreCase("voice cone")) {
+		if (itemStack.getDisplayNameString().equalsIgnoreCase("voice cone")) {
 			return "";
-		} else if (itemStack.getDisplayName().equalsIgnoreCase("megaphone")) {
+		} else if (itemStack.getDisplayNameString().equalsIgnoreCase("megaphone")) {
 			return "";
 		}
 
@@ -774,10 +771,10 @@ public class ClientProxy extends CommonProxy {
 						break;
 					}
 				}
-				client.fontRenderer.drawStringWithShadow(message, x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow(message, x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			} else if (ItemScubaTank.isEquipped(player)) {
-				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemScubaTank.getEquippedItemStack(player), ItemScubaTank.getAirRemainingPercent(player)), x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow(getOverlayStatusPercent(ItemScubaTank.getEquippedItemStack(player), ItemScubaTank.getAirRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
@@ -789,7 +786,7 @@ public class ClientProxy extends CommonProxy {
 
 					} else {
 
-						client.fontRenderer.drawStringWithShadow(playerState.airQualityClean ? "Clean" : "Dirty", x, y, 16777215);
+						client.fontRendererObj.drawStringWithShadow(playerState.airQualityClean ? "Clean" : "Dirty", x, y, 16777215);
 						y += statusOverlayDistanceBetweenY;
 
 					}
@@ -804,19 +801,19 @@ public class ClientProxy extends CommonProxy {
 				playerState.airQualityTicksRemaining--;
 
 			if (ItemFlameThrower.isEquipped(player)) {
-				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow(getOverlayStatusPercent(ItemFlameThrower.getEquippedItemStack(player), ItemFlameThrower.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			} else if (ItemFreezeRay.isEquipped(player)) {
-				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemFreezeRay.getEquippedItemStack(player), ItemFreezeRay.getFuelRemainingPercent(player)), x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow(getOverlayStatusPercent(ItemFreezeRay.getEquippedItemStack(player), ItemFreezeRay.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			} else if (ItemWaterCannon.isEquipped(player)) {
-				client.fontRenderer.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player), ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow(getOverlayStatusPercent(ItemWaterCannon.getEquippedItemStack(player), ItemWaterCannon.getFuelRemainingPercent(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
 			else if (ItemCommunication.isEquipped(player)) {
 
-				client.fontRenderer.drawStringWithShadow(getFrequency(ItemCommunication.getEquippedItemStack(player), ItemCommunication.getFrequency(player)), x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow(getFrequency(ItemCommunication.getEquippedItemStack(player), ItemCommunication.getFrequency(player)), x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
@@ -827,13 +824,13 @@ public class ClientProxy extends CommonProxy {
 				}
 
 				else {
-					client.fontRenderer.drawStringWithShadow("Synced Inventory With Portal (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
+					client.fontRendererObj.drawStringWithShadow("Synced Inventory With Portal (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 					y += statusOverlayDistanceBetweenY;
 
 				}
 
 			} else if (playerState.choseToSyncInventoryAgain) {
-				client.fontRenderer.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
 
@@ -850,11 +847,9 @@ public class ClientProxy extends CommonProxy {
 					for (int testX = -8; testX <= 8; testX++) {
 						for (int testY = 0; testY < 64; testY++) {
 							for (int testZ = -8; testZ <= 8; testZ++) {
-								final int blockX = (int) (player.posX + testX);
-								final int blockY = testY;
-								final int blockZ = (int) (player.posZ + testZ);
-								if (!player.worldObj.isAirBlock(blockX, blockY, blockZ)) {
-									final Block testBlock = player.worldObj.getBlock(blockX, blockY, blockZ);
+								final BlockPos blockPos = new BlockPos(player.posX + testX,testY, player.posZ + testZ);
+								if (!player.worldObj.isAirBlock(blockPos)) {
+									final Block testBlock = player.worldObj.getBlockState(blockPos).getBlock();
 									if (testBlock instanceof BlockOre) {
 										final Ore ore = ((BlockOre) testBlock).ore;
 										Integer found = playerState.cheatInfoOreBlocksFound.get(ore);
@@ -869,10 +864,10 @@ public class ClientProxy extends CommonProxy {
 					}
 				}
 			} else {
-				client.fontRenderer.drawStringWithShadow("Cheat Info (" + playerState.cheatInfoTicksRemaining + ")", x, y, 16777215);
+				client.fontRendererObj.drawStringWithShadow("Cheat Info (" + playerState.cheatInfoTicksRemaining + ")", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 				for (final Entry<Ore, Integer> foundOre : playerState.cheatInfoOreBlocksFound.entrySet()) {
-					client.fontRenderer.drawStringWithShadow(foundOre.getValue() + " " + foundOre.getKey().name, x, y, 16777215);
+					client.fontRendererObj.drawStringWithShadow(foundOre.getValue() + " " + foundOre.getKey().name, x, y, 16777215);
 					y += statusOverlayDistanceBetweenY;
 				}
 				y += statusOverlayDistanceBetweenY;
@@ -1005,7 +1000,7 @@ public class ClientProxy extends CommonProxy {
 
 	private boolean isPlayerLookingAtPogoCancellingBlock() {
 		if (client.objectMouseOver != null) {
-			final Block block = client.theWorld.getBlock(client.objectMouseOver.blockX, client.objectMouseOver.blockY, client.objectMouseOver.blockZ);
+			final Block block = client.theWorld.getBlockState(client.objectMouseOver.getBlockPos()).getBlock();
 			return block instanceof BlockContainer
 					|| block instanceof BlockWorkbench
 					|| block instanceof BlockDoor

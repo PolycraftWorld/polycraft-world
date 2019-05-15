@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 
@@ -50,7 +51,7 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 		Preconditions.checkNotNull(containerType);
 		Preconditions.checkNotNull(config);
 		this.containerType = containerType;
-		this.guiTexture = new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png", PolycraftMod.getFileSafeName(config.name))));
+		this.guiTexture = new ResourceLocation(PolycraftMod.getAssetNameString(String.format("textures/gui/container/%s.png", PolycraftMod.getFileSafeName(config.name))));
 	}
 
 	public PolycraftCraftingContainer getCraftingContainer(final InventoryPlayer playerInventory) {
@@ -257,4 +258,26 @@ public abstract class PolycraftInventory extends PolycraftBasicTileEntityContain
 
 	}
 
+	//new methods in 1.8
+
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		return;
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
 }

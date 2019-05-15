@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
@@ -62,7 +62,7 @@ public class CommandMinigame extends CommandBase{
 					{
 						argsArray=null;
 					}
-					String envoker = player.getDisplayName();
+					String envoker = player.getDisplayNameString();
 					//PolycraftMinigame test =PolycraftMinigameManager.INSTANCE;
 					if(PolycraftMinigameManager.INSTANCE!=null)
 					{

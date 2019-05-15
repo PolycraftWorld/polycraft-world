@@ -11,7 +11,12 @@ public class PolycraftWorldProvider extends WorldProvider{
 	public String getDimensionName() {
 		return "example World";
 	}
-	
+
+	@Override
+	public String getInternalNameSuffix() {
+		return null;
+	}
+
 	public void registerWorldChunkManager()
 	{
 		this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.river, 0.3F);

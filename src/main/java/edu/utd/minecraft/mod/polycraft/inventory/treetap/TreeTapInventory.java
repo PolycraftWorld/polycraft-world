@@ -352,7 +352,7 @@ public class TreeTapInventory extends PolycraftInventory {
 
 				if (block instanceof BlockChest)
 				{
-					iinventory = ((BlockChest) block).func_149951_m(worldObj, i, j, k);
+					iinventory = ((BlockChest) block).getLockableContainer(worldObj, new BlockPos(i, j, k));
 				}
 			}
 		}

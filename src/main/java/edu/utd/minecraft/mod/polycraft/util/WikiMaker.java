@@ -275,7 +275,7 @@ public class WikiMaker {
 				return MINECRAFT_WIKI + "Dyeing";
 			}
 			return MINECRAFT_WIKI
-					+ itemStack.getDisplayName().replaceAll(" ", "%20");
+					+ itemStack.getDisplayNameString().replaceAll(" ", "%20");
 		}
 		return getItemStackName(itemStack);
 	}
@@ -493,7 +493,7 @@ public class WikiMaker {
 			return ((ItemPolymerWall) item).blockPolymerWall.polymerWall.name;
 		if (item instanceof net.minecraft.item.ItemDye)
 			return "Dye";
-		return itemStack.getDisplayName();
+		return itemStack.getDisplayNameString();
 	}
 
 	private static String getInventorySlot(final int slotIndex,

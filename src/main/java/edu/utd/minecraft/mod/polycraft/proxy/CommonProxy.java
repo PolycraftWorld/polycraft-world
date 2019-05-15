@@ -6,14 +6,22 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -132,11 +140,11 @@ public abstract class CommonProxy {
 
 	private void sendMessageToServer(final int type, final int value) {
 		netChannel.sendToServer(
-				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(value).copy(), netChannelName));
+				new FMLProxyPacket(new PacketBuffer(Unpooled.buffer().writeInt(type).writeInt(value).copy()), netChannelName));
 	}
 
 	@SubscribeEvent
-	public synchronized void onServerPacket(final ServerCustomPacketEvent event) {
+	public synchronized void onServerPacket(final FMLNetworkEvent.ServerCustomPacketEvent event) {
 		final PlayerState playerState = getPlayerState(((NetHandlerPlayServer) event.handler).playerEntity);
 		final ByteBuf payload = event.packet.payload();
 		switch (payload.readInt()) {
@@ -148,7 +156,7 @@ public abstract class CommonProxy {
 			break;
 		case netMessageClientFailedDoorPass:
 			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
-			player.worldObj.setBlock((int)player.posX, (int)player.posY, (int)player.posZ, Blocks.lava, 0, 3);
+			player.worldObj.setBlockState(player.getPosition(), Blocks.lava.getDefaultState(),3);
 			break;
 		case netMessageMinigame:
 			
@@ -199,28 +207,23 @@ public abstract class CommonProxy {
 	}
 
 	protected static Block getBlockUnderEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX),
-				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlockState(entity.getPosition().down(1)).getBlock();
 	}
 
 	protected static Block getBlockUnderNorthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX),
-				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ - 1));
+		return entity.worldObj.getBlockState(entity.getPosition().north(1)).getBlock();
 	}
 
 	protected static Block getBlockUnderSouthOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX),
-				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ + 1));
+		return entity.worldObj.getBlockState(entity.getPosition().south(1)).getBlock();
 	}
 
 	protected static Block getBlockUnderEastOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX + 1),
-				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlockState(entity.getPosition().east(1)).getBlock();
 	}
 
 	protected static Block getBlockUnderWestOfEntity(final Entity entity) {
-		return entity.worldObj.getBlock((int) Math.floor(entity.posX - 1),
-				(int) Math.floor(entity.posY - entity.getYOffset()) - 1, (int) Math.floor(entity.posZ));
+		return entity.worldObj.getBlockState(entity.getPosition().west(1)).getBlock();
 	}
 
 	protected static boolean isEntityOnBouncyBlock(final Entity entity) {
@@ -389,7 +392,7 @@ public abstract class CommonProxy {
 
 	@SubscribeEvent
 	public synchronized void onServerTick(final TickEvent.ServerTickEvent tick) {
-		if (tick.phase == Phase.END) {
+		if (tick.phase == TickEvent.Phase.END) {
 			if(System.getProperty("isExperimentServer") != null) {
 				ExperimentManager.INSTANCE.onServerTickUpdate(tick);
 				ServerScoreboard.INSTANCE.onServerTick(tick);

@@ -4,14 +4,14 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,12 +22,14 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
 public class TreeTapBlock extends PolycraftInventoryBlock {
 
-	@SideOnly(Side.CLIENT)
-	public IIcon iconOutside;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconInside;
+
+
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconOutside;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconTop;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconInside;
 
 	public TreeTapBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass, Material.wood, 2.5F);
@@ -37,87 +39,88 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	/**
 	 * Gets the block's texture. Args: side, meta
 	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-	{
-		return p_149691_1_ == 1 ? this.iconTop : this.iconOutside;
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int p_149691_1_, int p_149691_2_)
+//	{
+//		return p_149691_1_ == 1 ? this.iconTop : this.iconOutside;
+//	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_)
-	{
-		this.iconOutside = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_outside")));
-		this.iconTop = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_top")));
-		this.iconInside = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_inside")));
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister p_149651_1_)
+//	{
+//		this.iconOutside = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_outside")));
+//		this.iconTop = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_top")));
+//		this.iconInside = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_inside")));
+//	}
 
 	/**
 	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-	}
+//	@Override
+//	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
+//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+//	}
 
 	/**
 	 * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
 	 */
-	@Override
-	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
-		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-		float f = 0.125F;
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
-		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-		this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-		this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-	}
+//	@Override
+//	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_) {
+//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
+//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
+//		float f = 0.125F;
+//		this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
+//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
+//		this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
+//		this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
+//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+//	}
 
 	@Override
-	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
+	public void onBlockPlacedBy(World worldObj, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack itemToPlace) {
 	}
 
 	/**
-	 * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
-	 */
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
 	@Override
-	public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_) {
-		int j1 = Facing.oppositeSide[p_149660_5_];
-
-		if (j1 == 1) {
-			j1 = 0;
+	public IBlockState onBlockPlaced(World p_149660_1_, BlockPos blockPos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		if (facing == EnumFacing.UP) {
+			facing = EnumFacing.DOWN;
 		}
 
-		return j1;
+		return this.getStateFromMeta(facing.getIndex());
 	}
 
 	/**
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are their own) Args: x, y, z, neighbor Block
 	 */
 	@Override
-	public void onNeighborBlockChange(World worldObj, int xCoord, int yCoord, int zCoord, Block neighborBlock)
+	public void onNeighborBlockChange(World worldObj, BlockPos blockPos, IBlockState state, Block neighborBlock)
 	{
-		this.notifyIfNeighborPowered(worldObj, xCoord, yCoord, zCoord);
+		this.notifyIfNeighborPowered(worldObj, blockPos);
 	}
 
-	private void notifyIfNeighborPowered(World worldObj, int xCoord, int yCoord, int zCoord)
+	//TODO: is the TREE Tap supposed to do something when powered???
+	private void notifyIfNeighborPowered(World worldObj, BlockPos blockPos)
 	{
-		int l = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		int i1 = TreeTapInventory.getDirectionFromMetadata(l);
-		boolean flag = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
-		boolean flag1 = isLargestMetaDataBitSet(l);
+		boolean flag = worldObj.isBlockPowered(blockPos);
+//		int i1 = TreeTapInventory.getDirectionFromMetadata(l);
+//		boolean flag = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+//		boolean flag1 = isLargestMetaDataBitSet(l);
 
-		if (flag != flag1)
-		{
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i1 | (flag ? 0 : 8), 4);
-		}
+		//if (flag != flag1)
+//		if(flag)
+//		{
+//			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i1 | (flag ? 0 : 8), 4);
+//		}
 	}
 
 	public static boolean isLargestMetaDataBitSet(int metaData)
@@ -166,22 +169,22 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	 * If hasComparatorInputOverride returns true, the return value from this is used instead of the redstone signal strength when this block inputs to a comparator.
 	 */
 	@Override
-	public int getComparatorInputOverride(World worldObj, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
+	public int getComparatorInputOverride(World worldIn, BlockPos blockPos)
 	{
-		return Container.calcRedstoneFromInventory(func_149920_e(worldObj, p_149736_2_, p_149736_3_, p_149736_4_));
+		return Container.calcRedstoneFromInventory(func_149920_e(worldIn, blockPos));
 	}
 
-	public static TreeTapInventory func_149920_e(IBlockAccess p_149920_0_, int p_149920_1_, int p_149920_2_, int p_149920_3_)
+	public static TreeTapInventory func_149920_e(IBlockAccess p_149920_0_, BlockPos blockPos)
 	{
-		return (TreeTapInventory) p_149920_0_.getTileEntity(p_149920_1_, p_149920_2_, p_149920_3_);
+		return (TreeTapInventory) p_149920_0_.getTileEntity(blockPos);
 	}
 
 	/**
 	 * Gets the icon name of the ItemBlock corresponding to this block. Used by tree taps.
 	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getItemIconName() {
-		return PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name));
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public String getItemIconName() {
+//		return PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(config.name));
+//	}
 }

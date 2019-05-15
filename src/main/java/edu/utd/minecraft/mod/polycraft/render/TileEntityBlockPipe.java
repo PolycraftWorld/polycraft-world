@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.render;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,9 +11,11 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -65,19 +68,20 @@ public class TileEntityBlockPipe extends TileEntity{
         p_145841_1_.setByte("d", this.directionIn);
     }
 	
-	public static void setDirectionIn(World worldObj, int xCoord, int yCoord, int zCoord) {
-		TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(xCoord, yCoord, zCoord);
+	public static void setDirectionIn(World worldObj, BlockPos pos) {
+		TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(pos);
 		bte.clearDirectionIn();
-		for (ForgeDirection testdir: ForgeDirection.values())
-			if (isDirectionIn(worldObj,testdir, xCoord, yCoord, zCoord))
+		for (EnumFacing testdir: EnumFacing.values())
+			if (isDirectionIn(worldObj,testdir, pos))
 				bte.addDirectionIn(testdir);
 	}
 	
-	private static boolean isDirectionIn(World worldObj, ForgeDirection testdir, int xCoord, int yCoord, int zCoord)
+	private static boolean isDirectionIn(World worldObj, EnumFacing testdir, BlockPos pos)
 	{
-		if (PolycraftMod.getInventoryAt(worldObj, xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) != null)
+		if (PolycraftMod.getInventoryAt(worldObj, pos.offset(testdir)) != null)
 			return true;
-		if ((worldObj.getBlock(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ) instanceof Flowable) && (worldObj.getBlockMetadata(xCoord+testdir.offsetX, yCoord+testdir.offsetY, zCoord+testdir.offsetZ)==testdir.getOpposite().ordinal()))
+		if ((worldObj.getBlockState(pos.offset(testdir)).getBlock() instanceof Flowable)
+                && (worldObj.getBlockState(pos.offset(testdir)).getBlock().getMetaFromState(worldObj.getBlockState(pos.offset(testdir)))==testdir.getOpposite().ordinal()))
 			return true;
 		return false;		
 	}

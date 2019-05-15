@@ -14,9 +14,9 @@ import com.google.common.collect.Sets;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -77,7 +77,7 @@ public class ServerScoreboard extends ScoreboardManager {
 		switch (type) {
 		case UpdatePlayerTeam:
 			for (EntityPlayer player : board.getPlayersAsEntity()) {
-				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayName());
+				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayNameString());
 				final String updateStringJson = gson.toJson(teamPlayerIsOn, playerTeamString);
 				if(updateStringJson != null && player != null && player.isEntityAlive()) {
 					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, (EntityPlayerMP)player, ScoreboardManager.DataType.UpdatePlayerTeam.ordinal()); //Send 1 for team update
@@ -101,7 +101,7 @@ public class ServerScoreboard extends ScoreboardManager {
 			break;
 		case UpdateTeammates:
 			for (EntityPlayer player : board.getPlayersAsEntity()) {
-				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayName());
+				Team teamPlayerIsOn = board.getPlayerTeam(player.getDisplayNameString());
 				final String updateStringJson = gson.toJson(teamPlayerIsOn.getPlayers(), teamMatesStringType);
 				if(updateStringJson != null && player != null && player.isEntityAlive()) {
 					ServerEnforcer.INSTANCE.sendScoreboardUpdatePackets(updateStringJson, (EntityPlayerMP)player, ScoreboardManager.DataType.UpdateTeammates.ordinal()); //Send 1 for team update

@@ -2,7 +2,7 @@ package edu.utd.minecraft.mod.polycraft.experiment;
 
 import java.util.HashMap;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;

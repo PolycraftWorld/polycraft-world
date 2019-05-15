@@ -70,7 +70,7 @@ public class CommandExit  extends CommandBase{
 		{
 			if(player.dimension == 8) {
 				//Remove the player from the experiment if no arguments are passed
-				ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayName());
+				ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayNameString());
 				EntityPlayerMP playerMP = (EntityPlayerMP) player;
 				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0,	new PolycraftTeleporter(playerMP.mcServer.worldServerForDimension(0)));
 			} else {

@@ -84,7 +84,7 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
             {
                 if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
                 {
-                    ((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
+                    ((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayNameString());
                 }
 
                 if (!par2EntityPlayer.capabilities.isCreativeMode)
@@ -148,7 +148,7 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
                                   .hasDisplayName())
                             {
                                 ((EntityLiving)entity).setCustomNameTag(par1ItemStack
-                                      .getDisplayName());
+                                      .getDisplayNameString());
                             }
 
                             if (!par3EntityPlayer.capabilities.isCreativeMode)

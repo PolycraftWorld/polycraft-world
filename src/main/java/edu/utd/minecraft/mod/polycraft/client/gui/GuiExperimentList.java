@@ -15,8 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.client.config.GuiCheckBox;
-import cpw.mods.fml.client.config.GuiSlider;
+import net.minecraftforge.fml.client.config.GuiCheckBox;
+import net.minecraftforge.fml.client.config.GuiSlider;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -683,7 +683,7 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
      * @param wantToJoin True if player wants to join, False if they want to withdraw
      */
     private void sendExperimentUpdateToServer(int experimentID, boolean wantToJoin) {
-    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, wantToJoin);
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayNameString(), experimentID, wantToJoin);
     	Gson gson = new Gson();
 		Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>(){}.getType();
 		final String experimentUpdates = gson.toJson(part, gsonType);
@@ -691,7 +691,7 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     }
     
     private void sendExperimentUpdateToServer(int experimentID, ExperimentParameters params) {
-    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, params);
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayNameString(), experimentID, params);
     	GsonBuilder gBuilder = new GsonBuilder();
     	gBuilder.setPrettyPrinting();
     	Gson gson = gBuilder.create();

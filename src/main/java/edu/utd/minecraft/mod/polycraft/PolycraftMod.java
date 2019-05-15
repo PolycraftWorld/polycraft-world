@@ -18,27 +18,23 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.common.util.ForgeDirection;
 
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.commands.CommandConsent;
 import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
@@ -109,14 +105,14 @@ public class PolycraftMod {
 	// public static final ComputerTab tabComputer = new
 	// ComputerTab("tabComputer");
 
-	@Instance(value = MODID)
+	@Mod.Instance(value = MODID)
 	public static PolycraftMod instance;
 
 	@SidedProxy(clientSide = "edu.utd.minecraft.mod.polycraft.proxy.ClientProxy", serverSide = "edu.utd.minecraft.mod.polycraft.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	public static final ArmorMaterial armorMaterialNone = EnumHelper
-			.addArmorMaterial("none", 0, new int[] { 3, 8, 6, 3 }, 0);
+			.addArmorMaterial("none", null, 0, new int[] { 3, 8, 6, 3 }, 0);
 
 	public static final int oilDesertBiomeId = 215;
 	public static final int oilOceanBiomeId = 216;
@@ -268,8 +264,13 @@ public class PolycraftMod {
 		event.registerServerCommand(new CommandReg());
 		event.registerServerCommand(new CommandExitChallengeRoom());
 	}
-	
-	public static String getAssetName(final String name) {
+
+
+	public static ResourceLocation getAssetName(final String name) {
+		return new ResourceLocation(PolycraftMod.MODID + ":" + name);
+	}
+
+	public static String getAssetNameString(final String name) {
 		return PolycraftMod.MODID + ":" + name;
 	}
 
@@ -353,41 +354,41 @@ public class PolycraftMod {
 																			// coding!
 		{
 			if ((Item.getItemFromBlock((Block) Block.blockRegistry
-					.getObject("red_mushroom"))).hashCode() == itemStack
+					.getObject(new ResourceLocation("red_mushroom")))).hashCode() == itemStack
 					.getItem().hashCode())
 				return ("Red " + PolycraftMod.getRegistryName(itemStack
 						.getItem()));
 			else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-					.getObject("red_mushroom_block"))).hashCode() == itemStack
+					.getObject(new ResourceLocation("red_mushroom_block")))).hashCode() == itemStack
 					.getItem().hashCode())
 				return ("Red "
 						+ PolycraftMod.getRegistryName(itemStack.getItem()) + " Block");
 			else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-					.getObject("brown_mushroom_block"))).hashCode() == itemStack
+					.getObject(new ResourceLocation("brown_mushroom_block")))).hashCode() == itemStack
 					.getItem().hashCode())
 				return ("Brown "
 						+ PolycraftMod.getRegistryName(itemStack.getItem()) + " Block");
 		}
 
 		else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-				.getObject("wooden_pressure_plate"))).hashCode() == itemStack
+				.getObject(new ResourceLocation("wooden_pressure_plate")))).hashCode() == itemStack
 				.getItem().hashCode()) {
 			return ("Wooden " + PolycraftMod.getRegistryName(itemStack
 					.getItem()));
 		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-				.getObject("snow_layer"))).hashCode() == itemStack.getItem()
+				.getObject(new ResourceLocation("snow_layer")))).hashCode() == itemStack.getItem()
 				.hashCode()) {
 			return PolycraftMod.getRegistryName(itemStack.getItem()) + "Layer";
 		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-				.getObject("melon_block"))).hashCode() == itemStack.getItem()
+				.getObject(new ResourceLocation("melon_block")))).hashCode() == itemStack.getItem()
 				.hashCode()) {
 			return PolycraftMod.getRegistryName(itemStack.getItem()) + " Block";
 		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-				.getObject("quartz_ore"))).hashCode() == itemStack.getItem()
+				.getObject(new ResourceLocation("quartz_ore")))).hashCode() == itemStack.getItem()
 				.hashCode()) {
 			return "Quartz Ore";
 		} else if ((Item.getItemFromBlock((Block) Block.blockRegistry
-				.getObject("nether_brick"))).hashCode() == itemStack.getItem()
+				.getObject(new ResourceLocation("nether_brick")))).hashCode() == itemStack.getItem()
 				.hashCode()) {
 			return "Nether Brick (Block)"; // in conjunction with
 											// PolycraftRegistry.registerMinecraftBlocks
@@ -441,9 +442,9 @@ public class PolycraftMod {
 	public static void setPolycraftStackCompoundTag(ItemStack par1ItemStack) {
 		// TODO: this may not be the best way to do things, but works by
 		// overiding
-		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null)) {
+		if ((par1ItemStack != null) && (par1ItemStack.getTagCompound() == null)) {
 			PolycraftItemHelper.createTagCompound(par1ItemStack);
-			par1ItemStack.stackTagCompound
+			par1ItemStack.getTagCompound()
 					.setByte("polycraft-recipe", (byte) 1);
 		}
 
@@ -456,43 +457,37 @@ public class PolycraftMod {
 	}
 
 	public static Vec3 getAdjacentCoords(final Vec3 currentCoords,
-			final int direction, final boolean opposite) {
-		ForgeDirection forgeDirection = ForgeDirection.values()[direction];
+			EnumFacing direction, final boolean opposite) {
 		if (opposite)
-			forgeDirection = forgeDirection.getOpposite();
-		return Vec3.createVectorHelper(currentCoords.xCoord
-				+ forgeDirection.offsetX, currentCoords.yCoord
-				+ forgeDirection.offsetY, currentCoords.zCoord
-				+ forgeDirection.offsetZ);
+			direction = direction.getOpposite();
+		return new Vec3(currentCoords.xCoord
+				+ direction.getFrontOffsetX(), currentCoords.yCoord
+				+ direction.getFrontOffsetY(), currentCoords.zCoord
+				+ direction.getFrontOffsetZ());
 	}
 
 	public static Vec3 getAdjacentCoordsSideHit(
 			final MovingObjectPosition position) {
-		final ForgeDirection direction = ForgeDirection.values()[position.sideHit];
-		return Vec3.createVectorHelper(position.blockX + direction.offsetX,
-				position.blockY + direction.offsetY, position.blockZ
-						+ direction.offsetZ);
+		final EnumFacing direction = position.sideHit;
+		return new Vec3(position.getBlockPos().getX() + direction.getFrontOffsetX(),
+				position.getBlockPos().getY() + direction.getFrontOffsetY(), position.getBlockPos().getZ()
+						+ direction.getFrontOffsetZ());
 	}
 
-	public static IInventory getInventoryAt(final World world, final double x,
-			final double y, final double z) {
+	public static IInventory getInventoryAt(final World world, BlockPos blockPos) {
 		IInventory iinventory = null;
-		final int i = MathHelper.floor_double(x);
-		final int j = MathHelper.floor_double(y);
-		final int k = MathHelper.floor_double(z);
-		TileEntity tileentity = world.getTileEntity(i, j, k);
+		TileEntity tileentity = world.getTileEntity(blockPos);
 		if (tileentity != null && tileentity instanceof IInventory) {
 			iinventory = (IInventory) tileentity;
 			if (iinventory instanceof TileEntityChest) {
-				final Block block = world.getBlock(i, j, k);
+				final Block block = world.getBlockState(blockPos).getBlock();
 				if (block instanceof BlockChest)
-					iinventory = ((BlockChest) block).func_149951_m(world, i,
-							j, k);
+					iinventory = ((BlockChest) block).getLockableContainer(world, blockPos);
+				//iinventory = ((BlockChest) block).func_149951_m(world, i, j, k); changed from 1.7.10 to 1.8
 			}
-		} else if (world.getBlock(i, j, k) instanceof BlockCollision) {
-			tileentity = BlockCollision.findConnectedInventory(world, i, j, k);
-			return getInventoryAt(world, tileentity.xCoord, tileentity.yCoord,
-					tileentity.zCoord);
+		} else if (world.getBlockState(blockPos).getBlock() instanceof BlockCollision) {
+			tileentity = BlockCollision.findConnectedInventory(world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			return getInventoryAt(world, blockPos);
 
 		}
 		return iinventory;

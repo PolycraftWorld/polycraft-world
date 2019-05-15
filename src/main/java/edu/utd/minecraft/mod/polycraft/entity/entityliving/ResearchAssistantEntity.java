@@ -3,7 +3,7 @@ package edu.utd.minecraft.mod.polycraft.entity.entityliving;
 import java.util.ArrayList;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
