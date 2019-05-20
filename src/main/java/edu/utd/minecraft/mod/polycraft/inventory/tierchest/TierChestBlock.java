@@ -13,7 +13,6 @@ import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +20,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -29,10 +27,10 @@ public class TierChestBlock extends PolycraftInventoryBlock  {
 	
 	 public static final String[] field_150157_a = new String[] {"wood", "copper", "iron","gold","diamond","emerald"};
 	 private static final String[] field_150156_b = new String[] {"0", "1", "2","3","4","5"};
-	 @SideOnly(Side.CLIENT)
-	 private IIcon[] field_150158_M;
-	 @SideOnly(Side.CLIENT)
-	 private IIcon[] field_150159_N;
+//	 @SideOnly(Side.CLIENT)
+//	 private IIcon[] field_150158_M;
+//	 @SideOnly(Side.CLIENT)
+//	 private IIcon[] field_150159_N;
 	 private int count=0;
 	 
 
@@ -56,31 +54,30 @@ public class TierChestBlock extends PolycraftInventoryBlock  {
     /**
      * Returns the color this block should be rendered. Used by leaves.
      */
-	@Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderColor(int p_149741_1_)
-    {
-        return 16777215;
-    }
+//	@Override
+//    @SideOnly(Side.CLIENT)
+//    public int getRenderColor(int p_149741_1_)
+//    {
+//        return 16777215;
+//    }
 
     /**
      * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
      * when first determining what to render.
      */
-	@Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
-    {
-        return 16777215;
-    }
+//	@Override
+//    @SideOnly(Side.CLIENT)
+//    public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
+//    {
+//        return 16777215;
+//    }
 	
 	
 	
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are)
-    {
-		if (!world.isRemote)
-        {
-			
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
+		if (!world.isRemote) {/*
+			//TODO: update to 1.8
+
 	        if(((TierChestInventory)world.getTileEntity(x, y, z)).getActive())
 	        {
 	        	((TierChestInventory)world.getTileEntity(x, y, z)).setActive(false);
@@ -117,12 +114,14 @@ public class TierChestBlock extends PolycraftInventoryBlock  {
         {
         	super.onBlockActivated(world,x, y, z,  player,  metadata,  what,  these,  are);
         	return true;
-        }
-		
-		
-        
-    }
-	
+        }*/
+
+
+		}
+		return true;
+	}
+
+	/*
 	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
@@ -193,6 +192,6 @@ public class TierChestBlock extends PolycraftInventoryBlock  {
 	        }
 
 	        
-	    }
+	    }*/
 
 }

@@ -2,7 +2,6 @@ package edu.utd.minecraft.mod.polycraft.inventory.oilderrick;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,12 +11,12 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
 public class OilDerrickBlock extends PolycraftInventoryBlock {
 
-	@SideOnly(Side.CLIENT)
-	public IIcon iconOutside;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	public IIcon iconInside;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconOutside;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconTop;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconInside;
 	
 	public boolean placed = true;
 
@@ -26,15 +25,15 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
-	/**
-	 * Gets the block's texture. Args: side, meta
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-	{
-		return p_149691_1_ == 1 ? this.iconTop : this.iconOutside;
-	}
+//	/**
+//	 * Gets the block's texture. Args: side, meta
+//	 */
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int p_149691_1_, int p_149691_2_)
+//	{
+//		return p_149691_1_ == 1 ? this.iconTop : this.iconOutside;
+//	}
 
 	//
 	//	@Override
@@ -191,9 +190,9 @@ public class OilDerrickBlock extends PolycraftInventoryBlock {
 	//	/**
 	//	 * Gets the icon name of the ItemBlock corresponding to this block. Used by oil derricks.
 	//	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getItemIconName() {
-		return PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name));
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public String getItemIconName() {
+//		return PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name));
+//	}
 }

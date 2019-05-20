@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import codechicken.lib.vec.Vector3;
-import cpw.mods.fml.common.registry.GameData;
+//import codechicken.lib.vec.Vector3;
+//import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.HPBlock;
@@ -19,7 +19,7 @@ import edu.utd.minecraft.mod.polycraft.tileentity.TileEntityHPBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHardenedClay;
 import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.block.BlockWood;
+//import net.minecraft.block.BlockWood;
 import net.minecraft.block.material.Material;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -128,7 +128,7 @@ public class EntityIronCannonBall extends Entity {
             int z=(int)(Math.floor(this.posZ));//+zOffset
             //this.motionY+=this.acc;
             
-            
+            /* TODO update to 1.8
             if (!(world.isAirBlock(x, y, z)) && !(world.getBlock(x, y, z) instanceof CannonBlock))
             {
             	
@@ -333,7 +333,7 @@ public class EntityIronCannonBall extends Entity {
             
             this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
             this.setPosition(this.posX, this.posY, this.posZ);
-    
+    */
             
         }
 	}
@@ -357,7 +357,7 @@ public class EntityIronCannonBall extends Entity {
 		double U1= Math.sqrt((Ux1*Ux1+Uz1*Uz1));
 		double U2= Math.sqrt((Ux2*Ux2+Uz2*Uz2));
 		
-		
+		/* TODO: update to 1.8
 		Vector3 Vecx=new Vector3();
 		Vecx.set(1, 0, 0);
 
@@ -441,7 +441,7 @@ public class EntityIronCannonBall extends Entity {
 		World world= entity.worldObj;
 		//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 1: X:"+Vec1.x+" , Z: "+Vec1.z));
 		//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("Ball 2: X:"+Vec2.x+" , Z: "+Vec2.z));
-		
+		*/
 		
 				
 	}

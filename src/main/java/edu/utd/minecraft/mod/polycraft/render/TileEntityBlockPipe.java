@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.render;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -12,9 +11,9 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -39,19 +38,19 @@ public class TileEntityBlockPipe extends TileEntity{
 		PolycraftRegistry.registerBlockWithItem(pipeConfig.gameID, pipeConfig.name, bp, pipeConfig.itemID, pipeConfig.itemName, ItemBlockPipe.class, new Object[]{});
 		
 		GameRegistry.registerTileEntity(TileEntityBlockPipe.class, pipeConfig.tileEntityGameID);
-		RenderingRegistry.registerBlockHandler(bprh.getRenderId(), bprh);
+		//RenderingRegistry.registerBlockHandler(bprh.getRenderId(), bprh); TODO: Fix this?
 	}
 	
 	@Override
     public Packet getDescriptionPacket() {
         NBTTagCompound tag = new NBTTagCompound();
         this.writeToNBT(tag);
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
+        return new S35PacketUpdateTileEntity(pos, 1, tag);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        readFromNBT(packet.func_148857_g());
+        readFromNBT(packet.getNbtCompound());
     }
 	
 	@Override
@@ -91,19 +90,19 @@ public class TileEntityBlockPipe extends TileEntity{
 		this.directionIn = 0;
 	}
 	
-	private void addDirectionIn(final ForgeDirection dir)
+	private void addDirectionIn(final EnumFacing dir)
 	{
 		this.directionIn |= 1 << dir.ordinal();
 	}
 	
-	public boolean hasDirectionIn(final ForgeDirection dir)
+	public boolean hasDirectionIn(final EnumFacing dir)
 	{
 		return (directionIn & (1 << dir.ordinal())) > 0;
 	}
 
     public static EntityItem func_145897_a(World worldObj, double p_145897_1_, double p_145897_3_, double p_145897_5_)
     {
-        List list = worldObj.selectEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(p_145897_1_, p_145897_3_, p_145897_5_, p_145897_1_ + 1.0D, p_145897_3_ + 1.0D, p_145897_5_ + 1.0D), IEntitySelector.selectAnything);
+        List list = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.fromBounds(p_145897_1_, p_145897_3_, p_145897_5_, p_145897_1_ + 1.0D, p_145897_3_ + 1.0D, p_145897_5_ + 1.0D), EntitySelectors.selectAnything);
         return list.size() > 0 ? (EntityItem)list.get(0) : null;
     }
 
@@ -113,7 +112,7 @@ public class TileEntityBlockPipe extends TileEntity{
      */
     public double getXPos()
     {
-        return (double)this.xCoord;
+        return (double)this.pos.getX();
     }
 
     /**
@@ -121,7 +120,7 @@ public class TileEntityBlockPipe extends TileEntity{
      */
     public double getYPos()
     {
-        return (double)this.yCoord;
+        return (double)this.pos.getY();
     }
 
     /**
@@ -129,6 +128,6 @@ public class TileEntityBlockPipe extends TileEntity{
      */
     public double getZPos()
     {
-        return (double)this.zCoord;
+        return (double)this.pos.getZ();
     }
 }

@@ -2,8 +2,6 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
@@ -15,7 +13,10 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureGroup extends TutorialFeature{
 	
@@ -31,7 +32,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	
 	public TutorialFeatureGroup() {}
 	
-	public TutorialFeatureGroup(String name, Vec3 pos, GroupType type){
+	public TutorialFeatureGroup(String name, BlockPos pos, GroupType type){
 		super(name, pos, Color.YELLOW);
 		this.type = type;
 		super.featureType = TutorialFeatureType.GROUP;

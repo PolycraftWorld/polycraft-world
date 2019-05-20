@@ -13,8 +13,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModelCustom;
-import net.minecraftforge.client.model.obj.ObjModelLoader;
 
 @SideOnly(Side.CLIENT)
 public class ModelTerritoryFlag extends ModelBase
@@ -38,13 +36,13 @@ public class ModelTerritoryFlag extends ModelBase
     public ModelRenderer part13;
     public ModelRenderer part14;
     public ModelRenderer part15;
-    
+
     public ModelRenderer part16;
     public ModelRenderer part17;
     public ModelRenderer part18;
     public ModelRenderer part19;
     public ModelRenderer part20;
-	private IModelCustom inventoryModel;
+	//private IModelCustom inventoryModel;
 	public ResourceLocation objFile;
 	public ResourceLocation textureFile;
 
@@ -54,7 +52,7 @@ public class ModelTerritoryFlag extends ModelBase
     {
     	this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/territory_flag.obj");
 		//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
-		this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
+		//this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
 		this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/corrupted_territory_flag.png");
 	
 //        float f = 4.0F;
@@ -160,7 +158,7 @@ public class ModelTerritoryFlag extends ModelBase
     	GL11.glScalef(0.2F, 0.2F, 0.2F);
 		GL11.glTranslatef(-12.45F, -25.0F, -37.5F);
     	Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
-		this.inventoryModel.renderAll();
+		//this.inventoryModel.renderAll();
 		
 		
 		if(inColor)

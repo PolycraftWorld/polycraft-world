@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,9 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -127,18 +124,18 @@ public class OilDerrickInventory extends PolycraftInventory {
 		// for (final int[] tappedCoordOffset : tappedCoordOffsets) {
 		// final int y = yCoord + tappedCoordOffset[0];
 		// final int z = zCoord + tappedCoordOffset[1];
-		final Block oreBlock = getWorldObj().getBlock(xCoord, yCoord - 1, zCoord);
+		final Block oreBlock = getWorld().getBlockState(this.pos.down()).getBlock();
 		if (oreBlock != null && oreBlock instanceof BlockOre) {
 			if (((BlockOre) oreBlock).ore.gameID.equals(spawnFromOre.gameID)) {
 				if (spawnAttempts++ >= spawnFrequencyTicks) {
-					int meta = getWorldObj().getBlockMetadata(xCoord, yCoord - 1, zCoord);
+					int meta = oreBlock.getMetaFromState(getWorld().getBlockState(this.pos.down()));
 
 					spawnAttempts = 0;
 					amountOfOilHarvested++;
 
 					// every oilPerMetaDatavalue drums of oil, this should decrement the blocks meta data
 					if ((meta > 0) && (amountOfOilHarvested % oilPerMetaDatavalue == 0))
-						getWorldObj().setBlock(xCoord, yCoord - 1, zCoord, oreBlock, meta - 1, 2);
+						getWorld().setBlockState(this.pos.down(), oreBlock.getStateFromMeta(meta - 1), 2);
 
 					if (meta > 0)
 						return compoundVesselToSpawn.getItemStack(amountToSpawn);
@@ -189,7 +186,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 			if (iinventory instanceof ISidedInventory && b0 > -1)
 			{
 				ISidedInventory isidedinventory = (ISidedInventory) iinventory;
-				int[] aint = isidedinventory.getAccessibleSlotsFromSide(b0);
+				int[] aint = isidedinventory.getSlotsForFace(EnumFacing.getFront(b0));
 
 				if (aint != null) {
 					for (int k = 0; k < aint.length; ++k)
@@ -238,11 +235,11 @@ public class OilDerrickInventory extends PolycraftInventory {
 	}
 
 	private static boolean func_145890_b(IInventory p_145890_0_, ItemStack p_145890_1_, int p_145890_2_, int p_145890_3_) {
-		return !(p_145890_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145890_0_).canExtractItem(p_145890_2_, p_145890_1_, p_145890_3_);
+		return !(p_145890_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145890_0_).canExtractItem(p_145890_2_, p_145890_1_, EnumFacing.getFront(p_145890_3_));
 	}
 
 	public static IInventory func_145884_b(OilDerrickInventory p_145884_0_) {
-		return func_145893_b(p_145884_0_.getWorldObj(), p_145884_0_.xCoord, p_145884_0_.yCoord + 1.0D, p_145884_0_.zCoord);
+		return func_145893_b(p_145884_0_.getWorld(), p_145884_0_.pos.up());
 	}
 
 	private boolean func_145883_k() {
@@ -259,7 +256,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 				if (this.getStackInSlot(i) != null)
 				{
 					ItemStack itemstack = this.getStackInSlot(i).copy();
-					ItemStack itemstack1 = func_145889_a(iinventory, this.decrStackSize(i, 1), Facing.oppositeSide[getDirectionFromMetadata(this.getBlockMetadata())]);
+					ItemStack itemstack1 = func_145889_a(iinventory, this.decrStackSize(i, 1), EnumFacing.getFront(getDirectionFromMetadata(this.getBlockMetadata())).getOpposite().getIndex());
 
 					if (itemstack1 == null || itemstack1.stackSize == 0)
 					{
@@ -278,7 +275,7 @@ public class OilDerrickInventory extends PolycraftInventory {
 	public static ItemStack func_145889_a(IInventory p_145889_0_, ItemStack p_145889_1_, int p_145889_2_) {
 		if (p_145889_0_ instanceof ISidedInventory && p_145889_2_ > -1) {
 			ISidedInventory isidedinventory = (ISidedInventory) p_145889_0_;
-			int[] aint = isidedinventory.getAccessibleSlotsFromSide(p_145889_2_);
+			int[] aint = isidedinventory.getSlotsForFace(EnumFacing.getFront(p_145889_2_));
 
 			for (int l = 0; l < aint.length && p_145889_1_ != null && p_145889_1_.stackSize > 0; ++l) {
 				p_145889_1_ = func_145899_c(p_145889_0_, p_145889_1_, aint[l], p_145889_2_);
@@ -355,20 +352,17 @@ public class OilDerrickInventory extends PolycraftInventory {
 	}
 
 	private static boolean func_145885_a(IInventory p_145885_0_, ItemStack p_145885_1_, int p_145885_2_, int p_145885_3_) {
-		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, p_145885_3_);
+		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, EnumFacing.getFront(p_145885_3_));
 	}
 
 	private IInventory func_145895_l() {
 		int i = getDirectionFromMetadata(this.getBlockMetadata());
-		return func_145893_b(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
+		return func_145893_b(this.getWorld(), this.pos.add(EnumFacing.getFront(i).getFrontOffsetX(), EnumFacing.getFront(i).getFrontOffsetY(), EnumFacing.getFront(i).getFrontOffsetZ()));
 	}
 
-	public static IInventory func_145893_b(World worldObj, double p_145893_1_, double p_145893_3_, double p_145893_5_) {
+	public static IInventory func_145893_b(World worldObj, BlockPos pos) {
 		IInventory iinventory = null;
-		int i = MathHelper.floor_double(p_145893_1_);
-		int j = MathHelper.floor_double(p_145893_3_);
-		int k = MathHelper.floor_double(p_145893_5_);
-		TileEntity tileentity = worldObj.getTileEntity(i, j, k);
+		TileEntity tileentity = worldObj.getTileEntity(pos);
 
 		if (tileentity != null && tileentity instanceof IInventory)
 		{
@@ -376,19 +370,19 @@ public class OilDerrickInventory extends PolycraftInventory {
 
 			if (iinventory instanceof TileEntityChest)
 			{
-				Block block = worldObj.getBlock(i, j, k);
+				Block block = worldObj.getBlockState(pos).getBlock();
 
 				if (block instanceof BlockChest)
 				{
-					iinventory = ((BlockChest) block).getLockableContainer(worldObj, new BlockPos(i, j, k));
+					iinventory = ((BlockChest) block).getLockableContainer(worldObj, pos);
 				}
 			}
 		}
 
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getBoundingBox(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
-					IEntitySelector.selectInventories);
+			List list = worldObj.getEntitiesInAABBexcluding((Entity) null, AxisAlignedBB.fromBounds(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0D, pos.getY() + 1.0D, pos.getZ() + 1.0D),
+					EntitySelectors.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{

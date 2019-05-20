@@ -1,22 +1,23 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlaceBlockPP extends BlockAir {
 
@@ -26,7 +27,7 @@ public class PlaceBlockPP extends BlockAir {
 		super();
 		this.config=config;
 		this.setCreativeTab(CreativeTabs.tabMisc);
-		this.setBlockName("Place Block");
+//		this.setBlockName("Place Block");
 		this.setBlockUnbreakable();
 	}
 	
@@ -45,25 +46,25 @@ public class PlaceBlockPP extends BlockAir {
      * cleared to be reused)
      */
 	@Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
+    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state)
     {
         return null;
     }
 	
 	@Override
-	public void onBlockClicked(World p_149699_1_, int x, int y, int z, EntityPlayer player) 
+	public void onBlockClicked(World p_149699_1_, BlockPos pos, EntityPlayer player)
 	{
 		//player.addChatMessage(new ChatComponentText("Test!"));
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
 	{	
 		return false;
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) 
+	public void onEntityCollidedWithBlock(World p_149670_1_, BlockPos pos, Entity entity)
 	{
 		if(entity instanceof EntityPlayer)
 		{
@@ -98,18 +99,18 @@ public class PlaceBlockPP extends BlockAir {
         return Item.getItemById(0);
     }
     
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int colorIndex) {
-		return this.blockIcon;
-	}
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_)
-    {
-    	this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("Blank")));
-
-        
-    }
+//    @Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int colorIndex) {
+//		return this.blockIcon;
+//	}
+//
+//    @SideOnly(Side.CLIENT)
+//    public void registerBlockIcons(IIconRegister p_149651_1_)
+//    {
+//    	this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("Blank")));
+//
+//
+//    }
 
 }

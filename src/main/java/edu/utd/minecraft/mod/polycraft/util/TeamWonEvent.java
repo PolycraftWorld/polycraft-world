@@ -9,14 +9,13 @@ import net.minecraft.world.World;
 
 import java.util.UUID;
 
-import cpw.mods.fml.common.eventhandler.Cancelable;
-import cpw.mods.fml.common.eventhandler.Event;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class TeamWonEvent extends Event{
+public class TeamWonEvent extends Event {
 	
 	public String playername = null;
 	public static EntityPlayer player = null;

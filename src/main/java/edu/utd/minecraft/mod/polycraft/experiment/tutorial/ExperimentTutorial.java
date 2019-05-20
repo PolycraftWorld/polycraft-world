@@ -12,9 +12,6 @@ import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
@@ -61,10 +58,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.util.*;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
@@ -122,27 +116,25 @@ public class ExperimentTutorial{
 	/**
 	 * 
 	 * @param id
-	 * @param world
 	 * @param options
 	 * @param features
-	 * @param isDev If True, will not genereate area and will not transport to dimension 8
 	 */
 	public ExperimentTutorial(int id, TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
 		
 		this.id = id;
-		Vec3 pos1 = Vec3.createVectorHelper(Math.min(options.pos.xCoord, options.size.xCoord),
+		Vec3 pos1 = new Vec3(Math.min(options.pos.xCoord, options.size.xCoord),
 				Math.min(options.pos.yCoord, options.size.yCoord),
 				Math.min(options.pos.zCoord, options.size.zCoord));
-		this.size = Vec3.createVectorHelper(Math.max(options.pos.xCoord, options.size.xCoord) - pos1.xCoord,
+		this.size = new Vec3(Math.max(options.pos.xCoord, options.size.xCoord) - pos1.xCoord,
 				Math.max(options.pos.yCoord, options.size.yCoord) - pos1.yCoord,
 				Math.max(options.pos.zCoord, options.size.zCoord) - pos1.zCoord);
 		if(genInDim8) {
 			dim = 8;
-			this.posOffset = Vec3.createVectorHelper(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
-			this.pos = Vec3.createVectorHelper(pos1.xCoord + posOffset.xCoord, pos1.yCoord + posOffset.yCoord, pos1.zCoord + posOffset.zCoord);
+			this.posOffset = new Vec3(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
+			this.pos = new Vec3(pos1.xCoord + posOffset.xCoord, pos1.yCoord + posOffset.yCoord, pos1.zCoord + posOffset.zCoord);
 		}else {
 			dim = 0;
-			this.posOffset = Vec3.createVectorHelper(0,0,0);
+			this.posOffset = new Vec3(0,0,0);
 			this.pos = pos1;
 		}
 		
@@ -195,7 +187,7 @@ public class ExperimentTutorial{
 		for(Team team: this.scoreboard.getTeams()) {
 			if(team.getSize() < teamSize) {
 				//team.getPlayers()
-				team.getPlayers().add(player.getDisplayName());//add player's name to the team
+				team.getPlayers().add(player.getDisplayNameString());//add player's name to the team
 				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
 				//TODO: Inform the player which team they're on over here instead of a chat
 				//Pass this info to the ExperimentListMetaData as its sent to the player
@@ -420,8 +412,8 @@ public class ExperimentTutorial{
 					int curblock = (int)blocks[count];
 					
 					if(curblock == 0 || curblock == 76) {
-						if(!world.isAirBlock(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord))
-							world.setBlockToAir(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord);
+						if(!world.isAirBlock(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord)))
+							world.setBlockToAir(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord));
 						count++;
 						continue;
 					}
@@ -435,7 +427,7 @@ public class ExperimentTutorial{
 //						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
 //						count++;
 					}else {
-						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
+						world.setBlockState(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord), Block.getBlockById(curblock).getDefaultState(), 3);
 						count++;
 					}
 				}

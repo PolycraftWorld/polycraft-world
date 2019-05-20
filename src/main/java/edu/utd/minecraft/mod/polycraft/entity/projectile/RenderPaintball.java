@@ -1,7 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.entity.projectile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPaintBall__Old;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
@@ -9,9 +7,12 @@ import edu.utd.minecraft.mod.polycraft.entity.projectile.ModelPaintball;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -25,7 +26,8 @@ public class RenderPaintball extends Render {
 	protected ModelPaintball ModelPaintball;
 	private float shadowSize;
 	public int pbcolor;
-	public RenderPaintball() {
+	public RenderPaintball(RenderManager renderManager) {
+		super(renderManager);
 		this.shadowSize = 0.5F;
 		this.ModelPaintball = new ModelPaintball();
 		this.ModelPaintball.setColor(0xFF660000);

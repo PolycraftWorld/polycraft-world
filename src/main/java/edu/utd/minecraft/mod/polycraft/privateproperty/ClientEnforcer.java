@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
@@ -26,9 +27,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
@@ -157,7 +160,7 @@ public class ClientEnforcer extends Enforcer {
 	
 	
 	@SubscribeEvent
-	public void KeyInputEvent(cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent event) {
+	public void KeyInputEvent(InputEvent.KeyInputEvent event) {
 		if (keyBindingPrivateProperty.isPressed()) {
 			showPrivateProperty = !showPrivateProperty;
 		}
@@ -817,34 +820,34 @@ public class ClientEnforcer extends Enforcer {
 							}
 						}
 						for (final StatusMessage statusMessage : statusMessages) {
-							client.fontRenderer.drawStringWithShadow(statusMessage.text, x, y, overlayColor);
+							client.fontRendererObj.drawStringWithShadow(statusMessage.text, x, y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}
 					}
 					if (targetPrivateProperty != null && (showPrivateProperty || actionPreventedPrivateProperty != null)) {
 						if (insidePrivateProperty != null) {
-							client.fontRenderer.drawStringWithShadow("Private Property - Inside", x, y, overlayColor);
-							client.fontRenderer.drawStringWithShadow(insidePrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
+							client.fontRendererObj.drawStringWithShadow("Private Property - Inside", x, y, overlayColor);
+							client.fontRendererObj.drawStringWithShadow(insidePrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
 						}
 						if (actionPreventedPrivateProperty != null && insidePrivateProperty != actionPreventedPrivateProperty) {
 							if (insidePrivateProperty != null) {
 								y += overlayDistanceBetweenY + overlayDistanceBetweenY;
 							}
-							client.fontRenderer.drawStringWithShadow("Private Property - Beside", x, y, overlayColor);
-							client.fontRenderer.drawStringWithShadow(targetPrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
+							client.fontRendererObj.drawStringWithShadow("Private Property - Beside", x, y, overlayColor);
+							client.fontRendererObj.drawStringWithShadow(targetPrivateProperty.name, x, y += overlayDistanceBetweenY, overlayColor);
 						}
-						client.fontRenderer.drawStringWithShadow("Owned by " + targetPrivateProperty.owner, x, y += overlayDistanceBetweenY, overlayColor);
-						client.fontRenderer.drawStringWithShadow("Posted: " + targetPrivateProperty.message, x, y += overlayDistanceBetweenY, overlayColor);
-						client.fontRenderer.drawStringWithShadow(String.format("Position: %d,%d,%d (%d, %d)", (int) player.posX, (int) player.posY, (int) player.posZ, player.chunkCoordX, player.chunkCoordZ), x,
+						client.fontRendererObj.drawStringWithShadow("Owned by " + targetPrivateProperty.owner, x, y += overlayDistanceBetweenY, overlayColor);
+						client.fontRendererObj.drawStringWithShadow("Posted: " + targetPrivateProperty.message, x, y += overlayDistanceBetweenY, overlayColor);
+						client.fontRendererObj.drawStringWithShadow(String.format("Position: %d,%d,%d (%d, %d)", (int) player.posX, (int) player.posY, (int) player.posZ, player.chunkCoordX, player.chunkCoordZ), x,
 								y += overlayDistanceBetweenY, overlayColor);
 						y += overlayDistanceBetweenY;
 						if (GameSettings.isKeyDown(keyBindingPrivatePropertyRights)) {
-							client.fontRenderer.drawStringWithShadow("Property Rights:", x, y += overlayDistanceBetweenY, overlayColor);
+							client.fontRendererObj.drawStringWithShadow("Property Rights:", x, y += overlayDistanceBetweenY, overlayColor);
 							final int startY = y;
 							boolean any = false;
 							for (final Action action : Action.values()) {
 								if (targetPrivateProperty.actionEnabled(client.thePlayer, action)) {
-									client.fontRenderer.drawStringWithShadow(action.toString(), x, y += overlayDistanceBetweenY, overlayColor);
+									client.fontRendererObj.drawStringWithShadow(action.toString(), x, y += overlayDistanceBetweenY, overlayColor);
 									any = true;
 								}
 								//move over to the next column
@@ -854,22 +857,22 @@ public class ClientEnforcer extends Enforcer {
 								}
 							}
 							if (!any) {
-								client.fontRenderer.drawStringWithShadow("None", x, y += overlayDistanceBetweenY, overlayColor);
+								client.fontRendererObj.drawStringWithShadow("None", x, y += overlayDistanceBetweenY, overlayColor);
 							}
 						}
 						else if (actionPrevented != null) {
-							client.fontRenderer.drawStringWithShadow("Action Prevented: " + actionPrevented, x, y += overlayDistanceBetweenY, overlayColor);
+							client.fontRendererObj.drawStringWithShadow("Action Prevented: " + actionPrevented, x, y += overlayDistanceBetweenY, overlayColor);
 							if (actionPreventedWarningMessageTicks++ == actionPreventedWarningMessageMaxTicks) {
 								setActionPrevented(null, null);
 							}
 						}
 					}
 					else if (showPrivateProperty) {
-						client.fontRenderer.drawStringWithShadow("Private Property - None", x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow("Private Property - None", x, y, overlayColor);
 					}
 					if(showAIControls)
 					{
-						client.fontRenderer.drawStringWithShadow("AIControls Test", x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow("AIControls Test", x, y, overlayColor);
 						if(behaviorAI==0)
 						{
 							client.ingameGUI.drawRect(x+6, y+14, x+26, y+34, 0x66CC0011);
@@ -891,14 +894,14 @@ public class ClientEnforcer extends Enforcer {
 						client.ingameGUI.drawRect(x+40, y+16, x+56, y+32, 0xFF11CC00);
 						client.ingameGUI.drawRect(x+72, y+16, x+88, y+32, 0xFF0011CC);
 						
-						client.fontRenderer.drawStringWithShadow("☢",x+12, y+20,  0xFF000000);
-						client.fontRenderer.drawStringWithShadow("☯", x+44, y+20,  0xFF000000);
-						client.fontRenderer.drawStringWithShadow("♥", x+78, y+20,  0xFF000000);
+						client.fontRendererObj.drawStringWithShadow("☢",x+12, y+20,  0xFF000000);
+						client.fontRendererObj.drawStringWithShadow("☯", x+44, y+20,  0xFF000000);
+						client.fontRendererObj.drawStringWithShadow("♥", x+78, y+20,  0xFF000000);
 					}
 				}
 				else
 				{
-					client.fontRenderer.drawStringWithShadow(String.format("Position: %d,%d,%d (%d, %d)", (int) player.posX, (int) player.posY, (int) player.posZ, player.chunkCoordX, player.chunkCoordZ), overlayStartX,
+					client.fontRendererObj.drawStringWithShadow(String.format("Position: %d,%d,%d (%d, %d)", (int) player.posX, (int) player.posY, (int) player.posZ, player.chunkCoordX, player.chunkCoordZ), overlayStartX,
 							overlayStartY, overlayColor);
 				}
 
@@ -948,9 +951,10 @@ public class ClientEnforcer extends Enforcer {
 	}
 
 	public void placeBlock(int x, int y, int z, int blockID, int meta,EntityPlayer player, ItemStack itemStack) {
-		client.theWorld.setBlock(x, y, z, Block.getBlockById(blockID), meta, 2);
-		Block.getBlockById(blockID).onBlockPlacedBy(client.theWorld, x, y, z, player, itemStack);
-		Block.getBlockById(blockID).onPostBlockPlaced(client.theWorld, x, y, z, meta);
+		IBlockState state = Block.getBlockById(blockID).getStateFromMeta(meta);
+		client.theWorld.setBlockState(new BlockPos(x, y, z), state,2);
+		Block.getBlockById(blockID).onBlockPlacedBy(client.theWorld, new BlockPos(x, y, z),state, player, itemStack);
+		//Block.getBlockById(blockID).onPostBlockPlaced(client.theWorld, new BlockPos(x, y, z), state); TODO: do we need this in 1.8?
 	}
 	
 	

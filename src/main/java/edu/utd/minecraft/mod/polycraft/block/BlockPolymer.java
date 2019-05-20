@@ -4,12 +4,13 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,17 +32,17 @@ public class BlockPolymer extends Block implements BlockBouncy {
 		this.helper = new BlockPolymerHelper(polymerBlock.source.source, -1);
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int colorIndex) {
-		return helper.getIcon(side, colorIndex);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		helper.registerBlockIcons(p_149651_1_);
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int colorIndex) {
+//		return helper.getIcon(side, colorIndex);
+//	}
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister p_149651_1_) {
+//		helper.registerBlockIcons(p_149651_1_);
+//	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -60,30 +61,30 @@ public class BlockPolymer extends Block implements BlockBouncy {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
-		helper.onBlockPlacedBy(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_, p_149689_6_);
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		helper.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
 
 	@Override
-	public int damageDropped(int p_149692_1_) {
-		return helper.damageDropped(p_149692_1_);
+	public int damageDropped(IBlockState state) {
+		return helper.damageDropped(state);
 	}
 
-	@Override
-	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
-		super.dropBlockAsItem(world, x, y, z, itemstack);
-	}
+//	@Override
+//	public void dropBlockAsItem(World world, BlockPos pos, IBlockState state, int forture)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+//		super.dropBlockAsItem(world, x, y, z, itemstack);
+//	}
 
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
-		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
-		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
-		return polycraftItemStack;
-
-	}
+//	@Override
+//	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player )
+//	{
+//		ItemStack polycraftItemStack = super.getPickBlock(target, world, pos, player);
+//		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+//		return polycraftItemStack;
+//
+//	}
 
 	public String getUnlocalizedName(int colorIndex) {
 		return polymerBlock.gameID + "." + colorIndex;

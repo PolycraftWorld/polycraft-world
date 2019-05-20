@@ -2,10 +2,11 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
@@ -19,11 +20,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.Vec3;
 
 public class TutorialFeature implements ITutorialFeature{
 	protected String name;
-	protected Vec3 pos;
+	protected BlockPos pos;
 	protected Color color;
 	protected TutorialFeatureType featureType;	//used when loading/saving
 	protected long completionTime;
@@ -76,7 +76,7 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	public TutorialFeature(){}
 	
-	public TutorialFeature(String name, Vec3 pos, Color c){
+	public TutorialFeature(String name, BlockPos pos, Color c){
 		this.name = name;
 		this.pos = pos;
 		this.color = c;
@@ -86,20 +86,18 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
-		pos.xCoord += exp.posOffset.xCoord;
-		pos.yCoord += exp.posOffset.yCoord;
-		pos.zCoord += exp.posOffset.zCoord;
+		pos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord);
 		
 	}
 
 	@Override
 	public void init() {
-		x1 = pos.xCoord;
-		x2 = pos.xCoord + Integer.signum((int)pos.xCoord);	//increase value magnitude
-		y1 = pos.yCoord;
-		y2 = pos.yCoord + 1;	//Shouldn't have to worry if y coord is negative
-		z1 = pos.zCoord;
-		z2 = pos.zCoord + Integer.signum((int)pos.zCoord);	//increase value magnitude
+		x1 = pos.getX();
+		x2 = pos.getX() + Integer.signum((int)pos.getX());	//increase value magnitude
+		y1 = pos.getY();
+		y2 = pos.getY() + 1;	//Shouldn't have to worry if y coord is negative
+		z1 = pos.getZ();
+		z2 = pos.getZ() + Integer.signum((int)pos.getZ());	//increase value magnitude
 		
 		xRange = (int) (x2 - x1);
 		yRange = (int) (y2 - y1);
@@ -113,7 +111,7 @@ public class TutorialFeature implements ITutorialFeature{
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-			if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+			if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 					Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 				canProceed = true;
 				complete(exp);
@@ -244,19 +242,19 @@ public class TutorialFeature implements ITutorialFeature{
 		this.name = name;
 	}
 
-	public Vec3 getPos() {
+	public BlockPos getPos() {
 		return pos;
 	}
 	
-	public Vec3 getPos2() {
+	public BlockPos getPos2() {
 		return pos;
 	}
 
-	public void setPos(Vec3 pos) {
+	public void setPos(BlockPos pos) {
 		this.pos = pos;
 	}
 	
-	public void setPos2(Vec3 pos) {
+	public void setPos2(BlockPos pos) {
 		this.pos = pos;
 	}
 
@@ -275,16 +273,16 @@ public class TutorialFeature implements ITutorialFeature{
 	 */
 	public void updateValues() {
 		this.name = nameField.getText();
-		this.pos.xCoord = Integer.parseInt(xPosField.getText());
-		this.pos.yCoord = Integer.parseInt(yPosField.getText());
-		this.pos.zCoord = Integer.parseInt(zPosField.getText());
+		this.pos = new BlockPos(Integer.parseInt(xPosField.getText())
+							,Integer.parseInt(yPosField.getText())
+							,Integer.parseInt(zPosField.getText()));
 	}
 	
 	public void buildGuiParameters(GuiDevTool guiDevTool, int x_pos, int y_pos) {
 		FontRenderer fr = guiDevTool.getFontRenderer();
 		
 		//Name Field
-		nameField = new GuiTextField(fr, x_pos + 5, y_pos + 30, (int) (guiDevTool.X_WIDTH * .9), 14);
+		nameField = new GuiTextField(200,fr, x_pos + 5, y_pos + 30, (int) (guiDevTool.X_WIDTH * .9), 14);
 		nameField.setMaxStringLength(32);
 		nameField.setText(name);
 		nameField.setTextColor(16777215);
@@ -300,7 +298,7 @@ public class TutorialFeature implements ITutorialFeature{
         //add position text fields
         xPosField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         xPosField.setMaxStringLength(32);
-        xPosField.setText(Integer.toString((int)pos.xCoord));
+        xPosField.setText(Integer.toString((int)pos.getX()));
         xPosField.setTextColor(16777215);
         xPosField.setVisible(true);
         xPosField.setCanLoseFocus(true);
@@ -310,7 +308,7 @@ public class TutorialFeature implements ITutorialFeature{
         		"Y:"));
         yPosField = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         yPosField.setMaxStringLength(32);
-        yPosField.setText(Integer.toString((int)pos.yCoord));
+        yPosField.setText(Integer.toString((int)pos.getY()));
         yPosField.setTextColor(16777215);
         yPosField.setVisible(true);
         yPosField.setCanLoseFocus(true);
@@ -320,7 +318,7 @@ public class TutorialFeature implements ITutorialFeature{
         		"Z:"));
         zPosField = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         zPosField.setMaxStringLength(32);
-        zPosField.setText(Integer.toString((int)pos.zCoord));
+        zPosField.setText(Integer.toString((int)pos.getZ()));
         zPosField.setTextColor(16777215);
         zPosField.setVisible(true);
         zPosField.setCanLoseFocus(true);
@@ -332,7 +330,7 @@ public class TutorialFeature implements ITutorialFeature{
 	{
 		nbt = new NBTTagCompound();	//erase current nbt so we don't get duplicates?
 
-		int pos[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
+		int pos[] = {this.pos.getX(), this.pos.getY(), this.pos.getZ()};
 		nbt.setIntArray("pos",pos);
 		nbt.setString("name", this.name);
 		nbt.setInteger("color", this.color.getRGB());
@@ -348,7 +346,7 @@ public class TutorialFeature implements ITutorialFeature{
 		int featPos[]=nbtFeat.getIntArray("pos");
 		this.name = nbtFeat.getString("name");
 		this.color = new Color(nbtFeat.getInteger("color"));
-		this.pos=Vec3.createVectorHelper(featPos[0], featPos[1], featPos[2]);
+		this.pos=new BlockPos(featPos[0], featPos[1], featPos[2]);
 		this.featureType = TutorialFeatureType.valueOf(nbtFeat.getString("type"));
 		this.canProceed = nbtFeat.getBoolean("canProceed");
 		this.isDone = nbtFeat.getBoolean("isDone");

@@ -19,11 +19,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
@@ -50,6 +45,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialManager {
 
@@ -62,7 +60,7 @@ public class TutorialManager {
 	static String outputFileName = "output";
 	static String outputFileExt = ".psm";
 	
-	private List<EntityPlayer> globalPlayerList;
+	private List<EntityPlayerMP> globalPlayerList;
 	
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else 
 	
@@ -89,7 +87,7 @@ public class TutorialManager {
 	
 	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
-		if(tick.phase == Phase.END) {
+		if(tick.phase == TickEvent.Phase.END) {
 			for(ExperimentTutorial ex: experiments.values()){
 				if(ex.currentState != ExperimentTutorial.State.Done) {
 					ex.onServerTickUpdate();
@@ -103,7 +101,7 @@ public class TutorialManager {
 	 * @param tick the input tick.
 	 */
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
-		if(tick.side == Side.CLIENT && tick.phase == Phase.END){ //I think these are always true?
+		if(tick.side == Side.CLIENT && tick.phase == TickEvent.Phase.END){ //I think these are always true?
 			for(ExperimentTutorial ex: experiments.values()){
 				ex.onClientTickUpdate();
 			}
@@ -176,7 +174,7 @@ public class TutorialManager {
 			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
 			
 			if(isClient) {
-				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayNameString());
 				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
 				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
 				ClientEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal());

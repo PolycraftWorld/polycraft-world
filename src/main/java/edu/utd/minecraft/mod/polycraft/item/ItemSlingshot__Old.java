@@ -1,12 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPaintBall__Old;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -15,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
@@ -27,8 +23,8 @@ public class ItemSlingshot__Old extends ItemCustom {
 		WOODEN, TACTICAL, SCATTER, BURST, GRAVITY, ICE;
 	}
 	
-    private IIcon[] iconArray;
-    public static final String[] slingPullIconNameArray = new String[] {PolycraftMod.getAssetName("slingpull1"), PolycraftMod.getAssetName("slingpull2"), PolycraftMod.getAssetName("slingpull3")};
+    //private IIcon[] iconArray;
+    public static final String[] slingPullIconNameArray = new String[] {PolycraftMod.getAssetNameString("slingpull1"), PolycraftMod.getAssetNameString("slingpull2"), PolycraftMod.getAssetNameString("slingpull3")};
     int holdCount;
     SlingshotType type;
     private static final int MIN_TICKS_TO_FIRE_TACTICAL = 48;
@@ -187,25 +183,25 @@ public class ItemSlingshot__Old extends ItemCustom {
 		fireTactical(stack, world, player, count);
 	}
 	
-	public IIcon getItemIcon(ItemStack stack, int count){
-		
-		 if (holdCount >= 18){
-             return this.iconArray[2];
-         }
-
-         if (holdCount > 13){
-        	 return this.iconArray[1];
-         }
-
-         if (holdCount > 0){
-             return this.iconArray[0];
-         }
-         return this.itemIcon;
-    }
-    @SideOnly(Side.CLIENT)
-    public IIcon getItemIconForUseDuration(int p_94599_1_){
-        return this.iconArray[p_94599_1_];
-    }
+//	public IIcon getItemIcon(ItemStack stack, int count){
+//
+//		 if (holdCount >= 18){
+//             return this.iconArray[2];
+//         }
+//
+//         if (holdCount > 13){
+//        	 return this.iconArray[1];
+//         }
+//
+//         if (holdCount > 0){
+//             return this.iconArray[0];
+//         }
+//         return this.itemIcon;
+//    }
+//    @SideOnly(Side.CLIENT)
+//    public IIcon getItemIconForUseDuration(int p_94599_1_){
+//        return this.iconArray[p_94599_1_];
+//    }
 	
 //	@Override
 //	public boolean shouldRotateAroundWhenRendering() {
@@ -249,15 +245,15 @@ public class ItemSlingshot__Old extends ItemCustom {
     }
     
 
-    public void registerIcons(IIconRegister register){
-        this.itemIcon = register.registerIcon(PolycraftMod.getAssetName("Slingshot"));
-        this.iconArray = new IIcon[slingPullIconNameArray.length];
-
-        for (int i = 0; i < this.iconArray.length; ++i)
-        {
-            this.iconArray[i] = register.registerIcon(this.getIconString() + "_" + slingPullIconNameArray[i]);
-        }
-    }
+//    public void registerIcons(IIconRegister register){
+//        this.itemIcon = register.registerIcon(PolycraftMod.getAssetName("Slingshot"));
+//        this.iconArray = new IIcon[slingPullIconNameArray.length];
+//
+//        for (int i = 0; i < this.iconArray.length; ++i)
+//        {
+//            this.iconArray[i] = register.registerIcon(this.getIconString() + "_" + slingPullIconNameArray[i]);
+//        }
+//    }
 
     public SlingshotType getType() {
     	return type;

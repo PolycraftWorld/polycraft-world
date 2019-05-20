@@ -1,7 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 
 public class LabelTexture {
@@ -13,7 +11,7 @@ public class LabelTexture {
 	public static final int SIDE_LEFT = 4;
 	public static final int SIDE_RIGHT = 5;
 
-	private final IIcon[] icons = new IIcon[6];
+//	private final IIcon[] icons = new IIcon[6];
 	private final String mainTextureName;
 	private final String mainFlippedTextureName;
 	private final String bottomTextureName;
@@ -38,22 +36,22 @@ public class LabelTexture {
 		this.topTextureName = topTextureName == null ? mainTextureName : topTextureName;
 	}
 
-	public IIcon getIcon(int side, int metadata) {
-		switch (metadata)
-		{
-		case SIDE_BOTTOM:
-			return icons[side];
-		default:
-			return icons[side];
-		}
-	}
+//	public IIcon getIcon(int side, int metadata) {
+//		switch (metadata)
+//		{
+//		case SIDE_BOTTOM:
+//			return icons[side];
+//		default:
+//			return icons[side];
+//		}
+//	}
 
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		icons[SIDE_BOTTOM] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(bottomTextureName));
-		icons[SIDE_TOP] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(topTextureName));
-		icons[SIDE_BACK] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName));
-		icons[SIDE_FRONT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName));
-		icons[SIDE_LEFT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName));
-		icons[SIDE_RIGHT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName));
-	}
+//	public void registerBlockIcons(IIconRegister p_149651_1_) {
+//		icons[SIDE_BOTTOM] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(bottomTextureName));
+//		icons[SIDE_TOP] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(topTextureName));
+//		icons[SIDE_BACK] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName));
+//		icons[SIDE_FRONT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName));
+//		icons[SIDE_LEFT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainTextureName));
+//		icons[SIDE_RIGHT] = p_149651_1_.registerIcon(PolycraftMod.getAssetName(mainFlippedTextureName));
+//	}
 }

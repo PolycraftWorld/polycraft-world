@@ -6,7 +6,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,13 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,11 +33,11 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 
 	private static final Logger logger = LogManager.getLogger();
 
-	@SideOnly(Side.CLIENT)
-	public IIcon iconFront;
-
-	@SideOnly(Side.CLIENT)
-	public IIcon iconSolid;
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconFront;
+//
+//	@SideOnly(Side.CLIENT)
+//	public IIcon iconSolid;
 
 	protected final InternalObject config;
 
@@ -59,7 +55,7 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 	}
 
 	@Override
-	public boolean hasTileEntity(int metadata)
+	public boolean hasTileEntity(IBlockState state)
 	{
 		return true;
 	}
@@ -75,7 +71,7 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 	/**
 	 * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
 	 */
-	public void addCollisionBoxesToList(World worldObj, int xCoord, int yCoord, int zCoord, AxisAlignedBB mask, List list, Entity collidingEntity)
+	public void addCollisionBoxesToList(World worldObj, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity collidingEntity)
 	{
 
 		//TODO: Working and Tested 10.12.13 with given pipe radius; should make this a member variable maybe for different pipes
@@ -83,59 +79,59 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 
 		//sets the middle part of the pipe
 		this.setBlockBounds(0.5F - pipeRadius, 0.5F - pipeRadius, 0.5F - pipeRadius, 0.5F + pipeRadius, 0.5F + pipeRadius, 0.5F + pipeRadius);
-		super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+		super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 
 		float f = 0.125F;
 
-		int directionOut = BlockPipe.getDirectionFromMetadata(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-		TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(xCoord, yCoord, zCoord);
+		EnumFacing directionOut = EnumFacing.getFront(getMetaFromState(state));
+		TileEntityBlockPipe bte = (TileEntityBlockPipe) worldObj.getTileEntity(pos);
 
 		//sets the other parts of the pipes
 
-		if (directionOut == ForgeDirection.DOWN.ordinal() || bte.hasDirectionIn(ForgeDirection.DOWN))
+		if (directionOut == EnumFacing.DOWN || bte.hasDirectionIn(EnumFacing.DOWN))
 		{
 			this.setBlockBounds(0.5F - pipeRadius, 0.0F, 0.5F - pipeRadius, 0.5F + pipeRadius, 0.5F - pipeRadius, 0.5F + pipeRadius);
-			super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+			super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 		}
-		if (directionOut == ForgeDirection.UP.ordinal() || bte.hasDirectionIn(ForgeDirection.UP))
+		if (directionOut == EnumFacing.UP || bte.hasDirectionIn(EnumFacing.UP))
 		{
 			this.setBlockBounds(0.5F - pipeRadius, 0.5F + pipeRadius, 0.5F - pipeRadius, 0.5F + pipeRadius, 1.0F, 0.5F + pipeRadius);
-			super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+			super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 		}
-		if (directionOut == ForgeDirection.WEST.ordinal() || bte.hasDirectionIn(ForgeDirection.WEST))
+		if (directionOut == EnumFacing.WEST || bte.hasDirectionIn(EnumFacing.WEST))
 		{
 			this.setBlockBounds(0.0F, 0.5F - pipeRadius, 0.5F - pipeRadius, 0.5F - pipeRadius, 0.5F + pipeRadius, 0.5F + pipeRadius);
-			super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+			super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 		}
-		if (directionOut == ForgeDirection.EAST.ordinal() || bte.hasDirectionIn(ForgeDirection.EAST))
+		if (directionOut == EnumFacing.EAST || bte.hasDirectionIn(EnumFacing.EAST))
 		{
 			this.setBlockBounds(0.5F + pipeRadius, 0.5F - pipeRadius, 0.5F - pipeRadius, 1.0F, 0.5F + pipeRadius, 0.5F + pipeRadius);
-			super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+			super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 		}
-		if (directionOut == ForgeDirection.NORTH.ordinal() || bte.hasDirectionIn(ForgeDirection.NORTH))
+		if (directionOut == EnumFacing.NORTH || bte.hasDirectionIn(EnumFacing.NORTH))
 		{
 			this.setBlockBounds(0.5F - pipeRadius, 0.5F - pipeRadius, 0.0F, 0.5F + pipeRadius, 0.5F + pipeRadius, 0.5F - pipeRadius);
-			super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+			super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 		}
-		if (directionOut == ForgeDirection.SOUTH.ordinal() || bte.hasDirectionIn(ForgeDirection.SOUTH))
+		if (directionOut == EnumFacing.SOUTH || bte.hasDirectionIn(EnumFacing.SOUTH))
 		{
 			this.setBlockBounds(0.5F - pipeRadius, 0.5F - pipeRadius, 0.5F + pipeRadius, 0.5F + pipeRadius, 0.5F + pipeRadius, 1.0F);
-			super.addCollisionBoxesToList(worldObj, xCoord, yCoord, zCoord, mask, list, collidingEntity);
+			super.addCollisionBoxesToList(worldObj, pos, state, mask, list, collidingEntity);
 		}
 
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldObj, int xCoord, int yCoord, int zCoord, EntityLivingBase player, ItemStack itemStack) {
-		BlockHelper.setFacingMetadataFlowable(this, worldObj, xCoord, yCoord, zCoord, player, itemStack);
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		BlockHelper.setFacingMetadataFlowable(this, world, pos, placer, stack);
 	}
 
 	/**
 	 * Called upon block activation (right click on the block.)
 	 */
 	@Override
-	public boolean onBlockActivated(World worldObj, int xCoord, int yCoord, int zCoord, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+	public boolean onBlockActivated(World worldObj, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing facing, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
 		//if you are trying to click on a pump or inventory or clickable block behind the pipe, enable that
 
@@ -147,33 +143,33 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 		//First test if the player is looking up and down. 
 		if (playerUpDown >= 45) //player is looking down
 		{
-			worldObj.getBlock(xCoord, yCoord - 1, zCoord).onBlockActivated(worldObj, xCoord, yCoord - 1, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(pos.down()).getBlock().onBlockActivated(worldObj,pos.down(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		if (playerUpDown <= -45) //player is looking up
 		{
-			worldObj.getBlock(xCoord, yCoord + 1, zCoord).onBlockActivated(worldObj, xCoord, yCoord + 1, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(pos.up()).getBlock().onBlockActivated(worldObj,pos.up(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 
 		if (playerLookingDirection == 0) //SOUTH
 		{
-			worldObj.getBlock(xCoord, yCoord, zCoord + 1).onBlockActivated(worldObj, xCoord, yCoord, zCoord + 1, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(pos.south()).getBlock().onBlockActivated(worldObj,pos.south(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		if (playerLookingDirection == 1) //WEST
 		{
-			worldObj.getBlock(xCoord - 1, yCoord, zCoord).onBlockActivated(worldObj, xCoord - 1, yCoord, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(pos.west()).getBlock().onBlockActivated(worldObj,pos.west(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		if (playerLookingDirection == 2) //NORTH
 		{
-			worldObj.getBlock(xCoord, yCoord, zCoord - 1).onBlockActivated(worldObj, xCoord, yCoord, zCoord - 1, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(pos.north()).getBlock().onBlockActivated(worldObj,pos.north(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		if (playerLookingDirection == 3) //EAST
 		{
-			worldObj.getBlock(xCoord + 1, yCoord, zCoord).onBlockActivated(worldObj, xCoord + 1, yCoord, zCoord, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(pos.east()).getBlock().onBlockActivated(worldObj,pos.east(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 
@@ -183,14 +179,14 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 	}
 
 	@Override
-	public void breakBlock(World worldObj, int xCoord, int yCoord, int zCoord, Block block, int metaData)
+	public void breakBlock(World worldObj, BlockPos pos, IBlockState state)
 	{
-		super.breakBlock(worldObj, xCoord, yCoord, zCoord, block, metaData);
+		super.breakBlock(worldObj,pos, state);
 
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	public Item getItemDropped(IBlockState state, Random p_149650_2_, int p_149650_3_)
 	{
 		return PolycraftRegistry.getItem(this.config.itemName);
 
@@ -200,7 +196,7 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
 	 */
 	@Override
-	public boolean renderAsNormalBlock()
+	public boolean isNormalCube()
 	{
 		return false;
 	}
@@ -218,22 +214,22 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 	 * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given coordinates. Args: blockAccess, x, y, z, side
 	 */
 	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
+	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, BlockPos pos, EnumFacing facing)
 	{
 		return true;
 	}
 
-	/**
-	 * Gets the block's texture. Args: side, meta
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metaData)
-	{
-		if (side == metaData)
-			return this.iconFront;
-		return this.iconSolid;
-	}
+//	/**
+//	 * Gets the block's texture. Args: side, meta
+//	 */
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int metaData)
+//	{
+//		if (side == metaData)
+//			return this.iconFront;
+//		return this.iconSolid;
+//	}
 
 	public static int getDirectionFromMetadata(int metaData)
 	{
@@ -262,28 +258,28 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 	//        return Container.calcRedstoneFromInventory(func_149920_e(p_149736_1_, p_149736_2_, p_149736_3_, p_149736_4_));
 	//    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_)
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister p_149651_1_)
+//	{
+//		this.iconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_front")));
+//		this.iconSolid = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_solid")));
+//	}
+
+	public static TileEntityBlockPipe getTileEntityBlockPipeAtXYZ(IBlockAccess blockAccess, BlockPos pos)
 	{
-		this.iconFront = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_front")));
-		this.iconSolid = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name + "_solid")));
+		return (TileEntityBlockPipe) blockAccess.getTileEntity(pos);
 	}
 
-	public static TileEntityBlockPipe getTileEntityBlockPipeAtXYZ(IBlockAccess blockAccess, int xCoord, int yCoord, int zCoord)
-	{
-		return (TileEntityBlockPipe) blockAccess.getTileEntity(xCoord, yCoord, zCoord);
-	}
-
-	/**
-	 * Gets the icon name of the ItemBlock corresponding to this block. Used by hoppers and pipes.
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getItemIconName()
-	{
-		return PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(this.config.itemName));
-	}
+//	/**
+//	 * Gets the icon name of the ItemBlock corresponding to this block. Used by hoppers and pipes.
+//	 */
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public String getItemIconName()
+//	{
+//		return PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(this.config.itemName));
+//	}
 
 	@Override
 	public int getRenderType() {
@@ -297,20 +293,20 @@ public class BlockPipe extends Block implements ITileEntityProvider, Flowable {
 		return this.config.gameID;
 	}
 
-	@Override
-	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
-		super.dropBlockAsItem(world, x, y, z, itemstack);
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
-		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
-		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
-		return polycraftItemStack;
-
-	}
+//	@Override
+//	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+//		super.dropBlockAsItem(world, x, y, z, itemstack);
+//	}
+//
+//	@Override
+//	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+//	{
+//		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+//		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+//		return polycraftItemStack;
+//
+//	}
 
 }

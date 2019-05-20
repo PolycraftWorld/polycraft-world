@@ -13,16 +13,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
+
 import java.util.List;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot__Old;
 import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot__Old.SlingshotType;
 import net.minecraft.block.Block;
@@ -78,7 +73,7 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 		this.type = type;
 		this.world = world;
 		if(shootingEntity instanceof EntityPlayerMP) {
-			String playerName = ((EntityPlayerMP) shootingEntity).getDisplayName();
+			String playerName = ((EntityPlayerMP) shootingEntity).getDisplayNameString();
 			if(colorLookup.containsKey(playerName))
 				color = colorLookup.get(playerName);
 		}
@@ -88,10 +83,10 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 	 * Called to update the entity's position/logic.
 	 */
 	@Override
-	public void onUpdate() {
-		super.onEntityUpdate();
+	public void onUpdate() {//TODO: finish updating this to 1.8
+		super.onEntityUpdate();/*
 
-		if (!(this.worldObj.isAirBlock((int)this.posX, (int)this.posY, (int)this.posZ)) || this.ticksExisted >= 64){
+		if (!this.worldObj.isAirBlock(this.getPosition()) || this.ticksExisted >= 64){
 			this.setDead();
 		}
 		
@@ -117,13 +112,13 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 					/ Math.PI);
 		}
 
-		Block block = this.worldObj.getBlock(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent);
+		Block block = this.worldObj.getBlockState(new BlockPos(this.positionXCurrent, this.positionYCurrent, this.positionZCurrent)).getBlock();
 
 		if (block.getMaterial() != Material.air) {
-			block.setBlockBoundsBasedOnState(this.worldObj, this.positionXCurrent, this.positionYCurrent,
-					this.positionZCurrent);
-			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.positionXCurrent,
-					this.positionYCurrent, this.positionZCurrent);
+			block.setBlockBoundsBasedOnState(this.worldObj, new BlockPos(this.positionXCurrent, this.positionYCurrent,
+					this.positionZCurrent));
+			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.worldObj, new BlockPos(this.positionXCurrent,
+					this.positionYCurrent, this.positionZCurrent), block.getDefaultState());
 
 			if (axisalignedbb != null
 					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ))) {
@@ -375,7 +370,7 @@ public class EntityPaintBall__Old extends EntityPellet__Old{
 			this.motionY -= (double) f1;
 			this.setPosition(this.posX, this.posY, this.posZ);
 			this.func_145775_I();
-		}
+		}*/
 	}
 //	@Override
 //	public void onUpdate() {

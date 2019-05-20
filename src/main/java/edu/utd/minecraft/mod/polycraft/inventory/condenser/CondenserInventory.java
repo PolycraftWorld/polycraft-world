@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -14,10 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -377,8 +373,8 @@ public class CondenserInventory extends PolycraftInventory {
 
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.fromBounds(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
-					IEntitySelector.selectInventories);
+			List list = worldObj.getEntitiesInAABBexcluding((Entity) null, AxisAlignedBB.fromBounds(p_145893_1_, p_145893_3_, p_145893_5_, p_145893_1_ + 1.0D, p_145893_3_ + 1.0D, p_145893_5_ + 1.0D),
+					EntitySelectors.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{

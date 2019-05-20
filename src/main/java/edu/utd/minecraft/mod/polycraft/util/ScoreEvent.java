@@ -11,16 +11,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
-import cpw.mods.fml.common.eventhandler.Cancelable;
-import cpw.mods.fml.common.eventhandler.Event;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class ScoreEvent extends Event{
+public class ScoreEvent extends Event {
 	
 	public float score=1.0f;
 	public static EntityPlayer player = null;

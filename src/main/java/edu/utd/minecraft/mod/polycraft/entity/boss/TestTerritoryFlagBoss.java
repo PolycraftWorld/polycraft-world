@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.base.Predicate;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.effect.EntityLightningAttack;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.PolycraftEntityLiving;
-import net.minecraft.command.IEntitySelector;
+import net.minecraft.command.PlayerSelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
@@ -26,11 +27,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
+import javax.annotation.Nullable;
 
 public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData, IRangedAttackMob {
 
@@ -38,11 +39,11 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 	public static final int DETECTION_RANGE = 64;
 	private int meleeCooldown = 10; // How many ticks a single player has to wait before being able to attack again.
 
-	private static final IEntitySelector attackEntitySelector = new IEntitySelector() {
-		public boolean isEntityApplicable(Entity entity) {
-			return entity instanceof EntityPlayer && !((EntityPlayer) entity).capabilities.isCreativeMode;
-		}
-	};
+//	private static final IEntitySelector attackEntitySelector = new IEntitySelector() {
+//		public boolean isEntityApplicable(Entity entity) {
+//			return entity instanceof EntityPlayer && !((EntityPlayer) entity).capabilities.isCreativeMode;
+//		}
+//	};
 
 	private static class Attack {
 		public double x, y, z, r, h;
@@ -85,7 +86,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 		// Note: boolean val determines if to call for help. Should be false.
 		this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false));
 		// Note: boolean val determines if LoS is required.
-		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
 	}
 
 	@Override
@@ -98,8 +99,8 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
-		return true;
+	public boolean isAIDisabled() {
+		return false;
 	}
 
 	@Override
@@ -177,14 +178,20 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 			if (world.isDaytime()) // Force night time.
 				world.setWorldTime(world.getWorldTime() + 1000);
 			WorldServer worldServer = (WorldServer) world;
-			List victims = world.selectEntitiesWithinAABB(EntityPlayer.class,
-					this.boundingBox.expand(DETECTION_RANGE, DETECTION_RANGE, DETECTION_RANGE), attackEntitySelector);
+			Predicate<? super Entity> predicate = new Predicate<Entity>() {
+				@Override
+				public boolean apply(@Nullable Entity input) {
+					return input instanceof EntityPlayer && !((EntityPlayer) input).capabilities.isCreativeMode;
+				}
+			};
+			List victims = world.getEntitiesWithinAABB(EntityPlayer.class,
+					this.getEntityBoundingBox().expand(DETECTION_RANGE, DETECTION_RANGE, DETECTION_RANGE), predicate);
 			int numPlayers = victims.size();
 			// Reset accidental target.
 			if (this.getAITarget() instanceof TestTerritoryFlagBoss) {
 				this.setAttackTarget(null);
 				this.setRevengeTarget(null);
-				this.setTarget(null);
+//				this.setTarget(null);
 				// Siphoning health from other mobs.
 			} else if ((this.getAITarget() instanceof EntityMob)) {
 				EntityMob victim = (EntityMob) this.getAITarget();
@@ -195,8 +202,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 					siphonZ = victim.posZ;
 					victim.hurtResistantTime = 0;
 					float death = this.getAITarget().getMaxHealth();
-					int y = worldServer.getPrecipitationHeight((int) Math.floor(victim.posX),
-							(int) Math.floor(victim.posZ));
+					int y = worldServer.getPrecipitationHeight(victim.getPosition()).getY();
 					double height = victim.height + Math.abs(victim.posY - y);
 					siphonAttacks.add(new Attack(victim.posX, y, victim.posZ, SIPHON_ATTACK_RADIUS, height, death,
 							SIPHON_CHARGE));
@@ -206,25 +212,24 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 				}
 				this.setAttackTarget(null);
 				this.setRevengeTarget(null);
-				this.setTarget(null);
+//				this.setTarget(null);
 			} else { // Attacks on players.
 				if (lightningBolts >= victims.size() && lightningCooldown < 2) {
 					for (int i = 0; i < victims.size(); i++) {
 						EntityPlayer victim = (EntityPlayer) victims.get(i);
 						if (!victim.capabilities.isCreativeMode) {
-							int h = worldServer.getPrecipitationHeight((int) Math.floor(victim.posX),
-									(int) Math.floor(victim.posZ));
+							int h = worldServer.getPrecipitationHeight(victim.getPosition()).getY();
 							castLightning(victim, h);
 						}
 					}
 				}
 				if (victims.size() > 0) {
 					// Create Summoning Attack
-					Entity victim = (Entity) victims.get(this.rand.nextInt(victims.size()));
+					EntityLivingBase victim = (EntityLivingBase) victims.get(this.rand.nextInt(victims.size()));
 					if (summonCooldown == 0 && victims.size() > 0) {
 						double xm = (this.posX + victim.posX) / 2;
 						double zm = (this.posZ + victim.posZ) / 2;
-						int h = worldServer.getPrecipitationHeight((int) Math.floor(xm), (int) Math.floor(zm));
+						int h = worldServer.getPrecipitationHeight(new BlockPos(xm, 0, zm)).getY();
 						summonAttacks.add(
 								new Attack(xm, h, zm, SUMMONING_RADIUS, SUMMONING_RADIUS, 0, 60).setTarget(victim));
 						AttackWarning.sendPackets(new AttackWarning(xm, zm, SUMMONING_RADIUS, h, SUMMONING_RADIUS, 60)
@@ -232,7 +237,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 						summonCooldown = (int) scaleToHealth(SUMMON_MIN_COOLDOWN, SUMMON_MAX_COOLDOWN);
 					}
 					if (this.getAITarget() == null && victims.size() > 0)
-						this.setTarget(victim);
+						this.setAttackTarget(victim);
 				}
 			}
 
@@ -255,7 +260,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 			while (!siphonAttacks.isEmpty() && siphonAttacks.getFirst().warnTicks == 0) {
 				Attack attack = siphonAttacks.removeFirst();
 				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this,
-						AxisAlignedBB.getBoundingBox(attack.x - attack.r, attack.y, attack.z - attack.r,
+						AxisAlignedBB.fromBounds(attack.x - attack.r, attack.y, attack.z - attack.r,
 								attack.x + attack.r, attack.y + attack.h, attack.z + attack.r));
 				DamageSource siphon = new EntityDamageSource("siphon", this).setDamageIsAbsolute();
 				for (int i = 0; i < list.size(); i++) {
@@ -292,9 +297,9 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 							attack.z + (this.rand.nextDouble() - 0.5) * attack.r * 2);
 					world.spawnEntityInWorld(toSpawn);
 					try {
-						toSpawn.setTarget(attack.target);
+						toSpawn.setAttackTarget((EntityLivingBase)attack.target);
 					} catch (Exception e) {
-						toSpawn.setTarget(this.getAITarget());
+						toSpawn.setAttackTarget(this.getAITarget());
 					}
 				}
 			}
@@ -336,10 +341,10 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 	public void onDeath(DamageSource source) {
 		super.onDeath(source);
 		World world = this.worldObj;
-		world.playBroadcastSound(1013, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+		world.playBroadcastSound(1013, this.getPosition(), 0);
 		if (!world.isRemote) {
-			List victims = world.selectEntitiesWithinAABB(EntityMob.class,
-					this.boundingBox.expand(DETECTION_RANGE, DETECTION_RANGE, DETECTION_RANGE), null);
+			List victims = world.getEntitiesWithinAABB(EntityMob.class,
+					this.getEntityBoundingBox().expand(DETECTION_RANGE, DETECTION_RANGE, DETECTION_RANGE), null);
 			for (int i = 0; i < victims.size(); i++)
 				((EntityMob) victims.get(i)).setHealth(0);
 		}
@@ -364,7 +369,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 		if (result) {
 			if (!active) {
 				active = true;
-				this.worldObj.playBroadcastSound(1013, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+				this.worldObj.playBroadcastSound(1013, this.getPosition(), 0);
 				// Wither scary noise lol
 			} else {
 				if (arrowCooldown / 2 >= ARROW_MAX_COOLDOWN / 2)
@@ -385,7 +390,7 @@ public class TestTerritoryFlagBoss extends EntityMob implements IBossDisplayData
 
 			WorldServer worldServer = (WorldServer) world;
 
-			int h = worldServer.getPrecipitationHeight((int) Math.floor(victim.posX), (int) Math.floor(victim.posZ));
+			int h = worldServer.getPrecipitationHeight(victim.getPosition()).getY();
 			if (lightningCooldown == 0 && lightningBolts > 0 && h >= victim.posY
 					&& victim.posY <= h + LIGHTNING_ATTACK_RADIUS * 2) {
 				castLightning(victim, h);

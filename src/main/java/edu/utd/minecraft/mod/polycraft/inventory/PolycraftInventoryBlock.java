@@ -753,7 +753,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
-				this.inventoryModel.renderAll();
+				//this.inventoryModel.renderAll();
 			}
 			else
 			{

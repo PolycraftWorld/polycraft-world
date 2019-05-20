@@ -2,8 +2,6 @@ package edu.utd.minecraft.mod.polycraft.entity;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
@@ -27,6 +25,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityPellet__Old extends Entity implements IProjectile {
 
@@ -60,7 +60,7 @@ public class EntityPellet__Old extends Entity implements IProjectile {
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 		this.setPosition(posX, posY, posZ);
-		this.yOffset = 0.0F;
+		//this.yOffset = 0.0F;
 	}
 
 	public EntityPellet__Old(World world, EntityLivingBase shootingEntity, EntityLivingBase targetEntity, float float1, float float2) {
@@ -74,7 +74,7 @@ public class EntityPellet__Old extends Entity implements IProjectile {
 
 		this.posY = shootingEntity.posY + (double) shootingEntity.getEyeHeight() - 0.10000000149011612D;
 		double d0 = targetEntity.posX - shootingEntity.posX;
-		double d1 = targetEntity.boundingBox.minY + (double) (targetEntity.height / 3.0F) - this.posY;
+		double d1 = targetEntity.getEntityBoundingBox().minY + (double) (targetEntity.height / 3.0F) - this.posY;
 		double d2 = targetEntity.posZ - shootingEntity.posZ;
 		double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d2 * d2);
 
@@ -84,7 +84,7 @@ public class EntityPellet__Old extends Entity implements IProjectile {
 			double d4 = d0 / d3;
 			double d5 = d2 / d3;
 			this.setLocationAndAngles(shootingEntity.posX + d4, this.posY, shootingEntity.posZ + d5, f2, f3);
-			this.yOffset = 0.0F;
+			//this.yOffset = 0.0F;
 			float f4 = (float) d3 * 0.2F;
 			this.setThrowableHeading(d0, d1 + (double) f4, d2, float1, float2);
 		}
@@ -104,7 +104,7 @@ public class EntityPellet__Old extends Entity implements IProjectile {
 		this.posY -= 0.10000000149011612D;
 		this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
 		this.setPosition(this.posX, this.posY, this.posZ);
-		this.yOffset = 0.0F;
+		//this.yOffset = 0.0F;
 		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI)
 				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI)
@@ -180,8 +180,8 @@ public class EntityPellet__Old extends Entity implements IProjectile {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void onUpdate() {
-		super.onUpdate();
+	public void onUpdate() {	//TODO: update to 1.8
+		super.onUpdate();/*
 
 		if (!(this.worldObj.isAirBlock((int)this.posX, (int)this.posY, (int)this.posZ)))
 				{
@@ -444,7 +444,7 @@ public class EntityPellet__Old extends Entity implements IProjectile {
 			this.motionY -= (double) f1;
 			this.setPosition(this.posX, this.posY, this.posZ);
 			this.func_145775_I();
-		}
+		}*/
 	}
 
 	/**

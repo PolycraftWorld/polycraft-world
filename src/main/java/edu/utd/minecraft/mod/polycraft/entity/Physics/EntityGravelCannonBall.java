@@ -2,8 +2,8 @@ package edu.utd.minecraft.mod.polycraft.entity.Physics;
 
 import java.util.List;
 
-import codechicken.lib.vec.Vector3;
-import cpw.mods.fml.common.registry.GameData;
+//import codechicken.lib.vec.Vector3;
+//import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.HPBlock;
@@ -78,7 +78,7 @@ public class EntityGravelCannonBall extends EntityIronCannonBall {
             int z=(int)(Math.floor(this.posZ));//+zOffset
             this.motionY+=this.acc;
             
-            
+            /* TODO: update to 1.8
             if (!(world.isAirBlock(x, y, z)) && !(world.getBlock(x, y, z) instanceof CannonBlock))
             {
             	
@@ -96,7 +96,7 @@ public class EntityGravelCannonBall extends EntityIronCannonBall {
             		
             		double U1= Math.sqrt((Ux1*Ux1+Uz1*Uz1));
             		
-            		
+
             		Vector3 Vecx=new Vector3();
             		Vecx.set(1, 0, 0);
 
@@ -286,7 +286,7 @@ public class EntityGravelCannonBall extends EntityIronCannonBall {
             this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
             this.setPosition(this.posX, this.posY, this.posZ);
 	         
-           
+           */
             
         }
 		else

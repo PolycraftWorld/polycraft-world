@@ -5,7 +5,6 @@ package edu.utd.minecraft.mod.polycraft.entity.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -46,7 +45,7 @@ public class EntityAICaptureBases extends EntityAIBase
         
         //this AI should only run in experiments in dimension 8
         //TODO Stephen fix this from crashing the server when a spawnEgg is used.
-        if(this.entityHost.worldObj.provider.dimensionId != 8) {
+        if(this.entityHost.worldObj.provider.getDimensionId() != 8) {
         	throw new IllegalArgumentException("CaptureBases AI requires mob be in Dimension 8");
         }
         

@@ -1,11 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -16,10 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.client.config.GuiCheckBox;
-import cpw.mods.fml.client.config.GuiSlider;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
@@ -53,7 +52,7 @@ import scala.swing.event.MouseReleased;
 @SideOnly(Side.CLIENT)
 public class GuiDevTool extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
     private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
     
@@ -192,7 +191,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * for now, if user presses r when inside that window, it will close.
      */
     @Override
-    public void keyTyped(char c, int p) {
+    public void keyTyped(char c, int p) throws IOException {
     	super.keyTyped(c, p);
     	if(screenSwitcher == WhichScreen.DEV_STEPS)
     			this.guiSteps.keyTyped(c, p);
@@ -220,10 +219,10 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 	}
 
 	@Override
-    protected void mouseClicked(int x, int y, int mouseEvent) {
+    protected void mouseClicked(int x, int y, int mouseEvent) throws IOException {
     	
     	if(this.guiSteps != null && screenSwitcher == WhichScreen.DEV_STEPS) {
-    		this.guiSteps.func_148179_a(x, y, mouseEvent);
+    		this.guiSteps.mouseClicked(x, y, mouseEvent);
     	}
     	for(GuiTextField textField: textFields) {
     		textField.mouseClicked(x, y, mouseEvent);
@@ -241,7 +240,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     	//super.mouseMovedOrUp(x, y, mouseEvent);
     	if(this.guiSteps != null) {
     		
-    		if (mouseEvent != 0 || !this.guiSteps.func_148181_b(x, y, mouseEvent))
+    		if (mouseEvent != 0 || !this.guiSteps.mouseClicked(x, y, mouseEvent))
     		{
     			super.mouseMovedOrUp(x, y, mouseEvent);
     		}

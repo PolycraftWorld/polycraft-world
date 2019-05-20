@@ -2,11 +2,12 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
+import net.minecraft.util.*;
+import net.minecraftforge.fml.common.registry.GameData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
@@ -38,10 +39,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 
 public class TutorialFeatureInstruction extends TutorialFeature{
 	public enum InstructionType{
@@ -94,14 +91,14 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	protected GuiPolyNumField xPos1Field, yPos1Field, zPos1Field;
 	protected GuiPolyNumField xPos2Field, yPos2Field, zPos2Field;
 	
-	private Vec3 pos1;
-	private Vec3 pos2;
+	private BlockPos pos1;
+	private BlockPos pos2;
 	
 	public TutorialFeatureInstruction() {}
 	
 	
 	
-	public TutorialFeatureInstruction(String name, Vec3 pos, InstructionType type){
+	public TutorialFeatureInstruction(String name, BlockPos pos, InstructionType type){
 		super(name, pos, Color.MAGENTA);
 		this.type = type;
 		this.featureType = TutorialFeatureType.INSTRUCTION;
@@ -110,8 +107,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.inFail=false;
 		this.setAng=false;
 		this.tickWait=0;
-		this.pos1= pos1.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
-		this.pos2= pos2.createVectorHelper(pos.xCoord, pos.yCoord, pos.zCoord);
+		this.pos1= new BlockPos(pos);
+		this.pos2= new BlockPos(pos);
 
 	}
 	
@@ -121,12 +118,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	@Override
 	public void preInit(ExperimentTutorial exp) {
 		super.preInit(exp);
-		pos1.xCoord += exp.posOffset.xCoord;
-		pos1.yCoord += exp.posOffset.yCoord;
-		pos1.zCoord += exp.posOffset.zCoord;
-		pos2.xCoord += exp.posOffset.xCoord;
-		pos2.yCoord += exp.posOffset.yCoord;
-		pos2.zCoord += exp.posOffset.zCoord;
+		pos1.add(exp.posOffset.xCoord,
+			exp.posOffset.yCoord,
+			exp.posOffset.zCoord);
+		pos2.add(exp.posOffset.xCoord,
+				exp.posOffset.yCoord,
+				exp.posOffset.zCoord);
 		
 		switch(type) {
 		case INVENTORY1:
@@ -134,13 +131,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			ItemStack item2= new ItemStack(Item.getItemFromBlock(Blocks.planks), 2, 1);
 			BlockChest chest=null;
 			TileEntityChest tile=null;
-			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
-				chest=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+			if(exp.world.getBlockState(pos).getBlock() instanceof BlockChest)
+				chest=(BlockChest)exp.world.getBlockState(pos).getBlock();
 			if(chest!=null)
 			{
 				chest.createNewTileEntity(exp.world, 0);
-				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
-					tile=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(exp.world.getTileEntity(pos) instanceof TileEntityChest)
+					tile=(TileEntityChest) exp.world.getTileEntity(pos);
 				if(tile!=null)
 				{
 					tile.setInventorySlotContents(0, item1);
@@ -153,13 +150,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			ItemStack item4= new ItemStack(Items.iron_ingot, 3);
 			BlockChest chest2=null;
 			TileEntityChest tile2=null;
-			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
-				chest2=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+			if(exp.world.getBlockState(pos).getBlock() instanceof BlockChest)
+				chest2=(BlockChest)exp.world.getBlockState(pos).getBlock();
 			if(chest2!=null)
 			{
 				chest2.createNewTileEntity(exp.world, 0);
-				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
-					tile2=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(exp.world.getTileEntity(pos) instanceof TileEntityChest)
+					tile2=(TileEntityChest) exp.world.getTileEntity(pos);
 				if(tile2!=null)
 				{
 					tile2.setInventorySlotContents(0, item3);
@@ -172,13 +169,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			ItemStack item5= new ItemStack(kbb, 64);
 			BlockChest chest3=null;
 			TileEntityChest tile3=null;
-			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
-				chest3=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+			if(exp.world.getBlockState(pos).getBlock() instanceof BlockChest)
+				chest3=(BlockChest)exp.world.getBlockState(pos).getBlock();
 			if(chest3!=null)
 			{
 				chest3.createNewTileEntity(exp.world, 0);
-				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
-					tile3=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(exp.world.getTileEntity(pos) instanceof TileEntityChest)
+					tile3=(TileEntityChest) exp.world.getTileEntity(pos);
 				if(tile3!=null)
 				{
 					tile3.setInventorySlotContents(0, item5);
@@ -191,13 +188,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			ItemStack item7= new ItemStack(Item.getItemFromBlock(Blocks.packed_ice), 64);
 			BlockChest chest4=null;
 			TileEntityChest tile4=null;
-			if(exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof BlockChest)
-				chest4=(BlockChest)exp.world.getBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+			if(exp.world.getBlockState(pos).getBlock() instanceof BlockChest)
+				chest4=(BlockChest)exp.world.getBlockState(pos).getBlock();
 			if(chest4!=null)
 			{
 				chest4.createNewTileEntity(exp.world, 0);
-				if(exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord) instanceof TileEntityChest)
-					tile4=(TileEntityChest) exp.world.getTileEntity((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord);
+				if(exp.world.getTileEntity(pos) instanceof TileEntityChest)
+					tile4=(TileEntityChest) exp.world.getTileEntity(pos);
 				if(tile4!=null)
 				{
 					tile4.setInventorySlotContents(0, item6);
@@ -213,12 +210,12 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	
 	@Override
 	public void updateValues() {
-		this.pos1.xCoord = Integer.parseInt(xPos1Field.getText());
-		this.pos1.yCoord = Integer.parseInt(yPos1Field.getText());
-		this.pos1.zCoord = Integer.parseInt(zPos1Field.getText());
-		this.pos2.xCoord = Integer.parseInt(xPos2Field.getText());
-		this.pos2.yCoord = Integer.parseInt(yPos2Field.getText());
-		this.pos2.zCoord = Integer.parseInt(zPos2Field.getText());
+		this.pos1 = new BlockPos(Integer.parseInt(xPos1Field.getText()),
+							Integer.parseInt(yPos1Field.getText()),
+							Integer.parseInt(zPos1Field.getText()));
+		this.pos2= new BlockPos(Integer.parseInt(xPos2Field.getText()),
+							Integer.parseInt(yPos2Field.getText()),
+							Integer.parseInt(zPos2Field.getText()));
 		this.save();
 		super.updateValues();
 		
@@ -381,9 +378,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case SPAWN_MOBS:
 			EntityCreeper newCreeper;
 			for(int currentAnimal = 0; currentAnimal < numCreepers; currentAnimal++) {
-				int currentXvalue = (int) ((int) Math.round(Math.random()*((pos2.xCoord - pos1.xCoord))) + pos1.xCoord);
-				int currentYvalue = (int) pos1.yCoord;
-				int currentZvalue = (int) ((int) Math.round(Math.random()*((pos2.zCoord - pos1.zCoord))) + pos1.zCoord);
+				int currentXvalue = (int) ((int) Math.round(Math.random()*((pos2.getX() - pos1.getX()))) + pos1.getX());
+				int currentYvalue = (int) pos1.getY();
+				int currentZvalue = (int) ((int) Math.round(Math.random()*((pos2.getZ() - pos1.getZ()))) + pos1.getZ());
 				
 				newCreeper = new EntityCreeper(exp.world);
 				newCreeper.setPosition(currentXvalue, currentYvalue, currentZvalue);
@@ -397,9 +394,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case KBB:
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
-						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
+				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.fromBounds(
+						Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ()),
+						Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()))).isEmpty()) {
 					this.canProceed = true;
 					this.complete(exp);
 				}
@@ -407,9 +404,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case FKBB:
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
-						Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-						Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).isEmpty()) {
+				if(exp.world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.fromBounds(
+						Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ()),
+						Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()))).isEmpty()) {
 					this.canProceed = true;
 					this.complete(exp);
 				}
@@ -423,24 +420,25 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case PLACE_BLOCKS:
 			//super.onServerTickUpdate(exp);
-			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.planks) || (exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.spruce_stairs)) {
+			if((exp.world.getBlockState(new BlockPos((int)x1, (int)y1, (int)z1)).getBlock()==Blocks.planks) ||
+					(exp.world.getBlockState(new BlockPos((int)x1, (int)y1, (int)z1)).getBlock()==Blocks.spruce_stairs)) {
 				this.canProceed = true;
 				this.complete(exp);
 			}
 			break;
 		case BREAK_BLOCKS:
 			//super.onServerTickUpdate(exp);
-			if((exp.world.getBlock((int)x1, (int)y1, (int)z1)==Blocks.air)) {
+			if((exp.world.getBlockState(new BlockPos((int)x1, (int)y1, (int)z1)).getBlock()==Blocks.air)) {
 				this.canProceed = true;
 				this.complete(exp);
 			}
 			break;
 		case CART_START:
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					
-					EntityMinecart entityminecart = EntityMinecart.createMinecart(exp.world, (double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), 0);
+					EntityMinecart entityminecart = EntityMinecart.getMinecart(exp.world, (double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), EntityMinecart.EnumMinecartType.RIDEABLE);
 					exp.world.spawnEntityInWorld(entityminecart);
 					player.mountEntity(entityminecart);
 					
@@ -451,7 +449,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case CART_END:
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					//EntityMinecartEmpty minecart=(EntityMinecartEmpty)entityminecart;
 					if(player.ridingEntity!=null)
@@ -468,13 +466,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				{
 					if(player.isSprinting()) 
 					{
-						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+						for(int x=(int)Math.min(pos1.getX(), pos2.getX());x<=(int)Math.max(pos1.getX(), pos2.getX());x++)
 						{
-							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+							for(int y=(int)Math.min(pos1.getY(), pos2.getY());y<=(int)Math.max(pos1.getY(), pos2.getY());y++)
 							{
-								for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+								for(int z=(int)Math.min(pos1.getZ(), pos2.getZ());z<=(int)Math.max(pos1.getZ(), pos2.getZ());z++)
 								{
-									exp.world.setBlock(x, y, z, Blocks.air);
+									exp.world.setBlockToAir(new BlockPos(x, y, z));
 								}
 							}
 						}
@@ -482,29 +480,29 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					}
 					else
 					{
-						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+						for(int x=(int)Math.min(pos1.getX(), pos2.getX());x<=(int)Math.max(pos1.getX(), pos2.getX());x++)
 						{
-							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+							for(int y=(int)Math.min(pos1.getY(), pos2.getY());y<=(int)Math.max(pos1.getY(), pos2.getY());y++)
 							{
-								for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+								for(int z=(int)Math.min(pos1.getZ(), pos2.getZ());z<=(int)Math.max(pos1.getZ(), pos2.getZ());z++)
 								{
-									exp.world.setBlock(x, y, z, Blocks.planks);
+									exp.world.setBlockState(new BlockPos(x, y, z), Blocks.planks.getDefaultState(), 3);
 								}
 							}
 						}
 						this.sprintDoorOpen=false;
 					}
-					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 							Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 						this.canProceed = true;
 						this.complete(exp);
-						for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+						for(int x=(int)Math.min(pos1.getX(), pos2.getX());x<=(int)Math.max(pos1.getX(), pos2.getX());x++)
 						{
-							for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+							for(int y=(int)Math.min(pos1.getY(), pos2.getY());y<=(int)Math.max(pos1.getY(), pos2.getY());y++)
 							{
-								for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+								for(int z=(int)Math.min(pos1.getZ(), pos2.getZ());z<=(int)Math.max(pos1.getZ(), pos2.getZ());z++)
 								{
-									exp.world.setBlock(x, y, z, Blocks.planks);
+									exp.world.setBlockState(new BlockPos(x, y, z), Blocks.planks.getDefaultState(), 3);
 								}
 							}
 						}
@@ -517,9 +515,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			if(!inFail)
 			{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
-							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
+					if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(
+							Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ()),
+							Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()))).contains(player)) {
 						this.inFail=true;				
 					}
 				}
@@ -527,9 +525,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			else
 			{
 				for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
-							Math.min(pos1.xCoord, pos2.xCoord), Math.min(pos1.yCoord, pos2.yCoord), Math.min(pos1.zCoord, pos2.zCoord),
-							Math.max(pos1.xCoord, pos2.xCoord), Math.max(pos1.yCoord, pos2.yCoord), Math.max(pos1.zCoord, pos2.zCoord))).contains(player)) {
+					if(!exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(
+							Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ()),
+							Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()))).contains(player)) {
 						this.inFail=false;
 						this.failCount++;
 						player.addChatMessage(new ChatComponentText("You missed your jump "+failCount+" time(s)"));
@@ -539,13 +537,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			}
 			if(failCount>=2)
 			{
-				for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+				for(int x=(int)Math.min(pos1.getX(), pos2.getX());x<=(int)Math.max(pos1.getX(), pos2.getX());x++)
 				{
-					for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+					for(int y=(int)Math.min(pos1.getY(), pos2.getY());y<=(int)Math.max(pos1.getY(), pos2.getY());y++)
 					{
-						for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+						for(int z=(int)Math.min(pos1.getZ(), pos2.getZ());z<=(int)Math.max(pos1.getZ(), pos2.getZ());z++)
 						{
-							exp.world.setBlock(x, y-1, z,  Blocks.packed_ice);
+							exp.world.setBlockState(new BlockPos(x, y-1, z),  Blocks.packed_ice.getDefaultState(), 3);
 						}
 					}
 				}
@@ -555,20 +553,20 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		case WASD:
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					this.canProceed = true;
 					this.complete(exp);
-					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+					for(int x=(int)Math.min(pos1.getX(), pos2.getX());x<=(int)Math.max(pos1.getX(), pos2.getX());x++)
 					{
-						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+						for(int y=(int)Math.min(pos1.getY(), pos2.getY());y<=(int)Math.max(pos1.getY(), pos2.getY());y++)
 						{
-							for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+							for(int z=(int)Math.min(pos1.getZ(), pos2.getZ());z<=(int)Math.max(pos1.getZ(), pos2.getZ());z++)
 							{
-								if(exp.world.getBlock(x, y, z)==Blocks.iron_door)
+								if(exp.world.getBlockState(new BlockPos(x, y, z)).getBlock()==Blocks.iron_door)
 								{
-									BlockDoor door1 = (BlockDoor)exp.world.getBlock(x, y, z);
-									door1.func_150014_a(exp.world, x, y, z, true);
+									BlockDoor door1 = (BlockDoor)exp.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+									door1.toggleDoor(exp.world, new BlockPos(x, y, z), true);
 								}
 							}
 						}
@@ -604,7 +602,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				canProceed = true;
-				if(!exp.world.getEntitiesWithinAABB(EntityGravelCannonBall.class, AxisAlignedBB.getBoundingBox(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
+				if(!exp.world.getEntitiesWithinAABB(EntityGravelCannonBall.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).isEmpty()) {
 					
 					isDone = true;
@@ -613,16 +611,16 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 					//player.addChatMessage(new ChatComponentText("You hit "+score+" target(s)"));
 					
 					
-					for(int x=(int)Math.min(pos1.xCoord, pos2.xCoord);x<=(int)Math.max(pos1.xCoord, pos2.xCoord);x++)
+					for(int x=(int)Math.min(pos1.getX(), pos2.getX());x<=(int)Math.max(pos1.getX(), pos2.getX());x++)
 					{
-						for(int y=(int)Math.min(pos1.yCoord, pos2.yCoord);y<=(int)Math.max(pos1.yCoord, pos2.yCoord);y++)
+						for(int y=(int)Math.min(pos1.getY(), pos2.getY());y<=(int)Math.max(pos1.getY(), pos2.getY());y++)
 						{
-							for(int z=(int)Math.min(pos1.zCoord, pos2.zCoord);z<=(int)Math.max(pos1.zCoord, pos2.zCoord);z++)
+							for(int z=(int)Math.min(pos1.getZ(), pos2.getZ());z<=(int)Math.max(pos1.getZ(), pos2.getZ());z++)
 							{
-								if(exp.world.getBlock(x, y, z)==GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName(BlockNaturalRubber)))
+								if(exp.world.getBlockState(new BlockPos(x, y, z)).getBlock()==GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName(BlockNaturalRubber)))
 								{
-									exp.world.setBlockMetadataWithNotify(x, y, z, 2, 4);
-									exp.world.markBlockForUpdate(x, y, z);
+									//exp.world.setBlockState(new BlockPos(x, y, z), 2, 4); TODO: What is this even for?
+									//exp.world.markBlockForUpdate(x, y, z);
 								}
 							}
 						}
@@ -634,7 +632,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			exp.scoreboard.updateScore(exp.scoreboard.getTeams().get(0), 0);
 			//super.onServerTickUpdate(exp);
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity(new BlockPos((int)x1, (int)y1, (int)z1));
 				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
 	        	{
 			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
@@ -659,7 +657,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case CANNON2:
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity(new BlockPos((int)x1, (int)y1, (int)z1));
 				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
 	        	{
 			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
@@ -685,7 +683,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			break;
 		case CANNON3:
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity((int)x1, (int)y1, (int)z1);
+				GravelCannonInventory cannon1 = (GravelCannonInventory)exp.world.getTileEntity(new BlockPos((int)x1, (int)y1, (int)z1));
 				if(cannon1.slotHasItem(cannon1.getInputSlots().get(0)))
 	        	{
 			        if( !(cannon1.getStackInSlot(0).getItem()==GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(ItemGravelCannonBall))) )
@@ -964,17 +962,17 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 			player=null;
 			if(entity instanceof EntityPlayer)	
 				player=(EntityPlayer)(entity);
-	        Vec3 vec3 = player.getPosition(1.0F);
+	        Vec3 vec3 = new Vec3(player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
 	        Vec3 vec32 = player.getLook(1.0F);
 	        //player.addChatMessage(new ChatComponentText("Anglex: "+vec32.xCoord+" Anglez: "+vec32.zCoord));
 	        
 	        
 	        //Vec3 vec32 = vec3.addVector(vec31.xCoord , vec31.yCoord , vec31.zCoord );
 	        Vec3 ref=null;
-	        ref = ref.createVectorHelper(1, 0, 0);
+	        ref = new Vec3(1, 0, 0);
 	        
 	        Vec3 vec01=null;
-	        vec01 = vec01.createVectorHelper(pos1.xCoord, pos1.yCoord, pos1.zCoord);
+	        vec01 = new Vec3(pos1.getX(), pos1.getY(), pos1.getZ());
 
 			Vec3 vec02 = vec3.addVector(-(vec01.xCoord+.5) , -vec01.yCoord , -(vec01.zCoord+.5));
 			
@@ -1182,7 +1180,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		"X:"));
         xPos1Field = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         xPos1Field.setMaxStringLength(32);
-        xPos1Field.setText(Integer.toString((int)pos1.xCoord));
+        xPos1Field.setText(Integer.toString((int)pos1.getX()));
         xPos1Field.setTextColor(16777215);
         xPos1Field.setVisible(true);
         xPos1Field.setCanLoseFocus(true);
@@ -1192,7 +1190,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		"Y:"));
         yPos1Field = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         yPos1Field.setMaxStringLength(32);
-        yPos1Field.setText(Integer.toString((int)pos1.yCoord));
+        yPos1Field.setText(Integer.toString((int)pos1.getY()));
         yPos1Field.setTextColor(16777215);
         yPos1Field.setVisible(true);
         yPos1Field.setCanLoseFocus(true);
@@ -1202,7 +1200,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		"Z:"));
         zPos1Field = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         zPos1Field.setMaxStringLength(32);
-        zPos1Field.setText(Integer.toString((int)pos1.zCoord));
+        zPos1Field.setText(Integer.toString((int)pos1.getZ()));
         zPos1Field.setTextColor(16777215);
         zPos1Field.setVisible(true);
         zPos1Field.setCanLoseFocus(true);
@@ -1217,7 +1215,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		"X:"));
         xPos2Field = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         xPos2Field.setMaxStringLength(32);
-        xPos2Field.setText(Integer.toString((int)pos2.xCoord));
+        xPos2Field.setText(Integer.toString((int)pos2.getX()));
         xPos2Field.setTextColor(16777215);
         xPos2Field.setVisible(true);
         xPos2Field.setCanLoseFocus(true);
@@ -1227,7 +1225,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		"Y:"));
         yPos2Field = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         yPos2Field.setMaxStringLength(32);
-        yPos2Field.setText(Integer.toString((int)pos2.yCoord));
+        yPos2Field.setText(Integer.toString((int)pos2.getY()));
         yPos2Field.setTextColor(16777215);
         yPos2Field.setVisible(true);
         yPos2Field.setCanLoseFocus(true);
@@ -1237,7 +1235,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
         		"Z:"));
         zPos2Field = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         zPos2Field.setMaxStringLength(32);
-        zPos2Field.setText(Integer.toString((int)pos2.zCoord));
+        zPos2Field.setText(Integer.toString((int)pos2.getZ()));
         zPos2Field.setTextColor(16777215);
         zPos2Field.setVisible(true);
         zPos2Field.setCanLoseFocus(true);
@@ -1262,9 +1260,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		nbt.setBoolean("inFail", inFail);
 		nbt.setInteger("failcount", this.failCount);
 		nbt.setBoolean("setAng", setAng);
-		int pos1[] = {(int)this.pos1.xCoord, (int)this.pos1.yCoord, (int)this.pos1.zCoord};
+		int pos1[] = {(int)this.pos1.getX(), (int)this.pos1.getY(), (int)this.pos1.getZ()};
 		nbt.setIntArray("pos1",pos1);
-		int pos2[] = {(int)this.pos2.xCoord, (int)this.pos2.yCoord, (int)this.pos2.zCoord};
+		int pos2[] = {(int)this.pos2.getX(), (int)this.pos2.getY(), (int)this.pos2.getZ()};
 		nbt.setIntArray("pos2",pos2);
 		return nbt;
 	}
@@ -1281,13 +1279,13 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.setAng=nbtFeat.getBoolean("setAng");
 		
 		int featPos1[]=nbtFeat.getIntArray("pos1");
-		this.pos1=Vec3.createVectorHelper(featPos1[0], featPos1[1], featPos1[2]);
+		this.pos1=new BlockPos(featPos1[0], featPos1[1], featPos1[2]);
 		
 		int featPos2[]=nbtFeat.getIntArray("pos2");
-		this.pos2=Vec3.createVectorHelper(featPos2[0], featPos2[1], featPos2[2]);
+		this.pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
 		
-		this.box= new RenderBox(this.getPos().xCoord, this.getPos().zCoord, this.getPos2().xCoord, this.getPos2().zCoord, 
-				Math.min(this.getPos().yCoord, this.getPos2().yCoord), Math.max(Math.abs(this.getPos().yCoord- this.getPos2().yCoord), 1), 1, this.getName());
+		this.box= new RenderBox(this.getPos().getX(), this.getPos().getZ(), this.getPos2().getX(), this.getPos2().getZ(),
+				Math.min(this.getPos().getY(), this.getPos2().getY()), Math.max(Math.abs(this.getPos().getY()- this.getPos2().getY()), 1), 1, this.getName());
 		box.setColor(this.getColor());
 	}
 }

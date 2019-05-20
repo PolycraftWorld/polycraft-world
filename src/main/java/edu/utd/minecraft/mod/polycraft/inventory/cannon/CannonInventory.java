@@ -7,8 +7,6 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.crafting.GuiContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -30,7 +28,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class CannonInventory extends PolycraftInventory {

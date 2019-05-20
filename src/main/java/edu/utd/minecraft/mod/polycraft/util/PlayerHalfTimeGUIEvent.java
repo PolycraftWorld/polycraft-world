@@ -1,8 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
-import cpw.mods.fml.common.eventhandler.Event;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class PlayerHalfTimeGUIEvent extends Event{
 
