@@ -22,6 +22,8 @@ import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.textwall.*;
@@ -743,6 +745,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glScalef(1.2F, 1.2F, 1.2F);
 					GL11.glTranslatef(.8F, 0.25F, 0F);
 				}
+				else if (config.containerType == PolycraftContainerType.CANNON)
+				{
+					GL11.glScalef(0.25F, 0.25F, 0.25F);
+					GL11.glTranslatef(1.5F, 0F, 1.5F);
+					GL11.glRotatef(315F, 0F, 1F, 0F);
+				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
 				this.inventoryModel.renderAll();
@@ -803,19 +811,36 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 			if (config.render3D)
 			{
-
-				EnumFacing direction = null;
-				boolean rotated = false;
-				short angle = 0;
-
-				direction = EnumFacing.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
-				rotated = (tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)) >> 3 == 1;
-
-				// System.out.println(direction + "|" + angle);
-				GL11.glPushMatrix();
-				GL11.glDisable(GL11.GL_CULL_FACE);
-
-				scaleTranslateRotate(x, y, z, direction, rotated);
+				if(config.containerType == PolycraftContainerType.CANNON)
+				{
+					ForgeDirection direction = ForgeDirection.WEST;
+					boolean rotated = false;
+					short angle = 0;
+	
+					//direction = ForgeDirection.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
+					rotated = (tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)) >> 3 == 1;
+					
+					GL11.glPushMatrix();
+					GL11.glDisable(GL11.GL_CULL_FACE);
+					
+					scaleTranslateRotate(x, y, z, direction, false);
+				}
+				else
+				{
+					ForgeDirection direction = null;
+					boolean rotated = false;
+					short angle = 0;
+	
+					direction = ForgeDirection.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
+					rotated = (tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)) >> 3 == 1;
+	
+					// System.out.println(direction + "|" + angle);
+					GL11.glPushMatrix();
+					GL11.glDisable(GL11.GL_CULL_FACE);
+	
+					scaleTranslateRotate(x, y, z, direction, rotated);
+				}
+				
 				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
 				{
 					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
@@ -869,6 +894,16 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					GL11.glRotatef(180f, 1f, 0, 0);
 					GL11.glRotatef(90f, 0, 1f, 0);
 					GL11.glTranslated(1, -1, 0);
+				}
+				else if (config.containerType == PolycraftContainerType.CANNON)
+				{
+					CannonInventory cannon = (CannonInventory)tileEntity;
+					
+					GL11.glScalef(.2F, .2F, .2F);
+					GL11.glTranslated(2.4763F, -.027F, 2.5F);
+					GL11.glRotatef(((float) cannon.theta)%360,0F, 1F, 0F);
+					GL11.glRotatef(((float) cannon.phi)%360,0F, 0F, 1F);
+					
 				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);

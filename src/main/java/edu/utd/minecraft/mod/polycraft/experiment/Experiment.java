@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,19 +22,29 @@ import com.google.gson.reflect.TypeToken;
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.GaslampInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.polycrafting.PolycraftingInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
+import edu.utd.minecraft.mod.polycraft.util.PlayerRegisterEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerTeamEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -54,25 +69,35 @@ public abstract class Experiment {
 
 	public static final BlockContainer POLYCRAFTING_TABLE = (BlockContainer) GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("1hA"));
 	public final int size; 	//total size of experiment area size chunks by size chunks
+	public int sizeX;
+	public int sizeZ;
 	public final int id;	//id of the experiment. Should be unique
 	public final int xPos;	//starting xPos of experiment area
 	public final int yPos;	//starting yPos of experiment area
 	public final int zPos;	//starting zPos of experiment area
 	public final World world;
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
-	protected CustomScoreboard scoreboard;
+	public CustomScoreboard scoreboard;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
 	protected int teamSize = 2;
+	protected int winner=0;
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
+	protected ArrayList<String> queuedPlayers = new ArrayList<String>();
+	public LinkedList<Vec3> chests = new LinkedList<Vec3>();
 	protected int genTick = 0;
+	public static ExperimentHalftimeAnswers halftimeAnswers;
 	protected Schematic sch;
 	private Random random;
 	protected ForgeChunkManager.Ticket[] tickets;
 	ResearchAssistantEntity dummy;
 	protected ArrayList<ExperimentFeature> expFeatures;
-	
+	protected int[][] spawnlocations = new int[4][3];
+	public int expDefID;	//used by Experiment manager
+	public boolean hasBeenGenerated = false;
+	private PrivateProperty privateProperty;
+	private String name;
 	
 	public enum State{
 		PreInit,
@@ -108,7 +133,6 @@ public abstract class Experiment {
 		random = new Random();
 		dummy = new ResearchAssistantEntity(world, true);
 		this.sch = null;
-		
 	}
 	
 	/**
@@ -152,15 +176,15 @@ public abstract class Experiment {
 		//System.out.println("done");
 		
 		//expFeatures = gson.
-		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
-		try {
-			String getJSON = readFile(rs.getResourcePath());
-			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, ExperimentFeatureTypeAdapterFactory.EXPERIMENT_LIST_TYPE);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		ResourceLocation rs = new ResourceLocation(PolycraftMod.getAssetName("lang/exampleJSON2.json"));
+//		try {
+//			String getJSON = readFile(rs.getResourcePath());
+//			expFeatures = (ArrayList<ExperimentFeature>) gson.fromJson(getJSON, ExperimentFeatureTypeAdapterFactory.EXPERIMENT_LIST_TYPE);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
 		//System.out.println(expFeatures);
 	}
 	
@@ -200,7 +224,8 @@ public abstract class Experiment {
 	public boolean removePlayer(EntityPlayerMP player) {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
-				if(team.getPlayers().remove(player.getDisplayNameString())) {
+				if(team.getPlayers().remove(player.getDisplayName())) {
+					this.queuedPlayers.remove(player.getDisplayName());	//remove from queued players as well in case the experiment hasn't started yet
 					awaitingNumPlayers++;
 					return true;
 				}
@@ -218,10 +243,11 @@ public abstract class Experiment {
 	 * @param player the displayname of the player to be removed
 	 * @return true if the player existed and was removed. False if the player was not on a team.
 	 */
-	boolean removePlayer(String player) {
+	public boolean removePlayer(String player) {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
 				if(team.getPlayers().remove(player)) {
+					this.queuedPlayers.remove(player);	//remove from queued players as well in case the experiment hasn't started yet
 					awaitingNumPlayers++;
 					return true;
 				}
@@ -240,27 +266,23 @@ public abstract class Experiment {
 	 * @return False if player is already in the list or could otherwise not be added; True if the player was added.
 	 */
 	public boolean addPlayer(EntityPlayerMP player){
-		int playerCount = 0;
-		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getPlayers().contains(player.getDisplayNameString())) { //check to see if the player's name 
-				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
-				return false;
-			}
-			playerCount += team.getSize();
-		}
-		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getSize() < teamSize) {
-				//team.getPlayers()
-				team.getPlayers().add(player.getDisplayNameString());//add player's name to the team
-				player.addChatMessage(new ChatComponentText("You have been added to the " + team.getName() + " Team"));
-				//TODO: Inform the player which team they're on over here instead of a chat
-				//Pass this info to the ExperimentListMetaData as its sent to the player
-				playerCount++;
-				awaitingNumPlayers--;
-				if(playerCount == teamSize*teamsNeeded){
-					start();
-				}
-				return true;
+		int playerCount = queuedPlayers.size();
+		if(queuedPlayers.contains(player.getDisplayName())) { //check to see if the player's name 
+			player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
+		}else if(playerCount < teamSize*teamsNeeded) {
+			queuedPlayers.add(player.getDisplayName());
+			player.addChatMessage(new ChatComponentText("You have been added to the experiment: " + this.name));
+			//analytics for player joining experiment
+			PlayerRegisterEvent event = new PlayerRegisterEvent(id,(EntityPlayer)player);
+			Analytics.onPlayerRegisterEvent(event);
+			
+			//TODO: Inform the player which team they're on over here instead of a chat
+			//Pass this info to the ExperimentListMetaData as its sent to the player
+			playerCount++;
+			awaitingNumPlayers--;
+			//now check if we have enough players to begin
+			if(playerCount == teamSize*teamsNeeded){
+				start();
 			}
 		}
 		return false;
@@ -290,14 +312,14 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || ExperimentCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			ExperimentCTB.hasBeenGenerated = true;
+			hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < ExperimentCTB.chests.size(); i++) {
-				int x = (int) ExperimentCTB.chests.get(i).xCoord;
-				int y = (int) ExperimentCTB.chests.get(i).yCoord;
-				int z = (int) ExperimentCTB.chests.get(i).zCoord;
+			for(int i = 0; i < chests.size(); i++) {
+				int x = (int) chests.get(i).xCoord;
+				int y = (int) chests.get(i).yCoord;
+				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.getTileEntity(x, y, z) != null) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -388,15 +410,15 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < ExperimentCTB.spawnlocations.length; i++) {
-							if(ExperimentCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								ExperimentCTB.spawnlocations[i][0] = x + this.xPos;
-								ExperimentCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								ExperimentCTB.spawnlocations[i][2] = z + this.zPos;
-								ExperimentCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
+								chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));	//add to chests list
-								i = ExperimentCTB.spawnlocations.length; 	//exit for loop
+								i = spawnlocations.length; 	//exit for loop
 							}
 						}
 						
@@ -437,14 +459,14 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || ExperimentFlatCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			ExperimentFlatCTB.hasBeenGenerated = true;
+			hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < ExperimentFlatCTB.chests.size(); i++) {
-				int x = (int) ExperimentFlatCTB.chests.get(i).xCoord;
-				int y = (int) ExperimentFlatCTB.chests.get(i).yCoord;
-				int z = (int) ExperimentFlatCTB.chests.get(i).zCoord;
+			for(int i = 0; i < chests.size(); i++) {
+				int x = (int) chests.get(i).xCoord;
+				int y = (int) chests.get(i).yCoord;
+				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -536,15 +558,15 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
-							if(ExperimentFlatCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								ExperimentFlatCTB.spawnlocations[i][0] = x + this.xPos;
-								ExperimentFlatCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								ExperimentFlatCTB.spawnlocations[i][2] = z + this.zPos;
-								ExperimentFlatCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
+								chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));
-								i = ExperimentFlatCTB.spawnlocations.length; 	//exit for loop
+								i = spawnlocations.length; 	//exit for loop
 							}
 						}
 						
@@ -584,14 +606,14 @@ public abstract class Experiment {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || Experiment1PlayerCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			Experiment1PlayerCTB.hasBeenGenerated = true;
+			hasBeenGenerated = true;
 			//lets put in the chests!
-			for(int i = 0; i < Experiment1PlayerCTB.chests.size(); i++) {
-				int x = (int) Experiment1PlayerCTB.chests.get(i).xCoord;
-				int y = (int) Experiment1PlayerCTB.chests.get(i).yCoord;
-				int z = (int) Experiment1PlayerCTB.chests.get(i).zCoord;
+			for(int i = 0; i < chests.size(); i++) {
+				int x = (int) chests.get(i).xCoord;
+				int y = (int) chests.get(i).yCoord;
+				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
 				if(world.blockExists(x, y, z)) {
 					entity = (TileEntity) world.getTileEntity(x, y , z);
@@ -683,15 +705,15 @@ public abstract class Experiment {
 
 					
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
-						for(int i = 0; i < Experiment1PlayerCTB.spawnlocations.length; i++) {
-							if(Experiment1PlayerCTB.spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
-								Experiment1PlayerCTB.spawnlocations[i][0] = x + this.xPos;
-								Experiment1PlayerCTB.spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
-								Experiment1PlayerCTB.spawnlocations[i][2] = z + this.zPos;
-								Experiment1PlayerCTB.chests.add(Vec3.createVectorHelper(x + this.xPos, 
+						for(int i = 0; i < spawnlocations.length; i++) {
+							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
+								spawnlocations[i][0] = x + this.xPos;
+								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
+								spawnlocations[i][2] = z + this.zPos;
+								chests.add(Vec3.createVectorHelper(x + this.xPos, 
 										y + this.yPos + 2.0, 
 										z + this.zPos));
-								i = Experiment1PlayerCTB.spawnlocations.length; 	//exit for loop
+								i = spawnlocations.length; 	//exit for loop
 							}
 						}
 						
@@ -792,6 +814,7 @@ public abstract class Experiment {
 	 * override using super.start() 
 	 */
 	public void start(){
+		addPlayersToTeams();
 		ExperimentManager.metadata.get(this.id-1).deactivate(); //prevents this experiment from showing up on the list.
 		ExperimentManager.sendExperimentUpdates();
 		//todo: Override this 
@@ -801,20 +824,22 @@ public abstract class Experiment {
 	 * Set the state to done and remove players from the scoreboard, effectively removing all players.
 	 */
 	public void stop() {
+		ExperimentManager.metadata.get(this.id-1).deactivate(); //prevents this experiment from showing up on the list.  Ran here just in case and experiment stops before it starts
 		this.currentState = State.Done;
 		this.scoreboard.clearPlayers();
 		for(Ticket tkt : this.tickets) {
 			ForgeChunkManager.releaseTicket(tkt);
 		}
 		
-		//ExperimentManager.INSTANCE.sendExperimentUpdates();
+		ExperimentManager.sendExperimentUpdates();
 		//this.scoreboard = null; //TODO: does this need to be null?
 	}
 	
 	//Main update function for Experiments
 	public void onServerTickUpdate(){
-		if(this.currentState == State.Running || this.currentState == State.Halftime)
+		if(this.currentState == State.Running || this.currentState == State.Halftime) {
 			this.checkAnyPlayersLeft();
+		}
 		
 	}
 	
@@ -844,6 +869,99 @@ public abstract class Experiment {
 		return false;
 	}
 	
+	private void addPlayersToTeams() {
+		if(queuedPlayers.size() ==1) {
+			scoreboard.getTeams().get(0).getPlayers().add(queuedPlayers.get(0));
+			ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(0)).addChatMessage(new ChatComponentText("You have been added to the " + scoreboard.getTeams().get(0).getName() + " Team"));
+			PlayerTeamEvent event1 = new PlayerTeamEvent(id,scoreboard.getTeams().get(0).getName(),ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(0)));
+			Analytics.onPlayerTeamEvent(event1);
+			return;
+		}
+		
+		ArrayList<Double> scores = new ArrayList<>();
+		for(String playerName: queuedPlayers) {
+			scores.add((double) ServerEnforcer.INSTANCE.skillLevelGet(playerName));
+		}
+		
+		ArrayList<String> split = split_group_by_scores(scores, false);
+		
+		for(int index = 0; index < split.size(); index++) {
+			if(split.get(index).equals("A")) {
+				scoreboard.getTeams().get(0).getPlayers().add(queuedPlayers.get(index));
+				ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)).addChatMessage(new ChatComponentText("You have been added to the " + scoreboard.getTeams().get(0).getName() + " Team"));
+				PlayerTeamEvent event1 = new PlayerTeamEvent(id,scoreboard.getTeams().get(0).getName(),ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)));
+				Analytics.onPlayerTeamEvent(event1);
+			}else if(split.get(index).equals("B")) {
+				scoreboard.getTeams().get(1).getPlayers().add(queuedPlayers.get(index));
+				ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)).addChatMessage(new ChatComponentText("You have been added to the " + scoreboard.getTeams().get(1).getName() + " Team"));
+				PlayerTeamEvent event1 = new PlayerTeamEvent(id,scoreboard.getTeams().get(1).getName(),ExperimentManager.INSTANCE.getPlayerEntity(queuedPlayers.get(index)));
+				Analytics.onPlayerTeamEvent(event1);
+			}
+		}
+	}
+	
+	public static ArrayList<String> split_group_by_scores (ArrayList<Double> scores, boolean debug) {
+        // sort scores descending
+        // put into two groups, always adding to lower-sum group or to first
+        // group if sums are equal
+        // -- Done.
+
+        if (scores.size() % 2 != 0) {
+            System.out.println("There must be an even number of participants to split into equal length groups!");
+            System.exit(-1);
+        }
+
+        int half_n = scores.size() / 2;
+        ArrayList<String>group_ids = new ArrayList<String>();
+        group_ids.addAll(Arrays.asList(new String[scores.size()]));
+        Collections.sort(scores);
+
+        boolean add_a = true;
+        double a_scores = 0, b_scores = 0;
+        int idx = 0, rev_idx = scores.size()-1;
+
+        while (idx <= rev_idx) {
+            if (debug) {
+                System.out.println("idx: "+idx+", rev_idx: "+rev_idx);
+            }
+
+            if (add_a) {
+                add_a = false;
+
+                if (a_scores <= b_scores) {
+                    a_scores += scores.get(rev_idx);
+                    group_ids.set(rev_idx--, "A");
+                } else {
+                    a_scores += scores.get(idx);
+                    group_ids.set(idx++, "A");
+                }
+            } else {
+                add_a = true;
+
+                if (a_scores <= b_scores) {
+                    b_scores += scores.get(idx);
+                    group_ids.set(idx++, "B");
+                } else {
+                    b_scores += scores.get(rev_idx);
+                    group_ids.set(rev_idx--, "B");
+                }
+            }
+        }
+
+        double avg_diff = a_scores / half_n - b_scores / half_n;
+
+        if (debug) {
+            System.out.print("Grouping ==");
+            for (String id : group_ids) {
+                System.out.print(" "+id);
+            }
+
+            System.out.println("\n and mean score difference == "+avg_diff);
+        }
+        return group_ids;
+
+    }
+	
 	public void render(Entity entity){
 		
 	}
@@ -870,6 +988,12 @@ public abstract class Experiment {
 	}
 	
 	/**
+	 * Dynamic get function for getting multiple features of children experiments
+	 * @return specified feature
+	 */
+	public abstract Object getFeature(String feature);
+	
+	/**
 	 * Debug parameters used by command functions right now
 	 * In the future, this should be pulled from the experiment dashboard on our polycraftworld.com website
 	 * @param num of teams needed
@@ -888,8 +1012,42 @@ public abstract class Experiment {
 		this.playersNeeded = teamsNeeded*teamSize;
 		//this.awaitingNumPlayers = playersNeeded;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
 
+	protected void updateParams(ExperimentDef expDef) {
+		this.expDefID = expDef.getID();
+		this.name = expDef.getName();
+		updateParams(expDef.getParams());
+	}
+	
+	
+
+	protected void createPrivateProperties() {
+		if(!this.world.isRemote) {
+			int endX = xPos + sizeX*16, endZ = zPos + sizeZ*16;
+			PrivateProperty pp =  new PrivateProperty(
+					false,
+					null,
+					"Experiment",
+					"Good Luck!",
+					new Chunk(Math.min(xPos - 8, endX) >> 4, Math.min(zPos - 8, endZ) >> 4),
+					new Chunk(Math.max(xPos - 8, endX) >> 4, Math.max(zPos - 8, endZ) >> 4),
+					new int[] {0,3,4,5,6,7,32,44},
+					8);
+			
+			ServerEnforcer.addExpPrivateProperty(pp);	
+			this.privateProperty=pp;	
+			ServerEnforcer.INSTANCE.sendExpPPDataPackets();
+			System.out.println("x: " + (xPos >> 4) + "::" + (endX >> 4) + "|| z: " + (zPos >> 4) + "::" + (endZ >> 4));
+		}
+	}
 
 	protected abstract void updateParams(ExperimentParameters params);
-	
+
+	public static void inputAnswers(String[] halftimeAns) {
+		halftimeAnswers.inputAnswers(halftimeAns);	
+	}
 }

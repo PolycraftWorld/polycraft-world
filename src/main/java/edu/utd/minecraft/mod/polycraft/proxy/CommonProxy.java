@@ -31,7 +31,10 @@ import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeGenerator;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.handler.GuiHandler;
+import edu.utd.minecraft.mod.polycraft.handler.RespawnHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
@@ -42,9 +45,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
@@ -65,9 +66,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -89,7 +88,9 @@ public abstract class CommonProxy {
 																// 1
 	private static final int netMessageClientFailedDoorPass = 2; // message number
 																// 2
-	private static final int netMessageMinigame = 3; // message number
+	private static final int netMessageCannon = 3; // message number
+	
+	private static final int netMessageMinigame = 4; // message number
 																// 3
 
 	private FMLEventChannel netChannel;
@@ -119,13 +120,19 @@ public abstract class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
+		FMLCommonHandler.instance().bus().register(RespawnHandler.INSTANCE);
+	}
+	
+	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass, final double phi) {
+		sendMessageToServer(netMessageCannon, x, y, z, velocity, theta, mass, phi);
 	}
 	
 	public void sendMessageToServerMinigame(final int minigameid)
 	{
 		sendMessageToServer(netMessageMinigame, minigameid);
 	}
-
+	
+	
 	protected void sendMessageToServerJetPackIsFlying(final boolean jetPackIsFlying) {
 		sendMessageToServer(netMessageTypeJetPackIsFlying, jetPackIsFlying ? 1 : 0);
 	}
@@ -142,6 +149,13 @@ public abstract class CommonProxy {
 		netChannel.sendToServer(
 				new FMLProxyPacket(new PacketBuffer(Unpooled.buffer().writeInt(type).writeInt(value).copy()), netChannelName));
 	}
+	
+	private void sendMessageToServer(final int type, final int x ,final int y, final int z, final double velocity, final double theta, final double mass,final double phi) {
+		netChannel.sendToServer(
+				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(x).writeInt(y).writeInt(z).writeDouble(velocity).writeDouble(theta).writeDouble(mass).copy().writeDouble(phi), netChannelName));
+	}
+	
+	
 
 	@SubscribeEvent
 	public synchronized void onServerPacket(final FMLNetworkEvent.ServerCustomPacketEvent event) {
@@ -157,6 +171,22 @@ public abstract class CommonProxy {
 		case netMessageClientFailedDoorPass:
 			EntityPlayer player = ((NetHandlerPlayServer) event.handler).playerEntity;
 			player.worldObj.setBlockState(player.getPosition(), Blocks.lava.getDefaultState(),3);
+			break;
+		case netMessageCannon:
+			EntityPlayer player1 = ((NetHandlerPlayServer) event.handler).playerEntity;
+			int x=payload.readInt();
+			int y=payload.readInt();
+			int z=payload.readInt();
+			double velocity=payload.readDouble();
+			double theta=payload.readDouble();
+			double mass=payload.readDouble();
+			double phi= payload.readDouble();
+			CannonInventory cannon = (CannonInventory) player1.worldObj.getTileEntity(x, y, z);
+			cannon.velocity=velocity;
+			cannon.theta=theta;
+			cannon.mass=mass;
+			cannon.phi=phi;
+			cannon.shouldRenderInPass(0);
 			break;
 		case netMessageMinigame:
 			
@@ -303,6 +333,7 @@ public abstract class CommonProxy {
 				//Experiment Servers DO NOT allow for players to sync their inventories
 				if(System.getProperty("isExperimentServer") != null) {
 					ExperimentManager.INSTANCE.onPlayerTick(tick);
+					tick.player.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "False");	
 				}else {
 				onPlayerTickServerSyncInventory(tick.player, playerState);
 				}
@@ -313,6 +344,7 @@ public abstract class CommonProxy {
 		{
 			PolycraftMinigameManager.INSTANCE.onPlayerTick(tick);
 		}
+		
 		
 		//KillWall.onPlayerTick(tick);
 		//RaceGame.INSTANCE.onPlayerTick(tick);
@@ -402,6 +434,8 @@ public abstract class CommonProxy {
 			{
 				PolycraftMinigameManager.INSTANCE.onServerTick(tick);
 			}
+			
+			TutorialManager.INSTANCE.onServerTickUpdate(tick);
 		}
 	}
 
@@ -490,7 +524,27 @@ public abstract class CommonProxy {
 		
 	}
 	
+	public void openDevToolGui(EntityPlayer player) {
+		
+	}
+	
 	public void openTutorialGui(EntityPlayer player) {
 	
 	}
+
+	public void openHalftimeGui(EntityPlayer player) {
+				
+	}
+	public void closeHalftimeGui(EntityPlayer player) {
+		
+	}
+	public void toggleTutorialRender() {
+		// TODO Auto-generated method stub
+	}
+
+	public void openExperimentManagerGui(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

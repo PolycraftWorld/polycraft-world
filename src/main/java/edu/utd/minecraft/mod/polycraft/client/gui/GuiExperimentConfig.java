@@ -11,6 +11,7 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.util.Format;
@@ -65,8 +66,12 @@ public class GuiExperimentConfig extends GuiListExtended {
 		this.configList = new ArrayList<>();
 		//this.headerPadding = 0;
 		
-		if(gui instanceof GuiExperimentList) {
-			params = ((GuiExperimentList)gui).currentParameters;
+		if(gui instanceof GuiExperimentList || gui instanceof GuiExperimentManager) {
+			
+			if(gui instanceof GuiExperimentList)
+				params = ((GuiExperimentList)gui).currentParameters;
+			else
+				params = ((GuiExperimentManager)gui).currentParameters;
 			
 			//TODO: Make a more sustainable params list.
 			this.configList.add(new ConfigHeader("Timing"));
@@ -108,6 +113,18 @@ public class GuiExperimentConfig extends GuiListExtended {
 					Integer[] vals = (Integer[]) params.extraParameters.get("Sheep");
 					
 					this.configList.add(new ConfigSlider("Sheep", vals[0], vals[1], vals[2]));
+				}
+				
+				if(params.extraParameters.containsKey("Androids") & params.extraParameters.get("Androids") instanceof Integer[]) {
+					Integer[] vals = (Integer[]) params.extraParameters.get("Androids");
+					
+					this.configList.add(new ConfigSlider("Androids", vals[0], vals[1], vals[2]));
+				}
+
+				if(params.extraParameters.containsKey("Animal Difficulty") & params.extraParameters.get("Animal Difficulty") instanceof Integer[]) {
+					Integer[] vals = (Integer[]) params.extraParameters.get("Animal Difficulty");
+					
+					this.configList.add(new ConfigSlider("Animal Difficulty", vals[0], vals[1], vals[2]));
 				}
 			}
 			

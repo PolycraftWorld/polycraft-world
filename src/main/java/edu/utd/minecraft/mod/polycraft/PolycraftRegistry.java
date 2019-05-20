@@ -30,6 +30,9 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
+import edu.utd.minecraft.mod.polycraft.block.HPBlock;
+import edu.utd.minecraft.mod.polycraft.block.PlaceBlockPP;
+import edu.utd.minecraft.mod.polycraft.block.material.BreakBlockPP;
 import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
 import edu.utd.minecraft.mod.polycraft.client.TileEntityPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
@@ -71,12 +74,21 @@ import edu.utd.minecraft.mod.polycraft.config.PolymerWall;
 import edu.utd.minecraft.mod.polycraft.config.Tool;
 import edu.utd.minecraft.mod.polycraft.config.WaferItem;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir1;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir2;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir3;
 import edu.utd.minecraft.mod.polycraft.inventory.computer.ComputerInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -130,16 +142,21 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFluorescentBulbs;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezingKnockbackBomb;
+import edu.utd.minecraft.mod.polycraft.item.ItemGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.item.ItemGripped;
 import edu.utd.minecraft.mod.polycraft.item.ItemHeatedKnife;
 import edu.utd.minecraft.mod.polycraft.item.ItemIngot;
+import edu.utd.minecraft.mod.polycraft.item.ItemIronCannonBall;
+import edu.utd.minecraft.mod.polycraft.item.ItemSlingshot__Old;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.item.ItemMask;
+import edu.utd.minecraft.mod.polycraft.item.ItemMiningHammer;
 import edu.utd.minecraft.mod.polycraft.item.ItemMold;
 import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
 import edu.utd.minecraft.mod.polycraft.item.ItemNugget;
 import edu.utd.minecraft.mod.polycraft.item.ItemOilSlimeBall;
+import edu.utd.minecraft.mod.polycraft.item.ItemPaintball;
 import edu.utd.minecraft.mod.polycraft.item.ItemParachute;
 import edu.utd.minecraft.mod.polycraft.item.ItemPhaseShifter;
 import edu.utd.minecraft.mod.polycraft.item.ItemPogoStick;
@@ -1057,6 +1074,14 @@ public class PolycraftRegistry {
 					TextWallInventory.register(inventory);
 				else if (GameID.InventoryPolycrafting.matches(inventory))
 					PolycraftingInventory.register(inventory);
+				else if (GameID.InventoryCannon.matches(inventory))
+					CannonInventory.register(inventory);
+				else if (GameID.InventoryCannonGravelTier1.matches(inventory))
+					GravelCannonInventoryTeir1.register(inventory);
+				else if (GameID.InventoryCannonGravelTier2.matches(inventory))
+					GravelCannonInventoryTeir2.register(inventory);
+				else if (GameID.InventoryCannonGravelTier3.matches(inventory))
+					GravelCannonInventoryTeir3.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}
@@ -1088,6 +1113,18 @@ public class PolycraftRegistry {
 				}
 				else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
 					TestTerritoryFlagBoss.register(polycraftEntity);
+				}
+				else if (GameID.EntityAndroid.matches(polycraftEntity)){
+					EntityAndroid.register(polycraftEntity);
+				}
+				else if (GameID.EntityIronCannonBall.matches(polycraftEntity)){
+					EntityIronCannonBall.register(polycraftEntity);
+				}
+				else if (GameID.EPaintball.matches(polycraftEntity)) {
+					EntityPellet__Old.register(polycraftEntity);
+				}
+				else if (GameID.EntityGravelCannonBall.matches(polycraftEntity)){
+					EntityGravelCannonBall.register(polycraftEntity);
 				}
 					
 				//else if (GameID.EntityTerritoryFlag.matches(polycraftEntity))
@@ -1254,6 +1291,34 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemFreezingKnockbackBomb(customObject));
 				} else if (GameID.Cleats.matches(customObject)) {
 					registerItem(customObject, new ItemCleats(customObject));
+				} else if (GameID.CustomMiningHammer.matches(customObject)) {
+					registerItem(customObject, new ItemMiningHammer(customObject));
+				} else if (GameID.HPBlock.matches(customObject)) {
+					registerBlock(customObject, new HPBlock(customObject));
+				} else if (GameID.ItemIronCannonball.matches(customObject)) {
+					registerItem(customObject, new ItemIronCannonBall(customObject));
+				} else if (GameID.ItemGravelCannonBall.matches(customObject)) {
+					registerItem(customObject, new ItemGravelCannonBall(customObject));
+				} else if (GameID.PlaceBlockPP.matches(customObject)) {
+					registerBlock(customObject, new PlaceBlockPP(customObject));
+				} else if (GameID.BreakBlockPP.matches(customObject)) {
+					registerBlock(customObject, new BreakBlockPP(customObject));
+				} else if (GameID.CustomWoodSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomTacticalSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomScatterSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomBurstSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomGravitySlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.CustomIceSlingshot.matches(customObject)) {
+					registerItem(customObject, new ItemSlingshot__Old(customObject));
+				} else if (GameID.Paintball.matches(customObject)) {
+					registerItem(customObject, new ItemPaintball(customObject));
+					
+					
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
@@ -1386,8 +1451,13 @@ public class PolycraftRegistry {
 		for (final CustomObject customObject : CustomObject.registry.values())
 			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
 		
+		for (final CustomObject customObject : CustomObject.registry.values())
+			langEntries.add(String.format(blockFormat, customObject.gameID, customObject.name));
+		
 		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
 			langEntries.add(String.format(entityFormat, entity.name, entity.name));
+		
+		langEntries.addAll(customLangEntries());
 
 		final PrintWriter writer = new PrintWriter(exportFile);
 		for (final String line : langEntries) {
@@ -1395,4 +1465,64 @@ public class PolycraftRegistry {
 		}
 		writer.close();
 	}
+	
+	private static Collection<String> customLangEntries(){
+		final Collection<String> customEntries = new LinkedList<String>();
+		
+		//Gui consent text
+		customEntries.add("gui.consent.title=Polycraft World Experiments Server Terms, Conditions & User Agreement");
+		customEntries.add("gui.consent.longparagraph1=Polycraft World is researching how people find solutions to problems under different circumstances. We'll be doing this by looking at how well players accomplish the goals of these challenge rooms. Thousands of participants will be involved in this study so that we can look at goal-oriented behavior across populations. We think these games are awesome, but you might get tired or bored. You might also have a really fun time and accidentally learn about polymer chemistry! If you don't want to share your behavorial data with us, that's ok - we can send you to a challenge room where data won't be used for this research. If you win in either room, you'll get a prize at the end - maybe diamond blocks, hard-to-make tools, or even some platinum! For some challenges, you might have the chance to win scholarship money to UT Dallas, but you don't have to share your data with us in order to compete for the scholarships.");
+		customEntries.add("gui.consent.longparagraph2=You always have the right to choose not to participate, and you can stop doing so at any time - just use your Esc key to exit the game, or type \"/exit\" in your command bar. We'll stop tracking behavior and send you back to the spawn point. All of the information participants provide to investigators as part of this research will be protected and held in confidence within the limits of the law and institutional regulation. Your data will only be identified by your unique, randomly-assigned user ID, and none of your personal contact information will be shared with our research partners (next). The results of this research may appear in publications, but no individual participants will be identified.");
+		customEntries.add("gui.consent.longparagraph3=Our research partners include Gallup, Inc. and the Georgia Institute of Technology. Members and associated staff of the Institutional Review Board (IRB) of the University of Texas at Dallas may review the records of your participation in this research. An IRB is a group of people who are responsible for assuring the community that the rights of participants in research are respected. A representative of the UTD IRB may contact you to gather information about your participation in this research. If you wish, you may refuse to answer questions the representative may ask.");
+		customEntries.add("gui.consent.longparagraph4=Participants who want more information about their rights as a participant or who want to report a research related injury may contact The UT Dallas IRB at +1-972-883-4579.");
+		customEntries.add("gui.consent.contact1=Principal Investigator: Eric Kildebeck, M.D., Ph.D. (972-883-7281)");
+		customEntries.add("gui.consent.contact2=Co-Principal Investigator: Walter Voit, Ph.D. (972-883-5788)");
+		customEntries.add("gui.consent.contact3=Polycraft Director of Research: Grace Topete (972-883-7286)");
+		customEntries.add("gui.consent.please=Please answer the following questions to continue.");
+		customEntries.add("gui.consent.tryagain=Incorrect. Try again!");
+		customEntries.add("gui.consent.question1=2. What data is being collected for this research?");
+		customEntries.add("gui.consent.question10=Where I live.");
+		customEntries.add("gui.consent.question11=My name.");
+		customEntries.add("gui.consent.question12=What actions I perform in a minigame.");
+		customEntries.add("gui.consent.question13=How many friends I have in Polycraft.");
+		customEntries.add("gui.consent.question2=3. Practice typing the command to exit the research room and stop sharing your behavioral data.");
+		customEntries.add("gui.consent.question3=1. Are you 18 or order?");
+		customEntries.add("gui.consent.minor=Thanks for your interest! You can continue to enter and play various minigames in our servers. We are currently limiting our research to participants who are 18+. Have fun in Polycraft World!");
+		customEntries.add("gui.consent.question4=4. Please type the phone number you should call if you would like more info about your rights as a participant.");
+		customEntries.add("gui.consent.question5=5. Who can you contact if you have questions about the research?");
+		customEntries.add("gui.consent.question50=Dr. Walter Voit");
+		customEntries.add("gui.consent.question51=Dr. Eric Kildebeck");
+		customEntries.add("gui.consent.question52=Grace Topete");
+		customEntries.add("gui.consent.question53=All of the above.");
+		customEntries.add("gui.consent.more=Is that the only person?");
+		customEntries.add("gui.consent.question6=Are you willing to share your anonymous behavior data with Polycraft World?");
+		customEntries.add("gui.consent.nonegiven=Thanks for your interest! You can continue to enter and play various minigames in our servers. We are currently limiting our research to participants who consent to share their behavioral data. If you would like to change your mind, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Have fun in Polycraft World!");
+		customEntries.add("gui.consent.finished=Thank you! If you would like to withdraw consent, you can do so at anytime by right-clicking the consent text at the Trellis at UT Dallas. Welcome to Polycraft World!");
+
+		//Experiment Manager Gui
+		customEntries.add("gui.expmanager.title=Experiment Manager");
+		customEntries.add("gui.expmanager.body=This menu was made to configure the types of experiments that will run on this server. Happy experimenting!");
+		
+		//Halftime Gui
+		customEntries.add("gui.yes=Yes");
+		customEntries.add("gui.no=No");
+		customEntries.add("gui.halftime.title=Halftime Planning");
+		customEntries.add("gui.halftime.nothanks=Enjoy the rest of the game!");
+		customEntries.add("gui.halftime.question1=Do you want to change anything about our strategy?");
+		customEntries.add("gui.halftime.question2=Do you want to change out base capturing strategy?");
+		customEntries.add("gui.halftime.question3=Do you want to change our item use strategy?");
+		customEntries.add("gui.halftime.finished=Questions Complete! Enjoy the rest of the game!");
+		customEntries.add("gui.halftime.question20=Offense");
+		customEntries.add("gui.halftime.question21=Defense");
+		customEntries.add("gui.halftime.question30=Make more items");
+		customEntries.add("gui.halftime.question31=Make less items");
+		
+		//Tutorial Gui
+		customEntries.add("gui.tutorial.title=Play Tutorial");
+		customEntries.add("gui.tutorial.body=In order to get you familiar with the controls of the game, please play through our tutorial mode. You will not be able to participate in experiments until you have completed the tutorial first. If you aren't ready, you can close the screen and press \"x\" at any time to return to this menu. ");
+		
+		
+		return customEntries;
+	}
+	
 }

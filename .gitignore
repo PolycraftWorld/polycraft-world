@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /build
 /gradle
 /.metadata
@@ -44,3 +45,28 @@ build
 # other
 eclipse
 run
+=======
+/build
+/gradle
+/.metadata
+/.settings
+/.gradle
+/bin
+/eclipse
+/gradlew
+/gradlew.bat
+/LICENSE-fml.txt
+/README.txt
+/MinecraftForge-Credits.txt
+/MinecraftForge-License.txt
+/CREDITS-fml.txt
+/.classpath
+/.project
+/options.txt
+/servers.dat
+*.DS_Store
+# Here so you don't get your ass kicked.
+/forge-*-changelog.txt
+/forge-*-src.zip
+/src/main/java/com/example/examplemod
+>>>>>>> refs/remotes/origin/1.4.13_dev

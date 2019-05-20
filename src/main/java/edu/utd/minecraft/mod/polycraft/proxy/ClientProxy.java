@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.proxy;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,11 +25,14 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockBouncy;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
-import edu.utd.minecraft.mod.polycraft.block.material.PolycraftMaterial;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorialMenu;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -36,8 +40,13 @@ import edu.utd.minecraft.mod.polycraft.config.MoldedItem;
 import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPaintBall__Old;
+import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
+import edu.utd.minecraft.mod.polycraft.entity.Physics.RenderCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
@@ -48,9 +57,13 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderDummy;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderPolycraftBiped;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
+import edu.utd.minecraft.mod.polycraft.entity.projectile.RenderPaintball;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
-import edu.utd.minecraft.mod.polycraft.entity.entityliving.render.RenderTerritoryFlag2;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialRender;
+import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserRenderingHandler;
@@ -60,6 +73,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.textwall.TextWallRenderHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.item.ItemAirQualityDetector;
 import edu.utd.minecraft.mod.polycraft.item.ItemCommunication;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlashlight;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
@@ -73,6 +87,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
+import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -81,6 +96,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
+import edu.utd.minecraft.mod.polycraft.util.TextFormatting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockButton;
@@ -88,6 +104,8 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -99,6 +117,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -156,6 +178,9 @@ public class ClientProxy extends CommonProxy {
 		//register scoreboard handlers
 		FMLCommonHandler.instance().bus().register(ClientScoreboard.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientScoreboard.INSTANCE);
+		
+		// Register respawn desync handler
+		FMLCommonHandler.instance().bus().register(ResyncHandler.INSTANCE);
 		//TODO: Walter add in 3D rendering code
 		registerRenderers();
 	}
@@ -468,12 +493,29 @@ public class ClientProxy extends CommonProxy {
 					onClientTickFreeze(tick.player, playerState);
 				}
 			}
+			if(tick.side == Side.CLIENT) {
+				TutorialManager.INSTANCE.onPlayerTick(tick);
+			}
 		}
 	}
 	
 
 	 
-	 
+	@SubscribeEvent
+	public void onRenderGui(RenderGameOverlayEvent.Post event) {
+		Entity entity = Minecraft.getMinecraft().renderViewEntity;
+		//TutorialRender.renderLoadingScreen(entity);
+	}
+	
+	@SubscribeEvent
+    public void onRenderScreenGui(GuiScreenEvent.DrawScreenEvent.Post event) {
+        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+        if(entity!=null)
+        {
+        	//TutorialRender.renderLoadingScreen(entity);
+        	 TutorialManager.INSTANCE.renderScreen(entity);
+        }
+    }
 	
 
 	@SubscribeEvent
@@ -497,6 +539,9 @@ public class ClientProxy extends CommonProxy {
 	        if(ClientEnforcer.getShowPP()) {
 	        	renderPPBounds(entity);
 	        }
+//	        if(ClientEnforcer.getShowTutorialRender()) {
+//	        	renderTutorial(entity);
+//	        }
 	        if(entity instanceof EntityPlayer) {
 				if(((EntityPlayer)entity).getHeldItem() != null && ((EntityPlayer)entity).getHeldItem().getItem() instanceof ItemKnockbackBomb) {
 					((ItemKnockbackBomb)((EntityPlayer)entity).getHeldItem().getItem()).render(entity);
@@ -519,6 +564,7 @@ public class ClientProxy extends CommonProxy {
 	        //renderKillWallBounds(entity);
 	       // renderRaceGameGoal(entity);
 	        ExperimentManager.INSTANCE.render(entity);
+	        TutorialManager.INSTANCE.render(entity);
 	        if(PolycraftMinigameManager.INSTANCE!=null)
 	        {
 	        	if(PolycraftMinigameManager.INSTANCE.active && entity.worldObj.isRemote)
@@ -526,13 +572,342 @@ public class ClientProxy extends CommonProxy {
 	        		PolycraftMinigameManager.INSTANCE.render(entity);
 	        	}
 	        }
+	        ItemDevTool.render(entity);
 	        AttackWarning.renderAttackWarnings(entity);
 	        //renderKillWallBounds(entity);
 	        //renderRaceGameGoal(entity);
 	        GL11.glPopMatrix();
 	    }
 	 
-	 @SubscribeEvent
+//	 public static void renderLeftArrow(Entity entity)
+//	 {
+//			GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glBegin(GL11.GL_QUADS);
+//	        double x = entity.posX;
+//	        double y = entity.posY;
+//	        double z = entity.posZ;
+//	        double ang = entity.rotationYaw;
+//	        double ang2= 0;
+//	        double r = 3; 
+//	        int ticks=0;      //entity.ticksExisted%60;
+//	        double degInRad;
+//	        double DEG2RAD = Math.PI/180;
+//	        for (int i=50-ticks; i<=85; i++)
+//	        {
+//	           degInRad = (i+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+//	           i++;
+//	           degInRad = (i+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+//	           i--;
+//	        }
+//
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        
+//	        
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glFrontFace(GL11.GL_CW);
+//	        GL11.glBegin(GL11.GL_TRIANGLES);
+//	        
+//
+//	        int i=40-ticks;
+//	        degInRad = (i+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
+//	        i+=15;
+//	        degInRad = (i+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y+.25F,(float)(Math.sin(degInRad)*r+z));
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.5F,(float)(Math.sin(degInRad)*r+z));
+//	        
+//	        
+//	 
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        GL11.glFrontFace(GL11.GL_CCW);
+//	 }
+//	 
+//	 public static void renderGreenLeftArrow(Entity entity)
+//	 {
+//			GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glColor4f(0F, 1F, 0F,1F);
+//	        GL11.glBegin(GL11.GL_QUADS);
+//	       
+//	        double x = entity.posX;
+//	        double y = entity.posY;
+//	        double z = entity.posZ;
+//	        double ang = entity.rotationYaw;
+//	        
+//	        int ang1=((int)ang)%360;
+//	        if(ang1<0)
+//	        	ang1+=360;
+//	        double ang2= 0;
+//	        double r = 2; 
+//	        int ticks=0;      //entity.ticksExisted%60;
+//	        double degInRad;
+//	        double DEG2RAD = Math.PI/180;
+//	        for (int i=ang1; i<=85; i++)
+//	        {
+//	        
+//	           degInRad = (i+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+//	           i++;
+//	           degInRad = (i+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+//	           i--;
+//	        }
+//
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        
+//	        
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glFrontFace(GL11.GL_CW);
+//	        GL11.glBegin(GL11.GL_TRIANGLES);
+//	        
+//
+//	        int i=40-ticks;
+//	        degInRad = (i+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
+//	        i+=15;
+//	        degInRad = (i+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y+.25F,(float)(Math.sin(degInRad)*r+z));
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.5F,(float)(Math.sin(degInRad)*r+z));
+//	        
+//	        
+//	 
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        GL11.glFrontFace(GL11.GL_CCW);
+//	 }
+//	 
+//	 
+//	 public static void renderRightArrow(Entity entity)
+//	 {
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glBegin(GL11.GL_QUADS);
+//
+//	        	
+//	        double x = entity.posX;
+//	        double y = entity.posY;
+//	        double z = entity.posZ;
+//	        double ang = entity.rotationYaw;
+//	        double ang2= 0;
+//	        double r = 3; 
+//	        int ticks=entity.ticksExisted%60 ;
+//	        double degInRad;
+//	        double DEG2RAD = Math.PI/180;
+//	        for (int i=94; i<=95+ticks; i++)
+//	        {
+//	           degInRad = (i+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+//	           i++;
+//	           degInRad = (i+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.25F,(float)(Math.sin(degInRad)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y,(float)(Math.sin(degInRad)*r+z));
+//	           i--;
+//	        }
+//
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        
+//	        
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        //GL11.glFrontFace(GL11.GL_CW);
+//	        GL11.glBegin(GL11.GL_TRIANGLES);
+//
+//	       
+//	        int i=110+ticks;
+//	        degInRad = (i+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.125F,(float)(Math.sin(degInRad)*r+z));
+//	        i-=15;
+//	        degInRad = (i+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y+.25F,(float)(Math.sin(degInRad)*r+z));
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)y-.5F,(float)(Math.sin(degInRad)*r+z));
+//	        
+//	        
+//	 
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        GL11.glFrontFace(GL11.GL_CCW);  
+//	 }
+//	 
+//	 public static void renderDownArrow(Entity entity)
+//	 {
+//		  GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glBegin(GL11.GL_QUADS);
+//
+//	        	
+//	        double x = entity.posX;
+//	        double y = entity.posY;
+//	        double z = entity.posZ;
+//	        double ang = entity.rotationYaw;
+//	        double ang2= 0;
+//	        double r = 3; 
+//	        int ticks=entity.ticksExisted%40;
+//	        double degInRad;
+//	        double DEG2RAD = Math.PI/180;
+//	        for (int i=95; i<=95+ticks; i++)
+//	        {
+//	           degInRad = (90+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+//	           i++;
+//	           degInRad = (90+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+//	           i--;
+//	        }
+//
+//	        
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        
+//	        
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        //GL11.glFrontFace(GL11.GL_CW);
+//	        GL11.glBegin(GL11.GL_TRIANGLES);
+//
+//	       
+//	       
+//	        degInRad = (100+ang)*DEG2RAD;
+//	        //double extra=-Math.PI/60;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((100+ticks+ang2)*DEG2RAD)*r+y)+.25F,(float)(Math.sin(degInRad)*r+z));
+//	        degInRad = (80+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((100+ticks+ang2)*DEG2RAD)*r+y)+.25F,(float)(Math.sin(degInRad)*r+z));
+//	        degInRad = (90+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((100+ticks+ang2)*DEG2RAD)*r+y)-.75F,(float)(Math.sin(degInRad)*r+z));
+//	        
+//	        
+//	 
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        GL11.glFrontFace(GL11.GL_CCW);
+//	 }
+//	 
+//	 public static void renderUpArrow(Entity entity)
+//	 {
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glBegin(GL11.GL_QUADS);
+//
+//	        	
+//	        double x = entity.posX;
+//	        double y = entity.posY;
+//	        double z = entity.posZ;
+//	        double ang = entity.rotationYaw;
+//	        double ang2= 0;
+//	        double r = 3; 
+//	        int ticks=entity.ticksExisted%40;
+//	        double degInRad;
+//	        double DEG2RAD = Math.PI/180;
+//	        for (int i=85-ticks; i<=85; i++)
+//	        {
+//	           degInRad = (90+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+//	           i++;
+//	           degInRad = (90+ang)*DEG2RAD;
+//	           GL11.glVertex3f((float)(Math.cos(degInRad-Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad-Math.PI/60)*r+z));
+//	           GL11.glVertex3f((float)(Math.cos(degInRad+Math.PI/60)*r+x),(float)(Math.cos((i+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad+Math.PI/60)*r+z));
+//	           i--;
+//	        }
+//
+//	        
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        
+//	        
+//	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	        GL11.glEnable(GL11.GL_BLEND);
+//	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//	        GL11.glDisable(GL11.GL_LIGHTING);
+//	        GL11.glLineWidth(1.5F);
+//	        GL11.glFrontFace(GL11.GL_CW);
+//	        GL11.glBegin(GL11.GL_TRIANGLES);
+//
+//	       
+//	       
+//	        degInRad = (100+ang)*DEG2RAD;
+//	        //double extra=-Math.PI/60;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((86-ticks+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad)*r+z));
+//	        degInRad = (80+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((86-ticks+ang2)*DEG2RAD)*r+y),(float)(Math.sin(degInRad)*r+z));
+//	        degInRad = (90+ang)*DEG2RAD;
+//	        GL11.glVertex3f((float)(Math.cos(degInRad)*r+x),(float)(Math.cos((86-ticks+ang2)*DEG2RAD)*r+y)+1F,(float)(Math.sin(degInRad)*r+z));
+//	        
+//	        
+//	 
+//	        GL11.glEnd();
+//	        GL11.glEnable(GL11.GL_LIGHTING);
+//	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//	        GL11.glDisable(GL11.GL_BLEND);
+//	        GL11.glFrontFace(GL11.GL_CCW);
+//	 }
+
+	 private static void renderTutorial(Entity entity) 
+	 {
+		 
+	 }
+
+	@SubscribeEvent
 	 public void renderLastEvent(RenderWorldLastEvent event) {
 	    render(event.partialTicks);
 	    
@@ -833,7 +1208,19 @@ public class ClientProxy extends CommonProxy {
 				client.fontRendererObj.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
-
+			// Display shiny text when user hasn't completed tutorial
+			if (!ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1) {
+				int color = 16777215;
+				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
+			}
+			
+			// Display shiny text after user completes tutorial to play experiments
+			if (ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1 
+					&& ExperimentManager.INSTANCE.clientCurrentExperiment == -1 ) {
+				int color = 16777215;
+				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open play an experiment!!",5,false),x,y,color);
+			}
+			
 			if (playerState.cheatInfoTicksRemaining == 0) {
 				final boolean cheatInfoActivated = isKeyDown(keyBindingJ) && isKeyDown(keyBindingI) && isKeyDown(keyBindingM);
 				if (cheatInfoActivated) {
@@ -886,7 +1273,52 @@ public class ClientProxy extends CommonProxy {
 	//			playerState.placeBrickBackwards = false;
 	//		
 	//	}
-
+	
+	public static String stringToGolden(String parString, int parShineLocation, boolean parReturnToBlack)
+	{
+	   int stringLength = parString.length();
+	   if (stringLength < 1)
+	   {
+	      return "";
+	   }
+	   String outputString = "";
+	   TextFormatting[] colorChar = 
+	      {
+	         TextFormatting.RED,
+	         TextFormatting.GOLD,
+	         TextFormatting.YELLOW,
+	         TextFormatting.GREEN,
+	         TextFormatting.AQUA,
+	         TextFormatting.BLUE,
+	         TextFormatting.LIGHT_PURPLE,
+	         TextFormatting.DARK_PURPLE
+	      };
+	   for (int i = 0; i < stringLength; i++)
+	   {
+	      if ((i+parShineLocation+Minecraft.getSystemTime()/20)%88==0)
+	      {
+	         outputString = outputString+TextFormatting.WHITE+parString.substring(i, i+1);    
+	      }
+	      else if ((i+parShineLocation+Minecraft.getSystemTime()/20)%88==1)
+	      {
+	          outputString = outputString+TextFormatting.YELLOW+parString.substring(i, i+1);    
+	      }
+	      else if ((i+parShineLocation+Minecraft.getSystemTime()/20)%88==87)
+	      {
+	         outputString = outputString+TextFormatting.YELLOW+parString.substring(i, i+1);    
+	      }
+	      else
+	      {
+	         outputString = outputString+TextFormatting.GOLD+parString.substring(i, i+1);        
+	      }
+	   }
+	   // return color to a common one after (most chat is white, but for other GUI might want black)
+	   if (parReturnToBlack)
+	   {
+	      return outputString+TextFormatting.BLACK;
+	   }
+	   return outputString+TextFormatting.WHITE;
+	}
 	private void onClientTickJetPack(final EntityPlayer player, final PlayerState playerState) {
 		boolean jetPackIsFlying = false;
 		if (ItemJetPack.allowsFlying(player)) {
@@ -1089,6 +1521,16 @@ public class ClientProxy extends CommonProxy {
             else if (GameID.EntityTestTerritoryFlagBoss.matches(polycraftEntity)) {
             	RenderingRegistry.registerEntityRenderingHandler(TestTerritoryFlagBoss.class, new RenderTerritoryFlag2());
             }
+            else if (GameID.EntityAndroid.matches(polycraftEntity)){
+                RenderingRegistry.registerEntityRenderingHandler(EntityAndroid.class, new RenderPolycraftBiped(new ModelPolycraftBiped(), 0));
+            }
+            else if (GameID.EntityIronCannonBall.matches(polycraftEntity)) {
+            	RenderingRegistry.registerEntityRenderingHandler(EntityIronCannonBall.class, new RenderCannonBall());
+            }
+            else if (GameID.EPaintball.matches(polycraftEntity)) {
+            	RenderingRegistry.registerEntityRenderingHandler(EntityPaintBall__Old.class, new RenderPaintball());
+
+            }
 
         }
 
@@ -1097,7 +1539,14 @@ public class ClientProxy extends CommonProxy {
 	public void onClientTickOpenExperimentsGui(EntityPlayer player, PlayerState state) {
 		if(keyBindingExperiments.isPressed()) {
 			if(this.noScreenOverlay()) {
-				client.displayGuiScreen(new GuiExperimentList(player));
+				if(player.isSneaking()) {
+					openExperimentManagerGui(player);
+				}else {
+					if(ClientEnforcer.INSTANCE.hasCompletedTutorial)
+						client.displayGuiScreen(new GuiExperimentList(player));
+					else
+						client.displayGuiScreen(new GuiTutorialMenu(player));
+				}
 			}
 		}
 	}
@@ -1115,7 +1564,28 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
+	public void openExperimentManagerGui(EntityPlayer player)
+	{
+		client.displayGuiScreen(new GuiExperimentManager(player));
+	}
+	
+	@Override
+	public void openDevToolGui(EntityPlayer player) {
+		client.displayGuiScreen(new GuiDevTool(player));
+	}
+	
+	@Override
 	public void openTutorialGui(EntityPlayer player) {
 		client.displayGuiScreen(new GuiTutorial(player));
+	}
+	
+	@Override
+	public void openHalftimeGui(EntityPlayer player) {
+		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));
+	}
+	@Override
+	public void closeHalftimeGui(EntityPlayer player) {
+		client.displayGuiScreen((GuiScreen) null);
+		client.setIngameFocus();
 	}
 }

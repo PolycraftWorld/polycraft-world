@@ -1,5 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,29 +25,49 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager.PacketMeta;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.ExperimentsPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerRegisterEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExitEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
 public class ExperimentManager {
 
+	private static final String OUTPUT_FILE_NAME = "ExperimentDefs.nbt";
 	public static ExperimentManager INSTANCE = new ExperimentManager();
 	private static int nextAvailableExperimentID = 1; 	//one indexed
 	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
+	private static Hashtable<Integer, ExperimentDef> experimentDefinitions;	//table of all available defined experiments with set parameters
 	
 	private List<EntityPlayer> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
@@ -51,120 +79,10 @@ public class ExperimentManager {
 	public Schematic stoop = sch.get("stoopWithCrafting.psm");
 	public Schematic flat_field = sch.get("flatWithCrafting.psm");
 	
-	/**
-	 * Internal class that keeps track of all experiments
-	 * A static arraylist of this class, called #metadata is transferred between Server & Client
-	 * for synchronization. This contains relevant, condensed information enabling efficient info
-	 * transfer across the network. 
-	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
-	 * {@link ClientEnforcer}. It is currently rendered on {@link GuiExperimentList}
-	 * @author dnarayanan
-	 *
-	 */
-	public class ExperimentListMetaData {	
-		public String expName;
-		public String instructions = "";
-		public int playersNeeded;
-		public int currentPlayers;
-		private boolean available = true;
-		private ExperimentParameters parameters;
-		public String expType;
-		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
-			expName = name;
-			playersNeeded = maxPlayers;
-			currentPlayers = currPlayers;
-			this.instructions = instructions; 
-		}
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params) {
-			expName = name;
-			playersNeeded = maxPlayers;
-			currentPlayers = currPlayers;
-			this.instructions = instructions; 
-			this.parameters = params;
-		}
-		
-		public ExperimentListMetaData(Experiment type) {
-			if(type instanceof ExperimentCTB) {
-				this.expName = "Experiment B: " + type.id;
-				this.expType = "Stoop";
-			}else {
-				this.expName = "Experiment A: " + type.id;
-				this.expType = "Flat"; //TODO: Declare these names as static within the class.
-			}
-			this.playersNeeded = type.getMaxPlayers();
-			currentPlayers = 0;
-			this.instructions = type.getInstructions();
-			this.parameters = new ExperimentParameters(type);
-			
-		}
-		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, Experiment type) {
-			expName = name;
-			playersNeeded = maxPlayers;
-			currentPlayers = currPlayers;
-			this.instructions = instructions; 
-			this.parameters = params;
-		}
-		
-		public void updateCurrentPlayers(int newPlayerCount) {
-			currentPlayers = newPlayerCount;
-		}
-		
-		@Deprecated
-		public void updateParams(ExperimentParameters params) {
-			this.parameters = params;
-		}
-		
-		public void updateParams(int ExpID) {
-			this.parameters = new ExperimentParameters(ExperimentManager.experiments.get(ExpID));
-			this.instructions = ExperimentManager.experiments.get(ExpID).getInstructions(); //update instructions
-		}
-		
-		public void deactivate() {
-			available = false;
-		}
-		
-		public boolean isAvailable() {
-			return available;
-		}
-		
-		public ExperimentParameters getParams() {
-			return parameters;
-		}
+	public static Hashtable<Integer, Experiment> getExperiments() {
+		return experiments;
+	}
 
-		@Override
-		public String toString() {
-			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d Available? %s", expName, playersNeeded, currentPlayers, available);
-		}	
-	}
-	
-	/**
-	 * This class contains a request from the Client to the Server of a player wanting to join
-	 * or of a player wanting to be removed from a particular experiment list.
-	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
-	 * by {@link ServerEnforcer}).
-	 * @author dnarayanan
-	 *
-	 */
-	public class ExperimentParticipantMetaData {
-		public String playerName;
-		public int experimentID;
-		public boolean wantsToJoin;
-		public ExperimentParameters params;
-		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
-			this.playerName = playerName;
-			this.experimentID = expID;
-			wantsToJoin = join;
-		}
-		
-		public ExperimentParticipantMetaData(String playerName, int expID, ExperimentParameters param) {
-			this.playerName = playerName;
-			this.experimentID = expID;
-			this.params = param;
-		}
-	}
-	
 	public ExperimentManager() {
 		try {
 			globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
@@ -173,6 +91,8 @@ public class ExperimentManager {
 			//e.printStackTrace();//TODO: Remove this.
 			globalPlayerList = null;
 		}
+		experimentDefinitions = new Hashtable<Integer, ExperimentDef>();
+		this.loadExpDefs();	//attempt to load experiment defs
 		
 		clientCurrentExperiment = -1;
 		
@@ -190,112 +110,62 @@ public class ExperimentManager {
 	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
 		if(tick.phase == Phase.END) {
-		//	boolean areAnyActive1x = false;
-			boolean areAnyActive = false;
-			boolean areAnyActive4x = false;
-			boolean isFlatActive2x = false;
-			boolean isFlatActive4x = false;
-			boolean areAnyActive8x = false;
 			for(Experiment ex: experiments.values()){
 				if(ex.currentState != Experiment.State.Done) {
 					ex.onServerTickUpdate();
 				}
 			}
-			for(ExperimentListMetaData ex2 : metadata) {
-				if(ex2.isAvailable()) {
-					if(ex2.expType.equals("Stoop")) {
-						switch(ex2.playersNeeded) {
-	//					case 1:
-	//						areAnyActive1x = true;
-	//						break;
-						case 2:
-							areAnyActive = true;
+			
+			int posOffset = 10000;
+			int multiplier = 1;
+			
+			//setup experiments
+			expDefLoop: for(ExperimentDef expDef: experimentDefinitions.values()) {
+				if(expDef.isEnabled()) {
+					for(Experiment ex: experiments.values()) {
+						if(ex.expDefID == expDef.getID() && ex.currentState == State.WaitingToStart)
+							continue expDefLoop;	//if we find a match that is not currently running, then continue
+					}
+					int nextID = this.getNextID();
+					int numChunks = 20;
+					multiplier = nextID;
+					System.out.println("Creating new Exp");
+					switch(expDef.getExpType()) {
+						case CTB_FLAT_1_PLAYER:
+							posOffset = 500;
+							Experiment1PlayerCTB newExp1Player = new Experiment1PlayerCTB(nextID, numChunks, 16*numChunks + 16 + posOffset, 
+									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 1, expDef.getPlayersPerTeam());
+							this.registerExperiment(nextID, newExp1Player, expDef.getName());
+							newExp1Player.updateParams(expDef);
 							break;
-						case 4:
-							areAnyActive4x = true;
+						case CTB_FLAT:
+							posOffset = 820;
+							ExperimentFlatCTB newExpFlat = new ExperimentFlatCTB(nextID, numChunks, 16*numChunks + 16 + posOffset, 
+									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
+							this.registerExperiment(nextID, newExpFlat, expDef.getName());
+							newExpFlat.updateParams(expDef);
 							break;
-						case 8:
-							//areAnyActive8x = true;
+						case CTB_STOOP:
+							posOffset = 1140;
+							ExperimentCTB newExpCTB = new ExperimentCTB(nextID, numChunks, 16*numChunks + 16, 
+									multiplier*16*numChunks + 144,DimensionManager.getWorld(8), expDef.getTeamCount(), expDef.getPlayersPerTeam());
+							this.registerExperiment(nextID, newExpCTB, expDef.getName());
+							newExpCTB.updateParams(expDef);
 							break;
 						default:
-							//areAnyActive1x = true;
-							areAnyActive = true;
-							areAnyActive4x = true;
-							//areAnyActive8x = true;
 							break;
-						}
-					
-					}else if(ex2.expType.equals("Flat")) {
-						switch(ex2.playersNeeded) {
-						case 1:
-							isFlatActive2x = true;
-							break;
-						case 2:
-							isFlatActive2x = true;
-							break;
-						case 4:
-							isFlatActive4x = true;
-							break;
-						case 8:
-							areAnyActive8x = true;
-						default:
-							break;
+					}
+					sendExperimentUpdates();
+				}else {
+					for(Experiment ex: experiments.values()) {
+						if(ex.expDefID == expDef.getID() && ex.currentState == State.WaitingToStart) {
+							this.stop(ex.id);
+							System.out.println("Deleting Exp");
+							sendExperimentUpdates();
 						}
 					}
 				}
 			}
-
-			int posOffset = 10000;
-			int multiplier = 1;
-			
-			if(!isFlatActive2x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				//ExperimentFlatCTB newExpFlat2x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 1);
-				Experiment1PlayerCTB newExpFlat2x = new Experiment1PlayerCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 1, 1);
-				this.registerExperiment(nextID, newExpFlat2x);
-			}
-			
-			if(!areAnyActive) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				//TODO Change multiplier to nextID to spawn a new field per experiment
-				
-				ExperimentCTB newExpCTB2x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 1);
-				//newExpCTB1.setTeamsNeeded(1);
-//				newExpCTB2x.setTeamSize(4);
-				this.registerExperiment(nextID, newExpCTB2x);
-				//sendExperimentUpdates();
-			}
-			
-			if(!isFlatActive4x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentFlatCTB newExpFlat4x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 2);
-				this.registerExperiment(nextID, newExpFlat4x);
-			}
-			
-			if(!areAnyActive4x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, multiplier*16*numChunks + 16, multiplier*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
-				//ExperimentCTB newExpCTB4x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 2);
-				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
-				this.registerExperiment(nextID, newExpCTB4x);
-				//sendExperimentUpdates();
-			}
-			if(!areAnyActive8x) {
-				int nextID = this.getNextID();
-				int numChunks = 8;
-				ExperimentFlatCTB newExpCTB8x = new ExperimentFlatCTB(nextID, numChunks, multiplier*16*numChunks + 16 + posOffset, multiplier*16*numChunks + 144 + posOffset,DimensionManager.getWorld(8), 2, 4);
-				//ExperimentCTB newExpCTB8x = new ExperimentCTB(nextID, numChunks, nextID*16*numChunks + 16, nextID*16*numChunks + 144,DimensionManager.getWorld(8), 2, 4);
-				//newExpCTB1.setTeamsNeeded(1);
-				//newExpCTB1.setTeamSize(1);
-				this.registerExperiment(nextID, newExpCTB8x);
-				//sendExperimentUpdates(); //do we need this??
-			}
-
 		}
 	}
 	
@@ -383,6 +253,9 @@ public class ExperimentManager {
 				for(String play : ex.scoreboard.getPlayers()) {
 					if(play.equals(playerName)) {
 						removePlayerFromExperiment(ex.id, playerName);
+						PlayerExitEvent event = new PlayerExitEvent(ex.id,playerName);
+						edu.utd.minecraft.mod.polycraft.util.Analytics.onPlayerExitEvent(event);
+						System.out.println(playerName+"Player is removed from experiment"+ex.id);
 						//sendExperimentUpdates();
 						return true;
 					}
@@ -427,7 +300,7 @@ public class ExperimentManager {
 	}
 	
 	//@SideOnly(Side.SERVER)
-	static void sendExperimentUpdates() {
+	public static void sendExperimentUpdates() {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<ArrayList<ExperimentListMetaData>>(){}.getType();
 		final String experimentUpdates = gson.toJson(ExperimentManager.metadata, gsonType);
@@ -489,18 +362,21 @@ public class ExperimentManager {
 		}
 		
 		for(EntityPlayer player : ex.scoreboard.getPlayersAsEntity()) {
-						
-			if(ex.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
+			if(ex.currentState != State.Ending) {
 				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
-				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
-				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
+				playerEntity.addChatMessage(new ChatComponentText("Experiment is no longer available"));
+			}else {
+				if(ex.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+					EntityPlayerMP playerEntity = (EntityPlayerMP) player;
+					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
+					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
 
-			} else {
-				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
-				playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
-				playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
+				} else {
+					EntityPlayerMP playerEntity = (EntityPlayerMP) player;
+					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to UTD..."));
+					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0)));
+				}
 			}
-			
 		}
 		
 		ex.stop(); //this clears the scoreboard (removes players)
@@ -540,6 +416,35 @@ public class ExperimentManager {
 		return experiments.get(id).currentState;
 	}
 	
+	public static Experiment getExperiment(int id){
+		return experiments.get(id);
+	}
+	
+	
+	/**
+	 * For getting experiment id of running experiment
+	 * @return First currently running experiment or -1 if there are no running experiments
+	 */
+	public static int getRunningExperiment() {
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
+			{
+				return expID;
+			}
+		}
+		return -1;
+	}
+	
+	public static List<Integer> getRunningExperiments() {
+		List<Integer> list_of_running_experiments=new ArrayList<Integer>();  
+		for(int expID: experiments.keySet()) {
+			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
+			{
+				list_of_running_experiments.add(expID);
+			}
+		}
+		return list_of_running_experiments;
+	}
 	
 	/**
 	 * Adds a new experiment to the experiment manager, increments the nextAvailableExperimentID and sends 
@@ -547,7 +452,7 @@ public class ExperimentManager {
 	 * @param id the ID to add TODO: Should we hide this field and have the ID's be auto-incrementing??
 	 * @param ex the experiment to add 
 	 */
-	public static void registerExperiment(int id, Experiment ex)
+	public static void registerExperiment(int id, Experiment ex, String name)
 	{
 		if (experiments.containsKey(id))
 		{
@@ -557,7 +462,7 @@ public class ExperimentManager {
 		if(id == nextAvailableExperimentID){
 			experiments.put(id, ex);
 			nextAvailableExperimentID++;
-			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData(ex));
+			ExperimentManager.metadata.add(INSTANCE.new ExperimentListMetaData(ex, name));
 			sendExperimentUpdates();
 		}else{
 			throw new IllegalArgumentException(String.format("Failed to register experiment for id %d, Must use getNextID()", id));
@@ -587,5 +492,301 @@ public class ExperimentManager {
 	public void updateExperimentParameters(int experimentID, ExperimentParameters params) {
 		this.experiments.get(experimentID).updateParams(params);
 		
+	}
+	
+	public void requestExpDefs(String playerName) {
+		ClientEnforcer.INSTANCE.sendExperimentPacket(playerName, ExperimentsPacketType.ExpDefGet.ordinal());
+	}
+
+	/**
+	 * Used for updating/adding/removing experiment definitions on server side. Sent from client side.
+	 * @param index	index of experiemnt definition. set to -1 to add a new expDef
+	 * @param expDef experiement definition to update on server side
+	 * @param removeExpDef set to true if removing experiment.
+	 */
+	public void sendExpDefUpdate(int index, ExperimentDef expDef, boolean removeExpDef) {
+		try {
+			Gson gson = new Gson();
+			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+			NBTTagCompound tempNBT = expDef.save();
+			String experimentUpdates;
+			
+			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray because converting with just Gson fails on receiving end
+			tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+			CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
+			experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+			if(removeExpDef) {
+				ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates,ExperimentsPacketType.ExpDefRemove.ordinal());
+			}else {
+				ClientEnforcer.INSTANCE.sendExperimentPacket(experimentUpdates, ExperimentsPacketType.ExpDefUpdate.ordinal());
+			}
+			
+		}catch(Exception e) {
+			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );
+		}
+	}
+
+	/**
+	 * Function for updating experiment definitions on client side
+	 * @param playerName
+	 */
+	public static void sendExperimentDefs(String playerName) {
+		try {
+			NBTTagCompound nbtFeatures = new NBTTagCompound();
+			NBTTagList nbtList = new NBTTagList();
+			
+			for(ExperimentDef expDef: experimentDefinitions.values()) {
+				nbtList.appendTag(expDef.save());
+			}
+			nbtFeatures.setTag("expDefs", nbtList);
+			
+			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+			CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
+			
+			Gson gson = new Gson();
+			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+			
+			ServerEnforcer.INSTANCE.sendExpDefUpdatePackets(experimentUpdates, 
+					(EntityPlayerMP)ExperimentManager.INSTANCE.getPlayerEntity(playerName));
+			System.out.println("Sending Update...");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Used to update Experiment definition on Server side from client
+	 * @param expDefIndex
+	 * @param featuresStream
+	 * @param removeExpDef
+	 */
+	public void setExperimentDef(ByteArrayOutputStream featuresStream, boolean removeExpDef) {
+		try {
+			
+			NBTTagCompound expDefNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+			
+			int index = expDefNBT.getInteger("id");
+			ExperimentDef temp = new ExperimentDef();
+
+			temp.load(expDefNBT);
+			
+			if(removeExpDef) {
+				experimentDefinitions.remove(temp.getID());
+			}else {
+				//get next unused key for index if index is -1
+				if(index == -1) {
+					index = 0;	//should start at initial value greater than -1
+					for(Integer key: experimentDefinitions.keySet()) {
+						if(index <= key) {
+							index = key + 1;
+						}
+					}
+				}
+				temp.setID(index);
+				experimentDefinitions.put(index, temp);
+			}
+			
+			saveExpDefs();	//attempt to save experiment defs
+		} catch (Exception e) {
+			System.out.println("Cannot update ExpDef: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Used to update all Experiment definitions on client side from server
+	 * @param expDefIndex
+	 * @param expDefsStream
+	 * @param isRemote
+	 */
+	public void setExperimentDefs(ByteArrayOutputStream expDefsStream, boolean isRemote) {
+		try {
+			NBTTagCompound nbtExpDefs = CompressedStreamTools.readCompressed(new ByteArrayInputStream(expDefsStream.toByteArray()));
+            NBTTagList nbtExpDefList = (NBTTagList) nbtExpDefs.getTag("expDefs");
+			Hashtable<Integer, ExperimentDef> expDefs = new Hashtable<Integer, ExperimentDef>();
+			
+			for(int i =0;i<nbtExpDefList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtExpDefList.getCompoundTagAt(i);
+				ExperimentDef test = new ExperimentDef();
+				test.load(nbtFeat);
+				expDefs.put(test.getID(), test);
+			}
+			
+			experimentDefinitions.clear();
+			experimentDefinitions.putAll(expDefs);
+		} catch (Exception e) {
+            System.out.println("I can't load initial Experiment Definitions, because: " + e.getStackTrace()[0]);
+        }
+	}
+
+	public static Collection<ExperimentDef> getExperimentDefinitions(){
+		return experimentDefinitions.values();
+	}
+	
+	private void saveExpDefs() {
+		NBTTagCompound nbtFeatures = new NBTTagCompound();
+		NBTTagList nbtList = new NBTTagList();
+		for(int i =0;i<experimentDefinitions.size();i++) {
+			nbtList.appendTag(experimentDefinitions.get(i).save());
+		}
+		nbtFeatures.setTag("expDefs", nbtList);
+		FileOutputStream fout = null;
+		try {
+			File file = new File(this.OUTPUT_FILE_NAME);//TODO CHANGE THIS FILE LOCATION
+			fout = new FileOutputStream(file);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			CompressedStreamTools.writeCompressed(nbtFeatures, fout);
+			fout.flush();
+			fout.close();
+			
+		}catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadExpDefs() {
+		try {
+        	experimentDefinitions.clear();
+        	
+        	File file = new File(this.OUTPUT_FILE_NAME);//TODO CHANGE THIS FILE LOCATION
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("expDefs");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				ExperimentDef tempExpDef = new ExperimentDef();
+				tempExpDef.load(nbtFeat);
+				experimentDefinitions.put(tempExpDef.getID(), tempExpDef);
+			}
+			
+            is.close();
+
+        } catch (Exception e) {
+            System.out.println("I can't load experiment definitions, because " + e.getStackTrace()[0]);
+        }
+	}
+	
+
+	/**
+	 * Internal class that keeps track of all experiments
+	 * A static arraylist of this class, called #metadata is transferred between Server & Client
+	 * for synchronization. This contains relevant, condensed information enabling efficient info
+	 * transfer across the network. 
+	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
+	 * {@link #ClientEnforcer}. It is currently rendered on {@link #GuiExperimentList}
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentListMetaData {	
+		public String expName;
+		public String instructions = "";
+		public int playersNeeded;
+		public int currentPlayers;
+		private boolean available = true;
+		private ExperimentParameters parameters;
+		public String expType;
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+		}
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+			this.parameters = params;
+		}
+		
+		public ExperimentListMetaData(Experiment type, String name) {
+			if(type instanceof ExperimentCTB) {
+				this.expName = name + " " + type.id;
+				this.expType = "Stoop";
+			}else {
+				this.expName = name + " " + type.id;
+				this.expType = "Flat"; //TODO: Declare these names as static within the class.
+			}
+			this.playersNeeded = type.getMaxPlayers();
+			currentPlayers = 0;
+			this.instructions = type.getInstructions();
+			this.parameters = new ExperimentParameters(type);
+			
+		}
+		
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, Experiment type) {
+			expName = name;
+			playersNeeded = maxPlayers;
+			currentPlayers = currPlayers;
+			this.instructions = instructions; 
+			this.parameters = params;
+		}
+		
+		public void updateCurrentPlayers(int newPlayerCount) {
+			currentPlayers = newPlayerCount;
+		}
+		
+		@Deprecated
+		public void updateParams(ExperimentParameters params) {
+			this.parameters = params;
+		}
+		
+		public void updateParams(int ExpID) {
+			this.parameters = new ExperimentParameters(ExperimentManager.experiments.get(ExpID));
+			this.instructions = ExperimentManager.experiments.get(ExpID).getInstructions(); //update instructions
+		}
+		
+		public void deactivate() {
+			available = false;
+		}
+		
+		public boolean isAvailable() {
+			return available;
+		}
+		
+		public ExperimentParameters getParams() {
+			return parameters;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("Name: %s\tPlayers Needed: %d\t Current Players: %d Available? %s", expName, playersNeeded, currentPlayers, available);
+		}	
+	}
+	
+	/**
+	 * This class contains a request from the Client to the Server of a player wanting to join
+	 * or of a player wanting to be removed from a particular experiment list.
+	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
+	 * by {@link ServerEnforcer}).
+	 * @author dnarayanan
+	 *
+	 */
+	public class ExperimentParticipantMetaData {
+		public String playerName;
+		public int experimentID;
+		public boolean wantsToJoin;
+		public ExperimentParameters params;
+		public ExperimentParticipantMetaData(String playerName, int expID, boolean join) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			wantsToJoin = join;
+		}
+		
+		public ExperimentParticipantMetaData(String playerName, int expID, ExperimentParameters param) {
+			this.playerName = playerName;
+			this.experimentID = expID;
+			this.params = param;
+		}
 	}
 }

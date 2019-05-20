@@ -64,7 +64,22 @@ public class ItemDNASampler extends Item implements PolycraftItem {
 	{
 		if (stack.stackSize > 1)
 			return false;
+		if (((ItemDNASampler) stack.getItem()).dnaSampler.level >= 5)
+		{
 
+			if (entity instanceof EntityGhast) {
+				return checkDNASampler(player, "DNA Sampler (Ghast)");
+			}
+			if (entity instanceof EntityBlaze) {
+				return checkDNASampler(player, "DNA Sampler (Blaze)");
+			}
+			if (entity instanceof EntityPigZombie) {
+				return checkDNASampler(player, "DNA Sampler (Zombie Pigman)");
+			}
+			if (entity instanceof EntityMagmaCube) {
+				return checkDNASampler(player, "DNA Sampler (Magma Cube)");
+			}
+		}
 		if (((ItemDNASampler) stack.getItem()).dnaSampler.level >= 1)
 		{
 
@@ -132,22 +147,7 @@ public class ItemDNASampler extends Item implements PolycraftItem {
 				return checkDNASampler(player, "DNA Sampler (CaveSpider)");
 			}
 		}
-		if (((ItemDNASampler) stack.getItem()).dnaSampler.level >= 5)
-		{
-
-			if (entity instanceof EntityGhast) {
-				return checkDNASampler(player, "DNA Sampler (Witch)");
-			}
-			if (entity instanceof EntityBlaze) {
-				return checkDNASampler(player, "DNA Sampler (Creeper)");
-			}
-			if (entity instanceof EntityPigZombie) {
-				return checkDNASampler(player, "DNA Sampler (Zombie Pigman)");
-			}
-			if (entity instanceof EntityMagmaCube) {
-				return checkDNASampler(player, "DNA Sampler (Magma Cube)");
-			}
-		}
+		
 		return false;
 	}
 

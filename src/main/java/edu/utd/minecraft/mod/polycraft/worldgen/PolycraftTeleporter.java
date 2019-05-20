@@ -23,19 +23,33 @@ import net.minecraft.world.WorldServer;
 
 public class PolycraftTeleporter extends Teleporter {
 	private final int xPos, yPos, zPos;
+	private final float rotationYaw, rotationPitch;
 
 	public PolycraftTeleporter(WorldServer server) {
 		super(server);
 		this.xPos = 2;
 		this.yPos = 90;
 		this.zPos = 2;
+		this.rotationYaw = 90;
+		this.rotationPitch = 0;
 	}
-	
+
 	public PolycraftTeleporter(WorldServer server, int x, int y, int z) {
 		super(server);
 		this.xPos = x;
 		this.yPos = y;
 		this.zPos = z;
+		this.rotationYaw = 90;
+		this.rotationPitch = 0;
+	}
+	
+	public PolycraftTeleporter(WorldServer server, int x, int y, int z, float yaw, float pitch) {
+		super(server);
+		this.xPos = x;
+		this.yPos = y;
+		this.zPos = z;
+		this.rotationYaw = yaw;
+		this.rotationPitch = pitch;
 	}
 	
 	@Override

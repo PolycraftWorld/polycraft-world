@@ -72,9 +72,9 @@ public class FeatureSchematic extends ExperimentFeature {
 		int count=(genTick*maxXPerTick)*sh.height*sh.width;
 		
 		
-		if(count >= sh.blocks.length || ExperimentFlatCTB.hasBeenGenerated) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
+		if(count >= sh.blocks.length ) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
 			
-			ExperimentFlatCTB.hasBeenGenerated = true;
+			//hasBeenGenerated = true;
 //			//lets put in the chests!
 //			for(int i = 0; i < ExperimentFlatCTB.spawnlocations.length; i++) {
 //				int x = ExperimentFlatCTB.spawnlocations[i][0];

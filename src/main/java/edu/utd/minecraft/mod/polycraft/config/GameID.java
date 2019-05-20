@@ -99,6 +99,7 @@ public enum GameID {
 	FluorescentBulbs("1xn"),
 	EntityTerritoryFlag("1hg"),
 	EntityResearchAssistant("1hf"), 
+	EntityAndroid("1js"), 
 	EntityOilSlime("1hi"),
 	EntityDummy("1hj"),
 	EntityTestTerritoryFlagBoss("1hn"),
@@ -114,8 +115,29 @@ public enum GameID {
 	KnockbackBomb("1hv"),
 	FreezingKnockbackBomb("1hw"),
 	Cleats("1hx"),
-	TextWall("1hy");
-	
+	TextWall("1hy"),
+	InventoryCannon("1hC"),
+	EntityIronCannonBall("1hE"),
+	ItemIronCannonball("1hF"),
+	CustomMiningHammer("1hG"),
+	PlaceBlockPP("1jA"),
+	BreakBlockPP("1jB"),
+	InventoryCannonGravelTier1("1hQ"),
+	InventoryCannonGravelTier2("1hU"),
+	InventoryCannonGravelTier3("1hW"),
+	EntityGravelCannonBall("1hT"),
+	ItemGravelCannonBall("1hS"),
+	CustomWoodSlingshot("1hK"),
+	Paintpellet("1hj"),
+	EPaintball("1hR"),
+	HPBlock("1hH"),
+	CustomTacticalSlingshot("1hM"),
+	CustomScatterSlingshot("1hN"),
+	CustomBurstSlingshot("1hO"),
+	CustomGravitySlingshot("1hP"),
+	CustomIceSlingshot("1hQ"),
+	Paintball("1hL");
+
 	public final String id;
 
 	private GameID(final String id) {

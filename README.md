@@ -3,15 +3,15 @@ polycraft
 The ultimate biology and chemistry mod.
 
 ## Installing the Java Development Kit
-Java SE JDK 8 or 9 is highly recommended for this environment.
+Java SE JDK 8 is needed for this environment. At the moment, the Gradle programs will not work with Java 10.
 You can install the JDK through <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">this site</a>.<br>
-Scroll down until you see "Java SE 9" or "Java SE 8uXXX" and select the download button below "JDK".<br>
+Scroll down until you see "Java SE 8u181" and select the download button below "JDK".<br>
 Click the "Accept License Agreement" button and select the product corresponding to your operating system and run the installation.
 
 ## Installing the Eclipse IDE
-Installing Eclipse Oxygen (I hear Eclipse finally has an official dark theme with Oxygen.) or Neon is recommended, though versions as early as Kepler version (including Luna and Mars) should work as well. The installation site can be found at [eclipse.org](http://www.eclipse.org/downloads/eclipse-packages/).
+Installing at least Eclipse Oxygen or Neon is recommended, though versions as early as Kepler version (including Luna and Mars) should work as well. Photon/2018-XX and later versions are unconfirmed as working but should work. The installation site can be found at [eclipse.org](http://www.eclipse.org/downloads/packages/).
 
-I recommend downloading the "Eclipse IDK for Java EE Developers" package since it ships with the EGit plugin so you don't have to install it later. If you install this version, the entirely of Eclipse (about 300-400 MB) will come in a zipped archive. You can unpack this and place it anywhere you want. Eclipse will run as is.
+The majority of Eclipse versions should come with the Git plugin by default. If you don't know which one to select, download "Eclipse IDE for Java Developers" and the corresponding OS and architecture. This will come in a zipped archive. You can unpack this and place it anywhere you want; Eclipse will run as is.
 
 ## Setting up the Forge Environment
 The files for Minecraft Forge 1.7.10 can be found [here](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.7.10.html). Download the "Src" of the first (latest) version: 10.13.4.1614.<br>
@@ -42,9 +42,7 @@ After you have downloaded the repository files, move them all into directory A a
 Open your Eclipse installation and point the workspace to directory A/eclipse/<br>
 You will have to wait a bit for Eclipse to set itself up for the first time. When it is done, there will be several hundred errors from different packages. This is normal and we will fix some of these in the next step.
 
-In the left view of Eclipse, the "Package Explorer", we have a single project named "Minecraft". Expand this, expand "src/main/java" and then delete the package "com.example.examplemod". Also delete the "forge-1.7.10-10.13.4.1614-1.7.10-changelog.txt" file if you still have it in your "Minecraft" project.
-
-If any of y'all forget to delete this package and accidentally push it to any branch of the repo I'm gonna kick your ass, then Dr. Voit is gonna kick your ass.
+In the left view of Eclipse, the "Package Explorer", we have a single project named "Minecraft". Expand this, expand "src/main/java" and then delete the package "com.example.examplemod".
 
 ### Adding the Azure Storage Library
 Right click the project "Minecraft" and navigate to "Build Path" -> "Configure Build Path...".<br>
@@ -83,10 +81,9 @@ op-permission-level=2
 gamemode=0
 allow-flight=true
 ```
-If you would like to run an experiments server, duplicate the debug configuration of any pre-existing Server and add the following text to the *VM Arguments* textbox in the **Arguments** tab. Please note that it doesn't matter where in the textbox it goes, just separate it from other flags with a simple space or a line break:
-```
--DisExperimentServer
-```
+
+To run an experiments server, duplicate the debug configuration of any preexisting Server and add the ``-DisExperimentServer`` flag to the *VM Arguments* textbox in the **Arguments** tab. Be sure to separate it from other flags with a simple space or a line break:
+
 ### (Optional) Not Enough Items Configuration:
 Right click the project "Minecraft" and navigate to "Build Path" -> "Configure Build Path...".<br>
 At the "Libraries" tab, select "Add External JARs..." and navigate to A/lib/ and select all the .jar files that contain the word "dev" in them. (After this there should be zero errors in your environment lol.)

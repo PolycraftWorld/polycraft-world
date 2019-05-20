@@ -36,8 +36,10 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
-import edu.utd.minecraft.mod.polycraft.commands.CommandConsent;
 import edu.utd.minecraft.mod.polycraft.commands.CommandExitChallengeRoom;
+import edu.utd.minecraft.mod.polycraft.commands.CommandExperimentManager;
+import edu.utd.minecraft.mod.polycraft.commands.CommandFlingColor;
+import edu.utd.minecraft.mod.polycraft.commands.CommandHalftimeGUI;
 import edu.utd.minecraft.mod.polycraft.commands.CommandMinigame;
 import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
 import edu.utd.minecraft.mod.polycraft.commands.CommandRaid;
@@ -50,9 +52,11 @@ import edu.utd.minecraft.mod.polycraft.commands.dev.CommandGUI;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandGame;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandPP;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandRace;
+import edu.utd.minecraft.mod.polycraft.commands.dev.CommandTutorial;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
@@ -63,8 +67,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.12";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 12 };
+	public static final String VERSION = "1.4.13";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 13 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -258,11 +262,15 @@ public class PolycraftMod {
 		//event.registerServerCommand(new CommandGUI());
 		//event.registerServerCommand(new CommandFreeze());
 		event.registerServerCommand(new CommandChallenge());
+		event.registerServerCommand(new CommandTutorial());
+		event.registerServerCommand(new CommandExperimentManager());
 		event.registerServerCommand(new CommandDev());
 		event.registerServerCommand(new CommandUpdateWhitelist());
-		//event.registerServerCommand(new CommandConsent());
+		//event.registerServerCommand(new CommandREST());
 		event.registerServerCommand(new CommandReg());
 		event.registerServerCommand(new CommandExitChallengeRoom());
+		event.registerServerCommand(new CommandHalftimeGUI());
+		event.registerServerCommand(new CommandFlingColor());
 	}
 
 

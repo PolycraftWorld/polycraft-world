@@ -1,64 +1,58 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
-import io.netty.buffer.Unpooled;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import scala.util.parsing.json.JSON;
-import scala.util.parsing.json.JSONArray;
-import scala.util.parsing.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
-import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
-import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
-import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
+import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.SystemUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import io.netty.buffer.Unpooled;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
@@ -81,6 +75,15 @@ public class ServerEnforcer extends Enforcer {
 	private ByteBuffer pendingDataPacketsBuffer = null;
 	
 	protected final Map<String, Integer> frozenPlayers = Maps.newHashMap();
+	public boolean placeBlock;
+	public int placeX;
+	public int placeY;
+	public int placeZ;
+	public int placeBlockID;
+	public int placeBlockMeta;
+	public EntityPlayer placeblockPlayer;
+	public ItemStack placeblockItemStack;
+	
 	
 	
 	@SubscribeEvent
@@ -96,7 +99,13 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickInventories(event);
 			//onWorldTickGovernments(event);
 			onWorldTickCheckFrozenPlayers(event);
-
+			if(placeBlock)
+			{
+				event.world.setBlock(this.placeX, this.placeY, this.placeZ, Block.getBlockById(this.placeBlockID), this.placeBlockMeta, 2);
+				Block.getBlockById(this.placeBlockID).onBlockPlacedBy(event.world, this.placeX, this.placeY, this.placeZ, this.placeblockPlayer, this.placeblockItemStack);
+				Block.getBlockById(this.placeBlockID).onPostBlockPlaced(event.world, this.placeX, this.placeY, this.placeZ, this.placeBlockMeta);
+				this.placeBlock=false;
+			}
 		}
 	}
 
@@ -155,7 +164,7 @@ public class ServerEnforcer extends Enforcer {
 		// new ClientBroadcastReceivedEvent(new ChatComponentText("<" +
 		// event.username + "> " + event.message),
 		// event.player.posX, event.player.posY, event.player.posY,
-		// itemStack.getDisplayNameString(), itemStack.getItemDamage());
+		// itemStack.getDisplayName(), itemStack.getItemDamage());
 
 		// MinecraftForge.EVENT_BUS.post(broadcast);
 
@@ -173,7 +182,6 @@ public class ServerEnforcer extends Enforcer {
 		// message;
 
 	}
-	
 	@SubscribeEvent
 	public void onServerPacket(final ServerCustomPacketEvent event) {
 		try {
@@ -185,11 +193,12 @@ public class ServerEnforcer extends Enforcer {
 				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
 			}
 			else {
+				String playerDisplayName;
 				pendingDataPacketsBytes -= payload.array().length;
 				pendingDataPacketsBuffer.put(payload);
 				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
 					switch (pendingDataPacketType) {
-					case Challenge:
+					case Experiment:
 						switch(ExperimentsPacketType.values()[pendingDataPacketTypeMetadata]) {
 							case BoundingBoxUpdate:
 								break;
@@ -203,16 +212,24 @@ public class ServerEnforcer extends Enforcer {
 							case SendParameterUpdates:
 								onClientUpdateExperimentParameters(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 								break;
+							case ExpDefGet:
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								ExperimentManager.INSTANCE.sendExperimentDefs(playerDisplayName);
+								break;
+							case ExpDefUpdate:
+								updateExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case ExpDefRemove:
+								removeExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
 							default:
 								break;
-								
 							}
-						
 						break;
 					case Consent:
-						final String playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-								new TypeToken<String>() {
-								}.getType());
+						playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+								new TypeToken<String>() {}.getType());
 						switch(pendingDataPacketTypeMetadata) {
 						case 0: //player gives consent
 							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", true);
@@ -224,6 +241,47 @@ public class ServerEnforcer extends Enforcer {
 						default:
 							break;
 						}
+						break;
+					case Halftime: // decompress json array with halftime answers
+						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
+						//Experiment.inputAnswers(halftimeAnswers);
+						Experiment.halftimeAnswers.inputAnswers(halftimeAnswers);
+						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
+						String half_time_Answers = String.join(",", half_time_Answers1);
+						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
+						Analytics.onHalfTimeGUIEvent(event1);
+						break;
+					case Tutorial:
+						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
+							case Features:	//Experiment Features update
+								PolycraftMod.logger.debug("Why is client sending Features List?");
+								break;
+							case ActiveFeatures:	//Experiment Active Features update
+								PolycraftMod.logger.debug("Receiving client Active Features update request");
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								int expID = TutorialManager.isPlayerinExperiment(playerDisplayName.toLowerCase());
+								if(expID > -1)
+									TutorialManager.INSTANCE.sendTutorialActiveFeatures(expID);
+								break;
+							case Feature:	//Experiment single featuer update
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								break;
+							case JoinNew:	//Client requesting to join new tutorial
+								PolycraftMod.logger.debug("Receiving experiment feature...");
+								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+										new TypeToken<String>() {}.getType());
+								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
+										MinecraftServer.getServer().getConfigurationManager().func_152612_a(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
+								break;
+							default:
+								break;
+						}
+						break;
+					case PlaceBlock:
+						this.updatePlaceBlock(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					default:
 						break;
 					}
@@ -241,8 +299,57 @@ public class ServerEnforcer extends Enforcer {
 			
 		}catch (Exception e) {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+			//Flush the buffer. and reset for the next message coming from the client.
+			pendingDataPacketType = DataPacketType.Unknown;
+			pendingDataPacketTypeMetadata = 0; 
+			pendingDataPacketsBuffer = null;
 		}
 	}
+	
+	
+	private void updateTutorialFeature(String decompressedJson) {
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+	
+	private void updateExpDef(String decompressedJson) {
+		Gson gson = new Gson();
+		ExperimentManager.INSTANCE.setExperimentDef(
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+	
+	private void removeExpDef(String decompressedJson) {
+		Gson gson = new Gson();
+		ExperimentManager.INSTANCE.setExperimentDef(
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+	}
+
+
+	private void updatePlaceBlock(String decompressedJson) {
+		Gson gson = new Gson();
+		ServerEnforcer.INSTANCE.placeBlock((ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), false);
+	}
+	
+	public void placeBlock(ByteArrayOutputStream featuresStream, boolean isRemote) {
+			
+		NBTTagCompound NBT = new NBTTagCompound();
+		try {
+			NBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+		this.placeX=NBT.getInteger("x");
+		this.placeY=NBT.getInteger("y");
+		this.placeZ=NBT.getInteger("z");
+		this.placeBlockID=NBT.getInteger("blockid");
+		this.placeBlockMeta=NBT.getInteger("meta");
+		this.placeblockItemStack=ItemStack.loadItemStackFromNBT((NBTTagCompound) NBT.getTag("itemstack"));
+		this.placeblockPlayer=MinecraftServer.getServer().getConfigurationManager().func_152612_a(NBT.getString("player"));
+		this.placeBlock=true;
+		
+	}
+		
 	
 	/**
 	 * Client sends updated parameters inside an ExperimentParticipantMetaData object that contains Client ID and experiment ID.
@@ -271,8 +378,10 @@ public class ServerEnforcer extends Enforcer {
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	new PolycraftTeleporter(player.mcServer.worldServerForDimension(0)));	
 		}
 		
-		if(System.getProperty("isExperimentServer") != null)
+		if(System.getProperty("isExperimentServer") != null) {
 			this.shouldClientDisplayConsentGUI((EntityPlayerMP)event.player);
+			this.UpdateClientTutorialCompleted((EntityPlayerMP)event.player);
+		}
 		
 	}
 	
@@ -300,8 +409,8 @@ public class ServerEnforcer extends Enforcer {
 	@SubscribeEvent
 	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
 		System.out.println("Client Disconnect from server");
-		System.out.println("Player: " + event.player.getDisplayNameString());
-		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayNameString());
+		System.out.println("Player: " + event.player.getDisplayName());
+		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayName());
 		//clear player inventory, if they disconnected from dimension 8.
 		if(event.player.dimension == 8) {
 			event.player.inventory.mainInventory = new ItemStack[36];
@@ -403,8 +512,12 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.TempPrivateProperties, 0, null);
 	}
 	
+	public void sendExpPPDataPackets() {
+		sendDataPackets(DataPacketType.ExpPrivateProperties, 0, null);
+	}
+	
 	public void sendTempCPDataPackets(EntityPlayerMP player) {
-		sendDataPackets(DataPacketType.Challenge, 2, player);
+		sendDataPackets(DataPacketType.Experiment, 2, player);
 	}
 	
 	public void minigameUpdate(int meta) {
@@ -419,7 +532,14 @@ public class ServerEnforcer extends Enforcer {
 		sendDataPackets(DataPacketType.AttackWarning, 0, null);
 	}
 	
-
+	public void sendCannonInputs()
+	{
+		sendDataPackets(DataPacketType.Cannon, 0, null);
+	}
+	
+	public void sendRespawnSync(EntityPlayerMP player) {
+		sendDataPackets(DataPacketType.RespawnSync, 0, player);
+	}
 	
 	/**
 	 * Send experiment updates to players in the game
@@ -434,7 +554,7 @@ public class ServerEnforcer extends Enforcer {
 		FMLProxyPacket[] packetList = null;
 		
 		if(player == null) { //case: Send Experiment List Updates
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
 			if(packetList != null) {
 				int i = 0;
 				for (final FMLProxyPacket packet : packetList) {
@@ -444,21 +564,71 @@ public class ServerEnforcer extends Enforcer {
 				}
 			}
 			return;
-		}
-		
+		}		
 		if(jsonStringToSend == null) { //case: Player is leaving dimension
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.PlayerLeftDimension.ordinal(), "PlayerLeavingDimension");
 			System.out.println("Player is Leaving Dimension");
 			
-		} else { //case: Bounding Box updates for client rendering
-			packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
-		}
+		} 
+		else if(jsonStringToSend.compareTo("OpenHaltimeGUI") == 0) { //case:  open halftime gui
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.OpenHalftimeGUI.ordinal(), "OpenHalftimeGUI");
+		}		
+		else if(jsonStringToSend.compareTo("CloseHaltimeGUI") == 0) { //case:  close halftime gui
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.CloseHalftimeGUI.ordinal(), "CloseHalftimeGUI");
+		}		
+		else { //case: Bounding Box updates for client rendering
+			packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.BoundingBoxUpdate.ordinal(), jsonStringToSend);
+		}		
 		if(packetList != null) {
 			for (final FMLProxyPacket packet : packetList) {
 				netChannel.sendTo(packet, player);
 			}				
 		}
 	}
+	
+	
+	/**
+	 * Send Tutorial updates to players in the game
+	 * @param jsonStringToSend if Null, then it is case 2 else, it's case 3
+	 * @param player if Null, then it is case 1 else, it's either case 2 or 3.
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				} else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Send Experiment Definitions to players in the game
+	 * @param jsonStringToSend 
+	 * @param player 
+	 */
+	public void sendExpDefUpdatePackets(final String jsonStringToSend, EntityPlayerMP player) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.ExpDefGet.ordinal(), jsonStringToSend);
+		
+		if (packets != null) {
+			for (final FMLProxyPacket packet : packets) {
+				if (player == null) {
+					netChannel.sendToAll(packet);
+				} else {
+					netChannel.sendTo(packet, player);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Send an updated list of experiments to all players in dimension 0
 	 * @param jsonStringToSend the Gson arraylist of ExperimentListMetaData objects. 
@@ -466,7 +636,7 @@ public class ServerEnforcer extends Enforcer {
 	@Deprecated //TODO: delete this.
 	public void sendExperimentListUpdates(final String jsonStringToSend) {
 		FMLProxyPacket[] packetList = null;
-		packetList = getDataPackets(DataPacketType.Challenge, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
+		packetList = getDataPackets(DataPacketType.Experiment, ExperimentsPacketType.ReceiveExperimentsList.ordinal(), jsonStringToSend);
 		System.out.println(packetList.toString());
 		if(packetList != null) {
 			int i = 0;
@@ -500,13 +670,29 @@ public class ServerEnforcer extends Enforcer {
 			}
 		}
 	}
+	
+	public void UpdateClientTutorialCompleted(EntityPlayerMP player) {
+		if (portalRestUrl != null) {
+			try {
+				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderName());
+				if(result.equals("Error")) {
+					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
+				}else {
+					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialTrue.ordinal(), player);	//Update clients tutorial completion to True
+				}
+			}
+			catch(Exception e){
+				sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
+			}
+		}
+	}
 
 	public void freezePlayerForTicks(int ticks, EntityPlayerMP player) {
 		//Freeze player for specific number of ticks
-		if(frozenPlayers.containsKey(player.getDisplayNameString())) {
-			frozenPlayers.replace(player.getDisplayNameString(), ticks);
+		if(frozenPlayers.containsKey(player.getDisplayName())) {
+			frozenPlayers.replace(player.getDisplayName(), ticks);
 		}else {
-			frozenPlayers.put(player.getDisplayNameString(), ticks);
+			frozenPlayers.put(player.getDisplayName(), ticks);
 		}
 		sendDataPackets(DataPacketType.FreezePlayer, 2, player);
 	}
@@ -521,7 +707,7 @@ public class ServerEnforcer extends Enforcer {
 			else {	//once the time runs out, we should unfreeze the player
 				for(Object obj: MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
 					if(obj instanceof EntityPlayerMP) {
-						if(((EntityPlayerMP)obj).getDisplayNameString().equals(playerName))
+						if(((EntityPlayerMP)obj).getDisplayName().equals(playerName))
 						{
 							sendDataPackets(DataPacketType.FreezePlayer, 0, ((EntityPlayerMP)obj));	//unfreeze player
 							removePlayer = true;
@@ -577,9 +763,11 @@ public class ServerEnforcer extends Enforcer {
 //							: type == DataPacketType.Challenge ? gson.toJson(typeMetadata == 1 ? gson.toJson(ExperimentManager.INSTANCE)
 //																		:tempChallengeProperties) 
 							: type == DataPacketType.TempPrivateProperties ? gson.toJson(tempPrivateProperties)
+							: type == DataPacketType.ExpPrivateProperties ? gson.toJson(expPrivateProperties)
 							: type == DataPacketType.GenericMinigame ? gson.toJson(PolycraftMinigameManager.INSTANCE)//get through manager
 //							: type == DataPacketType.RaceMinigame ? gson.toJson(RaceGame.INSTANCE)
 							: type == DataPacketType.AttackWarning ? gson.toJson(AttackWarning.toSend)
+							//: type == DataPacketType.Cannon ? gson.toJson(CannonBlock.INSTANCE)
 							: type == DataPacketType.playerID ? gson.toJson(this.playerID)
 									: gson.toJson(""));	//default packet should be blank 
 			//System.out.println("type: " + DataPacketType.);
@@ -845,14 +1033,14 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.Friends);
 			 //send updated experiments available to everyone
 			//sendDataPackets(DataPacketType.Governments);
-			if(this.whitelist.containsKey(player.getDisplayNameString().toLowerCase())) {
-				this.playerID = this.whitelist.get(player.getDisplayNameString().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+			if(this.whitelist.containsKey(player.getDisplayName().toLowerCase())) {
+				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
 				sendDataPackets(DataPacketType.playerID, 0, player);
 			}else {
 				if (!portalRestUrl.startsWith("file:")) {
 					try {
 						String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
-								ImmutableMap.of("mincraft_user_name", player.getDisplayNameString().toLowerCase()));
+								ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
 						
 						final GsonBuilder gsonBuilder = new GsonBuilder();
 						gsonBuilder.registerTypeAdapter(PlayerHelper.class,
@@ -915,12 +1103,63 @@ public class ServerEnforcer extends Enforcer {
 			return "Error";
 		}
 	}
+	
+	public String skillLevelCheck(String minecraftUserName) {
+		try {
+			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObj = (JsonObject) parser.parse(response);
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!jsonObj.get("skill_level").getAsString().matches("-?\\d+")) {
+				response = "Error";
+			}
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
+	
+	public int skillLevelGet(String minecraftUserName) {
+		try {
+			String response = NetUtil.post(String.format("%s/skill_level_get/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),null);
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObj = (JsonObject) parser.parse(response);
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!jsonObj.get("skill_level").getAsString().matches("-?\\d+")) {
+				return -1;	//error getting skill level
+			}else {
+				return jsonObj.get("skill_level").getAsInt();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public String updateSkillLevel(String minecraftUserName, int skillLevel) {
+		try {
+			Map<String, String> params = Maps.newHashMap();
+			params.put("minecraft_user_name", minecraftUserName);
+			params.put("skill_level", Integer.toString(skillLevel));
+			String response = NetUtil.post(String.format("%s/skill_level_set/%s/", ServerEnforcer.portalRestUrl, minecraftUserName),params);
+			PolycraftMod.logger.debug("Skill Level Check response: " + response);
+			if(!response.matches("-?\\d+")) {
+				response = "Error";
+			}
+			return response;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error";
+		}
+	}
 
 	public void sendPrivateProperties(String privatePropertyJSON, boolean isMasterWorld) {
 		// TODO Auto-generated method stub
 		this.updatePrivateProperties(privatePropertyJSON, isMasterWorld, true);
 		sendDataPackets(DataPacketType.PrivateProperties, isMasterWorld ? 1 : 0);
-		
-		
 	}
 }

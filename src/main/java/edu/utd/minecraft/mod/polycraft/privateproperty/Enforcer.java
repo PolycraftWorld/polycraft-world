@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -24,8 +25,12 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
+import edu.utd.minecraft.mod.polycraft.block.PlaceBlockPP;
+import edu.utd.minecraft.mod.polycraft.block.material.BreakBlockPP;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.Exam;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager.PacketMeta;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.condenser.CondenserBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
@@ -48,6 +53,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapBlock;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFlameThrower;
 import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
@@ -74,6 +80,7 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWorkbench;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.passive.EntityChicken;
@@ -86,17 +93,20 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemSign;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -123,14 +133,21 @@ public abstract class Enforcer {
 		Broadcast, 
 		InventorySync, 
 		Governments, 
-		Challenge, 
+		Experiment, 
+		Tutorial,
 		Consent,
 		Scoreboard, 
 		playerID, 
 		GenericMinigame, 
 		RaceMinigame,
 		FreezePlayer,		//0 meta to freeze, 1 meta to unfreeze
-		AttackWarning
+		AttackWarning,
+		RespawnSync,
+		Cannon, 
+		Halftime, 
+		ExpPrivateProperties,
+		PlaceBlock, 
+		
 	}
 	
 	public enum ExperimentsPacketType {
@@ -139,8 +156,13 @@ public abstract class Enforcer {
 		PlayerLeftDimension,
 		ReceiveExperimentsList,
 		RequestJoinExperiment,
-		SendParameterUpdates
-		//TODO: Stephen add your data types here.
+		SendParameterUpdates,
+		OpenHalftimeGUI,
+		CloseHalftimeGUI,
+		ExpDefGet,
+		ExpDefUpdate,
+		ExpDefRemove
+
 	}
 
 	protected static boolean updatedMasterForTheDay = false;
@@ -157,6 +179,7 @@ public abstract class Enforcer {
 	private static final double forceExitSpeed = .2;
 	private static final int propertyDimension = 0; // you can only own property
 													// in the surface dimension
+	private static final int ExperimentPropertyDimension = 8;
 	protected static final int maxPacketSizeBytes = (int) Math.pow(2, 16) - 1;
 
 	protected static long playerID; //temp storage for sending player IDs
@@ -165,8 +188,8 @@ public abstract class Enforcer {
 		return (int) Math.ceil((double) bytes / (double) maxPacketSizeBytes);
 	}
 
-	protected final FMLEventChannel netChannel;
-	protected final String netChannelName = "polycraft.enforcer";
+	protected static final String netChannelName = "polycraft.enforcer";
+	protected static final FMLEventChannel netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
 	protected String privatePropertiesMasterJson = null;
 	protected String privatePropertiesNonMasterJson = null;
 	protected String playerItemstackSwitchJson = null;
@@ -179,6 +202,8 @@ public abstract class Enforcer {
 
 	protected final static Collection<PrivateProperty> tempPrivateProperties = Lists
 			.newLinkedList();	//temporary PPs for PPs that are not kept after Server restarts (added by blocks or dimensions)
+	protected final static Collection<PrivateProperty> expPrivateProperties = Lists
+			.newLinkedList();	//PPs for experiments that are not kept after Server restarts (added by experiments or tutorial)
 
 	protected final Collection<Government> governments = Lists	
 			.newLinkedList();
@@ -192,6 +217,8 @@ public abstract class Enforcer {
 
 	protected final static Map<String, PrivateProperty> privatePropertiesByChunk = Maps
 			.newHashMap();
+	protected final static Map<String, PrivateProperty> expPrivatePropertiesByChunk = Maps
+			.newHashMap();	//private properties for usage in experiments or dimension 8
 	protected final static Map<String, List<PrivateProperty>> privatePropertiesByOwner = Maps
 			.newHashMap();
 	// polycraft user ids by minecraft username
@@ -210,8 +237,6 @@ public abstract class Enforcer {
 	}
 
 	public Enforcer() {
-		netChannel = NetworkRegistry.INSTANCE
-				.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonGeneric = gsonBuilder.create();
@@ -223,11 +248,24 @@ public abstract class Enforcer {
 		int xr =privateProperty.boundBottomRight.x;
 		int zr =privateProperty.boundBottomRight.z;
 		for(int x=xl;x<=xr;x++) {
-			for(int z=zr;z<=zl;z++) {
+			for(int z=zl;z<=zr;z++) {
 			privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
 			}
 		}
 		tempPrivateProperties.add(privateProperty);
+	}
+	
+	public static void addExpPrivateProperty(PrivateProperty privateProperty) {
+		int xl = privateProperty.boundTopLeft.x;
+		int zl = privateProperty.boundTopLeft.z;
+		int xr =privateProperty.boundBottomRight.x;
+		int zr =privateProperty.boundBottomRight.z;
+		for(int x=xl;x<=xr;x++) {
+			for(int z=zl;z<=zr;z++) {
+			expPrivatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+			}
+		}
+		expPrivateProperties.add(privateProperty);
 	}
 	
 	public static void removePrivateProperty(PrivateProperty privateProperty) {
@@ -236,11 +274,24 @@ public abstract class Enforcer {
 		int xr =privateProperty.boundBottomRight.x;
 		int zr =privateProperty.boundBottomRight.z;
 		for(int x=xl;x<=xr;x++) {
-			for(int z=zr;z<=zl;z++) {
+			for(int z=zl;z<=zr;z++) {
 					privatePropertiesByChunk.remove(getChunkKey(x, z), privateProperty);
 			}
 		}
 		tempPrivateProperties.remove(privateProperty);
+	}
+	
+	public static void removeExpPrivateProperty(PrivateProperty privateProperty) {
+		int xl = privateProperty.boundTopLeft.x;
+		int zl = privateProperty.boundTopLeft.z;
+		int xr =privateProperty.boundBottomRight.x;
+		int zr =privateProperty.boundBottomRight.z;
+		for(int x=xl;x<=xr;x++) {
+			for(int z=zl;z<=zr;z++) {
+					expPrivatePropertiesByChunk.remove(getChunkKey(x, z), privateProperty);
+			}
+		}
+		expPrivateProperties.remove(privateProperty);
 	}
 	
 	
@@ -255,11 +306,32 @@ public abstract class Enforcer {
 			int xr =privateProperty.boundBottomRight.x;
 			int zr =privateProperty.boundBottomRight.z;
 			for(int x=xl;x<=xr;x++) {
-				for(int z=zr;z<=zl;z++) {
+				for(int z=zl;z<=zr;z++) {
 					privatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
 				}
 			}
 			tempPrivateProperties.add(privateProperty);
+			count++;
+		}
+		return count;
+	}
+	
+	public static int updateExpPrivateProperties(final String privatePropertiesJson) {
+		int count = 0;
+		Gson gson = new Gson();
+		Type typeOfPrivatePropertyList = new TypeToken<Collection<PrivateProperty>>() {}.getType();
+		Collection<PrivateProperty> temp = gson.fromJson(privatePropertiesJson, typeOfPrivatePropertyList);
+		for(PrivateProperty privateProperty: temp) {
+			int xl = privateProperty.boundTopLeft.x;
+			int zl = privateProperty.boundTopLeft.z;
+			int xr =privateProperty.boundBottomRight.x;
+			int zr =privateProperty.boundBottomRight.z;
+			for(int x=xl;x<=xr;x++) {
+				for(int z=zl;z<=zr;z++) {
+					expPrivatePropertiesByChunk.put(getChunkKey(x, z), privateProperty);
+				}
+			}
+			expPrivateProperties.add(privateProperty);
 			count++;
 		}
 		return count;
@@ -465,6 +537,8 @@ public abstract class Enforcer {
 			final int chunkX, final int chunkZ) {
 		if (entity.dimension == propertyDimension)
 			return privatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
+		else if (entity.dimension == ExperimentPropertyDimension)
+			return expPrivatePropertiesByChunk.get(getChunkKey(chunkX, chunkZ));
 		return null;
 	}
 
@@ -479,6 +553,11 @@ public abstract class Enforcer {
 			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
 					.getChunkFromBlockCoords(new BlockPos(x, 0, z));
 			return privatePropertiesByChunk.get(getChunkKey(chunk.xPosition,
+					chunk.zPosition));
+		}else if(entity.dimension == ExperimentPropertyDimension) {
+			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
+					.getChunkFromBlockCoords(x, z);
+			return expPrivatePropertiesByChunk.get(getChunkKey(chunk.xPosition,
 					chunk.zPosition));
 		}
 		return null;
@@ -540,8 +619,15 @@ public abstract class Enforcer {
 	public void onBlockBreak(final BreakEvent event) {
 		// TODO what happens if they use dynamite? other ways?
 		// TODO why is this not happening on the client?
-		possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
-				event.world.getChunkFromBlockCoords(event.pos));
+		if(event.block instanceof BreakBlockPP)
+		{
+			
+		}
+		else
+		{
+			possiblyPreventAction(event, event.getPlayer(), Action.DestroyBlock,
+					event.world.getChunkFromBlockCoords(event.pos));
+		}
 	}
 
 	@SubscribeEvent
@@ -652,14 +738,29 @@ public abstract class Enforcer {
 		switch (event.action) {
 		case LEFT_CLICK_BLOCK:
 			// TODO why is this not happening on the client?
-			possiblyPreventAction(event, event.entityPlayer,
-					Action.DestroyBlock,
-					event.world.getChunkFromBlockCoords(event.pos));
+			if( event.world.getBlock(event.x, event.y, event.z)instanceof BreakBlockPP)
+			{
+				
+			}
+			else
+			{
+				possiblyPreventAction(event, event.entityPlayer,
+						Action.DestroyBlock,
+						event.world.getChunkFromBlockCoords(event.pos));
+				//If player holding devtool, cancel event
+				if(event.entityPlayer.getHeldItem() != null) {
+					if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) 
+						event.setCanceled(true);
+				}
+			}
 			break;
 		case RIGHT_CLICK_AIR:
 			possiblyPreventUseEquippedItem(event);
 			break;
 		case RIGHT_CLICK_BLOCK:
+			if(!event.world.isRemote) {
+				int dosomething = 1;
+			}
 			final net.minecraft.world.chunk.Chunk blockChunk = event.world
 					.getChunkFromBlockCoords(event.pos);
 			final Block block = event.world.getBlockState(event.pos).getBlock();
@@ -740,7 +841,7 @@ public abstract class Enforcer {
 								(PolycraftInventoryBlock) pBlock, blockChunk);
 					}
 				}
-			}
+			} 
 			//this should not be an else...this should also happen, so you cant place a block on a sign, torch, etc...
 
 			final ItemStack equippedItem = event.entityPlayer
@@ -753,17 +854,96 @@ public abstract class Enforcer {
 						possiblyPreventAction(event, event.entityPlayer,
 								Action.AddBlockTNT, blockChunk);
 					} else {
-						possiblyPreventAction(event, event.entityPlayer,
-								Action.AddBlock, blockChunk);
+						
+						int x=event.x;
+						int y=event.y;
+						int z=event.z;
+						switch(event.face){
+						case 0:
+							y+=-1;
+							break;
+						case 1:
+							y+=+1;
+							break;
+						case 2:
+							z+=-1;
+							break;
+						case 3:
+							z+=+1;
+							break;
+						case 4:
+							x+=-1;
+							break;
+						case 5:
+							x+=+1;
+							break;
+						default:
+							break;
+						}
+						Block test =event.world.getBlock(x, y, z);
+						if(test instanceof PlaceBlockPP)
+						{
+							Block place=null;
+							if(event.entityPlayer.getHeldItem()!=null)
+							{
+								place=place.getBlockFromItem(event.entityPlayer.getHeldItem().getItem());
+								int meta=equippedItem.getItemDamage();
+								//event.entityPlayer.addChatMessage(new ChatComponentText("Block "+place.getLocalizedName() +" Face: "+ event.face));
+								
+								if(place!=null && place!=Blocks.air)
+								{
+									//event.world.setBlock(x, y, z, place);
+									//event.world.setBlock(x, y, z, place, meta, 2);
+									sendPlaceBlock(x,y,z,place,meta,event.entityPlayer,equippedItem);
+								}
+							}
+						}
+						else
+						{
+							possiblyPreventAction(event, event.entityPlayer,
+									Action.AddBlock, blockChunk);
+						}
 					}
 				} else {
 					possiblyPreventUseEquippedItem(event);
 				}
 			}
-
+			
+			//If player holding devtool, cancel event
+//			if(event.entityPlayer.getHeldItem() != null) 
+//				if(event.entityPlayer.getHeldItem().getItem() instanceof ItemDevTool) { 
+//					event.setCanceled(true);
+//				}
+//			
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public void sendPlaceBlock(int x, int y, int z, Block block, int meta,EntityPlayer player, ItemStack itemStack) {
+		try {
+			Gson gson = new Gson();
+			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+			NBTTagCompound tempNBT = new NBTTagCompound();
+			tempNBT.setInteger("x", x);
+			tempNBT.setInteger("y", y);
+			tempNBT.setInteger("z", z);
+			tempNBT.setInteger("blockid", block.getIdFromBlock(block));
+			tempNBT.setInteger("meta", meta);
+			tempNBT.setTag("itemstack", itemStack.getTagCompound());
+			String placeBlock;
+			
+			final ByteArrayOutputStream placeBlockTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+			
+			tempNBT.setString("player", player.getDisplayName());
+			CompressedStreamTools.writeCompressed(tempNBT, placeBlockTemp);
+			placeBlock = gson.toJson(placeBlockTemp, gsonType);
+			ClientEnforcer.INSTANCE.sendPlaceBlockPackets(placeBlock,DataPacketType.PlaceBlock.ordinal());
+			ClientEnforcer.INSTANCE.placeBlock(x, y, z, block.getIdFromBlock(block), meta, player, itemStack);
+			
+		}catch(Exception e) {
+			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );
 		}
 	}
 

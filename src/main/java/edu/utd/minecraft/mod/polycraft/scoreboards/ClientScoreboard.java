@@ -50,11 +50,11 @@ public class ClientScoreboard extends ScoreboardManager {
 	private boolean isTimeExpiredForScoreUpdates = true;
 
 	//scoreboard formatting
-	private final String teamFormat = "|%1$-10s|%2$ 4d seconds";
-	private final String scoreFormat = "|%-12.11s|%3.0f";
+	private final String teamFormat = "|%1$-10s | %2$ 4d seconds";
+	private final String scoreFormat = "|%-12.11s | %3.0f";
 	//scoreboard params;
 	private String playerTeam = "TRIFORCE";
-	public Team currentTeam = null;
+	public static Team currentTeam = null;
 	public ArrayList<String> teammates;
 	private HashMap<String, Float> teamList;
 	private ScoreboardManager.ColoredString secondsRemaining;
@@ -119,6 +119,11 @@ public class ClientScoreboard extends ScoreboardManager {
 	
 	@SubscribeEvent
 	public void onRenderTick(final TickEvent.RenderTickEvent tick) {
+		//We only want to render this in CTB Experiments right now
+		if(ExperimentManager.INSTANCE.clientCurrentExperiment <=0) {
+			return;
+		}
+		
 		if (tick.phase == Phase.END && client.theWorld != null) {
 			final EntityPlayer player = client.thePlayer;
 			if (player != null && player.isEntityAlive()) {
@@ -209,7 +214,7 @@ public class ClientScoreboard extends ScoreboardManager {
 		}
 	}
 	
-	public Team getCurrentTeam() {
+	public static Team getCurrentTeam() {
 		return currentTeam;
 	}
 	

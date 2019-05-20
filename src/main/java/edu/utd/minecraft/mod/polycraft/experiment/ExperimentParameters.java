@@ -1,11 +1,20 @@
 package edu.utd.minecraft.mod.polycraft.experiment;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef.ExperimentType;
+import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagIntArray;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.Vec3;
 
 public class ExperimentParameters {
 
@@ -26,8 +35,18 @@ public class ExperimentParameters {
 		if(!hasDefault){
 			hasDefault = true;
 			DEFAULT_PARAMS = new ExperimentParameters();
-			ExperimentParameters.setDefaultParameters();
+			ExperimentParameters.setDefaultParameters();	//TODO: This static default stuff doesn't look like it was setup right...
 			hasDefault = true;
+		}
+	}
+	
+	public ExperimentParameters(boolean useDefaults) {	//work-around because I don't want to change this whole class
+		this();
+		if(useDefaults) {
+			this.timingParameters.putAll(DEFAULT_PARAMS.timingParameters);
+			this.scoringParameters.putAll(DEFAULT_PARAMS.scoringParameters);
+			this.itemParameters.putAll(DEFAULT_PARAMS.itemParameters);
+			this.extraParameters.putAll(DEFAULT_PARAMS.extraParameters);
 		}
 	}
 	
@@ -93,13 +112,15 @@ public class ExperimentParameters {
 		//add timing variables
 		DEFAULT_PARAMS.timingParameters.put("Min: Game Time", new Integer[] {(maxTicks)/60/20, 3, 20}); //minutes
 		DEFAULT_PARAMS.timingParameters.put("Sec: Half Time", new Integer[] {(halfTimeTicks)/20, 30, 180}); //seconds
-		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/20, 10, 60}); //seconds
+		DEFAULT_PARAMS.timingParameters.put("Sec: Pre-Game", new Integer[] {(WAITSPAWNTICKS)/10, 10, 60}); //seconds
 		DEFAULT_PARAMS.timingParameters.put("Sec: Post-Game", new Integer[] {(WAIT_TELEPORT_UTD_TICKS)/20, 10, 60}); //seconds
 		
 		DEFAULT_PARAMS.extraParameters.put("Animals", new Integer[] {1,0});
 		DEFAULT_PARAMS.extraParameters.put("Chickens", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Cows", new Integer[] {0, 0, 60});
 		DEFAULT_PARAMS.extraParameters.put("Sheep", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.extraParameters.put("Androids", new Integer[] {0, 0, 60});
+		DEFAULT_PARAMS.extraParameters.put("Animal Difficulty", new Integer[] {0,0,2});
 		//DEFAULT_PARAMS.timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 		
 		//add scoring variables
@@ -131,7 +152,7 @@ public class ExperimentParameters {
 			//add timing variables
 			timingParameters.put("Min: Game Time", new Integer[] {(((ExperimentCTB) exp).getMaxTicks())/60/20, 3, 20}); //minutes
 			timingParameters.put("Sec: Half Time", new Integer[] {(((ExperimentCTB) exp).getHalfTimeTicks())/20, 30, 180}); //seconds
-			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/20, 10, 60}); //seconds
+			timingParameters.put("Sec: Pre-Game", new Integer[] {(((ExperimentCTB) exp).getWAITSPAWNTICKS())/10, 10, 60}); //seconds
 			timingParameters.put("Sec: Post-Game", new Integer[] {(((ExperimentCTB) exp).getWAIT_TELEPORT_UTD_TICKS())/20, 10, 60}); //seconds
 			
 //			//add animal parameters
@@ -196,6 +217,7 @@ public class ExperimentParameters {
 			
 			Experiment1PlayerCTB experiment = (Experiment1PlayerCTB) exp;
 			
+			
 			//add timing variables
 			timingParameters.put("Min: Game Time", new Integer[] {(experiment.getMaxTicks())/60/20, 3, 20}); //minutes
 			timingParameters.put("Sec: Half Time", new Integer[] {(experiment.getHalfTimeTicks())/20, 30, 180}); //seconds
@@ -207,6 +229,8 @@ public class ExperimentParameters {
 			extraParameters.put("Chickens", new Integer[] {experiment.numChickens, 0, 60});
 			extraParameters.put("Cows", new Integer[] {experiment.numCows, 0, 60});
 			extraParameters.put("Sheep", new Integer[] {experiment.numSheep, 0, 60});
+			extraParameters.put("Androids", new Integer[] {experiment.numAndroids, 0, 60});	
+			extraParameters.put("Animal Difficulty", new Integer[] {experiment.level, 0, 2});	
 			//timingParameters.put("Pigs", new Integer[] {0, 0, 60});
 			
 			//add scoring variables
@@ -277,6 +301,71 @@ public class ExperimentParameters {
 		
 		
 		return finalItems;
+	}
+	
+	public NBTTagCompound save()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		NBTTagCompound nbtListTiming = new NBTTagCompound();
+		NBTTagCompound nbtListScoring = new NBTTagCompound();
+		NBTTagCompound nbtListExtra = new NBTTagCompound();
+		
+		for(String timing: timingParameters.keySet()) {
+			int[] temp = new int[timingParameters.get(timing).length];	//there's no other way to convert Integer[] to int[] :/
+			for(int x = 0; x < timingParameters.get(timing).length; x++) {
+				temp[x] = timingParameters.get(timing)[x];
+			}
+			nbtListTiming.setIntArray(timing, temp);
+		}
+		nbt.setTag("timing", nbtListTiming);
+		
+		for(String scoring: scoringParameters.keySet()) {
+			int[] temp = new int[scoringParameters.get(scoring).length];	//there's no other way to convert Integer[] to int[] :/
+			for(int x = 0; x < scoringParameters.get(scoring).length; x++) {
+				temp[x] = scoringParameters.get(scoring)[x];
+			}
+			nbtListScoring.setIntArray(scoring, temp);
+		}
+		nbt.setTag("scoring", nbtListScoring);
+		
+		for(String extra: extraParameters.keySet()) {
+			int[] temp = new int[extraParameters.get(extra).length];	//there's no other way to convert Integer[] to int[] :/
+			for(int x = 0; x < extraParameters.get(extra).length; x++) {
+				temp[x] = extraParameters.get(extra)[x];
+			}
+			nbtListExtra.setIntArray(extra, temp);
+		}
+		nbt.setTag("extra", nbtListExtra);
+		
+		return nbt;
+	}
+	
+	public void load(NBTTagCompound nbtFeat)
+	{
+		NBTTagCompound nbtListTiming = nbtFeat.getCompoundTag("timing");
+		NBTTagCompound nbtListScoring = nbtFeat.getCompoundTag("scoring");
+		NBTTagCompound nbtListExtra = nbtFeat.getCompoundTag("extra");
+		
+		for(String timing: timingParameters.keySet()) {
+			int[] temp = nbtListTiming.getIntArray(timing);	//there's no other way to convert Integer[] to int[] :/
+			for(int x = 0; x < timingParameters.get(timing).length; x++) {
+				timingParameters.get(timing)[x] = temp[x];
+			}
+		}
+		
+		for(String scoring: scoringParameters.keySet()) {
+			int[] temp = nbtListScoring.getIntArray(scoring);	//there's no other way to convert Integer[] to int[] :/
+			for(int x = 0; x < scoringParameters.get(scoring).length; x++) {
+				scoringParameters.get(scoring)[x] = temp[x];
+			}
+		}
+		
+		for(String extra: extraParameters.keySet()) {
+			int[] temp = nbtListExtra.getIntArray(extra);	//there's no other way to convert Integer[] to int[] :/
+			for(int x = 0; x < extraParameters.get(extra).length; x++) {
+				extraParameters.get(extra)[x] = temp[x];
+			}
+		}
 	}
 
 }

@@ -11,30 +11,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import net.minecraftforge.fml.common.registry.GameData;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
+import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
+import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftCow;
 import edu.utd.minecraft.mod.polycraft.experiment.creatures.PolycraftExperimentCow;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.BaseStatusChangeEvent;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerAIScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerTeamScoreEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
@@ -46,6 +60,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
@@ -58,13 +73,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 
 public class Experiment1PlayerCTB extends Experiment{
 	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
-	public static int[][] spawnlocations = new int[4][3];
-	public static List<Vec3> chests = new LinkedList<Vec3>();
 	public static boolean hasBeenGenerated = false;
 	
 	private static final ItemStack[] armors = {
@@ -112,9 +126,12 @@ public class Experiment1PlayerCTB extends Experiment{
 	//public static int maxPlayersNeeded = 4;
 	
 	//animalStats
-	public int numSheep = 20;
-	public int numChickens = 20;
-	public int numCows = 20;
+	public int numSheep = 0;
+	public int numChickens = 0;
+	public int numCows = 0;
+	public int numAndroids = 5;
+	public double animalSpeed = .6; // .5 seems to be "normal" speed
+	public static int level = 1; // level 0 - passive, level 1 - balanced, level 2 - aggressive
 	
 	private String stringToSend = "";
 	
@@ -130,6 +147,9 @@ public class Experiment1PlayerCTB extends Experiment{
 	 */
 	public Experiment1PlayerCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
 		super(id, size, xPos, zPos, world, ExperimentManager.INSTANCE.flat_field);
+		sizeX = 10;
+		sizeZ = 10;
+		createPrivateProperties();
 		//teamNames.add("testing");
 		//this.playersNeeded = maxPlayersNeeded; //using playersNeeded from Experiments (for now)
 		this.teamsNeeded = maxteams;
@@ -137,6 +157,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		this.playersNeeded = teamsNeeded * teamSize;
 		this.awaitingNumPlayers = this.playersNeeded;
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 		for(int x = 0; x < teamsNeeded;x++) {
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);
@@ -183,6 +204,7 @@ public class Experiment1PlayerCTB extends Experiment{
 		if(currentState == State.WaitingToStart) {
 			super.start(); //send the updates
 			PolycraftMod.logger.debug("Experiment " + this.id +" Start Generation");
+			//System.out.println("this file is created"+this.id);
 			//this.generateStoop();
 			currentState = State.GeneratingArea;
 			tickCount = 0;
@@ -228,6 +250,21 @@ public class Experiment1PlayerCTB extends Experiment{
 		double zOff = Math.random()*6 + z - 3;	//3 block radius
 		player.setPositionAndUpdate(xOff + .5, y, zOff + .5);
 	}
+	
+//	@SubscribeEvent
+//	public synchronized void onPlayerUseKnockBack(PlayerUseItemEvent event)
+//	{
+//		System.out.println(event.item);
+//		System.out.println(event.duration);
+//		if(event.item.getDisplayName()=="Knockback Bomb")
+//		{
+//			//log
+//			//event.entityPlayer.displ
+//			ItemKnockbackBomb bomb =((ItemKnockbackBomb)event.item.getItem());
+//			List list =bomb.list;
+//			System.out.println(list);
+//		}
+//	}
 	
 	@Override
 	public void onServerTickUpdate() {
@@ -373,6 +410,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					zMin = Math.min(zMin, currentZvalue);	
 				}
 				
+				EntityAndroid newAndroid;
 				EntityAnimal newAnimal;
 				//TODO: Create new Polycraft creatures/animals that are invulnerable with variable movement speed
 				
@@ -383,6 +421,13 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityChicken(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					newAnimal.tasks.taskEntries.clear();
+					//newAnimal.setAIMoveSpeed(1F); // dont seem to do anything, speed can be changed in animalSpeed
+					//newAnimal.getNavigator().setSpeed(1D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+					
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -393,7 +438,12 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntityCow(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(10.0F);
+					newAnimal.tasks.taskEntries.clear();
+					
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+
 					world.spawnEntityInWorld(newAnimal);
 				}
 				
@@ -404,8 +454,29 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					newAnimal = new EntitySheep(world);
 					newAnimal.setPosition(currentXvalue, currentYvalue, currentZvalue);
-					newAnimal.setAIMoveSpeed(10.0F);
+					newAnimal.tasks.taskEntries.clear();
+					
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAnimal.tasks.addTask(0, new EntityAICaptureBases(newAnimal, (double)newAnimal.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+
 					world.spawnEntityInWorld(newAnimal);
+				}
+				
+				//Spawn Android
+				for (int currentAnimal = 0; currentAnimal < numAndroids; currentAnimal++) {
+					int currentXvalue = (int) Math.round(Math.random()*((xMax - xMin))) + xMin;
+					int currentZvalue = (int) Math.round(Math.random()*((zMax - zMin))) + zMin;
+					
+					newAndroid = new EntityAndroid(world);
+					newAndroid.setPosition(currentXvalue, currentYvalue, currentZvalue);
+					newAndroid.tasks.taskEntries.clear();
+					
+					newAndroid.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+					newAndroid.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(animalSpeed);
+					newAndroid.tasks.addTask(0, new EntityAICaptureBases(newAndroid, (double)newAndroid.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+					
+					world.spawnEntityInWorld(newAndroid);
 				}
 				
 				//Spawn Wolf
@@ -418,6 +489,8 @@ public class Experiment1PlayerCTB extends Experiment{
 				
 				currentState = State.Running;
 				tickCount = 0; 
+				
+				
 			}
 			tickCount++;
 		}
@@ -425,6 +498,36 @@ public class Experiment1PlayerCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
+			int i=0;
+			if(tickCount%20==0) {
+			for(Team team: scoreboard.getTeams()) {
+				if(team.getName().equals("Animals")) {
+					/**
+					 * Records AI score every second
+					 */
+					PlayerAIScoreEvent event = new PlayerAIScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,"AI", scoreboard.getTeamScores().get(team));
+					Analytics.onAIScoreEvent(event);
+
+				}
+				else {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						/**
+						 * Record Player Score every second
+						 */
+					ScoreEvent event = new ScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
+					Analytics.onScoreEvent(event);
+					/**
+					 * Record Team Scores every second
+					 */
+					PlayerTeamScoreEvent event1 = new PlayerTeamScoreEvent(this.id,team.getName(),scoreboard.getTeamScores().get(team));
+					Analytics.onTeamScoreEvent(event1);
+					}
+				}
+				
+				
+				i=i+1;
+			}
+			}
 //			for(Float score : this.scoreboard.getScores()) {
 //				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
 //					currentState = State.Ending;
@@ -432,7 +535,18 @@ public class Experiment1PlayerCTB extends Experiment{
 //				}
 //			}
 			if(tickCount == this.halfTimeTicks) {
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
+				}
 				currentState = State.Halftime;
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						player.posX=team.getSpawn()[0];
+						player.posY=team.getSpawn()[1];
+						player.posZ=team.getSpawn()[2];
+						//spawnPlayerInGame((EntityPlayerMP)player, team.getSpawn()[0], team.getSpawn()[1], team.getSpawn()[2]);
+					}
+				}
 			}
 			else if(tickCount >= maxTicks) {
 				currentState = State.Ending;			
@@ -453,15 +567,15 @@ public class Experiment1PlayerCTB extends Experiment{
 //			else if(tickCount % 600 == 0) {
 //				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
 //					if(tickCount < this.halfTimeTicks) {
-//						player.addChatMessage(new ChatComponentText("Seconds until half-time: Â§a" + (this.halfTimeTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
 //					}else {
-//					player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+//					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}else if(maxTicks-tickCount < 600) {
 //				if(tickCount % 60 == 0) {
 //					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-//						player.addChatMessage(new ChatComponentText("Seconds remaining: Â§a" + (maxTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}
@@ -478,10 +592,14 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					
+					
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
-					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
+					
+					
+					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("Don't give up!"));
@@ -495,13 +613,15 @@ public class Experiment1PlayerCTB extends Experiment{
 			if(this.halfTimeTicksRemaining == 0) {
 				currentState = State.Running;
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+					//Close Hafltime GUI for users that have not completed it
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("CloseHaltimeGUI", (EntityPlayerMP) player);
 					player.addChatComponentMessage(new ChatComponentText("Game resuming... "));
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					
 					//After Half-Time, give all players cleats!
-					ItemStack[] armor = player.inventory.armorInventory;
-					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
-					player.inventory.armorInventory = armor;
+//					ItemStack[] armor = player.inventory.armorInventory;
+//					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
+//					player.inventory.armorInventory = armor;
 				}
 			}
 			
@@ -520,6 +640,12 @@ public class Experiment1PlayerCTB extends Experiment{
 			
 		}
 		
+		//if(this.halfTimeTicksRemaining % 20 == 0) {
+			//Map.Entry<Team, Float> maxEntry = null;
+			//for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+				//ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+			//}
+		//}
 		else if(currentState == State.Ending) {
 			if(!this.hasGameEnded) { //do this once only!
 				this.hasGameEnded = true;
@@ -553,10 +679,22 @@ public class Experiment1PlayerCTB extends Experiment{
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
 					
-					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
+					/**
+					 * Record if player/AI has won.
+					 */
+					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
+						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+						Analytics.onTeamWon(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
+						for(Team team: scoreboard.getTeams()) {
+							//Don't put armor on Animals
+							if(team.getName().equals(this.animalTeam.getName()) || team == null) {
+								TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,team.getName());
+								Analytics.onTeamWon(event);
+								}
+							}
 					}
 					player.addChatComponentMessage(new ChatComponentText("Teleporting to UTD in: " + this.WAIT_TELEPORT_UTD_TICKS/20 + "seconds"));
 				}
@@ -586,6 +724,12 @@ public class Experiment1PlayerCTB extends Experiment{
 		}
 	}
 	
+	private boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int posX, int posY, int posZ, int i,
+			float f, float g, float h) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	/**
 	 * TODO: Move all of this to the ClientScoreboard and ServerScoreboard class. Contain the data in the CustomScoreboard class
 	 * 
@@ -648,24 +792,30 @@ public class Experiment1PlayerCTB extends Experiment{
 			case Neutral:
 				base.setHardColor(Color.GRAY);
 				base.tickCount = 0;
+				List<String> players = new ArrayList<String>();
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
-					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+					if ((current_entity instanceof EntityAnimal || current_entity instanceof EntityAndroid)& base.isInBase(current_entity)) {
 					// check for animal in base
+						players.add(current_entity.toString());
 						base.setCurrentTeam(animalTeam.getName());
+						String initial_base_state = (base.currentState).toString();
 						base.currentState = FeatureBase.State.Occupied;
 						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getBlue()/255.0f,
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
+						
 						break;
 						//((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 					}
 				}
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
+						players.add(player.getDisplayName());
 						//base.tickCount++;
-						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName());
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
+						String initial_base_state = (base.currentState).toString();
 						base.currentState = FeatureBase.State.Occupied;
 						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
@@ -673,6 +823,9 @@ public class Experiment1PlayerCTB extends Experiment{
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
+						System.out.println(initial_base_state+player.getDisplayName()+","+base.currentState);
+						BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players, ','));
+						Analytics.onBaseStatusChangeEvent(event);
 					}
 				}
 				if(base.currentState != FeatureBase.State.Neutral) {	//push update to all players
@@ -685,13 +838,15 @@ public class Experiment1PlayerCTB extends Experiment{
 				//Occupied = state when a player is present in a previously Neutral base
 			case Occupied:
 				base.tickCount++;
+				List<String> players1 = new ArrayList<String>();
 				//boolean noPlayers = true;
 				//int playerCount = 0;
 				
 				//Check if an animal is in a base being taken by a player and reset timer to Neutral case if so
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
-					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+					if ((current_entity instanceof EntityAnimal || current_entity instanceof EntityAndroid) & base.isInBase(current_entity)) {
 					// check for animal in base
+						players1.add(current_entity.toString());
 						playerCount++;
 						base.tickCount++;
 						if (base.getCurrentTeamName() != null && !base.getCurrentTeamName().equals(animalTeam.getName())) { 
@@ -712,15 +867,20 @@ public class Experiment1PlayerCTB extends Experiment{
 				//Check if a player is in a base being taken by animals and reset timer to Neutral case if so
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
+						players1.add(player.getDisplayName());
 						//noPlayers = false;
 						playerCount++;
 						base.tickCount++;
-						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
 							// Test for 'in contention' base where a player that is NOT the new occupying team is also present	
 							//reset case
+								String initial_base_state = (base.currentState).toString();
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.setCurrentTeam(null);
+								System.out.println("O1"+initial_base_state+player.getDisplayName()+","+base.currentState);
+								BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players1, ','));
+								Analytics.onBaseStatusChangeEvent(event);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
 						} else {
 							if(base.tickCount % 20 == 0) {
@@ -733,18 +893,39 @@ public class Experiment1PlayerCTB extends Experiment{
 				
 				//Reset timer to Neutral state if everyone leaves base will converting
 				if(playerCount==0) {
+					String initial_base_state = (base.currentState).toString();
 					//case no one in the previously occupied base:
 					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
+					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+						if(base.isInBase(player)) {
+					System.out.println("O2"+initial_base_state+","+base.currentState);
+					BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players1, ','));
+					Analytics.onBaseStatusChangeEvent(event);
+						}
+					}
 					break;
 				}
 				
 				//Change state to Claimed if Entities of a single team have been in a base for long enough
 				if(base.tickCount >= ticksToClaimBase) {
+					String initial_base_state = (base.currentState).toString();
 					base.currentState = FeatureBase.State.Claimed;
-					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
+					if(animalTeam.getName().equals(base.getCurrentTeamName())) 
+						base.setHardColor(Color.BLUE);						
+					else {
+						if(base.getCurrentTeamName() != null)
+							base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
+					}
 					base.tickCount=0;
+					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+						if(base.isInBase(player)) {
+							System.out.println("O3"+initial_base_state+","+player.getDisplayName()+","+base.currentState);
+							BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players1, ','));
+							Analytics.onBaseStatusChangeEvent(event);
+						}
+					}
 					//TODO: send score update for claiming here.
 					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
 					
@@ -776,6 +957,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				break;
 				
 			case Claimed: // Check if a base is becoming in contention and switch to neutral is taken
+				List<String> players2 = new ArrayList<String>();
 				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
 					this.scoreboard.updateScore(base.getCurrentTeamName(), this.ownedBaseScoreBonusOnTicks);
@@ -785,14 +967,19 @@ public class Experiment1PlayerCTB extends Experiment{
 				//check if the player is stealing a base
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
+						players2.add(player.getDisplayName());
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
 							base.tickCount++;
 							if(base.tickCount>=this.ticksToClaimBase) {
+								String initial_base_state = (base.currentState).toString();
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
-								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName(), this.stealBaseScoreBonus);
+								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
+								System.out.println("C2"+initial_base_state+player.getDisplayName()+","+base.currentState);
+								BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players2, ','));
+								Analytics.onBaseStatusChangeEvent(event);
 							}
 						}
 					}
@@ -800,7 +987,7 @@ public class Experiment1PlayerCTB extends Experiment{
 
 				//check if the animals are stealing a base
 				for (Entity current_entity : ((List<Entity>) this.world.loadedEntityList)) {
-					if (current_entity instanceof EntityAnimal & base.isInBase(current_entity)) {
+					if ((current_entity instanceof EntityAnimal || current_entity instanceof EntityAndroid) & base.isInBase(current_entity)) {
 						playerCount++;
 						if(!animalTeam.getName().equals(base.getCurrentTeamName())) {
 							base.tickCount++; //goes faster the more animals are in the base...
@@ -847,7 +1034,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					base.setRendering(true);
 				tickCount++;
 			}
-		}	
+		}
 	}
 	
 	//TEMOC:
@@ -914,6 +1101,16 @@ public class Experiment1PlayerCTB extends Experiment{
 			}
 			base.render(entity);
 		}
+	}
+	
+	/**
+	 * Dynamic get function for getting multiple features of children experiments
+	 * @return specified feature
+	 */
+	public Object getFeature(String feature) {
+		if(feature.equals("bases"))
+			return bases;
+		return null;
 	}
 
 	public int getHalfTimeTicks() {
@@ -1055,7 +1252,8 @@ public class Experiment1PlayerCTB extends Experiment{
 		this.numChickens = (int) Math.round(Float.parseFloat(params.extraParameters.get("Chickens")[0].toString()));
 		this.numCows = (int) Math.round(Float.parseFloat(params.extraParameters.get("Cows")[0].toString()));
 		this.numSheep = (int) Math.round(Float.parseFloat(params.extraParameters.get("Sheep")[0].toString()));
-		
+		this.numAndroids = (int) Math.round(Float.parseFloat(params.extraParameters.get("Androids")[0].toString()));
+		this.level=(int) Math.round(Float.parseFloat(params.extraParameters.get("Animal Difficulty")[0].toString()));
 		//update half-time
 		this.halfTimeTicks = this.maxTicks/2;
 		this.maxWaitTimeHalfTime = this.halfTimeTicksRemaining;

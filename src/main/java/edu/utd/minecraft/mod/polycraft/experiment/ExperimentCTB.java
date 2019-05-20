@@ -7,12 +7,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.logging.log4j.LogManager;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.microsoft.azure.storage.core.Logger;
 
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -21,11 +28,20 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
+import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
+import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.util.Analytics;
+import edu.utd.minecraft.mod.polycraft.util.PlayerExitEvent;
+import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
+import edu.utd.minecraft.mod.polycraft.util.BaseStatusChangeEvent;
+import edu.utd.minecraft.mod.polycraft.util.TeamWonEvent;
+import edu.utd.minecraft.mod.polycraft.util.ScoreEvent;
+import edu.utd.minecraft.mod.polycraft.util.PlayerTeamScoreEvent;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -38,6 +54,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.Score;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
@@ -53,8 +70,6 @@ public class ExperimentCTB extends Experiment{
 	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
-	public static int[][] spawnlocations = new int[4][3];
-	public static LinkedList<Vec3> chests = new LinkedList<Vec3>();
 	public static boolean hasBeenGenerated = false;
 	
 	private static final ItemStack[] armors = {
@@ -104,11 +119,15 @@ public class ExperimentCTB extends Experiment{
 	
 	public ExperimentCTB(int id, int size, int xPos, int zPos, World world, int maxteams, int teamsize) {
 		super(id, size, xPos, zPos, world);
+		sizeX = 14;
+		sizeZ = 18;
+		createPrivateProperties();
 		this.teamsNeeded = maxteams;
 		this.teamSize = teamsize;
 		this.playersNeeded = teamsNeeded * teamSize;
 		this.awaitingNumPlayers = this.playersNeeded;
 		this.scoreboard = ServerScoreboard.INSTANCE.addNewScoreboard();
+		this.halftimeAnswers = new ExperimentHalftimeAnswers(this.playersNeeded);
 		for(int x = 0; x < teamsNeeded;x++) {
 			this.scoreboard.addNewTeam();
 			this.scoreboard.resetScores(0);
@@ -168,7 +187,7 @@ public class ExperimentCTB extends Experiment{
 			for(Team team: scoreboard.getTeams()) {
 				for(String player:team.getPlayers()) {
 					EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-					playerEntity.addChatMessage(new ChatComponentText("Expiriment will be starting Shortly. Please wait while the field is generated"));
+					playerEntity.addChatMessage(new ChatComponentText("Experiment will be starting Shortly. Please wait while the field is generated"));
 				}
 			}
 		}
@@ -204,7 +223,7 @@ public class ExperimentCTB extends Experiment{
 		double zOff = Math.random()*6 + z - 3;	//3 block radius
 		player.setPositionAndUpdate(xOff + .5, y, zOff + .5);
 	}
-	
+
 	@Override
 	public void onServerTickUpdate() {
 		super.onServerTickUpdate();
@@ -315,14 +334,37 @@ public class ExperimentCTB extends Experiment{
 		else if(currentState == State.Running){
 			tickCount++;
 			updateBaseStates2();
-//			for(Float score : this.scoreboard.getScores()) {
+			
+			int i=0;
+			if(tickCount%20==0) {
+			for(Team team: scoreboard.getTeams()) {
+				PlayerTeamScoreEvent event1 = new PlayerTeamScoreEvent(this.id,team.getName(),scoreboard.getTeamScores().get(team));
+				Analytics.onTeamScoreEvent(event1);
+				for(EntityPlayer player: team.getPlayersAsEntity()) {
+					ScoreEvent event = new ScoreEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize,player, scoreboard.getTeamScores().get(team));
+					Analytics.onScoreEvent(event);
+					}
+				i=i+1;
+			}
+			}
+			//			for(Float score : this.scoreboard.getScores()) {
 //				if (score >= MAXSCORE) { //end if the team reaches the maximum score.
 //					currentState = State.Ending;
 //					break;
 //				}
 //			}
 			if(tickCount == this.halfTimeTicks) {
+				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("OpenHaltimeGUI", (EntityPlayerMP) player);
+				}
 				currentState = State.Halftime;
+				for(Team team: scoreboard.getTeams()) {
+					for(EntityPlayer player: team.getPlayersAsEntity()) {
+						player.posX=team.getSpawn()[0];
+						player.posY=team.getSpawn()[1];
+						player.posZ=team.getSpawn()[2];
+					}
+				}
 			}
 			else if(tickCount >= maxTicks) {
 				
@@ -382,18 +424,28 @@ public class ExperimentCTB extends Experiment{
 				}
 			}
 			
+			
+			//if(this.halfTimeTicksRemaining % 20 == 0) {
+				//Map.Entry<Team, Float> maxEntry = null;
+				//for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+					//ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player); 
+				//}
+			//}
+			
 			this.halfTimeTicksRemaining--; //use the halfTimeTicksRemaining counter to
 			
 			if(this.halfTimeTicksRemaining == 0) {
 				currentState = State.Running;
 				for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+					//Close Hafltime GUI for users that have not completed it
+					ServerEnforcer.INSTANCE.sendExperimentUpdatePackets("CloseHaltimeGUI", (EntityPlayerMP) player);
 					player.addChatComponentMessage(new ChatComponentText("Game resuming... "));
 					ServerEnforcer.INSTANCE.freezePlayer(false, (EntityPlayerMP)player);
 					
 					//After Half-Time, give all players cleats!
-					ItemStack[] armor = player.inventory.armorInventory;
-					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
-					player.inventory.armorInventory = armor;
+//					ItemStack[] armor = player.inventory.armorInventory;
+//					armor[0] = new ItemStack(PolycraftRegistry.getItem("Cleats"));
+//					player.inventory.armorInventory = armor;
 				}
 			}
 //			else if(this.halfTimeTicksRemaining % 400 == 0) {
@@ -432,9 +484,13 @@ public class ExperimentCTB extends Experiment{
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					ServerEnforcer.INSTANCE.freezePlayer(true, (EntityPlayerMP)player);
 					//clear player inventory
-					
-					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
-						player.addChatComponentMessage(new ChatComponentText("Congradulations!! You Won!!"));
+					/**
+					 * Record which players have won.
+					 */
+					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
+								TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+								edu.utd.minecraft.mod.polycraft.util.Analytics.onTeamWon(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
 					}
@@ -526,10 +582,14 @@ public class ExperimentCTB extends Experiment{
 			case Neutral:
 				base.setHardColor(Color.GRAY);
 				base.tickCount = 0;
+				List<String> players = new ArrayList<String>();
+				//players.add("Me");
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
+						players.add(player.getDisplayName());
 						//base.tickCount++;
-						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName());
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
+						String initial_base_state = (base.currentState).toString();
 						base.currentState = FeatureBase.State.Occupied;
 						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
 								(this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getGreen()/255.0f,
@@ -537,6 +597,10 @@ public class ExperimentCTB extends Experiment{
 								0.25f);
 						base.setHardColor(newBaseColor);	//sets perm color and resets current color
 						((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Attempting to Capture Base: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
+						//System.out.println(initial_base_state+player.getDisplayName()+","+base.currentState+","+players);
+						System.out.println(initial_base_state+player.getDisplayName()+","+base.currentState);
+						BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players, ','));
+						Analytics.onBaseStatusChangeEvent(event);
 					}
 				}
 				if(base.currentState!=FeatureBase.State.Neutral) {	//push update to all players
@@ -548,17 +612,25 @@ public class ExperimentCTB extends Experiment{
 			
 			case Occupied:
 				base.tickCount++;
+				List<String> players1 = new ArrayList<String>();
+				//players1.add("Me");
 				//boolean noPlayers = true;
 				//int playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
+						players1.add(player.getDisplayName());
 						//noPlayers = false;
 						playerCount++;
 						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) { 
 								//reset case
+							    String initial_base_state = (base.currentState).toString();
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.setCurrentTeam(null);
+								//System.out.println("O1"+initial_base_state+player.getDisplayName()+","+base.currentState+","+players1);
+								System.out.println("O1"+initial_base_state+player.getDisplayName()+","+base.currentState);
+								BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players1, ','));
+								Analytics.onBaseStatusChangeEvent(event);
 								//ServerEnforcer.INSTANCE.sendExperimentUpdatePackets(prepBoundingBoxUpdates(), (EntityPlayerMP) player);
 						} else {
 							if(base.tickCount % 20 == 0) {
@@ -570,14 +642,30 @@ public class ExperimentCTB extends Experiment{
 				}
 				if(playerCount==0) {
 					//case no one in the previously occupied base:
+					String initial_base_state = (base.currentState).toString();
 					base.currentState = FeatureBase.State.Neutral;
 					base.setHardColor(Color.GRAY);
 					base.setCurrentTeam(null);
+					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+						if(base.isInBase(player)) {
+					System.out.println("O2"+initial_base_state+","+base.currentState);
+					BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players1, ','));
+					Analytics.onBaseStatusChangeEvent(event);
+						}
+					}
 					break;
 				}if(base.tickCount >= ticksToClaimBase) {
+					String initial_base_state = (base.currentState).toString();
 					base.currentState = FeatureBase.State.Claimed;
 					base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 					base.tickCount=0;
+					for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
+						if(base.isInBase(player)) {
+							System.out.println("O3"+initial_base_state+","+player.getDisplayName()+","+base.currentState);
+							BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players1, ','));
+							Analytics.onBaseStatusChangeEvent(event);
+						}
+					}
 					//TODO: send score update for claiming here.
 					this.scoreboard.updateScore(base.getCurrentTeamName(), this.claimBaseScoreBonus);
 					//TODO: Add Fireworks
@@ -593,6 +681,8 @@ public class ExperimentCTB extends Experiment{
 				}
 				break;
 			case Claimed:
+				List<String> players2 = new ArrayList<String>();
+				//players2.add("Me");
 				base.setHardColor((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor());
 				//TODO: send score update
 				if(this.tickCount%this.updateScoreOnTickRate == 0) {
@@ -601,6 +691,7 @@ public class ExperimentCTB extends Experiment{
 				//playerCount = 0;
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
+						players2.add(player.getDisplayName());
 						playerCount++;
 						if(!this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) {
 							base.tickCount++; //this goes faster for two players!
@@ -608,12 +699,21 @@ public class ExperimentCTB extends Experiment{
 							if(base.tickCount%20==0) {
 								((EntityPlayerMP) player).addChatComponentMessage(new ChatComponentText("Base Reset to Neutral in: " + (ticksToClaimBase - base.tickCount)/20 + "seconds"));
 								alertTeam(this.scoreboard.getTeam(base.getCurrentTeamName()));
+								//System.out.println("C1"+base.currentState+","+player.getDisplayName()+",Neutral,"+players2);
+								System.out.println("C1"+base.currentState+","+player.getDisplayName()+",Neutral");
+								BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,base.currentState.toString(),"Neutral",StringUtils.join(players2, ','));
+								Analytics.onBaseStatusChangeEvent(event);
 							}
 							if(base.tickCount>=this.ticksToClaimBase) {
+								String initial_base_state = (base.currentState).toString();
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
-								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName(), this.stealBaseScoreBonus);
+								//System.out.println("C2"+initial_base_state+player.getDisplayName()+","+base.currentState+","+players2);
+								System.out.println("C2"+initial_base_state+player.getDisplayName()+","+base.currentState);
+								BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players2, ','));
+								Analytics.onBaseStatusChangeEvent(event);
+								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
 								//break;// (only allow one player to claim the team bonus) remove this if we want the bonuses to stack.
 							}
 						}
@@ -720,6 +820,16 @@ public class ExperimentCTB extends Experiment{
 			}
 			base.render(entity);
 		}
+	}
+	
+	/**
+	 * Dynamic get function for getting multiple features of children experiments
+	 * @return specified feature
+	 */
+	public Object getFeature(String feature) {
+		if(feature.equals("bases"))
+			return bases;
+		return null;
 	}
 
 	public int getHalfTimeTicks() {

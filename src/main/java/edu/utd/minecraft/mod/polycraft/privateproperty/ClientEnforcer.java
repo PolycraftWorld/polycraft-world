@@ -1,6 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
@@ -13,13 +15,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -41,16 +47,25 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnection
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
+import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
+import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
+import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
+import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
+import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.item.ItemFueledProjectileLauncher;
 import edu.utd.minecraft.mod.polycraft.item.ItemJetPack;
 import edu.utd.minecraft.mod.polycraft.item.ItemScubaTank;
-import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
-import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
@@ -60,6 +75,13 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class ClientEnforcer extends Enforcer {
 	public static final ClientEnforcer INSTANCE = new ClientEnforcer();
@@ -72,9 +94,15 @@ public class ClientEnforcer extends Enforcer {
 	private static final int overlayColor = 16777215;
 	private static final KeyBinding keyBindingPrivateProperty = new KeyBinding("key.private.property", Keyboard.KEY_P, "key.categories.gameplay");
 	private static final KeyBinding keyBindingPrivatePropertyRights = new KeyBinding("key.private.property.rights", Keyboard.KEY_O, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIControls = new KeyBinding("key.private.property", Keyboard.KEY_ADD, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIControlsLeft = new KeyBinding("key.private.property", Keyboard.KEY_LEFT, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIControlsRight = new KeyBinding("key.private.property", Keyboard.KEY_RIGHT, "key.categories.gameplay");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
+	public double prevAng;
+	public static boolean turnRight=false;
+	public static boolean turnLeft=false;
 	public ArrayList<FeatureBase> baseList = new ArrayList<FeatureBase>();
 	
 	private final Minecraft client;
@@ -88,13 +116,31 @@ public class ClientEnforcer extends Enforcer {
 			this.ticksRemaining = ticksRemaining;
 		}
 	}
+	
+
+	public boolean hasCompletedTutorial = false;
 
 	private List<StatusMessage> statusMessages = Lists.newArrayList();
+	private static boolean showTutorialRender = false;
 	private static boolean showPrivateProperty = false;
+	private static boolean showAIControls = false;
+	private static int behaviorAI=1;
 	private DataPacketType pendingDataPacketType = DataPacketType.Unknown;
 	private int pendingDataPacketTypeMetadata = 0;
 	private int pendingDataPacketsBytes = 0;
 	private ByteBuffer pendingDataPacketsBuffer = null;
+
+	private int placeX;
+
+	private int placeY;
+
+	private int placeZ;
+
+	private int placeBlockID;
+
+	private int placeBlockMeta;
+
+	private boolean placeBlock;
 	
 	public static boolean viewedConsentGUI = false;
 	private static boolean needsToSeeConsentForm = false;
@@ -115,7 +161,24 @@ public class ClientEnforcer extends Enforcer {
 		if (keyBindingPrivateProperty.isPressed()) {
 			showPrivateProperty = !showPrivateProperty;
 		}
+		if (keyBindingAIControls.isPressed()) {
+			showAIControls = !showAIControls;
+			Experiment a = ExperimentManager.INSTANCE.getExperiment(ExperimentManager.INSTANCE.getRunningExperiment());
+		}
+		if(showAIControls)
+		{
+			if(keyBindingAIControlsLeft.isPressed() && this.behaviorAI>0)
+			{
+				this.behaviorAI-=1;
+			}
+			if(keyBindingAIControlsRight.isPressed() && this.behaviorAI<2)
+			{
+				this.behaviorAI+=1;
+			}
+		}
 	}
+	
+	
 
 	@Override
 	protected void setActionPrevented(final Action action, final PrivateProperty privateProperty) {
@@ -144,6 +207,8 @@ public class ClientEnforcer extends Enforcer {
 		this.governments.clear();
 		//this.tempChallengeProperties.clear();
 		this.tempPrivateProperties.clear();
+		this.expPrivateProperties.clear();
+		this.expPrivatePropertiesByChunk.clear();
 		this.itemsToSwitch.clear();
 		this.privatePropertiesByChunk.clear();
 		//this.challengePropertiesByChunk.clear();
@@ -186,6 +251,12 @@ public class ClientEnforcer extends Enforcer {
 						showStatusMessage("Received " + formatPP.format(countPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " private properties (" + formatPP.format(privatePropertiesByOwner.size()) + " players / "
 								+ formatPP.format(privatePropertiesByChunk.size()) + " chunks)", 10);
 						break;
+					case ExpPrivateProperties:
+						final int countEPP = INSTANCE.updateExpPrivateProperties(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						final NumberFormat formatEPP = NumberFormat.getNumberInstance(Locale.getDefault());
+						showStatusMessage("Received " + formatEPP.format(countEPP) + " " + (pendingDataPacketTypeMetadata == 1 ? "master" : "other") + " experiment private properties ("
+								+ formatEPP.format(expPrivatePropertiesByChunk.size()) + " chunks)", 10);
+						break;
 					case Governments:	
 						//final int govCount = updateGovernments(CompressUtil.decompress(pendingDataPacketsBuffer.array()), false);	
 						//final NumberFormat govformat = NumberFormat.getNumberInstance(Locale.getDefault());	
@@ -205,8 +276,7 @@ public class ClientEnforcer extends Enforcer {
 							break;
 						}
 						break;
-					case Challenge:
-						System.out.println("Packet Received");
+					case Experiment:
 						ExperimentsPacketType tempMetaData = ExperimentsPacketType.values()[pendingDataPacketTypeMetadata];
 						switch(tempMetaData) {
 							case BoundingBoxUpdate:
@@ -224,9 +294,47 @@ public class ClientEnforcer extends Enforcer {
 							case ReceiveExperimentsList:
 								System.out.println("Receiving experiments list...");
 								ExperimentManager.updateExperimentMetadata(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+								//
 								break;
-							
+							case OpenHalftimeGUI:
+								System.out.println("Opening Halftime GUI");
+								PolycraftMod.proxy.openHalftimeGui(this.client.thePlayer);
+								break;
+							case CloseHalftimeGUI:
+								System.out.println("Closing Halftime GUI");
+								PolycraftMod.proxy.closeHalftimeGui(this.client.thePlayer);
+								break;
+							case ExpDefGet:
+								setExpDefs(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 							default:
+							break;
+						}
+						break;
+					case Tutorial:
+						TutorialManager.PacketMeta tutorialMetaData = TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata];
+						System.out.println("Tutorial Packet Received");
+						switch(tutorialMetaData) {
+						case Features:	//Experiment Features update
+							PolycraftMod.logger.debug("Receiving experiment features...");
+							this.updateTutorialFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case ActiveFeatures:	//Experiment Active Features update
+							PolycraftMod.logger.debug("Receiving experiment active features...");
+							this.updateTutorialActiveFeatures(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case Feature:	//Experiment single featuer update
+							PolycraftMod.logger.debug("Receiving experiment feature...");
+							this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+							break;
+						case CompletedTutorialTrue:
+							PolycraftMod.logger.debug("Receiving experiment completed update...");
+							this.hasCompletedTutorial = true;
+							break;
+						case CompletedTutorialFalse:
+							PolycraftMod.logger.debug("Receiving experiment completed update...");
+							this.hasCompletedTutorial = false;
+							break;
+						default:
 							break;
 						}
 						break;
@@ -271,7 +379,14 @@ public class ClientEnforcer extends Enforcer {
 					case AttackWarning:
 						//AttackWarning.receivePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case Cannon:
+						//CannonBlock.UpdatePackets(CompressUtil.decompress(pendingDataPacketsBuffer.array()),pendingDataPacketTypeMetadata);
+						break;
+					case RespawnSync:
+						ResyncHandler.INSTANCE.setResync();
+						break;
 					case Unknown:
+						break;
 					default:
 						break;
 					}
@@ -284,9 +399,18 @@ public class ClientEnforcer extends Enforcer {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
-	
+
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
+	}
+	
+	
+	public void openHalftimeGui() {
+		client.displayGuiScreen(new GuiHalftime(this.client.thePlayer));		
+	}
+	public void closeHalftimeGui() {
+		client.displayGuiScreen(null);
+		client.setIngameFocus();
 	}
 	
 	@Deprecated
@@ -497,6 +621,51 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 	
+	private void updateTutorialFeatures(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)
+			return;
+		TutorialManager.INSTANCE.clientCurrentExperiment = 1;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeatures(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
+	}
+	
+	private void updateTutorialFeature(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentFeature(TutorialManager.INSTANCE.clientCurrentExperiment, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+	}
+	
+	private void updateTutorialCompleted(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		this.INSTANCE.hasCompletedTutorial = (boolean) gson.fromJson(decompressedJson, boolean.class);
+	}
+	
+	private void updateTutorialActiveFeatures(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		TutorialManager.INSTANCE.updateExperimentActiveFeatures(1, 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()));
+	}
+	
+	private void setExpDefs(String decompressedJson) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment == 0)
+			return;
+		Gson gson = new Gson();
+		ExperimentManager.INSTANCE.setExperimentDefs( 
+				(ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType()), true);
+		if(Minecraft.getMinecraft().currentScreen != null) {	//check to see if exp manager is open
+			if(Minecraft.getMinecraft().currentScreen instanceof GuiExperimentManager) {
+				((GuiExperimentManager)Minecraft.getMinecraft().currentScreen).forceUpdateExperiments(); //update current experiments in menu
+			}
+		}
+	}
+	
 	private void printBroadcastOnClient(EntityPlayer receivingPlayer, String username, String message) {
 
 		receivingPlayer.addChatMessage(new ChatComponentText("<" + username + "> " + message));
@@ -522,14 +691,32 @@ public class ClientEnforcer extends Enforcer {
 		return false;
 	}
 	
-	public void sendExperimentSelectionUpdate(String jsonData, int metadata) {
+	/**
+	 * Send Tutorial updates to server
+	 */
+	public void sendTutorialUpdatePackets(final String jsonStringToSend, int meta) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.Tutorial, meta, jsonStringToSend);
+		
+		if(packets != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packets) {
+				//System.out.println("Sending packet " + i++);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	
+	public void sendExperimentPacket(String jsonData, int metadata) {
 		FMLProxyPacket[] packetList = null;
-		packetList = getDataPackets(DataPacketType.Challenge, metadata, jsonData);
+		packetList = getDataPackets(DataPacketType.Experiment, metadata, jsonData);
 		System.out.println(packetList.toString());
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
-				System.out.println("Sending packet " + i);
+				//System.out.println("Sending packet " + i++);
 				netChannel.sendToServer(packet); 
 			}
 		}
@@ -543,7 +730,50 @@ public class ClientEnforcer extends Enforcer {
 		if(packetList != null) {
 			int i = 0;
 			for (final FMLProxyPacket packet : packetList) {
-				System.out.println("Sending packet " + i);
+				//System.out.println("Sending packet " + i++);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	
+	public void sendTutorialRequest() {
+		FMLProxyPacket[] packetList = null;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.JoinNew.ordinal(), gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending Tutorial request packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	public void sendActiveFeaturesRequest() {
+		FMLProxyPacket[] packetList = null;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.ActiveFeatures.ordinal(), gson.toJson(Minecraft.getMinecraft().thePlayer.getDisplayName()));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending Tutorial active features request packet " + i);
+				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+
+
+	public void sendGuiHalftimeUpdate(String[] answers) {
+		// TODO Auto-generated method stub
+		FMLProxyPacket[] packetList = null;
+		int flag = 1;
+		Gson gson = new Gson();
+		packetList = getDataPackets(DataPacketType.Halftime, flag, gson.toJson(answers));
+		if(packetList != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packetList) {
+				System.out.println("Sending packet " + i + " Halftime Answers");
 				netChannel.sendToServer(packet); 
 			}
 		}
@@ -637,6 +867,34 @@ public class ClientEnforcer extends Enforcer {
 					else if (showPrivateProperty) {
 						client.fontRenderer.drawStringWithShadow("Private Property - None", x, y, overlayColor);
 					}
+					if(showAIControls)
+					{
+						client.fontRenderer.drawStringWithShadow("AIControls Test", x, y, overlayColor);
+						if(behaviorAI==0)
+						{
+							client.ingameGUI.drawRect(x+6, y+14, x+26, y+34, 0x66CC0011);
+							
+							
+						}
+						if(behaviorAI==1)
+						{
+							client.ingameGUI.drawRect(x+38, y+14, x+58, y+34, 0x6611CC00);
+							//â˜¯
+						}
+						if(behaviorAI==2)
+						{
+							client.ingameGUI.drawRect(x+70, y+14, x+90, y+34, 0x660011CC);
+							//â™¥
+						}
+						
+						client.ingameGUI.drawRect(x+8, y+16, x+24, y+32, 0xFFCC0011);
+						client.ingameGUI.drawRect(x+40, y+16, x+56, y+32, 0xFF11CC00);
+						client.ingameGUI.drawRect(x+72, y+16, x+88, y+32, 0xFF0011CC);
+						
+						client.fontRenderer.drawStringWithShadow("☢",x+12, y+20,  0xFF000000);
+						client.fontRenderer.drawStringWithShadow("☯", x+44, y+20,  0xFF000000);
+						client.fontRenderer.drawStringWithShadow("♥", x+78, y+20,  0xFF000000);
+					}
 				}
 				else
 				{
@@ -654,8 +912,47 @@ public class ClientEnforcer extends Enforcer {
 		}
 	}
 
+	
+	public static boolean getShowTutorialRender() {
+		
+		return showTutorialRender;
+	}
+	
+	public static void setShowTutorialRender(boolean render) {
+		
+		showTutorialRender=render;
+	}
+	
 	public static boolean getShowPP() {
 		
 		return showPrivateProperty;
 	}
+	
+	public static boolean getShowAIC() {
+		
+		return showAIControls;
+	}
+
+	public void sendPlaceBlockPackets(final String jsonStringToSend, int meta) {
+		//TODO: add meta-data parsing.
+				FMLProxyPacket[] packets = null;
+				packets = getDataPackets(DataPacketType.PlaceBlock, meta, jsonStringToSend);
+				
+				if(packets != null) {
+					int i = 0;
+					for (final FMLProxyPacket packet : packets) {
+						System.out.println("Sending packet " + i);
+						netChannel.sendToServer(packet); 
+					}
+				}
+	}
+
+	public void placeBlock(int x, int y, int z, int blockID, int meta,EntityPlayer player, ItemStack itemStack) {
+		client.theWorld.setBlock(x, y, z, Block.getBlockById(blockID), meta, 2);
+		Block.getBlockById(blockID).onBlockPlacedBy(client.theWorld, x, y, z, player, itemStack);
+		Block.getBlockById(blockID).onPostBlockPlaced(client.theWorld, x, y, z, meta);
+	}
+	
+	
+	
 }
