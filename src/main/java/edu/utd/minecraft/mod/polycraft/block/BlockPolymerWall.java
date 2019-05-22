@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockWall;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,17 +30,17 @@ public class BlockPolymerWall extends BlockWall implements BlockBouncy {
 		this.helper = new BlockPolymerHelper(polymerWall.source.source.source, -1);
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int colorIndex) {
-		return helper.getIcon(side, colorIndex);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		helper.registerBlockIcons(p_149651_1_);
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int colorIndex) {
+//		return helper.getIcon(side, colorIndex);
+//	}
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister p_149651_1_) {
+//		helper.registerBlockIcons(p_149651_1_);
+//	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -59,40 +59,40 @@ public class BlockPolymerWall extends BlockWall implements BlockBouncy {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
-		helper.onBlockPlacedBy(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_, p_149689_6_);
+	public void onBlockPlacedBy(World p_149689_1_, BlockPos blockPos, IBlockState state, EntityLivingBase placer, ItemStack p_149689_6_) {
+		helper.onBlockPlacedBy(p_149689_1_, blockPos, state, placer, p_149689_6_);
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+	public Item getItemDropped(IBlockState state, Random p_149650_2_, int p_149650_3_) {
 		return PolycraftRegistry.getItem(polymerWall.itemWallName);
 	}
 
 	@Override
-	protected ItemStack createStackedBlock(int p_149644_1_) {
-		return new ItemStack(PolycraftRegistry.getItem(polymerWall.name), 2, p_149644_1_ & helper.colors.length);
+	protected ItemStack createStackedBlock(IBlockState state) {
+		return new ItemStack(PolycraftRegistry.getItem(polymerWall.name), 2, this.getMetaFromState(state) & helper.colors.length);
 	}
 
 	@Override
-	public int damageDropped(int p_149692_1_) {
+	public int damageDropped(IBlockState p_149692_1_) {
 		return helper.damageDropped(p_149692_1_);
 	}
 
-	@Override
-	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
-		super.dropBlockAsItem(world, x, y, z, itemstack);
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
-		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
-		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
-		return polycraftItemStack;
-
-	}
+//	@Override
+//	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+//		super.dropBlockAsItem(world, x, y, z, itemstack);
+//	}
+//
+//	@Override
+//	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+//	{
+//		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+//		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+//		return polycraftItemStack;
+//
+//	}
 
 	public String getUnlocalizedName(int colorIndex) {
 		return polymerWall.blockWallGameID + "." + colorIndex;

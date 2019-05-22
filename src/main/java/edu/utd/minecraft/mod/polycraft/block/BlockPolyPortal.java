@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.*;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -19,7 +21,6 @@ import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,9 +28,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEndPortal;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -37,17 +35,15 @@ import net.minecraftforge.common.DimensionManager;
 
 public class BlockPolyPortal extends BlockBreakable {
 	public final CustomObject config;
-	private IIcon icon;
 	private ArrayList<EntityPlayerMP> playersInteractedWith = new ArrayList<EntityPlayerMP>();
 	private int interactTickCooldown = 0;
 	
 	public BlockPolyPortal(CustomObject config) {
-		super("portal", Material.portal, false);
+		super( Material.portal, false);
 		this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
 		this.config=config;
 		this.setLightLevel(1.0F);
 		this.setTickRandomly(true);
-		this.setBlockName("Experiments Portal");
 	}
 
 	//@Override
@@ -64,9 +60,11 @@ public class BlockPolyPortal extends BlockBreakable {
 	 /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
+    public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, BlockPos blockPos)
     {
-    	int l = func_149999_b(p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_));
+    	//TODO: update to 1.8
+        /*
+        int l = func_149999_b(p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_));
 
         if (l == 0)
         {
@@ -98,7 +96,7 @@ public class BlockPolyPortal extends BlockBreakable {
             f1 = 0.5F;
         }
 
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);*/
     }
 
     /**
@@ -106,9 +104,9 @@ public class BlockPolyPortal extends BlockBreakable {
      * coordinates.  Args: blockAccess, x, y, z, side
      */
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
+    public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, BlockPos blockPos, EnumFacing facing)
     {
-    	return super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+    	return super.shouldSideBeRendered(p_149646_1_, blockPos, facing);
     	
 //        int i1 = 0;
 //
@@ -261,19 +259,19 @@ public class BlockPolyPortal extends BlockBreakable {
      * A randomly called display update to be able to add particles or other items for display
      */
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
+    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState state, Random p_149734_5_)
     {
 
         if (p_149734_5_.nextInt(100) == 0)
         {
-            world.playSound((double)p_149734_2_ + 0.5D, (double)p_149734_3_ + 0.5D, (double)p_149734_4_ + 0.5D, "portal.portal", 0.5F, p_149734_5_.nextFloat() * 0.4F + 0.8F, false);
+            world.playSound(blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, "portal.portal", 0.5F, p_149734_5_.nextFloat() * 0.4F + 0.8F, false);
         }
 
         for (int l = 0; l < 4; ++l)
         {
-            double d0 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-            double d1 = (double)((float)p_149734_3_ + p_149734_5_.nextFloat());
-            double d2 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+            double d0 = (double)((float)blockPos.getX() + p_149734_5_.nextFloat());
+            double d1 = (double)((float)blockPos.getY() + p_149734_5_.nextFloat());
+            double d2 = (double)((float)blockPos.getZ() + p_149734_5_.nextFloat());
             double d3 = 0.0D;
             double d4 = 0.0D;
             double d5 = 0.0D;
@@ -282,18 +280,18 @@ public class BlockPolyPortal extends BlockBreakable {
             d4 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
             d5 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
 
-            if (world.getBlock(p_149734_2_ - 1, p_149734_3_, p_149734_4_) != this && world.getBlock(p_149734_2_ + 1, p_149734_3_, p_149734_4_) != this)
+            if (world.getBlockState(blockPos.add(-1, 0, 0)).getBlock() != this && world.getBlockState(blockPos.add(1,0,0)).getBlock() != this)
             {
-                d0 = (double)p_149734_2_ + 0.5D + 0.25D * (double)i1;
+                d0 = (double)blockPos.getX() + 0.5D + 0.25D * (double)i1;
                 d3 = (double)(p_149734_5_.nextFloat() * 2.0F * (float)i1);
             }
             else
             {
-                d2 = (double)p_149734_4_ + 0.5D + 0.25D * (double)i1;
+                d2 = (double)blockPos.getZ() + 0.5D + 0.25D * (double)i1;
                 d5 = (double)(p_149734_5_.nextFloat() * 2.0F * (float)i1);
             }
 
-            world.spawnParticle("portal", d0, d1, d2, d3, d4, d5);
+            world.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
         }
     }
 
@@ -313,19 +311,19 @@ public class BlockPolyPortal extends BlockBreakable {
         return Item.getItemById(0);
     }
     
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int colorIndex) {
-		return this.blockIcon;
-	}
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_)
-    {
-    	this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("Poly_Portal")));
-
-        
-    }
+//    @Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int colorIndex) {
+//		return this.blockIcon;
+//	}
+//
+//    @SideOnly(Side.CLIENT)
+//    public void registerBlockIcons(IIconRegister p_149651_1_)
+//    {
+//    	this.blockIcon = p_149651_1_.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("Poly_Portal")));
+//
+//
+//    }
 
     public MapColor getMapColor(int p_149728_1_)
     {

@@ -4,12 +4,12 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -28,28 +28,28 @@ public class BlockFluid extends BlockFluidClassic {
 		super(fluid, material);
 	}
 
-	@SideOnly(Side.CLIENT)
-	protected IIcon[] theIcon;
+//	@SideOnly(Side.CLIENT)
+//	protected IIcon[] theIcon;
 	protected boolean flammable;
 	protected int flammability = 0;
 
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		return side != 0 && side != 1 ? this.theIcon[1] : this.theIcon[0];
-	}
+//	@Override
+//	public IIcon getIcon(int side, int meta) {
+//		return side != 0 && side != 1 ? this.theIcon[1] : this.theIcon[0];
+//	}
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister iconRegister) {
+//		this.theIcon = new IIcon[] { iconRegister.registerIcon(PolycraftMod.getAssetName(fluidName + "_still")), iconRegister.registerIcon(PolycraftMod.getAssetName(fluidName + "_flow")) };
+//	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.theIcon = new IIcon[] { iconRegister.registerIcon(PolycraftMod.getAssetName(fluidName + "_still")), iconRegister.registerIcon(PolycraftMod.getAssetName(fluidName + "_flow")) };
-	}
-
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		super.onNeighborBlockChange(world, x, y, z, block);
-		if (flammable && world.provider.dimensionId == -1) {
-			world.newExplosion(null, x, y, z, 4F, true, true);
-			world.setBlockToAir(x, y, z);
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block block) {
+		super.onNeighborBlockChange(world, pos, state, block);
+		if (flammable && world.provider.getDimensionId() == -1) {
+			world.newExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 4F, true, true);
+			world.setBlockToAir(pos);
 		}
 	}
 
@@ -64,22 +64,22 @@ public class BlockFluid extends BlockFluidClassic {
 	}
 
 	@Override
-	public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing facing) {
 		return flammable ? 300 : 0;
 	}
 
 	@Override
-	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing facing) {
 		return flammability;
 	}
 
 	@Override
-	public boolean isFlammable(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+	public boolean isFlammable(IBlockAccess world, BlockPos pos, EnumFacing facing) {
 		return flammable;
 	}
 
 	@Override
-	public boolean isFireSource(World world, int x, int y, int z, ForgeDirection side) {
+	public boolean isFireSource(World world,  BlockPos pos, EnumFacing facing) {
 		return flammable && flammability == 0;
 	}
 
@@ -92,14 +92,14 @@ public class BlockFluid extends BlockFluidClassic {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		super.randomDisplayTick(world, x, y, z, rand);
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		super.randomDisplayTick(world, pos, state, rand);
 
-		if (rand.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !world.getBlock(x, y - 2, z).getMaterial().blocksMovement()) {
+		if (rand.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(world, pos.down()) && !world.getBlockState(pos.down(2)).getBlock().getMaterial().blocksMovement()) {
 
-			double px = x + rand.nextFloat();
-			double py = y - 1.05D;
-			double pz = z + rand.nextFloat();
+			double px = pos.getX() + rand.nextFloat();
+			double py = pos.getY() - 1.05D;
+			double pz = pos.getZ() + rand.nextFloat();
 
 			EntityFX fx = new EntityDropParticleFX(world, px, py, pz, particleRed, particleGreen, particleBlue);
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
@@ -107,16 +107,16 @@ public class BlockFluid extends BlockFluidClassic {
 	}
 
 	@Override
-	public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
-		if (world.getBlock(x, y, z).getMaterial().isLiquid())
+	public boolean canDisplace(IBlockAccess world, BlockPos pos) {
+		if (world.getBlockState(pos).getBlock().getMaterial().isLiquid())
 			return false;
-		return super.canDisplace(world, x, y, z);
+		return super.canDisplace(world, pos);
 	}
 
 	@Override
-	public boolean displaceIfPossible(World world, int x, int y, int z) {
-		if (world.getBlock(x, y, z).getMaterial().isLiquid())
+	public boolean displaceIfPossible(World world, BlockPos pos) {
+		if (world.getBlockState(pos).getBlock().getMaterial().isLiquid())
 			return false;
-		return super.displaceIfPossible(world, x, y, z);
+		return super.displaceIfPossible(world, pos);
 	}
 }
