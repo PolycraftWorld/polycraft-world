@@ -50,7 +50,7 @@ public class EntityLightningAttack extends EntityLightningBolt {
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 2.0F,
 					0.5F + this.rand.nextFloat() * 0.2F);
 			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this,
-					AxisAlignedBB.getBoundingBox(this.posX - radius, this.posY, this.posZ - radius, this.posX + radius,
+					AxisAlignedBB.fromBounds(this.posX - radius, this.posY, this.posZ - radius, this.posX + radius,
 							this.posY + height, this.posZ + radius));
 			for (int i = 0; i < list.size(); i++) {
 				Entity entity = (Entity) list.get(i);

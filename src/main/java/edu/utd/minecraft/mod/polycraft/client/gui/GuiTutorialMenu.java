@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ public class GuiTutorialMenu extends GuiScreen{
 	
 	private static final Logger logger = LogManager.getLogger();
 	private static final ResourceLocation BACKGROUND_IMAGE = new ResourceLocation(
-			PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+			PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
 	private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
 	
@@ -97,8 +98,9 @@ public class GuiTutorialMenu extends GuiScreen{
 	}
 	/**
 	 * Handles mouse wheel scrolling.
+	 * @throws IOException 
 	 */
-	public void handleMouseInput() {
+	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		int i = Mouse.getEventDWheel();
 		if (i != 0 && extraLines > 0) {

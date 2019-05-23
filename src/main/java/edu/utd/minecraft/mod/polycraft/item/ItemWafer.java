@@ -24,10 +24,10 @@ public class ItemWafer extends Item implements PolycraftItem, PolycraftWaferItem
 	public ItemWafer(final WaferItem waferItem) {
 		Preconditions.checkNotNull(waferItem);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		if (waferItem.loadCustomTexture)
-			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(WaferItem.class.getSimpleName() + "_" + waferItem.name)));
-		else
-			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(WaferItem.class.getSimpleName())));// + "_" + waferItem.source.name)));
+//		if (waferItem.loadCustomTexture)
+//			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(WaferItem.class.getSimpleName() + "_" + waferItem.name)));
+//		else
+//			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(WaferItem.class.getSimpleName())));// + "_" + waferItem.source.name)));
 		//		if (waferItem.maxStackSize > 0)
 		//			this.setMaxStackSize(waferItem.maxStackSize);
 		this.waferItem = waferItem;

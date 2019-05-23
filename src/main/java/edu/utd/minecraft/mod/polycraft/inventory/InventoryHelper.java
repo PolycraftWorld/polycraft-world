@@ -12,6 +12,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.pump.PumpInventory.FlowNetwork.
 import edu.utd.minecraft.mod.polycraft.inventory.solararray.SolarArrayInventory;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
+import net.minecraft.util.EnumFacing;
 
 public class InventoryHelper {
 	
@@ -38,7 +39,7 @@ public class InventoryHelper {
 		return entity;
 	}
 
-	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, int side, int size) {
+	public static boolean transfer(IInventory target, IInventory source, int sourceSlotIndex, EnumFacing facing, int size) {
 		ItemStack itemstack = source.getStackInSlot(sourceSlotIndex);
 
 		if (itemstack != null)
@@ -52,9 +53,9 @@ public class InventoryHelper {
 			//if (!((ContactPrinterInventory) target).itemInCorrectSlot(itemstack, sourceSlotIndex)) //this should only push to specific input slots slots (may need to extend to other inventories)
 			//return false;
 
-			if ((!(source instanceof ISidedInventory) || ((ISidedInventory) source).canExtractItem(sourceSlotIndex, itemstack, side))) {
+			if ((!(source instanceof ISidedInventory) || ((ISidedInventory) source).canExtractItem(sourceSlotIndex, itemstack, facing))) {
 				ItemStack itemstack1 = itemstack.copy();
-				ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, size), -1);
+				ItemStack itemstack2 = transferItemToNextValidSlot(target, source.decrStackSize(sourceSlotIndex, size), EnumFacing.DOWN);
 
 				if (itemstack2 == null || itemstack2.stackSize == 0)
 				{
@@ -118,7 +119,7 @@ public class InventoryHelper {
 					if (sourceItemStack.hasTagCompound())
 					{
 						PolycraftItemHelper.createTagCompound(targetItemStack);
-						targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+						targetItemStack.setTagCompound(sourceItemStack.getTagCompound());
 					}
 					sourceItemStack.stackSize = sourceItemStack.stackSize - targetItemStack.stackSize;
 					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
@@ -135,7 +136,7 @@ public class InventoryHelper {
 					if (sourceItemStack.hasTagCompound())
 					{
 						PolycraftItemHelper.createTagCompound(targetItemStack);
-						targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+						targetItemStack.setTagCompound(sourceItemStack.getTagCompound());
 					}
 					sourceItemStack = null;
 					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
@@ -191,7 +192,7 @@ public class InventoryHelper {
 					if (sourceItemStack.hasTagCompound())
 					{
 						PolycraftItemHelper.createTagCompound(targetItemStack);
-						targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+						targetItemStack.setTagCompound(sourceItemStack.getTagCompound());
 					}
 
 					sourceItemStack.stackSize--;
@@ -204,9 +205,9 @@ public class InventoryHelper {
 					if (sourceItemStack.hasTagCompound())
 					{
 						PolycraftItemHelper.createTagCompound(splitStack);
-						splitStack.stackTagCompound = sourceItemStack.getTagCompound();
+						splitStack.setTagCompound(sourceItemStack.getTagCompound());
 					}
-					transferItemToNextValidSlot(source, splitStack, 0); //transfers the remainder into the next open slot in the source
+					transferItemToNextValidSlot(source, splitStack, EnumFacing.DOWN); //transfers the remainder into the next open slot in the source
 
 					target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
 				}
@@ -226,9 +227,9 @@ public class InventoryHelper {
 						if (sourceItemStack.hasTagCompound())
 						{
 							PolycraftItemHelper.createTagCompound(splitStack);
-							splitStack.stackTagCompound = sourceItemStack.getTagCompound();
+							splitStack.setTagCompound(sourceItemStack.getTagCompound());
 						}
-						transferItemToNextValidSlot(source, splitStack, 0); //transfers the remainder into the next open slot in the source					
+						transferItemToNextValidSlot(source, splitStack, EnumFacing.DOWN); //transfers the remainder into the next open slot in the source
 						targetItemStack.stackSize = targetItemStack.getMaxStackSize();
 						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
 					}
@@ -241,7 +242,7 @@ public class InventoryHelper {
 						if (sourceItemStack.hasTagCompound())
 						{
 							PolycraftItemHelper.createTagCompound(targetItemStack);
-							targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+							targetItemStack.setTagCompound(sourceItemStack.getTagCompound());
 						}
 						target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
 					}
@@ -261,7 +262,7 @@ public class InventoryHelper {
 				if (sourceItemStack.hasTagCompound())
 				{
 					PolycraftItemHelper.createTagCompound(targetItemStack);
-					targetItemStack.stackTagCompound = sourceItemStack.getTagCompound();
+					targetItemStack.setTagCompound(sourceItemStack.getTagCompound());
 				}
 				sourceItemStack = null;
 				target.inventory.setInventorySlotContents(targetSlotIndex, targetItemStack);
@@ -298,20 +299,20 @@ public class InventoryHelper {
 
 	}
 
-	private static ItemStack transferItemToNextValidSlot(IInventory target, ItemStack itemStack, int side) {
-		if (target instanceof ISidedInventory && side > -1) {
+	private static ItemStack transferItemToNextValidSlot(IInventory target, ItemStack itemStack, EnumFacing facing) {
+		if (target instanceof ISidedInventory && facing.getIndex() > -1) {
 			ISidedInventory isidedinventory = (ISidedInventory) target;
-			int[] aint = isidedinventory.getAccessibleSlotsFromSide(side);
+			int[] aint = isidedinventory.getSlotsForFace(facing);
 
 			for (int l = 0; l < aint.length && itemStack != null && itemStack.stackSize > 0; ++l) {
-				itemStack = func_145899_c(target, itemStack, aint[l], side);
+				itemStack = func_145899_c(target, itemStack, aint[l], facing.getIndex());
 			}
 		}
 		else {
 			int j = target.getSizeInventory();
 
 			for (int k = 0; k < j && itemStack != null && itemStack.stackSize > 0; ++k) {
-				itemStack = func_145899_c(target, itemStack, k, side);
+				itemStack = func_145899_c(target, itemStack, k, facing.getIndex());
 			}
 		}
 
@@ -367,7 +368,7 @@ public class InventoryHelper {
 	}
 
 	private static boolean func_145885_a(IInventory p_145885_0_, ItemStack p_145885_1_, int p_145885_2_, int p_145885_3_) {
-		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, p_145885_3_);
+		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, EnumFacing.getFront(p_145885_3_));
 	}
 
 	private static boolean func_145894_a(ItemStack p_145894_0_, ItemStack p_145894_1_) {

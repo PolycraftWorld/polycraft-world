@@ -1,17 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.client.gui.experiment;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraftforge.fml.client.config.GuiSlider;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
-import cpw.mods.fml.client.config.GuiSlider;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
@@ -38,7 +38,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	private final GuiScreen gui;
 	private final Minecraft minecraft;
 	private static final ResourceLocation BACKGROUND_IMAGE = new ResourceLocation(
-			PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+			PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
 	
 	private final ArrayList<GuiListExtended.IGuiListEntry> experiments;
 	private int maxStringLength = 0; //used during rendering to "left-justify" all parameter names
@@ -157,13 +157,13 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	@Override
 	protected void drawSelectionBox(int xPos, int yPos, int mouseX, int mouseY) {
 		int totalRows = this.getSize();
-		Tessellator tessellator = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
 		
 		for (int rowIterator = 0; rowIterator < totalRows; rowIterator++) {
 			int curRow = yPos + rowIterator * this.slotHeight + this.headerPadding +10;
 			
 			if(curRow < this.bottom - this.slotHeight && curRow > this.top) {
-				this.drawSlot(rowIterator, xPos, curRow, 0, tessellator, mouseX, mouseY);
+				this.drawSlot(rowIterator, xPos, curRow, 0, mouseX, mouseY);
 			}
 		}
 	}
@@ -171,19 +171,20 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	/**
      * Overlays the background to hide scrolled items
      */
-    private void overlayBackground(int p_148136_1_, int p_148136_2_, int p_148136_3_, int p_148136_4_)
+	protected void overlayBackground(int p_148136_1_, int p_148136_2_, int p_148136_3_, int p_148136_4_)
     {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         this.minecraft.getTextureManager().bindTexture(Gui.optionsBackground);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         float f = 32.0F;
-        tessellator.startDrawingQuads();
-        tessellator.setColorRGBA_I(4210752, p_148136_4_);
-        tessellator.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
-        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
-        tessellator.setColorRGBA_I(4210752, p_148136_3_);
-        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_1_ / f));
-        tessellator.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / f));
+        //TODO: update rendering for 1.8
+//        tessellator.startDrawingQuads();
+//        tessellator.setColorRGBA_I(4210752, p_148136_4_);
+//        tessellator.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
+//        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
+//        tessellator.setColorRGBA_I(4210752, p_148136_3_);
+//        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_1_ / f));
+//        tessellator.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / f));
         tessellator.draw();
     }
     
@@ -217,7 +218,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
     	if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
     		//check to see if the mouse has been clicked.
-            if (Mouse.isButtonDown(0) && this.func_148125_i())
+            if (Mouse.isButtonDown(0) && this.getEnabled())
             {
             	//check to see where the mouse is.
             	 if (mouseY >= this.top && mouseY <= this.bottom)
@@ -294,7 +295,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
         
         if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
-            if (Mouse.isButtonDown(0) && this.func_148125_i())
+            if (Mouse.isButtonDown(0) && this.getEnabled())
             {
                 if (this.initialClickY == -1.0F)
                 {
@@ -371,33 +372,38 @@ public class GuiExperimentManagerList extends GuiListExtended {
             }
             else
             {
-                for (; !this.minecraft.gameSettings.touchscreen && Mouse.next(); this.minecraft.currentScreen.handleMouseInput())
-                {
-                    int j1 = Mouse.getEventDWheel();
+            	try {
+					for (; !this.minecraft.gameSettings.touchscreen && Mouse.next(); this.minecraft.currentScreen.handleMouseInput())
+					{
+						int j1 = Mouse.getEventDWheel();
 
-                    if (j1 != 0)
-                    {
-                        if (j1 > 0)
-                        {
-                            j1 = -1;
-                        }
-                        else if (j1 < 0)
-                        {
-                            j1 = 1;
-                        }
+						if (j1 != 0)
+						{
+							if (j1 > 0)
+							{
+								j1 = -1;
+							}
+							else if (j1 < 0)
+							{
+								j1 = 1;
+							}
 
-                        this.amountScrolled += (float)(j1 * this.slotHeight / 2);
-                    }
-                }
+							this.amountScrolled += (float)(j1 * this.slotHeight / 2);
+						}
+					}
 
-                this.initialClickY = -1.0F;
+					this.initialClickY = -1.0F;
+				}catch (IOException e){
+            		e.printStackTrace();
+				}
+
             }
         }
 
         this.bindAmountScrolled();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_FOG);
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         //drawContainerBackground(tessellator);
         l1 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
         i2 = this.top + 4 - (int)this.amountScrolled;
@@ -431,7 +437,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	
 	
 	@Override
-	public int func_148124_c(int mouseX, int mouseY)
+	public int getSlotIndexFromScreenCoords(int mouseX, int mouseY)
     {
         int k = this.left + this.width / 2 - this.getListWidth() / 2;
         int l = this.left + this.width / 2 + this.getListWidth() / 2;
@@ -452,7 +458,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	/**
 	 * Stop the thing from scrolling out of bounds
 	 */
-	private void bindAmountScrolled()
+	protected void bindAmountScrolled()
 	{
 	    int i = this.func_148135_f();
 	
@@ -530,17 +536,22 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		
 		public ConfigHeader(String name) {
 			this.headerName = I18n.format(name, new Object[0]);
-			this.width = GuiExperimentManagerList.this.minecraft.fontRenderer.getStringWidth(headerName);
+			this.width = GuiExperimentManagerList.this.minecraft.fontRendererObj.getStringWidth(headerName);
+		}
+
+		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+
 		}
 
 		@Override
 		public void drawEntry(int p_148279_1_, int p_148279_2_, int yStart, int p_148279_4_, int p_148279_5_,
-				Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_) {
+				int p_148279_7_, int p_148279_8_, boolean p_148279_9_) {
 			//Your guess is as good as mine - I am not patient in figuring out those variables.
 			//I think p_.._3 and p_.._5 have to do with the y height and scroll position.
-			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(this.headerName,
+			GuiExperimentManagerList.this.minecraft.fontRendererObj.drawString(this.headerName,
 					GuiExperimentManagerList.this.minecraft.currentScreen.width / 2 - this.width / 2,  
-					yStart + GuiExperimentManagerList.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2, 
+					yStart + GuiExperimentManagerList.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2,
 					Format.getIntegerFromColor(new Color(0,0,0)));
 			
 		}
@@ -566,7 +577,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	 * A String {@link #parameterName}, a Slider with Associated Bounds {@link #slider}, and a 
 	 * button to reset the slider {@link #reset}
 	 * 
-	 * This object is created from the {@link ExperimentParameter} object that is passed into this 
+	 * This object is created from the {link ExperimentParameter} object that is passed into this
 	 * object by GuiExperimentList, depending on what experiment the user selects.
 	 * @author dxn140130
 	 *
@@ -599,16 +610,16 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			this.defaultValue = defaultValue;
 			this.slider = new GuiSlider(0, 0, 0, SLIDER_WIDTH, HEIGHT, "", "", minVal, maxVal, defaultValue, false, true, null);
 			this.reset = new GuiButton(0, 0, 0, RESET_WIDTH, HEIGHT, "\u23ce");
-			this.parameterName = GuiExperimentManagerList.this.minecraft.fontRenderer.trimStringToWidth(this.parameterName, GuiExperimentManagerList.this.width/2 + 5);
+			this.parameterName = GuiExperimentManagerList.this.minecraft.fontRendererObj.trimStringToWidth(this.parameterName, GuiExperimentManagerList.this.width/2 + 5);
 		}
 
 		@Override
-		public void drawEntry(int p_148279_1_, int what, int yStart, int p_148279_4_, int p_148279_5_,
-				Tessellator p_148279_6_, int mouseX, int mouseY, boolean p_148279_9_) {
+		public void drawEntry(int slotIndex, int x, int yStart, int listWidth, int slotHeight,
+				int mouseX, int mouseY, boolean p_148279_9_) {
 			// draw each ConfigSlider entity on a row.
 			int xStart = GuiExperimentManagerList.this.left;
-			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(this.parameterName, xStart,
-					yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+			GuiExperimentManagerList.this.minecraft.fontRendererObj.drawString(this.parameterName, xStart,
+					yStart + slotHeight / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			
 			
 			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
@@ -617,13 +628,18 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			int x_offset = 95;
 			
 			this.slider.xPosition = xStart + x_offset;
-			this.slider.yPosition = yStart - GuiExperimentManagerList.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.slider.yPosition = yStart - GuiExperimentManagerList.this.SLOT_HEIGHT/4 + slotHeight / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.slider.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
 			this.reset.enabled = this.slider.getValue() != this.defaultValue; //disable reset if the slider is at its default.
 			this.reset.xPosition = xStart + x_offset + SLIDER_WIDTH + 5;
-			this.reset.yPosition = yStart - GuiExperimentManagerList.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.reset.yPosition = yStart - GuiExperimentManagerList.this.SLOT_HEIGHT/4 + slotHeight / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.reset.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
 			
+		}
+
+		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+
 		}
 
 		@Override
@@ -668,10 +684,10 @@ public class GuiExperimentManagerList extends GuiListExtended {
 	
 	/**
 	 * This describes a generic ConfigSlider object that contains 3 elements: 
-	 * A String {@link #parameterName}, a Slider with Associated Bounds {@link #slider}, and a 
-	 * button to reset the slider {@link #reset}
+	 * A String {link #parameterName}, a Slider with Associated Bounds {link #slider}, and a
+	 * button to reset the slider {link #reset}
 	 * 
-	 * This object is created from the {@link ExperimentParameter} object that is passed into this 
+	 * This object is created from the {link ExperimentParameter} object that is passed into this
 	 * object by GuiExperimentList, depending on what experiment the user selects.
 	 * @author dxn140130
 	 *
@@ -691,10 +707,6 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		
 		/**
 		 * Create a Config Slider GuiSlot
-		 * @param name 			Name of Parameter to be varied
-		 * @param defaultValue 	default (server-saved) value of the parameter
-		 * @param minVal		minimum Slider Value
-		 * @param maxVal		maximum Slider Value
 		 */
 		public ConfigExperiment(ExperimentDef expDef, int index, boolean isLast) {
 			this.expDef = expDef;
@@ -704,7 +716,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			this.params = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u2261");
 			this.delete = new GuiButton(3, 0, 0, B_WIDTH, HEIGHT, "\u00A74X");
 			this.enable = new GuiButton(2, 0, 0, B_WIDTH, HEIGHT, "\u2714");
-			text =  new GuiTextField(GuiExperimentManagerList.this.minecraft.fontRenderer, GuiExperimentManagerList.this.left + 2, 8, SLIDER_WIDTH, GuiExperimentManagerList.SLOT_HEIGHT - 12);
+			text =  new GuiTextField(300, GuiExperimentManagerList.this.minecraft.fontRendererObj, GuiExperimentManagerList.this.left + 2, 8, SLIDER_WIDTH, GuiExperimentManagerList.SLOT_HEIGHT - 12);
 			text.setMaxStringLength(32);
 			text.setText(expDef.getName());
 			text.setTextColor(16777215);
@@ -714,15 +726,20 @@ public class GuiExperimentManagerList extends GuiListExtended {
 		}
 
 		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+
+		}
+
+		@Override
 		public void drawEntry(int p_148279_1_, int what, int yStart, int p_148279_4_, int p_148279_5_,
-				Tessellator p_148279_6_, int mouseX, int mouseY, boolean p_148279_9_) {
+				int mouseX, int mouseY, boolean p_148279_9_) {
 			// draw each ConfigSlider entity on a row.
 			int xStart = GuiExperimentManagerList.this.left;
 			GuiExperimentManagerList.this.gui.drawRect(xStart, yStart - 10, xStart + SLIDER_WIDTH + B_WIDTH * 4 + 48, yStart + GuiExperimentManagerList.SLOT_HEIGHT - 12, 0x50303030);
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
-			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString("id: " + expDef.id + " | players per team: " + expDef.playersPerTeam + " | teams: " + expDef.teamCount, xStart*2 + 4,
-					(yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2 + 10) *2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+			GuiExperimentManagerList.this.minecraft.fontRendererObj.drawString("id: " + expDef.id + " | players per team: " + expDef.playersPerTeam + " | teams: " + expDef.teamCount, xStart*2 + 4,
+					(yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2 + 10) *2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			GL11.glScalef(2F, 2F, 2F);
 			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
 			//		yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
@@ -730,13 +747,13 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			int x_offset = 35;
 			
 			this.config.xPosition = xStart + x_offset + SLIDER_WIDTH + 5;
-			this.config.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.config.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.config.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
 			this.params.xPosition = this.config.xPosition + B_WIDTH + 2;
-			this.params.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.params.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.params.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
 			this.delete.xPosition = this.params.xPosition + B_WIDTH + 2;
-			this.delete.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.delete.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.delete.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
 			List list = new ArrayList();
 			if(expDef.isEnabled) {
@@ -748,15 +765,15 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			}
 			
 			this.enable.xPosition = this.delete.xPosition + B_WIDTH + 2;
-			this.enable.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.enable.yPosition = yStart - (GuiExperimentManagerList.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.enable.drawButton(GuiExperimentManagerList.this.minecraft, mouseX, mouseY);
-			if(this.enable.getHoverState(this.enable.func_146115_a()) == 2) {
+			if(this.enable.isMouseOver()) {
 				
-				((GuiExperimentManager)GuiExperimentManagerList.this.gui).drawHoveringText(list, (int)mouseX, (int)mouseY, GuiExperimentManagerList.this.minecraft.fontRenderer);
+				((GuiExperimentManager)GuiExperimentManagerList.this.gui).drawHoveringText(list, (int)mouseX, (int)mouseY, GuiExperimentManagerList.this.minecraft.fontRendererObj);
 			}
 			
-			GuiExperimentManagerList.this.minecraft.fontRenderer.drawString(expDef.getName(), xStart + 2,
-					yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRenderer.FONT_HEIGHT / 2 - 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+			GuiExperimentManagerList.this.minecraft.fontRendererObj.drawString(expDef.getName(), xStart + 2,
+					yStart + p_148279_5_ / 2 - GuiExperimentManagerList.this.minecraft.fontRendererObj.FONT_HEIGHT / 2 - 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			
 		}
 		
@@ -776,7 +793,7 @@ public class GuiExperimentManagerList extends GuiListExtended {
 			//System.out.println("Slider Changed: " + this.parameterName);
 			if(this.delete.mousePressed(GuiExperimentManagerList.this.minecraft, mouseX, mouseY)) {
 				ExperimentManager.INSTANCE.sendExpDefUpdate(expDef.getID(), expDef, true);
-				ExperimentManager.INSTANCE.requestExpDefs(Minecraft.getMinecraft().thePlayer.getDisplayName());
+				ExperimentManager.INSTANCE.requestExpDefs(Minecraft.getMinecraft().thePlayer.getDisplayNameString());
 				GuiExperimentManagerList.this.updateExperiments();
 				this.hasChanged = true;
 				return true;

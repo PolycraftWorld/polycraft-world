@@ -2,15 +2,16 @@ package edu.utd.minecraft.mod.polycraft.block;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,9 +24,10 @@ public class BlockPolymerBrickHelper {
 	private static final LabelTexture[] labelTextureTop = new LabelTexture[16];
 	private static final LabelTexture[] labelTextureBottom = new LabelTexture[16];
 	private static final LabelTexture[] labelTextureSides = new LabelTexture[16];
+	private static final Random rand = new Random();
 
-	public static final String[] colors = ItemDye.field_150921_b;
-	private static final IIcon[] colorIconList = new IIcon[colors.length];
+	public static final String[] colors = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
+//	private static final IIcon[] colorIconList = new IIcon[colors.length];
 	private static final String[] colorDisplayNames = new String[colors.length];
 	static {
 		for (int i = 0; i < colors.length; i++) {
@@ -66,26 +68,26 @@ public class BlockPolymerBrickHelper {
 		this.subBrick = subBrick;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int colorIndex) {
-		if (onlyColor > -1)
-			return labelTextureSides[onlyColor].getIcon(side, onlyColor);
-		if (side == LabelTexture.SIDE_BOTTOM && labelTextureBottom != null)
-			return labelTextureBottom[colorIndex].getIcon(side, colorIndex % colorIconList.length);
-		if (side == LabelTexture.SIDE_TOP && labelTextureTop != null)
-			return labelTextureTop[colorIndex].getIcon(side, colorIndex % colorIconList.length);
-		return labelTextureSides[colorIndex].getIcon(side, colorIndex % colorIconList.length);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		for (LabelTexture lt : labelTextureSides)
-			lt.registerBlockIcons(p_149651_1_);
-		for (LabelTexture lt : labelTextureTop)
-			lt.registerBlockIcons(p_149651_1_);
-		for (LabelTexture lt : labelTextureBottom)
-			lt.registerBlockIcons(p_149651_1_);
-	}
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int colorIndex) {
+//		if (onlyColor > -1)
+//			return labelTextureSides[onlyColor].getIcon(side, onlyColor);
+//		if (side == LabelTexture.SIDE_BOTTOM && labelTextureBottom != null)
+//			return labelTextureBottom[colorIndex].getIcon(side, colorIndex % colorIconList.length);
+//		if (side == LabelTexture.SIDE_TOP && labelTextureTop != null)
+//			return labelTextureTop[colorIndex].getIcon(side, colorIndex % colorIconList.length);
+//		return labelTextureSides[colorIndex].getIcon(side, colorIndex % colorIconList.length);
+//	}
+//
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister p_149651_1_) {
+//		for (LabelTexture lt : labelTextureSides)
+//			lt.registerBlockIcons(p_149651_1_);
+//		for (LabelTexture lt : labelTextureTop)
+//			lt.registerBlockIcons(p_149651_1_);
+//		for (LabelTexture lt : labelTextureBottom)
+//			lt.registerBlockIcons(p_149651_1_);
+//	}
 
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
@@ -112,21 +114,21 @@ public class BlockPolymerBrickHelper {
 		return .8f;
 	}
 
-	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
-		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, p_149689_6_.getItemDamage(), 3);
+	public void onBlockPlacedBy(World world, BlockPos blockPos, IBlockState state, EntityLivingBase placer, ItemStack p_149689_6_) {
+		world.setBlockState(blockPos, state, 3);
 	}
 	
-	public ArrayList<ItemStack> getDrops(Block block, World world, int x, int y, int z, int metadata, int fortune)
+	public ArrayList<ItemStack> getDrops(Block block, BlockPos blockPos, IBlockState state, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 
-        int count = block.quantityDropped(metadata, fortune, world.rand);
+        int count = block.quantityDropped(state, fortune, rand);
         for(int i = 0; i < count; i++)
         {
-            Item item = block.getItemDropped(metadata, world.rand, fortune);
+            Item item = block.getItemDropped(state, rand, fortune);
             if (item != null)
             {
-            	final ItemStack itemStack = new ItemStack(item, 1, damageDropped(metadata));
+            	final ItemStack itemStack = new ItemStack(item, 1, block.getMetaFromState(state));
             	PolycraftRecipeManager.markItemStackAsFromPolycraftRecipe(itemStack);
                 ret.add(itemStack);
             }

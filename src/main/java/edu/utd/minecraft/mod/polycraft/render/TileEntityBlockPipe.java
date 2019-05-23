@@ -33,7 +33,7 @@ public class TileEntityBlockPipe extends TileEntity{
 		
 		TileEntityBlockPipe.config = pipeConfig;
 		final BlockPipe bp = new BlockPipe(pipeConfig);
-		BlockPipeRenderingHandler bprh = new BlockPipeRenderingHandler(pipeConfig);
+		//BlockPipeRenderingHandler bprh = new BlockPipeRenderingHandler(pipeConfig);
 		
 		PolycraftRegistry.registerBlockWithItem(pipeConfig.gameID, pipeConfig.name, bp, pipeConfig.itemID, pipeConfig.itemName, ItemBlockPipe.class, new Object[]{});
 		

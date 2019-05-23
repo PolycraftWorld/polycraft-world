@@ -34,7 +34,6 @@ import edu.utd.minecraft.mod.polycraft.util.PlayerHalfTimeGUIEvent;
 import edu.utd.minecraft.mod.polycraft.util.Analytics.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -49,11 +48,11 @@ public class GuiHalftime extends GuiScreen{
 	
 	private static final Logger logger = LogManager.getLogger();
 	private static final ResourceLocation BACKGROUND_IMAGE = new ResourceLocation(
-			PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+			PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
 	private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
 	private static final String HALFTIME_TEXT = "assets/polycraft/textures/gui/GuiHalftimeDisplayText.txt";
-	private static final ResourceLocation HALFTIME_TEXT_LOC = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/GuiHalftimeDisplayText.txt"));
+	private static final ResourceLocation HALFTIME_TEXT_LOC = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/GuiHalftimeDisplayText.txt"));
 
 	private ArrayList<String> lines; // The text to show, broken up by line.
 	private int ylines; // The number of lines the text space can accommodate.
@@ -115,7 +114,7 @@ public class GuiHalftime extends GuiScreen{
 		// 56, 114, 20, "Next >"));
 		this.buttonList.add(new GuiButton(4, this.width / 2 - 116, this.height / 2 + 56, 103, 20, "< Back"));
 		this.buttonList.add(new GuiButton(5, this.width / 2 - 9, this.height / 2 + 56, 103, 20, "Next >"));
-		answer = new GuiTextField(this.fontRendererObj, this.width / 2 - 116, this.height / 2 - 12, 210,
+		answer = new GuiTextField(200, this.fontRendererObj, this.width / 2 - 116, this.height / 2 - 12, 210,
 				this.fontRendererObj.FONT_HEIGHT);
 		answer.setMaxStringLength(16);
 		answer.setTextColor(16777215);
@@ -407,7 +406,7 @@ public class GuiHalftime extends GuiScreen{
 		/**
 		 * Handles mouse wheel scrolling.
 		 */
-		public void handleMouseInput() {
+		public void handleMouseInput() throws IOException {
 			super.handleMouseInput();
 			int i = Mouse.getEventDWheel();
 			if (i != 0 && extraLines > 0) {
@@ -446,7 +445,7 @@ public class GuiHalftime extends GuiScreen{
 			answers[1] = ClientScoreboard.getCurrentTeam().getName();
 			System.out.println("Halftime GUI Closed");
 			//send packet to server
-			answers[0] = Minecraft.getMinecraft().thePlayer.getDisplayName();
+			answers[0] = Minecraft.getMinecraft().thePlayer.getDisplayNameString();
 			//EntityClientPlayerMP player2 = Minecraft.getMinecraft().thePlayer;
 			//EntityPlayer player1 = getPlayer(Minecraft.getMinecraft().thePlayer.getDisplayName());
 			ClientEnforcer.INSTANCE.sendGuiHalftimeUpdate(answers);

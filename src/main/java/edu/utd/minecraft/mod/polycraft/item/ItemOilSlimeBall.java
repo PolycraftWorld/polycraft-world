@@ -15,7 +15,7 @@ public class ItemOilSlimeBall extends ItemCustom{
 	
 	public ItemOilSlimeBall(final CustomObject config, String iconName) {
 		super(config);
-		this.setTextureName(PolycraftMod.getAssetName(iconName));
+		//this.setTextureName(PolycraftMod.getAssetName(iconName));
 		this.setCreativeTab(CreativeTabs.tabMisc);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

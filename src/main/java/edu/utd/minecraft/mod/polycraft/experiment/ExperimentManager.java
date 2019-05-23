@@ -69,7 +69,7 @@ public class ExperimentManager {
 	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
 	private static Hashtable<Integer, ExperimentDef> experimentDefinitions;	//table of all available defined experiments with set parameters
 	
-	private List<EntityPlayer> globalPlayerList;
+	private List<EntityPlayerMP> globalPlayerList;
 	public static ArrayList<ExperimentListMetaData> metadata = new ArrayList<ExperimentListMetaData>(); 
 	public int clientCurrentExperiment = -1; //Variable held in the static instance for memory purposes. In the future, this may need to be moved somewhere else
 	
@@ -366,7 +366,7 @@ public class ExperimentManager {
 				EntityPlayerMP playerEntity = (EntityPlayerMP) player;
 				playerEntity.addChatMessage(new ChatComponentText("Experiment is no longer available"));
 			}else {
-				if(ex.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+				if(ex.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
 					EntityPlayerMP playerEntity = (EntityPlayerMP) player;
 					playerEntity.addChatMessage(new ChatComponentText("Experiment Complete. Teleporting to Winner's Podium"));
 					playerEntity.mcServer.getConfigurationManager().transferPlayerToDimension(playerEntity, 0,	new PolycraftTeleporter(playerEntity.mcServer.worldServerForDimension(0), -16, 71, 10));
@@ -512,7 +512,7 @@ public class ExperimentManager {
 			String experimentUpdates;
 			
 			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray because converting with just Gson fails on receiving end
-			tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayName());
+			tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayNameString());
 			CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
 			experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
 			if(removeExpDef) {
@@ -558,7 +558,6 @@ public class ExperimentManager {
 
 	/**
 	 * Used to update Experiment definition on Server side from client
-	 * @param expDefIndex
 	 * @param featuresStream
 	 * @param removeExpDef
 	 */
@@ -596,7 +595,6 @@ public class ExperimentManager {
 	
 	/**
 	 * Used to update all Experiment definitions on client side from server
-	 * @param expDefIndex
 	 * @param expDefsStream
 	 * @param isRemote
 	 */
@@ -681,8 +679,8 @@ public class ExperimentManager {
 	 * A static arraylist of this class, called #metadata is transferred between Server & Client
 	 * for synchronization. This contains relevant, condensed information enabling efficient info
 	 * transfer across the network. 
-	 * The information is fired from {@link #ExperimentManager.sendExperimentUpdates} and received by
-	 * {@link #ClientEnforcer}. It is currently rendered on {@link #GuiExperimentList}
+	 * The information is fired from {link #ExperimentManager.sendExperimentUpdates} and received by
+	 * {link #ClientEnforcer}. It is currently rendered on {link #GuiExperimentList}
 	 * @author dnarayanan
 	 *
 	 */
@@ -767,7 +765,7 @@ public class ExperimentManager {
 	/**
 	 * This class contains a request from the Client to the Server of a player wanting to join
 	 * or of a player wanting to be removed from a particular experiment list.
-	 * this is transmitted through the network (fired currently from {@link GuiExperimentList} and received
+	 * this is transmitted through the network (fired currently from {link GuiExperimentList} and received
 	 * by {@link ServerEnforcer}).
 	 * @author dnarayanan
 	 *

@@ -83,7 +83,7 @@ public class PolycraftRecipeManager {
 				// Flag this result item as being processed by the PolycraftRecipeManager.  This way the
 				// onItemCraftedEvent callback can recognize it.
 				ItemStack item = outputs.iterator().next().itemStack.copy();
-				if (item.stackTagCompound == null) {
+				if (item.getTagCompound() == null) {
 					PolycraftItemHelper.createTagCompound(item);
 					//	item.stackTagCompound.setByte("is-recipe-null-tag-compound", (byte) 1);
 				}
@@ -105,19 +105,24 @@ public class PolycraftRecipeManager {
 			return null;
 		}
 
+		@Override
+		public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+			return new ItemStack[0];
+		}
+
 	}
 
 	public static void markItemStackAsFromPolycraftRecipe(final ItemStack itemStack)
 	{
-		if (itemStack.stackTagCompound == null)
+		if (itemStack.getTagCompound() == null)
 			PolycraftItemHelper.createTagCompound(itemStack);
-		itemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+		itemStack.getTagCompound().setByte("polycraft-recipe", (byte) 1);
 	}
 
 	public static boolean isItemStackFromPolycraftRecipe(final ItemStack itemStack)
 	{
-		if (itemStack.stackTagCompound != null)
-			return itemStack.stackTagCompound.hasKey("polycraft-recipe");
+		if (itemStack.getTagCompound() != null)
+			return itemStack.getTagCompound().hasKey("polycraft-recipe");
 		return false;
 	}
 
@@ -427,7 +432,7 @@ public class PolycraftRecipeManager {
 	 *            The item generated from the recipe
 	 * @param inputShape
 	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
-	 * @param inputItems
+	 * param inputItems
 	 *            Map of character representation to item stack needed.
 	 */
 	public PolycraftRecipe addShapedRecipe(final PolycraftContainerType containerType,
@@ -445,7 +450,7 @@ public class PolycraftRecipeManager {
 	 *            The item generated from the recipe
 	 * @param inputShape
 	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
-	 * @param inputItems
+	 * param inputItems
 	 *            Map of character representation to item stack needed.
 	 */
 	public PolycraftRecipe addShapedRecipe(final PolycraftRecipeFactory recipeFactory,
@@ -464,7 +469,7 @@ public class PolycraftRecipeManager {
 	 *            The item generated from the recipe
 	 * @param inputShape
 	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
-	 * @param inputItems
+	 * param inputItems
 	 *            Map of character representation to item stack needed.
 	 * @param experience
 	 *            The amount of experience yielded by crafting the recipe.
@@ -484,7 +489,7 @@ public class PolycraftRecipeManager {
 	 *            The items generated from the recipe
 	 * @param inputShape
 	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
-	 * @param inputItems
+	 * param inputItems
 	 *            Map of character representation to item stack needed.
 	 */
 	public PolycraftRecipe addShapedRecipe(final PolycraftContainerType containerType,
@@ -508,7 +513,7 @@ public class PolycraftRecipeManager {
 	 *            The items generated from the recipe
 	 * @param inputShape
 	 *            The shape of the items, one string per row. Any letter can be used to represent an item input; spaces represent no input.
-	 * @param inputItems
+	 * param inputItems
 	 *            Map of character representation to item stack needed.
 	 * @param experience
 	 *            The amount of experience yielded by crafting the recipe.
@@ -569,7 +574,7 @@ public class PolycraftRecipeManager {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onItemCraftedEvent(final PlayerEvent.ItemCraftedEvent event) {
 		ItemStack craftedItem = event.crafting;
-		if (craftedItem.stackTagCompound != null) {
+		if (craftedItem.getTagCompound() != null) {
 			// Item has been marked as being a Polycraft recipe, which allows recipes to require
 			// itemstacks with any stackSize.  The generic crafting recipes only remove a single
 			// item for each recipe item, so the rest may need to be removed.

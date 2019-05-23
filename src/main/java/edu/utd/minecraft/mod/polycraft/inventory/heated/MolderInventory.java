@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -59,8 +60,8 @@ public abstract class MolderInventory extends HeatedInventory {
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, int side) {
-		if (super.canInsertItem(slot, item, side)) {
+	public boolean canInsertItem(int slot, ItemStack item, EnumFacing facing) {
+		if (super.canInsertItem(slot, item, facing)) {
 			if (item.getItem() instanceof ItemMold)
 				return slot == slotIndexMold;
 			return true;
@@ -134,7 +135,7 @@ public abstract class MolderInventory extends HeatedInventory {
 
 		@Override
 		public boolean updateEntity(final MolderInventory inventory, final World world) {
-			if (inventory.getWorldObj() != null && !inventory.getWorldObj().isRemote) {
+			if (inventory.getWorld() != null && !inventory.getWorld().isRemote) {
 				for (int sourceIndex = slotIndexFirstStorage; sourceIndex <= slotIndexLastStorage; sourceIndex++)
 					if (converge(inventory, sourceIndex, slotIndexInput))
 						break;		

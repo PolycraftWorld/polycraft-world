@@ -17,7 +17,7 @@ public class ItemFlashcard extends Item implements PolycraftItem {
 	public ItemFlashcard(final Flashcard flashcard) {
 		Preconditions.checkNotNull(flashcard);
 		this.setCreativeTab(CreativeTabs.tabMisc);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(flashcard.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(flashcard.name)));
 		this.flashcard = flashcard;
 	}
 

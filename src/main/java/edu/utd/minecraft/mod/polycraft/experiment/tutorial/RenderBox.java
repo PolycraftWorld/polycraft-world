@@ -203,17 +203,17 @@ public class RenderBox {
 		Vec3 v1, v2, v3, v4;
 
 		//bottom box face
-		v1 = Vec3.createVectorHelper(x1, y1, z1);
-		v2 = Vec3.createVectorHelper(x2, y1, z1);
-		v3 = Vec3.createVectorHelper(x1, y1, z2);
-		v4 = Vec3.createVectorHelper(x2, y1, z2);
+		v1 = new Vec3(x1, y1, z1);
+		v2 = new Vec3(x2, y1, z1);
+		v3 = new Vec3(x1, y1, z2);
+		v4 = new Vec3(x2, y1, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		//top box face
-		v1 = Vec3.createVectorHelper(x1, y2, z1);
-		v2 = Vec3.createVectorHelper(x2, y2, z1);
-		v3 = Vec3.createVectorHelper(x1, y2, z2);
-		v4 = Vec3.createVectorHelper(x2, y2, z2);
+		v1 = new Vec3(x1, y2, z1);
+		v2 = new Vec3(x2, y2, z1);
+		v3 = new Vec3(x1, y2, z2);
+		v4 = new Vec3(x2, y2, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		if(name != null) {
@@ -335,45 +335,45 @@ public class RenderBox {
 		Vec3 v1, v2, v3, v4;
 
 		//bottom box face
-		v1 = Vec3.createVectorHelper(x1, y1-.005, z1);
-		v2 = Vec3.createVectorHelper(x2, y1-.005, z1);
-		v3 = Vec3.createVectorHelper(x1, y1-.005, z2);
-		v4 = Vec3.createVectorHelper(x2, y1-.005, z2);
+		v1 = new Vec3(x1, y1-.005, z1);
+		v2 = new Vec3(x2, y1-.005, z1);
+		v3 = new Vec3(x1, y1-.005, z2);
+		v4 = new Vec3(x2, y1-.005, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		//top box face
-		v1 = Vec3.createVectorHelper(x1, y2+.005, z1);
-		v2 = Vec3.createVectorHelper(x2, y2+.005, z1);
-		v3 = Vec3.createVectorHelper(x1, y2+.005, z2);
-		v4 = Vec3.createVectorHelper(x2, y2+.005, z2);
+		v1 = new Vec3(x1, y2+.005, z1);
+		v2 = new Vec3(x2, y2+.005, z1);
+		v3 = new Vec3(x1, y2+.005, z2);
+		v4 = new Vec3(x2, y2+.005, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		//side1 face
-		v1 = Vec3.createVectorHelper(x1, y1, z1-.005);
-		v2 = Vec3.createVectorHelper(x2, y1, z1-.005);
-		v3 = Vec3.createVectorHelper(x1, y2, z1-.005);
-		v4 = Vec3.createVectorHelper(x2, y2, z1-.005);
+		v1 = new Vec3(x1, y1, z1-.005);
+		v2 = new Vec3(x2, y1, z1-.005);
+		v3 = new Vec3(x1, y2, z1-.005);
+		v4 = new Vec3(x2, y2, z1-.005);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		//side2 face
-		v1 = Vec3.createVectorHelper(x1, y1, z2+.005);
-		v2 = Vec3.createVectorHelper(x2, y1, z2+.005);
-		v3 = Vec3.createVectorHelper(x1, y2, z2+.005);
-		v4 = Vec3.createVectorHelper(x2, y2, z2+.005);
+		v1 = new Vec3(x1, y1, z2+.005);
+		v2 = new Vec3(x2, y1, z2+.005);
+		v3 = new Vec3(x1, y2, z2+.005);
+		v4 = new Vec3(x2, y2, z2+.005);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		//side3 face
-		v1 = Vec3.createVectorHelper(x1-.005, y1, z1);
-		v2 = Vec3.createVectorHelper(x1-.005, y1, z2);
-		v3 = Vec3.createVectorHelper(x1-.005, y2, z1);
-		v4 = Vec3.createVectorHelper(x1-.005, y2, z2);
+		v1 = new Vec3(x1-.005, y1, z1);
+		v2 = new Vec3(x1-.005, y1, z2);
+		v3 = new Vec3(x1-.005, y2, z1);
+		v4 = new Vec3(x1-.005, y2, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		//side4 face
-		v1 = Vec3.createVectorHelper(x2+.005, y1, z1);
-		v2 = Vec3.createVectorHelper(x2+.005, y1, z2);
-		v3 = Vec3.createVectorHelper(x2+.005, y2, z1);
-		v4 = Vec3.createVectorHelper(x2+.005, y2, z2);
+		v1 = new Vec3(x2+.005, y1, z1);
+		v2 = new Vec3(x2+.005, y1, z2);
+		v3 = new Vec3(x2+.005, y2, z1);
+		v4 = new Vec3(x2+.005, y2, z2);
 		drawFace(v1, v2, v3, v4, alphaFace);
 		
 		if(name != null) {
@@ -393,7 +393,7 @@ public class RenderBox {
         
         if (d3 < (double)(25*25))
         {
-			FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;;
+			FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;;
 	        GL11.glPushMatrix();
 	        GL11.glTranslatef((float)((x1+x2)/2) + 0.0F, (float) (y + h + 0.5F), (float)((z1+z2)/2));
 	        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
@@ -405,16 +405,17 @@ public class RenderBox {
 	        GL11.glDepthMask(false);
 	        GL11.glEnable(GL11.GL_BLEND);
 	        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-	        Tessellator tessellator = Tessellator.instance;
+	        Tessellator tessellator = Tessellator.getInstance();
 	        GL11.glDisable(GL11.GL_TEXTURE_2D);
-	        tessellator.startDrawingQuads();
+	        //TODO: update to 1.8
+	        /*tessellator.startDrawingQuads();
 	        int i = fontrenderer.getStringWidth(this.name) / 2;
 	        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.5F);
 	        tessellator.addVertex((double)(-i - 1), -1.0D, 0.0D);
 	        tessellator.addVertex((double)(-i - 1), 8.0D, 0.0D);
 	        tessellator.addVertex((double)(i + 1), 8.0D, 0.0D);
 	        tessellator.addVertex((double)(i + 1), -1.0D, 0.0D);
-	        tessellator.draw();
+	        tessellator.draw();*/
 	        GL11.glEnable(GL11.GL_TEXTURE_2D);
 	        GL11.glDepthMask(true);
 	        fontrenderer.drawString(this.name, -fontrenderer.getStringWidth(this.name) / 2, 0, 0xFF00BF00);

@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.block;
 
 import com.google.common.base.Preconditions;
 
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -27,11 +28,11 @@ public class BlockPasswordDoor extends BlockPolycraftDoor{
      * Called upon block activation (right click on the block.)
      */
 	@Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+    public boolean onBlockActivated(World world, BlockPos blockPos, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
 		if (!world.isRemote)
 	    {
-	        PolycraftMod.proxy.openDoorGui(this, player, x, y, z); 
+	        PolycraftMod.proxy.openDoorGui(this, player, blockPos);
 	    }
 	        
 	    return true;

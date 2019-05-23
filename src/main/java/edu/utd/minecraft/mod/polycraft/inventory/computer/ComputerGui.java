@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.inventory.computer;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -105,7 +106,7 @@ public class ComputerGui extends /* GuiContainer */ PolycraftInventoryGui<Comput
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		String s = I18n.format(inventory.getInventoryName(), new Object[0]);
+		String s = I18n.format(inventory.getName(), new Object[0]);
 		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 //		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 		
@@ -124,7 +125,7 @@ public class ComputerGui extends /* GuiContainer */ PolycraftInventoryGui<Comput
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		GuiRectangle rectangle;

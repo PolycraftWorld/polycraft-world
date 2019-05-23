@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef.ExperimentType;
@@ -289,9 +290,9 @@ public class ExperimentParameters {
 				
 								
 			} catch(NumberFormatException e) {
-				item = new ItemStack(GameData.getItemRegistry().getObject(str), items.get(str));
+				item = new ItemStack(GameData.getItemRegistry().getObject(new ResourceLocation(str)), items.get(str));
 				if(!item.hasDisplayName()) {
-					item = new ItemStack(GameData.getBlockRegistry().getObject(str), items.get(str));
+					item = new ItemStack(GameData.getBlockRegistry().getObject(new ResourceLocation(str)), items.get(str));
 				}
 			}
 			

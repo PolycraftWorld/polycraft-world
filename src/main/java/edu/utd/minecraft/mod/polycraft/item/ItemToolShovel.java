@@ -10,7 +10,7 @@ public class ItemToolShovel extends PolycraftSpade {
 		super(material);
 		this.tool = tool;
 		setCreativeTab(CreativeTabs.tabTools);
-		setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.SHOVEL))));
+		//setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.SHOVEL))));
 	}
 	
 }

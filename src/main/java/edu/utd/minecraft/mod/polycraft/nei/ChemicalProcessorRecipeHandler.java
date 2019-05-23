@@ -162,7 +162,7 @@ public class ChemicalProcessorRecipeHandler extends TemplateRecipeHandler {
 		// new
 		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
 		// PolycraftMod.getFileSafeName(config.name))));
-		return PolycraftMod.getAssetName("textures/gui/container/chemical_processor.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/chemical_processor.png");
 	}
 
 	@Override

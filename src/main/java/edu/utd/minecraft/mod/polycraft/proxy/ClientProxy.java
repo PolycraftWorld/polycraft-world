@@ -104,7 +104,6 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
@@ -503,13 +502,13 @@ public class ClientProxy extends CommonProxy {
 	 
 	@SubscribeEvent
 	public void onRenderGui(RenderGameOverlayEvent.Post event) {
-		Entity entity = Minecraft.getMinecraft().renderViewEntity;
+		Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
 		//TutorialRender.renderLoadingScreen(entity);
 	}
 	
 	@SubscribeEvent
     public void onRenderScreenGui(GuiScreenEvent.DrawScreenEvent.Post event) {
-        Entity entity = Minecraft.getMinecraft().renderViewEntity;
+        Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
         if(entity!=null)
         {
         	//TutorialRender.renderLoadingScreen(entity);
@@ -1124,9 +1123,9 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private static String getFrequency(final ItemStack itemStack, final double frequency) {
-		if (itemStack.getDisplayNameString().equalsIgnoreCase("voice cone")) {
+		if (itemStack.getDisplayName().equalsIgnoreCase("voice cone")) {
 			return "";
-		} else if (itemStack.getDisplayNameString().equalsIgnoreCase("megaphone")) {
+		} else if (itemStack.getDisplayName().equalsIgnoreCase("megaphone")) {
 			return "";
 		}
 
@@ -1211,14 +1210,14 @@ public class ClientProxy extends CommonProxy {
 			// Display shiny text when user hasn't completed tutorial
 			if (!ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1) {
 				int color = 16777215;
-				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
+				client.fontRendererObj.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
 			}
 			
 			// Display shiny text after user completes tutorial to play experiments
 			if (ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1 
 					&& ExperimentManager.INSTANCE.clientCurrentExperiment == -1 ) {
 				int color = 16777215;
-				client.fontRenderer.drawStringWithShadow(stringToGolden("Push X to open play an experiment!!",5,false),x,y,color);
+				client.fontRendererObj.drawStringWithShadow(stringToGolden("Push X to open play an experiment!!",5,false),x,y,color);
 			}
 			
 			if (playerState.cheatInfoTicksRemaining == 0) {
@@ -1477,6 +1476,8 @@ public class ClientProxy extends CommonProxy {
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPolymerBrick.class, new TileEntityPolymerBrickRenderer());
 		for (final Inventory inventory : Inventory.registry.values()) {
 			PolycraftInventoryBlock inventoryBlock = (PolycraftInventoryBlock) PolycraftRegistry.getBlock(inventory);
+			//TODO: update to 1.8, now using JSON files for rendering blocks
+			/*
 			PolycraftInventoryBlock.BasicRenderingHandler renderingHandler;
 			if (inventory.render3D)
 				inventory.renderID = RenderingRegistry.getNextAvailableRenderId();
@@ -1499,7 +1500,7 @@ public class ClientProxy extends CommonProxy {
 			//TODO: figure out why this is commented out and if it is needed 8.5.2015
 			if (inventory.render3D)
 				ClientRegistry.bindTileEntitySpecialRenderer(inventoryBlock.tileEntityClass, renderingHandler);
-
+*/
 		}
 		
 		for (final PolycraftEntity polycraftEntity : PolycraftEntity.registry.values()) {
@@ -1513,7 +1514,7 @@ public class ClientProxy extends CommonProxy {
                 RenderingRegistry.registerEntityRenderingHandler(EntityOilSlime.class, new RenderOilSlime(new ModelPolySlime(16), new ModelPolySlime(0), 0.25F));
             }
             else if (GameID.EntityOilSlimeBall.matches(polycraftEntity)){
-                RenderingRegistry.registerEntityRenderingHandler(EntityOilSlimeBallProjectile.class, new RenderSnowball(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1hl"))));
+                //RenderingRegistry.registerEntityRenderingHandler(EntityOilSlimeBallProjectile.class, new RenderSnowball(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("1hl"))));
             }
             else if (GameID.EntityDummy.matches(polycraftEntity)){
                 RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy((ModelBase)new ModelIronGolem(), 0.25F));
@@ -1525,10 +1526,10 @@ public class ClientProxy extends CommonProxy {
                 RenderingRegistry.registerEntityRenderingHandler(EntityAndroid.class, new RenderPolycraftBiped(new ModelPolycraftBiped(), 0));
             }
             else if (GameID.EntityIronCannonBall.matches(polycraftEntity)) {
-            	RenderingRegistry.registerEntityRenderingHandler(EntityIronCannonBall.class, new RenderCannonBall());
+            	//RenderingRegistry.registerEntityRenderingHandler(EntityIronCannonBall.class, new RenderCannonBall());
             }
             else if (GameID.EPaintball.matches(polycraftEntity)) {
-            	RenderingRegistry.registerEntityRenderingHandler(EntityPaintBall__Old.class, new RenderPaintball());
+            	//RenderingRegistry.registerEntityRenderingHandler(EntityPaintBall__Old.class, new RenderPaintball());
 
             }
 
@@ -1552,9 +1553,9 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
+	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, BlockPos blockPos)
 	{
-		client.displayGuiScreen(new GuiScreenPasswordDoor(block, player, x, y, z));
+		client.displayGuiScreen(new GuiScreenPasswordDoor(block, player, blockPos.getX(), blockPos.getY(), blockPos.getZ()));
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import net.minecraft.util.*;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.registry.GameData;
@@ -59,10 +60,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -192,7 +189,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 	        this.setCurrentItemOrArmor(4, new ItemStack(Items.diamond_helmet));
 	        for(int e=0; e<4;e++)
 	        {
-	        	ItemStack itemstack = this.func_130225_q(e);
+	        	ItemStack itemstack = this.getEquipmentInSlot(e);
 	            itemstack.addEnchantment(Enchantment.thorns, 18);
 	        	this.setEquipmentDropChance(e+1,0.0F);//possible to add Eq w/o drops
 	        }
@@ -277,28 +274,28 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 		        	
 		        	CreateGovernmentProperty();
 		        	
-		        	worldObj.setBlock( (int)posX+2+u, (int)posY, (int)posZ-4+w,Blocks.bedrock);
-					worldObj.setBlock( (int)posX+2+u, (int)posY, (int)posZ+2+w,Blocks.bedrock);
-					worldObj.setBlock( (int)posX-4+u, (int)posY, (int)posZ-4+w,Blocks.bedrock);
-					worldObj.setBlock( (int)posX-4+u, (int)posY, (int)posZ+2+w,Blocks.bedrock);
+		        	worldObj.setBlockState(new BlockPos(posX+2+u, posY, posZ-4+w),Blocks.bedrock.getDefaultState());
+					worldObj.setBlockState(new BlockPos(posX+2+u, posY, posZ+2+w),Blocks.bedrock.getDefaultState());
+					worldObj.setBlockState(new BlockPos(posX-4+u, posY, posZ-4+w),Blocks.bedrock.getDefaultState());
+					worldObj.setBlockState(new BlockPos(posX-4+u, posY, posZ+2+w),Blocks.bedrock.getDefaultState());
 					
-					worldObj.setBlock( (int)posX+2+u, (int)posY+1, (int)posZ-4+w,Blocks.torch);
-					worldObj.setBlock( (int)posX+2+u, (int)posY+1, (int)posZ+2+w,Blocks.torch);
-					worldObj.setBlock( (int)posX-4+u, (int)posY+1, (int)posZ-4+w,Blocks.torch);
-					worldObj.setBlock( (int)posX-4+u, (int)posY+1, (int)posZ+2+w,Blocks.torch);
+					worldObj.setBlockState(new BlockPos(posX+2+u, posY+1, posZ-4+w),Blocks.torch.getDefaultState());
+					worldObj.setBlockState(new BlockPos(posX+2+u, posY+1, posZ+2+w),Blocks.torch.getDefaultState());
+					worldObj.setBlockState(new BlockPos(posX-4+u, posY+1, posZ-4+w),Blocks.torch.getDefaultState());
+					worldObj.setBlockState(new BlockPos(posX-4+u, posY+1, posZ+2+w),Blocks.torch.getDefaultState());
 					
 					for(int i=(int)posX-3;i<(((int)posX-3)+7);i++)
 					{
 						for(int k=(int)posZ-3;k<(((int)posZ-3)+7);k++)
 						{
-							worldObj.setBlock( i-1+u, (int)posY-1, k-1+w,Blocks.bedrock);
+							worldObj.setBlockState( new BlockPos(i-1+u, (int)posY-1, k-1+w),Blocks.bedrock.getDefaultState());
 						}
 					}
 					this.setDead();
 					
-					worldObj.setBlock((int)posX-1+u, (int)posY, (int)posZ-1+w, TERRITORY_FLAG , 0, 2);
-					TerritoryFlagBlock flagBlock = (TerritoryFlagBlock) worldObj.getBlock((int)posX-1+u, (int)posY, (int)posZ-1+w);
-					flagBlock.onBlockPlacedBy(worldObj, (int)posX-1+u, (int)posY, (int)posZ-1+w,this, new ItemStack(TERRITORY_FLAG));
+					worldObj.setBlockState(new BlockPos((int)posX-1+u, (int)posY, (int)posZ-1+w), TERRITORY_FLAG.getDefaultState(), 2);
+					TerritoryFlagBlock flagBlock = (TerritoryFlagBlock) worldObj.getBlockState(new BlockPos((int)posX-1+u, (int)posY, (int)posZ-1+w)).getBlock();
+					flagBlock.onBlockPlacedBy(worldObj, getPosition().add(-1+u, 0,-1+w), worldObj.getBlockState(getPosition()), this, new ItemStack(TERRITORY_FLAG));
 					
 				}
 			}
@@ -386,26 +383,26 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
 	        		w=1;
 	        	
 	        	RemovePrivateProperty();
-	        	
-	        	worldObj.setBlock( (int)posX+2+u, (int)posY+1, (int)posZ-4+w,Blocks.air);
-				worldObj.setBlock( (int)posX+2+u, (int)posY+1, (int)posZ+2+w,Blocks.air);
-				worldObj.setBlock( (int)posX-4+u, (int)posY+1, (int)posZ-4+w,Blocks.air);
-				worldObj.setBlock( (int)posX-4+u, (int)posY+1, (int)posZ+2+w,Blocks.air);
-	        	
-	        	worldObj.setBlock( (int)posX+2+u, (int)posY, (int)posZ-4+w,Blocks.air);
-				worldObj.setBlock( (int)posX+2+u, (int)posY, (int)posZ+2+w,Blocks.air);
-				worldObj.setBlock( (int)posX-4+u, (int)posY, (int)posZ-4+w,Blocks.air);
-				worldObj.setBlock( (int)posX-4+u, (int)posY, (int)posZ+2+w,Blocks.air);
+
+				worldObj.setBlockState(new BlockPos(posX+2+u, posY, posZ-4+w),Blocks.air.getDefaultState());
+				worldObj.setBlockState(new BlockPos(posX+2+u, posY, posZ+2+w),Blocks.air.getDefaultState());
+				worldObj.setBlockState(new BlockPos(posX-4+u, posY, posZ-4+w),Blocks.air.getDefaultState());
+				worldObj.setBlockState(new BlockPos(posX-4+u, posY, posZ+2+w),Blocks.air.getDefaultState());
+
+				worldObj.setBlockState(new BlockPos(posX+2+u, posY+1, posZ-4+w),Blocks.air.getDefaultState());
+				worldObj.setBlockState(new BlockPos(posX+2+u, posY+1, posZ+2+w),Blocks.air.getDefaultState());
+				worldObj.setBlockState(new BlockPos(posX-4+u, posY+1, posZ-4+w),Blocks.air.getDefaultState());
+				worldObj.setBlockState(new BlockPos(posX-4+u, posY+1, posZ+2+w),Blocks.air.getDefaultState());
 				
 				for(int i=(int)posX-3;i<(((int)posX-3)+7);i++)
 				{
 					for(int k=(int)posZ-3;k<(((int)posZ-3)+7);k++)
 					{
-						worldObj.setBlock( i-1+u, (int)posY-1, k-1+w,Blocks.air);
+						worldObj.setBlockState( new BlockPos(i-1+u, (int)posY-1, k-1+w),Blocks.air.getDefaultState());
 					}
 				}
 
-	            boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+	            boolean flag = this.worldObj.getGameRules().getBoolean("mobGriefing");
 	            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.explosionRadius, flag);
 	            this.setDead();
 	        }
@@ -450,15 +447,15 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
             int j1 = j + MathHelper.getRandomIntegerInRange(this.rand, 0, 10) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
             int k1 = k + MathHelper.getRandomIntegerInRange(this.rand, 4, 7) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
 
-            if (World.doesBlockHaveSolidTopSurface(this.worldObj, i1, j1 - 1, k1))
+            if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(i1, j1 - 1, k1)))
             {
             	entityTerritoryFlag.setPosition((double)i1, (double)j1, (double)k1);
 
-                if (this.worldObj.checkNoEntityCollision(entityTerritoryFlag.boundingBox) && this.worldObj.getCollidingBoundingBoxes(entityTerritoryFlag, entityTerritoryFlag.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(entityTerritoryFlag.boundingBox))
+                if (this.worldObj.checkNoEntityCollision(entityTerritoryFlag.getEntityBoundingBox()) && this.worldObj.getCollidingBoundingBoxes(entityTerritoryFlag, entityTerritoryFlag.getEntityBoundingBox()).isEmpty() && !this.worldObj.isAnyLiquid(entityTerritoryFlag.getEntityBoundingBox()))
                 {
                     this.worldObj.spawnEntityInWorld(entityTerritoryFlag);
                     if (this != null) entityTerritoryFlag.setAttackTarget(this);
-                    entityTerritoryFlag.onSpawnWithEgg((IEntityLivingData)null);
+                    entityTerritoryFlag.onInitialSpawn(this.worldObj.getDifficultyForLocation(this.getPosition()), (IEntityLivingData)null);
                     entityTerritoryFlag.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(health);
                     entityTerritoryFlag.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attack);
 
@@ -473,12 +470,12 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
                     entityTerritoryFlag.setEquipmentDropChance(0,0.0F);
                     for(int e=0; e<4;e++)
                     {
-                    	ItemStack itemstack = entityTerritoryFlag.func_130225_q(e);
+                    	ItemStack itemstack = entityTerritoryFlag.getEquipmentInSlot(e);
                         itemstack.addEnchantment(Enchantment.thorns, 2);
                     	entityTerritoryFlag.setEquipmentDropChance(e+1,0.0F);//possible to add Eq w/o drops
                     }
                     t = MathHelper.getRandomIntegerInRange(this.rand, 1, 2);
-                    entityTerritoryFlag.targetTasks.addTask(t, new EntityAINearestAttackableTarget(entityTerritoryFlag, EntityTerritoryFlag.class, 0, false));
+                    entityTerritoryFlag.targetTasks.addTask(t, new EntityAINearestAttackableTarget(entityTerritoryFlag, EntityTerritoryFlag.class, false, false));
                     entityTerritoryFlag.tasks.addTask(t, new EntityAIAttackOnCollide(entityTerritoryFlag, EntityTerritoryFlag.class, 1.0D, true));
                   break;
                 }
@@ -502,11 +499,11 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
             int j1 = j + MathHelper.getRandomIntegerInRange(this.rand, 0, 10) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
             int k1 = k + MathHelper.getRandomIntegerInRange(this.rand, 4, 7) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
 
-            if (World.doesBlockHaveSolidTopSurface(this.worldObj, i1, j1 - 1, k1))
+            if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(i1, j1 - 1, k1)))
             {
             	entityTerritoryFlag.setPosition((double)i1, (double)j1, (double)k1);
 
-                if (this.worldObj.checkNoEntityCollision(entityTerritoryFlag.boundingBox) && this.worldObj.getCollidingBoundingBoxes(entityTerritoryFlag, entityTerritoryFlag.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(entityTerritoryFlag.boundingBox))
+                if (this.worldObj.checkNoEntityCollision(entityTerritoryFlag.getEntityBoundingBox()) && this.worldObj.getCollidingBoundingBoxes(entityTerritoryFlag, entityTerritoryFlag.getEntityBoundingBox()).isEmpty() && !this.worldObj.isAnyLiquid(entityTerritoryFlag.getEntityBoundingBox()))
                 {
                     this.worldObj.spawnEntityInWorld(entityTerritoryFlag);
                     if (this != null) entityTerritoryFlag.setAttackTarget(this);
@@ -536,7 +533,7 @@ public class EntityTerritoryFlag extends EntityLiving implements IBossDisplayDat
                     }
                     entityTerritoryFlag.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attack);
                     t = MathHelper.getRandomIntegerInRange(this.rand, 1, 2);
-                    entityTerritoryFlag.targetTasks.addTask(t, new EntityAINearestAttackableTarget(entityTerritoryFlag, EntityTerritoryFlag.class, 0, false));
+                    entityTerritoryFlag.targetTasks.addTask(t, new EntityAINearestAttackableTarget(entityTerritoryFlag, EntityTerritoryFlag.class, false, false));
                     
                  break;
                 }

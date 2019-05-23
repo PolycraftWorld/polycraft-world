@@ -18,7 +18,7 @@ public class ItemAirQualityDetector extends Item implements PolycraftItem {
 		this.config = config;
 		Preconditions.checkNotNull(config);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
+		//this.setTextureName(PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(config.name)));
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
 

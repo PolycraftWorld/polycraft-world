@@ -17,7 +17,7 @@ public class ItemMold extends Item implements PolycraftItem {
 		this.setMaxDamage(mold.craftingMaxDamage);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Mold.class.getSimpleName())));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Mold.class.getSimpleName())));
 		this.mold = mold;
 	}
 

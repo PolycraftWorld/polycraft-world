@@ -198,7 +198,7 @@ public class Analytics {
 	}
 
 	private String formatInventoryName(final IInventory inventory) {
-		return debug ? (inventory == null ? "n/a" : inventory.getInventoryName()) : (inventory == null ? "" : inventory.getClass().getName());
+		return debug ? (inventory == null ? "n/a" : inventory.getName()) : (inventory == null ? "" : inventory.getClass().getName());
 	}
 
 	private static final String FORMAT_LOG = "%1$s%3$s%1$s%4$s%1$s%5$d%2$s%6$d%2$s%7$d%1$s%8$s";
@@ -225,7 +225,7 @@ public class Analytics {
 	 */
 	public synchronized static String log1(final EntityPlayer player, final Category category, final String data) {
 		//TODO JM need to log the world name? player.worldObj.getWorldInfo().getWorldName()
-		final Long playerID = Enforcer.whitelist.get(player.getDisplayName().toLowerCase());
+		final Long playerID = Enforcer.whitelist.get(player.getDisplayNameString().toLowerCase());
 		return String.format(debug ? FORMAT_LOG_DEBUG : FORMAT_LOG,
 				DELIMETER_SEGMENT, DELIMETER_DATA,
 				formatEnum(category),
@@ -299,7 +299,7 @@ public class Analytics {
 		DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		String formattedDate1 = myDateObj.format(myFormatObj1); 
 		for (Integer experiment_instance : running_experiments) {  
-			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayNameString())){
 				FileWriter writer = null;
 				try {
 					writer = new FileWriter(Map_of_registered_experiments_with_time.get(experiment_instance),true);
@@ -378,7 +378,7 @@ public class Analytics {
 		// TODO Auto-generated method stub
 		List<Integer> running_experiments = ExperimentManager.getRunningExperiments();
 		for (Integer experiment_instance : running_experiments) {  
-			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayName())){
+			if(ExperimentManager.getExperiment(experiment_instance).isPlayerInExperiment(player.getDisplayNameString())){
 			return experiment_instance;
 			}
 		}
@@ -531,8 +531,8 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized void onPlayerInteract(final PlayerInteractEvent event) {
 		if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
-			log(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,formatEnum(event.action), event.x, event.y, event.z,event.face, formatEnum(event.getResult()),formatBlock(event.world.getBlock(event.x, event.y, event.z)),event.world.getBlockMetadata(event.x, event.y, event.z),formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
-			Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,formatEnum(event.action), event.x, event.y, event.z,event.face, formatEnum(event.getResult()),formatBlock(event.world.getBlock(event.x, event.y, event.z)),event.world.getBlockMetadata(event.x, event.y, event.z),formatItemStackName(event.entityPlayer.getCurrentEquippedItem())))+System.getProperty("line.separator"));
+			log(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,formatEnum(event.action), event.pos.getX(), event.pos.getY(), event.pos.getZ(),event.face, formatEnum(event.getResult()),formatBlock(event.world.getBlockState(event.pos).getBlock()),event.world.getBlockState(event.pos).getBlock().getMetaFromState(event.world.getBlockState(event.pos)),formatItemStackName(event.entityPlayer.getCurrentEquippedItem())));
+			Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerInteract, String.format(debug ? FORMAT_INTERACT_DEBUG : FORMAT_INTERACT, DELIMETER_DATA,formatEnum(event.action), event.pos.getX(), event.pos.getY(), event.pos.getY(),event.face, formatEnum(event.getResult()),formatBlock(event.world.getBlockState(event.pos).getBlock()),event.world.getBlockState(event.pos).getBlock().getMetaFromState(event.world.getBlockState(event.pos)),formatItemStackName(event.entityPlayer.getCurrentEquippedItem())))+System.getProperty("line.separator"));
 		}
 	}
 
@@ -619,23 +619,23 @@ public class Analytics {
 		{
 			EntityPlayer playerName= (EntityPlayer)event.target;
 			log(event.entityPlayer, Category.PlayerAttackEntity, String.format(debug ? FORMAT_ATTACK_ENTITY_DEBUG : FORMAT_ATTACK_ENTITY, DELIMETER_DATA,
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayNameString().toLowerCase()).toString(),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));			
 			log(event.entityPlayer, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_ATTACK_ENTITY_DEBUG : FORMAT_ON_EXPERIMENT_ATTACK_ENTITY, DELIMETER_DATA,4,get_exp_ID(event.entityPlayer),
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayNameString().toLowerCase()).toString(),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 			log((EntityPlayer)event.target, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_ATTACK_ENTITY_DEBUG : FORMAT_ON_EXPERIMENT_ATTACK_ENTITY, DELIMETER_DATA,5,get_exp_ID(event.entityPlayer),
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()),Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(), 
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()),Enforcer.whitelist.get(event.entityPlayer.getDisplayNameString().toLowerCase()).toString(), 
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ));
 			
 			Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerAttackEntity, String.format(debug ? FORMAT_ATTACK_ENTITY_DEBUG : FORMAT_ATTACK_ENTITY, DELIMETER_DATA,
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayNameString().toLowerCase()).toString(),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ))+System.getProperty("line.separator"));
 			Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_ATTACK_ENTITY_DEBUG : FORMAT_ON_EXPERIMENT_ATTACK_ENTITY, DELIMETER_DATA,4,get_exp_ID(event.entityPlayer),
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayName().toLowerCase()).toString(),
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()), Enforcer.whitelist.get(((EntityPlayer)event.target).getDisplayNameString().toLowerCase()).toString(),
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ))+System.getProperty("line.separator"));
 			Write_to_log_with_Exp_ID(event.entityPlayer,log1((EntityPlayer)event.target, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_EXPERIMENT_ATTACK_ENTITY_DEBUG : FORMAT_ON_EXPERIMENT_ATTACK_ENTITY, DELIMETER_DATA,5,get_exp_ID(event.entityPlayer),
-					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()),Enforcer.whitelist.get(event.entityPlayer.getDisplayName().toLowerCase()).toString(), 
+					formatItemStackName(event.entityPlayer.getCurrentEquippedItem()),Enforcer.whitelist.get(event.entityPlayer.getDisplayNameString().toLowerCase()).toString(), 
 					(int) event.target.posX, (int) event.target.posY, (int) event.target.posZ))+System.getProperty("line.separator"));
 		}
 		else
@@ -660,8 +660,8 @@ public class Analytics {
 
 	@SubscribeEvent
 	public synchronized void onBlockBreakEvent(final BreakEvent event) {
-		log(event.getPlayer(), Category.PlayerBreakBlock, String.format(debug ? FORMAT_BREAK_BLOCK_DEBUG : FORMAT_BREAK_BLOCK, DELIMETER_DATA,formatItemStackName(event.getPlayer().getCurrentEquippedItem()),event.x, event.y, event.z,formatBlock(event.block), event.blockMetadata, event.getExpToDrop()));
-		Write_to_log_with_Exp_ID(event.getPlayer(),log1(event.getPlayer(), Category.PlayerBreakBlock, String.format(debug ? FORMAT_BREAK_BLOCK_DEBUG : FORMAT_BREAK_BLOCK, DELIMETER_DATA,formatItemStackName(event.getPlayer().getCurrentEquippedItem()),event.x, event.y, event.z,formatBlock(event.block), event.blockMetadata, event.getExpToDrop()))+System.getProperty("line.separator"));
+		log(event.getPlayer(), Category.PlayerBreakBlock, String.format(debug ? FORMAT_BREAK_BLOCK_DEBUG : FORMAT_BREAK_BLOCK, DELIMETER_DATA,formatItemStackName(event.getPlayer().getCurrentEquippedItem()),event.pos.getX(), event.pos.getY(), event.pos.getZ(),formatBlock(event.state.getBlock()), event.state.getBlock().getMetaFromState(event.state), event.getExpToDrop()));
+		Write_to_log_with_Exp_ID(event.getPlayer(),log1(event.getPlayer(), Category.PlayerBreakBlock, String.format(debug ? FORMAT_BREAK_BLOCK_DEBUG : FORMAT_BREAK_BLOCK, DELIMETER_DATA,formatItemStackName(event.getPlayer().getCurrentEquippedItem()),event.pos.getX(), event.pos.getY(), event.pos.getZ(),formatBlock(event.state.getBlock()), event.state.getBlock().getMetaFromState(event.state), event.getExpToDrop()))+System.getProperty("line.separator"));
 	}
 
 	public static final String FORMAT_SLEEP_IN_BED = "%2$d%1$s%3$d%1$s%4$d%1$s%5$s";
@@ -669,8 +669,8 @@ public class Analytics {
 
 	@SubscribeEvent
 	public synchronized void onPlayerSleepInBed(final PlayerSleepInBedEvent event) {
-		log(event.entityPlayer, Category.PlayerSleepInBed, String.format(debug ? FORMAT_SLEEP_IN_BED_DEBUG : FORMAT_SLEEP_IN_BED, DELIMETER_DATA,event.x, event.y, event.z, formatEnum(event.getResult())));
-		Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerSleepInBed, String.format(debug ? FORMAT_SLEEP_IN_BED_DEBUG : FORMAT_SLEEP_IN_BED, DELIMETER_DATA,event.x, event.y, event.z, formatEnum(event.getResult())))+System.getProperty("line.separator"));
+		log(event.entityPlayer, Category.PlayerSleepInBed, String.format(debug ? FORMAT_SLEEP_IN_BED_DEBUG : FORMAT_SLEEP_IN_BED, DELIMETER_DATA,event.pos.getX(), event.pos.getY(), event.pos.getZ(), formatEnum(event.getResult())));
+		Write_to_log_with_Exp_ID(event.entityPlayer,log1(event.entityPlayer, Category.PlayerSleepInBed, String.format(debug ? FORMAT_SLEEP_IN_BED_DEBUG : FORMAT_SLEEP_IN_BED, DELIMETER_DATA,event.pos.getX(), event.pos.getY(), event.pos.getZ(), formatEnum(event.getResult())))+System.getProperty("line.separator"));
 	}
 
 	public static final String FORMAT_ACHIEVEMENT = "%s";
@@ -695,8 +695,8 @@ public class Analytics {
 			Write_to_log(event.player,event.id1,log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_TEAMWON_DEBUG : FORMAT_ON_TEAMWON, DELIMETER_DATA, 0, event.id1,"AI"))+System.getProperty("line.separator"));
 		}
 		else {
-		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_TEAMWON_DEBUG : FORMAT_ON_TEAMWON, DELIMETER_DATA, 0, event.id1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
-		Write_to_log(event.player,event.id1,log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_TEAMWON_DEBUG : FORMAT_ON_TEAMWON, DELIMETER_DATA, 0, event.id1,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
+		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_TEAMWON_DEBUG : FORMAT_ON_TEAMWON, DELIMETER_DATA, 0, event.id1,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()));
+		Write_to_log(event.player,event.id1,log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_TEAMWON_DEBUG : FORMAT_ON_TEAMWON, DELIMETER_DATA, 0, event.id1,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()))+System.getProperty("line.separator"));
 		}
 	}
 	
@@ -729,8 +729,8 @@ public class Analytics {
 	 */
 	@SubscribeEvent
 	public synchronized static void onKnockedBackEvent(final PlayerKnockedBackEvent event) {
-		log(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString(),formatItemStackName(event.player.getCurrentEquippedItem())));
-		Write_to_log_with_Exp_ID(event.player,log1(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString(),formatItemStackName(event.player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
+		log(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString(),formatItemStackName(event.player.getCurrentEquippedItem())));
+		Write_to_log_with_Exp_ID(event.player,log1(getPlayer(event.entity1), Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_KNOCKBACK_EVENT_DEBUG : FORMAT_ON_KNOCKBACK_EVENT, DELIMETER_DATA, 3,get_exp_ID(event.player), Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString(),formatItemStackName(event.player.getCurrentEquippedItem())))+System.getProperty("line.separator"));
 		}
 	
 	public static final String FORMAT_ON_PLAYER_REGISTER_EVENT = "%2$d%1$s%3$s%1$s%4$s";
@@ -742,7 +742,7 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onPlayerRegisterEvent(final PlayerRegisterEvent event) {		
 		int i=0;
-		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYER_REGISTER_EVENT_DEBUG : FORMAT_ON_PLAYER_REGISTER_EVENT, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
+		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYER_REGISTER_EVENT_DEBUG : FORMAT_ON_PLAYER_REGISTER_EVENT, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()));
 
 		LocalDateTime myDateObj = LocalDateTime.now(ZoneOffset.UTC); 
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
@@ -760,7 +760,7 @@ public class Analytics {
 				e.printStackTrace();
 			}
 		      try {
-				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYER_REGISTER_EVENT_DEBUG : FORMAT_ON_PLAYER_REGISTER_EVENT, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
+				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYER_REGISTER_EVENT_DEBUG : FORMAT_ON_PLAYER_REGISTER_EVENT, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()))+System.getProperty("line.separator"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -799,7 +799,7 @@ public class Analytics {
 				e.printStackTrace();
 			}
 		      try {
-				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYER_REGISTER_EVENT_DEBUG : FORMAT_ON_PLAYER_REGISTER_EVENT, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
+				writer.write(formattedDate1+log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYER_REGISTER_EVENT_DEBUG : FORMAT_ON_PLAYER_REGISTER_EVENT, DELIMETER_DATA, 6, event.id,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()))+System.getProperty("line.separator"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -848,8 +848,8 @@ public class Analytics {
 	@SubscribeEvent
 	public synchronized static void onPlayerTeamEvent(final PlayerTeamEvent event) {
 		// TODO Auto-generated method stub
-		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYERTEAM_EVENT_DEBUG : FORMAT_ON_PLAYERTEAM_EVENT, DELIMETER_DATA, 9, event.id,event.TeamName,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()));
-		Write_to_log(event.player,event.id,log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYERTEAM_EVENT_DEBUG : FORMAT_ON_PLAYERTEAM_EVENT, DELIMETER_DATA, 9, event.id,event.TeamName,Enforcer.whitelist.get(event.player.getDisplayName().toLowerCase()).toString()))+System.getProperty("line.separator"));
+		log(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYERTEAM_EVENT_DEBUG : FORMAT_ON_PLAYERTEAM_EVENT, DELIMETER_DATA, 9, event.id,event.TeamName,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()));
+		Write_to_log(event.player,event.id,log1(event.player, Category.PlayerExperimentEvent, String.format(debug ? FORMAT_ON_PLAYERTEAM_EVENT_DEBUG : FORMAT_ON_PLAYERTEAM_EVENT, DELIMETER_DATA, 9, event.id,event.TeamName,Enforcer.whitelist.get(event.player.getDisplayNameString().toLowerCase()).toString()))+System.getProperty("line.separator"));
 	}
 
 	/**

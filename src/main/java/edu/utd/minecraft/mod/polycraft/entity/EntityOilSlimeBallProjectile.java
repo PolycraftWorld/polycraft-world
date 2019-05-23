@@ -17,6 +17,7 @@ import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -73,7 +74,7 @@ public class EntityOilSlimeBallProjectile extends EntitySnowball{
 	        }
 	        else
 	        {
-	        	worldObj.setBlock( (int)posX, (int)posY, (int)posZ,PolycraftMod.blockOil);
+	        	worldObj.setBlockState( new BlockPos((int)posX, (int)posY, (int)posZ),PolycraftMod.blockOil.getDefaultState());
 	        }
 	
 	        

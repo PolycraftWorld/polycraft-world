@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import scala.swing.event.MouseReleased;
 
 public class GuiExperimentList extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
     private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
     
@@ -130,9 +131,10 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
      * the keys are ordered from top left to bottom on the keyboard (1 = esc, 2 = 1, 3=2, etc... backspace=14, tab=15, q = 16, etc...)
      * Capital keys (Shift/capslock) will change the char, but not the int
      * for now, if user presses r when inside that window, it will close.
+     * @throws IOException 
      */
     @Override
-    public void keyTyped(char abc, int one) {
+    public void keyTyped(char abc, int one) throws IOException {
     	super.keyTyped(abc, one);
     	if(abc == 'x' || abc == 'X') {
     		 this.exitGuiScreen();
@@ -150,10 +152,10 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
 	}
 
 	@Override
-    protected void mouseClicked(int x, int y, int mouseEvent) {
+    protected void mouseClicked(int x, int y, int mouseEvent) throws IOException {
     	
     	if(this.guiConfig != null) {
-    		this.guiConfig.func_148179_a(x, y, mouseEvent);
+    		this.guiConfig.mouseClicked(x, y, mouseEvent);
     	}
     	
     	super.mouseClicked(x, y, mouseEvent);
@@ -165,17 +167,17 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
      * mouseMove, which==0 or which==1 is mouseUp
      */
     @Override
-    protected void mouseMovedOrUp(int x, int y, int mouseEvent)
+    protected void mouseReleased(int x, int y, int mouseEvent)
     {
     	//super.mouseMovedOrUp(x, y, mouseEvent);
     	if(this.guiConfig != null) {
     		
-    		if (mouseEvent != 0 || !this.guiConfig.func_148181_b(x, y, mouseEvent))
+    		if (mouseEvent != 0 || !this.guiConfig.mouseReleased(x, y, mouseEvent))
     		{
-    			super.mouseMovedOrUp(x, y, mouseEvent);
+    			super.mouseReleased(x, y, mouseEvent);
     		}
 		}else {
-			super.mouseMovedOrUp(x, y, mouseEvent);
+			super.mouseReleased(x, y, mouseEvent);
 		}
             
     }
@@ -352,8 +354,9 @@ public class GuiExperimentList extends PolycraftGuiScreenBase {
     
     /**
 	 * Handles mouse wheel scrolling.
+     * @throws IOException 
 	 */
-	public void handleMouseInput() {
+	public void handleMouseInput() throws IOException {
 		
 		int i = Mouse.getEventDWheel();
 		if (i != 0 && extraLines > 0) {

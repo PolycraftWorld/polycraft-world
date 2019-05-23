@@ -1,10 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.entity.Physics;
 
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import net.minecraft.client.Minecraft;
@@ -13,8 +13,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModelCustom;
-import net.minecraftforge.client.model.obj.ObjModelLoader;
+//import net.minecraftforge.client.model.IModelCustom;
+//import net.minecraftforge.client.model.obj.ObjModelLoader;
 
 @SideOnly(Side.CLIENT)
 public class ModelCannonBall extends ModelBase
@@ -44,7 +44,7 @@ public class ModelCannonBall extends ModelBase
     public ModelRenderer part18;
     public ModelRenderer part19;
     public ModelRenderer part20;
-	private IModelCustom inventoryModel;
+	//private IModelCustom inventoryModel;
 	public ResourceLocation objFile;
 	public ResourceLocation textureFile;
 
@@ -54,7 +54,7 @@ public class ModelCannonBall extends ModelBase
     {
     	this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/ironcannonball.obj");
 		//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
-		this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
+		//this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
 		this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/cannonball.png");
 	
 //        float f = 4.0F;
@@ -169,7 +169,7 @@ public class ModelCannonBall extends ModelBase
             GL11.glColor4f(r, g, b, 1.0F);
         }
 		
-		this.inventoryModel.renderAll();
+		//this.inventoryModel.renderAll();
 		
 //        this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_, p_78088_1_);
 //        this.part1.render(p_78088_7_);

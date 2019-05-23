@@ -6,15 +6,17 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,7 +30,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	private final BlockPolymerBrickHelper helper;
 	private final int length, width;
 
-	private IIcon icon;
+//	private IIcon icon;
 
 	public BlockPolymerBrick(final PolymerBrick Brick, final int length, final int width) {
 		super(Material.cloth);
@@ -73,19 +75,19 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 	//TODO: Walter to fix for 3D additions
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int colorIndex) {
-		return helper.getIcon(side, colorIndex);
-		//return this.icon;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		helper.registerBlockIcons(par1IconRegister);
-		//icon = par1IconRegister.registerIcon(PolycraftMod.MODID.toLowerCase() + ":PolymerBrick");
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int colorIndex) {
+//		return helper.getIcon(side, colorIndex);
+//		//return this.icon;
+//	}
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister par1IconRegister) {
+//		helper.registerBlockIcons(par1IconRegister);
+//		//icon = par1IconRegister.registerIcon(PolycraftMod.MODID.toLowerCase() + ":PolymerBrick");
+//	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -104,7 +106,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	// }
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	public Item getItemDropped(IBlockState state, Random random, int fortune)
 	{
 		//return null;
 		//TODO: Check to make this implementation works
@@ -121,15 +123,15 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 	//overriding this so we can add ntb stack compounds to the itemstack immediately so they can stack right when broken
 	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+	public List<ItemStack> getDrops(IBlockAccess access, BlockPos blockPos, IBlockState state, int fortune)
 	{
-		return helper.getDrops(this, world, x, y, z, metadata, fortune);
+		return helper.getDrops(this, blockPos, state, fortune);
 	}
 
-	//@Override
-	public void onBlockPlacedBy(World worldObj, int xPos, int yPos, int zPos, EntityLivingBase player, ItemStack itemToPlace) {
+	@Override
+	public void onBlockPlacedBy(World worldObj, BlockPos blockPos, IBlockState state, EntityLivingBase player, ItemStack itemToPlace) {
 
-		helper.onBlockPlacedBy(worldObj, xPos, yPos, zPos, player, itemToPlace);
+		helper.onBlockPlacedBy(worldObj, blockPos, state, player, itemToPlace);
 
 		//		if (worldObj.getTileEntity(xPos, yPos, zPos) instanceof TileEntityPolymerBrick) {
 		//			TileEntityPolymerBrick te = (TileEntityPolymerBrick) worldObj.getTileEntity(xPos, yPos, zPos);
@@ -162,9 +164,9 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 		}
 
-		Block block = worldObj.getBlock(xPos, yPos, zPos);
+		Block block = worldObj.getBlockState(blockPos).getBlock();
 		int l = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		int meta = worldObj.getBlockMetadata(xPos, yPos, zPos);
+		int meta = this.getMetaFromState(worldObj.getBlockState(blockPos));
 		boolean blockCanBePlaced = true;
 		int notMirrored = 1;
 		if (ctrlPressed)
@@ -175,7 +177,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 		else if (meta == 0)
 		{
 			meta = (int) (Math.random() * 15 + 1);
-			worldObj.setBlock(xPos, yPos, zPos, this, meta, 2);
+			worldObj.setBlockState(blockPos, this.getStateFromMeta(meta),3);
 		}
 
 		for (int len = 0; len < this.length; len++)
@@ -187,7 +189,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 				if (((l == 0) && (!shiftPressed)) || ((l == 2) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 				{
-					Block nextBlock = worldObj.getBlock(xPos - wid * notMirrored, yPos, zPos + len);
+					Block nextBlock = worldObj.getBlockState(blockPos.add(-wid * notMirrored,0, len)).getBlock();
 					if ((nextBlock != Blocks.air) &&
 							(nextBlock != Blocks.water) &&
 							(nextBlock != Blocks.deadbush) &&
@@ -208,7 +210,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 				if (((l == 1) && (!shiftPressed)) || ((l == 3) && (shiftPressed))) // facing west (-x)
 				{
-					Block nextBlock = worldObj.getBlock(xPos - len, yPos, zPos - wid * notMirrored);
+					Block nextBlock = worldObj.getBlockState(blockPos.add(-len, 0, -wid * notMirrored)).getBlock();
 					if ((nextBlock != Blocks.air) &&
 							(nextBlock != Blocks.water) &&
 							(nextBlock != Blocks.deadbush) &&
@@ -230,7 +232,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 				if (((l == 2) && (!shiftPressed)) || ((l == 0) && (shiftPressed))) // facing north (-z)
 				{
-					Block nextBlock = worldObj.getBlock(xPos + wid * notMirrored, yPos, zPos - len);
+					Block nextBlock = worldObj.getBlockState(blockPos.add(wid * notMirrored, 0, -len)).getBlock();
 					if ((nextBlock != Blocks.air) &&
 							(nextBlock != Blocks.water) &&
 							(nextBlock != Blocks.deadbush) &&
@@ -251,7 +253,7 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 				if (((l == 3) && (!shiftPressed)) || ((l == 1) && (shiftPressed))) // facing east (+x)
 				{
-					Block nextBlock = worldObj.getBlock(xPos + len, yPos, zPos + wid * notMirrored);
+					Block nextBlock = worldObj.getBlockState(blockPos.add(len, 0, wid * notMirrored)).getBlock();
 					if ((nextBlock != Blocks.air) &&
 							(nextBlock != Blocks.water) &&
 							(nextBlock != Blocks.deadbush) &&
@@ -281,20 +283,20 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 				for (int wid = 0; wid < this.width; wid++)
 				{
 					if (((l == 0) && (!shiftPressed)) || ((l == 2) && (shiftPressed))) // facing south (+z)
-						worldObj.setBlock(xPos - wid * notMirrored, yPos, zPos + len, this, meta, 2);
+						worldObj.setBlockState(blockPos.add(-wid * notMirrored, 0, len), this.getStateFromMeta(meta), 2);
 					if (((l == 1) && (!shiftPressed)) || ((l == 3) && (shiftPressed))) // facing west (-x)
-						worldObj.setBlock(xPos - len, yPos, zPos - wid * notMirrored, this, meta, 2);
+						worldObj.setBlockState(blockPos.add(-len, 0, -wid *notMirrored), this.getStateFromMeta(meta), 2);
 					if (((l == 2) && (!shiftPressed)) || ((l == 0) && (shiftPressed))) // facing north (-z)
-						worldObj.setBlock(xPos + wid * notMirrored, yPos, zPos - len, this, meta, 2);
+						worldObj.setBlockState(blockPos.add(wid * notMirrored, 0, -len), this.getStateFromMeta(meta), 2);
 					if (((l == 3) && (!shiftPressed)) || ((l == 1) && (shiftPressed))) // facing east (+x)
-						worldObj.setBlock(xPos + len, yPos, zPos + wid * notMirrored, this, meta, 2);
+						worldObj.setBlockState(blockPos.add(len, 0, wid * notMirrored), this.getStateFromMeta(meta), 2);
 				}
 			}
 
 		}
 		else
 		{
-			worldObj.setBlock(xPos, yPos, zPos, Blocks.air);
+			worldObj.setBlockToAir(blockPos);
 			itemToPlace.stackSize += 1;
 
 		}
@@ -302,25 +304,25 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	}
 
 	@Override
-	public int damageDropped(int p_149692_1_) {
-		return helper.damageDropped(p_149692_1_);
+	public int damageDropped(IBlockState state) {
+		return helper.damageDropped(this.getMetaFromState(state));
 	}
 
-	@Override
-	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
-		super.dropBlockAsItem(world, x, y, z, itemstack);
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
-		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
-		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
-		return polycraftItemStack;
-
-	}
+//	@Override
+//	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(itemstack);
+//		super.dropBlockAsItem(world, x, y, z, itemstack);
+//	}
+//
+//	@Override
+//	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+//	{
+//		ItemStack polycraftItemStack = super.getPickBlock(target, world, x, y, z);
+//		PolycraftMod.setPolycraftStackCompoundTag(polycraftItemStack);
+//		return polycraftItemStack;
+//
+//	}
 
 	public String getUnlocalizedName(int colorIndex) {
 		return Brick.gameID + "." + colorIndex;

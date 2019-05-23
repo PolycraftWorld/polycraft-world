@@ -22,7 +22,7 @@ public class VesselMerger extends InventoryBehavior {
 
 	@Override
 	public boolean updateEntity(final PolycraftInventory inventory, final World world) {
-		if (inventory.getWorldObj() != null && !inventory.getWorldObj().isRemote) {
+		if (inventory.getWorld() != null && !inventory.getWorld().isRemote) {
 			if (mergeTicksCurrent == 0) {
 				mergeTicksCurrent = mergeTicksStart;
 				//don't merge heated inventories that are currently processing

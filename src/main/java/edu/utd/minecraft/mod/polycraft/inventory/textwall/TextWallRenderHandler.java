@@ -14,19 +14,19 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
+public class TextWallRenderHandler //extends PolycraftInventoryBlock.BasicRenderingHandler
+{
 	//private static final ResourceLocation img = new ResourceLocation("textures/entity/sign.png");
 	public TextWallRenderHandler(Inventory config) {
-		super(config);
+		//super(config);
 		//this.inventoryModel.
 		// TODO Auto-generated constructor stub
 	}
-	
+	/* TODO: update to 1.8
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float tick) {
@@ -119,6 +119,6 @@ public class TextWallRenderHandler extends PolycraftInventoryBlock.BasicRenderin
 		//For OpenGL, we must first PushMatrix(), do things to it, then PopMatrix().
 		GL11.glPopMatrix();
 		
-	}
+	}*/
 	
 }

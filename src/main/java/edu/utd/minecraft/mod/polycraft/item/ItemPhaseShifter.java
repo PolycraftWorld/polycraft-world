@@ -55,9 +55,9 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 					final int blockX = playerX + x;
 					final int blockY = playerY + y + 5;
 					final int blockZ = playerZ + z;
-					world.func_147480_a(blockX, blockY, blockZ, true);
-					if (phaseShifter.boundaryBlock != null && (xBoundary || yBoundary || zBoundary))
-						world.setBlock(blockX, blockY, blockZ, phaseShifter.boundaryBlock);
+//					world.func_147480_a(blockX, blockY, blockZ, true);
+//					if (phaseShifter.boundaryBlock != null && (xBoundary || yBoundary || zBoundary))
+//						world.setBlock(blockX, blockY, blockZ, phaseShifter.boundaryBlock);
 				}
 			}
 		}
@@ -68,7 +68,7 @@ public class ItemPhaseShifter extends PolycraftUtilityItem {
 	public final Block boundaryBlock;
 
 	public ItemPhaseShifter(final CustomObject config) {
-		this.setTextureName(PolycraftMod.getAssetName("phase_shifter"));
+		//this.setTextureName(PolycraftMod.getAssetName("phase_shifter"));
 		//this.setCreativeTab(CreativeTabs.tabTools);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

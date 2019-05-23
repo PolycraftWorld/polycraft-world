@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockNewLog;
 import net.minecraft.block.BlockOldLog;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -15,9 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -113,13 +110,13 @@ public class TreeTapInventory extends PolycraftInventory {
 
 	private ItemStack getNextTappedItem() {
 		for (final int[] tappedCoordOffset : tappedCoordOffsets) {
-			final int x = xCoord + tappedCoordOffset[0];
-			final int z = zCoord + tappedCoordOffset[1];
-			final Block treeBlock = getWorldObj().getBlock(x, yCoord, z);
+			final int x = pos.getX() + tappedCoordOffset[0];
+			final int z = pos.getZ() + tappedCoordOffset[1];
+			final Block treeBlock = getWorld().getBlockState(pos.add(x, 0, z)).getBlock();
 			//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
 			if (treeBlock != null && ((treeBlock instanceof BlockOldLog) || (treeBlock instanceof BlockNewLog))) {
 				// Changed "metadata == 3" to "(metadata & 3) == 3" to account for log rotations. - Chris
-				if (spawnAttempts++ >= ((getWorldObj().getBlockMetadata(x, yCoord, z) & 3) == 3 ? jungleSpawnFrequencyTicks : defaultSpawnFrequencyTicks)) {
+				if (spawnAttempts++ >= ((treeBlock.getMetaFromState(getWorld().getBlockState(pos.add(x, 0, z))) & 3) == 3 ? jungleSpawnFrequencyTicks : defaultSpawnFrequencyTicks)) {
 					spawnAttempts = 0;
 					return polymerPelletsToSpawn.getItemStack(amountToSpawn);
 				}
@@ -161,7 +158,7 @@ public class TreeTapInventory extends PolycraftInventory {
 			if (iinventory instanceof ISidedInventory && b0 > -1)
 			{
 				ISidedInventory isidedinventory = (ISidedInventory) iinventory;
-				int[] aint = isidedinventory.getAccessibleSlotsFromSide(b0);
+				int[] aint = isidedinventory.getSlotsForFace(EnumFacing.getFront(b0));
 
 				if (aint != null) {
 					for (int k = 0; k < aint.length; ++k)
@@ -210,11 +207,11 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	private static boolean func_145890_b(IInventory p_145890_0_, ItemStack p_145890_1_, int p_145890_2_, int p_145890_3_) {
-		return !(p_145890_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145890_0_).canExtractItem(p_145890_2_, p_145890_1_, p_145890_3_);
+		return !(p_145890_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145890_0_).canExtractItem(p_145890_2_, p_145890_1_, EnumFacing.getFront(p_145890_3_));
 	}
 
 	public static IInventory func_145884_b(TreeTapInventory p_145884_0_) {
-		return getClickedOnInventory(p_145884_0_.getWorldObj(), p_145884_0_.xCoord, p_145884_0_.yCoord + 1.0D, p_145884_0_.zCoord);
+		return getClickedOnInventory(p_145884_0_.getWorld(), p_145884_0_.pos.up());
 	}
 
 	private boolean func_145883_k() {
@@ -231,7 +228,7 @@ public class TreeTapInventory extends PolycraftInventory {
 				if (this.getStackInSlot(i) != null)
 				{
 					ItemStack itemstack = this.getStackInSlot(i).copy();
-					ItemStack itemstack1 = func_145889_a(iinventory, this.decrStackSize(i, 1), Facing.oppositeSide[getDirectionFromMetadata(this.getBlockMetadata())]);
+					ItemStack itemstack1 = func_145889_a(iinventory, this.decrStackSize(i, 1), EnumFacing.getFront(getDirectionFromMetadata(this.getBlockMetadata())).getOpposite().getIndex());
 
 					if (itemstack1 == null || itemstack1.stackSize == 0)
 					{
@@ -250,7 +247,7 @@ public class TreeTapInventory extends PolycraftInventory {
 	public static ItemStack func_145889_a(IInventory p_145889_0_, ItemStack p_145889_1_, int p_145889_2_) {
 		if (p_145889_0_ instanceof ISidedInventory && p_145889_2_ > -1) {
 			ISidedInventory isidedinventory = (ISidedInventory) p_145889_0_;
-			int[] aint = isidedinventory.getAccessibleSlotsFromSide(p_145889_2_);
+			int[] aint = isidedinventory.getSlotsForFace(EnumFacing.getFront(p_145889_2_));
 
 			for (int l = 0; l < aint.length && p_145889_1_ != null && p_145889_1_.stackSize > 0; ++l) {
 				p_145889_1_ = func_145899_c(p_145889_0_, p_145889_1_, aint[l], p_145889_2_);
@@ -327,20 +324,17 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	private static boolean func_145885_a(IInventory p_145885_0_, ItemStack p_145885_1_, int p_145885_2_, int p_145885_3_) {
-		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, p_145885_3_);
+		return !p_145885_0_.isItemValidForSlot(p_145885_2_, p_145885_1_) ? false : !(p_145885_0_ instanceof ISidedInventory) || ((ISidedInventory) p_145885_0_).canInsertItem(p_145885_2_, p_145885_1_, EnumFacing.getFront(p_145885_3_));
 	}
 
 	private IInventory func_145895_l() {
 		int i = getDirectionFromMetadata(this.getBlockMetadata());
-		return getClickedOnInventory(this.getWorldObj(), this.xCoord + Facing.offsetsXForSide[i], this.yCoord + Facing.offsetsYForSide[i], this.zCoord + Facing.offsetsZForSide[i]);
+		return getClickedOnInventory(this.getWorld(), this.pos.offset(EnumFacing.getFront(i)));
 	}
 
-	public static IInventory getClickedOnInventory(World worldObj, double xCoordDecimal, double yCoordDecimal, double zCoordDecimal) {
+	public static IInventory getClickedOnInventory(World worldObj, BlockPos blockPos) {
 		IInventory iinventory = null;
-		int i = MathHelper.floor_double(xCoordDecimal);
-		int j = MathHelper.floor_double(yCoordDecimal);
-		int k = MathHelper.floor_double(zCoordDecimal);
-		TileEntity tileentity = worldObj.getTileEntity(i, j, k);
+		TileEntity tileentity = worldObj.getTileEntity(blockPos);
 
 		if (tileentity != null && tileentity instanceof IInventory)
 		{
@@ -348,19 +342,18 @@ public class TreeTapInventory extends PolycraftInventory {
 
 			if (iinventory instanceof TileEntityChest)
 			{
-				Block block = worldObj.getBlock(i, j, k);
+				Block block = worldObj.getBlockState(blockPos).getBlock();
 
 				if (block instanceof BlockChest)
 				{
-					iinventory = ((BlockChest) block).getLockableContainer(worldObj, new BlockPos(i, j, k));
+					iinventory = ((BlockChest) block).getLockableContainer(worldObj, blockPos);
 				}
 			}
 		}
 
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getBoundingBox(xCoordDecimal, yCoordDecimal, zCoordDecimal, xCoordDecimal + 1.0D, yCoordDecimal + 1.0D, zCoordDecimal + 1.0D),
-					IEntitySelector.selectInventories);
+			List list = worldObj.getEntitiesWithinAABB(null, AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1), EntitySelectors.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{

@@ -24,10 +24,10 @@ public class ItemMoldedItem extends Item implements PolycraftItem, PolycraftMold
 	public ItemMoldedItem(final MoldedItem moldedItem) {
 		Preconditions.checkNotNull(moldedItem);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		if (moldedItem.loadCustomTexture)
-			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + moldedItem.name)));
-		else
-			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + moldedItem.source.polymerObject.name)));
+//		if (moldedItem.loadCustomTexture)
+//			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + moldedItem.name)));
+//		else
+//			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + moldedItem.source.polymerObject.name)));
 		if (moldedItem.maxStackSize > 0)
 			this.setMaxStackSize(moldedItem.maxStackSize);
 		this.moldedItem = moldedItem;

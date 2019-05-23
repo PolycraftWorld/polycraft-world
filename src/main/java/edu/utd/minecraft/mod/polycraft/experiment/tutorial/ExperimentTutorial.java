@@ -122,12 +122,12 @@ public class ExperimentTutorial{
 	public ExperimentTutorial(int id, TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
 		
 		this.id = id;
-		Vec3 pos1 = new Vec3(Math.min(options.pos.xCoord, options.size.xCoord),
-				Math.min(options.pos.yCoord, options.size.yCoord),
-				Math.min(options.pos.zCoord, options.size.zCoord));
-		this.size = new Vec3(Math.max(options.pos.xCoord, options.size.xCoord) - pos1.xCoord,
-				Math.max(options.pos.yCoord, options.size.yCoord) - pos1.yCoord,
-				Math.max(options.pos.zCoord, options.size.zCoord) - pos1.zCoord);
+		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.size.getX()),
+				Math.min(options.pos.getY(), options.size.getY()),
+				Math.min(options.pos.getZ(), options.size.getZ()));
+		this.size = new Vec3(Math.max(options.pos.getX(), options.size.getX()) - pos1.xCoord,
+				Math.max(options.pos.getY(), options.size.getY()) - pos1.yCoord,
+				Math.max(options.pos.getZ(), options.size.getZ()) - pos1.zCoord);
 		if(genInDim8) {
 			dim = 8;
 			this.posOffset = new Vec3(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);

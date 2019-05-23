@@ -25,11 +25,11 @@ public class OilDerrickGui extends PolycraftInventoryGui<OilDerrickInventory> {
 		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
 		if (inventory.hasWorldObj()) {
 			int color = 0x9E0300; // Red color.
-			World world = inventory.getWorldObj();
-			final Block oreBlock = world.getBlock(inventory.xCoord, inventory.yCoord - 1, inventory.zCoord);
+			World world = inventory.getWorld();
+			final Block oreBlock = world.getBlockState(inventory.getPos().down()).getBlock();
 			if (oreBlock != null && oreBlock instanceof BlockOre)
 				if (((BlockOre) oreBlock).ore.gameID.equals(inventory.getSpawnFromOre().gameID))
-					if (world.getBlockMetadata(inventory.xCoord, inventory.yCoord - 1, inventory.zCoord) > 0)
+					if (world.getBlockState(inventory.getPos().down()).getBlock().getMetaFromState(world.getBlockState(inventory.getPos().down())) > 0)
 						color = 0x129E00; // Green color.
 			this.fontRendererObj.drawString(OIL_DERRICK, 62, 6, color);
 		}

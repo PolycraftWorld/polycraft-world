@@ -54,7 +54,7 @@ public class Armor extends Config {
 	}
 
 	public String getTexture() {
-		return PolycraftMod.getAssetName("textures/models/armor/" + PolycraftMod.getFileSafeName(name) + ".png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/" + PolycraftMod.getFileSafeName(name) + ".png");
 	}
 
 }

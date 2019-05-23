@@ -33,7 +33,7 @@ group= "edu.utd.minecraft.mod.polycraft" // http://maven.apache.org/guides/mini/
 archivesBaseName = "polycraft"
 
 minecraft {
-    version = "1.8.9-11.15.1.1722"
+    version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
 
     // the mappings can be changed at any time, and must be in the following format.
@@ -41,7 +41,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "stable_22"
+    mappings = "stable_20"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
@@ -78,9 +78,9 @@ dependencies {
     compile group: 'com.microsoft.azure', name: 'azure-storage', version: '2.2.0'
 
     // NEI Integration files requred for successful gradle build
-    //compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
-    //compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.138:dev'
-    //compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
+    compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
+    compile 'codechicken:CodeChickenLib:1.8-1.1.2.112:dev'
+    compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
 
     external 'org.apache.httpcomponents:httpclient:4.3.3'
     external 'org.apache.httpcomponents:httpcore:4.3.2'

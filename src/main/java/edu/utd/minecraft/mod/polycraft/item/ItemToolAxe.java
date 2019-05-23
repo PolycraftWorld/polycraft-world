@@ -10,7 +10,7 @@ public class ItemToolAxe extends PolycraftAxe {
 		super(material);
 		this.tool = tool;
 		setCreativeTab(CreativeTabs.tabTools);
-		setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.AXE))));
+		//setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.AXE))));
 	}
 	
 	

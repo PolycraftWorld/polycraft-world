@@ -19,6 +19,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import net.minecraft.block.BlockChest;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -224,8 +227,8 @@ public abstract class Experiment {
 	public boolean removePlayer(EntityPlayerMP player) {
 		try {
 			for(Team team: this.scoreboard.getTeams()) {
-				if(team.getPlayers().remove(player.getDisplayName())) {
-					this.queuedPlayers.remove(player.getDisplayName());	//remove from queued players as well in case the experiment hasn't started yet
+				if(team.getPlayers().remove(player.getDisplayNameString())) {
+					this.queuedPlayers.remove(player.getDisplayNameString());	//remove from queued players as well in case the experiment hasn't started yet
 					awaitingNumPlayers++;
 					return true;
 				}
@@ -267,10 +270,10 @@ public abstract class Experiment {
 	 */
 	public boolean addPlayer(EntityPlayerMP player){
 		int playerCount = queuedPlayers.size();
-		if(queuedPlayers.contains(player.getDisplayName())) { //check to see if the player's name 
+		if(queuedPlayers.contains(player.getDisplayNameString())) { //check to see if the player's name 
 			player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
 		}else if(playerCount < teamSize*teamsNeeded) {
-			queuedPlayers.add(player.getDisplayName());
+			queuedPlayers.add(player.getDisplayNameString());
 			player.addChatMessage(new ChatComponentText("You have been added to the experiment: " + this.name));
 			//analytics for player joining experiment
 			PlayerRegisterEvent event = new PlayerRegisterEvent(id,(EntityPlayer)player);
@@ -317,12 +320,10 @@ public abstract class Experiment {
 			hasBeenGenerated = true;
 			//lets put in the chests!
 			for(int i = 0; i < chests.size(); i++) {
-				int x = (int) chests.get(i).xCoord;
-				int y = (int) chests.get(i).yCoord;
-				int z = (int) chests.get(i).zCoord;
+				BlockPos chestPos = new BlockPos(chests.get(i));
 				TileEntity entity;
-				if(world.getTileEntity(x, y, z) != null) {
-					entity = (TileEntity) world.getTileEntity(x, y , z);
+				if(world.getTileEntity(chestPos) != null) {
+					entity = (TileEntity) world.getTileEntity(chestPos);
 					if(entity != null && entity instanceof TileEntityChest) {
 						//clear chest contents.
 						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
@@ -330,8 +331,8 @@ public abstract class Experiment {
 					}
 					
 				} else {
-					world.setBlock(x, y, z, Block.getBlockFromName("chest"));
-					entity = (TileEntity) world.getTileEntity(x, y , z);
+					world.setBlockState(chestPos, Block.getBlockFromName("chest").getDefaultState());
+					entity = (TileEntity) world.getTileEntity(chestPos);
 				}
 				
 				if(entity != null && entity instanceof TileEntityChest) {
@@ -361,50 +362,50 @@ public abstract class Experiment {
 						continue; //these are Gas Lamps - we don't care for these.
 						
 					}else if(curblock == 123 || curblock == 124) { //replace redstone lamps (inactive or active) with glowstone.
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(89).getDefaultState(), 2);
 					}
 					
 					else if(curblock == 95) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}
 	
 						
 					}else if(curblock == 35) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//System.out.println(x);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}else if(sh.data[count] == 0) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add white carpet
 						}
 						
 					}
 					
 					else if(curblock == 859) { //Polycrafting Tables (experiments!)
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos)).getBlock();
 						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+						pbi.onBlockPlacedBy(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos), pbi.getDefaultState(), dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
 					
 					}
 					
 					else if(curblock == 754) { //spotlights - we like these
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos));
 						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+						pbi.onBlockPlacedBy(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos), pbi.getDefaultState(), dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
 						
-						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos));
 						lightInv.setInventorySlotContents(0,
 								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
 
@@ -415,7 +416,7 @@ public abstract class Experiment {
 								spawnlocations[i][0] = x + this.xPos;
 								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								spawnlocations[i][2] = z + this.zPos;
-								chests.add(Vec3.createVectorHelper(x + this.xPos, 
+								chests.add(new Vec3(x + this.xPos,
 										y + this.yPos + 2.0, 
 										z + this.zPos));	//add to chests list
 								i = spawnlocations.length; 	//exit for loop
@@ -423,10 +424,10 @@ public abstract class Experiment {
 						}
 						
 						//place the block!
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						
 					}else {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 					}
 					
 					count++;
@@ -468,8 +469,8 @@ public abstract class Experiment {
 				int y = (int) chests.get(i).yCoord;
 				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
-				if(world.blockExists(x, y, z)) {
-					entity = (TileEntity) world.getTileEntity(x, y , z);
+				if(world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockChest) {
+					entity = (TileEntity) world.getTileEntity(new BlockPos(x, y , z));
 					if(entity != null && entity instanceof TileEntityChest) {
 						//clear chest contents.
 						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
@@ -477,8 +478,8 @@ public abstract class Experiment {
 					}
 					
 				} else {
-					world.setBlock(x, y, z, Block.getBlockFromName("chest"));
-					entity = (TileEntity) world.getTileEntity(x, y , z);
+					world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName("chest").getDefaultState());
+					entity = (TileEntity) world.getTileEntity(new BlockPos(x, y , z));
 				}
 				
 				if(entity != null && entity instanceof TileEntityChest) {
@@ -506,77 +507,76 @@ public abstract class Experiment {
 					else if(curblock == 759) {
 						count++;
 						continue; //these are Gas Lamps - we don't care for these.
-						
+
 					}else if(curblock == 123 || curblock == 124) { //replace redstone lamps (inactive or active) with glowstone.
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(89).getDefaultState(), 2);
 					}
-					
+
 					else if(curblock == 95) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}
-	
-						
+
+
 					}else if(curblock == 35) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//System.out.println(x);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}else if(sh.data[count] == 0) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add white carpet
 						}
-						
+
 					}
-					
+
 					else if(curblock == 859) { //Polycrafting Tables (experiments!)
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos)).getBlock();
 						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
-					
+						pbi.onBlockPlacedBy(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos), pbi.getDefaultState(), dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+
 					}
-					
-					
+
 					else if(curblock == 754) { //spotlights - we like these
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos));
 						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
-						
-						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+						pbi.onBlockPlacedBy(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos), pbi.getDefaultState(), dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+
+						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos));
 						lightInv.setInventorySlotContents(0,
 								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
 
-					
+
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
 						for(int i = 0; i < spawnlocations.length; i++) {
 							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
 								spawnlocations[i][0] = x + this.xPos;
 								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								spawnlocations[i][2] = z + this.zPos;
-								chests.add(Vec3.createVectorHelper(x + this.xPos, 
-										y + this.yPos + 2.0, 
-										z + this.zPos));
+								chests.add(new Vec3(x + this.xPos,
+										y + this.yPos + 2.0,
+										z + this.zPos));	//add to chests list
 								i = spawnlocations.length; 	//exit for loop
 							}
 						}
-						
+
 						//place the block!
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
-						
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
+
 					}else {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 					}
-					
+
 					count++;
 				}
 			}
@@ -615,8 +615,8 @@ public abstract class Experiment {
 				int y = (int) chests.get(i).yCoord;
 				int z = (int) chests.get(i).zCoord;
 				TileEntity entity;
-				if(world.blockExists(x, y, z)) {
-					entity = (TileEntity) world.getTileEntity(x, y , z);
+				if(world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockChest) {
+					entity = (TileEntity) world.getTileEntity(new BlockPos(x, y, z));
 					if(entity != null && entity instanceof TileEntityChest) {
 						//clear chest contents.
 						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
@@ -624,8 +624,8 @@ public abstract class Experiment {
 					}
 					
 				} else {
-					world.setBlock(x, y, z, Block.getBlockFromName("chest"));
-					entity = (TileEntity) world.getTileEntity(x, y , z);
+					world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName("chest").getDefaultState());
+					entity = (TileEntity) world.getTileEntity(new BlockPos(x, y, z));
 				}
 				
 				if(entity != null && entity instanceof TileEntityChest) {
@@ -653,77 +653,76 @@ public abstract class Experiment {
 					else if(curblock == 759) {
 						count++;
 						continue; //these are Gas Lamps - we don't care for these.
-						
+
 					}else if(curblock == 123 || curblock == 124) { //replace redstone lamps (inactive or active) with glowstone.
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(89), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(89).getDefaultState(), 2);
 					}
-					
+
 					else if(curblock == 95) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}
-	
-						
+
+
 					}else if(curblock == 35) {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//System.out.println(x);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}else if(sh.data[count] == 0) {
-							world.setBlock(x + this.xPos, y + this.yPos + 1, z + this.zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
+							world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos + 1, z + this.zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add white carpet
 						}
-						
+
 					}
-					
+
 					else if(curblock == 859) { //Polycrafting Tables (experiments!)
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos)).getBlock();
 						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
-					
+						pbi.onBlockPlacedBy(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos), pbi.getDefaultState(), dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+
 					}
-					
-					
+
 					else if(curblock == 754) { //spotlights - we like these
-						//world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						//world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(0), 0, 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//ResearchAssistantEntity dummy = new ResearchAssistantEntity(world, true);
-						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + this.xPos, y + this.yPos , z + this.zPos);
+						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos));
 						//System.out.println(String.format("Found a tile entity & xyz: %s %d %d %d", pbi.getUnlocalizedName(), x + this.xPos,  y + this.yPos , z + this.zPos));
 						//System.out.println("Coordinates: ");
 						ItemStack item = new ItemStack(Block.getBlockById((int)sh.blocks[count]));
-						pbi.onBlockPlacedBy(world, x + this.xPos, y + this.yPos, z + this.zPos, dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
-						
-						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, x + this.xPos, y + this.yPos, z + this.zPos);
+						pbi.onBlockPlacedBy(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos), pbi.getDefaultState(), dummy, new ItemStack(Block.getBlockById((int)sh.blocks[count])));
+
+						FueledLampInventory lightInv = (FueledLampInventory) pbi.getInventory(world, new BlockPos(x + this.xPos, y + this.yPos, z + this.zPos));
 						lightInv.setInventorySlotContents(0,
 								new ItemStack(random.nextFloat() > 0.5 ? ResearchAssistantLabGenerator.BUTANOL : ResearchAssistantLabGenerator.ETHANOL, 8 + random.nextInt(3)));
 
-					
+
 					}else if(curblock == 19){ //sponges mark the spawn locations, but are located two blocks below the surface.
 						for(int i = 0; i < spawnlocations.length; i++) {
 							if(spawnlocations[i][1] == 0){	// if the y value is zero, it hasn't been defined yet
 								spawnlocations[i][0] = x + this.xPos;
 								spawnlocations[i][1] = y + this.yPos + 2; //add two because we hide the block underground
 								spawnlocations[i][2] = z + this.zPos;
-								chests.add(Vec3.createVectorHelper(x + this.xPos, 
-										y + this.yPos + 2.0, 
-										z + this.zPos));
+								chests.add(new Vec3(x + this.xPos,
+										y + this.yPos + 2.0,
+										z + this.zPos));	//add to chests list
 								i = spawnlocations.length; 	//exit for loop
 							}
 						}
-						
+
 						//place the block!
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
-						
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
+
 					}else {
-						world.setBlock(x + this.xPos, y + this.yPos , z + this.zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + this.xPos, y + this.yPos , z + this.zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 					}
-					
+
 					count++;
 				}
 			}
@@ -744,14 +743,14 @@ public abstract class Experiment {
 			for(int z = (zChunk*16)+zPos; z < (zChunk*16)+zPos + 16; z++){
 				if(posIsWall(x, z)){
 					for(int i = -3; i < 12; i++){
-						world.setBlock(x, yPos + i, z, bedrock, 0, 3);
+						world.setBlockState(new BlockPos(x, yPos + i, z), bedrock.getDefaultState(), 3);
 					}
 				}else{
-					world.setBlock(x, yPos - 4, z, bedrock, 0, 3);
-					world.setBlock(x, yPos - 3, z, dirt, 0, 3);
-					world.setBlock(x, yPos - 2, z, dirt, 0, 3);
-					world.setBlock(x, yPos - 1, z, dirt, 0, 3);
-					world.setBlock(x, yPos, z, grass, 0, 3);
+					world.setBlockState(new BlockPos(x, yPos - 4, z), bedrock.getDefaultState(), 3);
+					world.setBlockState(new BlockPos(x, yPos - 3, z), dirt.getDefaultState(), 3);
+					world.setBlockState(new BlockPos(x, yPos - 2, z), dirt.getDefaultState(), 3);
+					world.setBlockState(new BlockPos(x, yPos - 1, z), dirt.getDefaultState(), 3);
+					world.setBlockState(new BlockPos(x, yPos, z), grass.getDefaultState(), 3);
 				}
 			}
 		}
@@ -788,11 +787,11 @@ public abstract class Experiment {
 			for(int z = (zChunk*16)+zPos; z < (zChunk*16)+zPos + 16; z++){
 				if(posIsWall(x, z)){
 					for(int i = -18; i < 6; i++){
-						world.setBlock(x, y + i, z, glass, 0, 7);
+						world.setBlockState(new BlockPos(x, y + i, z), glass.getDefaultState(), 7);
 					}
 				}else{
-					world.setBlock(x, y, z, glass, 0, 7);
-					world.setBlock(x, y + 6, z, glass, 0, 7);
+					world.setBlockState(new BlockPos(x, y, z), glass.getDefaultState(), 7);
+					world.setBlockState(new BlockPos(x, y + 6, z), glass.getDefaultState(), 7);
 				}
 			}
 		}
@@ -967,7 +966,7 @@ public abstract class Experiment {
 	}
 	/**
 	 * Maximum number of players that can be in this experiment
-	 * @return Max Players. Used by the {@link ExperimentManager} for display in {@link GUIExperimentList}
+	 * @return Max Players. Used by the {@link ExperimentManager} for display in {link GUIExperimentList}
 	 */
 	public int getMaxPlayers() {
 		return playersNeeded;

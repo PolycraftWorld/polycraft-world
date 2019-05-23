@@ -25,7 +25,7 @@ public class ItemMask extends Item implements PolycraftItem, PolycraftMaskItem {
 	public ItemMask(final Mask mask) {
 		Preconditions.checkNotNull(mask);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(ItemMask.class.getSimpleName())));// + "_" + mask.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(ItemMask.class.getSimpleName())));// + "_" + mask.name)));
 
 		//		if (maskItem.loadCustomTexture)
 		//			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + maskItem.name)));

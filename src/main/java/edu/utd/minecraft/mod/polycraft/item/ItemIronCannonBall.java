@@ -5,6 +5,8 @@ import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemIronCannonBall extends ItemCustom{
@@ -29,7 +31,7 @@ public class ItemIronCannonBall extends ItemCustom{
 
 	 
 	@Override
-	 public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+	 public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, BlockPos blockPos, EnumFacing facing, float hitX, float hitY, float hitZ)
 	 {
 		 if(!world.isRemote)
 		 {
@@ -37,7 +39,7 @@ public class ItemIronCannonBall extends ItemCustom{
 	        	cannonBall = new EntityIronCannonBall(world);
 	        	cannonBall.forceSpawn=true;
 	        	
-	        	cannonBall.setPosition((double)x+.5, (double)y+ hitY+.5, (double)z+.5);
+	        	cannonBall.setPosition(blockPos.getX()+.5, blockPos.getY()+ hitY+.5, blockPos.getX()+.5);
 	            world.spawnEntityInWorld(cannonBall);
 		 }
 		return false;

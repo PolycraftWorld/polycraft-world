@@ -24,7 +24,7 @@ public class ItemArmorLegs extends PolycraftArmorLeggings {
 	public ItemArmorLegs(final Armor armor, final ArmorMaterial material) {
 		super(material, ArmorAppearance.CHAIN);
 		this.armor = armor;
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.LEGS))));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.LEGS))));
 		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.name)));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		//		try {
@@ -38,7 +38,7 @@ public class ItemArmorLegs extends PolycraftArmorLeggings {
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
 		//return armor.getTexture();
-		return PolycraftMod.getAssetName("textures/models/armor/" + PolycraftMod.getFileSafeName(armor.name) + "_layer2.png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/" + PolycraftMod.getFileSafeName(armor.name) + "_layer2.png");
 	}
 
 	@Override

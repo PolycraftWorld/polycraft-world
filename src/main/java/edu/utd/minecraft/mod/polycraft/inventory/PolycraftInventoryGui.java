@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.inventory.courseblock.CHEM2323Inventory;
 
+import java.io.IOException;
+
 public class PolycraftInventoryGui<I extends PolycraftInventory> extends GuiContainer {
 
 	protected final I inventory;
@@ -55,8 +57,7 @@ public class PolycraftInventoryGui<I extends PolycraftInventory> extends GuiCont
 	}
 
 	@Override
-	public void actionPerformed(GuiButton button)
-	{
+	public void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		if (this.inventory instanceof CHEM2323Inventory)
 		{
@@ -82,13 +83,13 @@ public class PolycraftInventoryGui<I extends PolycraftInventory> extends GuiCont
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
 		if (this.inventory instanceof CHEM2323Inventory)
 		{
-			String s = I18n.format(inventory.getInventoryName(), new Object[0]);
+			String s = I18n.format(inventory.getName(), new Object[0]);
 			this.fontRendererObj.drawString(s, 6 * this.xSize / 7 - this.fontRendererObj.getStringWidth(s) / 2, 10, 4210752);
 			this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 		}
 		else
 		{
-			String s = I18n.format(inventory.getInventoryName(), new Object[0]);
+			String s = I18n.format(inventory.getName(), new Object[0]);
 			this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 			this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 		}

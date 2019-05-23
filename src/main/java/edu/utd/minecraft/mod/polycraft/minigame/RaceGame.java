@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import net.minecraft.util.BlockPos;
 import org.lwjgl.opengl.GL11;
 
 import com.google.gson.Gson;
@@ -109,7 +110,7 @@ public class RaceGame extends PolycraftMinigame{
 			//p.getFoodStats().setFoodLevel(20);
 			p.setHealth(p.getMaxHealth());
 
-			p.setPositionAndUpdate(x, p.worldObj.getTopSolidOrLiquidBlock(x, z) + 4, z);
+			p.setPositionAndUpdate(x, p.worldObj.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() + 4, z);
 		}
 		active = true;
 	}

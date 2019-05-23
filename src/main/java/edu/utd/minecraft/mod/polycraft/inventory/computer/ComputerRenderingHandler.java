@@ -3,10 +3,11 @@ package edu.utd.minecraft.mod.polycraft.inventory.computer;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class ComputerRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
+public class ComputerRenderingHandler //extends PolycraftInventoryBlock.BasicRenderingHandler
+{
 
 	public ComputerRenderingHandler(final Inventory config) {
-		super(config);
+		//super(config);
 	}
 
 	//	@Override

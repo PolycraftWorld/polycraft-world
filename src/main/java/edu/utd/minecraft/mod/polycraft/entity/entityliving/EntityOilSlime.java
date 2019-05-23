@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.entity.entityliving;
 
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -51,10 +52,10 @@ public class EntityOilSlime extends EntityLiving implements IMob
     {
         super(p_i1742_1_);
         int i = 1 << this.rand.nextInt(3);
-        this.yOffset = 0.0F;
+        //this.yOffset = 0.0F;
         this.slimeJumpDelay = this.rand.nextInt(20) + 10;
         this.setSlimeSize(i);
-        this.getNavigator().setAvoidsWater(true);
+        //this.getNavigator().setAvoidsWater(true);
         this.healDelay=0;
     }
 
@@ -146,7 +147,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
 	                float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
 	                float f2 = MathHelper.sin(f) * (float)i * 0.5F * f1;
 	                float f3 = MathHelper.cos(f) * (float)i * 0.5F * f1;
-	                PolyParticleSpawner.EntityHeal(this.posX + (double)f2, this.boundingBox.minY+.6, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
+	                PolyParticleSpawner.EntityHeal(this.posX + (double)f2, this.getEntityBoundingBox().minY+.6, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
 	            }
             }
     	}
@@ -157,11 +158,11 @@ public class EntityOilSlime extends EntityLiving implements IMob
     	{
     		this.healDelay--;
     	}
-        if (!this.worldObj.isRemote && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL && this.getSlimeSize() > 0)
+        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && this.getSlimeSize() > 0)
         {
             this.isDead = true;
         }
-        if(worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ)==oil)
+        if(worldObj.getBlockState(this.getPosition()).getBlock()==oil)
         {
         	this.heal();
         	
@@ -186,7 +187,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
 	                float f3 = MathHelper.cos(f) * (float)i * 0.5F * f1;
 	                //this.worldObj.spawnParticle(this.getSlimeParticle(), this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
 	                //Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBreakingFX(this.worldObj, this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, Items.slime_ball));
-	                PolyParticleSpawner.EntityBreakingParticle(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(OIL_SLIME_BALL)), this.posX + (double)f2, this.boundingBox.minY, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
+	                PolyParticleSpawner.EntityBreakingParticle(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName(OIL_SLIME_BALL)), this.posX + (double)f2, this.getEntityBoundingBox().minY, this.posZ + (double)f3, 0.0D, 0.0D, 0.0D);
 	            }
             }
 
@@ -211,10 +212,14 @@ public class EntityOilSlime extends EntityLiving implements IMob
         }
     }
 
+
+    //TODO: This probably need to be converted to AI for 1.8
+    /*
     protected void updateEntityActionState()
     {
+
         this.despawnEntity();
-        EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 16.0D);
+        EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 16.0D);
         
 
         if (entityplayer != null)
@@ -228,7 +233,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
         	//this.moveStrafing = 1.0F - this.rand.nextFloat() * 2.0F;
         	//this.moveForward = (float)(1 * this.getSlimeSize());
         }
-        else if(worldObj.getBlock((int)this.posX, (int) (this.posY-.2D), (int)this.posZ).getMaterial()==Material.water)
+        else if(worldObj.getBlockState(new BlockPos((int)this.posX, (int) (this.posY-.2D), (int)this.posZ)).getBlock().getMaterial()==Material.water)
         {
         	//this.motionY=0;
         	this.moveStrafing = 1.0F - this.rand.nextFloat() * 2.0F;
@@ -263,7 +268,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
                 this.moveStrafing = this.moveForward = 0.0F;
             }
         }
-    }
+    }*/
 
     protected void alterSquishAmount()
     {
@@ -377,7 +382,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
      */
     public boolean getCanSpawnHere()
     {
-        Chunk chunk = this.worldObj.getChunkFromBlockCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));
+        Chunk chunk = this.worldObj.getChunkFromBlockCoords(this.getPosition());
 
         /*if (this.worldObj.getWorldInfo().getTerrainType().handleSlimeSpawnReduction(rand, worldObj))
         {
@@ -385,13 +390,13 @@ public class EntityOilSlime extends EntityLiving implements IMob
         }
         else
         {*/
-            if (this.getSlimeSize() == 1 || this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL)
+            if (this.getSlimeSize() == 1 || this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL)
             {
-                BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));
+                BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(this.getPosition());
                 
-                if(worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ)==oil)//.getMaterial()== PolycraftMaterial.oil
+                if(worldObj.getBlockState(this.getPosition()).getBlock()==oil)//.getMaterial()== PolycraftMaterial.oil
                 {
-                	return this.worldObj.checkNoEntityCollision(this.boundingBox);
+                	return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox());
                 }
                 
                 if (biomegenbase == BiomeGenBase.desert && this.posY > 50.0D && this.posY < 70.0D && this.rand.nextFloat() < 0.5F && this.rand.nextFloat() < this.worldObj.getCurrentMoonPhaseFactor())//&& this.worldObj.getBlockLightValue(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) <= this.rand.nextInt(8)
@@ -445,7 +450,7 @@ public class EntityOilSlime extends EntityLiving implements IMob
     public static final void register(final PolycraftEntity polycraftEntity) {
 		EntityOilSlime.config = polycraftEntity;
 		PolycraftEntityLiving.register(EntityOilSlime.class, config.entityID, config.name, 0x777777, 0x888888);
-		EntityRegistry.addSpawn(EntityOilSlime.class, 20, 3, 2, EnumCreatureType.monster, biomes);
+		EntityRegistry.addSpawn(EntityOilSlime.class, 20, 3, 2, EnumCreatureType.MONSTER, biomes);
 	}
     
 }

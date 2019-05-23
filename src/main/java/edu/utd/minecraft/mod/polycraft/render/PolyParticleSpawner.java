@@ -16,7 +16,7 @@ public class PolyParticleSpawner
 	
 	public static EntityFX EntityBreakingParticle(Item item, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null)
+		if (mc != null && mc.getRenderViewEntity() != null && mc.effectRenderer != null)
 		{
 			int var14 = mc.gameSettings.particleSetting;
 
@@ -25,9 +25,9 @@ public class PolyParticleSpawner
 				var14 = 2;
 			}
 
-			double var15 = mc.renderViewEntity.posX - par2;
-			double var17 = mc.renderViewEntity.posY - par4;
-			double var19 = mc.renderViewEntity.posZ - par6;
+			double var15 = mc.getRenderViewEntity().posX - par2;
+			double var17 = mc.getRenderViewEntity().posY - par4;
+			double var19 = mc.getRenderViewEntity().posZ - par6;
 			EntityFX var21 = null;
 			double var22 = 16.0D;
 
@@ -41,11 +41,12 @@ public class PolyParticleSpawner
 			}
 			else
 			{
-
+				//TODO: fix for 1.8
+				/*
 				var21 = new EntityBreakingFX(mc.theWorld, par2, par4, par6, item);
 				
 
-				mc.effectRenderer.addEffect(var21);
+				mc.effectRenderer.addEffect(var21);*/
 				return var21;
 			}
 		}
@@ -54,7 +55,7 @@ public class PolyParticleSpawner
 	
 	public static EntityFX EntityCritParticle( double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null)
+		if (mc != null && mc.getRenderViewEntity() != null && mc.effectRenderer != null)
 		{
 			int var14 = mc.gameSettings.particleSetting;
 
@@ -63,9 +64,9 @@ public class PolyParticleSpawner
 				var14 = 2;
 			}
 
-			double var15 = mc.renderViewEntity.posX - par2;
-			double var17 = mc.renderViewEntity.posY - par4;
-			double var19 = mc.renderViewEntity.posZ - par6;
+			double var15 = mc.getRenderViewEntity().posX - par2;
+			double var17 = mc.getRenderViewEntity().posY - par4;
+			double var19 = mc.getRenderViewEntity().posZ - par6;
 			EntityFX var21 = null;
 			double var22 = 16.0D;
 
@@ -79,11 +80,12 @@ public class PolyParticleSpawner
 			}
 			else
 			{
-			
+				//TODO: fix for 1.8
+				/*
 				var21 = new EntityCritFX(mc.theWorld,   par2,   par4,   par6,   par8,   par10,   par12);
 				
 
-				mc.effectRenderer.addEffect(var21);
+				mc.effectRenderer.addEffect(var21);*/
 				return var21;
 			}
 		}
@@ -93,7 +95,7 @@ public class PolyParticleSpawner
 	
 	public static EntityFX EntityHeal( double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null)
+		if (mc != null && mc.getRenderViewEntity() != null && mc.effectRenderer != null)
 		{
 			int var14 = mc.gameSettings.particleSetting;
 
@@ -102,9 +104,9 @@ public class PolyParticleSpawner
 				var14 = 2;
 			}
 
-			double var15 = mc.renderViewEntity.posX - par2;
-			double var17 = mc.renderViewEntity.posY - par4;
-			double var19 = mc.renderViewEntity.posZ - par6;
+			double var15 = mc.getRenderViewEntity().posX - par2;
+			double var17 = mc.getRenderViewEntity().posY - par4;
+			double var19 = mc.getRenderViewEntity().posZ - par6;
 			EntityFX var21 = null;
 			double var22 = 16.0D;
 
@@ -118,12 +120,13 @@ public class PolyParticleSpawner
 			}
 			else
 			{
-				
+				//TODO: fix for 1.8
+				/*
 				var21 = new EntityAuraFX(mc.theWorld, par2, par4, par6, par8, par10, par12);
 	            ((EntityFX)var21).setParticleTextureIndex(82);
                 ((EntityFX)var21).setRBGColorF(1.0F, 1.0F, 1.0F);
 
-				mc.effectRenderer.addEffect(var21);
+				mc.effectRenderer.addEffect(var21);*/
 				return var21;
 			}
 		}

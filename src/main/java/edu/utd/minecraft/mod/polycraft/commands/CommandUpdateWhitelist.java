@@ -10,8 +10,10 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -29,7 +31,7 @@ public class CommandUpdateWhitelist extends CommandBase{
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -53,7 +55,7 @@ public class CommandUpdateWhitelist extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
@@ -75,7 +77,7 @@ public class CommandUpdateWhitelist extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

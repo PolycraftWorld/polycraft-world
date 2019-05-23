@@ -9,8 +9,10 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -29,7 +31,7 @@ public class CommandTP extends CommandBase{
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -53,7 +55,7 @@ public class CommandTP extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
@@ -72,7 +74,7 @@ public class CommandTP extends CommandBase{
 					// only allow if the player is in a private property
 					if (Enforcer.findPrivateProperty(player) != null) {
 						player.setPositionAndUpdate(1 + .5,
-								player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3,
+								player.worldObj.getTopSolidOrLiquidBlock(new BlockPos(1,0, 1)).getY() + 3,
 								1 + .5);
 					}else {
 						player.addChatComponentMessage(new ChatComponentText("You need to be in a Private Property!"));
@@ -154,7 +156,7 @@ public class CommandTP extends CommandBase{
 								x = Integer.parseInt(args[1]);
 								z = Integer.parseInt(args[2]); 
 								final net.minecraft.world.chunk.Chunk chunk = player.worldObj
-										.getChunkFromBlockCoords(x, z);
+										.getChunkFromBlockCoords(new BlockPos(x,0, z));
 								final PrivateProperty targetPrivateProperty = Enforcer.findPrivateProperty(
 										player, chunk.xPosition, chunk.zPosition);
 								valid = targetPrivateProperty != null
@@ -170,7 +172,7 @@ public class CommandTP extends CommandBase{
 
 					if (valid) {
 						player.setPositionAndUpdate(x + .5,
-								player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3,
+								player.worldObj.getTopSolidOrLiquidBlock(new BlockPos(x,0, z)).getY() + 3,
 								z + .5);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("Error: Invalid Private Property."));
@@ -189,7 +191,7 @@ public class CommandTP extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

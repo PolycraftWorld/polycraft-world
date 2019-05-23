@@ -15,6 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 
@@ -25,7 +26,7 @@ public class TutorialFeatureScore extends TutorialFeature{
 
 	public TutorialFeatureScore() {}
 	
-	public TutorialFeatureScore(String name, Vec3 pos){
+	public TutorialFeatureScore(String name, BlockPos pos){
 		super(name, pos, Color.WHITE);
 		super.featureType = TutorialFeatureType.SCORE;
 	}
@@ -81,7 +82,7 @@ public class TutorialFeatureScore extends TutorialFeature{
 			player.addChatMessage(new ChatComponentText("Average time per Trial: "+avg+" sec"));
 			player.addChatMessage(new ChatComponentText("Score: "+score+" out of 100"));
 			//Send score to Website
-			ServerEnforcer.INSTANCE.updateSkillLevel(player.getDisplayName(), (int) score);
+			ServerEnforcer.INSTANCE.updateSkillLevel(player.getDisplayNameString(), (int) score);
 		}
 		
 		complete(exp);

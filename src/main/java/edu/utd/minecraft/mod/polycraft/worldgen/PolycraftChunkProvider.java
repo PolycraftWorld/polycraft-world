@@ -13,13 +13,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -144,7 +146,7 @@ public class PolycraftChunkProvider implements IChunkProvider {
 		if (this.mapFeaturesEnabled) {
 			//this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
 		}
-		Chunk chunk = new Chunk(this.worldObj, ablock, abyte, par1, par2);
+		Chunk chunk = new Chunk(this.worldObj, par1, par2);
 		//byte[] abyte1 = chunk.getBiomeArray();
 		//for (int k = 0; k < abyte1.length; ++k){
 		//	abyte1[k] = (byte)this.biomesForGeneration[k].biomeID;
@@ -154,8 +156,8 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	}
 	
 	@Override
-	public Chunk loadChunk(int p_73158_1_, int p_73158_2_) {
-		return this.provideChunk(p_73158_1_, p_73158_2_);
+	public Chunk provideChunk(BlockPos blockPos) {
+		return this.provideChunk(blockPos.getX(), blockPos.getZ());
 	}
 	
 	@Override
@@ -163,7 +165,12 @@ public class PolycraftChunkProvider implements IChunkProvider {
 		// TODO Auto-generated method stub
 	
 	}
-	
+
+	@Override
+	public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z) {
+		return false;
+	}
+
 	@Override
 	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_) {
 		// TODO Auto-generated method stub
@@ -187,16 +194,21 @@ public class PolycraftChunkProvider implements IChunkProvider {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
-	public List getPossibleCreatures(EnumCreatureType p_73155_1_, int p_73155_2_, int p_73155_3_, int p_73155_4_) {
-		// TODO Auto-generated method stub
+	public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
 		return null;
 	}
+
+//	@Override
+//	public List getPossibleCreatures(EnumCreatureType p_73155_1_, int p_73155_2_, int p_73155_3_, int p_73155_4_) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	@Override
-	public ChunkPosition func_147416_a(World p_147416_1_, String p_147416_2_,
-		int p_147416_3_, int p_147416_4_, int p_147416_5_) {
+	public BlockPos getStrongholdGen(World p_147416_1_, String p_147416_2_,
+									 BlockPos pos) {
 		// TODO Auto-generated method stub
 	return null;
 	}
@@ -208,7 +220,7 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	}
 	
 	@Override
-	public void recreateStructures(int p_82695_1_, int p_82695_2_) {
+	public void recreateStructures(Chunk chunk, int p_82695_1_, int p_82695_2_) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -311,14 +323,14 @@ public class PolycraftChunkProvider implements IChunkProvider {
 				for (int l1 = -b0; l1 <= b0; ++l1) {
 					for (int i2 = -b0; i2 <= b0; ++i2) {
 						BiomeGenBase biomegenbase1 = this.biomesForGeneration[j1 + l1 + 2 + (k1 + i2 + 2) * 10];
-						float f3 = biomegenbase1.rootHeight;
-						float f4 = biomegenbase1.heightVariation;
+						float f3 = biomegenbase1.minHeight;
+						float f4 = biomegenbase1.maxHeight;
 						if (this.worldType == WorldType.AMPLIFIED && f3 > 0.0F) {
 							f3 = 1.0F + f3 * 2.0F;
 							f4 = 1.0F + f4 * 4.0F;
 						}
 						float f5 = this.parabolicField[l1 + 2 + (i2 + 2) * 5] / (f3 + 2.0F);
-						if (biomegenbase1.rootHeight > biomegenbase.rootHeight) {
+						if (biomegenbase1.minHeight > biomegenbase.minHeight) {
 							f5 /= 2.0F;
 						}
 						f += f4 * f5;

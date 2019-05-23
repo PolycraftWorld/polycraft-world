@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.render;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -84,13 +85,13 @@ public class EntityDropParticleFX extends EntityFX {
 		int x = MathHelper.floor_double(this.posX);
 		int y = MathHelper.floor_double(this.posY);
 		int z = MathHelper.floor_double(this.posZ);
-		Block block = worldObj.getBlock(x, y, z);
+		Block block = worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
 
 		Material material = block.getMaterial();
 
 		if ((material.isLiquid() || material.isSolid()) && block instanceof IFluidBlock) {
 			double d0 = (double) ((float) (MathHelper.floor_double(this.posY) + 1) - ((IFluidBlock) block)
-					.getFilledPercentage(worldObj, x, y, z));
+					.getFilledPercentage(worldObj, new BlockPos(x, y, z)));
 
 			if (this.posY < d0) {
 				this.setDead();

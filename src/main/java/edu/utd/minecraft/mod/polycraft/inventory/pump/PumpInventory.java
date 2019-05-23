@@ -14,8 +14,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
@@ -41,7 +42,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.StatefulInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.behaviors.VesselUpcycler;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 
-public class PumpInventory extends StatefulInventory<PumpState> implements ISidedInventory {
+public class PumpInventory extends StatefulInventory<PumpState> implements ISidedInventory
+{
 
 	private static int[] accessibleSlots = new int[9];
 	public static List<GuiContainerSlot> guiSlots = Lists.newArrayList();
@@ -82,17 +84,17 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
+	public int[] getSlotsForFace(EnumFacing facing) {
 		return accessibleSlots;
 	}
 
 	@Override
-	public boolean canInsertItem(int var1, ItemStack var2, int var3) {
+	public boolean canInsertItem(int var1, ItemStack var2, EnumFacing facing) {
 		return Fuel.getFuel(var2.getItem()) != null;
 	}
 
 	@Override
-	public boolean canExtractItem(int var1, ItemStack var2, int var3) {
+	public boolean canExtractItem(int var1, ItemStack var2, EnumFacing facing) {
 		return false;
 	}
 
@@ -157,7 +159,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 	public FlowNetwork getFlowNetwork()
 	{
-		return new FlowNetwork(Vec3.createVectorHelper(xCoord, yCoord, zCoord));
+		return new FlowNetwork(new Vec3(pos.getX(), pos.getY(), pos.getZ()));
 	}
 
 	public class FlowNetwork
@@ -220,11 +222,11 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		public FlowNetwork(final Vec3 pumpCoords)
 		{
 			this.pumpCoords = pumpCoords;
-			pumpFlowDirection = worldObj.getBlockMetadata((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord);
+			pumpFlowDirection = worldObj.getBlockState(new BlockPos(pumpCoords)).getBlock().getMetaFromState(worldObj.getBlockState(new BlockPos(pumpCoords)));
 			coordsUsed.add(getHashVec3(pumpCoords));
 			//find the source (going the opposite direction of the flow, starting at the pump)
 
-			source = findNetworkSource(pumpCoords, pumpFlowDirection);
+			source = findNetworkSource(pumpCoords, EnumFacing.getFront(pumpFlowDirection));
 			if (source != null) {
 				//find the targets (going the direction of the flow, starting at the pump)
 				regulatedTargets = new HashMap<Item, ArrayList<Terminal>>();
@@ -270,7 +272,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 										}
 									}
 									else {
-										if (InventoryHelper.transfer(defaultTarget.inventory, source.inventory, i, 0, 1)) {
+										if (InventoryHelper.transfer(defaultTarget.inventory, source.inventory, i, EnumFacing.DOWN, 1)) {
 											// System.out.println("Transfer to default.");
 											numItems--;
 											itemsFlowed++;
@@ -297,7 +299,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 												}
 											}
 											else {
-												if (InventoryHelper.transfer(((Terminal) target).inventory, source.inventory, i, 0, target.itemStackInFlowRegulator.stackSize)) {
+												if (InventoryHelper.transfer(((Terminal) target).inventory, source.inventory, i, EnumFacing.DOWN, target.itemStackInFlowRegulator.stackSize)) {
 													// System.out.println("Transfer to regulated.");
 													numItems -= target.itemStackInFlowRegulator.stackSize;
 													itemsFlowed += target.itemStackInFlowRegulator.stackSize;
@@ -477,7 +479,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 
 		public boolean isValid()
 		{
-			if (worldObj.isBlockIndirectlyGettingPowered((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord))
+			if (worldObj.isBlockIndirectlyGettingPowered(new BlockPos(pumpCoords)) >= 1)
 			{
 				pumpShutOffValve = true;
 				return false;
@@ -488,7 +490,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 			return source != null && defaultTarget != null && regulatedTargets != null;
 		}
 
-		private Terminal findNetworkSource(Vec3 coords, int flowDirection) {
+		private Terminal findNetworkSource(Vec3 coords, EnumFacing flowDirection) {
 			int distanceFromPump = 0;
 			while (true) {
 				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, true);
@@ -499,7 +501,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 				coordsUsed.add(hash);
 				final Block block = getBlockAtVec3(coords);
 				if (block instanceof BlockPipe)
-					flowDirection = getBlockMetadataAtVec3(coords);
+					flowDirection = EnumFacing.getFront(getBlockMetadataAtVec3(coords));
 				else
 				{
 					IInventory sourceInventory = getInventoryAtVec3(coords);
@@ -509,12 +511,12 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						if (sourceInventory instanceof PolycraftInventory)
 						{
 							PolycraftInventory pi = ((PolycraftInventory) sourceInventory);
-							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
-							Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.outputBlockOffset);
+							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorld().getBlockState(pi.getPos()).getBlock();
+							Vec3 input = pib.getBlockCoords(pi.getPos().getX(), pi.getPos().getY(), pi.getPos().getZ(), pi.getWorld().getBlockState(pi.getPos()).getBlock().getMetaFromState(pi.getWorld().getBlockState(pi.getPos())), pib.config.outputBlockOffset);
 
 							if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
 							{
-								return new Terminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), sourceInventory, distanceFromPump);
+								return new Terminal(new Vec3(pi.getPos().getX(), pi.getPos().getY(), pi.getPos().getZ()), sourceInventory, distanceFromPump);
 							}
 							return null;
 
@@ -530,23 +532,23 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		}
 
 		private IInventory getInventoryAtVec3(final Vec3 vec3) {
-			return PolycraftMod.getInventoryAt(worldObj, (int) vec3.xCoord, (int) vec3.yCoord, (int) vec3.zCoord);
+			return PolycraftMod.getInventoryAt(worldObj, new BlockPos(vec3));
 		}
 
-		private final ForgeDirection[][] REGULATED_DIRECTIONS = {
-				{ ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST }, //DOWN
-				{ ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST }, //UP
-				{ ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.UP, ForgeDirection.DOWN }, //NORTH
-				{ ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.UP, ForgeDirection.DOWN }, //SOUTH
-				{ ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.UP, ForgeDirection.DOWN }, //WEST
-				{ ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.UP, ForgeDirection.DOWN }, //EAST
+		private final EnumFacing[][] REGULATED_DIRECTIONS = {
+				{ EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST }, //DOWN
+				{ EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST }, //UP
+				{ EnumFacing.EAST, EnumFacing.WEST, EnumFacing.UP, EnumFacing.DOWN }, //NORTH
+				{ EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP, EnumFacing.DOWN }, //SOUTH
+				{ EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.UP, EnumFacing.DOWN }, //WEST
+				{ EnumFacing.SOUTH, EnumFacing.NORTH, EnumFacing.UP, EnumFacing.DOWN }, //EAST
 		};
 
 		private Terminal findNetworkTargetInventories(Vec3 coords, int flowDirection, final boolean regulatorPath, final int regulatorDistanceFromPump) {
 			int distanceFromPump = 0;
 			//flowDistributor = false;
 			while (regulatedTargets != null) {
-				coords = PolycraftMod.getAdjacentCoords(coords, flowDirection, false);
+				coords = PolycraftMod.getAdjacentCoords(coords, EnumFacing.getFront(flowDirection), false);
 				final String hash = getHashVec3(coords);
 
 				final Block block = getBlockAtVec3(coords);
@@ -564,7 +566,7 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						return null;
 					coordsUsed.add(hash);
 					flowDirection = getBlockMetadataAtVec3(coords);
-					ForgeDirection forgeFlowDirection = ForgeDirection.values()[flowDirection];
+					EnumFacing forgeFlowDirection = EnumFacing.values()[flowDirection];
 					final IInventory regulatorInventory = getInventoryAtVec3(coords);
 					//regulator order will be left, right, bottom, top given a starting orientation
 					//for example, if the starting orienation is facing SOUTH, then the order will be:
@@ -604,16 +606,16 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 						if (inventory instanceof PolycraftInventory)
 						{
 							PolycraftInventory pi = ((PolycraftInventory) inventory);
-							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorldObj().getBlock(pi.xCoord, pi.yCoord, pi.zCoord);
+							PolycraftInventoryBlock pib = (PolycraftInventoryBlock) pi.getWorld().getBlockState(pi.getPos()).getBlock();
 
 							if (pib.config.fuelBlockOffset != null)
 							{
-								Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.fuelBlockOffset);
+								Vec3 input = pib.getBlockCoords(pi.getPos().getX(), pi.getPos().getY(), pi.getPos().getZ(), pi.getWorld().getBlockState(pi.getPos()).getBlock().getMetaFromState(pi.getWorld().getBlockState(pi.getPos())), pib.config.fuelBlockOffset);
 
 								if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
 								{
 									//need to return a class that contains the slot as well
-									return new FuelTerminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
+									return new FuelTerminal(new Vec3(pi.getPos().getX(), pi.getPos().getY(), pi.getPos().getZ()), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump);
 								}
 							}
 							if (pib.config.inputBlockOffset != null)
@@ -621,12 +623,12 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 								//iterate through the five slots: can this be more generic?
 								for (int offsetIndex = 0; offsetIndex < pib.config.inputBlockOffset.size(); offsetIndex++)
 								{
-									Vec3 input = pib.getBlockCoords(pi.xCoord, pi.yCoord, pi.zCoord, pi.getWorldObj().getBlockMetadata(pi.xCoord, pi.yCoord, pi.zCoord), pib.config.inputBlockOffset.get(offsetIndex));
+									Vec3 input = pib.getBlockCoords(pi.getPos().getX(), pi.getPos().getY(), pi.getPos().getZ(), pi.getWorld().getBlockState(pi.getPos()).getBlock().getMetaFromState(pi.getWorld().getBlockState(pi.getPos())), pib.config.inputBlockOffset.get(offsetIndex));
 
 									if ((input.xCoord == coords.xCoord) && (input.yCoord == coords.yCoord) && (input.zCoord == coords.zCoord))
 									{
 										//need to return a class that contains the slot as well
-										return new InputTerminal(Vec3.createVectorHelper(pi.xCoord, pi.yCoord, pi.zCoord), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump, offsetIndex);
+										return new InputTerminal(new Vec3(pi.getPos().getX(), pi.getPos().getY(), pi.getPos().getZ()), inventory, regulatorPath ? distanceFromPump + regulatorDistanceFromPump : distanceFromPump, offsetIndex);
 									}
 								}
 								//if none of the slots match we don't have a proper input: should this happen?
@@ -644,11 +646,11 @@ public class PumpInventory extends StatefulInventory<PumpState> implements ISide
 		}
 
 		private Block getBlockAtVec3(final Vec3 vec3) {
-			return worldObj.getBlock((int) vec3.xCoord, (int) vec3.yCoord, (int) vec3.zCoord);
+			return worldObj.getBlockState(new BlockPos(vec3)).getBlock();
 		}
 
 		private int getBlockMetadataAtVec3(final Vec3 vec3) {
-			return worldObj.getBlockMetadata((int) vec3.xCoord, (int) vec3.yCoord, (int) vec3.zCoord);
+			return worldObj.getBlockState(new BlockPos(vec3)).getBlock().getMetaFromState(worldObj.getBlockState(new BlockPos(vec3)));
 		}
 	}
 }

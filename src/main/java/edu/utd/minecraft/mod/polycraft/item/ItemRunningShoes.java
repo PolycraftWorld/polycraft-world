@@ -51,8 +51,8 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements
 
 	public ItemRunningShoes(final MoldedItem moldedItem) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod
-				.getFileSafeName(moldedItem.source.polymerObject.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod
+		//		.getFileSafeName(moldedItem.source.polymerObject.name)));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.setMaxDamage(PolycraftMod
 				.convertSecondsToGameTicks(moldedItem.params.getInt(1) * 60));
@@ -65,8 +65,8 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements
 	public ItemRunningShoes(final CustomObject config, String iconName) {
 		// super(2.0F, p_i45347_1_, field_150915_c);
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod
-				.getFileSafeName(iconName)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod
+		//		.getFileSafeName(iconName)));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.velocityOnGround = config.params.getFloat(0);
 		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(config.params
@@ -78,7 +78,7 @@ public class ItemRunningShoes extends PolycraftArmorFeet implements
 	public String getArmorTexture(final ItemStack stack, final Entity entity,
 			final int slot, final String type) {
 		return PolycraftMod
-				.getAssetName("textures/models/armor/running_shoes_layer_1.png");
+				.getAssetNameString("textures/models/armor/running_shoes_layer_1.png");
 	}
 
 	@Override

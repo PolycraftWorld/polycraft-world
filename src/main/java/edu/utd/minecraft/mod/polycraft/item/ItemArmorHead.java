@@ -22,7 +22,7 @@ public class ItemArmorHead extends PolycraftArmorHeadgear {
 	public ItemArmorHead(final Armor armor, final ArmorMaterial material) {
 		super(material, ArmorAppearance.CHAIN);
 		this.armor = armor;
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.HEAD))));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.HEAD))));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 //		try {
 //			this.armor.saveArmorPNG(ArmorSlot.HEAD);

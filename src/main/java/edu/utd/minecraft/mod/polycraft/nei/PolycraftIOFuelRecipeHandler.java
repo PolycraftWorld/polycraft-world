@@ -64,7 +64,7 @@ public class PolycraftIOFuelRecipeHandler extends IndustrialOvenRecipeHandler {
 	}
 
 	private void loadAllSmelting() {
-		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
+		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.instance().getSmeltingList();
 		for (Entry<ItemStack, ItemStack> recipe : recipes.entrySet())
 			mfurnace.add(new SmeltingPair(recipe.getKey(), recipe.getValue()));
 	}

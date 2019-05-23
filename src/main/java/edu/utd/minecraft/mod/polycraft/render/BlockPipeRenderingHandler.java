@@ -1,18 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.render;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+//import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
+//import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 
-public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
+public class BlockPipeRenderingHandler /*implements ISimpleBlockRenderingHandler*/ {
 
 	protected final InternalObject config;
 
@@ -21,7 +20,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 		this.config = config;
 
 	}
-
+/*	TODO: update to 1.8 rendering
 	@Override
 	public int getRenderId() {
 		return config.renderID;
@@ -38,7 +37,7 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 		//TODO: this does not seem to do anything yet...
 
 		int meta = 3;
-		Tessellator tessellator = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
 		block.setBlockBoundsForItemRender();
 		renderer.setRenderBoundsFromBlock(block);
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -457,5 +456,5 @@ public class BlockPipeRenderingHandler implements ISimpleBlockRenderingHandler {
 
 		renderer.clearOverrideBlockTexture();
 		return true;
-	}
+	}*/
 }

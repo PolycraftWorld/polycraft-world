@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.boss.TestTerritoryFlagBoss;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.model.ModelTerritoryFlag;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -22,9 +23,9 @@ public class RenderTerritoryFlag2 extends RenderLiving {
 	private static final String __OBFID = "CL_00001025";
 
 	public RenderTerritoryFlag2() {
-		super(new ModelTerritoryFlag(), 0.5F);
+		super(Minecraft.getMinecraft().getRenderManager(), new ModelTerritoryFlag(), 0.5F);
 		this.TerritoryFlagModel = (ModelTerritoryFlag) super.mainModel;
-		this.setRenderPassModel(this.TerritoryFlagModel);
+		//this.setRenderPassModel(this.TerritoryFlagModel);
 	}
 
 	protected void renderEquippedItems(TestTerritoryFlagBoss p_77029_1_, float p_77029_2_) {

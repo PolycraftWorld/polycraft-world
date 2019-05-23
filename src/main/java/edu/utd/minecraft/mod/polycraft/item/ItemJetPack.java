@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
@@ -65,8 +66,8 @@ public class ItemJetPack extends PolycraftArmorChest {
 	private static final double exhaustParticlesRandomSpread = .1;
 	private static final int exhaustParticlesPerTick = 20;
 	private static final double exhaustDownwardVelocity = -.8;
-	private static final String exhaustParticleSmoke = "smoke";
-	private static final String exhaustParticleFlame = "flame";
+	private static final EnumParticleTypes exhaustParticleSmoke = EnumParticleTypes.FLAME;
+	private static final EnumParticleTypes exhaustParticleFlame = EnumParticleTypes.FLAME;
 
 	public static Collection<PointLightSource> createLightSources(final World world) {
 		final Collection<PointLightSource> lightSources = Lists.newLinkedList();
@@ -135,7 +136,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 
 	public ItemJetPack(final CustomObject config) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getAssetName("jet_pack"));
+		//this.setTextureName(PolycraftMod.getAssetName("jet_pack"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
@@ -155,7 +156,7 @@ public class ItemJetPack extends PolycraftArmorChest {
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getAssetName("textures/models/armor/jet_pack_layer_1.png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/jet_pack_layer_1.png");
 	}
 
 	private int getFuelUnitsRemaining(final ItemStack itemStack) {

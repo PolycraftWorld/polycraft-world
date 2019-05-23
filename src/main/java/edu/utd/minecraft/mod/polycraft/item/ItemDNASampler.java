@@ -40,10 +40,10 @@ public class ItemDNASampler extends Item implements PolycraftItem {
 		this.setCreativeTab(CreativeTabs.tabMaterials);
 		this.dnaSampler = dnaSampler;
 		this.setMaxStackSize(this.dnaSampler.maxStackSize);
-		if (this.dnaSampler.maxStackSize == 1)
-			this.setTextureName(PolycraftMod.getAssetName("dna_sampler_used"));
-		else
-			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(dnaSampler.name)));
+//		if (this.dnaSampler.maxStackSize == 1)
+//			this.setTextureName(PolycraftMod.getAssetName("dna_sampler_used"));
+//		else
+//			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(dnaSampler.name)));
 		this.setUnlocalizedName(dnaSampler.name);
 
 	}

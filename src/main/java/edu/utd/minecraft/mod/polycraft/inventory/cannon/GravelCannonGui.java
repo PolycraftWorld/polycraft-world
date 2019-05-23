@@ -3,8 +3,6 @@ package edu.utd.minecraft.mod.polycraft.inventory.cannon;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.config.GuiConfigEntries;
-import cpw.mods.fml.client.config.GuiConfigEntries.DoubleEntry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -18,6 +16,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.io.IOException;
 
 public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	private final int ImageHeight = 200;
@@ -39,7 +39,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public double theta;
     public double mass;
     public double phi;
-    private GuiConfigEntries guiConfig;
+    //private GuiConfigEntries guiConfig;
     private boolean useVelocity;
     private boolean useYaw;
     private boolean usePitch;
@@ -76,7 +76,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        buttonList.add(buttonVPlus);
 	        buttonList.add(buttonVMinus);
 	        
-	        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-66, 60, 20);
+	        this.velocityText = new GuiTextField(40, this.fontRendererObj, this.width / 2 - 58, this.height/2-66, 60, 20);
 	        this.velocityText.width/=2;
 	        velocityText.setMaxStringLength(4);
 
@@ -94,7 +94,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        buttonList.add(buttonTPlus);
 	        buttonList.add(buttonTMinus);
 	        
-	        this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-16, 60, 20);
+	        this.thetaText = new GuiTextField(41, this.fontRendererObj, this.width / 2 - 58, this.height/2-16, 60, 20);
 	        this.thetaText.width/=2;
 	        thetaText.setMaxStringLength(4);
 	        thetaText.setText(Double.toString(this.inventory.theta));
@@ -125,7 +125,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	        buttonList.add(buttonPPlus);
 	        buttonList.add(buttonPMinus);
 	        
-	        this.phiText = new GuiTextField(this.fontRendererObj, this.width / 2 +25, this.height/2-66, 60, 20);
+	        this.phiText = new GuiTextField(42, this.fontRendererObj, this.width / 2 +25, this.height/2-66, 60, 20);
 	        this.phiText.width/=2;
 	        phiText.setMaxStringLength(4);
 	        phiText.setText(Double.toString(this.inventory.phi));
@@ -416,9 +416,9 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
  
        if(test)
        {
-	    	int x=this.inventory.xCoord;
-	    	int y=this.inventory.yCoord;
-	    	int z=this.inventory.zCoord;
+	    	int x=this.inventory.getPos().getX();
+	    	int y=this.inventory.getPos().getY();
+	    	int z=this.inventory.getPos().getZ();
 			this.velocity=35;
 			this.theta=0;
 			this.phi=0;
@@ -454,8 +454,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
     
    
     
-    protected void keyTyped(char par1, int par2)
-    {
+    protected void keyTyped(char par1, int par2) throws IOException {
     	if(useVelocity)
     	{
     		if(!( par2== Keyboard.KEY_E  &&  this.velocityText.isFocused())) super.keyTyped(par1, par2);
@@ -494,7 +493,7 @@ public class GravelCannonGui  extends PolycraftInventoryGui<CannonInventory>{
     }
     
     @Override
-    protected void mouseClicked(int x, int y, int btn) {        
+    protected void mouseClicked(int x, int y, int btn) throws IOException {
     	super.mouseClicked(x, y, btn);
     	if(useVelocity)
     	{

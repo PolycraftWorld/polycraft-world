@@ -61,7 +61,7 @@ public class PointLightSource implements IDynamicLightSource
 	}
 
 	public void updateFromPlayerViewConePart(final EntityPlayer player, final int maxLightLevel, final float lightLevelDecreaseByDistance, final float yawRot, final float pitchRot) {
-		final Vec3 pos = player.getPosition(1.0f);
+		final Vec3 pos = player.getPositionEyes(1.0f);
 		player.rotationPitch += pitchRot;
 		player.rotationYaw += yawRot;
 		Vec3 look = player.getLook(1.0f);
@@ -70,8 +70,8 @@ public class PointLightSource implements IDynamicLightSource
 		look = pos.addVector(look.xCoord * 16d, look.yCoord * 16d, look.zCoord * 16d);
 		final MovingObjectPosition mop = player.worldObj.rayTraceBlocks(pos, look);
 		if (mop != null) {
-			final int dist = (int) Math.round(player.getDistance(mop.blockX + 0.5d, mop.blockY + 0.5d, mop.blockZ + 0.5d));
-			update(maxLightLevel - Math.round(dist * lightLevelDecreaseByDistance), mop.blockX + 0.5d, mop.blockY + 0.5d, mop.blockZ + 0.5d);
+			final int dist = (int) Math.round(player.getDistance(mop.getBlockPos().getX() + 0.5d, mop.getBlockPos().getY() + 0.5d, mop.getBlockPos().getZ() + 0.5d));
+			update(maxLightLevel - Math.round(dist * lightLevelDecreaseByDistance), mop.getBlockPos().getX() + 0.5d, mop.getBlockPos().getY() + 0.5d, mop.getBlockPos().getZ() + 0.5d);
 		}
 		else {
 			lightLevel = 0;

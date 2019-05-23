@@ -271,7 +271,7 @@ public class BoundingBox {
 	 * @return boolean
 	 */
 	public boolean isInBox(Entity entity) {
-		if (yBound && (entity.boundingBox.maxY < y1 || entity.boundingBox.minY > y2))
+		if (yBound && (entity.getEntityBoundingBox().maxY < y1 || entity.getEntityBoundingBox().minY > y2))
 			return false;
 		return entity.posX >= x1 && entity.posX <= x2 && entity.posZ >= z1 && entity.posZ <= z2;
 	}

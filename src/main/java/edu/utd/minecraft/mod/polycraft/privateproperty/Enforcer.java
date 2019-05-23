@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -556,7 +557,7 @@ public abstract class Enforcer {
 					chunk.zPosition));
 		}else if(entity.dimension == ExperimentPropertyDimension) {
 			final net.minecraft.world.chunk.Chunk chunk = entity.worldObj
-					.getChunkFromBlockCoords(x, z);
+					.getChunkFromBlockCoords(new BlockPos(x, 0, z));
 			return expPrivatePropertiesByChunk.get(getChunkKey(chunk.xPosition,
 					chunk.zPosition));
 		}
@@ -619,7 +620,7 @@ public abstract class Enforcer {
 	public void onBlockBreak(final BreakEvent event) {
 		// TODO what happens if they use dynamite? other ways?
 		// TODO why is this not happening on the client?
-		if(event.block instanceof BreakBlockPP)
+		if(event.state.getBlock() instanceof BreakBlockPP)
 		{
 			
 		}
@@ -738,7 +739,7 @@ public abstract class Enforcer {
 		switch (event.action) {
 		case LEFT_CLICK_BLOCK:
 			// TODO why is this not happening on the client?
-			if( event.world.getBlock(event.x, event.y, event.z)instanceof BreakBlockPP)
+			if( event.world.getBlockState(event.pos).getBlock()instanceof BreakBlockPP)
 			{
 				
 			}
@@ -830,12 +831,10 @@ public abstract class Enforcer {
 						Action.UsePipe, blockChunk);
 			} else if (block instanceof BlockCollision) {
 				final TileEntity tileEntity = BlockCollision
-						.findConnectedInventory(event.world, event.x, event.y,
-								event.z);
+						.findConnectedInventory(event.world, event.pos);
 				if (tileEntity != null) {
-					final Block pBlock = event.world.getBlock(
-							tileEntity.xCoord, tileEntity.yCoord,
-							tileEntity.zCoord);
+					final Block pBlock = event.world.getBlockState(
+							tileEntity.getPos()).getBlock();
 					if (pBlock instanceof PolycraftInventoryBlock) {
 						possiblyPreventAction(event,
 								(PolycraftInventoryBlock) pBlock, blockChunk);
@@ -849,38 +848,38 @@ public abstract class Enforcer {
 			if (equippedItem != null) {
 				if (equippedItem.getItem() instanceof ItemBlock) {
 					final Block equippedBlock = ((ItemBlock) equippedItem
-							.getItem()).field_150939_a;
+							.getItem()).block;
 					if (equippedBlock instanceof BlockTNT) {
 						possiblyPreventAction(event, event.entityPlayer,
 								Action.AddBlockTNT, blockChunk);
 					} else {
 						
-						int x=event.x;
-						int y=event.y;
-						int z=event.z;
-						switch(event.face){
-						case 0:
-							y+=-1;
-							break;
-						case 1:
-							y+=+1;
-							break;
-						case 2:
-							z+=-1;
-							break;
-						case 3:
-							z+=+1;
-							break;
-						case 4:
-							x+=-1;
-							break;
-						case 5:
-							x+=+1;
-							break;
-						default:
-							break;
-						}
-						Block test =event.world.getBlock(x, y, z);
+//						int x=event.x;
+//						int y=event.y;
+//						int z=event.z;
+//						switch(event.face){
+//						case 0:
+//							y+=-1;
+//							break;
+//						case 1:
+//							y+=+1;
+//							break;
+//						case 2:
+//							z+=-1;
+//							break;
+//						case 3:
+//							z+=+1;
+//							break;
+//						case 4:
+//							x+=-1;
+//							break;
+//						case 5:
+//							x+=+1;
+//							break;
+//						default:
+//							break;
+//						}
+						Block test =event.world.getBlockState(event.pos.offset(event.face)).getBlock();
 						if(test instanceof PlaceBlockPP)
 						{
 							Block place=null;
@@ -894,7 +893,7 @@ public abstract class Enforcer {
 								{
 									//event.world.setBlock(x, y, z, place);
 									//event.world.setBlock(x, y, z, place, meta, 2);
-									sendPlaceBlock(x,y,z,place,meta,event.entityPlayer,equippedItem);
+									sendPlaceBlock(event.pos.getX(),event.pos.getY(),event.pos.getZ(),place,meta,event.entityPlayer,equippedItem);
 								}
 							}
 						}
@@ -936,7 +935,7 @@ public abstract class Enforcer {
 			
 			final ByteArrayOutputStream placeBlockTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
 			
-			tempNBT.setString("player", player.getDisplayName());
+			tempNBT.setString("player", player.getDisplayNameString());
 			CompressedStreamTools.writeCompressed(tempNBT, placeBlockTemp);
 			placeBlock = gson.toJson(placeBlockTemp, gsonType);
 			ClientEnforcer.INSTANCE.sendPlaceBlockPackets(placeBlock,DataPacketType.PlaceBlock.ordinal());
@@ -1072,7 +1071,7 @@ public abstract class Enforcer {
 	}
 
 	private void preventOverPopulationHelper(World world, Entity entity, Event placeEggEvent, CheckSpawn spawnEvent, double xCoord, double yCoord, double zCoord) {
-		List entities = world.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox(
+		List entities = world.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.fromBounds(
 				xCoord - 8.0, yCoord - 8.0, zCoord - 8.0,
 				xCoord + 8.0, yCoord + 8.0, zCoord + 8.0));
 		if (entities.size() >= 16) {
@@ -1100,7 +1099,7 @@ public abstract class Enforcer {
 					event.entity instanceof EntityHorse ||
 					event.entity instanceof EntityChicken) {
 
-				List entities = event.world.getEntitiesWithinAABB(event.entity.getClass(), AxisAlignedBB.getBoundingBox(
+				List entities = event.world.getEntitiesWithinAABB(event.entity.getClass(), AxisAlignedBB.fromBounds(
 						event.x - 16.0, event.y - 16.0, event.z - 16.0,
 						event.x + 16.0, event.y + 16.0, event.z + 16.0));
 				if (entities.size() >= 32) {
@@ -1300,16 +1299,16 @@ public abstract class Enforcer {
 			final int payloadPacketsRequired = getPacketsRequired(dataBytes.length);
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
-			packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata)
-					.writeInt(dataBytes.length).copy(), netChannelName);
+			packets[0] = new FMLProxyPacket(new PacketBuffer(Unpooled.buffer().writeInt(type.ordinal()).writeInt(typeMetadata)
+					.writeInt(dataBytes.length).copy()), netChannelName);
 			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
 				int startDataIndex = payloadIndex * maxPacketSizeBytes;
 				int length = Math.min(dataBytes.length - startDataIndex,
 						maxPacketSizeBytes);
 				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
-						Unpooled.buffer()
+						new PacketBuffer(Unpooled.buffer()
 								.writeBytes(dataBytes, startDataIndex, length)
-								.copy(), netChannelName);
+								.copy()), netChannelName);
 			}
 			return packets;
 		} catch (IOException e) {
@@ -1329,7 +1328,7 @@ public abstract class Enforcer {
 				// only allow if the player is in a private property
 				if (findPrivateProperty(player) != null) {
 					player.setPositionAndUpdate(1 + .5,
-							player.worldObj.getTopSolidOrLiquidBlock(1, 1) + 3,
+							player.worldObj.getTopSolidOrLiquidBlock(new BlockPos(1,0, 1)).getY() + 3,
 							1 + .5);
 				}
 			}
@@ -1388,7 +1387,7 @@ public abstract class Enforcer {
 							x = Integer.parseInt(args[1]);
 							z = Integer.parseInt(args[2]);
 							final net.minecraft.world.chunk.Chunk chunk = player.worldObj
-									.getChunkFromBlockCoords(x, z);
+									.getChunkFromBlockCoords(new BlockPos(x, 0, z));
 							final PrivateProperty targetPrivateProperty = findPrivateProperty(
 									player, chunk.xPosition, chunk.zPosition);
 							valid = targetPrivateProperty != null
@@ -1401,7 +1400,7 @@ public abstract class Enforcer {
 
 				if (valid) {
 					player.setPositionAndUpdate(x + .5,
-							player.worldObj.getTopSolidOrLiquidBlock(x, z) + 3,
+							player.worldObj.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() + 3,
 							z + .5);
 				}
 			}

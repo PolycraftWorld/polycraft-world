@@ -45,7 +45,7 @@ public class ResearchAssistantEntity extends EntityMob{
 	public ResearchAssistantEntity(World p_i1738_1_, boolean lab) {
 		super(p_i1738_1_);
 		this.inLab = lab;
-		this.getNavigator().setBreakDoors(true);
+		//this.getNavigator().setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
 		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
@@ -56,9 +56,9 @@ public class ResearchAssistantEntity extends EntityMob{
 		// Note: boolean val determines if to call for help. Should be false.
 		this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false));
 		// Note: boolean val determines if LoS is required.
-		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityTameable.class, 0, true));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityTameable.class, false, true));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
 		if (armors == null)
 			setEquipment();
 		ItemSword hold = swords.get(rngesus.nextInt(swords.size()));
@@ -94,15 +94,15 @@ public class ResearchAssistantEntity extends EntityMob{
 	 */
 	@Override
 	public boolean getCanSpawnHere() {
-		return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL
-				&& this.worldObj.checkNoEntityCollision(this.boundingBox)
-				&& this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty()
-				&& !this.worldObj.isAnyLiquid(this.boundingBox);
+		return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL
+				&& this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox())
+				&& this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty()
+				&& !this.worldObj.isAnyLiquid(this.getEntityBoundingBox());
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
-		return true;
+	public boolean isAIDisabled() {
+		return false;
 	}
 
 	private static void setEquipment() {

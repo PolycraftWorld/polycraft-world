@@ -25,7 +25,7 @@ public class ItemHeatedKnife extends ItemTool implements PolycraftItem
         //super(2.0F, p_i45347_1_, field_150915_c);
         super(2.0F, ToolMaterial.STONE, null);
         this.config = config;
-		this.setTextureName(PolycraftMod.getAssetName("heated_knife"));
+		//this.setTextureName(PolycraftMod.getAssetName("heated_knife"));
 		this.setCreativeTab(CreativeTabs.tabTools);
 		//if (config.maxStackSize > 0)
 			//this.setMaxStackSize(config.maxStackSize);
@@ -33,7 +33,7 @@ public class ItemHeatedKnife extends ItemTool implements PolycraftItem
     }
 
     @Override
-    public boolean func_150897_b(Block p_150897_1_)
+    public boolean canHarvestBlock(Block p_150897_1_)
     {
         return p_150897_1_ instanceof BlockPolymer;
         
@@ -56,7 +56,7 @@ public class ItemHeatedKnife extends ItemTool implements PolycraftItem
     }
 
     @Override
-    public float func_150893_a(ItemStack p_150893_1_, Block p_150893_2_)
+    public float getStrVsBlock(ItemStack p_150893_1_, Block p_150893_2_)
     {
         return config.params.getFloat(0);
         		//p_150893_2_.getMaterial() != Material.iron && p_150893_2_.getMaterial() != Material.anvil && p_150893_2_.getMaterial() != Material.rock ? super.func_150893_a(p_150893_1_, p_150893_2_) : this.efficiencyOnProperMaterial;

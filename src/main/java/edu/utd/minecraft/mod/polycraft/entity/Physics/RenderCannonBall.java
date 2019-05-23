@@ -1,15 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.entity.Physics;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBoat;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -21,8 +22,9 @@ public class RenderCannonBall extends Render
 	private float shadowSize;
     private static final String __OBFID = "CL_00000981";
 
-    public RenderCannonBall()
+    public RenderCannonBall(RenderManager renderManager)
     {
+        super(renderManager);
         this.shadowSize = 0.5F;
         this.modelCannonBall = new ModelCannonBall();
     }

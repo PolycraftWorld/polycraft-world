@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.util.BlockPos;
 import org.lwjgl.opengl.GL11;
 
 import com.google.gson.Gson;
@@ -94,7 +95,7 @@ public class KillWall extends PolycraftMinigame{
 		for(int i=0;i<world.playerEntities.size();i++)
 		{
 			EntityPlayer p =(EntityPlayer) world.playerEntities.get(i);
-			if(!(p.getCommandSenderName()==envoker))
+			if(!(p.getCommandSenderEntity().getName()==envoker))
 			{
 				int x = ThreadLocalRandom.current().nextInt(30-radius, radius-30 + 1);
 				int z = ThreadLocalRandom.current().nextInt(30-radius, radius-30 + 1);
@@ -104,7 +105,7 @@ public class KillWall extends PolycraftMinigame{
 				p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("5a"))));
 				p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3n"))));
 				p.inventory.addItemStackToInventory(new ItemStack(GameData.getItemRegistry().getObject(PolycraftMod.getAssetName("3p"))));
-				p.setPositionAndUpdate(x, p.worldObj.getTopSolidOrLiquidBlock(x, z)+6, z);
+				p.setPositionAndUpdate(x, p.worldObj.getTopSolidOrLiquidBlock(new BlockPos(x,0, z)).getY()+6, z);
 			}
 		}
 	}
@@ -153,7 +154,7 @@ public class KillWall extends PolycraftMinigame{
 	        {
 	            EntityPlayer entityplayer = (EntityPlayer)iterator.next();
 
-	            if (entityplayer.isEntityAlive() && !(entityplayer.getCommandSenderName()==envoker))
+	            if (entityplayer.isEntityAlive() && !(entityplayer.getCommandSenderEntity().getName()==envoker))
 	            {
 	                aliveCount++;
 	            }
@@ -163,7 +164,7 @@ public class KillWall extends PolycraftMinigame{
 				active=false;
 				ServerEnforcer.INSTANCE.minigameUpdate(this.id);
 			}
-			if (event.player.isEntityAlive() && !(event.player.getCommandSenderName()==envoker)) {
+			if (event.player.isEntityAlive() && !(event.player.getCommandSenderEntity().getName()==envoker)) {
 				if (this.isInKillWall(event.player) && active)
 				{
 					

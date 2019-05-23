@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -44,10 +45,8 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 			}
 
 			if (p_70184_1_.entityHit == null) {
-				int x = p_70184_1_.blockX;
-				int y = p_70184_1_.blockY;
-				int z = p_70184_1_.blockZ;
-				Block block = worldObj.getBlock(x, y, z);
+				BlockPos blockPos = p_70184_1_.getBlockPos();
+				Block block = worldObj.getBlockState(blockPos).getBlock();
 				if (block == Blocks.deadbush
 						|| block == Blocks.sapling
 						|| block == Blocks.yellow_flower
@@ -62,32 +61,30 @@ public class EntityWaterCannonProjectile extends EntitySnowball {
 						|| block == Blocks.brown_mushroom
 						|| block == Blocks.tallgrass)
 				{
-					worldObj.setBlock(x, y, z, Blocks.flowing_water);
+					worldObj.setBlockState(blockPos, Blocks.flowing_water.getDefaultState());
 				}
 				else {
 					final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
-					x = (int) blockCoords.xCoord;
-					y = (int) blockCoords.yCoord;
-					z = (int) blockCoords.zCoord;
-					block = worldObj.getBlock(x, y, z);
+					blockPos = new BlockPos(blockCoords);
+					block = worldObj.getBlockState(blockPos).getBlock();
 					if (block == Blocks.flowing_lava)
 					{
-						worldObj.setBlock(x, y, z, Blocks.cobblestone);
+						worldObj.setBlockState(blockPos, Blocks.cobblestone.getDefaultState());
 					}
 					else if (block == Blocks.lava)
 					{
-						worldObj.setBlock(x, y, z, Blocks.obsidian);
+						worldObj.setBlockState(blockPos, Blocks.obsidian.getDefaultState());
 					}
 					else if (block == Blocks.fire)
 					{
-						worldObj.setBlock(x, y, z, Blocks.air);
+						worldObj.setBlockToAir(blockPos);
 					}
 
 					else if (block == Blocks.air
 							|| block == PolycraftMod.blockLight
 							|| block == Blocks.flowing_water)
 					{
-						worldObj.setBlock(x, y, z, Blocks.flowing_water);
+						worldObj.setBlockState(blockPos, Blocks.flowing_water.getDefaultState());
 					}
 				}
 

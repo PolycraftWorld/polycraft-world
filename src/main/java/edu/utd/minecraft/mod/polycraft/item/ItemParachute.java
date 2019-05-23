@@ -22,7 +22,7 @@ public class ItemParachute extends PolycraftUtilityItem {
 	public final float velocityDescent;
 
 	public ItemParachute(final CustomObject config) {
-		this.setTextureName(PolycraftMod.getAssetName("parachute"));
+		//this.setTextureName(PolycraftMod.getAssetName("parachute"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

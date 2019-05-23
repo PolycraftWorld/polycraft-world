@@ -7,6 +7,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
@@ -235,17 +236,17 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * mouseMove, which==0 or which==1 is mouseUp
      */
     @Override
-    protected void mouseMovedOrUp(int x, int y, int mouseEvent)
+    protected void mouseReleased(int x, int y, int mouseEvent)
     {
     	//super.mouseMovedOrUp(x, y, mouseEvent);
     	if(this.guiSteps != null) {
     		
     		if (mouseEvent != 0 || !this.guiSteps.mouseClicked(x, y, mouseEvent))
     		{
-    			super.mouseMovedOrUp(x, y, mouseEvent);
+    			super.mouseReleased(x, y, mouseEvent);
     		}
 		}else {
-			super.mouseMovedOrUp(x, y, mouseEvent);
+			super.mouseReleased(x, y, mouseEvent);
 		}
             
     }
@@ -581,47 +582,47 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 		case GENERIC:
 	        if(addNew)
 	        	featureToAdd = new TutorialFeature("Feature " + devTool.getFeatures().size(), 
-	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),Color.GREEN);
+	        		new BlockPos(player.posX, player.posY, player.posZ),Color.GREEN);
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case GUIDE:
 			if(addNew)
 	        	featureToAdd = new TutorialFeatureGuide("Guide " + devTool.getFeatures().size(), 
-	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
-	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+	        		new BlockPos(player.posX, player.posY, player.posZ),
+	        		new BlockPos(player.posX, player.posY, player.posZ));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case INSTRUCTION:
 			if(addNew)
 	        	featureToAdd = new TutorialFeatureInstruction("Instruction " + devTool.getFeatures().size(), 
-	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		new BlockPos(player.posX, player.posY, player.posZ),
 	        		TutorialFeatureInstruction.InstructionType.WASD);
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case GROUP:
 			if(addNew)
 	        	featureToAdd = new TutorialFeatureGroup("Feature " + devTool.getFeatures().size(), 
-	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
+	        		new BlockPos(player.posX, player.posY, player.posZ),
 	        		TutorialFeatureGroup.GroupType.START);
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case START:
 			if(addNew)
 	        	featureToAdd = new TutorialFeatureStart("Start " + devTool.getFeatures().size(), 
-	        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ),
-	        		Vec3.createVectorHelper(player.rotationPitch % 360, player.rotationYaw % 360, 0));
+	        		new BlockPos(player.posX, player.posY, player.posZ),
+	        		new BlockPos(player.rotationPitch % 360, player.rotationYaw % 360, 0));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		case SCORE:
 			if(addNew)
 				featureToAdd = new TutorialFeatureScore("Score " + devTool.getFeatures().size(), 
-		        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+		        		new BlockPos(player.posX, player.posY, player.posZ));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 	        break;
 		case END:
 			if(addNew)
 				featureToAdd = new TutorialFeatureEnd("END " + devTool.getFeatures().size(), 
-		        		Vec3.createVectorHelper(player.posX, player.posY, player.posZ));
+		        		new BlockPos(player.posX, player.posY, player.posZ));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 	        break;
 		default:
@@ -656,7 +657,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
 				this.scroll = 1.0F;
 			}
 		}
-		super.handleMouseInput();
+		try {
+			super.handleMouseInput();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -698,7 +703,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * @param wantToJoin True if player wants to join, False if they want to withdraw
      */
     private void sendExperimentUpdateToServer(int experimentID, boolean wantToJoin) {
-    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, wantToJoin);
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayNameString(), experimentID, wantToJoin);
     	Gson gson = new Gson();
 		Type gsonType = new TypeToken<ExperimentManager.ExperimentParticipantMetaData>(){}.getType();
 		final String experimentUpdates = gson.toJson(part, gsonType);
@@ -706,7 +711,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     }
     
     private void sendExperimentUpdateToServer(int experimentID, ExperimentParameters params) {
-    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, params);
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayNameString(), experimentID, params);
     	GsonBuilder gBuilder = new GsonBuilder();
     	gBuilder.setPrettyPrinting();
     	Gson gson = gBuilder.create();

@@ -35,7 +35,9 @@ import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -44,6 +46,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -72,7 +75,7 @@ public class CommandTutorial  extends CommandBase{
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -96,7 +99,7 @@ public class CommandTutorial  extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
@@ -128,7 +131,7 @@ public class CommandTutorial  extends CommandBase{
 						startExperiment(Integer.parseInt(args[1]));
 					}
 				} else if (chatCommandTutGen.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
-					generateStructure(sender, sender.getPlayerCoordinates().posX, sender.getPlayerCoordinates().posY, sender.getPlayerCoordinates().posZ, player.getEntityWorld());
+					generateStructure(sender, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ(), player.getEntityWorld());
 				}
 			}
 		}
@@ -308,27 +311,27 @@ public class CommandTutorial  extends CommandBase{
 						continue; //these are Gas Lamps - we don't care for these.
 						
 					}else if(curblock == 123 || curblock == 124) { //replace redstone lamps (inactive or active) with glowstone.
-						world.setBlock(x + xPos, y + yPos , z + zPos, Block.getBlockById(89), 0, 2);
+						world.setBlockState(new BlockPos(x + xPos, y + yPos , z + zPos), Block.getBlockById(89).getDefaultState(), 2);
 					}
 					
 					else if(curblock == 95) {
-						world.setBlock(x + xPos, y + yPos , z + zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + xPos, y + yPos , z + zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + xPos, y + yPos + 1, z + zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + xPos, y + yPos + 1, z + zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}
 	
 						
 					}else if(curblock == 35) {
-						world.setBlock(x + xPos, y + yPos , z + zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + xPos, y + yPos , z + zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 						//System.out.println(x);
 						if(sh.data[count] == 5) {
-							world.setBlock(x + xPos, y + yPos + 1, z + zPos, Block.getBlockById(171), sh.data[count], 2); //add lime carpet
+							world.setBlockState(new BlockPos(x + xPos, y + yPos + 1, z + zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add lime carpet
 						}else if(sh.data[count] == 0) {
-							world.setBlock(x + xPos, y + yPos + 1, z + zPos, Block.getBlockById(171), sh.data[count], 2); //add white carpet
+							world.setBlockState(new BlockPos(x + xPos, y + yPos + 1, z + zPos), Block.getBlockById(171).getStateFromMeta(sh.data[count]), 2); //add white carpet
 						}
 						
 					} else {
-						world.setBlock(x + xPos, y + yPos , z + zPos, Block.getBlockById(curblock), sh.data[count], 2);
+						world.setBlockState(new BlockPos(x + xPos, y + yPos , z + zPos), Block.getBlockById(curblock).getStateFromMeta(sh.data[count]), 2);
 					}
 					
 					count++;
@@ -346,7 +349,7 @@ public class CommandTutorial  extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

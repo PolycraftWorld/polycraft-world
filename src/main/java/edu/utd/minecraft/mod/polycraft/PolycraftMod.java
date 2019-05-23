@@ -494,7 +494,7 @@ public class PolycraftMod {
 				//iinventory = ((BlockChest) block).func_149951_m(world, i, j, k); changed from 1.7.10 to 1.8
 			}
 		} else if (world.getBlockState(blockPos).getBlock() instanceof BlockCollision) {
-			tileentity = BlockCollision.findConnectedInventory(world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			tileentity = BlockCollision.findConnectedInventory(world, blockPos);
 			return getInventoryAt(world, blockPos);
 
 		}

@@ -1,25 +1,25 @@
 package edu.utd.minecraft.mod.polycraft.client;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 public class TileEntityPolymerBrick extends TileEntity {
 
-	protected ForgeDirection orientation;
+	protected EnumFacing orientation;
 
 	public TileEntityPolymerBrick() {
-		orientation = ForgeDirection.SOUTH;
+		orientation = EnumFacing.SOUTH;
 	}
 
-	public ForgeDirection getOrientation() {
+	public EnumFacing getOrientation() {
 		return orientation;
 	}
 
-	public void setOrientation(ForgeDirection orientation) {
+	public void setOrientation(EnumFacing orientation) {
 		this.orientation = orientation;
 	}
 
 	public void setOrientation(int orientation) {
-		this.orientation = ForgeDirection.getOrientation(orientation);
+		this.orientation = EnumFacing.getFront(orientation);
 	}
 }

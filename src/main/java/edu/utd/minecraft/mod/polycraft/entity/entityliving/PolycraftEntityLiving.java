@@ -30,8 +30,8 @@ public class PolycraftEntityLiving {
 	private static void createEgg(String entityName, int solidColor, int spotColor){
 		//EntityList.entityEggs.put(id, new EntityList.EntityEggInfo(id, solidColor, spotColor));
 		Item itemSpawnEgg = new PolycraftSpawnEgg(entityName, solidColor, spotColor)
-			      .setUnlocalizedName("spawn_egg_"+entityName.toLowerCase())
-			      .setTextureName(PolycraftMod.getAssetName("textures/entity/SpawnEgg.png"));
+			      .setUnlocalizedName("spawn_egg_"+entityName.toLowerCase());
+			      //.setTextureName(PolycraftMod.getAssetNameString("textures/entity/SpawnEgg.png"));
 			GameRegistry.registerItem(itemSpawnEgg, "spawnEgg"+entityName);
 	}
 

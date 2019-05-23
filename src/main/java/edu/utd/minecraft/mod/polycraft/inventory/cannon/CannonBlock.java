@@ -6,15 +6,13 @@ import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.entity.EntityPellet__Old;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityIronCannonBall;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
@@ -23,9 +21,9 @@ import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class CannonBlock extends PolycraftInventoryBlock {
@@ -41,16 +39,16 @@ public class CannonBlock extends PolycraftInventoryBlock {
     
 	public CannonBlock(Inventory config, Class tileEntityClass) {
 		super(config, tileEntityClass);
-		this.setBlockName("Cannon");
+		//this.setBlockName("Cannon");
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are)
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing facing, float what, float these, float are)
 	{
-		super.onBlockActivated(world, x, y, z, player, metadata, what, these, are);
+		super.onBlockActivated(world, blockPos, state, player, facing, what, these, are);
 		return false;
 	}
 	
@@ -63,18 +61,15 @@ public class CannonBlock extends PolycraftInventoryBlock {
 	
 	
 	
-    public void updateTick(World world, int x, int y, int z, Random p_149674_5_)
+    public void updateTick(World world, BlockPos blockPos, IBlockState state, Random p_149674_5_)
     {
         if (!world.isRemote)
         {
-        	
-        	int meta= world.getBlockMetadata(x, y, z);
-        	EnumFacing enumfacing = EnumFacing.getFront(meta);
-            double d0 = x + (double)enumfacing.getFrontOffsetX();
-            
-            double d2 = z + (double)enumfacing.getFrontOffsetZ();
 
-            CannonInventory tileEntity=(CannonInventory) this.getInventory(world, x, y, z);
+        	int meta= this.getMetaFromState(world.getBlockState(blockPos));
+        	EnumFacing enumfacing = EnumFacing.getFront(meta);
+
+            CannonInventory tileEntity=(CannonInventory) this.getInventory(world, blockPos);
             double velocity=tileEntity.velocity;
             double theta=tileEntity.theta;
             double mass=tileEntity.mass;
@@ -92,7 +87,7 @@ public class CannonBlock extends PolycraftInventoryBlock {
             double x1= 1.1*Math.cos(rad);
             double z1= 1.1*Math.sin(rad);
         	
-        	cannonBall.setPosition((double)x+.5+x1, (double)y+.5, (double)z+.5+z1);
+        	cannonBall.setPosition((double)blockPos.getX()+.5+x1, (double)blockPos.getY()+.5, (double)blockPos.getZ()+.5+z1);
             world.spawnEntityInWorld(cannonBall);
             
             cannonBall.mass=mass;
@@ -134,12 +129,12 @@ public class CannonBlock extends PolycraftInventoryBlock {
 //        return 0;
 //    }
 	
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState state, Block block)
     {
-        if (world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockPowerInput(x,y,z)>=1 )
+        if (world.isBlockIndirectlyGettingPowered(blockPos) >=1)
         {
         	
-        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+        	world.scheduleBlockUpdate(blockPos, this, this.tickRate(world), 1);
         	
         }
     }

@@ -22,7 +22,7 @@ public class ItemExam extends Item implements PolycraftItem {
 	public ItemExam(final Exam exam) {
 		Preconditions.checkNotNull(exam);
 		this.setCreativeTab(CreativeTabs.tabMisc);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(exam.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(exam.name)));
 		this.exam = exam;
 		this.answers = new ItemStack[8];
 		this.testBank = new ItemStack[12];

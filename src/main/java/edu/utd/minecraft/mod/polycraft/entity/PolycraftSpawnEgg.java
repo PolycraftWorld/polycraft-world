@@ -2,12 +2,13 @@ package edu.utd.minecraft.mod.polycraft.entity;
 
 import java.util.List;
 
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -18,8 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -27,7 +26,7 @@ import net.minecraft.world.World;
 public class PolycraftSpawnEgg extends ItemMonsterPlacer
 {
     @SideOnly(Side.CLIENT)
-    private IIcon theIcon;
+//    private IIcon theIcon;
     protected int colorBase = 0x000000;
     protected int colorSpots = 0xFFFFFF;
     protected String entityToSpawnName = "";
@@ -57,9 +56,9 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
      */
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, 
-          World par3World, int par4, int par5, int par6, int par7, float par8, 
-          float par9, float par10)
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer,
+                             World par3World, BlockPos blockPos, EnumFacing facing, float par8,
+                             float par9, float par10)
     {
         if (par3World.isRemote)
         {
@@ -67,24 +66,24 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
         }
         else
         {
-            Block block = par3World.getBlock(par4, par5, par6);
-            par4 += Facing.offsetsXForSide[par7];
-            par5 += Facing.offsetsYForSide[par7];
-            par6 += Facing.offsetsZForSide[par7];
+            Block block = par3World.getBlockState(blockPos).getBlock();
+            blockPos = blockPos.add(facing.getFrontOffsetX(),
+                                    facing.getFrontOffsetY(),
+                                    facing.getFrontOffsetZ());
             double d0 = 0.0D;
 
-            if (par7 == 1 && block.getRenderType() == 11)
+            if (facing.getIndex() == 1 && block.getRenderType() == 11)
             {
                 d0 = 0.5D;
             }
 
-            Entity entity = spawnEntity(par3World, par4 + 0.5D, par5 + d0, par6 + 0.5D);
+            Entity entity = spawnEntity(par3World, blockPos.getX() + 0.5D, blockPos.getY() + d0, blockPos.getZ() + 0.5D);
 
             if (entity != null)
             {
                 if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
                 {
-                    ((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayNameString());
+                    ((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
                 }
 
                 if (!par2EntityPlayer.capabilities.isCreativeMode)
@@ -123,24 +122,22 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
                 if (movingobjectposition.typeOfHit == MovingObjectPosition
                       .MovingObjectType.BLOCK)
                 {
-                    int i = movingobjectposition.blockX;
-                    int j = movingobjectposition.blockY;
-                    int k = movingobjectposition.blockZ;
-
-                    if (!par2World.canMineBlock(par3EntityPlayer, i, j, k))
+                    if (!par2World.canMineBlockBody(par3EntityPlayer, movingobjectposition.getBlockPos()))
                     {
                         return par1ItemStack;
                     }
 
-                    if (!par3EntityPlayer.canPlayerEdit(i, j, k, movingobjectposition
+                    if (!par3EntityPlayer.canPlayerEdit(movingobjectposition.getBlockPos(), movingobjectposition
                           .sideHit, par1ItemStack))
                     {
                         return par1ItemStack;
                     }
 
-                    if (par2World.getBlock(i, j, k) instanceof BlockLiquid)
+                    if (par2World.getBlockState(movingobjectposition.getBlockPos()).getBlock() instanceof BlockLiquid)
                     {
-                        Entity entity = spawnEntity(par2World, i, j, k);
+                        Entity entity = spawnEntity(par2World, movingobjectposition.getBlockPos().getX(),
+                                movingobjectposition.getBlockPos().getY(),
+                                movingobjectposition.getBlockPos().getZ());
 
                         if (entity != null)
                         {
@@ -148,7 +145,7 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
                                   .hasDisplayName())
                             {
                                 ((EntityLiving)entity).setCustomNameTag(par1ItemStack
-                                      .getDisplayNameString());
+                                      .getDisplayName());
                             }
 
                             if (!par3EntityPlayer.capabilities.isCreativeMode)
@@ -183,7 +180,7 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
                       MathHelper.wrapAngleTo180_float(parWorld.rand.nextFloat()
                       * 360.0F), 0.0F);
                 parWorld.spawnEntityInWorld(entityToSpawn);
-                entityToSpawn.onSpawnWithEgg((IEntityLivingData)null);
+                entityToSpawn.onInitialSpawn(null, (IEntityLivingData)null);
                 entityToSpawn.playLivingSound();
             }
             else
@@ -213,13 +210,13 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
     {
         return (parColorType == 0) ? colorBase : colorSpots;
     }
-
+/*  TODO: maybe we don't need this in 1.8?
     @Override
     @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses()
     {
         return true;
-    }
+    }*/
     
     @Override
     // Doing this override means that there is no localization for language
@@ -230,26 +227,26 @@ public class PolycraftSpawnEgg extends ItemMonsterPlacer
     }  
 
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister)
-    {
-        super.registerIcons(par1IconRegister);
-        this.itemIcon = par1IconRegister.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("polyspawn_egg")));
-        theIcon = par1IconRegister.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("polyspawn_egg_overlay")));
-        //theIcon = par1IconRegister.registerIcon(getIconString() + "_overlay");
-    }
-    
-    /**
-     * Gets an icon index based on an item's damage value and the given render pass
-     */
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int parDamageVal, int parRenderPass)
-    {
-        return parRenderPass > 0 ? theIcon : super.getIconFromDamageForRenderPass(parDamageVal, 
-              parRenderPass);
-    }
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public void registerIcons(IIconRegister par1IconRegister)
+//    {
+//        super.registerIcons(par1IconRegister);
+//        this.itemIcon = par1IconRegister.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("polyspawn_egg")));
+//        theIcon = par1IconRegister.registerIcon(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName("polyspawn_egg_overlay")));
+//        //theIcon = par1IconRegister.registerIcon(getIconString() + "_overlay");
+//    }
+//
+//    /**
+//     * Gets an icon index based on an item's damage value and the given render pass
+//     */
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public IIcon getIconFromDamageForRenderPass(int parDamageVal, int parRenderPass)
+//    {
+//        return parRenderPass > 0 ? theIcon : super.getIconFromDamageForRenderPass(parDamageVal,
+//              parRenderPass);
+//    }
     
     public void setColors(int parColorBase, int parColorSpots)
     {

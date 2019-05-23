@@ -22,7 +22,7 @@ public class VesselUpcycler extends InventoryBehavior {
 
 	@Override
 	public boolean updateEntity(final PolycraftInventory inventory, final World world) {
-		if (inventory.getWorldObj() != null && !inventory.getWorldObj().isRemote) {
+		if (inventory.getWorld() != null && !inventory.getWorld().isRemote) {
 			if (upcycleTicksCurrent == 0) {
 				upcycleTicksCurrent = upcycleTicksStart;
 				//don't upcycle heated inventories that are currently processing

@@ -58,7 +58,7 @@ public class ItemFlashlight extends PolycraftUtilityItem {
 	}
 
 	public ItemFlashlight(final CustomObject config) {
-		this.setTextureName(PolycraftMod.getAssetName("flashlight"));
+		//this.setTextureName(PolycraftMod.getAssetName("flashlight"));
 		this.setCreativeTab(CreativeTabs.tabTools);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
@@ -98,25 +98,25 @@ public class ItemFlashlight extends PolycraftUtilityItem {
 		
 		updatePosX -= (int) (Math.sin(Math.toRadians(yaw)) * currentFlashlightDistance);
 		updatePosZ += (int) (Math.cos(Math.toRadians(yaw)) * currentFlashlightDistance);
-		
-		world.setLightValue(EnumSkyBlock.Block, (int) updatePosX,
-				(int) posY, (int) updatePosZ, 15);
-		world.markBlockRangeForRenderUpdate((int) updatePosX,
-				(int) posY, (int) updatePosX, 12, 12, 12);
-		world.markBlockForUpdate((int) updatePosX, (int) posY,
-				(int) updatePosZ);
-		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
-				(int) posY + 1, (int) updatePosZ);
-		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
-				(int) posY - 1, (int) updatePosZ);
-		world.updateLightByType(EnumSkyBlock.Block,
-				(int) updatePosX + 1, (int) posY, (int) updatePosZ);
-		world.updateLightByType(EnumSkyBlock.Block,
-				(int) updatePosX - 1, (int) posY, (int) updatePosZ);
-		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
-				(int) posY, (int) updatePosZ + 1);
-		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
-				(int) posY, (int) updatePosZ - 1);
+		//TODO: update lighting for 1.8
+//		world.setLightValue(EnumSkyBlock.Block, (int) updatePosX,
+//				(int) posY, (int) updatePosZ, 15);
+//		world.markBlockRangeForRenderUpdate((int) updatePosX,
+//				(int) posY, (int) updatePosX, 12, 12, 12);
+//		world.markBlockForUpdate((int) updatePosX, (int) posY,
+//				(int) updatePosZ);
+//		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
+//				(int) posY + 1, (int) updatePosZ);
+//		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
+//				(int) posY - 1, (int) updatePosZ);
+//		world.updateLightByType(EnumSkyBlock.Block,
+//				(int) updatePosX + 1, (int) posY, (int) updatePosZ);
+//		world.updateLightByType(EnumSkyBlock.Block,
+//				(int) updatePosX - 1, (int) posY, (int) updatePosZ);
+//		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
+//				(int) posY, (int) updatePosZ + 1);
+//		world.updateLightByType(EnumSkyBlock.Block, (int) updatePosX,
+//				(int) posY, (int) updatePosZ - 1);
 		
 		
 

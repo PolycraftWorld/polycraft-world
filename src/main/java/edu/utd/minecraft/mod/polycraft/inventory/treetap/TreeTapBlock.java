@@ -132,7 +132,7 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
 	 */
 	@Override
-	public boolean renderAsNormalBlock()
+	public boolean isNormalCube()
 	{
 		return false;
 	}
@@ -146,15 +146,15 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 		return false;
 	}
 
-	/**
-	 * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given coordinates. Args: blockAccess, x, y, z, side
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
-	{
-		return true;
-	}
+//	/**
+//	 * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given coordinates. Args: blockAccess, x, y, z, side
+//	 */
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
+//	{
+//		return true;
+//	}
 
 	/**
 	 * If this returns true, then comparators facing away from this block will use the value from getComparatorInputOverride instead of the actual redstone signal strength.

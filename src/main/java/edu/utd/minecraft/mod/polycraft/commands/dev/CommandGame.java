@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.command.ICommand;
+import net.minecraft.command.PlayerNotFoundException;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
@@ -31,7 +34,7 @@ public class CommandGame extends CommandBase{
 	}
 	
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
@@ -113,7 +116,7 @@ public class CommandGame extends CommandBase{
 	
 
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -125,7 +128,7 @@ public class CommandGame extends CommandBase{
     }
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

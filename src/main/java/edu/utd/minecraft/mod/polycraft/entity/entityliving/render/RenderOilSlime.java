@@ -4,6 +4,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
@@ -15,13 +16,13 @@ import org.lwjgl.opengl.GL11;
 public class RenderOilSlime extends RenderLiving
 {
     private static final ResourceLocation slimeTextures = new ResourceLocation(
-			PolycraftMod.getAssetName("textures/entity/OilSlime.png"));
+			PolycraftMod.getAssetNameString("textures/entity/OilSlime.png"));
     private ModelBase scaleAmount;
     private static final String __OBFID = "CL_00001024";
 
     public RenderOilSlime(ModelBase p_i1267_1_, ModelBase p_i1267_2_, float p_i1267_3_)
     {
-        super(p_i1267_1_, p_i1267_3_);
+        super(Minecraft.getMinecraft().getRenderManager(), p_i1267_1_, p_i1267_3_);
         this.scaleAmount = p_i1267_2_;
     }
 
@@ -37,7 +38,7 @@ public class RenderOilSlime extends RenderLiving
         }
         else if (p_77032_2_ == 0)
         {
-            this.setRenderPassModel(this.scaleAmount);
+            //this.setRenderPassModel(this.scaleAmount);
             GL11.glEnable(GL11.GL_NORMALIZE);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

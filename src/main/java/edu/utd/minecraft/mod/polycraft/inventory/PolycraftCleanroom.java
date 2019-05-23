@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.inventory;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -33,7 +34,7 @@ public abstract class PolycraftCleanroom {
 		boolean foundPump = false;
 		Vec3 pumpCoords = null;
 
-		Block block = worldObj.getBlock(x, y, z);
+		Block block = worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
 
 		Vec3 nwCoords = findNWBottomCornerOfCleanroom(worldObj, block, x, y, z);
 
@@ -44,12 +45,12 @@ public abstract class PolycraftCleanroom {
 		y = (int) nwCoords.yCoord;
 		z = (int) nwCoords.zCoord;
 
-		if (worldObj.getBlock(x, y, z) != PolycraftRegistry.getBlock("Block (PP)"))
+		if (worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() != PolycraftRegistry.getBlock("Block (PP)"))
 			return false;
 
 		for (int i = 1; i < cleanroomMaxX; i++)
 		{
-			if (!isCleanroomFloorBlock(block = worldObj.getBlock(x + i, y, z + 1)))
+			if (!isCleanroomFloorBlock(block = worldObj.getBlockState(new BlockPos(x + i, y, z + 1)).getBlock()))
 			{
 				cleanroomWidth = i + 1;
 				break;
@@ -58,7 +59,7 @@ public abstract class PolycraftCleanroom {
 
 		for (int j = 0; j < cleanroomMaxY; j++)
 		{
-			if (!isCleanroomWallBlock(block = worldObj.getBlock(x, y + j, z)))
+			if (!isCleanroomWallBlock(block = worldObj.getBlockState(new BlockPos(x, y + j, z)).getBlock()))
 			{
 				cleanroomHeight = j;
 				break;
@@ -67,7 +68,7 @@ public abstract class PolycraftCleanroom {
 
 		for (int k = 1; k < cleanroomMaxZ; k++)
 		{
-			if (!isCleanroomFloorBlock(block = worldObj.getBlock(x + 1, y, z + k)))
+			if (!isCleanroomFloorBlock(block = worldObj.getBlockState(new BlockPos(x + 1, y, z + k)).getBlock()))
 			{
 				cleanroomLength = k + 1;
 				break;
@@ -86,12 +87,12 @@ public abstract class PolycraftCleanroom {
 		{
 			for (int j = 0; j < cleanroomHeight; j++)
 			{
-				if (!isCleanroomWallBlock(block = worldObj.getBlock(x + i, y + j, z)))
+				if (!isCleanroomWallBlock(block = worldObj.getBlockState(new BlockPos(x + i, y + j, z)).getBlock()))
 					return false;
 				if (!foundPump && isPump(block))
 				{
-					if (foundPump = isPumpPurifying(worldObj, Vec3.createVectorHelper(x + i, y + j, z)))
-						pumpCoords = Vec3.createVectorHelper(x + i, y + j, z);
+					if (foundPump = isPumpPurifying(worldObj, new Vec3(x + i, y + j, z)))
+						pumpCoords = new Vec3(x + i, y + j, z);
 
 				}
 			}
@@ -102,12 +103,12 @@ public abstract class PolycraftCleanroom {
 		{
 			for (int j = 0; j < cleanroomHeight; j++)
 			{
-				if (!isCleanroomWallBlock(block = worldObj.getBlock(x + cleanroomWidth - 1, y + j, z + k)))
+				if (!isCleanroomWallBlock(block = worldObj.getBlockState(new BlockPos(x + cleanroomWidth - 1, y + j, z + k)).getBlock()))
 					return false;
 				if (!foundPump && isPump(block))
 				{
-					if (foundPump = isPumpPurifying(worldObj, Vec3.createVectorHelper(x + cleanroomWidth - 1, y + j, z + k)))
-						pumpCoords = Vec3.createVectorHelper(x + cleanroomWidth - 1, y + j, z + k);
+					if (foundPump = isPumpPurifying(worldObj, new Vec3(x + cleanroomWidth - 1, y + j, z + k)))
+						pumpCoords = new Vec3(x + cleanroomWidth - 1, y + j, z + k);
 				}
 			}
 		}
@@ -117,12 +118,12 @@ public abstract class PolycraftCleanroom {
 		{
 			for (int j = 0; j < cleanroomHeight; j++)
 			{
-				if (!isCleanroomWallBlock(block = worldObj.getBlock(x + i, y + j, z + cleanroomLength - 1)))
+				if (!isCleanroomWallBlock(block = worldObj.getBlockState(new BlockPos(x + i, y + j, z + cleanroomLength - 1)).getBlock()))
 					return false;
 				if (!foundPump && isPump(block))
 				{
-					if (foundPump = isPumpPurifying(worldObj, Vec3.createVectorHelper(x + i, y + j, z + cleanroomLength - 1)))
-						pumpCoords = Vec3.createVectorHelper(x + i, y + j, z + cleanroomLength - 1);
+					if (foundPump = isPumpPurifying(worldObj, new Vec3(x + i, y + j, z + cleanroomLength - 1)))
+						pumpCoords = new Vec3(x + i, y + j, z + cleanroomLength - 1);
 				}
 			}
 		}
@@ -132,12 +133,12 @@ public abstract class PolycraftCleanroom {
 		{
 			for (int j = 0; j < cleanroomHeight; j++)
 			{
-				if (!isCleanroomWallBlock(block = worldObj.getBlock(x, y + j, z + k)))
+				if (!isCleanroomWallBlock(block = worldObj.getBlockState(new BlockPos(x, y + j, z + k)).getBlock()))
 					return false;
 				if (!foundPump && isPump(block))
 				{
-					if (foundPump = isPumpPurifying(worldObj, Vec3.createVectorHelper(x, y + j, z + k)))
-						pumpCoords = Vec3.createVectorHelper(x, y + j, z + k);
+					if (foundPump = isPumpPurifying(worldObj, new Vec3(x, y + j, z + k)))
+						pumpCoords = new Vec3(x, y + j, z + k);
 
 				}
 			}
@@ -153,7 +154,7 @@ public abstract class PolycraftCleanroom {
 		{
 			for (int i = 0; i < cleanroomWidth; i++)
 			{
-				if (!isCleanroomCeilingBlock(worldObj.getBlock(x + i, y + cleanroomHeight - 1, z + k)))
+				if (!isCleanroomCeilingBlock(worldObj.getBlockState(new BlockPos(x + i, y + cleanroomHeight - 1, z + k)).getBlock()))
 					return false;
 			}
 		}
@@ -163,7 +164,7 @@ public abstract class PolycraftCleanroom {
 		{
 			for (int i = 1; i < cleanroomWidth - 1; i++)
 			{
-				if (!isCleanroomFloorBlock(worldObj.getBlock(x + i, y, z + k)))
+				if (!isCleanroomFloorBlock(worldObj.getBlockState(new BlockPos(x + i, y, z + k)).getBlock()))
 					return false;
 			}
 		}
@@ -175,7 +176,7 @@ public abstract class PolycraftCleanroom {
 			{
 				for (int i = 1; i < cleanroomWidth - 1; i++)
 				{
-					if (!isCleanroomBlock(worldObj.getBlock(x + i, y + j, z + k)))
+					if (!isCleanroomBlock(worldObj.getBlockState(new BlockPos(x + i, y + j, z + k)).getBlock()))
 						return false;
 				}
 			}
@@ -190,10 +191,10 @@ public abstract class PolycraftCleanroom {
 		//Is pump working
 		if (pumpCoords != null)
 		{
-			int pumpFlowDirection = worldObj.getBlockMetadata((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord);
+			int pumpFlowDirection = worldObj.getBlockState(new BlockPos((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord)).getBlock().getMetaFromState(worldObj.getBlockState(new BlockPos((int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord)));
 			//TODO: Walter - test to see if HEPA Filter is next to Pump
 
-			IInventory inventory = PolycraftMod.getInventoryAt(worldObj, (int) pumpCoords.xCoord, (int) pumpCoords.yCoord, (int) pumpCoords.zCoord);
+			IInventory inventory = PolycraftMod.getInventoryAt(worldObj, new BlockPos(pumpCoords.xCoord, pumpCoords.yCoord, pumpCoords.zCoord));
 			if (!(inventory instanceof PumpInventory))
 				return false;
 			if (!((((PumpInventory) inventory).getState(PumpState.FuelTicksRemaining) > 0) || (((PumpInventory) inventory).getState(PumpState.FuelTicksRemaining) > 0)))
@@ -303,7 +304,7 @@ public abstract class PolycraftCleanroom {
 		int counter = 0;
 		while (!isCleanroomFloorBlock(block))
 		{
-			block = worldObj.getBlock(x, --y, z);
+			block = worldObj.getBlockState(new BlockPos(x, --y, z)).getBlock();
 			if (y == 3)
 				return null;
 			if (counter++ >= cleanroomMaxY)
@@ -313,21 +314,21 @@ public abstract class PolycraftCleanroom {
 		counter = 0;
 		while (isCleanroomFloorBlock(block))
 		{
-			block = worldObj.getBlock(--x, y, z);
+			block = worldObj.getBlockState(new BlockPos(--x, y, z)).getBlock();
 			if (counter++ >= cleanroomMaxX)
 				return null;
 		}
 
-		block = worldObj.getBlock(++x, y, z);
+		block = worldObj.getBlockState(new BlockPos(++x, y, z)).getBlock();
 		counter = 0;
 		while (isCleanroomFloorBlock(block))
 		{
-			block = worldObj.getBlock(x, y, --z);
+			block = worldObj.getBlockState(new BlockPos(x, y, --z)).getBlock();
 			if (counter++ >= cleanroomMaxZ)
 				return null;
 		}
 		x--;
-		return Vec3.createVectorHelper(x, y, z);
+		return new Vec3(x, y, z);
 	}
 
 }

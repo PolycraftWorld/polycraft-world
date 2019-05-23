@@ -1,19 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.handler;
 
+import java.util.Iterator;
 import java.util.List;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 /**
  * Class holding code for adding loaded entities to reloaded chunks.
@@ -35,9 +33,9 @@ public class ResyncHandler {
 	 * complete chunk reload.
 	 */
 	@SubscribeEvent
-	public void onClientTick(ClientTickEvent event) {
+	public void onClientTick(TickEvent.ClientTickEvent event) {
 		World zaWarudo = client.theWorld;
-		if (event.phase == Phase.END && resync && zaWarudo != null) {
+		if (event.phase == TickEvent.Phase.END && resync && zaWarudo != null) {
 			List worldEntities = zaWarudo.loadedEntityList;
 			boolean resyncNeeded = false;
 			for (int i = 0; i < worldEntities.size(); i++) {
@@ -50,12 +48,14 @@ public class ResyncHandler {
 							resyncNeeded = true; // Chunk has not been reloaded yet. Try again next tick.
 						} else {
 							// Check if chunk already has this entity.
-							boolean add = chunk.hasEntities;
-							for (int j = 0; add && j < chunk.entityLists.length; j++) {
-								List chunkEntities = chunk.entityLists[j];
-								for (int k = 0; add && k < chunkEntities.size(); k++)
-									if (((Entity) chunkEntities.get(k)) == entity)
+							boolean add = chunk.getEntityLists().length == 0;
+							for (int j = 0; add && j < chunk.getEntityLists().length; j++) {
+								//List chunkEntities = chunk.getEntityLists()[j];
+								for (Iterator<Entity> it = (chunk.getEntityLists()[j]).iterator(); it.hasNext(); ) {
+									Entity entity1 = it.next();
+									if (((Entity) entity1 == entity))
 										add = false; // Don't add entity if already in chunk.
+								}
 							}
 							if (add) // Add entity to chunk if not already in chunk.
 								chunk.addEntity(entity);

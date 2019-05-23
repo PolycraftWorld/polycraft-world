@@ -8,10 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class TerritoryFlagRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
+public class TerritoryFlagRenderingHandler //extends PolycraftInventoryBlock.BasicRenderingHandler
+{
 
 	public TerritoryFlagRenderingHandler(final Inventory config) {
-		super(config);
+		//super(config);
 	}
 	
 	//	@Override

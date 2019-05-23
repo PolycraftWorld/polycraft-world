@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -49,17 +50,17 @@ public abstract class FueledLampInventory extends StatefulInventory<FueledLampSt
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
+	public int[] getSlotsForFace(EnumFacing facing) {
 		return accessibleSlots;
 	}
 
 	@Override
-	public boolean canInsertItem(int var1, ItemStack var2, int var3) {
+	public boolean canInsertItem(int var1, ItemStack var2, EnumFacing facing) {
 		return Fuel.getFuel(var2.getItem()) != null;
 	}
 
 	@Override
-	public boolean canExtractItem(int var1, ItemStack var2, int var3) {
+	public boolean canExtractItem(int var1, ItemStack var2, EnumFacing facing) {
 		return false;
 	}
 

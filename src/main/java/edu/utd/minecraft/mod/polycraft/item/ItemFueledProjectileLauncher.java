@@ -47,7 +47,7 @@ public abstract class ItemFueledProjectileLauncher  extends PolycraftUtilityItem
 	public final int fuelUnitsBurnPerTick;
 
 	public ItemFueledProjectileLauncher(final CustomObject config, String iconName) {
-		this.setTextureName(PolycraftMod.getAssetName(iconName));
+		//this.setTextureName(PolycraftMod.getAssetName(iconName));
 		this.setCreativeTab(CreativeTabs.tabCombat);
 		this.setMaxDamage(100);
 		if (config.maxStackSize > 0)

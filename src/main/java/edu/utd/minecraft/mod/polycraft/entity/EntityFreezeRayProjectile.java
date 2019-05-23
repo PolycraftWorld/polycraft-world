@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -50,19 +51,17 @@ public class EntityFreezeRayProjectile extends EntitySnowball {
 			if (p_70184_1_.entityHit == null) {
 
 				final Vec3 blockCoords = PolycraftMod.getAdjacentCoordsSideHit(p_70184_1_);
-				int x = (int) blockCoords.xCoord;
-				int y = (int) blockCoords.yCoord;
-				int z = (int) blockCoords.zCoord;
-				if (worldObj.getBlock(x, y, z) == Blocks.water)
+				BlockPos blockPos = new BlockPos(blockCoords);
+				if (worldObj.getBlockState(blockPos).getBlock() == Blocks.water)
 				{
-					worldObj.setBlock(x, y, z, Blocks.ice);
+					worldObj.setBlockState(blockPos, Blocks.ice.getDefaultState());
 				}
 
-				else if ((worldObj.isAirBlock(x, y, z)
-						|| worldObj.getBlock(x, y, z) == PolycraftMod.blockLight)
-						&& Blocks.snow_layer.canPlaceBlockAt(worldObj, x, y, z))
+				else if ((worldObj.isAirBlock(blockPos)
+						|| worldObj.getBlockState(blockPos).getBlock() == PolycraftMod.blockLight)
+						&& Blocks.snow_layer.canPlaceBlockAt(worldObj, blockPos))
 				{
-					worldObj.setBlock(x, y, z, Blocks.snow_layer);
+					worldObj.setBlockState(blockPos, Blocks.snow_layer.getDefaultState());
 				}
 
 			}

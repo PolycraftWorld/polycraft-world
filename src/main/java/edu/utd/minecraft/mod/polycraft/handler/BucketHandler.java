@@ -33,12 +33,12 @@ public class BucketHandler {
 	}
 
 	private ItemStack fillCustomBucket(World world, MovingObjectPosition pos) {
-		Block block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+		Block block = world.getBlockState(pos.getBlockPos()).getBlock();
 
 		Item bucket = buckets.get(block);
 
-		if (bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0) {
-			world.setBlockToAir(pos.blockX, pos.blockY, pos.blockZ);
+		if (bucket != null && block.getMetaFromState(world.getBlockState(pos.getBlockPos())) == 0) {
+			world.setBlockToAir(pos.getBlockPos());
 			return new ItemStack(bucket);
 		} else {
 			return null;

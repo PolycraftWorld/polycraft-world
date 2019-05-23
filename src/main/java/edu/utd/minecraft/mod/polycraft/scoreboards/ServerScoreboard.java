@@ -25,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class ServerScoreboard extends ScoreboardManager {
@@ -125,13 +126,13 @@ public class ServerScoreboard extends ScoreboardManager {
 			 final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired + payloadPacketsRequired];
 			
 			 //send the control packet containing meta-data
-			 packets[0] = new FMLProxyPacket(Unpooled.buffer().writeInt(type.ordinal()).writeInt(dataBytes.length).copy(),netChannelName);
+			 packets[0] = new FMLProxyPacket(new PacketBuffer(Unpooled.buffer().writeInt(type.ordinal()).writeInt(dataBytes.length).copy()),netChannelName);
 			
 			 //send the string of data to the client.
 			 for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
 				 int startDataIndex = payloadIndex * maxPacketSizeBytes;
 				 int length = Math.min(dataBytes.length - startDataIndex, maxPacketSizeBytes);
-				 packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(Unpooled.buffer().writeBytes(dataBytes, startDataIndex,length).copy(), netChannelName);
+				 packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(new PacketBuffer(Unpooled.buffer().writeBytes(dataBytes, startDataIndex,length).copy()), netChannelName);
 			 }
 			 //TODO: Remove.
 			 System.out.println("Size of Total packets: " + packets.length);

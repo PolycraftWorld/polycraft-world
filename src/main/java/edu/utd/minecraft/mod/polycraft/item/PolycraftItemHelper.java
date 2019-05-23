@@ -14,13 +14,13 @@ public class PolycraftItemHelper {
 	private final static Logger logger = LogManager.getLogger();
 
 	public static void createTagCompound(final ItemStack itemStack) {
-		if (itemStack.stackTagCompound == null)
+		if (itemStack.getTagCompound() == null)
 			itemStack.setTagCompound(new NBTTagCompound());
 	}
 
 	private static boolean hasKey(final ItemStack itemStack, final String key) {
 		PolycraftItemHelper.createTagCompound(itemStack);
-		return itemStack.stackTagCompound.hasKey(key);
+		return itemStack.getTagCompound().hasKey(key);
 	}
 
 	private static boolean validParams(final ItemStack itemStack, final String key) {
@@ -41,7 +41,7 @@ public class PolycraftItemHelper {
 	public static void setBoolean(final ItemStack itemStack, final String key, final boolean value) {
 		if (validParams(itemStack, key)) {
 			PolycraftItemHelper.createTagCompound(itemStack);
-			itemStack.stackTagCompound.setBoolean(key, value);
+			itemStack.getTagCompound().setBoolean(key, value);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class PolycraftItemHelper {
 	public static void setInteger(final ItemStack itemStack, final String key, final int value) {
 		if (validParams(itemStack, key)) {
 			PolycraftItemHelper.createTagCompound(itemStack);
-			itemStack.stackTagCompound.setInteger(key, value);
+			itemStack.getTagCompound().setInteger(key, value);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class PolycraftItemHelper {
 	 */
 	public static boolean getBoolean(final ItemStack itemStack, final String key, final boolean defaultValue) {
 		if (validParams(itemStack, key) && hasKey(itemStack, key))
-			return itemStack.stackTagCompound.getBoolean(key);
+			return itemStack.getTagCompound().getBoolean(key);
 		return defaultValue;
 	}
 
@@ -69,7 +69,7 @@ public class PolycraftItemHelper {
 	 */
 	public static int getInteger(final ItemStack itemStack, final String key, final int defaultValue) {
 		if (validParams(itemStack, key) && hasKey(itemStack, key))
-			return itemStack.stackTagCompound.getInteger(key);
+			return itemStack.getTagCompound().getInteger(key);
 		return defaultValue;
 	}
 

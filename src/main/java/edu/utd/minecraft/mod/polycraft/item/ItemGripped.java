@@ -31,7 +31,7 @@ public class ItemGripped {
 			itemGripped = new ItemHoeGripped(grippedTool.toolMaterial.minecraftMaterial);
 		
 
-		itemGripped.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(grippedTool.name)));
+		//itemGripped.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(grippedTool.name)));
 		itemGripped.setMaxDamage((int) ((itemGripped.getMaxDamage() * (1 + grippedTool.durabilityBuff)) + 1));
 		return itemGripped;
 	}

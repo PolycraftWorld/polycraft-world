@@ -25,7 +25,7 @@ public class ItemCleats extends PolycraftArmorFeet {
 	
 	public ItemCleats(CustomObject config) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.GOLD);
-		this.setTextureName(PolycraftMod.getAssetName("cleats"));
+		//this.setTextureName(PolycraftMod.getAssetName("cleats"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
@@ -35,7 +35,7 @@ public class ItemCleats extends PolycraftArmorFeet {
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getAssetName("textures/models/armor/running_shoes_layer_1.png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/running_shoes_layer_1.png");
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class ItemCleats extends PolycraftArmorFeet {
 		// TODO Auto-generated method stub
 		super.onArmorTick(world, player, itemStack);
 		if(!world.isRemote) {
-			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 1, true));
+			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 1, true, false));
 		}
 	}
 

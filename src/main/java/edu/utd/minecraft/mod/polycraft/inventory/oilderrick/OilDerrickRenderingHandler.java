@@ -3,10 +3,11 @@ package edu.utd.minecraft.mod.polycraft.inventory.oilderrick;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class OilDerrickRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
+public class OilDerrickRenderingHandler //extends PolycraftInventoryBlock.BasicRenderingHandler
+{
 
 	public OilDerrickRenderingHandler(final Inventory config) {
-		super(config);
+		//super(config);
 	}
 
 	//	@Override

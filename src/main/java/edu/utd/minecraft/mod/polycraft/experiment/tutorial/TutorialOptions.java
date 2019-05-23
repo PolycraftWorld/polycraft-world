@@ -12,12 +12,13 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
 public class TutorialOptions{
 	public String name = "";
-	public Vec3 pos = Vec3.createVectorHelper(0, 0, 0);
-	public Vec3 size = Vec3.createVectorHelper(0, 0, 0);
+	public BlockPos pos = new BlockPos(0, 0, 0);
+	public BlockPos size = new BlockPos(0, 0, 0);
 	public int numTeams = 2, teamSize = 2;
 	
 	//Gui Parameters
@@ -37,9 +38,9 @@ public class TutorialOptions{
 	public NBTTagCompound save()
 	{
 
-		int position1[] = {(int)this.pos.xCoord, (int)this.pos.yCoord, (int)this.pos.zCoord};
+		int position1[] = {(int)this.pos.getX(), (int)this.pos.getY(), (int)this.pos.getZ()};
 		nbt.setIntArray("pos",position1);
-		int position2[] = {(int)this.size.xCoord, (int)this.size.yCoord, (int)this.size.zCoord};
+		int position2[] = {(int)this.size.getX(), (int)this.size.getY(), (int)this.size.getZ()};
 		nbt.setIntArray("size",position2);
 		nbt.setString("name", this.name);
 		nbt.setInteger("numTeams", numTeams);
@@ -50,9 +51,9 @@ public class TutorialOptions{
 	public void load(NBTTagCompound nbtFeat)
 	{
 		int featPos1[]=nbtFeat.getIntArray("pos");
-		this.pos=Vec3.createVectorHelper(featPos1[0], featPos1[1], featPos1[2]);
+		this.pos=new BlockPos(featPos1[0], featPos1[1], featPos1[2]);
 		int featPos2[]=nbtFeat.getIntArray("size");
-		this.size=Vec3.createVectorHelper(featPos2[0], featPos2[1], featPos2[2]);
+		this.size=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
 		this.name = nbtFeat.getString("name");
 		this.numTeams = nbtFeat.getInteger("numTeams");
 		this.teamSize = nbtFeat.getInteger("teamSize");

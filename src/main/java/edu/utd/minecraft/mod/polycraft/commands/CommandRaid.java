@@ -7,6 +7,7 @@ import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigame;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
@@ -40,7 +41,7 @@ public class CommandRaid extends CommandBase {
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();

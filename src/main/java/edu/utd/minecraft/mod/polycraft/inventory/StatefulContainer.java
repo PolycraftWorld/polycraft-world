@@ -33,8 +33,8 @@ public class StatefulContainer<S extends StatefulInventoryState, I extends State
 	}
 
 	@Override
-	public void addCraftingToCrafters(ICrafting crafting) {
-		super.addCraftingToCrafters(crafting);
+	public void onCraftGuiOpened(ICrafting crafting) {
+		super.onCraftGuiOpened(crafting);
 		for (final S state : statesByIdentifier.values())
 			crafting.sendProgressBarUpdate(this, state.getIdentifier(), inventory.getState(state));
 	}

@@ -44,7 +44,7 @@ public class ItemScubaFins extends PolycraftArmorFeet implements PolycraftMolded
 
 	public ItemScubaFins(final MoldedItem moldedItem) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getAssetName("scuba_fins"));
+		//this.setTextureName(PolycraftMod.getAssetName("scuba_fins"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.setMaxDamage(PolycraftMod.convertSecondsToGameTicks(moldedItem.params.getInt(2) * 60));
 		if (moldedItem.maxStackSize > 0)
@@ -56,7 +56,7 @@ public class ItemScubaFins extends PolycraftArmorFeet implements PolycraftMolded
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getAssetName("textures/models/armor/scuba_layer_1.png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/scuba_layer_1.png");
 	}
 
 	@Override

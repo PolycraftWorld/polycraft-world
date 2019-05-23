@@ -151,7 +151,7 @@ public class ContactPrinterRecipeHandler extends TemplateRecipeHandler {
 		// new
 		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
 		// PolycraftMod.getFileSafeName(config.name))));
-		return PolycraftMod.getAssetName("textures/gui/container/contact_printer.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/contact_printer.png");
 	}
 
 	@Override

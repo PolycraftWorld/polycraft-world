@@ -42,7 +42,7 @@ public class ItemScubaTank extends PolycraftArmorChest {
 
 	public ItemScubaTank(final CustomObject config, String iconName) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.CHAIN);
-		this.setTextureName(PolycraftMod.getAssetName(iconName));
+		//this.setTextureName(PolycraftMod.getAssetName(iconName));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
@@ -59,7 +59,7 @@ public class ItemScubaTank extends PolycraftArmorChest {
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getAssetName("textures/models/armor/scuba_layer_1.png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/scuba_layer_1.png");
 	}
 
 	private double getAirRemainingPercent(final ItemStack itemStack) {

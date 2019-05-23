@@ -3,8 +3,10 @@ package edu.utd.minecraft.mod.polycraft.inventory.fueledlamp;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.block.BlockHelper;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -19,13 +21,13 @@ public class FueledLampBlock extends PolycraftInventoryBlock<FueledLampInventory
 	}
 
 	@Override
-	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
-		BlockHelper.setFacingMetadata4(this, p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_, p_149689_6_);
+	public void onBlockPlacedBy(World p_149689_1_, BlockPos blockPos, IBlockState state, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
+		BlockHelper.setFacingMetadata4(this, p_149689_1_, blockPos, p_149689_5_, p_149689_6_);
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
-		getInventory(world, x, y, z).removeCurrentLightSource();
-		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
+	public void breakBlock(World world, BlockPos blockPos, IBlockState state) {
+		getInventory(world, blockPos).removeCurrentLightSource();
+		super.breakBlock(world, blockPos, state);
 	}
 }

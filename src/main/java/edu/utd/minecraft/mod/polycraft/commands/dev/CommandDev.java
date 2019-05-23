@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
@@ -16,7 +15,9 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -25,9 +26,11 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.registry.GameData;
 
 public class CommandDev extends CommandBase{
 
@@ -52,7 +55,7 @@ private final List aliases;
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -76,7 +79,7 @@ private final List aliases;
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		if (world.isRemote) { 
@@ -158,7 +161,7 @@ private final List aliases;
 								for(int j=0;j<height;j++) {
 									for(int k=0;k<width;k++) {
 										
-										tile = world.getTileEntity(minX+i, minY+j, minZ+k);
+										tile = world.getTileEntity(new BlockPos(minX+i, minY+j, minZ+k));
 										if(tile!=null){
 											NBTTagCompound tilenbt = new NBTTagCompound();
 											tile.writeToNBT(tilenbt);
@@ -166,10 +169,10 @@ private final List aliases;
 											
 										}
 											
-										Block blk = world.getBlock(minX+i, minY+j, minZ+k);
+										Block blk = world.getBlockState(new BlockPos(minX+i, minY+j, minZ+k)).getBlock();
 										int id = blk.getIdFromBlock(blk);
 										blocks[count]=id;
-										data[count]=(byte) world.getBlockMetadata((int)(minX+i), (int)(minY+j), (int)(minZ+k));
+										data[count]=(byte) blk.getMetaFromState(world.getBlockState(new BlockPos((int)(minX+i), (int)(minY+j), (int)(minZ+k))));
 										count++;
 										
 									}
@@ -223,7 +226,7 @@ private final List aliases;
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

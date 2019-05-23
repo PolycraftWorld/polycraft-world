@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.nei;
 
-import static codechicken.lib.gui.GuiDraw.changeTexture;
-import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
+//import static codechicken.lib.gui.GuiDraw.changeTexture;
+//import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -119,7 +119,7 @@ public class MachiningMillRecipeHandler extends TemplateRecipeHandler {
 		// new
 		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
 		// PolycraftMod.getFileSafeName(config.name))));
-		return PolycraftMod.getAssetName("textures/gui/container/machining_mill.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/machining_mill.png");
 	}
 
 	@Override
@@ -152,10 +152,10 @@ public class MachiningMillRecipeHandler extends TemplateRecipeHandler {
 		return 1;
 	}
 
-	@Override
-	public void drawBackground(int recipe) {
-		GL11.glColor4f(1, 1, 1, 1);
-		changeTexture(getGuiTexture());
-		drawTexturedModalRect(0, 0, 5, 11, 166, 100);
-	}
+//	@Override
+//	public void drawBackground(int recipe) {
+//		GL11.glColor4f(1, 1, 1, 1);
+//		changeTexture(getGuiTexture());
+//		drawTexturedModalRect(0, 0, 5, 11, 166, 100);
+//	}
 }

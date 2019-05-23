@@ -81,48 +81,45 @@ public class PortalChestInventory extends PolycraftInventory {
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(EntityPlayer player) {
 
 		if (this.associatedChest != null)
 		{
 			this.linkPortalChests(associatedChest);
 		}
 
-		super.openInventory();
+		super.openInventory(player);
 	}
 
 	public void linkPortalChests(TileEntity associatedChest)
 	{
 		++this.linkedChests;
-		this.worldObj.addBlockEvent(associatedChest.xCoord, associatedChest.yCoord, associatedChest.zCoord, PolycraftRegistry.getBlock(this.config), 1, this.linkedChests);
+		this.worldObj.addBlockEvent(associatedChest.getPos(), PolycraftRegistry.getBlock(this.config), 1, this.linkedChests);
 	}
 
 	public void unlinkPortalChests(TileEntity associatedChest)
 	{
 		--this.linkedChests;
-		this.worldObj.addBlockEvent(associatedChest.xCoord, associatedChest.yCoord, associatedChest.zCoord, PolycraftRegistry.getBlock(this.config), 1, this.linkedChests);
+		this.worldObj.addBlockEvent(associatedChest.getPos(), PolycraftRegistry.getBlock(this.config), 1, this.linkedChests);
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(EntityPlayer player) {
 
 		if (this.associatedChest != null)
 		{
 			this.unlinkPortalChests(associatedChest);
 		}
 
-		super.closeInventory();
+		super.closeInventory(player);
 		this.associatedChest = null;
 
 	}
 
 	public boolean isPlayerAtThisPortalChest(EntityPlayer player, TileEntity associatedChest)
 	{
-		return this.worldObj.getTileEntity(associatedChest.xCoord, associatedChest.yCoord, associatedChest.zCoord) != associatedChest ?
-				false : player.getDistanceSq(
-						(double) associatedChest.xCoord + 0.5D,
-						(double) associatedChest.yCoord + 0.5D,
-						(double) associatedChest.zCoord + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(associatedChest.getPos()) != associatedChest ?
+				false : player.getDistanceSq( associatedChest.getPos().add(0.5, 0.5, 0.5)) <= 64D;
 	}
 
 	public void loadInventoryFromNBT(NBTTagList p_70486_1_)

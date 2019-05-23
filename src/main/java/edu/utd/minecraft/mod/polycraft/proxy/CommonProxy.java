@@ -7,6 +7,7 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -77,7 +78,7 @@ public abstract class CommonProxy {
 	protected static final float baseJumpMovementFactor = 0.02F;
 	protected static final int baseFullAir = 300;
 	private static final long jetPackSoundFrequencyTicks = 10;
-	private static final String scubaTankSoundName = PolycraftMod.getAssetName("scubatank.breathe");
+	private static final String scubaTankSoundName = PolycraftMod.getAssetNameString("scubatank.breathe");
 	private static final long scubaTankSoundFrequencyTicks = 30;
 	private static final int flameSoundID = 1009;
 	private static final long flameThrowerSoundFrequencyTicks = 10;
@@ -152,7 +153,7 @@ public abstract class CommonProxy {
 	
 	private void sendMessageToServer(final int type, final int x ,final int y, final int z, final double velocity, final double theta, final double mass,final double phi) {
 		netChannel.sendToServer(
-				new FMLProxyPacket(Unpooled.buffer().writeInt(type).writeInt(x).writeInt(y).writeInt(z).writeDouble(velocity).writeDouble(theta).writeDouble(mass).copy().writeDouble(phi), netChannelName));
+				new FMLProxyPacket(new PacketBuffer(Unpooled.buffer().writeInt(type).writeInt(x).writeInt(y).writeInt(z).writeDouble(velocity).writeDouble(theta).writeDouble(mass).copy().writeDouble(phi)), netChannelName));
 	}
 	
 	
@@ -181,7 +182,7 @@ public abstract class CommonProxy {
 			double theta=payload.readDouble();
 			double mass=payload.readDouble();
 			double phi= payload.readDouble();
-			CannonInventory cannon = (CannonInventory) player1.worldObj.getTileEntity(x, y, z);
+			CannonInventory cannon = (CannonInventory) player1.worldObj.getTileEntity(new BlockPos(x, y, z));
 			cannon.velocity=velocity;
 			cannon.theta=theta;
 			cannon.mass=mass;
@@ -514,7 +515,7 @@ public abstract class CommonProxy {
 
 	}
 	
-	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, int x, int y, int z)
+	public void openDoorGui(BlockPasswordDoor block, EntityPlayer player, BlockPos blockPos)
 	{
 		
 	}

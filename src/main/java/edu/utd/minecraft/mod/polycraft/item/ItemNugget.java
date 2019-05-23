@@ -15,7 +15,7 @@ public class ItemNugget extends Item implements PolycraftItem {
 	public ItemNugget(final Nugget nugget) {
 		this.nugget = nugget;
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(nugget.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(nugget.name)));
 	}
 
 	@Override

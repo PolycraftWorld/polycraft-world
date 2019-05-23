@@ -275,7 +275,7 @@ public class WikiMaker {
 				return MINECRAFT_WIKI + "Dyeing";
 			}
 			return MINECRAFT_WIKI
-					+ itemStack.getDisplayNameString().replaceAll(" ", "%20");
+					+ itemStack.getDisplayName().replaceAll(" ", "%20");
 		}
 		return getItemStackName(itemStack);
 	}
@@ -493,7 +493,7 @@ public class WikiMaker {
 			return ((ItemPolymerWall) item).blockPolymerWall.polymerWall.name;
 		if (item instanceof net.minecraft.item.ItemDye)
 			return "Dye";
-		return itemStack.getDisplayNameString();
+		return itemStack.getDisplayName();
 	}
 
 	private static String getInventorySlot(final int slotIndex,
@@ -659,14 +659,16 @@ public class WikiMaker {
 			return "Plastic_brick";
 		if (item instanceof net.minecraft.item.ItemDye)
 			return "Dyes";
-		String iconName = item.getIcon(itemStack, 0).getIconName();
-		final int namespaceIndex = iconName.indexOf(":");
-		if (namespaceIndex > -1)
-			iconName = iconName.substring(namespaceIndex + 1);
-		final int colorIndex = iconName.indexOf("_black");
-		if (colorIndex > -1)
-			iconName = iconName.replace("_black", "_white");
-		return iconName;
+		//TODO: Fix for 1.8
+		//String iconName = item.getIcon(itemStack, 0).getIconName();
+//		final int namespaceIndex = iconName.indexOf(":");
+//		if (namespaceIndex > -1)
+//			iconName = iconName.substring(namespaceIndex + 1);
+//		final int colorIndex = iconName.indexOf("_black");
+//		if (colorIndex > -1)
+//			iconName = iconName.replace("_black", "_white");
+//		return iconName;
+		return "";
 	}
 
 	private final Map<Object, Map<PolycraftContainerType, Collection<PolycraftRecipe>>> recipesByIngredientContainerType;
@@ -1422,15 +1424,15 @@ public class WikiMaker {
 					page.append(getHeading(2, section.heading));
 					if (section == PageSectionItem.Gallery)
 					{
-						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(
 								((Tool) config).getFullTypeName(Tool.Type.HOE)))))).append(WIKI_NEWLINE);
-						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(
 								((Tool) config).getFullTypeName(Tool.Type.SWORD)))))).append(WIKI_NEWLINE);
-						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(
 								((Tool) config).getFullTypeName(Tool.Type.SHOVEL)))))).append(WIKI_NEWLINE);
-						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(
 								((Tool) config).getFullTypeName(Tool.Type.PICKAXE)))))).append(WIKI_NEWLINE);
-						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(
+						page.append(getLinkFile(getTextureImageName(PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(
 								((Tool) config).getFullTypeName(Tool.Type.AXE)))))).append(WIKI_NEWLINE);
 					}
 

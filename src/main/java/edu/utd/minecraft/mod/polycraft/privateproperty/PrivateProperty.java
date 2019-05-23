@@ -189,7 +189,7 @@ public class PrivateProperty {
 		if (owner == null) {
 			this.owner = "null";
 		}else {
-			this.owner = owner.getCommandSenderName();
+			this.owner = owner.getCommandSenderEntity().getName();
 		}
 		this.name = name;
 		this.message = message;

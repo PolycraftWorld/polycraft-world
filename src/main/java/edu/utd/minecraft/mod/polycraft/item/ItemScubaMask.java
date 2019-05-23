@@ -24,7 +24,7 @@ public class ItemScubaMask extends PolycraftArmorHeadgear implements PolycraftMo
 
 	public ItemScubaMask(final MoldedItem moldedItem) {
 		super(PolycraftMod.armorMaterialNone, ArmorAppearance.LEATHER);
-		this.setTextureName(PolycraftMod.getAssetName("scuba_mask"));
+		//this.setTextureName(PolycraftMod.getAssetName("scuba_mask"));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		if (moldedItem.maxStackSize > 0)
 			this.setMaxStackSize(moldedItem.maxStackSize);
@@ -34,13 +34,13 @@ public class ItemScubaMask extends PolycraftArmorHeadgear implements PolycraftMo
 	
 	public ItemScubaMask(final MoldedItem moldedItem, final String iconName) {
 		this(moldedItem);
-		this.setTextureName(PolycraftMod.getAssetName(iconName));	
+		//this.setTextureName(PolycraftMod.getAssetName(iconName));	
 	}
 	
 
 	@Override
 	public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-		return PolycraftMod.getAssetName("textures/models/armor/scuba_layer_1.png");
+		return PolycraftMod.getAssetNameString("textures/models/armor/scuba_layer_1.png");
 	}
 
 	@Override

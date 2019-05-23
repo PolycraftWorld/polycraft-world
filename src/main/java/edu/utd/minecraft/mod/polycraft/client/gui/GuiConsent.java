@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +25,7 @@ public class GuiConsent extends GuiScreen {
 
 	private static final Logger logger = LogManager.getLogger();
 	private static final ResourceLocation BACKGROUND_IMAGE = new ResourceLocation(
-			PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+			PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
 	private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
 
@@ -78,7 +79,7 @@ public class GuiConsent extends GuiScreen {
 		// 56, 114, 20, "Next >"));
 		this.buttonList.add(new GuiButton(4, this.width / 2 - 116, this.height / 2 + 56, 103, 20, "< Back"));
 		this.buttonList.add(new GuiButton(5, this.width / 2 - 9, this.height / 2 + 56, 103, 20, "Next >"));
-		answer = new GuiTextField(this.fontRendererObj, this.width / 2 - 116, this.height / 2 - 12, 210,
+		answer = new GuiTextField(300, this.fontRendererObj, this.width / 2 - 116, this.height / 2 - 12, 210,
 				this.fontRendererObj.FONT_HEIGHT);
 		answer.setMaxStringLength(16);
 		answer.setTextColor(16777215);
@@ -343,7 +344,7 @@ public class GuiConsent extends GuiScreen {
 	/**
 	 * Handles mouse wheel scrolling.
 	 */
-	public void handleMouseInput() {
+	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		int i = Mouse.getEventDWheel();
 		if (i != 0 && extraLines > 0) {

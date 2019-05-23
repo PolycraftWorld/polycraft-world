@@ -156,7 +156,7 @@ public class MeroxTreatmentUnitRecipeHandler extends TemplateRecipeHandler {
 		// new
 		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
 		// PolycraftMod.getFileSafeName(config.name))));
-		return PolycraftMod.getAssetName("textures/gui/container/merox_treatment_unit.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/merox_treatment_unit.png");
 	}
 
 	@Override

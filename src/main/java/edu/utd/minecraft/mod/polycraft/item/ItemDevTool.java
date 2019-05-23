@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
+import net.minecraft.util.*;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.registry.GameData;
 import java.awt.Color;
@@ -51,9 +52,6 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
@@ -97,7 +95,7 @@ public class ItemDevTool extends ItemCustom  {
 	
 	public ItemDevTool(CustomObject config) {
 		super(config);
-		this.setTextureName(PolycraftMod.getAssetName("gripped_engineered_diamond_axe"));
+		//this.setTextureName(PolycraftMod.getAssetName("gripped_engineered_diamond_axe"));
 		//this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
@@ -163,28 +161,26 @@ public class ItemDevTool extends ItemCustom  {
 	
 	
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-			float hitX, float hitY, float hitZ) {
-		Vec3 blockPos = Vec3.createVectorHelper(x, y, z);
-		Vec3 hitPos = Vec3.createVectorHelper(hitX, hitY, hitZ);
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
+							 float hitX, float hitY, float hitZ) {
+		Vec3 blockPos = new Vec3(pos.getX(), pos.getY(), pos.getZ());
+		Vec3 hitPos = new Vec3(hitX, hitY, hitZ);
 		if(!world.isRemote) {
-			return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+			return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
 		}
 		if(Keyboard.isKeyDown(29)) {	//if holding ctrl select block in front of face clicked
 			blockPos = getBlockAtFace(blockPos, hitPos);
 		}
 		if(Mouse.getEventNanoseconds()==lastEventNanoseconds) {
-    		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    		return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
     	}else {
     		lastEventNanoseconds = Mouse.getEventNanoseconds();
     	}
 		if(!player.isSneaking()) {		
 			switch(currentState) {
 				case AreaSelection:
-					player.addChatMessage(new ChatComponentText("pos2 selected: " + x + "::" + y + "::" + z));
-					tutOptions.size.xCoord = x;
-					tutOptions.size.yCoord = y;
-					tutOptions.size.zCoord = z;
+					player.addChatMessage(new ChatComponentText("pos2 selected: " + pos.getX() + "::" + pos.getY() + "::" + pos.getZ()));
+					tutOptions.size = pos;
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
@@ -192,14 +188,14 @@ public class ItemDevTool extends ItemCustom  {
 					if(Keyboard.isKeyDown(56)) {	//if holding alt, remove feature at location
 						for(int i =0;i<features.size();i++) {
 							
-							if(features.get(i).getPos().distanceTo(blockPos) < 0.05) {
+							if(features.get(i).getPos().distanceSq(new Vec3i(blockPos.xCoord, blockPos.yCoord, blockPos.zCoord)) < 0.05) {
 								features.remove(i);
-								player.addChatMessage(new ChatComponentText("removed feature at: " + x + "::" + y + "::" + z));
+								player.addChatMessage(new ChatComponentText("removed feature at: " + pos.getX() + "::" + pos.getY() + "::" + pos.getZ()));
 								updateRenderBoxes();
 							}
 						}
 					}else{
-						features.add(new TutorialFeature("Feature " + features.size(), blockPos, Color.green));
+						features.add(new TutorialFeature("Feature " + features.size(), pos, Color.green));
 						
 						player.addChatMessage(new ChatComponentText("Added feature at: " + blockPos.xCoord + "::" + blockPos.yCoord + "::" + blockPos.zCoord));
 						updateRenderBoxes();
@@ -212,11 +208,11 @@ public class ItemDevTool extends ItemCustom  {
 			}
 		}
 
-		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+		return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
 	}
 	
 	@Override
-	public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
+	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos blockPos, EntityPlayer player) {
 		
 		if(!player.worldObj.isRemote) {
 			//player.worldObj.scheduleBlockUpdate(X, Y, Z, player.worldObj.getBlock(X, Y, Z), 20);
@@ -225,14 +221,12 @@ public class ItemDevTool extends ItemCustom  {
 		
 		switch(currentState) {
 			case AreaSelection:
-				player.addChatMessage(new ChatComponentText("pos1 selected: " + X + "::" + Y + "::" + Z));
+				player.addChatMessage(new ChatComponentText("pos1 selected: " + blockPos.getX() + "::" + blockPos.getY() + "::" + blockPos.getZ()));
 				updateLastBlock = true;
-				tutOptions.pos.xCoord = X;
-				tutOptions.pos.yCoord = Y;
-				tutOptions.pos.zCoord = Z;
-				lastBlock[0] = X;
-				lastBlock[1] = Y;
-				lastBlock[2] = Z;
+				tutOptions.pos = blockPos;
+				lastBlock[0] = blockPos.getX();
+				lastBlock[1] = blockPos.getY();
+				lastBlock[2] = blockPos.getZ();
 				if(player.worldObj.isRemote)
 					updateRenderBoxes();
 				break;
@@ -269,14 +263,14 @@ public class ItemDevTool extends ItemCustom  {
 			int counter = 0;
 			for(TutorialFeature v: features) {
 				counter++;
-				RenderBox box = new RenderBox(v.getPos().xCoord, v.getPos().zCoord, v.getPos2().xCoord, v.getPos2().zCoord, 
-						Math.min(v.getPos().yCoord, v.getPos2().yCoord), Math.max(Math.abs(v.getPos().yCoord- v.getPos2().yCoord), 1), 1, v.getName());
+				RenderBox box = new RenderBox(v.getPos().getX(), v.getPos().getZ(), v.getPos2().getX(), v.getPos2().getZ(),
+						Math.min(v.getPos().getY(), v.getPos2().getY()), Math.max(Math.abs(v.getPos().getY()- v.getPos2().getY()), 1), 1, v.getName());
 				box.setColor(v.getColor());
 				renderboxes.add(box);
 			}
 		}
-		if(tutOptions.pos.yCoord != 0 && tutOptions.size.yCoord != 0) {
-			renderboxes.add(new RenderBox(tutOptions.pos, tutOptions.size, 1));
+		if(tutOptions.pos.getY() != 0 && tutOptions.size.getY() != 0) {
+			renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.size), 1));
 		}
 	}
 	
@@ -305,9 +299,9 @@ public class ItemDevTool extends ItemCustom  {
 	}
 	
 	private Vec3 getBlockAtFace(Vec3 blockPos, Vec3 hitPos) {
-		blockPos.xCoord = (int) (blockPos.xCoord + (hitPos.xCoord==0.0?-1:hitPos.xCoord==1.0?1:0));
-		blockPos.yCoord = (int) (blockPos.yCoord + (hitPos.yCoord==0.0?-1:hitPos.yCoord==1.0?1:0));
-		blockPos.zCoord = (int) (blockPos.zCoord + (hitPos.zCoord==0.0?-1:hitPos.zCoord==1.0?1:0));
+		blockPos = new Vec3((int) (blockPos.xCoord + (hitPos.xCoord==0.0?-1:hitPos.xCoord==1.0?1:0))
+		 				,(int) (blockPos.yCoord + (hitPos.yCoord==0.0?-1:hitPos.yCoord==1.0?1:0))
+		 				,(int) (blockPos.zCoord + (hitPos.zCoord==0.0?-1:hitPos.zCoord==1.0?1:0)));
 		
 		return blockPos;
 	}
@@ -316,9 +310,9 @@ public class ItemDevTool extends ItemCustom  {
 		NBTTagCompound nbtFeatures = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
 		if (tutOptions.pos == null)
-			tutOptions.pos = Vec3.createVectorHelper(0, 0, 0);
+			tutOptions.pos = new BlockPos(0, 0, 0);
 		if (tutOptions.size == null)
-			tutOptions.size = Vec3.createVectorHelper(0, 0, 0);
+			tutOptions.size = new BlockPos(0, 0, 0);
 		for(int i =0;i<features.size();i++) {
 //				NBTTagCompound nbt = new NBTTagCompound();
 //				int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
@@ -376,14 +370,14 @@ public class ItemDevTool extends ItemCustom  {
 	}
 	
 	private NBTTagCompound saveArea() {
-		if(tutOptions.pos.yCoord != 0 && tutOptions.size.yCoord != 0)
+		if(tutOptions.pos.getY() != 0 && tutOptions.size.getY() != 0)
 		{
-			int minX = (int) Math.min(tutOptions.pos.xCoord, tutOptions.size.xCoord);
-			int maxX = (int) Math.max(tutOptions.pos.xCoord, tutOptions.size.xCoord);
-			int minY = (int) Math.min(tutOptions.pos.yCoord, tutOptions.size.yCoord);
-			int maxY = (int) Math.max(tutOptions.pos.yCoord, tutOptions.size.yCoord);
-			int minZ = (int) Math.min(tutOptions.pos.zCoord, tutOptions.size.zCoord);
-			int maxZ = (int) Math.max(tutOptions.pos.zCoord, tutOptions.size.zCoord);
+			int minX = Math.min(tutOptions.pos.getX(), tutOptions.size.getX());
+			int maxX = Math.max(tutOptions.pos.getX(), tutOptions.size.getX());
+			int minY = Math.min(tutOptions.pos.getY(), tutOptions.size.getY());
+			int maxY = Math.max(tutOptions.pos.getY(), tutOptions.size.getY());
+			int minZ = Math.min(tutOptions.pos.getZ(), tutOptions.size.getZ());
+			int maxZ = Math.max(tutOptions.pos.getZ(), tutOptions.size.getZ());
 			int[] intArray;
 			short height;
 			short length;
@@ -403,7 +397,7 @@ public class ItemDevTool extends ItemCustom  {
 				for(int j=0;j<height;j++) {
 					for(int k=0;k<width;k++) {
 						
-						tile = Minecraft.getMinecraft().theWorld.getTileEntity(minX+i, minY+j, minZ+k);
+						tile = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(minX+i, minY+j, minZ+k));
 						if(tile!=null){
 							NBTTagCompound tilenbt = new NBTTagCompound();
 							tile.writeToNBT(tilenbt);
@@ -411,10 +405,10 @@ public class ItemDevTool extends ItemCustom  {
 							
 						}
 							
-						Block blk = Minecraft.getMinecraft().theWorld.getBlock(minX+i, minY+j, minZ+k);
+						Block blk = Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(minX+i, minY+j, minZ+k)).getBlock();
 						int id = blk.getIdFromBlock(blk);
 						blocks[count]=id;
-						data[count]=(byte) Minecraft.getMinecraft().theWorld.getBlockMetadata((int)(minX+i), (int)(minY+j), (int)(minZ+k));
+						data[count]=(byte) blk.getMetaFromState(Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos((int)(minX+i), (int)(minY+j), (int)(minZ+k))));
 						count++;
 						
 					}

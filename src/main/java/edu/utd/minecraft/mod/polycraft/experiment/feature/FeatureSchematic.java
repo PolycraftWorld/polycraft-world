@@ -60,7 +60,8 @@ public class FeatureSchematic extends ExperimentFeature {
 	}
 	
 	protected boolean generateArea(World world, int genTick) {
-
+		//TODO: update to 1.8
+		/*
 		final int maxBlocksPerTick = 65536;
 		Schematic sh = this.schematic;
 		
@@ -177,7 +178,7 @@ public class FeatureSchematic extends ExperimentFeature {
 					count++;
 				}
 			}
-		}
+		}*/
 		
 		return false;
 	

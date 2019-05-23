@@ -139,7 +139,7 @@ public class ClientScoreboard extends ScoreboardManager {
 							hideDisplayTimer = -1;
 						}
 						
-						client.fontRenderer.drawStringWithShadow(title, x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow(title, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
 						//Gui.drawCenteredString(client.fontRenderer, "test", client.displayWidth, 2, overlayColor);
 						
@@ -148,14 +148,14 @@ public class ClientScoreboard extends ScoreboardManager {
 						if(this.currentTeam != null) {
 							try {
 								int finalColor = Format.getIntegerFromColor(this.currentTeam.getColor());
-								client.fontRenderer.drawString(this.currentTeam.toString(), x, y, finalColor);
+								client.fontRendererObj.drawString(this.currentTeam.toString(), x, y, finalColor);
 								if(this.secondsRemaining != null) {
 									int mins = this.secondsRemaining.time/60;
 									int secs = this.secondsRemaining.time%60;
 									String fmt = "%02d:%02d";
-									client.fontRenderer.drawString(
+									client.fontRendererObj.drawString(
 										this.secondsRemaining.value + String.format(fmt, mins,secs), 
-										x + client.fontRenderer.getStringWidth(this.currentTeam.toString()) + 3,
+										x + client.fontRendererObj.getStringWidth(this.currentTeam.toString()) + 3,
 										y,
 										Format.getIntegerFromColor(this.secondsRemaining.color));
 								}
@@ -163,14 +163,14 @@ public class ClientScoreboard extends ScoreboardManager {
 								System.out.println("oops");
 							}
 						}else {
-							client.fontRenderer.drawString(playerTeam, x, y, overlayColor);	
+							client.fontRendererObj.drawString(playerTeam, x, y, overlayColor);	
 						}
 						y += overlayDistanceBetweenY;//line break
 						
-						client.fontRenderer.drawStringWithShadow(separator, x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow(separator, x, y, overlayColor);
 						y += overlayDistanceBetweenY;//line break
 						for (String st : teamList.keySet()) {
-							client.fontRenderer.drawString(String.format(this.scoreFormat, st, teamList.get(st)), x,
+							client.fontRendererObj.drawString(String.format(this.scoreFormat, st, teamList.get(st)), x,
 									y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}
@@ -182,17 +182,17 @@ public class ClientScoreboard extends ScoreboardManager {
 						if(player.getDisplayNameString().equalsIgnoreCase("Sabateur") || player.getDisplayNameString().equalsIgnoreCase("ProfessorVoit")) {
 							int x = overlayStartX;
 							int y = overlayStartY;
-							client.fontRenderer.drawStringWithShadow("Hello, Father :)", x, y, overlayColor);
+							client.fontRendererObj.drawStringWithShadow("Hello, Father :)", x, y, overlayColor);
 							y += overlayDistanceBetweenY;
 						}
 					} else if (player.getDisplayNameString().equalsIgnoreCase("CmdtBojangles")) {
 						int x = overlayStartX;
 						int y = overlayStartY;
-						client.fontRenderer.drawStringWithShadow("Bet you $1", x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow("Bet you $1", x, y, overlayColor);
 						y += overlayDistanceBetweenY;
-						client.fontRenderer.drawStringWithShadow("that you will", x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow("that you will", x, y, overlayColor);
 						y += overlayDistanceBetweenY;
-						client.fontRenderer.drawStringWithShadow("read this.", x, y, overlayColor);
+						client.fontRendererObj.drawStringWithShadow("read this.", x, y, overlayColor);
 						y += overlayDistanceBetweenY;
 					} else {
 		

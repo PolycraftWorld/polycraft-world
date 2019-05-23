@@ -20,7 +20,7 @@ public class ItemFreezingKnockbackBomb  extends ItemKnockbackBomb{
 	
 	public ItemFreezingKnockbackBomb(CustomObject config) {
 		super(config);
-		this.setTextureName(PolycraftMod.getAssetName("freezing_knockback_bomb"));
+		//this.setTextureName(PolycraftMod.getAssetName("freezing_knockback_bomb"));
 		this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

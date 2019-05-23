@@ -24,7 +24,7 @@ public class ItemElectronics extends Item implements PolycraftItem, PolycraftEle
 	public ItemElectronics(final Electronics electronics) {
 		Preconditions.checkNotNull(electronics);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(ItemElectronics.class.getSimpleName())));// + "_" + electronics.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(ItemElectronics.class.getSimpleName())));// + "_" + electronics.name)));
 		this.electronics = electronics;
 	}
 

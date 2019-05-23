@@ -27,26 +27,26 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 	public ItemVessel(final C config) {
 		Preconditions.checkNotNull(config);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Vessel.class.getSimpleName() + "_" + config.vesselType.toString())));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(Vessel.class.getSimpleName() + "_" + config.vesselType.toString())));
 		this.config = config;
 	}
 	
-	@Override
-	public boolean doesContainerItemLeaveCraftingGrid(ItemStack par1ItemStack)
-    {
-		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
-		{
-		PolycraftItemHelper.createTagCompound(par1ItemStack);
-		par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);	
-		}
-        return true;
-    }
-	
-	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
-	}
+//	@Override
+//	public boolean doesContainerItemLeaveCraftingGrid(ItemStack par1ItemStack)
+//    {
+//		if ((par1ItemStack != null) && (par1ItemStack.stackTagCompound == null))
+//		{
+//		PolycraftItemHelper.createTagCompound(par1ItemStack);
+//		par1ItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);
+//		}
+//        return true;
+//    }
+//
+//	@Override
+//	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);
+//	}
 	
 
 	@Override
@@ -99,7 +99,7 @@ public class ItemVessel<C extends SourcedVesselConfig> extends Item implements P
 					
 				final ItemStack largerItemStack = new ItemStack(largerItem);
 				PolycraftItemHelper.createTagCompound(largerItemStack);
-				largerItemStack.stackTagCompound.setByte("polycraft-recipe", (byte) 1);				
+				largerItemStack.getTagCompound().setByte("polycraft-recipe", (byte) 1);
 				inventory.setInventorySlotContents(slotIndex, largerItemStack);
 			}
 		}

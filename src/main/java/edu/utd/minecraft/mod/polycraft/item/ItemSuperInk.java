@@ -11,7 +11,7 @@ public class ItemSuperInk extends ItemCustom{
 	
 	public ItemSuperInk(CustomObject config) {
 		super(config);
-		this.setTextureName(PolycraftMod.getAssetName("super_Ink"));
+		//this.setTextureName(PolycraftMod.getAssetName("super_Ink"));
 		this.setCreativeTab(CreativeTabs.tabMisc); //TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);

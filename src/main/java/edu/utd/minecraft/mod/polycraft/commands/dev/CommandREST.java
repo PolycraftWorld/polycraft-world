@@ -16,8 +16,10 @@ import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -35,7 +37,7 @@ public class CommandREST extends CommandBase{
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -59,7 +61,7 @@ public class CommandREST extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
@@ -76,9 +78,9 @@ public class CommandREST extends CommandBase{
 			case chatCommandConsent:
 				if (args.length > 2) {
 					if(args[2].toLowerCase().equals("true")) {
-						response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderName().toLowerCase(), args[1].toLowerCase(), true);
+						response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderEntity().getName().toLowerCase(), args[1].toLowerCase(), true);
 					}else {
-						response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderName().toLowerCase(), args[1].toLowerCase(), false);
+						response = ServerEnforcer.INSTANCE.IRBTest(sender.getCommandSenderEntity().getName().toLowerCase(), args[1].toLowerCase(), false);
 					}
 					player.addChatMessage(new ChatComponentText(response));
 				}else {
@@ -87,7 +89,7 @@ public class CommandREST extends CommandBase{
 				break;
 			case chatCommandSkillLevel:
 				if (args.length > 2) {
-						response = SkillLevelTest(sender.getCommandSenderName().toLowerCase(), args[1].toLowerCase(), args[2]);
+						response = SkillLevelTest(sender.getCommandSenderEntity().getName().toLowerCase(), args[1].toLowerCase(), args[2]);
 					player.addChatMessage(new ChatComponentText(response));
 				}else {
 					player.addChatMessage(new ChatComponentText("use \"/rest skill_level [opt:get/set] [skill_level]\" to get or set Skill Level"));
@@ -123,7 +125,7 @@ public class CommandREST extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

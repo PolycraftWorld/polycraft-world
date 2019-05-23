@@ -19,11 +19,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
@@ -47,12 +42,19 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class ServerEnforcer extends Enforcer {
 	public static final ServerEnforcer INSTANCE = new ServerEnforcer();
@@ -91,7 +93,7 @@ public class ServerEnforcer extends Enforcer {
 		// TODO not sure why this is getting called multiple times with
 		// different world java objects for the same world
 		if ((event.phase == TickEvent.Phase.END)
-				&& (event.world.provider.dimensionId == 0 || event.world.provider.dimensionId == 8)) { //added properties to challenge dimension --matt
+				&& (event.world.provider.getDimensionId() == 0 || event.world.provider.getDimensionId() == 8)) { //added properties to challenge dimension --matt
 			//System.out.println("I have done this");
 			onWorldTickPrivateProperties(event);
 			onWorldTickWhitelist(event);
@@ -101,9 +103,9 @@ public class ServerEnforcer extends Enforcer {
 			onWorldTickCheckFrozenPlayers(event);
 			if(placeBlock)
 			{
-				event.world.setBlock(this.placeX, this.placeY, this.placeZ, Block.getBlockById(this.placeBlockID), this.placeBlockMeta, 2);
-				Block.getBlockById(this.placeBlockID).onBlockPlacedBy(event.world, this.placeX, this.placeY, this.placeZ, this.placeblockPlayer, this.placeblockItemStack);
-				Block.getBlockById(this.placeBlockID).onPostBlockPlaced(event.world, this.placeX, this.placeY, this.placeZ, this.placeBlockMeta);
+				event.world.setBlockState(new BlockPos(this.placeX, this.placeY, this.placeZ), Block.getBlockById(this.placeBlockID).getStateFromMeta(this.placeBlockMeta), 2);
+				Block.getBlockById(this.placeBlockID).onBlockPlacedBy(event.world, new BlockPos(this.placeX, this.placeY, this.placeZ), Block.getBlockById(this.placeBlockID).getStateFromMeta(this.placeBlockMeta), this.placeblockPlayer, this.placeblockItemStack);
+				Block.getBlockById(this.placeBlockID).onBlockAdded(event.world, new BlockPos(this.placeX, this.placeY, this.placeZ), Block.getBlockById(this.placeBlockID).getStateFromMeta(this.placeBlockMeta));
 				this.placeBlock=false;
 			}
 		}
@@ -183,7 +185,7 @@ public class ServerEnforcer extends Enforcer {
 
 	}
 	@SubscribeEvent
-	public void onServerPacket(final ServerCustomPacketEvent event) {
+	public void onServerPacket(final FMLNetworkEvent.ServerCustomPacketEvent event) {
 		try {
 			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
 			if (pendingDataPacketType == DataPacketType.Unknown) {
@@ -273,7 +275,7 @@ public class ServerEnforcer extends Enforcer {
 								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
 										new TypeToken<String>() {}.getType());
 								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
-										MinecraftServer.getServer().getConfigurationManager().func_152612_a(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
+										MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
 								break;
 							default:
 								break;
@@ -345,7 +347,7 @@ public class ServerEnforcer extends Enforcer {
 		this.placeBlockID=NBT.getInteger("blockid");
 		this.placeBlockMeta=NBT.getInteger("meta");
 		this.placeblockItemStack=ItemStack.loadItemStackFromNBT((NBTTagCompound) NBT.getTag("itemstack"));
-		this.placeblockPlayer=MinecraftServer.getServer().getConfigurationManager().func_152612_a(NBT.getString("player"));
+		this.placeblockPlayer=MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(NBT.getString("player"));
 		this.placeBlock=true;
 		
 	}
@@ -360,7 +362,7 @@ public class ServerEnforcer extends Enforcer {
 		ExperimentManager.ExperimentParticipantMetaData part = gson.fromJson(decompress, new TypeToken<ExperimentManager.ExperimentParticipantMetaData>() {}.getType());
 		
 		//checks if the player is opped. If so, then it updates Experiment parameters. Otherwise, nothing happens.
-		if(MinecraftServer.getServer().getConfigurationManager().func_152603_m().func_152700_a(part.playerName) != null)
+		if(MinecraftServer.getServer().getConfigurationManager().getOppedPlayers().getGameProfileFromName(part.playerName) != null)
 			ExperimentManager.INSTANCE.updateExperimentParameters(part.experimentID, part.params);
 		else {
 			//send a chat message for now:
@@ -410,7 +412,7 @@ public class ServerEnforcer extends Enforcer {
 	public void onClientDisconnectFromServer(final PlayerEvent.PlayerLoggedOutEvent event) {
 		System.out.println("Client Disconnect from server");
 		System.out.println("Player: " + event.player.getDisplayName());
-		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayName());
+		ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(event.player.getDisplayNameString());
 		//clear player inventory, if they disconnected from dimension 8.
 		if(event.player.dimension == 8) {
 			event.player.inventory.mainInventory = new ItemStack[36];
@@ -658,7 +660,7 @@ public class ServerEnforcer extends Enforcer {
 	public void shouldClientDisplayConsentGUI(EntityPlayerMP player) {
 		if (portalRestUrl != null) {
 			try {
-				String result = ServerEnforcer.INSTANCE.IRBTest(player.getCommandSenderName().toLowerCase(), "get");
+				String result = ServerEnforcer.INSTANCE.IRBTest(player.getCommandSenderEntity().getName().toLowerCase(), "get");
 				if(result.equals("\"valid\"")) {
 					sendDataPackets(DataPacketType.Consent, 1, player);	//sending 1 will not show consent form
 				}else {
@@ -674,7 +676,7 @@ public class ServerEnforcer extends Enforcer {
 	public void UpdateClientTutorialCompleted(EntityPlayerMP player) {
 		if (portalRestUrl != null) {
 			try {
-				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderName());
+				String result = ServerEnforcer.INSTANCE.skillLevelCheck(player.getCommandSenderEntity().getName());
 				if(result.equals("Error")) {
 					sendDataPackets(DataPacketType.Tutorial, TutorialManager.PacketMeta.CompletedTutorialFalse.ordinal(), player);	//Update clients tutorial completion to False
 				}else {
@@ -690,9 +692,9 @@ public class ServerEnforcer extends Enforcer {
 	public void freezePlayerForTicks(int ticks, EntityPlayerMP player) {
 		//Freeze player for specific number of ticks
 		if(frozenPlayers.containsKey(player.getDisplayName())) {
-			frozenPlayers.replace(player.getDisplayName(), ticks);
+			frozenPlayers.replace(player.getDisplayNameString(), ticks);
 		}else {
-			frozenPlayers.put(player.getDisplayName(), ticks);
+			frozenPlayers.put(player.getDisplayNameString(), ticks);
 		}
 		sendDataPackets(DataPacketType.FreezePlayer, 2, player);
 	}
@@ -776,17 +778,17 @@ public class ServerEnforcer extends Enforcer {
 			final int controlPacketsRequired = 1;
 			final FMLProxyPacket[] packets = new FMLProxyPacket[controlPacketsRequired
 					+ payloadPacketsRequired];
-			packets[0] = new FMLProxyPacket(Unpooled.buffer()
+			packets[0] = new FMLProxyPacket(new PacketBuffer(Unpooled.buffer()
 					.writeInt(type.ordinal()).writeInt(typeMetadata)
-					.writeInt(dataBytes.length).copy(), netChannelName);
+					.writeInt(dataBytes.length).copy()), netChannelName);
 			for (int payloadIndex = 0; payloadIndex < payloadPacketsRequired; payloadIndex++) {
 				int startDataIndex = payloadIndex * maxPacketSizeBytes;
 				int length = Math.min(dataBytes.length - startDataIndex,
 						maxPacketSizeBytes);
 				packets[controlPacketsRequired + payloadIndex] = new FMLProxyPacket(
-						Unpooled.buffer()
+						new PacketBuffer(Unpooled.buffer()
 								.writeBytes(dataBytes, startDataIndex, length)
-								.copy(), netChannelName);
+								.copy()), netChannelName);
 			}
 			return packets;
 		} catch (IOException e) {
@@ -834,7 +836,7 @@ public class ServerEnforcer extends Enforcer {
 									userID, usernameToAdd);
 							if (gameprofile != null)
 								minecraftserver.getConfigurationManager()
-										.func_152601_d(gameprofile);
+										.addWhitelistedPlayer(gameprofile);
 							result += usernameToAdd + ",";
 						} catch (IllegalArgumentException e) {
 							System.out.println("Could not add to whitelist: "
@@ -848,11 +850,11 @@ public class ServerEnforcer extends Enforcer {
 				// whitelist
 				for (final String usernameToRemove : previousWhitelist) {
 					final GameProfile gameprofile = minecraftserver
-							.getConfigurationManager().func_152599_k()
-							.func_152706_a(usernameToRemove);
+							.getConfigurationManager().getWhitelistedPlayers()
+							.getBannedProfile(usernameToRemove);
 					if (gameprofile != null)
 						minecraftserver.getConfigurationManager()
-								.func_152597_c(gameprofile);
+								.removePlayerFromWhitelist(gameprofile);
 					result += usernameToRemove + ",";
 					// TODO don't worry about kicking them right now
 				}
@@ -910,7 +912,7 @@ public class ServerEnforcer extends Enforcer {
 									userID, usernameToAdd);
 							if (gameprofile != null)
 								minecraftserver.getConfigurationManager()
-										.func_152601_d(gameprofile);
+										.addWhitelistedPlayer(gameprofile);
 						} catch (IllegalArgumentException e) {
 							System.out.println("Could not add to whitelist: "
 									+ usernameToAdd);
@@ -922,11 +924,11 @@ public class ServerEnforcer extends Enforcer {
 				// whitelist
 				for (final String usernameToRemove : previousWhitelist) {
 					final GameProfile gameprofile = minecraftserver
-							.getConfigurationManager().func_152599_k()
-							.func_152706_a(usernameToRemove);
+							.getConfigurationManager().getWhitelistedPlayers()
+							.getBannedProfile(usernameToRemove);
 					if (gameprofile != null)
 						minecraftserver.getConfigurationManager()
-								.func_152597_c(gameprofile);
+								.removePlayerFromWhitelist(gameprofile);
 					// TODO don't worry about kicking them right now
 				}
 			} catch (final Exception e) {
@@ -956,7 +958,7 @@ public class ServerEnforcer extends Enforcer {
 					userID, usernameToAdd);
 			if (gameprofile != null)
 				minecraftserver.getConfigurationManager()
-						.func_152601_d(gameprofile);
+						.addWhitelistedPlayer(gameprofile);
 		} catch (IllegalArgumentException e) {
 			System.out.println("Could not add to whitelist: "
 					+ usernameToAdd);
@@ -1017,7 +1019,7 @@ public class ServerEnforcer extends Enforcer {
 	public void ClientConnectedToServerEvent(final EntityJoinWorldEvent event) {
 		//Entity wolf cannot cast to player
 		if(event.entity instanceof EntityPlayerMP) {
-			System.out.println(event.entity.getCommandSenderName());
+			System.out.println(event.entity.getCommandSenderEntity().getName());
 			ExperimentManager.INSTANCE.onEntityJoinWorldEventSendUpdates((EntityPlayer)event.entity); //send newly joined players an update
 			if(event.entity.dimension == 8) {
 				
@@ -1033,14 +1035,14 @@ public class ServerEnforcer extends Enforcer {
 			sendDataPackets(DataPacketType.Friends);
 			 //send updated experiments available to everyone
 			//sendDataPackets(DataPacketType.Governments);
-			if(this.whitelist.containsKey(player.getDisplayName().toLowerCase())) {
-				this.playerID = this.whitelist.get(player.getDisplayName().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
+			if(this.whitelist.containsKey(player.getDisplayNameString().toLowerCase())) {
+				this.playerID = this.whitelist.get(player.getDisplayNameString().toLowerCase()); //unexpected conflict with upper and lower case. may need to be looked at later.
 				sendDataPackets(DataPacketType.playerID, 0, player);
 			}else {
 				if (!portalRestUrl.startsWith("file:")) {
 					try {
 						String response = NetUtil.post(String.format("%s/create_player/", portalRestUrl),
-								ImmutableMap.of("mincraft_user_name", player.getDisplayName().toLowerCase()));
+								ImmutableMap.of("mincraft_user_name", player.getDisplayNameString().toLowerCase()));
 						
 						final GsonBuilder gsonBuilder = new GsonBuilder();
 						gsonBuilder.registerTypeAdapter(PlayerHelper.class,

@@ -29,6 +29,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CannonInventory extends PolycraftInventory {
 	
@@ -58,11 +60,11 @@ public class CannonInventory extends PolycraftInventory {
 	}
 	
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
-        this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata, 3);
-        this.getWorldObj().notifyBlockOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord));
-        this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+	public void update() {
+		super.update();
+        //this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata, 3);
+        this.getWorld().notifyBlockOfStateChange(this.pos, this.getWorld().getBlockState(this.pos).getBlock());
+        this.getWorld().markBlockForUpdate(this.pos);
         this.markDirty();
 	}
 	
@@ -96,7 +98,7 @@ public class CannonInventory extends PolycraftInventory {
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		CannonInventory cannon =(CannonInventory) this.getWorldObj().getTileEntity(this.xCoord, this.yCoord, this.zCoord);
+		CannonInventory cannon =(CannonInventory) this.getWorld().getTileEntity(this.pos);
 		double velocity =cannon.velocity;
 		double theta =cannon.theta;
 		double mass =cannon.mass;
@@ -111,12 +113,12 @@ public class CannonInventory extends PolycraftInventory {
 	    public Packet getDescriptionPacket() {
 	        NBTTagCompound tag = new NBTTagCompound();
 	        this.writeToNBT(tag);
-	        return new S35PacketUpdateTileEntity(xCoord, yCoord, xCoord, 1, tag);
+	        return new S35PacketUpdateTileEntity(this.pos, 1, tag);
 	    }
 
 	    @Override
 	    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-	        readFromNBT(packet.func_148857_g());
+	        readFromNBT(packet.getNbtCompound());
 	    }
 
 	

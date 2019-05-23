@@ -107,7 +107,7 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 		System.out.println(outputId);
 		if ((outputId.equals("smelting") || outputId.equals("industrialoven"))
 				&& getClass() == IndustrialOvenRecipeHandler.class) {
-			Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
+			Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.instance().getSmeltingList();
 			for (Entry<ItemStack, ItemStack> recipe : recipes.entrySet())
 				arecipes.add(new SmeltingPair(recipe.getKey(), recipe.getValue()));
 		} else
@@ -117,7 +117,7 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		System.out.println("Load recipes for " + result);
-		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
+		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.instance().getSmeltingList();
 		for (Entry<ItemStack, ItemStack> recipe : recipes.entrySet())
 			if (recipe.getValue().getUnlocalizedName().equals(result.getUnlocalizedName()))
 				// NEIServerUtils.areStacksSameType(recipe.getValue(), result))
@@ -134,7 +134,7 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
+		Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.instance().getSmeltingList();
 		for (Entry<ItemStack, ItemStack> recipe : recipes.entrySet())
 			if (NEIServerUtils.areStacksSameTypeCrafting(recipe.getKey(), ingredient)) {
 				SmeltingPair arecipe = new SmeltingPair(recipe.getKey(), recipe.getValue());
@@ -148,7 +148,7 @@ public class IndustrialOvenRecipeHandler extends TemplateRecipeHandler {
 		// new
 		// ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s.png",
 		// PolycraftMod.getFileSafeName(config.name))));
-		return PolycraftMod.getAssetName("textures/gui/container/industrial_oven.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/industrial_oven.png");
 	}
 
 	@Override

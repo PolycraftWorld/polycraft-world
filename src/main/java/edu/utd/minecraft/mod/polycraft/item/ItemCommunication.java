@@ -24,12 +24,12 @@ public class ItemCommunication extends ItemCustom implements PolycraftCommunicat
 	public ItemStack onItemRightClick(ItemStack itemStack, World worldObj, EntityPlayer player)
 	{
 
-		if (itemStack.getDisplayNameString().equalsIgnoreCase("cell phone"))
+		if (itemStack.getDisplayName().equalsIgnoreCase("cell phone"))
 		{
 			this.setDamage(itemStack, 8060);
 		}
 
-		else if (itemStack.getDisplayNameString().equalsIgnoreCase("smart phone"))
+		else if (itemStack.getDisplayName().equalsIgnoreCase("smart phone"))
 		{
 			this.setDamage(itemStack, 24960);
 		}

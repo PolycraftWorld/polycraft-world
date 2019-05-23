@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -20,10 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S27PacketExplosion;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemKnockbackBomb  extends ItemCustom{
@@ -39,7 +36,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 
 	public ItemKnockbackBomb(CustomObject config) {
 		super(config);
-		this.setTextureName(PolycraftMod.getAssetName("knockback_bomb"));
+		//this.setTextureName(PolycraftMod.getAssetName("knockback_bomb"));
 		this.setCreativeTab(CreativeTabs.tabTools); //TODO: Take this out of CreativeTab and Make Command to access.
 		if (config.maxStackSize > 0)
 			this.setMaxStackSize(config.maxStackSize);
@@ -100,8 +97,8 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			double posX = x*distance + player.posX;
 			double posY = player.posY;
 			double posZ = z*distance + player.posZ;
-			while((player.worldObj.isAirBlock((int) posX, (int)(posY -0.2), (int)posZ) 
-					|| player.worldObj.getBlock((int) posX, (int)(posY -0.2), (int)posZ).getMaterial() == Material.carpet)
+			while((player.worldObj.isAirBlock(new BlockPos((int) posX, (int)(posY -0.2), (int)posZ))
+					|| player.worldObj.getBlockState( new BlockPos((int) posX, (int)(posY -0.2), (int)posZ)).getBlock().getMaterial() == Material.carpet)
 					&& posY >= 1) {
 				posY -= 0.25;
 				posX += x/4;
@@ -129,12 +126,12 @@ public class ItemKnockbackBomb  extends ItemCustom{
 			final String SEPARATOR = ",";
 			List<Integer> running_experiments;
 
-			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+			List list = world.getEntitiesWithinAABBExcludingEntity(splosion, AxisAlignedBB.fromBounds((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
 			for(Object entity : list) {
 				//list.forEach(entity->{	//remove special lamda expression. Just causes too many issues
 				if(entity instanceof EntityPlayer) {
 					EntityPlayerMP entityPlayer = ((EntityPlayerMP)entity);
-					list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayName().toLowerCase()).toString());
+					list1.add(Enforcer.whitelist.get(entityPlayer.getDisplayNameString().toLowerCase()).toString());
 					list4.add(entityPlayer.getDisplayName());
 
 					//This commented if statement makes it so you can't knockback yourself on the corners of the bomb box
@@ -145,7 +142,7 @@ public class ItemKnockbackBomb  extends ItemCustom{
 							new S27PacketExplosion(posX, posY, posZ, (float)explosionSize,
 									new ArrayList(), 
 									//Here's where direction of player knockback happens
-									Vec3.createVectorHelper(2*Math.sin(theta), 1, -2*Math.cos(theta))));
+									new Vec3(2*Math.sin(theta), 1, -2*Math.cos(theta))));
 
 					//}else
 					//	entityPlayer.playerNetServerHandler.sendPacket(
@@ -219,8 +216,8 @@ public class ItemKnockbackBomb  extends ItemCustom{
 		double posZ = z*distance + entity.posZ;
 		double posY = entity.posY -1.5;
 
-		while((entity.worldObj.isAirBlock((int) posX, (int)(posY -0.2), (int)posZ) 
-				|| entity.worldObj.getBlock((int) posX, (int)(posY -0.2), (int)posZ).getMaterial() == Material.carpet)
+		while((entity.worldObj.isAirBlock(new BlockPos((int) posX, (int)(posY -0.2), (int)posZ))
+				|| entity.worldObj.getBlockState(new BlockPos((int) posX, (int)(posY -0.2), (int)posZ)).getBlock().getMaterial() == Material.carpet)
 				&& posY >= 1) {
 			posY -= 0.25;
 			posX += x/4;

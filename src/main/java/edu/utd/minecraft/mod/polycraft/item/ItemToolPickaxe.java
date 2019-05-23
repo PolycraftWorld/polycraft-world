@@ -10,7 +10,7 @@ public class ItemToolPickaxe extends PolycraftPickaxe {
 		super(material);
 		this.tool = tool;
 		setCreativeTab(CreativeTabs.tabTools);
-		setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.PICKAXE))));
+		//setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.PICKAXE))));
 	}
 	
 }

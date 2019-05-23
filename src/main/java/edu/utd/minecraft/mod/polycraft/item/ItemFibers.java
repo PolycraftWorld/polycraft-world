@@ -11,7 +11,7 @@ public class ItemFibers extends Item implements PolycraftItem {
 
 	public ItemFibers() {
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName("fibers"));
+		//this.setTextureName(PolycraftMod.getAssetName("fibers"));
 	}
 
 	@Override

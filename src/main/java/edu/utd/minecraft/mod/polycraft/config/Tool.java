@@ -86,6 +86,6 @@ public class Tool extends Config {
 	}
 
 	public String getTexture(final Type type) {
-		return PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(getFullTypeName(type)));
+		return PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(getFullTypeName(type)));
 	}
 }

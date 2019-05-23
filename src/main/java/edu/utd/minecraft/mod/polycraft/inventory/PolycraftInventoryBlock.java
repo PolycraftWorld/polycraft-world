@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 
-import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
+//import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -31,9 +31,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
+//import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,11 +42,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.IModelCustom;
-import net.minecraftforge.client.model.obj.ObjModelLoader;
+//import net.minecraftforge.client.model.IModelCustom;
+//import net.minecraftforge.client.model.obj.ObjModelLoader;
 
 public class PolycraftInventoryBlock<I extends PolycraftInventory> extends BlockContainer {
 
@@ -560,7 +558,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	{
 		return AxisAlignedBB.fromBounds((double) par2, (double) par3, (double) par4, (double) par2, (double) par3, (double) par4);
 	}
-
+/* TODO: update for 1.8
 	@Override
 	public boolean renderAsNormalBlock()
 	{
@@ -579,10 +577,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return true;
 	}
 
-	public static class BasicRenderingHandler extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
+	public static class BasicRenderingHandler extends TileEntitySpecialRenderer //implements ISimpleBlockRenderingHandler
+	{
 
 		protected final Inventory config;
-		protected IModelCustom inventoryModel;
+		//protected IModelCustom inventoryModel;
 		public ResourceLocation objFile;
 		public ResourceLocation textureFile;
 
@@ -592,13 +591,13 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			{
 				this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/" + PolycraftMod.getFileSafeName(config.name) + ".obj");
 				//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
-				this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
+				//this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
 				this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/" + PolycraftMod.getFileSafeName(config.name) + ".png");
 			}
 			else
 			{
 				this.objFile = null;
-				this.inventoryModel = null;
+				//this.inventoryModel = null;
 				this.textureFile = null;
 			}
 
@@ -756,7 +755,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				//this.inventoryModel.renderAll();
 			}
 			else
-			{
+			{	//TODO: fix for 1.8 Rendering
 				Tessellator tessellator = Tessellator.instance;
 				tessellator.startDrawingQuads();
 				tessellator.setNormal(0.0F, -1.0F, 0.0F);
@@ -912,7 +911,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glPopMatrix();
 			}
-		}
+		}*/
 
 		protected void scaleTranslateRotate(double x, double y, double z, EnumFacing orientation, boolean rotated) {
 
@@ -981,7 +980,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			}
 		}
 
-	}
+	//}
 
 	public boolean canPlaceBlockWithoutInterference(Block nextBlock)
 	{

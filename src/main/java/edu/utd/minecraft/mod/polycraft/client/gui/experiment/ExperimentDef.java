@@ -2,8 +2,6 @@ package edu.utd.minecraft.mod.polycraft.client.gui.experiment;
 
 import java.awt.Color;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
@@ -16,6 +14,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ExperimentDef{
 	protected String name;
@@ -136,7 +136,7 @@ public class ExperimentDef{
 		FontRenderer fr = guiExpManager.getFontRenderer();
 		
 		//Name Field
-		nameField = new GuiTextField(fr, x_pos + 5, y_pos + 30, (int) (guiExpManager.X_WIDTH * .9), 14);
+		nameField = new GuiTextField(400, fr, x_pos + 5, y_pos + 30, (int) (guiExpManager.X_WIDTH * .9), 14);
 		nameField.setMaxStringLength(32);
 		nameField.setText(name);
 		nameField.setTextColor(16777215);

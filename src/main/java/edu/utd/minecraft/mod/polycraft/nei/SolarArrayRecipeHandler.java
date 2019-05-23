@@ -95,7 +95,7 @@ public class SolarArrayRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return PolycraftMod.getAssetName("textures/gui/container/solar_array.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/solar_array.png");
 	}
 
 	@Override

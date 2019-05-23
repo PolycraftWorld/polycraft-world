@@ -15,10 +15,13 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -42,7 +45,7 @@ public class CommandChallenge  extends CommandBase{
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -66,7 +69,7 @@ public class CommandChallenge  extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void processCommand(ICommandSender sender, String[] args) throws PlayerNotFoundException {
 		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
 		World world = sender.getEntityWorld();
 		
@@ -150,6 +153,7 @@ public class CommandChallenge  extends CommandBase{
 	
 	public void generateStructure(ICommandSender sender, int xPos, int yPos, int zPos, World world)
 	{
+		/*
 		Block grass = getBlockByText(sender, "grass");
 		boolean result = false;
 		for(int x = xPos; x < xPos + 10; x++){
@@ -157,7 +161,7 @@ public class CommandChallenge  extends CommandBase{
 				result = world.setBlock(x, yPos, z, grass, 0, 3);
 				sender.addChatMessage(new ChatComponentText("Result: " + result + "::X:" + x + "::Y:" + yPos + "::Z:" + z));
 			}
-		}
+		}*/
 
 	}
 
@@ -168,7 +172,7 @@ public class CommandChallenge  extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_, BlockPos blockPos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

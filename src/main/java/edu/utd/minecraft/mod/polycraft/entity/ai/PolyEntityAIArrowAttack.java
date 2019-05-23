@@ -96,7 +96,7 @@ public class PolyEntityAIArrowAttack extends EntityAIBase
      */
     public void updateTask()
     {
-        double d0 = this.entityHost.getDistanceSq(this.attackTarget.posX, this.attackTarget.boundingBox.minY, this.attackTarget.posZ);
+        double d0 = this.entityHost.getDistanceSq(this.attackTarget.posX, this.attackTarget.getEntityBoundingBox().minY, this.attackTarget.posZ);
         boolean flag = this.entityHost.getEntitySenses().canSee(this.attackTarget);
 
         if (flag)

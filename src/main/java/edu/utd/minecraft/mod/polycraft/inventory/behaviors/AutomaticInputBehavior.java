@@ -2,8 +2,8 @@ package edu.utd.minecraft.mod.polycraft.inventory.behaviors;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryBehavior;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
@@ -22,7 +22,7 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 
 	@Override
 	public boolean updateEntity(final I inventory, final World world) {
-		if (inventory.getWorldObj() != null && !inventory.getWorldObj().isRemote) {
+		if (inventory.getWorld() != null && !inventory.getWorld().isRemote) {
 			if (cooldownTicksCurrent == 0) {
 				cooldownTicksCurrent = cooldownTicksStart;
 				//attemptAutomaticInput(inventory); //TODO: fix this: walter commented out to test 3D inputs/outputs
@@ -36,21 +36,19 @@ public class AutomaticInputBehavior<I extends PolycraftInventory & ISidedInvento
 	private void attemptAutomaticInput(final I inventory) {
 		IInventory inputInventory = null;
 		final int directionFacing = inventory.getBlockMetadata() & 7;
-		for (final ForgeDirection direction : ForgeDirection.values()) {
-			if (direction != ForgeDirection.UNKNOWN) {
-				if (directional && (directionFacing == direction.ordinal() || direction == ForgeDirection.DOWN))
+		for (final EnumFacing direction : EnumFacing.values()) {
+			if (direction != null) {
+				if (directional && (directionFacing == direction.ordinal() || direction == EnumFacing.DOWN))
 					continue;
-				inputInventory = PolycraftMod.getInventoryAt(inventory.getWorldObj(),
-						inventory.xCoord + direction.offsetX,
-						inventory.yCoord + direction.offsetY,
-						inventory.zCoord + direction.offsetZ);
+				inputInventory = PolycraftMod.getInventoryAt(inventory.getWorld(),
+						inventory.getPos().offset(direction));
 				if (inputInventory != null) {
 					if (inputInventory instanceof ISidedInventory) {
 						ISidedInventory isidedinventory = (ISidedInventory) inputInventory;
-						int[] aint = isidedinventory.getAccessibleSlotsFromSide(0);
+						int[] aint = isidedinventory.getSlotsForFace(EnumFacing.getFront(0));
 						if (aint != null)
 							for (int k = 0; k < aint.length; ++k)
-								if (InventoryHelper.transfer(inventory, isidedinventory, aint[k], 0, 1))
+								if (InventoryHelper.transfer(inventory, isidedinventory, aint[k], EnumFacing.DOWN, 1))
 									return;
 					}
 				}

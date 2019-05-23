@@ -35,7 +35,7 @@ public class Schematic {
 	public Schematic get(String schemname){
         try {
         	System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
-        	ResourceLocation schematicLocation = new ResourceLocation(PolycraftMod.getAssetName("schematics/" + schemname));
+        	ResourceLocation schematicLocation = new ResourceLocation(PolycraftMod.getAssetNameString("schematics/" + schemname));
         			//PolycraftMod.getAssetName("textures/entity/OilSlime.png"));
         	
         	InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/polycraft/schematics/" + schemname);

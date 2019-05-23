@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -20,8 +21,8 @@ public class HPBlock extends Block implements ITileEntityProvider{
 	public HPBlock(CustomObject config) {
 		super(Material.iron);
 		this.setCreativeTab(CreativeTabs.tabTools);
-		this.setBlockName("HP Block");
-		this.setBlockTextureName(PolycraftMod.getAssetName("hpblock"));
+//		this.setBlockName("HP Block");
+//		this.setBlockTextureName(PolycraftMod.getAssetName("hpblock"));
 	}
 	
 	
@@ -38,7 +39,7 @@ public class HPBlock extends Block implements ITileEntityProvider{
 	 {
 		 if (!world.isRemote)
 		 {
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("This block has " + ((TileEntityHPBlock)world.getTileEntity(x, y, z)).getHP() + " hp  out of " + ((TileEntityHPBlock)world.getTileEntity(x, y, z)).getMaxHP() + " hp "));
+		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("This block has " + ((TileEntityHPBlock)world.getTileEntity(new BlockPos(x, y, z))).getHP() + " hp  out of " + ((TileEntityHPBlock)world.getTileEntity(new BlockPos(x, y, z))).getMaxHP() + " hp "));
 		return false;	
 		 }
 		 return false;

@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -33,22 +35,12 @@ public class DynamicLights
 	/**
 	 * Exposed method which is called by the transformed World.computeBlockLightValue method instead of Block.blocksList[blockID].getLightValue. Loops active Dynamic Light Sources and if it finds one for the exact coordinates asked, returns
 	 * the Light value from that source if higher.
-	 * 
-	 * @param world
-	 *            World queried
-	 * @param block
-	 *            Block instance of target coords
-	 * @param x
-	 *            coordinate queried
-	 * @param y
-	 *            coordinate queried
-	 * @param z
-	 *            coordinate queried
+	 *
 	 * @return Block.blocksList[blockID].getLightValue or Dynamic Light value, whichever is higher
 	 */
-	public static int getLightValue(IBlockAccess world, Block block, int x, int y, int z)
+	public static int getLightValue(IBlockAccess world, Block block, BlockPos blockPos)
 	{
-		int vanillaValue = block.getLightValue(world, x, y, z);
+		int vanillaValue = block.getLightValue(world, blockPos);
 
 		if (instance == null || world instanceof WorldServer)
 		{
@@ -66,11 +58,11 @@ public class DynamicLights
 		{
 			for (DynamicLightSourceContainer light : instance.lastList)
 			{
-				if (light.getX() == x)
+				if (light.getX() == blockPos.getX())
 				{
-					if (light.getY() == y)
+					if (light.getY() == blockPos.getY())
 					{
-						if (light.getZ() == z)
+						if (light.getZ() == blockPos.getZ())
 						{
 							dynamicValue = Math.max(dynamicValue, light.getLightSource().getLightLevel());
 						}
@@ -165,7 +157,8 @@ public class DynamicLights
 
 					if (iterContainer != null)
 					{
-						world.updateLightByType(EnumSkyBlock.Block, iterContainer.getX(), iterContainer.getY(), iterContainer.getZ());
+						//TODO: fix for 1.8
+						//world.updateLightByType(EnumSkyBlock.Block, iterContainer.getX(), iterContainer.getY(), iterContainer.getZ());
 					}
 				}
 			}
@@ -183,7 +176,8 @@ public class DynamicLights
 				if (tickedLightContainer.onUpdate())
 				{
 					iter.remove();
-					world.updateLightByType(EnumSkyBlock.Block, tickedLightContainer.getX(), tickedLightContainer.getY(), tickedLightContainer.getZ());
+					//TODO: fix for 1.8
+					//world.updateLightByType(EnumSkyBlock.Block, tickedLightContainer.getX(), tickedLightContainer.getY(), tickedLightContainer.getZ());
 				}
 			}
 		}

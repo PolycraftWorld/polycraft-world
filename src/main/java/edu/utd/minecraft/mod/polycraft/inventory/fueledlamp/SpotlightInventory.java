@@ -22,8 +22,8 @@ public class SpotlightInventory extends FueledLampInventory {
 	@Override
 	protected BlockLight.Source addLightSource(final int heatIntensity) {
 		return BlockLight.addSource(worldObj, new BlockLight.Source(
-				worldObj, xCoord, yCoord, zCoord,
+				worldObj, pos.getX(), pos.getY(), pos.getZ(),
 				(int) Math.floor(heatIntensity * rangePerHeatIntensity),
-				worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
+				worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos))));
 	}
 }

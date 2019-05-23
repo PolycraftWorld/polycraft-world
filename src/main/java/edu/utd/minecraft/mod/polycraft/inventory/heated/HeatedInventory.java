@@ -3,12 +3,14 @@ package edu.utd.minecraft.mod.polycraft.inventory.heated;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
@@ -306,12 +308,12 @@ public abstract class HeatedInventory extends WateredInventory<HeatedInventorySt
 		 * A randomly called display update to be able to add particles or other items for display
 		 */
 		@Override
-		public boolean randomDisplayTick(HeatedInventory inventory, World world, int x, int y, int z, Random random) {
+		public boolean randomDisplayTick(HeatedInventory inventory, World world, BlockPos blockPos, IBlockState state, Random random) {
 			if (inventory.isHeated()) {
 				int l = getBlockMetadata();
-				float f = (float) x + 0.5F;
-				float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
-				float f2 = (float) z + 0.5F;
+				float f = (float) blockPos.getX() + 0.5F;
+				float f1 = (float) blockPos.getY() + 0.0F + random.nextFloat() * 6.0F / 16.0F;
+				float f2 = (float) blockPos.getZ() + 0.5F;
 				float f3 = 0.52F;
 				float f4 = random.nextFloat() * 0.6F - 0.3F;
 

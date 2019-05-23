@@ -1,7 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.nei;
 
-import static codechicken.lib.gui.GuiDraw.changeTexture;
-import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
+//import static codechicken.lib.gui.GuiDraw.changeTexture;
+//import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class OilDerrickRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return PolycraftMod.getAssetName("textures/gui/container/oil_derrick.png");
+		return PolycraftMod.getAssetNameString("textures/gui/container/oil_derrick.png");
 	}
 
 	@Override
@@ -81,10 +81,10 @@ public class OilDerrickRecipeHandler extends TemplateRecipeHandler {
 		return currenttip;
 	}
 
-	@Override
-	public void drawBackground(int recipe) {
-		GL11.glColor4f(1, 1, 1, 1);
-		changeTexture(getGuiTexture());
-		drawTexturedModalRect(0, 0, 5, 11, 166, 32);
-	}
+//	@Override
+//	public void drawBackground(int recipe) {
+//		GL11.glColor4f(1, 1, 1, 1);
+//		changeTexture(getGuiTexture());
+//		drawTexturedModalRect(0, 0, 5, 11, 166, 32);
+//	}
 }

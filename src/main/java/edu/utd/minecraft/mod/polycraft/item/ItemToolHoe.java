@@ -10,7 +10,7 @@ public class ItemToolHoe extends PolycraftHoe {
 		super(material);
 		this.tool = tool;
 		setCreativeTab(CreativeTabs.tabTools);
-		setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.HOE))));
+		//setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.HOE))));
 	}
 	
 }

@@ -25,7 +25,7 @@ public class ChallengeTeleporter extends PolycraftTeleporter {
 	
 
 	@Override
-	public void placeInPortal(Entity entity, double var1, double var2, double var3, float var4) {
+	public void placeInPortal(Entity entity, float rotationYaw) {
 		if(flag)
 		{
 			if(!entity.worldObj.isRemote)

@@ -3,8 +3,6 @@ package edu.utd.minecraft.mod.polycraft.inventory.cannon;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.config.GuiConfigEntries;
-import cpw.mods.fml.client.config.GuiConfigEntries.DoubleEntry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
@@ -17,6 +15,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.io.IOException;
 
 public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
 	private final int ImageHeight = 200;
@@ -34,7 +34,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     public double velocity;
     public double theta;
     public double mass;
-    private GuiConfigEntries guiConfig;
+    //private GuiConfigEntries guiConfig;
 
 	
 	
@@ -75,20 +75,20 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
         buttonList.add(buttonMMinus);
         
         //this.test2= new DoubleEntry(null, guiConfig, null);
-        this.velocityText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-66, 60, 20);
+        this.velocityText = new GuiTextField(40, this.fontRendererObj, this.width / 2 - 58, this.height/2-66, 60, 20);
         this.velocityText.width/=2;
         velocityText.setMaxStringLength(3);
 
         velocityText.setText(Double.toString(this.inventory.velocity));
         this.velocityText.setFocused(true);
         
-        this.thetaText = new GuiTextField(this.fontRendererObj, this.width / 2 - 58, this.height/2-16, 60, 20);
+        this.thetaText = new GuiTextField(41, this.fontRendererObj, this.width / 2 - 58, this.height/2-16, 60, 20);
         this.thetaText.width/=2;
         thetaText.setMaxStringLength(3);
         thetaText.setText(Double.toString(this.inventory.theta));
         //this.thetaText.setFocused(true);
         
-        this.massText = new GuiTextField(this.fontRendererObj, this.width / 2 + 23, this.height/2-66, 60, 20);
+        this.massText = new GuiTextField(42, this.fontRendererObj, this.width / 2 + 23, this.height/2-66, 60, 20);
         this.massText.width/=2;
         massText.setMaxStringLength(3);
         massText.setText(Double.toString(this.inventory.mass));
@@ -314,9 +314,9 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     	
        if(test)
        {
-	    	int x=this.inventory.xCoord;
-	    	int y=this.inventory.yCoord;
-	    	int z=this.inventory.zCoord;
+	    	int x=this.inventory.getPos().getX();
+	    	int y=this.inventory.getPos().getY();
+	    	int z=this.inventory.getPos().getZ();
 	        this.velocity=Double.parseDouble(velocityText.getText());
 	        this.theta=Double.parseDouble(thetaText.getText());
 	        this.mass=Double.parseDouble(massText.getText());
@@ -341,8 +341,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     
    
     
-    protected void keyTyped(char par1, int par2)
-    {
+    protected void keyTyped(char par1, int par2) throws IOException {
     	if(!( par2== Keyboard.KEY_E  &&  this.velocityText.isFocused())) super.keyTyped(par1, par2);
         this.velocityText.textboxKeyTyped(par1, par2);
         
@@ -365,7 +364,7 @@ public class CannonGui  extends PolycraftInventoryGui<CannonInventory>{
     }
     
     @Override
-    protected void mouseClicked(int x, int y, int btn) {        super.mouseClicked(x, y, btn);
+    protected void mouseClicked(int x, int y, int btn) throws IOException {        super.mouseClicked(x, y, btn);
         this.velocityText.mouseClicked(x, y, btn);
         this.thetaText.mouseClicked(x, y, btn);
         this.massText.mouseClicked(x, y, btn);

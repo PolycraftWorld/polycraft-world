@@ -1,5 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import java.io.IOException;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -12,6 +14,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 
 
@@ -44,7 +47,7 @@ public class GuiScreenPasswordDoor extends GuiScreen {
                 98, 20, I18n.format("gui.done", new Object[0]));
         buttonList.add(buttonDone);
         
-        this.text = new GuiTextField(this.fontRendererObj, this.width / 2 - 68, this.height/2-46, 137, 20);
+        this.text = new GuiTextField(500, this.fontRendererObj, this.width / 2 - 68, this.height/2-46, 137, 20);
         text.setMaxStringLength(23);
         text.setText("sample text");
         this.text.setFocused(true);
@@ -76,7 +79,7 @@ public class GuiScreenPasswordDoor extends GuiScreen {
     	if (button == buttonDone)
         {
     		if(this.text.getText().contains("fatuous")) {
-        		door.open(this.player.worldObj, x,y,z, this.player);
+        		door.open(this.player.worldObj, new BlockPos(x,y,z), this.player);
                 mc.displayGuiScreen((GuiScreen)null);
     		}else {
     			if (!player.worldObj.isRemote)
@@ -89,7 +92,7 @@ public class GuiScreenPasswordDoor extends GuiScreen {
 
     }
     
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char par1, int par2) throws IOException
     {
     	if(!( par2== Keyboard.KEY_E  &&  this.text.isFocused())) super.keyTyped(par1, par2);
         this.text.textboxKeyTyped(par1, par2);
@@ -102,7 +105,7 @@ public class GuiScreenPasswordDoor extends GuiScreen {
     }
     
     @Override
-    protected void mouseClicked(int x, int y, int btn) {
+    protected void mouseClicked(int x, int y, int btn) throws IOException {
         super.mouseClicked(x, y, btn);
         this.text.mouseClicked(x, y, btn);
     }

@@ -1,5 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.inventory.textwall;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -10,7 +13,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class TextWallBlock extends PolycraftInventoryBlock {
@@ -23,12 +25,12 @@ public class TextWallBlock extends PolycraftInventoryBlock {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int posX, int posY, int posZ, 
-			EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state,
+									EntityPlayer player, EnumFacing facing, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
 		if(world.isRemote) {
 			//open the consent GUI on right-click.
-			PolycraftMod.proxy.openConsentGui(player, posX, posY, posZ);
+			PolycraftMod.proxy.openConsentGui(player, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			
 		}
 		return false;

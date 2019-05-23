@@ -17,7 +17,7 @@ public class ItemCatalyst extends Item implements PolycraftItem {
 	public ItemCatalyst(final Catalyst catalyst) {
 		Preconditions.checkNotNull(catalyst);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName("catalyst"));
+		//this.setTextureName(PolycraftMod.getAssetName("catalyst"));
 		this.catalyst = catalyst;
 	}
 

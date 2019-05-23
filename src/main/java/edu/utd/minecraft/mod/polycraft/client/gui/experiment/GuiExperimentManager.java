@@ -1,10 +1,13 @@
 package edu.utd.minecraft.mod.polycraft.client.gui.experiment;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
@@ -14,8 +17,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
@@ -47,7 +48,7 @@ import net.minecraft.util.Vec3;
 @SideOnly(Side.CLIENT)
 public class GuiExperimentManager extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
     private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
 			"textures/gui/container/creative_inventory/tabs.png");
     
@@ -166,8 +167,12 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
      */
     @Override
     public void keyTyped(char c, int p) {
-    	super.keyTyped(c, p);
-    	if(screenSwitcher == Screen.EXP_LIST)
+		try {
+			super.keyTyped(c, p);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(screenSwitcher == Screen.EXP_LIST)
     			this.guiExperiments.keyTyped(c, p);
     	else if(screenSwitcher == Screen.EXP_ADD) {
     		for(GuiTextField textField: textFields) {
@@ -196,39 +201,43 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     protected void mouseClicked(int x, int y, int mouseEvent) {
     	
     	if(this.guiExperiments != null && screenSwitcher == Screen.EXP_LIST) {
-    		this.guiExperiments.func_148179_a(x, y, mouseEvent);
+    		this.guiExperiments.mouseClicked(x, y, mouseEvent);
     	}
     	//send mouse click to config class
     	if(this.guiConfig != null && screenSwitcher == Screen.EXP_PARAMS) {
-    		this.guiConfig.func_148179_a(x, y, mouseEvent);
+    		this.guiConfig.mouseClicked(x, y, mouseEvent);
     	}
     	for(GuiTextField textField: textFields) {
     		textField.mouseClicked(x, y, mouseEvent);
     	}
-    	super.mouseClicked(x, y, mouseEvent);
-    }
+		try {
+			super.mouseClicked(x, y, mouseEvent);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
     
     /**
      * Called when the mouse is moved or a mouse button is released.  Signature: (mouseX, mouseY, which) which==-1 is
      * mouseMove, which==0 or which==1 is mouseUp
      */
     @Override
-    protected void mouseMovedOrUp(int x, int y, int mouseEvent)
+    protected void mouseReleased(int x, int y, int mouseEvent)
     {
     	//super.mouseMovedOrUp(x, y, mouseEvent);
     	if(this.guiExperiments != null) {
     		
-    		if (mouseEvent != 0 || !this.guiExperiments.func_148181_b(x, y, mouseEvent))
+    		if (mouseEvent != 0 || !this.guiExperiments.mouseReleased(x, y, mouseEvent))
     		{
-    			super.mouseMovedOrUp(x, y, mouseEvent);
+    			super.mouseReleased(x, y, mouseEvent);
     		}
 		}else {
-			super.mouseMovedOrUp(x, y, mouseEvent);
+			super.mouseReleased(x, y, mouseEvent);
 		}
     	
     	if(this.guiConfig != null) {
-    		if (mouseEvent != 0 || !this.guiConfig.func_148181_b(x, y, mouseEvent)){
-    			super.mouseMovedOrUp(x, y, mouseEvent);
+    		if (mouseEvent != 0 || !this.guiConfig.mouseReleased(x, y, mouseEvent)){
+    			super.mouseReleased(x, y, mouseEvent);
     		}
 		}
     }
@@ -287,10 +296,10 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
     		case MAIN:			//go to steps screen
     			guiExperiments.updateExperiments();
     			screenSwitcher = screenChange(Screen.EXP_LIST);
-    			ExperimentManager.INSTANCE.requestExpDefs(player.getDisplayName());
+    			ExperimentManager.INSTANCE.requestExpDefs(player.getDisplayNameString());
     			break;
     		case EXP_LIST:			//go to add step screen
-    			ExperimentManager.INSTANCE.requestExpDefs(player.getDisplayName());
+    			ExperimentManager.INSTANCE.requestExpDefs(player.getDisplayNameString());
     			screenSwitcher = screenChange(Screen.EXP_ADD);
     			break;
     		case EXP_ADD: 		//save the new step and go back to steps screen
@@ -607,7 +616,11 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 				this.scroll = 1.0F;
 			}
 		}
-		super.handleMouseInput();
+		try {
+			super.handleMouseInput();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -675,7 +688,7 @@ public class GuiExperimentManager extends PolycraftGuiScreenBase {
 	
 	//might could use this for updating the params for server side
     private void sendExperimentUpdateToServer(int experimentID, ExperimentParameters params) {
-    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayName(), experimentID, params);
+    	ExperimentManager.ExperimentParticipantMetaData part = ExperimentManager.INSTANCE.new ExperimentParticipantMetaData(player.getDisplayNameString(), experimentID, params);
     	GsonBuilder gBuilder = new GsonBuilder();
     	gBuilder.setPrettyPrinting();
     	Gson gson = gBuilder.create();

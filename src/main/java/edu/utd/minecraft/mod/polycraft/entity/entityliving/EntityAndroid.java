@@ -3,7 +3,6 @@ package edu.utd.minecraft.mod.polycraft.entity.entityliving;
 import java.util.ArrayList;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.Armor;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
@@ -44,7 +43,7 @@ public class EntityAndroid extends EntityMob{
 	public EntityAndroid(World p_i1738_1_) {
 		super(p_i1738_1_);
 		clearAITasks();
-		this.getNavigator().setBreakDoors(true);
+		//this.getNavigator().setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
 		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
@@ -91,14 +90,14 @@ public class EntityAndroid extends EntityMob{
 	 */
 	@Override
 	public boolean getCanSpawnHere() {
-		return this.worldObj.checkNoEntityCollision(this.boundingBox)
-				&& this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty()
-				&& !this.worldObj.isAnyLiquid(this.boundingBox);
+		return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox())
+				&& this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty()
+				&& !this.worldObj.isAnyLiquid(this.getEntityBoundingBox());
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
-		return true;
+	public boolean isAIDisabled() {
+		return false;
 	}
 
 	private static void setEquipment() {

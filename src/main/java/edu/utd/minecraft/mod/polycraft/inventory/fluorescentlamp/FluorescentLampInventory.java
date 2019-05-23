@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -70,7 +71,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
+	public int[] getSlotsForFace(EnumFacing var1) {
 		return fuelSlots;
 	}
 
@@ -83,7 +84,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	}
 
 	@Override
-	public boolean canInsertItem(int var1, ItemStack var2, int var3) {
+	public boolean canInsertItem(int var1, ItemStack var2, EnumFacing var3) {
 		System.out.println("Check can insert.");
 		if (var1 == 0) // Bulb slot
 			return var2.getItem().equals(BULB_ITEM);
@@ -91,7 +92,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	}
 
 	@Override
-	public boolean canExtractItem(int var1, ItemStack var2, int var3) {
+	public boolean canExtractItem(int var1, ItemStack var2, EnumFacing var3) {
 		System.out.println("Check can extract.");
 		return false;
 	}
@@ -211,7 +212,7 @@ public class FluorescentLampInventory extends StatefulInventory<FluorescentLampS
 	}
 
 	protected BlockLight.Source addLightSource(final int heatIntensity) {
-		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, xCoord, yCoord, zCoord,
+		return BlockLight.addSource(worldObj, new BlockLight.Source(worldObj, pos.getX(), pos.getY(), pos.getZ(),
 				(int) Math.floor(heatIntensity * rangePerHeatIntensity), LabelTexture.SIDE_BOTTOM));
 	}
 

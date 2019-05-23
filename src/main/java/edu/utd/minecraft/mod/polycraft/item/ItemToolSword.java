@@ -10,6 +10,6 @@ public class ItemToolSword extends PolycraftSword {
 		super(material);
 		this.tool = tool;
 		setCreativeTab(CreativeTabs.tabCombat);
-		setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.SWORD))));
+		//setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.SWORD))));
 	}
 }

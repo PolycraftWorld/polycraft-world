@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class RaidGame extends PolycraftMinigame {
@@ -51,14 +52,14 @@ public class RaidGame extends PolycraftMinigame {
 			double zp = Math.round(z + Math.cos(angle) * radius) + 0.5;
 			// p.setLocationAndAngles(xp, world.getTopSolidOrLiquidBlock(xp, zp), zp, 0, 0);
 			p.playerNetServerHandler.setPlayerLocation(xp,
-					world.getTopSolidOrLiquidBlock((int) Math.floor(xp), (int) Math.floor(zp)), zp,
+					world.getTopSolidOrLiquidBlock(new BlockPos(Math.floor(xp), 0, Math.floor(zp))).getY(), zp,
 					(float) Math.toDegrees(-Math.atan2(x - xp, z - zp)), 0);
 			// p.setPositionAndUpdate(xp, world.getTopSolidOrLiquidBlock(xp, zp), zp);
 		}
 		if (boss != null)
 			boss.setDead();
 		boss = new TestTerritoryFlagBoss(world);
-		boss.setPosition(x, world.getTopSolidOrLiquidBlock((int) x, (int) z), z);
+		boss.setPosition(x, world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(), z);
 		world.spawnEntityInWorld(boss);
 	}
 

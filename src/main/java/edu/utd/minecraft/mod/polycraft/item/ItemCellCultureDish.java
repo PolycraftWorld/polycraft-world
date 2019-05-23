@@ -17,7 +17,7 @@ public class ItemCellCultureDish extends Item implements PolycraftItem {
 	public ItemCellCultureDish(final CellCultureDish cellCultureDish) {
 		Preconditions.checkNotNull(cellCultureDish);
 		this.setCreativeTab(CreativeTabs.tabMaterials);
-		this.setTextureName(PolycraftMod.getAssetName("cell_culture_dish"));
+		//this.setTextureName(PolycraftMod.getAssetName("cell_culture_dish"));
 		this.cellCultureDish = cellCultureDish;
 	}
 

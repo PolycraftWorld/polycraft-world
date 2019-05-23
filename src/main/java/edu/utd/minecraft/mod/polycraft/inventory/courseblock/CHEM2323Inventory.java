@@ -80,8 +80,8 @@ public class CHEM2323Inventory extends CoinOperatedInventory {
 	public ResourceLocation getOverlayResourceLocation() {
 		if (this.slotHasValidItem(guiSlots.get(slotIndexItem)))
 		{
-			return new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s-%s.png",
-					PolycraftMod.getFileSafeName(config.name), PolycraftMod.getFileSafeName(this.getStackInSlot(slotIndexItem).getDisplayNameString()))));
+			return new ResourceLocation(PolycraftMod.getAssetNameString(String.format("textures/gui/container/%s-%s.png",
+					PolycraftMod.getFileSafeName(config.name), PolycraftMod.getFileSafeName(this.getStackInSlot(slotIndexItem).getDisplayName()))));
 		}
 		//return new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s-p1.png", PolycraftMod.getFileSafeName(config.name))));
 		return null;
@@ -90,7 +90,7 @@ public class CHEM2323Inventory extends CoinOperatedInventory {
 	public ResourceLocation getOverlayResourceLocationLetters() {
 		if (this.slotHasValidItem(guiSlots.get(slotIndexItem)))
 		{
-			return new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s_letters_only.png",
+			return new ResourceLocation(PolycraftMod.getAssetNameString(String.format("textures/gui/container/%s_letters_only.png",
 					PolycraftMod.getFileSafeName(config.name))));
 		}
 		//return new ResourceLocation(PolycraftMod.getAssetName(String.format("textures/gui/container/%s-p1.png", PolycraftMod.getFileSafeName(config.name))));

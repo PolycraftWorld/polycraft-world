@@ -1,16 +1,17 @@
 package edu.utd.minecraft.mod.polycraft.client.gui;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.client.config.GuiSlider;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
-import cpw.mods.fml.client.config.GuiSlider;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
@@ -35,7 +36,7 @@ public class GuiDevToolStep extends GuiListExtended {
 	private final GuiScreen gui;
 	private final Minecraft minecraft;
 	private static final ResourceLocation BACKGROUND_IMAGE = new ResourceLocation(
-			PolycraftMod.getAssetName("textures/gui/consent_background.png"));
+			PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
 	
 	private final ArrayList<GuiListExtended.IGuiListEntry> devStep;
 	private int maxStringLength = 0; //used during rendering to "left-justify" all parameter names
@@ -157,13 +158,13 @@ public class GuiDevToolStep extends GuiListExtended {
 	@Override
 	protected void drawSelectionBox(int xPos, int yPos, int mouseX, int mouseY) {
 		int totalRows = this.getSize();
-		Tessellator tessellator = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
 		
 		for (int rowIterator = 0; rowIterator < totalRows; rowIterator++) {
 			int curRow = yPos + rowIterator * this.slotHeight + this.headerPadding +10;
 			
 			if(curRow < this.bottom - this.slotHeight && curRow > this.top) {
-				this.drawSlot(rowIterator, xPos, curRow, 0, tessellator, mouseX, mouseY);
+				this.drawSlot(rowIterator, xPos, curRow, 0, mouseX, mouseY);
 			}
 		}
 	}
@@ -171,19 +172,21 @@ public class GuiDevToolStep extends GuiListExtended {
 	/**
      * Overlays the background to hide scrolled items
      */
-    private void overlayBackground(int p_148136_1_, int p_148136_2_, int p_148136_3_, int p_148136_4_)
+	protected void overlayBackground(int p_148136_1_, int p_148136_2_, int p_148136_3_, int p_148136_4_)
     {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         this.minecraft.getTextureManager().bindTexture(Gui.optionsBackground);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         float f = 32.0F;
-        tessellator.startDrawingQuads();
-        tessellator.setColorRGBA_I(4210752, p_148136_4_);
-        tessellator.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
-        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
-        tessellator.setColorRGBA_I(4210752, p_148136_3_);
-        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_1_ / f));
-        tessellator.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / f));
+        //TODO: update to 1.8
+//
+//        tessellator.startDrawingQuads();
+//        tessellator.setColorRGBA_I(4210752, p_148136_4_);
+//        tessellator.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
+//        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
+//        tessellator.setColorRGBA_I(4210752, p_148136_3_);
+//        tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_1_ / f));
+//        tessellator.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / f));
         tessellator.draw();
     }
     
@@ -217,7 +220,7 @@ public class GuiDevToolStep extends GuiListExtended {
     	if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
     		//check to see if the mouse has been clicked.
-            if (Mouse.isButtonDown(0) && this.func_148125_i())
+            if (Mouse.isButtonDown(0) && this.getEnabled())
             {
             	//check to see where the mouse is.
             	 if (mouseY >= this.top && mouseY <= this.bottom)
@@ -294,7 +297,7 @@ public class GuiDevToolStep extends GuiListExtended {
         
         if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
-            if (Mouse.isButtonDown(0) && this.func_148125_i())
+            if (Mouse.isButtonDown(0) && this.getEnabled())
             {
                 if (this.initialClickY == -1.0F)
                 {
@@ -371,33 +374,38 @@ public class GuiDevToolStep extends GuiListExtended {
             }
             else
             {
-                for (; !this.minecraft.gameSettings.touchscreen && Mouse.next(); this.minecraft.currentScreen.handleMouseInput())
-                {
-                    int j1 = Mouse.getEventDWheel();
+            	try {
+					for (; !this.minecraft.gameSettings.touchscreen && Mouse.next(); this.minecraft.currentScreen.handleMouseInput())
+					{
+						int j1 = Mouse.getEventDWheel();
 
-                    if (j1 != 0)
-                    {
-                        if (j1 > 0)
-                        {
-                            j1 = -1;
-                        }
-                        else if (j1 < 0)
-                        {
-                            j1 = 1;
-                        }
+						if (j1 != 0)
+						{
+							if (j1 > 0)
+							{
+								j1 = -1;
+							}
+							else if (j1 < 0)
+							{
+								j1 = 1;
+							}
 
-                        this.amountScrolled += (float)(j1 * this.slotHeight / 2);
-                    }
-                }
+							this.amountScrolled += (float)(j1 * this.slotHeight / 2);
+						}
+					}
 
-                this.initialClickY = -1.0F;
+					this.initialClickY = -1.0F;
+				}catch (IOException e){
+            		e.printStackTrace();
+				}
+
             }
         }
 
         this.bindAmountScrolled();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_FOG);
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         //drawContainerBackground(tessellator);
         l1 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
         i2 = this.top + 4 - (int)this.amountScrolled;
@@ -431,7 +439,7 @@ public class GuiDevToolStep extends GuiListExtended {
 	
 	
 	@Override
-	public int func_148124_c(int mouseX, int mouseY)
+	public int getSlotIndexFromScreenCoords(int mouseX, int mouseY)
     {
         int k = this.left + this.width / 2 - this.getListWidth() / 2;
         int l = this.left + this.width / 2 + this.getListWidth() / 2;
@@ -452,7 +460,7 @@ public class GuiDevToolStep extends GuiListExtended {
 	/**
 	 * Stop the thing from scrolling out of bounds
 	 */
-	private void bindAmountScrolled()
+	protected void bindAmountScrolled()
 	{
 	    int i = this.func_148135_f();
 	
@@ -530,17 +538,22 @@ public class GuiDevToolStep extends GuiListExtended {
 		
 		public ConfigHeader(String name) {
 			this.headerName = I18n.format(name, new Object[0]);
-			this.width = GuiDevToolStep.this.minecraft.fontRenderer.getStringWidth(headerName);
+			this.width = GuiDevToolStep.this.minecraft.fontRendererObj.getStringWidth(headerName);
+		}
+
+		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+
 		}
 
 		@Override
 		public void drawEntry(int p_148279_1_, int p_148279_2_, int yStart, int p_148279_4_, int p_148279_5_,
-				Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_) {
+				int p_148279_7_, int p_148279_8_, boolean p_148279_9_) {
 			//Your guess is as good as mine - I am not patient in figuring out those variables.
 			//I think p_.._3 and p_.._5 have to do with the y height and scroll position.
-			GuiDevToolStep.this.minecraft.fontRenderer.drawString(this.headerName,
+			GuiDevToolStep.this.minecraft.fontRendererObj.drawString(this.headerName,
 					GuiDevToolStep.this.minecraft.currentScreen.width / 2 - this.width / 2,  
-					yStart + GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2, 
+					yStart + GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2, 
 					Format.getIntegerFromColor(new Color(0,0,0)));
 			
 		}
@@ -566,7 +579,7 @@ public class GuiDevToolStep extends GuiListExtended {
 	 * A String {@link #parameterName}, a Slider with Associated Bounds {@link #slider}, and a 
 	 * button to reset the slider {@link #reset}
 	 * 
-	 * This object is created from the {@link ExperimentParameter} object that is passed into this 
+	 * This object is created from the {link ExperimentParameter} object that is passed into this
 	 * object by GuiExperimentList, depending on what experiment the user selects.
 	 * @author dxn140130
 	 *
@@ -599,29 +612,34 @@ public class GuiDevToolStep extends GuiListExtended {
 			this.defaultValue = defaultValue;
 			this.slider = new GuiSlider(0, 0, 0, SLIDER_WIDTH, HEIGHT, "", "", minVal, maxVal, defaultValue, false, true, null);
 			this.reset = new GuiButton(0, 0, 0, RESET_WIDTH, HEIGHT, "\u23ce");
-			this.parameterName = GuiDevToolStep.this.minecraft.fontRenderer.trimStringToWidth(this.parameterName, GuiDevToolStep.this.width/2 + 5);
+			this.parameterName = GuiDevToolStep.this.minecraft.fontRendererObj.trimStringToWidth(this.parameterName, GuiDevToolStep.this.width/2 + 5);
+		}
+
+		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+			
 		}
 
 		@Override
 		public void drawEntry(int p_148279_1_, int what, int yStart, int p_148279_4_, int p_148279_5_,
-				Tessellator p_148279_6_, int mouseX, int mouseY, boolean p_148279_9_) {
+				int mouseX, int mouseY, boolean p_148279_9_) {
 			// draw each ConfigSlider entity on a row.
 			int xStart = GuiDevToolStep.this.left;
-			GuiDevToolStep.this.minecraft.fontRenderer.drawString(this.parameterName, xStart,
-					yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+			GuiDevToolStep.this.minecraft.fontRendererObj.drawString(this.parameterName, xStart,
+					yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			
 			
-			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
-			//		yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
+			//GuiExperimentConfig.this.minecraft.fontRendererObj.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
+			//		yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.minecraft.fontRendererObj.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
 			
 			int x_offset = 95;
 			
 			this.slider.xPosition = xStart + x_offset;
-			this.slider.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.slider.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.slider.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
 			this.reset.enabled = this.slider.getValue() != this.defaultValue; //disable reset if the slider is at its default.
 			this.reset.xPosition = xStart + x_offset + SLIDER_WIDTH + 5;
-			this.reset.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.reset.yPosition = yStart - GuiDevToolStep.this.SLOT_HEIGHT/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.reset.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
 			
 		}
@@ -668,10 +686,10 @@ public class GuiDevToolStep extends GuiListExtended {
 	
 	/**
 	 * This describes a generic ConfigSlider object that contains 3 elements: 
-	 * A String {@link #parameterName}, a Slider with Associated Bounds {@link #slider}, and a 
-	 * button to reset the slider {@link #reset}
+	 * A String {link #parameterName}, a Slider with Associated Bounds {link #slider}, and a
+	 * button to reset the slider {link #reset}
 	 * 
-	 * This object is created from the {@link ExperimentParameter} object that is passed into this 
+	 * This object is created from the {link ExperimentParameter} object that is passed into this
 	 * object by GuiExperimentList, depending on what experiment the user selects.
 	 * @author dxn140130
 	 *
@@ -689,15 +707,11 @@ public class GuiDevToolStep extends GuiListExtended {
 		private GuiTextField text;
 		private String stepName;
 		private GuiButton config, moveUp, moveDown, delete;
-		private Vec3 pos;
+		private BlockPos pos;
 		private boolean isFirst, isLast, editName;
 		
 		/**
 		 * Create a Config Slider GuiSlot
-		 * @param name 			Name of Parameter to be varied
-		 * @param defaultValue 	default (server-saved) value of the parameter
-		 * @param minVal		minimum Slider Value
-		 * @param maxVal		maximum Slider Value
 		 */
 		public ConfigStep(TutorialFeature feature, int index, boolean isLast) {
 			this.feature = feature;
@@ -713,7 +727,7 @@ public class GuiDevToolStep extends GuiListExtended {
 			this.isFirst = index == 0? true:false;
 			this.isLast = isLast;
 			this.index = index;
-			text =  new GuiTextField(GuiDevToolStep.this.minecraft.fontRenderer, GuiDevToolStep.this.left + 2, 8, SLIDER_WIDTH, GuiDevToolStep.SLOT_HEIGHT - 12);
+			text =  new GuiTextField( 400, GuiDevToolStep.this.minecraft.fontRendererObj, GuiDevToolStep.this.left + 2, 8, SLIDER_WIDTH, GuiDevToolStep.SLOT_HEIGHT - 12);
 			text.setMaxStringLength(32);
 			text.setText(feature.getName());
 			text.setTextColor(16777215);
@@ -724,18 +738,23 @@ public class GuiDevToolStep extends GuiListExtended {
 		}
 
 		@Override
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+
+		}
+
+		@Override
 		public void drawEntry(int p_148279_1_, int what, int yStart, int p_148279_4_, int p_148279_5_,
-				Tessellator p_148279_6_, int mouseX, int mouseY, boolean p_148279_9_) {
+				int mouseX, int mouseY, boolean p_148279_9_) {
 			// draw each ConfigSlider entity on a row.
 			int xStart = GuiDevToolStep.this.left;
 			GuiDevToolStep.this.gui.drawRect(xStart, yStart - 10, xStart + SLIDER_WIDTH + B_WIDTH * 4 + 48, yStart + GuiDevToolStep.SLOT_HEIGHT - 12, 0x50303030);
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
-			GuiDevToolStep.this.minecraft.fontRenderer.drawString(Integer.toString((int)this.pos.xCoord) + ", " + (int)this.pos.yCoord + ", " + (int)this.pos.zCoord, xStart*2 + 4,
-					(yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2 + 10) *2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+			GuiDevToolStep.this.minecraft.fontRendererObj.drawString(Integer.toString((int)this.pos.getX()) + ", " + (int)this.pos.getY() + ", " + (int)this.pos.getZ(), xStart*2 + 4,
+					(yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2 + 10) *2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			GL11.glScalef(2F, 2F, 2F);
-			//GuiExperimentConfig.this.minecraft.fontRenderer.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
-			//		yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.minecraft.fontRenderer.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
+			//GuiExperimentConfig.this.minecraft.fontRendererObj.drawString(this.parameterName, xStart + 120 - GuiExperimentConfig.this.maxStringLength,
+			//		yStart + p_148279_5_ / 2 - GuiExperimentConfig.this.minecraft.fontRendererObj.FONT_HEIGHT / 2, Format.getIntegerFromColor(GuiExperimentConfig.HEADER_TEXT_COLOR));
 			
 			int x_offset = 35;
 			
@@ -745,20 +764,20 @@ public class GuiDevToolStep extends GuiListExtended {
 				this.moveDown.enabled = false;
 			
 			this.config.xPosition = xStart + x_offset + SLIDER_WIDTH + 5;
-			this.config.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.config.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.config.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
 			this.moveUp.xPosition = this.config.xPosition + B_WIDTH + 2;
-			this.moveUp.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.moveUp.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.moveUp.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
 			this.moveDown.xPosition = this.moveUp.xPosition + B_WIDTH + 2;
-			this.moveDown.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.moveDown.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.moveDown.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
 			this.delete.xPosition = this.moveDown.xPosition + B_WIDTH + 2;
-			this.delete.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2;
+			this.delete.yPosition = yStart - (GuiDevToolStep.this.SLOT_HEIGHT-2)/4 + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2;
 			this.delete.drawButton(GuiDevToolStep.this.minecraft, mouseX, mouseY);
 			if(!editName) {
-				GuiDevToolStep.this.minecraft.fontRenderer.drawString(feature.getName(), xStart + 2,
-						yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRenderer.FONT_HEIGHT / 2 - 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
+				GuiDevToolStep.this.minecraft.fontRendererObj.drawString(feature.getName(), xStart + 2,
+						yStart + p_148279_5_ / 2 - GuiDevToolStep.this.minecraft.fontRendererObj.FONT_HEIGHT / 2 - 2, Format.getIntegerFromColor(new Color(90, 90, 90)));
 			}else {
 				text.yPosition = yStart - 8;
 				

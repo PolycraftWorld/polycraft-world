@@ -35,7 +35,7 @@ public class ItemSyntheticGripped {
 			itemSyntheticGripped = new ItemHoeSyntheticGripped(material, grippedSyntheticTool);
 		
 		
-		itemSyntheticGripped.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(grippedSyntheticTool.name)));
+		//itemSyntheticGripped.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(grippedSyntheticTool.name)));
 		itemSyntheticGripped.setMaxDamage((int) ((grippedSyntheticTool.source.maxUses * (1 + grippedSyntheticTool.durabilityBuff)) + 1));
 		
 		return itemSyntheticGripped;

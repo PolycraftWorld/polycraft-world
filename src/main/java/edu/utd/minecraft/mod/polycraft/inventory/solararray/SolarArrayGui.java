@@ -5,8 +5,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.item.ItemVessel;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class SolarArrayGui extends PolycraftInventoryGui<SolarArrayInventory> {
 
@@ -24,31 +24,30 @@ public class SolarArrayGui extends PolycraftInventoryGui<SolarArrayInventory> {
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
 		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
 		if (inventory.hasWorldObj()) {
-			World world = inventory.getWorldObj();
+			World world = inventory.getWorld();
 			int color = -1;
 			if (world.getWorldInfo().getWorldTime() % 24000 > 12000 || world.isRaining())
 				color = 0x9E0300; // Red color.
 			else {
 				int xWeight;
 				int zWeight;
-				if (inventory.blockMetadata == ForgeDirection.NORTH.ordinal()) {
+				if (inventory.getBlockMetadata() == EnumFacing.NORTH.ordinal()) {
 					xWeight = -1;
 					zWeight = 1;
-				} else if (inventory.blockMetadata == ForgeDirection.EAST.ordinal()) {
+				} else if (inventory.getBlockMetadata() == EnumFacing.EAST.ordinal()) {
 					xWeight = -1;
 					zWeight = -1;
-				} else if (inventory.blockMetadata == ForgeDirection.SOUTH.ordinal()) {
+				} else if (inventory.getBlockMetadata() == EnumFacing.SOUTH.ordinal()) {
 					xWeight = 1;
 					zWeight = -1;
-				} else if (inventory.blockMetadata == ForgeDirection.WEST.ordinal()) {
+				} else if (inventory.getBlockMetadata() == EnumFacing.WEST.ordinal()) {
 					xWeight = 1;
 					zWeight = 1;
 				} else
 					return; // unexpected condition
 				for (int x = 0; x < 8; x++) {
 					for (int z = 0; z < 8; z++) {
-						if (!inventory.getWorldObj().canBlockSeeTheSky(inventory.xCoord + (xWeight * x),
-								inventory.yCoord, inventory.zCoord + (zWeight * z)))
+						if (!inventory.getWorld().canBlockSeeSky(inventory.getPos().add(xWeight * x, 0, (zWeight * z))))
 							return;
 
 					}
@@ -60,20 +59,15 @@ public class SolarArrayGui extends PolycraftInventoryGui<SolarArrayInventory> {
 				// Funny enough, all of this code runs fast enough for gui
 				// refreshes.
 				for (int y = 1; y < 7; y++) {
-					if (inventory.getWorldObj().getBlock(inventory.xCoord + (xWeight * 1), inventory.yCoord + y,
-							inventory.zCoord + (zWeight * 1)) == PolycraftMod.blockCollision)
+					if (inventory.getWorld().getBlockState(inventory.getPos().add(xWeight, y,zWeight)).getBlock() == PolycraftMod.blockCollision)
 						return;
-					if (inventory.getWorldObj().getBlock(inventory.xCoord + (xWeight * 4), inventory.yCoord + y,
-							inventory.zCoord + (zWeight * 4)) == PolycraftMod.blockCollision)
+					if (inventory.getWorld().getBlockState(inventory.getPos().add(xWeight * 4, y,zWeight * 4)).getBlock() == PolycraftMod.blockCollision)
 						return;
-					if (inventory.getWorldObj().getBlock(inventory.xCoord + (xWeight * 7), inventory.yCoord + y,
-							inventory.zCoord + (zWeight * 7)) == PolycraftMod.blockCollision)
+					if (inventory.getWorld().getBlockState(inventory.getPos().add(xWeight * 7, y,zWeight * 7)).getBlock() == PolycraftMod.blockCollision)
 						return;
-					if (inventory.getWorldObj().getBlock(inventory.xCoord + (xWeight * 1), inventory.yCoord + y,
-							inventory.zCoord + (zWeight * 7)) == PolycraftMod.blockCollision)
+					if (inventory.getWorld().getBlockState(inventory.getPos().add(xWeight, y,zWeight * 7)).getBlock() == PolycraftMod.blockCollision)
 						return;
-					if (inventory.getWorldObj().getBlock(inventory.xCoord + (xWeight * 7), inventory.yCoord + y,
-							inventory.zCoord + (zWeight * 1)) == PolycraftMod.blockCollision)
+					if (inventory.getWorld().getBlockState(inventory.getPos().add(xWeight * 7, y,zWeight)).getBlock() == PolycraftMod.blockCollision)
 						return;
 				}
 

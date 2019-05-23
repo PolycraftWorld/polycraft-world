@@ -2,9 +2,7 @@ package edu.utd.minecraft.mod.polycraft.inventory.treetap;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
@@ -13,12 +11,13 @@ import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.config.Inventory;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class TreeTapRenderingHandler extends PolycraftInventoryBlock.BasicRenderingHandler {
+public class TreeTapRenderingHandler //extends PolycraftInventoryBlock.BasicRenderingHandler
+{
 
 	public TreeTapRenderingHandler(final Inventory config) {
-		super(config);
+		//super(config);
 	}
-
+/*
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
@@ -211,5 +210,5 @@ public class TreeTapRenderingHandler extends PolycraftInventoryBlock.BasicRender
 
 		renderer.clearOverrideBlockTexture();
 		return true;
-	}
+	}*/
 }

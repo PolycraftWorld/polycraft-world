@@ -8,11 +8,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType;
 import net.minecraftforge.event.terraingen.TerrainGen;
@@ -67,7 +68,7 @@ public class OilPopulate {
 		int x = chunkX * 16 + 8 + rand.nextInt(16);
 		int z = chunkZ * 16 + 8 + rand.nextInt(16);
 
-		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+		BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(x, 0, z));
 
 		// Do not generate oil in the End or Nether
 		if (excludedBiomes.contains(biome.biomeID)) {
@@ -137,7 +138,7 @@ public class OilPopulate {
 						int distance = poolX * poolX + poolY * poolY + poolZ * poolZ;
 
 						if (distance <= radiusSq) {
-							world.setBlock(poolX + wellX, poolY + wellY, poolZ + wellZ, PolycraftMod.blockOil, 0, distance == radiusSq ? 3 : 2);
+							world.setBlockState(new BlockPos(poolX + wellX, poolY + wellY, poolZ + wellZ), PolycraftMod.blockOil.getDefaultState(),distance == radiusSq ? 3 : 2);
 						}
 					}
 				}
@@ -153,7 +154,7 @@ public class OilPopulate {
 			} else {
 				lakeRadius = 5 + rand.nextInt(10);
 			}
-			generateSurfaceDeposit(world, rand, biome, wellX, groundLevel, wellZ, lakeRadius);
+			generateSurfaceDeposit(world, rand, biome, new BlockPos(wellX, groundLevel, wellZ), lakeRadius);
 
 			boolean makeSpring = false; //TODO type == GenType.LARGE && BuildCraftEnergy.spawnOilSprings && BuildCraftCore.springBlock != null && (BuildCraftCore.debugMode || rand.nextDouble() <= 0.25);
 
@@ -170,15 +171,15 @@ public class OilPopulate {
 			//	world.setBlock(wellX, baseY, wellZ, BuildCraftCore.springBlock, 1, 3);
 			//}
 			for (int y = baseY + 1; y <= maxHeight; ++y) {
-				world.setBlock(wellX, y, wellZ, PolycraftMod.blockOil);
+				world.setBlockState(new BlockPos(wellX, y, wellZ), PolycraftMod.blockOil.getDefaultState());
 			}
 
 			if (type == GenType.LARGE) {
 				for (int y = wellY; y <= maxHeight - wellHeight / 2; ++y) {
-					world.setBlock(wellX + 1, y, wellZ, PolycraftMod.blockOil);
-					world.setBlock(wellX - 1, y, wellZ, PolycraftMod.blockOil);
-					world.setBlock(wellX, y, wellZ + 1, PolycraftMod.blockOil);
-					world.setBlock(wellX, y, wellZ - 1, PolycraftMod.blockOil);
+					world.setBlockState(new BlockPos(wellX + 1, y, wellZ), PolycraftMod.blockOil.getDefaultState());
+					world.setBlockState(new BlockPos(wellX - 1, y, wellZ), PolycraftMod.blockOil.getDefaultState());
+					world.setBlockState(new BlockPos(wellX, y, wellZ + 1), PolycraftMod.blockOil.getDefaultState());
+					world.setBlockState(new BlockPos(wellX, y, wellZ - 1), PolycraftMod.blockOil.getDefaultState());
 				}
 			}
 
@@ -188,21 +189,23 @@ public class OilPopulate {
 			int lakeZ = z;
 			int lakeY = groundLevel;
 
-			Block block = world.getBlock(lakeX, lakeY, lakeZ);
+			Block block = world.getBlockState(new BlockPos(lakeX, lakeY, lakeZ)).getBlock();
 			if (block == biome.topBlock) {
-				generateSurfaceDeposit(world, rand, biome, lakeX, lakeY, lakeZ, 5 + rand.nextInt(10));
+				generateSurfaceDeposit(world, rand, biome, new BlockPos(lakeX, lakeY, lakeZ), 5 + rand.nextInt(10));
 			}
 		}
 	}
 
-	public void generateSurfaceDeposit(World world, Random rand, int x, int y, int z, int radius) {
-		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
-		generateSurfaceDeposit(world, rand, biome, x, y, z, radius);
+	public void generateSurfaceDeposit(World world, Random rand, BlockPos blockPos, int radius) {
+		BiomeGenBase biome = world.getBiomeGenForCoords(blockPos);
+		generateSurfaceDeposit(world, rand, biome, blockPos, radius);
 	}
 
-	private void generateSurfaceDeposit(World world, Random rand, BiomeGenBase biome, int x, int y, int z, int radius) {
+	private void generateSurfaceDeposit(World world, Random rand, BiomeGenBase biome, BlockPos blockPos, int radius) {
 		int depth = rand.nextDouble() < 0.5 ? 1 : 2;
-
+		int x = blockPos.getX();
+		int y = blockPos.getY();
+		int z = blockPos.getZ();
 		// Center
 		setOilColumnForLake(world, biome, x, y, z, depth, 2);
 
@@ -242,17 +245,17 @@ public class OilPopulate {
 	}
 
 	private boolean isReplaceableFluid(World world, int x, int y, int z) {
-		Block block = world.getBlock(x, y, z);
+		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		return (block instanceof BlockFluidBase || block instanceof IFluidBlock) && block.getMaterial() != Material.lava;
 	}
 
 	private boolean isOil(World world, int x, int y, int z) {
-		Block block = world.getBlock(x, y, z);
+		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		return (block == PolycraftMod.blockOil);
 	}
 
 	private boolean isReplaceableForLake(World world, BiomeGenBase biome, int x, int y, int z) {
-		Block block = world.getBlock(x, y, z);
+		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 
 		if (block == null) {
 			return true;
@@ -298,7 +301,7 @@ public class OilPopulate {
 	}
 
 	private void setOilWithProba(World world, BiomeGenBase biome, Random rand, float proba, int x, int y, int z, int depth) {
-		if (rand.nextFloat() <= proba && world.getBlock(x, y - depth - 1, z) != null) {
+		if (rand.nextFloat() <= proba && world.getBlockState(new BlockPos(x, y - depth - 1, z)).getBlock() != null) {
 			if (isOilAdjacent(world, x, y, z)) {
 				setOilColumnForLake(world, biome, x, y, z, depth, 3);
 			}
@@ -307,29 +310,29 @@ public class OilPopulate {
 
 	private void setOilColumnForLake(World world, BiomeGenBase biome, int x, int y, int z, int depth, int update) {
 		if (isReplaceableForLake(world, biome, x, y + 1, z)) {
-			if (!world.isAirBlock(x, y + 2, z)) {
+			if (!world.isAirBlock(new BlockPos(x, y + 2, z))) {
 				return;
 			}
-			if (isReplaceableFluid(world, x, y, z) || world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
-				world.setBlock(x, y, z, PolycraftMod.blockOil, 0, update);
+			if (isReplaceableFluid(world, x, y, z) || world.isSideSolid(new BlockPos(x, y - 1, z), EnumFacing.UP)) {
+				world.setBlockState(new BlockPos(x, y, z), PolycraftMod.blockOil.getDefaultState(), update);
 			} else {
 				return;
 			}
-			if (!world.isAirBlock(x, y + 1, z)) {
-				world.setBlock(x, y + 1, z, Blocks.air, 0, update);
+			if (!world.isAirBlock(new BlockPos(x, y + 1, z))) {
+				world.setBlockState(new BlockPos(x, y + 1, z), Blocks.air.getDefaultState(), update);
 			}
 
 			for (int d = 1; d <= depth - 1; d++) {
-				if (isReplaceableFluid(world, x, y - d, z) || !world.isSideSolid(x, y - d - 1, z, ForgeDirection.UP)) {
+				if (isReplaceableFluid(world, x, y - d, z) || !world.isSideSolid(new BlockPos(x, y - d - 1, z), EnumFacing.UP)) {
 					return;
 				}
-				world.setBlock(x, y - d, z, PolycraftMod.blockOil, 0, 2);
+				world.setBlockState(new BlockPos(x, y - d, z), PolycraftMod.blockOil.getDefaultState(),2);
 			}
 		}
 	}
 
 	private int getTopBlock(World world, int x, int z) {
-		Chunk chunk = world.getChunkFromBlockCoords(x, z);
+		Chunk chunk = world.getChunkFromBlockCoords(new BlockPos(x, 0, z));
 		int y = chunk.getTopFilledSegment() + 15;
 
 		int trimmedX = x & 15;

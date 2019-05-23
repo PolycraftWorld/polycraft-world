@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureEnd extends TutorialFeature{
@@ -21,7 +22,7 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	public TutorialFeatureEnd() {}
 	public int countDown;
 	
-	public TutorialFeatureEnd(String name, Vec3 pos){
+	public TutorialFeatureEnd(String name, BlockPos pos){
 		super(name, pos, Color.YELLOW);
 		super.featureType = TutorialFeatureType.END;
 		this.countDown=219;

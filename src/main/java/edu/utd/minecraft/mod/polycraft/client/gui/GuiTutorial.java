@@ -29,8 +29,8 @@ public class GuiTutorial extends GuiScreen {
 		// TODO Auto-generated constructor stub
 		this.player = player;
 		String url = "https://upload.wikimedia.org/wikipedia/commons/c/c6/Sierpinski_square.jpg";
-		BACKGROUND_IMG = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/Slide/Slide1.png"));
-		OTHER_RESOURCE = new ResourceLocation(PolycraftMod.getAssetName("textures/gui/tutorial/temp/test1.png"));
+		BACKGROUND_IMG = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/tutorial/Slide/Slide1.png"));
+		OTHER_RESOURCE = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/tutorial/temp/test1.png"));
 		downloadedImage = new ThreadDownloadGUIImage(url, null, OTHER_RESOURCE);
 		//guiSettings = 1; //set scaled resolution to 1
 		//defaultGuiSettings = this.mc.gameSettings.guiScale;

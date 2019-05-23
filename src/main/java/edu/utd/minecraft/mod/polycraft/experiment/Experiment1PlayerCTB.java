@@ -3,22 +3,17 @@ package edu.utd.minecraft.mod.polycraft.experiment;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.*;
+import net.minecraftforge.fml.common.registry.GameData;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
@@ -63,11 +58,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
@@ -192,10 +182,10 @@ public class Experiment1PlayerCTB extends Experiment{
 		currentState = State.WaitingToStart;
 		
 		//add extra chests
-		chests.add(Vec3.createVectorHelper(xPos + 28 + x_offset, y, zPos + 97));
-		chests.add(Vec3.createVectorHelper(xPos + 59 + x_offset, y, zPos + 97));
-		chests.add(Vec3.createVectorHelper(xPos + 26 + x_offset, y, zPos + 57));
-		chests.add(Vec3.createVectorHelper(xPos + 60 + x_offset, y, zPos + 57));
+		chests.add(new Vec3(xPos + 28 + x_offset, y, zPos + 97));
+		chests.add(new Vec3(xPos + 59 + x_offset, y, zPos + 97));
+		chests.add(new Vec3(xPos + 26 + x_offset, y, zPos + 57));
+		chests.add(new Vec3(xPos + 60 + x_offset, y, zPos + 57));
 	}
 	
 	@Override
@@ -330,13 +320,13 @@ public class Experiment1PlayerCTB extends Experiment{
 						player.setHealth(20); //provide players maximum health
 						player.getFoodStats().addStats(20, 40);
 						//give players a stick with knockback == 5.
-						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject("stick"));
+						ItemStack item = new ItemStack(GameData.getItemRegistry().getObject(new ResourceLocation("stick")));
 						item.addEnchantment(Enchantment.knockback, 15); //give them a knockback of 5.
 						
 						//give players knockback bombs
 						ItemStack kbb = new ItemStack(PolycraftRegistry.getItem("Knockback Bomb"), 4);
 						//ItemStack fkb = new ItemStack(PolycraftRegistry.getItem("Freezing Knockback Bomb"), 4);
-						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject("carrot"), 20);
+						ItemStack carrot = new ItemStack(GameData.getItemRegistry().getObject(new ResourceLocation("carrot")), 20);
 						//add to their inventories.
 						player.inventory.addItemStackToInventory(item);
 						player.inventory.addItemStackToInventory(kbb);
@@ -555,7 +545,7 @@ public class Experiment1PlayerCTB extends Experiment{
 
 			if(tickCount % ticksToUpdateChests == 0) {
 				for(Vec3 chestPos: chests) {
-					TileEntity entity = (TileEntity) world.getTileEntity((int)chestPos.xCoord, (int)chestPos.yCoord , (int)chestPos.zCoord);
+					TileEntity entity = (TileEntity) world.getTileEntity(new BlockPos((int)chestPos.xCoord, (int)chestPos.yCoord , (int)chestPos.zCoord));
 					if(entity != null && entity instanceof TileEntityChest) {
 						//clear chest contents.
 						TileEntityChest chest = (TileEntityChest) InventoryHelper.clearChestContents(entity);
@@ -567,15 +557,15 @@ public class Experiment1PlayerCTB extends Experiment{
 //			else if(tickCount % 600 == 0) {
 //				for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
 //					if(tickCount < this.halfTimeTicks) {
-//						player.addChatMessage(new ChatComponentText("Seconds until half-time: §a" + (this.halfTimeTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds until half-time: ï¿½a" + (this.halfTimeTicks-tickCount)/20));
 //					}else {
-//					player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+//					player.addChatMessage(new ChatComponentText("Seconds remaining: ï¿½a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}else if(maxTicks-tickCount < 600) {
 //				if(tickCount % 60 == 0) {
 //					for(EntityPlayer player: scoreboard.getPlayersAsEntity()){
-//						player.addChatMessage(new ChatComponentText("Seconds remaining: §a" + (maxTicks-tickCount)/20));
+//						player.addChatMessage(new ChatComponentText("Seconds remaining: ï¿½a" + (maxTicks-tickCount)/20));
 //					}
 //				}
 //			}
@@ -599,7 +589,7 @@ public class Experiment1PlayerCTB extends Experiment{
 					
 					
 					
-					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("You're in the Lead!!"));
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("Don't give up!"));
@@ -657,7 +647,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				
 				//kill all animals left in the arena
-				List<Entity> list = world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(this.xPos, this.yPos-5, this.zPos, 
+				List<Entity> list = world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.fromBounds(this.xPos, this.yPos-5, this.zPos,
 						this.xPos + this.size*16, this.yPos + 20, this.zPos + this.size * 16));
 				for(Entity e: list) {
 					if(!(e instanceof EntityPlayer)) {
@@ -682,9 +672,9 @@ public class Experiment1PlayerCTB extends Experiment{
 					/**
 					 * Record if player/AI has won.
 					 */
-					if(this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(maxEntry.getKey())) {
+					if(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(maxEntry.getKey())) {
 						player.addChatComponentMessage(new ChatComponentText("Congratulations!! You Won!!"));
-						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayName());
+						TeamWonEvent event = new TeamWonEvent(this.id, this.size, this.xPos, this.zPos,this.world, this.teamsNeeded, this.teamSize, player,player.getDisplayNameString());
 						Analytics.onTeamWon(event);
 					} else {
 						player.addChatComponentMessage(new ChatComponentText("You Lost! Better Luck Next Time."));
@@ -812,9 +802,9 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
-						players.add(player.getDisplayName());
+						players.add(player.getDisplayNameString());
 						//base.tickCount++;
-						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName());
+						base.setCurrentTeam(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName());
 						String initial_base_state = (base.currentState).toString();
 						base.currentState = FeatureBase.State.Occupied;
 						Color newBaseColor = new Color((this.scoreboard.getTeam(base.getCurrentTeamName())).getColor().getRed()/255.0f,
@@ -867,11 +857,11 @@ public class Experiment1PlayerCTB extends Experiment{
 				//Check if a player is in a base being taken by animals and reset timer to Neutral case if so
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
-						players1.add(player.getDisplayName());
+						players1.add(player.getDisplayNameString());
 						//noPlayers = false;
 						playerCount++;
 						base.tickCount++;
-						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) { 
+						if (base.getCurrentTeamName() != null && !this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) {
 							// Test for 'in contention' base where a player that is NOT the new occupying team is also present	
 							//reset case
 								String initial_base_state = (base.currentState).toString();
@@ -967,16 +957,16 @@ public class Experiment1PlayerCTB extends Experiment{
 				//check if the player is stealing a base
 				for(EntityPlayer player : scoreboard.getPlayersAsEntity()) {
 					if(base.isInBase(player)) {
-						players2.add(player.getDisplayName());
+						players2.add(player.getDisplayNameString());
 						playerCount++;
-						if(!this.scoreboard.getPlayerTeam(player.getDisplayName()).equals(base.getCurrentTeamName())) {
+						if(!this.scoreboard.getPlayerTeam(player.getDisplayNameString()).equals(base.getCurrentTeamName())) {
 							base.tickCount++;
 							if(base.tickCount>=this.ticksToClaimBase) {
 								String initial_base_state = (base.currentState).toString();
 								base.currentState = FeatureBase.State.Neutral;
 								base.setHardColor(Color.GRAY);
 								base.tickCount=0;
-								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayName()).getName(), this.stealBaseScoreBonus);
+								this.scoreboard.updateScore(this.scoreboard.getPlayerTeam(player.getDisplayNameString()).getName(), this.stealBaseScoreBonus);
 								System.out.println("C2"+initial_base_state+player.getDisplayName()+","+base.currentState);
 								BaseStatusChangeEvent event = new BaseStatusChangeEvent(player,initial_base_state,base.currentState.toString(),StringUtils.join(players2, ','));
 								Analytics.onBaseStatusChangeEvent(event);
@@ -1216,8 +1206,9 @@ public class Experiment1PlayerCTB extends Experiment{
 						new WeightedRandomChestContent(wood, 0, 1, 2, itemWoodChance), 
 						new WeightedRandomChestContent(aluminum, 0, 1, 2, itemAlumChance), 
 						new WeightedRandomChestContent(nr, 0, 1, 2, itemNRChance)};
-		
-		WeightedRandomChestContent.generateChestContents(new Random(), chestContents, entity, 5);
+		List<WeightedRandomChestContent> list = Lists.newArrayList(chestContents);
+		Collections.addAll(list, chestContents);
+		WeightedRandomChestContent.generateChestContents(new Random(), list, entity, 5);
 		
 	}
 

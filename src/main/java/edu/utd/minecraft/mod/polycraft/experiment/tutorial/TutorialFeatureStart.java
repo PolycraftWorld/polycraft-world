@@ -3,8 +3,6 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
@@ -18,10 +16,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureStart extends TutorialFeature{
-	private Vec3 lookDir;	//xCoord == pitch; yCoord = yaw
+	private BlockPos lookDir;	//xCoord == pitch; yCoord = yaw
 	
 	//working parameters
 	private boolean spawnedInServer = false, spawnedInClient = false;
@@ -33,7 +34,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	public TutorialFeatureStart() {}
 	
-	public TutorialFeatureStart(String name, Vec3 pos, Vec3 lookDir){
+	public TutorialFeatureStart(String name, BlockPos pos, BlockPos lookDir){
 		super(name, pos, Color.CYAN);
 		this.lookDir = lookDir;
 		this.featureType = TutorialFeatureType.START;
@@ -44,7 +45,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.preInit(exp);
 		dim = exp.dim;
 
-		System.out.println("Feature Start pos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
+		System.out.println("Feature Start pos:" + pos.getX() + "," + pos.getY() + "," + pos.getZ());
 	}
 	
 	@Override
@@ -52,7 +53,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		if(!spawnedInServer) {
 			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 				spawnPlayer((EntityPlayerMP) player, exp);
-				System.out.println("Feature Start pos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
+				System.out.println("Feature Start pos:" + pos.getX() + "," + pos.getY() + "," + pos.getZ());
 			}
 			spawnedInServer = true;
 		}
@@ -66,8 +67,8 @@ public class TutorialFeatureStart extends TutorialFeature{
 	@Override
 	public void onPlayerTickUpdate(ExperimentTutorial exp) {
 		if(!spawnedInClient) {
-			Minecraft.getMinecraft().renderViewEntity.rotationPitch = (float) this.lookDir.xCoord;
-			Minecraft.getMinecraft().renderViewEntity.rotationYaw = (float) this.lookDir.yCoord;
+			Minecraft.getMinecraft().getRenderViewEntity().rotationPitch = (float) this.lookDir.getX();
+			Minecraft.getMinecraft().getRenderViewEntity().rotationYaw = (float) this.lookDir.getY();
 			spawnedInClient = true;
 			isDirty = true;
 		}
@@ -79,20 +80,20 @@ public class TutorialFeatureStart extends TutorialFeature{
 	 * Player randomly is placed within the experiment zone using Math.random().
 	 * TODO: spawn players within their "Team Spawn" Zones.
 	 * @param player player to be teleported
-	 * @param y height they should be dropped at.
+	 * param y height they should be dropped at.
 	 */
 	private void spawnPlayer(EntityPlayerMP player, ExperimentTutorial exp){
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,	
-				new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.xCoord, (int) this.pos.yCoord, (int) this.pos.zCoord,
-						(float) this.lookDir.yCoord, (float) this.lookDir.xCoord));
+				new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.getX(), (int) this.pos.getY(), (int) this.pos.getZ(),
+						(float) this.lookDir.getY(), (float) this.lookDir.getX()));
 		
 	}
 
-	public Vec3 getLookDir() {
+	public BlockPos getLookDir() {
 		return lookDir;
 	}
 
-	public void setLookDir(Vec3 lookDir) {
+	public void setLookDir(BlockPos lookDir) {
 		this.lookDir = lookDir;
 	}
 	
@@ -115,7 +116,7 @@ public class TutorialFeatureStart extends TutorialFeature{
         		"Pitch:"));
         pitchField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         pitchField.setMaxStringLength(32);
-        pitchField.setText(Integer.toString((int)lookDir.xCoord));
+        pitchField.setText(Integer.toString((int)lookDir.getX()));
         pitchField.setTextColor(16777215);
         pitchField.setVisible(true);
         pitchField.setCanLoseFocus(true);
@@ -125,7 +126,7 @@ public class TutorialFeatureStart extends TutorialFeature{
         		"Yaw:"));
         yawField = new GuiPolyNumField(fr, x_pos + 110, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         yawField.setMaxStringLength(32);
-        yawField.setText(Integer.toString((int)lookDir.yCoord));
+        yawField.setText(Integer.toString((int)lookDir.getY()));
         yawField.setTextColor(16777215);
         yawField.setVisible(true);
         yawField.setCanLoseFocus(true);
@@ -137,7 +138,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	public NBTTagCompound save()
 	{
 		super.save();
-		int lookDir[] = {(int)this.lookDir.xCoord, (int)this.lookDir.yCoord, (int)this.lookDir.zCoord};
+		int lookDir[] = {(int)this.lookDir.getX(), (int)this.lookDir.getY(), (int)this.lookDir.getZ()};
 		nbt.setIntArray("lookDir",lookDir);
 		nbt.setInteger("dim", dim);
 		nbt.setBoolean("spawnedInServer", spawnedInServer);
@@ -150,7 +151,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	{
 		super.load(nbtFeat);
 		int featLookDir[]=nbtFeat.getIntArray("lookDir");
-		this.lookDir=Vec3.createVectorHelper(featLookDir[0], featLookDir[1], featLookDir[2]);
+		this.lookDir=new BlockPos(featLookDir[0], featLookDir[1], featLookDir[2]);
 		this.dim = nbtFeat.getInteger("dim");
 		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
 		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");

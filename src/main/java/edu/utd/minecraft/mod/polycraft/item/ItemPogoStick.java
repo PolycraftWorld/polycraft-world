@@ -31,7 +31,7 @@ public class ItemPogoStick extends PolycraftUtilityItem {
 	public final PogoStick config;
 
 	public ItemPogoStick(final PogoStick config) {
-		this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
+		//this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(config.name)));
 		this.setCreativeTab(CreativeTabs.tabTransport);
 		this.setMaxDamage(config.maxBounces);
 		this.setMaxStackSize(1);

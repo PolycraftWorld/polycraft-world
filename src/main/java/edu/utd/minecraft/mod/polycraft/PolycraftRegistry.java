@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -328,7 +329,7 @@ public class PolycraftRegistry {
 
 	private static Block registerBlock(final String gameID, final String name, final Block block) {
 		registerName(gameID, name);
-		block.setBlockName(gameID);
+		block.setUnlocalizedName(gameID);
 		GameRegistry.registerBlock(block, gameID);
 		blocks.put(name, block);
 		return block;
@@ -353,7 +354,7 @@ public class PolycraftRegistry {
 
 	public static Block registerBlockWithItem(final String blockGameID, final String blockName, final Block block,
 			final String itemBlockGameID, final String itemBlockName, final Class<? extends ItemBlock> itemBlockClass, Object... itemCtorArgs) {
-		block.setBlockName(blockGameID);
+		block.setUnlocalizedName(blockGameID);
 		GameRegistry.registerBlock(block, itemBlockClass, blockGameID, null, itemCtorArgs);
 		blocks.put(blockName, block);
 		registerName(itemBlockGameID, itemBlockName);
@@ -456,7 +457,7 @@ public class PolycraftRegistry {
 	private static void registerMinecraftItems() {
 		for (final MinecraftItem minecraftItem : MinecraftItem.registry.values()) {
 			if (isTargetVersion(minecraftItem.version)) {
-				final Item item = GameData.itemRegistry.get(minecraftItem.id);
+				final Item item = GameData.getItemRegistry().getObjectById(minecraftItem.id);
 				if (item == null)
 					logger.warn("Missing item: {}", minecraftItem.name);
 				else {
@@ -489,7 +490,7 @@ public class PolycraftRegistry {
 	private static void registerMinecraftBlocks() {
 		for (final MinecraftBlock minecraftBlock : MinecraftBlock.registry.values()) {
 			if (isTargetVersion(minecraftBlock.version)) {
-				final Block block = GameData.blockRegistry.get(minecraftBlock.id);
+				final Block block = GameData.getBlockRegistry().getObjectById(minecraftBlock.id);
 				if (block == null)
 					logger.warn("Missing block: {}", minecraftBlock.name);
 				else {
@@ -813,7 +814,7 @@ public class PolycraftRegistry {
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			{
 				if (isTargetVersion(polymerStairs.version)) {
-					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs, 15);
+					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
 					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
 							ItemPolymerStairs.class, new Object[] {});
 				}
@@ -957,7 +958,7 @@ public class PolycraftRegistry {
 			if (isTargetVersion(armor.version)) {
 
 				final ArmorMaterial material = EnumHelper.addArmorMaterial(
-						armor.name, armor.durability, armor.reductionAmounts, armor.enchantability);
+						armor.name, "", armor.durability, armor.reductionAmounts, armor.enchantability);
 				material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
 				registerItem(
 						armor.componentGameIDs[ArmorSlot.HEAD.getValue()],
@@ -1144,7 +1145,7 @@ public class PolycraftRegistry {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		Fluid fluidOil = null;
 		if (oil != null && isTargetVersion(oil.version)) {
-			fluidOil = new Fluid(oil.name.toLowerCase()).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
+			fluidOil = new Fluid(oil.name.toLowerCase(), new ResourceLocation(""), new ResourceLocation("")).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 			FluidRegistry.registerFluid(fluidOil);
 		}
 
@@ -1176,8 +1177,8 @@ public class PolycraftRegistry {
 			if (isTargetVersion(customObject.version)) {
 				if (GameID.CustomBucketOil.matches(customObject)) {
 					PolycraftMod.itemOilBucket = registerItem(customObject,
-							new PolycraftBucket(PolycraftMod.blockOil)
-									.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
+							new PolycraftBucket(PolycraftMod.blockOil));
+									//.setTextureName(PolycraftMod.getAssetName("bucket_oil")));
 					PolycraftMod.itemOilBucket.setContainerItem(Items.bucket);
 					FluidContainerRegistry.registerFluidContainer(
 							FluidRegistry.getFluidStack(fluidOil.getName(), FluidContainerRegistry.BUCKET_VOLUME),

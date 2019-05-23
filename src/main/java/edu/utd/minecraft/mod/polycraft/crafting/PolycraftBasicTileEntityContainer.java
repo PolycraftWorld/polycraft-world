@@ -17,6 +17,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -58,6 +59,11 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 
 		totalSlots = inputSlots.size() + outputSlots.size() + miscSlots.size();
 		inputArray = new RecipeComponent[totalSlots];
+	}
+
+
+	public int[] getSlotsForFace(EnumFacing facing) {
+		return new int[]{1};
 	}
 
 	@Override
