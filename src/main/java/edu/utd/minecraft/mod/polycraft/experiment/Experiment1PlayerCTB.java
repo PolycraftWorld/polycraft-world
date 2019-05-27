@@ -647,7 +647,7 @@ public class Experiment1PlayerCTB extends Experiment{
 				}
 				
 				//kill all animals left in the arena
-				List<Entity> list = world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.fromBounds(this.xPos, this.yPos-5, this.zPos,
+				List<EntityLiving> list = world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.fromBounds(this.xPos, this.yPos-5, this.zPos,
 						this.xPos + this.size*16, this.yPos + 20, this.zPos + this.size * 16));
 				for(Entity e: list) {
 					if(!(e instanceof EntityPlayer)) {

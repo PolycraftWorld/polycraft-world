@@ -62,7 +62,7 @@ public class RecipeGenerator {
 	private final static Random rand = new Random();
 
 	public static void generateRecipes() {
-		generateFileRecipes("recipes");
+		//generateFileRecipes("recipes");
 		generateAutoRecipes();
 		if (System.getProperty("cheatRecipes") != null)
 			generateCheatRecipes();
@@ -94,7 +94,7 @@ public class RecipeGenerator {
 					nugget.getItemStack(PolycraftMod.recipeItemsPerCompressedBlock),
 					ImmutableList.of(((Ingot) nugget.source).getItemStack()));
 		}
-
+		/*
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.FURNACE,
@@ -265,7 +265,7 @@ public class RecipeGenerator {
 
 				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CONTACT_PRINTER,
-						ImmutableList.of(/*CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),*/waferItem.source.getItemStack(), waferItem.getItemStack()),
+						ImmutableList.of(/*CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),*//*waferItem.source.getItemStack(), waferItem.getItemStack()),
 						new String[] { "xy", "za" },
 						ImmutableMap.of(
 								'x', CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),
@@ -275,7 +275,7 @@ public class RecipeGenerator {
 
 				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 						PolycraftContainerType.CONTACT_PRINTER,
-						ImmutableList.of(/*CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),*/waferItem.source.getItemStack(), waferItem.getItemStack()),
+						ImmutableList.of(/*CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),*//*waferItem.source.getItemStack(), waferItem.getItemStack()),
 						new String[] { "xy", "za" },
 						ImmutableMap.of(
 								'x', CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),
@@ -457,6 +457,7 @@ public class RecipeGenerator {
 				System.err.println(e.getMessage());
 			}
 		}
+		*/
 	}
 
 	private static void generateFileRecipes(final String directory) {

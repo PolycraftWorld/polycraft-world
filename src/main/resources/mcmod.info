@@ -3,7 +3,7 @@
   "modid": "polycraft",
   "name": "Polycraft",
   "description": "Polycraft",
-  "version": "1.4.13beta",
+  "version": "1.5.0",
   "mcversion": "${mcversion}",
   "url": "http://www.polycraftworld.com/",
   "updateUrl": "",

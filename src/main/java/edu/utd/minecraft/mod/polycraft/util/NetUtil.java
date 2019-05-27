@@ -46,7 +46,7 @@ public class NetUtil {
 	private Thread PPThread;
 	private Thread FriendsThread;
 	
-		public void getPrivateProperties(String url, boolean isMasterWorldURL) throws IOException {
+		public void getPrivateProperties(final String url, final boolean isMasterWorldURL) throws IOException {
 			this.PPThread = new Thread("PrivateProperty Downloader #" + threadDownloadCounter.incrementAndGet())
 	        {
 	            private static final String __OBFID = "CL_00001050";

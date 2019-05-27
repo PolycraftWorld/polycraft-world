@@ -7,7 +7,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -221,6 +223,7 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
+	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -328,9 +331,18 @@ public class PolycraftRegistry {
 	}
 
 	private static Block registerBlock(final String gameID, final String name, final Block block) {
-		registerName(gameID, name);
-		block.setUnlocalizedName(gameID);
-		GameRegistry.registerBlock(block, gameID);
+		//changing naming method for 1.8
+//		registerName(gameID, name);	
+//		block.setUnlocalizedName(gameID);
+//		GameRegistry.registerBlock(block, gameID);
+		registerName(PolycraftMod.getFileSafeName(name), name);
+		block.setUnlocalizedName(PolycraftMod.getFileSafeName(name));
+		GameRegistry.registerBlock(block, PolycraftMod.getFileSafeName(name));
+		Item item = GameRegistry.findItem(PolycraftMod.MODID, PolycraftMod.getFileSafeName(name));
+		ModelLoader.setCustomModelResourceLocation(
+				item,
+				0,
+				new ModelResourceLocation(item.getRegistryName()));
 		blocks.put(name, block);
 		return block;
 	}
@@ -343,11 +355,21 @@ public class PolycraftRegistry {
 	}
 
 	private static Item registerItem(final String gameID, final String name, final Item item) {
-		registerName(gameID, name);
+		//changing naming method from 1.8
+//		registerName(gameID, name);
+//		if (!(item instanceof PolycraftItem))
+//			throw new IllegalArgumentException("Item " + name + " must implement PolycraftItem (" + item.toString() + ")");
+//		item.setRegistryName(gameID);
+//		GameRegistry.registerItem(item, gameID);
+		registerName(PolycraftMod.getFileSafeName(name), name);
 		if (!(item instanceof PolycraftItem))
 			throw new IllegalArgumentException("Item " + name + " must implement PolycraftItem (" + item.toString() + ")");
-		item.setUnlocalizedName(gameID);
-		GameRegistry.registerItem(item, gameID);
+		item.setUnlocalizedName(PolycraftMod.getFileSafeName(name));
+		GameRegistry.registerItem(item, PolycraftMod.getFileSafeName(name));
+		ModelLoader.setCustomModelResourceLocation(
+				item,
+				0,
+				new ModelResourceLocation(item.getRegistryName()));
 		items.put(name, item);
 		return item;
 	}
@@ -361,7 +383,7 @@ public class PolycraftRegistry {
 		registerName(blockGameID, blockName);
 
 		final Item itemBlock = Item.getItemFromBlock(block);
-		itemBlock.setUnlocalizedName(itemBlockGameID);
+		itemBlock.setRegistryName(itemBlockGameID);
 		items.put(itemBlockName, itemBlock);
 
 		return block;
@@ -411,34 +433,34 @@ public class PolycraftRegistry {
 
 			Config.registerFromResources("config");
 
-			registerMinecraftItems();
-			registerMinecraftBlocks();
-			registerBiomes();
+//			registerMinecraftItems();
+//			registerMinecraftBlocks();
+//			registerBiomes();
 			registerOres();
 			registerIngots();
 			registerNuggets();
 			registerCompressedBlocks();
-			registerCatalysts();
-			registerVessels();
-			registerPolymers();
-			registerMolds();
-			registerMoldedItems();
-			registerGrippedTools();
-			registerPogoSticks();
-			registerArmors();
-			registerTools();
-			registerGrippedSyntheticTools();
-			registerInventories();
-			registerCustom();
-			registerMaskItems();
-			registerWaferItems();
-			registerElectronics();
-			registerDNASamplers();
-			registerCellCultureDishes();
-			registerFlashcards();
-			registerExams();
-			Fuel.registerQuantifiedFuels();
-			registerPolycraftEntities();
+//			registerCatalysts();
+//			registerVessels();
+//			registerPolymers();
+//			registerMolds();
+//			registerMoldedItems();
+//			registerGrippedTools();
+//			registerPogoSticks();
+//			registerArmors();
+//			registerTools();
+//			registerGrippedSyntheticTools();
+//			registerInventories();
+//			registerCustom();
+//			registerMaskItems();
+//			registerWaferItems();
+//			registerElectronics();
+//			registerDNASamplers();
+//			registerCellCultureDishes();
+//			registerFlashcards();
+//			registerExams();
+//			Fuel.registerQuantifiedFuels();
+//			registerPolycraftEntities();
 
 
 		}
@@ -705,6 +727,7 @@ public class PolycraftRegistry {
 	private static void registerOres() {
 		for (final Ore ore : Ore.registry.values()) {
 			if (isTargetVersion(ore.version)) {
+				ore.checkBlockJSONs(ore, assetPath);
 				registerBlock(ore, new BlockOre(ore));
 			}
 		}
@@ -714,6 +737,7 @@ public class PolycraftRegistry {
 	private static void registerIngots() {
 		for (final Ingot ingot : Ingot.registry.values()) {
 			if (isTargetVersion(ingot.version)) {
+				ingot.checkItemJSONs(ingot, assetPath);
 				registerItem(ingot, new ItemIngot(ingot));
 			}
 		}
@@ -723,6 +747,7 @@ public class PolycraftRegistry {
 	private static void registerNuggets() {
 		for (final Nugget nugget : Nugget.registry.values()) {
 			if (isTargetVersion(nugget.version)) {
+				nugget.checkItemJSONs(nugget, assetPath);
 				registerItem(nugget, new ItemNugget(nugget));
 			}
 		}
@@ -732,6 +757,7 @@ public class PolycraftRegistry {
 	private static void registerCompressedBlocks() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			if (isTargetVersion(compressedBlock.version)) {
+				compressedBlock.checkBlockJSONs(compressedBlock, assetPath);
 				registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
 			}
 		}

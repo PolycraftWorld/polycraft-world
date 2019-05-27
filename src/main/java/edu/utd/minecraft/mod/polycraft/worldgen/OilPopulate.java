@@ -59,7 +59,7 @@ public class OilPopulate {
 			return;
 		}
 
-		generateOil(event.world, event.rand, event.chunkX, event.chunkZ);
+		//generateOil(event.world, event.rand, event.chunkX, event.chunkZ);
 	}
 
 	public void generateOil(World world, Random rand, int chunkX, int chunkZ) {

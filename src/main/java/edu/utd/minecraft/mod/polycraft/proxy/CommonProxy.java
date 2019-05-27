@@ -106,14 +106,14 @@ public abstract class CommonProxy {
 		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
 		RecipeGenerator.generateRecipes();
-		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
+		//GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
-		GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
-		GameRegistry.registerWorldGenerator(new ChallengesGenerator(), 1);
-		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
+		//GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
+		//GameRegistry.registerWorldGenerator(new ChallengesGenerator(), 1);
+		//NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 		
-		ChallengeHouseDim.init();
-		PolycraftMinigameManager.init();
+//		ChallengeHouseDim.init();
+//		PolycraftMinigameManager.init();
 	}
 
 	public void postInit() {

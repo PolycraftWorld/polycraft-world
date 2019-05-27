@@ -167,9 +167,14 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	}
 
 	@Override
-	public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z) {
+	public boolean func_177460_a(IChunkProvider iChunkProvider, Chunk chunk, int i, int i1) {
 		return false;
 	}
+
+//	@Override
+//	public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z) {
+//		return false;
+//	}
 
 	@Override
 	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_) {

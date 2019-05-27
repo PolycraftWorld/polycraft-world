@@ -1207,10 +1207,13 @@ public class ClientProxy extends CommonProxy {
 				client.fontRendererObj.drawStringWithShadow("Be patient: (" + playerState.syncCooldownRemaining / 20 + " seconds until next sync possible)", x, y, 16777215);
 				y += statusOverlayDistanceBetweenY;
 			}
+			
+			
+			
 			// Display shiny text when user hasn't completed tutorial
 			if (!ClientEnforcer.INSTANCE.hasCompletedTutorial && TutorialManager.INSTANCE.clientCurrentExperiment == -1) {
 				int color = 16777215;
-				client.fontRendererObj.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
+				//client.fontRendererObj.drawStringWithShadow(stringToGolden("Push X to open the tutorial!",5,false),x,y,color);
 			}
 			
 			// Display shiny text after user completes tutorial to play experiments

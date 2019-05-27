@@ -26,7 +26,7 @@ public class EntityFlameThrowerProjectile extends EntitySmallFireball {
 		this.setSize(1.0F, 1.0F);
 		this.setLocationAndAngles(p_i1771_2_.posX, p_i1771_2_.posY, p_i1771_2_.posZ, p_i1771_2_.rotationYaw, p_i1771_2_.rotationPitch);
 		this.setPosition(this.posX, posY, this.posZ);
-		this.setRenderYawOffset(0.0F);
+		//this.setRenderYawOffset(0.0F);
 		this.motionX = this.motionY = this.motionZ = 0.0D;
 		this.accelerationX = p_i1771_3_;
 		this.accelerationY = p_i1771_5_;

@@ -438,7 +438,8 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 				if(exp.world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
 						Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))).contains(player)) {
 					
-					EntityMinecart entityminecart = EntityMinecart.getMinecart(exp.world, (double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), EntityMinecart.EnumMinecartType.RIDEABLE);
+					//EntityMinecart entityminecart = EntityMinecart.getMinecart(exp.world, (double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), EntityMinecart.EnumMinecartType.RIDEABLE);
+					EntityMinecart entityminecart = EntityMinecart.func_180458_a(exp.world, (double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), EntityMinecart.EnumMinecartType.RIDEABLE);
 					exp.world.spawnEntityInWorld(entityminecart);
 					player.mountEntity(entityminecart);
 					

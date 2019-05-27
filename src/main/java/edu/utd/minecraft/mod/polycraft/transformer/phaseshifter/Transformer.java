@@ -65,5 +65,6 @@ public class Transformer implements IClassTransformer {
 		final ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 		classNode.accept(writer);
 		return writer.toByteArray();
+
 	}
 }

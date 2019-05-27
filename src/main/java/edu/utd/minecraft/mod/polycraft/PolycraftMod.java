@@ -63,12 +63,12 @@ import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
 
 // The ultimate minecraft mod.
-@Mod(modid = PolycraftMod.MODID, version = PolycraftMod.VERSION)
+@Mod(name = "polycraft", modid = PolycraftMod.MODID, version = PolycraftMod.VERSION, acceptedMinecraftVersions = "[1.8.9]")
 public class PolycraftMod {
 	public static final String MODID = "polycraft";
 	public static final String MC_PREFIX = "MC-";
-	public static final String VERSION = "1.4.13";
-	public static final int[] VERSION_NUMERIC = new int[] { 1, 4, 13 };
+	public static final String VERSION = "1.5.0";
+	public static final int[] VERSION_NUMERIC = new int[] { 1, 5, 0 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 

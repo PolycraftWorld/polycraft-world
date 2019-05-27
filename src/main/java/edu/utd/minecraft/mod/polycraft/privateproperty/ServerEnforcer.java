@@ -50,6 +50,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -489,7 +490,7 @@ public class ServerEnforcer extends Enforcer {
 						|| privatePropertiesNonMasterJson == null) {
 					PolycraftMod.logger.error(
 							"Unable to load private properties", e);
-					System.exit(-1);
+					FMLCommonHandler.instance().exitJava(-1, false);
 				} else {
 					PolycraftMod.logger.error(
 							"Unable to refresh private properties", e);
@@ -863,7 +864,7 @@ public class ServerEnforcer extends Enforcer {
 				// (via mandrill)
 				if (whitelistJson == null) {
 					PolycraftMod.logger.error("Unable to load whitelist", e);
-					System.exit(-1);
+					FMLCommonHandler.instance().exitJava(-1, false);
 				} else {
 					PolycraftMod.logger.error("Unable to refresh whitelist", e);
 				}
@@ -936,7 +937,7 @@ public class ServerEnforcer extends Enforcer {
 				// (via mandrill)
 				if (whitelistJson == null) {
 					PolycraftMod.logger.error("Unable to load whitelist", e);
-					System.exit(-1);
+					FMLCommonHandler.instance().exitJava(-1, false);
 				} else {
 					PolycraftMod.logger.error("Unable to refresh whitelist", e);
 				}
@@ -1007,7 +1008,7 @@ public class ServerEnforcer extends Enforcer {
 				//TODO set up a log4j mapping to send emails on error messages (via mandrill)	
 				if (GovernmentsJson == null) {	
 					PolycraftMod.logger.error("Unable to load Governments", e);	
-					System.exit(-1);
+					FMLCommonHandler.instance().exitJava(-1, false);
 				} else {	
 					PolycraftMod.logger.error("Unable to refresh Governments", e);	
 		 				}

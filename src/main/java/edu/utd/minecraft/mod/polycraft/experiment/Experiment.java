@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import net.minecraft.block.BlockChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
@@ -907,7 +908,7 @@ public abstract class Experiment {
 
         if (scores.size() % 2 != 0) {
             System.out.println("There must be an even number of participants to split into equal length groups!");
-            System.exit(-1);
+            FMLCommonHandler.instance().exitJava(-1, false);
         }
 
         int half_n = scores.size() / 2;
