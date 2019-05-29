@@ -34,13 +34,13 @@ public class Schematic {
 	
 	public Schematic get(String schemname){
         try {
-        	System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
+        	//System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
         	ResourceLocation schematicLocation = new ResourceLocation(PolycraftMod.getAssetNameString("schematics/" + schemname));
         			//PolycraftMod.getAssetName("textures/entity/OilSlime.png"));
         	
         	InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/polycraft/schematics/" + schemname);
         	
-        	System.out.println(is.available());
+        	//System.out.println(is.available());
         	
         	//this.getClass().getClassLoader().get
         	//InputStream is = new FileInputStream("C:\\Users\\Triforce\\Documents\\polycraftworld\\eclipse\\stoop.schematic");
@@ -55,7 +55,7 @@ public class Schematic {
             int[] blocks = nbtdata.getIntArray("Blocks");
             byte[] data = nbtdata.getByteArray("Data");
 
-            System.out.println("schem size:" + width + " x " + height + " x " + length);
+            //System.out.println("schem size:" + width + " x " + height + " x " + length);
             NBTTagList tileentities = nbtdata.getTagList("TileEntity",10); //10 is actually Bytes (indicates that it is getting a list of "Short" entities)
             is.close();
 
