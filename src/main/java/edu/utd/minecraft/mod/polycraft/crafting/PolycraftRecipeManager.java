@@ -11,6 +11,7 @@ import java.util.Set;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -25,12 +26,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.util.SetMap;
 
@@ -84,10 +87,10 @@ public class PolycraftRecipeManager {
 				// onItemCraftedEvent callback can recognize it.
 				ItemStack item = outputs.iterator().next().itemStack.copy();
 				if (item.getTagCompound() == null) {
-					PolycraftItemHelper.createTagCompound(item);
+					//PolycraftItemHelper.createTagCompound(item);
 					//	item.stackTagCompound.setByte("is-recipe-null-tag-compound", (byte) 1);
 				}
-				markItemStackAsFromPolycraftRecipe(item);
+				//markItemStackAsFromPolycraftRecipe(item);
 				return item;
 			}
 			return null;
@@ -121,8 +124,12 @@ public class PolycraftRecipeManager {
 
 	public static boolean isItemStackFromPolycraftRecipe(final ItemStack itemStack)
 	{
-		if (itemStack.getTagCompound() != null)
-			return itemStack.getTagCompound().hasKey("polycraft-recipe");
+//		if (itemStack.getTagCompound() != null)
+//			return itemStack.getTagCompound().hasKey("polycraft-recipe");
+		if(PolycraftRegistry.items.containsValue(itemStack.getItem()))
+			return true;
+		if(itemStack.getItem() instanceof ItemBlock)
+			return PolycraftRegistry.blocks.containsValue(((ItemBlock)itemStack.getItem()).block);
 		return false;
 	}
 
@@ -137,7 +144,8 @@ public class PolycraftRecipeManager {
 				new CustomGenericCraftingRecipe(this));
 
 		// For onCraftedItem callback
-		FMLCommonHandler.instance().bus().register(this);
+		//FMLCommonHandler.instance().bus().register(this);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	/**
@@ -574,7 +582,7 @@ public class PolycraftRecipeManager {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onItemCraftedEvent(final PlayerEvent.ItemCraftedEvent event) {
 		ItemStack craftedItem = event.crafting;
-		if (craftedItem.getTagCompound() != null) {
+		//if (craftedItem.getTagCompound() != null) {
 			// Item has been marked as being a Polycraft recipe, which allows recipes to require
 			// itemstacks with any stackSize.  The generic crafting recipes only remove a single
 			// item for each recipe item, so the rest may need to be removed.
@@ -593,11 +601,11 @@ public class PolycraftRecipeManager {
 				Set<RecipeComponent> inputs = CustomGenericCraftingRecipe.getComponentsFromInventory(event.craftMatrix);
 				PolycraftRecipe recipe = findRecipe(PolycraftContainerType.CRAFTING_TABLE, inputs);
 				if (recipe == null) {
-					logger.warn("Couldn't find that recipe");
+					//logger.warn("Couldn't find that recipe");
 				} else {
 					recipe.processGenericCrafting(inputs, event.craftMatrix);
 				}
 			}
-		}
+		//}
 	}
 }

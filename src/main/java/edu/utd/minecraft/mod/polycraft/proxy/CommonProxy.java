@@ -98,14 +98,14 @@ public abstract class CommonProxy {
 
 	public void preInit() {
 		// TODO: Only enable on debug mode
-		DynamicValue.start();
+		//DynamicValue.start();
 		PolycraftRegistry.registerFromResources();
+		RecipeGenerator.generateRecipes();
 	}
 
 	public void init() {
 		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
 		netChannel.register(this);
-		RecipeGenerator.generateRecipes();
 		//GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
 		//GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
@@ -120,8 +120,10 @@ public abstract class CommonProxy {
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeInitializer());
 		MinecraftForge.EVENT_BUS.register(OilPopulate.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(this);
-		FMLCommonHandler.instance().bus().register(RespawnHandler.INSTANCE);
+//		FMLCommonHandler.instance().bus().register(this);
+//		FMLCommonHandler.instance().bus().register(RespawnHandler.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(RespawnHandler.INSTANCE);
 	}
 	
 	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass, final double phi) {

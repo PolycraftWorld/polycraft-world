@@ -362,7 +362,8 @@ public class PolycraftRecipe {
 			ItemStack itemStack = getItemstackForInput(input, usedInputs);
 			if (itemStack != null) {
 				// Remove all but one; the regular minecraft engine will remove the rest.
-				container.decrStackSize(input.slot.getSlotIndex(), itemStack.stackSize - 1);
+				//container.decrStackSize(input.slot.getSlotIndex(), itemStack.stackSize - 1);
+				container.decrStackSize(input.slot.getSlotIndex(), 1);
 			} else {
 				logger.error("Missing item stack for input " + input);
 			}

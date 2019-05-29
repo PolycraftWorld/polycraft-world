@@ -200,7 +200,7 @@ public class PolycraftMod {
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
-		fixEnderman();
+		//fixEnderman();	Removing in 1.8 TODO: should probably check if it's actually fixed
 		proxy.preInit();
 	}
 
