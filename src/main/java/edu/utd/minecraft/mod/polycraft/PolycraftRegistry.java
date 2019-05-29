@@ -223,7 +223,7 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -440,8 +440,8 @@ public class PolycraftRegistry {
 			registerIngots();
 			registerNuggets();
 			registerCompressedBlocks();
-//			registerCatalysts();
-//			registerVessels();
+			registerCatalysts();
+			registerVessels();
 //			registerPolymers();
 //			registerMolds();
 //			registerMoldedItems();
@@ -767,6 +767,7 @@ public class PolycraftRegistry {
 	private static void registerCatalysts() {
 		for (final Catalyst catalyst : Catalyst.registry.values()) {
 			if (isTargetVersion(catalyst.version)) {
+				catalyst.checkItemJSONs(catalyst, assetPath);
 				registerItem(catalyst, new ItemCatalyst(catalyst));
 			}
 		}
@@ -794,12 +795,14 @@ public class PolycraftRegistry {
 	private static void registerVessels() {
 		for (final ElementVessel vessel : ElementVessel.registry.values()) {
 			if (isTargetVersion(vessel.version)) {
+				vessel.checkItemJSONs(vessel, assetPath);
 				registerItem(vessel, new ItemVessel<ElementVessel>(vessel));
 			}
 		}
 
 		for (final CompoundVessel vessel : CompoundVessel.registry.values()) {
 			if (isTargetVersion(vessel.version)) {
+				vessel.checkItemJSONs(vessel, assetPath);
 				registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 			}
 		}
