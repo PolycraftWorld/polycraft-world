@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -68,5 +72,52 @@ public class MoldedItem extends SourcedConfig<Mold> {
 				PolycraftMod.numFormat.format(craftingPellets),
 				PolycraftMod.numFormat.format(craftingDurationSeconds),
 				PolycraftMod.numFormat.format(maxStackSize));
+	}
+	
+	public static void checkItemJSONs(MoldedItem config, String path){
+		String name = PolycraftMod.getFileSafeName(config.name);
+		String texture = PolycraftMod.getFileSafeName(config.source.polymerObject.name);
+		if(name.contains("scuba_fins"))
+			texture = "scuba_fins";
+		else if(name.contains("mask"))
+			if(name.contains("light"))
+				texture = "scuba_mask_light";
+			else
+				texture = "scuba_mask";
+		File json = new File(path + "models\\item\\" + name + ".json");
+		if (json.exists())
+				return;
+		else{
+			try{
+				//Item model file
+				String fileContent = String.format("{\n" + 
+						"    \"parent\": \"builtin/generated\",\n" + 
+						"    \"textures\": {\n" + 
+						"        \"layer0\": \"polycraft:items/%s\"\n" + 
+						"    },\n" + 
+						"    \"display\": {\n" + 
+						"        \"thirdperson\": {\n" + 
+						"            \"rotation\": [ -90, 0, 0 ],\n" + 
+						"            \"translation\": [ 0, 1, -3 ],\n" + 
+						"            \"scale\": [ 0.55, 0.55, 0.55 ]\n" + 
+						"        },\n" + 
+						"        \"firstperson\": {\n" + 
+						"            \"rotation\": [ 0, -135, 25 ],\n" + 
+						"            \"translation\": [ 0, 4, 2 ],\n" + 
+						"            \"scale\": [ 1.7, 1.7, 1.7 ]\n" + 
+						"        }\n" + 
+						"    }\n" + 
+						"}", texture);
+
+				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + name + ".json"));
+
+				writer.write(fileContent);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 }

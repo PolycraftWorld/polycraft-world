@@ -459,7 +459,7 @@ public class PolycraftRegistry {
 			registerPolymers();
 			
 			registerMolds();
-//			registerMoldedItems();
+			registerMoldedItems();
 //			registerGrippedTools();
 //			registerPogoSticks();
 //			registerArmors();
@@ -950,7 +950,7 @@ public class PolycraftRegistry {
 
 	private static void registerMoldedItems() {
 		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
-
+			moldedItem.checkItemJSONs(moldedItem, assetPath);
 			if (isTargetVersion(moldedItem.version)) {
 				Item item = null;
 				if (GameID.MoldRunningShoes.matches(moldedItem.source))
