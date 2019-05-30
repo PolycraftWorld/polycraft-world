@@ -21,7 +21,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -228,7 +228,8 @@ public class PolycraftMod {
 					.getProperty("wikiPassword"), Boolean.parseBoolean(System
 					.getProperty("wikiOverwritePages")), System
 					.getProperty("wikiDebugOutputDirectory"));
-			System.exit(0);
+			//System.exit(0);
+			FMLCommonHandler.instance().exitJava(0, false);
 		}
 
 		// If "langOutputFile" is specified in the environment (e.g.
@@ -245,7 +246,8 @@ public class PolycraftMod {
 			}
 			System.out
 					.println("***************************** LANG FILE FINISHED PROCESSING ***************************** ");
-			System.exit(0);
+			//System.exit(0);
+			FMLCommonHandler.instance().exitJava(0, false);
 		}
 	}
 
@@ -442,7 +444,8 @@ public class PolycraftMod {
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(0);
+			//System.exit(0);
+			FMLCommonHandler.instance().exitJava(0, false);
 		}
 		return config;
 	}

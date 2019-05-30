@@ -226,7 +226,7 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -458,7 +458,7 @@ public class PolycraftRegistry {
 			registerVessels();
 			registerPolymers();
 			
-//			registerMolds();
+			registerMolds();
 //			registerMoldedItems();
 //			registerGrippedTools();
 //			registerPogoSticks();
@@ -941,6 +941,7 @@ public class PolycraftRegistry {
 	private static void registerMolds() {
 		for (final Mold mold : Mold.registry.values()) {
 			if (isTargetVersion(mold.version)) {
+				((Mold)mold).checkItemJSONs((Mold)mold, assetPath);
 				registerItem(mold, new ItemMold(mold));
 			}
 		}
