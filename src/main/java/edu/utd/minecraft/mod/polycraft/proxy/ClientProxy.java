@@ -150,6 +150,9 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		super.preInit();
+		
+		PolycraftRegistry.registerClientSideResources();
+		
 		client = FMLClientHandler.instance().getClient();
 		gameSettings = client.gameSettings;
 		keyBindingToggleArmor = new KeyBinding("key.toggle.armor", Keyboard.KEY_F, "key.categories.gameplay");

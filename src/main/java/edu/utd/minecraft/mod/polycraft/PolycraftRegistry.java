@@ -18,6 +18,8 @@ import com.google.common.collect.Sets;
 
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.block.BlockChallengeBlock;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
@@ -30,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper.EnumColor;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
@@ -376,14 +379,24 @@ public class PolycraftRegistry {
 
 	public static Block registerBlockWithItem(final String blockGameID, final String blockName, final Block block,
 			final String itemBlockGameID, final String itemBlockName, final Class<? extends ItemBlock> itemBlockClass, Object... itemCtorArgs) {
+//		block.setUnlocalizedName(blockGameID);
+//		GameRegistry.registerBlock(block, itemBlockClass, blockGameID, null, itemCtorArgs);
+//		blocks.put(blockName, block);
+//		registerName(itemBlockGameID, itemBlockName);
+//		registerName(blockGameID, blockName);
+//
+//		final Item itemBlock = Item.getItemFromBlock(block);
+//		itemBlock.setRegistryName(itemBlockGameID);
+//		items.put(itemBlockName, itemBlock);
+		
 		block.setUnlocalizedName(blockGameID);
-		GameRegistry.registerBlock(block, itemBlockClass, blockGameID, null, itemCtorArgs);
+		GameRegistry.registerBlock(block, itemBlockClass, blockGameID, itemCtorArgs);
 		blocks.put(blockName, block);
 		registerName(itemBlockGameID, itemBlockName);
 		registerName(blockGameID, blockName);
 
 		final Item itemBlock = Item.getItemFromBlock(block);
-		itemBlock.setRegistryName(itemBlockGameID);
+		itemBlock.setUnlocalizedName(itemBlockGameID);
 		items.put(itemBlockName, itemBlock);
 
 		return block;
@@ -436,13 +449,15 @@ public class PolycraftRegistry {
 //			registerMinecraftItems();
 //			registerMinecraftBlocks();
 //			registerBiomes();
+			
 			registerOres();
 			registerIngots();
 			registerNuggets();
 			registerCompressedBlocks();
 			registerCatalysts();
 			registerVessels();
-//			registerPolymers();
+			registerPolymers();
+			
 //			registerMolds();
 //			registerMoldedItems();
 //			registerGrippedTools();
@@ -466,6 +481,11 @@ public class PolycraftRegistry {
 		}
 		registerMinigames();
 		targetVersion = PolycraftMod.VERSION_NUMERIC;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void registerClientSideResources() {
+		registerClientPolymers();
 	}
 	
 	private static void registerMinigames()
@@ -812,6 +832,7 @@ public class PolycraftRegistry {
 	private static void registerPolymers() {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values()) {
 			if (isTargetVersion(polymerPellets.version)) {
+				polymerPellets.checkItemJSONs(polymerPellets, assetPath);
 				registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 			}
 		}
@@ -820,13 +841,14 @@ public class PolycraftRegistry {
 			{
 				if (isTargetVersion(polymerBlock.version)) {
 					final BlockPolymer block = new BlockPolymer(polymerBlock);
-					registerBlockWithItem(polymerBlock.gameID, polymerBlock.name, block, polymerBlock.itemGameID, polymerBlock.itemName,
+					polymerBlock.checkBlockJSONs(polymerBlock, assetPath);
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerBlock.name), polymerBlock.name, block, polymerBlock.itemGameID, PolycraftMod.getFileSafeName(polymerBlock.itemName),
 							ItemPolymerBlock.class, new Object[] {});
 				}
 			}
 
 		}
-
+/*
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			{
 				if (isTargetVersion(polymerSlab.version)) {
@@ -861,7 +883,58 @@ public class PolycraftRegistry {
 				}
 			}
 
+		}*/
+
+	}
+	
+	private static void registerClientPolymers() {
+		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
+			{
+				Item itemBlockVariants = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerBlock.name));
+				if(itemBlockVariants != null)
+					for(EnumColor color: EnumColor.values()) {
+						ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerBlock.name) + "_" + color.toString());
+					    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, color.getMetadata(), itemModelResourceLocation);
+					}
+			}
+
 		}
+/*
+		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
+			{
+				if (isTargetVersion(polymerSlab.version)) {
+					final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
+					final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
+					registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
+							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
+					registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
+							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
+				}
+			}
+		}
+
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
+			{
+				if (isTargetVersion(polymerStairs.version)) {
+					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
+					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
+							ItemPolymerStairs.class, new Object[] {});
+				}
+			}
+
+		}
+
+		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
+			{
+				if (isTargetVersion(polymerWall.version)) {
+					final BlockWall wall = new BlockPolymerWall(polymerWall);
+					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+							ItemPolymerWall.class, new Object[] {});
+
+				}
+			}
+
+		}*/
 
 	}
 

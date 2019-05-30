@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "polycraft:blocks/polymer_lime",
+    "normal": "polycraft:blocks/polymer_lime"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "color=black": { "model": "polycraft:block_phbv_black" },
+    "color=red": { "model": "polycraft:block_phbv_red" },
+    "color=green": { "model": "polycraft:block_phbv_green" },
+    "color=brown": { "model": "polycraft:block_phbv_brown" },
+    "color=blue": { "model": "polycraft:block_phbv_blue" },
+    "color=purple": { "model": "polycraft:block_phbv_purple" },
+    "color=cyan": { "model": "polycraft:block_phbv_cyan" },
+    "color=silver": { "model": "polycraft:block_phbv_silver" },
+    "color=gray": { "model": "polycraft:block_phbv_gray" },
+    "color=pink": { "model": "polycraft:block_phbv_pink" },
+    "color=lime": { "model": "polycraft:block_phbv_lime" },
+    "color=yellow": { "model": "polycraft:block_phbv_yellow" },
+    "color=light_blue": { "model": "polycraft:block_phbv_light_blue" },
+    "color=magenta": { "model": "polycraft:block_phbv_magenta" },
+    "color=orange": { "model": "polycraft:block_phbv_orange" },
+    "color=white": { "model": "polycraft:block_phbv_white" }
+  }
+}
