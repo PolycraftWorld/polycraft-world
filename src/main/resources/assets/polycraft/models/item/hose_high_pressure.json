@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/hose"
+        "layer0": "polycraft:items/moldeditem_hose_high_pressure"
     },
     "display": {
         "thirdperson": {

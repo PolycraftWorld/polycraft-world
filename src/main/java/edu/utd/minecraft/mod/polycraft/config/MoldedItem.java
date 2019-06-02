@@ -14,6 +14,10 @@ import com.google.common.collect.ImmutableList;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.item.ItemMoldedItem;
+import edu.utd.minecraft.mod.polycraft.item.ItemRunningShoes;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaFins;
+import edu.utd.minecraft.mod.polycraft.item.ItemScubaMask;
 
 public class MoldedItem extends SourcedConfig<Mold> {
 
@@ -77,13 +81,23 @@ public class MoldedItem extends SourcedConfig<Mold> {
 	public static void checkItemJSONs(MoldedItem config, String path){
 		String name = PolycraftMod.getFileSafeName(config.name);
 		String texture = PolycraftMod.getFileSafeName(config.source.polymerObject.name);
-		if(name.contains("scuba_fins"))
+		
+		if (GameID.MoldRunningShoes.matches(config.source))
+			texture = PolycraftMod.getFileSafeName(config.source.polymerObject.name);
+		else if (GameID.MoldScubaFins.matches(config.source))
 			texture = "scuba_fins";
-		else if(name.contains("mask"))
+		else if (GameID.MoldScubaMask.matches(config.source))
 			if(name.contains("light"))
 				texture = "scuba_mask_light";
 			else
 				texture = "scuba_mask";
+		else
+			if (config.loadCustomTexture)
+				texture = PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + config.name);
+			else
+				texture = PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + config.source.polymerObject.name);
+
+		
 		File json = new File(path + "models\\item\\" + name + ".json");
 		if (json.exists())
 				return;

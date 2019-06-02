@@ -72,7 +72,7 @@ public class PolymerBlock extends SourcedConfig<PolymerPellets> {
 		BufferedWriter writer;
 		
 		File json = new File(path + "blockstates\\" + blockName + ".json");
-		if (false)
+		if (json.exists())
 				return;
 		else{
 			try{

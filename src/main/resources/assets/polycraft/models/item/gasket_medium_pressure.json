@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/gasket"
+        "layer0": "polycraft:items/moldeditem_gasket_medium_pressure"
     },
     "display": {
         "thirdperson": {

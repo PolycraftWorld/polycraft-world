@@ -6,6 +6,9 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +17,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -22,6 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper.EnumColor;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 
 public class BlockPolymerBrick extends Block { //implements ITileEntityProvider {
@@ -29,8 +34,8 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	public final PolymerBrick Brick;
 	private final BlockPolymerBrickHelper helper;
 	private final int length, width;
-
-//	private IIcon icon;
+	
+	public static final PropertyEnum PROPERTYCOLOR = PropertyEnum.create("color", EnumColor.class);
 
 	public BlockPolymerBrick(final PolymerBrick Brick, final int length, final int width) {
 		super(Material.cloth);
@@ -105,6 +110,22 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	// return helper.getMomentumReturnedOnPassiveFall();
 	// }
 
+	/**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(PROPERTYCOLOR, EnumColor.byMetadata(meta));
+    }
+
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((EnumColor)state.getValue(PROPERTYCOLOR)).getMetadata();
+    }
+	
 	@Override
 	public Item getItemDropped(IBlockState state, Random random, int fortune)
 	{
@@ -127,6 +148,17 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 	{
 		return helper.getDrops(this, blockPos, state, fortune);
 	}
+	
+	 // when the block is placed, set the appropriate facing direction based on which way the player is looking
+    // the color of block is contained in meta, it corresponds to the values we used for getSubBlocks
+    @Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing blockFaceClickedOn, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+      EnumColor color = EnumColor.byMetadata(meta);
+
+      return this.getDefaultState().withProperty(PROPERTYCOLOR, color);
+    }
+	
 
 	@Override
 	public void onBlockPlacedBy(World worldObj, BlockPos blockPos, IBlockState state, EntityLivingBase player, ItemStack itemToPlace) {
@@ -303,10 +335,20 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 
 	}
 
-	@Override
-	public int damageDropped(IBlockState state) {
-		return helper.damageDropped(this.getMetaFromState(state));
-	}
+	 protected BlockState createBlockState()
+	    {
+	        return new BlockState(this, new IProperty[] {PROPERTYCOLOR});
+	    }
+	
+	 // this function returns the correct item type corresponding to the colour of our block;
+    // i.e. when a sign is broken, it will drop the correct item.  Ignores Facing, because we get the same item
+    //   no matter which way the block is facing
+    @Override
+    public int damageDropped(IBlockState state)
+    {
+      EnumColor enumColor = (EnumColor)state.getValue(PROPERTYCOLOR);
+      return enumColor.getMetadata();
+    }
 
 //	@Override
 //	protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
@@ -325,6 +367,6 @@ public class BlockPolymerBrick extends Block { //implements ITileEntityProvider 
 //	}
 
 	public String getUnlocalizedName(int colorIndex) {
-		return Brick.gameID + "." + colorIndex;
+		return super.getUnlocalizedName();
 	}
 }

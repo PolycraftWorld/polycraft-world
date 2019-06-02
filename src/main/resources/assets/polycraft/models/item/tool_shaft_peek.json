@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/tool_shaft"
+        "layer0": "polycraft:items/moldeditem_tool_shaft_peek"
     },
     "display": {
         "thirdperson": {

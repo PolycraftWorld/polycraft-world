@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/rubber_sole"
+        "layer0": "polycraft:items/moldeditem_rubber_sole_insole"
     },
     "display": {
         "thirdperson": {

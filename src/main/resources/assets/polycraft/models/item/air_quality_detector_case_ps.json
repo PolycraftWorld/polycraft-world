@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/air_quality_detector_case"
+        "layer0": "polycraft:items/moldeditem_air_quality_detector_case_ps"
     },
     "display": {
         "thirdperson": {

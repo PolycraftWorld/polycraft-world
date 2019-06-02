@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -8,6 +12,7 @@ import com.google.common.collect.ImmutableList;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper.EnumColor;
 
 public class PolymerBrick extends SourcedConfig<PolymerPellets> {
 
@@ -81,6 +86,91 @@ public class PolymerBrick extends SourcedConfig<PolymerPellets> {
 	@Override
 	public List<String> getPropertyValues() {
 		return ImmutableList.of(PolycraftMod.numFormat.format(width), PolycraftMod.numFormat.format(width));
+	}
+	
+	public static void checkBlockJSONs(PolymerBrick config, String path){
+		String blockName = PolycraftMod.getFileSafeName(config.name);
+		String textureTop = "";
+		String textureBottom = "";
+		String textureSide = "";
+		String blockStateContent = "{\n" +
+				"  \"variants\": {\n";
+		BufferedWriter writer;
+		
+		File json = new File(path + "blockstates\\" + blockName + ".json");
+		if (false)
+				return;
+		else{
+			try{
+				for(EnumColor color: EnumColor.values()) {
+					textureTop = "brick_top_" + color.getName();
+					textureBottom = "brick_bottom_" + color.getName();
+					textureSide = "brick_side_" + color.getName();
+					blockStateContent += String.format("    \"color=%s\": { \"model\": \"polycraft:%s\" }%s\n",color.getName(), blockName + "_" + color.getName(), color.ordinal() == 15? "": ",");
+					
+					//Model file
+					String fileContent = String.format("{\n" +
+							"  \"parent\": \"block/cube\",\n" +
+							"  \"textures\": {\n" +
+							"    \"down\": \"polycraft:blocks/%s\",\r\n" + 
+							"    \"up\": \"polycraft:blocks/%s\",\r\n" + 
+							"    \"north\": \"polycraft:blocks/%s\",\r\n" + 
+							"    \"south\": \"polycraft:blocks/%s\",\r\n" + 
+							"    \"east\": \"polycraft:blocks/%s\",\r\n" + 
+							"    \"west\": \"polycraft:blocks/%s\"" +
+							"  }\n" +
+							"}", textureBottom, textureTop, textureSide, textureSide, textureSide, textureSide);
+
+					writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + blockName + "_" + color.getName() + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+
+					//Item model file
+					fileContent = String.format("{\n" +
+							"    \"parent\": \"polycraft:%s\",\n" +
+							"    \"display\": {\n" +
+							"        \"thirdperson\": {\n" +
+							"            \"rotation\": [ 10, -45, 170 ],\n" +
+							"            \"translation\": [ 0, 1.5, -2.75 ],\n" +
+							"            \"scale\": [ 0.375, 0.375, 0.375 ]\n" +
+							"        }\n" +
+							"    }\n" +
+							"}", blockName + "_" + color.getName());
+
+					writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + blockName + "_" + color.getName() + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+					
+					//blockstate files for items (apparently needed)
+					//Model file
+					fileContent = String.format("{\n" + 
+							"  \"variants\": {\n" + 
+							"    \"normal\": { \"model\": \"polycraft:%s\" }\n" + 
+							"  }\n" + 
+							"}", blockName + "_" + color.getName());
+
+					writer = new BufferedWriter(new FileWriter(path + "blockstates\\\\" + blockName + "_" + color.getName() + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+				}
+				
+				blockStateContent += "  }\n" +
+						"}";
+				writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + blockName + ".json"));
+
+				writer.write(blockStateContent);
+				writer.close();
+
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 
 }

@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/life_preserver"
+        "layer0": "polycraft:items/moldeditem_life_preserver"
     },
     "display": {
         "thirdperson": {

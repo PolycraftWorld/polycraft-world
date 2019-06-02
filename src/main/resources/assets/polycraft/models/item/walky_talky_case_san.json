@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/walky_talky_case"
+        "layer0": "polycraft:items/moldeditem_walky_talky_case"
     },
     "display": {
         "thirdperson": {

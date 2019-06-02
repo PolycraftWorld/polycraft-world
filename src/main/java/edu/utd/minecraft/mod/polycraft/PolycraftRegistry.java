@@ -226,7 +226,8 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	//public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -486,6 +487,15 @@ public class PolycraftRegistry {
 	@SideOnly(Side.CLIENT)
 	public static void registerClientSideResources() {
 		registerClientPolymers();
+		
+//		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
+//			if (moldedItem.loadCustomTexture) {
+//				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(PolycraftMod.getFileSafeName(MoldedItem.class.getSimpleName() + "_" + config.name));
+//			    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, 0, itemModelResourceLocation);
+//			}else {
+//				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MoldedItem.class.getSimpleName() + "_" + config.source.polymerObject.name);
+//			    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, 0, itemModelResourceLocation);
+//			}
 	}
 	
 	private static void registerMinigames()
@@ -935,6 +945,18 @@ public class PolycraftRegistry {
 			}
 
 		}*/
+		
+		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
+			{
+				Item itemBlockVariants = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(brick.name));
+				if(itemBlockVariants != null)
+					for(EnumColor color: EnumColor.values()) {
+						ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(brick.name) + "_" + color.toString());
+					    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, color.getMetadata(), itemModelResourceLocation);
+					}
+			}
+
+		}
 
 	}
 
@@ -968,8 +990,9 @@ public class PolycraftRegistry {
 
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
 			if (isTargetVersion(brick.version)) {
+				brick.checkBlockJSONs(brick, assetPath);
 				final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
-				registerBlockWithItem(brick.gameID, brick.name, blockBrick, brick.itemGameID, brick.itemName,
+				registerBlockWithItem(PolycraftMod.getFileSafeName(brick.name), brick.name, blockBrick,PolycraftMod.getFileSafeName(brick.itemName), brick.itemName,
 						ItemPolymerBrick.class, new Object[] {});
 			}
 

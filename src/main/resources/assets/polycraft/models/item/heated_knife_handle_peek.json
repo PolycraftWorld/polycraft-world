@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/heated_knife_handle"
+        "layer0": "polycraft:items/moldeditem_heated_knife_handle"
     },
     "display": {
         "thirdperson": {
