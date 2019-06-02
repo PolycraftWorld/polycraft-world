@@ -461,11 +461,11 @@ public class PolycraftRegistry {
 			
 			registerMolds();
 			registerMoldedItems();
-//			registerGrippedTools();
-//			registerPogoSticks();
-//			registerArmors();
-//			registerTools();
-//			registerGrippedSyntheticTools();
+			registerGrippedTools();
+			registerPogoSticks();
+			registerArmors();
+			registerTools();
+			registerGrippedSyntheticTools();
 //			registerInventories();
 //			registerCustom();
 //			registerMaskItems();
@@ -757,7 +757,8 @@ public class PolycraftRegistry {
 	private static void registerOres() {
 		for (final Ore ore : Ore.registry.values()) {
 			if (isTargetVersion(ore.version)) {
-				ore.checkBlockJSONs(ore, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					ore.checkBlockJSONs(ore, assetPath);
 				registerBlock(ore, new BlockOre(ore));
 			}
 		}
@@ -767,7 +768,8 @@ public class PolycraftRegistry {
 	private static void registerIngots() {
 		for (final Ingot ingot : Ingot.registry.values()) {
 			if (isTargetVersion(ingot.version)) {
-				ingot.checkItemJSONs(ingot, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					ingot.checkItemJSONs(ingot, assetPath);
 				registerItem(ingot, new ItemIngot(ingot));
 			}
 		}
@@ -777,7 +779,8 @@ public class PolycraftRegistry {
 	private static void registerNuggets() {
 		for (final Nugget nugget : Nugget.registry.values()) {
 			if (isTargetVersion(nugget.version)) {
-				nugget.checkItemJSONs(nugget, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					nugget.checkItemJSONs(nugget, assetPath);
 				registerItem(nugget, new ItemNugget(nugget));
 			}
 		}
@@ -787,7 +790,8 @@ public class PolycraftRegistry {
 	private static void registerCompressedBlocks() {
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values()) {
 			if (isTargetVersion(compressedBlock.version)) {
-				compressedBlock.checkBlockJSONs(compressedBlock, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					compressedBlock.checkBlockJSONs(compressedBlock, assetPath);
 				registerBlock(compressedBlock, new BlockCompressed(compressedBlock));
 			}
 		}
@@ -797,7 +801,8 @@ public class PolycraftRegistry {
 	private static void registerCatalysts() {
 		for (final Catalyst catalyst : Catalyst.registry.values()) {
 			if (isTargetVersion(catalyst.version)) {
-				catalyst.checkItemJSONs(catalyst, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					catalyst.checkItemJSONs(catalyst, assetPath);
 				registerItem(catalyst, new ItemCatalyst(catalyst));
 			}
 		}
@@ -807,6 +812,8 @@ public class PolycraftRegistry {
 	private static void registerFlashcards() {
 		for (final Flashcard flashcard : Flashcard.registry.values()) {
 			if (isTargetVersion(flashcard.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					flashcard.checkItemJSONs(flashcard, assetPath);
 				registerItem(flashcard, new ItemFlashcard(flashcard));
 			}
 		}
@@ -816,6 +823,8 @@ public class PolycraftRegistry {
 	private static void registerExams() {
 		for (final Exam exam : Exam.registry.values()) {
 			if (isTargetVersion(exam.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					exam.checkItemJSONs(exam, assetPath);
 				registerItem(exam, new ItemExam(exam));
 			}
 		}
@@ -825,14 +834,16 @@ public class PolycraftRegistry {
 	private static void registerVessels() {
 		for (final ElementVessel vessel : ElementVessel.registry.values()) {
 			if (isTargetVersion(vessel.version)) {
-				vessel.checkItemJSONs(vessel, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					vessel.checkItemJSONs(vessel, assetPath);
 				registerItem(vessel, new ItemVessel<ElementVessel>(vessel));
 			}
 		}
 
 		for (final CompoundVessel vessel : CompoundVessel.registry.values()) {
 			if (isTargetVersion(vessel.version)) {
-				vessel.checkItemJSONs(vessel, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					vessel.checkItemJSONs(vessel, assetPath);
 				registerItem(vessel, new ItemVessel<CompoundVessel>(vessel));
 			}
 		}
@@ -842,7 +853,8 @@ public class PolycraftRegistry {
 	private static void registerPolymers() {
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values()) {
 			if (isTargetVersion(polymerPellets.version)) {
-				polymerPellets.checkItemJSONs(polymerPellets, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					polymerPellets.checkItemJSONs(polymerPellets, assetPath);
 				registerItem(polymerPellets, new ItemVessel<PolymerPellets>(polymerPellets));
 			}
 		}
@@ -851,7 +863,8 @@ public class PolycraftRegistry {
 			{
 				if (isTargetVersion(polymerBlock.version)) {
 					final BlockPolymer block = new BlockPolymer(polymerBlock);
-					polymerBlock.checkBlockJSONs(polymerBlock, assetPath);
+					if(PolycraftMod.GEN_JSON_DATA)
+						polymerBlock.checkBlockJSONs(polymerBlock, assetPath);
 					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerBlock.name), polymerBlock.name, block, polymerBlock.itemGameID, PolycraftMod.getFileSafeName(polymerBlock.itemName),
 							ItemPolymerBlock.class, new Object[] {});
 				}
@@ -963,7 +976,8 @@ public class PolycraftRegistry {
 	private static void registerMolds() {
 		for (final Mold mold : Mold.registry.values()) {
 			if (isTargetVersion(mold.version)) {
-				((Mold)mold).checkItemJSONs((Mold)mold, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					((Mold)mold).checkItemJSONs((Mold)mold, assetPath);
 				registerItem(mold, new ItemMold(mold));
 			}
 		}
@@ -972,7 +986,8 @@ public class PolycraftRegistry {
 
 	private static void registerMoldedItems() {
 		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
-			moldedItem.checkItemJSONs(moldedItem, assetPath);
+			if(PolycraftMod.GEN_JSON_DATA)
+				moldedItem.checkItemJSONs(moldedItem, assetPath);
 			if (isTargetVersion(moldedItem.version)) {
 				Item item = null;
 				if (GameID.MoldRunningShoes.matches(moldedItem.source))
@@ -990,7 +1005,8 @@ public class PolycraftRegistry {
 
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
 			if (isTargetVersion(brick.version)) {
-				brick.checkBlockJSONs(brick, assetPath);
+				if(PolycraftMod.GEN_JSON_DATA)
+					brick.checkBlockJSONs(brick, assetPath);
 				final BlockPolymerBrick blockBrick = new BlockPolymerBrick(brick, brick.length, brick.width);
 				registerBlockWithItem(PolycraftMod.getFileSafeName(brick.name), brick.name, blockBrick,PolycraftMod.getFileSafeName(brick.itemName), brick.itemName,
 						ItemPolymerBrick.class, new Object[] {});
@@ -1048,6 +1064,8 @@ public class PolycraftRegistry {
 	private static void registerGrippedTools() {
 		for (final GrippedTool grippedTool : GrippedTool.registry.values()) {
 			if (isTargetVersion(grippedTool.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					grippedTool.checkItemJSONs(grippedTool, assetPath);
 				registerItem(grippedTool, ItemGripped.create(grippedTool));
 			}
 		}
@@ -1055,11 +1073,10 @@ public class PolycraftRegistry {
 	}
 	
 	private static void registerGrippedSyntheticTools() {
-		
-
-		
 		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values()) {
 			if (isTargetVersion(grippedSyntheticTool.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					grippedSyntheticTool.checkItemJSONs(grippedSyntheticTool, assetPath);
 				final ToolMaterial material = EnumHelper.addToolMaterial(
 						grippedSyntheticTool.name, grippedSyntheticTool.harvestLevel, grippedSyntheticTool.maxUses, 
 						grippedSyntheticTool.efficiency, grippedSyntheticTool.damage, grippedSyntheticTool.enchantability);
@@ -1067,25 +1084,32 @@ public class PolycraftRegistry {
 				registerItem(grippedSyntheticTool, ItemSyntheticGripped.create(grippedSyntheticTool, material));
 			}
 		}
-
 	}
 
 	private static void registerPogoSticks() {
 		for (final PogoStick pogoStick : PogoStick.registry.values()) {
 			if (isTargetVersion(pogoStick.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					pogoStick.checkItemJSONs(pogoStick, assetPath);
 				registerItem(pogoStick, new ItemPogoStick(pogoStick));
 			}
 		}
-
 	}
 
 	private static void registerArmors() {
 		for (final Armor armor : Armor.registry.values()) {
 			if (isTargetVersion(armor.version)) {
-
+				
 				final ArmorMaterial material = EnumHelper.addArmorMaterial(
 						armor.name, "", armor.durability, armor.reductionAmounts, armor.enchantability);
 				material.customCraftingMaterial = PolycraftRegistry.getItem(armor.craftingItemName);
+				if(PolycraftMod.GEN_JSON_DATA) {
+					armor.checkItemJSONs(armor, assetPath, PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.HEAD)));
+					armor.checkItemJSONs(armor, assetPath, PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.CHEST)));
+					armor.checkItemJSONs(armor, assetPath, PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.LEGS)));
+					armor.checkItemJSONs(armor, assetPath, PolycraftMod.getFileSafeName(armor.getFullComponentName(ArmorSlot.FEET)));
+				}
+					
 				registerItem(
 						armor.componentGameIDs[ArmorSlot.HEAD.getValue()],
 						armor.getFullComponentName(ArmorSlot.HEAD),
@@ -1112,6 +1136,14 @@ public class PolycraftRegistry {
 				final ToolMaterial material = EnumHelper.addToolMaterial(
 						tool.name, tool.harvestLevel, tool.maxUses, tool.efficiency, tool.damage, tool.enchantability);
 				material.customCraftingMaterial = PolycraftRegistry.getItem(tool.craftingHeadItemName);
+				if(PolycraftMod.GEN_JSON_DATA) {
+					tool.checkItemJSONs(tool, assetPath, PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.HOE)));
+					tool.checkItemJSONs(tool, assetPath, PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.SWORD)));
+					tool.checkItemJSONs(tool, assetPath, PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.SHOVEL)));
+					tool.checkItemJSONs(tool, assetPath, PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.PICKAXE)));
+					tool.checkItemJSONs(tool, assetPath, PolycraftMod.getFileSafeName(tool.getFullTypeName(Tool.Type.AXE)));
+				}
+					
 				registerItem(
 						tool.typeGameIDs[Tool.Type.HOE.ordinal()],
 						tool.getFullTypeName(Tool.Type.HOE),
@@ -1457,7 +1489,7 @@ public class PolycraftRegistry {
 		final String fluidFormat = "fluid.%s=%s";
 		final String containerFormat = "container.%s=%s";
 		final String baseFormat = "%s.name=%s";
-		final String colorFormat = "%s.%d.name=%s %s";
+		final String colorFormat = "tile.%s_%s.name=%s %s";
 		final String blockFormat = "tile." + baseFormat;
 		final String itemFormat = "item." + baseFormat;
 		final String entityFormat = "entity.polycraft." + baseFormat;
@@ -1477,109 +1509,109 @@ public class PolycraftRegistry {
 
 		for (final Ore ore : Ore.registry.values()) {
 			if (ore.source instanceof Element) {
-				langEntries.add(String.format(blockFormat, ore.gameID, "[" + ((Element) ore.source).symbol + " " + ((Element) ore.source).atomicNumber + "]  " + ore.name));
+				langEntries.add(String.format(blockFormat, PolycraftMod.getFileSafeName(ore.name), "[" + ((Element) ore.source).symbol + " " + ((Element) ore.source).atomicNumber + "]  " + ore.name));
 			} else {
-				langEntries.add(String.format(blockFormat, ore.gameID, ore.name));
+				langEntries.add(String.format(blockFormat, PolycraftMod.getFileSafeName(ore.name), ore.name));
 			}
 		}
 
 		for (final Ingot ingot : Ingot.registry.values())
-			langEntries.add(String.format(itemFormat, ingot.gameID, ingot.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(ingot.name), ingot.name));
 
 		for (final Nugget nugget : Nugget.registry.values())
-			langEntries.add(String.format(itemFormat, nugget.gameID, nugget.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(nugget.name), nugget.name));
 
 		for (final CompressedBlock compressedBlock : CompressedBlock.registry.values())
-			langEntries.add(String.format(blockFormat, compressedBlock.gameID, compressedBlock.name));
+			langEntries.add(String.format(blockFormat, PolycraftMod.getFileSafeName(compressedBlock.name), compressedBlock.name));
 
 		for (final Catalyst catalyst : Catalyst.registry.values())
-			langEntries.add(String.format(itemFormat, catalyst.gameID, catalyst.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(catalyst.name), catalyst.name));
 
 		for (final Flashcard flashcard : Flashcard.registry.values())
-			langEntries.add(String.format(itemFormat, flashcard.gameID, flashcard.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(flashcard.name), flashcard.name));
 
 		for (final Exam exam : Exam.registry.values())
-			langEntries.add(String.format(itemFormat, exam.gameID, exam.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(exam.name), exam.name));
 
 		for (final DNASampler dnaSampler : DNASampler.registry.values())
-			langEntries.add(String.format(itemFormat, dnaSampler.gameID, dnaSampler.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(dnaSampler.name), dnaSampler.name));
 
 		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values())
 			langEntries.add(String.format(itemFormat, cellCultureDish.gameID, cellCultureDish.name));
 
 		for (final ElementVessel vessel : ElementVessel.registry.values())
-			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(vessel.name), vessel.name));
 
 		for (final CompoundVessel vessel : CompoundVessel.registry.values())
-			langEntries.add(String.format(itemFormat, vessel.gameID, vessel.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(vessel.name), vessel.name));
 
 		for (final PolymerPellets polymerPellets : PolymerPellets.registry.values())
-			langEntries.add(String.format(itemFormat, polymerPellets.gameID, polymerPellets.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(polymerPellets.name), polymerPellets.name));
 
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values())
 			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
-				langEntries.add(String.format(colorFormat, polymerBlock.gameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerBlock.name));
+				langEntries.add(String.format(colorFormat, PolycraftMod.getFileSafeName(polymerBlock.name), BlockPolymerHelper.getColorDisplayName(i), BlockPolymerHelper.getColorDisplayName(i), polymerBlock.name));
 
 		for (final PolymerBrick brick : PolymerBrick.registry.values())
 			for (int i = 0; i < BlockPolymerBrickHelper.colors.length; i++)
-				langEntries.add(String.format(colorFormat, brick.gameID, i, BlockPolymerBrickHelper.getColorDisplayName(i), brick.name));
+				langEntries.add(String.format(colorFormat, PolycraftMod.getFileSafeName(brick.name), BlockPolymerHelper.getColorDisplayName(i), BlockPolymerBrickHelper.getColorDisplayName(i), brick.name));
 
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values())
-			langEntries.add(String.format(baseFormat, polymerSlab.blockSlabGameID, polymerSlab.name));
+			langEntries.add(String.format(baseFormat, PolycraftMod.getFileSafeName(polymerSlab.name), polymerSlab.name));
 
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values())
-			langEntries.add(String.format(baseFormat, polymerStairs.blockStairsGameID, polymerStairs.name));
+			langEntries.add(String.format(baseFormat, PolycraftMod.getFileSafeName(polymerStairs.name), polymerStairs.name));
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values())
 			for (int i = 0; i < BlockPolymerHelper.colors.length; i++)
-				langEntries.add(String.format(colorFormat, polymerWall.blockWallGameID, i, BlockPolymerHelper.getColorDisplayName(i), polymerWall.name));
+				langEntries.add(String.format(colorFormat, PolycraftMod.getFileSafeName(polymerWall.name), i, BlockPolymerHelper.getColorDisplayName(i), polymerWall.name));
 
 		for (final Mold mold : Mold.registry.values())
-			langEntries.add(String.format(itemFormat, mold.gameID, mold.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(mold.name), mold.name));
 
 		for (final MoldedItem moldedItem : MoldedItem.registry.values())
-			langEntries.add(String.format(itemFormat, moldedItem.gameID, moldedItem.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(moldedItem.name), moldedItem.name));
 
 		for (final Mask mask : Mask.registry.values())
-			langEntries.add(String.format(itemFormat, mask.gameID, mask.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(mask.name), mask.name));
 
 		for (final WaferItem waferItem : WaferItem.registry.values())
-			langEntries.add(String.format(itemFormat, waferItem.gameID, waferItem.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(waferItem.name), waferItem.name));
 
 		for (final Electronics electronics : Electronics.registry.values())
-			langEntries.add(String.format(itemFormat, electronics.gameID, electronics.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(electronics.name), electronics.name));
 
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
-			langEntries.add(String.format(itemFormat, grippedTool.gameID, grippedTool.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(grippedTool.name), grippedTool.name));
 		
 		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values())
-			langEntries.add(String.format(itemFormat, grippedSyntheticTool.gameID, grippedSyntheticTool.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(grippedSyntheticTool.name), grippedSyntheticTool.name));
 
 		for (final Armor armor : Armor.registry.values()) {
 			for (final ArmorSlot armorSlot : ArmorSlot.values()) {
-				langEntries.add(String.format(itemFormat, armor.componentGameIDs[armorSlot.getValue()], armor.getFullComponentName(armorSlot)));
+				langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(armor.getFullComponentName(armorSlot)), armor.getFullComponentName(armorSlot)));
 			}
 		}
 
 		for (final Tool tool : Tool.registry.values()) {
 			for (final Tool.Type toolType : Tool.Type.values()) {
-				langEntries.add(String.format(itemFormat, tool.typeGameIDs[toolType.ordinal()], tool.getFullTypeName(toolType)));
+				langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(tool.getFullTypeName(toolType)), tool.getFullTypeName(toolType)));
 			}
 		}
 
 		for (final PogoStick pogoStick : PogoStick.registry.values())
-			langEntries.add(String.format(itemFormat, pogoStick.gameID, pogoStick.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(pogoStick.name), pogoStick.name));
 
 		for (final Inventory inventory : Inventory.registry.values()) {
-			langEntries.add(String.format(containerFormat, inventory.gameID, inventory.name));
-			langEntries.add(String.format(blockFormat, inventory.gameID, inventory.name));
+			langEntries.add(String.format(containerFormat, PolycraftMod.getFileSafeName(inventory.name), inventory.name));
+			langEntries.add(String.format(blockFormat, PolycraftMod.getFileSafeName(inventory.name), inventory.name));
 		}
 
 		for (final CustomObject customObject : CustomObject.registry.values())
-			langEntries.add(String.format(itemFormat, customObject.gameID, customObject.name));
+			langEntries.add(String.format(itemFormat, PolycraftMod.getFileSafeName(customObject.name), customObject.name));
 		
 		for (final CustomObject customObject : CustomObject.registry.values())
-			langEntries.add(String.format(blockFormat, customObject.gameID, customObject.name));
+			langEntries.add(String.format(blockFormat, PolycraftMod.getFileSafeName(customObject.name), customObject.name));
 		
 		for (final PolycraftEntity entity : PolycraftEntity.registry.values())
 			langEntries.add(String.format(entityFormat, entity.name, entity.name));

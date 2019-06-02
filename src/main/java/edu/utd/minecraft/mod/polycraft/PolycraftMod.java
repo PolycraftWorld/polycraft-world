@@ -72,6 +72,8 @@ public class PolycraftMod {
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 
+	public static boolean GEN_JSON_DATA = false;
+
 	public static final int[] getVersionNumeric(final String version) {
 		if (StringUtils.isEmpty(version))
 			return null;
@@ -197,10 +199,12 @@ public class PolycraftMod {
 
 	public static final PolycraftRecipeManager recipeManagerRuntime = new PolycraftRecipeManager();
 	public static final PolycraftRecipeManager recipeManagerRealtime = new PolycraftRecipeManager();
+	
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		//fixEnderman();	Removing in 1.8 TODO: should probably check if it's actually fixed
+		GEN_JSON_DATA = System.getProperty("langOutputFile") == null? false: true;
 		proxy.preInit();
 	}
 

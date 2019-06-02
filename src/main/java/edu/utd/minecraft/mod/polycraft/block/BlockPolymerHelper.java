@@ -44,7 +44,7 @@ public class BlockPolymerHelper {
 	}
 
 	public static String getColorDisplayName(final int index) {
-		return colorDisplayNames[index];
+		return colors[index];
 	}
 
 	public final Polymer polymer;
