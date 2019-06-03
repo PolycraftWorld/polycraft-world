@@ -204,7 +204,7 @@ public class PolycraftMod {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		//fixEnderman();	Removing in 1.8 TODO: should probably check if it's actually fixed
-		GEN_JSON_DATA = System.getProperty("langOutputFile") == null? false: true;
+		GEN_JSON_DATA = System.getProperty("GEN_JSON_DATA") == null? false: true;
 		proxy.preInit();
 	}
 

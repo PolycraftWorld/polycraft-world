@@ -466,7 +466,7 @@ public class PolycraftRegistry {
 			registerArmors();
 			registerTools();
 			registerGrippedSyntheticTools();
-//			registerInventories();
+			registerInventories();
 //			registerCustom();
 //			registerMaskItems();
 //			registerWaferItems();
