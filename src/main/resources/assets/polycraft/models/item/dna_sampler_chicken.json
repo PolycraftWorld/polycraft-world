@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/silicon_wafer"
+        "layer0": "polycraft:items/dna_sampler_used"
     },
     "display": {
         "thirdperson": {

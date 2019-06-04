@@ -107,7 +107,9 @@ public class WaferItem extends SourcedConfig<Mask> {
 		else{
 			try{
 				//Item model file
-				String fileContent = String.format("{\n" + 
+				String fileContent="";
+				if(!texture.equals("silicon_wafer")) {
+				fileContent = String.format("{\n" + 
 						"    \"parent\": \"builtin/generated\",\n" + 
 						"    \"textures\": {\n" + 
 						"        \"layer0\": \"polycraft:items/waferitem\"\n" + 
@@ -125,6 +127,28 @@ public class WaferItem extends SourcedConfig<Mask> {
 						"        }\n" + 
 						"    }\n" + 
 						"}", texture);
+				}
+				else{
+					fileContent = String.format("{\n" + 
+							"    \"parent\": \"builtin/generated\",\n" + 
+							"    \"textures\": {\n" + 
+							"        \"layer0\": \"polycraft:items/%s\"\n" + 
+							"    },\n" + 
+							"    \"display\": {\n" + 
+							"        \"thirdperson\": {\n" + 
+							"            \"rotation\": [ -90, 0, 0 ],\n" + 
+							"            \"translation\": [ 0, 1, -3 ],\n" + 
+							"            \"scale\": [ 0.55, 0.55, 0.55 ]\n" + 
+							"        },\n" + 
+							"        \"firstperson\": {\n" + 
+							"            \"rotation\": [ 0, -135, 25 ],\n" + 
+							"            \"translation\": [ 0, 4, 2 ],\n" + 
+							"            \"scale\": [ 1.7, 1.7, 1.7 ]\n" + 
+							"        }\n" + 
+							"    }\n" + 
+							"}", texture);
+					}
+					
 
 				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + ".json"));
 

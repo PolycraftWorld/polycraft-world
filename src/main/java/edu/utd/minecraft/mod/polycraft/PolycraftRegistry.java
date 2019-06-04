@@ -471,7 +471,7 @@ public class PolycraftRegistry {
 			registerMaskItems();
 			registerWaferItems();
 //			registerElectronics();
-//			registerDNASamplers();
+			registerDNASamplers();
 //			registerCellCultureDishes();
 //			registerFlashcards();
 //			registerExams();
@@ -1050,6 +1050,8 @@ public class PolycraftRegistry {
 	private static void registerDNASamplers() {
 		for (final DNASampler dnaSampler : DNASampler.registry.values()) {
 			if (isTargetVersion(dnaSampler.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					dnaSampler.checkItemJSONs(dnaSampler, assetPath);
 				registerItem(dnaSampler, new ItemDNASampler(dnaSampler));
 			}
 		}
