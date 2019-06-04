@@ -469,7 +469,7 @@ public class PolycraftRegistry {
 			registerInventories();
 //			registerCustom();
 			registerMaskItems();
-//			registerWaferItems();
+			registerWaferItems();
 //			registerElectronics();
 //			registerDNASamplers();
 //			registerCellCultureDishes();
@@ -1030,6 +1030,8 @@ public class PolycraftRegistry {
 	private static void registerWaferItems() {
 		for (final WaferItem waferItem : WaferItem.registry.values()) {
 			if (isTargetVersion(waferItem.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					waferItem.checkItemJSONs(waferItem, assetPath);
 				registerItem(waferItem, new ItemWafer(waferItem));
 			}
 		}
