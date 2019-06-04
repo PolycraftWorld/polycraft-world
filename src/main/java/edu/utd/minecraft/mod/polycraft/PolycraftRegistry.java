@@ -473,7 +473,7 @@ public class PolycraftRegistry {
 //			registerElectronics();
 			registerDNASamplers();
 			registerCellCultureDishes();
-//			registerFlashcards();
+			registerFlashcards();
 //			registerExams();
 //			Fuel.registerQuantifiedFuels();
 //			registerPolycraftEntities();
