@@ -472,7 +472,7 @@ public class PolycraftRegistry {
 			registerWaferItems();
 //			registerElectronics();
 			registerDNASamplers();
-//			registerCellCultureDishes();
+			registerCellCultureDishes();
 //			registerFlashcards();
 //			registerExams();
 //			Fuel.registerQuantifiedFuels();
@@ -1061,6 +1061,8 @@ public class PolycraftRegistry {
 	private static void registerCellCultureDishes() {
 		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values()) {
 			if (isTargetVersion(cellCultureDish.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					cellCultureDish.checkItemJSONs(cellCultureDish, assetPath);
 				registerItem(cellCultureDish, new ItemCellCultureDish(cellCultureDish));
 			}
 		}
