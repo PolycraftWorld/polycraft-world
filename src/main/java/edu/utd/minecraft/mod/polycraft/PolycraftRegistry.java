@@ -227,7 +227,8 @@ public class PolycraftRegistry {
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
 	//public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -467,7 +468,7 @@ public class PolycraftRegistry {
 			registerTools();
 			registerGrippedSyntheticTools();
 			registerInventories();
-//			registerCustom();
+			registerCustom();
 			registerMaskItems();
 			registerWaferItems();
 //			registerElectronics();
@@ -865,26 +866,32 @@ public class PolycraftRegistry {
 					final BlockPolymer block = new BlockPolymer(polymerBlock);
 					if(PolycraftMod.GEN_JSON_DATA)
 						polymerBlock.checkBlockJSONs(polymerBlock, assetPath);
-					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerBlock.name), polymerBlock.name, block, polymerBlock.itemGameID, PolycraftMod.getFileSafeName(polymerBlock.itemName),
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerBlock.name), polymerBlock.name, block, PolycraftMod.getFileSafeName(polymerBlock.itemName), polymerBlock.itemName,
 							ItemPolymerBlock.class, new Object[] {});
 				}
 			}
 
 		}
-/*
+
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			{
 				if (isTargetVersion(polymerSlab.version)) {
 					final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
 					final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
-					registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
-					registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
+					if(PolycraftMod.GEN_JSON_DATA)
+						polymerSlab.checkSlabJSONs(polymerSlab, assetPath);
+//					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockSlabName), polymerSlab.blockSlabName, slab, PolycraftMod.getFileSafeName(polymerSlab.itemSlabName), polymerSlab.itemSlabName,
+//							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
+//					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockDoubleSlabName), polymerSlab.blockDoubleSlabName, doubleSlab, PolycraftMod.getFileSafeName(polymerSlab.itemDoubleSlabName), polymerSlab.itemDoubleSlabName,
+//							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockSlabName), polymerSlab.blockSlabName, slab, PolycraftMod.getFileSafeName(polymerSlab.itemSlabName), polymerSlab.itemSlabName,
+							ItemPolymerSlab.class, new Object[] { slab, doubleSlab });
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockDoubleSlabName), polymerSlab.blockDoubleSlabName, doubleSlab, PolycraftMod.getFileSafeName(polymerSlab.itemDoubleSlabName), polymerSlab.itemDoubleSlabName,
+							ItemPolymerSlab.class, new Object[] { slab, doubleSlab });
 				}
 			}
 		}
-
+/*
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			{
 				if (isTargetVersion(polymerStairs.version)) {
@@ -1305,6 +1312,8 @@ public class PolycraftRegistry {
 	private static void registerCustom() {
 		final InternalObject light = InternalObject.registry.get("BlockLight");
 		if (light != null && isTargetVersion(light.version)) {
+			if(PolycraftMod.GEN_JSON_DATA) 
+				light.checkBlockJSONs(light, assetPath);
 			PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
 		}
 

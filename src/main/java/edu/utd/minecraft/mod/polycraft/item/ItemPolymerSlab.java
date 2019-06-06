@@ -19,9 +19,9 @@ public class ItemPolymerSlab extends ItemSlab implements PolycraftItem {
 		return ItemCategory.BLOCKS_BUILDING;
 	}
 	
-	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
-	}
+//	@Override TODO: removed in 1.8
+//	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
+//	}
 }

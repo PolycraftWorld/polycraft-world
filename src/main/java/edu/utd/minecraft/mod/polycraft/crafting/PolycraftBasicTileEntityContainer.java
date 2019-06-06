@@ -290,7 +290,7 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
 		return this.worldObj.getTileEntity(this.pos) != this
 				? false
-				: par1EntityPlayer.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64.0D;
+				: par1EntityPlayer.getDistanceSq(this.pos.add(0.5D, 0.5D, 0.5D)) <= 64.0D;
 	}
 
 	@Override
