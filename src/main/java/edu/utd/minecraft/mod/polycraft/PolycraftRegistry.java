@@ -475,7 +475,7 @@ public class PolycraftRegistry {
 			registerCellCultureDishes();
 			registerFlashcards();
 			registerExams();
-//			Fuel.registerQuantifiedFuels();
+			Fuel.registerQuantifiedFuels();
 //			registerPolycraftEntities();
 
 
