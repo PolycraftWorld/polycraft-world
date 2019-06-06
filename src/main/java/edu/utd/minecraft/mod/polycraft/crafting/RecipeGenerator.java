@@ -94,7 +94,7 @@ public class RecipeGenerator {
 					nugget.getItemStack(PolycraftMod.recipeItemsPerCompressedBlock),
 					ImmutableList.of(((Ingot) nugget.source).getItemStack()));
 		}
-		/*
+		
 		for (final PolymerBlock polymerBlock : PolymerBlock.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.FURNACE,
@@ -115,7 +115,7 @@ public class RecipeGenerator {
 							'y', new ItemStack(Items.dye)),
 					0);
 		}
-
+/*
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
