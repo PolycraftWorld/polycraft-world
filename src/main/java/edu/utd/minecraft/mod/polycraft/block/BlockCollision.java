@@ -4,7 +4,11 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,11 +20,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper.EnumColor;
 import edu.utd.minecraft.mod.polycraft.config.InternalObject;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
-public class BlockCollision extends BlockDirectional {
-
+public class BlockCollision extends BlockPolyDirectional {
+	
 //	@SideOnly(Side.CLIENT)
 //	public IIcon iconFront;
 
@@ -28,6 +33,7 @@ public class BlockCollision extends BlockDirectional {
 
 	public BlockCollision(final InternalObject config) {
 		super(Material.iron);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM));
 		this.config = config;
 		this.setHardness(7.5F);
 		this.setResistance(10.0F);
@@ -63,6 +69,38 @@ public class BlockCollision extends BlockDirectional {
 	{
 		return true;
 	}
+	
+
+//	/**
+//     * Convert the given metadata into a BlockState for this Block
+//     */
+//    public IBlockState getStateFromMeta(int meta)
+//    {
+//        IBlockState iblockstate = this.getDefaultState().withProperty(VERTICAL, (meta & 4) > 0 ? EnumFacing.UP : EnumFacing.DOWN);
+//        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront(5 - (meta & 3)));
+//        return iblockstate;
+//    }
+//
+//    /**
+//     * Convert the BlockState into the correct metadata value
+//     */
+//    public int getMetaFromState(IBlockState state)
+//    {
+//        int i = 0;
+//
+//        if (state.getValue(VERTICAL) == EnumFacing.UP)
+//        {
+//            i |= 4;
+//        }
+//
+//        i = i | 5 - ((EnumFacing)state.getValue(FACING)).getIndex();
+//        return i;
+//    }
+//
+//    protected BlockState createBlockState()
+//    {
+//        return new BlockState(this, new IProperty[] {FACING, VERTICAL});
+//    }
 
 	//0 width length and height box so no wireframe rendered.
 	//	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
@@ -134,7 +172,7 @@ public class BlockCollision extends BlockDirectional {
 		//world.setBlockToAir(x, y, z);
 		world.destroyBlock(blockPos, false);
 		//get the specific neighbor that this block points to and break it if it is an Collision Block or the inventory
-		EnumFacing dir = (EnumFacing) world.getBlockState(blockPos).getProperties().get(FACING);
+		EnumFacing dir = EnumFacing.getFront(state.getBlock().getMetaFromState(state));
 
 		IBlockState neighbor = world.getBlockState(blockPos.offset(dir)); //follow the way it is pointing
 		if (!world.isRemote)
@@ -152,28 +190,31 @@ public class BlockCollision extends BlockDirectional {
 		//neighbor = world.getBlock(x + 1, y, z);
 		if ((neighbor = world.getBlockState(blockPos.east())).getBlock() instanceof BlockCollision)
 			if ((dir = (EnumFacing) world.getBlockState(blockPos.east()).getProperties().get(FACING)) == EnumFacing.WEST)
-				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.east(), neighbor);
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.east(), neighbor);
 
 		if ((neighbor = world.getBlockState(blockPos.west())).getBlock() instanceof BlockCollision)
 			if ((dir = (EnumFacing) world.getBlockState(blockPos.west()).getProperties().get(FACING)) == EnumFacing.EAST)
-				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.west(), neighbor);
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.west(), neighbor);
 
 		if ((neighbor = world.getBlockState(blockPos.south())).getBlock() instanceof BlockCollision)
 			if ((dir = (EnumFacing) world.getBlockState(blockPos.south()).getProperties().get(FACING)) == EnumFacing.NORTH)
-				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.south(), neighbor);
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.south(), neighbor);
 
 		if ((neighbor = world.getBlockState(blockPos.north())).getBlock() instanceof BlockCollision)
 			if ((dir = (EnumFacing) world.getBlockState(blockPos.north()).getProperties().get(FACING)) == EnumFacing.SOUTH)
-				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.north(), neighbor);
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.north(), neighbor);
 
 		if ((neighbor = world.getBlockState(blockPos.up())).getBlock() instanceof BlockCollision)
-			if ((dir = (EnumFacing) world.getBlockState(blockPos.up()).getProperties().get(FACING)) == EnumFacing.DOWN)
-				((BlockCollision) neighbor).breakBlockRecurse(world, blockPos.up(), neighbor);
+			if (world.getBlockState(blockPos.up()).getProperties().get(HALF) == EnumHalf.BOTTOM) {
+				dir = EnumFacing.DOWN;
+				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.up(), neighbor);
+			}
 
 		if ((neighbor = world.getBlockState(blockPos.down())).getBlock() instanceof BlockCollision)
-			if ((dir = (EnumFacing) world.getBlockState(blockPos.down()).getProperties().get(FACING)) == EnumFacing.UP)
+			if (world.getBlockState(blockPos.up()).getProperties().get(HALF) == EnumHalf.TOP) {
+				dir = EnumFacing.UP;
 				((BlockCollision) neighbor.getBlock()).breakBlockRecurse(world, blockPos.down(), neighbor);
-
+			}
 	}
 
 	@Override
