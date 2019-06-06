@@ -110,7 +110,7 @@ public abstract class CommonProxy {
 		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
 		//GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);
 		//GameRegistry.registerWorldGenerator(new ChallengesGenerator(), 1);
-		//NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(PolycraftMod.instance, new GuiHandler());
 		
 //		ChallengeHouseDim.init();
 //		PolycraftMinigameManager.init();
