@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "half=bottom,seamless=false,variant=polymer": { "model": "polycraft:block_natural_rubber_white" },
+        "normal": { "model": "polycraft:block_natural_rubber_white" },
+		 "all": { "model": "polycraft:block_natural_rubber_white" }
+    }
+}

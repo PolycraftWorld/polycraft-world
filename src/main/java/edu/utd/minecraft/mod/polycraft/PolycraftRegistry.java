@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrickHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerHelper.EnumColor;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlabDouble;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerStairs;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerWall;
 import edu.utd.minecraft.mod.polycraft.block.HPBlock;
@@ -90,6 +91,7 @@ import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityOilSlime;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityTerritoryFlag;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
 import edu.utd.minecraft.mod.polycraft.handler.BucketHandler;
+import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventoryTeir1;
@@ -202,6 +204,7 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -226,8 +229,8 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	//public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
@@ -497,6 +500,18 @@ public class PolycraftRegistry {
 //				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MoldedItem.class.getSimpleName() + "_" + config.source.polymerObject.name);
 //			    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, 0, itemModelResourceLocation);
 //			}
+	}
+	
+	/**
+	 * Registers the blocks renders
+	 * 
+	 * @param block
+	 *            The block
+	 */
+	public static void registerRender(Block block) {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(
+				new ResourceLocation(PolycraftMod.MODID, block.getUnlocalizedName().substring(5)), "inventory"));
+		PolycraftMod.logger.info("Registered render for " + block.getUnlocalizedName().substring(5));
 	}
 	
 	private static void registerMinigames()
@@ -876,18 +891,15 @@ public class PolycraftRegistry {
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			{
 				if (isTargetVersion(polymerSlab.version)) {
-					final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
-					final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
+					final BlockSlab slab = new BlockPolymerSlab(polymerSlab);
+					final BlockSlab doubleSlab = new BlockPolymerSlabDouble(polymerSlab);
 					if(PolycraftMod.GEN_JSON_DATA)
 						polymerSlab.checkSlabJSONs(polymerSlab, assetPath);
-//					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockSlabName), polymerSlab.blockSlabName, slab, PolycraftMod.getFileSafeName(polymerSlab.itemSlabName), polymerSlab.itemSlabName,
-//							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
-//					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockDoubleSlabName), polymerSlab.blockDoubleSlabName, doubleSlab, PolycraftMod.getFileSafeName(polymerSlab.itemDoubleSlabName), polymerSlab.itemDoubleSlabName,
-//							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
-					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockSlabName), polymerSlab.blockSlabName, slab, PolycraftMod.getFileSafeName(polymerSlab.itemSlabName), polymerSlab.itemSlabName,
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockSlabName) + "_half", polymerSlab.blockSlabName, slab, PolycraftMod.getFileSafeName(polymerSlab.itemSlabName), polymerSlab.itemSlabName,
 							ItemPolymerSlab.class, new Object[] { slab, doubleSlab });
-					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerSlab.blockDoubleSlabName), polymerSlab.blockDoubleSlabName, doubleSlab, PolycraftMod.getFileSafeName(polymerSlab.itemDoubleSlabName), polymerSlab.itemDoubleSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab });
+					doubleSlab.setUnlocalizedName(PolycraftMod.getFileSafeName(polymerSlab.itemDoubleSlabName));
+					doubleSlab.setRegistryName(PolycraftMod.getFileSafeName(polymerSlab.itemDoubleSlabName));
+					GameRegistry.registerBlock(doubleSlab);
 				}
 			}
 		}
@@ -929,20 +941,18 @@ public class PolycraftRegistry {
 			}
 
 		}
-/*
+
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			{
-				if (isTargetVersion(polymerSlab.version)) {
-					final BlockSlab slab = new BlockPolymerSlab(polymerSlab, false);
-					final BlockSlab doubleSlab = new BlockPolymerSlab(polymerSlab, true);
-					registerBlockWithItem(polymerSlab.blockSlabGameID, polymerSlab.blockSlabName, slab, polymerSlab.itemSlabGameID, polymerSlab.itemSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, false });
-					registerBlockWithItem(polymerSlab.blockDoubleSlabGameID, polymerSlab.blockDoubleSlabName, doubleSlab, polymerSlab.itemDoubleSlabGameID, polymerSlab.itemDoubleSlabName,
-							ItemPolymerSlab.class, new Object[] { slab, doubleSlab, true });
-				}
+				Item slab = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerSlab.name) + "_half");
+				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerSlab.name) + "_half");
+			    ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
+			    slab = GameRegistry.findItem("polycraft", "double_" + PolycraftMod.getFileSafeName(polymerSlab.name) + "_item");
+				itemModelResourceLocation = new ModelResourceLocation("polycraft:" + "double_" + PolycraftMod.getFileSafeName(polymerSlab.name) + "_item");
+			    ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
 			}
 		}
-
+/*
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			{
 				if (isTargetVersion(polymerStairs.version)) {

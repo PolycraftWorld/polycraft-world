@@ -75,7 +75,7 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 	
 	public static void checkSlabJSONs(PolymerSlab polymerSlab, String path){
 		String texture = PolycraftMod.getFileSafeName(polymerSlab.name);
-		File json = new File(path + "blockstates\\" + texture + ".json");
+		File json = new File(path + "blockstates\\" + texture + "_half" + ".json");
 		if (json.exists())
 				return;
 		else{
@@ -84,12 +84,14 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 				//single slab
 				String fileContent = String.format("{\n" + 
 						"    \"variants\": {\n" + 
-						"        \"half=bottom\": { \"model\": \"polycraft:%s\" },\n" + 
-						"        \"half=top\": { \"model\": \"polycraft:%s\" }\n" + 
+						"        \"half=bottom,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
+						"        \"half=top,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
+						"        \"normal\": { \"model\": \"polycraft:%s\" },\n" + 
+						"		 \"all\": { \"model\": \"polycraft:%s\" }\n" +
 						"    }\n" + 
-						"}", texture, texture);
+						"}", texture + "_bottom", texture + "_top", texture + "_bottom", texture + "_bottom");
 
-				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + ".json"));
+				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + "_half" + ".json"));
 
 				writer.write(fileContent);
 				writer.close();
@@ -97,27 +99,90 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 				//double slab
 				fileContent = String.format("{\n" + 
 						"    \"variants\": {\n" + 
-						"        \"normal\": { \"model\": \"polycraft:%s\" }\n" + 
+						"        \"half=bottom,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" +  
+						"        \"normal\": { \"model\": \"polycraft:%s\" },\n" + 
+						"		 \"all\": { \"model\": \"polycraft:%s\" }\n" +
 						"    }\n" + 
-						"}", "block_natural_rubber_white");	//TODO: Eventually add different colors for slabs
+						"}", "block_natural_rubber_white", "block_natural_rubber_white", "block_natural_rubber_white");	//TODO: Eventually add different colors for slabs
 
-				writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + ".json"));
+				writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + "double_" + texture + "_item" + ".json"));
 
 				writer.write(fileContent);
 				writer.close();
 				
 
-				//Model file
-				fileContent = String.format("{\n" + 
-						"    \"parent\": \"block/half_slab\",\n" + 
-						"    \"textures\": {\n" + 
-						"        \"bottom\": \"polycraft:blocks/%s\",\n" + 
-						"        \"top\": \"polycraft:blocks/%s\",\n" + 
-						"        \"side\": \"polycraft:blocks/%s\"\n" + 
-						"    }\n" + 
-						"}", "polymer_white", "polymer_white", "polymer_white");
+				//Model file top
+				fileContent = String.format("{\r\n" + 
+						"\"textures\": {\r\n" + 
+						"	\"particle\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"bottom\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"top\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"side\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"overlay\": \"polycraft:blocks/%s\"\r\n" + 
+						"},\r\n" + 
+						"\"elements\": [\r\n" + 
+						"        {   \"from\": [ 0, 8, 0 ],\r\n" + 
+						"            \"to\": [ 16, 16, 16 ],\r\n" + 
+						"            \"faces\": {\r\n" + 
+						"                \"down\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#bottom\" },\r\n" + 
+						"                \"up\":    { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#top\", \"tintindex\": 0 },\r\n" + 
+						"                \"north\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"north\" },\r\n" + 
+						"                \"south\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"south\" },\r\n" + 
+						"                \"west\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"west\" },\r\n" + 
+						"                \"east\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"east\" }\r\n" + 
+						"            }\r\n" + 
+						"        },\r\n" + 
+						"        {   \"from\": [ 0, 8, 0 ],\r\n" + 
+						"            \"to\": [ 16, 16, 16 ],\r\n" + 
+						"            \"faces\": {\r\n" + 
+						"                \"north\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"north\" },\r\n" + 
+						"                \"south\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"south\" },\r\n" + 
+						"                \"west\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"west\" },\r\n" + 
+						"                \"east\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"east\" }\r\n" + 
+						"            }\r\n" + 
+						"        }\r\n" + 
+						"    ]\r\n" + 
+						"}", "polymer_white", "polymer_white", "polymer_white", "polymer_white", "polymer_white");
 
-				writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + texture + ".json"));
+				writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + texture + "_top" + ".json"));
+
+				writer.write(fileContent);
+				writer.close();
+				
+				//model file bottom
+				fileContent = String.format("{\r\n" + 
+						"\"textures\": {\r\n" + 
+						"	\"particle\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"bottom\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"top\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"side\": \"polycraft:blocks/%s\",\r\n" + 
+						"        \"overlay\": \"polycraft:blocks/%s\"\r\n" + 
+						"},\r\n" + 
+						"\"elements\": [\r\n" + 
+						"        {   \"from\": [ 0, 0, 0 ],\r\n" + 
+						"            \"to\": [ 16, 8, 16 ],\r\n" + 
+						"            \"faces\": {\r\n" + 
+						"                \"down\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#bottom\" },\r\n" + 
+						"                \"up\":    { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#top\", \"tintindex\": 0 },\r\n" + 
+						"                \"north\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"north\" },\r\n" + 
+						"                \"south\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"south\" },\r\n" + 
+						"                \"west\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"west\" },\r\n" + 
+						"                \"east\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#side\",   \"cullface\": \"east\" }\r\n" + 
+						"            }\r\n" + 
+						"        },\r\n" + 
+						"        {   \"from\": [ 0, 0, 0 ],\r\n" + 
+						"            \"to\": [ 16, 8, 16 ],\r\n" + 
+						"            \"faces\": {\r\n" + 
+						"                \"north\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"north\" },\r\n" + 
+						"                \"south\": { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"south\" },\r\n" + 
+						"                \"west\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"west\" },\r\n" + 
+						"                \"east\":  { \"uv\": [ 0, 0, 16, 16 ], \"texture\": \"#overlay\", \"tintindex\": 0, \"cullface\": \"east\" }\r\n" + 
+						"            }\r\n" + 
+						"        }\r\n" + 
+						"    ]\r\n" + 
+						"}", "polymer_white", "polymer_white", "polymer_white", "polymer_white", "polymer_white");
+
+				writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + texture + "_bottom" + ".json"));
 
 				writer.write(fileContent);
 				writer.close();
@@ -132,9 +197,9 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 						"            \"scale\": [ 0.375, 0.375, 0.375 ]\n" +
 						"        }\n" +
 						"    }\n" +
-						"}", texture);
+						"}", texture + "_half");
 
-				writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + ".json"));
+				writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + "_half" + ".json"));
 
 				writer.write(fileContent);
 				writer.close();

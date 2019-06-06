@@ -7,10 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlab;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolymerSlabDouble;
 
 public class ItemPolymerSlab extends ItemSlab implements PolycraftItem {
 
-	public ItemPolymerSlab(Block p_i45355_1_, BlockPolymerSlab p_i45355_2_, BlockPolymerSlab p_i45355_3_) {
+	public ItemPolymerSlab(Block p_i45355_1_, BlockPolymerSlab p_i45355_2_, BlockPolymerSlabDouble p_i45355_3_) {
 		super(p_i45355_1_, p_i45355_2_, p_i45355_3_);
 	}
 
