@@ -558,9 +558,9 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	{
 		return AxisAlignedBB.fromBounds((double) par2, (double) par3, (double) par4, (double) par2, (double) par3, (double) par4);
 	}
-/* TODO: update for 1.8
+
 	@Override
-	public boolean renderAsNormalBlock()
+	public boolean isNormalCube()
 	{
 		if (this.config.render3D)
 			return false;
@@ -577,7 +577,9 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return true;
 	}
 
-	public static class BasicRenderingHandler extends TileEntitySpecialRenderer //implements ISimpleBlockRenderingHandler
+//	TODO: update for 1.8
+  	public static class BasicRenderingHandler extends TileEntitySpecialRenderer //implements ISimpleBlockRenderingHandler
+ 
 	{
 
 		protected final Inventory config;
@@ -603,12 +605,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 		}
 
-		@Override
-		public int getRenderId() {
-			return config.renderID;
-			//TODO
-		}
-
+//		@Override
+//		public int getRenderId() {
+//			return config.renderID;
+//			//TODO
+//		}
+/*		TODO: Can we fix this in 1.8?
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
@@ -756,31 +758,31 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			}
 			else
 			{	//TODO: fix for 1.8 Rendering
-				Tessellator tessellator = Tessellator.instance;
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0.0F, -1.0F, 0.0F);
-				renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0.0F, 1.0F, 0.0F);
-				renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0.0F, 0.0F, -1.0F);
-				renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0.0F, 0.0F, 1.0F);
-				renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-				renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(1.0F, 0.0F, 0.0F);
-				renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
-				tessellator.draw();
+//				Tessellator tessellator = Tessellator.instance;
+//				tessellator.startDrawingQuads();
+//				tessellator.setNormal(0.0F, -1.0F, 0.0F);
+//				renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
+//				tessellator.draw();
+//				tessellator.startDrawingQuads();
+//				tessellator.setNormal(0.0F, 1.0F, 0.0F);
+//				renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
+//				tessellator.draw();
+//				tessellator.startDrawingQuads();
+//				tessellator.setNormal(0.0F, 0.0F, -1.0F);
+//				renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
+//				tessellator.draw();
+//				tessellator.startDrawingQuads();
+//				tessellator.setNormal(0.0F, 0.0F, 1.0F);
+//				renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
+//				tessellator.draw();
+//				tessellator.startDrawingQuads();
+//				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+//				renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
+//				tessellator.draw();
+//				tessellator.startDrawingQuads();
+//				tessellator.setNormal(1.0F, 0.0F, 0.0F);
+//				renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
+//				tessellator.draw();
 			}
 
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
@@ -802,22 +804,22 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		@Override
 		public boolean shouldRender3DInInventory(int modelId) {
 			return true;
-		}
-
+		}*/
+		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float tick) {
+		public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float tick, int destroyStage) {
 
 			if (config.render3D)
 			{
 				if(config.containerType == PolycraftContainerType.CANNON)
 				{
-					ForgeDirection direction = ForgeDirection.WEST;
+					EnumFacing direction = EnumFacing.WEST;
 					boolean rotated = false;
 					short angle = 0;
 	
 					//direction = ForgeDirection.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
-					rotated = (tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)) >> 3 == 1;
+					rotated = tileEntity.getBlockMetadata() >> 3 == 1;
 					
 					GL11.glPushMatrix();
 					GL11.glDisable(GL11.GL_CULL_FACE);
@@ -826,12 +828,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 				else
 				{
-					ForgeDirection direction = null;
+					EnumFacing direction = null;
 					boolean rotated = false;
 					short angle = 0;
 	
-					direction = ForgeDirection.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
-					rotated = (tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)) >> 3 == 1;
+					direction = EnumFacing.getFront(tileEntity.getBlockMetadata() & 7);
+					rotated = tileEntity.getBlockMetadata() >> 3 == 1;
 	
 					// System.out.println(direction + "|" + angle);
 					GL11.glPushMatrix();
@@ -906,12 +908,12 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				}
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
-				this.inventoryModel.renderAll();
+				//this.inventoryModel.renderAll();
 
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glPopMatrix();
 			}
-		}*/
+		}
 
 		protected void scaleTranslateRotate(double x, double y, double z, EnumFacing orientation, boolean rotated) {
 
@@ -980,7 +982,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			}
 		}
 
-	//}
+	}
 
 	public boolean canPlaceBlockWithoutInterference(Block nextBlock)
 	{
@@ -1101,7 +1103,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					if (!blockCanBePlaced)
 						break;
 				} //end of outer for Loop
-/*				TODO: update for 1.8 Stephen Got lazy
+//				TODO: update for 1.8 Stephen Got lazy
 				//test explicit blocks we decorate around the inventories added to make sure the inventory can be placed
 				while (blockCanBePlaced)
 				{
@@ -1109,99 +1111,99 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					{
 						if (((playerFacingDir == EnumFacing.SOUTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
-							Block nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos);
+							Block nextBlock = worldObj.getBlockState(pos.add(1, 0, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(-1, 2, -1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 2, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(-2, 2, -1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 2, zPos);
+							nextBlock = worldObj.getBlockState(pos.add(2, 2, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 4, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(-1, 4, 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(-2, 4, 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(-2, 4, 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 
 						}
 						if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos + 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(0, 0, 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1,  + 2,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1,  + 2,  - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(0, + 2, - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 2, + 4, - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 4, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(- 2, + 4, - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 4, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, + 4, - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
 						if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							Block nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos);
+							Block nextBlock = worldObj.getBlockState(pos.add(- 1, 0, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, + 2, + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 2, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, + 2, + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 2, zPos);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, + 2, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 4, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, + 4, - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, + 4, - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, + 4, - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 
 						}
 						if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos - 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(0, 0, - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, + 2, + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, + 2, + 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(0, + 2, + 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, + 4, + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 4, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, + 4, + 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 4, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, + 4, + 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
@@ -1211,38 +1213,38 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					{
 						if (((playerFacingDir == EnumFacing.SOUTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
-							Block nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos - 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(- 1, 1, - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 2, zPos);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, + 2, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
 						if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos - 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(+ 1, + 1, - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(0, 2, - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
 						if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							Block nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos + 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(+ 1, + 1, 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 2, zPos);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, 2, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 
 						}
 						if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos + 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(- 1, 1, 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos, yPos + 2, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(0, 2, 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
@@ -1253,87 +1255,87 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 						if (((playerFacingDir == EnumFacing.SOUTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
-							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos + 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(0, 0, 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos, yPos + 1, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(0,  + 1,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, 0,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 1,  + 1,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 2, 0,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 2, yPos + 1, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 2,  + 1,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 
 						}
 						if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos);
+							Block nextBlock = worldObj.getBlockState(pos.add(- 1, 0, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos);
+							nextBlock = worldObj.getBlockState(pos.add(- 1,  + 1, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, 0,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(- 1,  + 1,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(- 1, 0,  - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos - 1, yPos + 1, zPos - 2);
+							nextBlock = worldObj.getBlockState(pos.add(- 1,  + 1,  - 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
 						if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							Block nextBlock = worldObj.getBlock(xPos, yPos, zPos - 1);
+							Block nextBlock = worldObj.getBlockState(pos.add(0, 0,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos, yPos + 1, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(0,  + 1,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, 0,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1,  + 1,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2, 0,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 2, yPos + 1, zPos - 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 2,  + 1,  - 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 
 						}
 						if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							Block nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos);
+							Block nextBlock = worldObj.getBlockState(pos.add(+ 1, 0, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock))) //this is ok, setting boolean and testing it, do not change to ==
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1,  + 1, 0)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, 0,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos + 1);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1,  + 1,  + 1)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1, 0,  + 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
-							nextBlock = worldObj.getBlock(xPos + 1, yPos + 1, zPos + 2);
+							nextBlock = worldObj.getBlockState(pos.add(+ 1,  + 1,  + 2)).getBlock();
 							if (!(blockCanBePlaced = canPlaceBlockWithoutInterference(nextBlock)))
 								break;
 						}
@@ -1369,7 +1371,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 												collisionMeta = EnumFacing.EAST.ordinal();
 										}
 
-										worldObj.setBlock(xPos - wid, yPos + height, zPos + len, PolycraftMod.blockCollision, collisionMeta, 2);
+										worldObj.setBlockState(pos.add(wid, height, len), PolycraftMod.blockCollision.getStateFromMeta(collisionMeta), 2);
 
 									}
 									if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
@@ -1381,7 +1383,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											else if (len != 0)
 												collisionMeta = EnumFacing.EAST.ordinal();
 										}
-										worldObj.setBlock(xPos - len, yPos + height, zPos - wid, PolycraftMod.blockCollision, collisionMeta, 2);
+										worldObj.setBlockState(pos.add(-len, height, -wid), PolycraftMod.blockCollision.getStateFromMeta(collisionMeta), 2);
 
 									}
 									if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
@@ -1393,7 +1395,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											else if (wid != 0)
 												collisionMeta = EnumFacing.WEST.ordinal();
 										}
-										worldObj.setBlock(xPos + wid, yPos + height, zPos - len, PolycraftMod.blockCollision, collisionMeta, 2);
+										worldObj.setBlockState(pos.add(wid, height, -len), PolycraftMod.blockCollision.getStateFromMeta(collisionMeta), 2);
 									}
 									if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 									{
@@ -1404,7 +1406,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 											else if (len != 0)
 												collisionMeta = EnumFacing.WEST.ordinal();
 										}
-										worldObj.setBlock(xPos + len, yPos + height, zPos + wid, PolycraftMod.blockCollision, collisionMeta, 2);
+										worldObj.setBlockState(pos.add(len, height, wid), PolycraftMod.blockCollision.getStateFromMeta(collisionMeta), 2);
 									}
 								}
 							}
@@ -1417,50 +1419,50 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 						if (((playerFacingDir == EnumFacing.SOUTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
 
-							worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 2, yPos + 2, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 2, yPos + 2, zPos, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1, 0, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 2,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 2,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 2, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
 
-							worldObj.setBlock(xPos - 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 4,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 4,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 4,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
 						{
 
-							worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 2, zPos - 1, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 2, zPos - 2, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos, yPos + 2, zPos - 2, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
+							worldObj.setBlockState(pos.add(0, 0,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 2,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 2,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(0,  + 2,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
 
-							worldObj.setBlock(xPos - 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos - 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 4,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 4,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 4,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 2, yPos + 2, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 2, yPos + 2, zPos, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1, 0, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 2,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 2,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 2, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
 
-							worldObj.setBlock(xPos + 1, yPos + 4, zPos - 2, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 2, yPos + 4, zPos - 2, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 2, yPos + 4, zPos - 1, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 4,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 4,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 4,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
 						}
 						if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 2, zPos + 1, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 2, zPos + 2, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos, yPos + 2, zPos + 2, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
+							worldObj.setBlockState(pos.add(0, 0,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 2,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 2,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(0,  + 2,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
 
-							worldObj.setBlock(xPos + 2, yPos + 4, zPos + 1, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos + 2, yPos + 4, zPos + 2, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 4, zPos + 2, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 4,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 4,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 4,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
 						}
 
 					}
@@ -1469,26 +1471,26 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 						if (((playerFacingDir == EnumFacing.SOUTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
 
-							worldObj.setBlock(xPos - 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 2, zPos, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 1,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 2, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
 						{
-							worldObj.setBlock(xPos + 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos, yPos + 2, zPos - 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 1,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(0,  + 2,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							worldObj.setBlock(xPos + 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 2, zPos, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 1,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 2, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							worldObj.setBlock(xPos - 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos, yPos + 2, zPos + 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 1,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(0,  + 2,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
 						}
 
@@ -1500,50 +1502,50 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 						if (((playerFacingDir == EnumFacing.SOUTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.NORTH) && (shiftPressed))) // facing south (+z) or facing north and holding shift
 						{
 
-							worldObj.setBlock(xPos, yPos, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos, yPos + 1, zPos + 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(0, 0,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(0,  + 1,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos - 1, yPos, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1, 0,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 1,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos - 2, yPos, zPos + 1, PolycraftMod.blockCollision, EnumFacing.NORTH.ordinal(), 2);
-							worldObj.setBlock(xPos - 2, yPos + 1, zPos + 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 2, 0,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.NORTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 2,  + 1,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)
 						{
 
-							worldObj.setBlock(xPos - 1, yPos, zPos, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 1, zPos, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1, 0, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 1, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos - 1, yPos, zPos - 1, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1, 0,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 1,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos - 1, yPos, zPos - 2, PolycraftMod.blockCollision, EnumFacing.EAST.ordinal(), 2);
-							worldObj.setBlock(xPos - 1, yPos + 1, zPos - 2, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(- 1, 0,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.EAST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(- 1,  + 1,  - 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
 						}
 						if (((playerFacingDir == EnumFacing.NORTH) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.SOUTH) && (shiftPressed))) // facing north (-z)
 						{
-							worldObj.setBlock(xPos, yPos, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos, yPos + 1, zPos - 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(0, 0,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(0,  + 1,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos + 1, yPos, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 1, zPos - 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1, 0,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 1,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos + 2, yPos, zPos - 1, PolycraftMod.blockCollision, EnumFacing.SOUTH.ordinal(), 2);
-							worldObj.setBlock(xPos + 2, yPos + 1, zPos - 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 2, 0,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.SOUTH.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 2,  + 1,  - 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 						}
 						if (((playerFacingDir == EnumFacing.EAST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.WEST) && (shiftPressed))) // facing east (+x)
 						{
-							worldObj.setBlock(xPos + 1, yPos, zPos, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 1, zPos, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1, 0, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 1, 0), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos + 1, yPos, zPos + 1, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 1, zPos + 1, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1, 0,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 1,  + 1), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 
-							worldObj.setBlock(xPos + 1, yPos, zPos + 2, PolycraftMod.blockCollision, EnumFacing.WEST.ordinal(), 2);
-							worldObj.setBlock(xPos + 1, yPos + 1, zPos + 2, PolycraftMod.blockCollision, EnumFacing.DOWN.ordinal(), 2);
+							worldObj.setBlockState(pos.add(+ 1, 0,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.WEST.ordinal()), 2);
+							worldObj.setBlockState(pos.add(+ 1,  + 1,  + 2), PolycraftMod.blockCollision.getStateFromMeta(EnumFacing.DOWN.ordinal()), 2);
 						}
 					}
 				}
@@ -1551,10 +1553,10 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 				{
 					// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
 					if (this instanceof OilDerrickBlock)
-						((OilDerrickInventory) this.getInventory(worldObj, xPos, yPos, zPos)).setPlaced(false);
-					worldObj.setBlock(xPos, yPos, zPos, Blocks.air);
+						((OilDerrickInventory) this.getInventory(worldObj, pos)).setPlaced(false);
+					worldObj.setBlockToAir(pos);
 					itemToPlace.stackSize += 1;
-				}*/
+				}
 			}
 		}
 		else
@@ -1563,4 +1565,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		}
 		super.onBlockPlacedBy(worldObj, pos, state, player, itemToPlace);
 	}
+
+	
 }
