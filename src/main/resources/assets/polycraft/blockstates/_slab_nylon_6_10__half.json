@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "half=bottom,seamless=false,variant=polymer": { "model": "polycraft:_slab_nylon_6_10__bottom" },
+        "half=top,seamless=false,variant=polymer": { "model": "polycraft:_slab_nylon_6_10__top" },
+        "normal": { "model": "polycraft:_slab_nylon_6_10__bottom" },
+		 "all": { "model": "polycraft:_slab_nylon_6_10__bottom" }
+    }
+}
