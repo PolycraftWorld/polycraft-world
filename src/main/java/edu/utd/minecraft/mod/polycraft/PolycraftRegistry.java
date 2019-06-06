@@ -227,7 +227,7 @@ public class PolycraftRegistry {
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
 	//public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -468,13 +468,13 @@ public class PolycraftRegistry {
 			registerGrippedSyntheticTools();
 			registerInventories();
 			registerCustom();
-//			registerMaskItems();
-//			registerWaferItems();
+			registerMaskItems();
+			registerWaferItems();
 //			registerElectronics();
-//			registerDNASamplers();
-//			registerCellCultureDishes();
-//			registerFlashcards();
-//			registerExams();
+			registerDNASamplers();
+			registerCellCultureDishes();
+			registerFlashcards();
+			registerExams();
 //			Fuel.registerQuantifiedFuels();
 //			registerPolycraftEntities();
 
@@ -1019,6 +1019,8 @@ public class PolycraftRegistry {
 	private static void registerMaskItems() {
 		for (final Mask maskItem : Mask.registry.values()) {
 			if (isTargetVersion(maskItem.version)) {
+			if(PolycraftMod.GEN_JSON_DATA)
+				maskItem.checkItemJSONs(maskItem, assetPath);
 				registerItem(maskItem, new ItemMask(maskItem));
 			}
 		}
@@ -1028,6 +1030,8 @@ public class PolycraftRegistry {
 	private static void registerWaferItems() {
 		for (final WaferItem waferItem : WaferItem.registry.values()) {
 			if (isTargetVersion(waferItem.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					waferItem.checkItemJSONs(waferItem, assetPath);
 				registerItem(waferItem, new ItemWafer(waferItem));
 			}
 		}
@@ -1046,6 +1050,8 @@ public class PolycraftRegistry {
 	private static void registerDNASamplers() {
 		for (final DNASampler dnaSampler : DNASampler.registry.values()) {
 			if (isTargetVersion(dnaSampler.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					dnaSampler.checkItemJSONs(dnaSampler, assetPath);
 				registerItem(dnaSampler, new ItemDNASampler(dnaSampler));
 			}
 		}
@@ -1055,6 +1061,8 @@ public class PolycraftRegistry {
 	private static void registerCellCultureDishes() {
 		for (final CellCultureDish cellCultureDish : CellCultureDish.registry.values()) {
 			if (isTargetVersion(cellCultureDish.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					cellCultureDish.checkItemJSONs(cellCultureDish, assetPath);
 				registerItem(cellCultureDish, new ItemCellCultureDish(cellCultureDish));
 			}
 		}
