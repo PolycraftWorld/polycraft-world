@@ -1,0 +1,8 @@
+{
+    "parent": "block/half_slab",
+    "textures": {
+        "bottom": "polycraft:blocks/polymer_white",
+        "top": "polycraft:blocks/polymer_white",
+        "side": "polycraft:blocks/polymer_white"
+    }
+}
