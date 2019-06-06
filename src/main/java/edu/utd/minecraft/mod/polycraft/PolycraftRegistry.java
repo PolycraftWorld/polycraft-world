@@ -467,7 +467,7 @@ public class PolycraftRegistry {
 			registerTools();
 			registerGrippedSyntheticTools();
 			registerInventories();
-//			registerCustom();
+			registerCustom();
 //			registerMaskItems();
 //			registerWaferItems();
 //			registerElectronics();
@@ -1297,6 +1297,8 @@ public class PolycraftRegistry {
 	private static void registerCustom() {
 		final InternalObject light = InternalObject.registry.get("BlockLight");
 		if (light != null && isTargetVersion(light.version)) {
+			if(PolycraftMod.GEN_JSON_DATA) 
+				light.checkBlockJSONs(light, assetPath);
 			PolycraftMod.blockLight = registerBlock(light, new BlockLight(1.0f));
 		}
 
