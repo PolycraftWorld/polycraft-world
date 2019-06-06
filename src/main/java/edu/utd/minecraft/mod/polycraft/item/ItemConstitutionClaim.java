@@ -119,7 +119,7 @@ public class ItemConstitutionClaim extends ItemCustom{
 	 @SideOnly(Side.CLIENT)
 	    public boolean hasEffect(ItemStack p_77636_1_)
 	    {
-		 	if(p_77636_1_.getTagCompound()==null) {
+		 	if(p_77636_1_.getTagCompound()!=null) {
 	        	return (p_77636_1_.getTagCompound().getInteger("Signs")==4);
 		 	}
 		 	return false;
