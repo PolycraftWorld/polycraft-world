@@ -1,12 +1,16 @@
 package edu.utd.minecraft.mod.polycraft.block;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStoneSlabNew;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -30,6 +34,12 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy {
 		this.polymerSlab = polymerSlab;
 		this.isDouble = isDouble;
 		this.helper = new BlockPolymerHelper(polymerSlab.source.source.source, 15);
+		
+		IBlockState iblockstate = this.blockState.getBaseState();
+
+        iblockstate = iblockstate.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+
+        this.setDefaultState(iblockstate);
 	}
 
 //	@Override
@@ -63,6 +73,53 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy {
 	protected ItemStack createStackedBlock(IBlockState state) {
 		return new ItemStack(PolycraftRegistry.getItem(polymerSlab.name), 2, this.getMetaFromState(state) & 7);
 	}
+	
+	/**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
+    {
+        if (itemIn != Item.getItemFromBlock(Blocks.double_stone_slab2))
+        {
+            for (BlockStoneSlabNew.EnumType blockstoneslabnew$enumtype : BlockStoneSlabNew.EnumType.values())
+            {
+                list.add(new ItemStack(itemIn, 1, blockstoneslabnew$enumtype.getMetadata()));
+            }
+        }
+    }
+
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(int meta)
+    {
+        IBlockState iblockstate = this.getDefaultState();
+
+        iblockstate = iblockstate.withProperty(HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+
+        return iblockstate;
+    }
+
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state)
+    {
+        int i = 0;
+
+        if (state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP)
+        {
+            i |= 8;
+        }
+
+        return i;
+    }
+
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {HALF});
+    }
 
 //	@Override
 //	protected void dropBlockAsItem(World world, BlockPos blockPos, IBlockState state, ItemStack itemstack)
@@ -81,7 +138,7 @@ public class BlockPolymerSlab extends BlockSlab implements BlockBouncy {
 
 	@Override
 	public String getUnlocalizedName(int meta) {
-		return polymerSlab.blockSlabGameID;
+		return polymerSlab.name;
 	}
 
 	@Override
