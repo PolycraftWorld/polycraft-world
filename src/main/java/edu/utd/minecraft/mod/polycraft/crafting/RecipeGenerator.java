@@ -115,7 +115,15 @@ public class RecipeGenerator {
 							'y', new ItemStack(Items.dye)),
 					0);
 		}
-/*
+		
+		for (final PogoStick pogoStick : PogoStick.registry.values())
+			if (pogoStick.source != null && pogoStick.grip != null)
+				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						pogoStick.getItemStack(),
+						ImmutableList.of(pogoStick.source.getItemStack(), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
+		
+	
 		for (final PolymerSlab polymerSlab : PolymerSlab.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					coloringFactory,
@@ -145,7 +153,32 @@ public class RecipeGenerator {
 							'y', new ItemStack(Items.dye)),
 					0);
 		}
-
+		
+		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerWall.getItemStack(6),
+					new String[] { "xxx", "xxx", "   " },
+					ImmutableMap.of('x', polymerWall.source.getItemStack()));
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerWall.getItemStack(6),
+					new String[] { "   ", "xxx", "xxx" },
+					ImmutableMap.of('x', polymerWall.source.getItemStack()));
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(polymerWall.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', polymerWall.getItemStack(),
+							'y', new ItemStack(Items.dye)),
+					0);
+		}
+		
+		/*
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,

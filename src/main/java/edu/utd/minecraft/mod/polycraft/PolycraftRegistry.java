@@ -891,6 +891,20 @@ public class PolycraftRegistry {
 				}
 			}
 		}
+		
+		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
+			{
+				if (isTargetVersion(polymerWall.version)) {
+					final BlockWall wall = new BlockPolymerWall(polymerWall);
+					if(PolycraftMod.GEN_JSON_DATA)
+						polymerWall.checkWallJSONs(polymerWall, assetPath);
+					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+							ItemPolymerWall.class, new Object[] {});
+
+				}
+			}
+			
+		}
 /*
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			{
