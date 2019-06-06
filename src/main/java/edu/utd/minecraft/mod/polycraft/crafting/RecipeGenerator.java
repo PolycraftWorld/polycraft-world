@@ -178,6 +178,23 @@ public class RecipeGenerator {
 					0);
 		}
 		
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					PolycraftContainerType.CRAFTING_TABLE,
+					polymerStairs.getItemStack(6),
+					new String[] { "x ", "xx ", "xxx" },
+					ImmutableMap.of('x', polymerStairs.source.getItemStack()));
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(polymerStairs.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', polymerStairs.getItemStack(),
+							'y', new ItemStack(Items.dye)),
+					0);
+		}
+		
 		/*
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			PolycraftMod.recipeManagerRuntime.addShapedRecipe(

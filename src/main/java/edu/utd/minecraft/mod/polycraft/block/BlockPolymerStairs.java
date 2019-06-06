@@ -77,6 +77,6 @@ public class BlockPolymerStairs extends BlockStairs implements BlockBouncy {
 //	}
 
 	public String getUnlocalizedName(int meta) {
-		return polymerStairs.blockStairsGameID;
+		return polymerStairs.name;
 	}
 }
