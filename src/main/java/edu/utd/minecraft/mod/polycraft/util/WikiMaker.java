@@ -753,7 +753,7 @@ public class WikiMaker {
 
 	private void createFuelPage() throws LoginException, IOException {
 		final Collection<Collection<String>> data = Lists.newLinkedList();
-		for (final Entry<Item, QuantifiedFuel> fuelEntry : Fuel.quantifiedFuelsByItem
+		for (final Entry<Item, QuantifiedFuel> fuelEntry : FuelHandler.instance.quantifiedFuelsByItem
 				.entrySet()) {
 			final Collection<String> row = Lists.newLinkedList();
 			if (fuelEntry.getKey() != null)
