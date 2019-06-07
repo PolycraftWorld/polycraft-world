@@ -95,6 +95,7 @@ public class BlockPolymerWall extends BlockWall implements BlockBouncy {
 //	}
 
 	public String getUnlocalizedName(int colorIndex) {
-		return polymerWall.blockWallGameID + "." + colorIndex;
+		//return polymerWall.blockWallGameID + "." + colorIndex;
+		return polymerWall.name + "." + colorIndex;
 	}
 }

@@ -479,7 +479,7 @@ public class PolycraftRegistry {
 			registerCellCultureDishes();
 			registerFlashcards();
 			registerExams();
-//			Fuel.registerQuantifiedFuels();
+			Fuel.registerQuantifiedFuels();
 //			registerPolycraftEntities();
 
 
@@ -902,6 +902,33 @@ public class PolycraftRegistry {
 					GameRegistry.registerBlock(doubleSlab);
 				}
 			}
+		}
+		
+		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
+			{
+				if (isTargetVersion(polymerWall.version)) {
+					final BlockWall wall = new BlockPolymerWall(polymerWall);
+					if(PolycraftMod.GEN_JSON_DATA)
+						polymerWall.checkWallJSONs(polymerWall, assetPath);
+					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+							ItemPolymerWall.class, new Object[] {});
+
+				}
+			}
+			
+		}
+		
+		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
+			{
+				if (isTargetVersion(polymerStairs.version)) {
+					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
+					if(PolycraftMod.GEN_JSON_DATA)
+						PolymerStairs.checkStairsJSONs(polymerStairs, assetPath);
+					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
+							ItemPolymerStairs.class, new Object[] {});
+				}
+			}
+
 		}
 /*
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {

@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -57,5 +61,37 @@ public class PolymerStairs extends SourcedConfig<PolymerBlock> {
 	@Override
 	public List<String> getPropertyValues() {
 		return ImmutableList.of(PolycraftMod.numFormat.format(bounceHeight));
+	}
+	
+	public static void checkStairsJSONs(PolymerStairs polymerStairs, String path){
+		String texture = PolycraftMod.getFileSafeName(polymerStairs.name);
+		File json = new File(path + "blockstates\\" + texture + ".json");
+		if (json.exists())
+				return;
+		else{
+			try{
+
+				//Item model file
+				String fileContent = String.format("{\n" +
+						"    \"parent\": \"polycraft:%s\",\n" +
+						"    \"display\": {\n" +
+						"        \"thirdperson\": {\n" +
+						"            \"rotation\": [ 10, -45, 170 ],\n" +
+						"            \"translation\": [ 0, 1.5, -2.75 ],\n" +
+						"            \"scale\": [ 0.375, 0.375, 0.375 ]\n" +
+						"        }\n" +
+						"    }\n" +
+						"}", texture);
+
+				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + ".json"));
+
+				writer.write(fileContent);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 }

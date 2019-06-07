@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "polycraft:blocks/polymer_orange",
-    "normal": "polycraft:blocks/polymer_orange"
-  }
-}
