@@ -32,6 +32,6 @@
         "east=false,north=true,south=true,up=true,variant=polymer,west=true":     { "model": "polycraft:polymer_wall_nse", "y": 180, "uvlock": true },
         "east=true,north=true,south=false,up=true,variant=polymer,west=true":     { "model": "polycraft:polymer_wall_nse", "y": 270, "uvlock": true },
         "east=true,north=true,south=true,up=true,variant=polymer,west=true":      { "model": "polycraft:polymer_wall_nsew" },
-		"normal": { "model": "polycraft:polymer_wall_inventory"}
+		 "normal": { "model": "polycraft:polymer_wall_inventory"}
     }
 }

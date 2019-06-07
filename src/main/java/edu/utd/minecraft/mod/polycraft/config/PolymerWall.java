@@ -140,7 +140,8 @@ public class PolymerWall extends SourcedConfig<PolymerBlock> {
 						"        \"east=true,north=false,south=true,up=true,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 90, \"uvlock\": true },\n" + 
 						"        \"east=false,north=true,south=true,up=true,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 180, \"uvlock\": true },\n" + 
 						"        \"east=true,north=true,south=false,up=true,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 270, \"uvlock\": true },\n" + 
-						"        \"east=true,north=true,south=true,up=true,variant=polymer,west=true\":      { \"model\": \"polycraft:polymer_wall_nsew\" }\n" + 
+						"        \"east=true,north=true,south=true,up=true,variant=polymer,west=true\":      { \"model\": \"polycraft:polymer_wall_nsew\" },\n" + 
+						"		 \"normal\": { \"model\": \"polycraft:polymer_wall_inventory\"}\n" + 
 						"    }\n" + 
 						"}");
 
