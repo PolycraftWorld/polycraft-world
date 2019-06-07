@@ -1,0 +1,10 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "polycraft:blocks/brick_bottom_orange",
+    "up": "polycraft:blocks/brick_top_orange",
+    "north": "polycraft:blocks/brick_side_orange",
+    "south": "polycraft:blocks/brick_side_orange",
+    "east": "polycraft:blocks/brick_side_orange",
+    "west": "polycraft:blocks/brick_side_orange"  }
+}

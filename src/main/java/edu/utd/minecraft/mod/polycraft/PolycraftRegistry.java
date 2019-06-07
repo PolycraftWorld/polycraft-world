@@ -229,8 +229,8 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-//	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
@@ -907,10 +907,10 @@ public class PolycraftRegistry {
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
 			{
 				if (isTargetVersion(polymerWall.version)) {
-					final BlockWall wall = new BlockPolymerWall(polymerWall);
+					final BlockPolymerWall wall = new BlockPolymerWall(polymerWall);
 					if(PolycraftMod.GEN_JSON_DATA)
 						polymerWall.checkWallJSONs(polymerWall, assetPath);
-					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerWall.blockWallName), polymerWall.blockWallName, wall, PolycraftMod.getFileSafeName(polymerWall.itemWallName), polymerWall.itemWallName,
 							ItemPolymerWall.class, new Object[] {});
 
 				}
@@ -922,37 +922,14 @@ public class PolycraftRegistry {
 			{
 				if (isTargetVersion(polymerStairs.version)) {
 					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
-					if(PolycraftMod.GEN_JSON_DATA)
-						PolymerStairs.checkStairsJSONs(polymerStairs, assetPath);
-					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
+//					if(PolycraftMod.GEN_JSON_DATA)
+//						PolymerStairs.checkStairsJSONs(polymerStairs, assetPath);
+					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerStairs.blockStairsName), polymerStairs.blockStairsName, stairs, PolycraftMod.getFileSafeName(polymerStairs.itemStairsName), polymerStairs.itemStairsName,
 							ItemPolymerStairs.class, new Object[] {});
 				}
 			}
 
 		}
-/*
-		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
-			{
-				if (isTargetVersion(polymerStairs.version)) {
-					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
-					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
-							ItemPolymerStairs.class, new Object[] {});
-				}
-			}
-
-		}
-
-		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
-			{
-				if (isTargetVersion(polymerWall.version)) {
-					final BlockWall wall = new BlockPolymerWall(polymerWall);
-					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
-							ItemPolymerWall.class, new Object[] {});
-
-				}
-			}
-
-		}*/
 
 	}
 	
@@ -989,19 +966,16 @@ public class PolycraftRegistry {
 				}
 			}
 
-		}
+		}*/
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
 			{
-				if (isTargetVersion(polymerWall.version)) {
-					final BlockWall wall = new BlockPolymerWall(polymerWall);
-					registerBlockWithItem(polymerWall.blockWallGameID, polymerWall.blockWallName, wall, polymerWall.itemWallGameID, polymerWall.itemWallName,
-							ItemPolymerWall.class, new Object[] {});
-
-				}
+				Item wall = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerWall.name));
+				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerWall.name));
+			    ModelLoader.setCustomModelResourceLocation(wall, 0, itemModelResourceLocation);
 			}
 
-		}*/
+		}
 		
 		for (final PolymerBrick brick : PolymerBrick.registry.values()) {
 			{
