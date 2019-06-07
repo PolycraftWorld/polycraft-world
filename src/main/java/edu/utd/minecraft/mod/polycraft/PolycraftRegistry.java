@@ -10,6 +10,8 @@ import java.util.Set;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -491,6 +493,11 @@ public class PolycraftRegistry {
 	@SideOnly(Side.CLIENT)
 	public static void registerClientSideResources() {
 		registerClientPolymers();
+		
+		OBJLoader.instance.addDomain(PolycraftMod.MODID.toLowerCase());
+        Item item2 = GameRegistry.findItem(PolycraftMod.MODID, "flood_light");
+        ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(PolycraftMod.MODID.toLowerCase() + ":" + "flood_light", "inventory"));
+
 		
 //		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
 //			if (moldedItem.loadCustomTexture) {
