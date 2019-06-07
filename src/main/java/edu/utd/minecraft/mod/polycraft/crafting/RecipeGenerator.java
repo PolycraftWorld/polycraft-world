@@ -62,7 +62,7 @@ public class RecipeGenerator {
 	private final static Random rand = new Random();
 
 	public static void generateRecipes() {
-		//generateFileRecipes("recipes");
+		generateFileRecipes("recipes");
 		generateAutoRecipes();
 		if (System.getProperty("cheatRecipes") != null)
 			generateCheatRecipes();
@@ -211,70 +211,169 @@ public class RecipeGenerator {
 				}
 			}
 		}
+
+		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
+			if (largerCompoundVessel.vesselType.smallerType != null) {
+				final CompoundVessel smallerCompoundVessel = CompoundVessel.registry.find(largerCompoundVessel.source, largerCompoundVessel.vesselType.smallerType);
+				if (smallerCompoundVessel != null) {
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+							PolycraftContainerType.CRAFTING_TABLE,
+							smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType),
+							ImmutableList.of(largerCompoundVessel.getItemStack()));
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+							PolycraftContainerType.CRAFTING_TABLE,
+							largerCompoundVessel.getItemStack(),
+							ImmutableList.of(smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType)));
+				}
+			}
+		}
 		
-//		for (final ElementVessel largerElementVessel : ElementVessel.registry.values()) {
-//			if (largerElementVessel.vesselType.smallerType != null) {
-//				final ElementVessel smallerElementVessel = ElementVessel.registry.find(largerElementVessel.source, largerElementVessel.vesselType.smallerType);
-//				if (smallerElementVessel != null) {
-//					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-//							PolycraftContainerType.CRAFTING_TABLE,
-//							smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType),
-//							ImmutableList.of(largerElementVessel.getItemStack()));
-//					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-//							PolycraftContainerType.CRAFTING_TABLE,
-//							largerElementVessel.getItemStack(),
-//							ImmutableList.of(smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType)));
-//				}
-//			}
-//		}
-
-		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
-			if (largerCompoundVessel.vesselType.smallerType != null) {
-				final CompoundVessel smallerCompoundVessel = CompoundVessel.registry.find(largerCompoundVessel.source, largerCompoundVessel.vesselType.smallerType);
-				if (smallerCompoundVessel != null) {
+		for (final PolymerPellets largerPolymerPelletsVessel : PolymerPellets.registry.values()) {
+			if (largerPolymerPelletsVessel.vesselType.smallerType != null) {
+				final PolymerPellets smallerPolymerPelletsVessel = PolymerPellets.registry.find(largerPolymerPelletsVessel.source, largerPolymerPelletsVessel.vesselType.smallerType);
+				if (smallerPolymerPelletsVessel != null) {
 					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
-							smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType),
-							ImmutableList.of(largerCompoundVessel.getItemStack()));
+							smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType),
+							ImmutableList.of(largerPolymerPelletsVessel.getItemStack()));
 					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 							PolycraftContainerType.CRAFTING_TABLE,
-							largerCompoundVessel.getItemStack(),
-							ImmutableList.of(smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType)));
+							largerPolymerPelletsVessel.getItemStack(),
+							ImmutableList.of(smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType)));
 				}
 			}
 		}
+		
+		for (final WaferItem waferItem : WaferItem.registry.values()) {
+
+			if (waferItem.sourceWafer != null) {
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { "x  ", "y  ", "z  " },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { " x ", " y ", " z " },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { "  x", "  y", "  z" },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CONTACT_PRINTER,
+						ImmutableList.of(CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),waferItem.source.getItemStack(), waferItem.getItemStack()),
+						new String[] { "xy", "za" },
+						ImmutableMap.of(
+								'x', CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),
+								'y', waferItem.source.getItemStack(),
+								'z', waferItem.photoresist.getItemStack(),
+								'a', waferItem.sourceWafer.getItemStack()));
+
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CONTACT_PRINTER,
+						ImmutableList.of(CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),waferItem.source.getItemStack(), waferItem.getItemStack()),
+						new String[] { "xy", "za" },
+						ImmutableMap.of(
+								'x', CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),
+								'y', waferItem.source.getItemStack(),
+								'z', waferItem.photoresist.getItemStack(),
+								'a', waferItem.sourceWafer.getItemStack()));
+
+			}
+
+		}
+		
+		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
+					moldedItem.getItemStack(),
+					new String[] { "xy" },
+					ImmutableMap.of(
+							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
+							'y', moldedItem.source.getItemStack()));
+			if ((moldedItem.params != null) && (moldedItem.params.names.length > 1)) {
+				int count = 0;
+				for (final String name : moldedItem.params.names) {
+					if (name.contains("Source")) {
+						PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+								moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
+								moldedItem.getItemStack(),
+								new String[] { "xy" },
+								ImmutableMap.of(
+										'x', PolymerPellets.registry.get(moldedItem.params.get(count)).getItemStack(moldedItem.craftingPellets),
+										'y', moldedItem.source.getItemStack()));
+
+					}
+					count++;
+
+				}
+
+			}
+		}
+		
+		for (final PolymerBrick brickItem : PolymerBrick.registry.values())
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					PolycraftContainerType.INJECTION_MOLDER,
+					brickItem.getItemStack(),
+					new String[] { "xy" },
+					ImmutableMap.of(
+							'x', brickItem.source.getItemStack(brickItem.craftingPellets),
+							'y', brickItem.brickMold.getItemStack()));
+
+		for (final PolymerBrick brickItem : PolymerBrick.registry.values()) {
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(brickItem.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', brickItem.getItemStack(),
+							'y', new ItemStack(Items.dye)),
+					0);
+		}
+		
+		for (final Armor armor : Armor.registry.values()) {
+			final ItemStack craftingItemStack = PolycraftRegistry.getItemStack(armor.craftingItemName, 1);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.HEAD), 1)),
+					new String[] { "xxx", "x x", "   " },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.CHEST), 1)),
+					new String[] { "x x", "xxx", "xxx" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.LEGS), 1)),
+					new String[] { "xxx", "x x", "x x" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.FEET), 1)),
+					new String[] { "   ", "x x", "x x" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+		}
+
 		/*
-		for (final ElementVessel largerElementVessel : ElementVessel.registry.values()) {
-			if (largerElementVessel.vesselType.smallerType != null) {
-				final ElementVessel smallerElementVessel = ElementVessel.registry.find(largerElementVessel.source, largerElementVessel.vesselType.smallerType);
-				if (smallerElementVessel != null) {
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType),
-							ImmutableList.of(largerElementVessel.getItemStack()));
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							largerElementVessel.getItemStack(),
-							ImmutableList.of(smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType)));
-				}
-			}
-		}
-
-		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
-			if (largerCompoundVessel.vesselType.smallerType != null) {
-				final CompoundVessel smallerCompoundVessel = CompoundVessel.registry.find(largerCompoundVessel.source, largerCompoundVessel.vesselType.smallerType);
-				if (smallerCompoundVessel != null) {
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType),
-							ImmutableList.of(largerCompoundVessel.getItemStack()));
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							largerCompoundVessel.getItemStack(),
-							ImmutableList.of(smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType)));
-				}
-			}
-		}
 
 		for (final PolymerPellets largerPolymerPelletsVessel : PolymerPellets.registry.values()) {
 			if (largerPolymerPelletsVessel.vesselType.smallerType != null) {

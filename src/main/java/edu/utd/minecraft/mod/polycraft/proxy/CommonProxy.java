@@ -51,6 +51,7 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.trading.InventorySwap;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.DynamicValue;
+import edu.utd.minecraft.mod.polycraft.util.FuelHandler;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeInitializer;
 import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeHouseDim;
 import edu.utd.minecraft.mod.polycraft.worldgen.ChallengesGenerator;
@@ -100,6 +101,7 @@ public abstract class CommonProxy {
 		// TODO: Only enable on debug mode
 		//DynamicValue.start();
 		PolycraftRegistry.registerFromResources();
+		GameRegistry.registerFuelHandler(FuelHandler.instance);
 		RecipeGenerator.generateRecipes();
 	}
 

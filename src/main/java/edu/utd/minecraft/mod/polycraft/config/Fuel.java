@@ -3,14 +3,18 @@ package edu.utd.minecraft.mod.polycraft.config;
 import java.util.Map;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.google.common.collect.Maps;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.util.FuelHandler;
 
-public class Fuel extends Config {
-
+public class Fuel extends Config{
+	
 	public static final ConfigRegistry<Fuel> registry = new ConfigRegistry<Fuel>();
 	private static final Map<Integer, Fuel> fuelsByIndex = Maps.newHashMap();
 
@@ -52,38 +56,36 @@ public class Fuel extends Config {
 		}
 	}
 
-	public static final Map<Item, QuantifiedFuel> quantifiedFuelsByItem = Maps.newLinkedHashMap();
-
 	public static void registerQuantifiedFuels() {
 		for (final Fuel fuel : registry.values()) {
 			if (fuel.source instanceof MinecraftItem)
-				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+				FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof MinecraftBlock)
-				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+				FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof CustomObject)
-				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
+				FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.source.name), new QuantifiedFuel(fuel));
 			else if (fuel.source instanceof Element) {
 				for (final ElementVessel elementVessel : ElementVessel.registry.values())
 					if (elementVessel.source == fuel.source)
-						quantifiedFuelsByItem.put(PolycraftRegistry.getItem(elementVessel.name), new QuantifiedFuel(fuel, elementVessel.vesselType.getQuantityOfSmallestType()));
+						FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftRegistry.getItem(elementVessel.name), new QuantifiedFuel(fuel, elementVessel.vesselType.getQuantityOfSmallestType()));
 			}
 			else if (fuel.source instanceof Compound) {
 				for (final CompoundVessel compoundVessel : CompoundVessel.registry.values())
 				{
 					if (compoundVessel.source == fuel.source)
 					{
-						quantifiedFuelsByItem.put(PolycraftRegistry.getItem(compoundVessel.name), new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType()));
+						FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftRegistry.getItem(compoundVessel.name), new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType()));
 						//beaker of crude oil (from compound vessels, polycraft materials)
 						//						if ("kS".equals(compoundVessel.gameID))
 						//							//FIXME hard coded for now, the recipe for a bucket of crude currently says you get 16 beakers for one bucket
-						//							quantifiedFuelsByItem.put(PolycraftMod.itemOilBucket, new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType() * 16));
+						//							FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftMod.itemOilBucket, new QuantifiedFuel(fuel, compoundVessel.vesselType.getQuantityOfSmallestType() * 16));
 					}
 				}
 			}
 			//FIXME: hard coded in bucket of crude oil
 			else if (fuel.name.equalsIgnoreCase("bucket (crude oil)"))
 			{
-				quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.name), new QuantifiedFuel(fuel));
+				FuelHandler.instance.quantifiedFuelsByItem.put(PolycraftRegistry.getItem(fuel.name), new QuantifiedFuel(fuel));
 			}
 
 			else
@@ -94,7 +96,7 @@ public class Fuel extends Config {
 	}
 
 	public static Fuel getFuel(final Item item) {
-		final QuantifiedFuel quantifiedFuel = quantifiedFuelsByItem.get(item);
+		final QuantifiedFuel quantifiedFuel = FuelHandler.instance.quantifiedFuelsByItem.get(item);
 		if (quantifiedFuel != null)
 			return quantifiedFuel.fuel;
 		return null;
@@ -108,7 +110,7 @@ public class Fuel extends Config {
 	}
 
 	public static float getHeatDurationSeconds(final Item item) {
-		final QuantifiedFuel quantifiedFuel = quantifiedFuelsByItem.get(item);
+		final QuantifiedFuel quantifiedFuel = FuelHandler.instance.quantifiedFuelsByItem.get(item);
 		if (quantifiedFuel != null)
 			return quantifiedFuel.getHeatDuration();
 		return 0;
@@ -126,4 +128,5 @@ public class Fuel extends Config {
 		this.heatIntensity = heatIntensity;
 		this.heatDurationSeconds = heatDurationSeconds;
 	}
+
 }
