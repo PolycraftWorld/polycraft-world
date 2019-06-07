@@ -62,7 +62,7 @@ public class RecipeGenerator {
 	private final static Random rand = new Random();
 
 	public static void generateRecipes() {
-		//generateFileRecipes("recipes");
+		generateFileRecipes("recipes");
 		generateAutoRecipes();
 		if (System.getProperty("cheatRecipes") != null)
 			generateCheatRecipes();
