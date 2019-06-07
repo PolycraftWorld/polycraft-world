@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -65,25 +66,104 @@ public class PolymerWall extends SourcedConfig<PolymerBlock> {
 	
 	public static void checkWallJSONs(PolymerWall polymerWall, String path){
 		String texture = PolycraftMod.getFileSafeName(polymerWall.name);
-		File json = new File(path + "blockstates\\" + texture + ".json");
+		File json = new File(path + "models\\block\\" + "polymer_wall_post" + ".json");
+		//First check for polymer_wall JSON files. These will be parent for all polymer walls
+		if (!json.exists()) {
+			ArrayList<String> wallTypes = new ArrayList<String>();
+			wallTypes.add("wall_post");
+			wallTypes.add("wall_n");
+			wallTypes.add("wall_ne");
+			wallTypes.add("wall_nse");
+			wallTypes.add("wall_ns");
+			wallTypes.add("wall_ns_above");
+			wallTypes.add("wall_nsew");
+			wallTypes.add("wall_inventory");
+			
+			try{
+				for(String type: wallTypes) {
+					//Item model file
+					String fileContent = String.format("{\n" + 
+							"    \"parent\": \"block/%s\",\n" + 
+							"    \"textures\": {\n" + 
+							"        \"wall\": \"polycraft:blocks/polymer_white\"\n" + 
+							"    }\n" + 
+							"}", type);
+
+					BufferedWriter writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + "polymer_" + type + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//Now Check for this polymer type's wall JSONs
+		json = new File(path + "blockstates\\" + texture + ".json");
 		if (json.exists())
 				return;
 		else{
 			try{
 
-				//Item model file
-				String fileContent = String.format("{\n" +
-						"    \"parent\": \"polycraft:%s\",\n" +
-						"    \"display\": {\n" +
-						"        \"thirdperson\": {\n" +
-						"            \"rotation\": [ 10, -45, 170 ],\n" +
-						"            \"translation\": [ 0, 1.5, -2.75 ],\n" +
-						"            \"scale\": [ 0.375, 0.375, 0.375 ]\n" +
-						"        }\n" +
-						"    }\n" +
-						"}", texture);
+				//Block model file
+				String fileContent = String.format("{\n" + 
+						"    \"variants\": {\n" + 
+						"        \"east=false,north=false,south=false,up=false,variant=polymer,west=false\": { \"model\": \"polycraft:polymer_wall_post\" },\n" + 
+						"        \"east=false,north=true,south=false,up=false,variant=polymer,west=false\":  { \"model\": \"polycraft:polymer_wall_n\" },\n" + 
+						"        \"east=true,north=false,south=false,up=false,variant=polymer,west=false\":  { \"model\": \"polycraft:polymer_wall_n\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=false,north=false,south=true,up=false,variant=polymer,west=false\":  { \"model\": \"polycraft:polymer_wall_n\", \"y\": 180, \"uvlock\": true },\n" + 
+						"        \"east=false,north=false,south=false,up=false,variant=polymer,west=true\":  { \"model\": \"polycraft:polymer_wall_n\", \"y\": 270, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=false,up=false,variant=polymer,west=false\":   { \"model\": \"polycraft:polymer_wall_ne\" },\n" + 
+						"        \"east=true,north=false,south=true,up=false,variant=polymer,west=false\":   { \"model\": \"polycraft:polymer_wall_ne\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=false,north=false,south=true,up=false,variant=polymer,west=true\":   { \"model\": \"polycraft:polymer_wall_ne\", \"y\": 180, \"uvlock\": true },\n" + 
+						"        \"east=false,north=true,south=false,up=false,variant=polymer,west=true\":   { \"model\": \"polycraft:polymer_wall_ne\", \"y\": 270, \"uvlock\": true },\n" + 
+						"        \"east=false,north=true,south=true,up=false,variant=polymer,west=false\":   { \"model\": \"polycraft:polymer_wall_ns\" },\n" + 
+						"        \"east=true,north=false,south=false,up=false,variant=polymer,west=true\":   { \"model\": \"polycraft:polymer_wall_ns\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=true,up=false,variant=polymer,west=false\":    { \"model\": \"polycraft:polymer_wall_nse\" },\n" + 
+						"        \"east=true,north=false,south=true,up=false,variant=polymer,west=true\":    { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=false,north=true,south=true,up=false,variant=polymer,west=true\":    { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 180, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=false,up=false,variant=polymer,west=true\":    { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 270, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=true,up=false,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nsew\" },\n" + 
+						"        \"east=false,north=false,south=false,up=true,variant=polymer,west=false\":  { \"model\": \"polycraft:polymer_wall_post\" },\n" + 
+						"        \"east=false,north=true,south=false,up=true,variant=polymer,west=false\":   { \"model\": \"polycraft:polymer_wall_n\" },\n" + 
+						"        \"east=true,north=false,south=false,up=true,variant=polymer,west=false\":   { \"model\": \"polycraft:polymer_wall_n\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=false,north=false,south=true,up=true,variant=polymer,west=false\":   { \"model\": \"polycraft:polymer_wall_n\", \"y\": 180, \"uvlock\": true },\n" + 
+						"        \"east=false,north=false,south=false,up=true,variant=polymer,west=true\":   { \"model\": \"polycraft:polymer_wall_n\", \"y\": 270, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=false,up=true,variant=polymer,west=false\":    { \"model\": \"polycraft:polymer_wall_ne\" },\n" + 
+						"        \"east=true,north=false,south=true,up=true,variant=polymer,west=false\":    { \"model\": \"polycraft:polymer_wall_ne\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=false,north=false,south=true,up=true,variant=polymer,west=true\":    { \"model\": \"polycraft:polymer_wall_ne\", \"y\": 180, \"uvlock\": true },\n" + 
+						"        \"east=false,north=true,south=false,up=true,variant=polymer,west=true\":    { \"model\": \"polycraft:polymer_wall_ne\", \"y\": 270, \"uvlock\": true },\n" + 
+						"        \"east=false,north=true,south=true,up=true,variant=polymer,west=false\":    { \"model\": \"polycraft:polymer_wall_ns_above\" },\n" + 
+						"        \"east=true,north=false,south=false,up=true,variant=polymer,west=true\":    { \"model\": \"polycraft:polymer_wall_ns_above\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=true,up=true,variant=polymer,west=false\":     { \"model\": \"polycraft:polymer_wall_nse\" },\n" + 
+						"        \"east=true,north=false,south=true,up=true,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 90, \"uvlock\": true },\n" + 
+						"        \"east=false,north=true,south=true,up=true,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 180, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=false,up=true,variant=polymer,west=true\":     { \"model\": \"polycraft:polymer_wall_nse\", \"y\": 270, \"uvlock\": true },\n" + 
+						"        \"east=true,north=true,south=true,up=true,variant=polymer,west=true\":      { \"model\": \"polycraft:polymer_wall_nsew\" },\n" + 
+						"		 \"normal\": { \"model\": \"polycraft:polymer_wall_inventory\"}\n" + 
+						"    }\n" + 
+						"}");
 
-				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + ".json"));
+				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + ".json"));
+
+				writer.write(fileContent);
+				writer.close();
+				
+				
+				//Item model file
+				fileContent = String.format("{\n" + 
+						"    \"parent\": \"polycraft:polymer_wall_inventory\",\n" + 
+						"    \"display\": {\n" + 
+						"        \"thirdperson\": {\n" + 
+						"            \"rotation\": [ 10, -45, 170 ],\n" + 
+						"            \"translation\": [ 0, 1.5, -2.75 ],\n" + 
+						"            \"scale\": [ 0.375, 0.375, 0.375 ]\n" + 
+						"        }\n" + 
+						"    }\n" + 
+						"}");
+
+				writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + ".json"));
 
 				writer.write(fileContent);
 				writer.close();
