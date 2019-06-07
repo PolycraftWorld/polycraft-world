@@ -231,10 +231,10 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-//	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 	//public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -477,7 +477,7 @@ public class PolycraftRegistry {
 			registerCustom();
 			registerMaskItems();
 			registerWaferItems();
-//			registerElectronics();
+			registerElectronics();
 			registerDNASamplers();
 			registerCellCultureDishes();
 			registerFlashcards();
@@ -535,6 +535,7 @@ public class PolycraftRegistry {
 			Item mcItem = Item.itemRegistry.getObject(MinecraftItem);
 			if(!items.containsKey(mcItem.getUnlocalizedName())) {
                 items.put(mcItem.getUnlocalizedName(), mcItem);
+                
                 minecraftItems.add(mcItem);
                 registerName(mcItem.getRegistryName(), mcItem.getUnlocalizedName());
             }
@@ -1071,6 +1072,8 @@ public class PolycraftRegistry {
 	private static void registerElectronics() {
 		for (final Electronics electronics : Electronics.registry.values()) {
 			if (isTargetVersion(electronics.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					electronics.checkItemJSONs(electronics, assetPath);
 				registerItem(electronics, new ItemElectronics(electronics));
 			}
 		}

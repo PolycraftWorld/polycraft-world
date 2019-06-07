@@ -50,6 +50,7 @@ import edu.utd.minecraft.mod.polycraft.item.ItemToolSword;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftPickaxe;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -834,7 +835,12 @@ public class RecipeGenerator {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final boolean shapeless = Boolean.parseBoolean(line[2]);
 					final String outputItemName = line[4];
-					final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[5]));
+					ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[5]));
+					if(outputItemStack == null) {
+						//attempt to find item by name
+						if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(outputItemName).toLowerCase()) != null)
+							outputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(outputItemName)), Integer.parseInt(line[5]));
+					}
 					if (outputItemStack == null) {
 						logger.warn("Unable to find output item for crafting recipe: {}", outputItemName);
 						continue;
@@ -846,6 +852,11 @@ public class RecipeGenerator {
 							if (!inputItemName.isEmpty()) {
 								inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[i + 1]));
 								//System.out.println(inputItemName); //test output of each crafting recipes to catch mistakes
+								if(inputItemStack == null) {
+									//attempt to find item by name
+									if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName).toLowerCase()) != null)
+										inputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName)), Integer.parseInt(line[i + 1]));
+								}
 								if (inputItemStack == null) {
 									logger.warn("Unable to find input item for crafting recipe ({}): {}", outputItemName, inputItemName);
 									inputItems = null;
@@ -895,7 +906,7 @@ public class RecipeGenerator {
 					final String outputItemName = line[4];
 					final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[5]));
 					if (outputItemStack == null) {
-						logger.warn("Unable to find output item for crafting recipe: {}", outputItemName);
+						logger.warn("Unable to find output item for PolyCrafting recipe: {}", outputItemName);
 						continue;
 					} else {
 						List<ItemStack> inputItems = Lists.newArrayList();
@@ -905,8 +916,13 @@ public class RecipeGenerator {
 							if (!inputItemName.isEmpty()) {
 								inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[i + 1]));
 								//System.out.println(inputItemName); //test output of each crafting recipes to catch mistakes
+								if(inputItemStack == null) {
+									//attempt to find item by name
+									if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName).toLowerCase()) != null)
+										inputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName)), Integer.parseInt(line[i + 1]));
+								}
 								if (inputItemStack == null) {
-									logger.warn("Unable to find input item for crafting recipe ({}): {}", outputItemName, inputItemName);
+									logger.warn("Unable to find input item for PolyCrafting recipe ({}): {}", outputItemName, inputItemName);
 									inputItems = null;
 									break;
 								}
@@ -956,7 +972,12 @@ public class RecipeGenerator {
 						continue;
 					}
 					final String inputItemName = line[4];
-					final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, 1);
+					ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, 1);
+					if(inputItemStack == null) {
+						//attempt to find item by name
+						if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName).toLowerCase()) != null)
+							inputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName)), 1);
+					}
 					if (inputItemStack == null) {
 						logger.warn("Unable to find input item for smelting recipe ({}): {}", outputItemName, inputItemName);
 						continue;
@@ -1057,7 +1078,12 @@ public class RecipeGenerator {
 			if (line.length > 7) {
 				if (PolycraftMod.isVersionCompatible(PolycraftMod.getVersionNumeric(line[0]))) {
 					final String inputItemName = line[5];
-					final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[6]));
+					ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[6]));
+					if(inputItemStack == null) {
+						//attempt to find item by name
+						if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName).toLowerCase()) != null)
+							inputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName)), Integer.parseInt(line[6]));
+					}
 					if (inputItemStack == null) {
 						logger.warn("Unable to find input item for distillation recipe: {}", inputItemName);
 						continue;
@@ -1067,7 +1093,12 @@ public class RecipeGenerator {
 					for (int i = 7; i < line.length; i += 2) {
 						final String outputItemName = line[i];
 						if (!StringUtils.isEmpty(outputItemName)) {
-							final ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							ItemStack outputItemStack = PolycraftRegistry.getItemStack(outputItemName, Integer.parseInt(line[i + 1]));
+							if(outputItemStack == null) {
+								//attempt to find item by name
+								if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(outputItemName).toLowerCase()) != null)
+									outputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(outputItemName)), Integer.parseInt(line[i + 1]));
+							}
 							if (outputItemStack == null) {
 								logger.warn("Unable to find output item for distillation recipe ({}): {}", inputItemName, outputItemName);
 								outputItems = null;
@@ -1099,7 +1130,12 @@ public class RecipeGenerator {
 					final StringBuilder inputShape = new StringBuilder();
 					for (int i = 0; i < shapedIdentifiers.length; i++) {
 						final String inputItemName = line[4 + (i * 2)];
-						final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+						ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+						if(inputItemStack == null) {
+							//attempt to find item by name
+							if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName).toLowerCase()) != null)
+								inputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName)), Integer.parseInt(line[5 + (i * 2)]));
+						}
 						if (inputItemStack == null) {
 							logger.warn("Unable to find input item for cracking recipe: {}", inputItemName);
 							shapedInputs = null;
@@ -1218,7 +1254,12 @@ public class RecipeGenerator {
 								break;
 							}
 						} else {
-							final ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+							ItemStack inputItemStack = PolycraftRegistry.getItemStack(inputItemName, Integer.parseInt(line[5 + (i * 2)]));
+							if(inputItemStack == null) {
+								//attempt to find item by name
+								if(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName).toLowerCase()) != null)
+									inputItemStack = new ItemStack(Item.getByNameOrId("minecraft:" + PolycraftMod.getFileSafeName(inputItemName)), Integer.parseInt(line[5 + (i * 2)]));
+							}
 							if (inputItemStack == null) {
 								logger.warn("Unable to find input item for processing recipe: {}", inputItemName);
 								shapedInputs = null;
