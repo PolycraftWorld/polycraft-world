@@ -453,7 +453,7 @@ public class PolycraftRegistry {
 
 			Config.registerFromResources("config");
 
-//			registerMinecraftItems();
+			registerMinecraftItems();
 //			registerMinecraftBlocks();
 //			registerBiomes();
 			
@@ -530,35 +530,41 @@ public class PolycraftRegistry {
 	}
 
 	private static void registerMinecraftItems() {
-		for (final MinecraftItem minecraftItem : MinecraftItem.registry.values()) {
-			if (isTargetVersion(minecraftItem.version)) {
-				final Item item = GameData.getItemRegistry().getObjectById(minecraftItem.id);
-				if (item == null)
-					logger.warn("Missing item: {}", minecraftItem.name);
-				else {
-					logger.debug("Found item: {}", minecraftItem.name);
-					items.put(minecraftItem.name, item);
-					minecraftItems.add(item);
-
-					//					if ((minecraftItem.id == 405) || //Nether brick
-					//							(minecraftItem.id == 404) || //Comparator
-					//							(minecraftItem.id == 397) || //Skull
-					//							(minecraftItem.id == 390) || //Flower Pot
-					//							(minecraftItem.id == 380) || //Cauldron 
-					//							(minecraftItem.id == 379) || //Brewing Stand
-					//							(minecraftItem.id == 372) || //Nether Wart
-					//							(minecraftItem.id == 355) || //Bed
-					//							(minecraftItem.id == 354) || //Cake
-					//							(minecraftItem.id == 338) || //Reeds
-					//							(minecraftItem.id == 330) || //Iron Door
-					//							(minecraftItem.id == 324) || //Wooden Door
-					//							(minecraftItem.id == 296)) //Wheat
-					//						registerName(PolycraftMod.MC_PREFIX + String.valueOf(minecraftItem.id), minecraftItem.name + "(Item)");
-					//					else
-					registerName(PolycraftMod.MC_PREFIX + String.format("%04d", minecraftItem.id), minecraftItem.name);
-
-				}
-			}
+		for (final ResourceLocation MinecraftItem : Item.itemRegistry.getKeys()) {
+			Item mcItem = Item.itemRegistry.getObject(MinecraftItem);
+			if(!items.containsKey(mcItem.getUnlocalizedName())) {
+                items.put(mcItem.getUnlocalizedName(), mcItem);
+                minecraftItems.add(mcItem);
+                registerName(mcItem.getRegistryName(), mcItem.getUnlocalizedName());
+            }
+//			if (isTargetVersion(minecraftItem.version)) {
+//				final Item item = GameData.getItemRegistry().getObjectById(minecraftItem.id);
+//				if (item == null)
+//					logger.warn("Missing item: {}", minecraftItem.name);
+//				else {
+//					logger.debug("Found item: {}", minecraftItem.name);
+//					items.put(minecraftItem.name, item);
+//					minecraftItems.add(item);
+//
+//					//					if ((minecraftItem.id == 405) || //Nether brick
+//					//							(minecraftItem.id == 404) || //Comparator
+//					//							(minecraftItem.id == 397) || //Skull
+//					//							(minecraftItem.id == 390) || //Flower Pot
+//					//							(minecraftItem.id == 380) || //Cauldron 
+//					//							(minecraftItem.id == 379) || //Brewing Stand
+//					//							(minecraftItem.id == 372) || //Nether Wart
+//					//							(minecraftItem.id == 355) || //Bed
+//					//							(minecraftItem.id == 354) || //Cake
+//					//							(minecraftItem.id == 338) || //Reeds
+//					//							(minecraftItem.id == 330) || //Iron Door
+//					//							(minecraftItem.id == 324) || //Wooden Door
+//					//							(minecraftItem.id == 296)) //Wheat
+//					//						registerName(PolycraftMod.MC_PREFIX + String.valueOf(minecraftItem.id), minecraftItem.name + "(Item)");
+//					//					else
+//					registerName(PolycraftMod.MC_PREFIX + String.format("%04d", minecraftItem.id), minecraftItem.name);
+//
+//				}
+//			}
 		}
 	}
 
