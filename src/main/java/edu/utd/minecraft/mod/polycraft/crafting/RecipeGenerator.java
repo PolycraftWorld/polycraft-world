@@ -211,22 +211,6 @@ public class RecipeGenerator {
 				}
 			}
 		}
-		
-//		for (final ElementVessel largerElementVessel : ElementVessel.registry.values()) {
-//			if (largerElementVessel.vesselType.smallerType != null) {
-//				final ElementVessel smallerElementVessel = ElementVessel.registry.find(largerElementVessel.source, largerElementVessel.vesselType.smallerType);
-//				if (smallerElementVessel != null) {
-//					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-//							PolycraftContainerType.CRAFTING_TABLE,
-//							smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType),
-//							ImmutableList.of(largerElementVessel.getItemStack()));
-//					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-//							PolycraftContainerType.CRAFTING_TABLE,
-//							largerElementVessel.getItemStack(),
-//							ImmutableList.of(smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType)));
-//				}
-//			}
-//		}
 
 		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
 			if (largerCompoundVessel.vesselType.smallerType != null) {
@@ -242,39 +226,76 @@ public class RecipeGenerator {
 							ImmutableList.of(smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType)));
 				}
 			}
+		}
+		
+		for (final PolymerPellets largerPolymerPelletsVessel : PolymerPellets.registry.values()) {
+			if (largerPolymerPelletsVessel.vesselType.smallerType != null) {
+				final PolymerPellets smallerPolymerPelletsVessel = PolymerPellets.registry.find(largerPolymerPelletsVessel.source, largerPolymerPelletsVessel.vesselType.smallerType);
+				if (smallerPolymerPelletsVessel != null) {
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+							PolycraftContainerType.CRAFTING_TABLE,
+							smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType),
+							ImmutableList.of(largerPolymerPelletsVessel.getItemStack()));
+					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+							PolycraftContainerType.CRAFTING_TABLE,
+							largerPolymerPelletsVessel.getItemStack(),
+							ImmutableList.of(smallerPolymerPelletsVessel.getItemStack(largerPolymerPelletsVessel.vesselType.quantityOfSmallerType)));
+				}
+			}
+		}
+		
+		for (final WaferItem waferItem : WaferItem.registry.values()) {
+
+			if (waferItem.sourceWafer != null) {
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { "x  ", "y  ", "z  " },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { " x ", " y ", " z " },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CRAFTING_TABLE,
+						waferItem.getItemStack(),
+						new String[] { "  x", "  y", "  z" },
+						ImmutableMap.of(
+								'x', waferItem.source.getItemStack(),
+								'y', waferItem.photoresist.getItemStack(),
+								'z', waferItem.sourceWafer.getItemStack()));
+
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CONTACT_PRINTER,
+						ImmutableList.of(CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),waferItem.source.getItemStack(), waferItem.getItemStack()),
+						new String[] { "xy", "za" },
+						ImmutableMap.of(
+								'x', CustomObject.registry.get("254 nm UV Bulbs").getItemStack(),
+								'y', waferItem.source.getItemStack(),
+								'z', waferItem.photoresist.getItemStack(),
+								'a', waferItem.sourceWafer.getItemStack()));
+
+				PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+						PolycraftContainerType.CONTACT_PRINTER,
+						ImmutableList.of(CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),waferItem.source.getItemStack(), waferItem.getItemStack()),
+						new String[] { "xy", "za" },
+						ImmutableMap.of(
+								'x', CustomObject.registry.get("365 nm UV Bulbs").getItemStack(),
+								'y', waferItem.source.getItemStack(),
+								'z', waferItem.photoresist.getItemStack(),
+								'a', waferItem.sourceWafer.getItemStack()));
+
+			}
+
 		}
 		/*
-		for (final ElementVessel largerElementVessel : ElementVessel.registry.values()) {
-			if (largerElementVessel.vesselType.smallerType != null) {
-				final ElementVessel smallerElementVessel = ElementVessel.registry.find(largerElementVessel.source, largerElementVessel.vesselType.smallerType);
-				if (smallerElementVessel != null) {
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType),
-							ImmutableList.of(largerElementVessel.getItemStack()));
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							largerElementVessel.getItemStack(),
-							ImmutableList.of(smallerElementVessel.getItemStack(largerElementVessel.vesselType.quantityOfSmallerType)));
-				}
-			}
-		}
-
-		for (final CompoundVessel largerCompoundVessel : CompoundVessel.registry.values()) {
-			if (largerCompoundVessel.vesselType.smallerType != null) {
-				final CompoundVessel smallerCompoundVessel = CompoundVessel.registry.find(largerCompoundVessel.source, largerCompoundVessel.vesselType.smallerType);
-				if (smallerCompoundVessel != null) {
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType),
-							ImmutableList.of(largerCompoundVessel.getItemStack()));
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-							PolycraftContainerType.CRAFTING_TABLE,
-							largerCompoundVessel.getItemStack(),
-							ImmutableList.of(smallerCompoundVessel.getItemStack(largerCompoundVessel.vesselType.quantityOfSmallerType)));
-				}
-			}
-		}
 
 		for (final PolymerPellets largerPolymerPelletsVessel : PolymerPellets.registry.values()) {
 			if (largerPolymerPelletsVessel.vesselType.smallerType != null) {
