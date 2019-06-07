@@ -922,8 +922,8 @@ public class PolycraftRegistry {
 			{
 				if (isTargetVersion(polymerStairs.version)) {
 					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
-//					if(PolycraftMod.GEN_JSON_DATA)
-//						PolymerStairs.checkStairsJSONs(polymerStairs, assetPath);
+					if(PolycraftMod.GEN_JSON_DATA)
+						PolymerStairs.checkStairsJSONs(polymerStairs, assetPath);
 					registerBlockWithItem(PolycraftMod.getFileSafeName(polymerStairs.blockStairsName), polymerStairs.blockStairsName, stairs, PolycraftMod.getFileSafeName(polymerStairs.itemStairsName), polymerStairs.itemStairsName,
 							ItemPolymerStairs.class, new Object[] {});
 				}
@@ -956,17 +956,15 @@ public class PolycraftRegistry {
 			    ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
 			}
 		}
-/*
+
 		for (final PolymerStairs polymerStairs : PolymerStairs.registry.values()) {
 			{
-				if (isTargetVersion(polymerStairs.version)) {
-					final BlockStairs stairs = new BlockPolymerStairs(polymerStairs);
-					registerBlockWithItem(polymerStairs.blockStairsGameID, polymerStairs.blockStairsName, stairs, polymerStairs.itemStairsGameID, polymerStairs.itemStairsName,
-							ItemPolymerStairs.class, new Object[] {});
-				}
+				Item wall = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerStairs.name));
+				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerStairs.name));
+			    ModelLoader.setCustomModelResourceLocation(wall, 0, itemModelResourceLocation);
 			}
 
-		}*/
+		}
 
 		for (final PolymerWall polymerWall : PolymerWall.registry.values()) {
 			{

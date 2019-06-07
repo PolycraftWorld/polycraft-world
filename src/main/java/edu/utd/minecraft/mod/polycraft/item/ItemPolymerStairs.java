@@ -26,9 +26,9 @@ public class ItemPolymerStairs extends ItemBlock implements PolycraftItem {
 	public String getUnlocalizedName(ItemStack par1ItemStack) {
 		return blockPolymerStairs.getUnlocalizedName(par1ItemStack.getItemDamage());
 	}
-	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
-	{
-		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
-	}
+//	@Override
+//	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+//	{
+//		PolycraftMod.setPolycraftStackCompoundTag(par1ItemStack);		
+//	}
 }
