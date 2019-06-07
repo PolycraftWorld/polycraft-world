@@ -44,7 +44,7 @@ public class ItemDNASampler extends Item implements PolycraftItem {
 //			this.setTextureName(PolycraftMod.getAssetName("dna_sampler_used"));
 //		else
 //			this.setTextureName(PolycraftMod.getAssetName(PolycraftMod.getFileSafeName(dnaSampler.name)));
-		this.setUnlocalizedName(dnaSampler.name);
+		//this.setUnlocalizedName(dnaSampler.name);
 
 	}
 
