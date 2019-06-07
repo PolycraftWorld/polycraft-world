@@ -295,6 +295,84 @@ public class RecipeGenerator {
 			}
 
 		}
+		
+		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
+					moldedItem.getItemStack(),
+					new String[] { "xy" },
+					ImmutableMap.of(
+							'x', moldedItem.polymerPellets.getItemStack(moldedItem.craftingPellets),
+							'y', moldedItem.source.getItemStack()));
+			if ((moldedItem.params != null) && (moldedItem.params.names.length > 1)) {
+				int count = 0;
+				for (final String name : moldedItem.params.names) {
+					if (name.contains("Source")) {
+						PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+								moldedItem.source.moldType == Mold.Type.Mold ? PolycraftContainerType.INJECTION_MOLDER : PolycraftContainerType.EXTRUDER,
+								moldedItem.getItemStack(),
+								new String[] { "xy" },
+								ImmutableMap.of(
+										'x', PolymerPellets.registry.get(moldedItem.params.get(count)).getItemStack(moldedItem.craftingPellets),
+										'y', moldedItem.source.getItemStack()));
+
+					}
+					count++;
+
+				}
+
+			}
+		}
+		
+		for (final PolymerBrick brickItem : PolymerBrick.registry.values())
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					PolycraftContainerType.INJECTION_MOLDER,
+					brickItem.getItemStack(),
+					new String[] { "xy" },
+					ImmutableMap.of(
+							'x', brickItem.source.getItemStack(brickItem.craftingPellets),
+							'y', brickItem.brickMold.getItemStack()));
+
+		for (final PolymerBrick brickItem : PolymerBrick.registry.values()) {
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(brickItem.getItemStack(8)),
+					new String[] { "xxx", "xyx", "xxx" },
+					ImmutableMap.of(
+							'x', brickItem.getItemStack(),
+							'y', new ItemStack(Items.dye)),
+					0);
+		}
+		
+		for (final Armor armor : Armor.registry.values()) {
+			final ItemStack craftingItemStack = PolycraftRegistry.getItemStack(armor.craftingItemName, 1);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.HEAD), 1)),
+					new String[] { "xxx", "x x", "   " },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.CHEST), 1)),
+					new String[] { "x x", "xxx", "xxx" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.LEGS), 1)),
+					new String[] { "xxx", "x x", "x x" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+					coloringFactory,
+					PolycraftContainerType.CRAFTING_TABLE,
+					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.FEET), 1)),
+					new String[] { "   ", "x x", "x x" },
+					ImmutableMap.of('x', craftingItemStack), 0);
+		}
+
 		/*
 
 		for (final PolymerPellets largerPolymerPelletsVessel : PolymerPellets.registry.values()) {
