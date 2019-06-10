@@ -231,10 +231,10 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+	//public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 	//public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-//	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -533,12 +533,30 @@ public class PolycraftRegistry {
 	private static void registerMinecraftItems() {
 		for (final ResourceLocation MinecraftItem : Item.itemRegistry.getKeys()) {
 			Item mcItem = Item.itemRegistry.getObject(MinecraftItem);
-			if(!items.containsKey(mcItem.getUnlocalizedName())) {
-                items.put(mcItem.getUnlocalizedName(), mcItem);
-                
-                minecraftItems.add(mcItem);
-                registerName(mcItem.getRegistryName(), mcItem.getUnlocalizedName());
-            }
+			if(mcItem.getRegistryName().contains("minecraft:"))
+			{
+				String name=mcItem.getRegistryName().substring(10);
+				name=name.replace('_', ' ');
+			
+			
+				if(!items.containsKey(mcItem.getUnlocalizedName())) {
+	                items.put(mcItem.getUnlocalizedName(), mcItem);
+	                
+	                items.put(name, mcItem);
+	                
+	                minecraftItems.add(mcItem);
+	                registerName(mcItem.getRegistryName(), mcItem.getUnlocalizedName());
+	            }
+			}
+			else
+			{
+				if(!items.containsKey(mcItem.getUnlocalizedName())) {
+	                items.put(mcItem.getUnlocalizedName(), mcItem);
+	                
+	                minecraftItems.add(mcItem);
+	                registerName(mcItem.getRegistryName(), mcItem.getUnlocalizedName());
+	            }
+			}
 //			if (isTargetVersion(minecraftItem.version)) {
 //				final Item item = GameData.getItemRegistry().getObjectById(minecraftItem.id);
 //				if (item == null)
@@ -687,6 +705,9 @@ public class PolycraftRegistry {
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 267), "swordIron");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 266), "ingotGold");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 265), "ingotIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 258), "hatchetIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 257), "pickaxeIron");
+			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 256), "shovelIron");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 174), "icePacked");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 173), "blockCoal");
 			registerSpecialNames(PolycraftMod.MC_PREFIX + String.format("%04d", 172), "clayHardened");
