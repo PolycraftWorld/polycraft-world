@@ -374,20 +374,7 @@ public class RecipeGenerator {
 					ImmutableMap.of('x', craftingItemStack), 0);
 		}
 
-		for (final Object furnaceRecipeEntry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
-			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>) furnaceRecipeEntry;
-			try {
-				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-						PolycraftContainerType.INDUSTRIAL_OVEN,
-						furnaceRecipe.getValue(),
-						ImmutableList.of(furnaceRecipe.getKey()),
-						MathHelper.getRandomIntegerInRange(rand, 3, 7));
-			} catch (final Exception e) {
-				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
-				System.err.println(e.getMessage());
-			}
-		}
-		/*
+		
 		for (final GrippedTool grippedTool : GrippedTool.registry.values())
 			PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
 					PolycraftContainerType.CRAFTING_TABLE,
@@ -396,70 +383,118 @@ public class RecipeGenerator {
 
 		for (final GrippedSyntheticTool grippedSyntheticTool : GrippedSyntheticTool.registry.values())
 		{				
-			for (String id: grippedSyntheticTool.source.typeGameIDs)
-			{
-				String s = PolycraftRegistry.getRegistryNameFromId(id);
-				if ((s.contains("Axe") && grippedSyntheticTool.name.contains("Axe")) ||
-					(s.contains("Pickaxe") && grippedSyntheticTool.name.contains("Pickaxe")) ||
-					(s.contains("Shovel") && grippedSyntheticTool.name.contains("Shovel")) ||
-					(s.contains("Hoe") && grippedSyntheticTool.name.contains("Hoe")) ||
-					(s.contains("Sword") && grippedSyntheticTool.name.contains("Sword")))
-					
-					PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
-								PolycraftContainerType.CRAFTING_TABLE,
-								grippedSyntheticTool.getItemStack(),
-								ImmutableList.of(PolycraftRegistry.getItemStack(s,1), grippedSyntheticTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
 
-			}
-		}
+			String s = grippedSyntheticTool.source.name;
+			if ((s.contains("Axe") && grippedSyntheticTool.name.contains("Axe")) ||
+				(s.contains("Pickaxe") && grippedSyntheticTool.name.contains("Pickaxe")) ||
+				(s.contains("Shovel") && grippedSyntheticTool.name.contains("Shovel")) ||
+				(s.contains("Hoe") && grippedSyntheticTool.name.contains("Hoe")) ||
+				(s.contains("Sword") && grippedSyntheticTool.name.contains("Sword")))
+				
+				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+							PolycraftContainerType.CRAFTING_TABLE,
+							grippedSyntheticTool.getItemStack(),
+							ImmutableList.of(PolycraftRegistry.getItemStack(s,1), grippedSyntheticTool.grip.getItemStack(PolycraftMod.recipeGripsPerTool)));
 
-		for (final Tool tool : Tool.registry.values()) {
-			final ItemStack craftingHeadItemStack = PolycraftRegistry.getItemStack(tool.craftingHeadItemName, 1);
-			final ItemStack craftingShaftItemStack = PolycraftRegistry.getItemStack(tool.craftingShaftItemName, 1);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.HOE), 1)),
-					new String[] { "xx ", " y ", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.HOE), 1)),
-					new String[] { " xx", " y ", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.SWORD), 1)),
-					new String[] { " x ", " x ", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.SHOVEL), 1)),
-					new String[] { " x ", " y ", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.PICKAXE), 1)),
-					new String[] { "xxx", " y ", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.AXE), 1)),
-					new String[] { " xx", " yx", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
-			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
-					coloringFactory,
-					PolycraftContainerType.CRAFTING_TABLE,
-					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.AXE), 1)),
-					new String[] { "xx ", "xy ", " y " },
-					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
 		}
-		*/
+		
+//		for (final PogoStick pogoStick : PogoStick.registry.values())
+//			if (pogoStick.source != null && pogoStick.grip != null)
+//				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+//						PolycraftContainerType.CRAFTING_TABLE,
+//						pogoStick.getItemStack(),
+//						ImmutableList.of(pogoStick.source.getItemStack(), pogoStick.grip.getItemStack(PolycraftMod.recipeGripsPerPogoStick)));
+//
+//		for (final Armor armor : Armor.registry.values()) {
+//			final ItemStack craftingItemStack = PolycraftRegistry.getItemStack(armor.craftingItemName, 1);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.HEAD), 1)),
+//					new String[] { "xxx", "x x", "   " },
+//					ImmutableMap.of('x', craftingItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.CHEST), 1)),
+//					new String[] { "x x", "xxx", "xxx" },
+//					ImmutableMap.of('x', craftingItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.LEGS), 1)),
+//					new String[] { "xxx", "x x", "x x" },
+//					ImmutableMap.of('x', craftingItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(armor.getFullComponentName(ArmorSlot.FEET), 1)),
+//					new String[] { "   ", "x x", "x x" },
+//					ImmutableMap.of('x', craftingItemStack), 0);
+//		}
+//
+//		for (final Tool tool : Tool.registry.values()) {
+//			final ItemStack craftingHeadItemStack = PolycraftRegistry.getItemStack(tool.craftingHeadItemName, 1);
+//			final ItemStack craftingShaftItemStack = PolycraftRegistry.getItemStack(tool.craftingShaftItemName, 1);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.HOE), 1)),
+//					new String[] { "xx ", " y ", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.HOE), 1)),
+//					new String[] { " xx", " y ", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.SWORD), 1)),
+//					new String[] { " x ", " x ", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.SHOVEL), 1)),
+//					new String[] { " x ", " y ", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.PICKAXE), 1)),
+//					new String[] { "xxx", " y ", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.AXE), 1)),
+//					new String[] { " xx", " yx", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//			PolycraftMod.recipeManagerRuntime.addShapedRecipe(
+//					coloringFactory,
+//					PolycraftContainerType.CRAFTING_TABLE,
+//					ImmutableList.of(PolycraftRegistry.getItemStack(tool.getFullTypeName(Tool.Type.AXE), 1)),
+//					new String[] { "xx ", "xy ", " y " },
+//					ImmutableMap.of('x', craftingHeadItemStack, 'y', craftingShaftItemStack), 0);
+//		}
+//
+//		//add all furnace recipes to the industrial oven
+//		for (final Object furnaceRecipeEntry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
+//			final Map.Entry<ItemStack, ItemStack> furnaceRecipe = (Map.Entry<ItemStack, ItemStack>) furnaceRecipeEntry;
+//			try {
+//				PolycraftMod.recipeManagerRuntime.addShapelessRecipe(
+//						PolycraftContainerType.INDUSTRIAL_OVEN,
+//						furnaceRecipe.getValue(),
+//						ImmutableList.of(furnaceRecipe.getKey()),
+//						MathHelper.getRandomIntegerInRange(rand, 3, 7));
+//			} catch (final Exception e) {
+//				System.err.println("Unable to generate industrial oven recipe: " + furnaceRecipe.getKey().getDisplayName() + " => " + furnaceRecipe.getValue().getDisplayName());
+//				System.err.println(e.getMessage());
+//			}
+//		}
+//		
 	}
 
 	private static void generateFileRecipes(final String directory) {

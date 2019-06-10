@@ -29,6 +29,6 @@ public class MinecraftItem extends Config {
 	}
 
 	public ItemStack getItemStack() {
-		return new ItemStack(PolycraftRegistry.getItem(name));
+		return new ItemStack(PolycraftRegistry.getItem(name.toLowerCase()));
 	}
 }
