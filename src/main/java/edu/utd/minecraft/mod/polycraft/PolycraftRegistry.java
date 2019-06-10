@@ -334,7 +334,10 @@ public class PolycraftRegistry {
 	}
 
 	public static Item getItem(final String name) {
-		return items.get(name);
+		if (items.containsKey(name.toLowerCase()))
+			return items.get(name.toLowerCase());
+		else
+			return items.get(name);
 	}
 
 	public static Block registerBlock(final GameIdentifiedConfig config, final Block block) {
@@ -535,6 +538,10 @@ public class PolycraftRegistry {
 			Item mcItem = Item.itemRegistry.getObject(MinecraftItem);
 			if(mcItem.getRegistryName().contains("minecraft:"))
 			{
+				if(mcItem.getRegistryName().contains("iron"))
+				{
+					int i = 1;//do something
+				}
 				String name=mcItem.getRegistryName().substring(10);
 				name=name.replace('_', ' ');
 			
