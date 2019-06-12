@@ -1,24 +1,38 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "textures": {
-			"#Mat_flood_light": "polycraft:models/inventories/flood_light"
-		},
+        //"textures": {
+			//"#Mat_flood_light": "polycraft:models/inventories/flood_light.png",
+			//"#TransparentMat": "polycraft:models/inventories/flood_light"
+		//},
         "model": "polycraft:flood_light.obj"
      },
     "variants": {
-        "normal": [{}],
+        "normal": [{
+			"transform": {
+				"translation": [0.0, 0.0, 1.0]
+			}
+		}],
         "inventory": [{
             "transform": {
                 "thirdperson": {
-                    "translation": [0, 0.09375, -0.171875],
-                    "rotation": [ { "y": -45}, {"x": 10}, {"z": 170} ],
-                    "scale": 4.0
+                    "translation": [0.0, 0.0, 0.30],
+                    "rotation": [ { "y": 0}, {"x": 90}, {"z": 180} ],
+                    "scale": 1.0
                 },
                 "gui": {
-                    "rotation": [ {"y": 90} ]
+					"translation": [0.0,0.15,1.0],
+					"scale": 2.0
                 }
             }
-        }]
+        }],
+		"facing": {
+		"down": { "model": "polycraft:flood_light.obj", "y": 90 },
+		"up": { "model": "polycraft:flood_light.obj", "y": 270 },
+		"north": { "model": "polycraft:flood_light.obj" },
+		"south": { "model": "polycraft:flood_light.obj", "x": 180 },
+		"west": { "model": "polycraft:flood_light.obj", "x": 270 },
+		"east": { "model": "polycraft:flood_light.obj", "x": 90 }
+		}
     }
 }

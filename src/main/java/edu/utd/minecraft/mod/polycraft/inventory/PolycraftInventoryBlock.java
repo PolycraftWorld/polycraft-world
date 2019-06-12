@@ -539,19 +539,27 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		return false;
 	}
 
+	
+	 /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
 	@Override
 	public int getRenderType() {
 		//if (this.config.render3D)
 		//return -1;
 		//else
-		return config.renderID; //TODO: Walter
+		//return config.renderID; //TODO: Walter
+		return 3;
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
-		return false;
-	}
+    public boolean isOpaqueCube() { return false; }
+
+    @Override
+    public boolean isFullCube() { return false; }
+
+    @Override
+    public boolean isVisuallyOpaque() { return false; }
 
 	//0 width length and height box so no wireframe rendered.
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
@@ -567,6 +575,11 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		else
 			return true;
 	}
+	
+	@SideOnly(Side.CLIENT)
+    public EnumWorldBlockLayer getBlockLayer(){
+		return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    }
 
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
@@ -576,413 +589,415 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		else
 			return true;
 	}
+	
+
 
 //	TODO: update for 1.8
-  	public static class BasicRenderingHandler extends TileEntitySpecialRenderer //implements ISimpleBlockRenderingHandler
- 
-	{
-
-		protected final Inventory config;
-		//protected IModelCustom inventoryModel;
-		public ResourceLocation objFile;
-		public ResourceLocation textureFile;
-
-		public BasicRenderingHandler(final Inventory config) {
-			this.config = config;
-			if (this.config.render3D)
-			{
-				this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/" + PolycraftMod.getFileSafeName(config.name) + ".obj");
-				//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
-				//this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
-				this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/" + PolycraftMod.getFileSafeName(config.name) + ".png");
-			}
-			else
-			{
-				this.objFile = null;
-				//this.inventoryModel = null;
-				this.textureFile = null;
-			}
-
-		}
-
-//		@Override
-//		public int getRenderId() {
-//			return config.renderID;
-//			//TODO
+//  	public static class BasicRenderingHandler extends TileEntitySpecialRenderer //implements ISimpleBlockRenderingHandler
+// 
+//	{
+//
+//		protected final Inventory config;
+//		//protected IModelCustom inventoryModel;
+//		public ResourceLocation objFile;
+//		public ResourceLocation textureFile;
+//
+//		public BasicRenderingHandler(final Inventory config) {
+//			this.config = config;
+//			if (this.config.render3D)
+//			{
+//				this.objFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/" + PolycraftMod.getFileSafeName(config.name) + ".obj");
+//				//this.inventoryModel = AdvancedModelLoader.loadModel(this.objFile);
+//				//this.inventoryModel = new ObjModelLoader().loadInstance(this.objFile);
+//				this.textureFile = new ResourceLocation(PolycraftMod.MODID, "textures/models/inventories/" + PolycraftMod.getFileSafeName(config.name) + ".png");
+//			}
+//			else
+//			{
+//				this.objFile = null;
+//				//this.inventoryModel = null;
+//				this.textureFile = null;
+//			}
+//
 //		}
-/*		TODO: Can we fix this in 1.8?
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
-			int meta = 3;
-
-			block.setBlockBoundsForItemRender();
-			renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
-			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-
-			if (this.config.render3D)
-			{
-
-				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
-				{
-					GL11.glScalef(0.25F, 0.125F, 0.25F);
-					GL11.glTranslatef(4F, -4.7F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
-				{
-					GL11.glScalef(1.5F, 1.5F, 1.5F);
-					GL11.glTranslatef(.75F, -.75F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.GASLAMP)
-				{
-					GL11.glScalef(1.5F, 1.5F, 1.5F);
-					GL11.glTranslatef(.75F, -.75F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.CHEMICAL_PROCESSOR)
-				{
-					GL11.glScalef(.33F, .33F, .33F);
-					GL11.glTranslatef(.4F, 0.4F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.CONDENSER)
-				{
-					GL11.glScalef(1.2F, 1.2F, 1.2F);
-					GL11.glTranslatef(.8F, 0.25F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
-				{
-					GL11.glScalef(0.05F, 0.05F, 0.05F);
-					GL11.glTranslatef(-11.1F, 1.1F, -10.1F);
-				}
-
-				else if (config.containerType == PolycraftContainerType.COMPUTER)
-				{
-					GL11.glScalef(0.6F, 0.6F, 0.6F);
-					GL11.glTranslatef(0.25F, 0F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.HOSPITAL_GENERATOR)
-				{
-					GL11.glScalef(0.6F, 0.6F, 0.6F);
-					GL11.glTranslatef(0.25F, 0F, 0F);
-				}
-
-
-				else if (config.containerType == PolycraftContainerType.SOLAR_ARRAY)
-				{
-					GL11.glScalef(0.125F, 0.125F, 0.125F);
-				}
-				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
-				{
-					GL11.glScalef(0.125F, 0.125F, 0.125F);
-				}
-				else if (config.containerType == PolycraftContainerType.INDUSTRIAL_OVEN)
-				{
-					GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-					GL11.glScalef(0.35F, 0.35F, 0.35F);
-					GL11.glTranslatef(-3.5F, -2.5F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.INJECTION_MOLDER)
-				{
-					GL11.glScalef(0.35F, 0.35F, 0.35F);
-					GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-					GL11.glTranslatef(-5.25F, -2.25F, 0F);
-
-				}
-				else if (config.containerType == PolycraftContainerType.EXTRUDER)
-				{
-					GL11.glScalef(0.35F, 0.35F, 0.35F);
-					GL11.glTranslatef(.25F, 1.0F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.MACHINING_MILL)
-				{
-					GL11.glScalef(0.6F, 0.6F, 0.6F);
-					GL11.glTranslatef(0.25F, 0F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
-				{
-					GL11.glScalef(0.6F, 0.6F, 0.6F);
-					GL11.glTranslatef(0.8F, 0F, 2F);
-				}
-				else if (config.containerType == PolycraftContainerType.TRADING_HOUSE)
-				{
-					GL11.glScalef(0.4F, 0.4F, 0.4F);
-					GL11.glTranslatef(0.25F, .4F, .1F);
-				}
-				else if (config.containerType == PolycraftContainerType.CONTACT_PRINTER)
-				{
-					GL11.glScalef(0.4F, 0.4F, 0.4F);
-					GL11.glTranslatef(0.25F, .4F, .1F);
-				}
-				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
-				{
-					GL11.glScalef(0.4F, 0.4F, 0.4F);
-					GL11.glTranslatef(.25F, .4F, .1F);
-				}
-				else if (config.containerType == PolycraftContainerType.PRINTING_PRESS)
-				{
-					GL11.glScalef(0.4F, 0.4F, 0.4F);
-					GL11.glTranslatef(0.25F, .4F, .1F);
-				}
-
-				else if (config.containerType == PolycraftContainerType.MEROX_TREATMENT_UNIT)
-				{
-					GL11.glScalef(0.25F, 0.25F, 0.25F);
-					GL11.glTranslatef(2F, -1F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.STEAM_CRACKER)
-				{
-					GL11.glScalef(0.24F, 0.24F, 0.24F);
-
-				}
-				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
-				{
-					GL11.glScalef(.16F, .24F, .16F);
-					GL11.glTranslatef(2F, -.7F, 3F);
-
-				}
-				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
-				{
-					// TODO: Scale GL11 accordingly to future fluorescent lamp model.
-					GL11.glScalef(1.2F, 1.2F, 1.2F);
-					GL11.glTranslatef(.8F, 0.25F, 0F);
-				}
-				else if (config.containerType == PolycraftContainerType.CANNON)
-				{
-					GL11.glScalef(0.25F, 0.25F, 0.25F);
-					GL11.glTranslatef(1.5F, 0F, 1.5F);
-					GL11.glRotatef(315F, 0F, 1F, 0F);
-				}
-
-				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
-				//this.inventoryModel.renderAll();
-			}
-			else
-			{	//TODO: fix for 1.8 Rendering
-//				Tessellator tessellator = Tessellator.instance;
-//				tessellator.startDrawingQuads();
-//				tessellator.setNormal(0.0F, -1.0F, 0.0F);
-//				renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
-//				tessellator.draw();
-//				tessellator.startDrawingQuads();
-//				tessellator.setNormal(0.0F, 1.0F, 0.0F);
-//				renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
-//				tessellator.draw();
-//				tessellator.startDrawingQuads();
-//				tessellator.setNormal(0.0F, 0.0F, -1.0F);
-//				renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
-//				tessellator.draw();
-//				tessellator.startDrawingQuads();
-//				tessellator.setNormal(0.0F, 0.0F, 1.0F);
-//				renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
-//				tessellator.draw();
-//				tessellator.startDrawingQuads();
-//				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-//				renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
-//				tessellator.draw();
-//				tessellator.startDrawingQuads();
-//				tessellator.setNormal(1.0F, 0.0F, 0.0F);
-//				renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
-//				tessellator.draw();
-			}
-
-			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-			int direction = renderer.blockAccess.getBlockMetadata(x, y, z) & 3;
-			if (direction > 0)
-				renderer.uvRotateTop = direction - 1;
-			else
-				renderer.uvRotateTop = 3;
-			boolean flag = renderer.renderStandardBlock(block, x, y, z);
-			renderer.uvRotateTop = 0;
-			return flag;
-		}
-
-		@Override
-		public boolean shouldRender3DInInventory(int modelId) {
-			return true;
-		}*/
-		
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float tick, int destroyStage) {
-
-			if (config.render3D)
-			{
-				if(config.containerType == PolycraftContainerType.CANNON)
-				{
-					EnumFacing direction = EnumFacing.WEST;
-					boolean rotated = false;
-					short angle = 0;
-	
-					//direction = ForgeDirection.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
-					rotated = tileEntity.getBlockMetadata() >> 3 == 1;
-					
-					GL11.glPushMatrix();
-					GL11.glDisable(GL11.GL_CULL_FACE);
-					
-					scaleTranslateRotate(x, y, z, direction, false);
-				}
-				else
-				{
-					EnumFacing direction = null;
-					boolean rotated = false;
-					short angle = 0;
-	
-					direction = EnumFacing.getFront(tileEntity.getBlockMetadata() & 7);
-					rotated = tileEntity.getBlockMetadata() >> 3 == 1;
-	
-					// System.out.println(direction + "|" + angle);
-					GL11.glPushMatrix();
-					GL11.glDisable(GL11.GL_CULL_FACE);
-	
-					scaleTranslateRotate(x, y, z, direction, rotated);
-				}
-				
-				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
-				{
-					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
-				}
-				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
-				{
-					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
-				}
-				else if (config.containerType == PolycraftContainerType.GASLAMP)
-				{
-					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
-				}
-				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
-				{
-					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
-					GL11.glTranslated(4F,0,0); //y axis
-				}
-				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
-				{
-					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-					GL11.glTranslated(-1F,0F,0F); //y axis
-				}
-				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
-				{
-					//GL11.glRotatef(-90, 0F, 1F, 0F); //z axis
-					//GL11.glTranslated(0F, 0F, -1F);
-				}
-				else if (config.containerType == PolycraftContainerType.CONDENSER)
-				{
-					GL11.glTranslated(1F, 0, 0);
-				}
-				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
-				{
-					GL11.glScalef(.2F, .2F, .2F);
-					GL11.glTranslated(-22.5F, 20F, -35F);
-					GL11.glRotatef(270, 0F, 0F, 1F);
-				}
-				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
-				{
-					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-					GL11.glTranslated(0, 0, -2F);
-				}
-				else if (config.containerType == PolycraftContainerType.INDUSTRIAL_OVEN)
-				{
-					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-					GL11.glTranslated(0, 0, -3F);
-				}
-				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
-				{
-					// TODO: Modify fluorescent lamp tile entity code when new model is made.
-					GL11.glRotatef(180f, 1f, 0, 0);
-					GL11.glRotatef(90f, 0, 1f, 0);
-					GL11.glTranslated(1, -1, 0);
-				}
-				else if (config.containerType == PolycraftContainerType.CANNON)
-				{
-					CannonInventory cannon = (CannonInventory)tileEntity;
-					
-					GL11.glScalef(.2F, .2F, .2F);
-					GL11.glTranslated(2.4763F, -.027F, 2.5F);
-					GL11.glRotatef(((float) cannon.theta)%360,0F, 1F, 0F);
-					GL11.glRotatef(((float) cannon.phi)%360,0F, 0F, 1F);
-					
-				}
-
-				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
-				//this.inventoryModel.renderAll();
-
-				GL11.glEnable(GL11.GL_CULL_FACE);
-				GL11.glPopMatrix();
-			}
-		}
-
-		protected void scaleTranslateRotate(double x, double y, double z, EnumFacing orientation, boolean rotated) {
-
-			if ((orientation == EnumFacing.NORTH) && (!rotated)) {
-				// System.out.println("North");
-				GL11.glTranslated(x + 1F, y, z);
-				GL11.glRotatef(-90, 1F, 0F, 0F); //z axis
-				GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
-				GL11.glRotatef(-90, 0F, 0F, 1F); //x axis
-
-			}
-			else if ((orientation == EnumFacing.NORTH) && (rotated)) {
-				// System.out.println("North");
-				GL11.glTranslated(x, y, z + 1F);
-				GL11.glRotatef(-90, 1F, 0F, 0F); //z axis
-				GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
-				GL11.glRotatef(-90, 0F, 0F, 1F); //x axis
-				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-			}
-
-			else if ((orientation == EnumFacing.EAST) && (!rotated)) {
-				// System.out.println("East");
-				GL11.glTranslated(x + 1F, y, z + 1F);
-				//GL11.glRotatef(0, 1F, 0F, 0F);
-				GL11.glRotatef(180, 0F, 1F, 0F);
-				//GL11.glRotatef(0, 0F, 0F, 1F);
-			}
-
-			else if ((orientation == EnumFacing.EAST) && (rotated)) {
-				// System.out.println("East");
-				GL11.glTranslated(x, y, z);
-				//GL11.glRotatef(0, 1F, 0F, 0F);
-				GL11.glRotatef(180, 0F, 1F, 0F);
-				//GL11.glRotatef(0, 0F, 0F, 1F);
-				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-
-			} else if ((orientation == EnumFacing.SOUTH) && (!rotated)) {
-				// System.out.println("South");
-				GL11.glTranslated(x, y, z + 1F);
-				GL11.glRotatef(-90, 1F, 0F, 0F);
-				GL11.glRotatef(90, 0F, 1F, 0F);
-				GL11.glRotatef(90, 0F, 0F, 1F);
-
-			} else if ((orientation == EnumFacing.SOUTH) && (rotated)) {
-				// System.out.println("South");
-				GL11.glTranslated(x + 1F, y, z);
-				GL11.glRotatef(-90, 1F, 0F, 0F);
-				GL11.glRotatef(90, 0F, 1F, 0F);
-				GL11.glRotatef(90, 0F, 0F, 1F);
-				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-
-			} else if ((orientation == EnumFacing.WEST) && (!rotated)) {
-				// System.out.println("West");
-				GL11.glTranslated(x, y, z);
-				//GL11.glRotatef(0, 1F, 0F, 0F);
-				//GL11.glRotatef(0, 0F, 1F, 0F);
-				//GL11.glRotatef(0, 0F, 0F, 1F);
-			} else if ((orientation == EnumFacing.WEST) && (rotated)) {
-				// System.out.println("West");
-				GL11.glTranslated(x + 1F, y, z + 1F);
-				//GL11.glRotatef(180, 1F, 0F, 0F);
-				//GL11.glRotatef(0, 0F, 1F, 0F);
-				//GL11.glRotatef(0, 0F, 0F, 1F);
-				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
-
-			}
-		}
-
-	}
+//
+////		@Override
+////		public int getRenderId() {
+////			return config.renderID;
+////			//TODO
+////		}
+///*		TODO: Can we fix this in 1.8?
+//		@Override
+//		@SideOnly(Side.CLIENT)
+//		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+//			int meta = 3;
+//
+//			block.setBlockBoundsForItemRender();
+//			renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
+//			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+//			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+//
+//			if (this.config.render3D)
+//			{
+//
+//				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+//				{
+//					GL11.glScalef(0.25F, 0.125F, 0.25F);
+//					GL11.glTranslatef(4F, -4.7F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
+//				{
+//					GL11.glScalef(1.5F, 1.5F, 1.5F);
+//					GL11.glTranslatef(.75F, -.75F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.GASLAMP)
+//				{
+//					GL11.glScalef(1.5F, 1.5F, 1.5F);
+//					GL11.glTranslatef(.75F, -.75F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.CHEMICAL_PROCESSOR)
+//				{
+//					GL11.glScalef(.33F, .33F, .33F);
+//					GL11.glTranslatef(.4F, 0.4F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.CONDENSER)
+//				{
+//					GL11.glScalef(1.2F, 1.2F, 1.2F);
+//					GL11.glTranslatef(.8F, 0.25F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
+//				{
+//					GL11.glScalef(0.05F, 0.05F, 0.05F);
+//					GL11.glTranslatef(-11.1F, 1.1F, -10.1F);
+//				}
+//
+//				else if (config.containerType == PolycraftContainerType.COMPUTER)
+//				{
+//					GL11.glScalef(0.6F, 0.6F, 0.6F);
+//					GL11.glTranslatef(0.25F, 0F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.HOSPITAL_GENERATOR)
+//				{
+//					GL11.glScalef(0.6F, 0.6F, 0.6F);
+//					GL11.glTranslatef(0.25F, 0F, 0F);
+//				}
+//
+//
+//				else if (config.containerType == PolycraftContainerType.SOLAR_ARRAY)
+//				{
+//					GL11.glScalef(0.125F, 0.125F, 0.125F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+//				{
+//					GL11.glScalef(0.125F, 0.125F, 0.125F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.INDUSTRIAL_OVEN)
+//				{
+//					GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+//					GL11.glScalef(0.35F, 0.35F, 0.35F);
+//					GL11.glTranslatef(-3.5F, -2.5F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.INJECTION_MOLDER)
+//				{
+//					GL11.glScalef(0.35F, 0.35F, 0.35F);
+//					GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+//					GL11.glTranslatef(-5.25F, -2.25F, 0F);
+//
+//				}
+//				else if (config.containerType == PolycraftContainerType.EXTRUDER)
+//				{
+//					GL11.glScalef(0.35F, 0.35F, 0.35F);
+//					GL11.glTranslatef(.25F, 1.0F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.MACHINING_MILL)
+//				{
+//					GL11.glScalef(0.6F, 0.6F, 0.6F);
+//					GL11.glTranslatef(0.25F, 0F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
+//				{
+//					GL11.glScalef(0.6F, 0.6F, 0.6F);
+//					GL11.glTranslatef(0.8F, 0F, 2F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.TRADING_HOUSE)
+//				{
+//					GL11.glScalef(0.4F, 0.4F, 0.4F);
+//					GL11.glTranslatef(0.25F, .4F, .1F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.CONTACT_PRINTER)
+//				{
+//					GL11.glScalef(0.4F, 0.4F, 0.4F);
+//					GL11.glTranslatef(0.25F, .4F, .1F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
+//				{
+//					GL11.glScalef(0.4F, 0.4F, 0.4F);
+//					GL11.glTranslatef(.25F, .4F, .1F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.PRINTING_PRESS)
+//				{
+//					GL11.glScalef(0.4F, 0.4F, 0.4F);
+//					GL11.glTranslatef(0.25F, .4F, .1F);
+//				}
+//
+//				else if (config.containerType == PolycraftContainerType.MEROX_TREATMENT_UNIT)
+//				{
+//					GL11.glScalef(0.25F, 0.25F, 0.25F);
+//					GL11.glTranslatef(2F, -1F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.STEAM_CRACKER)
+//				{
+//					GL11.glScalef(0.24F, 0.24F, 0.24F);
+//
+//				}
+//				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
+//				{
+//					GL11.glScalef(.16F, .24F, .16F);
+//					GL11.glTranslatef(2F, -.7F, 3F);
+//
+//				}
+//				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
+//				{
+//					// TODO: Scale GL11 accordingly to future fluorescent lamp model.
+//					GL11.glScalef(1.2F, 1.2F, 1.2F);
+//					GL11.glTranslatef(.8F, 0.25F, 0F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.CANNON)
+//				{
+//					GL11.glScalef(0.25F, 0.25F, 0.25F);
+//					GL11.glTranslatef(1.5F, 0F, 1.5F);
+//					GL11.glRotatef(315F, 0F, 1F, 0F);
+//				}
+//
+//				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
+//				//this.inventoryModel.renderAll();
+//			}
+//			else
+//			{	//TODO: fix for 1.8 Rendering
+////				Tessellator tessellator = Tessellator.instance;
+////				tessellator.startDrawingQuads();
+////				tessellator.setNormal(0.0F, -1.0F, 0.0F);
+////				renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
+////				tessellator.draw();
+////				tessellator.startDrawingQuads();
+////				tessellator.setNormal(0.0F, 1.0F, 0.0F);
+////				renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
+////				tessellator.draw();
+////				tessellator.startDrawingQuads();
+////				tessellator.setNormal(0.0F, 0.0F, -1.0F);
+////				renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
+////				tessellator.draw();
+////				tessellator.startDrawingQuads();
+////				tessellator.setNormal(0.0F, 0.0F, 1.0F);
+////				renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
+////				tessellator.draw();
+////				tessellator.startDrawingQuads();
+////				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+////				renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
+////				tessellator.draw();
+////				tessellator.startDrawingQuads();
+////				tessellator.setNormal(1.0F, 0.0F, 0.0F);
+////				renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
+////				tessellator.draw();
+//			}
+//
+//			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+//		}
+//
+//		@Override
+//		@SideOnly(Side.CLIENT)
+//		public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+//			int direction = renderer.blockAccess.getBlockMetadata(x, y, z) & 3;
+//			if (direction > 0)
+//				renderer.uvRotateTop = direction - 1;
+//			else
+//				renderer.uvRotateTop = 3;
+//			boolean flag = renderer.renderStandardBlock(block, x, y, z);
+//			renderer.uvRotateTop = 0;
+//			return flag;
+//		}
+//
+//		@Override
+//		public boolean shouldRender3DInInventory(int modelId) {
+//			return true;
+//		}*/
+//		
+//		@Override
+//		@SideOnly(Side.CLIENT)
+//		public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float tick, int destroyStage) {
+//
+//			if (config.render3D)
+//			{
+//				if(config.containerType == PolycraftContainerType.CANNON)
+//				{
+//					EnumFacing direction = EnumFacing.WEST;
+//					boolean rotated = false;
+//					short angle = 0;
+//	
+//					//direction = ForgeDirection.values()[(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) & 7)];
+//					rotated = tileEntity.getBlockMetadata() >> 3 == 1;
+//					
+//					GL11.glPushMatrix();
+//					GL11.glDisable(GL11.GL_CULL_FACE);
+//					
+//					scaleTranslateRotate(x, y, z, direction, false);
+//				}
+//				else
+//				{
+//					EnumFacing direction = null;
+//					boolean rotated = false;
+//					short angle = 0;
+//	
+//					direction = EnumFacing.getFront(tileEntity.getBlockMetadata() & 7);
+//					rotated = tileEntity.getBlockMetadata() >> 3 == 1;
+//	
+//					// System.out.println(direction + "|" + angle);
+//					GL11.glPushMatrix();
+//					GL11.glDisable(GL11.GL_CULL_FACE);
+//	
+//					scaleTranslateRotate(x, y, z, direction, rotated);
+//				}
+//				
+//				if (config.containerType == PolycraftContainerType.DISTILLATION_COLUMN)
+//				{
+//					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+//				}
+//				else if (config.containerType == PolycraftContainerType.FLOODLIGHT)
+//				{
+//					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+//				}
+//				else if (config.containerType == PolycraftContainerType.GASLAMP)
+//				{
+//					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+//				}
+//				else if (config.containerType == PolycraftContainerType.TEXT_WALL)
+//				{
+//					GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+//					GL11.glTranslated(4F,0,0); //y axis
+//				}
+//				else if (config.containerType == PolycraftContainerType.POLYCRAFTING_TABLE)
+//				{
+//					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//					GL11.glTranslated(-1F,0F,0F); //y axis
+//				}
+//				else if (config.containerType == PolycraftContainerType.MASK_WRITER)
+//				{
+//					//GL11.glRotatef(-90, 0F, 1F, 0F); //z axis
+//					//GL11.glTranslated(0F, 0F, -1F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.CONDENSER)
+//				{
+//					GL11.glTranslated(1F, 0, 0);
+//				}
+//				else if (config.containerType == PolycraftContainerType.TERRITORY_FLAG)
+//				{
+//					GL11.glScalef(.2F, .2F, .2F);
+//					GL11.glTranslated(-22.5F, 20F, -35F);
+//					GL11.glRotatef(270, 0F, 0F, 1F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.OIL_DERRICK)
+//				{
+//					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//					GL11.glTranslated(0, 0, -2F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.INDUSTRIAL_OVEN)
+//				{
+//					GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//					GL11.glTranslated(0, 0, -3F);
+//				}
+//				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
+//				{
+//					// TODO: Modify fluorescent lamp tile entity code when new model is made.
+//					GL11.glRotatef(180f, 1f, 0, 0);
+//					GL11.glRotatef(90f, 0, 1f, 0);
+//					GL11.glTranslated(1, -1, 0);
+//				}
+//				else if (config.containerType == PolycraftContainerType.CANNON)
+//				{
+//					CannonInventory cannon = (CannonInventory)tileEntity;
+//					
+//					GL11.glScalef(.2F, .2F, .2F);
+//					GL11.glTranslated(2.4763F, -.027F, 2.5F);
+//					GL11.glRotatef(((float) cannon.theta)%360,0F, 1F, 0F);
+//					GL11.glRotatef(((float) cannon.phi)%360,0F, 0F, 1F);
+//					
+//				}
+//
+//				Minecraft.getMinecraft().renderEngine.bindTexture(this.textureFile);
+//				//this.inventoryModel.renderAll();
+//
+//				GL11.glEnable(GL11.GL_CULL_FACE);
+//				GL11.glPopMatrix();
+//			}
+//		}
+//
+//		protected void scaleTranslateRotate(double x, double y, double z, EnumFacing orientation, boolean rotated) {
+//
+//			if ((orientation == EnumFacing.NORTH) && (!rotated)) {
+//				// System.out.println("North");
+//				GL11.glTranslated(x + 1F, y, z);
+//				GL11.glRotatef(-90, 1F, 0F, 0F); //z axis
+//				GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+//				GL11.glRotatef(-90, 0F, 0F, 1F); //x axis
+//
+//			}
+//			else if ((orientation == EnumFacing.NORTH) && (rotated)) {
+//				// System.out.println("North");
+//				GL11.glTranslated(x, y, z + 1F);
+//				GL11.glRotatef(-90, 1F, 0F, 0F); //z axis
+//				GL11.glRotatef(-90, 0F, 1F, 0F); //y axis
+//				GL11.glRotatef(-90, 0F, 0F, 1F); //x axis
+//				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//			}
+//
+//			else if ((orientation == EnumFacing.EAST) && (!rotated)) {
+//				// System.out.println("East");
+//				GL11.glTranslated(x + 1F, y, z + 1F);
+//				//GL11.glRotatef(0, 1F, 0F, 0F);
+//				GL11.glRotatef(180, 0F, 1F, 0F);
+//				//GL11.glRotatef(0, 0F, 0F, 1F);
+//			}
+//
+//			else if ((orientation == EnumFacing.EAST) && (rotated)) {
+//				// System.out.println("East");
+//				GL11.glTranslated(x, y, z);
+//				//GL11.glRotatef(0, 1F, 0F, 0F);
+//				GL11.glRotatef(180, 0F, 1F, 0F);
+//				//GL11.glRotatef(0, 0F, 0F, 1F);
+//				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//
+//			} else if ((orientation == EnumFacing.SOUTH) && (!rotated)) {
+//				// System.out.println("South");
+//				GL11.glTranslated(x, y, z + 1F);
+//				GL11.glRotatef(-90, 1F, 0F, 0F);
+//				GL11.glRotatef(90, 0F, 1F, 0F);
+//				GL11.glRotatef(90, 0F, 0F, 1F);
+//
+//			} else if ((orientation == EnumFacing.SOUTH) && (rotated)) {
+//				// System.out.println("South");
+//				GL11.glTranslated(x + 1F, y, z);
+//				GL11.glRotatef(-90, 1F, 0F, 0F);
+//				GL11.glRotatef(90, 0F, 1F, 0F);
+//				GL11.glRotatef(90, 0F, 0F, 1F);
+//				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//
+//			} else if ((orientation == EnumFacing.WEST) && (!rotated)) {
+//				// System.out.println("West");
+//				GL11.glTranslated(x, y, z);
+//				//GL11.glRotatef(0, 1F, 0F, 0F);
+//				//GL11.glRotatef(0, 0F, 1F, 0F);
+//				//GL11.glRotatef(0, 0F, 0F, 1F);
+//			} else if ((orientation == EnumFacing.WEST) && (rotated)) {
+//				// System.out.println("West");
+//				GL11.glTranslated(x + 1F, y, z + 1F);
+//				//GL11.glRotatef(180, 1F, 0F, 0F);
+//				//GL11.glRotatef(0, 0F, 1F, 0F);
+//				//GL11.glRotatef(0, 0F, 0F, 1F);
+//				GL11.glRotatef(180, 0F, 1F, 0F); //y axis
+//
+//			}
+//		}
+//
+//	}
 
 	public boolean canPlaceBlockWithoutInterference(Block nextBlock)
 	{
