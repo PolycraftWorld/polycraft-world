@@ -113,8 +113,58 @@ public class ExcelTsvUtil {
 			            for(int k = 0; k < cols; k++) {
 			                cell = row.getCell((short)k);
 			                if(cell != null) {
-			                	 byte[] strToBytes = (cell.toString()+"\t").getBytes();
-			                	 outputStreamTSV.write(strToBytes);
+			                	if(cell.getCellType().equals(CellType.FORMULA))
+			                	{
+			                		if(cell.getCachedFormulaResultType().equals(CellType.NUMERIC))
+			                		{
+			                			if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+				                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+					                		outputStreamTSV.write(strToBytes);
+				                		}
+				                		else
+				                		{
+				                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+				                			outputStreamTSV.write(strToBytes);
+				                		}
+			                		}
+			                		else if(cell.getCachedFormulaResultType().equals(CellType.STRING))
+			                		{
+			                			byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (cell.toString()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.NUMERIC))
+			                	{
+			                		if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+			                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+			                			outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.STRING))
+			                	{
+			                		byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else if(cell.getCellType().equals(CellType.ERROR))
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else 
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
 			                	 //tab
 			                }
 			            }
@@ -160,8 +210,58 @@ public class ExcelTsvUtil {
 			            for(int k = 0; k < cols; k++) {
 			                cell = row.getCell((short)k);
 			                if(cell != null) {
-			                	 byte[] strToBytes = (cell.toString()+"\t").getBytes();
-			                	 outputStreamTSV.write(strToBytes);
+			                	if(cell.getCellType().equals(CellType.FORMULA))
+			                	{
+			                		if(cell.getCachedFormulaResultType().equals(CellType.NUMERIC))
+			                		{
+			                			if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+				                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+					                		outputStreamTSV.write(strToBytes);
+				                		}
+				                		else
+				                		{
+				                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+				                			outputStreamTSV.write(strToBytes);
+				                		}
+			                		}
+			                		else if(cell.getCachedFormulaResultType().equals(CellType.STRING))
+			                		{
+			                			byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (cell.toString()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.NUMERIC))
+			                	{
+			                		if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+			                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+			                			outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.STRING))
+			                	{
+			                		byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else if(cell.getCellType().equals(CellType.ERROR))
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else 
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
 			                	 //tab
 			                }
 			            }
@@ -207,8 +307,58 @@ public class ExcelTsvUtil {
 			            for(int k = 0; k < cols; k++) {
 			                cell = row.getCell((short)k);
 			                if(cell != null) {
-			                	 byte[] strToBytes = (cell.toString()+"\t").getBytes();
-			                	 outputStreamTSV.write(strToBytes);
+			                	if(cell.getCellType().equals(CellType.FORMULA))
+			                	{
+			                		if(cell.getCachedFormulaResultType().equals(CellType.NUMERIC))
+			                		{
+			                			if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+				                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+					                		outputStreamTSV.write(strToBytes);
+				                		}
+				                		else
+				                		{
+				                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+				                			outputStreamTSV.write(strToBytes);
+				                		}
+			                		}
+			                		else if(cell.getCachedFormulaResultType().equals(CellType.STRING))
+			                		{
+			                			byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (cell.toString()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.NUMERIC))
+			                	{
+			                		if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+			                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+			                			outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.STRING))
+			                	{
+			                		byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else if(cell.getCellType().equals(CellType.ERROR))
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else 
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
 			                	 //tab
 			                }
 			            }
@@ -254,8 +404,58 @@ public class ExcelTsvUtil {
 			            for(int k = 0; k < cols; k++) {
 			                cell = row.getCell((short)k);
 			                if(cell != null) {
-			                	 byte[] strToBytes = (cell.toString()+"\t").getBytes();
-			                	 outputStreamTSV.write(strToBytes);
+			                	if(cell.getCellType().equals(CellType.FORMULA))
+			                	{
+			                		if(cell.getCachedFormulaResultType().equals(CellType.NUMERIC))
+			                		{
+			                			if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+				                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+					                		outputStreamTSV.write(strToBytes);
+				                		}
+				                		else
+				                		{
+				                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+				                			outputStreamTSV.write(strToBytes);
+				                		}
+			                		}
+			                		else if(cell.getCachedFormulaResultType().equals(CellType.STRING))
+			                		{
+			                			byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (cell.toString()+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.NUMERIC))
+			                	{
+			                		if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+			                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+			                			outputStreamTSV.write(strToBytes);
+			                		}
+			                	}
+			                	else if(cell.getCellType().equals(CellType.STRING))
+			                	{
+			                		byte[] strToBytes = (cell.getStringCellValue()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else if(cell.getCellType().equals(CellType.ERROR))
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
+			                	else 
+			                	{
+			                		byte[] strToBytes = (cell.toString()+"\t").getBytes();
+			                		outputStreamTSV.write(strToBytes);
+			                	}
 			                	 //tab
 			                }
 			            }
@@ -309,8 +509,15 @@ public class ExcelTsvUtil {
 			                	{
 			                		if(cell.getCachedFormulaResultType().equals(CellType.NUMERIC))
 			                		{
-			                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
-				                		outputStreamTSV.write(strToBytes);
+			                			if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+				                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+					                		outputStreamTSV.write(strToBytes);
+				                		}
+				                		else
+				                		{
+				                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+				                			outputStreamTSV.write(strToBytes);
+				                		}
 			                		}
 			                		else if(cell.getCachedFormulaResultType().equals(CellType.STRING))
 			                		{
@@ -325,8 +532,15 @@ public class ExcelTsvUtil {
 			                	}
 			                	else if(cell.getCellType().equals(CellType.NUMERIC))
 			                	{
-			                		byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
-			                		outputStreamTSV.write(strToBytes);
+			                		if ((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue())) && !Double.isInfinite(cell.getNumericCellValue())) {
+			                			byte[] strToBytes = (String.valueOf(cell.getRawValue())+"\t").getBytes();
+				                		outputStreamTSV.write(strToBytes);
+			                		}
+			                		else
+			                		{
+			                			byte[] strToBytes = (String.valueOf(cell.getNumericCellValue())+"\t").getBytes();
+			                			outputStreamTSV.write(strToBytes);
+			                		}
 			                	}
 			                	else if(cell.getCellType().equals(CellType.STRING))
 			                	{
