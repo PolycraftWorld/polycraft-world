@@ -1,5 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.config;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -114,6 +118,99 @@ public class Inventory extends GameIdentifiedConfig {
 		}
 
 	}
+	
+	public static void checkInventoryJSONs(Inventory config, String path){
+		String texture = PolycraftMod.getFileSafeName(config.name);
+		File json = new File(path + "blockstates\\" + texture + ".json");
+		if (json.exists())
+				return;
+		else{
+			try{
+				//BlockState file: This was based off flood light and should only be used as a template for other inventories
+				String fileContent = "";
+				BufferedWriter writer;
+				
+				if(config.render3D) {
+					fileContent = String.format("{\n" + 
+							"    \"forge_marker\": 1,\n" + 
+							"    \"defaults\": {\"model\": \"polycraft:inventories/%s.obj\"},\n" + 
+							"    \"variants\": {\n" + 
+							"        \"normal\": [{\n" + 
+							"			\"transform\": {\n" + 
+							"				\"translation\": [0.0, 0.0, 1.0]\n" + 
+							"			}\n" + 
+							"		}],\n" + 
+							"        \"inventory\": [{\n" + 
+							"            \"transform\": {\n" + 
+							"                \"thirdperson\": {\n" + 
+							"                    \"translation\": [0.0, 0.0, 0.30],\n" + 
+							"                    \"rotation\": [ { \"y\": 0}, {\"x\": 90}, {\"z\": 180} ],\n" + 
+							"                    \"scale\": 1.0\n" + 
+							"                },\n" + 
+							"                \"gui\": {\n" + 
+							"					\"translation\": [0.0,0.15,1.0],\n" + 
+							"					\"scale\": 2.0\n" + 
+							"                }\n" + 
+							"            }\n" + 
+							"        }]\n" + 
+							"    }\n" + 
+							"}", texture);
+
+					writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + ".json"));
+					
+					writer.write(fileContent);
+					writer.close();
+				}else {
+					//BlockState file
+					fileContent = String.format("{\n" +
+							"  \"variants\": {\n" +
+							"    \"normal\": { \"model\": \"polycraft:%s\" }\n" +
+							"  }\n" +
+							"}", texture);
+
+					writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+
+					//Model file
+					fileContent = String.format("{\n" +
+							"  \"parent\": \"block/cube_all\",\n" +
+							"  \"textures\": {\n" +
+							"    \"all\": \"polycraft:blocks/%s\"\n" +
+							"  }\n" +
+							"}", texture);
+
+					writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + texture + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+
+					//Item model file
+					fileContent = String.format("{\n" +
+							"    \"parent\": \"polycraft:%s\",\n" +
+							"    \"display\": {\n" +
+							"        \"thirdperson\": {\n" +
+							"            \"rotation\": [ 10, -45, 170 ],\n" +
+							"            \"translation\": [ 0, 1.5, -2.75 ],\n" +
+							"            \"scale\": [ 0.375, 0.375, 0.375 ]\n" +
+							"        }\n" +
+							"    }\n" +
+							"}", texture);
+
+					writer = new BufferedWriter(new FileWriter(path + "models\\item\\" + texture + ".json"));
+
+					writer.write(fileContent);
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+	
 
 	@Override
 	public ItemStack getItemStack(int size) {

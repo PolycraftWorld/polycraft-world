@@ -1,6 +1,6 @@
 {
     "forge_marker": 1,
-    "defaults": {"model": "polycraft:flood_light.obj"},
+    "defaults": {"model": "polycraft:inventories/territory_flag.obj"},
     "variants": {
         "normal": [{
 			"transform": {
