@@ -1,4 +1,4 @@
-Version	Minecraft Block							
+Version	Minecraft Block
 1.0.0	Air	air	air	air	0	0	minecraft:air	Air
 1.0.0	Stone	stone	stone	stone	1	1	minecraft:stone	Stone D B
 1.0.0	Grass	grass	grass	grass	2	2	minecraft:grass	Grass Block
@@ -175,19 +175,3 @@ Version	Minecraft Block
 1.0.0	Coal Block	coal block	coal block	coal_block	173	AD	minecraft:coal_block	Block of Coal
 1.0.0	Packed Ice	packed ice	packed ice	packed_ice	174	AE	minecraft:packed_ice	Packed Ice
 1.0.0	Double Plant	double plant	double plant	double_plant	175	AF	minecraft:double_plant	Large Flowers D B
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								

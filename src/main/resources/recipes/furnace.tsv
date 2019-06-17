@@ -1,336 +1,85 @@
-Version	Level	Output	O1#	Input	I1#	Smelting Class											
-1.0.0	2	Aluminoxane Catalyst	1	Triethylaluminium Catalyst	1	Pellets											
-1.1.0	2	Antimony Trioxide Catalyst	16	Antimony Ingot	1	Pellets											
-1.1.0	2	Bag (Potassium Hydroxide)	16	Potash Ore	1	Pellets											
-1.1.2	2	Chromium (VI) Oxide Catalyst	1	Chrome Ingot	1	Pellets											
-1.1.0	2	Cobalt Catalyst	16	Cobalt Ingot	1	Pellets											
-1.1.0	2	Copper II Chloride Catalyst	16	Copper Ingot	1	Pellets											
-1.0.4	2	Iron III Chloride Catalyst	16	Iron Ingot	1	Pellets											
-1.0.4	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1	Pellets											
-1.1.0	2	Lead Oxide Catalyst	16	Plumbum (Lead) Ingot	1	Pellets											
-1.1.0	2	Magnesium Oxide Catalyst	16	Magnesium Ingot	1	Pellets											
-1.1.0	2	Manganese Catalyst	16	Manganese Ingot	1	Pellets											
-1.1.0	2	Palladium Catalyst	16	Palladium Ingot	1	Pellets											
-1.1.0	2	Platinum Catalyst	16	Platinum Ingot	1	Pellets											
-1.1.0	2	Silver Catalyst	16	Silver Ingot	1	Pellets											
-1.1.0	2	Tin Catalyst	16	Tin Ingot	1	Pellets											
-1.1.0	2	Titanium Catalyst	16	Titanium Ingot	1	Pellets											
-1.1.0	2	Triethylaluminium Catalyst	16	Aluminum Ingot	1	Pellets											
-1.1.0	2	Zinc Nitrate Catalyst	16	Zinc Ingot	1	Pellets											
-1.0.0	2	Aluminum Ingot	1	Bauxite	1	Catalyst											
-1.0.0	2	Antimony Ingot	1	Antimony Ore	1	Catalyst											
-1.0.0	2	Bismuth Ingot	1	Bismuth Ore	1	Catalyst											
-1.1.0	2	Chrome Ingot	1	Chromite	1	Catalyst											
-1.0.0	2	Cobalt Ingot	1	Cobalt Ore	1	Catalyst											
-1.0.0	2	Copper Ingot	1	Copper Ore	1	Catalyst											
-1.0.0	2	Magnesium Ingot	1	Magnesium Ore	1	Catalyst											
-1.0.0	2	Manganese Ingot	1	Manganese Ore	1	Catalyst											
-1.0.0	2	Nickel Ingot	1	Nickel Ore	1	Catalyst											
-1.0.0	2	Palladium Ingot	1	Palladium Ore	1	Catalyst											
-1.0.0	2	Platinum Ingot	1	Platinum Ore	1	Catalyst											
-1.1.0	2	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ore	1	Catalyst											
-1.0.0	2	Silver Ingot	1	Silver Ore	1	Catalyst											
-1.0.0	2	Tin Ingot	1	Tin Ore	1	Catalyst											
-1.0.0	2	Titanium Ingot	1	Titanium Ore	1	Catalyst											
-1.0.0	2	Tungsten Ingot	1	Tungsten Ore	1	Catalyst											
-1.0.0	2	Zinc Ingot	1	Zinc Ore	1	Catalyst											
-1.0.0	4	Bag (Low Density PolyEthylene Pellets)	1	Flask (Ethylene)	1	Fibers											
-1.0.0	4	Bag (PolyPropylene Pellets)	1	Flask (Propylene)	1	Fibers											
-1.0.0	4	Sack (Low Density PolyEthylene Pellets)	1	Cartridge (Ethylene)	1	Fibers											
-1.0.0	4	Sack (PolyPropylene Pellets)	1	Cartridge (Propylene)	1	Fibers											
-1.0.0	4	Powder Keg (Low Density PolyEthylene Pellets)	1	Canister (Ethylene)	1	Fibers											
-1.0.0	4	Powder Keg (PolyPropylene Pellets)	1	Canister (Propylene)	1	Fibers											
-1.1.0	5	Bag (Isobutylene-Isoprene Rubber Pellets)	1	Vial (Butylene isomers)	1	Fibers											
-1.1.0	5	Bag (PolyButadiene (low-cis) Pellets)	1	Vial (Butadiene)	1	Fibers											
-1.1.0	5	Powder Keg (Isobutylene-Isoprene Rubber Pellets)	1	Drum (Butylene isomers)	1	Fibers											
-1.1.0	5	Powder Keg (PolyButadiene (low-cis) Pellets)	1	Drum (Butadiene)	1	Fibers											
-1.1.0	5	Sack (Isobutylene-Isoprene Rubber Pellets)	1	Beaker (Butylene isomers)	1	Fibers											
-1.1.0	5	Sack (PolyButadiene (low-cis) Pellets)	1	Beaker (Butadiene)	1	Fibers											
-1.1.0	5	Bag (Polycaprolactam Pellets)	1	Vial (Caprolactam)	1	Fibers											
-1.1.0	5	Sack (Polycaprolactam Pellets)	1	Beaker (Caprolactam)	1	Fibers											
-1.1.0	5	Powder Keg (Polycaprolactam Pellets)	1	Drum (Caprolactam)	1	Fibers											
-1.1.2	8	Fibers (Carbon Fiber)	1	Fibers (PAN)	1	Fibers											
-1.1.2	8	Bag (PolyAcrylonitrile Pellets)	1	Vial (Acrylonitrile)	1	Fibers											
-1.0.0	8	Bag (PolyStyrene Pellets)	1	Vial (Styrene)	1	Fibers											
-1.1.2	8	Powder Keg (PolyAcrylonitrile Pellets)	1	Drum (Acrylonitrile)	1	Fibers											
-1.0.0	8	Powder Keg (PolyStyrene Pellets)	1	Drum (Styrene)	1	Fibers											
-1.1.2	8	Sack (PolyAcrylonitrile Pellets)	1	Beaker (Acrylonitrile)	1	Fibers											
-1.0.0	8	Sack (PolyStyrene Pellets)	1	Beaker (Styrene)	1	Fibers											
-1.3.2	2	Silicon Ingot	1	Silicon Ore	1	Catalyst											
-1.3.2	2	Mercury Sulfide Ingot	1	Cinnabar	1	Catalyst											
-1.3.2	3	Vial (Mercury)	16	Mercury Sulfide Ingot	1	0											
-1.3.2	4	Cartridge (Carbon Monoxide)	16	Graphite	1	0											
-1.3.2	1	Cartridge (Carbon Monoxide)	1	Wool	1	0											
-1.3.8	2	Cell Culture Dish (Pig)	1	DNA Sampler (Pig)	1	Other											
-1.3.8	2	Cell Culture Dish (Sheep)	1	DNA Sampler (Sheep)	1	Other											
-1.3.8	2	Cell Culture Dish (Cow)	1	DNA Sampler (Cow)	1	Other											
-1.3.8	2	Cell Culture Dish (Chicken)	1	DNA Sampler (Chicken)	1	Other											
-1.3.8	4	Cell Culture Dish (Squid)	1	DNA Sampler (Squid)	1	Other											
-1.3.8	4	Cell Culture Dish (Wolf)	1	DNA Sampler (Wolf)	1	Other											
-1.3.8	4	Cell Culture Dish (Ocelot)	1	DNA Sampler (Ocelot)	1	Other											
-1.3.8	4	Cell Culture Dish (Bat)	1	DNA Sampler (Bat)	1	Other											
-1.3.8	8	Cell Culture Dish (Spider)	1	DNA Sampler (Spider)	1	Other											
-1.3.8	8	Cell Culture Dish (Zombie)	1	DNA Sampler (Zombie)	1	Other											
-1.3.8	8	Cell Culture Dish (Skeleton)	1	DNA Sampler (Skeleton)	1	Other											
-1.3.8	8	Cell Culture Dish (Horse)	1	DNA Sampler (Horse)	1	Other											
-1.3.8	8	Cell Culture Dish (Witch)	1	DNA Sampler (Witch)	1	Other											
-1.3.8	8	Cell Culture Dish (Creeper)	1	DNA Sampler (Creeper)	1	Other											
-1.3.8	8	Cell Culture Dish (Silverfish)	1	DNA Sampler (Silverfish)	1	Other											
-1.3.8	8	Cell Culture Dish (Cave Spider)	1	DNA Sampler (Cave Spider)	1	Other											
-1.3.8	8	Cell Culture Dish (Ghast)	1	DNA Sampler (Ghast)	1	Other											
-1.3.8	8	Cell Culture Dish (Blaze)	1	DNA Sampler (Blaze)	1	Other											
-1.3.8	8	Cell Culture Dish (Zombie Pigman)	1	DNA Sampler (Zombie Pigman)	1	Other											
-1.3.8	8	Cell Culture Dish (Magma Cube)	1	DNA Sampler (Magma Cube)	1	Other											
-1.3.8	2	Cell Culture Dish (Person)	1	DNA Sampler (Person)	1	Other											
-1.3.8	2	Bag (Potassium)	1	Bag (Potassium Hydroxide)	1	0											
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
-																	
+Version	Level	Output	O1#	Input	I1#	Smelting Class
+1.0.0	2	Aluminoxane Catalyst	1	Triethylaluminium Catalyst	1	Pellets
+1.1.0	2	Antimony Trioxide Catalyst	16	Antimony Ingot	1	Pellets
+1.1.0	2	Bag (Potassium Hydroxide)	16	Potash Ore	1	Pellets
+1.1.2	2	Chromium (VI) Oxide Catalyst	1	Chrome Ingot	1	Pellets
+1.1.0	2	Cobalt Catalyst	16	Cobalt Ingot	1	Pellets
+1.1.0	2	Copper II Chloride Catalyst	16	Copper Ingot	1	Pellets
+1.0.4	2	Iron III Chloride Catalyst	16	Iron Ingot	1	Pellets
+1.0.4	2	Iron III Oxide Catalyst	1	Iron III Chloride Catalyst	1	Pellets
+1.1.0	2	Lead Oxide Catalyst	16	Plumbum (Lead) Ingot	1	Pellets
+1.1.0	2	Magnesium Oxide Catalyst	16	Magnesium Ingot	1	Pellets
+1.1.0	2	Manganese Catalyst	16	Manganese Ingot	1	Pellets
+1.1.0	2	Palladium Catalyst	16	Palladium Ingot	1	Pellets
+1.1.0	2	Platinum Catalyst	16	Platinum Ingot	1	Pellets
+1.1.0	2	Silver Catalyst	16	Silver Ingot	1	Pellets
+1.1.0	2	Tin Catalyst	16	Tin Ingot	1	Pellets
+1.1.0	2	Titanium Catalyst	16	Titanium Ingot	1	Pellets
+1.1.0	2	Triethylaluminium Catalyst	16	Aluminum Ingot	1	Pellets
+1.1.0	2	Zinc Nitrate Catalyst	16	Zinc Ingot	1	Pellets
+1.0.0	2	Aluminum Ingot	1	Bauxite	1	Catalyst
+1.0.0	2	Antimony Ingot	1	Antimony Ore	1	Catalyst
+1.0.0	2	Bismuth Ingot	1	Bismuth Ore	1	Catalyst
+1.1.0	2	Chrome Ingot	1	Chromite	1	Catalyst
+1.0.0	2	Cobalt Ingot	1	Cobalt Ore	1	Catalyst
+1.0.0	2	Copper Ingot	1	Copper Ore	1	Catalyst
+1.0.0	2	Magnesium Ingot	1	Magnesium Ore	1	Catalyst
+1.0.0	2	Manganese Ingot	1	Manganese Ore	1	Catalyst
+1.0.0	2	Nickel Ingot	1	Nickel Ore	1	Catalyst
+1.0.0	2	Palladium Ingot	1	Palladium Ore	1	Catalyst
+1.0.0	2	Platinum Ingot	1	Platinum Ore	1	Catalyst
+1.1.0	2	Plumbum (Lead) Ingot	1	Plumbum (Lead) Ore	1	Catalyst
+1.0.0	2	Silver Ingot	1	Silver Ore	1	Catalyst
+1.0.0	2	Tin Ingot	1	Tin Ore	1	Catalyst
+1.0.0	2	Titanium Ingot	1	Titanium Ore	1	Catalyst
+1.0.0	2	Tungsten Ingot	1	Tungsten Ore	1	Catalyst
+1.0.0	2	Zinc Ingot	1	Zinc Ore	1	Catalyst
+1.0.0	4	Bag (Low Density PolyEthylene Pellets)	1	Flask (Ethylene)	1	Fibers
+1.0.0	4	Bag (PolyPropylene Pellets)	1	Flask (Propylene)	1	Fibers
+1.0.0	4	Sack (Low Density PolyEthylene Pellets)	1	Cartridge (Ethylene)	1	Fibers
+1.0.0	4	Sack (PolyPropylene Pellets)	1	Cartridge (Propylene)	1	Fibers
+1.0.0	4	Powder Keg (Low Density PolyEthylene Pellets)	1	Canister (Ethylene)	1	Fibers
+1.0.0	4	Powder Keg (PolyPropylene Pellets)	1	Canister (Propylene)	1	Fibers
+1.1.0	5	Bag (Isobutylene-Isoprene Rubber Pellets)	1	Vial (Butylene isomers)	1	Fibers
+1.1.0	5	Bag (PolyButadiene (low-cis) Pellets)	1	Vial (Butadiene)	1	Fibers
+1.1.0	5	Powder Keg (Isobutylene-Isoprene Rubber Pellets)	1	Drum (Butylene isomers)	1	Fibers
+1.1.0	5	Powder Keg (PolyButadiene (low-cis) Pellets)	1	Drum (Butadiene)	1	Fibers
+1.1.0	5	Sack (Isobutylene-Isoprene Rubber Pellets)	1	Beaker (Butylene isomers)	1	Fibers
+1.1.0	5	Sack (PolyButadiene (low-cis) Pellets)	1	Beaker (Butadiene)	1	Fibers
+1.1.0	5	Bag (Polycaprolactam Pellets)	1	Vial (Caprolactam)	1	Fibers
+1.1.0	5	Sack (Polycaprolactam Pellets)	1	Beaker (Caprolactam)	1	Fibers
+1.1.0	5	Powder Keg (Polycaprolactam Pellets)	1	Drum (Caprolactam)	1	Fibers
+1.1.2	8	Fibers (Carbon Fiber)	1	Fibers (PAN)	1	Fibers
+1.1.2	8	Bag (PolyAcrylonitrile Pellets)	1	Vial (Acrylonitrile)	1	Fibers
+1.0.0	8	Bag (PolyStyrene Pellets)	1	Vial (Styrene)	1	Fibers
+1.1.2	8	Powder Keg (PolyAcrylonitrile Pellets)	1	Drum (Acrylonitrile)	1	Fibers
+1.0.0	8	Powder Keg (PolyStyrene Pellets)	1	Drum (Styrene)	1	Fibers
+1.1.2	8	Sack (PolyAcrylonitrile Pellets)	1	Beaker (Acrylonitrile)	1	Fibers
+1.0.0	8	Sack (PolyStyrene Pellets)	1	Beaker (Styrene)	1	Fibers
+1.3.2	2	Silicon Ingot	1	Silicon Ore	1	Catalyst
+1.3.2	2	Mercury Sulfide Ingot	1	Cinnabar	1	Catalyst
+1.3.2	3	Vial (Mercury)	16	Mercury Sulfide Ingot	1	0
+1.3.2	4	Cartridge (Carbon Monoxide)	16	Graphite	1	0
+1.3.2	1	Cartridge (Carbon Monoxide)	1	Wool	1	0
+1.3.8	2	Cell Culture Dish (Pig)	1	DNA Sampler (Pig)	1	Other
+1.3.8	2	Cell Culture Dish (Sheep)	1	DNA Sampler (Sheep)	1	Other
+1.3.8	2	Cell Culture Dish (Cow)	1	DNA Sampler (Cow)	1	Other
+1.3.8	2	Cell Culture Dish (Chicken)	1	DNA Sampler (Chicken)	1	Other
+1.3.8	4	Cell Culture Dish (Squid)	1	DNA Sampler (Squid)	1	Other
+1.3.8	4	Cell Culture Dish (Wolf)	1	DNA Sampler (Wolf)	1	Other
+1.3.8	4	Cell Culture Dish (Ocelot)	1	DNA Sampler (Ocelot)	1	Other
+1.3.8	4	Cell Culture Dish (Bat)	1	DNA Sampler (Bat)	1	Other
+1.3.8	8	Cell Culture Dish (Spider)	1	DNA Sampler (Spider)	1	Other
+1.3.8	8	Cell Culture Dish (Zombie)	1	DNA Sampler (Zombie)	1	Other
+1.3.8	8	Cell Culture Dish (Skeleton)	1	DNA Sampler (Skeleton)	1	Other
+1.3.8	8	Cell Culture Dish (Horse)	1	DNA Sampler (Horse)	1	Other
+1.3.8	8	Cell Culture Dish (Witch)	1	DNA Sampler (Witch)	1	Other
+1.3.8	8	Cell Culture Dish (Creeper)	1	DNA Sampler (Creeper)	1	Other
+1.3.8	8	Cell Culture Dish (Silverfish)	1	DNA Sampler (Silverfish)	1	Other
+1.3.8	8	Cell Culture Dish (Cave Spider)	1	DNA Sampler (Cave Spider)	1	Other
+1.3.8	8	Cell Culture Dish (Ghast)	1	DNA Sampler (Ghast)	1	Other
+1.3.8	8	Cell Culture Dish (Blaze)	1	DNA Sampler (Blaze)	1	Other
+1.3.8	8	Cell Culture Dish (Zombie Pigman)	1	DNA Sampler (Zombie Pigman)	1	Other
+1.3.8	8	Cell Culture Dish (Magma Cube)	1	DNA Sampler (Magma Cube)	1	Other
+1.3.8	2	Cell Culture Dish (Person)	1	DNA Sampler (Person)	1	Other
+1.3.8	2	Bag (Potassium)	1	Bag (Potassium Hydroxide)	1	0

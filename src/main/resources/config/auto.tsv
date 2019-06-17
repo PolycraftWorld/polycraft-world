@@ -1,0 +1,29 @@
+Version	Input	Number	Output	Output	Type	Notes
+1.0.0	Ingot	9	Compressed Block	1	Craft
+1.0.0	Sack (Pellets)	1	Block (Polymer)	1	Smelt
+1.0.0	Block (Polymer)	3	Slab (Polymer)	6	Craft	Shaped on different rows
+1.0.0	Block (Polymer)	6	Stairs (Polymer)	4	Craft	Shaped like stairs in MC
+1.0.0	Block (Polymer)	6	Wall (Polymer)	6	Craft	Shaped like a wall in MC
+1.0.0	Compressed Block	1	Ingot	9	Craft
+1.0.0	Block	1	Sack (Pellets)	1	Craft
+1.0.0	Bag	64	Sack	1	Craft
+1.0.0	Vial	64	Beaker	1	Craft
+1.0.0	Flask	64	Cartridge	1	Craft
+1.0.0	Sack	64	Powder Keg	1	Craft
+1.0.0	Beaker	64	Drum	1	Craft
+1.0.0	Cartridge	64	Canister	1	Craft
+1.0.0	Sack	1	Bag	64	Craft
+1.0.0	Beaker	1	Vial	64	Craft
+1.0.0	Cartridge	1	Flask	64	Craft
+1.0.0	Powder Keg	1	Sack	64	Craft
+1.0.0	Drum	1	Beaker	64	Craft
+1.0.0	Canister	1	Cartridge	64	Craft
+1.0.0	Chemical Silo	1	Powder Keg	64	Craft
+1.0.0	Chemical Vat	1	Drum	64	Craft
+1.0.0	Chemical Tank	1	Canister	64	Craft
+1.0.0	Mold	1	Molded Item	1	Mold	Mold type of Mold
+1.0.0	Mold	1	Molded Item	1	Extrude	Mold type of Metal Die
+1.0.0	MC Tool	1	Gripped Tool	1	Craft	Requires one grip shapeless
+1.0.0	Pogo Stick	1	Gripped Pogo Stick	1	Craft	Requires two grips shapeless
+1.3.3	Nugget	9	Ingot	1	Smelt
+1.3.3	Ingot	1	Nugget	9	Smelt

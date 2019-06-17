@@ -1,0 +1,15 @@
+Occupations	End Item	Materials Engineer	Electrical Engineer	Chemical Engineer	Miner	Chemist	Architect	Bioengineer	Economist	Banker	Farmer
+Materials Engineer			Place 100 redstone	Distill 1 chemical	Mine 100 PC Ores	Steps to PEN	Place 1000 blocks	Make any spawn egg
+Electrical Engineer	Light Saber		Place 1000 redstone	Distill 5 different chemicals	Mine 1,000 PC Ores	Steps to Carbon Fiber	Place 10,000 blocks	Make 6 types of spawn eggs
+Chemical Engineer	Fracking		Place 10,000 redstone	Distilll 25 different chemicals	Mine 10,000 PC Ores	Steps to PEEK	Place 100,000 blocks	Make 15 types of spawn eggs
+Miner	Laser		Build a working Cleanroom on you PP	Crack 1 chemical	Mine 1000 Cobblestone		Place 1000 blocks above Y=200	Make 21 types of spawn eggs
+Chemist			Build a solar array	Crack 5 chemicals	Mine 10,000 Cobblestone		Place 1000 blocks below Y = 20	Swab 1 animal
+Architect	Power Glove			Treat 1 chemical	Mine 100,000 Cobblestone		Place at least 10 blocks of each color of glass	Swab 50 animals
+Bioengineer	Pet level			Treat 5 chemicals	Mine 42 diamond blocks without silk touch		Place at least 10 panes of each color of glass	Make 1 cell culture dish
+Economist	Portal Level			Process 1 chemical	Mine 1000 block (y <10)		Place 100 blocks of each level of rubber block	Make 50 cell culture dishes
+Banker	Portal Level			Process 10 chemicals	Mine 42 emeralds		Place 10,000 stairs	Make > 100 spawn eggs
+Farmer	Reaper			Process 100 chemicals	Mine 42 Nether Quartz			Make > 1000 spawn eggs
+					Mine 42 Obsidian		
+					Mine at least 5 of 21 different PC Ore Types		
+					Mine 10,000 Copper Ore		
+					Mine 1,000 Silicon Ore		

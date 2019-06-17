@@ -1,0 +1,139 @@
+Version	Version Vessel	Compound Name	State of Matter
+1.0.0	Vial (Crude Oil)	Crude Oil	Vial
+1.0.0	Beaker (Crude Oil)	Crude Oil	Beaker
+1.0.0	Drum (Crude Oil)	Crude Oil	Drum
+1.0.0	Vial (Naphthalene)	Naphthalene	Vial
+1.0.0	Beaker (Naphthalene)	Naphthalene	Beaker
+1.0.0	Drum (Naphthalene)	Naphthalene	Drum
+1.0.0	Vial (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Vial
+1.0.0	Beaker (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Beaker
+1.0.0	Drum (Benzene-Toluene-Xylene)	Benzene-Toluene-Xylene	Drum
+1.0.0	Vial (Gas Oil)	Gas Oil	Vial
+1.0.0	Beaker (Gas Oil)	Gas Oil	Beaker
+1.0.0	Drum (Gas Oil)	Gas Oil	Drum
+1.0.0	Vial (NeoPentane)	NeoPentane	Vial
+1.0.0	Beaker (NeoPentane)	NeoPentane	Beaker
+1.0.0	Drum (NeoPentane)	NeoPentane	Drum
+1.0.0	Flask (Methane)	Methane	Flask
+1.0.0	Cartridge (Methane)	Methane	Cartridge
+1.0.0	Canister (Methane)	Methane	Canister
+1.0.0	Flask (Ethane)	Ethane	Flask
+1.0.0	Cartridge (Ethane)	Ethane	Cartridge
+1.0.0	Canister (Ethane)	Ethane	Canister
+1.0.0	Flask (Propane)	Propane	Flask
+1.0.0	Cartridge (Propane)	Propane	Cartridge
+1.0.0	Canister (Propane)	Propane	Canister
+1.0.0	Flask (Butane Isomers)	Butane Isomers	Flask
+1.0.0	Cartridge (Butane Isomers)	Butane Isomers	Cartridge
+1.0.0	Canister (Butane Isomers)	Butane Isomers	Canister
+1.0.0	Vial (Pentane Isomers)	Pentane Isomers	Vial
+1.0.0	Beaker (Pentane Isomers)	Pentane Isomers	Beaker
+1.0.0	Drum (Pentane Isomers)	Pentane Isomers	Drum
+1.0.0	Vial (Hexane Isomers)	Hexane Isomers	Vial
+1.0.0	Beaker (Hexane Isomers)	Hexane Isomers	Beaker
+1.0.0	Drum (Hexane Isomers)	Hexane Isomers	Drum
+1.0.0	Vial (Light Naphtha)	Light Naphtha	Vial
+1.0.0	Beaker (Light Naphtha)	Light Naphtha	Beaker
+1.0.0	Drum (Light Naphtha)	Light Naphtha	Drum
+1.0.0	Vial (Heavy Naphtha)	Heavy Naphtha	Vial
+1.0.0	Beaker (Heavy Naphtha)	Heavy Naphtha	Beaker
+1.0.0	Drum (Heavy Naphtha)	Heavy Naphtha	Drum
+1.0.0	Vial (Light Naphthenes)	Light Naphthenes	Vial
+1.0.0	Beaker (Light Naphthenes)	Light Naphthenes	Beaker
+1.0.0	Drum (Light Naphthenes)	Light Naphthenes	Drum
+1.0.0	Vial (Light Olefins)	Light Olefins	Vial
+1.0.0	Beaker (Light Olefins)	Light Olefins	Beaker
+1.0.0	Drum (Light Olefins)	Light Olefins	Drum
+1.0.0	Vial (Light Parrafins)	Light Parrafins	Vial
+1.0.0	Beaker (Light Parrafins)	Light Parrafins	Beaker
+1.0.0	Drum (Light Parrafins)	Light Parrafins	Drum
+1.0.0	Vial (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Vial
+1.0.0	Beaker (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Beaker
+1.0.0	Drum (N-Ethylidenecyclohexylamine)	N-Ethylidenecyclohexylamine	Drum
+1.0.0	Vial (IsoButane)	IsoButane	Vial
+1.0.0	Beaker (IsoButane)	IsoButane	Beaker
+1.0.0	Drum (IsoButane)	IsoButane	Drum
+1.0.0	Vial (Naphtha)	Naphtha	Vial
+1.0.0	Beaker (Naphtha)	Naphtha	Beaker
+1.0.0	Drum (Naphtha)	Naphtha	Drum
+1.0.0	Vial (IsoPentane)	IsoPentane	Vial
+1.0.0	Beaker (IsoPentane)	IsoPentane	Beaker
+1.0.0	Drum (IsoPentane)	IsoPentane	Drum
+1.0.0	Flask (Nitrogen Gas)	Nitrogen Gas	Flask
+1.0.0	Cartridge (Nitrogen Gas)	Nitrogen Gas	Cartridge
+1.0.0	Canister (Nitrogen Gas)	Nitrogen Gas	Canister
+1.0.0	Vial (n-Pentane)	n-Pentane	Vial
+1.0.0	Beaker (n-Pentane)	n-Pentane	Beaker
+1.0.0	Drum (n-Pentane)	n-Pentane	Drum
+1.0.0	Vial (2-MethylPentane)	2-MethylPentane	Vial
+1.0.0	Beaker (2-MethylPentane)	2-MethylPentane	Beaker
+1.0.0	Drum (2-MethylPentane)	2-MethylPentane	Drum
+1.0.0	Vial (3-MethylPentane)	3-MethylPentane	Vial
+1.0.0	Beaker (3-MethylPentane)	3-MethylPentane	Beaker
+1.0.0	Drum (3-MethylPentane)	3-MethylPentane	Drum
+1.0.0	Vial (2,2-DiMethylButane)	2,2-DiMethylButane	Vial
+1.0.0	Beaker (2,2-DiMethylButane)	2,2-DiMethylButane	Beaker
+1.0.0	Drum (2,2-DiMethylButane)	2,2-DiMethylButane	Drum
+1.0.0	Vial (2,3-DiMethylButane)	2,3-DiMethylButane	Vial
+1.0.0	Beaker (2,3-DiMethylButane)	2,3-DiMethylButane	Beaker
+1.0.0	Drum (2,3-DiMethylButane)	2,3-DiMethylButane	Drum
+1.0.0	Vial (Fruit Brandy)	Fruit Brandy	Vial
+1.0.0	Beaker (Fruit Brandy)	Fruit Brandy	Beaker
+1.0.0	Drum (Fruit Brandy)	Fruit Brandy	Drum
+1.0.0	Vial (Vodka)	Vodka	Vial
+1.0.0	Beaker (Vodka)	Vodka	Beaker
+1.0.0	Drum (Vodka)	Vodka	Drum
+1.0.0	Vial (Gin)	Gin	Vial
+1.0.0	Beaker (Gin)	Gin	Beaker
+1.0.0	Drum (Gin)	Gin	Drum
+1.0.0	Vial (Tequila)	Tequila	Vial
+1.0.0	Beaker (Tequila)	Tequila	Beaker
+1.0.0	Drum (Tequila)	Tequila	Drum
+1.0.0	Vial (Rum)	Rum	Vial
+1.0.0	Beaker (Rum)	Rum	Beaker
+1.0.0	Drum (Rum)	Rum	Drum
+1.0.0	Vial (Whiskey)	Whiskey	Vial
+1.0.0	Beaker (Whiskey)	Whiskey	Beaker
+1.0.0	Drum (Whiskey)	Whiskey	Drum
+1.0.0	Vial (Carrot Wine)	Carrot Wine	Vial
+1.0.0	Beaker (Carrot Wine)	Carrot Wine	Beaker
+1.0.0	Drum (Carrot Wine)	Carrot Wine	Drum
+1.0.0	Flask (Propylene)	Propylene	Flask
+1.0.0	Cartridge (Propylene)	Propylene	Cartridge
+1.0.0	Canister (Propylene)	Propylene	Canister
+1.0.0	Flask (Ethylene)	Ethylene	Flask
+1.0.0	Cartridge (Ethylene)	Ethylene	Cartridge
+1.0.0	Canister (Ethylene)	Ethylene	Canister
+1.0.0	Vial (Butylene isomers)	Butylene isomers	Vial
+1.0.0	Beaker (Butylene isomers)	Butylene isomers	Beaker
+1.0.0	Drum (Butylene isomers)	Butylene isomers	Drum
+1.0.0	Flask (Hydrogen Gas)	Hydrogen Gas	Flask
+1.0.0	Cartridge (Hydrogen Gas)	Hydrogen Gas	Cartridge
+1.0.0	Canister (Hydrogen Gas)	Hydrogen Gas	Canister
+1.0.0	Flask (Carbon Dioxide)	Carbon Dioxide	Flask
+1.0.0	Cartridge (Carbon Dioxide)	Carbon Dioxide	Cartridge
+1.0.0	Canister (Carbon Dioxide)	Carbon Dioxide	Canister
+1.0.0	Vial (p-Xylene)	p-Xylene	Vial
+1.0.0	Beaker (p-Xylene)	p-Xylene	Beaker
+1.0.0	Drum (p-Xylene)	p-Xylene	Drum
+1.0.0	Flask (Oxygen Gas)	Oxygen Gas	Flask
+1.0.0	Cartridge (Oxygen Gas)	Oxygen Gas	Cartridge
+1.0.0	Canister (Oxygen Gas)	Oxygen Gas	Canister
+1.0.0	Flask (Sweet Butane Fuel)	Sweet Butane Fuel	Flask
+1.0.0	Cartridge (Sweet Butane Fuel)	Sweet Butane Fuel	Cartridge
+1.0.0	Canister (Sweet Butane Fuel)	Sweet Butane Fuel	Canister
+1.0.0	Flask (Sweet Propane Fuel)	Sweet Propane Fuel	Flask
+1.0.0	Cartridge (Sweet Propane Fuel)	Sweet Propane Fuel	Cartridge
+1.0.0	Canister (Sweet Propane Fuel)	Sweet Propane Fuel	Canister
+1.0.0	Vial (Sweet Light Naphtha)	Sweet Light Naphtha	Vial
+1.0.0	Beaker (Sweet Light Naphtha)	Sweet Light Naphtha	Beaker
+1.0.0	Drum (Sweet Light Naphtha)	Sweet Light Naphtha	Drum
+1.0.0	Vial (Mercaptans)	Mercaptans	Vial
+1.0.0	Beaker (Mercaptans)	Mercaptans	Beaker
+1.0.0	Drum (Mercaptans)	Mercaptans	Drum
+1.0.0	Flask (Ammonia)	Ammonia	Flask
+1.0.0	Cartridge (Ammonia)	Ammonia	Cartridge
+1.0.0	Canister (Ammonia)	Ammonia	Canister
+1.0.0	Bag (Sodium Hydroxide)	Sodium Hydroxide	Bag
+1.0.0	Sack (Sodium Hydroxide)	Sodium Hydroxide	Sack
+1.0.0	Powder Keg (Sodium Hydroxide)	Sodium Hydroxide	Powder Keg

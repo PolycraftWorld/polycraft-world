@@ -1,4 +1,4 @@
-Version	Game ID	Compressed Block	Source Type	Source Name	
+Version	Game ID	Compressed Block	Source Type	Source Name
 1.0.0	O	Block of Magnesium	Ingot	Magnesium Ingot	
 1.0.0	P	Block of Titanium	Ingot	Titanium Ingot	
 1.0.0	Q	Block of Manganese	Ingot	Manganese Ingot	
@@ -18,13 +18,13 @@ Version	Game ID	Compressed Block	Source Type	Source Name
 1.0.4	14	Block of Stainless Steel	Ingot	Stainless Steel Ingot	
 1.0.0	15	Block of Brass	Ingot	Brass Ingot	
 1.0.0	16	Block of Bronze	Ingot	Bronze Ingot	
-1.0.0	17	Block of Bitumen	Ore	Bitumen	
-1.0.0	4j	Block of Tin	Ingot	Tin Ingot	
-1.0.0	1Z	Block of Potash	Ore	Potash Ore	
-1.0.4	4m	Block of Chrome	Ingot	Chrome Ingot	
-1.1.0	2v	Block of Tungsten Carbide	Ingot	Tungsten Carbide Ingot	
-1.1.0	2S	Block of Nichrome	Ingot	Nichrome Ingot	
-1.1.0	2U	Block of Antimony-Lead	Ingot	Antimony-Lead Ingot	
-1.1.2	19T	Block of Fluorite	Ore	Fluorite Ore	
-1.3.2	1e6	Block of Silicon	Ore	Silicon Ore	
-1.3.2	1eJ	Block of Cinnabar	Ingot	Mercury Sulfide Ingot	
+1.0.0	17	Block of Bitumen	Ore	Bitumen
+1.0.0	4j	Block of Tin	Ingot	Tin Ingot
+1.0.0	1Z	Block of Potash	Ore	Potash Ore
+1.0.4	4m	Block of Chrome	Ingot	Chrome Ingot
+1.1.0	2v	Block of Tungsten Carbide	Ingot	Tungsten Carbide Ingot
+1.1.0	2S	Block of Nichrome	Ingot	Nichrome Ingot
+1.1.0	2U	Block of Antimony-Lead	Ingot	Antimony-Lead Ingot
+1.1.2	19T	Block of Fluorite	Ore	Fluorite Ore
+1.3.2	1e6	Block of Silicon	Ore	Silicon Ore
+1.3.2	1eJ	Block of Cinnabar	Ingot	Mercury Sulfide Ingot

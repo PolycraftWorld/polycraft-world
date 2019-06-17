@@ -1,4 +1,4 @@
-Version	Game ID	Mold	Mold	Polymer Object	Crafting Max Damage	
+Version	Game ID	Mold	Mold	Polymer Object	Crafting Max Damage
 1.0.0	D	Mold (Grip)	Mold	Grip	8192	
 1.0.0	E	Mold (Running Shoes)	Mold	Running Shoes	8192	
 1.0.0	G	Mold (Scuba Fins)	Mold	Scuba Fins	8192	
@@ -10,25 +10,25 @@ Version	Game ID	Mold	Mold	Polymer Object	Crafting Max Damage
 1.0.0	M	Metal Die (Cord)	Metal Die	Cord	8192	
 1.0.0	N	Metal Die (Hose)	Metal Die	Hose	8192	
 1.0.0	3g	Metal Die (Pipe Segment)	Metal Die	Pipe Segment	8192	
-1.0.0	5I	Mold (Flashlight Shaft)	Mold	Flashlight Shaft	8192	
-1.0.0	10S	Mold (Plastic Brick (1 x 1))	Mold	Plastic Brick (1 x 1)	8192	
-1.0.0	10T	Mold (Plastic Brick (1 x 2))	Mold	Plastic Brick (1 x 2)	8192	
-1.0.0	10U	Mold (Plastic Brick (1 x 3))	Mold	Plastic Brick (1 x 3)	8192	
-1.0.0	10V	Mold (Plastic Brick (1 x 4))	Mold	Plastic Brick (1 x 4)	8192	
-1.0.0	10W	Mold (Plastic Brick (2 x 2))	Mold	Plastic Brick (2 x 2)	8192	
-1.0.0	10X	Mold (Plastic Brick (2 x 3))	Mold	Plastic Brick (2 x 3)	8192	
-1.0.0	10Y	Mold (Plastic Brick (2 x 4))	Mold	Plastic Brick (2 x 4)	8192	
-1.0.0	10Z	Mold (Plastic Brick (3 x 3))	Mold	Plastic Brick (3 x 3)	8192	
-1.0.0	110	Mold (Plastic Brick (3 x 4))	Mold	Plastic Brick (3 x 4)	8192	
-1.0.0	111	Mold (Plastic Brick (4 x 4))	Mold	Plastic Brick (4 x 4)	8192	
-1.0.0	112	Mold (Plastic Brick (1 x 8))	Mold	Plastic Brick (1 x 8)	8192	
-1.0.0	113	Mold (Plastic Brick (2 x 8))	Mold	Plastic Brick (2 x 8)	8192	
-1.0.3	11e	Mold (Heated Knife Handle)	Mold	Heated Knife Handle	8192	
-1.1.0	2w	Mold (Rubber Sole)	Mold	Rubber Sole	8192	
-1.1.0	12L	Mold (Battery Case)	Mold	Battery Case	8192	
-1.1.0	19L	Mold (Tool Shaft)	Mold	Tool Shaft	8192	
-1.1.1	5b	Mold (Lighter Body)	Mold	Lighter Body	8192	
-1.3.2	1eK	Mold (Cell Phone Case)	Mold	Cell Phone Case	8192	
-1.3.2	1eL	Mold (Walky Talky Case)	Mold	Walky Talky Case	8192	
-1.3.2	1eM	Mold (HAM Radio Case)	Mold	HAM Radio Case	8192	
-1.3.5	1fu	Mold (Air Quality Detector Case)	Mold	Air Quality Detector Case	8192	
+1.0.0	5I	Mold (Flashlight Shaft)	Mold	Flashlight Shaft	8192
+1.0.0	10S	Mold (Plastic Brick (1 x 1))	Mold	Plastic Brick (1 x 1)	8192
+1.0.0	10T	Mold (Plastic Brick (1 x 2))	Mold	Plastic Brick (1 x 2)	8192
+1.0.0	10U	Mold (Plastic Brick (1 x 3))	Mold	Plastic Brick (1 x 3)	8192
+1.0.0	10V	Mold (Plastic Brick (1 x 4))	Mold	Plastic Brick (1 x 4)	8192
+1.0.0	10W	Mold (Plastic Brick (2 x 2))	Mold	Plastic Brick (2 x 2)	8192
+1.0.0	10X	Mold (Plastic Brick (2 x 3))	Mold	Plastic Brick (2 x 3)	8192
+1.0.0	10Y	Mold (Plastic Brick (2 x 4))	Mold	Plastic Brick (2 x 4)	8192
+1.0.0	10Z	Mold (Plastic Brick (3 x 3))	Mold	Plastic Brick (3 x 3)	8192
+1.0.0	110	Mold (Plastic Brick (3 x 4))	Mold	Plastic Brick (3 x 4)	8192
+1.0.0	111	Mold (Plastic Brick (4 x 4))	Mold	Plastic Brick (4 x 4)	8192
+1.0.0	112	Mold (Plastic Brick (1 x 8))	Mold	Plastic Brick (1 x 8)	8192
+1.0.0	113	Mold (Plastic Brick (2 x 8))	Mold	Plastic Brick (2 x 8)	8192
+1.0.3	11e	Mold (Heated Knife Handle)	Mold	Heated Knife Handle	8192
+1.1.0	2w	Mold (Rubber Sole)	Mold	Rubber Sole	8192
+1.1.0	12L	Mold (Battery Case)	Mold	Battery Case	8192
+1.1.0	19L	Mold (Tool Shaft)	Mold	Tool Shaft	8192
+1.1.1	5b	Mold (Lighter Body)	Mold	Lighter Body	8192
+1.3.2	1eK	Mold (Cell Phone Case)	Mold	Cell Phone Case	8192
+1.3.2	1eL	Mold (Walky Talky Case)	Mold	Walky Talky Case	8192
+1.3.2	1eM	Mold (HAM Radio Case)	Mold	HAM Radio Case	8192
+1.3.5	1fu	Mold (Air Quality Detector Case)	Mold	Air Quality Detector Case	8192
