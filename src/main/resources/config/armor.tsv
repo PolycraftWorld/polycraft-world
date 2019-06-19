@@ -30,8 +30,8 @@ Version	Headgear ID	Chest ID	Leggings ID	Feet ID	Crafting Item	Armor Material Na
 1.1.0	43	13K	14P	15U	Fibers (Carbon Fiber)	Carbon Fiber	Cervelliere	Culet	Chausses	Carbatines	32	10	3	8	6	3	0
 1.1.0	44	13L	14Q	15V	Fibers (Chitin)	Chitin	Skull Cap	Skeleton Vest	Skelton Pants	Skeleton Feet	15	30	2	5	4	2	0
 1.1.0	45	13M	14R	15W	Fibers (PAN)	Acrylic	Tamoshanter	Sweater	Khakis	Shoes	5	30	1	3	2	1	0
-1.1.0	46	13N	14S	15X	"Fibers (Nylon 6,7)"	Sporty Nylon	Baseball Cap	Windbreaker	Stockings	Footie	5	30	1	3	2	1	0
-1.1.0	47	13O	14T	15Y	"Fibers (Nylon 6,10)"	Ripstop Nylon	Beanie	Track Suit	Track Pants	Cleats	5	30	1	3	2	1	0
+1.1.0	46	13N	14S	15X	Fibers (Nylon 6,7)	Sporty Nylon	Baseball Cap	Windbreaker	Stockings	Footie	5	30	1	3	2	1	0
+1.1.0	47	13O	14T	15Y	Fibers (Nylon 6,10)	Ripstop Nylon	Beanie	Track Suit	Track Pants	Cleats	5	30	1	3	2	1	0
 1.1.0	48	13P	14U	15Z	Fibers (LLDPE)	Cheap Leisure	Hat	Suit	Pants	Shoes	3	30	1	3	2	1	0
 1.1.0	49	13Q	14V	160	Fibers (LDPE)	Comfortable	Cap	Bathrobe	Bathrobe pants	Slippers	5	30	1	3	2	1	0
 1.1.0	4a	13R	14W	161	Fibers (MDPE)	Ski	Beanie	Jacket	Pants	Boots	8	30	1	3	2	1	0
@@ -57,4 +57,4 @@ Version	Headgear ID	Chest ID	Leggings ID	Feet ID	Crafting Item	Armor Material Na
 1.1.2	5U	14a	15f	16k	Bag (Ethylene-Propylene-Diene Monomer Pellets)	EPDM	Swim Cap	Wetsuit	Pants	Booties	20	25	2	4	3	2	0
 1.1.2	5V	14b	15g	16l	Bag (Ethylene-Vinyl Acetate Pellets)	EVA	Swim Cap	Wetsuit	Pants	Booties	20	25	2	4	3	2	0
 1.1.2	5W	14c	15h	16m	Bag (PolyUrethane Pellets)	PUR	Swim Cap	Wetsuit	Pants	Booties	20	25	2	4	3	2	0
-																	
+										

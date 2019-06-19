@@ -1,96 +1,96 @@
 Version	Fuel	Source Type	Source Name	Index	Heat Intensity	Heat Duration (sec)*	*Per smallest vessel type if vesseled
-1.0.0	Crude Oil	Compound	Crude Oil	0	3	5	
-1.0.0	Coal	Minecraft Item	Coal	1	3	80	
-1.0.0	Gas Oil	Compound	Gas Oil	2	3	6	
-1.0.0	Methane	Compound	Methane	3	6	8	
-1.0.0	Diesel	Compound	Diesel	4	7	16	
-1.0.0	Kerosene	Compound	Kerosene	5	7	16	
-1.0.0	Liquified Natural Gas	Compound	Liquified Natural Gas	6	3	10	
-1.0.0	Naphtha	Compound	Naphtha	7	3	6	
-1.0.0	Naphthalene	Compound	Naphthalene	8	3	6	
-1.0.0	Propane	Compound	Propane	9	6	13	
-1.0.0	Ethane	Compound	Ethane	10	6	12	
-1.0.0	Sweet Butane Fuel	Compound	Sweet Butane Fuel	11	8	28	
-1.0.0	Sweet Propane Fuel	Compound	Sweet Propane Fuel	12	8	26	
-1.0.0	Sweet Light Naphtha	Compound	Sweet Light Naphtha	13	5	20	
-1.0.0	Town Gas	Compound	Town Gas	14	7	20	
-1.0.0	Light Naphtha	Compound	Light Naphtha	15	3	10	
-1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	6	12	
-1.0.4	Butane Isomers	Compound	Butane Isomers	17	6	14	
-1.0.4	Sweet Kerosene	Compound	Sweet Kerosene	18	10	32	
-1.0.4	Sweet Diesel	Compound	Sweet Diesel	19	10	32	
-1.0.4	Benzene-Toluene-Xylene	Compound	Benzene-Toluene-Xylene	20	2	6	
-1.0.4	Ethanol	Compound	Ethanol	21	5	10	
-1.0.4	Butanol	Compound	Butanol	22	5	10	
-1.0.4	Heavy Naphtha	Compound	Heavy Naphtha	23	4	10	
-1.0.4	Hydrogen	Element	Hydrogen	24	7	15	
-1.0.4	IsoButane	Compound	IsoButane	25	6	14	
-1.0.4	IsoPentane	Compound	IsoPentane	26	6	15	
-1.0.4	Light Olefins	Compound	Light Olefins	27	3	8	
-1.0.4	Light Parrafins	Compound	Light Parrafins	28	3	8	
-1.0.4	Methanol	Compound	Methanol	29	4	10	
-1.0.4	m-Xylene	Compound	m-Xylene	30	3	8	
-1.0.4	n-Butane	Compound	n-Butane	31	6	14	
-1.0.4	n-Hexane	Compound	n-Hexane	32	6	14	
-1.0.4	n-Pentane	Compound	n-Pentane	33	6	14	
-1.0.4	NeoPentane	Compound	NeoPentane	34	6	14	
-1.0.4	Olefins	Compound	Olefins	35	3	10	
-1.0.4	o-Xylene	Compound	o-Xylene	36	3	8	
-1.0.4	p-Xylene	Compound	p-Xylene	37	3	8	
-1.0.4	Paraffin	Compound	Paraffin	38	3	10	
-1.0.4	Pentane Isomers	Compound	Pentane Isomers	39	6	14	
-1.0.4	Propanol	Compound	Propanol	40	4	10	
-1.0.4	Xylene	Compound	Xylene	41	3	8	
-1.0.4	Toluene	Compound	Toluene	42	3	6	
-1.0.4	Benzene	Compound	Benzene	43	3	8	
-1.0.4	Fruit Brandy	Compound	Fruit Brandy	44	3	5	
-1.0.4	Vodka	Compound	Vodka	45	3	5	
-1.0.4	Gin	Compound	Gin	46	3	5	
-1.0.4	Tequila	Compound	Tequila	47	3	5	
-1.0.4	Rum	Compound	Rum	48	3	5	
-1.0.4	Whiskey	Compound	Whiskey	49	3	5	
-1.0.6	Lava Bucket	Minecraft Item	Lava Bucket	50	4	1000	
-1.0.6	Wooden Door	Minecraft Item	Wooden Door	51	1	15	
-1.0.6	Writable Book	Minecraft Item	Writable Book	51	1	10	
-1.0.6	Written Book	Minecraft Item	Written Book	52	1	10	
-1.0.6	Book	Minecraft Item	Book	52	1	5	
-1.0.6	Paper	Minecraft Item	Paper	53	1	2.5	
-1.0.6	Wooden Hoe	Minecraft Item	Wooden Hoe	53	1	10	
-1.0.6	Bowl	Minecraft Item	Bowl	54	1	5	
-1.0.6	Stick	Minecraft Item	Stick	54	1	5	
-1.0.6	Wooden Axe	Minecraft Item	Wooden Axe	55	1	10	
-1.0.6	Wooden Pickaxe	Minecraft Item	Wooden Pickaxe	55	1	10	
-1.0.6	Wooden Shovel	Minecraft Item	Wooden Shovel	56	1	10	
-1.0.6	Wooden Sword	Minecraft Item	Wooden Sword	57	1	10	
-1.0.6	Bow	Minecraft Item	Bow	58	1	10	
-1.0.7	Bucket (Crude Oil)	Custom Object	Crude Oil	59	2	120	
-1.0.7	Dark Oak Stairs	Minecraft Block	Dark Oak Stairs	60	1	15	
-1.0.7	Acacia Stairs	Minecraft Block	Acacia Stairs	61	1	15	
-1.0.7	Jungle Stairs	Minecraft Block	Jungle Stairs	62	1	15	
-1.0.7	Birch Stairs	Minecraft Block	Birch Stairs	63	1	15	
-1.0.7	Spruce Stairs	Minecraft Block	Spruce Stairs	64	1	15	
-1.0.7	Double Wooden Slab	Minecraft Block	Double Wooden Slab	65	1	15	
-1.0.7	Fence Gate	Minecraft Block	Fence Gate	66	1	15	
-1.0.7	Trapdoor	Minecraft Block	Trapdoor	67	1	15	
-1.0.7	Wooden Pressure Plate	Minecraft Block	Wooden Pressure Plate	68	1	5	
-1.0.7	Crafting Table	Minecraft Block	Crafting Table	69	1	15	
-1.0.7	Chest	Minecraft Block	Chest	70	1	15	
-1.0.7	Oak Stairs	Minecraft Block	Oak Stairs	71	1	15	
-1.0.7	Bookshelf	Minecraft Block	Bookshelf	72	1	15	
-1.0.7	Trapped Chest	Minecraft Block	Trapped Chest	73	8	15	
-1.0.7	Blaze Rod	Minecraft Item	Blaze Rod	74	3	12	
-1.0.7	Noteblock	Minecraft Block	Noteblock	75	1	15	
-1.0.7	Planks	Minecraft Block	Planks	76	2	15	
-1.0.7	Log	Minecraft Block	Log	77	1	15	
-1.0.7	Fence	Minecraft Block	Fence	78	1	15	
-1.0.7	Daylight Detector	Minecraft Block	Daylight Detector	79	1	15	
-1.0.7	Brown Mushroom Block	Minecraft Block	Brown Mushroom Block	80	1	15	
-1.0.7	Red Mushroom Block	Minecraft Block	Red Mushroom Block	81	1	15	
-1.0.7	Wooden Slab	Minecraft Block	Wooden Slab	82	1	7.5	
-1.1.0	Lead-Acid Battery (1-Cell)	Custom Object	Lead-Acid Battery (1-Cell)	83	3	1200	
-1.1.0	Lead-Acid Battery (9-Cell)	Custom Object	Lead-Acid Battery (9-Cell)	84	8	10800	
-1.1.0	Lithium Ion Battery (1-Cell)	Custom Object	Lithium Ion Battery (1-Cell)	85	3	4800	
-1.1.0	Lithium Ion Battery (9-Cell)	Custom Object	Lithium Ion Battery (9-Cell)	86	8	43200	
-1.1.0	Nickel Metal Hydride Battery (1-Cell)	Custom Object	Nickel Metal Hydride Battery (1-Cell)	87	3	2400	
-1.1.0	Nickel Metal Hydride Battery (9-Cell)	Custom Object	Nickel Metal Hydride Battery (9-Cell)	88	8	21600	
-1.1.0	Coal Block	Minecraft Block	Coal Block	89	3	800	
+1.0.0	Crude Oil	Compound	Crude Oil	0	3	5
+1.0.0	Coal	Minecraft Item	Coal	1	3	80
+1.0.0	Gas Oil	Compound	Gas Oil	2	3	6
+1.0.0	Methane	Compound	Methane	3	6	8
+1.0.0	Diesel	Compound	Diesel	4	7	16
+1.0.0	Kerosene	Compound	Kerosene	5	7	16
+1.0.0	Liquified Natural Gas	Compound	Liquified Natural Gas	6	3	10
+1.0.0	Naphtha	Compound	Naphtha	7	3	6
+1.0.0	Naphthalene	Compound	Naphthalene	8	3	6
+1.0.0	Propane	Compound	Propane	9	6	13
+1.0.0	Ethane	Compound	Ethane	10	6	12
+1.0.0	Sweet Butane Fuel	Compound	Sweet Butane Fuel	11	8	28
+1.0.0	Sweet Propane Fuel	Compound	Sweet Propane Fuel	12	8	26
+1.0.0	Sweet Light Naphtha	Compound	Sweet Light Naphtha	13	5	20
+1.0.0	Town Gas	Compound	Town Gas	14	7	20
+1.0.0	Light Naphtha	Compound	Light Naphtha	15	3	10
+1.0.0	Light Naphthenes	Compound	Light Naphthenes	16	6	12
+1.0.4	Butane Isomers	Compound	Butane Isomers	17	6	14
+1.0.4	Sweet Kerosene	Compound	Sweet Kerosene	18	10	32
+1.0.4	Sweet Diesel	Compound	Sweet Diesel	19	10	32
+1.0.4	Benzene-Toluene-Xylene	Compound	Benzene-Toluene-Xylene	20	2	6
+1.0.4	Ethanol	Compound	Ethanol	21	5	10
+1.0.4	Butanol	Compound	Butanol	22	5	10
+1.0.4	Heavy Naphtha	Compound	Heavy Naphtha	23	4	10
+1.0.4	Hydrogen	Element	Hydrogen	24	7	15
+1.0.4	IsoButane	Compound	IsoButane	25	6	14
+1.0.4	IsoPentane	Compound	IsoPentane	26	6	15
+1.0.4	Light Olefins	Compound	Light Olefins	27	3	8
+1.0.4	Light Parrafins	Compound	Light Parrafins	28	3	8
+1.0.4	Methanol	Compound	Methanol	29	4	10
+1.0.4	m-Xylene	Compound	m-Xylene	30	3	8
+1.0.4	n-Butane	Compound	n-Butane	31	6	14
+1.0.4	n-Hexane	Compound	n-Hexane	32	6	14
+1.0.4	n-Pentane	Compound	n-Pentane	33	6	14
+1.0.4	NeoPentane	Compound	NeoPentane	34	6	14
+1.0.4	Olefins	Compound	Olefins	35	3	10
+1.0.4	o-Xylene	Compound	o-Xylene	36	3	8
+1.0.4	p-Xylene	Compound	p-Xylene	37	3	8
+1.0.4	Paraffin	Compound	Paraffin	38	3	10
+1.0.4	Pentane Isomers	Compound	Pentane Isomers	39	6	14
+1.0.4	Propanol	Compound	Propanol	40	4	10
+1.0.4	Xylene	Compound	Xylene	41	3	8
+1.0.4	Toluene	Compound	Toluene	42	3	6
+1.0.4	Benzene	Compound	Benzene	43	3	8
+1.0.4	Fruit Brandy	Compound	Fruit Brandy	44	3	5
+1.0.4	Vodka	Compound	Vodka	45	3	5
+1.0.4	Gin	Compound	Gin	46	3	5
+1.0.4	Tequila	Compound	Tequila	47	3	5
+1.0.4	Rum	Compound	Rum	48	3	5
+1.0.4	Whiskey	Compound	Whiskey	49	3	5
+1.0.6	Lava Bucket	Minecraft Item	Lava Bucket	50	4	1000
+1.0.6	Wooden Door	Minecraft Item	Wooden Door	51	1	15
+1.0.6	Writable Book	Minecraft Item	Writable Book	51	1	10
+1.0.6	Written Book	Minecraft Item	Written Book	52	1	10
+1.0.6	Book	Minecraft Item	Book	52	1	5
+1.0.6	Paper	Minecraft Item	Paper	53	1	2.5
+1.0.6	Wooden Hoe	Minecraft Item	Wooden Hoe	53	1	10
+1.0.6	Bowl	Minecraft Item	Bowl	54	1	5
+1.0.6	Stick	Minecraft Item	Stick	54	1	5
+1.0.6	Wooden Axe	Minecraft Item	Wooden Axe	55	1	10
+1.0.6	Wooden Pickaxe	Minecraft Item	Wooden Pickaxe	55	1	10
+1.0.6	Wooden Shovel	Minecraft Item	Wooden Shovel	56	1	10
+1.0.6	Wooden Sword	Minecraft Item	Wooden Sword	57	1	10
+1.0.6	Bow	Minecraft Item	Bow	58	1	10
+1.0.7	Bucket (Crude Oil)	Custom Object	Crude Oil	59	2	120
+1.0.7	Dark Oak Stairs	Minecraft Block	Dark Oak Stairs	60	1	15
+1.0.7	Acacia Stairs	Minecraft Block	Acacia Stairs	61	1	15
+1.0.7	Jungle Stairs	Minecraft Block	Jungle Stairs	62	1	15
+1.0.7	Birch Stairs	Minecraft Block	Birch Stairs	63	1	15
+1.0.7	Spruce Stairs	Minecraft Block	Spruce Stairs	64	1	15
+1.0.7	Double Wooden Slab	Minecraft Block	Double Wooden Slab	65	1	15
+1.0.7	Fence Gate	Minecraft Block	Fence Gate	66	1	15
+1.0.7	Trapdoor	Minecraft Block	Trapdoor	67	1	15
+1.0.7	Wooden Pressure Plate	Minecraft Block	Wooden Pressure Plate	68	1	5
+1.0.7	Crafting Table	Minecraft Block	Crafting Table	69	1	15
+1.0.7	Chest	Minecraft Block	Chest	70	1	15
+1.0.7	Oak Stairs	Minecraft Block	Oak Stairs	71	1	15
+1.0.7	Bookshelf	Minecraft Block	Bookshelf	72	1	15
+1.0.7	Trapped Chest	Minecraft Block	Trapped Chest	73	8	15
+1.0.7	Blaze Rod	Minecraft Item	Blaze Rod	74	3	12
+1.0.7	Noteblock	Minecraft Block	Noteblock	75	1	15
+1.0.7	Planks	Minecraft Block	Planks	76	2	15
+1.0.7	Log	Minecraft Block	Log	77	1	15
+1.0.7	Fence	Minecraft Block	Fence	78	1	15
+1.0.7	Daylight Detector	Minecraft Block	Daylight Detector	79	1	15
+1.0.7	Brown Mushroom Block	Minecraft Block	Brown Mushroom Block	80	1	15
+1.0.7	Red Mushroom Block	Minecraft Block	Red Mushroom Block	81	1	15
+1.0.7	Wooden Slab	Minecraft Block	Wooden Slab	82	1	7.5
+1.1.0	Lead-Acid Battery (1-Cell)	Custom Object	Lead-Acid Battery (1-Cell)	83	3	1200
+1.1.0	Lead-Acid Battery (9-Cell)	Custom Object	Lead-Acid Battery (9-Cell)	84	8	10800
+1.1.0	Lithium Ion Battery (1-Cell)	Custom Object	Lithium Ion Battery (1-Cell)	85	3	4800
+1.1.0	Lithium Ion Battery (9-Cell)	Custom Object	Lithium Ion Battery (9-Cell)	86	8	43200
+1.1.0	Nickel Metal Hydride Battery (1-Cell)	Custom Object	Nickel Metal Hydride Battery (1-Cell)	87	3	2400
+1.1.0	Nickel Metal Hydride Battery (9-Cell)	Custom Object	Nickel Metal Hydride Battery (9-Cell)	88	8	21600
+1.1.0	Coal Block	Minecraft Block	Coal Block	89	3	800

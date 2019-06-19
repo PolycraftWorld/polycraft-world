@@ -1,20 +1,10 @@
 Version	Game ID	Wafer	Wafer	Electronics	Layers	Chips per Wafer								
-1.3.2	1ew	Wafer (Solar Cell)	Wafer	Solar Cell	5	4								
-1.3.2	1ex	Wafer (Processor)	Wafer	Processor	8	16								
-1.3.2	1ey	Wafer (Temperature Sensor)	Wafer	Temperature Sensor	5	32								
-1.3.2	1ez	Wafer (Pressure Sensor)	Wafer	Pressure Sensor	5	32								
-1.3.2	1eA	Wafer (Low Power Radio)	Wafer	Low Power Radio	8	8								
-1.3.2	1eB	Wafer (DSP)	Wafer	DSP	8	16								
-1.3.2	1eC	Wafer (Digital Analog Convertor)	Wafer	Digital Analog Convertor	5	16								
-1.3.2	1eD	Wafer (Amplifier)	Wafer	Amplifier	5	32								
-1.3.2	1eE	Wafer (OLED Array)	Wafer	OLED Array	5	4								
-														
-														
-														
-														
-														
-														
-														
-														
-														
-														
+1.3.2	1ew	Wafer (Solar Cell)	Wafer	Solar Cell	5	4
+1.3.2	1ex	Wafer (Processor)	Wafer	Processor	8	16
+1.3.2	1ey	Wafer (Temperature Sensor)	Wafer	Temperature Sensor	5	32
+1.3.2	1ez	Wafer (Pressure Sensor)	Wafer	Pressure Sensor	5	32
+1.3.2	1eA	Wafer (Low Power Radio)	Wafer	Low Power Radio	8	8
+1.3.2	1eB	Wafer (DSP)	Wafer	DSP	8	16
+1.3.2	1eC	Wafer (Digital Analog Convertor)	Wafer	Digital Analog Convertor	5	16
+1.3.2	1eD	Wafer (Amplifier)	Wafer	Amplifier	5	32
+1.3.2	1eE	Wafer (OLED Array)	Wafer	OLED Array	5	4
