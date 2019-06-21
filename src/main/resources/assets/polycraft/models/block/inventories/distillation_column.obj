@@ -1,6 +1,6 @@
 # Blender v2.71 (sub 0) OBJ File: 'DistillationColumn.blend'
 # www.blender.org
-mtllib DistillationColumn.mtl
+mtllib distillation_column.mtl
 v 1.250000 0.562500 -0.812501
 v 0.562500 0.562500 -0.812500
 v 0.562500 0.562500 -0.875000
@@ -1999,7 +1999,7 @@ vt 0.320312 0.320312
 vt 0.382812 0.343750
 vt 0.468750 0.367188
 vt 0.492188 0.281250
-usemtl TransparentMat
+usemtl DistillationColumn
 #s 1
 f 611/1 2/2 607/3
 f 615/4 3/5 613/6

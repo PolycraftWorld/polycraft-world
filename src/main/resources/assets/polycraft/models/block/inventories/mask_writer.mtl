@@ -1,7 +1,7 @@
-# Blender MTL File: 'MachiningMill.blend'
+# Blender MTL File: 'MaskWriter.blend'
 # Material Count: 1
 
-newmtl MachiningMill
+newmtl MaskWriter
 #Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000

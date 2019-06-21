@@ -1,7 +1,7 @@
-# Blender MTL File: 'DistillationColumn.blend'
+# Blender MTL File: 'ContactPrinter.blend'
 # Material Count: 1
 
-newmtl DistillationColumn
+newmtl ContactPrinter
 #Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -10,4 +10,4 @@ Kd 0.640000 0.640000 0.640000
 #Ni 1.000000
 #d 1.000000
 #illum 2
-map_Kd polycraft:models/inventories/distillation_column
+map_Kd polycraft:models/inventories/contact_printer

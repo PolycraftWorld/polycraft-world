@@ -1,6 +1,6 @@
 # Blender v2.74 (sub 0) OBJ File: 'Injection Molder.blend'
 # www.blender.org
-mtllib InjectionMolder.mtl
+mtllib injection_molder.mtl
 v 0.343750 1.343746 2.937501
 v 0.343749 1.343746 2.375000
 v 0.655468 1.343746 2.375000

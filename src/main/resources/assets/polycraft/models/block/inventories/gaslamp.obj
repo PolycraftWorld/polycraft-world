@@ -1,4 +1,4 @@
-# Blender v2.71 (sub 0) OBJ File: 'FueledLamp.blend'
+# Blender v2.71 (sub 0) OBJ File: 'gaslamp.blend'
 # www.blender.org
 mtllib gaslamp.mtl
 v 0.468750 0.187500 -0.593750
@@ -542,7 +542,7 @@ vt 0.109375 0.914062
 vt 0.078125 0.968750
 vt 0.000000 0.882812
 vt 0.000000 0.968750
-usemtl TransparentMat
+usemtl gaslamp
 #s 1
 f 2/1 3/2 4/3
 f 135/4 136/5 133/6
