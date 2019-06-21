@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/scuba_mask_light_intermediate"
+        "layer0": "polycraft:items/scuba_mask_light"
     },
     "display": {
         "thirdperson": {
