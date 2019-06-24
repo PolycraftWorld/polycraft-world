@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "polycraft:blocks/oil_still",
+        "flowing": "polycraft:blocks/oil_flow"
+    }
+}

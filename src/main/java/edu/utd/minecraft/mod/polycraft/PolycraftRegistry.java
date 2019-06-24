@@ -7,8 +7,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelDynBucket;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 
@@ -205,8 +207,11 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -217,6 +222,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -232,9 +238,9 @@ public class PolycraftRegistry {
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
 	//public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-//	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -497,6 +503,7 @@ public class PolycraftRegistry {
 	@SideOnly(Side.CLIENT)
 	public static void registerClientSideResources() {
 		registerClientPolymers();
+		registerFluidModels();
 		
 		OBJLoader.instance.addDomain(PolycraftMod.MODID.toLowerCase());
         
@@ -519,6 +526,30 @@ public class PolycraftRegistry {
 //				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MoldedItem.class.getSimpleName() + "_" + config.source.polymerObject.name);
 //			    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, 0, itemModelResourceLocation);
 //			}
+	}
+	
+	public static void registerFluidModels()
+	{
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(PolycraftMod.blockOil));
+		
+		ModelResourceLocation modelResourceLocation = new ModelResourceLocation("polycraft:oil",((BlockFluidBase)PolycraftMod.blockOil).getFluid().getName());
+	
+		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(PolycraftMod.blockOil), new ItemMeshDefinition()
+        {
+            @Override
+            public ModelResourceLocation getModelLocation(ItemStack stack)
+            {
+                return modelResourceLocation;
+            }
+        });
+		
+		ModelLoader.setCustomStateMapper(PolycraftMod.blockOil,new StateMapperBase() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState p_178132_1_) {
+				return modelResourceLocation;
+			}
+		});
+		
 	}
 	
 	/**
@@ -1384,17 +1415,21 @@ public class PolycraftRegistry {
 		final InternalObject oil = InternalObject.registry.get("Oil");
 		Fluid fluidOil = null;
 		if (oil != null && isTargetVersion(oil.version)) {
-			fluidOil = new Fluid(oil.name.toLowerCase(), new ResourceLocation(""), new ResourceLocation("")).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
+			fluidOil = new Fluid(oil.name.toLowerCase(), PolycraftMod.getAssetName("/blocks/oil_still") , PolycraftMod.getAssetName("/blocks/oil_flow") ).setDensity(PolycraftMod.oilFluidDensity).setViscosity(PolycraftMod.oilFluidViscosity);
 			FluidRegistry.registerFluid(fluidOil);
 		}
 
 		final InternalObject blockPipe = InternalObject.registry.get("BlockPipe");
 		if (blockPipe != null && isTargetVersion(blockPipe.version)) {
+			if(PolycraftMod.GEN_JSON_DATA) 
+				blockPipe.checkBlockJSONs(blockPipe, assetPath);
 			TileEntityBlockPipe.register(blockPipe);
 		}
 
 		final InternalObject collision = InternalObject.registry.get("BlockCollision");
 		if (collision != null && isTargetVersion(collision.version)) {
+			if(PolycraftMod.GEN_JSON_DATA) 
+				collision.checkBlockJSONs(collision, assetPath);
 			PolycraftMod.blockCollision = registerBlock(collision, new BlockCollision(collision));
 		}
 
@@ -1414,6 +1449,42 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
 			if (isTargetVersion(customObject.version)) {
+				
+				switch(customObject.type)
+				{
+					case "PC Item":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+					case "Weapon":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+					case "Tool":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+					case "Armor":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+					case "Food":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+					case "Currency":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+					case "PC Block":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkBlockJSONs(customObject, assetPath); //only custom block all else are items...
+						break;
+					default:
+						if(PolycraftMod.GEN_JSON_DATA) 
+							customObject.checkItemJSONs(customObject, assetPath);
+						break;
+				}
 				if (GameID.CustomBucketOil.matches(customObject)) {
 					PolycraftMod.itemOilBucket = registerItem(customObject,
 							new PolycraftBucket(PolycraftMod.blockOil));
