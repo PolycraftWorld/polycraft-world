@@ -22,6 +22,7 @@ public class CustomObject extends GameIdentifiedConfig {
 						PolycraftMod.getVersionNumeric(line[0]),
 						line[1], //gameID
 						line[2], //name
+						line[3], //Type
 						line.length > 7 ? line[7] : null, //maxStackSize
 						line.length > 8 ? line[8] : null, //maxStackSize
 						line.length > 9 ? line[9].split(",") : null, //paramNames
@@ -32,9 +33,11 @@ public class CustomObject extends GameIdentifiedConfig {
 
 	public final int maxStackSize;
 	public final int flashlightRange;
+	public final String type;
 
-	public CustomObject(final int[] version, final String gameID, final String name, final String maxStackSize, final String flashlightRange, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
+	public CustomObject(final int[] version, final String gameID, final String name, final String type, final String maxStackSize, final String flashlightRange, final String[] paramNames, final String[] paramValues, final int paramsOffset) {
 		super(version, gameID, name, paramNames, paramValues, paramsOffset);
+		this.type=type;
 		this.maxStackSize = StringUtils.isEmpty(maxStackSize) ? 0 : Integer.parseInt(maxStackSize);
 		this.flashlightRange = StringUtils.isEmpty(flashlightRange) ? 0 : Integer.parseInt(flashlightRange);
 	}

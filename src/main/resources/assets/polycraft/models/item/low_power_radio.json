@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/low_power_radio"
+        "layer0": "polycraft:items/itemelectronics"
     },
     "display": {
         "thirdperson": {
