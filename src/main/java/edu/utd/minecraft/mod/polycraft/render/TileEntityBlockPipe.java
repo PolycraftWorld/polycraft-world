@@ -35,7 +35,7 @@ public class TileEntityBlockPipe extends TileEntity{
 		final BlockPipe bp = new BlockPipe(pipeConfig);
 		//BlockPipeRenderingHandler bprh = new BlockPipeRenderingHandler(pipeConfig);
 		
-		PolycraftRegistry.registerBlockWithItem(pipeConfig.gameID, pipeConfig.name, bp, pipeConfig.itemID, pipeConfig.itemName, ItemBlockPipe.class, new Object[]{});
+		PolycraftRegistry.registerBlockWithItem(PolycraftMod.getFileSafeName(pipeConfig.name), pipeConfig.name, bp, pipeConfig.itemID, pipeConfig.itemName, ItemBlockPipe.class, new Object[]{});
 		
 		GameRegistry.registerTileEntity(TileEntityBlockPipe.class, pipeConfig.tileEntityGameID);
 		//RenderingRegistry.registerBlockHandler(bprh.getRenderId(), bprh); TODO: Fix this?
