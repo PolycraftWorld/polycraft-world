@@ -86,10 +86,12 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 						"    \"variants\": {\n" + 
 						"        \"half=bottom,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
 						"        \"half=top,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
+						"        \"half=bottom,seamless=true,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
+						"        \"half=top,seamless=true,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
 						"        \"normal\": { \"model\": \"polycraft:%s\" },\n" + 
 						"		 \"all\": { \"model\": \"polycraft:%s\" }\n" +
 						"    }\n" + 
-						"}", texture + "_bottom", texture + "_top", texture + "_bottom", texture + "_bottom");
+						"}", texture + "_bottom", texture + "_top", texture + "_bottom", texture + "_top", texture + "_bottom", texture + "_bottom");
 
 				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + "_half" + ".json"));
 
@@ -100,10 +102,13 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 				fileContent = String.format("{\n" + 
 						"    \"variants\": {\n" + 
 						"        \"half=bottom,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" +  
+						"        \"half=top,seamless=false,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
+						"        \"half=bottom,seamless=true,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" +  
+						"        \"half=top,seamless=true,variant=polymer\": { \"model\": \"polycraft:%s\" },\n" + 
 						"        \"normal\": { \"model\": \"polycraft:%s\" },\n" + 
 						"		 \"all\": { \"model\": \"polycraft:%s\" }\n" +
 						"    }\n" + 
-						"}", "block_natural_rubber_white", "block_natural_rubber_white", "block_natural_rubber_white");	//TODO: Eventually add different colors for slabs
+						"}", "block_natural_rubber_white", "block_natural_rubber_white", "block_natural_rubber_white", "block_natural_rubber_white", "block_natural_rubber_white", "block_natural_rubber_white");	//TODO: Eventually add different colors for slabs
 
 				writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + "double_" + texture + "_item" + ".json"));
 
@@ -114,11 +119,11 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 				//Model file top
 				fileContent = String.format("{\r\n" + 
 						"\"textures\": {\r\n" + 
-						"	\"particle\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"bottom\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"top\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"side\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"overlay\": \"polycraft:blocks/%s\"\r\n" + 
+						"	\"particle\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"bottom\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"top\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"side\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"overlay\": \"polycraft:blocks/polymer\"\r\n" + 
 						"},\r\n" + 
 						"\"elements\": [\r\n" + 
 						"        {   \"from\": [ 0, 8, 0 ],\r\n" + 
@@ -152,11 +157,11 @@ public class PolymerSlab extends SourcedConfig<PolymerBlock> {
 				//model file bottom
 				fileContent = String.format("{\r\n" + 
 						"\"textures\": {\r\n" + 
-						"	\"particle\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"bottom\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"top\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"side\": \"polycraft:blocks/%s\",\r\n" + 
-						"        \"overlay\": \"polycraft:blocks/%s\"\r\n" + 
+						"	\"particle\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"bottom\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"top\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"side\": \"polycraft:blocks/polymer\",\r\n" + 
+						"        \"overlay\": \"polycraft:blocks/polymer\"\r\n" + 
 						"},\r\n" + 
 						"\"elements\": [\r\n" + 
 						"        {   \"from\": [ 0, 0, 0 ],\r\n" + 
