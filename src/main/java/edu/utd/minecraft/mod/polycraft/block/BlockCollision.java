@@ -48,6 +48,12 @@ public class BlockCollision extends BlockPolyDirectional {
 	{
 		return false;
 	}
+	
+	@Override
+    public int getRenderType()
+    {
+        return -1;
+    }
 
 	@Override
 	public boolean isOpaqueCube()
@@ -153,6 +159,8 @@ public class BlockCollision extends BlockPolyDirectional {
 		TileEntity target = null;
 
 		target = worldObj.getTileEntity(blockPos.offset(dir));
+		
+		BlockPos pos = blockPos.offset(dir);
 		if (target != null) {
 			return target;
 		}
