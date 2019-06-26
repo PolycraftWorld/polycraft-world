@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "color=black": { "model": "polycraft:block_nylon_6_10_black" },
+    "color=red": { "model": "polycraft:block_nylon_6_10_red" },
+    "color=green": { "model": "polycraft:block_nylon_6_10_green" },
+    "color=brown": { "model": "polycraft:block_nylon_6_10_brown" },
+    "color=blue": { "model": "polycraft:block_nylon_6_10_blue" },
+    "color=purple": { "model": "polycraft:block_nylon_6_10_purple" },
+    "color=cyan": { "model": "polycraft:block_nylon_6_10_cyan" },
+    "color=silver": { "model": "polycraft:block_nylon_6_10_silver" },
+    "color=gray": { "model": "polycraft:block_nylon_6_10_gray" },
+    "color=pink": { "model": "polycraft:block_nylon_6_10_pink" },
+    "color=lime": { "model": "polycraft:block_nylon_6_10_lime" },
+    "color=yellow": { "model": "polycraft:block_nylon_6_10_yellow" },
+    "color=light_blue": { "model": "polycraft:block_nylon_6_10_light_blue" },
+    "color=magenta": { "model": "polycraft:block_nylon_6_10_magenta" },
+    "color=orange": { "model": "polycraft:block_nylon_6_10_orange" },
+    "color=white": { "model": "polycraft:block_nylon_6_10_white" }
+  }
+}
