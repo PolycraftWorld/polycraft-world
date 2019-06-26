@@ -117,6 +117,13 @@ public class BlockCollision extends BlockPolyDirectional {
 	@Override
 	public boolean onBlockActivated(World worldObj, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing facing, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
+		facing = (EnumFacing) worldObj.getBlockState(blockPos).getProperties().get(FACING);
+		 BlockStairs.EnumHalf half = ( BlockStairs.EnumHalf) worldObj.getBlockState(blockPos).getProperties().get(HALF);
+		if(half== BlockStairs.EnumHalf.TOP)
+		{
+			worldObj.getBlockState(blockPos.down()).getBlock().onBlockActivated(worldObj, blockPos.down(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
+			return true;
+		}
 		if (facing == EnumFacing.DOWN)
 		{
 			worldObj.getBlockState(blockPos.down()).getBlock().onBlockActivated(worldObj, blockPos.down(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
@@ -157,7 +164,13 @@ public class BlockCollision extends BlockPolyDirectional {
 	{
 		EnumFacing dir = (EnumFacing) worldObj.getBlockState(blockPos).getProperties().get(FACING);
 		TileEntity target = null;
-
+		
+		 BlockStairs.EnumHalf half = ( BlockStairs.EnumHalf) worldObj.getBlockState(blockPos).getProperties().get(HALF);
+			if(half== BlockStairs.EnumHalf.TOP)
+			{
+				dir= EnumFacing.DOWN;
+			}
+		
 		target = worldObj.getTileEntity(blockPos.offset(dir));
 		
 		BlockPos pos = blockPos.offset(dir);
@@ -166,7 +179,6 @@ public class BlockCollision extends BlockPolyDirectional {
 		}
 
 		return findConnectedInventory(worldObj, blockPos.offset(dir));
-
 	}
 
 	@Override
