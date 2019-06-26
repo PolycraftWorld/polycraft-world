@@ -1383,7 +1383,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 												collisionMeta = EnumFacing.EAST.ordinal();
 										}
 
-										worldObj.setBlockState(pos.add(wid, height, len), PolycraftMod.blockCollision.getStateFromMeta(collisionMeta), 2);
+										worldObj.setBlockState(pos.add(-wid, height, len), PolycraftMod.blockCollision.getStateFromMeta(collisionMeta), 2);
 
 									}
 									if (((playerFacingDir == EnumFacing.WEST) && (!shiftPressed)) || ((playerFacingDir == EnumFacing.EAST) && (shiftPressed))) // facing west (-x)

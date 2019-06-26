@@ -146,7 +146,7 @@ public class BlockCollision extends BlockPolyDirectional {
 		}
 		else if (facing == EnumFacing.SOUTH)
 		{
-			worldObj.getBlockState(blockPos.north()).getBlock().onBlockActivated(worldObj, blockPos.north(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.south()).getBlock().onBlockActivated(worldObj, blockPos.south(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		//TODO: throw some error here: misdefined inventory
