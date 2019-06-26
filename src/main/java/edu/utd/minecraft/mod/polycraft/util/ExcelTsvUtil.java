@@ -144,7 +144,8 @@ public class ExcelTsvUtil {
 					        {
 					        	if(row.getCell(row.getFirstCellNum()).getCellType().equals(CellType.BLANK))
 					        	{
-					        		count++;
+					        		if(!sheetName.contentEquals("enums"))
+					        			count++;
 					        	}
 					        }
 			            tmp = inputsSheets[c].getRow(i).getPhysicalNumberOfCells();
