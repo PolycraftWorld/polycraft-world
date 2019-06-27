@@ -17,20 +17,45 @@ public abstract class BlockPolyDirectional extends Block {
 
 
     public static final PropertyEnum<BlockStairs.EnumHalf> HALF = PropertyEnum.<BlockStairs.EnumHalf>create("half", BlockStairs.EnumHalf.class);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	
+	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	protected BlockPolyDirectional(Material materialIn) {
 		super(materialIn);
-		//this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM));
 	}
 	
 	/**
      * Convert the given metadata into a BlockState for this Block
      */
+	@Override
     public IBlockState getStateFromMeta(int meta)
     {
-        IBlockState iblockstate = this.getDefaultState().withProperty(HALF, (meta & 4) > 0 ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM);
-        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront(5 - (meta & 3)));
+		IBlockState iblockstate = this.getDefaultState();
+        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta)));
+		switch(meta)
+		{
+		case 0:
+			
+	        iblockstate = iblockstate.withProperty(HALF, BlockStairs.EnumHalf.TOP);
+			break;
+		case 1:
+	        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta)));	 
+			break;
+		case 2:
+	        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta))); 
+			break;
+		case 3:
+	        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta)));
+			break;
+		case 4:
+	        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta))); 
+			break;
+		case 5:
+	        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta)));
+			break;
+		default:
+	        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront((meta))); 
+			break;
+		}
         return iblockstate;
     }
 
