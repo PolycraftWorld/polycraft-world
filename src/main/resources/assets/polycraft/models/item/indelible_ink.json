@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/indelible_ink"
+        "layer0": "polycraft:items/super_Ink"
     },
     "display": {
         "thirdperson": {
