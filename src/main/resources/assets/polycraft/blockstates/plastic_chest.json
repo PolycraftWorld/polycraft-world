@@ -1,5 +1,35 @@
 {
-  "variants": {
-    "normal": { "model": "polycraft:plastic_chest" }
-  }
+    "forge_marker": 1,
+    "defaults": {"model": "polycraft:plastic_chest"},
+    "variants": {
+        "normal": [{
+			"transform": {
+				"translation": [0.0, 0.0, 0.0],
+				"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ],
+				"scale": [ 1.0, 1.0, 1.0 ]
+			}
+		}],
+        "inventory": [{
+            "transform": {
+			    "firstperson": {
+                    "translation": [0.0, 0.0, 0.30],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                    "scale": [ 0.375, 0.375, 0.375 ]
+                },
+                "thirdperson": {
+                    "translation": [0.0, 0.0, 0.30],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                    "scale": [ 0.375, 0.375, 0.375 ]
+                },
+                "gui": {
+					"translation": [0.00,-0.25,0.00],
+					"scale": 0.55
+                }
+            }
+        }],
+        "facing=north": { "model": "polycraft:plastic_chest", "y": 90 },
+        "facing=south": { "model": "polycraft:plastic_chest", "y": 270 },
+        "facing=west":  { "model": "polycraft:plastic_chest", "y": 0 },
+        "facing=east":  { "model": "polycraft:plastic_chest", "y": 180 }
+    }
 }
