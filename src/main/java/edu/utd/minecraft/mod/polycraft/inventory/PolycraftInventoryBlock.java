@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.*;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +30,10 @@ import edu.utd.minecraft.mod.polycraft.inventory.oilderrick.OilDerrickInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.textwall.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.client.Minecraft;
 //import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -54,12 +58,15 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 
 	public final Inventory config;
 	public final Class tileEntityClass;
+	
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 //	public final Map<BlockFace, IIcon> blockFaceIcons = Maps.newHashMap();
 //	protected IIcon inventoryIcon;
 
 	public PolycraftInventoryBlock(final Inventory config, final Class tileEntityClass, final Material material, final float hardness) {
 		super(material);
+		//this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setHardness(hardness);
 		this.setResistance(10.0F);
 		this.setCreativeTab(CreativeTabs.tabDecorations);
@@ -1017,7 +1024,32 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 			return true;
 
 	}
+	
+	@Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {FACING});
+    }
+	
+	@Override
+    public int getMetaFromState(IBlockState state)
+    {
+        int i = 0;
+        i =((EnumFacing)state.getValue(FACING)).getIndex();
+        return i;
+    }
+	
+	@Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+		IBlockState iblockstate = this.getDefaultState();
+        iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront(5-(meta & 3)));
+        return iblockstate;
+    }
 
+	 
+
+	 
 	@Override
 	public void onBlockPlacedBy(World worldObj, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack itemToPlace) {
 
@@ -1026,6 +1058,21 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 		if (this.config.render3D)
 		{
 			int facing = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			
+		       EnumFacing entityFacing = player.getHorizontalFacing();
+
+	            if(entityFacing == EnumFacing.NORTH) {
+	                entityFacing = EnumFacing.SOUTH;
+	            } else if(entityFacing == EnumFacing.EAST) {
+	                entityFacing = EnumFacing.WEST;
+	            } else if(entityFacing == EnumFacing.SOUTH) {
+	                entityFacing = EnumFacing.NORTH;
+	            } else if(entityFacing == EnumFacing.WEST) {
+	                entityFacing = EnumFacing.EAST;
+	            }
+
+	            worldObj.setBlockState(pos, state.withProperty(FACING, entityFacing), 2);
+			
 			if (worldObj.getTileEntity(pos) instanceof TileEntity) {
 				TileEntity te = worldObj.getTileEntity(pos);
 				//worldObj.getTileEntity(xPos, yPos, zPos).getRenderBoundingBox().setBounds(te.xCoord - 20, te.yCoord, te.zCoord - 20, te.xCoord + 20, te.yCoord + 20, te.zCoord + 20);
