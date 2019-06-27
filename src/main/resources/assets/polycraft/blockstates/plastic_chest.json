@@ -27,9 +27,9 @@
                 }
             }
         }],
-        "facing=north": { "model": "polycraft:plastic_chest", "y": 90 },
-        "facing=south": { "model": "polycraft:plastic_chest", "y": 270 },
-        "facing=west":  { "model": "polycraft:plastic_chest", "y": 0 },
-        "facing=east":  { "model": "polycraft:plastic_chest", "y": 180 }
+        "facing=north": { "model": "polycraft:plastic_chest", "y": 180 },
+        "facing=south": { "model": "polycraft:plastic_chest", "y": 0 },
+        "facing=west":  { "model": "polycraft:plastic_chest", "y": 90 },
+        "facing=east":  { "model": "polycraft:plastic_chest", "y": 270 }
     }
 }
