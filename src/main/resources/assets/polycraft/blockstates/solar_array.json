@@ -9,16 +9,25 @@
 		}],
         "inventory": [{
             "transform": {
+                "firstperson": {
+                    "translation": [0.0, 0.0, 0.0],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                    "scale": [0.1, 0.1, 0.1]
+                },
                 "thirdperson": {
-                    "translation": [0.0, 0.0, 0.30],
-                    "rotation": [ { "y": 0}, {"x": 90}, {"z": 180} ],
-                    "scale": 1.0
+                    "translation": [0.1, 0.1, -0.2],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 180} ],
+                    "scale": [0.05, 0.05, 0.05]
                 },
                 "gui": {
-					"translation": [0.0,0.15,1.0],
-					"scale": 2.0
+					"translation": [-0.5,-0.2,0.0],
+                    "scale": [0.14, 0.2, 0.14]
                 }
             }
-        }]
+        }],
+        "facing=north": { "model": "polycraft:inventories/solar_array.obj","transform": {"translation": [0.0, 0.0, 7.0],"rotation": [ { "y": 180}, {"x": 0}, {"z": 0} ]}},
+        "facing=south": { "model": "polycraft:inventories/solar_array.obj","transform": {"translation": [0.0, 0.0, -7.0],"rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ]}},
+        "facing=west":  { "model": "polycraft:inventories/solar_array.obj","transform": {"translation": [7.0, 0.0, 0.0],"rotation": [ { "y": 270}, {"x": 0}, {"z": 0} ]}},
+        "facing=east":  { "model": "polycraft:inventories/solar_array.obj","transform": {"translation": [-7.0, 0.0, 0.0],"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ]}}
     }
 }
