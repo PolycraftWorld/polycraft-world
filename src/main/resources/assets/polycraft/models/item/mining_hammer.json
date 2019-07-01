@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/mining_hammer"
+        "layer0": "polycraft:items/ItemMiningHammer"
     },
     "display": {
         "thirdperson": {

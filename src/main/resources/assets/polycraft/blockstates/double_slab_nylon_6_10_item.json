@@ -1,9 +1,12 @@
 {
     "variants": {
         "half=bottom,seamless=false,variant=polymer": { "model": "polycraft:block_natural_rubber_white" },
+<<<<<<< HEAD
         "half=top,seamless=false,variant=polymer": { "model": "polycraft:block_natural_rubber_white" },
         "half=bottom,seamless=true,variant=polymer": { "model": "polycraft:block_natural_rubber_white" },
         "half=top,seamless=true,variant=polymer": { "model": "polycraft:block_natural_rubber_white" },
+=======
+>>>>>>> refs/remotes/origin/1.8.9_recipies
         "normal": { "model": "polycraft:block_natural_rubber_white" },
 		 "all": { "model": "polycraft:block_natural_rubber_white" }
     }

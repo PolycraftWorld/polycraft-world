@@ -1,6 +1,6 @@
 # Blender v2.74 (sub 0) OBJ File: 'Condenser.blend'
 # www.blender.org
-mtllib Condenser.mtl
+mtllib condenser.mtl
 v -0.375000 0.250000 0.187500
 v -0.375000 0.250000 0.125000
 v -0.312500 0.250000 0.125000

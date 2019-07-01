@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockNewLog;
 import net.minecraft.block.BlockOldLog;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -350,10 +351,11 @@ public class TreeTapInventory extends PolycraftInventory {
 				}
 			}
 		}
-
+		
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABB(null, AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1), EntitySelectors.selectInventories);
+			List list = worldObj.getEntitiesInAABBexcluding((Entity) null, AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1),
+					EntitySelectors.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{

@@ -239,8 +239,8 @@ public class PolycraftRegistry {
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
 	//public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
-//	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -464,8 +464,8 @@ public class PolycraftRegistry {
 			Config.registerFromResources("config");
 
 			registerMinecraftItems();
-//			registerMinecraftBlocks();
-//			registerBiomes();
+			registerMinecraftBlocks();
+			registerBiomes();
 			
 			registerOres();
 			registerIngots();
@@ -492,7 +492,7 @@ public class PolycraftRegistry {
 			registerFlashcards();
 			registerExams();
 			Fuel.registerQuantifiedFuels();
-//			registerPolycraftEntities();
+			registerPolycraftEntities();
 
 
 		}
@@ -1368,9 +1368,9 @@ public class PolycraftRegistry {
 				if (GameID.EntityResearchAssistant.matches(polycraftEntity)){
 					ResearchAssistantEntity.register(polycraftEntity);
 				}
-				else if(GameID.EntityTerritoryFlag.matches(polycraftEntity)){
-					EntityTerritoryFlag.register(polycraftEntity);
-				}
+//				else if(GameID.EntityTerritoryFlag.matches(polycraftEntity)){
+//					EntityTerritoryFlag.register(polycraftEntity);
+//				}
 				else if(GameID.EntityOilSlime.matches(polycraftEntity)){
 					EntityOilSlime.register(polycraftEntity);
 				}
@@ -1449,7 +1449,8 @@ public class PolycraftRegistry {
 
 		for (final CustomObject customObject : CustomObject.registry.values()) {
 			if (isTargetVersion(customObject.version)) {
-				
+				if(PolycraftMod.GEN_JSON_DATA)
+					customObject.checkItemJSONs(customObject, assetPath);
 				switch(customObject.type)
 				{
 					case "PC Item":
