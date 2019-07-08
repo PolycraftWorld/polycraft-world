@@ -25,9 +25,9 @@
                 }
             }
         }],
-        "facing=north": { "model": "polycraft:inventories/chemical_processor.obj", "y": 90 },
-        "facing=south": { "model": "polycraft:inventories/chemical_processor.obj", "y": 270 },
-        "facing=west":  { "model": "polycraft:inventories/chemical_processor.obj", "y": 0 },
-        "facing=east":  { "model": "polycraft:inventories/chemical_processor.obj", "y": 180 }
+        "facing=north": { "model": "polycraft:inventories/contact_printer.obj", "y": 90 },
+        "facing=south": { "model": "polycraft:inventories/contact_printer.obj", "y": 270 },
+        "facing=west":  { "model": "polycraft:inventories/contact_printer.obj", "y": 0 },
+        "facing=east":  { "model": "polycraft:inventories/contact_printer.obj", "y": 180 }
     }
 }
