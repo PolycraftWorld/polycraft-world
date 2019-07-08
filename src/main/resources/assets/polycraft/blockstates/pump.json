@@ -1,5 +1,9 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:pump" }
+    "normal": { "model": "polycraft:pump" },
+        "facing=north": { "model": "polycraft:pump", "y": 90 },
+        "facing=south": { "model": "polycraft:pump", "y": 270 },
+        "facing=west":  { "model": "polycraft:pump", "y": 0 },
+        "facing=east":  { "model": "polycraft:pump", "y": 180 }
   }
 }

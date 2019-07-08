@@ -1,5 +1,9 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:chem2323" }
+    "normal": { "model": "polycraft:chem2323" },
+        "facing=north": { "model": "polycraft:chem2323", "y": 90 },
+        "facing=south": { "model": "polycraft:chem2323", "y": 270 },
+        "facing=west":  { "model": "polycraft:chem2323", "y": 0 },
+        "facing=east":  { "model": "polycraft:chem2323", "y": 180 }
   }
 }

@@ -1,5 +1,9 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:tier_chest" }
+    "normal": { "model": "polycraft:tier_chest" },
+        "facing=north": { "model": "polycraft:tier_chest", "y": 90 },
+        "facing=south": { "model": "polycraft:tier_chest", "y": 270 },
+        "facing=west":  { "model": "polycraft:tier_chest", "y": 0 },
+        "facing=east":  { "model": "polycraft:tier_chest", "y": 180 }
   }
 }

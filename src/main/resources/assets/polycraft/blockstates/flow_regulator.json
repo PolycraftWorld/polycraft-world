@@ -1,5 +1,9 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:flow_regulator" }
+    "normal": { "model": "polycraft:flow_regulator" },
+        "facing=north": { "model": "polycraft:flow_regulator", "y": 90 },
+        "facing=south": { "model": "polycraft:flow_regulator", "y": 270 },
+        "facing=west":  { "model": "polycraft:flow_regulator", "y": 0 },
+        "facing=east":  { "model": "polycraft:flow_regulator", "y": 180 }
   }
 }
