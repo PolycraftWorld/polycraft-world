@@ -1,18 +1,10 @@
 {
 "textures": {
-<<<<<<< HEAD
-	"particle": "polycraft:blocks/polymer",
-        "bottom": "polycraft:blocks/polymer",
-        "top": "polycraft:blocks/polymer",
-        "side": "polycraft:blocks/polymer",
-        "overlay": "polycraft:blocks/polymer"
-=======
 	"particle": "polycraft:blocks/polymer_white",
         "bottom": "polycraft:blocks/polymer_white",
         "top": "polycraft:blocks/polymer_white",
         "side": "polycraft:blocks/polymer_white",
         "overlay": "polycraft:blocks/polymer_white"
->>>>>>> refs/remotes/origin/1.8.9_recipies
 },
 "elements": [
         {   "from": [ 0, 8, 0 ],

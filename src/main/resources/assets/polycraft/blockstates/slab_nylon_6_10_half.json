@@ -2,11 +2,8 @@
     "variants": {
         "half=bottom,seamless=false,variant=polymer": { "model": "polycraft:slab_nylon_6_10_bottom" },
         "half=top,seamless=false,variant=polymer": { "model": "polycraft:slab_nylon_6_10_top" },
-<<<<<<< HEAD
         "half=bottom,seamless=true,variant=polymer": { "model": "polycraft:slab_nylon_6_10_bottom" },
         "half=top,seamless=true,variant=polymer": { "model": "polycraft:slab_nylon_6_10_top" },
-=======
->>>>>>> refs/remotes/origin/1.8.9_recipies
         "normal": { "model": "polycraft:slab_nylon_6_10_bottom" },
 		 "all": { "model": "polycraft:slab_nylon_6_10_bottom" }
     }
