@@ -4,6 +4,7 @@
 /.metadata
 /.settings
 /.gradle
+/logs
 /bin
 /eclipse
 /gradlew
@@ -51,6 +52,7 @@ run
 /.metadata
 /.settings
 /.gradle
+/saves
 /bin
 /eclipse
 /gradlew
