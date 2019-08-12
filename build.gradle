@@ -78,9 +78,9 @@ dependencies {
     compile group: 'com.microsoft.azure', name: 'azure-storage', version: '2.2.0'
 
     // NEI Integration files requred for successful gradle build
-    compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
-    compile 'codechicken:CodeChickenLib:1.8-1.1.2.112:dev'
-    compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
+    //compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
+    //compile 'codechicken:CodeChickenLib:1.8-1.1.2.112:dev'
+    //compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
 
     external 'org.apache.httpcomponents:httpclient:4.3.3'
     external 'org.apache.httpcomponents:httpcore:4.3.2'
@@ -108,5 +108,9 @@ processResources
         }
 
 jar {
-    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.external.collect { 
+		exclude 'META-INF/*'
+		
+		it.isDirectory() ? it : zipTree(it) 
+	} }
 }
