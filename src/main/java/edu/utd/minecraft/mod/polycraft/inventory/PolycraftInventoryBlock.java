@@ -250,7 +250,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	@Override
 	public void breakBlock(World world, BlockPos blockPos, IBlockState state) {
 
-		// TODO: Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
+		// Hotfix to OilDerrickBlock to prevent OilFields from being decremented when the OilDerrick failed to place. (PM-17)
 		if (config.containerType == PolycraftContainerType.OIL_DERRICK)
 		{
 			PolycraftInventory inv = this.getInventory(world, blockPos);
@@ -592,7 +592,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 	
 
 
-//	TODO: update for 1.8
+//	Removed during 1.8 update 
 //  	public static class BasicRenderingHandler extends TileEntitySpecialRenderer //implements ISimpleBlockRenderingHandler
 // 
 //	{
@@ -623,9 +623,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 ////		@Override
 ////		public int getRenderId() {
 ////			return config.renderID;
-////			//TODO
 ////		}
-///*		TODO: Can we fix this in 1.8?
 //		@Override
 //		@SideOnly(Side.CLIENT)
 //		public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
@@ -757,7 +755,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 //				}
 //				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
 //				{
-//					// TODO: Scale GL11 accordingly to future fluorescent lamp model.
+//					// Scale GL11 accordingly to future fluorescent lamp model.
 //					GL11.glScalef(1.2F, 1.2F, 1.2F);
 //					GL11.glTranslatef(.8F, 0.25F, 0F);
 //				}
@@ -772,7 +770,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 //				//this.inventoryModel.renderAll();
 //			}
 //			else
-//			{	//TODO: fix for 1.8 Rendering
+//			{	
 ////				Tessellator tessellator = Tessellator.instance;
 ////				tessellator.startDrawingQuads();
 ////				tessellator.setNormal(0.0F, -1.0F, 0.0F);
@@ -906,7 +904,7 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 //				}
 //				else if (config.containerType == PolycraftContainerType.FLUORESCENT_LAMP)
 //				{
-//					// TODO: Modify fluorescent lamp tile entity code when new model is made.
+//					// Modify fluorescent lamp tile entity code when new model is made.
 //					GL11.glRotatef(180f, 1f, 0, 0);
 //					GL11.glRotatef(90f, 0, 1f, 0);
 //					GL11.glTranslated(1, -1, 0);
@@ -1118,7 +1116,6 @@ public class PolycraftInventoryBlock<I extends PolycraftInventory> extends Block
 					if (!blockCanBePlaced)
 						break;
 				} //end of outer for Loop
-//				TODO: update for 1.8 Stephen Got lazy
 				//test explicit blocks we decorate around the inventories added to make sure the inventory can be placed
 				while (blockCanBePlaced)
 				{

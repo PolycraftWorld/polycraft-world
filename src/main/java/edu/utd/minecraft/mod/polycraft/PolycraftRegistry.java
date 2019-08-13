@@ -497,8 +497,16 @@ public class PolycraftRegistry {
 		registerClientPolymers();
 		
 		OBJLoader.instance.addDomain(PolycraftMod.MODID.toLowerCase());
-        Item item2 = GameRegistry.findItem(PolycraftMod.MODID, "flood_light");
-        ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(PolycraftMod.MODID.toLowerCase() + ":" + "flood_light", "inventory"));
+        
+		for(final Inventory inv: Inventory.registry.values()) {
+			if(inv.render3D) {
+				Item item2 = GameRegistry.findItem(PolycraftMod.MODID, PolycraftMod.getFileSafeName(inv.name));
+				if(item2 != null)
+					ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(item2.getRegistryName(), "inventory"));
+			}
+		}
+//		Item item2 = GameRegistry.findItem(PolycraftMod.MODID, "flood_light");
+//        ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(PolycraftMod.MODID.toLowerCase() + ":" + "flood_light", "inventory"));
 
 		
 //		for (final MoldedItem moldedItem : MoldedItem.registry.values()) {
@@ -1238,6 +1246,8 @@ public class PolycraftRegistry {
 	private static void registerInventories() {
 		for (final Inventory inventory : Inventory.registry.values()) {
 			if (isTargetVersion(inventory.version)) {
+				if(PolycraftMod.GEN_JSON_DATA)
+					inventory.checkInventoryJSONs(inventory, assetPath);
 				if (GameID.InventoryTreeTap.matches(inventory))
 					TreeTapInventory.register(inventory);
 				else if (GameID.InventoryMachiningMill.matches(inventory))
@@ -1302,12 +1312,12 @@ public class PolycraftRegistry {
 					PolycraftingInventory.register(inventory);
 				else if (GameID.InventoryCannon.matches(inventory))
 					CannonInventory.register(inventory);
-				else if (GameID.InventoryCannonGravelTier1.matches(inventory))
-					GravelCannonInventoryTeir1.register(inventory);
-				else if (GameID.InventoryCannonGravelTier2.matches(inventory))
-					GravelCannonInventoryTeir2.register(inventory);
-				else if (GameID.InventoryCannonGravelTier3.matches(inventory))
-					GravelCannonInventoryTeir3.register(inventory);
+//				else if (GameID.InventoryCannonGravelTier1.matches(inventory))
+//					GravelCannonInventoryTeir1.register(inventory);
+//				else if (GameID.InventoryCannonGravelTier2.matches(inventory))
+//					GravelCannonInventoryTeir2.register(inventory);
+//				else if (GameID.InventoryCannonGravelTier3.matches(inventory))
+//					GravelCannonInventoryTeir3.register(inventory);
 				else
 					logger.warn("Unhandled inventory: {} ({})", inventory.name, inventory.gameID);
 			}

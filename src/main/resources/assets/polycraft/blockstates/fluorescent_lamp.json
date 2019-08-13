@@ -1,6 +1,6 @@
 {
     "forge_marker": 1,
-    "defaults": {"model": "polycraft:flood_light.obj"},
+    "defaults": {"model": "polycraft:inventories/fluorescent_lamp.obj"},
     "variants": {
         "normal": [{
 			"transform": {
