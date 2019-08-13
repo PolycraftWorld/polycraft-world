@@ -353,7 +353,7 @@ public class TreeTapInventory extends PolycraftInventory {
 
 		if (iinventory == null)
 		{
-			List list = worldObj.getEntitiesWithinAABB(null, AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1), EntitySelectors.selectInventories);
+			List list = null; //worldObj.getEntitiesWithinAABB(null, AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1), EntitySelectors.selectInventories);
 
 			if (list != null && list.size() > 0)
 			{
