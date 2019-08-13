@@ -98,119 +98,121 @@ public class BotAPI {
             private static final String __OBFID = "CL_00001050";
             public void run()
             {
-            	Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
-                while(BotAPI.apiRunning.get()) {
-                	try {
-                    	int x = 160, y = 4, z = 16;
-                    	BlockPos pos = new BlockPos(x, y, z);
-                		Socket client = server.accept();
-                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-                        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-                        String fromClient = in.readLine();
-                        if(fromClient != null) {
-                        	String args[] =  fromClient.split("\\s+");
-	                        switch(args[0]) {
-	                        case "hello":
-	                        	player.addChatComponentMessage(new ChatComponentText(fromClient));
-	                        	break;
-	                        case "jump":
-	                        	player.jump();
-	                        	break;
-	                        case "movenorth":
-	                        	BotAPI.moveNorth();
-	                        	break;
-	                        case "movesouth":
-	                        	BotAPI.moveSouth();
-	                        	break;
-	                        case "moveeast":
-	                        	BotAPI.moveEast();
-	                        	break;
-	                        case "movewest":
-	                        	BotAPI.moveWest();
-	                        	break;
-	                        case "movenortheast":
-	                        	BotAPI.moveNorth();
-	                        	BotAPI.moveEast();
-	                        	break;
-	                        case "movenorthwest":
-	                        	BotAPI.moveNorth();
-	                        	BotAPI.moveWest();
-	                        	break;
-	                        case "movesoutheast":
-	                        	BotAPI.moveSouth();
-	                        	BotAPI.moveEast();
-	                        	break;
-	                        case "movesouthwest":
-	                        	BotAPI.moveSouth();
-	                        	BotAPI.moveWest();
-	                        	break;
-	                        case "turnright":
-	                        	player.setAngles(5,0);
-	                        	break;
-	                        case "turnleft":
-	                        	player.setAngles(-5,0);
-	                        	break;
-	                        case "break":
-	                        	if(args.length == 3) {
-	                        		BlockPos breakPos = new BlockPos(Integer.parseInt(args[1]), y, Integer.parseInt(args[2]));
-	                        		Block block = player.worldObj.getBlockState(breakPos).getBlock();
-	                        		if(block.getMaterial() != Material.air) {
-	                        			Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(block.stepSound.getBreakSound()), (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getFrequency() * 0.5F, Integer.parseInt(args[1]), y, Integer.parseInt(args[2])));
-	    	                            
-		                        		Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, breakPos, EnumFacing.UP));
-		                        		Minecraft.getMinecraft().playerController.onPlayerDestroyBlock(breakPos, EnumFacing.UP);
-
-		                        		Minecraft.getMinecraft().theWorld.destroyBlock(breakPos, true);
+            	if(BotAPI.apiRunning.get()) {
+            		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
+	                while(BotAPI.apiRunning.get()) {
+	                	try {
+	                    	int x = 160, y = 4, z = 16;
+	                    	BlockPos pos = new BlockPos(x, y, z);
+	                		Socket client = server.accept();
+	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
+	                        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+	                        String fromClient = in.readLine();
+	                        if(fromClient != null) {
+	                        	String args[] =  fromClient.split("\\s+");
+		                        switch(args[0]) {
+		                        case "hello":
+		                        	player.addChatComponentMessage(new ChatComponentText(fromClient));
+		                        	break;
+		                        case "jump":
+		                        	player.jump();
+		                        	break;
+		                        case "movenorth":
+		                        	BotAPI.moveNorth();
+		                        	break;
+		                        case "movesouth":
+		                        	BotAPI.moveSouth();
+		                        	break;
+		                        case "moveeast":
+		                        	BotAPI.moveEast();
+		                        	break;
+		                        case "movewest":
+		                        	BotAPI.moveWest();
+		                        	break;
+		                        case "movenortheast":
+		                        	BotAPI.moveNorth();
+		                        	BotAPI.moveEast();
+		                        	break;
+		                        case "movenorthwest":
+		                        	BotAPI.moveNorth();
+		                        	BotAPI.moveWest();
+		                        	break;
+		                        case "movesoutheast":
+		                        	BotAPI.moveSouth();
+		                        	BotAPI.moveEast();
+		                        	break;
+		                        case "movesouthwest":
+		                        	BotAPI.moveSouth();
+		                        	BotAPI.moveWest();
+		                        	break;
+		                        case "turnright":
+		                        	player.setAngles(5,0);
+		                        	break;
+		                        case "turnleft":
+		                        	player.setAngles(-5,0);
+		                        	break;
+		                        case "break":
+		                        	if(args.length == 3) {
+		                        		BlockPos breakPos = new BlockPos(Integer.parseInt(args[1]), y, Integer.parseInt(args[2]));
+		                        		Block block = player.worldObj.getBlockState(breakPos).getBlock();
+		                        		if(block.getMaterial() != Material.air) {
+		                        			Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(block.stepSound.getBreakSound()), (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getFrequency() * 0.5F, Integer.parseInt(args[1]), y, Integer.parseInt(args[2])));
+		    	                            
+			                        		Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, breakPos, EnumFacing.UP));
+			                        		Minecraft.getMinecraft().playerController.onPlayerDestroyBlock(breakPos, EnumFacing.UP);
+	
+			                        		Minecraft.getMinecraft().theWorld.destroyBlock(breakPos, true);
+		                        		}
+	                        		}else {
+		                        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+		                        		for(String argument: args) {
+		                        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+		                        		}
+		                        	}
+		                        	break;
+		                        case "goto":
+		                        	if(args.length == 3) {
+		                        		player.setLocationAndAngles(Integer.parseInt(args[1]) + 0.5, y, Integer.parseInt(args[2]) + 0.5, player.rotationYaw, player.rotationPitch);
+		                        	}else {
+		                        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+		                        		for(String argument: args) {
+		                        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+		                        		}
+		                        	}
+		                        case "collect":
+	                        		Gson gson = new Gson();
+	            					JsonObject jobject = new JsonObject();
+	            					
+	            					ArrayList<Integer> map = new ArrayList<Integer>();
+	            					for(int i = 0; i < 16; i++) {
+	            						for(int k = 0; k < 16; k++) {
+	            							map.add(Block.getIdFromBlock(player.worldObj.getBlockState(pos.add(i, 0, k)).getBlock()));
+	            						}
+	            					}
+	            					JsonElement result = gson.toJsonTree(map);
+	            					jobject.add("map",result);
+	            					jobject.addProperty("playerX", (int)player.posX - x);
+	            					jobject.addProperty("playerZ", (int)player.posZ - z);
+	            					toClient = jobject.toString();
+		                            out.println(toClient);
+		                            client.getOutputStream().flush();
+		                        	break;
+		                    	default:
+		                    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+		                    		for(String argument: args) {
+		                    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
 	                        		}
-                        		}else {
-	                        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-	                        		for(String argument: args) {
-	                        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-	                        		}
-	                        	}
-	                        	break;
-	                        case "goto":
-	                        	if(args.length == 3) {
-	                        		player.setLocationAndAngles(Integer.parseInt(args[1]) + 0.5, y, Integer.parseInt(args[2]) + 0.5, player.rotationYaw, player.rotationPitch);
-	                        	}else {
-	                        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-	                        		for(String argument: args) {
-	                        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-	                        		}
-	                        	}
-	                        case "collect":
-                        		Gson gson = new Gson();
-            					JsonObject jobject = new JsonObject();
-            					
-            					ArrayList<Integer> map = new ArrayList<Integer>();
-            					for(int i = 0; i < 16; i++) {
-            						for(int k = 0; k < 16; k++) {
-            							map.add(Block.getIdFromBlock(player.worldObj.getBlockState(pos.add(i, 0, k)).getBlock()));
-            						}
-            					}
-            					JsonElement result = gson.toJsonTree(map);
-            					jobject.add("map",result);
-            					jobject.addProperty("playerX", (int)player.posX - x);
-            					jobject.addProperty("playerZ", (int)player.posZ - z);
-            					toClient = jobject.toString();
-	                            out.println(toClient);
-	                            client.getOutputStream().flush();
-	                        	break;
-	                    	default:
-	                    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-	                    		for(String argument: args) {
-	                    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-                        		}
-	                    		break;
+		                    		break;
+		                        }
 	                        }
-                        }
-            		} catch (IOException e) {
-            			// TODO Auto-generated catch block
-            			e.printStackTrace();
-            		}
-                }
-            	Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Terminated"));
+	            		} catch (IOException e) {
+	            			// TODO Auto-generated catch block
+	            			e.printStackTrace();
+	            		}
+	                }
+	            	Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Terminated"));
+            	}
             }
         };
         APIThread.setDaemon(true);
