@@ -77,6 +77,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
+import edu.utd.minecraft.mod.polycraft.util.BotAPI;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
@@ -100,6 +101,7 @@ public class ClientEnforcer extends Enforcer {
 	private static final KeyBinding keyBindingAIControls = new KeyBinding("key.private.property", Keyboard.KEY_ADD, "key.categories.gameplay");
 	private static final KeyBinding keyBindingAIControlsLeft = new KeyBinding("key.private.property", Keyboard.KEY_LEFT, "key.categories.gameplay");
 	private static final KeyBinding keyBindingAIControlsRight = new KeyBinding("key.private.property", Keyboard.KEY_RIGHT, "key.categories.gameplay");
+	private static final KeyBinding keyBindingAIAPI = new KeyBinding("key.api", Keyboard.KEY_K, "key.categories.api");
 	private static int actionPreventedWarningMessageTicks = 0;
 	private static final int actionPreventedWarningMessageMaxTicks = PolycraftMod.convertSecondsToGameTicks(4);
 	
@@ -178,6 +180,11 @@ public class ClientEnforcer extends Enforcer {
 			{
 				this.behaviorAI+=1;
 			}
+		}
+
+		if(keyBindingAIAPI.isPressed()) {
+			//restart AI API
+			BotAPI.toggleAPIThread();
 		}
 	}
 	

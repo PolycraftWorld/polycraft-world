@@ -96,6 +96,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.DynamicLights;
 import edu.utd.minecraft.mod.polycraft.transformer.dynamiclights.PointLightSource;
+import edu.utd.minecraft.mod.polycraft.util.BotAPI;
 import edu.utd.minecraft.mod.polycraft.util.TextFormatting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -185,6 +186,8 @@ public class ClientProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(ResyncHandler.INSTANCE);
 		//TODO: Walter add in 3D rendering code
 		registerRenderers();
+		
+		BotAPI.startAPIThread();
 	}
 	
 	@Override
