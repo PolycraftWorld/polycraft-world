@@ -59,6 +59,7 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
+import edu.utd.minecraft.mod.polycraft.util.ExcelTsvUtil;
 import edu.utd.minecraft.mod.polycraft.util.WikiMaker;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilDesert;
 import edu.utd.minecraft.mod.polycraft.worldgen.BiomeGenOilOcean;
@@ -251,6 +252,15 @@ public class PolycraftMod {
 			}
 			System.out
 					.println("***************************** LANG FILE FINISHED PROCESSING ***************************** ");
+			//System.exit(0);
+			FMLCommonHandler.instance().exitJava(0, false);
+		}
+		
+		if (System.getProperty("excelInputFile") != null) {
+			ExcelTsvUtil.readExcel(System
+					.getProperty("excelInputFile"));
+			System.out
+					.println("***************************** EXCEL TSV FILES FINISHED PROCESSING ***************************** ");
 			//System.exit(0);
 			FMLCommonHandler.instance().exitJava(0, false);
 		}

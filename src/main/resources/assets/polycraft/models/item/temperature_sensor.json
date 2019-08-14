@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "polycraft:items/temperature_sensor"
+        "layer0": "polycraft:items/itemelectronics"
     },
     "display": {
         "thirdperson": {

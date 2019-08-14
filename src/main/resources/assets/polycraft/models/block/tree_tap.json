@@ -1,6 +1,8 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/orientable",
   "textures": {
-    "all": "polycraft:blocks/tree_tap"
+	"top": "polycraft:blocks/tree_tap_top",
+    "front": "polycraft:blocks/tree_tap_inside",
+    "side": "polycraft:blocks/tree_tap_outside"
   }
 }

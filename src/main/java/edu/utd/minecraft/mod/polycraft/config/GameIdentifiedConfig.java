@@ -65,6 +65,53 @@ public abstract class GameIdentifiedConfig<S extends Config> extends Config {
 
 	}
 	
+	public static void checkFluidJSONs(Config config, String path){
+		String texture = PolycraftMod.getFileSafeName(config.name);
+		File json = new File(path + "blockstates\\" + texture + ".json");
+		if (json.exists())
+				return;
+		else{
+			try{
+				//BlockState file
+				String fileContent = String.format("{\n" +
+						"  \"forge_marker\": 1, {\n" +
+						"  \"defaults\": {\n" +
+						"    \"model\": \"forge:fluid\" \n" +
+						"  },\n" +
+						"	\"variant\": {\n"+
+						"		\"oil\": {\n"+
+						"			\"custom\": { \"fluid\": \"oil\" }\n"+
+						"		 }\n"+
+						"	  }\n"+
+						"	}\n"+
+						"}", texture);
+
+				BufferedWriter writer = new BufferedWriter(new FileWriter(path + "blockstates\\" + texture + ".json"));
+
+				writer.write(fileContent);
+				writer.close();
+
+//				//Model file
+//				fileContent = String.format("{\n" +
+//						"  \"parent\": \"block/cube_all\",\n" +
+//						"  \"textures\": {\n" +
+//						"    \"all\": \"polycraft:blocks/%s\"\n" +
+//						"  }\n" +
+//						"}", texture);
+//
+//				writer = new BufferedWriter(new FileWriter(path + "models\\block\\" + texture + ".json"));
+//
+//				writer.write(fileContent);
+//				writer.close();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+	
 	public static void checkBlockJSONs(Config config, String path){
 		String texture = PolycraftMod.getFileSafeName(config.name);
 		File json = new File(path + "blockstates\\" + texture + ".json");

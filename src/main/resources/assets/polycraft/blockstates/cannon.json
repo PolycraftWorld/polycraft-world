@@ -1,5 +1,9 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:cannon" }
+    "normal": { "model": "polycraft:cannon" },
+        "facing=north": { "model": "polycraft:cannon", "y": 90 },
+        "facing=south": { "model": "polycraft:cannon", "y": 270 },
+        "facing=west":  { "model": "polycraft:cannon", "y": 0 },
+        "facing=east":  { "model": "polycraft:cannon", "y": 180 }
   }
 }

@@ -11,6 +11,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="GradleStart"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-username=polycraftepsilon@gmail.com&#13;&#10;-password=ProvostHobson2k15"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Minecraft"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx1024M -Xms1024M -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin -DcheatRecipes=true"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xincgc -Xmx2024M -Xms2024M -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.coreMods.load=edu.utd.minecraft.mod.polycraft.PolycraftCorePlugin -DcheatRecipes=true"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc}"/>
 </launchConfiguration>

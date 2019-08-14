@@ -1,6 +1,6 @@
-# Blender v2.71 (sub 0) OBJ File: 'CraftingTable.blend'
+# Blender v2.71 (sub 0) OBJ File: 'PolyCraftingTable.blend'
 # www.blender.org
-mtllib Crafting Table_Tri.mtl
+mtllib polycrafting_table.mtl
 o Crafting_Table_Tri_Cube.001
 v 0.749999 0.812500 -2.250000
 v 0.000000 1.000000 -2.875001
@@ -601,7 +601,7 @@ vt 0.359375 0.500000
 vt 0.351562 0.835938
 vt 0.468750 0.835938
 vt 0.078125 0.812500
-usemtl CraftingTable_mat
+usemtl PolyCraftingTable
 #s 1
 f 76/1 4/2 9/3
 f 41/4 139/5 158/6

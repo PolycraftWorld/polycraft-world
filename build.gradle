@@ -84,6 +84,9 @@ dependencies {
 
     external 'org.apache.httpcomponents:httpclient:4.3.3'
     external 'org.apache.httpcomponents:httpcore:4.3.2'
+	
+	compile 'org.apache.poi:poi:4.1.0'
+	compile 'org.apache.poi:poi-ooxml:4.1.0'
 
 }
 
@@ -108,9 +111,14 @@ processResources
         }
 
 jar {
+<<<<<<< HEAD
     from { configurations.external.collect { 
 		exclude 'META-INF/*'
 		
 		it.isDirectory() ? it : zipTree(it) 
 	} }
+=======
+	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
+>>>>>>> refs/remotes/origin/1.8.9Matt
 }

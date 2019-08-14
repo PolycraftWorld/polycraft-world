@@ -2,6 +2,8 @@
     "variants": {
         "half=bottom,seamless=false,variant=polymer": { "model": "polycraft:slab_lcp_bottom" },
         "half=top,seamless=false,variant=polymer": { "model": "polycraft:slab_lcp_top" },
+        "half=bottom,seamless=true,variant=polymer": { "model": "polycraft:slab_lcp_bottom" },
+        "half=top,seamless=true,variant=polymer": { "model": "polycraft:slab_lcp_top" },
         "normal": { "model": "polycraft:slab_lcp_bottom" },
 		 "all": { "model": "polycraft:slab_lcp_bottom" }
     }

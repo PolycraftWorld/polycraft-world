@@ -4,21 +4,32 @@
     "variants": {
         "normal": [{
 			"transform": {
-				"translation": [0.0, 0.0, 1.0]
+				"translation": [0.0, 0.0, 0.0],
+				"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ],
+				"scale": [ 1.0, 1.0, 1.0 ]
 			}
 		}],
         "inventory": [{
             "transform": {
+			    "firstperson": {
+                    "translation": [0.0, 0.25, 0.5],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                    "scale": [ 1.0, 1.0, 1.0 ]
+                },
                 "thirdperson": {
-                    "translation": [0.0, 0.0, 0.30],
-                    "rotation": [ { "y": 0}, {"x": 90}, {"z": 180} ],
-                    "scale": 1.0
+                    "translation": [0.0, 0.075, 0.15],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z":180} ],
+                    "scale": [ 0.5, 0.5, 0.5 ]
                 },
                 "gui": {
-					"translation": [0.0,0.15,1.0],
-					"scale": 2.0
+					"translation": [1.00,0.95,0.00],
+					"scale": 1.90
                 }
             }
-        }]
+        }],
+        "facing=north": { "model": "polycraft:inventories/flood_light.obj","transform": {"translation": [0.0, 0.0, -1.0],"rotation": [ { "y": 180}, {"x": 0}, {"z": 0} ]}},
+        "facing=south": { "model": "polycraft:inventories/flood_light.obj","transform": {"translation": [0.0, 0.0, 1.0],"rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ]}},
+        "facing=west":  { "model": "polycraft:inventories/flood_light.obj","transform": {"translation": [-1.0, 0.0, 0.0],"rotation": [ { "y": 270}, {"x": 0}, {"z": 0} ]}},
+        "facing=east":  { "model": "polycraft:inventories/flood_light.obj","transform": {"translation": [1.0, 0.0, 0.0],"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ]}}
     }
 }

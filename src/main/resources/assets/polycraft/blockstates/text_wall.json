@@ -19,6 +19,10 @@
 					"scale": 2.0
                 }
             }
-        }]
+        }],
+        "facing=north": { "model": "polycraft:inventories/text_wall.obj", "y": 90 },
+        "facing=south": { "model": "polycraft:inventories/text_wall.obj", "y": 270 },
+        "facing=west":  { "model": "polycraft:inventories/text_wall.obj", "y": 0 },
+        "facing=east":  { "model": "polycraft:inventories/text_wall.obj", "y": 180 }
     }
 }

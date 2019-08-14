@@ -48,6 +48,12 @@ public class BlockCollision extends BlockPolyDirectional {
 	{
 		return false;
 	}
+	
+	@Override
+    public int getRenderType()
+    {
+        return -1;
+    }
 
 	@Override
 	public boolean isOpaqueCube()
@@ -111,6 +117,13 @@ public class BlockCollision extends BlockPolyDirectional {
 	@Override
 	public boolean onBlockActivated(World worldObj, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing facing, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	{
+		facing = (EnumFacing) worldObj.getBlockState(blockPos).getProperties().get(FACING);
+		 BlockStairs.EnumHalf half = ( BlockStairs.EnumHalf) worldObj.getBlockState(blockPos).getProperties().get(HALF);
+		if(half== BlockStairs.EnumHalf.TOP)
+		{
+			worldObj.getBlockState(blockPos.down()).getBlock().onBlockActivated(worldObj, blockPos.down(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
+			return true;
+		}
 		if (facing == EnumFacing.DOWN)
 		{
 			worldObj.getBlockState(blockPos.down()).getBlock().onBlockActivated(worldObj, blockPos.down(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
@@ -133,7 +146,7 @@ public class BlockCollision extends BlockPolyDirectional {
 		}
 		else if (facing == EnumFacing.SOUTH)
 		{
-			worldObj.getBlockState(blockPos.north()).getBlock().onBlockActivated(worldObj, blockPos.north(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
+			worldObj.getBlockState(blockPos.south()).getBlock().onBlockActivated(worldObj, blockPos.south(), state, player, facing, p_149727_7_, p_149727_8_, p_149727_9_);
 			return true;
 		}
 		//TODO: throw some error here: misdefined inventory
@@ -151,14 +164,21 @@ public class BlockCollision extends BlockPolyDirectional {
 	{
 		EnumFacing dir = (EnumFacing) worldObj.getBlockState(blockPos).getProperties().get(FACING);
 		TileEntity target = null;
-
+		
+		 BlockStairs.EnumHalf half = ( BlockStairs.EnumHalf) worldObj.getBlockState(blockPos).getProperties().get(HALF);
+			if(half== BlockStairs.EnumHalf.TOP)
+			{
+				dir= EnumFacing.DOWN;
+			}
+		
 		target = worldObj.getTileEntity(blockPos.offset(dir));
+		
+		BlockPos pos = blockPos.offset(dir);
 		if (target != null) {
 			return target;
 		}
 
 		return findConnectedInventory(worldObj, blockPos.offset(dir));
-
 	}
 
 	@Override

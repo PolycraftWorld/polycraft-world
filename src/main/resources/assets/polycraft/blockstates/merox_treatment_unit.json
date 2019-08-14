@@ -9,16 +9,25 @@
 		}],
         "inventory": [{
             "transform": {
+			    "firstperson": {
+                    "translation": [0.0, 0.0, 0.0],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                    "scale": [ 0.2, 0.2, 0.2 ]
+                },
                 "thirdperson": {
-                    "translation": [0.0, 0.0, 0.30],
+                    "translation": [0.0, 0.2, 0.00],
                     "rotation": [ { "y": 0}, {"x": 90}, {"z": 180} ],
-                    "scale": 1.0
+                    "scale": [ 0.2, 0.2, 0.2 ]
                 },
                 "gui": {
-					"translation": [0.0,0.15,1.0],
-					"scale": 2.0
+					"translation": [0.0,-0.15,-0.15],
+					"scale": 0.30
                 }
             }
-        }]
+        }],
+        "facing=north": { "model": "polycraft:inventories/merox_treatment_unit.obj", "y": 90 },
+        "facing=south": { "model": "polycraft:inventories/merox_treatment_unit.obj", "y": 270 },
+        "facing=west":  { "model": "polycraft:inventories/merox_treatment_unit.obj", "y": 0 },
+        "facing=east":  { "model": "polycraft:inventories/merox_treatment_unit.obj", "y": 180 }
     }
 }

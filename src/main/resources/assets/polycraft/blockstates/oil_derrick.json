@@ -9,16 +9,25 @@
 		}],
         "inventory": [{
             "transform": {
+			    "firstperson": {
+                    "translation": [0.0, 0.0, 0.0],
+                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                    "scale": [ 0.2, 0.1, 0.2 ]
+                },
                 "thirdperson": {
-                    "translation": [0.0, 0.0, 0.30],
+                    "translation": [-0.2, 0.2, 0.0],
                     "rotation": [ { "y": 0}, {"x": 90}, {"z": 180} ],
-                    "scale": 1.0
+                    "scale": [ 0.2, 0.1, 0.2 ]
                 },
                 "gui": {
-					"translation": [0.0,0.15,1.0],
-					"scale": 2.0
+					"translation": [0.25,-0.28,0.0],
+                    "scale": [ 0.38, 0.19, 0.38 ]
                 }
             }
-        }]
+        }],
+        "facing=north": { "model": "polycraft:inventories/oil_derrick.obj","transform": {"translation": [-2.0, 0.0, 1.0],"rotation": [ { "y": 180}, {"x": 0}, {"z": 0} ]}},
+        "facing=south": { "model": "polycraft:inventories/oil_derrick.obj","transform": {"translation": [2.0, 0.0, -1.0],"rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ]}},
+        "facing=west":  { "model": "polycraft:inventories/oil_derrick.obj","transform": {"translation": [1.0, 0.0, 2.0],"rotation": [ { "y": 270}, {"x": 0}, {"z": 0} ]}},
+        "facing=east":  { "model": "polycraft:inventories/oil_derrick.obj","transform": {"translation": [-1.0, 0.0, -2.0],"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ]}}
     }
 }

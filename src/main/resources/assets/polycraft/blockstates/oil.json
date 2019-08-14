@@ -1,0 +1,23 @@
+{
+"forge_marker": 1,
+	"defaults": {
+		"model": "forge:fluid"
+	},
+  "variants": {
+	"oil": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"normal": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	]
+	
+  }
+}
