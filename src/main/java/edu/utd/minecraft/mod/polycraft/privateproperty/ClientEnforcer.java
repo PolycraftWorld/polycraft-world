@@ -14,10 +14,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
+import net.java.games.input.Mouse;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
@@ -27,10 +32,18 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MouseHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
@@ -41,13 +54,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import scala.swing.event.MousePressed;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
@@ -79,6 +95,8 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.BotAPI;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
@@ -184,7 +202,43 @@ public class ClientEnforcer extends Enforcer {
 
 		if(keyBindingAIAPI.isPressed()) {
 			//restart AI API
-			BotAPI.toggleAPIThread();
+			//BotAPI.toggleAPIThread();
+
+			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			Vec3 breakPos = new Vec3(170.5, 4.5, 26.5);
+			Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+			Vec3 vector = breakPos.subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+			
+			double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
+			double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
+			
+			player.addChatComponentMessage(new ChatComponentText("pitch: " + String.format("%.2f", pitch) + " :: yaw: " + String.format("%.2f", yaw)));
+			
+			player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
+			
+			if(block.getMaterial() != Material.air) {
+				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), true);
+        		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
+			}else {
+				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), false);
+			}
+			
+//    		Block block = player.worldObj.getBlockState(breakPos).getBlock();
+//    		int count = 1;
+//    		if(block.getMaterial() != Material.air) {
+//    			//Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(block.stepSound.getBreakSound()), (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getFrequency() * 0.5F, Integer.parseInt(args[1]), y, Integer.parseInt(args[2])));
+//          		//Minecraft.getMinecraft().getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, breakPos, EnumFacing.UP));
+//    			//FMLCommonHandler.instance().getClientToServerNetworkManager().setConnectionState(EnumConnectionState.PLAY);
+//    			//FMLCommonHandler.instance().getClientToServerNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, breakPos, EnumFacing.UP));
+//          		//Minecraft.getMinecraft().playerController.onPlayerDestroyBlock(breakPos, EnumFacing.UP);
+//        		//player.worldObj.sendBlockBreakProgress(player.getEntityId(), breakPos, (int)(1 * 10.0F) - 1);
+//        		//Minecraft.getMinecraft().theWorld.destroyBlock(breakPos, true);
+//        		
+//    			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), true);
+//        		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
+//        		breakPos = breakPos.add(0, count, 0);
+//        		block = player.worldObj.getBlockState(breakPos).getBlock();
+//    		}
 		}
 	}
 	

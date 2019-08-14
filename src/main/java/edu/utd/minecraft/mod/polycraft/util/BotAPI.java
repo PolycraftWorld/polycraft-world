@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -39,8 +40,10 @@ public class BotAPI {
 
     static ServerSocket server;
     private static Thread APIThread;
-	
+    
     public static AtomicBoolean apiRunning = new AtomicBoolean(false);
+    public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
+    public static ArrayList<BlockPos> breakList = new ArrayList<BlockPos>();
     
 	public static void moveNorth() {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
@@ -102,7 +105,9 @@ public class BotAPI {
             		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
 	                while(BotAPI.apiRunning.get()) {
 	                	try {
-	                    	int x = 160, y = 4, z = 16;
+	                		int x = pos.get(0), y = pos.get(1), z = pos.get(2);
+	                    	int xMax = pos.get(3), yMax = pos.get(4), zMax = pos.get(5);
+	                    	
 	                    	BlockPos pos = new BlockPos(x, y, z);
 	                		Socket client = server.accept();
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -156,13 +161,15 @@ public class BotAPI {
 		                        	if(args.length == 3) {
 		                        		BlockPos breakPos = new BlockPos(Integer.parseInt(args[1]), y, Integer.parseInt(args[2]));
 		                        		Block block = player.worldObj.getBlockState(breakPos).getBlock();
+		                        		int count = 1;
 		                        		if(block.getMaterial() != Material.air) {
 		                        			Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(block.stepSound.getBreakSound()), (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getFrequency() * 0.5F, Integer.parseInt(args[1]), y, Integer.parseInt(args[2])));
-		    	                            
-			                        		Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, breakPos, EnumFacing.UP));
-			                        		Minecraft.getMinecraft().playerController.onPlayerDestroyBlock(breakPos, EnumFacing.UP);
-	
+	                                  		Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, breakPos, EnumFacing.NORTH));
+			                        		Minecraft.getMinecraft().playerController.onPlayerDestroyBlock(breakPos, EnumFacing.NORTH);
+			                        		player.worldObj.sendBlockBreakProgress(player.getEntityId(), breakPos, (int)(1 * 10.0F));
 			                        		Minecraft.getMinecraft().theWorld.destroyBlock(breakPos, true);
+			                        		breakPos = breakPos.add(0, count, 0);
+			                        		block = player.worldObj.getBlockState(breakPos).getBlock();
 		                        		}
 	                        		}else {
 		                        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
@@ -185,8 +192,8 @@ public class BotAPI {
 	            					JsonObject jobject = new JsonObject();
 	            					
 	            					ArrayList<Integer> map = new ArrayList<Integer>();
-	            					for(int i = 0; i < 16; i++) {
-	            						for(int k = 0; k < 16; k++) {
+	            					for(int i = 0; i <= xMax; i++) {
+	            						for(int k = 0; k <= zMax; k++) {
 	            							map.add(Block.getIdFromBlock(player.worldObj.getBlockState(pos.add(i, 0, k)).getBlock()));
 	            						}
 	            					}

@@ -420,7 +420,7 @@ public class ClientProxy extends CommonProxy {
 				onClientTickPhaseShifter(player, playerState);
 				//onClientTickOpenExperimentsGui(player, playerState); //Was moved to onPlayerTick
 				onClientTickMinigame(player,playerState);
-				
+				onClientTickBreakBlocks(player, playerState);
 			}
 		}
 	}
@@ -430,6 +430,11 @@ public class ClientProxy extends CommonProxy {
 		
 	}
 
+	private void onClientTickBreakBlocks(EntityPlayer player, PlayerState playerState) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {
 		if (keyBindingToggleArmor.isPressed()) {
 			//TODO: add in functionality for pushing F when comm. device is equipped

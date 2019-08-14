@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -216,6 +217,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -359,7 +361,8 @@ public class PolycraftRegistry {
 		block.setUnlocalizedName(PolycraftMod.getFileSafeName(name));
 		GameRegistry.registerBlock(block, PolycraftMod.getFileSafeName(name));
 		Item item = GameRegistry.findItem(PolycraftMod.MODID, PolycraftMod.getFileSafeName(name));
-		ModelLoader.setCustomModelResourceLocation(
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			ModelLoader.setCustomModelResourceLocation(
 				item,
 				0,
 				new ModelResourceLocation(item.getRegistryName()));
@@ -386,7 +389,8 @@ public class PolycraftRegistry {
 			throw new IllegalArgumentException("Item " + name + " must implement PolycraftItem (" + item.toString() + ")");
 		item.setUnlocalizedName(PolycraftMod.getFileSafeName(name));
 		GameRegistry.registerItem(item, PolycraftMod.getFileSafeName(name));
-		ModelLoader.setCustomModelResourceLocation(
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			ModelLoader.setCustomModelResourceLocation(
 				item,
 				0,
 				new ModelResourceLocation(item.getRegistryName()));
@@ -511,7 +515,8 @@ public class PolycraftRegistry {
 			if(inv.render3D) {
 				Item item2 = GameRegistry.findItem(PolycraftMod.MODID, PolycraftMod.getFileSafeName(inv.name));
 				if(item2 != null)
-					ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(item2.getRegistryName(), "inventory"));
+					if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+						ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(item2.getRegistryName(), "inventory"));
 			}
 		}
 //		Item item2 = GameRegistry.findItem(PolycraftMod.MODID, "flood_light");
@@ -559,7 +564,8 @@ public class PolycraftRegistry {
 	 *            The block
 	 */
 	public static void registerRender(Block block) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(
 				new ResourceLocation(PolycraftMod.MODID, block.getUnlocalizedName().substring(5)), "inventory"));
 		PolycraftMod.logger.info("Registered render for " + block.getUnlocalizedName().substring(5));
 	}
@@ -1022,7 +1028,8 @@ public class PolycraftRegistry {
 				if(itemBlockVariants != null)
 					for(EnumColor color: EnumColor.values()) {
 						ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerBlock.name) + "_" + color.toString());
-					    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, color.getMetadata(), itemModelResourceLocation);
+						if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+							ModelLoader.setCustomModelResourceLocation(itemBlockVariants, color.getMetadata(), itemModelResourceLocation);
 					}
 			}
 
@@ -1032,10 +1039,12 @@ public class PolycraftRegistry {
 			{
 				Item slab = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerSlab.name) + "_half");
 				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerSlab.name) + "_half");
-			    ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
+				if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+					ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
 			    slab = GameRegistry.findItem("polycraft", "double_" + PolycraftMod.getFileSafeName(polymerSlab.name) + "_item");
 				itemModelResourceLocation = new ModelResourceLocation("polycraft:" + "double_" + PolycraftMod.getFileSafeName(polymerSlab.name) + "_item");
-			    ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
+				if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+					ModelLoader.setCustomModelResourceLocation(slab, 0, itemModelResourceLocation);
 			}
 		}
 
@@ -1043,7 +1052,8 @@ public class PolycraftRegistry {
 			{
 				Item wall = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerStairs.name));
 				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerStairs.name));
-			    ModelLoader.setCustomModelResourceLocation(wall, 0, itemModelResourceLocation);
+				if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+					ModelLoader.setCustomModelResourceLocation(wall, 0, itemModelResourceLocation);
 			}
 
 		}
@@ -1052,7 +1062,8 @@ public class PolycraftRegistry {
 			{
 				Item wall = GameRegistry.findItem("polycraft", PolycraftMod.getFileSafeName(polymerWall.name));
 				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(polymerWall.name));
-			    ModelLoader.setCustomModelResourceLocation(wall, 0, itemModelResourceLocation);
+				if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+					ModelLoader.setCustomModelResourceLocation(wall, 0, itemModelResourceLocation);
 			}
 
 		}
@@ -1063,7 +1074,8 @@ public class PolycraftRegistry {
 				if(itemBlockVariants != null)
 					for(EnumColor color: EnumColor.values()) {
 						ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("polycraft:" + PolycraftMod.getFileSafeName(brick.name) + "_" + color.toString());
-					    ModelLoader.setCustomModelResourceLocation(itemBlockVariants, color.getMetadata(), itemModelResourceLocation);
+						if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+							ModelLoader.setCustomModelResourceLocation(itemBlockVariants, color.getMetadata(), itemModelResourceLocation);
 					}
 			}
 
