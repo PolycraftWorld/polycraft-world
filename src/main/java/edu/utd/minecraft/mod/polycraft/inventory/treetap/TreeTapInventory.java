@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockNewLog;
 import net.minecraft.block.BlockOldLog;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -111,8 +110,8 @@ public class TreeTapInventory extends PolycraftInventory {
 
 	private ItemStack getNextTappedItem() {
 		for (final int[] tappedCoordOffset : tappedCoordOffsets) {
-			final int x = pos.getX() + tappedCoordOffset[0];
-			final int z = pos.getZ() + tappedCoordOffset[1];
+			final int x = tappedCoordOffset[0];
+			final int z = tappedCoordOffset[1];
 			final Block treeBlock = getWorld().getBlockState(pos.add(x, 0, z)).getBlock();
 			//metadata == 3 is for index of "jungle" in net.minecraft.block.BlockOldLog.field_150168_M
 			if (treeBlock != null && ((treeBlock instanceof BlockOldLog) || (treeBlock instanceof BlockNewLog))) {
@@ -151,7 +150,7 @@ public class TreeTapInventory extends PolycraftInventory {
 			func_145889_a(p_145891_0_, nextTappedItemStack, -1);
 
 		IInventory iinventory = func_145884_b(p_145891_0_);
-
+		
 		if (iinventory != null)
 		{
 			byte b0 = 0;
@@ -212,7 +211,10 @@ public class TreeTapInventory extends PolycraftInventory {
 	}
 
 	public static IInventory func_145884_b(TreeTapInventory p_145884_0_) {
-		return getClickedOnInventory(p_145884_0_.getWorld(), p_145884_0_.pos.up());
+		if(getClickedOnInventory(p_145884_0_.getWorld(), p_145884_0_.pos.up())!=null)
+			return getClickedOnInventory(p_145884_0_.getWorld(), p_145884_0_.pos.up());
+		else
+			return getClickedOnInventory(p_145884_0_.getWorld(), p_145884_0_.pos);
 	}
 
 	private boolean func_145883_k() {
@@ -355,7 +357,7 @@ public class TreeTapInventory extends PolycraftInventory {
 		if (iinventory == null)
 		{
 			List list = null; //worldObj.getEntitiesWithinAABB(null, AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1), EntitySelectors.selectInventories);
-
+			
 			if (list != null && list.size() > 0)
 			{
 				iinventory = (IInventory) list.get(worldObj.rand.nextInt(list.size()));

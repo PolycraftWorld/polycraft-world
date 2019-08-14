@@ -29,8 +29,8 @@ public class TreeTapGui extends PolycraftInventoryGui<TreeTapInventory> {
 			int color = 0x9E0300; // Red color.
 			World world = inventory.getWorld();
 			for (final int[] tappedCoordOffset : tappedCoordOffsets) {
-				final int x = inventory.getPos().getX() + tappedCoordOffset[0];
-				final int z = inventory.getPos().getZ() + tappedCoordOffset[1];
+				final int x =  tappedCoordOffset[0];
+				final int z =  tappedCoordOffset[1];
 				final Block treeBlock = world.getBlockState(inventory.getPos().add(x, 0, z)).getBlock();
 				if (treeBlock != null && ((treeBlock instanceof BlockOldLog) || (treeBlock instanceof BlockNewLog))) {
 					color = 0x9E9E12; // Yellow color.
