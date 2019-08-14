@@ -1,35 +1,15 @@
 {
-    "forge_marker": 1,
-    "defaults": {"model": "polycraft:tree_tap"},
-    "variants": {
-        "normal": [{
-			"transform": {
-				"translation": [0.0, 0.0, 0.0],
-				"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ],
-				"scale": [ 1.0, 1.0, 1.0 ]
-			}
-		}],
-        "inventory": [{
-            "transform": {
-			    "firstperson": {
-                    "translation": [0.0, 0.0, 0.30],
-                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
-                    "scale": [ 0.375, 0.375, 0.375 ]
-                },
-                "thirdperson": {
-                    "translation": [0.0, 0.0, 0.30],
-                    "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
-                    "scale": [ 0.375, 0.375, 0.375 ]
-                },
-                "gui": {
-					"translation": [0.00,-0.25,0.00],
-					"scale": 0.55
-                }
-            }
-        }],
-        "facing=north": { "model": "polycraft:tree_tap", "y": 180 },
-        "facing=south": { "model": "polycraft:tree_tap", "y": 0 },
-        "facing=west":  { "model": "polycraft:tree_tap", "y": 90 },
-        "facing=east":  { "model": "polycraft:tree_tap", "y": 270 }
-    }
+  "variants": {
+    "enabled=true,facing=down": { "model": "polycraft:tree_tap_down" },
+    "enabled=true,facing=north": { "model": "polycraft:tree_tap_side" },
+    "enabled=true,facing=south": { "model": "polycraft:tree_tap_side", "y": 180 },
+    "enabled=true,facing=west": { "model": "polycraft:tree_tap_side", "y": 270 },
+    "enabled=true,facing=east": { "model": "polycraft:tree_tap_side", "y": 90 },
+	"enabled=false,facing=down": { "model": "polycraft:tree_tap_down" },
+    "enabled=false,facing=north": { "model": "polycraft:tree_tap_side" },
+    "enabled=false,facing=south": { "model": "polycraft:tree_tap_side", "y": 180 },
+    "enabled=false,facing=west": { "model": "polycraft:tree_tap_side", "y": 270 },
+    "enabled=false,facing=east": { "model": "polycraft:tree_tap_side", "y": 90 },
+	"normal": { "model": "polycraft:tree_tap_down" }
+  }
 }

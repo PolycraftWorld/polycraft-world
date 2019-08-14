@@ -2,8 +2,14 @@ package edu.utd.minecraft.mod.polycraft.inventory.treetap;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,6 +29,14 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 
 public class TreeTapBlock extends PolycraftInventoryBlock {
 
+	  public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>()
+	    {
+	        public boolean apply(EnumFacing p_apply_1_)
+	        {
+	            return p_apply_1_ != EnumFacing.UP;
+	        }
+	    });
+	    public static final PropertyBool ENABLED = PropertyBool.create("enabled");
 
 
 //	@SideOnly(Side.CLIENT)
@@ -34,6 +49,7 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	public TreeTapBlock(final Inventory config, final Class tileEntityClass) {
 		super(config, tileEntityClass, Material.wood, 2.5F);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN).withProperty(ENABLED, Boolean.valueOf(true)));
 	}
 
 	/**
@@ -58,29 +74,30 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 	/**
 	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
-//	@Override
-//	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
-//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-//	}
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
+    {
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    }
 
 	/**
 	 * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
 	 */
 //	@Override
-//	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_) {
-//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
-//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-//		float f = 0.125F;
-//		this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
-//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
-//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-//		this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-//		this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-//		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
-//		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-//	}
+    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
+    {
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        float f = 0.125F;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    }
 
 	@Override
 	public void onBlockPlacedBy(World worldObj, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack itemToPlace) {
@@ -92,11 +109,14 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
      */
 	@Override
 	public IBlockState onBlockPlaced(World p_149660_1_, BlockPos blockPos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		if (facing == EnumFacing.UP) {
-			facing = EnumFacing.DOWN;
-		}
+		EnumFacing enumfacing = facing.getOpposite();
 
-		return this.getStateFromMeta(facing.getIndex());
+        if (enumfacing == EnumFacing.UP)
+        {
+            enumfacing = EnumFacing.DOWN;
+        }
+
+		 return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(ENABLED, Boolean.valueOf(true));
 	}
 
 	/**
@@ -187,4 +207,74 @@ public class TreeTapBlock extends PolycraftInventoryBlock {
 //	public String getItemIconName() {
 //		return PolycraftMod.getAssetNameString(PolycraftMod.getFileSafeName(config.name));
 //	}
+	
+	 public int getRenderType()
+	    {
+	        return 3;
+	    }
+
+	    public boolean isFullCube()
+	    {
+	        return false;
+	    }
+
+	    /**
+	     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	     */
+
+	    @SideOnly(Side.CLIENT)
+	    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
+	    {
+	        return true;
+	    }
+
+	    public static EnumFacing getFacing(int meta)
+	    {
+	        return EnumFacing.getFront(meta & 7);
+	    }
+
+	    /**
+	     * Get's the hopper's active status from the 8-bit of the metadata. Note that the metadata stores whether the block
+	     * is powered, so this returns true when that bit is 0.
+	     */
+	    public static boolean isEnabled(int meta)
+	    {
+	        return (meta & 8) != 8;
+	    }
+
+
+	    @SideOnly(Side.CLIENT)
+	    public EnumWorldBlockLayer getBlockLayer()
+	    {
+	        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+	    }
+
+	    /**
+	     * Convert the given metadata into a BlockState for this Block
+	     */
+	    public IBlockState getStateFromMeta(int meta)
+	    {
+	        return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(ENABLED, Boolean.valueOf(isEnabled(meta)));
+	    }
+
+	    /**
+	     * Convert the BlockState into the correct metadata value
+	     */
+	    public int getMetaFromState(IBlockState state)
+	    {
+	        int i = 0;
+	        i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
+
+	        if (!((Boolean)state.getValue(ENABLED)).booleanValue())
+	        {
+	            i |= 8;
+	        }
+
+	        return i;
+	    }
+
+	    protected BlockState createBlockState()
+	    {
+	        return new BlockState(this, new IProperty[] {FACING, ENABLED});
+	    }
 }
