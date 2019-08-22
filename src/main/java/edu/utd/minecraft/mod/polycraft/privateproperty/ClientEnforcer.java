@@ -202,26 +202,31 @@ public class ClientEnforcer extends Enforcer {
 
 		if(keyBindingAIAPI.isPressed()) {
 			//restart AI API
-			//BotAPI.toggleAPIThread();
+			BotAPI.toggleAPIThread();
 
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			Vec3 breakPos = new Vec3(170.5, 4.5, 26.5);
-			Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
-			Vec3 vector = breakPos.subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
 			
-			double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
-			double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
-			
-			player.addChatComponentMessage(new ChatComponentText("pitch: " + String.format("%.2f", pitch) + " :: yaw: " + String.format("%.2f", yaw)));
-			
-			player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
-			
-			if(block.getMaterial() != Material.air) {
-				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), true);
-        		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
-			}else {
-				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), false);
-			}
+//			BotAPI.breakList.add(new Vec3(170.5, 4.5, 24.5));
+//			BotAPI.breakList.add(new Vec3(170.5, 5.5, 24.5));
+//			BotAPI.breakList.add(new Vec3(170.5, 6.5, 24.5));
+//			BotAPI.breakList.add(new Vec3(170.5, 7.5, 24.5));
+//			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+//			Vec3 breakPos = new Vec3(170.5, 4.5, 26.5);
+//			Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+//			Vec3 vector = breakPos.subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+//			
+//			double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
+//			double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
+//			
+//			player.addChatComponentMessage(new ChatComponentText("pitch: " + String.format("%.2f", pitch) + " :: yaw: " + String.format("%.2f", yaw)));
+//			
+//			player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
+//			
+//			if(block.getMaterial() != Material.air) {
+//				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), true);
+//        		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
+//			}else {
+//				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), false);
+//			}
 			
 //    		Block block = player.worldObj.getBlockState(breakPos).getBlock();
 //    		int count = 1;

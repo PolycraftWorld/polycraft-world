@@ -3,7 +3,7 @@ package edu.utd.minecraft.mod.polycraft.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
+/*
 import org.apache.poi.*;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -12,13 +12,13 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+*/
 
 
 public class ExcelTsvUtil {
 	
 	public static void readExcel(String excelInputFile)
-	{
+	{/*
 		try {
 			File inputs=new File(excelInputFile+"\\Polycraft Inputs.xlsx");
 			File learning=new File(excelInputFile+"\\Polycraft Learning.xlsx");
@@ -868,7 +868,7 @@ public class ExcelTsvUtil {
 		    
 		} catch(Exception ioe) {
 		    ioe.printStackTrace();
-		}
+		}*/
 	}
 
 }

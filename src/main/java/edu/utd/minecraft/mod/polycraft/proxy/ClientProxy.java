@@ -104,7 +104,9 @@ import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockWorkbench;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
@@ -117,8 +119,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -432,7 +432,26 @@ public class ClientProxy extends CommonProxy {
 
 	private void onClientTickBreakBlocks(EntityPlayer player, PlayerState playerState) {
 		// TODO Auto-generated method stub
-		
+		if(BotAPI.breakList.size() > 0) {
+			Vec3 breakPos = BotAPI.breakList.get(0);
+			Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+			Vec3 vector = breakPos.subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+			
+			double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
+			double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
+			
+			player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
+			
+			player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
+			
+			if(block.getMaterial() != Material.air) {
+				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), true);
+        		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
+			}else {
+				BotAPI.breakList.remove(0);
+				KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), false);
+			}
+		}
 	}
 	
 	private void onClientTickCommDeviceToggled(EntityPlayer player, PlayerState playerState) {

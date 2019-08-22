@@ -190,6 +190,10 @@ public abstract class PolycraftBasicTileEntityContainer extends TileEntity imple
 	public void setStackInSlot(final ContainerSlot slot, final ItemStack stack) {
 		setInventorySlotContents(slot.getSlotIndex(), stack);
 	}
+	
+	public Map<Integer, ContainerSlot> getSlotToIndexMap() {
+		return slotToIndexMap;
+	}
 
 	/**
 	 * Returns if the inventory is named
