@@ -8,8 +8,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.util.Format;

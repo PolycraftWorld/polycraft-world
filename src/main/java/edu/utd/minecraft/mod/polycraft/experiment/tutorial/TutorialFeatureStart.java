@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;

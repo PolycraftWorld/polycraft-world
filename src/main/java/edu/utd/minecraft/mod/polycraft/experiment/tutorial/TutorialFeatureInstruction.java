@@ -10,9 +10,9 @@ import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;

@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.client.gui;
+package edu.utd.minecraft.mod.polycraft.client.gui.api;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.relauncher.Side;

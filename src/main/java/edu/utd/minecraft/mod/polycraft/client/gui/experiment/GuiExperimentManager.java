@@ -19,11 +19,11 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyButtonCycle;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
-import edu.utd.minecraft.mod.polycraft.client.gui.PolycraftGuiScreenBase;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.PolycraftGuiScreenBase;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef.ExperimentType;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;

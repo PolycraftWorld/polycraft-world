@@ -3,8 +3,8 @@ package edu.utd.minecraft.mod.polycraft.client.gui.experiment;
 import java.awt.Color;
 
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyLabel;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.ExperimentFlatCTB;

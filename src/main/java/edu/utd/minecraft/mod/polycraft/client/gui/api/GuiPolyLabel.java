@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.client.gui;
+package edu.utd.minecraft.mod.polycraft.client.gui.api;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

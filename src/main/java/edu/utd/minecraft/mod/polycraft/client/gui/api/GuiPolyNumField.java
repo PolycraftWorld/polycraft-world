@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.client.gui;
+package edu.utd.minecraft.mod.polycraft.client.gui.api;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
