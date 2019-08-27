@@ -28,6 +28,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
@@ -285,6 +286,9 @@ public class ServerEnforcer extends Enforcer {
 					case PlaceBlock:
 						this.updatePlaceBlock(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
 						break;
+					case AIAPI:
+						this.AIAPICollect(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+						break;
 					default:
 						break;
 					}
@@ -351,6 +355,23 @@ public class ServerEnforcer extends Enforcer {
 		this.placeblockPlayer=MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(NBT.getString("player"));
 		this.placeBlock=true;
 		
+	}
+	
+	private void AIAPICollect(String decompressedJson) {
+		Gson gson = new Gson();
+		ByteArrayOutputStream featuresStream = (ByteArrayOutputStream) gson.fromJson(decompressedJson, new TypeToken<ByteArrayOutputStream>() {}.getType());
+		
+		NBTTagCompound NBT = new NBTTagCompound();
+		try {
+			NBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+		BlockPos invPos = new BlockPos(NBT.getInteger("x"), NBT.getInteger("y"), NBT.getInteger("z"));
+		EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(NBT.getString("player"));
+		for(int x = 0; x < 1; x++) {
+			player.inventory.addItemStackToInventory(((TreeTapInventory)player.worldObj.getTileEntity(invPos)).removeStackFromSlot(x));
+        }
 	}
 		
 	

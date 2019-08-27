@@ -1,15 +1,22 @@
 package edu.utd.minecraft.mod.polycraft.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketImpl;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
@@ -17,9 +24,17 @@ import com.google.common.base.Enums;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
+import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
+import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
@@ -30,22 +45,29 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerWorkbench;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C0CPacketInput;
+import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -53,16 +75,26 @@ import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
+import net.minecraftforge.fml.common.network.FMLOutboundHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class BotAPI {
 	
+	private static final int API_PORT = 9000;
+	public static BotAPI INSTANCE= new BotAPI();
 	static String fromClient;
 	static String toClient;
 
     static ServerSocket server;
     private static Thread APIThread;
+    private static final ClientEnforcer enforcer= ClientEnforcer.INSTANCE;
     
     public static AtomicBoolean apiRunning = new AtomicBoolean(false);
+    public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
     
@@ -180,18 +212,52 @@ public class BotAPI {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 	}
 	
-	public static void collectFrom(String args[]) {
+	public static synchronized void collectFrom(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		World world= player.worldObj;
+    	int mouseButtonClicked = 0;
+		int mode = 0;
 		if(args.length > 3) {
 			BlockPos invPos = new BlockPos(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-			if(world.getTileEntity(invPos) != null && world.getTileEntity(invPos) instanceof TreeTapInventory) {
-				for(int x = 0; x < 4; x++) {
-					player.inventory.addItemStackToInventory(((TreeTapInventory)world.getTileEntity(invPos)).removeStackFromSlot(x));
-					((TreeTapInventory)world.getTileEntity(invPos)).setInventorySlotContents(x, null);;
-				}
-				((TreeTapInventory)world.getTileEntity(invPos)).clear();
-			}
+			List<Object> params = new ArrayList<Object>();
+			params.add(invPos);
+			PolycraftMod.SChannel.sendToServer(new CollectMessage(params));
+//			NBTTagCompound nbtFeatures = new NBTTagCompound();
+//			NBTTagList nbtList = new NBTTagList();
+//			nbtFeatures.setString("player", player.getDisplayNameString());
+//			nbtFeatures.setInteger("x", invPos.getX());
+//			nbtFeatures.setInteger("y", invPos.getY());
+//			nbtFeatures.setInteger("z", invPos.getZ());
+//			
+//			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+//			try {
+//				CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			Gson gson = new Gson();
+//			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+//			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+//			enforcer.sendAIPackets(experimentUpdates, 0);
+					
+			
+//			Minecraft.getMinecraft().playerController.onPlayerRightClick(player, Minecraft.getMinecraft().theWorld, player.getCurrentEquippedItem(), invPos, EnumFacing.UP, new Vec3(0,0,0));
+//			if(world.getTileEntity(invPos) != null && world.getTileEntity(invPos) instanceof TreeTapInventory) {
+//				PolycraftCraftingContainer container = ((TreeTapInventory)world.getTileEntity(invPos)).getCraftingContainer(player.inventory);
+//				int windowId = container.windowId;
+//				for(int x = 0; x < 1; x++) {
+////        					player.inventory.addItemStackToInventory(((TreeTapInventory)world.getTileEntity(invPos)).removeStackFromSlot(x));
+////			        ItemStack itemstack = container.slotClick(x, mouseButtonClicked, mode, player);
+////			        Minecraft.getMinecraft().playerController.windowClick(windowId, x, mouseButtonClicked, mode, player);
+//					container.transferStackInSlot(player, x);
+//			        Minecraft.getMinecraft().playerController.windowClick(windowId, x, mouseButtonClicked, mode, player);
+//				}
+//				//((TreeTapInventory)world.getTileEntity(invPos)).clear();
+//			}
+//			Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+//			Minecraft.getMinecraft().setIngameFocus();
 		}
 	}
 	
@@ -357,7 +423,8 @@ public class BotAPI {
 	
 	public static void defaultAction(String args[]){
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		
+		Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+		Minecraft.getMinecraft().setIngameFocus();
 	}
 	
 	public static void toggleAPIThread() {
@@ -371,19 +438,93 @@ public class BotAPI {
 		}
 	}
 	
+	public static void onClientTick() {
+
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		fromClient = commandQ.poll();
+        if(fromClient != null) {
+        	System.out.println(fromClient);
+        	String args[] =  fromClient.split("\\s+");
+            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
+            case CHAT:
+            	player.addChatComponentMessage(new ChatComponentText(fromClient));
+            	break;
+            case JUMP:
+            	player.jump();
+            	break;
+            case MOVE_NORTH:
+            	BotAPI.moveNorth(args);
+            	break;
+            case MOVE_SOUTH:
+            	BotAPI.moveSouth(args);
+            	break;
+            case MOVE_EAST:
+            	BotAPI.moveEast(args);
+            	break;
+            case MOVE_WEST:
+            	BotAPI.moveWest(args);
+            	break;
+            case MOVE_NORTH_EAST:
+            	BotAPI.moveNorth(args);
+            	BotAPI.moveEast(args);
+            	break;
+            case MOVE_NORTH_WEST:
+            	BotAPI.moveNorth(args);
+            	BotAPI.moveWest(args);
+            	break;
+            case MOVE_SOUTH_EAST:
+            	BotAPI.moveSouth(args);
+            	BotAPI.moveEast(args);
+            	break;
+            case MOVE_SOUTH_WEST:
+            	BotAPI.moveSouth(args);
+            	BotAPI.moveWest(args);
+            	break;
+            case TURN_RIGHT:
+            	BotAPI.turnRight(args);
+            	break;
+            case TURN_LEFT:
+            	BotAPI.turnLeft(args);
+            	break;
+            case BREAK_BLOCK:
+            	BotAPI.breakBlock(args);
+            	break;
+            case TELEPORT:
+            	BotAPI.teleport(args);
+            case DATA:
+        		//BotAPI.data(out, client);
+            	break;
+            case COLLECT_FROM_BLOCK:
+            	BotAPI.INSTANCE.collectFrom(args);
+            	break;
+            case INV_CRAFT_ITEM:
+            	BotAPI.Craft(args);
+            	break;
+            case INV_SELECT_ITEM:
+            	BotAPI.selectItem(args);
+            	break;
+            case USE:
+            	BotAPI.useItem(args);
+            	break;
+            case RESET:
+            	BotAPI.reset(args);
+            	break;
+            case TREES:
+            	BotAPI.trees(args);
+            	break;
+            case DEFAULT:	//break fall through is intentional for default
+            	BotAPI.defaultAction(args);
+            default:
+        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+        		for(String argument: args) {
+        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+        		}
+        		break;
+            }
+        }
+	}
+	
 	public static void startAPIThread() {
-		try {
-			server = new ServerSocket(5000);
-//	        clientSocket = serverSocket.accept();
-//	        out = new PrintWriter(clientSocket.getOutputStream(), true);
-//	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		//To modify thread cases while running, use functions in BotAPI class so you don't have to restart the thread
 		APIThread = new Thread("BOT API THREAD")
@@ -392,6 +533,13 @@ public class BotAPI {
             public void run()
             {
             	if(BotAPI.apiRunning.get()) {
+
+        			try {
+						server = new ServerSocket(API_PORT);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
             		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
 	                while(BotAPI.apiRunning.get()) {
 	                	try {
@@ -404,85 +552,14 @@ public class BotAPI {
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
 	                        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 	                        String fromClient = in.readLine();
-	                        if(fromClient != null) {
-	                        	String args[] =  fromClient.split("\\s+");
-		                        switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
-		                        case CHAT:
-		                        	player.addChatComponentMessage(new ChatComponentText(fromClient));
-		                        	break;
-		                        case JUMP:
-		                        	player.jump();
-		                        	break;
-		                        case MOVE_NORTH:
-		                        	BotAPI.moveNorth(args);
-		                        	break;
-		                        case MOVE_SOUTH:
-		                        	BotAPI.moveSouth(args);
-		                        	break;
-		                        case MOVE_EAST:
-		                        	BotAPI.moveEast(args);
-		                        	break;
-		                        case MOVE_WEST:
-		                        	BotAPI.moveWest(args);
-		                        	break;
-		                        case MOVE_NORTH_EAST:
-		                        	BotAPI.moveNorth(args);
-		                        	BotAPI.moveEast(args);
-		                        	break;
-		                        case MOVE_NORTH_WEST:
-		                        	BotAPI.moveNorth(args);
-		                        	BotAPI.moveWest(args);
-		                        	break;
-		                        case MOVE_SOUTH_EAST:
-		                        	BotAPI.moveSouth(args);
-		                        	BotAPI.moveEast(args);
-		                        	break;
-		                        case MOVE_SOUTH_WEST:
-		                        	BotAPI.moveSouth(args);
-		                        	BotAPI.moveWest(args);
-		                        	break;
-		                        case TURN_RIGHT:
-		                        	BotAPI.turnRight(args);
-		                        	break;
-		                        case TURN_LEFT:
-		                        	BotAPI.turnLeft(args);
-		                        	break;
-		                        case BREAK_BLOCK:
-		                        	BotAPI.breakBlock(args);
-		                        	break;
-		                        case TELEPORT:
-		                        	BotAPI.teleport(args);
-		                        case DATA:
-	                        		BotAPI.data(out, client);
-		                        	break;
-		                        case COLLECT_FROM_BLOCK:
-		                        	BotAPI.collectFrom(args);
-		                        	break;
-		                        case INV_CRAFT_ITEM:
-		                        	BotAPI.Craft(args);
-		                        	break;
-		                        case INV_SELECT_ITEM:
-		                        	BotAPI.selectItem(args);
-		                        	break;
-		                        case USE:
-		                        	BotAPI.useItem(args);
-		                        	break;
-		                        case RESET:
-		                        	BotAPI.reset(args);
-		                        	break;
-		                        case TREES:
-		                        	BotAPI.trees(args);
-		                        	break;
-		                        case DEFAULT:	//break fall through is intentional for default
-		                        	BotAPI.defaultAction(args);
-		                        default:
-		                    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-		                    		for(String argument: args) {
-		                    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-	                        		}
-		                    		break;
-		                        }
-	                        }
+	                        
+	                        try {
+								commandQ.put(fromClient);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	                        
 	            		} catch (IOException e) {
 	            			// TODO Auto-generated catch block
 	            			e.printStackTrace();

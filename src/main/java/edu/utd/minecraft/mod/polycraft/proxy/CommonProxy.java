@@ -106,8 +106,8 @@ public abstract class CommonProxy {
 	}
 
 	public void init() {
-		netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
-		netChannel.register(this);
+		//netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
+		//netChannel.register(this);
 		//GameRegistry.registerWorldGenerator(new OreWorldGenerator(), PolycraftMod.oreWorldGeneratorWeight);
 		// GameRegistry.registerWorldGenerator(new StructureTest(), 1000);
 		//GameRegistry.registerWorldGenerator(new ResearchAssistantLabGenerator(), 1);

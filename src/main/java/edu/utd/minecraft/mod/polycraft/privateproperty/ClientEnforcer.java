@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -59,10 +60,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
+import net.minecraftforge.fml.relauncher.Side;
 import scala.swing.event.MousePressed;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
@@ -773,6 +778,24 @@ public class ClientEnforcer extends Enforcer {
 			for (final FMLProxyPacket packet : packets) {
 				//System.out.println("Sending packet " + i++);
 				netChannel.sendToServer(packet); 
+			}
+		}
+	}
+	
+	/**
+	 * Send AI Command to server
+	 */
+	public void sendAIPackets(final String jsonStringToSend, int meta) {
+		//TODO: add meta-data parsing.
+		FMLProxyPacket[] packets = null;
+		packets = getDataPackets(DataPacketType.AIAPI, meta, jsonStringToSend);
+		
+		if(packets != null) {
+			int i = 0;
+			for (final FMLProxyPacket packet : packets) {
+				//System.out.println("Sending packet " + i++);
+				netChannel.sendToServer(packet); 
+				System.out.println("Sending packet***");
 			}
 		}
 	}

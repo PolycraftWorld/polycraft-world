@@ -175,11 +175,11 @@ public class ClientProxy extends CommonProxy {
 
 	public void postInit() {
 		super.postInit();
-		FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
+		//FMLCommonHandler.instance().bus().register(ClientEnforcer.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientEnforcer.INSTANCE);
 		
 		//register scoreboard handlers
-		FMLCommonHandler.instance().bus().register(ClientScoreboard.INSTANCE);
+		//FMLCommonHandler.instance().bus().register(ClientScoreboard.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ClientScoreboard.INSTANCE);
 		
 		// Register respawn desync handler
@@ -421,6 +421,9 @@ public class ClientProxy extends CommonProxy {
 				//onClientTickOpenExperimentsGui(player, playerState); //Was moved to onPlayerTick
 				onClientTickMinigame(player,playerState);
 				onClientTickBreakBlocks(player, playerState);
+			}
+			if(BotAPI.apiRunning.get()) {
+				BotAPI.onClientTick();
 			}
 		}
 	}

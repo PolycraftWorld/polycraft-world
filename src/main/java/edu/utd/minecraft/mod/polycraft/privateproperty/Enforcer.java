@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,9 +21,13 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockPipe;
@@ -60,6 +65,8 @@ import edu.utd.minecraft.mod.polycraft.item.ItemFreezeRay;
 import edu.utd.minecraft.mod.polycraft.item.ItemWaterCannon;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer.DataPacketType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessageHandler;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -148,6 +155,7 @@ public abstract class Enforcer {
 		Halftime, 
 		ExpPrivateProperties,
 		PlaceBlock, 
+		AIAPI
 		
 	}
 	
@@ -191,6 +199,8 @@ public abstract class Enforcer {
 
 	protected static final String netChannelName = "polycraft.enforcer";
 	protected static final FMLEventChannel netChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(netChannelName);
+	
+
 	protected String privatePropertiesMasterJson = null;
 	protected String privatePropertiesNonMasterJson = null;
 	protected String playerItemstackSwitchJson = null;

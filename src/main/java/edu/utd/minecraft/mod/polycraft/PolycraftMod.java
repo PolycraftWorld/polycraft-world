@@ -29,6 +29,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,6 +61,8 @@ import edu.utd.minecraft.mod.polycraft.commands.dev.CommandTutorial;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessageHandler;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.ExcelTsvUtil;
@@ -73,6 +79,9 @@ public class PolycraftMod {
 	public static final int[] VERSION_NUMERIC = new int[] { 1, 5, 0 };
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
+	
+
+	public static final SimpleNetworkWrapper SChannel = NetworkRegistry.INSTANCE.newSimpleChannel("polycraft");
 
 	public static boolean GEN_JSON_DATA = false;
 
@@ -207,6 +216,7 @@ public class PolycraftMod {
 	public void preInit(final FMLPreInitializationEvent event) {
 		//fixEnderman();	Removing in 1.8 TODO: should probably check if it's actually fixed
 		GEN_JSON_DATA = System.getProperty("GEN_JSON_DATA") == null? false: true;
+		SChannel.registerMessage(CollectMessageHandler.class, CollectMessage.class, 0, Side.SERVER);
 		proxy.preInit();
 	}
 
