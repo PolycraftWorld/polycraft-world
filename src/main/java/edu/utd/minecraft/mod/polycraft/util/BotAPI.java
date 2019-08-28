@@ -33,6 +33,8 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import io.netty.channel.ChannelFutureListener;
 import net.minecraft.block.Block;
@@ -119,6 +121,9 @@ public class BotAPI {
     	COLLECT_FROM_BLOCK,
     	ATTACK,
     	USE,
+    	PLACE_BLOCK,
+    	PLACE_CRAFTING_TABLE,
+    	PLACE_TREE_TAP,
     	INV_SELECT_ITEM,
     	INV_MOVE_ITEM,
     	INV_CRAFT_ITEM,
@@ -261,40 +266,95 @@ public class BotAPI {
 		}
 	}
 	
-	public static void Craft(String args[]) {
+	public static void craft(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-	    ContainerWorkbench dummyContainer = new ContainerWorkbench(player.inventory, player.worldObj, player.getPosition());
-		InventoryCrafting craftMatrix = new InventoryCrafting(dummyContainer, 3, 3);
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args));
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void placeBlock(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		
-		craftMatrix.setInventorySlotContents(0, new ItemStack(Blocks.log));
-		ItemStack resultItem = CraftingManager.getInstance().findMatchingRecipe(craftMatrix, player.worldObj);
-		
-		HashMap<Integer, Integer> itemsNeeded = new HashMap<Integer, Integer>();
-		
-		if(resultItem != null) {
-			boolean hasItemsNeeded = true;
-			for(int x = 0; x < craftMatrix.getSizeInventory(); x++) {
-				int itemID = Item.getIdFromItem(craftMatrix.getStackInSlot(x).getItem());
-				if(itemsNeeded.containsKey(itemID)) {
-					itemsNeeded.put(itemID, itemsNeeded.get(itemID) + 1);
-				}else {
-					itemsNeeded.put(itemID, 1);
-				}
-			}
-			
-			itemCheck: for(int itemID: itemsNeeded.keySet()) {
-				int itemCount = 0;
-				for(ItemStack itemStack: player.getInventory()) {
-					if(Item.getIdFromItem(itemStack.getItem()) == itemID) {
-						
-					}
-				}
-			}
-			
-			player.inventory.addItemStackToInventory(resultItem);
+		if(args.length == 3) {
+    		Vec3 breakPos = new Vec3(Integer.parseInt(args[1]), 4, Integer.parseInt(args[2]));
+    		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+    		if(block.getMaterial() != Material.air) {
+    			player.sendChatMessage("Block already exists when trying to place block");
+    			return;
+    		}
+    		//first make the player look in the correct location
+    		Vec3 vector = breakPos.addVector(0, -1, 0).subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+    		
+    		double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
+    		double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
+    		
+    		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
+    		
+    		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
+    		
+			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
 		}else {
-			player.sendChatMessage("No Item found for recipe");
-		}
+    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+    		for(String argument: args) {
+    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+    		}
+    	}
+		
+		
+	}
+	
+	public static void placeCraftingTable(String args[]) {
+//		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+//		if(player.inventory.getCurrentItem().getItem() == Blocks.crafting_table.getItem(player.worldObj, player.getPosition())) {
+//			return;	//item already selected
+//		}else {
+//			int slot = 0;
+//			for (slot = 0; slot < player.inventory.getSizeInventory(); ++slot)
+//	            if (player.inventory.getStackInSlot(slot) != null && player.inventory.getStackInSlot(slot).getItem() == Blocks.crafting_table.getItem(player.worldObj, player.getPosition()))
+//	                break;
+//			if() {
+//				
+//			}else {
+//				player.sendChatMessage("No Crafting table in inventory");
+//			}
+//		}
+		
+
+		List<Object> params = new ArrayList<Object>();
+		params.add(String.join(" ", args));
+		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
+//		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+//		ItemStack inventory[] = player.inventory.mainInventory;
+//		int slotToTransfer = -1;
+//		loop: for(int x = 0; x < player.inventory.mainInventory.length; x++) {
+//			ItemStack item = player.inventory.mainInventory[x];
+//			if(item != null && Blocks.crafting_table.getItem(player.worldObj, player.getPosition()) == item.getItem()) {
+//				slotToTransfer = x;
+//				break loop;
+//			}
+//		}
+//		int slot = player.inventory.currentItem;
+//		if(slotToTransfer == -1) {
+//			player.addChatComponentMessage(new ChatComponentText("Item not fount"));
+//			return;
+//		}else if(slotToTransfer == slot) {
+//			player.addChatComponentMessage(new ChatComponentText("Item already selected"));
+//			return;
+//		}
+//		if(inventory[slot] == null) {
+//			ItemStack stack = player.inventory.getStackInSlot(slotToTransfer);
+//			player.inventory.setInventorySlotContents(slot, stack);
+//			player.inventory.removeStackFromSlot(slotToTransfer);
+//		}else {
+//			ItemStack stack = player.inventory.getStackInSlot(slot).copy();
+//			player.inventory.setInventorySlotContents(slot, player.inventory.getStackInSlot(slotToTransfer));
+//			player.inventory.setInventorySlotContents(slotToTransfer, stack);
+//		}
+		
+		//placeBlock(args);
 	}
 	
 	
@@ -498,13 +558,19 @@ public class BotAPI {
             	BotAPI.INSTANCE.collectFrom(args);
             	break;
             case INV_CRAFT_ITEM:
-            	BotAPI.Craft(args);
+            	BotAPI.craft(args);
             	break;
             case INV_SELECT_ITEM:
             	BotAPI.selectItem(args);
             	break;
             case USE:
             	BotAPI.useItem(args);
+            	break;
+            case PLACE_BLOCK:
+            	BotAPI.placeBlock(args);
+            	break;
+            case PLACE_CRAFTING_TABLE:
+            	BotAPI.placeCraftingTable(args);
             	break;
             case RESET:
             	BotAPI.reset(args);
@@ -554,7 +620,10 @@ public class BotAPI {
 	                        String fromClient = in.readLine();
 	                        
 	                        try {
-								commandQ.put(fromClient);
+	                        	if(fromClient.contains("DATA"))
+	                        		data(out, client);
+	                        	else
+	                        		commandQ.put(fromClient);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
