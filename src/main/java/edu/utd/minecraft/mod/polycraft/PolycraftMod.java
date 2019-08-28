@@ -63,6 +63,10 @@ import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
 import edu.utd.minecraft.mod.polycraft.minigame.KillWall;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessageHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessageHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessageHandler;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.ExcelTsvUtil;
@@ -217,6 +221,8 @@ public class PolycraftMod {
 		//fixEnderman();	Removing in 1.8 TODO: should probably check if it's actually fixed
 		GEN_JSON_DATA = System.getProperty("GEN_JSON_DATA") == null? false: true;
 		SChannel.registerMessage(CollectMessageHandler.class, CollectMessage.class, 0, Side.SERVER);
+		SChannel.registerMessage(CraftMessageHandler.class, CraftMessage.class, 1, Side.SERVER);
+		SChannel.registerMessage(InventoryMessageHandler.class, InventoryMessage.class, 2, Side.SERVER);
 		proxy.preInit();
 	}
 
