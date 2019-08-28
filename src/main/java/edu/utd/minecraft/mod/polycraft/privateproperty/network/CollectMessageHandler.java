@@ -20,9 +20,10 @@ public class CollectMessageHandler implements IMessageHandler<CollectMessage, IM
             @Override
             public void run()
             {
-                for(int x = 0; x < 1; x++) {
-					player.inventory.addItemStackToInventory(((TreeTapInventory)player.worldObj.getTileEntity(message.containerPos)).removeStackFromSlot(x));
-                }
+            	if(player.worldObj.getTileEntity(message.containerPos)!= null && player.worldObj.getTileEntity(message.containerPos) instanceof TreeTapInventory)
+	                for(int x = 0; x < 5; x++) {
+						player.inventory.addItemStackToInventory(((TreeTapInventory)player.worldObj.getTileEntity(message.containerPos)).removeStackFromSlot(x));
+	                }
             }
         });
         return null;
