@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,6 +46,7 @@ import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.AnvilConverterException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -73,10 +76,18 @@ import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.WorldSettings;
+import net.minecraft.world.WorldSettings.GameType;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.storage.ISaveFormat;
+import net.minecraft.world.storage.SaveFormatComparator;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -95,10 +106,11 @@ public class BotAPI {
     private static Thread APIThread;
     private static final ClientEnforcer enforcer= ClientEnforcer.INSTANCE;
     
-    public static AtomicBoolean apiRunning = new AtomicBoolean(false);
+    public static AtomicBoolean apiRunning = new AtomicBoolean(true);
     public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
+    static final String tempMark = "TEMP_";
     
     public enum APICommand{
     	CHAT,
@@ -129,6 +141,7 @@ public class BotAPI {
     	INV_CRAFT_ITEM,
     	DATA,
     	RESET,
+    	START,
     	TREES,
     	DEFAULT
     }
@@ -472,6 +485,104 @@ public class BotAPI {
 //		}
 	}
 	
+	public static void start(String args[]){	
+		long seed = getWorldSeedFromString("Polycraft AI Gym");
+        WorldSettings worldsettings = new WorldSettings(seed, GameType.SURVIVAL, false, false, WorldType.FLAT);
+        // This call to setWorldName allows us to specify the layers of our world, and also the features that will be created.
+        // This website provides a handy way to generate these strings: http://chunkbase.com/apps/superflat-generator
+        worldsettings.setWorldName("Polycraft AI Gym");
+        worldsettings.enableCommands(); // Enables cheat commands.
+        // Create a filename for this map - we use the time stamp to make sure it is different from other worlds, otherwise no new world
+        // will be created, it will simply load the old one.
+        createAndLaunchWorld(worldsettings, false);
+	}
+	
+	/** Get a filename to use for creating a new Minecraft save map.<br>
+     * Ensure no duplicates.
+     * @param isTemporary mark the filename such that the file management code knows to delete this later
+     * @return a unique filename (relative to the saves folder)
+     */
+    public static String getNewSaveFileLocation(boolean isTemporary) {
+        File dst;
+        File savesDir = FMLClientHandler.instance().getSavesDir();
+        do {
+            // We used to create filenames based on the current date/time, but this can cause problems when
+            // multiple clients might be writing to the same save location. Instead, use a GUID:
+            String s = UUID.randomUUID().toString();
+
+            // Add our port number, to help with file management:
+            s = 5000 + "_" + s;
+
+            // If this is a temp file, mark it as such:
+            if (isTemporary) {
+                s = tempMark + s;
+            }
+
+            dst = new File(savesDir, s);
+        } while (dst.exists());
+
+        return dst.getName();
+    }
+    /**
+     * Creates and launches a unique world according to the settings. 
+     * @param worldsettings the world's settings
+     * @param isTemporary if true, the world will be deleted whenever newer worlds are created
+     * @return
+     */
+    public static boolean createAndLaunchWorld(WorldSettings worldsettings, boolean isTemporary)
+    {
+        String s = getNewSaveFileLocation(isTemporary);
+        Minecraft.getMinecraft().launchIntegratedServer(s, s, worldsettings);
+        cleanupTemporaryWorlds(s);
+        return true;
+    }
+	
+	public static long getWorldSeedFromString(String seedString)
+    {
+        // This seed logic mirrors the Minecraft code in GuiCreateWorld.actionPerformed:
+        long seed = (new Random()).nextLong();
+        if (seedString != null && !seedString.isEmpty())
+        {
+            try
+            {
+                long i = Long.parseLong(seedString);
+                if (i != 0L)
+                    seed = i;
+            }
+            catch (NumberFormatException numberformatexception)
+            {
+                seed = (long)seedString.hashCode();
+            }
+        }
+        return seed;
+    }
+	
+	/**
+     * Attempts to delete all Minecraft Worlds with "TEMP_" in front of the name
+     * @param currentWorld excludes this world from deletion, can be null
+     */
+    public static void cleanupTemporaryWorlds(String currentWorld){
+        List<SaveFormatComparator> saveList;
+        ISaveFormat isaveformat = Minecraft.getMinecraft().getSaveLoader();
+        isaveformat.flushCache();
+
+        try{
+            saveList = isaveformat.getSaveList();
+        } catch (AnvilConverterException e){
+            e.printStackTrace();
+            return;
+        }
+
+        String searchString = tempMark + 5000 + "_";
+
+        for (SaveFormatComparator s: saveList){
+            String folderName = s.getFileName();
+            if (folderName.startsWith(searchString) && !folderName.equals(currentWorld)){
+                isaveformat.deleteWorldDirectory(folderName);
+            }
+        }
+    }
+	
 	public static void trees(String args[]){
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		if(args.length > 1) {
@@ -575,6 +686,9 @@ public class BotAPI {
             case RESET:
             	BotAPI.reset(args);
             	break;
+            case START:
+            	BotAPI.start(args);
+            	break;
             case TREES:
             	BotAPI.trees(args);
             	break;
@@ -606,8 +720,9 @@ public class BotAPI {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-            		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
-	                while(BotAPI.apiRunning.get()) {
+            		//Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
+	                System.out.println("API STARTED");
+        			while(BotAPI.apiRunning.get()) {
 	                	try {
 	                		int x = pos.get(0), y = pos.get(1), z = pos.get(2);
 	                    	int xMax = pos.get(3), yMax = pos.get(4), zMax = pos.get(5);
@@ -616,12 +731,22 @@ public class BotAPI {
 	                		Socket client = server.accept();
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-	                        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 	                        String fromClient = in.readLine();
 	                        
 	                        try {
 	                        	if(fromClient.contains("DATA"))
 	                        		data(out, client);
+	                        	else if(fromClient.contains("START")) {
+	                        		IThreadListener mainThread = Minecraft.getMinecraft();
+		                            mainThread.addScheduledTask(new Runnable()
+		                            {
+		                                @Override
+		                                public void run()
+		                                {
+		                                	BotAPI.start(fromClient.split(" "));
+		                                }
+		                            });
+		                        }
 	                        	else
 	                        		commandQ.put(fromClient);
 							} catch (InterruptedException e) {
