@@ -116,9 +116,9 @@ public class CommandReset extends CommandBase{
 					player.addChatComponentMessage(new ChatComponentText(jobject.toString()));
 					break;
 				case chatCommandSetup:	//setup using player position
-					BotAPI.pos.set(0, ((int)player.posX >> 4) << 4);
+					BotAPI.pos.set(0, ((int)1 >> 4) << 4);
 					BotAPI.pos.set(1, (int)player.posY);
-					BotAPI.pos.set(2, ((int)player.posZ >> 4) << 4);
+					BotAPI.pos.set(2, ((int)1 >> 4) << 4);
 					pos = new BlockPos(BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2));
 					x = BotAPI.pos.get(0);
 					y = BotAPI.pos.get(1);
@@ -163,8 +163,8 @@ public class CommandReset extends CommandBase{
 							}
 						}
 					}
-//					player.setPositionAndUpdate(x + Math.random() * xMax, y, z + Math.random() * zMax);
-//					player.worldObj.setBlockState(pos.add(Math.random() * xMax, 0, Math.random() * zMax), Blocks.log.getDefaultState(), 2);
+					player.setPositionAndUpdate(x + Math.random() * xMax, y, z + Math.random() * zMax);
+					player.worldObj.setBlockState(pos.add(Math.random() * xMax, 0, Math.random() * zMax), Blocks.log.getDefaultState(), 2);
 					
 					break;
 				case chatCommandTrees:
