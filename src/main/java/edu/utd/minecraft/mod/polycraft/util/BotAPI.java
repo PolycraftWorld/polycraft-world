@@ -289,8 +289,12 @@ public class BotAPI {
 	public static void placeBlock(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		
-		if(args.length == 3) {
-    		Vec3 breakPos = new Vec3(Integer.parseInt(args[1]), 4, Integer.parseInt(args[2]));
+		List<Object> params = new ArrayList<Object>();
+		params.add(String.join(" ", args));
+		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
+		
+		if(args.length == 4) {
+    		Vec3 breakPos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3]) + 0.5);
     		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
     		if(block.getMaterial() != Material.air) {
     			player.sendChatMessage("Block already exists when trying to place block");
@@ -306,9 +310,9 @@ public class BotAPI {
     		
     		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
     		
-			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
-    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
-			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
+//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
+//    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
 		}else {
     		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
     		for(String argument: args) {
@@ -451,6 +455,19 @@ public class BotAPI {
 				map.add(Block.getIdFromBlock(player.worldObj.getBlockState(pos.add(i, 0, k)).getBlock()));
 			}
 		}
+		HashMap<Integer, Integer> items = new HashMap<Integer, Integer>();
+		for(int i = 0; i < player.inventory.getSizeInventory(); i ++) {
+			if(player.inventory.getStackInSlot(i) == null)
+				continue;
+			int id = Item.getIdFromItem(player.inventory.getStackInSlot(i).getItem());
+			if(items.containsKey(id)) {
+				items.put(id, items.get(id) + player.inventory.getStackInSlot(i).stackSize);
+			}else {
+				items.put(id, player.inventory.getStackInSlot(i).stackSize);
+			}
+		}
+		JsonElement itemsResult = gson.toJsonTree(items);
+		jobject.add("inventory", itemsResult);
 		JsonElement result = gson.toJsonTree(map);
 		jobject.add("map",result);
 		jobject.addProperty("playerX", (int)player.posX - x);
