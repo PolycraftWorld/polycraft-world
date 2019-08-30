@@ -320,7 +320,7 @@ public class BotAPI {
 	}
 	
 	public static void placeCraftingTable(String args[]) {
-//		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 //		if(player.inventory.getCurrentItem().getItem() == Blocks.crafting_table.getItem(player.worldObj, player.getPosition())) {
 //			return;	//item already selected
 //		}else {
@@ -339,6 +339,34 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.join(" ", args));
 		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
+		
+		if(args.length == 3) {
+    		Vec3 breakPos = new Vec3(Integer.parseInt(args[1]) + 0.5, 5, Integer.parseInt(args[2])+0.5);
+    		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+    		if(block.getMaterial() != Material.air) {
+    			player.sendChatMessage("Block already exists when trying to place block");
+    			return;
+    		}
+    		//first make the player look in the correct location
+    		Vec3 vector = breakPos.addVector(0, -1, 0).subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+    		
+    		double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
+    		double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
+    		
+    		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
+    		
+    		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
+    		
+//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
+//    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
+		}else {
+    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+    		for(String argument: args) {
+    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+    		}
+    	}
+		
 //		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 //		ItemStack inventory[] = player.inventory.mainInventory;
 //		int slotToTransfer = -1;
