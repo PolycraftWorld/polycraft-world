@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraftforge.fml.client.config.GuiCheckBox;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,6 +24,8 @@ import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.item.ItemAITool;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
@@ -42,6 +45,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiSlider widthSlider;
 	GuiSlider lengthSlider;
 	GuiButton genBtn;
+	GuiCheckBox wallCheck;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
 	private ItemAITool AITool;
 	
@@ -64,10 +68,12 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				
 		widthSlider = new GuiSlider(0,150,70,120,20,"Width: "," Chunks(s)",1,16,AITool.getWidth(),false,true,null);
 		lengthSlider = new GuiSlider(1,150,100,120,20,"Length: "," Chunks(s)",1,16,AITool.getLength(),false,true,null);
-		genBtn = new GuiButton(1, 150, 140, 90, 20, "Generate");
+		genBtn = new GuiButton(2, 150, 140, 90, 20, "Generate");
+		wallCheck = new GuiCheckBox(3, 150, 130, "Walls?", AITool.getWalls());
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
 		addBtn(genBtn);
+		addBtn(wallCheck);
 		//int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
     }
 	
@@ -75,6 +81,13 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 super.actionPerformed(button);
 		 if(button==genBtn)
 		 {
+			 
+			 
+				List<Object> params = new ArrayList<Object>();
+				params.add(AITool.getWalls());
+				params.add(AITool.getWidth());
+				params.add(AITool.getLength());
+				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
 	 }
@@ -113,10 +126,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		super.mouseReleased(mouseX, mouseY, state);
 		this.AITool.setLength(this.lengthSlider.getValueInt());
 		this.AITool.setWidth(this.widthSlider.getValueInt());
+		this.AITool.setWalls(this.wallCheck.isChecked());
 	       
 	 }
 	
-
-	
-
 }

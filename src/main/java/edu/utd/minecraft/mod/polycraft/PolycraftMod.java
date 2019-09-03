@@ -68,6 +68,8 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessageHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessageHandler;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.proxy.CommonProxy;
 import edu.utd.minecraft.mod.polycraft.util.ExcelTsvUtil;
@@ -224,6 +226,7 @@ public class PolycraftMod {
 		SChannel.registerMessage(CollectMessageHandler.class, CollectMessage.class, 0, Side.SERVER);
 		SChannel.registerMessage(CraftMessageHandler.class, CraftMessage.class, 1, Side.SERVER);
 		SChannel.registerMessage(InventoryMessageHandler.class, InventoryMessage.class, 2, Side.SERVER);
+		SChannel.registerMessage(GenerateMessageHandler.class, GenerateMessage.class, 3, Side.SERVER);
 		proxy.preInit();
 	}
 
