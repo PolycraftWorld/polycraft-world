@@ -533,6 +533,10 @@ public abstract class CommonProxy {
 		
 	}
 	
+	public void openAIToolGui(EntityPlayer player) {
+		
+	}
+	
 	public void openTutorialGui(EntityPlayer player) {
 	
 	}
