@@ -134,6 +134,7 @@ import edu.utd.minecraft.mod.polycraft.inventory.tierchest.TierChestInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.tradinghouse.TradingHouseInventory;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.item.ArmorSlot;
+import edu.utd.minecraft.mod.polycraft.item.ItemAITool;
 import edu.utd.minecraft.mod.polycraft.item.ItemAirQualityDetector;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorChest;
 import edu.utd.minecraft.mod.polycraft.item.ItemArmorFeet;
@@ -1641,8 +1642,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemSlingshot__Old(customObject));
 				} else if (GameID.Paintball.matches(customObject)) {
 					registerItem(customObject, new ItemPaintball(customObject));
-					
-					
+				}else if (GameID.CustomAITool.matches(customObject)) {
+					registerItem(customObject, new ItemAITool(customObject));
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));
