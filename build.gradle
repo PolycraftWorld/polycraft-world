@@ -111,14 +111,6 @@ processResources
         }
 
 jar {
-<<<<<<< HEAD
-    from { configurations.external.collect { 
-		exclude 'META-INF/*'
-		
-		it.isDirectory() ? it : zipTree(it) 
-	} }
-=======
 	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
->>>>>>> refs/remotes/origin/1.8.9Matt
 }
