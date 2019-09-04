@@ -10,6 +10,7 @@ public class GenerateMessage implements IMessage{
 
 	public int width;
 	public int length;
+	public int height;
 	public boolean walls;
 
     public GenerateMessage()
@@ -31,6 +32,13 @@ public class GenerateMessage implements IMessage{
         	this.width = (int)params.get(1);
         	this.length = (int)params.get(2);
         }
+        if (params.size() == 4)
+        {
+        	this.walls = (boolean)params.get(0);
+        	this.width = (int)params.get(1);
+        	this.length = (int)params.get(2);
+        	this.height = (int)params.get(3);
+        }
     }
 
     @Override
@@ -39,6 +47,7 @@ public class GenerateMessage implements IMessage{
     	this.walls = buf.readBoolean();
         this.width = buf.readInt();
         this.length = buf.readInt();
+        this.height = buf.readInt();
     }
 
     @Override
@@ -47,6 +56,7 @@ public class GenerateMessage implements IMessage{
     	buf.writeBoolean(this.walls);
     	buf.writeInt(this.width);
     	buf.writeInt(this.length);
+    	buf.writeInt(this.height);
     }
 
 }

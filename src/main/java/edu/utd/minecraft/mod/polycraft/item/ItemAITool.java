@@ -20,6 +20,7 @@ public class ItemAITool extends ItemCustom {
 	protected NBTTagCompound nbt = new NBTTagCompound();
 	protected int roomWidth;
 	protected int roomLength;
+	protected int roomHeight;
 	protected boolean walls;
 	
 	public ItemAITool(CustomObject config) {
@@ -28,6 +29,7 @@ public class ItemAITool extends ItemCustom {
 			this.setMaxStackSize(config.maxStackSize);
 		this.roomLength=1;
 		this.roomWidth=1;
+		this.roomHeight=1;
 		this.walls=false;
 	}
 	
@@ -58,6 +60,7 @@ public class ItemAITool extends ItemCustom {
 		
 		nbt.setInteger("width", this.roomWidth);
 		nbt.setInteger("length", this.roomLength);
+		nbt.setInteger("height", this.roomHeight);
 		nbt.setBoolean("walls", this.walls);
 		return nbt;
 	}
@@ -66,6 +69,7 @@ public class ItemAITool extends ItemCustom {
 	{
 		this.roomWidth=nbtFeat.getInteger("width");
 		this.roomLength=nbtFeat.getInteger("length");
+		this.roomHeight=nbtFeat.getInteger("height");
 		this.walls=nbtFeat.getBoolean("walls");
 	}
 	
@@ -77,6 +81,13 @@ public class ItemAITool extends ItemCustom {
 		this.walls=walls;
 	}
 	
+	public int getHeight() {
+		return this.roomHeight;
+	}
+	
+	public void setHeight(int height) {
+		this.roomHeight=height;
+	}
 
 	public int getWidth() {
 		return this.roomWidth;

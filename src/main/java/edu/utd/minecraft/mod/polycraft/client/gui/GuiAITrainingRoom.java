@@ -44,6 +44,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 //	private int x, y, z;
 	GuiSlider widthSlider;
 	GuiSlider lengthSlider;
+	GuiSlider heightSlider;
 	GuiButton genBtn;
 	GuiCheckBox wallCheck;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
@@ -66,14 +67,19 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	public void initGui()
     {
 				
-		widthSlider = new GuiSlider(0,150,70,120,20,"Width: "," Chunks(s)",1,16,AITool.getWidth(),false,true,null);
-		lengthSlider = new GuiSlider(1,150,100,120,20,"Length: "," Chunks(s)",1,16,AITool.getLength(),false,true,null);
-		genBtn = new GuiButton(2, 150, 140, 90, 20, "Generate");
-		wallCheck = new GuiCheckBox(3, 150, 130, "Walls?", AITool.getWalls());
+		widthSlider = new GuiSlider(0,130,70,120,20,"Width: "," Block(s)",1,16,AITool.getWidth(),false,true,null);
+		lengthSlider = new GuiSlider(1,130,100,120,20,"Length: "," Block(s)",1,16,AITool.getLength(),false,true,null);
+		heightSlider = new GuiSlider(1,130,150,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
+	
+		wallCheck = new GuiCheckBox(3, 130, 130, "Walls?", AITool.getWalls());
+		heightSlider.enabled=wallCheck.isChecked();
+		
+		genBtn = new GuiButton(2, 170, 180, 90, 20, "Generate");
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
 		addBtn(genBtn);
 		addBtn(wallCheck);
+		addBtn(heightSlider);
 		//int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
     }
 	
@@ -87,6 +93,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.getWalls());
 				params.add(AITool.getWidth());
 				params.add(AITool.getLength());
+				params.add(AITool.getHeight());
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
@@ -126,7 +133,9 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		super.mouseReleased(mouseX, mouseY, state);
 		this.AITool.setLength(this.lengthSlider.getValueInt());
 		this.AITool.setWidth(this.widthSlider.getValueInt());
+		this.AITool.setHeight(this.heightSlider.getValueInt());
 		this.AITool.setWalls(this.wallCheck.isChecked());
+		heightSlider.enabled=wallCheck.isChecked();
 	       
 	 }
 	

@@ -35,7 +35,7 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
                     	{
             				if(i==0 || i==(message.width-1) || j==0 || j==(message.length-1))
             				{
-	                    		for(int c=1;c<=10;c++)
+	                    		for(int c=1;c<=message.height;c++)
 	                    		{
 	                    			player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.stone.getDefaultState());
 	                    		}
