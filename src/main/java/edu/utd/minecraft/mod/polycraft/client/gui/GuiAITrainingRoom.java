@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMe
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -102,6 +103,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.getHeight());
 				params.add(AITool.getBlockType());
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
+				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
 		 if(button==blockTypeCycle)
@@ -113,7 +115,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 
 	@Override
 	protected void exitGuiScreen() {
-		// TODO Auto-generated method stub
+		this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.setIngameFocus();
 		
 	}
 	
