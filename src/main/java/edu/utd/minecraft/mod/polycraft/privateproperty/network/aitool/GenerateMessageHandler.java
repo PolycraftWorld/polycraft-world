@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool;
 
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -30,7 +31,7 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
             	{
             		for(int j=0;j<message.length;j++)
             		{
-            			player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Blocks.stone.getDefaultState());
+            			player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Block.getBlockById(message.block).getDefaultState());
             			if(message.walls)
                     	{
             				if(i==0 || i==(message.width-1) || j==0 || j==(message.length-1))

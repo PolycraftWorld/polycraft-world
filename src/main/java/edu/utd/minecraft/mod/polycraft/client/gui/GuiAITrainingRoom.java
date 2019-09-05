@@ -18,10 +18,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.PolycraftGuiScreenBase;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.item.ItemAITool;
+import edu.utd.minecraft.mod.polycraft.item.ItemAITool.BlockType;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
@@ -46,6 +48,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiSlider lengthSlider;
 	GuiSlider heightSlider;
 	GuiButton genBtn;
+	GuiPolyButtonCycle blockTypeCycle;
 	GuiCheckBox wallCheck;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
 	private ItemAITool AITool;
@@ -64,22 +67,25 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     	this.buttonList.add(btn);
     }
 	
+
+	
 	public void initGui()
     {
 				
-		widthSlider = new GuiSlider(0,130,70,120,20,"Width: "," Block(s)",1,16,AITool.getWidth(),false,true,null);
-		lengthSlider = new GuiSlider(1,130,100,120,20,"Length: "," Block(s)",1,16,AITool.getLength(),false,true,null);
-		heightSlider = new GuiSlider(1,130,150,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
-	
+		widthSlider = new GuiSlider(0,130,40,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
+		lengthSlider = new GuiSlider(1,130,70,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
+		heightSlider = new GuiSlider(2,130,150,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
+		blockTypeCycle = new GuiPolyButtonCycle(5, 130, 100, 120, 20,"Block Type", AITool.getBlockType());
 		wallCheck = new GuiCheckBox(3, 130, 130, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
-		genBtn = new GuiButton(2, 170, 180, 90, 20, "Generate");
+		genBtn = new GuiButton(4, 170, 180, 90, 20, "Generate");
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
 		addBtn(genBtn);
 		addBtn(wallCheck);
 		addBtn(heightSlider);
+		addBtn(blockTypeCycle);
 		//int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
     }
 	
@@ -94,8 +100,13 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.getWidth());
 				params.add(AITool.getLength());
 				params.add(AITool.getHeight());
+				params.add(AITool.getBlockType());
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
+		 }
+		 if(button==blockTypeCycle)
+		 {
+			 blockTypeCycle.nextOption();
 		 }
 	 }
 	
@@ -135,6 +146,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		this.AITool.setWidth(this.widthSlider.getValueInt());
 		this.AITool.setHeight(this.heightSlider.getValueInt());
 		this.AITool.setWalls(this.wallCheck.isChecked());
+		this.AITool.setBlockType((BlockType) this.blockTypeCycle.getCurrentOption());
 		heightSlider.enabled=wallCheck.isChecked();
 	       
 	 }

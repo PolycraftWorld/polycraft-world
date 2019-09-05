@@ -9,7 +9,9 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -21,6 +23,7 @@ public class ItemAITool extends ItemCustom {
 	protected int roomWidth;
 	protected int roomLength;
 	protected int roomHeight;
+	protected BlockType blockType;
 	protected boolean walls;
 	
 	public ItemAITool(CustomObject config) {
@@ -30,8 +33,17 @@ public class ItemAITool extends ItemCustom {
 		this.roomLength=1;
 		this.roomWidth=1;
 		this.roomHeight=1;
+		blockType = BlockType.STONE;
 		this.walls=false;
 	}
+	
+	public enum BlockType{
+		STONE,
+		GRASS,
+		SAND,
+		WATER,
+		SNOW
+	};
 	
 	@Override
 	// Doing this override means that there is no localization for language
@@ -62,6 +74,7 @@ public class ItemAITool extends ItemCustom {
 		nbt.setInteger("length", this.roomLength);
 		nbt.setInteger("height", this.roomHeight);
 		nbt.setBoolean("walls", this.walls);
+		nbt.setInteger("block", this.blockType.ordinal());
 		return nbt;
 	}
 	
@@ -71,6 +84,18 @@ public class ItemAITool extends ItemCustom {
 		this.roomLength=nbtFeat.getInteger("length");
 		this.roomHeight=nbtFeat.getInteger("height");
 		this.walls=nbtFeat.getBoolean("walls");
+		
+		this.blockType=BlockType.values()[nbtFeat.getInteger("block")];
+	}
+	
+	public BlockType getBlockType()
+	{
+		return this.blockType;
+	}
+	
+	public void setBlockType(BlockType blockType)
+	{
+		this.blockType=blockType;
 	}
 	
 	public boolean getWalls() {
