@@ -19,6 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonDropDown;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.PolycraftGuiScreenBase;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
@@ -32,6 +33,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.GuiListExtended.IGuiListEntry;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,6 +52,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiSlider heightSlider;
 	GuiButton genBtn;
 	GuiPolyButtonCycle blockTypeCycle;
+	GuiPolyButtonDropDown blockTypeDropDown;
 	GuiCheckBox wallCheck;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
 	private ItemAITool AITool;
@@ -68,6 +71,9 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     	this.buttonList.add(btn);
     }
 	
+	public void removeBtn(GuiButton btn) {
+		this.buttonList.remove(btn);
+	}
 
 	
 	public void initGui()
@@ -77,6 +83,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		lengthSlider = new GuiSlider(1,130,70,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
 		heightSlider = new GuiSlider(2,130,150,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
 		blockTypeCycle = new GuiPolyButtonCycle(5, 130, 100, 120, 20,"Block Type", AITool.getBlockType());
+		blockTypeDropDown = new GuiPolyButtonDropDown(5, 130, 100, 120, 20,AITool.getBlockType());
 		wallCheck = new GuiCheckBox(3, 130, 130, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
@@ -86,7 +93,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		addBtn(genBtn);
 		addBtn(wallCheck);
 		addBtn(heightSlider);
-		addBtn(blockTypeCycle);
+		addBtn(blockTypeDropDown);
 		//int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
     }
 	
@@ -106,10 +113,67 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
-		 if(button==blockTypeCycle)
+		 if(!blockTypeDropDown.open)
 		 {
-			 blockTypeCycle.nextOption();
+			 if(button==blockTypeDropDown)
+			 {
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 if(btn!=blockTypeDropDown)
+						 btn.enabled=false;
+				 }
+				 
+				 blockTypeDropDown.addButtons(this.buttonList);
+				 blockTypeDropDown.open=true;
+				// buttons =blockTypeDropDown.getButtons();
+
+//				 for(int c=0;c<buttons.length;c++)
+//				 {
+//					
+//					
+//					 addBtn(buttons[c]);
+//					 
+//					 
+//				 }
+			 }
 		 }
+		 else if(blockTypeDropDown.open)
+		 {
+			 if(blockTypeDropDown.actionPerformed(button))
+			 {
+				 
+				 blockTypeDropDown.removeButtons(this.buttonList);
+				 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+				 blockTypeDropDown.open=false;
+				 
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 btn.enabled=true;
+				 }
+
+				 
+//					 for(int c=0;c<buttons.length;c++)
+//					 {
+//						 //if(buttons[c].displayString!=blockTypeDropDown.displayString)
+//						 removeBtn(buttons[c]);
+//						 
+//					 }
+			 }
+			 if(button==blockTypeDropDown)
+			 {
+
+				 blockTypeDropDown.removeButtons(this.buttonList);
+				 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+				 blockTypeDropDown.open=false;
+				 
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 btn.enabled=true;
+				 }
+			 }
+			 
+		 }
+		
 	 }
 	
 
@@ -149,9 +213,42 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		this.AITool.setWidth(this.widthSlider.getValueInt());
 		this.AITool.setHeight(this.heightSlider.getValueInt());
 		this.AITool.setWalls(this.wallCheck.isChecked());
-		this.AITool.setBlockType((BlockType) this.blockTypeCycle.getCurrentOption());
+		this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
 		heightSlider.enabled=wallCheck.isChecked();
 	       
 	 }
+	
+	@Override
+    protected void mouseClicked(int x, int y, int mouseEvent) throws IOException {
+    	super.mouseClicked(x, y, mouseEvent);
+//    	if(blockTypeDropDown.open)
+//		{
+//	    	boolean menuPressed=false;
+//	        for (int i = 0; i < this.buttonList.size(); ++i)
+//	        {
+//	        	
+//	            GuiButton guibutton = (GuiButton)this.buttonList.get(i);
+//	            if(!guibutton.enabled)
+//	            	continue;
+//	
+//	            if (guibutton.mousePressed(this.mc, x, y))
+//	            {
+//	            	menuPressed=true;
+//	            }
+//	        }
+//	        if(!menuPressed)
+//	        {
+//	        	 blockTypeDropDown.removeButtons(this.buttonList);
+//				 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+//				 blockTypeDropDown.open=false;
+//				 
+//				 for(GuiButton btn: this.buttonList)
+//				 {
+//					 btn.enabled=true;
+//				 }
+//	        }
+//		}
+    	
+    }
 	
 }
