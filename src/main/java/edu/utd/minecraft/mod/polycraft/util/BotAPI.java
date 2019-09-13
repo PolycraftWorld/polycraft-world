@@ -140,6 +140,9 @@ public class BotAPI {
     	INV_MOVE_ITEM,
     	INV_CRAFT_ITEM,
     	DATA,
+    	DATA_INV,
+    	DATA_MAP,
+    	DATA_BOT_POS,
     	RESET,
     	START,
     	TREES,
@@ -201,6 +204,9 @@ public class BotAPI {
 				if(block.getMaterial() != Material.air) {
 					BotAPI.breakList.add(new Vec3(breakPos.getX() + 0.5, breakPos.getY() + 0.5 + count, breakPos.getZ() + 0.5));
 					block = player.worldObj.getBlockState(breakPos.add(0,++count,0)).getBlock();
+				}else {
+					player.addChatComponentMessage(new ChatComponentText("Tried to break air block at: " + breakPos.getX() + ", " + breakPos.getY() + ", " + breakPos.getZ()));
+					count++;
 				}
 		}else {
     		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
@@ -470,6 +476,65 @@ public class BotAPI {
 		jobject.add("inventory", itemsResult);
 		JsonElement result = gson.toJsonTree(map);
 		jobject.add("map",result);
+		jobject.addProperty("playerX", (int)player.posX - x);
+		jobject.addProperty("playerZ", (int)player.posZ - z);
+		toClient = jobject.toString();
+        out.println(toClient);
+        client.getOutputStream().flush();
+	}
+	
+	public static void dataInventory(PrintWriter out, Socket client) throws IOException {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		Gson gson = new Gson();
+		JsonObject jobject = new JsonObject();
+		
+		HashMap<Integer, Integer> items = new HashMap<Integer, Integer>();
+		for(int i = 0; i < player.inventory.getSizeInventory(); i ++) {
+			if(player.inventory.getStackInSlot(i) == null)
+				continue;
+			int id = Item.getIdFromItem(player.inventory.getStackInSlot(i).getItem());
+			if(items.containsKey(id)) {
+				items.put(id, items.get(id) + player.inventory.getStackInSlot(i).stackSize);
+			}else {
+				items.put(id, player.inventory.getStackInSlot(i).stackSize);
+			}
+		}
+		JsonElement itemsResult = gson.toJsonTree(items);
+		jobject.add("inventory", itemsResult);
+		toClient = jobject.toString();
+        out.println(toClient);
+        client.getOutputStream().flush();
+	}
+	
+	public static void dataMap(PrintWriter out, Socket client) throws IOException {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		Gson gson = new Gson();
+		JsonObject jobject = new JsonObject();
+		
+		int x = pos.get(0), y = pos.get(1), z = pos.get(2);
+    	int xMax = pos.get(3), yMax = pos.get(4), zMax = pos.get(5);
+    	
+    	BlockPos pos = new BlockPos(x, y, z);
+		ArrayList<Integer> map = new ArrayList<Integer>();
+		for(int i = 0; i <= xMax; i++) {
+			for(int k = 0; k <= zMax; k++) {
+				map.add(Block.getIdFromBlock(player.worldObj.getBlockState(pos.add(i, 0, k)).getBlock()));
+			}
+		}
+		JsonElement result = gson.toJsonTree(map);
+		jobject.add("map",result);
+		toClient = jobject.toString();
+        out.println(toClient);
+        client.getOutputStream().flush();
+	}
+	
+	public static void dataBotPos(PrintWriter out, Socket client) throws IOException {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		Gson gson = new Gson();
+		JsonObject jobject = new JsonObject();
+		
+		int x = pos.get(0), y = pos.get(1), z = pos.get(2);
+    	
 		jobject.addProperty("playerX", (int)player.posX - x);
 		jobject.addProperty("playerZ", (int)player.posZ - z);
 		toClient = jobject.toString();
@@ -779,7 +844,13 @@ public class BotAPI {
 	                        String fromClient = in.readLine();
 	                        
 	                        try {
-	                        	if(fromClient.contains("DATA"))
+	                        	if(fromClient.contains("DATA_INV"))
+	                        		dataInventory(out, client);
+	                        	else if(fromClient.contains("DATA_MAP"))
+	                        		dataMap(out, client);
+	                        	else if(fromClient.contains("DATA_BOT_POS"))
+	                        		dataBotPos(out, client);
+	                        	else if(fromClient.contains("DATA"))
 	                        		data(out, client);
 	                        	else if(fromClient.contains("START")) {
 	                        		IThreadListener mainThread = Minecraft.getMinecraft();
