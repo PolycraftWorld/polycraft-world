@@ -63,6 +63,8 @@ public class ItemDevTool extends ItemCustom  {
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
 	TutorialOptions tutOptions = new TutorialOptions();
 	TutorialFeature selectedFeature;
+	int blocks[];
+	byte data[];
 	private long lastEventNanoseconds = 0;
 	String tool;
 	boolean setting;
@@ -151,6 +153,45 @@ public class ItemDevTool extends ItemCustom  {
 			        load();
 			        if(world.isRemote)
 						updateRenderBoxes();
+			        else {
+			        	int count = 0;
+			        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.size.getX()),
+			        					Math.min(tutOptions.pos.getY(), tutOptions.size.getY()),
+			        					Math.min(tutOptions.pos.getZ(), tutOptions.size.getZ()));
+			        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.size.getX()),
+	        					Math.abs(tutOptions.pos.getY() - tutOptions.size.getY()),
+	        					Math.abs(tutOptions.pos.getZ() - tutOptions.size.getZ()));
+			    		for(int x = 0; x < size.getX(); x++){
+			    			for(int y = 0; y<=size.getY(); y++){
+			    				for(int z = 0; z<=size.getZ(); z++){
+//			    					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
+//			    						return false;
+//			    					}
+			    					int curblock = (int)blocks[count];
+			    					
+			    					if(curblock == 0 || curblock == 76) {
+			    						if(!world.isAirBlock(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ())))
+			    							world.setBlockToAir(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()));
+			    						count++;
+			    						continue;
+			    					}
+			    					else if(curblock == 759) {
+			    						count++;
+			    						continue; //these are Gas Lamps - we don't care for these.
+//			    					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
+//			    						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
+//			    						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
+//			    						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
+//			    						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
+//			    						count++;
+			    					}else {
+			    						world.setBlockState(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()), Block.getBlockById(curblock).getStateFromMeta(data[count]), 3);
+			    						count++;
+			    					}
+			    				}
+			    			}
+			    		}
+			        }
 					break;
 				default:
 					break;
@@ -360,6 +401,10 @@ public class ItemDevTool extends ItemCustom  {
 				test.load(nbtFeat);
 				features.add(test);
 			}
+			
+
+        	blocks = nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks");
+        	data = nbtFeats.getCompoundTag("AreaData").getByteArray("Data");
 			
 			tutOptions.load(nbtFeats.getCompoundTag("options"));
             is.close();
