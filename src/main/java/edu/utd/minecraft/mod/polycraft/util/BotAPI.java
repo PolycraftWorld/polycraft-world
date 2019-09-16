@@ -860,7 +860,7 @@ public class BotAPI {
 	                		Socket client = server.accept();
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-	                        String fromClient = in.readLine();
+	                        final String fromClient = in.readLine();
 	                        
 	                        try {
 	                        	if(fromClient.contains("DATA_INV"))
