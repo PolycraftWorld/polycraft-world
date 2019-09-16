@@ -111,6 +111,8 @@ public class BotAPI {
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
     static final String tempMark = "TEMP_";
+    static int delay = 0;
+    static String tempQ = null;
     
     public enum APICommand{
     	CHAT,
@@ -151,26 +153,34 @@ public class BotAPI {
     
 	public static void moveNorth(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		player.setPositionAndRotation(player.posX, player.posY, player.posZ - 1, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(player.posX, player.posY, player.posZ - 1, 180F, 0F);
+		//player.setPositionAndRotation(player.posX, player.posY, player.posZ - 1, player.rotationYaw, player.rotationPitch);
 //		player.motionZ = -0.3;
 //		player.motionY = 0.5;
 //		player.sendQueue.addToSendQueue(new C01PacketChatMessage("/time set day"));
 	}
 	public static void moveSouth(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		player.setPositionAndRotation(player.posX, player.posY, player.posZ + 1, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(player.posX, player.posY, player.posZ + 1, 0F, 0F);
+//		player.setPositionAndRotation(player.posX, player.posY, player.posZ + 1, player.rotationYaw, player.rotationPitch);
 //		player.motionZ = 0.3;
 //		player.motionY = 0.5;
 	}
 	public static void moveEast(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		player.setPositionAndRotation(player.posX + 1, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(player.posX + 1, player.posY, player.posZ, -90F, 0F);
+//		player.setPositionAndRotation(player.posX + 1, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 //		player.motionX = 0.3;
 //		player.motionY = 0.5;
 	}
 	public static void moveWest(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		player.setPositionAndRotation(player.posX - 1, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(player.posX - 1, player.posY, player.posZ, 90F, 0F);
+//		player.setPositionAndRotation(player.posX - 1, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 //		player.motionX = -0.3;
 //		player.motionY = 0.5;
 	}
@@ -303,7 +313,7 @@ public class BotAPI {
     		Vec3 breakPos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3]) + 0.5);
     		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
     		if(block.getMaterial() != Material.air) {
-    			player.sendChatMessage("Block already exists when trying to place block");
+    			player.sendChatMessage("Block \"" + block.getLocalizedName() + "\" already exists when trying to place block");
     			return;
     		}
     		//first make the player look in the correct location
@@ -315,10 +325,8 @@ public class BotAPI {
     		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
     		
     		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
-    		
-//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
-//    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
-//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
+    		tempQ = "USE";
+    		delay = 10;
 		}else {
     		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
     		for(String argument: args) {
@@ -721,97 +729,106 @@ public class BotAPI {
 	
 	public static void onClientTick() {
 
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		fromClient = commandQ.poll();
-        if(fromClient != null) {
-        	System.out.println(fromClient);
-        	String args[] =  fromClient.split("\\s+");
-            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
-            case CHAT:
-            	player.addChatComponentMessage(new ChatComponentText(fromClient));
-            	break;
-            case JUMP:
-            	player.jump();
-            	break;
-            case MOVE_NORTH:
-            	BotAPI.moveNorth(args);
-            	break;
-            case MOVE_SOUTH:
-            	BotAPI.moveSouth(args);
-            	break;
-            case MOVE_EAST:
-            	BotAPI.moveEast(args);
-            	break;
-            case MOVE_WEST:
-            	BotAPI.moveWest(args);
-            	break;
-            case MOVE_NORTH_EAST:
-            	BotAPI.moveNorth(args);
-            	BotAPI.moveEast(args);
-            	break;
-            case MOVE_NORTH_WEST:
-            	BotAPI.moveNorth(args);
-            	BotAPI.moveWest(args);
-            	break;
-            case MOVE_SOUTH_EAST:
-            	BotAPI.moveSouth(args);
-            	BotAPI.moveEast(args);
-            	break;
-            case MOVE_SOUTH_WEST:
-            	BotAPI.moveSouth(args);
-            	BotAPI.moveWest(args);
-            	break;
-            case TURN_RIGHT:
-            	BotAPI.turnRight(args);
-            	break;
-            case TURN_LEFT:
-            	BotAPI.turnLeft(args);
-            	break;
-            case BREAK_BLOCK:
-            	BotAPI.breakBlock(args);
-            	break;
-            case TELEPORT:
-            	BotAPI.teleport(args);
-            case DATA:
-        		//BotAPI.data(out, client);
-            	break;
-            case COLLECT_FROM_BLOCK:
-            	BotAPI.INSTANCE.collectFrom(args);
-            	break;
-            case INV_CRAFT_ITEM:
-            	BotAPI.craft(args);
-            	break;
-            case INV_SELECT_ITEM:
-            	BotAPI.selectItem(args);
-            	break;
-            case USE:
-            	BotAPI.useItem(args);
-            	break;
-            case PLACE_BLOCK:
-            	BotAPI.placeBlock(args);
-            	break;
-            case PLACE_CRAFTING_TABLE:
-            	BotAPI.placeCraftingTable(args);
-            	break;
-            case RESET:
-            	BotAPI.reset(args);
-            	break;
-            case START:
-            	BotAPI.start(args);
-            	break;
-            case TREES:
-            	BotAPI.trees(args);
-            	break;
-            case DEFAULT:	//break fall through is intentional for default
-            	BotAPI.defaultAction(args);
-            default:
-        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-        		for(String argument: args) {
-        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-        		}
-        		break;
-            }
-        }
+		if(delay > 0) {
+			delay--;
+		}else {
+			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			if(tempQ == null)
+				fromClient = commandQ.poll();
+			else {
+				fromClient = tempQ;
+				tempQ = null;
+			}
+			if(fromClient != null) {
+	        	System.out.println(fromClient);
+	        	String args[] =  fromClient.split("\\s+");
+	            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
+	            case CHAT:
+	            	player.addChatComponentMessage(new ChatComponentText(fromClient));
+	            	break;
+	            case JUMP:
+	            	player.jump();
+	            	break;
+	            case MOVE_NORTH:
+	            	BotAPI.moveNorth(args);
+	            	break;
+	            case MOVE_SOUTH:
+	            	BotAPI.moveSouth(args);
+	            	break;
+	            case MOVE_EAST:
+	            	BotAPI.moveEast(args);
+	            	break;
+	            case MOVE_WEST:
+	            	BotAPI.moveWest(args);
+	            	break;
+	            case MOVE_NORTH_EAST:
+	            	BotAPI.moveNorth(args);
+	            	BotAPI.moveEast(args);
+	            	break;
+	            case MOVE_NORTH_WEST:
+	            	BotAPI.moveNorth(args);
+	            	BotAPI.moveWest(args);
+	            	break;
+	            case MOVE_SOUTH_EAST:
+	            	BotAPI.moveSouth(args);
+	            	BotAPI.moveEast(args);
+	            	break;
+	            case MOVE_SOUTH_WEST:
+	            	BotAPI.moveSouth(args);
+	            	BotAPI.moveWest(args);
+	            	break;
+	            case TURN_RIGHT:
+	            	BotAPI.turnRight(args);
+	            	break;
+	            case TURN_LEFT:
+	            	BotAPI.turnLeft(args);
+	            	break;
+	            case BREAK_BLOCK:
+	            	BotAPI.breakBlock(args);
+	            	break;
+	            case TELEPORT:
+	            	BotAPI.teleport(args);
+	            case DATA:
+	        		//BotAPI.data(out, client);
+	            	break;
+	            case COLLECT_FROM_BLOCK:
+	            	BotAPI.INSTANCE.collectFrom(args);
+	            	break;
+	            case INV_CRAFT_ITEM:
+	            	BotAPI.craft(args);
+	            	break;
+	            case INV_SELECT_ITEM:
+	            	BotAPI.selectItem(args);
+	            	break;
+	            case USE:
+	            	BotAPI.useItem(args);
+	            	break;
+	            case PLACE_BLOCK:
+	            	BotAPI.placeBlock(args);
+	            	break;
+	            case PLACE_CRAFTING_TABLE:
+	            	BotAPI.placeCraftingTable(args);
+	            	break;
+	            case RESET:
+	            	BotAPI.reset(args);
+	            	break;
+	            case START:
+	            	BotAPI.start(args);
+	            	break;
+	            case TREES:
+	            	BotAPI.trees(args);
+	            	break;
+	            case DEFAULT:	//break fall through is intentional for default
+	            	BotAPI.defaultAction(args);
+	            default:
+	        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+	        		for(String argument: args) {
+	        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+	        		}
+	        		break;
+	            }
+	        }
+		}
 	}
 	
 	public static void startAPIThread() {
