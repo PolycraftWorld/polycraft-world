@@ -75,6 +75,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldSettings;
@@ -613,6 +614,7 @@ public class BotAPI {
         // Create a filename for this map - we use the time stamp to make sure it is different from other worlds, otherwise no new world
         // will be created, it will simply load the old one.
         createAndLaunchWorld(worldsettings, false);
+        Minecraft.getMinecraft().getIntegratedServer().setDifficultyForAllWorlds(EnumDifficulty.PEACEFUL);
 	}
 	
 	/** Get a filename to use for creating a new Minecraft save map.<br>
