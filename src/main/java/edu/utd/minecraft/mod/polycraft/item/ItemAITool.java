@@ -1,9 +1,14 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.aitools.AIToolSettingsRoomGen;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
@@ -13,18 +18,24 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class ItemAITool extends ItemCustom {
 	
-	protected NBTTagCompound nbt = new NBTTagCompound();
+	//protected NBTTagCompound nbt = new NBTTagCompound();
+	public AIToolSettingsRoomGen roomGen = new AIToolSettingsRoomGen();
 	protected int roomWidth;
 	protected int roomLength;
 	protected int roomHeight;
 	protected BlockType blockType;
 	protected boolean walls;
+	
+	//String outputFileName = "output";
+	String outputFileExt = ".psm";
 	
 	public ItemAITool(CustomObject config) {
 		super(config);
@@ -66,26 +77,50 @@ public class ItemAITool extends ItemCustom {
 	}
 	
 	
-	public NBTTagCompound save()
+	public void save()
 	{
-		nbt = new NBTTagCompound();	//erase current nbt so we don't get duplicates?
+		NBTTagCompound nbt = new NBTTagCompound();	//erase current nbt so we don't get duplicates?
+		this.roomGen.width=this.roomWidth;
+		this.roomGen.length=this.roomLength;
+		this.roomGen.height=this.roomHeight;
+		this.roomGen.walls=this.walls;
+		this.roomGen.blockTypeID=this.blockType.ordinal();
+		nbt.setTag("roomgen", this.roomGen.save());
 		
-		nbt.setInteger("width", this.roomWidth);
-		nbt.setInteger("length", this.roomLength);
-		nbt.setInteger("height", this.roomHeight);
-		nbt.setBoolean("walls", this.walls);
-		nbt.setInteger("block", this.blockType.ordinal());
-		return nbt;
+		FileOutputStream fout = null;
+		try {
+			File configDir;
+			configDir = PolycraftMod.configDirectory;
+			
+			File file = new File( PolycraftMod.configDirectory.toString()+"\\test");
+			fout = new FileOutputStream(file);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			CompressedStreamTools.writeCompressed(nbt, fout);
+			fout.flush();
+			fout.close();
+			
+		}catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		
+		}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
 	}
 	
 	public void load(NBTTagCompound nbtFeat)
 	{
-		this.roomWidth=nbtFeat.getInteger("width");
-		this.roomLength=nbtFeat.getInteger("length");
-		this.roomHeight=nbtFeat.getInteger("height");
-		this.walls=nbtFeat.getBoolean("walls");
+		NBTTagCompound nbtRoomGen = (NBTTagCompound) nbtFeat.getTag("roomgen");
+		this.roomWidth=nbtRoomGen.getInteger("width");
+		this.roomLength=nbtRoomGen.getInteger("length");
+		this.roomHeight=nbtRoomGen.getInteger("height");
+		this.walls=nbtRoomGen.getBoolean("walls");
 		
-		this.blockType=BlockType.values()[nbtFeat.getInteger("block")];
+		this.blockType=BlockType.values()[nbtRoomGen.getInteger("block")];
 	}
 	
 	public BlockType getBlockType()

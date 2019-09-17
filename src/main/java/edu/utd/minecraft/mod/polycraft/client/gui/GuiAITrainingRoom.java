@@ -78,16 +78,18 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	
 	public void initGui()
     {
+	    int i = (this.width) / 2;
+	    int j = (this.height) / 2; //old was 200
 				
-		widthSlider = new GuiSlider(0,130,40,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
-		lengthSlider = new GuiSlider(1,130,70,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
-		heightSlider = new GuiSlider(2,130,150,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
-		blockTypeCycle = new GuiPolyButtonCycle(5, 130, 100, 120, 20,"Block Type", AITool.getBlockType());
-		blockTypeDropDown = new GuiPolyButtonDropDown(5, 130, 100, 120, 20,AITool.getBlockType());
-		wallCheck = new GuiCheckBox(3, 130, 130, "Walls?", AITool.getWalls());
+		widthSlider = new GuiSlider(0,i-90,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
+		lengthSlider = new GuiSlider(1,i-90,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
+		heightSlider = new GuiSlider(2,i-90,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
+		blockTypeCycle = new GuiPolyButtonCycle(5, i-90, j-15, 120, 20,"Block Type", AITool.getBlockType());
+		blockTypeDropDown = new GuiPolyButtonDropDown(5, i-90, j-15, 120, 20,AITool.getBlockType());
+		wallCheck = new GuiCheckBox(3, i-90, j+15, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
-		genBtn = new GuiButton(4, 170, 180, 90, 20, "Generate");
+		genBtn = new GuiButton(4, i-50, j+65, 90, 20, "Generate");
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
 		addBtn(genBtn);
@@ -102,7 +104,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 if(button==genBtn)
 		 {
 			 
-			 
+			 	AITool.save();
 				List<Object> params = new ArrayList<Object>();
 				params.add(AITool.getWalls());
 				params.add(AITool.getWidth());

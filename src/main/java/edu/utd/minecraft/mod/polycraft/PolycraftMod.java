@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -218,6 +219,8 @@ public class PolycraftMod {
 	public static final PolycraftRecipeManager recipeManagerRuntime = new PolycraftRecipeManager();
 	public static final PolycraftRecipeManager recipeManagerRealtime = new PolycraftRecipeManager();
 	
+	public static File configDirectory;
+	
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
@@ -227,6 +230,7 @@ public class PolycraftMod {
 		SChannel.registerMessage(CraftMessageHandler.class, CraftMessage.class, 1, Side.SERVER);
 		SChannel.registerMessage(InventoryMessageHandler.class, InventoryMessage.class, 2, Side.SERVER);
 		SChannel.registerMessage(GenerateMessageHandler.class, GenerateMessage.class, 3, Side.SERVER);
+		this.configDirectory =event.getModConfigurationDirectory();
 		proxy.preInit();
 	}
 
