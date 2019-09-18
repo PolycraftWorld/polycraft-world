@@ -36,7 +36,7 @@ public class AIToolSettingsRoomGen{
 		nbt.setInteger("length", this.length);
 		nbt.setInteger("height", this.height);
 		nbt.setInteger("block", this.blockTypeID);
-		nbt.setBoolean("wall", this.walls);
+		nbt.setBoolean("walls", this.walls);
 		return nbt;
 	}
 	
@@ -46,6 +46,6 @@ public class AIToolSettingsRoomGen{
 		this.length=nbtFeat.getInteger("length");
 		this.height=nbtFeat.getInteger("height");
 		this.blockTypeID=nbtFeat.getInteger("block");
-		this.walls=nbtFeat.getBoolean("wall");
+		this.walls=nbtFeat.getBoolean("walls");
 	}
 }

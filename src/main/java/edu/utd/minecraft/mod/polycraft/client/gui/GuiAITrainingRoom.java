@@ -51,7 +51,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiSlider lengthSlider;
 	GuiSlider heightSlider;
 	GuiButton genBtn;
-	GuiPolyButtonCycle blockTypeCycle;
+	GuiButton saveBtn;
+	GuiButton loadBtn;
 	GuiPolyButtonDropDown blockTypeDropDown;
 	GuiCheckBox wallCheck;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
@@ -84,18 +85,22 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		widthSlider = new GuiSlider(0,i-90,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
 		lengthSlider = new GuiSlider(1,i-90,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
 		heightSlider = new GuiSlider(2,i-90,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
-		blockTypeCycle = new GuiPolyButtonCycle(5, i-90, j-15, 120, 20,"Block Type", AITool.getBlockType());
 		blockTypeDropDown = new GuiPolyButtonDropDown(5, i-90, j-15, 120, 20,AITool.getBlockType());
 		wallCheck = new GuiCheckBox(3, i-90, j+15, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
-		genBtn = new GuiButton(4, i-50, j+65, 90, 20, "Generate");
+		genBtn = new GuiButton(4, i-20, j+65, 90, 20, "Generate");
+		saveBtn = new GuiButton(4, i-120, j+65, 45, 20, "Save");
+		loadBtn = new GuiButton(4, i-70, j+65, 45, 20, "Load");
+		
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
 		addBtn(genBtn);
 		addBtn(wallCheck);
 		addBtn(heightSlider);
 		addBtn(blockTypeDropDown);
+		addBtn(saveBtn);
+		addBtn(loadBtn);
 		//int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
     }
 	
@@ -113,6 +118,30 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.getBlockType());
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 				this.exitGuiScreen();
+//			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
+		 }
+		 if(button==loadBtn)
+		 {
+			   
+			 	AITool.load();
+			 	
+			 	int i = (this.width) / 2;
+			    int j = (this.height) / 2; //old was 200
+			    
+			    widthSlider.setValue(AITool.getWidth());
+			    widthSlider.updateSlider();
+			    lengthSlider.setValue(AITool.getLength());
+			    lengthSlider.updateSlider();
+			    heightSlider.setValue(AITool.getHeight());
+			    heightSlider.updateSlider();
+			    blockTypeDropDown.setCurrentOpt(AITool.getBlockType());
+			    wallCheck.setIsChecked(AITool.getWalls());
+//			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
+		 }
+		 if(button==saveBtn)
+		 {
+			 
+			 	AITool.save();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
 		 if(!blockTypeDropDown.open)

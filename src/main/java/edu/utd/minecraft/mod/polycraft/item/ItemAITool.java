@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.item;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -112,9 +113,33 @@ public class ItemAITool extends ItemCustom {
 		}
 	}
 	
-	public void load(NBTTagCompound nbtFeat)
+	public void load()
 	{
-		NBTTagCompound nbtRoomGen = (NBTTagCompound) nbtFeat.getTag("roomgen");
+		NBTTagCompound nbt = new NBTTagCompound();
+		FileInputStream fin = null;
+		try {
+			File configDir;
+			configDir = PolycraftMod.configDirectory;
+			
+			File file = new File( PolycraftMod.configDirectory.toString()+"\\test");
+			fin = new FileInputStream(file);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			nbt=CompressedStreamTools.readCompressed(fin);
+			fin.close();
+			
+		}catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		
+		}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+		
+		NBTTagCompound nbtRoomGen = (NBTTagCompound) nbt.getTag("roomgen");
 		this.roomWidth=nbtRoomGen.getInteger("width");
 		this.roomLength=nbtRoomGen.getInteger("length");
 		this.roomHeight=nbtRoomGen.getInteger("height");

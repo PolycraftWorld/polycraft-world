@@ -42,6 +42,12 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 		open=false;
 	}
 	
+	public void setCurrentOpt(E option)
+	{
+		this.currentOpt= option;
+		this.displayString=option.name();
+	}
+	
 
 	public E getCurrentOpt() {
 		return currentOpt;
