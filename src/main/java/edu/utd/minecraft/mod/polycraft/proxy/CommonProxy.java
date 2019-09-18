@@ -76,7 +76,7 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 public abstract class CommonProxy {
 
-	protected static final float baseJumpMovementFactor = 0.02F;
+	public static final float baseJumpMovementFactor = 0.02F;
 	protected static final int baseFullAir = 300;
 	private static final long jetPackSoundFrequencyTicks = 10;
 	private static final String scubaTankSoundName = PolycraftMod.getAssetNameString("scubatank.breathe");
