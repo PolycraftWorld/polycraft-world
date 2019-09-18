@@ -6,7 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.AIToolSettingsRoomGen;
@@ -78,7 +84,7 @@ public class ItemAITool extends ItemCustom {
 	}
 	
 	
-	public void save()
+	public void save(String fileName)
 	{
 		NBTTagCompound nbt = new NBTTagCompound();	//erase current nbt so we don't get duplicates?
 		this.roomGen.width=this.roomWidth;
@@ -93,7 +99,15 @@ public class ItemAITool extends ItemCustom {
 			File configDir;
 			configDir = PolycraftMod.configDirectory;
 			
-			File file = new File( PolycraftMod.configDirectory.toString()+"\\test");
+		 String directoryName = PolycraftMod.configDirectory.toString()+"\\AIToolSaves";
+		    File directory = new File(directoryName);
+		    if (! directory.exists()){
+		        directory.mkdir();
+		        // If you require it to make the entire directory path including parents,
+		        // use directory.mkdirs(); here instead.
+		    }
+			
+			File file = new File( PolycraftMod.configDirectory.toString()+"\\AIToolSaves\\"+fileName);
 			fout = new FileOutputStream(file);
 			
 			if (!file.exists()) {
@@ -113,7 +127,7 @@ public class ItemAITool extends ItemCustom {
 		}
 	}
 	
-	public void load()
+	public Boolean load(String fileName)
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		FileInputStream fin = null;
@@ -121,11 +135,12 @@ public class ItemAITool extends ItemCustom {
 			File configDir;
 			configDir = PolycraftMod.configDirectory;
 			
-			File file = new File( PolycraftMod.configDirectory.toString()+"\\test");
+			File file = new File( PolycraftMod.configDirectory.toString()+"\\AIToolSaves\\"+fileName);
 			fin = new FileInputStream(file);
 			
 			if (!file.exists()) {
-				file.createNewFile();
+				fin.close();
+				return false;
 			}
 			nbt=CompressedStreamTools.readCompressed(fin);
 			fin.close();
@@ -133,10 +148,12 @@ public class ItemAITool extends ItemCustom {
 		}catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return false;
 		
 		}catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 		}
 		
 		NBTTagCompound nbtRoomGen = (NBTTagCompound) nbt.getTag("roomgen");
@@ -146,6 +163,22 @@ public class ItemAITool extends ItemCustom {
 		this.walls=nbtRoomGen.getBoolean("walls");
 		
 		this.blockType=BlockType.values()[nbtRoomGen.getInteger("block")];
+		return true;
+	}
+	
+	public List<String> getFileNames()
+	{
+		try (Stream<Path> walk = Files.walk(Paths.get(PolycraftMod.configDirectory.toString()+"\\AIToolSaves"))) {
+
+			List<String> result = walk.filter(Files::isRegularFile)
+					.map(x -> x.toString()).collect(Collectors.toList());
+
+			return result;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public BlockType getBlockType()

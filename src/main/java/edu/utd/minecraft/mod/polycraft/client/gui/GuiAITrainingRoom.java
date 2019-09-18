@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
+
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,6 +42,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
@@ -55,6 +58,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiButton loadBtn;
 	GuiPolyButtonDropDown blockTypeDropDown;
 	GuiCheckBox wallCheck;
+	GuiTextField fileName;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
 	private ItemAITool AITool;
 	
@@ -89,9 +93,11 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		wallCheck = new GuiCheckBox(3, i-90, j+15, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
-		genBtn = new GuiButton(4, i-20, j+65, 90, 20, "Generate");
-		saveBtn = new GuiButton(4, i-120, j+65, 45, 20, "Save");
-		loadBtn = new GuiButton(4, i-70, j+65, 45, 20, "Load");
+		genBtn = new GuiButton(6, i-20, j+65, 90, 20, "Generate");
+		saveBtn = new GuiButton(7, i-120, j+65, 45, 20, "Save");
+		loadBtn = new GuiButton(8, i-70, j+65, 45, 20, "Load");
+		
+		fileName = new GuiTextField(9,this.fontRendererObj, i-120,j+90,80,20);
 		
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
@@ -109,7 +115,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 if(button==genBtn)
 		 {
 			 
-			 	AITool.save();
+			 	//AITool.save();
+			 
 				List<Object> params = new ArrayList<Object>();
 				params.add(AITool.getWalls());
 				params.add(AITool.getWidth());
@@ -120,11 +127,10 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
-		 if(button==loadBtn)
+		 if(button.id>=200)
 		 {
-			   
-			 	AITool.load();
-			 	
+			 if(AITool.load(button.displayString))
+			 { 	
 			 	int i = (this.width) / 2;
 			    int j = (this.height) / 2; //old was 200
 			    
@@ -136,12 +142,62 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			    heightSlider.updateSlider();
 			    blockTypeDropDown.setCurrentOpt(AITool.getBlockType());
 			    wallCheck.setIsChecked(AITool.getWalls());
-//			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
+			 }
+			 else
+			 {
+				 this.player.addChatMessage(new ChatComponentText("Unexpected Error"));	
+			 }
+			 List<GuiButton> removeList =Lists.<GuiButton>newArrayList();
+			 for(GuiButton btn: this.buttonList)
+			 {
+				 if(btn!=blockTypeDropDown)
+					 btn.enabled=true;
+				 if(btn.id>200)
+					 removeList.add(btn);
+			 }
+			 for(GuiButton remove: removeList)
+			 {
+				 this.buttonList.remove(remove);
+			 }
+			 
 		 }
+		 if(button==loadBtn)
+		 {
+			 for(GuiButton btn: this.buttonList)
+			 {
+				 if(btn!=blockTypeDropDown)
+					 btn.enabled=false;
+			 }
+			 List<String> files= AITool.getFileNames();
+			 int i = (this.width) / 2;
+			 int j = (this.height) / 2; //old was 200
+			 int c=1;
+			 if(files!=null)
+			 {
+				 for(String file: files)
+				 {
+					 this.buttonList.add(new GuiButton(200+c, i+60, j-65+(c*20), 90, 20, file.replace(PolycraftMod.configDirectory.toString()+"\\AIToolSaves\\", "")));
+					 c++;
+				 }
+			 }
+			 else
+			 {
+				 this.player.addChatMessage(new ChatComponentText("There are no Files"));
+			 }
+			 
+		 }
+		 
 		 if(button==saveBtn)
 		 {
-			 
-			 	AITool.save();
+			 if(this.fileName.getText()!="")
+			 { 
+			 	AITool.save(this.fileName.getText());
+			 }
+			 else 
+			 {
+				this.player.addChatMessage(new ChatComponentText("File must have a name"));
+			 }
+				 
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
 		 if(!blockTypeDropDown.open)
@@ -219,6 +275,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     {
         this.drawDefaultBackground();	        
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.fileName.drawTextBox();
         super.drawScreen(mouseX, mouseY, otherValue);
     }
 	
@@ -251,35 +308,16 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	
 	@Override
     protected void mouseClicked(int x, int y, int mouseEvent) throws IOException {
-    	super.mouseClicked(x, y, mouseEvent);
-//    	if(blockTypeDropDown.open)
-//		{
-//	    	boolean menuPressed=false;
-//	        for (int i = 0; i < this.buttonList.size(); ++i)
-//	        {
-//	        	
-//	            GuiButton guibutton = (GuiButton)this.buttonList.get(i);
-//	            if(!guibutton.enabled)
-//	            	continue;
-//	
-//	            if (guibutton.mousePressed(this.mc, x, y))
-//	            {
-//	            	menuPressed=true;
-//	            }
-//	        }
-//	        if(!menuPressed)
-//	        {
-//	        	 blockTypeDropDown.removeButtons(this.buttonList);
-//				 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
-//				 blockTypeDropDown.open=false;
-//				 
-//				 for(GuiButton btn: this.buttonList)
-//				 {
-//					 btn.enabled=true;
-//				 }
-//	        }
-//		}
+		super.mouseClicked(x, y, mouseEvent);
+		this.fileName.mouseClicked(x, y, mouseEvent);
     	
     }
+	
+	@Override
+	public void keyTyped(char c, int p) throws IOException {
+		super.keyTyped(c, p);
+	    if(this.fileName.isFocused())
+	    	this.fileName.textboxKeyTyped(c, p);
+	}
 	
 }
