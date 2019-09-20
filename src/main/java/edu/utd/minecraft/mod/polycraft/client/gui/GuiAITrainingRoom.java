@@ -59,7 +59,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiPolyButtonDropDown blockTypeDropDown;
 	GuiCheckBox wallCheck;
 	GuiTextField fileName;
-    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/hospital_old.png"));
+    private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/blank_template_scaled.png"));
 	private ItemAITool AITool;
 	
 	public GuiAITrainingRoom(EntityPlayer player)
@@ -86,18 +86,18 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	    int i = (this.width) / 2;
 	    int j = (this.height) / 2; //old was 200
 				
-		widthSlider = new GuiSlider(0,i-90,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
-		lengthSlider = new GuiSlider(1,i-90,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
-		heightSlider = new GuiSlider(2,i-90,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
-		blockTypeDropDown = new GuiPolyButtonDropDown(5, i-90, j-15, 120, 20,AITool.getBlockType());
-		wallCheck = new GuiCheckBox(3, i-90, j+15, "Walls?", AITool.getWalls());
+		widthSlider = new GuiSlider(0,i-110,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
+		lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
+		heightSlider = new GuiSlider(2,i-110,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
+		blockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getBlockType());
+		wallCheck = new GuiCheckBox(3, i-110, j+15, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
-		genBtn = new GuiButton(6, i-20, j+65, 90, 20, "Generate");
-		saveBtn = new GuiButton(7, i-120, j+65, 45, 20, "Save");
-		loadBtn = new GuiButton(8, i-70, j+65, 45, 20, "Load");
+		genBtn = new GuiButton(6, i-80, j+85, 90, 20, "Generate");
+		saveBtn = new GuiButton(7, i+30, j-60, 45, 20, "Save");
+		loadBtn = new GuiButton(8, i+80, j-60, 45, 20, "Load");
 		
-		fileName = new GuiTextField(9,this.fontRendererObj, i-120,j+90,80,20);
+		fileName = new GuiTextField(9,this.fontRendererObj, i+30,j-25,80,20);
 		
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
@@ -176,7 +176,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			 {
 				 for(String file: files)
 				 {
-					 this.buttonList.add(new GuiButton(200+c, i+60, j-65+(c*20), 90, 20, file.replace(PolycraftMod.configDirectory.toString()+"\\AIToolSaves\\", "")));
+					 this.buttonList.add(new GuiButton(200+c, i+30, j-10+(c*20), 90, 20, file.replace(PolycraftMod.configDirectory.toString()+"\\AIToolSaves\\", "")));
 					 c++;
 				 }
 			 }
@@ -192,6 +192,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			 if(this.fileName.getText()!="")
 			 { 
 			 	AITool.save(this.fileName.getText());
+			 	this.player.addChatMessage(new ChatComponentText("Settings have been saved as: "+this.fileName.getText()));
 			 }
 			 else 
 			 {
@@ -276,6 +277,9 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
         this.drawDefaultBackground();	        
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.fileName.drawTextBox();
+        
+        this.fontRendererObj.drawString("FileName", (this.width/2)+30, (this.height/2)-34, 0x66666666);
+        
         super.drawScreen(mouseX, mouseY, otherValue);
     }
 	
@@ -290,7 +294,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	    int i = (this.width - 248) / 2;
 	    int j = (this.height - 184) / 2; //old was 200
 	   // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
-	    this.drawTexturedModalRect(i, j, 0, 0, 248, 184);
+	    this.drawTexturedModalRect(i, j, 0, 0, 256, 256);
 	}
 	
 	@Override
