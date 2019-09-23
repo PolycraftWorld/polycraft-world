@@ -538,7 +538,7 @@ public class PolycraftRegistry {
 	{
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(PolycraftMod.blockOil));
 		
-		ModelResourceLocation modelResourceLocation = new ModelResourceLocation("polycraft:oil",((BlockFluidBase)PolycraftMod.blockOil).getFluid().getName());
+		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("polycraft:oil",((BlockFluidBase)PolycraftMod.blockOil).getFluid().getName());
 	
 		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(PolycraftMod.blockOil), new ItemMeshDefinition()
         {
