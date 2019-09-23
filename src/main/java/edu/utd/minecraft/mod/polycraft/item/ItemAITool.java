@@ -40,6 +40,8 @@ public class ItemAITool extends ItemCustom {
 	protected int roomHeight;
 	protected BlockType blockType;
 	protected boolean walls;
+	protected ResourceType resourceType;
+	protected TreeType treeType;
 	
 	//String outputFileName = "output";
 	String outputFileExt = ".psm";
@@ -61,6 +63,20 @@ public class ItemAITool extends ItemCustom {
 		SAND,
 		WATER,
 		SNOW
+	};
+	
+	public enum ResourceType{
+		TREE,
+		SIGN
+	};
+	
+	public enum TreeType{
+		OAK,
+		SPRUCE,
+		BIRCH,
+		JUNGLE,
+		ACACIA,
+		DARK_OAK
 	};
 	
 	@Override

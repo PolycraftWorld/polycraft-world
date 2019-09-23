@@ -27,6 +27,8 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.Tutor
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryGui;
 import edu.utd.minecraft.mod.polycraft.item.ItemAITool;
 import edu.utd.minecraft.mod.polycraft.item.ItemAITool.BlockType;
+import edu.utd.minecraft.mod.polycraft.item.ItemAITool.ResourceType;
+import edu.utd.minecraft.mod.polycraft.item.ItemAITool.TreeType;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
@@ -50,6 +52,11 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	
 	private EntityPlayer player;
 //	private int x, y, z;
+	
+	protected List<GuiButton> genPageList = Lists.<GuiButton>newArrayList();
+	protected List<GuiButton> recPageList = Lists.<GuiButton>newArrayList();
+	protected List<GuiButton> savePageList = Lists.<GuiButton>newArrayList();
+	
 	GuiSlider widthSlider;
 	GuiSlider lengthSlider;
 	GuiSlider heightSlider;
@@ -62,11 +69,39 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/blank_template_scaled.png"));
 	private ItemAITool AITool;
 	
+	protected List<GuiButton> tabList = Lists.<GuiButton>newArrayList();
+	GuiButton genTab;
+	GuiButton recTab;
+	GuiButton saveTab;
+	
+	GuiButton addRec;
+	
+	GuiPolyButtonDropDown resourceTypeDropDown;
+	GuiPolyButtonDropDown treeTypeDropDown;
+	
+	 private enum ScreenTabs {
+ 		Tab_Gen,
+ 		Tab_Rec,
+ 		Tab_Save
+ 		
+	 }
+	 private ScreenTabs screenSwitcher = ScreenTabs.Tab_Gen;
+	
 	public GuiAITrainingRoom(EntityPlayer player)
 	{
         this.player = player;
         if(player.getHeldItem().getItem() instanceof ItemAITool)
        		this.AITool = (ItemAITool) player.getHeldItem().getItem();
+        genPageList.add(widthSlider);
+        genPageList.add(lengthSlider);
+        genPageList.add(heightSlider);
+        genPageList.add(genBtn);
+        genPageList.add(saveBtn);
+        genPageList.add(loadBtn);
+        genPageList.add(blockTypeDropDown);
+        genPageList.add(wallCheck);
+        
+        
 //        this.x = x;
 //        this.y = y;
 //        this.z = z;
@@ -107,11 +142,114 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		addBtn(blockTypeDropDown);
 		addBtn(saveBtn);
 		addBtn(loadBtn);
+		
+		addRec = new GuiButton(14, i-110, j-80, 90, 20, "Add Resource");
+		
+		
+		genTab = new GuiButton(11, i+140, j-80, 45, 20, "Gen");
+		recTab = new GuiButton(12, i+140, j-60, 45, 20, "Rec");
+		saveTab = new GuiButton(13, i+140, j-40, 45, 20, "Save");
+		
+		resourceTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-25, 60, 20,ResourceType.TREE);
+		treeTypeDropDown = new GuiPolyButtonDropDown(5, i-40, j-25, 60, 20,TreeType.OAK);
+		
+		this.genTab.enabled=false;
+		
+        tabList.add(genTab);
+        tabList.add(recTab);
+        tabList.add(saveTab);
+		
+		addBtn(genTab);
+		addBtn(saveTab);
+		addBtn(recTab);
+		
 		//int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
+    }
+	
+    private ScreenTabs screenChange(ScreenTabs newScreen) {
+    	//On screen change, we need to update the button list and have it re-drawn.
+
+		this.buttonList.clear();
+		int i = (this.width) / 2;
+		int j = (this.height) / 2; //old was 200
+    	switch(newScreen) {
+    		case Tab_Gen:
+    			widthSlider = new GuiSlider(0,i-110,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
+    			lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
+    			heightSlider = new GuiSlider(2,i-110,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
+    			blockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getBlockType());
+    			wallCheck = new GuiCheckBox(3, i-110, j+15, "Walls?", AITool.getWalls());
+    			heightSlider.enabled=wallCheck.isChecked();
+    			
+    			genBtn = new GuiButton(6, i-80, j+85, 90, 20, "Generate");
+    			saveBtn = new GuiButton(7, i+30, j-60, 45, 20, "Save");
+    			loadBtn = new GuiButton(8, i+80, j-60, 45, 20, "Load");
+    			
+    			fileName = new GuiTextField(9,this.fontRendererObj, i+30,j-25,80,20);
+    			
+    			addBtn(widthSlider);
+    			addBtn(lengthSlider);
+    			addBtn(genBtn);
+    			addBtn(wallCheck);
+    			addBtn(heightSlider);
+    			addBtn(blockTypeDropDown);
+    			addBtn(saveBtn);
+    			addBtn(loadBtn);
+    			
+    			addBtn(genTab);
+    			addBtn(saveTab);
+    			addBtn(recTab);
+    			break;
+    		case Tab_Rec:
+    			this.buttonList.add(addRec);
+    			addBtn(genTab);
+    			addBtn(saveTab);
+    			addBtn(recTab);
+    			
+    			break;
+    		case Tab_Save:
+    			
+    			break;
+    		default:
+    			break;
+    	}
+    	return newScreen;
     }
 	
 	 protected void actionPerformed(GuiButton button) {
 		 super.actionPerformed(button);
+		 if(button==addRec)
+		 {
+			 this.addBtn(this.resourceTypeDropDown);
+			 this.addBtn(this.treeTypeDropDown);
+		 }
+		 if(button==genTab)
+		 {
+   			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Gen);
+   			 for(GuiButton btn:this.tabList)
+			 {
+				 btn.enabled=true;
+   			 }
+   			 button.enabled=false;
+		 }
+		 if(button==recTab)
+		 {
+			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
+			 for(GuiButton btn:this.tabList)
+			 {
+				 btn.enabled=true;
+			 }
+			 button.enabled=false;
+		 }
+		 if(button==saveTab)
+		 {
+			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Save);
+			 for(GuiButton btn:this.tabList)
+			 {
+				 btn.enabled=true;
+			 }
+			 button.enabled=false;
+		 }
 		 if(button==genBtn)
 		 {
 			 
@@ -201,6 +339,132 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				 
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
+		 
+		 
+		 if(!resourceTypeDropDown.open)
+		 {
+			 if(button==resourceTypeDropDown)
+			 {
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 if(btn!=resourceTypeDropDown)
+						 btn.enabled=false;
+				 }
+				 
+				 resourceTypeDropDown.addButtons(this.buttonList);
+				 resourceTypeDropDown.open=true;
+				// buttons =blockTypeDropDown.getButtons();
+
+//				 for(int c=0;c<buttons.length;c++)
+//				 {
+//					
+//					
+//					 addBtn(buttons[c]);
+//					 
+//					 
+//				 }
+			 }
+		 }
+		 else if(resourceTypeDropDown.open)
+		 {
+			 if(resourceTypeDropDown.actionPerformed(button))
+			 {
+				 
+				 resourceTypeDropDown.removeButtons(this.buttonList);
+				// this.AITool.setBlockType((BlockType) this.resourceTypeDropDown.getCurrentOpt());
+				 resourceTypeDropDown.open=false;
+				 
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 btn.enabled=true;
+				 }
+
+				 
+//					 for(int c=0;c<buttons.length;c++)
+//					 {
+//						 //if(buttons[c].displayString!=blockTypeDropDown.displayString)
+//						 removeBtn(buttons[c]);
+//						 
+//					 }
+			 }
+			 if(button==resourceTypeDropDown)
+			 {
+
+				 resourceTypeDropDown.removeButtons(this.buttonList);
+				 //this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+				 resourceTypeDropDown.open=false;
+				 
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 btn.enabled=true;
+				 }
+			 }
+			 
+		 }
+		 
+		 
+		 if(!treeTypeDropDown.open)
+		 {
+			 if(button==treeTypeDropDown)
+			 {
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 if(btn!=treeTypeDropDown)
+						 btn.enabled=false;
+				 }
+				 
+				 treeTypeDropDown.addButtons(this.buttonList);
+				 treeTypeDropDown.open=true;
+				// buttons =blockTypeDropDown.getButtons();
+
+//				 for(int c=0;c<buttons.length;c++)
+//				 {
+//					
+//					
+//					 addBtn(buttons[c]);
+//					 
+//					 
+//				 }
+			 }
+		 }
+		 else if(treeTypeDropDown.open)
+		 {
+			 if(treeTypeDropDown.actionPerformed(button))
+			 {
+				 
+				 treeTypeDropDown.removeButtons(this.buttonList);
+				// this.AITool.setBlockType((BlockType) this.resourceTypeDropDown.getCurrentOpt());
+				 treeTypeDropDown.open=false;
+				 
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 btn.enabled=true;
+				 }
+
+				 
+//					 for(int c=0;c<buttons.length;c++)
+//					 {
+//						 //if(buttons[c].displayString!=blockTypeDropDown.displayString)
+//						 removeBtn(buttons[c]);
+//						 
+//					 }
+			 }
+			 if(button==treeTypeDropDown)
+			 {
+
+				 treeTypeDropDown.removeButtons(this.buttonList);
+				 //this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+				 treeTypeDropDown.open=false;
+				 
+				 for(GuiButton btn: this.buttonList)
+				 {
+					 btn.enabled=true;
+				 }
+			 }
+			 
+		 }
+		 
+		 
 		 if(!blockTypeDropDown.open)
 		 {
 			 if(button==blockTypeDropDown)
@@ -276,9 +540,12 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     {
         this.drawDefaultBackground();	        
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.fileName.drawTextBox();
         
-        this.fontRendererObj.drawString("FileName", (this.width/2)+30, (this.height/2)-34, 0x66666666);
+        if(this.screenSwitcher==ScreenTabs.Tab_Gen)
+        {
+        	this.fileName.drawTextBox();
+        	this.fontRendererObj.drawString("FileName", (this.width/2)+30, (this.height/2)-34, 0x66666666);
+        }
         
         super.drawScreen(mouseX, mouseY, otherValue);
     }
