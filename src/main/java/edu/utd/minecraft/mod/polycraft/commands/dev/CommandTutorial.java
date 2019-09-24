@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.Experiment1PlayerCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;

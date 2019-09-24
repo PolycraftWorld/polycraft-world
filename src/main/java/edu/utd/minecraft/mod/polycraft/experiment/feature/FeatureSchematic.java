@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentFlatCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentFlatCTB;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
 import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;

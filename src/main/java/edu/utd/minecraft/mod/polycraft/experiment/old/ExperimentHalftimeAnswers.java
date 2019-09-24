@@ -8,7 +8,7 @@
  * compile answers by team
  */
 
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.old;
 
 public class ExperimentHalftimeAnswers {
 	static int playerCount;

@@ -76,10 +76,10 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.experiment.old.Experiment1PlayerCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.CannonBlock;
@@ -191,7 +191,7 @@ public class ClientEnforcer extends Enforcer {
 		}
 		if (keyBindingAIControls.isPressed()) {
 			showAIControls = !showAIControls;
-			Experiment a = ExperimentManager.INSTANCE.getExperiment(ExperimentManager.INSTANCE.getRunningExperiment());
+			ExperimentOld a = ExperimentManager.INSTANCE.getExperiment(ExperimentManager.INSTANCE.getRunningExperiment());
 		}
 		if(showAIControls)
 		{

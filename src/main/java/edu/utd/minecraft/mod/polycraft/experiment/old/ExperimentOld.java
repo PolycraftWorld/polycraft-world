@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.old;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,8 +28,8 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.*;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -69,7 +69,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import scala.util.control.Exception.By;
 
-public abstract class Experiment {
+public abstract class ExperimentOld {
 
 	public static final BlockContainer POLYCRAFTING_TABLE = (BlockContainer) GameData.getBlockRegistry().getObject(PolycraftMod.getAssetName("1hA"));
 	public final int size; 	//total size of experiment area size chunks by size chunks
@@ -125,7 +125,7 @@ public abstract class Experiment {
 	 * @param zPos 	Other Corner (lowest Zpos, as zpos gets incremented z++).
 	 * @param world reference to the world.
 	 */
-	public Experiment(int id, int size, int xPos, int zPos, World world){
+	public ExperimentOld(int id, int size, int xPos, int zPos, World world){
 		this.id = id;
 		//this.size = size;
 		this.size = (int)Math.ceil((float)ExperimentManager.INSTANCE.stoop.width/16.0);
@@ -147,7 +147,7 @@ public abstract class Experiment {
 	 * @param zPos 	Other Corner (lowest Zpos, as zpos gets incremented z++).
 	 * @param world reference to the world.
 	 */
-	public Experiment(int id, int size, int xPos, int zPos, World world, Schematic schematic){
+	public ExperimentOld(int id, int size, int xPos, int zPos, World world, Schematic schematic){
 		this.id = id;
 		//this.size = size;
 		this.size = (int)Math.ceil((float)schematic.width/16.0);

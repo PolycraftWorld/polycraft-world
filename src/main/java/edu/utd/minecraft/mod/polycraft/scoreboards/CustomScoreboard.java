@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import com.google.common.collect.Lists;
 
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 

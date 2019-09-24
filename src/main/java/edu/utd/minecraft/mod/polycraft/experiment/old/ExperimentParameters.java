@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.old;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class ExperimentParameters {
 		}
 	}
 	
-	public ExperimentParameters(Experiment exp) {
+	public ExperimentParameters(ExperimentOld exp) {
 		this();
 		this.addCurrentParams(exp);
 	}
@@ -147,7 +147,7 @@ public class ExperimentParameters {
 		
 	}
 	
-	public void addCurrentParams(Experiment exp) {
+	public void addCurrentParams(ExperimentOld exp) {
 		
 		if(exp instanceof ExperimentCTB) {
 			//add timing variables

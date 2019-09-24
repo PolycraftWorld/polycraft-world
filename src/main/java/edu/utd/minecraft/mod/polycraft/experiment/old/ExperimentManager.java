@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.old;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
@@ -65,8 +65,8 @@ public class ExperimentManager {
 	private static final String OUTPUT_FILE_NAME = "ExperimentDefs.nbt";
 	public static ExperimentManager INSTANCE = new ExperimentManager();
 	private static int nextAvailableExperimentID = 1; 	//one indexed
-	private static Hashtable<Integer, Experiment> experiments = new Hashtable<Integer, Experiment>();
-	private static Hashtable<Integer, Class<? extends Experiment>> experimentTypes = new Hashtable<Integer, Class <? extends Experiment>>();
+	private static Hashtable<Integer, ExperimentOld> experiments = new Hashtable<Integer, ExperimentOld>();
+	private static Hashtable<Integer, Class<? extends ExperimentOld>> experimentTypes = new Hashtable<Integer, Class <? extends ExperimentOld>>();
 	private static Hashtable<Integer, ExperimentDef> experimentDefinitions;	//table of all available defined experiments with set parameters
 	
 	private List<EntityPlayerMP> globalPlayerList;
@@ -79,7 +79,7 @@ public class ExperimentManager {
 	public Schematic stoop = sch.get("stoopWithCrafting.psm");
 	public Schematic flat_field = sch.get("flatWithCrafting.psm");
 	
-	public static Hashtable<Integer, Experiment> getExperiments() {
+	public static Hashtable<Integer, ExperimentOld> getExperiments() {
 		return experiments;
 	}
 
@@ -102,7 +102,7 @@ public class ExperimentManager {
 	@Deprecated
 	public static void init(){					
 		World world = DimensionManager.getWorld(8);
-		for(Experiment ex: experiments.values()){
+		for(ExperimentOld ex: experiments.values()){
 			ex.init(); //this is not needed anymore, as Experiment sets this in its constructor (i.e. when creating a new experiment)
 		}
 	}
@@ -110,8 +110,8 @@ public class ExperimentManager {
 	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
 		if(tick.phase == Phase.END) {
-			for(Experiment ex: experiments.values()){
-				if(ex.currentState != Experiment.State.Done) {
+			for(ExperimentOld ex: experiments.values()){
+				if(ex.currentState != ExperimentOld.State.Done) {
 					ex.onServerTickUpdate();
 				}
 			}
@@ -122,7 +122,7 @@ public class ExperimentManager {
 			//setup experiments
 			expDefLoop: for(ExperimentDef expDef: experimentDefinitions.values()) {
 				if(expDef.isEnabled()) {
-					for(Experiment ex: experiments.values()) {
+					for(ExperimentOld ex: experiments.values()) {
 						if(ex.expDefID == expDef.getID() && ex.currentState == State.WaitingToStart)
 							continue expDefLoop;	//if we find a match that is not currently running, then continue
 					}
@@ -157,7 +157,7 @@ public class ExperimentManager {
 					}
 					sendExperimentUpdates();
 				}else {
-					for(Experiment ex: experiments.values()) {
+					for(ExperimentOld ex: experiments.values()) {
 						if(ex.expDefID == expDef.getID() && ex.currentState == State.WaitingToStart) {
 							this.stop(ex.id);
 							System.out.println("Deleting Exp");
@@ -175,8 +175,8 @@ public class ExperimentManager {
 	 */
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
 		if(tick.side == Side.CLIENT && tick.phase == Phase.END){ //I think these are always true?
-			for(Experiment ex: experiments.values()){
-				if(ex.currentState != Experiment.State.Done) {
+			for(ExperimentOld ex: experiments.values()){
+				if(ex.currentState != ExperimentOld.State.Done) {
 					ex.onClientTickUpdate();
 				}
 			}
@@ -218,7 +218,7 @@ public class ExperimentManager {
 	
 	@Deprecated
 	public boolean checkAndRemovePlayerFromExperimentLists(EntityPlayer player) {
-		for(Experiment ex : experiments.values()) {
+		for(ExperimentOld ex : experiments.values()) {
 			//skip the experiment if it's not waiting to start. We don't wanna accidentally remove a player...
 			//or... what if we need to when a player leaves?
 			//if(ex.currentState != Experiment.State.WaitingToStart) continue;
@@ -246,7 +246,7 @@ public class ExperimentManager {
 	 * @return True if the player was successfully removed from an experiment
 	 */
 	public boolean checkAndRemovePlayerFromExperimentLists(String playerName) {
-		for(Experiment ex : experiments.values()) {
+		for(ExperimentOld ex : experiments.values()) {
 			 
 			try {
 				if(ex.scoreboard.getPlayers().isEmpty()) continue;//skip experiments that are completed or have no players in them.
@@ -282,7 +282,7 @@ public class ExperimentManager {
 	//@SideOnly(Side.SERVER)
 	@Deprecated
 	public boolean checkGlobalPlayerListAndUpdate() {
-		for(Experiment ex : experiments.values()) {
+		for(ExperimentOld ex : experiments.values()) {
 			for(String player : ex.scoreboard.getPlayers()) {
 				if(this.getPlayerEntity(player) == null) {
 					removePlayerFromExperiment(ex.id, player);
@@ -353,7 +353,7 @@ public class ExperimentManager {
 	 * @param id
 	 */
 	public void stop(int id){
-		Experiment ex = experiments.get(id);
+		ExperimentOld ex = experiments.get(id);
 		Map.Entry<Team, Float> maxEntry = null;
 		for (Map.Entry<Team, Float> entry : ex.scoreboard.getTeamScores().entrySet()) {
 		    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)  {
@@ -405,18 +405,18 @@ public class ExperimentManager {
 		//check if experimentId is valid
 		if(experiments.containsKey(experimentID)){
 			//check if experimentId can take in player
-			if(ExperimentManager.INSTANCE.getExperimentStatus(experimentID) == Experiment.State.WaitingToStart){
+			if(ExperimentManager.INSTANCE.getExperimentStatus(experimentID) == ExperimentOld.State.WaitingToStart){
 				return experiments.get(experimentID).getSpectatorLocation();
 			}
 		}
 		return null;
 	}
 	
-	public Experiment.State getExperimentStatus(int id){
+	public ExperimentOld.State getExperimentStatus(int id){
 		return experiments.get(id).currentState;
 	}
 	
-	public static Experiment getExperiment(int id){
+	public static ExperimentOld getExperiment(int id){
 		return experiments.get(id);
 	}
 	
@@ -427,7 +427,7 @@ public class ExperimentManager {
 	 */
 	public static int getRunningExperiment() {
 		for(int expID: experiments.keySet()) {
-			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
+			if(experiments.get(expID).currentState == ExperimentOld.State.Starting || experiments.get(expID).currentState == ExperimentOld.State.Running || experiments.get(expID).currentState == ExperimentOld.State.Halftime)
 			{
 				return expID;
 			}
@@ -438,7 +438,7 @@ public class ExperimentManager {
 	public static List<Integer> getRunningExperiments() {
 		List<Integer> list_of_running_experiments=new ArrayList<Integer>();  
 		for(int expID: experiments.keySet()) {
-			if(experiments.get(expID).currentState == Experiment.State.Starting || experiments.get(expID).currentState == Experiment.State.Running || experiments.get(expID).currentState == Experiment.State.Halftime)
+			if(experiments.get(expID).currentState == ExperimentOld.State.Starting || experiments.get(expID).currentState == ExperimentOld.State.Running || experiments.get(expID).currentState == ExperimentOld.State.Halftime)
 			{
 				list_of_running_experiments.add(expID);
 			}
@@ -452,7 +452,7 @@ public class ExperimentManager {
 	 * @param id the ID to add TODO: Should we hide this field and have the ID's be auto-incrementing??
 	 * @param ex the experiment to add 
 	 */
-	public static void registerExperiment(int id, Experiment ex, String name)
+	public static void registerExperiment(int id, ExperimentOld ex, String name)
 	{
 		if (experiments.containsKey(id))
 		{
@@ -481,7 +481,7 @@ public class ExperimentManager {
 	public static void render(Entity entity) {
 		if (entity instanceof EntityPlayer && entity.worldObj.isRemote) {
 			EntityPlayer player = (EntityPlayer) entity;
-			for(Experiment ex: experiments.values()){
+			for(ExperimentOld ex: experiments.values()){
 				if(ex.isPlayerInExperiment(player.getDisplayNameString())){
 					ex.render(entity);
 				}
@@ -707,7 +707,7 @@ public class ExperimentManager {
 			this.parameters = params;
 		}
 		
-		public ExperimentListMetaData(Experiment type, String name) {
+		public ExperimentListMetaData(ExperimentOld type, String name) {
 			if(type instanceof ExperimentCTB) {
 				this.expName = name + " " + type.id;
 				this.expType = "Stoop";
@@ -722,7 +722,7 @@ public class ExperimentManager {
 			
 		}
 		
-		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, Experiment type) {
+		public ExperimentListMetaData(String name, int maxPlayers, int currPlayers, String instructions, ExperimentParameters params, ExperimentOld type) {
 			expName = name;
 			playersNeeded = maxPlayers;
 			currentPlayers = currPlayers;

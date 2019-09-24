@@ -11,12 +11,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class PlayerTeamScoreEvent extends Event{

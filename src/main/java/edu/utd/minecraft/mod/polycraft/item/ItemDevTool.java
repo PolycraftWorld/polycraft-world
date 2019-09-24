@@ -146,8 +146,10 @@ public class ItemDevTool extends ItemCustom  {
 		}else {
 			switch(currentState) {
 				case Save:
-					if(world.isRemote)
+					if(world.isRemote) {
 						save();
+						player.addChatComponentMessage(new ChatComponentText("Saved"));
+					}
 					break;
 				case Load:
 			        load();
@@ -192,6 +194,12 @@ public class ItemDevTool extends ItemCustom  {
 			    			}
 			    		}
 			        }
+					break;
+				case AreaSelection:
+					player.addChatMessage(new ChatComponentText("pos2 selected: " + player.getPosition().getX() + "::" + player.getPosition().getY() + "::" + player.getPosition().getZ()));
+					tutOptions.size = player.getPosition();
+					if(player.worldObj.isRemote)
+						updateRenderBoxes();
 					break;
 				default:
 					break;

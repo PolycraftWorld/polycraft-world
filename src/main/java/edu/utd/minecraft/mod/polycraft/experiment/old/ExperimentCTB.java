@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.old;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -20,7 +20,6 @@ import net.minecraftforge.fml.common.registry.GameData;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.item.ItemKnockbackBomb;
@@ -57,7 +56,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.ForgeChunkManager;
 
-public class ExperimentCTB extends Experiment{
+public class ExperimentCTB extends ExperimentOld{
 	protected ArrayList<FeatureBase> bases= new ArrayList<FeatureBase>();
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;

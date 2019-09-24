@@ -20,10 +20,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentParameters;
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment.State;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentParameters;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager.ExperimentListMetaData;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;

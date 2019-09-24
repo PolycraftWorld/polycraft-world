@@ -5,9 +5,9 @@ package edu.utd.minecraft.mod.polycraft.entity.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment1PlayerCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
+import edu.utd.minecraft.mod.polycraft.experiment.old.Experiment1PlayerCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;

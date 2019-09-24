@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment;
+package edu.utd.minecraft.mod.polycraft.experiment.old;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 

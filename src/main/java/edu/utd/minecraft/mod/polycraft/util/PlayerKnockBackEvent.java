@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import edu.utd.minecraft.mod.polycraft.experiment.Experiment;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentCTB;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class PlayerKnockBackEvent extends Event{

@@ -3,7 +3,7 @@ package edu.utd.minecraft.mod.polycraft.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.utd.minecraft.mod.polycraft.experiment.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.command.CommandBase;
