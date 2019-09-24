@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -62,6 +63,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -74,6 +76,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Timer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -149,6 +152,7 @@ public class BotAPI {
     	RESET,
     	START,
     	TREES,
+    	SPEED,
     	DEFAULT
     }
     
@@ -820,6 +824,9 @@ public class BotAPI {
 	            case TREES:
 	            	BotAPI.trees(args);
 	            	break;
+	            case SPEED:
+	            	BotAPI.setMinecraftClientClockSpeed(args);
+	            	break;
 	            case DEFAULT:	//break fall through is intentional for default
 	            	BotAPI.defaultAction(args);
 	            default:
@@ -901,4 +908,38 @@ public class BotAPI {
         APIThread.setDaemon(true);
         APIThread.start();
 	}
+	
+	static public boolean setMinecraftClientClockSpeed(String[] args)
+    {
+		float ticksPerSecond = Float.parseFloat(args[1]);
+        boolean devEnv = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+        // We need to know, because the member name will either be obfuscated or not.
+        String timerMemberName = devEnv ? "timer" : "field_71428_T";
+        // NOTE: obfuscated name may need updating if Forge changes - search for "timer" in Malmo\Minecraft\build\tasklogs\retromapSources.log
+        Field timer;
+        try
+        {
+            timer = Minecraft.class.getDeclaredField(timerMemberName);
+            timer.setAccessible(true);
+            timer.set(Minecraft.getMinecraft(), new Timer(ticksPerSecond));
+            return true;
+        }
+        catch (SecurityException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalArgumentException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

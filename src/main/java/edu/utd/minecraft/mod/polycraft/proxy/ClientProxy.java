@@ -133,6 +133,7 @@ public class ClientProxy extends CommonProxy {
 	private static final int statusOverlayStartY = 5;
 	private static final int statusOverlayDistanceBetweenY = 10;
 	private static final int swapCooldownTime = 1200; //60 seconds x 20 ticks per sec
+	private static long lastTickTime = 0, tickms = 0;
 
 	private Minecraft client;
 	private GameSettings gameSettings;
@@ -425,6 +426,14 @@ public class ClientProxy extends CommonProxy {
 			}
 			if(BotAPI.apiRunning.get()) {
 				BotAPI.onClientTick();
+		        if(lastTickTime == 0)
+		        	lastTickTime = System.currentTimeMillis();
+		        else {
+		        	tickms = (System.currentTimeMillis() - lastTickTime);
+		        	if(tickms == 0)
+		        		tickms = 1;
+		        	lastTickTime = System.currentTimeMillis();
+		        }
 			}
 		}
 	}
@@ -548,6 +557,17 @@ public class ClientProxy extends CommonProxy {
         	//TutorialRender.renderLoadingScreen(entity);
         	 TutorialManager.INSTANCE.renderScreen(entity);
         }
+        if(BotAPI.apiRunning.get())
+	        if(lastTickTime == 0)
+	        	lastTickTime = System.currentTimeMillis();
+	        else {
+	        	long tickms = (System.currentTimeMillis() - lastTickTime);
+	        	if(tickms == 0)
+	        		tickms = 1;
+	        	client.fontRendererObj.drawStringWithShadow("Tick ms: " + tickms, 100, 02, 16777215);
+	        	client.fontRendererObj.drawStringWithShadow("FPS: " + (1000 / tickms), 100, 12, 16777215);
+	        	lastTickTime = System.currentTimeMillis();
+	        }
     }
 	
 
@@ -558,6 +578,18 @@ public class ClientProxy extends CommonProxy {
 			if (player != null && player.isEntityAlive()) {
 				onRenderTickItemStatusOverlays(player, getPlayerState(player));
 			}
+
+			if(BotAPI.apiRunning.get())
+		        if(lastTickTime == 0)
+		        	lastTickTime = System.currentTimeMillis();
+		        else {
+//		        	long tickms = (System.currentTimeMillis() - lastTickTime);
+		        	if(tickms == 0)
+		        		tickms = 1;
+		        	client.fontRendererObj.drawStringWithShadow("Tick ms: " + tickms, 100, 02, 16777215);
+		        	client.fontRendererObj.drawStringWithShadow("FPS: " + (1000 / tickms), 100, 12, 16777215);
+//		        	lastTickTime = System.currentTimeMillis();
+		        }
 		}
 	}
 
