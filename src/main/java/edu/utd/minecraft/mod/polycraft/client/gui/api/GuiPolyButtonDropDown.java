@@ -47,6 +47,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 		this.currentOpt= option;
 		this.displayString=option.name();
 	}
+
 	
 
 	public E getCurrentOpt() {
@@ -85,6 +86,41 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 			 }
 		 }
 		 return false;
+		 
+	 }
+	 
+	 public boolean actionPerformed(GuiButton button,PolycraftGuiScreenBase gui) {
+		 
+		 if(!this.open)
+		 {
+			 if(button==this)
+			 {
+				 for(GuiButton btn: gui.getButtonList())
+				 {
+					 if(btn!=this)
+						 btn.enabled=false;
+				 }
+				 
+				 addButtons(gui.getButtonList());
+				 this.open=true;
+			 }
+			 return false;
+		 }
+		 return true;
+//		 else
+//		 {
+//		 
+//			 for(GuiButton btn: buttonList)
+//			 {
+//				 if(btn==button)
+//				 {
+//					 this.currentOpt= Enum.valueOf(currentOpt.getDeclaringClass(), button.displayString);
+//					 this.displayString=button.displayString;
+//					 return true;
+//				 }
+//			 }
+//			 return false;
+//		 }
 		 
 	 }
 	
