@@ -2,10 +2,10 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction.InstructionType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
@@ -60,7 +60,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void buildGuiParameters(GuiDevTool guiDevTool, int x_pos, int y_pos) {
+	public void buildGuiParameters(GuiExpCreator guiDevTool, int x_pos, int y_pos) {
 		// TODO Auto-generated method stub
 		super.buildGuiParameters(guiDevTool, x_pos, y_pos);
 		

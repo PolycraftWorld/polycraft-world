@@ -2,9 +2,9 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
@@ -29,7 +29,7 @@ public class TutorialOptions{
 	
 	public TutorialOptions(){}
 	
-	public void buildGuiParameters(GuiDevTool guiDevTool, int x_pos, int y_pos) {
+	public void buildGuiParameters(GuiExpCreator guiDevTool, int x_pos, int y_pos) {
 		FontRenderer fr = guiDevTool.getFontRenderer();
 		
 		

@@ -7,9 +7,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
+import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool.StateEnum;
 import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
 import edu.utd.minecraft.mod.polycraft.util.Format;
@@ -278,7 +278,7 @@ public class TutorialFeature implements ITutorialFeature{
 							,Integer.parseInt(zPosField.getText()));
 	}
 	
-	public void buildGuiParameters(GuiDevTool guiDevTool, int x_pos, int y_pos) {
+	public void buildGuiParameters(GuiExpCreator guiDevTool, int x_pos, int y_pos) {
 		FontRenderer fr = guiDevTool.getFontRenderer();
 		
 		//Name Field

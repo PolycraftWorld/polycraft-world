@@ -13,8 +13,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
+import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
