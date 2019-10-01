@@ -119,6 +119,7 @@ public class BotAPI {
     static String tempQ = null;
     
     public enum APICommand{
+    	LL, //LOW LEVEL COMMANDS
     	CHAT,
     	MOVE,
     	MOVE_NORTH,
@@ -154,6 +155,53 @@ public class BotAPI {
     	TREES,
     	SPEED,
     	DEFAULT
+    }
+    
+    public static void lowLevel(String args[]) {
+    	//args should be LL [forward] [backwards] [strafe-left] [strafe-right] [jump] [crouch] [sprint] [turn left] [turn right] [look up] [look down] [left click] [right click]
+    	if(args.length == 14) {
+    		//movement
+    		//forward
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode(), Float.parseFloat(args[1]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode());
+    		//backward
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode(), Float.parseFloat(args[2]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode());
+    		//left
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindLeft.getKeyCode(), Float.parseFloat(args[3]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindLeft.getKeyCode());
+    		//right
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode(), Float.parseFloat(args[4]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode());
+    		
+    		//jump
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindJump.getKeyCode(), Float.parseFloat(args[5]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindJump.getKeyCode());
+    		//crouch
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode(), Float.parseFloat(args[6]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode());
+    		//sprint
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindSprint.getKeyCode(), Float.parseFloat(args[7]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindSprint.getKeyCode());
+    		
+    		//turning/looking
+    		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+    		player.setAngles((Float.parseFloat(args[8]) - Float.parseFloat(args[9]) * 600), 
+    				(Float.parseFloat(args[10]) - Float.parseFloat(args[11]) * 600));
+//    		turn(Float.parseFloat(args[8]) * 600);
+//    		turn(Float.parseFloat(args[9]) * -600);
+//    		//looking
+//    		look(Float.parseFloat(args[10]) * 600);
+//    		look(Float.parseFloat(args[11]) * -600);
+    		
+    		//clicking
+    		//left
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), Float.parseFloat(args[12]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
+    		//right
+    		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), Float.parseFloat(args[13]) == 1);
+    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+    	}
     }
     
 	public static void moveNorth(String args[]) {
@@ -192,7 +240,12 @@ public class BotAPI {
 	
 	protected static void turn(float yaw) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		player.setAngles(yaw, 0);
+		player.setAngles(yaw, player.cameraPitch);
+	}
+	
+	protected static void look(float pitch) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		player.setAngles(player.cameraYaw, pitch);
 	}
 	
 	public static void turnRight(String args[]) {
@@ -573,6 +626,8 @@ public class BotAPI {
 			zMax = BotAPI.pos.get(5);
 			
 			player.sendChatMessage("/reset setup " + args[1] + " " + args[2] + " " + args[3]);
+		}else if(args.length == 2) {
+			player.sendChatMessage("/reset " + args[1]);
 		}
 		
 		
@@ -734,7 +789,6 @@ public class BotAPI {
 	}
 	
 	public static void onClientTick() {
-
 		if(delay > 0) {
 			delay--;
 		}else {
@@ -749,6 +803,9 @@ public class BotAPI {
 	        	System.out.println(fromClient);
 	        	String args[] =  fromClient.split("\\s+");
 	            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
+	            case LL:
+	            	lowLevel(args);
+	            	break;
 	            case CHAT:
 	            	player.addChatComponentMessage(new ChatComponentText(fromClient));
 	            	break;

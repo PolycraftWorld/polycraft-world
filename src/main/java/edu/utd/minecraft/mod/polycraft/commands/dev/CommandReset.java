@@ -47,6 +47,8 @@ public class CommandReset extends CommandBase{
 	private static final String chatCommandCollect = "collect";
 	private static final String chatCommandSetup = "setup";
 	private static final String chatCommandTrees = "trees";
+	private static final String chatCommandInv = "inv";
+	private static final String chatCommandPogo = "pogo";
 	private static final String chatCommandHills = "hills";
 	
   
@@ -178,6 +180,14 @@ public class CommandReset extends CommandBase{
 			                worldgenerator.generate(player.worldObj, rand, pos.add(Math.random() * xMax, 0, Math.random() * xMax));
 						}
 					}
+					break;
+				case chatCommandPogo:
+					//player.setPositionAndUpdate(1, 4, 1);
+					buildArea(player);
+					addTrees(player);
+					player.inventory.clear();
+					player.setPositionAndUpdate(BotAPI.pos.get(0) + Math.random() * BotAPI.pos.get(3), y, BotAPI.pos.get(2) + Math.random() * BotAPI.pos.get(5));
+					break;
 				default:
 					player.setPosition(x + Math.random() * 15, y, z + Math.random() * 15);
 					break;
@@ -219,6 +229,72 @@ public class CommandReset extends CommandBase{
 			
 		}		
 	}
+	
+	private void addTrees(EntityPlayer player) {
+		int x = BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2);
+		int xMax = BotAPI.pos.get(3), yMax = BotAPI.pos.get(4), zMax = BotAPI.pos.get(5);
+		BlockPos pos = new BlockPos(x, y, z);
+		int count = 40;
+		Random rand = new Random();
+		while(count-- > 0) {
+			IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+            WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+            worldgenerator.generate(player.worldObj, rand, pos.add(Math.random() * xMax, 0, Math.random() * xMax));
+		}
+	}
+	
+	private void buildArea(EntityPlayer player) {
+		int x = BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2);
+		int xMax = BotAPI.pos.get(3), yMax = BotAPI.pos.get(4), zMax = BotAPI.pos.get(5);
+		BlockPos pos = new BlockPos(x, y, z);
+		BotAPI.pos.set(0, ((int)1 >> 4) << 4);
+		BotAPI.pos.set(1, (int)player.posY);
+		BotAPI.pos.set(2, ((int)1 >> 4) << 4);
+		pos = new BlockPos(BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2));
+		x = BotAPI.pos.get(0);
+		y = BotAPI.pos.get(1);
+		z = BotAPI.pos.get(2);
+		
+		BotAPI.pos.set(3, 31);
+		BotAPI.pos.set(4, 0);
+		BotAPI.pos.set(5, 31);
+		xMax = BotAPI.pos.get(3);
+		yMax = BotAPI.pos.get(4);
+		zMax = BotAPI.pos.get(5);
+		
+		for(int i = 0; i <= xMax; i++) {
+			for(int k = 0; k <= zMax; k++) {
+				if(i == 0) {
+					player.worldObj.setBlockState(pos.add(i - 1, 0, k), Blocks.wool.getStateFromMeta(k%16), 2);
+					player.worldObj.setBlockState(pos.add(i - 1, 1, k), Blocks.wool.getStateFromMeta(k%16), 2);
+					if(k==0) {
+						player.worldObj.setBlockState(pos.add(i - 1, 0, k - 1), Blocks.wool.getStateFromMeta(k%16), 2);
+						player.worldObj.setBlockState(pos.add(i - 1, 1, k - 1), Blocks.wool.getStateFromMeta(k%16), 2);
+						player.worldObj.setBlockState(pos.add(i, 0, k - 1), Blocks.wool.getStateFromMeta(k%16), 2);
+						player.worldObj.setBlockState(pos.add(i, 1, k - 1), Blocks.wool.getStateFromMeta(k%16), 2);
+					}
+				}
+				if(i == xMax) {
+					player.worldObj.setBlockState(pos.add(i + 1, 0, k), Blocks.wool.getStateFromMeta(k%16), 2);
+					player.worldObj.setBlockState(pos.add(i + 1, 1, k), Blocks.wool.getStateFromMeta(k%16), 2);
+				}
+				if(k == 0) {
+					player.worldObj.setBlockState(pos.add(i + 1, 0, k - 1), Blocks.wool.getStateFromMeta(k%16), 2);
+					player.worldObj.setBlockState(pos.add(i + 1, 1, k - 1), Blocks.wool.getStateFromMeta(k%16), 2);
+				}
+				if(k == zMax) {
+					player.worldObj.setBlockState(pos.add(i, 0, k + 1), Blocks.wool.getStateFromMeta(15), 2);
+					player.worldObj.setBlockState(pos.add(i, 1, k + 1), Blocks.wool.getStateFromMeta(15), 2);
+				}
+				
+				for(int j = 0; j < 20; j++) {
+					player.worldObj.setBlockToAir(pos.add(i, j, k));
+				}
+			}
+		}
+	}
+	
 	
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
