@@ -11,7 +11,7 @@ run = True
 while run:	# main loop
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.connect((HOST, PORT))
-	userInput = raw_input()
+	userInput = input()
 	if userInput == 'exit':	# wait for user input commands
 		run = False
 	elif userInput == 'wonder':	# testing automatic commands
@@ -24,7 +24,7 @@ while run:	# main loop
 			sock.connect((HOST, PORT))
 			count = count - 1
 	else:
-		sock.send(userInput + "\n")
+		sock.sendall(str.encode(userInput))
 	
 	if userInput.startswith('DATA'):	# if we need to receive something, we have to listen for it. Maybe this should be a separate thread?
 		data = ''
