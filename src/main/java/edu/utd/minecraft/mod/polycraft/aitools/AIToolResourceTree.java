@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.aitools;
 
+import edu.utd.minecraft.mod.polycraft.client.gui.GuiAITrainingRoom;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonDropDown;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.PolycraftGuiScreenBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,8 +10,8 @@ public class AIToolResourceTree extends AIToolResource {
 	public int treeTypeID;
 	public int genType;
 	
-	GuiPolyButtonDropDown treeTypeDropDown;
-	GuiPolyButtonDropDown genTypeDropDown;
+	public GuiPolyButtonDropDown treeTypeDropDown;
+	public GuiPolyButtonDropDown genTypeDropDown;
 	
 	public enum TreeType{
 		OAK,
@@ -35,18 +36,18 @@ public class AIToolResourceTree extends AIToolResource {
 		
 	}
 	
-	public void addResource(PolycraftGuiScreenBase gui,int i, int j)
+	@Override
+	public void addButtons(GuiAITrainingRoom gui,int i, int j)
 	{
-		treeTypeDropDown = new GuiPolyButtonDropDown(15, i, j, 60, 20,TreeType.OAK);
-		genTypeDropDown = new GuiPolyButtonDropDown(16, i, j, 60, 20,GenType.CLUSTER);
+		treeTypeDropDown = new GuiPolyButtonDropDown(15, i, j, 50, 20,TreeType.OAK);
+		genTypeDropDown = new GuiPolyButtonDropDown(16, i+70, j, 50, 20,GenType.CLUSTER);
 		gui.addButton(treeTypeDropDown);
 		gui.addButton(genTypeDropDown);
 	}
 	
-	public void removeResource(PolycraftGuiScreenBase gui)
+	public void removeResource(GuiAITrainingRoom gui)
 	{
-		gui.removeButton(treeTypeDropDown);
-		gui.removeButton(genTypeDropDown);
+		gui.recList.remove(this);
 	}
 	
 	

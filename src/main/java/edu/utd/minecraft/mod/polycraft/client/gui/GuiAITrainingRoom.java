@@ -20,6 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.AIToolResource;
+import edu.utd.minecraft.mod.polycraft.aitools.AIToolResourceTarget;
+import edu.utd.minecraft.mod.polycraft.aitools.AIToolResourceTree;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonDropDown;
@@ -67,7 +69,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiCheckBox wallCheck;
 	GuiTextField fileName;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/blank_template_scaled.png"));
-	private ItemAITool AITool;
+	public ItemAITool AITool;
 	
 	protected List<GuiButton> tabList = Lists.<GuiButton>newArrayList();
 	GuiButton genTab;
@@ -75,7 +77,10 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiButton saveTab;
 	
 	GuiPolyButtonDropDown addRecDropDown;
-	protected List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
+	GuiButton addRec;
+	public List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
+	
+	
 	
 	 private enum ScreenTabs {
  		Tab_Gen,
@@ -83,6 +88,12 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
  		Tab_Save
  		
 	 }
+	 
+	 public enum RecTypes{
+			TREES,
+			TARGETS
+	};
+	 
 	 private ScreenTabs screenSwitcher = ScreenTabs.Tab_Gen;
 	
 	public GuiAITrainingRoom(EntityPlayer player)
@@ -149,6 +160,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
         tabList.add(genTab);
         tabList.add(recTab);
         tabList.add(saveTab);
+        
+    	addRec = new GuiButton(11, i+60, j-80, 45, 20, "+");
 		
 		addBtn(genTab);
 		addBtn(saveTab);
@@ -205,9 +218,17 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			addBtn(recTab);
     			break;
     		case Tab_Rec:
-//    			addRec = new GuiButton(14, i-110, j-80, 90, 20, "Add Resource");
-//    			addRec = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getBlockType());
-//    			this.buttonList.add(addRec);
+    			addRec = new GuiButton(14, i-40, j-80, 20, 20, "+");
+    			addRecDropDown = new GuiPolyButtonDropDown(5, i-110, j-80, 60, 20,RecTypes.TREES);
+    			this.buttonList.add(addRec);
+    			this.buttonList.add(addRecDropDown);
+    			int yOffset=0;
+    			for(AIToolResource rec: this.recList)
+    			{
+    				rec.addButtons(this,i-110,j-40+yOffset);
+    				yOffset+=30;
+    			}
+
     			addBtn(genTab);
     			addBtn(saveTab);
     			addBtn(recTab);
@@ -231,11 +252,21 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	
 	 protected void actionPerformed(GuiButton button) {
 		 super.actionPerformed(button);
-//		 if(button==addRec)
-//		 {
-////			 this.addBtn(this.resourceTypeDropDown);
-////			 this.addBtn(this.treeTypeDropDown);
-//		 }
+		 if(button==addRec)
+		 {
+//			 this.addBtn(this.resourceTypeDropDown);
+//			 this.addBtn(this.treeTypeDropDown);
+			 if(this.addRecDropDown.getCurrentOpt()==RecTypes.TREES)
+			 {
+				 this.recList.add(new AIToolResourceTree());
+			 }
+			 if(this.addRecDropDown.getCurrentOpt()==RecTypes.TARGETS)
+			 {
+				 this.recList.add(new AIToolResourceTarget());
+			 }
+			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
+			
+		 }
 		 if(button==genTab)
 		 {
    			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Gen);
@@ -278,7 +309,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
-		 if(button.id>=200)
+		 if(button.id>=200 && button.id>=500)
 		 {
 			 if(AITool.load(button.displayString))
 			 { 	
@@ -356,30 +387,22 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 
 		 
 
-		 if(blockTypeDropDown.actionPerformed(button,this))
+		 if(button instanceof GuiPolyButtonDropDown )
 		 {
-			 
-			 blockTypeDropDown.removeButtons(this.buttonList);
-			 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
-			 blockTypeDropDown.open=false;
-			 
-			 for(GuiButton btn: this.buttonList)
-			 {
-				 btn.enabled=true;
-			 }
+			 ((GuiPolyButtonDropDown)button).actionPerformed(button,this);
 		 }
-		 if(button==blockTypeDropDown)
-		 {
-
-			 blockTypeDropDown.removeButtons(this.buttonList);
-			 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
-			 blockTypeDropDown.open=false;
-			 
-			 for(GuiButton btn: this.buttonList)
-			 {
-				 btn.enabled=true;
-			 }
-		 }
+//		 if(button==blockTypeDropDown)
+//		 {
+//
+//			 blockTypeDropDown.removeButtons(this.buttonList);
+//			 this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+//			 blockTypeDropDown.open=false;
+//			 
+//			 for(GuiButton btn: this.buttonList)
+//			 {
+//				 btn.enabled=true;
+//			 }
+//		 }
 		
 	 }
 	
