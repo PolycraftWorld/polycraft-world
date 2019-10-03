@@ -28,11 +28,11 @@ import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.block.GuiScreenPasswordDoor;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiAITrainingRoom;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiDevTool;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorial;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiTutorialMenu;
+import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.config.GameID;
@@ -1641,7 +1641,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void openDevToolGui(EntityPlayer player) {
-		client.displayGuiScreen(new GuiDevTool(player));
+		client.displayGuiScreen(new GuiExpCreator(player));
 	}
 	
 	@Override

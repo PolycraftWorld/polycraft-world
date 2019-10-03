@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.client.gui;
+package edu.utd.minecraft.mod.polycraft.client.gui.exp.creation;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -55,7 +55,7 @@ import net.minecraft.util.Vec3;
 import scala.swing.event.MouseReleased;
 
 @SideOnly(Side.CLIENT)
-public class GuiDevTool extends PolycraftGuiScreenBase {
+public class GuiExpCreator extends PolycraftGuiScreenBase {
 	private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/consent_background.png"));
     private static final ResourceLocation SCROLL_TAB = new ResourceLocation(
@@ -99,7 +99,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     public ArrayList<GuiTextField> textFields = new ArrayList<GuiTextField>();
     public ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
     public ArrayList<GuiPolyButtonCycle> options = new ArrayList<GuiPolyButtonCycle>();
-	private GuiDevToolStep guiSteps;
+	private GuiExpSteps guiSteps;
 	
     
     private enum WhichScreen {
@@ -113,7 +113,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     private String userFeedbackText = "";
     private WhichScreen screenSwitcher = WhichScreen.DEV_MAIN;
     
-    public GuiDevTool(EntityPlayer player, int x, int y, int z) {
+    public GuiExpCreator(EntityPlayer player, int x, int y, int z) {
         System.out.print("gui ExperimentList constructor.\n x, y, z: " + x + " " + y + " " + z);
         this.player = player;
         this.x = x;
@@ -129,7 +129,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * Simpler constructor. Not sure if we care about the x,y,z of the player.
      * @param player the player who called up this screen
      */
-    public GuiDevTool(EntityPlayer player) {
+    public GuiExpCreator(EntityPlayer player) {
         this.player = player;
         this.screenID = 0;
         this.titleHeight = 20;
@@ -142,11 +142,11 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
      * Simpler constructor. Not sure if we care about the x,y,z of the player.
      * @param player the player who called up this screen
      */
-    public GuiDevTool(EntityPlayer player, ItemDevTool devTool) {
+    public GuiExpCreator(EntityPlayer player, ItemDevTool devTool) {
         this.player = player;
         this.screenID = 0;
         this.titleHeight = 20;
-        this.guiSteps = new GuiDevToolStep(this, this.mc, devTool);
+        this.guiSteps = new GuiExpSteps(this, this.mc, devTool);
         this.devTool = devTool;
     }
     
@@ -164,7 +164,7 @@ public class GuiDevTool extends PolycraftGuiScreenBase {
     public void initGui()
     {
     	
-    	guiSteps = new GuiDevToolStep(this, this.mc, devTool);
+    	guiSteps = new GuiExpSteps(this, this.mc, devTool);
 
     	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
         int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft

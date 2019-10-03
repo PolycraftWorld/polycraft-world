@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
 import net.minecraft.util.*;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.registry.GameData;
 import java.awt.Color;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
@@ -40,6 +42,8 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -77,8 +81,7 @@ public class ItemDevTool extends ItemCustom  {
 		FeatureTool,
 		GuideTool,
 		Save,
-		Load,
-		GuiTest;
+		Load;
 		
 		public StateEnum next() {
 		    if (ordinal() == values().length - 1)
@@ -250,8 +253,6 @@ public class ItemDevTool extends ItemCustom  {
 						updateRenderBoxes();
 					}
 					break;
-				case GuiTest:
-					//TutorialRender(player);
 				default:
 					break;
 			}
@@ -333,6 +334,7 @@ public class ItemDevTool extends ItemCustom  {
 				player.worldObj.markBlockRangeForRenderUpdate(lastBlock[0], lastBlock[1], lastBlock[2], lastBlock[0], lastBlock[1], lastBlock[2]);
 				player.addChatMessage(new ChatComponentText("Update block"));
 			}
+			
 		}
 		super.onUpdate(itemstack, world, entity, par4, par5);
 	}
@@ -343,6 +345,31 @@ public class ItemDevTool extends ItemCustom  {
 			while (boxes.hasNext()) {
 				RenderBox box = boxes.next();
 				box.render(entity);
+			}
+		}
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entity;
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemDevTool) {
+				//Minecraft.getMinecraft().mcProfiler.startSection("overlayMessage");
+				ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+		        int width = res.getScaledWidth();
+		        int height = res.getScaledHeight();
+	            int opacity = 200;
+	            
+	            FMLClientHandler.instance().getClient().fontRendererObj.drawString("text", 50, 50, 0xFF0000FF);
+	            if (opacity > 0)
+	            {
+	                //GlStateManager.pushMatrix();
+	                //GlStateManager.translate((float)(width / 2), (float)(height - 68), 0.0F);
+	                //GlStateManager.enableBlend();
+	                //GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+	                int color = 0xFFFFFF;
+	                Minecraft.getMinecraft().fontRendererObj.drawString(((ItemDevTool)player.getHeldItem().getItem()).currentState.name(), Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, -4, color | (opacity << 24));
+	                //GlStateManager.disableBlend();
+	                //GlStateManager.popMatrix();
+	            }
+	
+	            //Minecraft.getMinecraft().mcProfiler.endSection();
 			}
 		}
 	}
