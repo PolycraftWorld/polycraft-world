@@ -387,9 +387,9 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 
 		 
 
-		 if(button instanceof GuiPolyButtonDropDown )
+		 if(blockTypeDropDown.actionPerformed(button,this))
 		 {
-			 ((GuiPolyButtonDropDown)button).actionPerformed(button,this);
+		
 		 }
 //		 if(button==blockTypeDropDown)
 //		 {

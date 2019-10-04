@@ -37,9 +37,10 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 		this.h=height;
 		this.currentOpt=option;
 		this.buttonList = new GuiButton[ option.getDeclaringClass().getEnumConstants().length];
+		setButtons();
 	
 		//this.options = options;
-		open=false;
+
 	}
 	
 	public void setCurrentOpt(E option)
@@ -52,6 +53,18 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 
 	public E getCurrentOpt() {
 		return currentOpt;
+	}
+	
+	public void setButtons()
+	{
+		int yOffset=0;
+		for(int c=0;c< currentOpt.getDeclaringClass().getEnumConstants().length;c++)
+		{
+			if(currentOpt.getDeclaringClass().getEnumConstants()[c].name()==this.currentOpt.name())
+				continue;
+			this.buttonList[c]= new GuiButton(c+501, this.x, this.y+((yOffset+1)*20), width, height, currentOpt.getDeclaringClass().getEnumConstants()[c].name());
+			yOffset++;
+		}
 	}
 	
 	public void addButtons(List<GuiButton> buttonList)
@@ -76,6 +89,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 	}
 	
 	 public boolean actionPerformed(GuiButton button) {
+		 this.open=true;
 		 for(GuiButton btn: buttonList)
 		 {
 			 if(btn==button)
@@ -89,9 +103,27 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 		 
 	 }
 	 
+	 public boolean isOpen(List<GuiButton> buttonList)
+	 {
+		int count=0;
+		for(GuiButton btn:this.buttonList)
+		{
+			 for(GuiButton button: buttonList)
+			 {
+				 if(button==btn)
+					 count++;
+			 }
+		}
+		if(count==this.buttonList.length)
+		{
+			return true;
+		}
+		return false;
+	 }
+	 
 	 public boolean actionPerformed(GuiButton button,GuiAITrainingRoom gui) {
 		 
-		 if(!this.open)
+		 if(!isOpen(gui.getButtonList()))
 		 {
 			 if(button==this)
 			 {
@@ -106,6 +138,10 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 			 }
 			 return false;
 		 }
+//		 if(button!=this)
+//		 {
+//			 
+//		 }
 		 actionPerformed(button);
 		 this.removeButtons(gui.getButtonList());
 		 this.open=false;
