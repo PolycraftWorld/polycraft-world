@@ -95,6 +95,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	};
 	 
 	 private ScreenTabs screenSwitcher = ScreenTabs.Tab_Gen;
+
+	public boolean open=false;
 	
 	public GuiAITrainingRoom(EntityPlayer player)
 	{
@@ -309,7 +311,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
-		 if(button.id>=200 && button.id>=500)
+		 if(button.id>=200 && button.id<=500)
 		 {
 			 if(AITool.load(button.displayString))
 			 { 	
@@ -389,7 +391,11 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 
 		 if(blockTypeDropDown.actionPerformed(button,this))
 		 {
-		
+			 this.open=true;
+		 }
+		 else
+		 {
+			 this.open=false;
 		 }
 //		 if(button==blockTypeDropDown)
 //		 {

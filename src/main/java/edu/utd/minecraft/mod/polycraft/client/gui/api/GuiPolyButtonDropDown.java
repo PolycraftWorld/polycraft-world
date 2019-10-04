@@ -24,7 +24,6 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 	//private E[] options; //current opt set to options[0]
 	//private String currentOpt; 
 	private E currentOpt;
-	public boolean open;
 	
 	public int x, y, w, h;
 	public GuiButton[] buttonList;
@@ -89,7 +88,6 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 	}
 	
 	 public boolean actionPerformed(GuiButton button) {
-		 this.open=true;
 		 for(GuiButton btn: buttonList)
 		 {
 			 if(btn==button)
@@ -123,7 +121,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 	 
 	 public boolean actionPerformed(GuiButton button,GuiAITrainingRoom gui) {
 		 
-		 if(!isOpen(gui.getButtonList()))
+		 if(gui.open)
 		 {
 			 if(button==this)
 			 {
@@ -134,7 +132,26 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 				 }
 				 
 				 addButtons(gui.getButtonList());
-				 this.open=true;
+				 gui.open=true;
+			 }
+			 for(GuiButton btnTest: this.buttonList)
+			 {
+				 if(btnTest==button)
+				 {
+					 actionPerformed(button);
+					 this.removeButtons(gui.getButtonList());
+					 gui.open=false;
+					 
+					 for(GuiButton btn: gui.getButtonList())
+					 {
+						 btn.enabled=true;
+					 }
+					 return true;
+				 }
+				 else
+				 {
+					 
+				 }
 			 }
 			 return false;
 		 }
@@ -144,7 +161,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 //		 }
 		 actionPerformed(button);
 		 this.removeButtons(gui.getButtonList());
-		 this.open=false;
+		 gui.open=false;
 		 
 		 for(GuiButton btn: gui.getButtonList())
 		 {
@@ -176,15 +193,6 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 //		this.displayString = prefix + ": " + option.name();
 //	}
 	
-	public void openMenu()
-	{
-		open=true;
-	}
-	
-	public void closeMenu()
-	{
-		open=false;
-	}
 	
 	public GuiButton[] getButtons()
 	{
