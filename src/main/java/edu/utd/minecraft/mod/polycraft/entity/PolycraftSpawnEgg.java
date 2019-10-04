@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 
 public class PolycraftSpawnEgg extends ItemMonsterPlacer
 {
-    @SideOnly(Side.CLIENT)
+  //  @SideOnly(Side.CLIENT)
 //    private IIcon theIcon;
     protected int colorBase = 0x000000;
     protected int colorSpots = 0xFFFFFF;

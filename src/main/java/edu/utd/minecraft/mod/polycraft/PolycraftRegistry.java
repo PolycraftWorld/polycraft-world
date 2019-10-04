@@ -210,8 +210,11 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
+
+//import net.minecraft.client.renderer.ItemMeshDefinition;
+
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.init.Items;
@@ -536,25 +539,25 @@ public class PolycraftRegistry {
 	
 	public static void registerFluidModels()
 	{
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(PolycraftMod.blockOil));
-		
-		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("polycraft:oil",((BlockFluidBase)PolycraftMod.blockOil).getFluid().getName());
-	
-		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(PolycraftMod.blockOil), new ItemMeshDefinition()
-        {
-            @Override
-            public ModelResourceLocation getModelLocation(ItemStack stack)
-            {
-                return modelResourceLocation;
-            }
-        });
-		
-		ModelLoader.setCustomStateMapper(PolycraftMod.blockOil,new StateMapperBase() {
-			@Override
-			protected ModelResourceLocation getModelResourceLocation(IBlockState p_178132_1_) {
-				return modelResourceLocation;
-			}
-		});
+//		ModelBakery.registerItemVariants(Item.getItemFromBlock(PolycraftMod.blockOil));
+//		
+//		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("polycraft:oil",((BlockFluidBase)PolycraftMod.blockOil).getFluid().getName());
+//	
+//		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(PolycraftMod.blockOil), new ItemMeshDefinition()
+//        {
+//            @Override
+//            public ModelResourceLocation getModelLocation(ItemStack stack)
+//            {
+//                return modelResourceLocation;
+//            }
+//        });
+//		
+//		ModelLoader.setCustomStateMapper(PolycraftMod.blockOil,new StateMapperBase() {
+//			@Override
+//			protected ModelResourceLocation getModelResourceLocation(IBlockState p_178132_1_) {
+//				return modelResourceLocation;
+//			}
+//		});
 		
 	}
 	
