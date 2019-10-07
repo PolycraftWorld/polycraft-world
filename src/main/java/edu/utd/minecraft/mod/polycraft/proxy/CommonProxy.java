@@ -555,5 +555,9 @@ public abstract class CommonProxy {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public EntityPlayer getPlayer() {
+		return null;
+	}
 
 }

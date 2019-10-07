@@ -67,6 +67,8 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessageHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessage;
@@ -230,6 +232,7 @@ public class PolycraftMod {
 		SChannel.registerMessage(CraftMessageHandler.class, CraftMessage.class, 1, Side.SERVER);
 		SChannel.registerMessage(InventoryMessageHandler.class, InventoryMessage.class, 2, Side.SERVER);
 		SChannel.registerMessage(GenerateMessageHandler.class, GenerateMessage.class, 3, Side.SERVER);
+		SChannel.registerMessage(IntegerMessageHandler.class, IntegerMessage.class, 4, Side.CLIENT);
 		this.configDirectory =event.getModConfigurationDirectory();
 		proxy.preInit();
 	}

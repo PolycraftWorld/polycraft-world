@@ -1663,4 +1663,9 @@ public class ClientProxy extends CommonProxy {
 		client.displayGuiScreen((GuiScreen) null);
 		client.setIngameFocus();
 	}
+	
+	@Override
+	public EntityPlayer getPlayer() {
+		return Minecraft.getMinecraft().thePlayer;
+	}
 }
