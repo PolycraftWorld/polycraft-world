@@ -26,7 +26,6 @@ public class ScoreEvent extends Event {
 	public int size1=1;
 	public int xPos1=2;
 	public int zPos1=3;
-	public final World world;
 	public int maxteams1=1;
 	public int teamsize1=2;
 	//public final String message, username;
@@ -41,7 +40,6 @@ public class ScoreEvent extends Event {
         this.size1 = size1;
         this.xPos1 = xPos1;
         this.zPos1= zPos1;
-        this.world=world1;
         this.maxteams1=maxteams1;
         this.teamsize1=teamsize1;
         this.score=score;

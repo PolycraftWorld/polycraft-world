@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.minigame.PolycraftMinigameManager;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessage;
 import edu.utd.minecraft.mod.polycraft.util.Analytics;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
@@ -1046,9 +1047,12 @@ public class ServerEnforcer extends Enforcer {
 			if(event.entity.dimension == 8) {
 				
 			}
+			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			PolycraftMod.SChannel.sendTo(new IntegerMessage(1337), player);
 		}
 		if (portalRestUrl != null && event.entity instanceof EntityPlayerMP) {
 			final EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			PolycraftMod.SChannel.sendTo(new IntegerMessage(1337), player);
 			player.addChatMessage(new ChatComponentText("Welcome to PolycraftWorld!"));
 			player.addChatMessage(new ChatComponentText("Type \"/help\" for a list of commands"));
 			player.addChatMessage(new ChatComponentText("By playing on our servers, you accept our TOS and privacy policy available on polycraftworld.com"));
@@ -1084,6 +1088,7 @@ public class ServerEnforcer extends Enforcer {
 				}
 			}
 		}
+		
 	}
 	
 	public String AddEmail(String minecraftUserName, String email) {
