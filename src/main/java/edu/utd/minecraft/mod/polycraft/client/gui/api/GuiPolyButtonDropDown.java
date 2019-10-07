@@ -90,38 +90,50 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 	 public boolean actionPerformed(GuiButton button) {
 		 for(GuiButton btn: buttonList)
 		 {
-			 if(btn==button)
+			 if(btn!=null)
 			 {
-				 this.currentOpt= Enum.valueOf(currentOpt.getDeclaringClass(), button.displayString);
-				 this.displayString=button.displayString;
-				 return true;
+				 if(btn==button)
+				 {
+					 this.currentOpt= Enum.valueOf(currentOpt.getDeclaringClass(), button.displayString);
+					 this.displayString=button.displayString;
+					 return true;
+				 }
 			 }
 		 }
 		 return false;
 		 
 	 }
 	 
-	 public boolean isOpen(List<GuiButton> buttonList)
-	 {
-		int count=0;
-		for(GuiButton btn:this.buttonList)
-		{
-			 for(GuiButton button: buttonList)
-			 {
-				 if(button==btn)
-					 count++;
-			 }
-		}
-		if(count==this.buttonList.length)
-		{
-			return true;
-		}
-		return false;
-	 }
 	 
 	 public boolean actionPerformed(GuiButton button,GuiAITrainingRoom gui) {
 		 
 		 if(gui.open)
+		 {
+			 for(GuiButton btnTest: this.buttonList)
+			 {
+				 if(btnTest!=null)
+				 {
+					 if(btnTest==button)
+					 {
+						 actionPerformed(button);
+						 this.removeButtons(gui.getButtonList());
+						 gui.open=false;
+						 
+						 for(GuiButton btn: gui.getButtonList())
+						 {
+							 btn.enabled=true;
+						 }
+						 return false;
+					 }
+					 else
+					 {
+						 
+					 }
+			 }
+			 }
+			 return false;
+		 }
+		 else
 		 {
 			 if(button==this)
 			 {
@@ -133,25 +145,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 				 
 				 addButtons(gui.getButtonList());
 				 gui.open=true;
-			 }
-			 for(GuiButton btnTest: this.buttonList)
-			 {
-				 if(btnTest==button)
-				 {
-					 actionPerformed(button);
-					 this.removeButtons(gui.getButtonList());
-					 gui.open=false;
-					 
-					 for(GuiButton btn: gui.getButtonList())
-					 {
-						 btn.enabled=true;
-					 }
-					 return true;
-				 }
-				 else
-				 {
-					 
-				 }
+				 return true;
 			 }
 			 return false;
 		 }
@@ -159,15 +153,15 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 //		 {
 //			 
 //		 }
-		 actionPerformed(button);
-		 this.removeButtons(gui.getButtonList());
-		 gui.open=false;
-		 
-		 for(GuiButton btn: gui.getButtonList())
-		 {
-			 btn.enabled=true;
-		 }
-		 return true;
+//		 actionPerformed(button);
+//		 this.removeButtons(gui.getButtonList());
+//		 gui.open=false;
+//		 
+//		 for(GuiButton btn: gui.getButtonList())
+//		 {
+//			 btn.enabled=true;
+//		 }
+//		 return true;
 //		 else
 //		 {
 //		 
@@ -185,40 +179,9 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 		 
 	 }
 	
-//	public void nextOption() {
-//		if (option.ordinal() == option.getDeclaringClass().getEnumConstants().length - 1)
-//	    	option = option.getDeclaringClass().getEnumConstants()[0];
-//		else
-//			option = option.getDeclaringClass().getEnumConstants()[option.ordinal() + 1];
-//		this.displayString = prefix + ": " + option.name();
-//	}
-	
-	
 	public GuiButton[] getButtons()
 	{
 		return buttonList;
 	}
 	
-//	public void drawMenu(GuiAITrainingRoom gui)
-//	{
-//		if(open)
-//		{
-//			 int yOffset=0;
-//		    for(String text:options)
-//		    {
-//		    	GL11.glEnable(GL11.GL_BLEND);
-//			    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-//			    gui.mc.getTextureManager().bindTexture(DropDownTab);
-//			    FontRenderer fontRender=gui.mc.fontRendererObj;
-//			    //PolycraftMod.logger.debug("Screen width & Height: " + this.width + " " + this.height);
-//			    //System.out.println("Screen width & Height: " + this.width + " " + this.height);
-//			   // this.drawTexturedModalRect(i, j, 0, 0, 248, screenContainerHeight + 30);
-//			   
-//			   // gui.drawTexturedModalRect(x, y+yOffset, 0, 0, w, h);
-//			    this.drawCenteredString(fontRender, text, x + w / 2, y+yOffset + (h - 8) / 2, 14737632);
-//			   // gui.mc.fontRendererObj.drawString(text, x, y+yOffset, 0xFFFFFFFF);
-//		        yOffset+=20;
-//		    }
-//		}
-//	}
 }

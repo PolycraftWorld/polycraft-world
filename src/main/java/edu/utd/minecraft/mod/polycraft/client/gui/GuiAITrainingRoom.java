@@ -80,6 +80,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiButton addRec;
 	public List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
 	
+	protected List<GuiPolyButtonDropDown> dropDownList = Lists.<GuiPolyButtonDropDown>newArrayList();
+	
 	
 	
 	 private enum ScreenTabs {
@@ -119,6 +121,26 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	}
 	
 	public void addBtn(GuiButton btn) {
+		if(btn instanceof GuiPolyButtonDropDown)
+		{
+			if(this.dropDownList.size()>0)
+			{
+				GuiPolyButtonDropDown remove=null;
+				for(GuiPolyButtonDropDown button: this.dropDownList)
+				{
+					if(button.displayString==btn.displayString)
+					{
+						remove=button;
+					}
+				}
+				if(remove!=null)
+				{
+					this.dropDownList.remove(remove);
+				}
+			}
+			this.dropDownList.add((GuiPolyButtonDropDown) btn);
+
+		}
     	this.buttonList.add(btn);
     }
 	
@@ -168,6 +190,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		addBtn(genTab);
 		addBtn(saveTab);
 		addBtn(recTab);
+		this.recList=AITool.recList;
 		
 		
 		this.screenSwitcher= this.screenChange(this.screenSwitcher);
@@ -220,6 +243,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			addBtn(recTab);
     			break;
     		case Tab_Rec:
+    			this.recList=AITool.recList;
     			addRec = new GuiButton(14, i-40, j-80, 20, 20, "+");
     			addRecDropDown = new GuiPolyButtonDropDown(5, i-110, j-80, 60, 20,RecTypes.TREES);
     			this.buttonList.add(addRec);
@@ -307,6 +331,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.getLength());
 				params.add(AITool.getHeight());
 				params.add(AITool.getBlockType());
+				params.add(AITool.recList);
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
@@ -387,16 +412,35 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
 		 }
 		 
+//		 if(button instanceof GuiPolyButtonDropDown)
+//		 {
 		 
+		 for(GuiPolyButtonDropDown dropDown: this.dropDownList )
+		 {
 
-		 if(blockTypeDropDown.actionPerformed(button,this))
-		 {
-			 this.open=true;
+			 dropDown.actionPerformed(button,this);
 		 }
-		 else
+		 AIToolResource recRemove=null;
+		 for(AIToolResource rec: this.recList )
 		 {
-			 this.open=false;
+
+			if(rec.remove==button)
+			{
+				recRemove=rec;
+			}
+			
+			for(GuiPolyButtonDropDown recDropDown:rec.recDropDownList)
+			{
+				recDropDown.actionPerformed(button,this);
+				rec.save();
+			}
 		 }
+		 if(recRemove!=null)
+		 {
+			 recRemove.removeResource(this);
+			 this.screenSwitcher= this.screenChange(this.screenSwitcher);
+		 }
+//		 }
 //		 if(button==blockTypeDropDown)
 //		 {
 //
@@ -471,6 +515,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		this.AITool.setWalls(this.wallCheck.isChecked());
 		this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
 		heightSlider.enabled=wallCheck.isChecked();
+		AITool.recList=this.recList;
 	       
 	 }
 	

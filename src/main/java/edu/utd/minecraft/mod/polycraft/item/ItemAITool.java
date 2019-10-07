@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.common.collect.Lists;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.aitools.AIToolResource;
 import edu.utd.minecraft.mod.polycraft.aitools.AIToolSettingsRoomGen;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
@@ -40,6 +43,7 @@ public class ItemAITool extends ItemCustom {
 	protected int roomHeight;
 	protected BlockType blockType;
 	protected boolean walls;
+	public List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
 	
 	//String outputFileName = "output";
 	String outputFileExt = ".psm";
