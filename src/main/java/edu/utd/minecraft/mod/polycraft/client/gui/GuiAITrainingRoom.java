@@ -74,6 +74,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	protected List<GuiButton> tabList = Lists.<GuiButton>newArrayList();
 	GuiButton genTab;
 	GuiButton recTab;
+	GuiButton caveTab;
 	GuiButton saveTab;
 	
 	GuiPolyButtonDropDown addRecDropDown;
@@ -87,6 +88,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	 private enum ScreenTabs {
  		Tab_Gen,
  		Tab_Rec,
+ 		Tab_Cave,
  		Tab_Save
  		
 	 }
@@ -177,12 +179,14 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		
 		genTab = new GuiButton(11, i+140, j-80, 45, 20, "Gen");
 		recTab = new GuiButton(12, i+140, j-60, 45, 20, "Rec");
-		saveTab = new GuiButton(13, i+140, j-40, 45, 20, "Save");
+		caveTab = new GuiButton(13, i+140, j-40, 45, 20, "Cave");
+		saveTab = new GuiButton(14, i+140, j-20, 45, 20, "Save");
 		
 		this.genTab.enabled=false;
 		
         tabList.add(genTab);
         tabList.add(recTab);
+        tabList.add(caveTab);
         tabList.add(saveTab);
         
     	addRec = new GuiButton(11, i+60, j-80, 45, 20, "+");
@@ -203,6 +207,10 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			this.genTab.enabled=false;
 		}
 		if(this.screenSwitcher==ScreenTabs.Tab_Rec)
+		{
+			this.recTab.enabled=false;
+		}
+		if(this.screenSwitcher==ScreenTabs.Tab_Cave)
 		{
 			this.recTab.enabled=false;
 		}
@@ -241,13 +249,14 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			addBtn(genTab);
     			addBtn(saveTab);
     			addBtn(recTab);
+    			addBtn(caveTab);
     			break;
     		case Tab_Rec:
     			this.recList=AITool.recList;
     			addRec = new GuiButton(14, i-40, j-80, 20, 20, "+");
     			addRecDropDown = new GuiPolyButtonDropDown(5, i-110, j-80, 60, 20,RecTypes.TREES);
-    			this.buttonList.add(addRec);
-    			this.buttonList.add(addRecDropDown);
+    			addBtn(addRecDropDown);
+    			addBtn(addRec);
     			int yOffset=0;
     			for(AIToolResource rec: this.recList)
     			{
@@ -258,6 +267,26 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			addBtn(genTab);
     			addBtn(saveTab);
     			addBtn(recTab);
+    			addBtn(caveTab);
+    			
+    			break;
+    		case Tab_Cave:
+//    			this.recList=AITool.recList;
+//    			addRec = new GuiButton(14, i-40, j-80, 20, 20, "+");
+//    			addRecDropDown = new GuiPolyButtonDropDown(5, i-110, j-80, 60, 20,RecTypes.TREES);
+//    			this.buttonList.add(addRec);
+//    			this.buttonList.add(addRecDropDown);
+//    			int yOffset=0;
+//    			for(AIToolResource rec: this.recList)
+//    			{
+//    				rec.addButtons(this,i-110,j-40+yOffset);
+//    				yOffset+=30;
+//    			}
+
+    			addBtn(genTab);
+    			addBtn(saveTab);
+    			addBtn(recTab);
+    			addBtn(caveTab);
     			
     			break;
     		case Tab_Save:
@@ -269,6 +298,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			addBtn(genTab);
     			addBtn(saveTab);
     			addBtn(recTab);
+    			addBtn(caveTab);
     			break;
     		default:
     			break;
@@ -293,6 +323,21 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
 			
 		 }
+//		 if(button==addRec)
+//		 {
+////			 this.addBtn(this.resourceTypeDropDown);
+////			 this.addBtn(this.treeTypeDropDown);
+//			 if(this.addRecDropDown.getCurrentOpt()==RecTypes.TREES)
+//			 {
+//				 this.recList.add(new AIToolResourceTree());
+//			 }
+//			 if(this.addRecDropDown.getCurrentOpt()==RecTypes.TARGETS)
+//			 {
+//				 this.recList.add(new AIToolResourceTarget());
+//			 }
+//			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
+//			
+//		 }
 		 if(button==genTab)
 		 {
    			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Gen);
@@ -305,6 +350,15 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 if(button==recTab)
 		 {
 			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
+			 for(GuiButton btn:this.tabList)
+			 {
+				 btn.enabled=true;
+			 }
+			 button.enabled=false;
+		 }
+		 if(button==caveTab)
+		 {
+			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Cave);
 			 for(GuiButton btn:this.tabList)
 			 {
 				 btn.enabled=true;
@@ -476,6 +530,10 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		if(this.screenSwitcher==ScreenTabs.Tab_Rec)
 		{
 			this.recTab.enabled=false;
+		}
+		if(this.screenSwitcher==ScreenTabs.Tab_Cave)
+		{
+			this.caveTab.enabled=false;
 		}
 		if(this.screenSwitcher==ScreenTabs.Tab_Save)
 		{

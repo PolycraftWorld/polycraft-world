@@ -6,7 +6,12 @@ import com.google.common.base.Predicate;
 
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockNewLeaf;
+import net.minecraft.block.BlockNewLog;
+import net.minecraft.block.BlockOldLeaf;
+import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.material.MapColor;
@@ -20,6 +25,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenCanopyTree;
+import net.minecraft.world.gen.feature.WorldGenSavannaTree;
+import net.minecraft.world.gen.feature.WorldGenTrees;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -54,39 +63,49 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
 //
 //            				
 //            				sap.generateTree(player.worldObj, new BlockPos(x+i,y+1,z+j), Blocks.sapling.getDefaultState(), rand);
-            			    PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.<BlockPlanks.EnumType>create("variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>()
-            			    {
-            			        public boolean apply(BlockPlanks.EnumType p_apply_1_)
-            			        {
-            			            return p_apply_1_.getMetadata() >= 4;
-            			        }
-            			    });
-            			    PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.<BlockLog.EnumAxis>create("axis", BlockLog.EnumAxis.class);
+            				
+            				
+            				IBlockState iblockstate;
+            				IBlockState iblockstate1;
+            				WorldGenerator worldgenerator;
+            				BlockNewLeaf leaf = new BlockNewLeaf();
             				switch(message.treeTypes.get(0))
             				{
             					case 0://oak
-            						for(int c=1;c<=3;c++)
-            							player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.log.getDefaultState());
-            							break;
+            						iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.OAK);
+            				        iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+            				        worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+            				        worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
+            						break;
             					case 1://spruce
-            						for(int c=1;c<=3;c++)
-            							player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.log.getDefaultState());
+        							iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE);
+        				            iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+        				            worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+        				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
             						break;
             					case 2://birch
-            						for(int c=1;c<=3;c++)
-            							player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.log.getDefaultState());
+        							iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.BIRCH);
+        				            iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.BIRCH).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+        				            worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+        				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
             						break;
             					case 3://jungle
-            						for(int c=1;c<=3;c++)
-            							player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.log.getDefaultState());
+        							iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+        				            iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+        				            worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+        				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
             						break;
             					case 4://acacia
-            						for(int c=1;c<=3;c++)
-            							player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.log.getDefaultState());
+        							iblockstate = Blocks.log.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.ACACIA);
+        				            iblockstate1 = leaf.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+        				            worldgenerator = new WorldGenSavannaTree(true);
+        				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
             						break;
             					case 5://darkoak
-            						for(int c=1;c<=3;c++)
-            							player.worldObj.setBlockState(new BlockPos(x+i,y+c,z+j), Blocks.log.getDefaultState());
+        							iblockstate = Blocks.log.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.DARK_OAK);
+        				            iblockstate1 = leaf.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+        				            worldgenerator =  new WorldGenCanopyTree(true);
+        				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
             						break;
             				}
 
