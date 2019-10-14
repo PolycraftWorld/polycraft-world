@@ -54,7 +54,7 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
             		{
             			player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Block.getBlockById(message.block).getDefaultState());
             			Random rand= new Random();
-            			if(rand.nextInt(Math.min(message.width, message.length))==0)
+            			if(rand.nextInt(Math.min(message.width, message.length))==0 && message.treeTypes.size()!=0)
             			{
 //            				BlockPlanks.EnumType treetype = new BlockPlanks.EnumType(, String p_i46388_4_, MapColor p_i46388_5_)
 //            				player.worldObj.setBlockState(new BlockPos(x+i,y+1,z+j), (IBlockState) new BlockState(this, new IProperty[] {TYPE, STAGE}));
@@ -69,7 +69,8 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
             				IBlockState iblockstate1;
             				WorldGenerator worldgenerator;
             				BlockNewLeaf leaf = new BlockNewLeaf();
-            				switch(message.treeTypes.get(0))
+            				
+            				switch(message.treeTypes.get(rand.nextInt(message.treeTypes.size())))
             				{
             					case 0://oak
             						iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.OAK);

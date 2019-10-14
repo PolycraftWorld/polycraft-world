@@ -21,6 +21,7 @@ public class GenerateMessage implements IMessage{
 	public boolean walls;
 	public int block;
 	public List<Integer> treeTypes= Lists.<Integer>newArrayList();
+	public int treeTypeSize;
 
     public GenerateMessage()
     {
@@ -95,6 +96,7 @@ public class GenerateMessage implements IMessage{
         		}
         		c++;
         	}
+        	this.treeTypeSize=treeTypes.size();
         	//
         }
     }
@@ -107,7 +109,8 @@ public class GenerateMessage implements IMessage{
         this.length = buf.readInt();
         this.height = buf.readInt();
         this.block = buf.readInt();
-        if(buf.isReadable())
+        this.treeTypeSize = buf.readInt();
+        for(int c=0;c<treeTypeSize;c++)
         {
         	this.treeTypes.add(buf.readInt());
         }
@@ -121,6 +124,7 @@ public class GenerateMessage implements IMessage{
     	buf.writeInt(this.length);
     	buf.writeInt(this.height);
     	buf.writeInt(this.block);
+    	buf.writeInt(this.treeTypeSize);
     	for(Integer types:this.treeTypes)
     	{
     		buf.writeInt(types);
