@@ -75,7 +75,6 @@ import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
-import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpDesigner;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -209,7 +208,7 @@ public class ClientEnforcer extends Enforcer {
 		if(keyBindingAIAPI.isPressed()) {
 			//restart AI API
 			//BotAPI.toggleAPIThread();
-			client.displayGuiScreen(new GuiExpDesigner(client.thePlayer));
+//			client.displayGuiScreen(new GuiExpDesigner(client.thePlayer));
 			
 //			BotAPI.breakList.add(new Vec3(170.5, 4.5, 24.5));
 //			BotAPI.breakList.add(new Vec3(170.5, 5.5, 24.5));

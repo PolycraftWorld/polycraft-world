@@ -59,7 +59,7 @@ public class ItemAITool extends ItemCustom {
 		this.roomHeight=1;
 		this.roomDepth=0;
 		blockType = BlockType.STONE;
-		blockType = BlockType.STONE;
+		caveBlockType = BlockType.STONE;
 		this.walls=false;
 	}
 	

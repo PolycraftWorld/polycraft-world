@@ -27,6 +27,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 	
 	public int x, y, w, h;
 	public GuiButton[] buttonList;
+	public GuiButton[] fullButtonList;
 	
 	public GuiPolyButtonDropDown(int id, int xStart, int yStart, int width, int height, final E option) {
 		super(id, xStart, yStart, width, height, option.name());
@@ -36,6 +37,8 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 		this.h=height;
 		this.currentOpt=option;
 		this.buttonList = new GuiButton[ option.getDeclaringClass().getEnumConstants().length];
+		this.fullButtonList = new GuiButton[ option.getDeclaringClass().getEnumConstants().length];
+		setFullButtons();
 		setButtons();
 	
 		//this.options = options;
@@ -62,6 +65,18 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 			if(currentOpt.getDeclaringClass().getEnumConstants()[c].name()==this.currentOpt.name())
 				continue;
 			this.buttonList[c]= new GuiButton(c+501, this.x, this.y+((yOffset+1)*20), width, height, currentOpt.getDeclaringClass().getEnumConstants()[c].name());
+			yOffset++;
+		}
+	}
+	
+	public void setFullButtons()
+	{
+		int yOffset=0;
+		for(int c=0;c< currentOpt.getDeclaringClass().getEnumConstants().length;c++)
+		{
+//			if(currentOpt.getDeclaringClass().getEnumConstants()[c].name()==this.currentOpt.name())
+//				continue;
+			this.fullButtonList[c]= new GuiButton(c+501, this.x, this.y+((yOffset+1)*20), width, height, currentOpt.getDeclaringClass().getEnumConstants()[c].name());
 			yOffset++;
 		}
 	}
@@ -113,7 +128,7 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 			 {
 				 if(btnTest!=null)
 				 {
-					 if(btnTest==button)
+					 if(btnTest==button || button==this)
 					 {
 						 actionPerformed(button);
 						 this.removeButtons(gui.getButtonList());
@@ -125,11 +140,25 @@ public class GuiPolyButtonDropDown<E extends Enum<E>> extends GuiButton{
 						 }
 						 return false;
 					 }
-					 else
+					 else 
 					 {
-						 
+//						 for(GuiButton btnTest2: this.fullButtonList)
+//						 {
+//							 if(btnTest2.displayString==button.displayString)
+//							 {
+//								 actionPerformed(button);
+//								 this.removeButtons(gui.getButtonList());
+//								 gui.open=false;
+//								 
+//								 for(GuiButton btn: gui.getButtonList())
+//								 {
+//									 btn.enabled=true;
+//								 }
+//								 return false;
+//							 }
+//						 }
 					 }
-			 }
+				 }
 			 }
 			 return false;
 		 }
