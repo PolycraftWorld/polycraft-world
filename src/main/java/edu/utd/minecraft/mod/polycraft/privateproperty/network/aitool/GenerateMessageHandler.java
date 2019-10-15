@@ -71,7 +71,7 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
 //            				
 //            				sap.generateTree(player.worldObj, new BlockPos(x+i,y+1,z+j), Blocks.sapling.getDefaultState(), rand);
             				
-            				
+            				player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Blocks.grass.getDefaultState());
             				IBlockState iblockstate;
             				IBlockState iblockstate1;
             				WorldGenerator worldgenerator;
@@ -116,7 +116,7 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
         				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
             						break;
             				}
-
+            				player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Block.getBlockById(message.block).getDefaultState());
             				
             			}
             			if(message.walls)
