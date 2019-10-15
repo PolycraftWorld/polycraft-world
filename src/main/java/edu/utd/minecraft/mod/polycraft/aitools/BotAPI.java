@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.util;
+package edu.utd.minecraft.mod.polycraft.aitools;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -945,6 +945,10 @@ public class BotAPI {
 		                                	BotAPI.start(fromClient.split(" "));
 		                                }
 		                            });
+		                        }else if(fromClient.contains("LL")) {
+		                        	System.out.println("TEST");
+		                        	IThreadListener mainThread = Minecraft.getMinecraft();
+		                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));
 		                        }
 	                        	else
 	                        		commandQ.put(fromClient);

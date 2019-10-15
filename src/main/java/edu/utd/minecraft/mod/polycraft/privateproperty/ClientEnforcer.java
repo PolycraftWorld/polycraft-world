@@ -70,10 +70,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
 import net.minecraftforge.fml.relauncher.Side;
 import scala.swing.event.MousePressed;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiConsent;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiHalftime;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
+import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpDesigner;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.GuiExperimentManager;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
@@ -98,7 +100,6 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Permissio
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
-import edu.utd.minecraft.mod.polycraft.util.BotAPI;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -207,8 +208,8 @@ public class ClientEnforcer extends Enforcer {
 
 		if(keyBindingAIAPI.isPressed()) {
 			//restart AI API
-			BotAPI.toggleAPIThread();
-
+			//BotAPI.toggleAPIThread();
+			client.displayGuiScreen(new GuiExpDesigner(client.thePlayer));
 			
 //			BotAPI.breakList.add(new Vec3(170.5, 4.5, 24.5));
 //			BotAPI.breakList.add(new Vec3(170.5, 5.5, 24.5));

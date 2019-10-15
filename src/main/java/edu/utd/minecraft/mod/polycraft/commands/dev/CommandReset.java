@@ -12,11 +12,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
-import edu.utd.minecraft.mod.polycraft.util.BotAPI;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -185,6 +185,7 @@ public class CommandReset extends CommandBase{
 					//player.setPositionAndUpdate(1, 4, 1);
 					buildArea(player);
 					addTrees(player);
+					clearLeaves(player);
 					player.inventory.clear();
 					player.setPositionAndUpdate(BotAPI.pos.get(0) + Math.random() * BotAPI.pos.get(3), y, BotAPI.pos.get(2) + Math.random() * BotAPI.pos.get(5));
 					break;
@@ -290,6 +291,35 @@ public class CommandReset extends CommandBase{
 				
 				for(int j = 0; j < 20; j++) {
 					player.worldObj.setBlockToAir(pos.add(i, j, k));
+				}
+			}
+		}
+	}
+	
+	public void clearLeaves(EntityPlayer player) {
+		int x = BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2);
+		int xMax = BotAPI.pos.get(3), yMax = BotAPI.pos.get(4), zMax = BotAPI.pos.get(5);
+		BlockPos pos = new BlockPos(x, y, z);
+		BotAPI.pos.set(0, ((int)1 >> 4) << 4);
+		BotAPI.pos.set(1, (int)player.posY);
+		BotAPI.pos.set(2, ((int)1 >> 4) << 4);
+		pos = new BlockPos(BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2));
+		x = BotAPI.pos.get(0);
+		y = BotAPI.pos.get(1);
+		z = BotAPI.pos.get(2);
+		
+		BotAPI.pos.set(3, 31);
+		BotAPI.pos.set(4, 0);
+		BotAPI.pos.set(5, 31);
+		xMax = BotAPI.pos.get(3);
+		yMax = BotAPI.pos.get(4);
+		zMax = BotAPI.pos.get(5);
+		
+		for(int i = 0; i <= xMax; i++) {
+			for(int k = 0; k <= zMax; k++) {
+				for(int j = 0; j < 3; j++) {
+					if(player.worldObj.getBlockState(pos.add(i, j, k)).getBlock() == Blocks.leaves)
+						player.worldObj.setBlockToAir(pos.add(i, j, k));
 				}
 			}
 		}
