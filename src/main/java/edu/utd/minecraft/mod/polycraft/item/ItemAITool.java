@@ -41,7 +41,9 @@ public class ItemAITool extends ItemCustom {
 	protected int roomWidth;
 	protected int roomLength;
 	protected int roomHeight;
+	protected int roomDepth;
 	protected BlockType blockType;
+	protected BlockType caveBlockType;
 	protected boolean walls;
 	public List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
 	
@@ -55,6 +57,8 @@ public class ItemAITool extends ItemCustom {
 		this.roomLength=1;
 		this.roomWidth=1;
 		this.roomHeight=1;
+		this.roomDepth=0;
+		blockType = BlockType.STONE;
 		blockType = BlockType.STONE;
 		this.walls=false;
 	}
@@ -102,7 +106,9 @@ public class ItemAITool extends ItemCustom {
 		this.roomGen.length=this.roomLength;
 		this.roomGen.height=this.roomHeight;
 		this.roomGen.walls=this.walls;
+		this.roomGen.depth=this.roomDepth;
 		this.roomGen.blockTypeID=this.blockType.ordinal();
+		this.roomGen.blockTypeID=this.caveBlockType.ordinal();
 		nbt.setTag("roomgen", this.roomGen.save());
 		
 		FileOutputStream fout = null;
@@ -172,8 +178,10 @@ public class ItemAITool extends ItemCustom {
 		this.roomLength=nbtRoomGen.getInteger("length");
 		this.roomHeight=nbtRoomGen.getInteger("height");
 		this.walls=nbtRoomGen.getBoolean("walls");
+		this.roomDepth=nbtRoomGen.getInteger("depth");
 		
 		this.blockType=BlockType.values()[nbtRoomGen.getInteger("block")];
+		this.caveBlockType=BlockType.values()[nbtRoomGen.getInteger("caveBlock")];
 		return true;
 	}
 	
@@ -202,6 +210,16 @@ public class ItemAITool extends ItemCustom {
 		this.blockType=blockType;
 	}
 	
+	public BlockType getCaveBlockType()
+	{
+		return this.caveBlockType;
+	}
+	
+	public void setCaveBlockType(BlockType caveBlockType)
+	{
+		this.caveBlockType=caveBlockType;
+	}
+	
 	public boolean getWalls() {
 		return this.walls;
 	}
@@ -216,6 +234,14 @@ public class ItemAITool extends ItemCustom {
 	
 	public void setHeight(int height) {
 		this.roomHeight=height;
+	}
+	
+	public int getDepth() {
+		return this.roomDepth;
+	}
+	
+	public void setDepth(int Depth) {
+		this.roomDepth=Depth;
 	}
 
 	public int getWidth() {

@@ -62,10 +62,14 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiSlider widthSlider;
 	GuiSlider lengthSlider;
 	GuiSlider heightSlider;
+	
+	GuiSlider depthSlider;
+	
 	GuiButton genBtn;
 	GuiButton saveBtn;
 	GuiButton loadBtn;
 	GuiPolyButtonDropDown blockTypeDropDown;
+	GuiPolyButtonDropDown caveBlockTypeDropDown;
 	GuiCheckBox wallCheck;
 	GuiTextField fileName;
     private static final ResourceLocation background_image = new ResourceLocation(PolycraftMod.getAssetNameString("textures/gui/blank_template_scaled.png"));
@@ -160,6 +164,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
 		heightSlider = new GuiSlider(2,i-110,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
 		blockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getBlockType());
+		caveBlockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getCaveBlockType());
 		wallCheck = new GuiCheckBox(3, i-110, j+15, "Walls?", AITool.getWalls());
 		heightSlider.enabled=wallCheck.isChecked();
 		
@@ -168,6 +173,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		loadBtn = new GuiButton(8, i+80, j-60, 45, 20, "Load");
 		
 		fileName = new GuiTextField(9,this.fontRendererObj, i+30,j-25,80,20);
+		
+		depthSlider = new GuiSlider(0,i-110,j-75,120,20,"Depth: "," Block(s)",1,64,AITool.getDepth(),false,true,null);
 		
 		addBtn(widthSlider);
 		addBtn(lengthSlider);
@@ -271,18 +278,12 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			
     			break;
     		case Tab_Cave:
-//    			this.recList=AITool.recList;
-//    			addRec = new GuiButton(14, i-40, j-80, 20, 20, "+");
-//    			addRecDropDown = new GuiPolyButtonDropDown(5, i-110, j-80, 60, 20,RecTypes.TREES);
-//    			this.buttonList.add(addRec);
-//    			this.buttonList.add(addRecDropDown);
-//    			int yOffset=0;
-//    			for(AIToolResource rec: this.recList)
-//    			{
-//    				rec.addButtons(this,i-110,j-40+yOffset);
-//    				yOffset+=30;
-//    			}
-
+    			depthSlider = new GuiSlider(0,i-110,j-75,120,20,"Depth: "," Block(s)",0,64,AITool.getDepth(),false,true,null);
+    			caveBlockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-35, 120, 20,AITool.getCaveBlockType());
+    			
+    			addBtn(depthSlider);
+    			addBtn(caveBlockTypeDropDown);
+    			
     			addBtn(genTab);
     			addBtn(saveTab);
     			addBtn(recTab);
@@ -386,6 +387,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.getHeight());
 				params.add(AITool.getBlockType());
 				params.add(AITool.recList);
+				params.add(AITool.getDepth());
+				params.add(AITool.getCaveBlockType());
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();
@@ -404,6 +407,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			    heightSlider.setValue(AITool.getHeight());
 			    heightSlider.updateSlider();
 			    blockTypeDropDown.setCurrentOpt(AITool.getBlockType());
+			    caveBlockTypeDropDown.setCurrentOpt(AITool.getCaveBlockType());
 			    wallCheck.setIsChecked(AITool.getWalls());
 			 }
 			 else
@@ -413,7 +417,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			 List<GuiButton> removeList =Lists.<GuiButton>newArrayList();
 			 for(GuiButton btn: this.buttonList)
 			 {
-				 if(btn!=blockTypeDropDown)
+				 if(btn!=blockTypeDropDown || btn!=caveBlockTypeDropDown)
 					 btn.enabled=true;
 				 if(btn.id>200)
 					 removeList.add(btn);
@@ -429,7 +433,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		 {
 			 for(GuiButton btn: this.buttonList)
 			 {
-				 if(btn!=blockTypeDropDown)
+				 if(btn!=blockTypeDropDown|| btn!=caveBlockTypeDropDown)
 					 btn.enabled=false;
 			 }
 			 List<String> files= AITool.getFileNames();
@@ -572,6 +576,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		this.AITool.setHeight(this.heightSlider.getValueInt());
 		this.AITool.setWalls(this.wallCheck.isChecked());
 		this.AITool.setBlockType((BlockType) this.blockTypeDropDown.getCurrentOpt());
+		this.AITool.setCaveBlockType((BlockType) this.caveBlockTypeDropDown.getCurrentOpt());
+		this.AITool.setDepth(this.depthSlider.getValueInt());
 		heightSlider.enabled=wallCheck.isChecked();
 		AITool.recList=this.recList;
 	       

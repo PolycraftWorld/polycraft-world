@@ -22,6 +22,8 @@ public class GenerateMessage implements IMessage{
 	public int block;
 	public List<Integer> treeTypes= Lists.<Integer>newArrayList();
 	public int treeTypeSize;
+	public int depth;
+	public int caveBlock;
 
     public GenerateMessage()
     {
@@ -29,37 +31,8 @@ public class GenerateMessage implements IMessage{
 
     public GenerateMessage(List<Object> params)
     {
-        if (params.size() == 5)
-        {
-        	this.walls = (boolean)params.get(0);
-        	this.width = (int)params.get(1);
-        	this.length = (int)params.get(2);
-        	this.height = (int)params.get(3);
-        	switch(((BlockType)params.get(4)).ordinal())
-        	{
-        		case 0:
-        			this.block = Blocks.stone.getIdFromBlock(Blocks.stone);
-        			break;
-        		case 1:
-        			this.block =Blocks.grass.getIdFromBlock(Blocks.grass);
-        			break;
-        		case 2:
-        			this.block =Blocks.sand.getIdFromBlock(Blocks.sand);
-        			break;
-        		case 3:
-        			this.block =Blocks.water.getIdFromBlock(Blocks.water);
-        			break;
-        		case 4:
-        			this.block =Blocks.snow.getIdFromBlock(Blocks.snow);
-        			break;
-        		default:
-        			this.block =Blocks.stone.getIdFromBlock(Blocks.stone);
-        			break;
-        		
-        	}
-        	//
-        }
-        if (params.size() == 6)
+
+        if (params.size() == 8)
         {
         	this.walls = (boolean)params.get(0);
         	this.width = (int)params.get(1);
@@ -99,6 +72,29 @@ public class GenerateMessage implements IMessage{
         	this.treeTypeSize=treeTypes.size();
         	//
         }
+        this.depth=(int) params.get(6);
+        switch(((BlockType)params.get(7)).ordinal())
+    	{
+    		case 0:
+    			this.caveBlock = Blocks.stone.getIdFromBlock(Blocks.stone);
+    			break;
+    		case 1:
+    			this.caveBlock =Blocks.grass.getIdFromBlock(Blocks.grass);
+    			break;
+    		case 2:
+    			this.caveBlock =Blocks.sand.getIdFromBlock(Blocks.sand);
+    			break;
+    		case 3:
+    			this.caveBlock =Blocks.water.getIdFromBlock(Blocks.water);
+    			break;
+    		case 4:
+    			this.caveBlock =Blocks.snow.getIdFromBlock(Blocks.snow);
+    			break;
+    		default:
+    			this.caveBlock =Blocks.stone.getIdFromBlock(Blocks.stone);
+    			break;
+    		
+    	}
     }
 
     @Override
@@ -114,6 +110,8 @@ public class GenerateMessage implements IMessage{
         {
         	this.treeTypes.add(buf.readInt());
         }
+        this.depth=buf.readInt();
+        this.caveBlock=buf.readInt();
     }
 
     @Override
@@ -129,6 +127,8 @@ public class GenerateMessage implements IMessage{
     	{
     		buf.writeInt(types);
     	}
+    	buf.writeInt(this.depth);
+    	buf.writeInt(this.caveBlock);
     }
 
 }
