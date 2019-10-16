@@ -15,7 +15,7 @@ class PolycraftGym(object):
         # subprocess.run([str(path.parent) + '\\gradlew', 'setupDecompWorkspace'])
 
     def setup_scene(self, scene):
-        pass  # why can't I write an empty function???
+        self.send_command('RESET ' + scene)
 
     def send_command(self, command):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

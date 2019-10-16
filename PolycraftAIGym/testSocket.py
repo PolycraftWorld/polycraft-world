@@ -24,9 +24,12 @@ while run:	# main loop
 			sock.connect((HOST, PORT))
 			count = count - 1
 	else:
-		sock.sendall(str.encode(userInput))
-	
-	if userInput.startswith('DATA'):	# if we need to receive something, we have to listen for it. Maybe this should be a separate thread?
+		sock.send(str.encode(userInput + '\n'))
+
+	# Look for the response
+	amount_received = 0
+	amount_expected = 16
+	if userInput.startswith('DATA') or userInput.startswith('LL'):	 # if we need to receive something, we have to listen for it. Maybe this should be a separate thread?
 		data = ''
 		data = sock.recv(10240).decode()
 		data_dict = json.loads(data)
