@@ -1,11 +1,18 @@
 polycraft
 =========
 The ultimate biology and chemistry mod.
+## Setup as AI Gym 
+Clone this repository.<br>
+Install the Java development kit.<br>
+run "LaunchPolycraft.bat" to build and run the client. By default the client will start up and be accessible through our API socket on port 9000<br>
+Make sure you have Python 3.7 installed. <br>
+After the game starts up, you can test the API by running "testSocket.py" in "PolycraftAIGym/"<br>
+Always run the "START" command first. Other commands assume the world has already been initialized. After the world has been started, you can test the pogostick experiment by sending "RESET POGO".  Try moving around the map as the bot with "MOVE_FORWARD", "TURN_NORTH", "TURN_SOUTH", "TURN_EAST", "TURN_WEST". 
 
 ## Installing the Java Development Kit
 Java SE JDK 8 is needed for this environment. At the moment, the Gradle programs will not work with Java 10.
 You can install the JDK through <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">this site</a>.<br>
-Scroll down until you see "Java SE 8u181" and select the download button below "JDK".<br>
+Scroll down until you see "Java SE 8u231" and select the download button below "JDK".<br>
 Click the "Accept License Agreement" button and select the product corresponding to your operating system and run the installation.
 
 ## Installing the Eclipse IDE
