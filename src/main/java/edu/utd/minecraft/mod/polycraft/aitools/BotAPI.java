@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -114,6 +116,7 @@ public class BotAPI {
     public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
+    private static boolean breakingBlocks = false;
     static final String tempMark = "TEMP_";
     static int delay = 0;
     static String tempQ = null;
@@ -122,6 +125,7 @@ public class BotAPI {
     	LL, //LOW LEVEL COMMANDS
     	CHAT,
     	MOVE,
+    	MOVE_FORWARD,
     	MOVE_NORTH,
     	MOVE_SOUTH,
     	MOVE_EAST,
@@ -136,6 +140,10 @@ public class BotAPI {
     	TURN,
     	TURN_RIGHT,
     	TURN_LEFT,
+    	LOOK_NORTH,
+    	LOOK_SOUTH,
+    	LOOK_EAST,
+    	LOOK_WEST,
     	BREAK_BLOCK,
     	COLLECT_FROM_BLOCK,
     	ATTACK,
@@ -143,9 +151,15 @@ public class BotAPI {
     	PLACE_BLOCK,
     	PLACE_CRAFTING_TABLE,
     	PLACE_TREE_TAP,
+    	SELECT_AXE,
     	INV_SELECT_ITEM,
     	INV_MOVE_ITEM,
     	INV_CRAFT_ITEM,
+    	CRAFT_PLANKS,
+    	CRAFT_STICKS,
+    	CRAFT_AXE,
+    	CRAFT_TREE_TAP,
+    	CRAFT_POGO_STICK,
     	DATA,
     	DATA_INV,
     	DATA_MAP,
@@ -204,38 +218,53 @@ public class BotAPI {
     	}
     }
     
+    public static void moveForward(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+		player.setPositionAndRotation(player.posX + player.getHorizontalFacing().getFrontOffsetX(), 
+				player.posY + player.getHorizontalFacing().getFrontOffsetY(), 
+				player.posZ + player.getHorizontalFacing().getFrontOffsetZ(),player.rotationYaw, 0f);
+	}
+    
 	public static void moveNorth(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
 		player.setPositionAndRotation(player.posX, player.posY, player.posZ - 1, 180F, 0F);
-		//player.setPositionAndRotation(player.posX, player.posY, player.posZ - 1, player.rotationYaw, player.rotationPitch);
-//		player.motionZ = -0.3;
-//		player.motionY = 0.5;
-//		player.sendQueue.addToSendQueue(new C01PacketChatMessage("/time set day"));
 	}
 	public static void moveSouth(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
 		player.setPositionAndRotation(player.posX, player.posY, player.posZ + 1, 0F, 0F);
-//		player.setPositionAndRotation(player.posX, player.posY, player.posZ + 1, player.rotationYaw, player.rotationPitch);
-//		player.motionZ = 0.3;
-//		player.motionY = 0.5;
 	}
 	public static void moveEast(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
 		player.setPositionAndRotation(player.posX + 1, player.posY, player.posZ, -90F, 0F);
-//		player.setPositionAndRotation(player.posX + 1, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
-//		player.motionX = 0.3;
-//		player.motionY = 0.5;
 	}
 	public static void moveWest(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
 		player.setPositionAndRotation(player.posX - 1, player.posY, player.posZ, 90F, 0F);
-//		player.setPositionAndRotation(player.posX - 1, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
-//		player.motionX = -0.3;
-//		player.motionY = 0.5;
+	}
+	
+	public static void lookNorth(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, 180F, 0F);
+	}
+	
+	public static void lookSouth(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, 0F, 0F);
+	}
+	
+	public static void lookEast(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5,  -90F, 0F);
+	}
+	
+	public static void lookWest(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, 90F, 0F);
 	}
 	
 	protected static void turn(float yaw) {
@@ -264,24 +293,29 @@ public class BotAPI {
 	
 	public static void breakBlock(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+
+		BlockPos breakPos = new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(), 
+				player.posY, player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
 		if(args.length == 3) {
-    		BlockPos breakPos = new BlockPos(Integer.parseInt(args[1]), 4, Integer.parseInt(args[2]));
-    		Block block = player.worldObj.getBlockState(breakPos).getBlock();
-    		int count = 0;
-    		while(count < 4)
-				if(block.getMaterial() != Material.air) {
-					BotAPI.breakList.add(new Vec3(breakPos.getX() + 0.5, breakPos.getY() + 0.5 + count, breakPos.getZ() + 0.5));
-					block = player.worldObj.getBlockState(breakPos.add(0,++count,0)).getBlock();
-				}else {
-					player.addChatComponentMessage(new ChatComponentText("Tried to break air block at: " + breakPos.getX() + ", " + breakPos.getY() + ", " + breakPos.getZ()));
-					count++;
-				}
-		}else {
-    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-    		for(String argument: args) {
-    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-    		}
-    	}
+    		breakPos = new BlockPos(Integer.parseInt(args[1]), 4, Integer.parseInt(args[2]));
+		}
+		Block block = player.worldObj.getBlockState(breakPos).getBlock();
+		int count = 0;
+		while(count < 4)
+			if(block.getMaterial() != Material.air) {
+				BotAPI.breakList.add(new Vec3(breakPos.getX() + 0.5, breakPos.getY() + 0.5 + count, breakPos.getZ() + 0.5));
+				block = player.worldObj.getBlockState(breakPos.add(0,++count,0)).getBlock();
+				breakingBlocks = true;
+			}else {
+				player.addChatComponentMessage(new ChatComponentText("Tried to break air block at: " + breakPos.getX() + ", " + breakPos.getY() + ", " + breakPos.getZ()));
+				count++;
+			}
+//		}else {
+//    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+//    		for(String argument: args) {
+//    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+//    		}
+//    	}
 	}
 	
 	public static void teleport(String args[]) {
@@ -309,8 +343,12 @@ public class BotAPI {
 		World world= player.worldObj;
     	int mouseButtonClicked = 0;
 		int mode = 0;
-		if(args.length > 3) {
-			BlockPos invPos = new BlockPos(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+		
+		BlockPos invPos = new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(), 
+				player.posY, player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
+		if(args.length == 3) {
+			invPos = new BlockPos(Integer.parseInt(args[1]), 4, Integer.parseInt(args[2]));
+		}
 			List<Object> params = new ArrayList<Object>();
 			params.add(invPos);
 			PolycraftMod.SChannel.sendToServer(new CollectMessage(params));
@@ -350,13 +388,48 @@ public class BotAPI {
 //			}
 //			Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
 //			Minecraft.getMinecraft().setIngameFocus();
-		}
+//		}
 	}
 	
 	public static void craft(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args));
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void craftPlanks(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args) + " 17 0 0 0 0 0 0 0 0");
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void craftAxe(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args) + " 5 5 0 5 280 0 0 280 0");
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void craftSticks(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args) + " 5 0 0 5 0 0 0 0 0");
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void craftTreeTap(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args) + " 5 280 5 5 0 5 0 5 0");
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void craftPogoStick(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args) + " 280 280 280 5 280 5 0 5399 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
 	}
 	
@@ -367,113 +440,48 @@ public class BotAPI {
 		params.add(String.join(" ", args));
 		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
 		
-		if(args.length == 4) {
-    		Vec3 breakPos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3]) + 0.5);
-    		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
-    		if(block.getMaterial() != Material.air) {
-    			player.sendChatMessage("Block \"" + block.getLocalizedName() + "\" already exists when trying to place block");
-    			return;
-    		}
-    		//first make the player look in the correct location
-    		Vec3 vector = breakPos.addVector(0, -1, 0).subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
-    		
-    		double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
-    		double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
-    		
-    		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
-    		
-    		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
-    		tempQ = "USE";
-    		delay = 10;
-		}else {
-    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-    		for(String argument: args) {
-    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-    		}
-    	}
+		Vec3 breakPos = new Vec3(player.posX + player.getHorizontalFacing().getFrontOffsetX() + 0.5, 
+				player.posY, player.posZ + player.getHorizontalFacing().getFrontOffsetZ() + 0.5);
+		
+		if(args.length == 4) 
+    		breakPos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3])+0.5);
+		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+		if(block.getMaterial() != Material.air) {
+			player.sendChatMessage("Block \"" + block.getLocalizedName() + "\" already exists when trying to place block");
+			return;
+		}
+		//first make the player look in the correct location
+		Vec3 vector = breakPos.addVector(0, -1, 0).subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+		
+		double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
+		double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
+		
+		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
+		
+		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
+		tempQ = "USE";
+		delay = 10;
+//		}else {
+//    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+//    		for(String argument: args) {
+//    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+//    		}
+//    	}
 		
 		
 	}
 	
 	public static void placeCraftingTable(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-//		if(player.inventory.getCurrentItem().getItem() == Blocks.crafting_table.getItem(player.worldObj, player.getPosition())) {
-//			return;	//item already selected
-//		}else {
-//			int slot = 0;
-//			for (slot = 0; slot < player.inventory.getSizeInventory(); ++slot)
-//	            if (player.inventory.getStackInSlot(slot) != null && player.inventory.getStackInSlot(slot).getItem() == Blocks.crafting_table.getItem(player.worldObj, player.getPosition()))
-//	                break;
-//			if() {
-//				
-//			}else {
-//				player.sendChatMessage("No Crafting table in inventory");
-//			}
-//		}
-		
-
-		List<Object> params = new ArrayList<Object>();
-		params.add(String.join(" ", args));
-		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
-		
-		if(args.length == 3) {
-    		Vec3 breakPos = new Vec3(Integer.parseInt(args[1]) + 0.5, 5, Integer.parseInt(args[2])+0.5);
-    		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
-    		if(block.getMaterial() != Material.air) {
-    			player.sendChatMessage("Block already exists when trying to place block");
-    			return;
-    		}
-    		//first make the player look in the correct location
-    		Vec3 vector = breakPos.addVector(0, -1, 0).subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
-    		
-    		double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
-    		double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
-    		
-    		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
-    		
-    		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
-    		
-//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
-//    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
-//			KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
-		}else {
-    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-    		for(String argument: args) {
-    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-    		}
-    	}
-		
-//		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-//		ItemStack inventory[] = player.inventory.mainInventory;
-//		int slotToTransfer = -1;
-//		loop: for(int x = 0; x < player.inventory.mainInventory.length; x++) {
-//			ItemStack item = player.inventory.mainInventory[x];
-//			if(item != null && Blocks.crafting_table.getItem(player.worldObj, player.getPosition()) == item.getItem()) {
-//				slotToTransfer = x;
-//				break loop;
-//			}
-//		}
-//		int slot = player.inventory.currentItem;
-//		if(slotToTransfer == -1) {
-//			player.addChatComponentMessage(new ChatComponentText("Item not fount"));
-//			return;
-//		}else if(slotToTransfer == slot) {
-//			player.addChatComponentMessage(new ChatComponentText("Item already selected"));
-//			return;
-//		}
-//		if(inventory[slot] == null) {
-//			ItemStack stack = player.inventory.getStackInSlot(slotToTransfer);
-//			player.inventory.setInventorySlotContents(slot, stack);
-//			player.inventory.removeStackFromSlot(slotToTransfer);
-//		}else {
-//			ItemStack stack = player.inventory.getStackInSlot(slot).copy();
-//			player.inventory.setInventorySlotContents(slot, player.inventory.getStackInSlot(slotToTransfer));
-//			player.inventory.setInventorySlotContents(slotToTransfer, stack);
-//		}
-		
-		//placeBlock(args);
+    	placeBlock(("PACE_BLOCK 58 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
+    			" " + (int)(player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).split("\\s+"));
 	}
 	
+	public static void placeTreeTap(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+    	placeBlock(("PACE_BLOCK 6321 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
+    			" " + (int)(player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).split("\\s+"));
+	}
 	
 	public static void selectItem(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
@@ -789,6 +797,15 @@ public class BotAPI {
 	}
 	
 	public static void onClientTick() {
+		//if we're breaking blocks, don't do any other actions until we finish
+		if(breakingBlocks) {
+			if(breakList.isEmpty()) {
+				breakingBlocks = false;
+				//TODO: return DATA and rewards
+			}
+			else
+				return;
+		}
 		if(delay > 0) {
 			delay--;
 		}else {
@@ -802,6 +819,20 @@ public class BotAPI {
 			if(fromClient != null) {
 	        	System.out.println(fromClient);
 	        	String args[] =  fromClient.split("\\s+");
+	        	Method func = null; 
+	        	// TODO: Switch to more generic function calling
+//	        	try {
+//					BotAPI.class.getMethod(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT).name(), args.getClass());
+//				} catch (NoSuchMethodException | SecurityException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//	        	try {
+//					func.invoke(null, new Object[] {args});
+//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 	            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
 	            case LL:
 	            	lowLevel(args);
@@ -811,6 +842,9 @@ public class BotAPI {
 	            	break;
 	            case JUMP:
 	            	player.jump();
+	            	break;
+	            case MOVE_FORWARD:
+	            	BotAPI.moveForward(args);
 	            	break;
 	            case MOVE_NORTH:
 	            	BotAPI.moveNorth(args);
@@ -840,6 +874,18 @@ public class BotAPI {
 	            	BotAPI.moveSouth(args);
 	            	BotAPI.moveWest(args);
 	            	break;
+            	case LOOK_NORTH:
+	            	BotAPI.lookNorth(args);
+	            	break;
+	            case LOOK_SOUTH:
+	            	BotAPI.lookSouth(args);
+	            	break;
+	            case LOOK_EAST:
+	            	BotAPI.lookEast(args);
+	            	break;
+	            case LOOK_WEST:
+	            	BotAPI.lookWest(args);
+	            	break;
 	            case TURN_RIGHT:
 	            	BotAPI.turnRight(args);
 	            	break;
@@ -857,6 +903,21 @@ public class BotAPI {
 	            case COLLECT_FROM_BLOCK:
 	            	BotAPI.INSTANCE.collectFrom(args);
 	            	break;
+	            case CRAFT_PLANKS:
+	            	BotAPI.craftPlanks(args);
+	            	break;
+	            case CRAFT_AXE:
+	            	BotAPI.craftAxe(args);
+	            	break;
+	            case CRAFT_STICKS:
+	            	BotAPI.craftSticks(args);
+	            	break;
+	            case CRAFT_TREE_TAP:
+	            	BotAPI.craftTreeTap(args);
+	            	break;
+	            case CRAFT_POGO_STICK:
+	            	BotAPI.craftPogoStick(args);
+	            	break;
 	            case INV_CRAFT_ITEM:
 	            	BotAPI.craft(args);
 	            	break;
@@ -872,6 +933,8 @@ public class BotAPI {
 	            case PLACE_CRAFTING_TABLE:
 	            	BotAPI.placeCraftingTable(args);
 	            	break;
+	            case PLACE_TREE_TAP:
+	            	BotAPI.placeTreeTap(args);
 	            case RESET:
 	            	BotAPI.reset(args);
 	            	break;
@@ -894,6 +957,7 @@ public class BotAPI {
 	        		break;
 	            }
 	        }
+			//TODO: return DATA and rewards
 		}
 	}
 	
