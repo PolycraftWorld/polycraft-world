@@ -35,8 +35,8 @@ public class GenerateMessage implements IMessage{
         if (params.size() == 8)
         {
         	this.walls = (boolean)params.get(0);
-        	this.width = (int)params.get(1);
-        	this.length = (int)params.get(2);
+        	this.width = (int)params.get(1)*16;
+        	this.length = (int)params.get(2)*16;
         	this.height = (int)params.get(3);
         	switch(((BlockType)params.get(4)).ordinal())
         	{

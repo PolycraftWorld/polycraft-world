@@ -45,6 +45,7 @@ public class ItemAITool extends ItemCustom {
 	protected BlockType blockType;
 	protected BlockType caveBlockType;
 	protected boolean walls;
+	
 	public List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
 	
 	//String outputFileName = "output";

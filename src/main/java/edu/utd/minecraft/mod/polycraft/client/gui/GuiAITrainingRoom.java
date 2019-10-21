@@ -160,8 +160,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	    int i = (this.width) / 2;
 	    int j = (this.height) / 2; //old was 200
 				
-		widthSlider = new GuiSlider(0,i-110,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
-		lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
+		widthSlider = new GuiSlider(0,i-110,j-75,120,20,"Width: "," Chunk(s)",1,4,AITool.getWidth(),false,true,null);
+		lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Chunk(s)",1,4,AITool.getLength(),false,true,null);
 		heightSlider = new GuiSlider(2,i-110,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
 		blockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getBlockType());
 		caveBlockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getCaveBlockType());
@@ -235,8 +235,8 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		int j = (this.height) / 2; //old was 200
     	switch(newScreen) {
     		case Tab_Gen:
-    			widthSlider = new GuiSlider(0,i-110,j-75,120,20,"Width: "," Block(s)",1,64,AITool.getWidth(),false,true,null);
-    			lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Block(s)",1,64,AITool.getLength(),false,true,null);
+    			widthSlider = new GuiSlider(0,i-110,j-75,120,20,"Width: "," Chunk(s)",1,4,AITool.getWidth(),false,true,null);
+    			lengthSlider = new GuiSlider(1,i-110,j-45,120,20,"Length: "," Chunk(s)",1,4,AITool.getLength(),false,true,null);
     			heightSlider = new GuiSlider(2,i-110,j+35,120,20,"Height: "," Block(s)",1,16,AITool.getHeight(),false,true,null);
     			blockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-15, 120, 20,AITool.getBlockType());
     			wallCheck = new GuiCheckBox(3, i-110, j+15, "Walls?", AITool.getWalls());
@@ -268,7 +268,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			for(AIToolResource rec: this.recList)
     			{
     				rec.addButtons(this,i-110,j-40+yOffset);
-    				yOffset+=30;
+    				yOffset+=50;
     			}
 
     			addBtn(genTab);
@@ -491,6 +491,19 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			{
 				recDropDown.actionPerformed(button,this);
 				rec.save();
+//				if(this.screenSwitcher==ScreenTabs.Tab_Rec)
+//				{
+//					if(rec instanceof AIToolResourceTree)
+//					{
+//						if(((AIToolResourceTree)rec).genTypeDropDown==recDropDown)
+//						{
+//							if(((AIToolResourceTree)rec).genTypeDropDown.displayString.contains("CLUSTER"))
+//							{
+//								((AIToolResourceTree)rec).addCheckTable(this, ((AIToolResourceTree)rec).x, ((AIToolResourceTree)rec).y);
+//							}
+//						}
+//					}
+//				}
 			}
 		 }
 		 if(recRemove!=null)

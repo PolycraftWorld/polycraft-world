@@ -61,7 +61,7 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
             				}
             			}
             			Random rand= new Random();
-            			if(rand.nextInt(Math.min(message.width, message.length))==0 && !(message.treeTypes.size()!=0 && i==0 || i==(message.width-1) || j==0 || j==(message.length-1)))
+            			if(rand.nextInt(Math.min(message.width, message.length))==0 && message.treeTypes.size()!=0 && !(i==0 || i==(message.width-1) || j==0 || j==(message.length-1)))
             			{
 //            				BlockPlanks.EnumType treetype = new BlockPlanks.EnumType(, String p_i46388_4_, MapColor p_i46388_5_)
 //            				player.worldObj.setBlockState(new BlockPos(x+i,y+1,z+j), (IBlockState) new BlockState(this, new IProperty[] {TYPE, STAGE}));
