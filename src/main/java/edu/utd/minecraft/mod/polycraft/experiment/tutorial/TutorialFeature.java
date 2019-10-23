@@ -86,7 +86,7 @@ public class TutorialFeature implements ITutorialFeature{
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
-		pos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord);
+		pos = pos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord);
 		
 	}
 
@@ -139,7 +139,7 @@ public class TutorialFeature implements ITutorialFeature{
 	}
 	
 	@Override
-	public void onPlayerTickUpdate(ExperimentTutorial exp) {
+	public void onClientTickUpdate(ExperimentTutorial exp) {
 		// TODO Auto-generated method stub
 		if(y2 == 0) {
 			this.init();

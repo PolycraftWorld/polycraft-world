@@ -50,6 +50,9 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
         		
         		if(missingItem) {
         			player.addChatComponentMessage(new ChatComponentText("Missing Item:" + missingItems));
+        			for(int slot = 0; slot < craftMatrix.getSizeInventory(); slot++) {
+        				player.inventory.addItemStackToInventory(craftMatrix.getStackInSlot(slot));
+        			}
         			return;
         		}
         		

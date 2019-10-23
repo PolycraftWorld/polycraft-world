@@ -100,6 +100,8 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     public ArrayList<GuiPolyLabel> labels = new ArrayList<GuiPolyLabel>();
     public ArrayList<GuiPolyButtonCycle> options = new ArrayList<GuiPolyButtonCycle>();
 	private GuiExpSteps guiSteps;
+	//other GUI objects
+	protected GuiTextField nameField;
 	
     
     private enum WhichScreen {
@@ -173,12 +175,22 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
         btnNext = new GuiButton(2, x_pos + X_WIDTH/2 + X_PAD/2, y_pos + Y_HEIGHT + 2*Y_PAD, X_WIDTH/2 - X_PAD/2, buttonheight, "next");
         //add step buttons
         btnAddStepType = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, "Type: " + TutorialFeatureType.GENERIC.name());
+
+	    //Name Field
+  		nameField = new GuiTextField(200,this.fontRendererObj, x_pos + 10, y_pos + 5, (int) (X_WIDTH * .9), 14);
+  		nameField.setMaxStringLength(32);
+  		nameField.setText(devTool.outputFileName);
+  		nameField.setTextColor(16777215);
+  		nameField.setVisible(true);
+  		nameField.setCanLoseFocus(true);
+  		nameField.setFocused(true);
         
+        y_pos+=(buttonheight + button_padding_y);	//extra spacing for file name
         for (ItemDevTool.StateEnum option : ItemDevTool.StateEnum.values()) {
     		//Add config button:
-    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, option.name());
+    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight - 8, option.name());
         	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
-        	y_pos+=(buttonheight + button_padding_y);
+        	y_pos+=(buttonheight + button_padding_y - 8);
         	experimentsListButton.add(tempConfig);
         	//experimentsListButton.add(temp);
         }
@@ -210,6 +222,8 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     			if(textField.isFocused())
     				textField.textboxKeyTyped(c, p);
     		}
+    	}else if(screenSwitcher == WhichScreen.DEV_MAIN) {
+    		nameField.textboxKeyTyped(c, p);
     	}
     }
     
@@ -217,7 +231,9 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     
     @Override
 	protected void exitGuiScreen() {
-		// TODO Auto-generated method stub
+		if(!this.nameField.getText().equals(devTool.outputFileName)) {
+			devTool.outputFileName = this.nameField.getText();
+		}
     	this.mc.displayGuiScreen((GuiScreen)null);
         this.mc.setIngameFocus();
 		
@@ -447,9 +463,12 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 	    int y_pos = (this.height - 190) / 2 + 8;
 	    this.fontRendererObj.drawString(I18n.format(TITLE, new Object[0]), x_pos, y_pos, 0xFFFFFFFF);
 	    y_pos += 12;
+	    this.nameField.drawTextBox();
+	    y_pos += 22;
 	    this.drawRect(x_pos - 2, y_pos - 2, x_pos + this.X_WIDTH, y_pos + this.Y_HEIGHT, 0x50A0A0A0);
 	    this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
 	    y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
+	    
 	    
 	    for(GuiButton btn: (List<GuiButton>)buttonList) {
 	    	if(btn.id > 10000) {
@@ -640,7 +659,7 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 		}
 		
 		btnAddStepType.enabled=addNew;
-				
+		btnAddStepType.displayString = "Type: " + featureToAddType.name();
         this.buttonList.add(btnAddStepType);
     	this.scroll = 0F;
     	

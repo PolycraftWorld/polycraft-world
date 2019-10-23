@@ -8,9 +8,10 @@ PORT = 9000
 movement = ['movenorth', 'movesouth', 'moveeast', 'movewest']
 
 run = True
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((HOST, PORT))
 while run:	# main loop
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	sock.connect((HOST, PORT))
 	userInput = input()
 	if userInput == 'exit':	# wait for user input commands
 		run = False
@@ -34,7 +35,7 @@ while run:	# main loop
 		data = sock.recv(10240).decode()
 		data_dict = json.loads(data)
 		print (data_dict)
-	sock.close()
+sock.close()
 
 
 print ("Socket closed")
