@@ -127,10 +127,10 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
             				            worldgenerator.generate(player.worldObj, rand, new BlockPos(x+i,y+1,z+j));
                 						break;
                 				}
-                				player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Block.getBlockById(message.block).getDefaultState());
+                				
             				}
             				
-            				
+            				player.worldObj.setBlockState(new BlockPos(x+i,y,z+j), Block.getBlockById(message.block).getDefaultState());
             			}
             			if(message.walls)
                     	{
