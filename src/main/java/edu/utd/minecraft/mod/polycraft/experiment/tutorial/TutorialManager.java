@@ -29,6 +29,8 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.Tutor
 import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExpFeatureMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessage;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
@@ -53,7 +55,7 @@ public class TutorialManager {
 
 	public static TutorialManager INSTANCE = new TutorialManager();
 	private static int nextAvailableExperimentID = 1; 	//one indexed
-	private static Hashtable<Integer, ExperimentTutorial> experiments = new Hashtable<Integer, ExperimentTutorial>();
+	public static Hashtable<Integer, ExperimentTutorial> experiments = new Hashtable<Integer, ExperimentTutorial>();
 	
 	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
 	static TutorialOptions tutOptions = new TutorialOptions();
@@ -110,85 +112,116 @@ public class TutorialManager {
 	
 	//@SideOnly(Side.SERVER)
 	public static void sendTutorialFeatures(int id) {
-		try {
-			NBTTagCompound nbtFeatures = new NBTTagCompound();
-			NBTTagList nbtList = new NBTTagList();
-			for(int i =0;i<getExperiment(id).features.size();i++) {
-				nbtList.appendTag(getExperiment(id).features.get(i).save());
-			}
-			nbtFeatures.setTag("features", nbtList);
-			
-			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
-			CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
-			
-			Gson gson = new Gson();
-			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
-			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
-			
-			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-				ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Features.ordinal(), (EntityPlayerMP)player);
+		//update to new packet system
+		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+			List<Object> params = new ArrayList<Object>();
+			params.add(ExpFeatureMessage.PacketType.All);
+			params.add(id);
+			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
 		}
-		System.out.println("Sending Update...");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Code for 1.7.10
+//		try {
+//			NBTTagCompound nbtFeatures = new NBTTagCompound();
+//			NBTTagList nbtList = new NBTTagList();
+//			for(int i =0;i<getExperiment(id).features.size();i++) {
+//				nbtList.appendTag(getExperiment(id).features.get(i).save());
+//			}
+//			nbtFeatures.setTag("features", nbtList);
+//			
+//			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+//			CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
+//			
+//			Gson gson = new Gson();
+//			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+//			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+//			
+//			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+//				ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Features.ordinal(), (EntityPlayerMP)player);
+//		}
+//		System.out.println("Sending Update...");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	//@SideOnly(Side.SERVER)
 	public static void sendTutorialActiveFeatures(int id) {
-		try {
-			NBTTagCompound nbtFeatures = new NBTTagCompound();
-			NBTTagList nbtList = new NBTTagList();
-			for(int i =0;i<getExperiment(id).activeFeatures.size();i++) {
-				nbtList.appendTag(getExperiment(id).activeFeatures.get(i).save());
-			}
-			nbtFeatures.setTag("activeFeatures", nbtList);
-			
-			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
-			CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
-			
-			Gson gson = new Gson();
-			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
-			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
-			
-			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-				ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.ActiveFeatures.ordinal(), (EntityPlayerMP)player);
+		//update to new packet system
+		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+			List<Object> params = new ArrayList<Object>();
+			params.add(ExpFeatureMessage.PacketType.ACTIVE);
+			params.add(id);
+			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
 		}
-		System.out.println("Sending Update...");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Code for 1.7.10
+//		try {
+//			NBTTagCompound nbtFeatures = new NBTTagCompound();
+//			NBTTagList nbtList = new NBTTagList();
+//			for(int i =0;i<getExperiment(id).activeFeatures.size();i++) {
+//				nbtList.appendTag(getExperiment(id).activeFeatures.get(i).save());
+//			}
+//			nbtFeatures.setTag("activeFeatures", nbtList);
+//			
+//			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+//			CompressedStreamTools.writeCompressed(nbtFeatures, experimentUpdatesTemp);
+//			
+//			Gson gson = new Gson();
+//			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+//			final String experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+//			
+//			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+//				ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.ActiveFeatures.ordinal(), (EntityPlayerMP)player);
+//		}
+//		System.out.println("Sending Update...");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	
 	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, boolean isClient) {
-		try {
-			Gson gson = new Gson();
-			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
-			NBTTagCompound tempNBT = feature.save();
-			tempNBT.setInteger("index", index);
-			String experimentUpdates;
-			
-			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
-			
-			if(isClient) {
-				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayNameString());
-				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
-				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
-				ClientEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal());
-			}else {
-				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
-				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
-				for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-					ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal(), (EntityPlayerMP)player);
-				}
+		//update to new packet system
+		List<Object> params = new ArrayList<Object>();
+		params.add(ExpFeatureMessage.PacketType.SINGLE);
+		params.add(id);
+		params.add(index);
+		params.add(feature);
+		if(isClient) {
+			PolycraftMod.SChannel.sendToServer(new ExpFeatureMessage(params));
+		}else {
+			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+				PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
 			}
-			
-		}catch(Exception e) {
-			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );
 		}
+		
+		//Code for 1.7.10
+//		try {
+//			Gson gson = new Gson();
+//			Type gsonType = new TypeToken<ByteArrayOutputStream>(){}.getType();
+//			NBTTagCompound tempNBT = feature.save();
+//			tempNBT.setInteger("index", index);
+//			String experimentUpdates;
+//			
+//			final ByteArrayOutputStream experimentUpdatesTemp = new ByteArrayOutputStream();	//must convert into ByteArray becuase converting with just Gson fails on reveiving end
+//			
+//			if(isClient) {
+//				tempNBT.setString("player", Minecraft.getMinecraft().thePlayer.getDisplayNameString());
+//				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
+//				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+//				ClientEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal());
+//			}else {
+//				CompressedStreamTools.writeCompressed(tempNBT, experimentUpdatesTemp);
+//				experimentUpdates = gson.toJson(experimentUpdatesTemp, gsonType);
+//				for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+//					ServerEnforcer.INSTANCE.sendTutorialUpdatePackets(experimentUpdates,PacketMeta.Feature.ordinal(), (EntityPlayerMP)player);
+//				}
+//			}
+//			
+//		}catch(Exception e) {
+//			PolycraftMod.logger.debug("Cannot send Feature Update: " + e.toString() );
+//		}
 	}
 
 

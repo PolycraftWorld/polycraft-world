@@ -25,7 +25,7 @@ public class InventoryMessage implements IMessage{
     @Override
     public void fromBytes(ByteBuf buf)
     {
-    	items = StandardCharsets.UTF_8.decode(buf.readBytes(buf.readInt()).nioBuffer()).toString();;
+    	items = StandardCharsets.UTF_8.decode(buf.readBytes(buf.readInt()).nioBuffer()).toString();
     }
 
     @Override

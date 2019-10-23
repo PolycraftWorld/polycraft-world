@@ -118,10 +118,12 @@ public class CommandTutorial  extends CommandBase{
 			if (args.length > 0)
 			{
 				if (chatCommandTutnew.equalsIgnoreCase(args[0])) {
-					if(args.length > 1)
-						registerNewExperiment(player, Boolean.parseBoolean(args[1]));
+					if(args.length == 2)
+						registerNewExperiment(player, Boolean.parseBoolean(args[1]), this.outputFileName + this.outputFileExt);
+					else if(args.length == 3)
+						registerNewExperiment(player, Boolean.parseBoolean(args[1]), args[2]);
 					else
-						registerNewExperiment(player, false);
+						registerNewExperiment(player, false, this.outputFileName + this.outputFileExt);
 				} else if (chatCommandTutjoin.equalsIgnoreCase(args[0])) {
 					if(args.length > 1) {
 						joinExperiment(Integer.parseInt(args[1]), player);
@@ -236,17 +238,19 @@ public class CommandTutorial  extends CommandBase{
 //		}
 	}
 
-	private NBTTagCompound load() {
+	private NBTTagCompound load(String path) {
 		try {
         	features.clear();
         	
-        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+        	File file = new File(path);
         	InputStream is = new FileInputStream(file);
 
             NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
             NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
 			for(int i =0;i<nbtFeatList.tagCount();i++) {
 				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				System.out.println(nbtFeat.getString("type"));
+				System.out.println(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className);
 				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
 				test.load(nbtFeat);
 				features.add(test);
@@ -262,9 +266,13 @@ public class CommandTutorial  extends CommandBase{
 		return null;
 	}
 	
+	private NBTTagCompound load() {
+		return load(this.outputFileName + this.outputFileExt);
+	}
+	
 
-	public void registerNewExperiment(EntityPlayer player, boolean genInDim8) {
-		NBTTagCompound nbtData = load();
+	public void registerNewExperiment(EntityPlayer player, boolean genInDim8, String path) {
+		NBTTagCompound nbtData = load(path);
 		tutOptions.name = "test name";
 		tutOptions.numTeams = 1;
 		tutOptions.teamSize = 1;

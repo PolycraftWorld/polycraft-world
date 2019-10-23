@@ -65,6 +65,8 @@ import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class ExperimentTutorial{
 	private static final int AREA_PADDING = 48;
@@ -87,7 +89,7 @@ public class ExperimentTutorial{
 	protected int featureIndex = 0;
 	protected ForgeChunkManager.Ticket[] tickets;	//tickets for keeping experiment chuncks loaded
 	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
-	protected ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
+	public ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
 	
 	private int[] blocks;
     private byte[] data;
@@ -102,11 +104,12 @@ public class ExperimentTutorial{
 		Done;
 		}
 	
-	public State currentState;
+	public State currentState = State.WaitingToStart;
 	
 
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
+	private boolean isServer = false;
 	
 	
 	private String stringToSend = "";
@@ -122,6 +125,7 @@ public class ExperimentTutorial{
 	public ExperimentTutorial(int id, TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
 		
 		this.id = id;
+		this.isServer = true;
 		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.size.getX()),
 				Math.min(options.pos.getY(), options.size.getY()),
 				Math.min(options.pos.getZ(), options.size.getZ()));
@@ -203,11 +207,18 @@ public class ExperimentTutorial{
 	}
 	
 	public void onServerTickUpdate() {
-		if(this.world.isRemote)
+		if(!isServer)
 			return;
 		
 		switch(currentState) {
 		case WaitingToStart:
+			int playerCount = 0;
+			for(Team team: this.scoreboard.getTeams()) {
+				playerCount += team.getSize();
+			}
+			if(playerCount == teamSize*teamsNeeded){
+				currentState = State.Starting;
+			}
 			break;
 		case Starting:
 			//generateArea();
@@ -299,13 +310,13 @@ public class ExperimentTutorial{
 	public void onClientTickUpdate(){
 		//We shouldn't have to check experiment state on client side, Just need to run all active features
 		if(activeFeatures.isEmpty()) {	//active features is empty, so experiment must be over.
-			this.currentState = State.Done;
-			TutorialManager.INSTANCE.clientCurrentExperiment = -1;
+//			this.currentState = State.Done;
+//			TutorialManager.INSTANCE.clientCurrentExperiment = -1;
 		}else {
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
-				activeFeatures.get(x).onPlayerTickUpdate(this);
+				activeFeatures.get(x).onClientTickUpdate(this);
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
@@ -443,6 +454,22 @@ public class ExperimentTutorial{
 	
 	public Collection<String> getPlayersInExperiment() {
 		return scoreboard.getPlayers();
+	}
+	
+	public ArrayList<TutorialFeature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(ArrayList<TutorialFeature> features) {
+		this.features = features;
+	}
+	
+	public ArrayList<TutorialFeature> getActiveFeatures() {
+		return activeFeatures;
+	}
+
+	public void setActiveFeatures(ArrayList<TutorialFeature> activeFeatures) {
+		this.activeFeatures = activeFeatures;
 	}
 	
 	private void createPrivateProperties() {

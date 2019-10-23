@@ -205,7 +205,8 @@ public class GuiExpSteps extends GuiListExtended {
      * @param scrollPos value from 0.0 to 1.0 that indicates the current scroll position
      */
     public void drawScreenHandler(int mouseX, int mouseY, float mouseAction, float scrollPos) {
-    	
+    	this.mouseX = mouseX;
+    	this.mouseY = mouseY;
     	
     	//lets handle scrolling from the above function.
     	this.amountScrolled = scrollPos * this.getContentHeight();
