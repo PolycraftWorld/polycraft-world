@@ -19,11 +19,13 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.server.FMLServerHandler;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.experiment.ExperimentDef;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
@@ -329,8 +331,11 @@ public class ExperimentManager {
 	
 	public EntityPlayer getPlayerEntity(String playerName) {
 		try {
-			if(this.globalPlayerList.isEmpty()) {
-				this.globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+			if(this.globalPlayerList == null || this.globalPlayerList.isEmpty()) {
+				if(FMLCommonHandler.instance().getMinecraftServerInstance().isSinglePlayer())
+					this.globalPlayerList = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList;
+				else
+					this.globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 			} else if(this.globalPlayerList == null) {
 				System.out.println("List is null, help pls");
 			}

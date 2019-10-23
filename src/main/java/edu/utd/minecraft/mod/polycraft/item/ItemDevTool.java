@@ -72,8 +72,8 @@ public class ItemDevTool extends ItemCustom  {
 	private long lastEventNanoseconds = 0;
 	String tool;
 	boolean setting;
-	String outputFileName = "output";
-	String outputFileExt = ".psm";
+	private String outputFileDir = "experiments/";
+	public String outputFileName = "output.psm";
 	
 	private StateEnum currentState;
 	public static enum StateEnum {
@@ -81,7 +81,8 @@ public class ItemDevTool extends ItemCustom  {
 		FeatureTool,
 		GuideTool,
 		Save,
-		Load;
+		Load,
+		Test;
 		
 		public StateEnum next() {
 		    if (ordinal() == values().length - 1)
@@ -401,7 +402,10 @@ public class ItemDevTool extends ItemCustom  {
 		nbtFeatures.setTag("AreaData", saveArea());
 		FileOutputStream fout = null;
 		try {
-			File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+			File dir = new File(this.outputFileDir);
+			if(!dir.exists())
+				dir.mkdir();
+			File file = new File(this.outputFileDir + this.outputFileName);
 			fout = new FileOutputStream(file);
 			
 			if (!file.exists()) {
@@ -412,12 +416,11 @@ public class ItemDevTool extends ItemCustom  {
 			fout.close();
 			
 		}catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		
 		}catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+		}catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -425,7 +428,7 @@ public class ItemDevTool extends ItemCustom  {
 		try {
         	features.clear();
         	
-        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+        	File file = new File(this.outputFileDir + this.outputFileName);
         	InputStream is = new FileInputStream(file);
 
             NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);

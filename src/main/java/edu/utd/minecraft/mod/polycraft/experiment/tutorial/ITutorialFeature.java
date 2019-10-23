@@ -14,7 +14,7 @@ public interface ITutorialFeature{
 	public abstract void onServerTickUpdate(ExperimentTutorial exp);
 	
 	//onPlayerTickUpdate is called once for every Client tick by the tutorial manager
-	public abstract void onPlayerTickUpdate(ExperimentTutorial exp);
+	public abstract void onClientTickUpdate(ExperimentTutorial exp);
 	
 	//end will run as the last function in case there is any cleanup that needs to be done before the user can progress through the rest of the stages
 	public abstract void end(ExperimentTutorial exp);

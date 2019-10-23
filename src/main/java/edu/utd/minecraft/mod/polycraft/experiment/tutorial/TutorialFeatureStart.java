@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
@@ -16,13 +17,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureStart extends TutorialFeature{
-	private BlockPos lookDir;	//xCoord == pitch; yCoord = yaw
+	private BlockPos lookDir, pos2;	//lookDir xCoord == pitch; yCoord = yaw
+	boolean spawnRand;
 	
 	//working parameters
 	private boolean spawnedInServer = false, spawnedInClient = false;
@@ -30,13 +33,17 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
-	protected GuiPolyNumField pitchField, yawField;
+	protected GuiPolyNumField pitchField, yawField, xPos2Field, yPos2Field, zPos2Field;
+	@SideOnly(Side.CLIENT)
+	protected GuiPolyButtonCycle<GuiPolyButtonCycle.Toggle> toggleRandomSpawn;
 	
 	public TutorialFeatureStart() {}
 	
 	public TutorialFeatureStart(String name, BlockPos pos, BlockPos lookDir){
 		super(name, pos, Color.CYAN);
 		this.lookDir = lookDir;
+		this.pos2 = pos;
+		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.START;
 	}
 	
@@ -65,7 +72,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	}
 	
 	@Override
-	public void onPlayerTickUpdate(ExperimentTutorial exp) {
+	public void onClientTickUpdate(ExperimentTutorial exp) {
 		if(!spawnedInClient) {
 			Minecraft.getMinecraft().getRenderViewEntity().rotationPitch = (float) this.lookDir.getX();
 			Minecraft.getMinecraft().getRenderViewEntity().rotationYaw = (float) this.lookDir.getY();
@@ -83,7 +90,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	 * param y height they should be dropped at.
 	 */
 	private void spawnPlayer(EntityPlayerMP player, ExperimentTutorial exp){
-		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,	
+		MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, dim,	
 				new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.getX(), (int) this.pos.getY(), (int) this.pos.getZ(),
 						(float) this.lookDir.getY(), (float) this.lookDir.getX()));
 		
@@ -100,7 +107,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	@Override
 	public void render(Entity entity) {
-		TutorialRender.renderLoadingScreen(entity);
+		//TutorialRender.renderLoadingScreen(entity);
 	}
 	
 	@Override
@@ -132,6 +139,58 @@ public class TutorialFeatureStart extends TutorialFeature{
         yawField.setCanLoseFocus(true);
         yawField.setFocused(false);
         guiDevTool.textFields.add(yawField);
+        
+        y_pos += 15;
+//        toggleRandomSpawn = new GuiPolyButtonCycle<GuiPolyButtonCycle.Toggle>(
+//        		guiDevTool.buttonCount++, x_pos + 10, y_pos + 45, (int) (guiDevTool.X_WIDTH * .9), 14, 
+//        		"Random Spawn",  GuiPolyButtonCycle.Toggle.fromBool(spawnRand));
+//        guiDevTool.addBtn(toggleRandomSpawn);
+        y_pos += 15;
+        //Add random spawn area setting
+        //add some labels for position fields 
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Pos"));
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +30, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"X:"));
+        //add position text fields
+        xPos2Field = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        xPos2Field.setMaxStringLength(32);
+        xPos2Field.setText(Integer.toString((int)pos2.getX()));
+        xPos2Field.setTextColor(16777215);
+        xPos2Field.setVisible(true);
+        xPos2Field.setCanLoseFocus(true);
+        xPos2Field.setFocused(false);
+        guiDevTool.textFields.add(xPos2Field);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +85, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Y:"));
+        yPos2Field = new GuiPolyNumField(fr, x_pos + 95, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        yPos2Field.setMaxStringLength(32);
+        yPos2Field.setText(Integer.toString((int)pos2.getY()));
+        yPos2Field.setTextColor(16777215);
+        yPos2Field.setVisible(true);
+        yPos2Field.setCanLoseFocus(true);
+        yPos2Field.setFocused(false);
+        guiDevTool.textFields.add(yPos2Field);
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +140, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Z:"));
+        zPos2Field = new GuiPolyNumField(fr, x_pos + 150, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        zPos2Field.setMaxStringLength(32);
+        zPos2Field.setText(Integer.toString((int)pos2.getZ()));
+        zPos2Field.setTextColor(16777215);
+        zPos2Field.setVisible(true);
+        zPos2Field.setCanLoseFocus(true);
+        zPos2Field.setFocused(false);
+        guiDevTool.textFields.add(zPos2Field);
+        
+	}
+	
+	@Override
+	public void updateValues() {
+		this.pos2 = new BlockPos(Integer.parseInt(xPos2Field.getText())
+				,Integer.parseInt(yPos2Field.getText())
+				,Integer.parseInt(zPos2Field.getText()));
+		spawnRand = GuiPolyButtonCycle.Toggle.toBool(toggleRandomSpawn.getCurrentOption());
+		super.updateValues();
 	}
 	
 	@Override
@@ -140,9 +199,12 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.save();
 		int lookDir[] = {(int)this.lookDir.getX(), (int)this.lookDir.getY(), (int)this.lookDir.getZ()};
 		nbt.setIntArray("lookDir",lookDir);
+		int pos2[] = {(int)this.pos2.getX(), (int)this.pos2.getY(), (int)this.pos2.getZ()};
+		nbt.setIntArray("pos2",pos2);
 		nbt.setInteger("dim", dim);
 		nbt.setBoolean("spawnedInServer", spawnedInServer);
 		nbt.setBoolean("spawnedInClient", spawnedInClient);
+		nbt.setBoolean("spawnRand", spawnRand);
 		return nbt;
 	}
 	
@@ -152,9 +214,12 @@ public class TutorialFeatureStart extends TutorialFeature{
 		super.load(nbtFeat);
 		int featLookDir[]=nbtFeat.getIntArray("lookDir");
 		this.lookDir=new BlockPos(featLookDir[0], featLookDir[1], featLookDir[2]);
+		int featPos2[]=nbtFeat.getIntArray("pos2");
+		this.pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
 		this.dim = nbtFeat.getInteger("dim");
 		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
 		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
+		this.spawnRand = nbtFeat.getBoolean("spawnRand");
 	}
 	
 }

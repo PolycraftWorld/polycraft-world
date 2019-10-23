@@ -152,10 +152,12 @@ public class BotAPI {
     	PLACE_CRAFTING_TABLE,
     	PLACE_TREE_TAP,
     	SELECT_AXE,
+    	SELECT_POGO_STICK,
     	INV_SELECT_ITEM,
     	INV_MOVE_ITEM,
     	INV_CRAFT_ITEM,
     	CRAFT_PLANKS,
+    	CRAFT_CRAFTING_TABLE,
     	CRAFT_STICKS,
     	CRAFT_AXE,
     	CRAFT_TREE_TAP,
@@ -402,6 +404,13 @@ public class BotAPI {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 17 0 0 0 0 0 0 0 0");
+    	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+	}
+	
+	public static void craftCraftingTable(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		List<Object> params = new ArrayList<Object>();
+    	params.add(String.join(" ", args) + " 5 5 0 5 5 0 0 0 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
 	}
 	
@@ -903,6 +912,8 @@ public class BotAPI {
 	            case COLLECT_FROM_BLOCK:
 	            	BotAPI.INSTANCE.collectFrom(args);
 	            	break;
+	            case CRAFT_CRAFTING_TABLE:
+	            	BotAPI.craftCraftingTable(args);
 	            case CRAFT_PLANKS:
 	            	BotAPI.craftPlanks(args);
 	            	break;
@@ -1009,7 +1020,7 @@ public class BotAPI {
 		                                	BotAPI.start(fromClient.split(" "));
 		                                }
 		                            });
-		                        }else if(fromClient.contains("LL")) {
+		                        }else if(fromClient.equals("LL")) {
 		                        	System.out.println("TEST");
 		                        	IThreadListener mainThread = Minecraft.getMinecraft();
 		                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));

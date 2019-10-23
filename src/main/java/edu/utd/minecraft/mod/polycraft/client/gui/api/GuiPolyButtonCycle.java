@@ -9,6 +9,25 @@ public class GuiPolyButtonCycle<E extends Enum<E>> extends GuiButton{
 	
 	private E option;
 	private String prefix;
+	
+	public enum Toggle{
+		TRUE,
+		FALSE;
+		
+		public static Toggle fromBool(boolean toggle) {
+			if(toggle)
+				return TRUE;
+			else
+				return FALSE;
+		}
+		
+		public static boolean toBool(Toggle toggle) {
+			if(toggle == TRUE)
+				return true;
+			else
+				return false;
+		}
+	}
 
 	public GuiPolyButtonCycle(int id, int xStart, int yStart, int width, int height,
 			String text, final E option) {

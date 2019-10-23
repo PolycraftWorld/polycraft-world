@@ -2,7 +2,10 @@ package edu.utd.minecraft.mod.polycraft.client.gui.api;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class GuiPolyLabel extends Gui{
 	private String text;
 	private int color;
