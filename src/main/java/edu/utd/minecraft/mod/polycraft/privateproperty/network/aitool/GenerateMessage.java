@@ -1,5 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -24,7 +25,13 @@ public class GenerateMessage implements IMessage{
 	public int treeTypeSize;
 	public int depth;
 	public int caveBlock;
-
+	public List<Integer> treeGenTypes= Lists.<Integer>newArrayList();
+	public int treeGenSize;
+	public List<List<List<Boolean>>> booleanTableList= new ArrayList<List<List<Boolean>>>();
+	public int booleanTableListSize;
+	public int chunkWidth,chunkLength;
+	
+	
     public GenerateMessage()
     {
     }
@@ -37,6 +44,8 @@ public class GenerateMessage implements IMessage{
         	this.walls = (boolean)params.get(0);
         	this.width = (int)params.get(1)*16;
         	this.length = (int)params.get(2)*16;
+        	this.chunkWidth=(int)params.get(1);
+        	this.chunkLength =(int)params.get(2);
         	this.height = (int)params.get(3);
         	switch(((BlockType)params.get(4)).ordinal())
         	{
@@ -66,35 +75,40 @@ public class GenerateMessage implements IMessage{
         		if(rec instanceof AIToolResourceTree)
         		{
         			this.treeTypes.add(((AIToolResourceTree) rec).treeTypeID);
+        			this.treeGenTypes.add(((AIToolResourceTree) rec).genType);
+        			this.booleanTableList.add(((AIToolResourceTree) rec).booleanTable);
         		}
         		c++;
         	}
-        	this.treeTypeSize=treeTypes.size();
+        	this.treeTypeSize=this.treeTypes.size();
+        	this.treeGenSize=this.treeGenTypes.size();
+        	this.booleanTableListSize=this.booleanTableList.size();
         	//
+        	this.depth=(int) params.get(6);
+            switch(((BlockType)params.get(7)).ordinal())
+        	{
+        		case 0:
+        			this.caveBlock = Blocks.stone.getIdFromBlock(Blocks.stone);
+        			break;
+        		case 1:
+        			this.caveBlock =Blocks.grass.getIdFromBlock(Blocks.grass);
+        			break;
+        		case 2:
+        			this.caveBlock =Blocks.sand.getIdFromBlock(Blocks.sand);
+        			break;
+        		case 3:
+        			this.caveBlock =Blocks.water.getIdFromBlock(Blocks.water);
+        			break;
+        		case 4:
+        			this.caveBlock =Blocks.snow.getIdFromBlock(Blocks.snow);
+        			break;
+        		default:
+        			this.caveBlock =Blocks.stone.getIdFromBlock(Blocks.stone);
+        			break;
+        		
+        	}
         }
-        this.depth=(int) params.get(6);
-        switch(((BlockType)params.get(7)).ordinal())
-    	{
-    		case 0:
-    			this.caveBlock = Blocks.stone.getIdFromBlock(Blocks.stone);
-    			break;
-    		case 1:
-    			this.caveBlock =Blocks.grass.getIdFromBlock(Blocks.grass);
-    			break;
-    		case 2:
-    			this.caveBlock =Blocks.sand.getIdFromBlock(Blocks.sand);
-    			break;
-    		case 3:
-    			this.caveBlock =Blocks.water.getIdFromBlock(Blocks.water);
-    			break;
-    		case 4:
-    			this.caveBlock =Blocks.snow.getIdFromBlock(Blocks.snow);
-    			break;
-    		default:
-    			this.caveBlock =Blocks.stone.getIdFromBlock(Blocks.stone);
-    			break;
-    		
-    	}
+        
     }
 
     @Override
@@ -112,6 +126,28 @@ public class GenerateMessage implements IMessage{
         }
         this.depth=buf.readInt();
         this.caveBlock=buf.readInt();
+        this.treeGenSize=buf.readInt();
+        for(int c=0;c<treeGenSize;c++)
+        {
+        	this.treeGenTypes.add(buf.readInt());
+        }
+        this.booleanTableListSize=buf.readInt();
+        this.chunkWidth=buf.readInt();
+        this.chunkLength=buf.readInt();
+        for(int c=0;c<booleanTableListSize;c++)
+        {
+        	List<List<Boolean>> boolTable = new ArrayList<List<Boolean>>();
+        	for(int x=0;x<this.chunkWidth;x++)
+        	{
+        		List<Boolean> boolList = new ArrayList<Boolean>();
+        		for(int y=0;y<this.chunkLength;y++)
+            	{
+            		boolList.add(buf.readBoolean());
+            	}
+        		boolTable.add(boolList);
+        	}
+        	this.booleanTableList.add(boolTable);
+        }
     }
 
     @Override
@@ -129,6 +165,24 @@ public class GenerateMessage implements IMessage{
     	}
     	buf.writeInt(this.depth);
     	buf.writeInt(this.caveBlock);
+    	buf.writeInt(this.treeGenSize);
+    	for(Integer types:this.treeGenTypes)
+    	{
+    		buf.writeInt(types);
+    	}
+    	buf.writeInt(this.booleanTableListSize);
+    	buf.writeInt(this.chunkWidth);
+    	buf.writeInt(this.chunkLength);
+    	for(List<List<Boolean>> boolTable:this.booleanTableList)
+    	{
+    		for(int x=0;x<this.chunkWidth;x++)
+        	{
+        		for(int y=0;y<this.chunkLength;y++)
+            	{
+        			buf.writeBoolean(boolTable.get(x).get(y));
+            	}
+        	}
+    	}
     }
 
 }
