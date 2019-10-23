@@ -56,7 +56,7 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
 						TutorialManager.INSTANCE.experiments.get(message.expID).updateActiveFeatures(message.featureList);
 						break;
 					case All:
-						if(!TutorialManager.INSTANCE.experiments.contains(message.expID))
+						if(!TutorialManager.INSTANCE.experiments.containsKey(message.expID))
 							TutorialManager.INSTANCE.experiments.put(message.expID, new ExperimentTutorial(message.expID, Minecraft.getMinecraft().theWorld, message.featureList));
                 		TutorialManager.INSTANCE.clientCurrentExperiment = message.expID;
 						break;

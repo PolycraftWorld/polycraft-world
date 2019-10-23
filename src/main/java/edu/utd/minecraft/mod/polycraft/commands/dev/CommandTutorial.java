@@ -44,6 +44,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
@@ -134,6 +135,9 @@ public class CommandTutorial  extends CommandBase{
 					}
 				} else if (chatCommandTutGen.equalsIgnoreCase(args[0])) {	//generate tutorial rooms
 					generateStructure(sender, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ(), player.getEntityWorld());
+				} else if ("spawnTest".equalsIgnoreCase(args[0])) {
+					MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, 8,	
+							new PolycraftTeleporter(MinecraftServer.getServer().worldServerForDimension(8), 244, 4, 1,(float) 0, (float) 90));
 				}
 			}
 		}

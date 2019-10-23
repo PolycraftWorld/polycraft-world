@@ -329,17 +329,17 @@ public class ExperimentManager {
 		
 	}
 	
-	public EntityPlayer getPlayerEntity(String playerName) {
+	public EntityPlayerMP getPlayerEntity(String playerName) {
 		try {
 			if(this.globalPlayerList == null || this.globalPlayerList.isEmpty()) {
-				if(FMLCommonHandler.instance().getMinecraftServerInstance().isSinglePlayer())
-					this.globalPlayerList = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList;
-				else
-					this.globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+//				if(FMLCommonHandler.instance().getMinecraftServerInstance().isSinglePlayer())
+//					this.globalPlayerList = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList;
+//				else
+				this.globalPlayerList = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 			} else if(this.globalPlayerList == null) {
 				System.out.println("List is null, help pls");
 			}
-			for (EntityPlayer player : this.globalPlayerList) {
+			for (EntityPlayerMP player : this.globalPlayerList) {
 				if(player.getDisplayNameString().equals(playerName)) {
 					return player;
 				}

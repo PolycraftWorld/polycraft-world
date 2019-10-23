@@ -207,8 +207,8 @@ public class ExperimentTutorial{
 	}
 	
 	public void onServerTickUpdate() {
-		if(!isServer)
-			return;
+//		if(!isServer)
+//			return;
 		
 		switch(currentState) {
 		case WaitingToStart:
@@ -448,7 +448,7 @@ public class ExperimentTutorial{
 	}
 
 	
-	public Collection<EntityPlayer> getEntityPlayersInExperiment() {
+	public Collection<EntityPlayerMP> getEntityPlayersInExperiment() {
 		return scoreboard.getPlayersAsEntity();
 	}
 	

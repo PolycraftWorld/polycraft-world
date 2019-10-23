@@ -58,8 +58,8 @@ public class TutorialFeatureStart extends TutorialFeature{
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		if(!spawnedInServer) {
-			for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-				spawnPlayer((EntityPlayerMP) player, exp);
+			for(EntityPlayerMP player: exp.scoreboard.getPlayersAsEntity()) {
+				spawnPlayer(player, exp);
 				System.out.println("Feature Start pos:" + pos.getX() + "," + pos.getY() + "," + pos.getZ());
 			}
 			spawnedInServer = true;
@@ -90,7 +90,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	 * param y height they should be dropped at.
 	 */
 	private void spawnPlayer(EntityPlayerMP player, ExperimentTutorial exp){
-		MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, dim,	
+		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,	
 				new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.getX(), (int) this.pos.getY(), (int) this.pos.getZ(),
 						(float) this.lookDir.getY(), (float) this.lookDir.getX()));
 		

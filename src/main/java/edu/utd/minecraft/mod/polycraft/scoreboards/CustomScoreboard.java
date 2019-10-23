@@ -115,8 +115,8 @@ public class CustomScoreboard {
 		return players;
 	}
 	
-	public Collection<EntityPlayer> getPlayersAsEntity(){
-		Collection<EntityPlayer> playerEntities = Lists.newLinkedList();
+	public Collection<EntityPlayerMP> getPlayersAsEntity(){
+		Collection<EntityPlayerMP> playerEntities = Lists.newLinkedList();
 		for(Team team: teams) {
 			if(team.getPlayers().isEmpty()) continue;
 			for(String player: team.getPlayers()) {

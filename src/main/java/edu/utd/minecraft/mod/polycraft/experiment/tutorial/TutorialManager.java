@@ -89,7 +89,7 @@ public class TutorialManager {
 	
 	
 	public void onServerTickUpdate(final TickEvent.ServerTickEvent tick) {
-		if(tick.phase == TickEvent.Phase.END) {
+		if(tick.phase == TickEvent.Phase.END && tick.side == Side.SERVER) {
 			for(ExperimentTutorial ex: experiments.values()){
 				if(ex.currentState != ExperimentTutorial.State.Done) {
 					ex.onServerTickUpdate();
