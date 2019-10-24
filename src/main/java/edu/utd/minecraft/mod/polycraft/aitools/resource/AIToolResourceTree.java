@@ -1,10 +1,11 @@
-package edu.utd.minecraft.mod.polycraft.aitools;
+package edu.utd.minecraft.mod.polycraft.aitools.resource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import edu.utd.minecraft.mod.polycraft.aitools.GuiPolyButtonCheckTable;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiAITrainingRoom;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonDropDown;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.PolycraftGuiScreenBase;
@@ -40,7 +41,6 @@ public class AIToolResourceTree extends AIToolResource {
 	
 	public enum GenType{
 		CLUSTER,
-		CLUSTERS,
 		RANDOM
 	};
 

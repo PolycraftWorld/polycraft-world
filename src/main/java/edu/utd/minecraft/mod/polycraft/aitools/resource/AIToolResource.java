@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.aitools;
+package edu.utd.minecraft.mod.polycraft.aitools.resource;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import edu.utd.minecraft.mod.polycraft.aitools.AIToolResource;
-import edu.utd.minecraft.mod.polycraft.aitools.AIToolResourceTree;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResource;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceTree;
 import edu.utd.minecraft.mod.polycraft.item.ItemAITool.BlockType;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;

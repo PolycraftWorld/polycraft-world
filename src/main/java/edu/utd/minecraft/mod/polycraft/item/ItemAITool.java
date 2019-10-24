@@ -17,8 +17,8 @@ import java.util.stream.Stream;
 import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.aitools.AIToolResource;
 import edu.utd.minecraft.mod.polycraft.aitools.AIToolSettingsRoomGen;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResource;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
@@ -50,6 +50,7 @@ public class ItemAITool extends ItemCustom {
 	
 	//String outputFileName = "output";
 	String outputFileExt = ".psm";
+	public List<AIToolResource> caveRecList = Lists.<AIToolResource>newArrayList();
 	
 	public ItemAITool(CustomObject config) {
 		super(config);

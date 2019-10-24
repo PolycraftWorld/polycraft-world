@@ -19,9 +19,11 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.aitools.AIToolResource;
-import edu.utd.minecraft.mod.polycraft.aitools.AIToolResourceTarget;
-import edu.utd.minecraft.mod.polycraft.aitools.AIToolResourceTree;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResource;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceOil;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceOre;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceTarget;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceTree;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonDropDown;
@@ -82,8 +84,11 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	GuiButton saveTab;
 	
 	GuiPolyButtonDropDown addRecDropDown;
+	GuiPolyButtonDropDown addCaveRecDropDown;
 	GuiButton addRec;
+	GuiButton addCaveRec;
 	public List<AIToolResource> recList = Lists.<AIToolResource>newArrayList();
+	public List<AIToolResource> caveRecList = Lists.<AIToolResource>newArrayList();
 	
 	protected List<GuiPolyButtonDropDown> dropDownList = Lists.<GuiPolyButtonDropDown>newArrayList();
 	
@@ -100,7 +105,12 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 	 public enum RecTypes{
 			TREES,
 			TARGETS
-	};
+	}
+	 
+	 public enum CaveRecTypes{
+			ORE,
+			OIL
+	}
 	 
 	 private ScreenTabs screenSwitcher = ScreenTabs.Tab_Gen;
 
@@ -197,12 +207,14 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
         tabList.add(saveTab);
         
     	addRec = new GuiButton(11, i+60, j-80, 45, 20, "+");
-		
+    	
+    	addCaveRec = new GuiButton(11, i+60, j-80, 45, 20, "+");
+    	
 		addBtn(genTab);
 		addBtn(saveTab);
 		addBtn(recTab);
 		this.recList=AITool.recList;
-		
+		this.caveRecList=AITool.caveRecList;
 		
 		this.screenSwitcher= this.screenChange(this.screenSwitcher);
 		 for(GuiButton btn:this.tabList)
@@ -278,11 +290,25 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
     			
     			break;
     		case Tab_Cave:
+    			
+    			this.caveRecList=AITool.caveRecList;
     			depthSlider = new GuiSlider(0,i-110,j-75,120,20,"Depth: "," Block(s)",0,64,AITool.getDepth(),false,true,null);
     			caveBlockTypeDropDown = new GuiPolyButtonDropDown(5, i-110, j-35, 120, 20,AITool.getCaveBlockType());
     			
+    			addCaveRec = new GuiButton(14, i-40, j+10, 20, 20, "+");
+    			addCaveRecDropDown = new GuiPolyButtonDropDown(5, i-110, j+10, 60, 20,CaveRecTypes.ORE);
+    			addBtn(addCaveRecDropDown);
+    			addBtn(addCaveRec);
+    			
     			addBtn(depthSlider);
     			addBtn(caveBlockTypeDropDown);
+    			
+    			int yOffsetCave=0;
+    			for(AIToolResource rec: this.caveRecList)
+    			{
+    				rec.addButtons(this,i-110,j+50+yOffsetCave);
+    				yOffsetCave+=50;
+    			}
     			
     			addBtn(genTab);
     			addBtn(saveTab);
@@ -324,21 +350,21 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
 			
 		 }
-//		 if(button==addRec)
-//		 {
-////			 this.addBtn(this.resourceTypeDropDown);
-////			 this.addBtn(this.treeTypeDropDown);
-//			 if(this.addRecDropDown.getCurrentOpt()==RecTypes.TREES)
-//			 {
-//				 this.recList.add(new AIToolResourceTree());
-//			 }
-//			 if(this.addRecDropDown.getCurrentOpt()==RecTypes.TARGETS)
-//			 {
-//				 this.recList.add(new AIToolResourceTarget());
-//			 }
-//			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Rec);
-//			
-//		 }
+		 if(button==addCaveRec)
+		 {
+//			 this.addBtn(this.resourceTypeDropDown);
+//			 this.addBtn(this.treeTypeDropDown);
+			 if(this.addCaveRecDropDown.getCurrentOpt()==CaveRecTypes.ORE)
+			 {
+				 this.caveRecList.add(new AIToolResourceOre());
+			 }
+			 if(this.addCaveRecDropDown.getCurrentOpt()==CaveRecTypes.OIL)
+			 {
+				 this.caveRecList.add(new AIToolResourceOil());
+			 }
+			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Cave);
+			
+		 }
 		 if(button==genTab)
 		 {
    			 this.screenSwitcher= this.screenChange(ScreenTabs.Tab_Gen);
@@ -506,9 +532,24 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 //				}
 			}
 		 }
-		 if(recRemove!=null)
+		 AIToolResource caveRecRemove=null;
+		 for(AIToolResource caveRec: this.caveRecList )
 		 {
-			 recRemove.removeResource(this);
+
+			if(caveRec.remove==button)
+			{
+				caveRecRemove=caveRec;
+			}
+			
+			for(GuiPolyButtonDropDown recDropDown:caveRec.recDropDownList)
+			{
+				recDropDown.actionPerformed(button,this);
+				caveRec.save();
+			}
+		 }
+		 if(caveRecRemove!=null)
+		 {
+			 caveRecRemove.removeResource(this);
 			 this.screenSwitcher= this.screenChange(this.screenSwitcher);
 		 }
 //		 }
@@ -593,6 +634,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 		this.AITool.setDepth(this.depthSlider.getValueInt());
 		heightSlider.enabled=wallCheck.isChecked();
 		AITool.recList=this.recList;
+		AITool.caveRecList=this.caveRecList;
 	       
 	 }
 	
