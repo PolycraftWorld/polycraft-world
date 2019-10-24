@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResource;
+import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceOre;
 import edu.utd.minecraft.mod.polycraft.aitools.resource.AIToolResourceTree;
 import edu.utd.minecraft.mod.polycraft.item.ItemAITool.BlockType;
 import io.netty.buffer.ByteBuf;
@@ -30,6 +31,12 @@ public class GenerateMessage implements IMessage{
 	public List<List<List<Boolean>>> booleanTableList= new ArrayList<List<List<Boolean>>>();
 	public int booleanTableListSize;
 	public int chunkWidth,chunkLength;
+	public List<Integer> oreTypes= Lists.<Integer>newArrayList();
+	public List<Integer> oreGenTypes= Lists.<Integer>newArrayList();
+	public int oreTypeSize;
+	public int oreGenSize;
+	public List<List<List<Boolean>>> oreBooleanTableList= new ArrayList<List<List<Boolean>>>();
+	public int oreBooleanTableListSize;
 	
 	
     public GenerateMessage()
@@ -39,7 +46,7 @@ public class GenerateMessage implements IMessage{
     public GenerateMessage(List<Object> params)
     {
 
-        if (params.size() == 8)
+        if (params.size() == 9)
         {
         	this.walls = (boolean)params.get(0);
         	this.width = (int)params.get(1)*16;
@@ -107,6 +114,20 @@ public class GenerateMessage implements IMessage{
         			break;
         		
         	}
+        	c=0;
+            for(AIToolResource caveRec:(List<AIToolResource>)params.get(8))
+        	{
+        		if(caveRec instanceof AIToolResourceOre)
+        		{
+        			this.oreTypes.add(((AIToolResourceOre) caveRec).oreTypeID);
+        			this.oreGenTypes.add(((AIToolResourceOre) caveRec).genType);
+        			this.oreBooleanTableList.add(((AIToolResourceOre) caveRec).booleanTable);
+        		}
+        		c++;
+        	}
+        	this.oreTypeSize=this.oreTypes.size();
+        	this.oreGenSize=this.oreGenTypes.size();
+        	this.oreBooleanTableListSize=this.oreBooleanTableList.size();
         }
         
     }
@@ -148,6 +169,33 @@ public class GenerateMessage implements IMessage{
         	}
         	this.booleanTableList.add(boolTable);
         }
+        
+        this.oreTypeSize = buf.readInt();
+        for(int c=0;c<this.oreTypeSize;c++)
+        {
+        	this.oreTypes.add(buf.readInt());
+        }
+        this.oreGenSize=buf.readInt();
+        for(int c=0;c<oreGenSize;c++)
+        {
+        	this.oreGenTypes.add(buf.readInt());
+        }
+        this.oreBooleanTableListSize=buf.readInt();
+        for(int c=0;c<oreBooleanTableListSize;c++)
+        {
+        	List<List<Boolean>> boolTable = new ArrayList<List<Boolean>>();
+        	for(int x=0;x<this.chunkWidth;x++)
+        	{
+        		List<Boolean> boolList = new ArrayList<Boolean>();
+        		for(int y=0;y<this.chunkLength;y++)
+            	{
+            		boolList.add(buf.readBoolean());
+            	}
+        		boolTable.add(boolList);
+        	}
+        	this.oreBooleanTableList.add(boolTable);
+        	
+        }
     }
 
     @Override
@@ -174,6 +222,27 @@ public class GenerateMessage implements IMessage{
     	buf.writeInt(this.chunkWidth);
     	buf.writeInt(this.chunkLength);
     	for(List<List<Boolean>> boolTable:this.booleanTableList)
+    	{
+    		for(int x=0;x<this.chunkWidth;x++)
+        	{
+        		for(int y=0;y<this.chunkLength;y++)
+            	{
+        			buf.writeBoolean(boolTable.get(x).get(y));
+            	}
+        	}
+    	}
+    	buf.writeInt(this.oreTypeSize);
+    	for(Integer types:this.oreTypes)
+    	{
+    		buf.writeInt(types);
+    	}
+    	buf.writeInt(this.oreGenSize);
+    	for(Integer types:this.oreGenTypes)
+    	{
+    		buf.writeInt(types);
+    	}
+    	buf.writeInt(this.oreBooleanTableListSize);
+    	for(List<List<Boolean>> boolTable:this.oreBooleanTableList)
     	{
     		for(int x=0;x<this.chunkWidth;x++)
         	{

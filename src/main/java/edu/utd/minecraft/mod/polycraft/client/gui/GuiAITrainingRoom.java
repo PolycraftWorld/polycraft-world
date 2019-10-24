@@ -415,6 +415,7 @@ public class GuiAITrainingRoom extends PolycraftGuiScreenBase {
 				params.add(AITool.recList);
 				params.add(AITool.getDepth());
 				params.add(AITool.getCaveBlockType());
+				params.add(AITool.caveRecList);
 				PolycraftMod.SChannel.sendToServer(new GenerateMessage(params));
 				this.exitGuiScreen();
 //			 ClientEnforcer.INSTANCE.sendAIToolGeneration();

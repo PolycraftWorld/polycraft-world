@@ -61,6 +61,71 @@ public class GenerateMessageHandler implements IMessageHandler<GenerateMessage, 
             					player.worldObj.setBlockState(new BlockPos(x+i,y-d,z+j), Block.getBlockById(message.caveBlock).getDefaultState());
             				}
             			}
+            			
+            			
+            			for(int c=0;c<message.oreBooleanTableListSize;c++)
+        				{
+        					
+            				if(message.oreGenTypes.get(c)==0)
+            				{
+            					if(!message.oreBooleanTableList.get(c).get(i/16).get(j/16))
+            					{
+            						continue;
+            					}
+            					
+            				}
+            				
+            				switch(message.oreTypes.get(c))
+            				{
+            					case 0://iron
+            						for(int m=0;m<3;m++)
+            						{
+            							for(int n=0;n<3;n++)
+                						{
+            								for(int o=0;o<3;o++)
+                    						{
+            									player.worldObj.setBlockState(new BlockPos(x+i-m,y-(message.depth/2)-n,z+j-o), Blocks.iron_ore.getDefaultState());
+            									message.oreBooleanTableList.get(c).get(i/16).set(j/16, false);
+                    						}
+                						}
+            						}
+            						
+            						break;
+            					case 1://gold
+            						for(int m=0;m<3;m++)
+            						{
+            							for(int n=0;n<3;n++)
+                						{
+            								for(int o=0;o<3;o++)
+                    						{
+            									player.worldObj.setBlockState(new BlockPos(x+i-m,y-(message.depth/2)-n,z+j-o), Blocks.gold_ore.getDefaultState());
+            									message.oreBooleanTableList.get(c).get(i/16).set(j/16, false);
+                    						}
+                						}
+            						}
+            						
+            						break;
+            					case 2://diamond
+            						for(int m=0;m<3;m++)
+            						{
+            							for(int n=0;n<3;n++)
+                						{
+            								for(int o=0;o<3;o++)
+                    						{
+            									player.worldObj.setBlockState(new BlockPos(x+i-m,y-(message.depth/2)-n,z+j-o), Blocks.diamond_ore.getDefaultState());
+            									message.oreBooleanTableList.get(c).get(i/16).set(j/16, false);
+                    						}
+                						}
+            						}
+            						
+            						break;
+            				}
+            				
+        				}
+            			
+            			
+            			
+            			
             			Random rand= new Random();
             
             			if(rand.nextInt(8)==0 && message.treeTypes.size()!=0 && !(i==0 || i==(message.width-1) || j==0 || j==(message.length-1)))
