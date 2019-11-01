@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentConfig.ConfigSlider;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonDropDown;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.PolycraftGuiScreenBase;
@@ -93,7 +94,8 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 	
 	//Navigation buttons
 	GuiButton btnBack, btnNext;
-    private ArrayList<GuiButton> experimentsListButton = new ArrayList<GuiButton>();
+	//Tool state button
+	GuiPolyButtonDropDown<ItemDevTool.StateEnum> btnToolState;
     private ArrayList<GuiButton> configButtons = new ArrayList<GuiButton>();
     //Add Step buttons
     GuiButton btnAddStepType;
@@ -187,14 +189,18 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
   		nameField.setFocused(true);
         
         y_pos+=(buttonheight + button_padding_y);	//extra spacing for file name
-        for (ItemDevTool.StateEnum option : ItemDevTool.StateEnum.values()) {
-    		//Add config button:
-    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight - 8, option.name());
-        	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
-        	y_pos+=(buttonheight + button_padding_y - 8);
-        	experimentsListButton.add(tempConfig);
-        	//experimentsListButton.add(temp);
-        }
+        btnToolState = new GuiPolyButtonDropDown<ItemDevTool.StateEnum>(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight, devTool.getState());
+    	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
+    	y_pos+=(buttonheight + button_padding_y - 8);
+        
+//        for (ItemDevTool.StateEnum option : ItemDevTool.StateEnum.values()) {
+//    		//Add config button:
+//    		GuiButton tempConfig = new GuiButton(10000+buttonCount++, x_pos+10, y_pos+4, (int) (X_WIDTH * .9), buttonheight - 8, option.name());
+//        	//GuiButton temp = new GuiButton(buttonCount++, x_pos + 5*X_PAD / 4 + tempConfig.width, y_pos, (int) (X_WIDTH * .65), buttonheight, emd.expName);
+//        	y_pos+=(buttonheight + button_padding_y - 8);
+//        	experimentsListButton.add(tempConfig);
+//        	//experimentsListButton.add(temp);
+//        }
         
         //start off in the right screen and run this before displaying
         screenSwitcher = this.screenChange(WhichScreen.DEV_MAIN);
@@ -346,19 +352,21 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     	default:
     		switch(screenSwitcher) {
     		case DEV_MAIN:			//close the screen
-    			if(button.id > 10000) {
-    	    		for(GuiButton gbtn : experimentsListButton) {
-    	    			if(gbtn.id == btnID) {
-    	    	    		String expID = gbtn.displayString;
-    	    	    		for(ItemDevTool.StateEnum state: ItemDevTool.StateEnum.values()) {
-    	    	    			if(expID.equals(state.name())) {
-    	    	    				devTool.setState(expID);
-    	    	    			}
-    	    	    		}
-    	    				return;
-    	    			}
-    	    		}
-    	    	}
+    			btnToolState.actionPerformed(button, this);
+    			devTool.setState(btnToolState.getCurrentOpt());
+//    			if(button.id == btnToolState.id) {
+//    	    		for(GuiButton gbtn : experimentsListButton) {
+//    	    			if(gbtn.id == btnID) {
+//    	    	    		String expID = gbtn.displayString;
+//    	    	    		for(ItemDevTool.StateEnum state: ItemDevTool.StateEnum.values()) {
+//    	    	    			if(expID.equals(state.name())) {
+//    	    	    				devTool.setState(expID);
+//    	    	    			}
+//    	    	    		}
+//    	    				return;
+//    	    			}
+//    	    		}
+//    	    	}
     			break;
     		case DEV_STEPS:			//Dev_steps buttons
     			//do nothing?
@@ -471,14 +479,14 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 	    y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
 	    
 	    
-	    for(GuiButton btn: (List<GuiButton>)buttonList) {
-	    	if(btn.id > 10000) {
-	    		if(btn.displayString.equalsIgnoreCase(devTool.getState().toString()))
-	    			btn.enabled = false;
-	    		else
-	    			btn.enabled = true;
-	    	}
-	    }
+//	    for(GuiButton btn: (List<GuiButton>)buttonList) {
+//	    	if(btn.id > 10000) {
+//	    		if(btn.displayString.equalsIgnoreCase(devTool.getState().toString()))
+//	    			btn.enabled = false;
+//	    		else
+//	    			btn.enabled = true;
+//	    	}
+//	    }
 	    
 	}
 
@@ -549,9 +557,10 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     		case DEV_MAIN:
     			btnBack.displayString = "Close";
     			btnNext.displayString = "Steps";
-    			this.buttonList.addAll(this.experimentsListButton);
+    			this.buttonList.add(btnToolState);
     			ylines = (Y_HEIGHT - titleHeight) / (this.buttonheight+5);
-    			extraLines = this.experimentsListButton.size() - ylines;
+    			//extraLines = this.experimentsListButton.size() - ylines;
+    			extraLines = 0;
     			break;
     		case DEV_STEPS:
     			btnBack.displayString = "< Back";

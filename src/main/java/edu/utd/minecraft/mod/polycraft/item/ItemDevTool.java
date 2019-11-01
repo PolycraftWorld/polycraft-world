@@ -118,6 +118,10 @@ public class ItemDevTool extends ItemCustom  {
 		currentState = StateEnum.valueOf(state);
 	}
 	
+	public void setState(StateEnum state) {
+		currentState = state;
+	}
+	
 	public StateEnum getState() {
 		return currentState;
 	}
