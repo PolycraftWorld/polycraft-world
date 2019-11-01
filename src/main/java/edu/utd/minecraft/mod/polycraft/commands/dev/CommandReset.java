@@ -1,6 +1,9 @@
 package edu.utd.minecraft.mod.polycraft.commands.dev;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -33,6 +40,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -48,10 +58,11 @@ public class CommandReset extends CommandBase{
 	private static final String chatCommandSetup = "setup";
 	private static final String chatCommandTrees = "trees";
 	private static final String chatCommandInv = "inv";
-	private static final String chatCommandPogo = "pogo";
+	private static final String chatCommandDomain = "domain";
 	private static final String chatCommandHills = "hills";
 	
-  
+	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+	static TutorialOptions tutOptions = new TutorialOptions();
 	
 	public CommandReset(){
 		aliases = new ArrayList(); 
@@ -181,13 +192,14 @@ public class CommandReset extends CommandBase{
 						}
 					}
 					break;
-				case chatCommandPogo:
+				case chatCommandDomain:
 					//player.setPositionAndUpdate(1, 4, 1);
-					buildArea(player);
-					addTrees(player);
-					clearLeaves(player);
-					player.inventory.clear();
-					player.setPositionAndUpdate(BotAPI.pos.get(0) + Math.random() * BotAPI.pos.get(3), y, BotAPI.pos.get(2) + Math.random() * BotAPI.pos.get(5));
+					registerNewExperiment(player, false, args[1]);
+//					buildArea(player);
+//					addTrees(player);
+//					clearLeaves(player);
+//					player.inventory.clear();
+//					player.setPositionAndUpdate(BotAPI.pos.get(0) + Math.random() * BotAPI.pos.get(3), y, BotAPI.pos.get(2) + Math.random() * BotAPI.pos.get(5));
 					break;
 				default:
 					player.setPosition(x + Math.random() * 15, y, z + Math.random() * 15);
@@ -230,6 +242,49 @@ public class CommandReset extends CommandBase{
 			
 		}		
 	}
+	
+	public void registerNewExperiment(EntityPlayer player, boolean genInDim8, String path) {
+		NBTTagCompound nbtData = load(path);
+		tutOptions.name = "AI Experiment";
+		tutOptions.numTeams = 1;
+		tutOptions.teamSize = 1;
+		
+		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, genInDim8);
+		TutorialManager.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
+		
+		player.addChatMessage(new ChatComponentText("Added New Experiment, ID = " + id));
+		
+		TutorialManager.INSTANCE.addPlayerToExperiment(id, (EntityPlayerMP)player);
+	}
+	
+	private NBTTagCompound load(String path) {
+		try {
+        	features.clear();
+        	
+        	File file = new File(path);
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+			for(int i =0;i<nbtFeatList.tagCount();i++) {
+				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+				System.out.println(nbtFeat.getString("type"));
+				System.out.println(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className);
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+				test.load(nbtFeat);
+				features.add(test);
+			}
+			
+			tutOptions.load(nbtFeats.getCompoundTag("options"));
+            is.close();
+            return nbtFeats;
+
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+        }
+		return null;
+	}
+	
 	
 	private void addTrees(EntityPlayer player) {
 		int x = BotAPI.pos.get(0), y = BotAPI.pos.get(1), z = BotAPI.pos.get(2);

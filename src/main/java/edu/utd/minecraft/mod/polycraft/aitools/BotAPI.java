@@ -113,6 +113,7 @@ public class BotAPI {
     private static final ClientEnforcer enforcer= ClientEnforcer.INSTANCE;
     
     public static AtomicBoolean apiRunning = new AtomicBoolean(true);
+    public static AtomicBoolean stepEnd = new AtomicBoolean(false);
     public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
@@ -645,6 +646,8 @@ public class BotAPI {
 			player.sendChatMessage("/reset setup " + args[1] + " " + args[2] + " " + args[3]);
 		}else if(args.length == 2) {
 			player.sendChatMessage("/reset " + args[1]);
+		}else if(args.length == 3) {
+			player.sendChatMessage("/reset " + args[1] + " " + args[2]);
 		}
 		
 		
@@ -810,7 +813,8 @@ public class BotAPI {
 		if(breakingBlocks) {
 			if(breakList.isEmpty()) {
 				breakingBlocks = false;
-				//TODO: return DATA and rewards
+				//return DATA and rewards
+				stepEnd.set(true);
 			}
 			else
 				return;
@@ -842,6 +846,7 @@ public class BotAPI {
 //					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
+	        	boolean stepEndValue = true; //true for everything except multi-tick functions. ex. breakblock
 	            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
 	            case LL:
 	            	lowLevel(args);
@@ -903,6 +908,7 @@ public class BotAPI {
 	            	break;
 	            case BREAK_BLOCK:
 	            	BotAPI.breakBlock(args);
+	            	stepEndValue = false;	//multi-tick actions should end somewhere else
 	            	break;
 	            case TELEPORT:
 	            	BotAPI.teleport(args);
@@ -967,6 +973,7 @@ public class BotAPI {
 	        		}
 	        		break;
 	            }
+	            stepEnd.set(stepEndValue);	//set stepEnd value to update python wrapper with current observations
 	        }
 			//TODO: return DATA and rewards
 		}
@@ -999,39 +1006,48 @@ public class BotAPI {
 	                		Socket client = server.accept();
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-	                        final String fromClient = in.readLine();
-	                        
-	                        try {
-	                        	if(fromClient.contains("DATA_INV"))
-	                        		dataInventory(out, client);
-	                        	else if(fromClient.contains("DATA_MAP"))
-	                        		dataMap(out, client);
-	                        	else if(fromClient.contains("DATA_BOT_POS"))
-	                        		dataBotPos(out, client);
-	                        	else if(fromClient.contains("DATA"))
-	                        		data(out, client);
-	                        	else if(fromClient.contains("START")) {
-	                        		IThreadListener mainThread = Minecraft.getMinecraft();
-		                            mainThread.addScheduledTask(new Runnable()
-		                            {
-		                                @Override
-		                                public void run()
-		                                {
-		                                	BotAPI.start(fromClient.split(" "));
-		                                }
-		                            });
-		                        }else if(fromClient.equals("LL")) {
-		                        	System.out.println("TEST");
-		                        	IThreadListener mainThread = Minecraft.getMinecraft();
-		                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));
-		                        }
-	                        	else
-	                        		commandQ.put(fromClient);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-	                        
+	                        while(!client.isClosed()) {
+	                        	final String fromClient = in.readLine();
+		                        
+		                        try {
+		                        	if(fromClient.contains("DATA_INV"))
+		                        		dataInventory(out, client);
+		                        	else if(fromClient.contains("DATA_MAP"))
+		                        		dataMap(out, client);
+		                        	else if(fromClient.contains("DATA_BOT_POS"))
+		                        		dataBotPos(out, client);
+		                        	else if(fromClient.contains("DATA"))
+		                        		data(out, client);
+		                        	else if(fromClient.contains("START")) {
+		                        		IThreadListener mainThread = Minecraft.getMinecraft();
+			                            mainThread.addScheduledTask(new Runnable()
+			                            {
+			                                @Override
+			                                public void run()
+			                                {
+			                                	BotAPI.start(fromClient.split(" "));
+			                                }
+			                            });
+			                        }else if(fromClient.equals("LL")) {
+			                        	System.out.println("TEST");
+			                        	IThreadListener mainThread = Minecraft.getMinecraft();
+			                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));
+			                        }
+		                        	else {
+		                        		commandQ.put(fromClient);
+		                        		stepEnd.set(false);
+		                        		while(!stepEnd.get()) {
+			                        		//do nothing until the step is complete
+			                        	}
+			                        	data(out, client);
+		                        	}
+		                        	
+		                        	
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+	                        }
 	            		} catch (IOException e) {
 	            			// TODO Auto-generated catch block
 	            			e.printStackTrace();
@@ -1040,6 +1056,7 @@ public class BotAPI {
 	            	Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Terminated"));
             	}
             }
+            
         };
         APIThread.setDaemon(true);
         APIThread.start();

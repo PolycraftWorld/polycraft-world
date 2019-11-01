@@ -30,11 +30,16 @@ while run:	# main loop
 	# Look for the response
 	amount_received = 0
 	amount_expected = 16
-	if userInput.startswith('DATA') or userInput.startswith('LL'):	 # if we need to receive something, we have to listen for it. Maybe this should be a separate thread?
-		data = ''
-		data = sock.recv(10240).decode()
-		data_dict = json.loads(data)
-		print (data_dict)
+	# if userInput.startswith('DATA') or userInput.startswith('LL'):	 # if we need to receive something, we have to listen for it. Maybe this should be a separate thread?
+	# 	data = ''
+	# 	data = sock.recv(10240).decode()
+	# 	data_dict = json.loads(data)
+	# 	print (data_dict)
+
+	data = ''
+	data = sock.recv(10240).decode()
+	data_dict = json.loads(data)
+	print(data_dict)
 sock.close()
 
 
