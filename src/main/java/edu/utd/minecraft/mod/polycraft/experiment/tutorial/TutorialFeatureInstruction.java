@@ -118,10 +118,10 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	@Override
 	public void preInit(ExperimentTutorial exp) {
 		super.preInit(exp);
-		pos1.add(exp.posOffset.xCoord,
+		pos1 = pos1.add(exp.posOffset.xCoord,
 			exp.posOffset.yCoord,
 			exp.posOffset.zCoord);
-		pos2.add(exp.posOffset.xCoord,
+		pos1 = pos2.add(exp.posOffset.xCoord,
 				exp.posOffset.yCoord,
 				exp.posOffset.zCoord);
 		

@@ -48,13 +48,14 @@ public class TutorialFeature implements ITutorialFeature{
 	protected NBTTagCompound nbt = new NBTTagCompound();
 	
 	public enum TutorialFeatureType{
+		START(TutorialFeatureStart.class.getName()),
 		GENERIC(TutorialFeature.class.getName()),
 		GUIDE(TutorialFeatureGuide.class.getName()),
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
-		START(TutorialFeatureStart.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
 		END(TutorialFeatureEnd.class.getName()),
-		GROUP(TutorialFeatureGroup.class.getName());
+		GROUP(TutorialFeatureGroup.class.getName()),
+		WORLDGEN(TutorialFeatureWorldBuilder.class.getName());
 		public String className;
 		
 		TutorialFeatureType(String className) {

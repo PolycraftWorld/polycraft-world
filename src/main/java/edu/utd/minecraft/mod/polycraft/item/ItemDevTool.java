@@ -436,6 +436,7 @@ public class ItemDevTool extends ItemCustom  {
 			for(int i =0;i<nbtFeatList.tagCount();i++) {
 				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
 				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+				System.out.println(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className);
 				test.load(nbtFeat);
 				features.add(test);
 			}
@@ -448,6 +449,7 @@ public class ItemDevTool extends ItemCustom  {
             is.close();
 
         } catch (Exception e) {
+        	e.printStackTrace();
             System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
         }
 	}
