@@ -182,7 +182,7 @@ public class ExperimentTutorial{
 	public boolean addPlayer(EntityPlayerMP player){
 		int playerCount = 0;
 		for(Team team: this.scoreboard.getTeams()) {
-			if(team.getPlayers().contains(player.getDisplayName())) { //check to see if the player's name 
+			if(team.getPlayers().contains(player.getDisplayNameString())) { //check to see if the player's name 
 				player.addChatMessage(new ChatComponentText("You have already joined this Experiment. Please wait to Begin."));
 				return false;
 			}
