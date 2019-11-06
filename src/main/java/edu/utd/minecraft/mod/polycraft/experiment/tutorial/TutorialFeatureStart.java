@@ -62,6 +62,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		if(!spawnedInServer) {
 			for(EntityPlayerMP player: exp.scoreboard.getPlayersAsEntity()) {
 				spawnPlayer(player, exp);
+				player.inventory.clear(); 	//clear player inventory when spawning into experiment
 				System.out.println("Feature Start pos:" + pos.getX() + "," + pos.getY() + "," + pos.getZ());
 			}
 			spawnedInServer = true;

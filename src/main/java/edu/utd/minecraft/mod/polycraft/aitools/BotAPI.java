@@ -710,7 +710,7 @@ public class BotAPI {
             String s = UUID.randomUUID().toString();
 
             // Add our port number, to help with file management:
-            s = 5000 + "_" + s;
+            s = 9000 + "_" + s;
 
             // If this is a temp file, mark it as such:
             if (isTemporary) {
@@ -772,7 +772,7 @@ public class BotAPI {
             return;
         }
 
-        String searchString = tempMark + 5000 + "_";
+        String searchString = tempMark + 9000 + "_";
 
         for (SaveFormatComparator s: saveList){
             String folderName = s.getFileName();
@@ -847,7 +847,7 @@ public class BotAPI {
 //					e.printStackTrace();
 //				}
 	        	boolean stepEndValue = true; //true for everything except multi-tick functions. ex. breakblock
-	            switch(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT)) {
+	            switch(Enums.getIfPresent(APICommand.class, args[0].toUpperCase()).or(APICommand.DEFAULT)) {
 	            case LL:
 	            	lowLevel(args);
 	            	break;
@@ -1039,7 +1039,13 @@ public class BotAPI {
 		                        		while(!stepEnd.get()) {
 			                        		//do nothing until the step is complete
 			                        	}
-			                        	data(out, client);
+		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
+		                        	        out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}else {
+				                        	data(out, client);
+		                        		}
 		                        	}
 		                        	
 		                        	

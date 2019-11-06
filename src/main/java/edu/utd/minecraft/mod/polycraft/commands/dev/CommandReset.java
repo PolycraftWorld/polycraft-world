@@ -16,6 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
+import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
@@ -194,7 +195,9 @@ public class CommandReset extends CommandBase{
 					break;
 				case chatCommandDomain:
 					//player.setPositionAndUpdate(1, 4, 1);
-					registerNewExperiment(player, false, args[1]);
+					if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)
+						ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayNameString());
+					registerNewExperiment(player, true, args[1]);
 //					buildArea(player);
 //					addTrees(player);
 //					clearLeaves(player);

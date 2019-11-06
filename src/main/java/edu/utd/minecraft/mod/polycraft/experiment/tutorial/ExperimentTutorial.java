@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -23,6 +26,12 @@ import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentFlatCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentParameters;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.IObservation;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationBlockInFront;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationMap;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerInventory;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerPos;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.rewards.ExperimentReward;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
@@ -66,6 +75,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class ExperimentTutorial{
@@ -88,6 +98,9 @@ public class ExperimentTutorial{
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int featureIndex = 0;
 	protected ForgeChunkManager.Ticket[] tickets;	//tickets for keeping experiment chuncks loaded
+	protected ArrayList<ExperimentReward> rewards = new ArrayList<ExperimentReward>();
+	protected ArrayList<IObservation> observations = new ArrayList<IObservation>();
+	protected float rewardValue = 0;
 	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
 	public ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
 	
@@ -110,6 +123,7 @@ public class ExperimentTutorial{
 	protected int tickCount = 0;
 	private boolean hasGameEnded = false;
 	private boolean isServer = false;
+	private boolean clientInit = false; // for checking if we've ran init functions on client side
 	
 	
 	private String stringToSend = "";
@@ -156,7 +170,7 @@ public class ExperimentTutorial{
 			this.scoreboard.resetScores(0);
 		}
 		
-		createPrivateProperties();
+		//createPrivateProperties();
 		
 		this.features.addAll(features);
 	}
@@ -165,7 +179,12 @@ public class ExperimentTutorial{
 		
 		this.id = id;
 		this.features.addAll(features);
-
+		
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			observations.add(new ObservationMap());
+			observations.add(new ObservationPlayerInventory());
+			observations.add(new ObservationPlayerPos());
+		}
 	}
 	
 	
@@ -313,6 +332,21 @@ public class ExperimentTutorial{
 //			this.currentState = State.Done;
 //			TutorialManager.INSTANCE.clientCurrentExperiment = -1;
 		}else {
+			if(!clientInit) {
+				for(ExperimentReward reward: rewards) {
+					reward.init(this);
+				}
+				if(observations.size() == 0) {
+					observations.add(new ObservationBlockInFront());
+					observations.add(new ObservationPlayerInventory());
+					observations.add(new ObservationPlayerPos());
+					observations.add(new ObservationMap());
+				}
+				for(IObservation obs: observations) {
+					obs.init(this);
+				}
+				clientInit = true;
+			}
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
@@ -324,6 +358,20 @@ public class ExperimentTutorial{
 				}
 			}
 		}
+	}
+	
+	public void rewardEvent(Event event) {
+		for(ExperimentReward reward: rewards) {
+			this.rewardValue += reward.rewardEvent(this, event);
+		}
+	}
+	
+	public JsonObject getObservations() {
+		JsonObject jobject = new JsonObject();
+		for(IObservation obs: observations) {
+			jobject.add(obs.getName(), obs.getObservation(this));
+		}
+		return jobject;
 	}
 	
 	
@@ -458,6 +506,10 @@ public class ExperimentTutorial{
 	
 	public ArrayList<TutorialFeature> getFeatures() {
 		return features;
+	}
+	
+	public World getWorld() {
+		return this.world;
 	}
 
 	public void setFeatures(ArrayList<TutorialFeature> features) {

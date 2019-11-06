@@ -26,13 +26,13 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	public TutorialFeatureEnd(String name, BlockPos pos){
 		super(name, pos, Color.YELLOW);
 		super.featureType = TutorialFeatureType.END;
-		this.countDown=219;
+		this.countDown=50;
 	}
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
 		super.preInit(exp);
-		this.countDown=219;
+		this.countDown=50;
 	}
 	
 	@Override

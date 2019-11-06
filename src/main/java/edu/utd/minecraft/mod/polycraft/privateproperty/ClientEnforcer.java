@@ -59,6 +59,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -473,7 +475,21 @@ public class ClientEnforcer extends Enforcer {
 			PolycraftMod.logger.error("Unable to decompress data packetes", e);
 		}
 	}
+	
+	@SubscribeEvent
+	public void onClientItemPickup(ItemPickupEvent event) {
+		if(BotAPI.apiRunning.get() && TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			TutorialManager.experiments.get(TutorialManager.INSTANCE.clientCurrentExperiment).rewardEvent(event);
+		}
+	}
 
+	@SubscribeEvent
+	public void onClientItemCrafted(ItemCraftedEvent event) {
+		if(BotAPI.apiRunning.get() && TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			TutorialManager.experiments.get(TutorialManager.INSTANCE.clientCurrentExperiment).rewardEvent(event);
+		}
+	}
+	
 	public void openExperimentsGui() {
 		client.displayGuiScreen(new GuiExperimentList(this.client.thePlayer));
 	}

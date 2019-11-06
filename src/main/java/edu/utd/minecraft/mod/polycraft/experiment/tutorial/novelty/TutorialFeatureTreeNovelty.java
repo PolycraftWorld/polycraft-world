@@ -1,39 +1,30 @@
-package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
+package edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Random;
 
-import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.util.Format;
-import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TutorialFeatureWorldBuilder extends TutorialFeature{
+public class TutorialFeatureTreeNovelty extends TutorialFeature{
 	private BlockPos pos2;
 	boolean spawnRand;
 	
@@ -52,9 +43,9 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		HILLS
 	}
 	
-	public TutorialFeatureWorldBuilder() {}
+	public TutorialFeatureTreeNovelty() {}
 	
-	public TutorialFeatureWorldBuilder(String name, BlockPos pos, BlockPos lookDir){
+	public TutorialFeatureTreeNovelty(String name, BlockPos pos, BlockPos lookDir){
 		super(name, pos, Color.GREEN);
 		this.pos2 = pos;
 		this.spawnRand = false;
@@ -74,16 +65,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
             IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
             WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
-            worldgenerator.generate(exp.world, rand, pos.add(Math.random() * (pos2.getX() - pos.getX()), 0, Math.random() * (pos2.getZ() - pos.getZ())));
-		}
-		
-		for(int i = 0; i <= pos2.getX(); i++) {
-			for(int k = 0; k <= pos2.getZ(); k++) {
-				for(int j = 0; j < 3; j++) {
-					if(exp.getWorld().getBlockState(pos.add(i, j, k)).getBlock() == Blocks.leaves)
-						exp.getWorld().setBlockToAir(pos.add(i, j, k));
-				}
-			}
+            worldgenerator.generate(exp.getWorld(), rand, pos.add(Math.random() * (pos2.getX() - pos.getX()), 0, Math.random() * (pos2.getZ() - pos.getZ())));
 		}
 			
 		canProceed = true;
