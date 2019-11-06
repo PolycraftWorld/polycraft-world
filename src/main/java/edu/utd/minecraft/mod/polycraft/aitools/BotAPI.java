@@ -810,6 +810,12 @@ public class BotAPI {
 	}
 	
 	public static void onClientTick() {
+		//we don't want the game to pause
+		if(Minecraft.getMinecraft().gameSettings.pauseOnLostFocus)
+		{
+			Minecraft.getMinecraft().gameSettings.pauseOnLostFocus = false;
+			Minecraft.getMinecraft().gameSettings.saveOptions();
+		}
 		//if we're breaking blocks, don't do any other actions until we finish
 		if(breakingBlocks) {
 			if(breakList.isEmpty()) {
@@ -981,11 +987,6 @@ public class BotAPI {
 	}
 	
 	public static void startAPIThread() {
-		if(Minecraft.getMinecraft().gameSettings.pauseOnLostFocus)
-		{
-			Minecraft.getMinecraft().gameSettings.pauseOnLostFocus = false;
-			Minecraft.getMinecraft().gameSettings.saveOptions();
-		}
 		//To modify thread cases while running, use functions in BotAPI class so you don't have to restart the thread
 		APIThread = new Thread("BOT API THREAD")
         {
