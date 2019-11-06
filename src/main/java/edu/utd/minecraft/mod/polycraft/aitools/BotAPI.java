@@ -54,6 +54,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -980,7 +981,11 @@ public class BotAPI {
 	}
 	
 	public static void startAPIThread() {
-		
+		if(Minecraft.getMinecraft().gameSettings.pauseOnLostFocus)
+		{
+			Minecraft.getMinecraft().gameSettings.pauseOnLostFocus = false;
+			Minecraft.getMinecraft().gameSettings.saveOptions();
+		}
 		//To modify thread cases while running, use functions in BotAPI class so you don't have to restart the thread
 		APIThread = new Thread("BOT API THREAD")
         {
