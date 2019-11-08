@@ -1023,7 +1023,13 @@ public class BotAPI {
 		                        	else if(fromClient.contains("DATA_BOT_POS"))
 		                        		dataBotPos(out, client);
 		                        	else if(fromClient.contains("DATA"))
-		                        		data(out, client);
+		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
+		                        	        out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}else {
+				                        	data(out, client);
+		                        		}
 		                        	else if(fromClient.contains("START")) {
 		                        		IThreadListener mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
