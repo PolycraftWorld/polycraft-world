@@ -38,7 +38,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	boolean spawnRand;
 	
 	//working parameters
-	private int count = 20;
+	private int count = 30;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -74,7 +74,10 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
             IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
             WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
-            worldgenerator.generate(exp.world, rand, pos.add(Math.random() * (pos2.getX() - pos.getX()), 0, Math.random() * (pos2.getZ() - pos.getZ())));
+            for(int x=0;x<5;x++){	//try to generate the tree 5 times before giving up
+            	if(worldgenerator.generate(exp.world, rand, pos.add(Math.random() * (pos2.getX() - pos.getX()), 0, Math.random() * (pos2.getZ() - pos.getZ()))))
+            		break;
+            }
 		}
 		
 		for(int i = 0; i <= pos2.getX(); i++) {
