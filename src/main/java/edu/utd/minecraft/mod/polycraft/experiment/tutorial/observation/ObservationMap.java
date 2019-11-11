@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import net.minecraft.block.Block;
@@ -23,13 +24,20 @@ public class ObservationMap implements IObservation{
 	@Override
 	public JsonElement getObservation(ExperimentTutorial exp) {
 		Gson gson = new Gson();
-		ArrayList<Integer> map = new ArrayList<Integer>();
+		ArrayList<Integer> blocks = new ArrayList<Integer>();
 		for(int i = 0; i <= pos2.getX(); i++) {
 			for(int k = 0; k <= pos2.getZ(); k++) {
-				map.add(Block.getIdFromBlock(exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock()));
+				blocks.add(Block.getIdFromBlock(exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock()));
 			}
 		}
-		return gson.toJsonTree(map);
+		JsonObject jobject = new JsonObject();
+		jobject.add("blocks", gson.toJsonTree(blocks));
+		ArrayList<Integer> size = new ArrayList<Integer>();
+		size.add(pos2.getX());
+		size.add(pos2.getX());
+		size.add(pos2.getZ());
+		jobject.add("size", gson.toJsonTree(size));
+		return jobject;
 	}
 
 	@Override
