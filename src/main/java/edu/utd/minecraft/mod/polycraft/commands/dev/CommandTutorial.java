@@ -318,7 +318,7 @@ public class CommandTutorial  extends CommandBase{
     	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
     		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
         		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
-        				(int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4,
+        				((int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4 ),
         				(int)TutorialManager.INSTANCE.getExperiment(id).pos.zCoord >> 4);
 				chunks.add(chunk);
         	}

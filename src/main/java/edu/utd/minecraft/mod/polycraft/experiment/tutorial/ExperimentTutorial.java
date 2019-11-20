@@ -149,7 +149,8 @@ public class ExperimentTutorial{
 				Math.max(options.pos.getZ(), options.size.getZ()) - pos1.zCoord);
 		if(genInDim8) {
 			dim = 8;
-			this.posOffset = new Vec3(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
+			//this.posOffset = new Vec3(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
+			this.posOffset = new Vec3(-pos1.xCoord, 0, -pos1.zCoord);
 			this.pos = new Vec3(pos1.xCoord + posOffset.xCoord, pos1.yCoord + posOffset.yCoord, pos1.zCoord + posOffset.zCoord);
 		}else {
 			dim = 0;
