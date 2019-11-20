@@ -57,6 +57,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.ChallengeHouseDim;
 import edu.utd.minecraft.mod.polycraft.worldgen.ChallengesGenerator;
 import edu.utd.minecraft.mod.polycraft.worldgen.OilPopulate;
 import edu.utd.minecraft.mod.polycraft.worldgen.OreWorldGenerator;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkLoadingCallback;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -69,6 +70,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -126,6 +128,7 @@ public abstract class CommonProxy {
 //		FMLCommonHandler.instance().bus().register(RespawnHandler.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(RespawnHandler.INSTANCE);
+		ForgeChunkManager.setForcedChunkLoadingCallback(PolycraftMod.instance, new PolycraftChunkLoadingCallback());
 	}
 	
 	public void sendMessageToServerCannon(final int x ,final int y, final int z, final double velocity, final double theta, final double mass, final double phi) {

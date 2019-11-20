@@ -13,21 +13,32 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial.State;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.chunk.NibbleArray;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.MapGenCaves;
 import net.minecraft.world.gen.MapGenRavine;
@@ -129,8 +140,7 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	
 	@Override
 	public boolean chunkExists(int p_73149_1_, int p_73149_2_) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -146,6 +156,19 @@ public class PolycraftChunkProvider implements IChunkProvider {
 		if (this.mapFeaturesEnabled) {
 			//this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, ablock);
 		}
+		
+//		for(ExperimentTutorial exp:TutorialManager.experiments.values()) {
+//			if(exp.currentState != State.Done) {
+//				if(((int)exp.pos.xCoord >> 4) <= par1 && par1 <= ((int)(exp.pos.xCoord + exp.size.xCoord) >> 4)
+//						&& ((int)exp.pos.zCoord >> 4) <= par2 && par2 <= ((int)(exp.pos.zCoord + exp.size.zCoord) >> 4)) {
+//					for(Chunk chunk: exp.chunks) {
+//						if(chunk.xPosition == par1 && chunk.zPosition == par2)
+//							return chunk;
+//					}
+//				}
+//			}
+//		}
+		
 		Chunk chunk = new Chunk(this.worldObj, par1, par2);
 		//byte[] abyte1 = chunk.getBiomeArray();
 		//for (int k = 0; k < abyte1.length; ++k){
@@ -241,11 +264,13 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	 * though the water is frozen if the temperature is low enough
 	 */
 	// TODO: generateTerrain?
+	@SuppressWarnings("unused")
 	public void generateBlocksForDimEight(int par1, int par2, Block[] blocks) {
 		
 		//DONT EDIT THS METHOD UNLES YOU KNOW WHAT UR DOING OR MAKE A COPY INCASE U MESS IT UP....
 		//YOU HAVE BE WARNED !!!!!
-
+		if(true)
+			return;
 		byte b0 = 63;
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, 10, 10);
 		this.generateTerrainArtifacts(par1 * 4, 0, par2 * 4);
@@ -307,11 +332,13 @@ public class PolycraftChunkProvider implements IChunkProvider {
 	 * [empty] noise array, the position, and the size.
 	 */
 	// TODO: initializeNoiseField?
+	@SuppressWarnings("unused")
 	private void generateTerrainArtifacts(int p_147423_1_, int p_147423_2_, int p_147423_3_) {
 
 		//DONT EDIT THS METHOD UNLES YOU KNOW WHAT UR DOING OR MAKE A COPY INCASE U MESS IT UP....
 		//YOU HAVE BE WARNED !!!!!
-
+		if(true)
+			return;
 		this.noise5 = this.noiseGen6.generateNoiseOctaves(this.noise5, p_147423_1_, p_147423_3_, 5, 5, 200.0D, 200.0D, 0.5D);
 		this.noise3 = this.noiseGen3.generateNoiseOctaves(this.noise3, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, 8.555150000000001D, 4.277575000000001D, 8.555150000000001D);
 		this.noise1 = this.noiseGen1.generateNoiseOctaves(this.noise1, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, 684.412D, 684.412D, 684.412D);
@@ -390,5 +417,218 @@ public class PolycraftChunkProvider implements IChunkProvider {
 			}
 		}
 	}
+	
+	/**
+     * Writes the Chunk passed as an argument to the NBTTagCompound also passed, using the World argument to retrieve
+     * the Chunk's last update time.
+     */
+    public static void writeChunkToNBT(Chunk chunkIn, World worldIn, NBTTagCompound p_75820_3_)
+    {
+        p_75820_3_.setByte("V", (byte)1);
+        p_75820_3_.setInteger("xPos", chunkIn.xPosition);
+        p_75820_3_.setInteger("zPos", chunkIn.zPosition);
+        p_75820_3_.setLong("LastUpdate", worldIn.getTotalWorldTime());
+        p_75820_3_.setIntArray("HeightMap", chunkIn.getHeightMap());
+        p_75820_3_.setBoolean("TerrainPopulated", chunkIn.isTerrainPopulated());
+        p_75820_3_.setBoolean("LightPopulated", chunkIn.isLightPopulated());
+        p_75820_3_.setLong("InhabitedTime", chunkIn.getInhabitedTime());
+        ExtendedBlockStorage[] aextendedblockstorage = chunkIn.getBlockStorageArray();
+        NBTTagList nbttaglist = new NBTTagList();
+        boolean flag = !worldIn.provider.getHasNoSky();
+
+        for (ExtendedBlockStorage extendedblockstorage : aextendedblockstorage)
+        {
+            if (extendedblockstorage != null)
+            {
+                NBTTagCompound nbttagcompound = new NBTTagCompound();
+                nbttagcompound.setByte("Y", (byte)(extendedblockstorage.getYLocation() >> 4 & 255));
+                byte[] abyte = new byte[extendedblockstorage.getData().length];
+                NibbleArray nibblearray = new NibbleArray();
+                NibbleArray nibblearray1 = null;
+
+                for (int i = 0; i < extendedblockstorage.getData().length; ++i)
+                {
+                    char c0 = extendedblockstorage.getData()[i];
+                    int j = i & 15;
+                    int k = i >> 8 & 15;
+                    int l = i >> 4 & 15;
+
+                    if (c0 >> 12 != 0)
+                    {
+                        if (nibblearray1 == null)
+                        {
+                            nibblearray1 = new NibbleArray();
+                        }
+
+                        nibblearray1.set(j, k, l, c0 >> 12);
+                    }
+
+                    abyte[i] = (byte)(c0 >> 4 & 255);
+                    nibblearray.set(j, k, l, c0 & 15);
+                }
+
+                nbttagcompound.setByteArray("Blocks", abyte);
+                nbttagcompound.setByteArray("Data", nibblearray.getData());
+
+                if (nibblearray1 != null)
+                {
+                    nbttagcompound.setByteArray("Add", nibblearray1.getData());
+                }
+
+                nbttagcompound.setByteArray("BlockLight", extendedblockstorage.getBlocklightArray().getData());
+
+                if (flag)
+                {
+                    nbttagcompound.setByteArray("SkyLight", extendedblockstorage.getSkylightArray().getData());
+                }
+                else
+                {
+                    nbttagcompound.setByteArray("SkyLight", new byte[extendedblockstorage.getBlocklightArray().getData().length]);
+                }
+
+                nbttaglist.appendTag(nbttagcompound);
+            }
+        }
+
+        p_75820_3_.setTag("Sections", nbttaglist);
+        p_75820_3_.setByteArray("Biomes", chunkIn.getBiomeArray());
+        chunkIn.setHasEntities(false);
+        NBTTagList nbttaglist1 = new NBTTagList();
+
+        for (int i1 = 0; i1 < chunkIn.getEntityLists().length; ++i1)
+        {
+            for (Entity entity : chunkIn.getEntityLists()[i1])
+            {
+                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+
+                try
+                {
+                if (entity.writeToNBTOptional(nbttagcompound1))
+                {
+                    chunkIn.setHasEntities(true);
+                    nbttaglist1.appendTag(nbttagcompound1);
+                }
+                }
+                catch (Exception e)
+                {
+                    net.minecraftforge.fml.common.FMLLog.log(org.apache.logging.log4j.Level.ERROR, e,
+                            "An Entity type %s has thrown an exception trying to write state. It will not persist. Report this to the mod author",
+                            entity.getClass().getName());
+                }
+            }
+        }
+
+        p_75820_3_.setTag("Entities", nbttaglist1);
+        NBTTagList nbttaglist2 = new NBTTagList();
+
+        for (TileEntity tileentity : chunkIn.getTileEntityMap().values())
+        {
+            NBTTagCompound nbttagcompound2 = new NBTTagCompound();
+            try
+            {
+            tileentity.writeToNBT(nbttagcompound2);
+            nbttaglist2.appendTag(nbttagcompound2);
+            }
+            catch (Exception e)
+            {
+                net.minecraftforge.fml.common.FMLLog.log(org.apache.logging.log4j.Level.ERROR, e,
+                        "A TileEntity type %s has throw an exception trying to write state. It will not persist. Report this to the mod author",
+                        tileentity.getClass().getName());
+            }
+        }
+
+        p_75820_3_.setTag("TileEntities", nbttaglist2);
+        List<NextTickListEntry> list = worldIn.getPendingBlockUpdates(chunkIn, false);
+
+        if (list != null)
+        {
+            long j1 = worldIn.getTotalWorldTime();
+            NBTTagList nbttaglist3 = new NBTTagList();
+
+            for (NextTickListEntry nextticklistentry : list)
+            {
+                NBTTagCompound nbttagcompound3 = new NBTTagCompound();
+                ResourceLocation resourcelocation = (ResourceLocation)Block.blockRegistry.getNameForObject(nextticklistentry.getBlock());
+                nbttagcompound3.setString("i", resourcelocation == null ? "" : resourcelocation.toString());
+                nbttagcompound3.setInteger("x", nextticklistentry.position.getX());
+                nbttagcompound3.setInteger("y", nextticklistentry.position.getY());
+                nbttagcompound3.setInteger("z", nextticklistentry.position.getZ());
+                nbttagcompound3.setInteger("t", (int)(nextticklistentry.scheduledTime - j1));
+                nbttagcompound3.setInteger("p", nextticklistentry.priority);
+                nbttaglist3.appendTag(nbttagcompound3);
+            }
+
+            p_75820_3_.setTag("TileTicks", nbttaglist3);
+        }
+    }
+
+    /**
+     * Reads the data stored in the passed NBTTagCompound and creates a Chunk with that data in the passed World.
+     * Returns the created Chunk.
+     */
+    public static Chunk readChunkFromNBT(World worldIn, NBTTagCompound p_75823_2_)
+    {
+    	return readChunkFromNBT(worldIn, p_75823_2_, 0, 0);
+    }
+    
+    /**
+     * Reads the data stored in the passed NBTTagCompound and creates a Chunk with that data in the passed World.
+     * Returns the created Chunk.
+     */
+    public static Chunk readChunkFromNBT(World worldIn, NBTTagCompound p_75823_2_, int xOffset, int zOffset)
+    {
+        int i = p_75823_2_.getInteger("xPos") + xOffset;
+        int j = p_75823_2_.getInteger("zPos") + zOffset;
+        Chunk chunk = new Chunk(worldIn, i, j);
+        chunk.setHeightMap(p_75823_2_.getIntArray("HeightMap"));
+        chunk.setTerrainPopulated(p_75823_2_.getBoolean("TerrainPopulated"));
+        chunk.setLightPopulated(p_75823_2_.getBoolean("LightPopulated"));
+        chunk.setInhabitedTime(p_75823_2_.getLong("InhabitedTime"));
+        NBTTagList nbttaglist = p_75823_2_.getTagList("Sections", 10);
+        int k = 16;
+        ExtendedBlockStorage[] aextendedblockstorage = new ExtendedBlockStorage[k];
+        boolean flag = !worldIn.provider.getHasNoSky();
+
+        for (int l = 0; l < nbttaglist.tagCount(); ++l)
+        {
+            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(l);
+            int i1 = nbttagcompound.getByte("Y");
+            ExtendedBlockStorage extendedblockstorage = new ExtendedBlockStorage(i1 << 4, flag);
+            byte[] abyte = nbttagcompound.getByteArray("Blocks");
+            NibbleArray nibblearray = new NibbleArray(nbttagcompound.getByteArray("Data"));
+            NibbleArray nibblearray1 = nbttagcompound.hasKey("Add", 7) ? new NibbleArray(nbttagcompound.getByteArray("Add")) : null;
+            char[] achar = new char[abyte.length];
+
+            for (int j1 = 0; j1 < achar.length; ++j1)
+            {
+                int k1 = j1 & 15;
+                int l1 = j1 >> 8 & 15;
+                int i2 = j1 >> 4 & 15;
+                int j2 = nibblearray1 != null ? nibblearray1.get(k1, l1, i2) : 0;
+                achar[j1] = (char)(j2 << 12 | (abyte[j1] & 255) << 4 | nibblearray.get(k1, l1, i2));
+            }
+
+            extendedblockstorage.setData(achar);
+            extendedblockstorage.setBlocklightArray(new NibbleArray(nbttagcompound.getByteArray("BlockLight")));
+
+            if (flag)
+            {
+                extendedblockstorage.setSkylightArray(new NibbleArray(nbttagcompound.getByteArray("SkyLight")));
+            }
+
+            extendedblockstorage.removeInvalidBlocks();
+            aextendedblockstorage[i1] = extendedblockstorage;
+        }
+
+        chunk.setStorageArrays(aextendedblockstorage);
+
+        if (p_75823_2_.hasKey("Biomes", 7))
+        {
+            chunk.setBiomeArray(p_75823_2_.getByteArray("Biomes"));
+        }
+
+        // End this method here and split off entity loading to another method
+        return chunk;
+    }
 
 }

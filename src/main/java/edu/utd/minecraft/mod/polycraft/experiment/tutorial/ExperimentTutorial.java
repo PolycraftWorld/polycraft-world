@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +42,12 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
-import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
@@ -71,6 +72,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -97,15 +99,14 @@ public class ExperimentTutorial{
 	protected int playersNeeded = teamsNeeded*teamSize;
 	protected int awaitingNumPlayers = playersNeeded;
 	protected int featureIndex = 0;
-	protected ForgeChunkManager.Ticket[] tickets;	//tickets for keeping experiment chuncks loaded
+	protected HashMap<Long, ForgeChunkManager.Ticket> tickets = new HashMap<Long, ForgeChunkManager.Ticket>();	//tickets for keeping experiment chuncks loaded
 	protected ArrayList<ExperimentReward> rewards = new ArrayList<ExperimentReward>();
 	protected ArrayList<IObservation> observations = new ArrayList<IObservation>();
 	protected float rewardValue = 0;
 	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
 	public ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
 	
-	private int[] blocks;
-    private byte[] data;
+	public ArrayList<Chunk> chunks = new ArrayList<Chunk>();
 	
 	public enum State{
 		PreInit,
@@ -188,9 +189,15 @@ public class ExperimentTutorial{
 	}
 	
 	
-	public void setAreaData(int[] blocks, byte[] data) {
-		this.blocks = blocks;
-        this.data = data;
+	public void setAreaData(List<Chunk> chunks) {
+		this.chunks.clear();
+		this.chunks.addAll(chunks);
+		
+		for(Chunk chunk: chunks) {
+    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setStorageArrays(chunk.getBlockStorageArray());
+    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setHeightMap(chunk.getHeightMap());
+    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setChunkModified();
+    	}
 	}
 	
 	/**
@@ -381,7 +388,7 @@ public class ExperimentTutorial{
 	public void stop() {
 		this.currentState = State.Done;
 		this.scoreboard.clearPlayers();
-		for(Ticket tkt : this.tickets) {
+		for(Ticket tkt : this.tickets.values()) {
 			ForgeChunkManager.releaseTicket(tkt);
 		}
 		
@@ -428,7 +435,7 @@ public class ExperimentTutorial{
 	protected void initArea() {
 		int sizeX = (int) Math.ceil(Math.abs(size.xCoord - pos.xCoord));
 		int sizeZ = (int) Math.ceil(Math.abs(size.zCoord - pos.zCoord));
-		tickets = new ForgeChunkManager.Ticket[sizeX*sizeZ];
+//		tickets = new ForgeChunkManager.Ticket[sizeX*sizeZ];
 		
 //		for(int x = 0; x <= sizeX; x++) {
 //			for(int z = 0; z <= sizeZ; z++) {
@@ -446,7 +453,7 @@ public class ExperimentTutorial{
 	 * @return True if its done generating, False if it's still in progress
 	 */
 	protected boolean generateArea() {
-		final int maxBlocksPerTick = 65536;
+		final int maxBlocksPerTick = 65536 * 2;
 				
 		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
 		//we don't want the game to lag too much.
@@ -455,44 +462,71 @@ public class ExperimentTutorial{
 		//the position to begin counting in the blocks[] array.
 		int count=(genTick*maxXPerTick)*((int)size.yCoord+1)*((int)size.zCoord+1);
 		
-		if(count >= blocks.length) { //we've generated all blocks already! or We don't need to generate the next area TODO: remove this.id > 1
-			return true; 
-		}
-		
-		System.out.println("GenPos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord);
-
-		//still have blocks in the blocks[] array we need to add to the world
-		for(int x = (genTick*maxXPerTick); x < (genTick*maxXPerTick)+ maxXPerTick; x++){
-			for(int y = 0; y<=(int)size.yCoord; y++){
-				for(int z = 0; z<=(int)size.zCoord; z++){
-					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
-						return false;
-					}
-					int curblock = (int)blocks[count];
-					
-					if(curblock == 0 || curblock == 76) {
-						if(!world.isAirBlock(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord)))
-							world.setBlockToAir(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord));
-						count++;
-						continue;
-					}
-					else if(curblock == 759) {
-						count++;
-						continue; //these are Gas Lamps - we don't care for these.
-//					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
-//						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
-//						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
-//						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
-//						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
+//		if(count >= blocks.length) { //Check if we've written all of the blocks
+//			return true; 
+//		}
+//		
+//		//System.out.println("GenPos:" + pos.xCoord + "," + pos.yCoord + "," + pos.zCoord + "::" + count);
+//
+//		//still have blocks in the blocks[] array we need to add to the world
+//		for(int x = (genTick*maxXPerTick); x < (genTick*maxXPerTick)+ maxXPerTick; x++){
+//			for(int y = 0; y<=(int)size.yCoord; y++){
+//				zLoop: for(int z = 0; z<=(int)size.zCoord; z++){
+//					if(!this.tickets.containsKey(ChunkCoordIntPair.chunkXZ2Int((x + (int)pos.xCoord) >> 4, (z + (int)pos.zCoord) >> 4))){
+//						tickets.put(ChunkCoordIntPair.chunkXZ2Int((x + (int)pos.xCoord) >> 4, (z + (int)pos.zCoord) >> 4), ForgeChunkManager.requestTicket(PolycraftMod.instance, this.world, ForgeChunkManager.Type.NORMAL));
+//						ForgeChunkManager.forceChunk(tickets.get(ChunkCoordIntPair.chunkXZ2Int((x + (int)pos.xCoord) >> 4, (z + (int)pos.zCoord) >> 4)), new ChunkCoordIntPair((x + (int)pos.xCoord) >> 4, (z + (int)pos.zCoord) >> 4));
+//						System.out.println("Added Chunk:" + ((x + (int)pos.xCoord) >> 4) + "," + ((z + (int)pos.zCoord) >> 4));
+//					}
+//					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
+//						return false;
+//					}
+//					int curblock = (int)blocks[count];
+//					
+//					if(curblock == 0 || curblock == 76) {
+//						if(!world.isAirBlock(new BlockPos(x + pos.xCoord, y + pos.yCoord ,z + pos.zCoord)))
+//							world.setBlockToAir(new BlockPos(x + pos.xCoord, y + pos.yCoord ,z + pos.zCoord));
 //						count++;
-					}else {
-						world.setBlockState(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord), Block.getBlockById(curblock).getDefaultState(), 3);
-						count++;
-					}
-				}
-			}
-		}
-		return false;
+//						continue zLoop;
+//					}else if(curblock == 759) {
+//						count++;
+//						continue zLoop; //these are Gas Lamps - we don't care for these.
+//					}else {
+//						if(Block.getIdFromBlock(world.getBlockState(new BlockPos(x + pos.xCoord, y + pos.yCoord ,z + pos.zCoord)).getBlock()) != curblock)
+//							world.setBlockState(new BlockPos(x + pos.xCoord, y + pos.yCoord ,z + pos.zCoord), Block.getBlockById(curblock).getDefaultState(), 3);
+//						count++;
+//						continue zLoop;
+//					}
+//				}
+//			}
+//		}
+		
+		//verify blocks placed
+//		count=(genTick*maxXPerTick)*((int)size.yCoord+1)*((int)size.zCoord+1);
+//		for(int x = (genTick*maxXPerTick); x < (genTick*maxXPerTick)+ maxXPerTick; x++){
+//			for(int y = 0; y<=(int)size.yCoord; y++){
+//				for(int z = 0; z<=(int)size.zCoord; z++){
+//					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
+//						return false;
+//					}
+//					int curblock = (int)blocks[count];
+//					
+//					if(curblock == 0 || curblock == 76 || curblock == 759) {
+//						//lets skip air blocks, redstone torches, and flood lights (from the stadium)
+//						count++;
+//						continue;
+//					}else if(Block.getIdFromBlock(world.getBlockState(new BlockPos(x + pos.xCoord, y + pos.yCoord ,z + pos.zCoord)).getBlock()) != curblock){
+//						world.setBlockState(new BlockPos(x + (int)pos.xCoord, y + (int)pos.yCoord ,z + (int)pos.zCoord), Block.getBlockById(curblock).getDefaultState(), 3);
+//						count++;
+//						System.out.println("Fixed error at: " + (x + pos.xCoord) + "," + (x + pos.yCoord) + "," + (z + pos.zCoord));
+//						continue;
+//					}else
+//						count++;
+//				}
+//			}
+//		}
+		
+		//System.out.println("Gen Count: " + count);
+		return true;
 	}
 
 	
@@ -539,8 +573,8 @@ public class ExperimentTutorial{
 					null,
 					"Tutorial",
 					"Good Luck!",
-					new Chunk(Math.min((int)pos.xCoord, endX) >> 4, Math.min((int)pos.zCoord, endZ) >> 4),
-					new Chunk(Math.max((int)pos.xCoord, endX) >> 4, Math.max((int)pos.zCoord, endZ) >> 4),
+					new PrivateProperty.Chunk(Math.min((int)pos.xCoord, endX) >> 4, Math.min((int)pos.zCoord, endZ) >> 4),
+					new PrivateProperty.Chunk(Math.max((int)pos.xCoord, endX) >> 4, Math.max((int)pos.zCoord, endZ) >> 4),
 					new int[] {0,3,4,5,6,7,32,44},
 					8);
 			

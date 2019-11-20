@@ -31,6 +31,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.SuperChunk;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.Chunk;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
@@ -119,7 +120,7 @@ public class CommandTutorial  extends CommandBase{
 			if (args.length > 0)
 			{
 				if (chatCommandTutnew.equalsIgnoreCase(args[0])) {
-					if(args.length == 2)
+					if(args.length == 2)	// "/tut new true experiments/pogo.psm"
 						registerNewExperiment(player, Boolean.parseBoolean(args[1]), this.outputFileName + this.outputFileExt);
 					else if(args.length == 3)
 						registerNewExperiment(player, Boolean.parseBoolean(args[1]), args[2]);
@@ -138,6 +139,35 @@ public class CommandTutorial  extends CommandBase{
 				} else if ("spawnTest".equalsIgnoreCase(args[0])) {
 					MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, 8,	
 							new PolycraftTeleporter(MinecraftServer.getServer().worldServerForDimension(8), 244, 4, 1,(float) 0, (float) 90));
+				} else if ("loadTest".equalsIgnoreCase(args[0])) {
+					int count = 0;
+					try {
+						File file = new File(args[1]);
+						InputStream is = new FileInputStream(file);
+			            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+			            for(int blockId : nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks")) {
+			            	if(blockId == 3)
+			            		count++;
+			            }
+			            System.out.println("ZERO COUNT 1: " + count);
+			            player.addChatMessage(new ChatComponentText("ZERO COUNT 1: " + count));
+			            count = 0;
+			            file = new File(args[1]);
+						is = new FileInputStream(file);
+			            nbtFeats = CompressedStreamTools.readCompressed(is);
+			            for(int blockId : nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks")) {
+			            	if(blockId == 3)
+			            		count++;
+			            }
+			            System.out.println("ZERO COUNT 2: " + count);
+			            player.addChatMessage(new ChatComponentText("ZERO COUNT 2: " + count));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				} else {
+					player.addChatMessage(new ChatComponentText("invalid parameters. Ex: " + this.getCommandUsage(player)));
 				}
 			}
 		}
@@ -282,7 +312,18 @@ public class CommandTutorial  extends CommandBase{
 		tutOptions.teamSize = 1;
 		
 		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, genInDim8);
-		TutorialManager.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
+		int chunkXMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkXSize");
+    	int chunkZMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkZSize");
+    	ArrayList<net.minecraft.world.chunk.Chunk> chunks = new ArrayList<net.minecraft.world.chunk.Chunk>();
+    	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+    		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+        		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
+        				(int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4,
+        				(int)TutorialManager.INSTANCE.getExperiment(id).pos.zCoord >> 4);
+				chunks.add(chunk);
+        	}
+    	}
+    	TutorialManager.INSTANCE.getExperiment(id).setAreaData(chunks);
 
 		player.addChatMessage(new ChatComponentText("Added New Experiment, ID = " + id));
 	}

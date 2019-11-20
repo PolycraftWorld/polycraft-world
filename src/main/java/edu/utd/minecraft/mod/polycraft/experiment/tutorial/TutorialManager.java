@@ -35,6 +35,7 @@ import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -46,10 +47,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.collection.mutable.LinkedList;
 
 public class TutorialManager {
 
@@ -263,7 +266,18 @@ public class TutorialManager {
 		tutOptions.teamSize = 1;
 		
 		int id = this.INSTANCE.addExperiment(tutOptions, features, true);
-		this.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
+		int chunkXMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkXSize");
+    	int chunkZMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkZSize");
+    	ArrayList<Chunk> chunks = new ArrayList<Chunk>();
+    	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+    		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+        		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
+        				(int)this.INSTANCE.getExperiment(id).pos.xCoord >> 4,
+        				(int)this.INSTANCE.getExperiment(id).pos.zCoord >> 4);
+				chunks.add(chunk);
+        	}
+    	}
+		this.INSTANCE.getExperiment(id).setAreaData(chunks);
 
 		return id;
 	}

@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -39,6 +40,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
@@ -56,7 +58,12 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.NibbleArray;
+import net.minecraft.world.chunk.storage.AnvilChunkLoader;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 
@@ -160,47 +167,46 @@ public class ItemDevTool extends ItemCustom  {
 					}
 					break;
 				case Load:
-			        load();
+					try {
+			        	features.clear();
+			        	
+			        	File file = new File(this.outputFileDir + this.outputFileName);
+			        	InputStream is = new FileInputStream(file);
+
+			            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+			            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+						for(int i =0;i<nbtFeatList.tagCount();i++) {
+							NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+							TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+							System.out.println(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className);
+							test.load(nbtFeat);
+							features.add(test);
+						}
+						
+
+			        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
+			        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
+			        	
+			        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+			        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+			            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
+			            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
+			            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
+			            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
+			        		}
+			        	}
+						
+						tutOptions.load(nbtFeats.getCompoundTag("options"));
+			            is.close();
+
+			        } catch (Exception e) {
+			        	e.printStackTrace();
+			            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+			        }
 			        if(world.isRemote)
 						updateRenderBoxes();
 			        else {
 			        	int count = 0;
-			        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.size.getX()),
-			        					Math.min(tutOptions.pos.getY(), tutOptions.size.getY()),
-			        					Math.min(tutOptions.pos.getZ(), tutOptions.size.getZ()));
-			        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.size.getX()),
-	        					Math.abs(tutOptions.pos.getY() - tutOptions.size.getY()),
-	        					Math.abs(tutOptions.pos.getZ() - tutOptions.size.getZ()));
-			    		for(int x = 0; x < size.getX(); x++){
-			    			for(int y = 0; y<=size.getY(); y++){
-			    				for(int z = 0; z<=size.getZ(); z++){
-//			    					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
-//			    						return false;
-//			    					}
-			    					int curblock = (int)blocks[count];
-			    					
-			    					if(curblock == 0 || curblock == 76) {
-			    						if(!world.isAirBlock(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ())))
-			    							world.setBlockToAir(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()));
-			    						count++;
-			    						continue;
-			    					}
-			    					else if(curblock == 759) {
-			    						count++;
-			    						continue; //these are Gas Lamps - we don't care for these.
-//			    					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
-//			    						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
-//			    						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
-//			    						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
-//			    						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
-//			    						count++;
-			    					}else {
-			    						world.setBlockState(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()), Block.getBlockById(curblock).getStateFromMeta(data[count]), 3);
-			    						count++;
-			    					}
-			    				}
-			    			}
-			    		}
 			        }
 					break;
 				case AreaSelection:
@@ -446,8 +452,17 @@ public class ItemDevTool extends ItemCustom  {
 			}
 			
 
-        	blocks = nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks");
-        	data = nbtFeats.getCompoundTag("AreaData").getByteArray("Data");
+        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
+        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
+        	
+        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(Minecraft.getMinecraft().theWorld, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
+            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
+            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
+            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
+            	}
+        	}
 			
 			tutOptions.load(nbtFeats.getCompoundTag("options"));
             is.close();
@@ -480,32 +495,30 @@ public class ItemDevTool extends ItemCustom  {
 			int count=0;
 			NBTTagCompound nbt = new NBTTagCompound();
 			NBTTagList tiles = new NBTTagList();
-			
+
+			int chunkXMin = minX >> 4;
+			int chunkZMin = minZ >> 4;
+            int chunkXMax = maxX >> 4;
+			int chunkZMax = maxZ >> 4;	
+			nbt.setString("version", "1.01");
+			nbt.setInteger("ChunkXSize", chunkXMax - chunkXMin);
+			nbt.setInteger("ChunkZSize", chunkZMax - chunkZMin);
 			TileEntity tile;
-			for(int i=0;i<length;i++) {
-				for(int j=0;j<height;j++) {
-					for(int k=0;k<width;k++) {
-						
-						tile = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(minX+i, minY+j, minZ+k));
-						if(tile!=null){
-							NBTTagCompound tilenbt = new NBTTagCompound();
-							tile.writeToNBT(tilenbt);
-							tiles.appendTag(tilenbt);
-							
-						}
-							
-						Block blk = Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(minX+i, minY+j, minZ+k)).getBlock();
-						int id = blk.getIdFromBlock(blk);
-						blocks[count]=id;
-						data[count]=(byte) blk.getMetaFromState(Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos((int)(minX+i), (int)(minY+j), (int)(minZ+k))));
-						count++;
-						
-					}
+			
+			for(int chunkX = chunkXMin; chunkX <= chunkXMax; chunkX++) {
+				for(int chunkZ = chunkZMin; chunkZ <= chunkZMax; chunkZ++) {
+					NBTTagCompound nbtChunk = new NBTTagCompound();
+					Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ);
+					PolycraftChunkProvider.writeChunkToNBT(chunk, Minecraft.getMinecraft().theWorld, nbtChunk);
+					nbtChunk.setInteger("xPos", chunkX - chunkXMin);
+					nbtChunk.setInteger("zPos", chunkZ - chunkZMin);
+					nbt.setTag("chunk," + (chunkX - chunkXMin) + "," + (chunkZ - chunkZMin), nbtChunk);
 				}
 			}
-			nbt.setTag("TileEntity", tiles);
-			nbt.setIntArray("Blocks", blocks);
-			nbt.setByteArray("Data", data);
+			
+			//nbt.setTag("TileEntity", tiles);
+//			nbt.setIntArray("Blocks", blocks);
+//			nbt.setByteArray("Data", data);
 			return nbt;
 		}else {
 			return null;
