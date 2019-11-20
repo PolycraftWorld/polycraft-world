@@ -235,7 +235,6 @@ public class ExperimentTutorial{
 	public void onServerTickUpdate() {
 //		if(!isServer)
 //			return;
-		
 		switch(currentState) {
 		case WaitingToStart:
 			int playerCount = 0;
@@ -291,6 +290,12 @@ public class ExperimentTutorial{
 			currentState = State.Running;
 			break;
 		case Running:
+			for(Team team: scoreboard.getTeams()) {
+				for(String player: team.getPlayers()) {
+					EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
+					playerEntity.getFoodStats().addStats(20, 5);	//constantly fill hunger so players don't starve
+				}
+			}
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
 				activeFeatures.get(x).onServerTickUpdate(this);
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
