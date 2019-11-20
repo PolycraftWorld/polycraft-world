@@ -167,6 +167,7 @@ public class ItemDevTool extends ItemCustom  {
 					}
 					break;
 				case Load:
+					boolean oldVersion = true;
 					try {
 			        	features.clear();
 			        	
@@ -182,20 +183,24 @@ public class ItemDevTool extends ItemCustom  {
 							test.load(nbtFeat);
 							features.add(test);
 						}
-						
-
-			        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
-			        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
+						oldVersion = nbtFeats.getCompoundTag("AreaData").getString("version").isEmpty();
+						if(!oldVersion) {
+				        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
+				        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
+				        	
+				        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+				        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+				            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
+				            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
+				            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
+				            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
+				        		}
+				        	}
+						}else {
+							blocks = nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks");
+				        	data = nbtFeats.getCompoundTag("AreaData").getByteArray("Data");
+						}
 			        	
-			        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
-			        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-			            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
-			            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
-			            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
-			            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
-			        		}
-			        	}
-						
 						tutOptions.load(nbtFeats.getCompoundTag("options"));
 			            is.close();
 
@@ -205,8 +210,44 @@ public class ItemDevTool extends ItemCustom  {
 			        }
 			        if(world.isRemote)
 						updateRenderBoxes();
-			        else {
+			        else if(oldVersion){
 			        	int count = 0;
+			        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.size.getX()),
+	        					Math.min(tutOptions.pos.getY(), tutOptions.size.getY()),
+	        					Math.min(tutOptions.pos.getZ(), tutOptions.size.getZ()));
+			        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.size.getX()),
+		    					Math.abs(tutOptions.pos.getY() - tutOptions.size.getY()),
+		    					Math.abs(tutOptions.pos.getZ() - tutOptions.size.getZ()));
+			    		for(int x = 0; x < size.getX(); x++){
+			    			for(int y = 0; y<=size.getY(); y++){
+			    				for(int z = 0; z<=size.getZ(); z++){
+		//	    					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
+		//	    						return false;
+		//	    					}
+			    					int curblock = (int)blocks[count];
+		
+			    					if(curblock == 0 || curblock == 76) {
+			    						if(!world.isAirBlock(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ())))
+			    							world.setBlockToAir(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()));
+			    						count++;
+			    						continue;
+			    					}
+			    					else if(curblock == 759) {
+			    						count++;
+			    						continue; //these are Gas Lamps - we don't care for these.
+		//	    					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
+		//	    						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
+		//	    						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
+		//	    						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
+		//	    						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
+		//	    						count++;
+			    					}else {
+			    						world.setBlockState(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()), Block.getBlockById(curblock).getStateFromMeta(data[count]), 3);
+			    						count++;
+			    					}
+			    				}
+			    			}
+			    		}
 			        }
 					break;
 				case AreaSelection:
@@ -451,19 +492,20 @@ public class ItemDevTool extends ItemCustom  {
 				features.add(test);
 			}
 			
-
-        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
-        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
+			if(!nbtFeats.getCompoundTag("AreaData").getString("version").isEmpty()) {
+				int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
+	        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
+	        	
+	        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+	        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+	            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(Minecraft.getMinecraft().theWorld, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
+	            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
+	            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
+	            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
+	            	}
+	        	}
+			}
         	
-        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
-        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(Minecraft.getMinecraft().theWorld, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
-            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
-            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
-            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
-            	}
-        	}
-			
 			tutOptions.load(nbtFeats.getCompoundTag("options"));
             is.close();
 

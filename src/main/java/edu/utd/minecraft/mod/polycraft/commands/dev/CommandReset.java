@@ -26,6 +26,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty.PermissionSet.Action;
 import edu.utd.minecraft.mod.polycraft.util.NetUtil;
+import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
@@ -51,6 +52,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMegaJungle;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.DimensionManager;
 
 public class CommandReset extends CommandBase{
 
@@ -253,8 +255,19 @@ public class CommandReset extends CommandBase{
 		tutOptions.teamSize = 1;
 		
 		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, genInDim8);
-		TutorialManager.INSTANCE.getExperiment(id).setAreaData(nbtData.getCompoundTag("AreaData").getIntArray("Blocks"), nbtData.getCompoundTag("AreaData").getByteArray("Data"));
-		
+		int chunkXMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkXSize");
+    	int chunkZMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkZSize");
+    	ArrayList<net.minecraft.world.chunk.Chunk> chunks = new ArrayList<net.minecraft.world.chunk.Chunk>();
+    	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+    		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+        		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
+        				((int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4 ),
+        				(int)TutorialManager.INSTANCE.getExperiment(id).pos.zCoord >> 4);
+				chunks.add(chunk);
+        	}
+    	}
+    	TutorialManager.INSTANCE.getExperiment(id).setAreaData(chunks);
+    	
 		player.addChatMessage(new ChatComponentText("Added New Experiment, ID = " + id));
 		
 		TutorialManager.INSTANCE.addPlayerToExperiment(id, (EntityPlayerMP)player);
