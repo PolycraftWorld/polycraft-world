@@ -927,6 +927,7 @@ public class BotAPI {
 	            	break;
 	            case CRAFT_CRAFTING_TABLE:
 	            	BotAPI.craftCraftingTable(args);
+	            	break;
 	            case CRAFT_PLANKS:
 	            	BotAPI.craftPlanks(args);
 	            	break;
