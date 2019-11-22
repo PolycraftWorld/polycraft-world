@@ -12,6 +12,10 @@ import java.util.Random;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +36,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.Observati
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationMap;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerInventory;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerPos;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.rewards.ExperimentReward;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
 import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
@@ -354,11 +359,18 @@ public class ExperimentTutorial{
 					observations.add(new ObservationPlayerInventory());
 					observations.add(new ObservationPlayerPos());
 					observations.add(new ObservationMap());
+					observations.add(new ObservationScreen());
 				}
 				for(IObservation obs: observations) {
 					obs.init(this);
 				}
 				clientInit = true;
+				try {
+					Display.setDisplayMode(new DisplayMode(128, 128));
+				} catch (LWJGLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;

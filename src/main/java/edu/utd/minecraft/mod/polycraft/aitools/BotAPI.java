@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketImpl;
 import java.net.UnknownHostException;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -25,6 +26,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import com.google.common.base.Enums;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -35,6 +40,7 @@ import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
@@ -54,6 +60,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.item.EntityItem;
@@ -215,10 +223,12 @@ public class BotAPI {
     		//clicking
     		//left
     		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), Float.parseFloat(args[12]) == 1);
-    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
+    		if(Float.parseFloat(args[12]) == 1)
+    			KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode());
     		//right
     		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), Float.parseFloat(args[13]) == 1);
-    		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+    		if(Float.parseFloat(args[13]) == 1)
+    			KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
     	}
     }
     
@@ -981,6 +991,31 @@ public class BotAPI {
 	        		}
 	        		break;
 	            }
+	            int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
+	            int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;
+	    		
+	            int i = width * height;
+	            //System.out.print("Screen Res: " + width + "x" + height + "=" + i);
+
+	            if (ObservationScreen.pixelBuffer == null || ObservationScreen.pixelBuffer.capacity() < i || ObservationScreen.pixelBuffer.capacity() > i)
+	            {
+	            	ObservationScreen.pixelBuffer = BufferUtils.createIntBuffer(i);
+	            	ObservationScreen.pixelValues = new int[i];
+	            }
+	    		
+	            ObservationScreen.pixelBuffer.clear();
+
+	            if (OpenGlHelper.isFramebufferEnabled())
+	            {
+	                GlStateManager.bindTexture(Minecraft.getMinecraft().getFramebuffer().framebufferTexture);
+	                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
+	            }
+	            else
+	            {
+	                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
+	            }
+
+	            ObservationScreen.pixelBuffer.get(ObservationScreen.pixelValues);
 	            stepEnd.set(stepEndValue);	//set stepEnd value to update python wrapper with current observations
 	        }
 			//TODO: return DATA and rewards
