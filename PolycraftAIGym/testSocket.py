@@ -35,11 +35,11 @@ while run:	# main loop
 	# 	data = sock.recv(10240).decode()
 	# 	data_dict = json.loads(data)
 	# 	print (data_dict)
-
-	data = ''
-	data = sock.recv(10240).decode()
-	data_dict = json.loads(data)
-	print(data_dict)
+	if not userInput.startswith('START'):
+		data = ''
+		data = sock.recv(10240).decode()
+		data_dict = json.loads(data)
+		print(data_dict)
 sock.close()
 
 
