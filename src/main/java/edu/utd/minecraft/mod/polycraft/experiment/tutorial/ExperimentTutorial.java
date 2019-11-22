@@ -33,6 +33,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.IObservation;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationBlockInFront;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationDestinationPos;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationMap;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerInventory;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerPos;
@@ -358,19 +359,21 @@ public class ExperimentTutorial{
 					observations.add(new ObservationBlockInFront());
 					observations.add(new ObservationPlayerInventory());
 					observations.add(new ObservationPlayerPos());
+					observations.add(new ObservationDestinationPos());
 					observations.add(new ObservationMap());
-					observations.add(new ObservationScreen());
+					//observations.add(new ObservationScreen());
 				}
 				for(IObservation obs: observations) {
 					obs.init(this);
 				}
 				clientInit = true;
-				try {
-					Display.setDisplayMode(new DisplayMode(128, 128));
-				} catch (LWJGLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					//Change client resolution
+//					Display.setDisplayMode(new DisplayMode(128, 128));
+//				} catch (LWJGLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;

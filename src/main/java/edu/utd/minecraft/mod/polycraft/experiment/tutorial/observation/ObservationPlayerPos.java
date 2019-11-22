@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import net.minecraft.block.Block;
@@ -24,12 +25,18 @@ public class ObservationPlayerPos implements IObservation{
 	@Override
 	public JsonElement getObservation(ExperimentTutorial exp) {
 		Gson gson = new Gson();
+		JsonObject jobject = new JsonObject();
+		
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		ArrayList<Integer> map = new ArrayList<Integer>();
-		map.add((int) (player.posX - posOffset.getX()));
-		map.add((int) (player.posY - posOffset.getY()));
-		map.add((int) (player.posZ - posOffset.getZ()));
-		return gson.toJsonTree(map);
+		ArrayList<Integer> playerPos = new ArrayList<Integer>();
+		playerPos.add((int) (player.posX - posOffset.getX()));
+		playerPos.add((int) (player.posY - posOffset.getY()));
+		playerPos.add((int) (player.posZ - posOffset.getZ()));
+		
+		jobject.add("pos", gson.toJsonTree(playerPos));
+		
+		jobject.addProperty("facing", player.getHorizontalFacing().name());
+		return jobject;
 	}
 
 	@Override
@@ -46,6 +53,6 @@ public class ObservationPlayerPos implements IObservation{
 
 	@Override
 	public String getName() {
-		return "PlayerPos";
+		return "Player";
 	}
 }
