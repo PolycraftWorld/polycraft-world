@@ -159,6 +159,7 @@ public class BotAPI {
     	ATTACK,
     	USE,
     	PLACE_BLOCK,
+    	PLACE_STONE,
     	PLACE_CRAFTING_TABLE,
     	PLACE_TREE_TAP,
     	SELECT_AXE,
@@ -490,6 +491,27 @@ public class BotAPI {
 //    	}
 		
 		
+	}
+	
+	public static void placeStoneBlock(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		
+		List<Object> params = new ArrayList<Object>();
+		params.add(String.join(" ", args));
+		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
+		
+		Vec3 placePos = new Vec3(player.posX + player.getHorizontalFacing().getFrontOffsetX(), 
+				player.posY - 1, player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
+		
+		if(args.length == 4) 
+    		placePos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3])+0.5);
+		Block block = player.worldObj.getBlockState(new BlockPos(placePos)).getBlock();
+		if(block.getMaterial() != Material.air) {
+			player.sendChatMessage("Block \"" + block.getLocalizedName() + "\" already exists when trying to place block");
+			return;
+		}else {
+			player.sendChatMessage("/setblock " + placePos.xCoord + " " + placePos.yCoord + " " + placePos.zCoord + " stone");
+		}
 	}
 	
 	public static void placeCraftingTable(String args[]) {
@@ -965,6 +987,9 @@ public class BotAPI {
 	            case PLACE_BLOCK:
 	            	BotAPI.placeBlock(args);
 	            	break;
+	            case PLACE_STONE:
+	            	BotAPI.placeStoneBlock(args);
+	            	break;
 	            case PLACE_CRAFTING_TABLE:
 	            	BotAPI.placeCraftingTable(args);
 	            	break;
@@ -991,31 +1016,32 @@ public class BotAPI {
 	        		}
 	        		break;
 	            }
-	            int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
-	            int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;
-	    		
-	            int i = width * height;
-	            //System.out.print("Screen Res: " + width + "x" + height + "=" + i);
-
-	            if (ObservationScreen.pixelBuffer == null || ObservationScreen.pixelBuffer.capacity() < i || ObservationScreen.pixelBuffer.capacity() > i)
-	            {
-	            	ObservationScreen.pixelBuffer = BufferUtils.createIntBuffer(i);
-	            	ObservationScreen.pixelValues = new int[i];
-	            }
-	    		
-	            ObservationScreen.pixelBuffer.clear();
-
-	            if (OpenGlHelper.isFramebufferEnabled())
-	            {
-	                GlStateManager.bindTexture(Minecraft.getMinecraft().getFramebuffer().framebufferTexture);
-	                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
-	            }
-	            else
-	            {
-	                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
-	            }
-
-	            ObservationScreen.pixelBuffer.get(ObservationScreen.pixelValues);
+	            //Update Vision data
+//	            int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
+//	            int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;
+//	    		
+//	            int i = width * height;
+//	            //System.out.print("Screen Res: " + width + "x" + height + "=" + i);
+//
+//	            if (ObservationScreen.pixelBuffer == null || ObservationScreen.pixelBuffer.capacity() < i || ObservationScreen.pixelBuffer.capacity() > i)
+//	            {
+//	            	ObservationScreen.pixelBuffer = BufferUtils.createIntBuffer(i);
+//	            	ObservationScreen.pixelValues = new int[i];
+//	            }
+//	    		
+//	            ObservationScreen.pixelBuffer.clear();
+//
+//	            if (OpenGlHelper.isFramebufferEnabled())
+//	            {
+//	                GlStateManager.bindTexture(Minecraft.getMinecraft().getFramebuffer().framebufferTexture);
+//	                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
+//	            }
+//	            else
+//	            {
+//	                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
+//	            }
+//
+//	            ObservationScreen.pixelBuffer.get(ObservationScreen.pixelValues);
 	            stepEnd.set(stepEndValue);	//set stepEnd value to update python wrapper with current observations
 	        }
 			//TODO: return DATA and rewards
