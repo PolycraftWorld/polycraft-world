@@ -868,7 +868,11 @@ public class BotAPI {
 				fromClient = tempQ;
 				tempQ = null;
 			}
+				
 			if(fromClient != null) {
+
+				Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+				Minecraft.getMinecraft().setIngameFocus();
 	        	System.out.println(fromClient);
 	        	String args[] =  fromClient.split("\\s+");
 	        	Method func = null; 
