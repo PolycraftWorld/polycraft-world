@@ -37,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureWorldBuilder;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGroup;
 import edu.utd.minecraft.mod.polycraft.item.ItemDevTool;
@@ -621,6 +622,13 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 		case GUIDE:
 			if(addNew)
 	        	featureToAdd = new TutorialFeatureGuide("Guide " + devTool.getFeatures().size(), 
+	        		new BlockPos(player.posX, player.posY, player.posZ),
+	        		new BlockPos(player.posX, player.posY, player.posZ));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case DATA:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureData("Data " + devTool.getFeatures().size(), 
 	        		new BlockPos(player.posX, player.posY, player.posZ),
 	        		new BlockPos(player.posX, player.posY, player.posZ));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);

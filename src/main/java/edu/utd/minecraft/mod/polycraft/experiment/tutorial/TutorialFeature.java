@@ -51,6 +51,7 @@ public class TutorialFeature implements ITutorialFeature{
 		START(TutorialFeatureStart.class.getName()),
 		GENERIC(TutorialFeature.class.getName()),
 		GUIDE(TutorialFeatureGuide.class.getName()),
+		DATA(TutorialFeatureData.class.getName()),
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
 		END(TutorialFeatureEnd.class.getName()),
