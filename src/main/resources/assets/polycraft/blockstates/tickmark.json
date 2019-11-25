@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "normal": { "model": "polycraft:tickmark" },
+	"facing=down,half=top":  { "model": "polycraft:tickmark", "x": 180 },
+	"facing=up,half=top":    { "model": "polycraft:tickmark" },
+	"facing=north,half=top": { "model": "polycraft:tickmark" },
+	"facing=south,half=top": { "model": "polycraft:tickmark", "y": 180 },
+	"facing=west,half=top":  { "model": "polycraft:tickmark", "y": 270 },
+	"facing=east,half=top":  { "model": "polycraft:tickmark", "y": 90 },
+	"facing=down,half=bottom":  { "model": "polycraft:tickmark", "x": 180 },
+	"facing=up,half=bottom":    { "model": "polycraft:tickmark" },
+	"facing=north,half=bottom": { "model": "polycraft:tickmark" },
+	"facing=south,half=bottom": { "model": "polycraft:tickmark", "y": 180 },
+	"facing=west,half=bottom":  { "model": "polycraft:tickmark", "y": 270 },
+	"facing=east,half=bottom":  { "model": "polycraft:tickmark", "y": 90 }
+  }
+}
