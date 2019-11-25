@@ -137,7 +137,21 @@ public enum GameID {
 	CustomGravitySlingshot("1hP"),
 	CustomIceSlingshot("1hQ"),
 	Paintball("1hL"),
-	CustomAITool("1k0");
+	CustomAITool("1k0"),
+	ABlock("1k1"),
+	BBlock("1k2"),
+	CBlock("1k3"),
+	DBlock("1k4"),
+	LBlock("1k5"),
+	XBlock("1k6"),
+	FiveBlock("1k7"),
+	SevenBlock("1k8"),
+	GeoGreyCorner("1k9"),
+	GeoGreySide("1ka"),
+	GeoSlope1("1kb"),
+	GeoSlope2("1kc"),
+	GeoSlope3("1kd"),
+	GeoSlope3Grey("1ke");
 
 	public final String id;
 

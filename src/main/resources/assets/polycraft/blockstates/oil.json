@@ -17,6 +17,27 @@
 			"fluid": "oil"
 			}
 		}
+	],
+	"level=7": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=8": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=9": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
 	]
 	
   }

@@ -104,3 +104,17 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.4.13	1hQ	Ice Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	1	3	0	1	1				
 1.4.13	1hL	Paintball	PC Item		FALSE		64											
 1.4.12	1k0	AI Tool	PC Item		FALSE		1											
+1.4.14	1k1	A Block	PC Directional		FALSE		64											
+1.4.14	1k2	B Block	PC Directional		FALSE		64											
+1.4.14	1k3	C Block	PC Directional		FALSE		64											
+1.4.14	1k4	D Block	PC Directional		FALSE		64											
+1.4.14	1k5	L Block	PC Directional		FALSE		64											
+1.4.14	1k6	X Block	PC Directional		FALSE		64											
+1.4.14	1k7	5 Block	PC Directional		FALSE		64											
+1.4.14	1k8	7 Block	PC Directional		FALSE		64											
+1.4.14	1k9	Geometry Grey Corner	PC Directional		FALSE		64											
+1.4.14	1ka	Geometry Grey Side	PC Directional		FALSE		64											
+1.4.14	1kb	Geometry Slope1	PC Directional		FALSE		64											
+1.4.14	1kc	Geometry Slope2	PC Directional		FALSE		64											
+1.4.14	1kd	Geometry Slope3	PC Directional		FALSE		64											
+1.4.14	1ke	Geometry Slope3 Grey	PC Directional		FALSE		64											

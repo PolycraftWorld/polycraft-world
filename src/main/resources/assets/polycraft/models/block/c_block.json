@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "polycraft:blocks/c_block",
+    "front": "polycraft:blocks/c_block",
+    "side": "polycraft:blocks/c_block"
+  }
+}

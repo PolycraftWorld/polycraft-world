@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "polycraft:blocks/geometry_slope3_grey",
+    "front": "polycraft:blocks/geometry_slope3_grey",
+    "side": "polycraft:blocks/geometry_slope3_grey"
+  }
+}
