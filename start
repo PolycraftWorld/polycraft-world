@@ -1,0 +1,3 @@
+exec gradlew setupDecompWorkspace
+exec gradlew build
+exec gradlew runClient
