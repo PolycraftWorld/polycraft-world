@@ -132,55 +132,56 @@ public class BotAPI {
     static String tempQ = null;
     
     public enum APICommand{
-    	LL, //LOW LEVEL COMMANDS
-    	CHAT,
-    	MOVE,
-    	MOVE_FORWARD,
-    	MOVE_NORTH,
-    	MOVE_SOUTH,
-    	MOVE_EAST,
-    	MOVE_WEST,
-    	MOVE_NORTH_EAST,
-    	MOVE_NORTH_WEST,
-    	MOVE_SOUTH_EAST,
-    	MOVE_SOUTH_WEST,
-    	TELEPORT,
-    	WALK_TO,
-    	JUMP,
-    	TURN,
-    	TURN_RIGHT,
-    	TURN_LEFT,
-    	LOOK_NORTH,
-    	LOOK_SOUTH,
-    	LOOK_EAST,
-    	LOOK_WEST,
-    	BREAK_BLOCK,
-    	COLLECT_FROM_BLOCK,
-    	ATTACK,
-    	USE,
-    	PLACE_BLOCK,
-    	PLACE_STONE,
-    	PLACE_CRAFTING_TABLE,
-    	PLACE_TREE_TAP,
-    	SELECT_AXE,
-    	SELECT_POGO_STICK,
-    	INV_SELECT_ITEM,
-    	INV_MOVE_ITEM,
-    	INV_CRAFT_ITEM,
-    	CRAFT_PLANKS,
-    	CRAFT_CRAFTING_TABLE,
-    	CRAFT_STICKS,
-    	CRAFT_AXE,
-    	CRAFT_TREE_TAP,
-    	CRAFT_POGO_STICK,
-    	DATA,
-    	DATA_INV,
-    	DATA_MAP,
-    	DATA_BOT_POS,
-    	RESET,
-    	START,
-    	TREES,
-    	SPEED,
+    	LL, //LOW LEVEL COMMANDS. Parameters: [forward] [backwards] [strafe-left] [strafe-right] [jump] [crouch] [sprint] [turn left] [turn right] [look up] [look down] [left click] [right click]
+    	CHAT,	// send a chat message as the Player. Parameters: String message
+    	MOVE,	// Not Implemented
+    	MOVE_FORWARD,	// Move Agent 1 block forward
+    	MOVE_NORTH,	// Move agent 1 block North
+    	MOVE_SOUTH,	// Move agent 1 block South
+    	MOVE_EAST,	// Move agent 1 block East
+    	MOVE_WEST,	// Move agent 1 block West
+    	MOVE_NORTH_EAST,	// Move agent 1 block Northeast 
+    	MOVE_NORTH_WEST,	// Move agent 1 block Northwest    	
+    	MOVE_SOUTH_EAST,	// Move agent 1 block Southeast
+    	MOVE_SOUTH_WEST,	// Move agent 1 block Southwest 
+    	TELEPORT,	// Move agent to specific location. Parameters: int x, int y, int z
+    	WALK_TO,	// Not Implemented
+    	JUMP,	// Agent jumps once
+    	TURN,	// Agent turns left or right. Parameters: float deltaYaw
+    	TURN_RIGHT,	// Agent turns right a number of degrees. Parameters: float degrees (default 5)
+    	TURN_LEFT,	// Agent turns left a number of degrees. Parameters: float degrees (default 5)
+    	LOOK_NORTH,	// Turns agent to face directly North
+    	LOOK_SOUTH,	// Turns agent to face directly South
+    	LOOK_EAST,	// Turns agent to face directly East
+    	LOOK_WEST,	// Turns agent to face directly West
+    	BREAK_BLOCK,	// Break a column of four blocks directly in front of agent. 
+    	COLLECT_FROM_BLOCK,	// Collect all items from a tree tap
+    	ATTACK,	// Left click once
+    	USE,	// right click once
+    	PLACE_BLOCK,	// Place a specified block in a specified location. Parameters: int blockID, int x, int y, int z
+    					// Agent will first send a packet to the server to move item to hotbar and select item. Then look at the position to place block at. Then wait 10 ticks just in case packet transmission is slow, then right click with the "USE" command.
+    	PLACE_STONE,	// Places a stone block in front and at feet level of agent.
+    	PLACE_CRAFTING_TABLE,	// Places a crafting table in front of player. Similar to PLACE_BLOCK
+    	PLACE_TREE_TAP,		// Place a tree tap in front of player. Similar to PLACE_BLOCK
+    	SELECT_AXE,		// Moves and axe to hotbar and selects axe.  Fails if there is no axe in player inventory.
+    	SELECT_POGO_STICK,	// Moves and selects Pogo stick to hotbar. Fails if there is no pogo stick in player inventory
+    	INV_SELECT_ITEM,	// Moves and selects Pogo stick to hotbar. Fails if there is no pogo stick in player inventory. Parameters: int itemID
+    	INV_MOVE_ITEM,		// Not implemented
+    	INV_CRAFT_ITEM,		// attempts to craft item if player has all items needed. Parameters: int itemID1, int itemID2, ... , int itemID8, int itemID9
+    	CRAFT_PLANKS,		// attempts to craft planks. Fails if not enough resources in player inventory
+    	CRAFT_CRAFTING_TABLE,	// attempts to craft a crafting table. Fails if not enough resources in player inventory
+    	CRAFT_STICKS,	// attempts to craft sticks. Fails if not enough resources in player inventory
+    	CRAFT_AXE,	// attempts to craft an axe. Fails if not enough resources in player inventory
+    	CRAFT_TREE_TAP,	// attempts to craft a tree tap. Fails if not enough resources in player inventory
+    	CRAFT_POGO_STICK,	// attempts to craft a pogo stick. Fails if not enough resources in player inventory
+    	DATA,	// Send all observations to agent
+    	DATA_INV,	// Send inventory observation to agent
+    	DATA_MAP,	// Send map observation to agent
+    	DATA_BOT_POS,	// Send bot position observation to agent
+    	RESET,	// used to reset the task. Parameters: String params.  Ex usage: "RESET domain pogo" (this will start up the pogostick task)
+    	START,	// used to setup a single player flat world and join that world.  This command should be run first to initialize the client
+    	TREES,	// Dev command. Add trees to pogo stick task.  
+    	SPEED,	// increase or decrease tick rate of base minecraft. Default is 20 ticks per second. Parameters: int ticksPerSecond. Ex usage: "SPEED 200" This will make the client 10x faster.
     	DEFAULT
     }
     
