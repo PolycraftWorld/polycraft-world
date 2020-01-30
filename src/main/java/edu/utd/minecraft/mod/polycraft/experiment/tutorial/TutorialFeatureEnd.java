@@ -6,6 +6,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction.InstructionType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
@@ -20,6 +21,15 @@ import net.minecraft.util.Vec3;
 
 public class TutorialFeatureEnd extends TutorialFeature{
 
+	public enum EndCondition{
+		TIME,
+		ITEM,
+		ITEM_TO_LOCATION,
+		LOCATION,
+		SCORE
+	};
+	private EndCondition endCondition;
+	
 	public TutorialFeatureEnd() {}
 	public int countDown;
 	
