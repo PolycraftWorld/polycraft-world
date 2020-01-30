@@ -1,9 +1,5 @@
 package edu.utd.minecraft.mod.polycraft.item;
 
-import net.minecraft.util.*;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.registry.GameData;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,61 +7,41 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
-import edu.utd.minecraft.mod.polycraft.client.gui.GuiExperimentList;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
-import edu.utd.minecraft.mod.polycraft.entity.EntityOilSlimeBallProjectile;
-import edu.utd.minecraft.mod.polycraft.entity.boss.AttackWarning;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialRender;
-import edu.utd.minecraft.mod.polycraft.inventory.territoryflag.TerritoryFlagBlock;
-import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
-import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
-import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
-import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
-import edu.utd.minecraft.mod.polycraft.scoreboards.Team.ColorEnum;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.NextTickListEntry;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.NibbleArray;
-import net.minecraft.world.chunk.storage.AnvilChunkLoader;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDevTool extends ItemCustom  {
 	
@@ -475,6 +451,7 @@ public class ItemDevTool extends ItemCustom  {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private void load() {
 		try {
         	features.clear();
@@ -515,6 +492,12 @@ public class ItemDevTool extends ItemCustom  {
         }
 	}
 	
+//	@SideOnly(Side.SERVER)
+//	private void load() {
+//		return;
+//	}
+	
+	@SideOnly(Side.CLIENT)
 	private NBTTagCompound saveArea() {
 		if(tutOptions.pos.getY() != 0 && tutOptions.size.getY() != 0)
 		{
@@ -566,4 +549,9 @@ public class ItemDevTool extends ItemCustom  {
 			return null;
 		}
 	}
+	
+//	@SideOnly(Side.SERVER)
+//	private NBTTagCompound saveArea() {
+//		return;
+//	}
 }

@@ -21,6 +21,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 
+/**
+ * @author Stephen Goss
+ * To add new Features make sure to define feature in {@link TutorialFeatureType} and buildAddStepInputs(boolean addNew) in {@link GuiExpCreator}  
+ */
 public class TutorialFeature implements ITutorialFeature{
 	protected String name;
 	protected BlockPos pos;
@@ -51,6 +55,7 @@ public class TutorialFeature implements ITutorialFeature{
 		START(TutorialFeatureStart.class.getName()),
 		GENERIC(TutorialFeature.class.getName()),
 		GUIDE(TutorialFeatureGuide.class.getName()),
+		CAKE(TutorialFeatureCake.class.getName()),
 		DATA(TutorialFeatureData.class.getName()),
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
