@@ -216,6 +216,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.pos2= new BlockPos(Integer.parseInt(xPos2Field.getText()),
 							Integer.parseInt(yPos2Field.getText()),
 							Integer.parseInt(zPos2Field.getText()));
+		this.type = btnInstructionType.getCurrentOption();
 		this.save();
 		super.updateValues();
 		
@@ -1247,7 +1248,9 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public InstructionType getType() {
 		return type;
 	}
-
+	
+	//Should only use UpdateValues to update variables
+	@Deprecated
 	public void setType(InstructionType type) {
 		this.type = type;
 	}

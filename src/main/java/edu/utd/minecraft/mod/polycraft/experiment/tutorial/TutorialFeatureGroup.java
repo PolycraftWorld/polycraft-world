@@ -28,7 +28,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	private GroupType type;
 	
 	//GuiFields for Parameters
-	GuiPolyButtonCycle<TutorialFeatureGroup.GroupType> btnInstructionType;
+	GuiPolyButtonCycle<TutorialFeatureGroup.GroupType> btnGroupType;
 	
 	public TutorialFeatureGroup() {}
 	
@@ -47,7 +47,9 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	public GroupType getType() {
 		return type;
 	}
-
+	
+	//Should only use UpdateValues to update variables
+	@Deprecated
 	public void setType(GroupType type) {
 		this.type = type;
 	}
@@ -55,6 +57,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	
 	@Override
 	public void updateValues() {
+		this.type = btnGroupType.getCurrentOption();
 		super.updateValues();
 	}
 	
@@ -64,10 +67,10 @@ public class TutorialFeatureGroup extends TutorialFeature{
 		// TODO Auto-generated method stub
 		super.buildGuiParameters(guiDevTool, x_pos, y_pos);
 		
-        btnInstructionType = new GuiPolyButtonCycle<TutorialFeatureGroup.GroupType>(
+        btnGroupType = new GuiPolyButtonCycle<TutorialFeatureGroup.GroupType>(
         		guiDevTool.buttonCount + 1, x_pos + 10, y_pos + 65, (int) (guiDevTool.X_WIDTH * .9), 20, 
         		"Type",  TutorialFeatureGroup.GroupType.START);
-        guiDevTool.addBtn(btnInstructionType);
+        guiDevTool.addBtn(btnGroupType);
         
         //addFields(guiDevTool, x_pos, y_pos);
 	}
