@@ -23,9 +23,12 @@ public class ObservationBlockInFront implements IObservation{
 	public JsonElement getObservation(ExperimentTutorial exp) {
 		Gson gson = new Gson();
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		int id = Block.getIdFromBlock(player.worldObj.getBlockState(new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),
+//		int id = Block.getIdFromBlock(player.worldObj.getBlockState(new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),
+//				player.posY + player.getHorizontalFacing().getFrontOffsetY(),
+//				player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).getBlock());
+		String id = player.worldObj.getBlockState(new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),
 				player.posY + player.getHorizontalFacing().getFrontOffsetY(),
-				player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).getBlock());
+				player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).getBlock().getRegistryName();
 		JsonObject jobject = new JsonObject();
 		jobject.addProperty("id", id);
 		return jobject;

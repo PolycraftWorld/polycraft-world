@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,25 +28,25 @@ public class ObservationMap implements IObservation{
 	public JsonElement getObservation(ExperimentTutorial exp) {
 		
 		for(TutorialFeature feature: exp.getFeatures()) {
-			if(feature.getName().equalsIgnoreCase("map") && feature instanceof TutorialFeatureGuide) {
+			if(feature.getName().equalsIgnoreCase("map") && feature instanceof TutorialFeatureData) {
 				pos1 = feature.getPos();
 				pos2 = feature.getPos2();
 			}
 		}
 		
 		Gson gson = new Gson();
-		ArrayList<Integer> blocks = new ArrayList<Integer>();
+		ArrayList<String> blocks = new ArrayList<String>();
 		for(int i = 0; i <= pos2.getX(); i++) {
 			for(int k = 0; k <= pos2.getZ(); k++) {
-				blocks.add(Block.getIdFromBlock(exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock()));
+				blocks.add(exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock().getRegistryName());
 			}
 		}
 		JsonObject jobject = new JsonObject();
 		jobject.add("blocks", gson.toJsonTree(blocks));
 		ArrayList<Integer> size = new ArrayList<Integer>();
-		size.add(pos2.getX());
-		size.add(pos2.getX());
-		size.add(pos2.getZ());
+		size.add(1 + pos2.getX() - pos1.getX());
+		size.add(1 + pos2.getY() - pos1.getY());
+		size.add(1 + pos2.getZ() - pos1.getZ());
 		jobject.add("size", gson.toJsonTree(size));
 		return jobject;
 	}
