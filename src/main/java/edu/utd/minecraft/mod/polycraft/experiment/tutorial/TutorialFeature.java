@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
+import java.util.Random;
 
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,6 +35,7 @@ public class TutorialFeature implements ITutorialFeature{
 	protected boolean isDone = false;		//remove from active features when true
 	protected boolean canProceed = false;	//Stop loading new features until true
 	protected boolean isDirty = false;		//used to determine if an feature update packet needs to be send to players/server
+	protected Random rand = new Random();
 	
 	
 	// Rendering variables.
@@ -57,6 +59,7 @@ public class TutorialFeature implements ITutorialFeature{
 		GUIDE(TutorialFeatureGuide.class.getName()),
 		CAKE(TutorialFeatureCake.class.getName()),
 		DATA(TutorialFeatureData.class.getName()),
+		ADD_ITEM(TutorialFeatureAddItem.class.getName()),
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
 		END(TutorialFeatureEnd.class.getName()),
@@ -94,7 +97,7 @@ public class TutorialFeature implements ITutorialFeature{
 	@Override
 	public void preInit(ExperimentTutorial exp) {
 		pos = pos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord);
-		
+		rand = exp.rand;
 	}
 
 	@Override

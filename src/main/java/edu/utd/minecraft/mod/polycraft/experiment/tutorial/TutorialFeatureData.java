@@ -25,7 +25,7 @@ public class TutorialFeatureData extends TutorialFeature{
 	public TutorialFeatureData(String name, BlockPos pos, BlockPos pos2){
 		super(name, pos, Color.YELLOW);
 		this.pos2 = pos2;
-		super.featureType = TutorialFeatureType.GUIDE;
+		super.featureType = TutorialFeatureType.DATA;
 		this.canProceed = true;
 	}
 
