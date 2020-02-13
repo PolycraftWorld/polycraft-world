@@ -42,23 +42,27 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
-	protected GuiPolyNumField pitchField, yawField, xPos2Field, yPos2Field, zPos2Field;
+	protected GuiPolyNumField pitchField, yawField, xPos2Field, yPos2Field, zPos2Field, countField;
 	@SideOnly(Side.CLIENT)
-	protected GuiPolyButtonCycle<FeatureType> toggleRandomSpawn;
+	protected GuiPolyButtonCycle<GenType> cycleGenType;
 	
 	
-	public enum FeatureType{
+	public enum GenType{
 		TREES,
+		STUMPS,
 		HILLS
 	}
 	
+	private GenType genType = GenType.TREES;
+	
 	public TutorialFeatureWorldBuilder() {}
 	
-	public TutorialFeatureWorldBuilder(String name, BlockPos pos, BlockPos lookDir){
+	public TutorialFeatureWorldBuilder(String name, BlockPos pos, BlockPos lookDir, GenType gentype){
 		super(name, pos, Color.GREEN);
 		this.pos2 = pos;
 		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.WORLDGEN;
+		this.genType = gentype;
 	}
 	
 	@Override
@@ -69,25 +73,47 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
-		Random rand = new Random();
-		while(count-- > 0) {
-			IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
-            WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
-            for(int x=0;x<5;x++){	//try to generate the tree 5 times before giving up
-            	if(worldgenerator.generate(exp.world, rand, pos.add(Math.random() * (pos2.getX() - pos.getX()), 0, Math.random() * (pos2.getZ() - pos.getZ()))))
-            		break;
-            }
-		}
-		
-		for(int i = 0; i <= pos2.getX(); i++) {
-			for(int k = 0; k <= pos2.getZ(); k++) {
-				for(int j = 0; j < 3; j++) {
-					if(exp.getWorld().getBlockState(pos.add(i, j, k)).getBlock() == Blocks.leaves)
-						exp.getWorld().setBlockToAir(pos.add(i, j, k));
+		int xPos, zPos;	//working variables
+		switch(this.genType) {
+		case HILLS:
+			break;
+		case STUMPS:
+			while(count-- > 0) {
+				for(int x=0;x<5;x++){	//try to generate the tree 5 times before giving up
+					xPos = rand.nextInt(pos2.getX() - pos.getX());
+					zPos = rand.nextInt(pos2.getZ() - pos.getZ());
+					if(exp.world.isAirBlock(pos.add(xPos, 0, zPos))) {	//If the position is clear, set to log
+							exp.world.setBlockState(pos.add(xPos, 0, zPos), Blocks.log.getDefaultState(), 2);
+							//System.out.println("Adding Log at: " + pos.add(xPos, 0, zPos).toString());
+							break;	//get out of the for loop
+					}
 				}
 			}
+			break;
+		case TREES:
+			while(count-- > 0) {
+				IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+	            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+	            WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+	            for(int x=0;x<5;x++){	//try to generate the tree 5 times before giving up
+	            	if(worldgenerator.generate(exp.world, rand, pos.add(rand.nextInt(pos2.getX() - pos.getX()), 0, rand.nextInt(pos2.getZ() - pos.getZ()))))
+	            		break;	//break for loop
+	            }
+			}
+			
+			for(int i = 0; i <= pos2.getX(); i++) {
+				for(int k = 0; k <= pos2.getZ(); k++) {
+					for(int j = 0; j < 3; j++) {
+						if(exp.getWorld().getBlockState(pos.add(i, j, k)).getBlock() == Blocks.leaves)
+							exp.getWorld().setBlockToAir(pos.add(i, j, k));
+					}
+				}
+			}
+			break;
+		default:
+			break;
 		}
+		
 			
 		canProceed = true;
 		this.complete(exp);
@@ -102,21 +128,10 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
         
         y_pos += 15;
         
-//        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-//        		"Pitch:"));
-//        pitchField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
-//        pitchField.setMaxStringLength(32);
-//        pitchField.setText(Integer.toString((int)lookDir.getX()));
-//        pitchField.setTextColor(16777215);
-//        pitchField.setVisible(true);
-//        pitchField.setCanLoseFocus(true);
-//        pitchField.setFocused(false);
-//        guiDevTool.textFields.add(pitchField);
-        
-//        toggleRandomSpawn = new GuiPolyButtonCycle<GuiPolyButtonCycle.Toggle>(
-//        		guiDevTool.buttonCount++, x_pos + 10, y_pos + 45, (int) (guiDevTool.X_WIDTH * .9), 14, 
-//        		"Random Spawn",  GuiPolyButtonCycle.Toggle.fromBool(spawnRand));
-//        guiDevTool.addBtn(toggleRandomSpawn);
+        cycleGenType = new GuiPolyButtonCycle<GenType>(
+        		guiDevTool.buttonCount++, x_pos + 10, y_pos + 45, (int) (guiDevTool.X_WIDTH * .9), 14, 
+        		"Random Spawn",  genType);
+        guiDevTool.addBtn(cycleGenType);
         y_pos += 15;
         //Add random spawn area setting
         //add some labels for position fields 
@@ -154,6 +169,19 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
         zPos2Field.setFocused(false);
         guiDevTool.textFields.add(zPos2Field);
         
+        y_pos += 15;
+        
+        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Count:"));
+        countField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
+        countField.setMaxStringLength(32);
+        countField.setText(Integer.toString(count));
+        countField.setTextColor(16777215);
+        countField.setVisible(true);
+        countField.setCanLoseFocus(true);
+        countField.setFocused(false);
+        guiDevTool.textFields.add(countField);
+        
 	}
 	
 	@Override
@@ -161,7 +189,8 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.pos2 = new BlockPos(Integer.parseInt(xPos2Field.getText())
 				,Integer.parseInt(yPos2Field.getText())
 				,Integer.parseInt(zPos2Field.getText()));
-//		spawnRand = GuiPolyButtonCycle.Toggle.toBool(toggleRandomSpawn.getCurrentOption());
+		this.count = Integer.parseInt(countField.getText());
+		this.genType = cycleGenType.getCurrentOption();
 		super.updateValues();
 	}
 	
@@ -169,14 +198,10 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	public NBTTagCompound save()
 	{
 		super.save();
-//		int lookDir[] = {(int)this.lookDir.getX(), (int)this.lookDir.getY(), (int)this.lookDir.getZ()};
-//		nbt.setIntArray("lookDir",lookDir);
 		int pos2[] = {(int)this.pos2.getX(), (int)this.pos2.getY(), (int)this.pos2.getZ()};
 		nbt.setIntArray("pos2",pos2);
-//		nbt.setInteger("dim", dim);
-//		nbt.setBoolean("spawnedInServer", spawnedInServer);
-//		nbt.setBoolean("spawnedInClient", spawnedInClient);
-		nbt.setBoolean("spawnRand", spawnRand);
+		nbt.setInteger("count", count);
+		nbt.setString("gentype", genType.name());
 		return nbt;
 	}
 	
@@ -188,10 +213,12 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 //		this.lookDir=new BlockPos(featLookDir[0], featLookDir[1], featLookDir[2]);
 		int featPos2[]=nbtFeat.getIntArray("pos2");
 		this.pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
-//		this.dim = nbtFeat.getInteger("dim");
-//		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
-//		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
-		this.spawnRand = nbtFeat.getBoolean("spawnRand");
+		this.count = nbtFeat.getInteger("count");
+		//In case we try to load an older NBT without this field
+		if(!nbtFeat.getString("gentype").isEmpty())
+			this.genType = GenType.valueOf(nbtFeat.getString("gentype"));
+		else
+			this.genType = GenType.TREES;	//trees is default because that's the only thing we had before adding this field
 	}
 	
 }
