@@ -94,6 +94,7 @@ public class ExperimentTutorial{
 	public Vec3 size;
 	public Vec3 posOffset;
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
+	public Random rand = new Random();
 	World world;
 	public int dim;
 	public CustomScoreboard scoreboard;
@@ -147,6 +148,7 @@ public class ExperimentTutorial{
 		
 		this.id = id;
 		this.isServer = true;
+		rand = new Random(options.seed);
 		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.size.getX()),
 				Math.min(options.pos.getY(), options.size.getY()),
 				Math.min(options.pos.getZ(), options.size.getZ()));
@@ -398,6 +400,15 @@ public class ExperimentTutorial{
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
 			jobject.add(obs.getName(), obs.getObservation(this));
+		}
+		return jobject;
+	}
+	
+	public JsonObject getObservation(String key) {
+		JsonObject jobject = new JsonObject();
+		for(IObservation obs: observations) {
+			if(key.equals(obs.getName()))
+				jobject.add(obs.getName(), obs.getObservation(this));
 		}
 		return jobject;
 	}

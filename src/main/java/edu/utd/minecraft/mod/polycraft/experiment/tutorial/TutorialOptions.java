@@ -20,6 +20,7 @@ public class TutorialOptions{
 	public BlockPos pos = new BlockPos(0, 0, 0);
 	public BlockPos size = new BlockPos(0, 0, 0);
 	public int numTeams = 2, teamSize = 2;
+	public long seed = 0;
 	
 	//Gui Parameters
 	protected GuiTextField nameField;
@@ -45,6 +46,7 @@ public class TutorialOptions{
 		nbt.setString("name", this.name);
 		nbt.setInteger("numTeams", numTeams);
 		nbt.setInteger("teamSize", teamSize);
+		nbt.setLong("seed", seed);
 		return nbt;
 	}
 	
@@ -57,5 +59,6 @@ public class TutorialOptions{
 		this.name = nbtFeat.getString("name");
 		this.numTeams = nbtFeat.getInteger("numTeams");
 		this.teamSize = nbtFeat.getInteger("teamSize");
+		this.seed = nbtFeat.getLong("seed");
 	}
 }
