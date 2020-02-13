@@ -347,7 +347,7 @@ public class ItemDevTool extends ItemCustom  {
 				renderboxes.add(box);
 			}
 		}
-		if(tutOptions.pos.getY() != 0 && tutOptions.size.getY() != 0) {
+		if(tutOptions.pos.getY() != 0 || tutOptions.size.getY() != 0) {
 			renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.size), 1));
 		}
 	}
@@ -499,7 +499,7 @@ public class ItemDevTool extends ItemCustom  {
 	
 	@SideOnly(Side.CLIENT)
 	private NBTTagCompound saveArea() {
-		if(tutOptions.pos.getY() != 0 && tutOptions.size.getY() != 0)
+		if(tutOptions.pos.getY() != 0 || tutOptions.size.getY() != 0)
 		{
 			int minX = Math.min(tutOptions.pos.getX(), tutOptions.size.getX());
 			int maxX = Math.max(tutOptions.pos.getX(), tutOptions.size.getX());
