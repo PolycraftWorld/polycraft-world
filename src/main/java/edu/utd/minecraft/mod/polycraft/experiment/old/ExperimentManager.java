@@ -94,7 +94,8 @@ public class ExperimentManager {
 			globalPlayerList = null;
 		}
 		experimentDefinitions = new Hashtable<Integer, ExperimentDef>();
-		this.loadExpDefs();	//attempt to load experiment defs
+		if(System.getProperty("isExperimentServer") != null)	//don't need to run this if it isn't an experiment server
+			this.loadExpDefs();	//attempt to load experiment defs
 		
 		clientCurrentExperiment = -1;
 		
