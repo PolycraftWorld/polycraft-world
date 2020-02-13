@@ -34,6 +34,8 @@ import com.google.common.base.Enums;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -1080,16 +1082,42 @@ public class BotAPI {
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
 	                        while(!client.isClosed()) {
-	                        	final String fromClient = in.readLine();
+	                        	String  fromClient = in.readLine();
 		                        
+	                        	try {
+		                        	if(fromClient.startsWith("{")) {
+		                        		JsonParser parser = new JsonParser();
+		                        		JsonObject json = (JsonObject) parser.parse(fromClient);
+		                        		fromClient = new String(json.get("command").getAsString() + " " + json.get("argument").getAsString());
+		                        	}
+	                        	}catch(Exception e) {
+	                        		fromClient = in.readLine();
+	                        		System.out.println("Error trying to parse JSON API call: " + fromClient);
+	                        		e.printStackTrace();
+	                        	}
+	                        	final String fromClientFinal = fromClient;
 		                        try {
-		                        	if(fromClient.contains("DATA_INV"))
-		                        		dataInventory(out, client);
-		                        	else if(fromClient.contains("DATA_MAP"))
-		                        		dataMap(out, client);
+		                        	
+		                        	
+		                        	if(fromClient.contains("DATA_INV") || fromClient.contains("SENSE_INVENTORY"))
+		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("inventory").toString();		                        			
+		                        	        out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}else {
+		                        			dataInventory(out, client);
+		                        		}
+		                        	else if(fromClient.contains("DATA_MAP") || fromClient.contains("SENSE_SURROUNDINGS"))
+		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("map").toString();
+		                        	        out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}else {
+		                        			dataMap(out, client);
+		                        		}
 		                        	else if(fromClient.contains("DATA_BOT_POS"))
 		                        		dataBotPos(out, client);
-		                        	else if(fromClient.contains("DATA"))
+		                        	else if(fromClient.contains("DATA") || fromClient.contains("SENSE"))
 		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
 		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
 		                        	        out.println(toClient);
@@ -1104,7 +1132,7 @@ public class BotAPI {
 			                                @Override
 			                                public void run()
 			                                {
-			                                	BotAPI.start(fromClient.split(" "));
+			                                	BotAPI.start(fromClientFinal.split(" "));
 			                                }
 			                            });
 			                        }else if(fromClient.equals("LL")) {
