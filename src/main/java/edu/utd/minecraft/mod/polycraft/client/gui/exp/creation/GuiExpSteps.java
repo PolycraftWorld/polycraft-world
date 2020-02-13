@@ -800,28 +800,30 @@ public class GuiExpSteps extends GuiListExtended {
 		@Override
 		public boolean mousePressed(int startingSlotID, int mouseX, int mouseY, int b, int c,
 				int d) {
-			//System.out.println("Slider Changed: " + this.parameterName);
-			if(this.delete.mousePressed(GuiExpSteps.this.minecraft, mouseX, mouseY)) {
-				GuiExpSteps.this.devTool.removeFeatures(this.index);
-				GuiExpSteps.this.updateSteps();
-				this.hasChanged = true;
-				return true;
-			} else if(this.moveUp.mousePressed(GuiExpSteps.this.minecraft, mouseX, mouseY)) {
-				GuiExpSteps.this.devTool.swapFeatures(this.index, this.index - 1);
-				GuiExpSteps.this.updateSteps();
-				this.hasChanged = true;
-				return true;
-				//return this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY);
-			} else if(this.moveDown.mousePressed(GuiExpSteps.this.minecraft,  mouseX,  mouseY)){
-				GuiExpSteps.this.devTool.swapFeatures(this.index, this.index + 1);
-				GuiExpSteps.this.updateSteps();
-				this.hasChanged = true;
-				return true;
-			}else if(this.config.mousePressed(GuiExpSteps.this.minecraft,  mouseX,  mouseY)){
-				if(GuiExpSteps.this.gui instanceof GuiExpCreator)
-					((GuiExpCreator)GuiExpSteps.this.gui).editFeature(feature);
-				
-				return true;
+			if(((GuiExpCreator)GuiExpSteps.this.gui).isScreenDevSteps()) {
+				//System.out.println("Slider Changed: " + this.parameterName);
+				if(this.delete.mousePressed(GuiExpSteps.this.minecraft, mouseX, mouseY)) {
+					GuiExpSteps.this.devTool.removeFeatures(this.index);
+					GuiExpSteps.this.updateSteps();
+					this.hasChanged = true;
+					return true;
+				} else if(this.moveUp.mousePressed(GuiExpSteps.this.minecraft, mouseX, mouseY)) {
+					GuiExpSteps.this.devTool.swapFeatures(this.index, this.index - 1);
+					GuiExpSteps.this.updateSteps();
+					this.hasChanged = true;
+					return true;
+					//return this.slider.mousePressed(GuiExperimentConfig.this.mc, mouseX, mouseY);
+				} else if(this.moveDown.mousePressed(GuiExpSteps.this.minecraft,  mouseX,  mouseY)){
+					GuiExpSteps.this.devTool.swapFeatures(this.index, this.index + 1);
+					GuiExpSteps.this.updateSteps();
+					this.hasChanged = true;
+					return true;
+				}else if(this.config.mousePressed(GuiExpSteps.this.minecraft,  mouseX,  mouseY)){
+					if(GuiExpSteps.this.gui instanceof GuiExpCreator)
+						((GuiExpCreator)GuiExpSteps.this.gui).editFeature(feature);
+					
+					return true;
+				}
 			}
 			return false;
 		}
@@ -829,9 +831,9 @@ public class GuiExpSteps extends GuiListExtended {
 		@Override
 		public void mouseReleased(int p_148277_1_, int mouseX, int mouseY, int p_148277_4_, int p_148277_5_,
 				int p_148277_6_) {
-			this.delete.mouseReleased(mouseX, mouseY);
-			this.moveUp.mouseReleased(mouseX, mouseY);
-			this.moveDown.mouseReleased(mouseX, mouseY);
+//			this.delete.mouseReleased(mouseX, mouseY);
+//			this.moveUp.mouseReleased(mouseX, mouseY);
+//			this.moveDown.mouseReleased(mouseX, mouseY);
 		}
 		
 		public String getName() {

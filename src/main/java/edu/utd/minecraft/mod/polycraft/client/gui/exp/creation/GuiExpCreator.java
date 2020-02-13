@@ -37,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureWorldBuilder;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureAddItem;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureCake;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
@@ -381,15 +382,17 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     	    	}
     			if(button instanceof GuiPolyButtonCycle<?>) {
     				((GuiPolyButtonCycle<?>)button).nextOption();
-    				if(featureToAdd instanceof TutorialFeatureInstruction)
-    					((TutorialFeatureInstruction) featureToAdd).setType((TutorialFeatureInstruction.InstructionType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
-    				if(featureToAdd instanceof TutorialFeatureGroup)
-    					((TutorialFeatureGroup) featureToAdd).setType((TutorialFeatureGroup.GroupType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
-    			
+    				//Added these to updatevalues() function for respective feature classes. Shouldn't need to update this here
+//    				if(featureToAdd instanceof TutorialFeatureInstruction)
+//    					((TutorialFeatureInstruction) featureToAdd).setType((TutorialFeatureInstruction.InstructionType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
+//    				if(featureToAdd instanceof TutorialFeatureGroup)
+//    					((TutorialFeatureGroup) featureToAdd).setType((TutorialFeatureGroup.GroupType)((GuiPolyButtonCycle<?>)button).getCurrentOption());
     			}
     			break;
     		case DEV_STEP_EDIT:	//go back to steps screen
-    			screenSwitcher = screenChange(WhichScreen.DEV_STEPS);
+    			if(button instanceof GuiPolyButtonCycle<?>) {	//check for cycle buttons
+    				((GuiPolyButtonCycle<?>)button).nextOption();
+    			}
     			break;
     		default:
     			break;
@@ -640,6 +643,12 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 	        		new BlockPos(player.posX, player.posY, player.posZ));
 	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
+		case ADD_ITEM:
+			if(addNew)
+	        	featureToAdd = new TutorialFeatureAddItem("Add Item " + devTool.getFeatures().size(), 
+	        		new BlockPos(player.posX, player.posY, player.posZ));
+	        featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
 		case INSTRUCTION:
 			if(addNew)
 	        	featureToAdd = new TutorialFeatureInstruction("Instruction " + devTool.getFeatures().size(), 
@@ -677,7 +686,7 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 			if(addNew)
 				featureToAdd = new TutorialFeatureWorldBuilder("World Builder " + devTool.getFeatures().size(),
 						new BlockPos(player.posX, player.posY, player.posZ), 
-						new BlockPos(player.posX, player.posY, player.posZ));
+						new BlockPos(player.posX, player.posY, player.posZ), TutorialFeatureWorldBuilder.GenType.TREES);
 			featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
 		default:
@@ -742,6 +751,16 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 	public void updateScreen()
 	{
 	    super.updateScreen();
+	}
+	
+	/**
+	 * Check if currently in dev_steps screen 
+	 */
+	public boolean isScreenDevSteps() {
+		if(screenSwitcher == WhichScreen.DEV_STEPS) {
+			return true;
+		}
+		return false;
 	}
 	
 	/*
