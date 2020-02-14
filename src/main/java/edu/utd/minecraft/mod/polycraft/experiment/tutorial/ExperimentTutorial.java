@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentParameters;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.IObservation;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationBlockInFront;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationDestinationPos;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationEntities;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationMap;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerInventory;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerPos;
@@ -190,10 +191,13 @@ public class ExperimentTutorial{
 		this.id = id;
 		this.features.addAll(features);
 		
+		//This is the wrong place to add these. Add in client tick function
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			observations.add(new ObservationMap());
 			observations.add(new ObservationPlayerInventory());
 			observations.add(new ObservationPlayerPos());
+			observations.add(new ObservationBlockInFront());
+			observations.add(new ObservationEntities());
 		}
 	}
 	
@@ -361,7 +365,8 @@ public class ExperimentTutorial{
 					observations.add(new ObservationBlockInFront());
 					observations.add(new ObservationPlayerInventory());
 					observations.add(new ObservationPlayerPos());
-					observations.add(new ObservationDestinationPos());
+					//observations.add(new ObservationDestinationPos());
+					observations.add(new ObservationEntities());
 					observations.add(new ObservationMap());
 					//observations.add(new ObservationScreen());
 				}
@@ -397,18 +402,22 @@ public class ExperimentTutorial{
 	}
 	
 	public JsonObject getObservations() {
+		return getObservations(null);
+	}
+	
+	public JsonObject getObservations(String args) {
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
-			jobject.add(obs.getName(), obs.getObservation(this));
+			jobject.add(obs.getName(), obs.getObservation(this, args));
 		}
 		return jobject;
 	}
 	
-	public JsonObject getObservation(String key) {
+	public JsonObject getObservation(String key, String args) {
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
 			if(key.equals(obs.getName()))
-				jobject.add(obs.getName(), obs.getObservation(this));
+				jobject.add(obs.getName(), obs.getObservation(this, args));
 		}
 		return jobject;
 	}

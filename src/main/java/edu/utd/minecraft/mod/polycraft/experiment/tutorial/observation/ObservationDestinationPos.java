@@ -25,7 +25,7 @@ public class ObservationDestinationPos implements IObservation{
 	}
 
 	@Override
-	public JsonElement getObservation(ExperimentTutorial exp) {
+	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		
 		for(TutorialFeature feature: exp.getFeatures()) {
 			if(feature.getName().equalsIgnoreCase("dest") && feature instanceof TutorialFeatureGuide) {

@@ -31,7 +31,7 @@ public class ObservationScreen implements IObservation{
 	}
 
 	@Override
-	public JsonElement getObservation(ExperimentTutorial exp) {
+	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		Gson gson = new Gson();
 //		int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
 //        int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;

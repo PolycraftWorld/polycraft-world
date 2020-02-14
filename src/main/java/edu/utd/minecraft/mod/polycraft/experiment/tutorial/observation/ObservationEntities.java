@@ -1,7 +1,10 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,11 +15,16 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EntitySelectors;
 
-public class ObservationMap implements IObservation{
+public class ObservationEntities implements IObservation{
 
 	BlockPos pos1, pos2;
 
@@ -38,31 +46,22 @@ public class ObservationMap implements IObservation{
 		
 		Gson gson = new Gson();
 		JsonObject jobject = new JsonObject();
-		if(args != null && args.length() > 0 && args.contains("BUID")) {
-			for(int i = 0; i <= pos2.getX(); i++) {
-				for(int k = 0; k <= pos2.getZ(); k++) {
-					JsonObject blockObj = new JsonObject();
-					blockObj.addProperty("name", exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock().getRegistryName());
-					
-					for(IProperty prop: exp.getWorld().getBlockState(pos1.add(i, 0, k)).getProperties().keySet()) {
-						blockObj.addProperty(prop.getName(), exp.getWorld().getBlockState(pos1.add(i, 0, k)).getProperties().get(prop).toString());;
-					}
-					jobject.add(pos1.add(i, 0, k).toString(), blockObj);
-				}
+
+		List<Entity> list = Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABBExcludingEntity(Minecraft.getMinecraft().thePlayer, new AxisAlignedBB(pos1.add(0, -1, 0), pos2.add(0, 1, 0)));
+		System.out.println("List size:" + list.size());
+		for(Entity entity: list) {
+			JsonObject entityObj = new JsonObject();
+			entityObj.addProperty("type", entity.getClass().getSimpleName());
+			entityObj.addProperty("name", entity.getName());
+			entityObj.addProperty("id", entity.getEntityId());
+			entityObj.addProperty("Pos", entity.getPosition().toString());
+			if(entity instanceof EntityItem) {
+				entityObj.addProperty("item", ((EntityItem)entity).getEntityItem().getItem().getRegistryName());
+				entityObj.addProperty("count", ((EntityItem)entity).getEntityItem().stackSize);
+				entityObj.addProperty("damage", ((EntityItem)entity).getEntityItem().getItemDamage());
+				entityObj.addProperty("maxdamage", ((EntityItem)entity).getEntityItem().getMaxDamage());
 			}
-		}else {
-			ArrayList<String> blocks = new ArrayList<String>();
-			for(int i = 0; i <= pos2.getX(); i++) {
-				for(int k = 0; k <= pos2.getZ(); k++) {
-					blocks.add(exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock().getRegistryName());
-				}
-			}
-			jobject.add("blocks", gson.toJsonTree(blocks));
-			ArrayList<Integer> size = new ArrayList<Integer>();
-			size.add(1 + pos2.getX() - pos1.getX());
-			size.add(1 + pos2.getY() - pos1.getY());
-			size.add(1 + pos2.getZ() - pos1.getZ());
-			jobject.add("size", gson.toJsonTree(size));
+			jobject.add(String.valueOf(entity.getEntityId()), entityObj);
 		}
 		
 		return jobject;
@@ -82,6 +81,6 @@ public class ObservationMap implements IObservation{
 
 	@Override
 	public String getName() {
-		return "map";
+		return "entities";
 	}
 }

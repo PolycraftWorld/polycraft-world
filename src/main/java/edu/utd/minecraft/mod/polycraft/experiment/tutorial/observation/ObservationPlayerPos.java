@@ -23,7 +23,7 @@ public class ObservationPlayerPos implements IObservation{
 	}
 
 	@Override
-	public JsonElement getObservation(ExperimentTutorial exp) {
+	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		Gson gson = new Gson();
 		JsonObject jobject = new JsonObject();
 		

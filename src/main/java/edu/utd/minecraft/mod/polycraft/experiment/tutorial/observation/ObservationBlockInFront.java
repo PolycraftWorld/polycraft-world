@@ -20,7 +20,7 @@ public class ObservationBlockInFront implements IObservation{
 	}
 
 	@Override
-	public JsonElement getObservation(ExperimentTutorial exp) {
+	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		Gson gson = new Gson();
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 //		int id = Block.getIdFromBlock(player.worldObj.getBlockState(new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),

@@ -15,7 +15,7 @@ public interface IObservation{
 	public abstract void init(ExperimentTutorial exp);
 
 	//returns observation in JSON format
-	public abstract JsonElement getObservation(ExperimentTutorial exp);
+	public abstract JsonElement getObservation(ExperimentTutorial exp, String args);
 	
 	//returns NBTTag format of any options needed for this observation type
 	public NBTTagCompound save();

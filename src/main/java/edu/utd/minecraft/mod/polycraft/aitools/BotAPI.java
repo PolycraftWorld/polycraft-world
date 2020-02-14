@@ -1095,21 +1095,22 @@ public class BotAPI {
 	                        		System.out.println("Error trying to parse JSON API call: " + fromClient);
 	                        		e.printStackTrace();
 	                        	}
+	                        	String[] fromClientSplit = fromClient.split(" ");
 	                        	final String fromClientFinal = fromClient;
 		                        try {
 		                        	
 		                        	
 		                        	if(fromClient.contains("DATA_INV") || fromClient.contains("SENSE_INVENTORY"))
 		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("inventory").toString();		                        			
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("inventory", fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();		                        			
 		                        	        out.println(toClient);
 		                        	        client.getOutputStream().flush();
 		                        		}else {
 		                        			dataInventory(out, client);
 		                        		}
-		                        	else if(fromClient.contains("DATA_MAP") || fromClient.contains("SENSE_SURROUNDINGS"))
+		                        	else if(fromClient.contains("DATA_MAP") || fromClient.contains("SENSE_ALL"))
 		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("map").toString();
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
 		                        	        out.println(toClient);
 		                        	        client.getOutputStream().flush();
 		                        		}else {
