@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,14 +24,18 @@ public class ObservationBlockInFront implements IObservation{
 	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		Gson gson = new Gson();
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-//		int id = Block.getIdFromBlock(player.worldObj.getBlockState(new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),
-//				player.posY + player.getHorizontalFacing().getFrontOffsetY(),
-//				player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).getBlock());
-		String id = player.worldObj.getBlockState(new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),
+		BlockPos blockPos = new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(),
 				player.posY + player.getHorizontalFacing().getFrontOffsetY(),
-				player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).getBlock().getRegistryName();
+				player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
+		
+		String id = player.worldObj.getBlockState(blockPos).getBlock().getRegistryName();
 		JsonObject jobject = new JsonObject();
-		jobject.addProperty("id", id);
+		jobject.addProperty("name", id);
+		
+		for(IProperty prop: exp.getWorld().getBlockState(blockPos).getProperties().keySet()) {
+			jobject.addProperty(prop.getName(), exp.getWorld().getBlockState(blockPos).getProperties().get(prop).toString());;
+		}
+		
 		return jobject;
 	}
 
