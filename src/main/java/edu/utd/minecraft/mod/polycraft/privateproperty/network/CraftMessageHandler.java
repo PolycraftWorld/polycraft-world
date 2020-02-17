@@ -17,13 +17,16 @@ import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IThreadListener;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -49,6 +52,7 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
             	
             	String args[] =  message.args.split("\\s+");
         		boolean missingItem = false;
+    			boolean nearCraftingTable = false;
         		String missingItems = "";
         		
             	if(args.length == 6) {	//example format "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"
@@ -57,6 +61,7 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
             			PolycraftMod.SChannel.sendTo(new CommandResultMessage(result), player);
             			return;
             		}else {
+            			nearCraftingTable = true; //don't need crafting table for 2x2 crafting
             			multiplier = Integer.parseInt(args[1]);
             			craftLoop: for(int x = 2; x < 6; x++) {
             				if(args[x].equals("0"))
@@ -79,6 +84,18 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
             			PolycraftMod.SChannel.sendTo(new CommandResultMessage(result), player);
             			return;
             		}else {
+            			//Check if we are near a crafting table (within 3 blocks)
+			searchloop: for(int x=-3;x<=3;x++) {
+            				for(int y=-2;y<=2;y++) {
+            					for(int z=-3;z<=3;z++) {
+            						if(player.worldObj.getBlockState(player.getPosition().add(x,y,z)).getBlock() == Blocks.crafting_table) {
+            							nearCraftingTable = true;
+            							break searchloop;
+            						}
+            					}
+            				}
+            			}
+            			
             			multiplier = Integer.parseInt(args[1]);
             			craftLoop: for(int x = 2; x < 11; x++) {
             				if(args[x].equals("0"))
@@ -105,9 +122,9 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
             		recipeWorked = true;
             	}
             	
-            	if(missingItem || !recipeWorked) {	// if we had missing items or the recipe didn't work, add them back to the player's inventory
+            	if(missingItem || !recipeWorked || !nearCraftingTable) {	// if we had missing items or the recipe didn't work, add them back to the player's inventory
         			//player.addChatComponentMessage(new ChatComponentText("Missing Item:" + missingItems));
-        			APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, missingItem?"missing items: " + missingItems:"Invalid recipe");
+        			APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, missingItem?"missing items: " + missingItems: !recipeWorked? "Invalid recipe":"Need to be near crafting table");
         			PolycraftMod.SChannel.sendTo(new CommandResultMessage(result), player);
         			for(RecipeComponent item: items) {
         				player.inventory.addItemStackToInventory(item.itemStack);
