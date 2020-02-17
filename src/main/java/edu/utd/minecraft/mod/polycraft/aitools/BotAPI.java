@@ -428,6 +428,7 @@ public class BotAPI {
 			
 			
 			if(!isTargetBlock) {
+				PolycraftMod.SChannel.sendToServer(new TeleportMessage(targetPos, String.join(" ", args), player.rotationYaw, player.rotationPitch));
 				player.setPositionAndUpdate(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
 			} else if( blockDist == 1) {
 				for(EnumFacing facing: EnumFacing.HORIZONTALS) {
@@ -436,6 +437,7 @@ public class BotAPI {
 							continue;
 						targetPos = targetPos.offset(facing);
 						
+						PolycraftMod.SChannel.sendToServer(new TeleportMessage(targetPos, String.join(" ", args), facing.getOpposite().getHorizontalIndex() * 90f, 0f));
 						player.setLocationAndAngles(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, facing.getOpposite().getHorizontalIndex() * 90f, 0f);
 						//System.out.println("FACING to: " + (facing.getOpposite().getHorizontalIndex() * 90f));
 						isBlockAccessible = true;	// block is accessible at some point
