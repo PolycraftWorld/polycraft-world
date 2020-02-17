@@ -1305,7 +1305,7 @@ public class BotAPI {
             {
             	if(BotAPI.apiRunning.get()) {
             		int port;
-            		String portStr = System.getProperty("agentPort");
+            		String portStr = System.getenv("Polycraft_Port");
             		if(portStr != null && NumberUtils.isNumber(portStr)) {
             			port = Integer.parseInt(portStr);
             		}else {
