@@ -54,7 +54,7 @@ public class PolycraftTeleporter extends Teleporter {
 	
 	@Override
 	public void placeInPortal(Entity entity, float rotationYaw) {
-		 entity.setLocationAndAngles(xPos, yPos, zPos, rotationYaw, 0.0F);
+		 entity.setLocationAndAngles(xPos + 0.5, yPos + 0.5, zPos + 0.5, rotationYaw, 0.0F);
          entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 	}
 }

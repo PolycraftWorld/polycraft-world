@@ -54,6 +54,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.network.BreakBlockMessage
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessage;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import io.netty.channel.ChannelFutureListener;
 import net.minecraft.block.Block;
@@ -119,6 +120,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
 import net.minecraftforge.fml.relauncher.Side;
+import scala.actors.threadpool.Arrays;
 
 public class BotAPI {
 	
@@ -435,7 +437,7 @@ public class BotAPI {
 						targetPos = targetPos.offset(facing);
 						
 						player.setLocationAndAngles(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, facing.getOpposite().getHorizontalIndex() * 90f, 0f);
-						System.out.println("FACING to: " + (facing.getOpposite().getHorizontalIndex() * 90f));
+						//System.out.println("FACING to: " + (facing.getOpposite().getHorizontalIndex() * 90f));
 						isBlockAccessible = true;	// block is accessible at some point
 						break;
 					}
@@ -583,25 +585,94 @@ public class BotAPI {
 		
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.join(" ", args));
-		PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
 		
-		Vec3 breakPos = new Vec3(player.posX + player.getHorizontalFacing().getFrontOffsetX() + 0.5, 
-				player.posY, player.posZ + player.getHorizontalFacing().getFrontOffsetZ() + 0.5);
+		//check that player has the item in inventory
+		int itemID = Integer.parseInt(args[1]);
+    	int slotToTransfer = -1;
+		loop: for(int x = 0; x < player.inventory.mainInventory.length; x++) {
+			ItemStack item = player.inventory.mainInventory[x];
+			if(item != null && Item.getItemById(itemID) == item.getItem()) {
+				slotToTransfer = x;
+				break loop;
+			}
+		}
+    	int slot = player.inventory.currentItem;
+		if(slotToTransfer == -1) {
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Item not found in inventory"));
+			return;
+		}else if(slotToTransfer != slot) {
+			//Item not already selected, need to transfer items on server side
+			PolycraftMod.SChannel.sendToServer(new InventoryMessage(params));
+		}
 		
+		Vec3 targetPos = new Vec3(player.posX + player.getHorizontalFacing().getFrontOffsetX(), 
+				player.posY + 0.5, player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
+		Vec3 targetPlayerPos = new Vec3(player.posX, player.posY, player.posZ);
 		if(args.length == 4) 
-    		breakPos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3])+0.5);
-		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
+    		targetPos = new Vec3(Integer.parseInt(args[2]) + 0.5, player.posY + 0.5, Integer.parseInt(args[3])+0.5);
+		else if(args.length == 3 && args[2].equalsIgnoreCase("NONAV")) {
+    		AxisAlignedBB area = null;
+    		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {	//can only get these values if there is a running experiment
+				//For NONAV problems, we need to find an air block where we can place this block
+				//	This block should be:
+				//		1. In the experiment area
+				//		2. next to another air block for the player to stand in
+				//		3. at the player's y height
+    			
+    			// get experiment area calculations
+    			BlockPos posOffset = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).posOffset);
+    			BlockPos pos2 = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).size).add(posOffset);
+    			area = new AxisAlignedBB(posOffset, pos2);
+    			
+				//Find and Check for valid placement position
+    			boolean isBlockAccessible = false;
+		search: for(int x=(int)area.minX; x < area.maxX; x++) {	//search for available position
+					for(int z=(int)area.minZ; z < area.maxZ; z++) {
+						targetPos = new Vec3(x + 0.5, player.posY + 0.5, z + 0.5);	//set new target position
+						if(!area.isVecInside(targetPos) || !player.worldObj.isAirBlock(new BlockPos(targetPos))) {	//skip if outside area or isn't air block
+		    				continue;
+		    			}
+						for(EnumFacing facing: EnumFacing.HORIZONTALS) {	//check all sides of the target block
+							if(player.worldObj.isAirBlock(new BlockPos(targetPos).offset(facing))) {
+								if(!area.isVecInside(new Vec3(new BlockPos(targetPos).offset(facing))))
+									continue;
+								targetPlayerPos = new Vec3(new BlockPos(targetPos).offset(facing));
+								Vec3 vector1 = targetPos.addVector(0, -1, 0).subtract(targetPlayerPos.addVector(0.5, player.getEyeHeight(), 0.5));
+								
+								float pitch1 = (float) (((Math.atan2(vector1.zCoord, vector1.xCoord) * 180.0) / Math.PI) - 90.0);
+								float yaw1  = (float) (((Math.atan2(Math.sqrt(vector1.zCoord * vector1.zCoord + vector1.xCoord * vector1.xCoord), vector1.yCoord) * 180.0) / Math.PI) - 90.0);
+								
+
+								PolycraftMod.SChannel.sendToServer(new TeleportMessage(new BlockPos(targetPlayerPos), String.join(" ", args), pitch1, yaw1));
+								System.out.println("Teleport to: " + targetPlayerPos.toString());
+								isBlockAccessible = true;	// block is accessible at some point
+								break;
+							}
+						}
+						if(isBlockAccessible)
+							break search;	//end search
+					}
+				}
+    			if(!isBlockAccessible) {
+    				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "No available placement locations"));
+    				return;
+    			}
+    		}
+		}
+		Block block = player.worldObj.getBlockState(new BlockPos(targetPos)).getBlock();
 		if(block.getMaterial() != Material.air) {
-			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block \"" + block.getLocalizedName() + "\" already exists when trying to place block"));
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block \"" + block.getRegistryName() + "\" already exists when trying to place block"));
 			return;
 		}
+		
+		
 		//first make the player look in the correct location
-		Vec3 vector = breakPos.addVector(0, -1, 0).subtract(new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ));
+		Vec3 vector = targetPos.addVector(0, -1, 0).subtract(targetPlayerPos.addVector(0, player.getEyeHeight(), 0));
 		
 		double pitch = ((Math.atan2(vector.zCoord, vector.xCoord) * 180.0) / Math.PI) - 90.0;
 		double yaw  = ((Math.atan2(Math.sqrt(vector.zCoord * vector.zCoord + vector.xCoord * vector.xCoord), vector.yCoord) * 180.0) / Math.PI) - 90.0;
 		
-		player.addChatComponentMessage(new ChatComponentText("x: " + breakPos.xCoord + " :: Y: " + breakPos.yCoord + " :: Z:" + breakPos.zCoord));
+		player.addChatComponentMessage(new ChatComponentText("x: " + targetPos.xCoord + " :: Y: " + targetPos.yCoord + " :: Z:" + targetPos.zCoord));
 		
 		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
 		tempQ = "USE";
@@ -639,8 +710,7 @@ public class BotAPI {
 	
 	public static void placeCraftingTable(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    	placeBlock(("PLACE_BLOCK 58 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
-    			" " + (int)(player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).split("\\s+"));
+    	placeBlock(("PLACE_CRAFTING_TABLE 58" + (args.length > 1? " " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)): "")).split("\\s+"));
 	}
 	
 	public static void placeTreeTap(String args[]) {
@@ -1013,12 +1083,14 @@ public class BotAPI {
 		}else if(delay > 0) {
 			delay--;
 		}else {
+			boolean usingTempQ = false;
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			if(tempQ == null)
 				fromClient = commandQ.poll();
 			else {
 				fromClient = tempQ;
 				tempQ = null;
+				usingTempQ = true;
 			}
 				
 			if(fromClient != null) {
@@ -1042,7 +1114,8 @@ public class BotAPI {
 //					e.printStackTrace();
 //				}
 	        	boolean stepEndValue = true; //true for everything except multi-tick functions. ex. breakblock
-	        	commandResult.set(new APICommandResult(args, APICommandResult.Result.SUCCESS, ""));
+	        	if(!usingTempQ)	//don't set this when using a tempQ command.  We want to report the original command result
+	        		commandResult.set(new APICommandResult(args, APICommandResult.Result.SUCCESS, ""));
 	            switch(Enums.getIfPresent(APICommand.class, args[0].toUpperCase()).or(APICommand.DEFAULT)) {
 	            case LL:
 	            	lowLevel(args);
@@ -1156,6 +1229,7 @@ public class BotAPI {
 	            	break;
 	            case PLACE_BLOCK:
 	            	BotAPI.placeBlock(args);
+	            	stepEndValue = false;	// must wait for USE delay to complete
 	            	break;
 	            case PLACE_STONE:
 	            	BotAPI.placeStoneBlock(args);

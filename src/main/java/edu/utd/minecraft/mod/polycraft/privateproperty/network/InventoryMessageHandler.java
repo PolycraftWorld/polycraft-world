@@ -27,7 +27,7 @@ public class InventoryMessageHandler implements IMessageHandler<InventoryMessage
             @Override
             public void run()
             {
-    			player.addChatComponentMessage(new ChatComponentText("test"));
+    			//player.addChatComponentMessage(new ChatComponentText("test"));
             	String args[] =  message.items.split("\\s+");
             	int itemID = Integer.parseInt(args[1]);
             	int slotToTransfer = -1;
