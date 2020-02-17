@@ -38,16 +38,18 @@ public class ObservationMap implements IObservation{
 		
 		Gson gson = new Gson();
 		JsonObject jobject = new JsonObject();
+		BlockPos currentPos;
 		if(args != null && args.length() > 0 && args.contains("BUID")) {
 			for(int i = 0; i <= pos2.getX(); i++) {
 				for(int k = 0; k <= pos2.getZ(); k++) {
 					JsonObject blockObj = new JsonObject();
-					blockObj.addProperty("name", exp.getWorld().getBlockState(pos1.add(i, 0, k)).getBlock().getRegistryName());
+					currentPos = pos1.add(i, 0, k);
+					blockObj.addProperty("name", exp.getWorld().getBlockState(currentPos).getBlock().getRegistryName());
 					
-					for(IProperty prop: exp.getWorld().getBlockState(pos1.add(i, 0, k)).getProperties().keySet()) {
-						blockObj.addProperty(prop.getName(), exp.getWorld().getBlockState(pos1.add(i, 0, k)).getProperties().get(prop).toString());;
+					for(IProperty prop: exp.getWorld().getBlockState(currentPos).getProperties().keySet()) {
+						blockObj.addProperty(prop.getName(), exp.getWorld().getBlockState(currentPos).getProperties().get(prop).toString());;
 					}
-					jobject.add(pos1.add(i, 0, k).toString(), blockObj);
+					jobject.add(currentPos.getX() + "," + currentPos.getY() + "," + currentPos.getZ(), blockObj);
 				}
 			}
 		}else {
