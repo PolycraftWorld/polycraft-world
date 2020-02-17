@@ -39,7 +39,7 @@ public class ObservationMap implements IObservation{
 		Gson gson = new Gson();
 		JsonObject jobject = new JsonObject();
 		BlockPos currentPos;
-		if(args != null && args.length() > 0 && args.contains("BUID")) {
+		if(args != null && args.length() > 0 && args.contains("NONAV")) {
 			for(int i = 0; i <= pos2.getX(); i++) {
 				for(int k = 0; k <= pos2.getZ(); k++) {
 					JsonObject blockObj = new JsonObject();
