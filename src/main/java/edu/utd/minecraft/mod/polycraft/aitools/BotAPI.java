@@ -16,6 +16,7 @@ import java.net.SocketImpl;
 import java.net.UnknownHostException;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -41,11 +43,14 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.BreakBlockMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
@@ -339,36 +344,31 @@ public class BotAPI {
 		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command " + commandResult.get().getResult() + ": " + commandResult.get().getCommand()));
 		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Message: " + commandResult.get().getMessage()));
 		int counter = 0;
-		for(String argument: commandResult.get().getArgs()) {
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("arg " + counter++ + ": " + argument));
-		}
+		if(commandResult.get().getArgs() != null)
+			for(String argument: commandResult.get().getArgs()) {
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("arg " + counter++ + ": " + argument));
+			}
 	}
 	
 	public static void breakBlock(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-
+		int y = 0;	//y value to break block at. default is 0
 		BlockPos breakPos = new BlockPos(player.posX + player.getHorizontalFacing().getFrontOffsetX(), 
 				player.posY, player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
 		if(args.length == 3) {
     		breakPos = new BlockPos(Integer.parseInt(args[1]), 4, Integer.parseInt(args[2]));
+		}else if(args.length == 2) {
+			if(NumberUtils.isNumber(args[1])) {
+				y = Integer.parseInt(args[1]);
+			}
 		}
 		Block block = player.worldObj.getBlockState(breakPos).getBlock();
-		int count = 0;
-		while(count < 4)
-			if(block.getMaterial() != Material.air) {
-				BotAPI.breakList.add(new Vec3(breakPos.getX() + 0.5, breakPos.getY() + 0.5 + count, breakPos.getZ() + 0.5));
-				block = player.worldObj.getBlockState(breakPos.add(0,++count,0)).getBlock();
-				breakingBlocks = true;
-			}else {
-				player.addChatComponentMessage(new ChatComponentText("Tried to break air block at: " + breakPos.getX() + ", " + breakPos.getY() + ", " + breakPos.getZ()));
-				count++;
-			}
-//		}else {
-//    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-//    		for(String argument: args) {
-//    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
-//    		}
-//    	}
+		PolycraftMod.SChannel.sendToServer(new BreakBlockMessage(breakPos, String.join(" ", args)));
+		waitOnResult = true;
+//			BotAPI.breakList.add(new Vec3(breakPos.getX() + 0.5, breakPos.getY() + 0.5 + count, breakPos.getZ() + 0.5));
+//			block = player.worldObj.getBlockState(breakPos.add(0,++count,0)).getBlock();
+//			breakingBlocks = true;
+		
 	}
 	
 	public static void teleport(String args[]) {
@@ -639,13 +639,13 @@ public class BotAPI {
 	
 	public static void placeCraftingTable(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    	placeBlock(("PACE_BLOCK 58 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
+    	placeBlock(("PLACE_BLOCK 58 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
     			" " + (int)(player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).split("\\s+"));
 	}
 	
 	public static void placeTreeTap(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    	placeBlock(("PACE_BLOCK 6321 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
+    	placeBlock(("PLACE_BLOCK 6321 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
     			" " + (int)(player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).split("\\s+"));
 	}
 	
@@ -1104,7 +1104,7 @@ public class BotAPI {
 	            	break;
 	            case BREAK_BLOCK:
 	            	BotAPI.breakBlock(args);
-	            	stepEndValue = false;	//multi-tick actions should end somewhere else
+	            	stepEndValue = false;	//action happens on server
 	            	break;
 	            case TELEPORT:
 	            	BotAPI.teleport(args);
@@ -1310,14 +1310,21 @@ public class BotAPI {
 		                        		while(!stepEnd.get()) {
 			                        		//do nothing until the step is complete
 			                        	}
-		                        		
-	                        			// print command result instead of observations
-	                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-	                        	        JsonObject jobj = new JsonObject();
-	                        	        jobj.add("command_result", commandResult.get().toJson());
-	                        			toClient = jobj.toString();
-	                        			out.println(toClient);
-	                        	        client.getOutputStream().flush();
+		                        		if(fromClient.contains("RESET")) {
+		                        			JsonObject jobj = new JsonObject();
+		                        			jobj.add("recipes", PolycraftMod.recipeManagerRuntime.getRecipesJsonByContainerType(PolycraftContainerType.POLYCRAFTING_TABLE));
+		                        			toClient = jobj.toString();
+		                        			out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}else {
+		                        			// print command result instead of observations
+		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
+		                        	        JsonObject jobj = new JsonObject();
+		                        	        jobj.add("command_result", commandResult.get().toJson());
+		                        			toClient = jobj.toString();
+		                        			out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}
 		                        	}
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block

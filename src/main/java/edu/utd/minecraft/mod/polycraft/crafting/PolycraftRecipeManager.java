@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -163,6 +165,35 @@ public class PolycraftRecipeManager {
 		if (recipesByContainer.containsKey(containerType))
 			return ImmutableList.copyOf(recipesByContainer.get(containerType));
 		return null;
+	}
+	
+	public JsonArray getRecipesJsonByContainerType(final PolycraftContainerType containerType) {
+		JsonArray jarray = new JsonArray();
+		for(PolycraftRecipe recipe: recipesByContainer.get(containerType)) {
+			JsonObject jobj = new JsonObject();
+			//inputs
+			JsonArray jinputs = new JsonArray();
+			for(RecipeInput input: recipe.getInputs()) {
+				JsonObject jinput = new JsonObject();
+				jinput.addProperty("Item", ((ItemStack)input.inputs.toArray()[0]).getItem().getRegistryName());
+				jinput.addProperty("stackSize", ((ItemStack)input.inputs.toArray()[0]).stackSize);
+				jinput.addProperty("slot", input.slot.getSlotIndex());
+				jinputs.add(jinput);
+			}
+			jobj.add("inputs", jinputs);
+			//outputs
+			JsonArray joutputs = new JsonArray();
+			for(RecipeComponent output: recipe.getOutputs(null)) {
+				JsonObject joutput = new JsonObject();
+				joutput.addProperty("Item", output.itemStack.getItem().getRegistryName());
+				joutput.addProperty("StackSize", output.itemStack.stackSize);
+				joutput.addProperty("slot", output.slot.getSlotIndex());
+				joutputs.add(joutput);
+			}
+			jobj.add("outputs", joutputs);
+			jarray.add(jobj);
+		}
+		return jarray;
 	}
 
 	/**
