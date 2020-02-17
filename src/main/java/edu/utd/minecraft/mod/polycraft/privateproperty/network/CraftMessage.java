@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 public class CraftMessage implements IMessage{
 
 	public BlockPos containerPos;
-	public String items;
+	public String args;
 
     public CraftMessage()
     {
@@ -19,20 +19,20 @@ public class CraftMessage implements IMessage{
     public CraftMessage(List<Object> params)
     {
         if (params.size() == 1)
-            this.items = (String)params.get(0);
+            this.args = (String)params.get(0);
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
-    	items = StandardCharsets.UTF_8.decode(buf.readBytes(buf.readInt()).nioBuffer()).toString();;
+    	args = StandardCharsets.UTF_8.decode(buf.readBytes(buf.readInt()).nioBuffer()).toString();;
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
-    	buf.writeInt(items.length());
-        buf.writeBytes(items.getBytes());
+    	buf.writeInt(args.length());
+        buf.writeBytes(args.getBytes());
     }
 
 }

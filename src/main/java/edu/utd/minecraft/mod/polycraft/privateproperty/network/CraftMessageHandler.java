@@ -1,5 +1,12 @@
 package edu.utd.minecraft.mod.polycraft.privateproperty.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.math.NumberUtils;
+
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ContainerWorkbench;
@@ -29,10 +36,22 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
             	EntityPlayerMP player = ctx.getServerHandler().playerEntity;
             	ContainerWorkbench dummyContainer = new ContainerWorkbench(player.inventory, player.worldObj, player.getPosition());
         		InventoryCrafting craftMatrix = new InventoryCrafting(dummyContainer, 3, 3);
-
-            	String args[] =  message.items.split("\\s+");
+            	
+            	String args[] =  message.args.split("\\s+");
         		boolean missingItem = false;
         		String missingItems = "";
+        		
+            	if(args.length == 6) {	//example format "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"
+            		if(!NumberUtils.isNumber(args[1])) {	//check for number in first argument
+            			APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid syntax");
+            			PolycraftMod.SChannel.sendTo(new CommandResultMessage(result), player);
+            			return;
+            		}else {
+            			
+            		}
+            			
+            	}
+            	
         		if(args.length > 9) {
         			craftLoop: for(int x = 1; x < 9; x++) {
         				if(Integer.parseInt(args[x]) == 0)
@@ -49,7 +68,9 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
         		}
         		
         		if(missingItem) {
-        			player.addChatComponentMessage(new ChatComponentText("Missing Item:" + missingItems));
+        			//player.addChatComponentMessage(new ChatComponentText("Missing Item:" + missingItems));
+        			APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, "missing items: " + missingItems);
+        			PolycraftMod.SChannel.sendTo(new CommandResultMessage(result), player);
         			for(int slot = 0; slot < craftMatrix.getSizeInventory(); slot++) {
         				player.inventory.addItemStackToInventory(craftMatrix.getStackInSlot(slot));
         			}

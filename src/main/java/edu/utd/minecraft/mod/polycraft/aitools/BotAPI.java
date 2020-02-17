@@ -25,6 +25,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -84,6 +85,7 @@ import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.network.play.client.C0EPacketClickWindow;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
@@ -97,6 +99,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.storage.ISaveFormat;
@@ -115,6 +118,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class BotAPI {
 	
 	private static final int API_PORT = 9000;
+	private static final int TIMEOUT_TICKS = 20;
 	public static BotAPI INSTANCE= new BotAPI();
 	static String fromClient;
 	static String toClient;
@@ -125,10 +129,14 @@ public class BotAPI {
     
     public static AtomicBoolean apiRunning = new AtomicBoolean(true);
     public static AtomicBoolean stepEnd = new AtomicBoolean(false);
+    public static AtomicReference<APICommandResult> commandResult= new AtomicReference<APICommandResult>();
+    private static APICommandResult serverResult = null;
     public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
     private static boolean breakingBlocks = false;
+    private static boolean waitOnResult = false;	// wait for this command to process.  Includes actions done on server side
+    private static int waitTimeout = TIMEOUT_TICKS;	// we should only wait about a second for a result
     static final String tempMark = "TEMP_";
     static int delay = 0;
     static String tempQ = null;
@@ -147,6 +155,7 @@ public class BotAPI {
     	MOVE_SOUTH_EAST,	// Move agent 1 block Southeast
     	MOVE_SOUTH_WEST,	// Move agent 1 block Southwest 
     	TELEPORT,	// Move agent to specific location. Parameters: int x, int y, int z
+    	TP_TO,		// Teleport to a block or entity
     	WALK_TO,	// Not Implemented
     	JUMP,	// Agent jumps once
     	TURN,	// Agent turns left or right. Parameters: float deltaYaw
@@ -309,6 +318,31 @@ public class BotAPI {
 			turn(-5F);
 	}
 	
+	public static void setResultWithWait(APICommandResult result) {
+		waitOnResult = true;
+		waitTimeout = TIMEOUT_TICKS;
+		commandResult.set(result);
+	}
+	
+	public static void setResult(APICommandResult result) {
+		commandResult.set(result);
+		printResult();
+		waitOnResult = false;
+	}
+	
+	public static void setServerResult(APICommandResult result) {
+		serverResult = result;
+	}
+	
+	private static void printResult() {
+		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command " + commandResult.get().getResult() + ": " + commandResult.get().getCommand()));
+		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Message: " + commandResult.get().getMessage()));
+		int counter = 0;
+		for(String argument: commandResult.get().getArgs()) {
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("arg " + counter++ + ": " + argument));
+		}
+	}
+	
 	public static void breakBlock(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 
@@ -341,10 +375,79 @@ public class BotAPI {
 		if(args.length == 3) {
     		player.setLocationAndAngles(Integer.parseInt(args[1]) + 0.5, pos.get(1), Integer.parseInt(args[2]) + 0.5, player.rotationYaw, player.rotationPitch);
     	}else {
-    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-    		for(String argument: args) {
-    			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+    		setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));
+    	}
+	}
+	
+	public static void tpto(String args[]) {	//TP_TO 
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		// should hand one or two arguments.  First argument is target (ex. "BlockPos: x=1, y=4, z=3", "45236")
+		//																BlockPos example is for a block.  Number example is for an Entity
+		if(args.length > 1) {
+			int blockDist = 0;	//default distance for entities.  Teleport to be on top of that entity (ex. picking up an item)
+			BlockPos targetPos;
+    		boolean isTargetBlock = false;	//False for Entities, true for blocks
+    		
+    		if(args[1].contains(",")) {//block identifiers are the block position delimited by commas
+    			isTargetBlock = true;
+				blockDist = 1;	//default block distance for blocks is 1 away or standing next to the block.
+    			String[] delimBlockPos = args[1].split(",");
+    			targetPos = new BlockPos(Integer.parseInt(delimBlockPos[0]),
+    					Integer.parseInt(delimBlockPos[1]),
+    					Integer.parseInt(delimBlockPos[2]));
+    		}else {
+    			int entityId = Integer.parseInt(args[1]);
+    			targetPos = player.worldObj.getEntityByID(entityId).getPosition();
     		}
+    		
+    		//Check if target position is inside our working area
+    		AxisAlignedBB area = null;
+    		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {	//can only get these values if there is a running experiment
+				BlockPos posOffset = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).posOffset);
+    			area = new AxisAlignedBB(posOffset,
+    					new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).size).add(posOffset));
+    			if(!area.isVecInside(new Vec3(targetPos))) {
+    				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Target is outside experiment zone"));
+    				return;
+    			}
+			}
+    		
+			if(args.length == 3) {	// if blockDistance is a parameter, set it
+				if(isTargetBlock && Integer.parseInt(args[2]) == 0) {
+					setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot teleport 0 blocks away from a block"));
+					return;
+				}
+				blockDist = Integer.parseInt(args[2]);
+    		}
+			
+			boolean isBlockAccessible = false; //boolean for error checking
+			
+			
+			
+			if(!isTargetBlock) {
+				player.setPositionAndUpdate(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
+			} else if( blockDist == 1) {
+				for(EnumFacing facing: EnumFacing.HORIZONTALS) {
+					if(player.worldObj.isAirBlock(targetPos.offset(facing))) {
+						if(!area.isVecInside(new Vec3(targetPos.offset(facing))))
+							continue;
+						targetPos = targetPos.offset(facing);
+						
+						player.setLocationAndAngles(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, facing.getOpposite().getHorizontalIndex() * 90f, 0f);
+						System.out.println("FACING to: " + (facing.getOpposite().getHorizontalIndex() * 90f));
+						isBlockAccessible = true;	// block is accessible at some point
+						break;
+					}
+				}
+			} else {
+				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Unhandled error"));
+			}
+			
+			if(!isBlockAccessible)
+				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block not accessible"));
+			
+    	}else {
+    		setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));
     	}
 	}
 	
@@ -370,6 +473,8 @@ public class BotAPI {
 			List<Object> params = new ArrayList<Object>();
 			params.add(invPos);
 			PolycraftMod.SChannel.sendToServer(new CollectMessage(params));
+			waitOnResult = true;
+			stepEnd.set(false);
 //			NBTTagCompound nbtFeatures = new NBTTagCompound();
 //			NBTTagList nbtList = new NBTTagList();
 //			nbtFeatures.setString("player", player.getDisplayNameString());
@@ -414,6 +519,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args));
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void craftPlanks(String args[]) {
@@ -421,6 +528,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 17 0 0 0 0 0 0 0 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void craftCraftingTable(String args[]) {
@@ -428,6 +537,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 5 5 0 5 5 0 0 0 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void craftAxe(String args[]) {
@@ -435,6 +546,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 5 5 0 5 280 0 0 280 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void craftSticks(String args[]) {
@@ -442,6 +555,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 5 0 0 5 0 0 0 0 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void craftTreeTap(String args[]) {
@@ -449,6 +564,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 5 280 5 5 0 5 0 5 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void craftPogoStick(String args[]) {
@@ -456,6 +573,8 @@ public class BotAPI {
 		List<Object> params = new ArrayList<Object>();
     	params.add(String.join(" ", args) + " 280 280 280 5 280 5 0 5399 0");
     	PolycraftMod.SChannel.sendToServer(new CraftMessage(params));
+    	waitOnResult = true;
+    	stepEnd.set(false);
 	}
 	
 	public static void placeBlock(String args[]) {
@@ -472,7 +591,7 @@ public class BotAPI {
     		breakPos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3])+0.5);
 		Block block = player.worldObj.getBlockState(new BlockPos(breakPos)).getBlock();
 		if(block.getMaterial() != Material.air) {
-			player.sendChatMessage("Block \"" + block.getLocalizedName() + "\" already exists when trying to place block");
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block \"" + block.getLocalizedName() + "\" already exists when trying to place block"));
 			return;
 		}
 		//first make the player look in the correct location
@@ -510,7 +629,7 @@ public class BotAPI {
     		placePos = new Vec3(Integer.parseInt(args[2]) + 0.5, 5, Integer.parseInt(args[3])+0.5);
 		Block block = player.worldObj.getBlockState(new BlockPos(placePos)).getBlock();
 		if(block.getMaterial() != Material.air) {
-			player.sendChatMessage("Block \"" + block.getLocalizedName() + "\" already exists when trying to place block");
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block \"" + block.getLocalizedName() + "\" already exists when trying to place block"));
 			return;
 		}else {
 			player.sendChatMessage("/setblock " + placePos.xCoord + " " + placePos.yCoord + " " + placePos.zCoord + " stone");
@@ -542,10 +661,10 @@ public class BotAPI {
 		}
 		int slot = player.inventory.currentItem;
 		if(slotToTransfer == -1) {
-			player.addChatComponentMessage(new ChatComponentText("Item not fount"));
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Item not found"));
 			return;
 		}else if(slotToTransfer == slot) {
-			player.addChatComponentMessage(new ChatComponentText("Item already selected"));
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Item already selected"));
 			return;
 		}
 		if(inventory[slot] == null) {
@@ -730,6 +849,21 @@ public class BotAPI {
         // will be created, it will simply load the old one.
         createAndLaunchWorld(worldsettings, false);
         Minecraft.getMinecraft().getIntegratedServer().setDifficultyForAllWorlds(EnumDifficulty.PEACEFUL);
+        Minecraft.getMinecraft().getIntegratedServer().setAllowFlight(true);;
+        for(WorldServer server: Minecraft.getMinecraft().getIntegratedServer().worldServers) {
+        	server.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
+        	server.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+//        	server.getGameRules().setOrCreateGameRule("doEntityDrops", "false");
+//        	server.getGameRules().setOrCreateGameRule("doFireTick", "false");
+        	server.getGameRules().setOrCreateGameRule("doImmediateRespawn", "true");
+//        	server.getGameRules().setOrCreateGameRule("doMobLoot", "false");
+        	server.getGameRules().setOrCreateGameRule("doTraderSpawning", "false");
+        	server.getGameRules().setOrCreateGameRule("doWeatherCycle", "false");
+        	server.setWorldTime(1000);
+        }
+        for(BiomeGenBase biome: BiomeGenBase.BIOME_ID_MAP.values()) {
+        	biome.setDisableRain();
+        }
 	}
 	
 	/** Get a filename to use for creating a new Minecraft save map.<br>
@@ -861,7 +995,21 @@ public class BotAPI {
 			else
 				return;
 		}
-		if(delay > 0) {
+		if(waitOnResult) {
+			if(serverResult != null) {
+				setResult(serverResult);
+				stepEnd.set(true);
+				waitOnResult = false;
+			}else if(waitTimeout-- > 0)
+				return;
+			else {
+				commandResult.get().setResult(APICommandResult.Result.ACTION_TIMEOUT);
+				commandResult.get().setMessage("Action Timed out. Unknown Result");;
+				printResult();
+				stepEnd.set(true);
+				waitOnResult = false;
+			}
+		}else if(delay > 0) {
 			delay--;
 		}else {
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
@@ -893,6 +1041,7 @@ public class BotAPI {
 //					e.printStackTrace();
 //				}
 	        	boolean stepEndValue = true; //true for everything except multi-tick functions. ex. breakblock
+	        	commandResult.set(new APICommandResult(args, APICommandResult.Result.SUCCESS, ""));
 	            switch(Enums.getIfPresent(APICommand.class, args[0].toUpperCase()).or(APICommand.DEFAULT)) {
 	            case LL:
 	            	lowLevel(args);
@@ -958,32 +1107,44 @@ public class BotAPI {
 	            	break;
 	            case TELEPORT:
 	            	BotAPI.teleport(args);
+	            	break;
+	            case TP_TO:
+	            	BotAPI.tpto(args);
+	            	break;
 	            case DATA:
 	        		//BotAPI.data(out, client);
 	            	break;
 	            case COLLECT_FROM_BLOCK:
 	            	BotAPI.INSTANCE.collectFrom(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case CRAFT_CRAFTING_TABLE:
 	            	BotAPI.craftCraftingTable(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case CRAFT_PLANKS:
 	            	BotAPI.craftPlanks(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case CRAFT_AXE:
 	            	BotAPI.craftAxe(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case CRAFT_STICKS:
 	            	BotAPI.craftSticks(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case CRAFT_TREE_TAP:
 	            	BotAPI.craftTreeTap(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case CRAFT_POGO_STICK:
 	            	BotAPI.craftPogoStick(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case INV_CRAFT_ITEM:
 	            	BotAPI.craft(args);
+	            	stepEndValue = false;	// action happens on server
 	            	break;
 	            case INV_SELECT_ITEM:
 	            	BotAPI.selectItem(args);
@@ -1148,8 +1309,12 @@ public class BotAPI {
 			                        		//do nothing until the step is complete
 			                        	}
 		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-		                        	        out.println(toClient);
+		                        			// print command result instead of observations
+		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
+		                        	        JsonObject jobj = new JsonObject();
+		                        	        jobj.add("command_result", commandResult.get().toJson());
+		                        			toClient = jobj.toString();
+		                        			out.println(toClient);
 		                        	        client.getOutputStream().flush();
 		                        		}else {
 				                        	data(out, client);
