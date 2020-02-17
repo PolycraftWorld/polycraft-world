@@ -44,8 +44,7 @@ public class APICommandResult {
 	 */
 	public APICommandResult(String command, String args[], Result result, String message) {
 		this.command = command;
-		if(args.length > 1)
-			this.args = Arrays.copyOfRange(args, 1, args.length);
+		this.args = args;
 		
 		this.result = result;
 		this.message = message;
