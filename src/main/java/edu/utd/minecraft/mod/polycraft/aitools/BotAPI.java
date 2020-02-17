@@ -179,6 +179,7 @@ public class BotAPI {
     	INV_SELECT_ITEM,	// Moves and selects Pogo stick to hotbar. Fails if there is no pogo stick in player inventory. Parameters: int itemID
     	INV_MOVE_ITEM,		// Not implemented
     	INV_CRAFT_ITEM,		// attempts to craft item if player has all items needed. Parameters: int itemID1, int itemID2, ... , int itemID8, int itemID9
+    	CRAFT, 				// INV_CRAFT_ITEM alias
     	CRAFT_PLANKS,		// attempts to craft planks. Fails if not enough resources in player inventory
     	CRAFT_CRAFTING_TABLE,	// attempts to craft a crafting table. Fails if not enough resources in player inventory
     	CRAFT_STICKS,	// attempts to craft sticks. Fails if not enough resources in player inventory
@@ -1142,6 +1143,7 @@ public class BotAPI {
 	            	BotAPI.craftPogoStick(args);
 	            	stepEndValue = false;	// action happens on server
 	            	break;
+	            case CRAFT:
 	            case INV_CRAFT_ITEM:
 	            	BotAPI.craft(args);
 	            	stepEndValue = false;	// action happens on server
@@ -1308,20 +1310,15 @@ public class BotAPI {
 		                        		while(!stepEnd.get()) {
 			                        		//do nothing until the step is complete
 			                        	}
-		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			// print command result instead of observations
-		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-		                        	        JsonObject jobj = new JsonObject();
-		                        	        jobj.add("command_result", commandResult.get().toJson());
-		                        			toClient = jobj.toString();
-		                        			out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}else {
-				                        	data(out, client);
-		                        		}
+		                        		
+	                        			// print command result instead of observations
+	                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
+	                        	        JsonObject jobj = new JsonObject();
+	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        			toClient = jobj.toString();
+	                        			out.println(toClient);
+	                        	        client.getOutputStream().flush();
 		                        	}
-		                        	
-		                        	
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
