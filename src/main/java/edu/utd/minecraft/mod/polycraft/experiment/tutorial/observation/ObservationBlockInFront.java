@@ -28,10 +28,11 @@ public class ObservationBlockInFront implements IObservation{
 				player.posY + player.getHorizontalFacing().getFrontOffsetY(),
 				player.posZ + player.getHorizontalFacing().getFrontOffsetZ());
 		
-		String id = player.worldObj.getBlockState(blockPos).getBlock().getRegistryName();
+		String blockName = player.worldObj.getBlockState(blockPos).getBlock().getRegistryName();
 		JsonObject jobject = new JsonObject();
-		jobject.addProperty("name", id);
+		jobject.addProperty("name", blockName);	//add block name to json
 		
+		// add meta data to json
 		for(IProperty prop: exp.getWorld().getBlockState(blockPos).getProperties().keySet()) {
 			jobject.addProperty(prop.getName(), exp.getWorld().getBlockState(blockPos).getProperties().get(prop).toString());;
 		}
