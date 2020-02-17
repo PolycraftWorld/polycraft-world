@@ -28,6 +28,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.print.attribute.standard.NumberUpSupported;
+
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -1302,9 +1304,15 @@ public class BotAPI {
             public void run()
             {
             	if(BotAPI.apiRunning.get()) {
-
+            		int port;
+            		String portStr = System.getProperty("agentPort");
+            		if(portStr != null && NumberUtils.isNumber(portStr)) {
+            			port = Integer.parseInt(portStr);
+            		}else {
+            			port = API_PORT;
+            		}
         			try {
-						server = new ServerSocket(API_PORT);
+						server = new ServerSocket(port);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
