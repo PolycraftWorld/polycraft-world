@@ -21,7 +21,8 @@ Installing at least Eclipse Oxygen or Neon is recommended, though versions as ea
 The majority of Eclipse versions should come with the Git plugin by default. If you don't know which one to select, download "Eclipse IDE for Java Developers" and the corresponding OS and architecture. This will come in a zipped archive. You can unpack this and place it anywhere you want; Eclipse will run as is.
 
 ## Setting up the Forge Environment
-THIS SECTION CAN BE SKIPPED. FORGE IS INCLUDED IN THIS REPO.
+FORGE IS INCLUDED IN THIS REPO. DOWNLOADING IS UNNEEDED. SKIP TO THE COMMAND BELOW.
+
 The files for Minecraft Forge 1.8.9 can be found [here](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.8.9.html). Download the "Src" of the first (latest) version: 11.15.1.2318.<br>
 Select a folder that you will have your Polycraft development environment in. We will call this directory A. Place the contents of the zip directly inside directory A.
 
