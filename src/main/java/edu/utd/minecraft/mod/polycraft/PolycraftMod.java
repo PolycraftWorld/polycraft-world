@@ -23,6 +23,7 @@ import edu.utd.minecraft.mod.polycraft.commands.CommandFlingColor;
 import edu.utd.minecraft.mod.polycraft.commands.CommandHalftimeGUI;
 import edu.utd.minecraft.mod.polycraft.commands.CommandReg;
 import edu.utd.minecraft.mod.polycraft.commands.CommandTP;
+import edu.utd.minecraft.mod.polycraft.commands.CommandTPV;
 import edu.utd.minecraft.mod.polycraft.commands.CommandUpdateWhitelist;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandChallenge;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandDev;
@@ -324,6 +325,7 @@ public class PolycraftMod {
 		event.registerServerCommand(new CommandExitChallengeRoom());
 		event.registerServerCommand(new CommandHalftimeGUI());
 		event.registerServerCommand(new CommandFlingColor());
+		event.registerServerCommand(new CommandTPV());
 	}
 
 
