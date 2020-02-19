@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -24,6 +25,7 @@ import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -384,17 +386,20 @@ public class ItemDevTool extends ItemCustom  {
 		        int height = res.getScaledHeight();
 	            int opacity = 200;
 	            
-	            FMLClientHandler.instance().getClient().fontRendererObj.drawString("text", 50, 50, 0xFF0000FF);
+	            FMLClientHandler.instance().getClient().fontRendererObj.drawString("texts", 50, 50, 0xFF0000FF);
 	            if (opacity > 0)
 	            {
-	                //GlStateManager.pushMatrix();
-	                //GlStateManager.translate((float)(width / 2), (float)(height - 68), 0.0F);
+	                GlStateManager.pushMatrix();
+	                GL11.glRotatef(180, 1, 0, 0);
+	                GL11.glRotatef(-60, 1, 0, 0);
+	                GlStateManager.translate(0F, -(player.ticksExisted % 400) / 2.0, 0.0F);
 	                //GlStateManager.enableBlend();
 	                //GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 	                int color = 0xFFFFFF;
-	                Minecraft.getMinecraft().fontRendererObj.drawString(((ItemDevTool)player.getHeldItem().getItem()).currentState.name(), Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, -4, color | (opacity << 24));
+	                Minecraft.getMinecraft().fontRendererObj.drawString("Hello There!", Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, -4, color | (opacity << 24));
+	                Minecraft.getMinecraft().fontRendererObj.drawString("General Kenobi!", Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, 5, color | (opacity << 24));
 	                //GlStateManager.disableBlend();
-	                //GlStateManager.popMatrix();
+	                GlStateManager.popMatrix();
 	            }
 	
 	            //Minecraft.getMinecraft().mcProfiler.endSection();
