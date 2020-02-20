@@ -186,7 +186,7 @@ public class PolycraftRecipeManager {
 			for(RecipeComponent output: recipe.getOutputs(null)) {
 				JsonObject joutput = new JsonObject();
 				joutput.addProperty("Item", output.itemStack.getItem().getRegistryName());
-				joutput.addProperty("StackSize", output.itemStack.stackSize);
+				joutput.addProperty("stackSize", output.itemStack.stackSize);
 				joutput.addProperty("slot", output.slot.getSlotIndex());
 				joutputs.add(joutput);
 			}
