@@ -42,7 +42,7 @@ public class CommandTPV extends CommandBase{
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return "/tpv x y z pitch yaw";
+		return "/tpv x y z yaw pitch";
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class CommandTPV extends CommandBase{
 				float yaw = Float.parseFloat(args[4]);
 				player.setPosition(targetPos.getX() + 0.5, targetPos.getY() + 0.5, targetPos.getZ() + 0.5);
             	player.playerNetServerHandler.setPlayerLocation(targetPos.getX() + 0.5, 
-            			targetPos.getY() + 0.5, targetPos.getZ() + 0.5, yaw, pitch);
+            			targetPos.getY() + 0.5, targetPos.getZ() + 0.5, pitch, yaw); //setPlayerLocation is backwards from display in game
 				
 			}else {
 				player.addChatMessage(new ChatComponentText("Position: " + player.getPosition().toString() + "::Yaw: " + player.rotationYaw + "::Pitch: " + player.rotationPitch));
