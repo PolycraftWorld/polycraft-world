@@ -564,8 +564,8 @@ public class ClientProxy extends CommonProxy {
 	        	long tickms = (System.currentTimeMillis() - lastTickTime);
 	        	if(tickms == 0)
 	        		tickms = 1;
-	        	client.fontRendererObj.drawStringWithShadow("Tick ms: " + tickms, 100, 02, 16777215);
-	        	client.fontRendererObj.drawStringWithShadow("FPS: " + (1000 / tickms), 100, 12, 16777215);
+//	        	client.fontRendererObj.drawStringWithShadow("Tick ms: " + tickms, 100, 02, 16777215);
+//	        	client.fontRendererObj.drawStringWithShadow("FPS: " + (1000 / tickms), 100, 12, 16777215);
 	        	lastTickTime = System.currentTimeMillis();
 	        }
     }
@@ -586,9 +586,9 @@ public class ClientProxy extends CommonProxy {
 //		        	long tickms = (System.currentTimeMillis() - lastTickTime);
 		        	if(tickms == 0)
 		        		tickms = 1;
-		        	client.fontRendererObj.drawStringWithShadow("Tick ms: " + tickms, 100, 02, 16777215);
-		        	client.fontRendererObj.drawStringWithShadow("FPS: " + (1000 / tickms), 100, 12, 16777215);
-//		        	lastTickTime = System.currentTimeMillis();
+//		        	client.fontRendererObj.drawStringWithShadow("Tick ms: " + tickms, 100, 02, 16777215);
+//		        	client.fontRendererObj.drawStringWithShadow("FPS: " + (1000 / tickms), 100, 12, 16777215);
+		        	lastTickTime = System.currentTimeMillis();
 		        }
 		}
 	}
