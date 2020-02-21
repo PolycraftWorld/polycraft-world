@@ -139,6 +139,8 @@ public class ExperimentTutorial{
 	private String stringToSend = "";
 
 	private PrivateProperty privateProperty;
+
+	public TutorialOptions options;
 	
 	/**
 	 * 
@@ -150,6 +152,7 @@ public class ExperimentTutorial{
 		
 		this.id = id;
 		this.isServer = true;
+		this.options = options;
 		rand = new Random(options.seed);
 		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.pos2.getX()),
 				Math.min(options.pos.getY(), options.pos2.getY()),

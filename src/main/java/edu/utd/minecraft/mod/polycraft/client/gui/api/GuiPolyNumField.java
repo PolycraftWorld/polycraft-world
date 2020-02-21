@@ -31,5 +31,9 @@ public class GuiPolyNumField extends GuiTextField{
 		
 		return false;
 	}
+	
+	public int getNum() {
+		return Integer.parseInt(this.getText());
+	}
 
 }

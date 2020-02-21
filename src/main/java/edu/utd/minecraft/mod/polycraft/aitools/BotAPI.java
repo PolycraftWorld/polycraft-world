@@ -410,7 +410,7 @@ public class BotAPI {
     		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {	//can only get these values if there is a running experiment
 				BlockPos posOffset = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).posOffset);
     			area = new AxisAlignedBB(posOffset,
-    					new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).size).add(posOffset));
+    					new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).pos2).add(posOffset));
     			if(!area.isVecInside(new Vec3(targetPos))) {
     				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Target is outside experiment zone"));
     				return;
@@ -625,7 +625,7 @@ public class BotAPI {
     			
     			// get experiment area calculations
     			BlockPos posOffset = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).posOffset);
-    			BlockPos pos2 = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).size).add(posOffset);
+    			BlockPos pos2 = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).pos2).add(posOffset);
     			area = new AxisAlignedBB(posOffset, pos2);
     			
 				//Find and Check for valid placement position

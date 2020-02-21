@@ -23,7 +23,7 @@ public class ObservationMap implements IObservation{
 	@Override
 	public void init(ExperimentTutorial exp) {
 		pos1 = new BlockPos(exp.pos).add(0, 2, 0);
-		pos2 = new BlockPos(exp.size);
+		pos2 = new BlockPos(exp.pos2);
 	}
 
 	@Override
