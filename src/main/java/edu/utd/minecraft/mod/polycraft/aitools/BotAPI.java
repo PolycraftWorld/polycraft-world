@@ -331,6 +331,16 @@ public class BotAPI {
 				angle = 135;
 			}
 			player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+			double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
+			double z = Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
+			System.out.println("X: " + x + " :: Z: " + z);
+			if(!(x == 0 || z == 0)) {
+				if(player.worldObj.isAirBlock(player.getPosition().add(x, 0, 0)) && player.worldObj.isAirBlock(player.getPosition().add(0, 0, z))
+						&& player.worldObj.isAirBlock(player.getPosition().add(x, 0, z))) {
+					setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path"));
+					return;
+				}
+			}
 			double newX = player.posX - Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
 			double newZ = player.posZ + Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
 			player.setPositionAndRotation(newX, player.posY, newZ,player.rotationYaw, 0f);
