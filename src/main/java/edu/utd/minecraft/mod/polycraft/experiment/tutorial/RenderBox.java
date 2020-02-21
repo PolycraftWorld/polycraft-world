@@ -36,6 +36,7 @@ public class RenderBox {
 	private int breathingDir = 1; //1 for fading in , -1 for fading out
 	private double x1, z1, x2, z2, y, h, xRange, zRange, range, xRange2, zRange2, range2;
 	private String name = null;
+	private boolean isSolid = false;
 
 	public RenderBox(double x1, double z1, double x2, double z2, double y, double h, int warnTicks) {
 		this.x1 = Math.min(x1, x2);
@@ -73,6 +74,14 @@ public class RenderBox {
 	public RenderBox setColor(Color color) {
 		this.color = color;
 		return this;
+	}
+	
+	public void setSolid(boolean solid) {
+		this.isSolid = solid;
+	}
+	
+	public boolean isSolid() {
+		return isSolid;
 	}
 
 	private void init(double y, double h, int warnTicks) {
@@ -261,12 +270,12 @@ public class RenderBox {
 		
 		float alphaLines, alphaFace;
 		if(maxBreathingTicks == 0) {
-			alphaFace = 0.2F;
+			alphaFace = isSolid? 1F:0.2F;
 			alphaLines = 0.5F;
 		}else {
 			float alphaMult = (float) ((breathingTicks * 1.0)/maxBreathingTicks);
-			alphaFace = 0.2F * alphaMult + 0.1F;
-			alphaLines = 0.5F * alphaMult  + 0.15F;
+			alphaFace = 0.2F * alphaMult + (isSolid? 1F:0.1F);
+			alphaLines = 0.5F * alphaMult  + (isSolid? 1F:0.15F);
 			if(breathingTicks == maxBreathingTicks) {
 				breathingDir = -1;
 			}else if(breathingTicks == 0) {
