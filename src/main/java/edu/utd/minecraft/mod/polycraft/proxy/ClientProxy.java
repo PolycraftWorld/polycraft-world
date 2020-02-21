@@ -122,6 +122,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -541,7 +543,29 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 	
-
+	@SubscribeEvent
+	public void onRenderGuiPre(RenderGameOverlayEvent.Pre event) {
+		if(TutorialManager.INSTANCE.getOptions().hideGui) {
+			if(event.type == ElementType.HEALTH) {
+				event.setCanceled(true);
+			}
+			if(event.type == ElementType.EXPERIENCE) {
+				event.setCanceled(true);
+			}
+			if(event.type == ElementType.FOOD) {
+				event.setCanceled(true);
+			}
+			if(event.type == ElementType.CROSSHAIRS) {
+				event.setCanceled(true);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onRenderHand(RenderHandEvent event) {
+		if(TutorialManager.INSTANCE.getOptions().hideGui)
+			event.setCanceled(true);
+	}
 	 
 	@SubscribeEvent
 	public void onRenderGui(RenderGameOverlayEvent.Post event) {
