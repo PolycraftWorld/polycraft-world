@@ -35,7 +35,8 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
             		case SINGLE:
             			for(ExperimentTutorial exp : TutorialManager.INSTANCE.experiments.values()) {
          					if(exp.isPlayerInExperiment(ctx.getServerHandler().playerEntity.getDisplayNameString()))
-         						exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
+         						if(exp.activeFeatures.size() == 0 || exp.activeFeatures.get(message.featureIndex).getName().equals(message.featureList.get(0).getName()))	//Check to make sure the feature matches
+         							exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
          				}
             			break;
             		default:
@@ -53,15 +54,25 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
                 	switch(message.type) {
 					case ACTIVE:
 						//TODO: NEED TO VERIFY THAT ALL EXPERIMENT IDs ARE consistant on client side
+						for(ExperimentTutorial exp: TutorialManager.INSTANCE.experiments.values()) {
+							if(exp.id != message.expID)
+								exp.activeFeatures.clear();
+						}
 						TutorialManager.INSTANCE.experiments.get(message.expID).updateActiveFeatures(message.featureList);
 						break;
 					case All:
+						for(ExperimentTutorial exp: TutorialManager.INSTANCE.experiments.values()) {
+							if(exp.id != message.expID)
+								exp.activeFeatures.clear();
+						}
 						if(!TutorialManager.INSTANCE.experiments.containsKey(message.expID))
 							TutorialManager.INSTANCE.experiments.put(message.expID, new ExperimentTutorial(message.expID, Minecraft.getMinecraft().theWorld, message.featureList));
                 		TutorialManager.INSTANCE.clientCurrentExperiment = message.expID;
 						break;
 					case SINGLE:
-						TutorialManager.INSTANCE.experiments.get(message.expID).activeFeatures.set(message.featureIndex, message.featureList.get(0));
+						if(TutorialManager.INSTANCE.experiments.get(message.expID).activeFeatures.get(message.featureIndex).getName().equals(message.featureList.get(0).getName()))	//Check to make sure the feature matches
+							TutorialManager.INSTANCE.experiments.get(message.expID).activeFeatures.set(message.featureIndex, message.featureList.get(0));
+						
 						break;
 					default:
 						break;

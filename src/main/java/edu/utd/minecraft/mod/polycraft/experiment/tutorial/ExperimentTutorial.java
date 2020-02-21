@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class ExperimentTutorial{
 	
 	public final int id;	//id of the experiment. Should be unique
 	public Vec3 pos;	//starting Pos of experiment area
-	public Vec3 size;
+	public Vec3 pos2;
 	public Vec3 posOffset;
 	//protected static int[][] spawnlocations = new int[4][3];	//spawn locations [location][x,y,z]
 	public Random rand = new Random();
@@ -150,12 +151,12 @@ public class ExperimentTutorial{
 		this.id = id;
 		this.isServer = true;
 		rand = new Random(options.seed);
-		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.size.getX()),
-				Math.min(options.pos.getY(), options.size.getY()),
-				Math.min(options.pos.getZ(), options.size.getZ()));
-		this.size = new Vec3(Math.max(options.pos.getX(), options.size.getX()) - pos1.xCoord,
-				Math.max(options.pos.getY(), options.size.getY()) - pos1.yCoord,
-				Math.max(options.pos.getZ(), options.size.getZ()) - pos1.zCoord);
+		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.pos2.getX()),
+				Math.min(options.pos.getY(), options.pos2.getY()),
+				Math.min(options.pos.getZ(), options.pos2.getZ()));
+		this.pos2 = new Vec3(Math.max(options.pos.getX(), options.pos2.getX()) - pos1.xCoord,
+				Math.max(options.pos.getY(), options.pos2.getY()) - pos1.yCoord,
+				Math.max(options.pos.getZ(), options.pos2.getZ()) - pos1.zCoord);
 		if(genInDim8) {
 			dim = 8;
 			//this.posOffset = new Vec3(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
@@ -441,9 +442,14 @@ public class ExperimentTutorial{
 	public void render(Entity entity){
 		if(activeFeatures == null)
 			return;
-		for(TutorialFeature feature: activeFeatures){
-			feature.render(entity);
+		try {
+			for(TutorialFeature feature: activeFeatures){
+				feature.render(entity);
+			}
+		}catch(ConcurrentModificationException e) {
+			//TODO: This needs to be avoided altogether somehow
 		}
+		
 	}
 	
 	public void renderScreen(Entity entity){
@@ -474,8 +480,8 @@ public class ExperimentTutorial{
 	
 	
 	protected void initArea() {
-		int sizeX = (int) Math.ceil(Math.abs(size.xCoord - pos.xCoord));
-		int sizeZ = (int) Math.ceil(Math.abs(size.zCoord - pos.zCoord));
+		int sizeX = (int) Math.ceil(Math.abs(pos2.xCoord - pos.xCoord));
+		int sizeZ = (int) Math.ceil(Math.abs(pos2.zCoord - pos.zCoord));
 //		tickets = new ForgeChunkManager.Ticket[sizeX*sizeZ];
 		
 //		for(int x = 0; x <= sizeX; x++) {
@@ -498,10 +504,10 @@ public class ExperimentTutorial{
 				
 		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
 		//we don't want the game to lag too much.
-		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(size.yCoord*size.zCoord)),1.0));
+		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(pos2.yCoord*pos2.zCoord)),1.0));
 		
 		//the position to begin counting in the blocks[] array.
-		int count=(genTick*maxXPerTick)*((int)size.yCoord+1)*((int)size.zCoord+1);
+		int count=(genTick*maxXPerTick)*((int)pos2.yCoord+1)*((int)pos2.zCoord+1);
 		
 //		if(count >= blocks.length) { //Check if we've written all of the blocks
 //			return true; 
@@ -602,8 +608,8 @@ public class ExperimentTutorial{
 	private void createPrivateProperties() {
 		if(!this.world.isRemote) {
 			int endX = 0, endZ = 0;
-			for(int x = (int)pos.xCoord - 8; Math.abs(x) <= Math.abs(pos.xCoord + size.xCoord) + 8; x += 16) {
-				for(int z = (int)pos.zCoord - 8; Math.abs(z) <= Math.abs(pos.zCoord + size.zCoord) + 8; z += 16) {
+			for(int x = (int)pos.xCoord - 8; Math.abs(x) <= Math.abs(pos.xCoord + pos2.xCoord) + 8; x += 16) {
+				for(int z = (int)pos.zCoord - 8; Math.abs(z) <= Math.abs(pos.zCoord + pos2.zCoord) + 8; z += 16) {
 					//don't feel like doing the math... 
 					endX = x;
 					endZ = z;
