@@ -137,7 +137,8 @@ public enum GameID {
 	CustomGravitySlingshot("1hP"),
 	CustomIceSlingshot("1hQ"),
 	Paintball("1hL"),
-	CustomAITool("1k0");
+	CustomAITool("1k0"),
+	Plus3D("1k1");
 
 	public final String id;
 

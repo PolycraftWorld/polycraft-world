@@ -32,6 +32,7 @@ import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
+import edu.utd.minecraft.mod.polycraft.block.BlockPlus3D;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
@@ -1647,6 +1648,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemPaintball(customObject));
 				}else if (GameID.CustomAITool.matches(customObject)) {
 					registerItem(customObject, new ItemAITool(customObject));
+				}else if (GameID.Plus3D.matches(customObject)) {
+					registerBlock(customObject, new BlockPlus3D(customObject));
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

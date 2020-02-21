@@ -1,0 +1,45 @@
+{
+    "textures": {
+        "particle": "polycraft:blocks/plus3d",
+        "body": "polycraft:blocks/plus3d",
+        "top": "polycraft:blocks/plus3d"
+    },
+    "elements": [
+        {   "__comment": "Anvil base",
+            "from": [ 6, 2, 6 ],
+            "to": [ 10, 14, 10 ],
+            "faces": {
+                "down":  {"texture": "#body", "tintindex": 0 },
+                "up":    {"texture": "#body", "tintindex": 0 },
+                "north": {"texture": "#body", "tintindex": 0 },
+                "south": {"texture": "#body", "tintindex": 0 },
+                "west":  {"texture": "#body", "tintindex": 0 },
+                "east":  {"texture": "#body", "tintindex": 0 }
+            }
+        },
+        {   "__comment": "Lower narrow portion",
+            "from": [ 2, 6, 6 ],
+            "to": [ 14, 10, 10 ],
+            "faces": {
+                "down":  {"texture": "#body", "tintindex": 0 },
+                "up":    {"texture": "#body", "tintindex": 0 },
+                "north": {"texture": "#body", "tintindex": 0 },
+                "south": {"texture": "#body", "tintindex": 0 },
+                "west":  {"texture": "#body", "tintindex": 0 },
+                "east":  {"texture": "#body", "tintindex": 0 }
+            }
+        },
+        {   "__comment": "Wider section beneath top portion",
+            "from": [ 6, 6, 2 ],
+            "to": [ 10, 10, 14 ],
+            "faces": {
+                "down":  {"texture": "#body", "tintindex": 0 },
+                "up":    {"texture": "#body", "tintindex": 0 },
+                "north": {"texture": "#body", "tintindex": 0 },
+                "south": {"texture": "#body", "tintindex": 0 },
+                "west":  {"texture": "#body", "tintindex": 0 },
+                "east":  {"texture": "#body", "tintindex": 0 }
+            }
+        }
+    ]
+}
