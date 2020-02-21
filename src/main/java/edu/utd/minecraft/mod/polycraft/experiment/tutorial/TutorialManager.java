@@ -30,6 +30,7 @@ import edu.utd.minecraft.mod.polycraft.minigame.RaceGame;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExpFeatureMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExperimentMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessage;
 import edu.utd.minecraft.mod.polycraft.proxy.ClientProxy;
 import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
@@ -111,6 +112,14 @@ public class TutorialManager {
 				ex.onClientTickUpdate();
 			}
 		}
+	}
+	
+	public void updateOptions(TutorialOptions tutOptions) {
+		this.tutOptions = tutOptions;
+	}
+	
+	public TutorialOptions getOptions() {
+		return tutOptions;
 	}
 	
 	//@SideOnly(Side.SERVER)
@@ -294,6 +303,7 @@ public class TutorialManager {
 	
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).addPlayer(player);
+		PolycraftMod.SChannel.sendTo(new ExperimentMessage(ExperimentMessage.Type.JOIN ,this.tutOptions), player);
 		return value;
 	}
 	

@@ -42,6 +42,8 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExpFeatureMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExpFeatureMessageHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExperimentMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExperimentMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
@@ -241,6 +243,7 @@ public class PolycraftMod {
 		SChannel.registerMessage(CommandResultMessageHandler.class, CommandResultMessage.class, 6, Side.CLIENT);
 		SChannel.registerMessage(BreakBlockMessageHandler.class, BreakBlockMessage.class, 7, Side.SERVER);
 		SChannel.registerMessage(TeleportMessageHandler.class, TeleportMessage.class, 8, Side.SERVER);
+		SChannel.registerMessage(ExperimentMessageHandler.class, ExperimentMessage.class, 8, Side.CLIENT);
 		this.configDirectory =event.getModConfigurationDirectory();
 		proxy.preInit();
 	}
