@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
+import edu.utd.minecraft.mod.polycraft.block.BlockPlus3D;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
@@ -15,7 +16,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 
-public class ObservationDestinationPos implements IObservation{
+public class ObservationMacGuffinPos implements IObservation{
 
 	BlockPos posOffset, posDest;
 
@@ -28,9 +29,14 @@ public class ObservationDestinationPos implements IObservation{
 	@Override
 	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		
-		for(TutorialFeature feature: exp.getFeatures()) {
-			if(feature.getName().toLowerCase().contains("dest") && feature instanceof TutorialFeatureData) {
-				posDest = feature.getPos();
+search: for(int x = (int)exp.pos.xCoord; x < (int)exp.pos2.xCoord; x++) {
+			for(int y = (int)exp.pos.yCoord; y < (int)exp.pos2.yCoord; y++) {
+				for(int z = (int)exp.pos.zCoord; z < (int)exp.pos2.zCoord; z++) {
+					if(exp.getWorld().getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockPlus3D) {
+						posDest = new BlockPos(x,y,z);
+						break search;
+					}
+				}
 			}
 		}
 		
@@ -63,6 +69,6 @@ public class ObservationDestinationPos implements IObservation{
 
 	@Override
 	public String getName() {
-		return "DestinationPos";
+		return "MacGuffinPos";
 	}
 }

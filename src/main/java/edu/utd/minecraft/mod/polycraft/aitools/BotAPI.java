@@ -44,10 +44,12 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
@@ -101,6 +103,7 @@ import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -185,6 +188,7 @@ public class BotAPI {
     	USE,	// right click once
     	PLACE_BLOCK,	// Place a specified block in a specified location. Parameters: int blockID, int x, int y, int z
     					// Agent will first send a packet to the server to move item to hotbar and select item. Then look at the position to place block at. Then wait 10 ticks just in case packet transmission is slow, then right click with the "USE" command.
+    	PLACE_MACGUFFIN,	//PLACE MACGUFFIN
     	PLACE_STONE,	// Places a stone block in front and at feet level of agent.
     	PLACE_CRAFTING_TABLE,	// Places a crafting table in front of player. Similar to PLACE_BLOCK
     	PLACE_TREE_TAP,		// Place a tree tap in front of player. Similar to PLACE_BLOCK
@@ -738,10 +742,16 @@ public class BotAPI {
     				return;
     			}
     		}
+		}else if(args.length == 3 && args[2].equalsIgnoreCase("MacGuffin")) {
+			double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw)));
+			double z = Math.round(Math.cos(Math.toRadians(player.rotationYaw)));
+			targetPos = new Vec3(player.posX + x, player.posY + 0.5, player.posZ + z);
+			System.out.println(targetPos.toString());
 		}
 		Block block = player.worldObj.getBlockState(new BlockPos(targetPos)).getBlock();
 		if(block.getMaterial() != Material.air) {
 			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block \"" + block.getRegistryName() + "\" already exists when trying to place block"));
+			System.out.println(targetPos.toString());
 			return;
 		}
 		
@@ -755,7 +765,7 @@ public class BotAPI {
 		player.addChatComponentMessage(new ChatComponentText("x: " + targetPos.xCoord + " :: Y: " + targetPos.yCoord + " :: Z:" + targetPos.zCoord));
 		
 		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
-		tempQ = "USE";
+		tempQ = "USE " + String.join(" ", args);
 		delay = 10;
 //		}else {
 //    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
@@ -786,6 +796,11 @@ public class BotAPI {
 		}else {
 			player.sendChatMessage("/setblock " + placePos.xCoord + " " + placePos.yCoord + " " + placePos.zCoord + " stone");
 		}
+	}
+	
+	public static void placeMacGuffin(String args[]) {
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+    	placeBlock(("PLACE_CRAFTING_TABLE 7015 MacGuffin" + (args.length > 1? " " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)): "")).split("\\s+"));
 	}
 	
 	public static void placeCraftingTable(String args[]) {
@@ -830,10 +845,29 @@ public class BotAPI {
 	}
 	
 	public static void useItem(String args[]) {
-		//EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), true);
 		KeyBinding.onTick(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
 		KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), false);
+		
+		if(String.join(" ", args).toLowerCase().contains("macguffin")) {
+			if(commandResult.get().getResult() == Result.SUCCESS) {
+				if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+        			for(TutorialFeature feat: TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getActiveFeatures()) {
+        				if(feat.getName().contains("dest")) {
+        					double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw)));
+        					double z = Math.round(Math.cos(Math.toRadians(player.rotationYaw)));
+        					Vec3i targetPos = new Vec3i(player.posX + x, player.posY + 0.5, player.posZ + z);
+        					if(feat.getPos().distanceSq(targetPos) < 1) {
+            					APICommandResult temp = commandResult.get();
+            					temp.setMessage("Mission Complete");
+            					setResult(temp);
+        					}
+        				}
+        			}
+				}
+			}
+		}
 	}
 	
 	public static void data(PrintWriter out, Socket client) throws IOException {
@@ -1320,6 +1354,10 @@ public class BotAPI {
 	            	BotAPI.placeBlock(args);
 	            	stepEndValue = false;	// must wait for USE delay to complete
 	            	break;
+	            case PLACE_MACGUFFIN:
+	            	BotAPI.placeMacGuffin(args);
+	            	stepEndValue = false;	//action happens on server
+	            	break;
 	            case PLACE_STONE:
 	            	BotAPI.placeStoneBlock(args);
 	            	break;
@@ -1443,6 +1481,14 @@ public class BotAPI {
 		                        	else if(fromClient.contains("DATA_MAP") || fromClient.contains("SENSE_ALL"))
 		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
 		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
+		                        	        out.println(toClient);
+		                        	        client.getOutputStream().flush();
+		                        		}else {
+		                        			dataMap(out, client);
+		                        		}
+		                        	else if(fromClient.contains("DATA_LOCATIONS") || fromClient.contains("SENSE_LOCATIONS"))
+		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getLocationObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
 		                        	        out.println(toClient);
 		                        	        client.getOutputStream().flush();
 		                        		}else {

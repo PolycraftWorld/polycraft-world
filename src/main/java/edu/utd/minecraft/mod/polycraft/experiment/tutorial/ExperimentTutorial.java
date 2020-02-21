@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
+import edu.utd.minecraft.mod.polycraft.block.BlockPlus3D;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
@@ -36,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.IObservat
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationBlockInFront;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationDestinationPos;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationEntities;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationMacGuffinPos;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationMap;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerInventory;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerPos;
@@ -157,7 +159,7 @@ public class ExperimentTutorial{
 		Vec3 pos1 = new Vec3(Math.min(options.pos.getX(), options.pos2.getX()),
 				Math.min(options.pos.getY(), options.pos2.getY()),
 				Math.min(options.pos.getZ(), options.pos2.getZ()));
-		this.pos2 = new Vec3(Math.max(options.pos.getX(), options.pos2.getX()) - pos1.xCoord,
+		Vec3 pos2 = new Vec3(Math.max(options.pos.getX(), options.pos2.getX()) - pos1.xCoord,
 				Math.max(options.pos.getY(), options.pos2.getY()) - pos1.yCoord,
 				Math.max(options.pos.getZ(), options.pos2.getZ()) - pos1.zCoord);
 		if(genInDim8) {
@@ -165,6 +167,7 @@ public class ExperimentTutorial{
 			//this.posOffset = new Vec3(-pos1.xCoord + id*(size.xCoord + AREA_PADDING), 0, -pos1.zCoord);
 			this.posOffset = new Vec3(-pos1.xCoord, 0, -pos1.zCoord);
 			this.pos = new Vec3(pos1.xCoord + posOffset.xCoord, pos1.yCoord + posOffset.yCoord, pos1.zCoord + posOffset.zCoord);
+			this.pos2 = new Vec3(pos2.xCoord + posOffset.xCoord, pos2.yCoord + posOffset.yCoord, pos2.zCoord + posOffset.zCoord);
 		}else {
 			dim = 0;
 			this.posOffset = new Vec3(0,0,0);
@@ -369,10 +372,20 @@ public class ExperimentTutorial{
 					observations.add(new ObservationBlockInFront());
 					observations.add(new ObservationPlayerInventory());
 					observations.add(new ObservationPlayerPos());
-					//observations.add(new ObservationDestinationPos());
+					observations.add(new ObservationDestinationPos());
 					observations.add(new ObservationEntities());
 					observations.add(new ObservationMap());
 					//observations.add(new ObservationScreen());
+					search: for(int x = (int)pos.xCoord; x < (int)pos2.xCoord; x++) {
+						for(int y = (int)pos.yCoord; y < (int)pos2.yCoord; y++) {
+							for(int z = (int)pos.zCoord; z < (int)pos2.zCoord; z++) {
+								if(getWorld().getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockPlus3D) {
+									observations.add(new ObservationMacGuffinPos());
+									break search;
+								}
+							}
+						}
+					}
 				}
 				for(IObservation obs: observations) {
 					obs.init(this);
@@ -422,6 +435,15 @@ public class ExperimentTutorial{
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
 			if(key.equals(obs.getName()))
+				jobject.add(obs.getName(), obs.getObservation(this, args));
+		}
+		return jobject;
+	}
+	
+	public JsonObject getLocationObservations(String args) {
+		JsonObject jobject = new JsonObject();
+		for(IObservation obs: observations) {
+			if(obs.getName().equals("Player") || obs.getName().equals("DestinationPos") || obs.getName().equals("MacGuffinPos"))
 				jobject.add(obs.getName(), obs.getObservation(this, args));
 		}
 		return jobject;
