@@ -5558,6 +5558,7 @@ tile.break_block.name=Break Block
 tile.gravelcannonball.name=GravelCannonBall
 tile.paintpellet.name=Paintpellet
 tile.wood_slingshot.name=Wood Slingshot
+tile.plus3d.name=MacGuffin
 entity.polycraft.ResearchAssistant.name=ResearchAssistant
 entity.polycraft.TerritoryFlag.name=TerritoryFlag
 entity.polycraft.Comet.name=Comet
