@@ -378,13 +378,14 @@ public class ExperimentTutorial{
 					obs.init(this);
 				}
 				clientInit = true;
-//				try {
-//					//Change client resolution
-//					Display.setDisplayMode(new DisplayMode(128, 128));
-//				} catch (LWJGLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				if(options.outputScreen)
+					try {
+						//Change client resolution
+						Display.setDisplayMode(new DisplayMode(256, 256));
+					} catch (LWJGLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;

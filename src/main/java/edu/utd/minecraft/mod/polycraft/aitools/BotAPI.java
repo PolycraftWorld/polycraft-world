@@ -138,6 +138,8 @@ public class BotAPI {
     
     public static AtomicBoolean apiRunning = new AtomicBoolean(true);
     public static AtomicBoolean stepEnd = new AtomicBoolean(false);
+    public static AtomicBoolean sendScreen = new AtomicBoolean(false);
+    public static AtomicReference<MinecraftFrames> frames = new AtomicReference<MinecraftFrames>();
     public static AtomicReference<APICommandResult> commandResult= new AtomicReference<APICommandResult>();
     private static APICommandResult serverResult = null;
     public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
@@ -163,6 +165,9 @@ public class BotAPI {
     	MOVE_NORTH_WEST,	// Move agent 1 block Northwest    	
     	MOVE_SOUTH_EAST,	// Move agent 1 block Southeast
     	MOVE_SOUTH_WEST,	// Move agent 1 block Southwest 
+    	SMOOTH_MOVE,
+    	SMOOTH_TURN,
+    	SMOOTH_TILT,
     	TELEPORT,	// Move agent to specific location. Parameters: int x, int y, int z
     	TP_TO,		// Teleport to a block or entity
     	WALK_TO,	// Not Implemented
@@ -302,6 +307,67 @@ public class BotAPI {
 	public static void lookWest(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, 90F, 0F);
+	}
+	
+	public static void smoothMove(String args[]) {
+		if(args.length == 2) {
+			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			int angle = 0;
+			if(args[1].equalsIgnoreCase("w")) {
+				angle = 0;
+			}else if(args[1].equalsIgnoreCase("a")) {
+				angle = -90;
+			}else if(args[1].equalsIgnoreCase("d")) {
+				angle = 90;
+			}else if(args[1].equalsIgnoreCase("x")) {
+				angle = 180;
+			}else if(args[1].equalsIgnoreCase("q")) {
+				angle = -45;
+			}else if(args[1].equalsIgnoreCase("e")) {
+				angle = 45;
+			}else if(args[1].equalsIgnoreCase("z")) {
+				angle = -135;
+			}else if(args[1].equalsIgnoreCase("c")) {
+				angle = 135;
+			}
+			player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
+			double newX = player.posX - Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
+			double newZ = player.posZ + Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
+			player.setPositionAndRotation(newX, player.posY, newZ,player.rotationYaw, 0f);
+		}else
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));
+	}
+	
+	public static void smoothTurn(String args[]) {
+		if(args.length == 2) {
+			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			for(int x = 0; x < Math.abs(Integer.parseInt(args[1])) * 5; x++) {
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw + (Math.signum(Integer.parseInt(args[1])) * 3), player.rotationPitch);
+			}
+		}else
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));	
+	}
+	
+	public static void smoothTilt(String args[]) {
+		
+		if(args.length == 2) {
+			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			if(args[1].equalsIgnoreCase("forward")) {
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 60F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 45F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 30F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 15F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 0F);
+			}
+			else if(args[1].equalsIgnoreCase("down")) {
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 0F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 15F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 30F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 45F);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 60F);
+			}
+		}else
+			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));
 	}
 	
 	protected static void turn(float yaw) {
@@ -1172,6 +1238,15 @@ public class BotAPI {
 	            	break;
 	            case LOOK_WEST:
 	            	BotAPI.lookWest(args);
+	            	break;
+	            case SMOOTH_MOVE:
+	            	BotAPI.smoothMove(args);
+	            	break;
+	            case SMOOTH_TURN:
+	            	BotAPI.smoothTurn(args);
+	            	break;
+	            case SMOOTH_TILT:
+	            	BotAPI.smoothTilt(args);
 	            	break;
 	            case TURN_RIGHT:
 	            	BotAPI.turnRight(args);
