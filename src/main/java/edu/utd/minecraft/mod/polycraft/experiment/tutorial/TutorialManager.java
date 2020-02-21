@@ -303,7 +303,7 @@ public class TutorialManager {
 	
 	public boolean addPlayerToExperiment(int expID, EntityPlayerMP player){
 		boolean value = experiments.get(expID).addPlayer(player);
-		PolycraftMod.SChannel.sendTo(new ExperimentMessage(ExperimentMessage.Type.JOIN ,this.tutOptions), player);
+		PolycraftMod.SChannel.sendTo(new ExperimentMessage(ExperimentMessage.Type.JOIN ,experiments.get(expID).options), player);
 		return value;
 	}
 	

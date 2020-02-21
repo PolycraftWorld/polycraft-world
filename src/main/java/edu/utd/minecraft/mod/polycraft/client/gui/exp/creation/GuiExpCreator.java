@@ -244,6 +244,7 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 		if(!this.nameField.getText().equals(devTool.outputFileName)) {
 			devTool.outputFileName = this.nameField.getText();
 		}
+		devTool.tutOptions.updateValues();
     	this.mc.displayGuiScreen((GuiScreen)null);
         this.mc.setIngameFocus();
 		
@@ -357,19 +358,8 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     		case DEV_MAIN:			//close the screen
     			btnToolState.actionPerformed(button, this);
     			devTool.setState(btnToolState.getCurrentOpt());
-//    			if(button.id == btnToolState.id) {
-//    	    		for(GuiButton gbtn : experimentsListButton) {
-//    	    			if(gbtn.id == btnID) {
-//    	    	    		String expID = gbtn.displayString;
-//    	    	    		for(ItemDevTool.StateEnum state: ItemDevTool.StateEnum.values()) {
-//    	    	    			if(expID.equals(state.name())) {
-//    	    	    				devTool.setState(expID);
-//    	    	    			}
-//    	    	    		}
-//    	    				return;
-//    	    			}
-//    	    		}
-//    	    	}
+    			if(button instanceof GuiPolyButtonCycle<?>) 
+    				((GuiPolyButtonCycle<?>)button).nextOption();
     			break;
     		case DEV_STEPS:			//Dev_steps buttons
     			//do nothing?
@@ -483,15 +473,12 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 	    this.fontRendererObj.drawString(I18n.format(this.userFeedbackText, new Object[0]), x_pos, y_pos + this.screenContainerHeight - 12, 0xFFFFFFFF);
 	    y_pos += buttonheight - button_padding_y - this.fontRendererObj.FONT_HEIGHT;
 	    
-	    
-//	    for(GuiButton btn: (List<GuiButton>)buttonList) {
-//	    	if(btn.id > 10000) {
-//	    		if(btn.displayString.equalsIgnoreCase(devTool.getState().toString()))
-//	    			btn.enabled = false;
-//	    		else
-//	    			btn.enabled = true;
-//	    	}
-//	    }
+        for(GuiTextField textField: textFields) {
+        	textField.drawTextBox();
+        }
+        for(GuiPolyLabel label: labels) {
+        	label.drawLabel();
+        }
 	    
 	}
 
@@ -556,10 +543,14 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     
     private WhichScreen screenChange(WhichScreen newScreen) {
     	//On screen change, we need to update the button list and have it re-drawn.
-
+    	int x_pos = (this.width - 248) / 2 + X_PAD; //magic numbers from Minecraft. 
+        int y_pos = (this.height - 198) / 2 + this.titleHeight; //magic numbers from minecraft
 		this.resetButtonList();
     	switch(newScreen) {
     		case DEV_MAIN:
+    			this.textFields.clear();
+    			this.labels.clear();
+    			devTool.tutOptions.buildGuiParameters(this, x_pos, y_pos);
     			btnBack.displayString = "Close";
     			btnNext.displayString = "Steps";
     			this.buttonList.add(btnToolState);

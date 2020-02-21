@@ -50,7 +50,7 @@ public class ItemDevTool extends ItemCustom  {
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
-	TutorialOptions tutOptions = new TutorialOptions();
+	public TutorialOptions tutOptions = new TutorialOptions();
 	TutorialFeature selectedFeature;
 	int blocks[];
 	byte data[];
@@ -190,12 +190,12 @@ public class ItemDevTool extends ItemCustom  {
 						updateRenderBoxes();
 			        else if(oldVersion){
 			        	int count = 0;
-			        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.size.getX()),
-	        					Math.min(tutOptions.pos.getY(), tutOptions.size.getY()),
-	        					Math.min(tutOptions.pos.getZ(), tutOptions.size.getZ()));
-			        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.size.getX()),
-		    					Math.abs(tutOptions.pos.getY() - tutOptions.size.getY()),
-		    					Math.abs(tutOptions.pos.getZ() - tutOptions.size.getZ()));
+			        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.pos2.getX()),
+	        					Math.min(tutOptions.pos.getY(), tutOptions.pos2.getY()),
+	        					Math.min(tutOptions.pos.getZ(), tutOptions.pos2.getZ()));
+			        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.pos2.getX()),
+		    					Math.abs(tutOptions.pos.getY() - tutOptions.pos2.getY()),
+		    					Math.abs(tutOptions.pos.getZ() - tutOptions.pos2.getZ()));
 			    		for(int x = 0; x < size.getX(); x++){
 			    			for(int y = 0; y<=size.getY(); y++){
 			    				for(int z = 0; z<=size.getZ(); z++){
@@ -230,7 +230,7 @@ public class ItemDevTool extends ItemCustom  {
 					break;
 				case AreaSelection:
 					player.addChatMessage(new ChatComponentText("pos2 selected: " + player.getPosition().getX() + "::" + player.getPosition().getY() + "::" + player.getPosition().getZ()));
-					tutOptions.size = player.getPosition();
+					tutOptions.pos2 = player.getPosition();
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
@@ -262,7 +262,7 @@ public class ItemDevTool extends ItemCustom  {
 			switch(currentState) {
 				case AreaSelection:
 					player.addChatMessage(new ChatComponentText("pos2 selected: " + pos.getX() + "::" + pos.getY() + "::" + pos.getZ()));
-					tutOptions.size = pos;
+					tutOptions.pos2 = pos;
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
@@ -349,8 +349,8 @@ public class ItemDevTool extends ItemCustom  {
 				renderboxes.add(box);
 			}
 		}
-		if(tutOptions.pos.getY() != 0 || tutOptions.size.getY() != 0) {
-			renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.size), 1));
+		if(tutOptions.pos.getY() != 0 || tutOptions.pos2.getY() != 0) {
+			renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.pos2), 1));
 		}
 	}
 	
@@ -386,21 +386,21 @@ public class ItemDevTool extends ItemCustom  {
 		        int height = res.getScaledHeight();
 	            int opacity = 200;
 	            
-	            FMLClientHandler.instance().getClient().fontRendererObj.drawString("texts", 50, 50, 0xFF0000FF);
-	            if (opacity > 0)
-	            {
-	                GlStateManager.pushMatrix();
-	                GL11.glRotatef(180, 1, 0, 0);
-	                GL11.glRotatef(-60, 1, 0, 0);
-	                GlStateManager.translate(0F, -(player.ticksExisted % 400) / 2.0, 0.0F);
-	                //GlStateManager.enableBlend();
-	                //GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-	                int color = 0xFFFFFF;
-	                Minecraft.getMinecraft().fontRendererObj.drawString("Hello There!", Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, -4, color | (opacity << 24));
-	                Minecraft.getMinecraft().fontRendererObj.drawString("General Kenobi!", Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, 5, color | (opacity << 24));
-	                //GlStateManager.disableBlend();
-	                GlStateManager.popMatrix();
-	            }
+//	            FMLClientHandler.instance().getClient().fontRendererObj.drawString("texts", 50, 50, 0xFF0000FF);
+//	            if (opacity > 0)
+//	            {
+//	                GlStateManager.pushMatrix();
+//	                GL11.glRotatef(180, 1, 0, 0);
+//	                GL11.glRotatef(-60, 1, 0, 0);
+//	                GlStateManager.translate(0F, -(player.ticksExisted % 400) / 2.0, 0.0F);
+//	                //GlStateManager.enableBlend();
+//	                //GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+//	                int color = 0xFFFFFF;
+//	                Minecraft.getMinecraft().fontRendererObj.drawString("Hello There!", Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, -4, color | (opacity << 24));
+//	                Minecraft.getMinecraft().fontRendererObj.drawString("General Kenobi!", Minecraft.getMinecraft().fontRendererObj.getStringWidth(((ItemDevTool)player.getHeldItem().getItem()).currentState.name()) / 2, 5, color | (opacity << 24));
+//	                //GlStateManager.disableBlend();
+//	                GlStateManager.popMatrix();
+//	            }
 	
 	            //Minecraft.getMinecraft().mcProfiler.endSection();
 			}
@@ -420,8 +420,8 @@ public class ItemDevTool extends ItemCustom  {
 		NBTTagList nbtList = new NBTTagList();
 		if (tutOptions.pos == null)
 			tutOptions.pos = new BlockPos(0, 0, 0);
-		if (tutOptions.size == null)
-			tutOptions.size = new BlockPos(0, 0, 0);
+		if (tutOptions.pos2 == null)
+			tutOptions.pos2 = new BlockPos(0, 0, 0);
 		for(int i =0;i<features.size();i++) {
 //				NBTTagCompound nbt = new NBTTagCompound();
 //				int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
@@ -504,14 +504,14 @@ public class ItemDevTool extends ItemCustom  {
 	
 	@SideOnly(Side.CLIENT)
 	private NBTTagCompound saveArea() {
-		if(tutOptions.pos.getY() != 0 || tutOptions.size.getY() != 0)
+		if(tutOptions.pos.getY() != 0 || tutOptions.pos2.getY() != 0)
 		{
-			int minX = Math.min(tutOptions.pos.getX(), tutOptions.size.getX());
-			int maxX = Math.max(tutOptions.pos.getX(), tutOptions.size.getX());
-			int minY = Math.min(tutOptions.pos.getY(), tutOptions.size.getY());
-			int maxY = Math.max(tutOptions.pos.getY(), tutOptions.size.getY());
-			int minZ = Math.min(tutOptions.pos.getZ(), tutOptions.size.getZ());
-			int maxZ = Math.max(tutOptions.pos.getZ(), tutOptions.size.getZ());
+			int minX = Math.min(tutOptions.pos.getX(), tutOptions.pos2.getX());
+			int maxX = Math.max(tutOptions.pos.getX(), tutOptions.pos2.getX());
+			int minY = Math.min(tutOptions.pos.getY(), tutOptions.pos2.getY());
+			int maxY = Math.max(tutOptions.pos.getY(), tutOptions.pos2.getY());
+			int minZ = Math.min(tutOptions.pos.getZ(), tutOptions.pos2.getZ());
+			int maxZ = Math.max(tutOptions.pos.getZ(), tutOptions.pos2.getZ());
 			int[] intArray;
 			short height;
 			short length;
