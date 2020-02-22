@@ -36,6 +36,8 @@ public class ObservationPlayerPos implements IObservation{
 		jobject.add("pos", gson.toJsonTree(playerPos));
 		
 		jobject.addProperty("facing", player.getHorizontalFacing().name());
+		jobject.addProperty("yaw", player.rotationYaw);
+		jobject.addProperty("pitch", player.rotationPitch);
 		return jobject;
 	}
 
