@@ -243,7 +243,7 @@ public class PolycraftMod {
 		SChannel.registerMessage(CommandResultMessageHandler.class, CommandResultMessage.class, 6, Side.CLIENT);
 		SChannel.registerMessage(BreakBlockMessageHandler.class, BreakBlockMessage.class, 7, Side.SERVER);
 		SChannel.registerMessage(TeleportMessageHandler.class, TeleportMessage.class, 8, Side.SERVER);
-		SChannel.registerMessage(ExperimentMessageHandler.class, ExperimentMessage.class, 8, Side.CLIENT);
+		SChannel.registerMessage(ExperimentMessageHandler.class, ExperimentMessage.class, 9, Side.CLIENT);
 		this.configDirectory =event.getModConfigurationDirectory();
 		proxy.preInit();
 	}

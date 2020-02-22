@@ -35,8 +35,7 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
             		case SINGLE:
             			for(ExperimentTutorial exp : TutorialManager.INSTANCE.experiments.values()) {
          					if(exp.isPlayerInExperiment(ctx.getServerHandler().playerEntity.getDisplayNameString()))
-         						if(exp.activeFeatures.size() == 0 || exp.activeFeatures.get(message.featureIndex).getName().equals(message.featureList.get(0).getName()))	//Check to make sure the feature matches
-         							exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
+         						exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
          				}
             			break;
             		default:
