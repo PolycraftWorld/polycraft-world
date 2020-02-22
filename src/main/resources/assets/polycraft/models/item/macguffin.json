@@ -1,5 +1,5 @@
 {
-    "parent": "polycraft:block/plus3d",
+    "parent": "polycraft:block/macguffin",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

@@ -1,8 +1,8 @@
 {
     "textures": {
-        "particle": "polycraft:blocks/plus3d",
-        "body": "polycraft:blocks/plus3d",
-        "top": "polycraft:blocks/plus3d"
+        "particle": "polycraft:blocks/macguffin",
+        "body": "polycraft:blocks/macguffin",
+        "top": "polycraft:blocks/macguffin"
     },
     "elements": [
         {   "__comment": "Anvil base",

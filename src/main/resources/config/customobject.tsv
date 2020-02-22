@@ -104,4 +104,4 @@ Version	Game ID	Custom Object	Type	Level	First Release	Notes	Max Stack Size	Flas
 1.4.13	1hQ	Ice Slingshot	Weapon		FALSE		1		Velocity, Cooldown, PelletTypeUsed, NumberOfPelletsUsed, Damage	1	3	0	1	1				
 1.4.13	1hL	Paintball	PC Item		FALSE		64											
 1.4.13	1k0	AI Tool	PC Item		FALSE		1											
-1.4.13	1k1	Plus3D	PC Block		FALSE		64											
+1.4.13	1k1	MacGuffin	PC Block		FALSE		64											

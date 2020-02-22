@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
-import edu.utd.minecraft.mod.polycraft.block.BlockPlus3D;
+import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
@@ -32,7 +32,7 @@ public class ObservationMacGuffinPos implements IObservation{
 search: for(int x = (int)exp.pos.xCoord; x < (int)exp.pos2.xCoord; x++) {
 			for(int y = (int)exp.pos.yCoord; y < (int)exp.pos2.yCoord; y++) {
 				for(int z = (int)exp.pos.zCoord; z < (int)exp.pos2.zCoord; z++) {
-					if(exp.getWorld().getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockPlus3D) {
+					if(exp.getWorld().getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockMacGuffin) {
 						posDest = new BlockPos(x,y,z);
 						break search;
 					}

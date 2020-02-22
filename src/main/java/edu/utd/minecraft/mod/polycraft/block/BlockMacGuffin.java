@@ -24,11 +24,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockPlus3D extends Block{
+public class BlockMacGuffin extends Block{
 
 	private int colorMult = 16777215;
 	
-	public BlockPlus3D(CustomObject config) {
+	public BlockMacGuffin(CustomObject config) {
 		super(Material.iron);
 		this.setCreativeTab(CreativeTabs.tabTools);
 	}

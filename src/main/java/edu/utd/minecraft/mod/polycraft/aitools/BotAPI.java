@@ -45,6 +45,7 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
+import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
@@ -338,9 +339,14 @@ public class BotAPI {
 			double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
 			double z = Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
 			System.out.println("X: " + x + " :: Z: " + z);
-			if(!(x == 0 || z == 0)) {
-				if(player.worldObj.isAirBlock(player.getPosition().add(x, 0, 0)) && player.worldObj.isAirBlock(player.getPosition().add(0, 0, z))
-						&& player.worldObj.isAirBlock(player.getPosition().add(x, 0, z))) {
+			//check if destination is free of collision 
+			if(CheckIfBlockCollide(player.worldObj, player.getPosition().add(x, 0, z))) {
+				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path"));
+				return;
+			}
+			if(!(x == 0 || z == 0)) {	//check if path is free of collisions
+				if(CheckIfBlockCollide(player.worldObj, player.getPosition().add(x, 0, 0)) ||
+						CheckIfBlockCollide(player.worldObj, player.getPosition().add(0, 0, z))) {
 					setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path"));
 					return;
 				}
@@ -350,6 +356,14 @@ public class BotAPI {
 			player.setPositionAndRotation(newX, player.posY, newZ,player.rotationYaw, 0f);
 		}else
 			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));
+	}
+	
+	public static boolean CheckIfBlockCollide(World world, BlockPos pos) {
+		Block block = world.getBlockState(pos).getBlock();
+		if(block.getMaterial() == Material.air || block instanceof BlockMacGuffin) {
+			return false;
+		}
+		return true;
 	}
 	
 	public static void smoothTurn(String args[]) {
@@ -1526,6 +1540,7 @@ public class BotAPI {
 			                        		//do nothing until the step is complete
 			                        	}
 		                        		if(fromClient.contains("RESET")) {
+		                        			
 		                        			JsonObject jobj = new JsonObject();
 		                        			jobj.add("recipes", PolycraftMod.recipeManagerRuntime.getRecipesJsonByContainerType(PolycraftContainerType.POLYCRAFTING_TABLE));
 		                        			toClient = jobj.toString();

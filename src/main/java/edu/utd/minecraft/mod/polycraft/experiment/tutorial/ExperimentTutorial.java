@@ -23,7 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
-import edu.utd.minecraft.mod.polycraft.block.BlockPlus3D;
+import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
@@ -379,7 +379,7 @@ public class ExperimentTutorial{
 					search: for(int x = (int)pos.xCoord; x < (int)pos2.xCoord; x++) {
 						for(int y = (int)pos.yCoord; y < (int)pos2.yCoord; y++) {
 							for(int z = (int)pos.zCoord; z < (int)pos2.zCoord; z++) {
-								if(getWorld().getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockPlus3D) {
+								if(getWorld().getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockMacGuffin) {
 									observations.add(new ObservationMacGuffinPos());
 									break search;
 								}
