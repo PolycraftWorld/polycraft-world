@@ -375,7 +375,8 @@ public class ExperimentTutorial{
 					observations.add(new ObservationDestinationPos());
 					observations.add(new ObservationEntities());
 					observations.add(new ObservationMap());
-					//observations.add(new ObservationScreen());
+					if(options.outputScreen)
+						observations.add(new ObservationScreen());
 					search: for(int x = (int)pos.xCoord; x < (int)pos2.xCoord; x++) {
 						for(int y = (int)pos.yCoord; y < (int)pos2.yCoord; y++) {
 							for(int z = (int)pos.zCoord; z < (int)pos2.zCoord; z++) {
@@ -426,7 +427,8 @@ public class ExperimentTutorial{
 	public JsonObject getObservations(String args) {
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
-			jobject.add(obs.getName(), obs.getObservation(this, args));
+			if(!obs.getName().equals("screen"))
+				jobject.add(obs.getName(), obs.getObservation(this, args));
 		}
 		return jobject;
 	}
@@ -444,6 +446,15 @@ public class ExperimentTutorial{
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
 			if(obs.getName().equals("Player") || obs.getName().equals("DestinationPos") || obs.getName().equals("MacGuffinPos"))
+				jobject.add(obs.getName(), obs.getObservation(this, args));
+		}
+		return jobject;
+	}
+	
+	public JsonObject getVisualObservations(String args) {
+		JsonObject jobject = new JsonObject();
+		for(IObservation obs: observations) {
+			if(obs.getName().equals("screen"))
 				jobject.add(obs.getName(), obs.getObservation(this, args));
 		}
 		return jobject;

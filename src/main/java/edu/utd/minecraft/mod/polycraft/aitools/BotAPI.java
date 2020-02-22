@@ -209,6 +209,7 @@ public class BotAPI {
     	DATA_INV,	// Send inventory observation to agent
     	DATA_MAP,	// Send map observation to agent
     	DATA_BOT_POS,	// Send bot position observation to agent
+    	DATA_SCREEN,
     	RESET,	// used to reset the task. Parameters: String params.  Ex usage: "RESET domain pogo" (this will start up the pogostick task)
     	START,	// used to setup a single player flat world and join that world.  This command should be run first to initialize the client
     	TREES,	// Dev command. Add trees to pogo stick task.  
@@ -367,10 +368,10 @@ public class BotAPI {
 	}
 	
 	public static void smoothTurn(String args[]) {
-		if(args.length == 2) {
+		if(args.length == 2 && NumberUtils.isNumber(args[1]) && Integer.parseInt(args[1]) % 15 == 0) {
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			for(int x = 0; x < Math.abs(Integer.parseInt(args[1])) * 5; x++) {
-				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw + (Math.signum(Integer.parseInt(args[1])) * 3), player.rotationPitch);
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw + (Math.signum(Integer.parseInt(args[1])) / 5), player.rotationPitch);
 			}
 		}else
 			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));	
@@ -1401,32 +1402,6 @@ public class BotAPI {
 	        		}
 	        		break;
 	            }
-	            //Update Vision data
-//	            int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
-//	            int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;
-//	    		
-//	            int i = width * height;
-//	            //System.out.print("Screen Res: " + width + "x" + height + "=" + i);
-//
-//	            if (ObservationScreen.pixelBuffer == null || ObservationScreen.pixelBuffer.capacity() < i || ObservationScreen.pixelBuffer.capacity() > i)
-//	            {
-//	            	ObservationScreen.pixelBuffer = BufferUtils.createIntBuffer(i);
-//	            	ObservationScreen.pixelValues = new int[i];
-//	            }
-//	    		
-//	            ObservationScreen.pixelBuffer.clear();
-//
-//	            if (OpenGlHelper.isFramebufferEnabled())
-//	            {
-//	                GlStateManager.bindTexture(Minecraft.getMinecraft().getFramebuffer().framebufferTexture);
-//	                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
-//	            }
-//	            else
-//	            {
-//	                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)ObservationScreen.pixelBuffer);
-//	            }
-//
-//	            ObservationScreen.pixelBuffer.get(ObservationScreen.pixelValues);
 	            stepEnd.set(stepEndValue);	//set stepEnd value to update python wrapper with current observations
 	        }
 			//TODO: return DATA and rewards
@@ -1482,7 +1457,7 @@ public class BotAPI {
 	                        	String[] fromClientSplit = fromClient.split(" ");
 	                        	final String fromClientFinal = fromClient;
 		                        try {
-		                        	
+		                        	IThreadListener mainThread;
 		                        	
 		                        	if(fromClient.contains("DATA_INV") || fromClient.contains("SENSE_INVENTORY"))
 		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
@@ -1508,6 +1483,27 @@ public class BotAPI {
 		                        		}else {
 		                        			dataMap(out, client);
 		                        		}
+		                        	else if(fromClient.contains("SENSE_SCREEN")) {
+		                        		mainThread = Minecraft.getMinecraft();
+			                            mainThread.addScheduledTask(new Runnable()
+			                            {
+			                                @Override
+			                                public void run()
+			                                {
+			                                	try {
+					                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+					                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getVisualObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
+					                        	        out.println(toClient);
+					                        	        client.getOutputStream().flush();
+					                        		}else {
+					                        			dataMap(out, client);
+					                        		}
+			                                	} catch(Exception e){
+			                                		
+			                                	}
+			                                }
+			                            });
+		                        	}
 		                        	else if(fromClient.contains("DATA_BOT_POS"))
 		                        		dataBotPos(out, client);
 		                        	else if(fromClient.contains("DATA") || fromClient.contains("SENSE"))
@@ -1519,7 +1515,7 @@ public class BotAPI {
 				                        	data(out, client);
 		                        		}
 		                        	else if(fromClient.contains("START")) {
-		                        		IThreadListener mainThread = Minecraft.getMinecraft();
+		                        		mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
 			                            {
 			                                @Override
@@ -1530,7 +1526,7 @@ public class BotAPI {
 			                            });
 			                        }else if(fromClient.equals("LL")) {
 			                        	System.out.println("TEST");
-			                        	IThreadListener mainThread = Minecraft.getMinecraft();
+			                        	mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));
 			                        }
 		                        	else {

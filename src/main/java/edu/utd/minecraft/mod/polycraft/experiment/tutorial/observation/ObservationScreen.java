@@ -33,30 +33,30 @@ public class ObservationScreen implements IObservation{
 	@Override
 	public JsonElement getObservation(ExperimentTutorial exp, String args) {
 		Gson gson = new Gson();
-//		int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
-//        int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;
-//		
-//        int i = width * height;
-//
-//        if (pixelBuffer == null || pixelBuffer.capacity() < i)
-//        {
-//            pixelBuffer = BufferUtils.createIntBuffer(i);
-//            pixelValues = new int[i];
-//        }
+		int width = Minecraft.getMinecraft().getFramebuffer().framebufferTextureWidth;
+        int height = Minecraft.getMinecraft().getFramebuffer().framebufferTextureHeight;
 		
-//		pixelBuffer.clear();
-//
-//        if (OpenGlHelper.isFramebufferEnabled())
-//        {
-//            GlStateManager.bindTexture(Minecraft.getMinecraft().getFramebuffer().framebufferTexture);
-//            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
-//        }
-//        else
-//        {
-//            GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
-//        }
-//
-//        pixelBuffer.get(pixelValues);
+        int i = width * height;
+
+        if (pixelBuffer == null || pixelBuffer.capacity() < i)
+        {
+            pixelBuffer = BufferUtils.createIntBuffer(i);
+            pixelValues = new int[i];
+        }
+		
+		pixelBuffer.clear();
+
+        if (OpenGlHelper.isFramebufferEnabled())
+        {
+            GlStateManager.bindTexture(Minecraft.getMinecraft().getFramebuffer().framebufferTexture);
+            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+        }
+        else
+        {
+            GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+        }
+
+        pixelBuffer.get(pixelValues);
 		//System.out.print("pixelValues length: " + pixelValues.length);
 		JsonObject jobject = new JsonObject();
 		jobject.add("img", gson.toJsonTree(pixelValues));
