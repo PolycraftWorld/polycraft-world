@@ -686,11 +686,11 @@ public class BotAPI {
 		params.add(String.join(" ", args));
 		
 		//check that player has the item in inventory
-		int itemID = Integer.parseInt(args[1]);
+		String itemID = args[1];
     	int slotToTransfer = -1;
 		loop: for(int x = 0; x < player.inventory.mainInventory.length; x++) {
 			ItemStack item = player.inventory.mainInventory[x];
-			if(item != null && Item.getItemById(itemID) == item.getItem()) {
+			if(item != null && Item.getByNameOrId(itemID) == item.getItem()) {
 				slotToTransfer = x;
 				break loop;
 			}
@@ -815,17 +815,17 @@ public class BotAPI {
 	
 	public static void placeMacGuffin(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    	placeBlock(("PLACE_CRAFTING_TABLE 7015 MacGuffin" + (args.length > 1? " " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)): "")).split("\\s+"));
+    	placeBlock(("PLACE_CRAFTING_TABLE polycraft:macguffin MacGuffin" + (args.length > 1? " " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)): "")).split("\\s+"));
 	}
 	
 	public static void placeCraftingTable(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    	placeBlock(("PLACE_CRAFTING_TABLE 58" + (args.length > 1? " " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)): "")).split("\\s+"));
+    	placeBlock(("PLACE_CRAFTING_TABLE minecraft:crafting_table" + (args.length > 1? " " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)): "")).split("\\s+"));
 	}
 	
 	public static void placeTreeTap(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    	placeBlock(("PLACE_BLOCK 6321 " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
+    	placeBlock(("PLACE_BLOCK polycraft:tree_tap " + (int)(player.posX + player.getHorizontalFacing().getFrontOffsetX()) + 
     			" " + (int)(player.posZ + player.getHorizontalFacing().getFrontOffsetZ())).split("\\s+"));
 	}
 	

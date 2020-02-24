@@ -29,11 +29,11 @@ public class InventoryMessageHandler implements IMessageHandler<InventoryMessage
             {
     			//player.addChatComponentMessage(new ChatComponentText("test"));
             	String args[] =  message.items.split("\\s+");
-            	int itemID = Integer.parseInt(args[1]);
+            	String itemID = args[1];
             	int slotToTransfer = -1;
         		loop: for(int x = 0; x < player.inventory.mainInventory.length; x++) {
         			ItemStack item = player.inventory.mainInventory[x];
-        			if(item != null && Item.getItemById(itemID) == item.getItem()) {
+        			if(item != null && Item.getByNameOrId(itemID) == item.getItem()) {
         				slotToTransfer = x;
         				break loop;
         			}
