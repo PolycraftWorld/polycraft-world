@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import org.lwjgl.input.Keyboard;
@@ -337,20 +338,24 @@ public class ItemDevTool extends ItemCustom  {
 	}
 	
 	public void updateRenderBoxes() {
-		renderboxes.clear();
-		
-		if(!features.isEmpty()) {
-			int counter = 0;
-			for(TutorialFeature v: features) {
-				counter++;
-				RenderBox box = new RenderBox(v.getPos().getX(), v.getPos().getZ(), v.getPos2().getX(), v.getPos2().getZ(),
-						Math.min(v.getPos().getY(), v.getPos2().getY()), Math.max(Math.abs(v.getPos().getY()- v.getPos2().getY()), 1), 1, v.getName());
-				box.setColor(v.getColor());
-				renderboxes.add(box);
+		try {
+			renderboxes.clear();
+			
+			if(!features.isEmpty()) {
+				int counter = 0;
+				for(TutorialFeature v: features) {
+					counter++;
+					RenderBox box = new RenderBox(v.getPos().getX(), v.getPos().getZ(), v.getPos2().getX(), v.getPos2().getZ(),
+							Math.min(v.getPos().getY(), v.getPos2().getY()), Math.max(Math.abs(v.getPos().getY()- v.getPos2().getY()), 1), 1, v.getName());
+					box.setColor(v.getColor());
+					renderboxes.add(box);
+				}
 			}
-		}
-		if(tutOptions.pos.getY() != 0 || tutOptions.pos2.getY() != 0) {
-			renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.pos2), 1));
+			if(tutOptions.pos.getY() != 0 || tutOptions.pos2.getY() != 0) {
+				renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.pos2), 1));
+			}
+		}catch(ConcurrentModificationException e) {
+			
 		}
 	}
 	
