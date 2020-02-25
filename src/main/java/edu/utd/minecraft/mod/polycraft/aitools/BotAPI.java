@@ -210,6 +210,11 @@ public class BotAPI {
     	DATA_MAP,	// Send map observation to agent
     	DATA_BOT_POS,	// Send bot position observation to agent
     	DATA_SCREEN,
+    	SENSE_ALL,
+    	SENSE_LOCATIONS,
+    	SENSE_INVENTORY,
+    	SENSE_SCREEN,
+    	SENSE_RECIPE,
     	RESET,	// used to reset the task. Parameters: String params.  Ex usage: "RESET domain pogo" (this will start up the pogostick task)
     	START,	// used to setup a single player flat world and join that world.  This command should be run first to initialize the client
     	TREES,	// Dev command. Add trees to pogo stick task.  
@@ -987,6 +992,58 @@ public class BotAPI {
         client.getOutputStream().flush();
 	}
 	
+	public static void senseAll(String args[]) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			APICommandResult result = new APICommandResult(args, Result.SUCCESS, "");
+			result.setJObject(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations(args.length > 1 ? args[1] : null));
+			setResult(result);
+		}else {
+			setResult(new APICommandResult(args, Result.FAIL, "Not currently in an experiment"));
+		}
+	}
+	
+	public static void senseInventory(String args[]) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			APICommandResult result = new APICommandResult(args, Result.SUCCESS, "");
+			result.setJObject(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("inventory", args.length > 1 ? args[1] : null));
+			setResult(result);
+		}else {
+			setResult(new APICommandResult(args, Result.FAIL, "Not currently in an experiment"));
+		}
+	}
+
+	public static void senseLocations(String args[]) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			APICommandResult result = new APICommandResult(args, Result.SUCCESS, "");
+			result.setJObject(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getLocationObservations(args.length > 1 ? args[1] : null));
+			setResult(result);
+		}else {
+			setResult(new APICommandResult(args, Result.FAIL, "Not currently in an experiment"));
+		}
+	}
+	
+	public static void senseScreen(String args[]) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			APICommandResult result = new APICommandResult(args, Result.SUCCESS, "");
+			result.setJObject(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getVisualObservations(args.length > 1 ? args[1] : null));
+			setResult(result);
+		}else {
+			setResult(new APICommandResult(args, Result.FAIL, "Not currently in an experiment"));
+		}
+	}
+	
+	public static void senseRecipe(String args[]) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			APICommandResult result = new APICommandResult(args, Result.SUCCESS, "");
+			JsonObject jobj = new JsonObject();
+			jobj.add("recipes", PolycraftMod.recipeManagerRuntime.getRecipesJsonByContainerType(PolycraftContainerType.POLYCRAFTING_TABLE));
+			result.setJObject(jobj);
+			setResult(result);
+		}else {
+			setResult(new APICommandResult(args, Result.FAIL, "Not currently in an experiment"));
+		}
+	}
+	
 	public static void reset(String args[]){
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		BotAPI.pos.set(0, ((int)player.posX >> 4) << 4);
@@ -1010,7 +1067,7 @@ public class BotAPI {
 		}else if(args.length == 3) {
 			player.sendChatMessage("/reset " + args[1] + " " + args[2]);
 		}
-		
+		setResult(new APICommandResult(args, Result.ATTEMPT, "Attempting to start new experiment"));
 		
 //		for(int i = 0; i <= xMax; i++) {
 //			for(int k = 0; k <= zMax; k++) {
@@ -1330,7 +1387,23 @@ public class BotAPI {
 	            	BotAPI.tpto(args);
 	            	break;
 	            case DATA:
-	        		//BotAPI.data(out, client);
+	            case SENSE_ALL:
+	            	senseAll(args);
+	            	break;
+	            case DATA_INV:
+	            case SENSE_INVENTORY:
+	            	senseInventory(args);
+	            	break;
+	            case DATA_BOT_POS:
+	            case SENSE_LOCATIONS:
+	            	senseLocations(args);
+	            	break;
+	            case DATA_SCREEN:
+	            case SENSE_SCREEN:
+	            	senseScreen(args);
+	            	break;
+	            case SENSE_RECIPE:
+	            	senseRecipe(args);
 	            	break;
 	            case COLLECT_FROM_BLOCK:
 	            	BotAPI.INSTANCE.collectFrom(args);
@@ -1449,7 +1522,6 @@ public class BotAPI {
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
 	                        while(!client.isClosed()) {
 	                        	String  fromClient = in.readLine();
-		                        
 	                        	try {
 		                        	if(fromClient.startsWith("{")) {
 		                        		JsonParser parser = new JsonParser();
@@ -1466,62 +1538,7 @@ public class BotAPI {
 		                        try {
 		                        	IThreadListener mainThread;
 		                        	
-		                        	if(fromClient.contains("DATA_INV") || fromClient.contains("SENSE_INVENTORY"))
-		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservation("inventory", fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();		                        			
-		                        	        out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}else {
-		                        			dataInventory(out, client);
-		                        		}
-		                        	else if(fromClient.contains("DATA_MAP") || fromClient.contains("SENSE_ALL"))
-		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
-		                        	        out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}else {
-		                        			dataMap(out, client);
-		                        		}
-		                        	else if(fromClient.contains("DATA_LOCATIONS") || fromClient.contains("SENSE_LOCATIONS"))
-		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getLocationObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
-		                        	        out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}else {
-		                        			dataMap(out, client);
-		                        		}
-		                        	else if(fromClient.contains("SENSE_SCREEN")) {
-		                        		mainThread = Minecraft.getMinecraft();
-			                            mainThread.addScheduledTask(new Runnable()
-			                            {
-			                                @Override
-			                                public void run()
-			                                {
-			                                	try {
-					                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-					                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getVisualObservations(fromClientSplit.length > 1 ? fromClientSplit[1] : null).toString();
-					                        	        out.println(toClient);
-					                        	        client.getOutputStream().flush();
-					                        		}else {
-					                        			dataMap(out, client);
-					                        		}
-			                                	} catch(Exception e){
-			                                		
-			                                	}
-			                                }
-			                            });
-		                        	}
-		                        	else if(fromClient.contains("DATA_BOT_POS"))
-		                        		dataBotPos(out, client);
-		                        	else if(fromClient.contains("DATA") || fromClient.contains("SENSE"))
-		                        		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-		                        			toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-		                        	        out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}else {
-				                        	data(out, client);
-		                        		}
-		                        	else if(fromClient.contains("START")) {
+		                        	if(fromClient.contains("START")) {
 		                        		mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
 			                            {
@@ -1552,7 +1569,7 @@ public class BotAPI {
 		                        		}else {
 		                        			// print command result instead of observations
 		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-		                        	        JsonObject jobj = new JsonObject();
+		                        	        JsonObject jobj = commandResult.get().getJobject();
 		                        	        jobj.add("command_result", commandResult.get().toJson());
 		                        			toClient = jobj.toString();
 		                        			out.println(toClient);
