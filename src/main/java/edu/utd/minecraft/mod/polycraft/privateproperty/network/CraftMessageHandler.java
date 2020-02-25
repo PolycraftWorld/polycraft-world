@@ -133,12 +133,14 @@ public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessa
         		}
             	
             	Collection<RecipeComponent> resultItems = resultRecipe.getOutputs(null);
+            	int count = 0;
+            	String resultingItems = "";
             	for(RecipeComponent item: resultItems) {
             		if(item != null) {
             			player.inventory.addItemStackToInventory(item.itemStack.copy());
-            			missingItems += item.itemStack.toString() + ",";
+            			resultingItems += item.itemStack.getItem().getRegistryName() + (++count < resultItems.size()?",":"");
             		}
-            		APICommandResult result = new APICommandResult(args, APICommandResult.Result.SUCCESS, "Crafted items: " + missingItems);
+            		APICommandResult result = new APICommandResult(args, APICommandResult.Result.SUCCESS, "Crafted items: " + resultingItems);
         			PolycraftMod.SChannel.sendTo(new CommandResultMessage(result), player);
         			return;
             	}
