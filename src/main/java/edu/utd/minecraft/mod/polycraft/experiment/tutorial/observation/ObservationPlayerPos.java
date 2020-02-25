@@ -55,6 +55,6 @@ public class ObservationPlayerPos implements IObservation{
 
 	@Override
 	public String getName() {
-		return "Player";
+		return "player";
 	}
 }
