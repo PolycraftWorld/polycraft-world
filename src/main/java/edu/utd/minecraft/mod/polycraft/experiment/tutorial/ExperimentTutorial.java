@@ -61,6 +61,8 @@ import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings.Options;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -392,14 +394,21 @@ public class ExperimentTutorial{
 					obs.init(this);
 				}
 				clientInit = true;
-				if(options.outputScreen)
+				if(options.outputScreen) {
 					try {
 						//Change client resolution
-						Display.setDisplayMode(new DisplayMode(256, 256));
-					} catch (LWJGLException e) {
-						// TODO Auto-generated catch block
+						Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+						Minecraft.getMinecraft().setIngameFocus();
+//		                Minecraft.getMinecraft().displayWidth = 256;
+//		                Minecraft.getMinecraft().displayHeight = 256;
+		                Display.setDisplayMode(new DisplayMode(256, 256));
+
+			            Display.setFullscreen(false);
+			            //Minecraft.getMinecraft().updateDisplay();
+					}catch(LWJGLException e) {
 						e.printStackTrace();
 					}
+				}
 			}
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;
