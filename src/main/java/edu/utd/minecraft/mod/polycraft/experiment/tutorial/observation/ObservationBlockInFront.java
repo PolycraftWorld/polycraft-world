@@ -54,6 +54,6 @@ public class ObservationBlockInFront implements IObservation{
 
 	@Override
 	public String getName() {
-		return "BlockInFront";
+		return "blockInFront";
 	}
 }
