@@ -374,8 +374,8 @@ public class BotAPI {
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			float angleDelta = Integer.parseInt(args[1]);
 			float playerAngle = (((int)(player.rotationYaw / 15))*15);	// we want to snap to intervals of 15
-			for(int x = 0; x <= angleDelta; x+= angleDelta/5) {
-				player.setPositionAndRotation(player.posX, player.posY, player.posZ, playerAngle + (Math.signum(angleDelta) / 5), player.rotationPitch);
+			for(int x = 0; Math.abs(x) <= Math.abs(angleDelta); x+= angleDelta/5) {
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, playerAngle + x, player.rotationPitch);
 			}
 		}else
 			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));	
