@@ -448,9 +448,7 @@ public class BotAPI {
 		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Message: " + commandResult.get().getMessage()));
 		int counter = 0;
 		if(commandResult.get().getArgs() != null)
-			for(String argument: commandResult.get().getArgs()) {
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("arg " + counter++ + ": " + argument));
-			}
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("args: \"" + String.join(" ", commandResult.get().getArgs())));
 	}
 	
 	public static void breakBlock(String args[]) {
