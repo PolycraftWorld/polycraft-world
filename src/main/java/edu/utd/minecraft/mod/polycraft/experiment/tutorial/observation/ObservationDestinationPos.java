@@ -63,6 +63,6 @@ public class ObservationDestinationPos implements IObservation{
 
 	@Override
 	public String getName() {
-		return "DestinationPos";
+		return "destinationPos";
 	}
 }

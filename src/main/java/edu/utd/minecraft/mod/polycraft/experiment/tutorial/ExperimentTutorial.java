@@ -454,7 +454,7 @@ public class ExperimentTutorial{
 	public JsonObject getLocationObservations(String args) {
 		JsonObject jobject = new JsonObject();
 		for(IObservation obs: observations) {
-			if(obs.getName().equals("Player") || obs.getName().equals("DestinationPos") || obs.getName().equals("MacGuffinPos"))
+			if(obs.getName().equals("player") || obs.getName().equals("destinationPos") || obs.getName().equals("macGuffinPos"))
 				jobject.add(obs.getName(), obs.getObservation(this, args));
 		}
 		return jobject;

@@ -69,6 +69,6 @@ search: for(int x = (int)exp.pos.xCoord; x < (int)exp.pos2.xCoord; x++) {
 
 	@Override
 	public String getName() {
-		return "MacGuffinPos";
+		return "macGuffinPos";
 	}
 }
