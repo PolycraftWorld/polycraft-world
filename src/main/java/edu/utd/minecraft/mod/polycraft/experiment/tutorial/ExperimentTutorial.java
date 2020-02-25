@@ -506,12 +506,13 @@ public class ExperimentTutorial{
 	}
 	
 	public boolean isPlayerInExperiment(String playerName){
-		for(Team team: this.scoreboard.getTeams()) {
-			for(String player: team.getPlayers()){
-				if(player.equalsIgnoreCase(playerName))
-					return true;
+		if(currentState != State.Done)	// if an experiment is done, it shouldn't have any players
+			for(Team team: this.scoreboard.getTeams()) {
+				for(String player: team.getPlayers()){
+					if(player.equalsIgnoreCase(playerName))
+						return true;
+				}
 			}
-		}
 		return false;
 	}
 	

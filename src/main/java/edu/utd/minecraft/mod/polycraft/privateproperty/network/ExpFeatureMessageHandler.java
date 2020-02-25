@@ -34,8 +34,10 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
             			break;	// this shouldn't happen
             		case SINGLE:
             			for(ExperimentTutorial exp : TutorialManager.INSTANCE.experiments.values()) {
-         					if(exp.isPlayerInExperiment(ctx.getServerHandler().playerEntity.getDisplayNameString()))
+         					if(exp.isPlayerInExperiment(ctx.getServerHandler().playerEntity.getDisplayNameString())) {
          						exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
+         						break; 	// Once we find the match, exit the for loop.  
+         					}
          				}
             			break;
             		default:
