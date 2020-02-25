@@ -335,6 +335,8 @@ public class BotAPI {
 				angle = -135;
 			}else if(args[1].equalsIgnoreCase("c")) {
 				angle = 135;
+			}else {
+				setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Input"));
 			}
 			player.setPositionAndRotation(Math.floor(player.posX) + 0.5, player.posY, Math.floor(player.posZ) + 0.5, player.rotationYaw, player.rotationPitch);
 			double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
