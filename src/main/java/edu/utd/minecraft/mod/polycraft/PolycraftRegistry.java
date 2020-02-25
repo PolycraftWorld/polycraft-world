@@ -30,9 +30,10 @@ import edu.utd.minecraft.mod.polycraft.block.BlockCollision;
 import edu.utd.minecraft.mod.polycraft.block.BlockCompressed;
 import edu.utd.minecraft.mod.polycraft.block.BlockFluid;
 import edu.utd.minecraft.mod.polycraft.block.BlockLight;
+import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.block.BlockOre;
 import edu.utd.minecraft.mod.polycraft.block.BlockPasswordDoor;
-import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
+import edu.utd.minecraft.mod.polycraft.block.BlockPolyDirectional;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolyPortal;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymer;
 import edu.utd.minecraft.mod.polycraft.block.BlockPolymerBrick;
@@ -79,6 +80,7 @@ import edu.utd.minecraft.mod.polycraft.config.Ore;
 import edu.utd.minecraft.mod.polycraft.config.PogoStick;
 import edu.utd.minecraft.mod.polycraft.config.PolycraftEntity;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBlock;
+import edu.utd.minecraft.mod.polycraft.config.PolyBlockOrientable;
 import edu.utd.minecraft.mod.polycraft.config.PolymerBrick;
 import edu.utd.minecraft.mod.polycraft.config.PolymerPellets;
 import edu.utd.minecraft.mod.polycraft.config.PolymerSlab;
@@ -244,10 +246,9 @@ public class PolycraftRegistry {
 	public static final Map<String, Item> items = Maps.newHashMap();
 	public static final Map<Item, CustomObject> customObjectItems = Maps.newHashMap();
 	public static final Set<Item> minecraftItems = Sets.newHashSet();
-	//public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-//	public static final String assetPath = "C:\\Users\\steph\\Desktop\\Polycraft Forge 1.8.9 2\\src\\main\\resources\\assets\\polycraft\\";
+	public static final String assetPath = "C:\\Users\\sxg115630\\Desktop\\Polycraft Forge 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
 //	public static final String assetPath = "C:\\Users\\vxg173330\\Desktop\\Polycraft 1.8.9\\src\\main\\resources\\assets\\polycraft\\";
-	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
+//	public static final String assetPath = "C:\\Users\\mjg150230\\1.8.9 PolycraftForge\\src\\main\\resources\\assets\\polycraft\\";
 
 	private static void registerName(final String registryName, final String name) {
 		if (registryIdToNameUpper.containsKey(registryName))
@@ -1498,9 +1499,13 @@ public class PolycraftRegistry {
 						if(PolycraftMod.GEN_JSON_DATA) 
 							customObject.checkBlockJSONs(customObject, assetPath); //only custom block all else are items...
 						break;
+					case "PC Directional":
+						if(PolycraftMod.GEN_JSON_DATA) 
+							PolyBlockOrientable.checkBlockOrientableJSONs(customObject, assetPath); //only custom orientable blocks all else are items...
+						break;
 					default:
 						if(PolycraftMod.GEN_JSON_DATA) 
-							customObject.checkItemJSONs(customObject, assetPath);
+							customObject.checkBlockJSONs(customObject, assetPath); 
 						break;
 				}
 				if (GameID.CustomBucketOil.matches(customObject)) {
@@ -1650,6 +1655,8 @@ public class PolycraftRegistry {
 					registerItem(customObject, new ItemAITool(customObject));
 				}else if (GameID.MacGuffin.matches(customObject)) {
 					registerBlock(customObject, new BlockMacGuffin(customObject));
+				}else if (customObject.type.equals("PC Directional")) {
+					registerBlock(customObject, new BlockPolyDirectional(customObject));
 				}else
 					// TODO should we throw an exception if we don't have a true custom item (needed an implementation)
 					registerItem(customObject, new ItemCustom(customObject));

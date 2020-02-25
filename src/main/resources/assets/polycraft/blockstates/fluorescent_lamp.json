@@ -7,6 +7,26 @@
 				"translation": [0.0, 0.0, 1.0]
 			}
 		}],
+		"facing=north": [{
+			"transform": {
+				"translation": [0.0, 0.0, 1.0]
+			}
+		}],
+		"facing=west": [{
+			"transform": {
+				"translation": [0.0, 0.0, 1.0]
+			}
+		}],
+		"facing=east": [{
+			"transform": {
+				"translation": [0.0, 0.0, 1.0]
+			}
+		}],
+		"facing=south": [{
+			"transform": {
+				"translation": [0.0, 0.0, 1.0]
+			}
+		}],
         "inventory": [{
             "transform": {
                 "thirdperson": {

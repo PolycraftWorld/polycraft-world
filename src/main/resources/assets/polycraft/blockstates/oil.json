@@ -17,6 +17,118 @@
 			"fluid": "oil"
 			}
 		}
+	],
+	"level=0": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=1": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=2": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=3": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=4": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=5": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=6": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=7": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=8": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=9": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=10": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=11": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=12": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=13": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=14": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
+	],
+	"level=15": [
+		{
+		"custom": {
+			"fluid": "oil"
+			}
+		}
 	]
 	
   }

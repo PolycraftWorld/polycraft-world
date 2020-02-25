@@ -1,5 +1,6 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:blockpipe" }
+    "normal": { "model": "polycraft:blockpipe" },
+	"inventory": { "model": "polycraft:blockpipe" }
   }
 }

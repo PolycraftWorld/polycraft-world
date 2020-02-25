@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "normal": { "model": "polycraft:7_block" },
+	"facing=down,half=top":  { "model": "polycraft:7_block", "x": 180 },
+	"facing=up,half=top":    { "model": "polycraft:7_block" },
+	"facing=north,half=top": { "model": "polycraft:7_block" },
+	"facing=south,half=top": { "model": "polycraft:7_block", "y": 180 },
+	"facing=west,half=top":  { "model": "polycraft:7_block", "y": 270 },
+	"facing=east,half=top":  { "model": "polycraft:7_block", "y": 90 },
+	"facing=down,half=bottom":  { "model": "polycraft:7_block", "x": 180 },
+	"facing=up,half=bottom":    { "model": "polycraft:7_block" },
+	"facing=north,half=bottom": { "model": "polycraft:7_block" },
+	"facing=south,half=bottom": { "model": "polycraft:7_block", "y": 180 },
+	"facing=west,half=bottom":  { "model": "polycraft:7_block", "y": 270 },
+	"facing=east,half=bottom":  { "model": "polycraft:7_block", "y": 90 }
+  }
+}

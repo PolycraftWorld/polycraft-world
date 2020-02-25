@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "polycraft:blocks/7_block",
+    "front": "polycraft:blocks/7_block",
+    "side": "polycraft:blocks/7_block"
+  }
+}

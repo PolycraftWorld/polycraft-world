@@ -1,5 +1,6 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:poly_portal" }
+    "normal": { "model": "polycraft:poly_portal" },
+	"facing=south": { "model": "polycraft:poly_portal" }
   }
 }

@@ -1,5 +1,9 @@
 {
   "variants": {
-    "normal": { "model": "polycraft:portal_chest" }
+    "normal": { "model": "polycraft:portal_chest" },
+	"facing=south": { "model": "polycraft:portal_chest" },
+	"facing=north": { "model": "polycraft:portal_chest" },
+	"facing=west": { "model": "polycraft:portal_chest" },
+	"facing=east": { "model": "polycraft:portal_chest" }
   }
 }

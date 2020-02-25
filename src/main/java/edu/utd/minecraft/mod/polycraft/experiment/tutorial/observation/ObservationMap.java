@@ -65,6 +65,13 @@ public class ObservationMap implements IObservation{
 			size.add(1 + pos2.getY() - pos1.getY());
 			size.add(1 + pos2.getZ() - pos1.getZ());
 			jobject.add("size", gson.toJsonTree(size));
+			
+			//origin
+			ArrayList<Integer> origin = new ArrayList<Integer>();
+			origin.add((int)exp.pos.xCoord);
+			origin.add((int)exp.pos.yCoord);
+			origin.add((int)exp.pos.zCoord);
+			jobject.add("origin", gson.toJsonTree(origin));
 		}
 		
 		return jobject;

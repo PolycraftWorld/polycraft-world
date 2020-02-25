@@ -32,7 +32,7 @@ public class BlockCollision extends BlockPolyDirectional {
 	protected final InternalObject config;
 
 	public BlockCollision(final InternalObject config) {
-		super(Material.iron);
+		super(config);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM));
 		this.config = config;
 		this.setHardness(7.5F);

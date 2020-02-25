@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "polycraft:blocks/tickmark",
+    "front": "polycraft:blocks/tickmark",
+    "side": "polycraft:blocks/tickmark"
+  }
+}

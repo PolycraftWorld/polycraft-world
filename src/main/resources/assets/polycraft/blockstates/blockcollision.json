@@ -8,6 +8,10 @@
 	"facing=east,half=top": { "model": "polycraft:blockcollision" },
 	"facing=south,half=top": { "model": "polycraft:blockcollision" },
 	"facing=west,half=top": { "model": "polycraft:blockcollision" },
-	"facing=north,half=top": { "model": "polycraft:blockcollision" }
+	"facing=north,half=top": { "model": "polycraft:blockcollision" },
+	"facing=up,half=top": { "model": "polycraft:blockcollision" },
+	"facing=up,half=bottom": { "model": "polycraft:blockcollision" },
+	"facing=down,half=top": { "model": "polycraft:blockcollision" },
+	"facing=down,half=bottom": { "model": "polycraft:blockcollision" }
   }
 }

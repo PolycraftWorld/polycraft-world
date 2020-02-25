@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "normal": { "model": "polycraft:geometry_slope1" },
+	"facing=down,half=top":  { "model": "polycraft:geometry_slope1", "x": 180 },
+	"facing=up,half=top":    { "model": "polycraft:geometry_slope1" },
+	"facing=north,half=top": { "model": "polycraft:geometry_slope1" },
+	"facing=south,half=top": { "model": "polycraft:geometry_slope1", "y": 180 },
+	"facing=west,half=top":  { "model": "polycraft:geometry_slope1", "y": 270 },
+	"facing=east,half=top":  { "model": "polycraft:geometry_slope1", "y": 90 },
+	"facing=down,half=bottom":  { "model": "polycraft:geometry_slope1", "x": 180 },
+	"facing=up,half=bottom":    { "model": "polycraft:geometry_slope1" },
+	"facing=north,half=bottom": { "model": "polycraft:geometry_slope1" },
+	"facing=south,half=bottom": { "model": "polycraft:geometry_slope1", "y": 180 },
+	"facing=west,half=bottom":  { "model": "polycraft:geometry_slope1", "y": 270 },
+	"facing=east,half=bottom":  { "model": "polycraft:geometry_slope1", "y": 90 }
+  }
+}
