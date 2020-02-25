@@ -2,7 +2,9 @@ package edu.utd.minecraft.mod.polycraft.aitools;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import io.netty.buffer.ByteBuf;
@@ -13,12 +15,14 @@ public class APICommandResult {
 		SUCCESS,
 		FAIL,
 		PARTIAL,
+		ATTEMPT,
 		ACTION_TIMEOUT
 	}
 	private String command;
 	private String[] args;
 	private Result result;
 	private String message;
+	private JsonObject jobject;
 	
 	/**
 	 * Used if the command <b>IS</b> included in args. ex: decoding command result json
@@ -33,6 +37,7 @@ public class APICommandResult {
 		
 		this.result = result;
 		this.message = message;
+		jobject = new JsonObject();
 	}
 	
 	/**
@@ -48,6 +53,7 @@ public class APICommandResult {
 		
 		this.result = result;
 		this.message = message;
+		jobject = new JsonObject();
 	}
 	
 	public JsonObject toJson() {
@@ -60,6 +66,19 @@ public class APICommandResult {
 		jobject.addProperty("result", result.name());
 		jobject.addProperty("message", message);
 		return jobject;
+	}
+	
+	/**
+	 * Function to get Both command result and jobj in one json
+	 * @param jobj
+	 * @return
+	 */
+	public JsonObject getFullJson(JsonObject jobj) {
+		for(Entry<String, JsonElement> entry: this.toJson().entrySet()) {
+			jobj.add(entry.getKey(), entry.getValue());
+		}
+		
+		return jobj;
 	}
 	
     public static APICommandResult fromJson(JsonObject jobject)
@@ -102,5 +121,15 @@ public class APICommandResult {
 		this.message = message;
 	}
 
+	public void addJObject(String label, JsonObject jobj) {
+		this.jobject.add(label, jobj);
+	}
 	
+	public void setJObject(JsonObject jobj) {
+		this.jobject = jobj;
+	}
+	
+	public JsonObject getJobject() {
+		return this.jobject;
+	}
 }
