@@ -1400,6 +1400,7 @@ public class BotAPI {
 	            case DEFAULT:	//break fall through is intentional for default
 	            	BotAPI.defaultAction(args);
 	            default:
+	            	setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Command"));
 	        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
 	        		for(String argument: args) {
 	        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
